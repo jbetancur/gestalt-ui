@@ -1,0 +1,131 @@
+@import '~sanitize.css/sanitize.css';
+@import '~flexybox/dist/flexybox.scss';
+@import '~react-md/src/scss/react-md';
+@import 'fonts';
+@import 'colors';
+@import 'mixins';
+@import 'typography';
+
+//THEMING
+$md-primary-color: $md-light-blue-500;
+$md-secondary-color: $md-blue-a-200;
+// @include react-md-theme-toolbars($md-primary-color, $md-primary-color);
+@include react-md-everything;
+@include react-md-theme-toolbars($md-primary-color);
+@include react-md-navigation-drawers($md-blue-a-200);
+// @include react-md-theme-everything($md-light-blue-500, $md-blue-a-200);
+// @include react-md-theme-everything($md-primary-color, $md-secondary-color, $md-linear-progress-swatch, $md-text-field-error-color, false, 'dark-theme');
+// @include react-md-theme-toolbars($md-primary-color, $md-primary-color);
+@import 'overrides';
+
+.md-toolbar--over-drawer, .md-toolbar--fixed {
+    background-color: $gf-deep-blue;
+}
+
+html, body {
+     min-height: 100%;
+     height: 100%;
+}
+
+body {
+    font-family: Ubuntu, Roboto, Arial, Consolas, Courier, monospace;
+    position:relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: Roboto, 'Noto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 20px;
+    font-size: 16px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+#app-root {
+    height: 100%;
+
+    // Fixes issue with react-md navication drawer and html 100% height
+    main {
+        margin-top: 0;
+        padding-top: 2em;
+
+        @media (min-width: 0) and (max-width: 768px) {
+             padding-top: 1.8em;
+        }
+        // @media (min-width: 454px) and (max-width: 768px) {
+        //      padding-top: 1.8em;
+        // }
+    }
+
+}
+
+//TODO Create style
+.org-nav-menubutton {
+    height: 100%;
+    margin-left: 1.5em;
+}
+
+/* Override stupid chrome autofill yellow inputs ;) */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+.flex {
+    flex: 1;
+}
+
+.layout-fill {
+    padding: 0;
+    margin: 0;
+    height: 100%
+}
+
+// Fix for material ui next/sanitize
+a[type=button] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* drawer menu pane - note the 0px width */
+
+.wrapper {
+    float: left;
+    width: 100%;
+    height: 100vh;
+}
+
+.drawer {
+  position: relative;
+  width: 5em;
+  float: right;
+  overflow: hidden;
+  background: #2c3e50;
+  background: rgba(44,62,80, 0.4);
+  color: #eee;
+  height: 100%;
+  @extend .md-paper--1;
+
+  i {
+      font-size: 2em;
+  }
+}
+/* actual page content pane */
+
+.page-content {
+  margin-right: 5em;
+//   clear: both;
+  overflow: auto;
+  height: 100%;
+}
+
+.logo-container {
+    z-index: -999;
+    margin: 0;
+    text-align: center;
+
+    .logo {
+        svg {
+            height: 2.1em;
+            width: 2.1em;
+        }
+    }
+}

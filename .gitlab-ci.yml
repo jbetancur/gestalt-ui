@@ -1,0 +1,60 @@
+image: galacticfog/docker-node:1.12
+
+stages:
+- test
+- publish
+- deploy
+
+cache:
+  key: "$CI_PIPELINE_ID"
+  untracked: false
+
+variables:
+  DOCKER_IMG: "galacticfog/gestalt-ui-react"
+
+test:
+  stage: test
+  script:
+    - npm install
+    - npm run test
+    - npm run deploy
+  artifacts:
+    expire_in: 30 minutes
+    paths:
+    - build/
+
+docker-publish:
+  services:
+    - docker:dind
+  stage: publish
+  script:
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - echo building   $DOCKER_IMG:$DOCKER_TAG
+    - docker build -t $DOCKER_IMG:$DOCKER_TAG -f Dockerfile.server .
+    - docker push     $DOCKER_IMG:$DOCKER_TAG
+    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+
+.deploy_template: &deploy_to_test
+  image: galacticfog/gitlab-updater
+  stage: deploy
+  environment: test
+  tags:
+    - test-cluster
+  script:
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - /usr/local/bin/update-deployed-app.sh  marathon.mesos:8080 gestalt-test-tasks/ui  $DOCKER_IMG:$DOCKER_TAG
+  allow_failure: true
+  artifacts:
+
+auto-deploy-develop:
+  <<: *deploy_to_test
+  only:
+    - develop
+
+manual-deploy-non-develop:
+  <<: *deploy_to_test
+  except:
+    - develop
+  when: manual

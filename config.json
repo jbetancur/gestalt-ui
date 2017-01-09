@@ -1,0 +1,22 @@
+{
+  "development": {
+    "API_URL": "https://meta.test.galacticfog.com",
+    "API_TIMEOUT": 120000,
+    "COMPANY_TITLE": "Galactic Fog",
+    "COMPANY_URL": "http://www.galacticfog.com/",
+    "APP_TITLE": "Gestalt",
+    "DEFAULT_LANG": "en_us",
+    "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING": false
+  },
+  "production": {
+    "API_URL": "/api-proxy",
+    "API_TIMEOUT": 120000,
+    "COMPANY_TITLE": "Galactic Fog",
+    "COMPANY_URL": "http://www.galacticfog.com/",
+    "APP_TITLE": "Gestalt",
+    "DEFAULT_LANG": "en_us",
+    "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING": true
+  }
+}

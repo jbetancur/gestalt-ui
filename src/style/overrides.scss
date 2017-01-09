@@ -1,0 +1,52 @@
+
+//Make bottom menu Button full width of text
+.md-list--menu-below {
+  width: auto;
+}
+
+#orgs-menu {
+  .md-list--menu-below {
+    width: 100% !important;
+    margin-left: 1em;
+  }
+}
+
+// Fix for SVG Icons
+.md-icon {
+    svg {
+        margin-top: -1em !important;
+        color: inherit !important;
+    }
+}
+
+// TODO: Fix and remove
+.md-tab--inactive {
+    color: black;
+}
+
+.md-tab--icon {
+    font-size: 1.2em;
+    height: 57px;
+    padding-bottom: 7px;
+}
+
+.md-tab-label {
+    font-size: .5em;
+}
+
+.md-btn--toolbar {
+  .md-divider--vertical {
+    display: inline-block;
+    height: 42px;
+  }
+}
+
+.md-progress {
+  &.md-progress--linear {
+      margin: 0;
+  }
+}
+
+.md-table-column {
+  cursor: pointer;
+}

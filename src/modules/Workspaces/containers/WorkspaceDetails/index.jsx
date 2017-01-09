@@ -1,0 +1,12 @@
+import { connect } from 'react-redux';
+import WorkspaceDetail from '../../components/WorkspaceDetail';
+import * as actions from '../../actions';
+
+function mapStateToProps(state) {
+  return {
+    workspace: state.workspaces.fetchOne.item,
+    pending: state.workspaces.fetchOne.pending
+  };
+}
+
+export default connect(mapStateToProps, actions)(WorkspaceDetail);
