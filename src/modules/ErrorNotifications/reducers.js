@@ -65,6 +65,12 @@ export default (state = initialState, action) => {
         friendlyMessage: 'Bad Request',
         error: action.payload
       };
+    case 'APP_HTTP_ERROR_415':
+      return {
+        ...state,
+        friendlyMessage: 'Unsupported Media Type',
+        error: action.payload
+      };
     case 'APP_HTTP_ERROR_503':
       return {
         ...state,

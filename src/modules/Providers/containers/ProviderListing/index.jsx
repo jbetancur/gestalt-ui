@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import ProviderItem from '../../components/ProviderItem';
-import FooterActions from '../../../../components/FooterActions';
 
 import * as actions from '../../actions';
 
@@ -21,26 +20,23 @@ class Providers extends Component {
   };
 
   componentDidMount() {
-    const fqon = this.props.fqon || this.props.params.fqon;
-    const entityId = this.props.workspaceId || this.props.environmentId || null;
-    const entityKey = this.props.workspaceId ? 'workspaces' : 'environments';
-    this.props.fetchProviders(fqon, entityId, entityKey);
+    const { fqon, params, workspaceId, environmentId, fetchProviders } = this.props;
+    const resolvedFqon = fqon || params.fqon;
+    const entityId = workspaceId || environmentId || null;
+    const entityKey = workspaceId ? 'workspaces' : 'environments';
+    fetchProviders(resolvedFqon, entityId, entityKey);
   }
 
   render() {
-    return (
-      <div>
-        <ProviderItem {...this.props} />
-        <FooterActions />
-      </div>
-    );
+    return <ProviderItem {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
   return {
     providers: state.providers.fetchAll.items,
-    pending: state.providers.fetchAll.pending
+    pending: state.providers.fetchAll.pending,
+    selectedProviders: state.providers.selectedProviders
   };
 }
 

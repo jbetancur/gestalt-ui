@@ -9,11 +9,13 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
-import { toggleHandler } from 'util/helpers/lists';
+// import { toggleHandler } from 'util/helpers/lists';
 
 class ProviderItem extends Component {
   static propTypes = {
-    deleteProvider: PropTypes.func.isRequired,
+    deleteProviders: PropTypes.func.isRequired,
+    handleSelected: PropTypes.func.isRequired,
+    selectedProviders: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
@@ -29,12 +31,6 @@ class ProviderItem extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      count: 0,
-      selectedItems: [],
-      title: true
-    };
   }
 
   formatResourceType(resourceType) {
@@ -43,20 +39,9 @@ class ProviderItem extends Component {
   }
 
   handleRowToggle(row, toggled, count) {
-    const { providers } = this.props;
+    const { providers, handleSelected, selectedProviders } = this.props;
 
-    this.setState({
-      count,
-      selectedItems: toggleHandler(row, toggled, count, this.state.selectedItems, providers)
-    });
-  }
-
-  clearSelectedRows() {
-    this.setState({
-      count: 0,
-      selectedItems: [],
-      title: true
-    });
+    handleSelected(row, toggled, count, providers, selectedProviders.selectedItems);
   }
 
   create() {
@@ -89,14 +74,17 @@ class ProviderItem extends Component {
   }
 
   delete() {
-    const { params, deleteProvider } = this.props;
-    const { selectedItems } = this.state;
+    const { params, deleteProviders, workspaceId, environmentId } = this.props;
+    const { selectedItems } = this.props.selectedProviders;
+    const providerIds = selectedItems.map(item => (item.id));
 
-    selectedItems.forEach((item) => {
-      deleteProvider(params.fqon, item.id);
-    });
-
-    this.clearSelectedRows();
+    if (workspaceId) {
+      deleteProviders(providerIds, params.fqon, workspaceId, 'workspaces');
+    } else if (environmentId) {
+      deleteProviders(providerIds, params.fqon, environmentId, 'environments');
+    } else {
+      deleteProviders(providerIds, params.fqon);
+    }
   }
 
   renderCreateButton() {
@@ -113,7 +101,7 @@ class ProviderItem extends Component {
   }
 
   render() {
-    const { count, title } = this.state;
+    const { selectedCount } = this.props.selectedProviders;
 
     const providers = this.props.providers.map(provider => (
       <TableRow key={provider.id} onClick={e => this.edit(provider, e)}>
@@ -128,9 +116,9 @@ class ProviderItem extends Component {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={title ? 'Providers' : null}
-            visible={count > 0}
-            contextualTitle={`${count} provider${count > 1 ? 's' : ''} selected`}
+            title="Providers"
+            visible={selectedCount > 0}
+            contextualTitle={`${selectedCount} provider${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
           >
             <div>{this.renderCreateButton()}</div>

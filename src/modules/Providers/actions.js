@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { push, replace } from 'react-router-redux';
+import { push } from 'react-router-redux';
+import { toggleHandler } from 'util/helpers/lists';
+import providerTypes from './lists/providerTypes';
+
 import {
   FETCH_PROVIDERS_PENDING,
   FETCH_PROVIDERS_REJECTED,
@@ -14,8 +17,38 @@ import {
   UPDATE_PROVIDER_FULFILLED,
   UPDATE_PROVIDER_REJECTED,
   DELETE_PROVIDER_PENDING,
-  DELETE_PROVIDER_REJECTED
+  DELETE_PROVIDER_FULFILLED,
+  DELETE_PROVIDER_REJECTED,
+  SELECTED_PROVIDERS,
+  SELECTED_PROVIDER_TYPE,
 } from './actionTypes';
+
+export function handleProviderType(value) {
+  const payload = providerTypes[providerTypes.findIndex(item => item.value === value)].type;
+  return (dispatch) => {
+    dispatch({ type: SELECTED_PROVIDER_TYPE, payload });
+  };
+}
+
+export function handleSelected(row, toggled, selectedCount, list, selectedItems) {
+  const payload = {
+    selectedCount,
+    showTitle: selectedCount <= 0,
+    selectedItems: toggleHandler(row, toggled, selectedCount, selectedItems, list)
+  };
+
+  return { type: SELECTED_PROVIDERS, payload };
+}
+
+export function clearSelected() {
+  const payload = {
+    selectedCount: 0,
+    showTitle: true,
+    selectedItems: []
+  };
+
+  return { type: SELECTED_PROVIDERS, payload };
+}
 
 export function fetchProviders(fqon, entityId, entityKey) {
   const url = entityId ? `${fqon}/${entityKey}/${entityId}/providers` : `${fqon}/providers`;
@@ -55,12 +88,12 @@ export function createProvider(fqon, entityId, entityKey, payload, routeToUrl) {
   };
 }
 
-export function updateProvider(fqon, providerId, patches) {
+export function updateProvider(fqon, providerId, patches, routeToUrl) {
   return (dispatch) => {
     dispatch({ type: UPDATE_PROVIDER_PENDING });
     axios.patch(`${fqon}/providers/${providerId}`, patches).then((response) => {
       dispatch({ type: UPDATE_PROVIDER_FULFILLED, payload: response.data });
-      dispatch(push(`${fqon}/providers`));
+      dispatch(push(routeToUrl));
     }).catch((err) => {
       dispatch({ type: UPDATE_PROVIDER_REJECTED, payload: err });
     });
@@ -71,11 +104,25 @@ export function deleteProvider(fqon, providerId) {
   return (dispatch) => {
     dispatch({ type: DELETE_PROVIDER_PENDING });
     axios.delete(`${fqon}/providers/${providerId}?force=true`).then(() => {
-      dispatch(replace(`${fqon}/providers`));
+      dispatch({ type: DELETE_PROVIDER_FULFILLED });
     }).catch((err) => {
       dispatch({ type: DELETE_PROVIDER_REJECTED, payload: err });
     });
   };
 }
 
-export default { fetchProviders, fetchProvider, createProvider, updateProvider, deleteProvider };
+export function deleteProviders(providerIds, fqon, entityId, entityKey) {
+  return (dispatch) => {
+    dispatch({ type: DELETE_PROVIDER_PENDING });
+    const all = providerIds.map(item => axios.delete(`${fqon}/providers/${item}?force=true`));
+
+    axios.all(all).then(() => {
+      dispatch({ type: DELETE_PROVIDER_FULFILLED });
+      dispatch(clearSelected());
+      dispatch(fetchProviders(fqon, entityId, entityKey));
+    }).catch((err) => {
+      dispatch({ type: DELETE_PROVIDER_REJECTED, payload: err });
+      dispatch(clearSelected());
+    });
+  };
+}
