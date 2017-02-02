@@ -6,13 +6,14 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { nameMaxLen } from '../../validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { params, router, location } = props;
+  const { params, router, location, provider, selectedProviderType } = props;
 
   const goBack = () => {
     if (params.workspaceId && !params.environmentId) {
@@ -24,18 +25,39 @@ const ProviderForm = (props) => {
     }
   };
 
+  const updateForm = (value) => {
+    props.handleProviderType(value);
+  };
+
+  const renderJSONSection = () => (
+    <div className="flex-row">
+      <div className="flex-6 flex-xs-12">
+        {!props.provider.properties.config.networks ? null :
+        <JSONTree
+          data={props.provider.properties.config.networks}
+        />}
+      </div>
+      <div className="flex-6 flex-xs-12">
+        {!props.provider.properties.config.extra ? null :
+        <JSONTree
+          data={props.provider.properties.config.extra}
+        />}
+      </div>
+    </div >
+  );
+
   return (
     <div>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+          <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
             <CardTitle title={<span>{props.title}</span>} />
             <CardText>
               <div className="flex-row">
                 <div className="flex-row">
                   <Field
                     id="select-provider"
-                    className="flex-3 flex-xs-12"
+                    className="flex-3 flex-xs-12 flex-sm-6"
                     component={SelectField}
                     name="resource_type"
                     menuItems={providerTypes}
@@ -44,30 +66,32 @@ const ProviderForm = (props) => {
                     required
                     label="Provider Type"
                     errorText={props.touched && props.error}
+                    onChange={(v, value) => updateForm(value)}
+                    disabled={provider.id}
+                  />
+                  <Field
+                    className="flex-3 flex-xs-12 flex-sm-6"
+                    component={TextField}
+                    name="name"
+                    label="Name"
+                    type="text"
+                    required
+                    errorText={props.touched && props.error}
+                    maxLength={nameMaxLen}
+                    lineDirection="center"
+                  />
+                  <Field
+                    className="flex-6 flex-xs-12 flex-sm-12"
+                    component={TextField}
+                    name="description"
+                    label="Description"
+                    type="text"
+                    errorText={props.touched && props.error}
+                    lineDirection="center"
                   />
                 </div>
                 <Field
-                  className="flex-3 flex-xs-12"
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  errorText={props.touched && props.error}
-                  maxLength={nameMaxLen}
-                  lineDirection="center"
-                />
-                <Field
-                  className="flex-9 flex-xs-12"
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  errorText={props.touched && props.error}
-                  lineDirection="center"
-                />
-                <Field
-                  className="flex-6 flex-xs-12"
+                  className="flex-6 flex-xs-12 flex-sm-12"
                   component={TextField}
                   name="properties.config.url"
                   label="Provider URL/Host:Port"
@@ -78,7 +102,7 @@ const ProviderForm = (props) => {
                 />
                 <Field
                   id="select-return-type"
-                  className="flex-2 flex-xs-12"
+                  className="flex-2 flex-xs-12 flex-sm-4"
                   component={SelectField}
                   name="properties.config.auth.scheme"
                   menuItems={['Basic']}
@@ -87,7 +111,7 @@ const ProviderForm = (props) => {
                   errorText={props.touched && props.error}
                 />
                 <Field
-                  className="flex-2 flex-xs-12"
+                  className="flex-2 flex-xs-12 flex-sm-4"
                   component={TextField}
                   name="properties.config.auth.username"
                   label="Username"
@@ -97,7 +121,7 @@ const ProviderForm = (props) => {
                   lineDirection="center"
                 />
                 <Field
-                  className="flex-2 flex-xs-12"
+                  className="flex-2 flex-xs-12 flex-sm-4"
                   component={TextField}
                   name="properties.config.auth.password"
                   label="Password"
@@ -106,8 +130,30 @@ const ProviderForm = (props) => {
                   errorText={props.touched && props.error}
                   lineDirection="center"
                 />
-              </div>
+                {selectedProviderType === 'container' || provider.properties.config.networks ?
+                  <Field
+                    className="flex-6 flex-xs-12"
+                    component={TextField}
+                    name="properties.config.networks"
+                    label="Networks (JSON)"
+                    type="text"
+                    errorText={props.touched && props.error}
+                    lineDirection="center"
+                    rows={2}
+                  /> : null}
+                <Field
+                  className="flex-6 flex-xs-12"
+                  component={TextField}
+                  name="properties.config.extra"
+                  label="Extra Configuration (JSON)"
+                  type="text"
+                  errorText={props.touched && props.error}
+                  lineDirection="center"
+                  rows={2}
+                />
 
+                {provider.id ? renderJSONSection() : null}
+              </div>
             </CardText>
             {props.updatePending ? <LinearProgress id="user-form" /> : null}
             <CardActions>
@@ -134,6 +180,8 @@ const ProviderForm = (props) => {
 
 ProviderForm.propTypes = {
   pending: PropTypes.bool.isRequired,
+  provider: PropTypes.object,
+  selectedProviderType: PropTypes.string,
   router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
@@ -153,7 +201,9 @@ ProviderForm.propTypes = {
 ProviderForm.defaultProps = {
   title: '',
   submitLabel: '',
-  cancelLabel: 'Cancel'
+  cancelLabel: 'Cancel',
+  provider: {},
+  selectedProviderType: ''
 };
 
 export default ProviderForm;

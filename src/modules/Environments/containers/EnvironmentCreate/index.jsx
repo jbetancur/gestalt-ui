@@ -15,7 +15,7 @@ class OrgCreate extends Component {
       name: values.name,
       description: values.description,
       properties: {
-        environment_type: values.environment_type,
+        environment_type: values.properties.environment_type,
         env: {}
       }
     };

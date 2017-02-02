@@ -2,16 +2,16 @@ export default[
   {
     name: 'Marathon',
     value: 'Gestalt::Configuration::Provider::Marathon',
-    type: 'Container'
+    type: 'container'
   },
   {
     name: 'Kong',
     value: 'Gestalt::Configuration::Provider::ApiGateway',
-    type: 'ApiGateway'
+    type: 'apigateway'
   },
   {
     name: 'Lambda',
     value: 'Gestalt::Configuration::Provider::Lambda',
-    type: 'ApiGateway'
+    type: 'lambda'
   }
 ];
