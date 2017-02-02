@@ -2,4 +2,4 @@ export const FETCH_SELF_PENDING = 'app/FETCH_SELF_PENDING';
 export const FETCH_SELF_FULFILLED = 'app/FETCH_SELF_FULFILLED';
 export const FETCH_SELF_REJECTED = 'app/FETCH_SELF_REJECTED';
 
-export const LOG_OUT = 'app/LOGOUT';
+export const LOG_OUT = 'app/LOG_OUT';

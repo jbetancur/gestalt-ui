@@ -50,9 +50,9 @@ const validate = (values) => {
 };
 
 const LoginForm = (props) => {
-  const { requestAuthToken, handleSubmit, pristine, invalid, submitting, touched, error } = props;
+  const { login, handleSubmit, pristine, invalid, submitting, touched, error } = props;
   const submit = (values) => {
-    requestAuthToken(values.username, values.password);
+    login(values.username, values.password);
   };
 
   return (
@@ -78,12 +78,11 @@ const LoginForm = (props) => {
                 type="password"
                 errorText={touched && error}
                 placeholder="Password"
-                passwordInitiallyVisible={false}
                 lineDirection="center"
               />
               <LoginError>{props.statusText}</LoginError>
             </CardText>
-            {props.isAuthenticating ? <LinearProgress /> : null}
+            {props.isAuthenticating ? <LinearProgress id="login-form" /> : null}
             <CardActions className="flex-row">
               <Button
                 className="flex-12"
@@ -103,7 +102,7 @@ const LoginForm = (props) => {
 };
 
 LoginForm.propTypes = {
-  requestAuthToken: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
