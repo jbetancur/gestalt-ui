@@ -1,12 +1,14 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
-import { push } from 'react-router-redux';
+import { replace } from 'react-router-redux';
 import {
   FETCH_SELF_PENDING,
   FETCH_SELF_REJECTED,
   FETCH_SELF_FULFILLED,
   LOG_OUT
 } from './actionTypes';
+
+const securityURL = 'https://security.test.galacticfog.com';
 
 export function fetchSelf() {
   return (dispatch) => {
@@ -21,10 +23,20 @@ export function fetchSelf() {
 
 export function logout() {
   return (dispatch) => {
+    const tokenId = cookie.load('auth-token');
+    const securityAPI = axios.create({
+      baseURL: securityURL,
+      headers: {
+        Authorization: `Bearer ${tokenId}`
+      }
+    });
+
+    // delete local cookie and redirect whether api token delete succeeds or not
     cookie.remove('auth-token', { path: '/' });
-    dispatch({ type: LOG_OUT });
-    dispatch(push('/login'));
+    dispatch(replace('login'));
+
+    securityAPI.delete(`accessTokens/${tokenId}`).then(() => {
+      dispatch({ type: LOG_OUT });
+    });
   };
 }
-
-export default { fetchSelf, logout };
