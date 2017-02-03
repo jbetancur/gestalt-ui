@@ -95,6 +95,7 @@ const UserForm = (props) => {
                   itemLabel="name"
                   itemValue="value"
                   label="Gestalt Home"
+                  lineDirection="center"
                   errorText={props.touched && props.error}
                   onFocus={() => fetchOrgs()}
                 />

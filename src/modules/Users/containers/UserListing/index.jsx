@@ -6,7 +6,8 @@ import * as actions from '../../actions';
 function mapStateToProps(state) {
   return {
     users: state.users.fetchAll.items,
-    pending: state.users.fetchAll.pending
+    pending: state.users.fetchAll.pending,
+    selectedUsers: state.users.selectedUsers
   };
 }
 

@@ -14,27 +14,22 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
-import { toggleHandler } from 'util/helpers/lists';
 
 class UserItem extends Component {
   static propTypes = {
     fetchUsers: PropTypes.func.isRequired,
+    handleSelected: PropTypes.func.isRequired,
+    selectedUsers: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
-    deleteUser: PropTypes.func.isRequired
+    deleteUsers: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      count: 0,
-      selectedItems: [],
-      title: true
-    };
   }
 
   componentDidMount() {
@@ -43,20 +38,9 @@ class UserItem extends Component {
   }
 
   handleRowToggle(row, toggled, count) {
-    const { users } = this.props;
+    const { users, handleSelected, selectedUsers } = this.props;
 
-    this.setState({
-      count,
-      selectedItems: toggleHandler(row, toggled, count, this.state.selectedItems, users)
-    });
-  }
-
-  clearSelectedRows() {
-    this.setState({
-      count: 0,
-      selectedItems: [],
-      title: true
-    });
+    handleSelected(row, toggled, count, users, selectedUsers.selectedItems);
   }
 
   create() {
@@ -71,14 +55,11 @@ class UserItem extends Component {
   }
 
   delete() {
-    const { params, deleteUser } = this.props;
-    const { selectedItems } = this.state;
+    const { params, deleteUsers } = this.props;
+    const { selectedItems } = this.props.selectedUsers;
+    const userIds = selectedItems.map(item => (item.id));
 
-    selectedItems.forEach((item) => {
-      deleteUser(params.fqon, item.id);
-    });
-
-    this.clearSelectedRows();
+    deleteUsers(userIds, params.fqon);
   }
 
   renderMenuActions() {
@@ -109,7 +90,7 @@ class UserItem extends Component {
   }
 
   render() {
-    const { count, title } = this.state;
+    const { selectedCount } = this.props.selectedUsers;
 
     const users = this.props.users.map(user => (
       <TableRow key={user.id} onClick={e => this.edit(user, e)}>
@@ -128,9 +109,9 @@ class UserItem extends Component {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={title ? 'Users' : null}
-            visible={count > 0}
-            contextualTitle={`${count} user${count > 1 ? 's' : ''} selected`}
+            title="Users"
+            visible={selectedCount > 0}
+            contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
           >
             <div>{this.renderCreateButton()}</div>

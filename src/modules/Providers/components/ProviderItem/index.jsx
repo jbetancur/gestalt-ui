@@ -15,7 +15,7 @@ class ProviderItem extends Component {
   static propTypes = {
     deleteProviders: PropTypes.func.isRequired,
     handleSelected: PropTypes.func.isRequired,
-    selectedProviders: PropTypes.object.isRequired,
+    selectedProviders: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,

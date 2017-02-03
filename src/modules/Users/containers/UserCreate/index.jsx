@@ -21,25 +21,26 @@ class UserCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.users.fetchOne;
+  const { pending } = state.users.fetchOne;
   const { organizations, pendingOrgs } = state.users.fetchOrgs;
+  const model = {
+    name: '',
+    properties: {
+      password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      gestalt_home: ''
+    }
+  };
 
   return {
-    user: item,
+    user: model,
     organizations,
     pending,
     pendingOrgs,
-    initialValues: {
-      name: '',
-      properties: {
-        password: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        gestalt_home: ''
-      }
-    }
+    initialValues: model
   };
 }
 

@@ -101,6 +101,7 @@ function mapStateToProps(state) {
   return {
     provider: item,
     pending,
+    updatePending: state.providers.updateOne.pending,
     selectedProviderType: state.providers.selectedProvider.type,
     initialValues: {
       name: item.name,

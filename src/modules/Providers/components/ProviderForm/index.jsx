@@ -155,19 +155,19 @@ const ProviderForm = (props) => {
                 {provider.id ? renderJSONSection() : null}
               </div>
             </CardText>
-            {props.updatePending ? <LinearProgress id="user-form" /> : null}
+            {props.updatePending || props.pending ? <LinearProgress id="user-form" /> : null}
             <CardActions>
               <Button
                 flat
                 label={props.cancelLabel}
-                disabled={props.pending || props.submitting}
+                disabled={props.updatePending || props.pending || props.submitting}
                 onClick={goBack}
               />
               <Button
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={props.pristine || props.pending || props.invalid || props.submitting}
+                disabled={props.pristine || props.updatePending || props.pending || props.invalid || props.submitting}
                 primary
               />
             </CardActions>
