@@ -20,6 +20,8 @@ class WorkspaceDetail extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
+    handleNavigation: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     deleteWorkspace: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
@@ -28,10 +30,6 @@ class WorkspaceDetail extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      view: 'environments'
-    };
   }
 
   componentWillMount() {
@@ -40,19 +38,20 @@ class WorkspaceDetail extends Component {
     fetchWorkspace(params.fqon, params.workspaceId);
   }
 
-  handleViewState(view, selectedIndex) {
+  handleViewState(view, index) {
+    const { handleNavigation, router } = this.props;
     const validCookie = !!cookie.load('auth-token') || false;
 
     if (!validCookie) {
-      this.props.router.replace('/login');
+      router.replace('login');
     }
 
-    this.setState({ view, selectedIndex });
+    handleNavigation(view, index);
   }
 
   delete() {
-    const { params, workspace } = this.props;
-    this.props.deleteWorkspace(params.fqon, workspace.id);
+    const { params, workspace, deleteWorkspace } = this.props;
+    deleteWorkspace(params.fqon, workspace.id);
   }
 
   renderActionsMenu() {
@@ -110,9 +109,7 @@ class WorkspaceDetail extends Component {
           <Entitlements fqon={params.fqon} workspaceId={params.workspaceId} {...this.props} />
         );
       default:
-        return (
-          <div>There was a problem rendering the view</div>
-        );
+        return <div />;
     }
   }
 
@@ -121,7 +118,7 @@ class WorkspaceDetail extends Component {
   }
 
   render() {
-    const { pending, workspace, params } = this.props;
+    const { pending, workspace, params, navigation } = this.props;
 
     return (
       <div>
@@ -137,18 +134,18 @@ class WorkspaceDetail extends Component {
             <IconText icon="subtitles"><div className="md-body-1">{workspace.description}</div></IconText>
             <VariablesListing envMap={workspace.properties.env} />
           </DetailCardText>
-          <TabsContainer>
+          <TabsContainer defaultTabIndex={navigation.index}>
             <Tabs>
-              <Tab label="Environments" tabId="environments" icon={<FontIcon>folder</FontIcon>} onClick={() => this.handleViewState('environments')} />
-              <Tab label="Providers" tabId="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers')} />
-              <Tab label="Entitlements" tabId="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements')} />
+              <Tab label="Environments" id="environments" icon={<FontIcon>folder</FontIcon>} onClick={() => this.handleViewState('environments', 0)} />
+              <Tab label="Providers" id="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers', 1)} />
+              <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 2)} />
             </Tabs>
           </TabsContainer>
           {pending ? this.renderProgress() : null}
         </DetailCard>
 
         <div>
-          {this.renderThings(this.state.view)}
+          {this.renderThings(navigation.view)}
         </div>
       </div>
     );

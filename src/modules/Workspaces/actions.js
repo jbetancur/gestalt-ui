@@ -15,7 +15,8 @@ import {
   UPDATE_WORKSPACE_REJECTED,
   DELETE_WORKSPACE_PENDING,
   DELETE_WORKSPACE_FULFILLED,
-  DELETE_WORKSPACE_REJECTED
+  DELETE_WORKSPACE_REJECTED,
+  WORKSPACES_NAVIGATION
 } from './actionTypes';
 
 export function fetchWorkspaces(fqon) {
@@ -78,5 +79,12 @@ export function deleteWorkspace(fqon, workspaceId) {
   };
 }
 
+export function handleNavigation(view, index) {
+  const payload = {
+    view,
+    index
+  };
 
-export default { fetchWorkspaces, fetchWorkspace, createWorkspace, updateWorkspace, deleteWorkspace };
+  return { type: WORKSPACES_NAVIGATION, payload };
+}
+
