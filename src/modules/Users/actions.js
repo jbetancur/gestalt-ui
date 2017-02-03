@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
+import { toggleHandler } from 'util/helpers/lists';
 import {
   FETCH_USERS_PENDING,
   FETCH_USERS_REJECTED,
@@ -18,8 +19,29 @@ import {
   UPDATE_USER_REJECTED,
   FETCH_ALLORGS_PENDING,
   FETCH_ALLORGS_FULFILLED,
-  FETCH_ALLORGS_REJECTED
+  FETCH_ALLORGS_REJECTED,
+  SELECTED_USERS
 } from './actionTypes';
+
+export function handleSelected(row, toggled, selectedCount, list, selectedItems) {
+  const payload = {
+    selectedCount,
+    showTitle: selectedCount <= 0,
+    selectedItems: toggleHandler(row, toggled, selectedCount, selectedItems, list)
+  };
+
+  return { type: SELECTED_USERS, payload };
+}
+
+export function clearSelected() {
+  const payload = {
+    selectedCount: 0,
+    showTitle: true,
+    selectedItems: []
+  };
+
+  return { type: SELECTED_USERS, payload };
+}
 
 export function fetchUsers(fqon) {
   const url = `/${fqon}/users`;
@@ -100,6 +122,22 @@ export function fetchAllOrgs(fqon) {
       dispatch({ type: FETCH_ALLORGS_FULFILLED, payload: values });
     })).catch((err) => {
       dispatch({ type: FETCH_ALLORGS_REJECTED, payload: err });
+    });
+  };
+}
+
+export function deleteUsers(userIds, fqon) {
+  return (dispatch) => {
+    dispatch({ type: DELETE_USER_PENDING });
+    const all = userIds.map(item => axios.delete(`${fqon}/users/${item}?force=true`));
+
+    axios.all(all).then(() => {
+      dispatch({ type: DELETE_USER_FULFILLED });
+      dispatch(clearSelected());
+      dispatch(fetchUsers(fqon));
+    }).catch((err) => {
+      dispatch({ type: DELETE_USER_REJECTED, payload: err });
+      dispatch(clearSelected());
     });
   };
 }
