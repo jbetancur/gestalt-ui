@@ -7,7 +7,8 @@ function mapStateToProps(state) {
   return {
     environment: state.environments.fetchOne.item,
     workspace: state.workspaces.fetchOne.workspace,
-    pending: state.environments.fetchOne.pending
+    pending: state.environments.fetchOne.pending,
+    navigation: state.environments.navigation
   };
 }
 

@@ -25,7 +25,8 @@ class EnvironmentDetail extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
+    handleNavigation: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     deleteEnvironment: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
@@ -34,24 +35,21 @@ class EnvironmentDetail extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      view: '',
-      selectedIndex: 0
-    };
   }
 
   componentWillMount() {
     this.props.fetchEnvironment(this.props.params.fqon, this.props.params.environmentId);
   }
 
-  handleViewState(view, selectedIndex) {
+  handleViewState(view, index) {
+    const { handleNavigation, router } = this.props;
     const validCookie = !!cookie.load('auth-token') || false;
 
     if (!validCookie) {
-      this.props.router.replace('/login');
+      router.replace('/login');
     }
 
-    this.setState({ view, selectedIndex });
+    handleNavigation(view, index);
   }
 
   delete() {
@@ -77,7 +75,7 @@ class EnvironmentDetail extends Component {
             primaryText={<span>Create Lambda</span>}
             leftIcon={<LambdaIcon />}
             component={Link}
-            to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/createLambda?tabIndex=0`}
+            to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/createLambda`}
           />
           <ListItem
             id="environments-settings-menu--edit"
@@ -140,7 +138,7 @@ class EnvironmentDetail extends Component {
   }
 
   render() {
-    const { pending, environment, params, location } = this.props;
+    const { pending, environment, params, navigation } = this.props;
 
     return (
       <div>
@@ -157,20 +155,20 @@ class EnvironmentDetail extends Component {
             <IconText icon="subtitles"><div className="md-body-1">{environment.description}</div></IconText>
             <VariablesListing envMap={environment.properties.env} />
           </DetailCardText>
-          <TabsContainer themed defaultTabIndex={parseInt(location.query.tabIndex, 10) || this.state.selectedIndex}>
+          <TabsContainer themed defaultTabIndex={navigation.index}>
             <Tabs>
-              <Tab label="Lambdas" tabId="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas')} />
-              <Tab label="API" tabId="apis" icon={<FontIcon>http</FontIcon>} onClick={() => this.handleViewState('apis')} />
-              <Tab label="Containers" tabId="containers" icon={<FontIcon>apps</FontIcon>} onClick={() => this.handleViewState('containers')} />
-              <Tab label="Policies" tabId="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies')} />
-              <Tab label="Integrations" tabId="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations')} />
-              <Tab label="Providers" tabId="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers')} />
-              <Tab label="Entitlements" tabId="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements')} />
+              <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 0)} />
+              <Tab label="API" id="apis" icon={<FontIcon>http</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
+              <Tab label="Containers" id="containers" icon={<FontIcon>apps</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />
+              <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
+              <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 4)} />
+              <Tab label="Providers" id="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers', 5)} />
+              <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 6)} />
             </Tabs>
           </TabsContainer>
           {pending ? this.renderProgress() : null}
         </DetailCard>
-        {this.renderThings(this.state.view)}
+        {this.renderThings(navigation.view)}
       </div>
     );
   }

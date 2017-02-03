@@ -13,13 +13,13 @@ import { nameMaxLen } from '../../validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { params, router, location, provider, selectedProviderType } = props;
+  const { params, router, provider, selectedProviderType } = props;
 
   const goBack = () => {
     if (params.workspaceId && !params.environmentId) {
       router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
     } else if (params.workspaceId && params.environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}?tabIndex=${location.query.tabIndex}`);
+      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
     } else {
       router.push(`${params.fqon}/providers`);
     }
@@ -184,7 +184,6 @@ ProviderForm.propTypes = {
   selectedProviderType: PropTypes.string,
   router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   updatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

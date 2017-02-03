@@ -15,7 +15,8 @@ import {
   UPDATE_ENVIRONMENT_REJECTED,
   DELETE_ENVIRONMENT_PENDING,
   DELETE_ENVIRONMENT_FULFILLED,
-  DELETE_ENVIRONMENT_REJECTED
+  DELETE_ENVIRONMENT_REJECTED,
+  ENVIRONMENTS_NAVIGATION
 } from './actionTypes';
 
 export function fetchEnvironments(fqon, workspaceId) {
@@ -81,4 +82,12 @@ export function deleteEnvironment(fqon, environmentId, workspaceId) {
   };
 }
 
-export default { fetchEnvironments, fetchEnvironment, createEnvironment, updateEnvironment, deleteEnvironment };
+export function handleNavigation(view, index) {
+  const payload = {
+    view,
+    index
+  };
+
+  return { type: ENVIRONMENTS_NAVIGATION, payload };
+}
+

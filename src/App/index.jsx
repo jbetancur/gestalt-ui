@@ -17,14 +17,14 @@ class App extends Component {
     fetchSelf: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
-    children: PropTypes.array,
+    children: PropTypes.object,
     selfFetching: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     // browser: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    children: []
+    children: {}
   }
 
   constructor(props) {
