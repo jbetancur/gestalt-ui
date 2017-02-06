@@ -7,7 +7,7 @@ import UserForm from '../../components/UserForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
-class UserCreate extends Component {
+class GroupEdit extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -76,4 +76,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'userEdit',
   validate
-})(UserCreate));
+})(GroupEdit));

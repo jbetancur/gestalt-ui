@@ -10,8 +10,6 @@ import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import TableSortColumn from 'components/TableSortColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 
@@ -43,10 +41,6 @@ class UserItem extends Component {
     handleSelected(row, toggled, count, users, selectedUsers.selectedItems);
   }
 
-  create() {
-    this.props.router.push(`/${this.props.params.fqon}/workspaces/create`);
-  }
-
   edit(user, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
@@ -60,19 +54,6 @@ class UserItem extends Component {
     const userIds = selectedItems.map(item => (item.id));
 
     deleteUsers(userIds, params.fqon);
-  }
-
-  renderMenuActions() {
-    return (
-      <MenuButton
-        id="users-menu"
-        icon
-        position="tr"
-        buttonChildren="more_vert"
-      >
-        <ListItem primaryText="Item One" />
-      </MenuButton>
-    );
   }
 
   renderCreateButton() {
@@ -116,7 +97,7 @@ class UserItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="users-progress" scale={3} centered={true} /> :
+          {this.props.pending ? <LinearProgress id="users-progress" /> :
           <DataTable baseId="Users" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.users.length ? null :
             <TableHeader>

@@ -25,6 +25,8 @@ import Users from './modules/Users';
 import UserCreate from './modules/Users/containers/UserCreate';
 import UserEdit from './modules/Users/containers/UserEdit';
 import Groups from './modules/Groups';
+import GroupCreate from './modules/Groups/containers/GroupCreate';
+import GroupEdit from './modules/Groups/containers/GroupEdit';
 import NotFound from './components/NotFound';
 
 function requireAuth(nextState, replace) {
@@ -94,7 +96,13 @@ const routes = (
           <Route path="edit" component={UserEdit} onEnter={requireAuth} />
         </Route>
       </Route>
-      <Route path=":fqon/groups" component={Groups} onEnter={requireAuth} />
+      <Route path=":fqon/groups" onEnter={requireAuth}>
+        <IndexRoute component={Groups} onEnter={requireAuth} />
+        <Route path="create" component={GroupCreate} onEnter={requireAuth} />
+        <Route path=":groupId" onEnter={requireAuth}>
+          <Route path="edit" component={GroupEdit} onEnter={requireAuth} />
+        </Route>
+      </Route>
       <Route path="*" component={NotFound} />
     </Route>
   </div>
