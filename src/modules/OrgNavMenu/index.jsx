@@ -97,5 +97,12 @@ class OrgNavMenu extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  const { orgnavmenu } = state;
+  return {
+    organizations: orgnavmenu.organizations.items.filter(val => val.name.includes(orgnavmenu.filter.filterText)),
+    orgFetching: orgnavmenu.organizations.pending,
+  };
+};
 
-export default connect(null, actions)(OrgNavMenu);
+export default connect(mapStateToProps, actions)(OrgNavMenu);

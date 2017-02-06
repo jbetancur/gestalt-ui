@@ -1,18 +1,21 @@
 import {
   FETCH_GROUPS_PENDING,
   FETCH_GROUPS_REJECTED,
-  FETCH_GROUPS_FULFILLED
+  FETCH_GROUPS_FULFILLED,
+  GROUPS_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
+  groups: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case GROUPS_UNLOADED:
+      return initialState;
     case FETCH_GROUPS_PENDING:
       return {
         ...state,
@@ -23,7 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload
+        groups: action.payload
       };
     case FETCH_GROUPS_REJECTED:
       return {

@@ -176,11 +176,9 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { orgnavmenu, app, browser } = state;
+  const { app, browser } = state;
 
   return {
-    organizations: orgnavmenu.organizations.items.filter(val => val.name.includes(orgnavmenu.filter.filterText)),
-    orgFetching: orgnavmenu.organizations.pending,
     self: app.self.self,
     selfFetching: app.self.pending,
     browser

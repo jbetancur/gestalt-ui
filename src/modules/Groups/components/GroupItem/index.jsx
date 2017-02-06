@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
 import DataTable from 'react-md/lib/DataTables/DataTable';
 import TableHeader from 'react-md/lib/DataTables/TableHeader';
@@ -8,24 +9,79 @@ import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
+import Button from 'react-md/lib/Buttons/Button';
+import { FormattedDate } from 'react-intl';
 
 class GroupItem extends Component {
   static propTypes = {
+    fetchGroups: PropTypes.func.isRequired,
+    handleSelected: PropTypes.func.isRequired,
+    selectedGroups: PropTypes.array.isRequired,
+    router: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    fqon: PropTypes.string.isRequired,
     groups: PropTypes.array.isRequired,
-    pending: PropTypes.bool.isRequired
+    pending: PropTypes.bool.isRequired,
+    deleteGroups: PropTypes.func.isRequired,
+    onUnloadGroups: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
   }
 
+  componentWillMount() {
+    const fqon = this.props.fqon || this.props.router.params.fqon;
+    this.props.fetchGroups(fqon);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnloadGroups();
+  }
+
+  handleRowToggle(row, toggled, count) {
+    const { groups, handleSelected, selectedGroups } = this.props;
+
+    handleSelected(row, toggled, count, groups, selectedGroups.selectedItems);
+  }
+
+  edit(group, e) {
+    // TODO: workaround for checkbox event bubbling
+    if (e.target.className.includes('md-table-column')) {
+      this.props.router.push(`${this.props.params.fqon}/groups/${group.id}/edit`);
+    }
+  }
+
+  delete() {
+    const { params, deleteGroups } = this.props;
+    const { selectedItems } = this.props.selectedGroups;
+    const userIds = selectedItems.map(item => (item.id));
+
+    deleteGroups(userIds, params.fqon);
+  }
+
+  renderCreateButton() {
+    return (
+      <Button
+        id="create-group"
+        label="Create Group"
+        flat
+        component={Link}
+        to={`${this.props.params.fqon}/groups/create`}
+      >
+        <FontIcon>add</FontIcon>
+      </Button>
+    );
+  }
+
   render() {
+    const { selectedCount } = this.props.selectedGroups;
+
     const groups = this.props.groups.map(group => (
-      <TableRow key={group.id}>
+      <TableRow key={group.id} onClick={e => this.edit(group, e)}>
         <TableColumn>{group.name}</TableColumn>
         <TableColumn>{group.description}</TableColumn>
-        <TableColumn>{group.created.timestamp}</TableColumn>
-        <TableColumn><FontIcon>more_vert</FontIcon></TableColumn>
+        <TableColumn><FormattedDate value={group.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 
@@ -34,16 +90,22 @@ class GroupItem extends Component {
         <Card className="flex-12" tableCard>
           <TableCardHeader
             title="Groups"
-          />
-          {this.props.pending ? <LinearProgress scale={3} centered={true} /> : <DataTable baseId="Groups">
+            visible={selectedCount > 0}
+            contextualTitle={`${selectedCount} group${selectedCount > 1 ? 's' : ''} selected`}
+            actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+          >
+            <div>{this.renderCreateButton()}</div>
+          </TableCardHeader>
+          {this.props.pending ? <LinearProgress id="groups-listing" /> :
+          <DataTable baseId="Groups" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
+            {!this.props.groups.length ? null :
             <TableHeader>
               <TableRow>
                 <TableColumn>Name</TableColumn>
                 <TableColumn>Description</TableColumn>
                 <TableColumn>Created</TableColumn>
-                <TableColumn />
               </TableRow>
-            </TableHeader>
+            </TableHeader>}
             <TableBody>
               {groups}
             </TableBody>
@@ -55,4 +117,3 @@ class GroupItem extends Component {
 }
 
 export default GroupItem;
-

@@ -41,12 +41,21 @@
   }
 }
 
+.md-card {
+  position: relative;
+}
+
 .md-progress {
   &.md-progress--linear {
-      margin: 0;
+      margin-top: -.2em;
+      position: absolute;
   }
 }
 
 .md-table-column {
   cursor: pointer;
+}
+
+.md-snackbar {
+  overflow: auto;
 }
