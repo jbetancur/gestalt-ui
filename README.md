@@ -6,7 +6,7 @@ Gestalt Ui written in React/Redux
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 nvm install 6
-cd gestalt-ui-react
+cd gestalt-ui-react-react
 nvm use 6
 ```
 
@@ -15,7 +15,7 @@ nvm use 6
 npm install -g karma karma-cli yarn
 ```
 
-*Ensure that you ```nvm use 6``` whenever you start a new terminal. You may optionally persist this setting.*
+*Ensure that you ```nvm use 6``` whenever you start a new terminal. You may optionally persist this setting by using `nvm alias default <node-version>`*
 
 ## Development
 First time (and anytime dependencies are updated or changed)
@@ -23,14 +23,13 @@ First time (and anytime dependencies are updated or changed)
 yarn install
 ```
 
-
-Start the webpack dev server and hosts gestalt-ui for development purposes. Navigate to http://localhost:8081
+Start the webpack dev server and hosts gestalt-ui-react for development purposes. Navigate to http://localhost:8081
 ```
 yarn dev
 ```
 
 ## Production (Distribute Build)
-Minify, optimize and compress for production deployment. Generates a ```/build``` directory can then be statically hosted using your favorite http server.
+Minify, optimize and compress for production deployment. Generates a ```/build``` directory can then be used for CI or statically hosted using your favorite http server.
 ```
 yarn deploy
 ```
@@ -42,18 +41,19 @@ For Example:
 yarn deploy -- --sha `git rev-parse --short=8 HEAD`
 ```
 
-
 ## Configuration
-If you wish to change Development or Production variables in the gestaly-ui prior to building, you may do so by editing ```config.json```
-
+If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing the following lines in `config.json`
+Otherwise, `config.js` can be automed via CI to inject the correct values before kicking off `yarn deploy`
 For example:
 ```
 {
   "development": {
-    "API_URL": "http://localhost:8300"
+    "API_URL": "https://meta.test.galacticfog.com",
+    "SEC_API_URL": "https://security.test.galacticfog.com",
   },
   "production": {
-    "API_URL": "http://gestalt.prod.com:9000"
+    "API_URL": "/meta",
+    "SEC_API_URL": "/security",
   }
 }
 ```

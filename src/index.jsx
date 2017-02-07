@@ -7,22 +7,20 @@ import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { IntlProvider } from 'react-intl';
 import axios from 'axios';
-
 import './style/style.scss';
-
 import routes from './routes';
 import configureStore from './configureStore';
+import { API_URL, API_TIMEOUT } from './constants';
 
 // Create an enhanced history that syncs navigation events with the store
 const store = configureStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
 
 // Axios Defaults
-axios.defaults.baseURL = 'https://meta.test.galacticfog.com';
+axios.defaults.baseURL = API_URL;
+axios.defaults.timeout = API_TIMEOUT;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common.Accept = 'application/json';
-axios.defaults.timeout = 60000;
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 // Add a request interceptor
 axios.interceptors.request.use((config) => {
