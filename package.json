@@ -65,6 +65,10 @@
         "env": {
             "browser": true
         },
+        "parser": "babel-eslint",
+        "rules": {
+            "strict": 0
+        },
         "rules": {
             "comma-dangle": 0,
             "no-useless-constructor": 0,
