@@ -4,6 +4,10 @@ webpackConfig.devtool = 'inline-source-map';
 
 module.exports = (config) => {
   config.set({
+    webpack: webpackConfig,
+    preprocessors: {
+      'src/**/*.js': ['webpack', 'sourcemap'],
+    },
     browsers: ['PhantomJS'],
     singleRun: true,
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
@@ -21,16 +25,12 @@ module.exports = (config) => {
       'karma-sinon-chai',
       'karma-coverage',
     ],
-    preprocessors: {
-      'src/**/*.js': ['webpack', 'sourcemap'],
-    },
     loaders: ['istanbul', {
       exclude: [
         '**/*.test*.js',
       ],
     }],
     reporters: ['mocha', 'coverage'],
-    webpack: webpackConfig,
     webpackServer: {
       noInfo: true,
     },
@@ -49,46 +49,5 @@ module.exports = (config) => {
         istanbul: { noCompact: true },
       },
     },
-    module: {
-      loaders: [{
-        test: /(\.js|\.jsx)$/,
-        loader: 'babel-loader',
-        exclude: [/node_modules/],
-      },
-      {
-        test: /(\.jsx|\.js)$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /(\.scss|\.css)$/,
-        loaders: [
-          'style-loader',
-          'css-loader?importLoaders=2',
-          'postcss-loader',
-          'sass-loader?sourceMap=inline&outputStyle=expanded',
-        ]
-      },
-      // {
-      //   test: /\.svg$/,
-      //   loader: 'url-loader'
-      // },
-      {
-        test: /\.(eot|ttf|woff|woff2)$/,
-        loader: 'url-loader'
-      },
-      {
-        test: /\.(ico)$/,
-        loader: 'raw-loader'
-      },
-      {
-        test: /\.(svg)$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=10000' // inline base64 URLs for <=8k images, direct URLs for the rest
-      }]
-    }
   });
 };

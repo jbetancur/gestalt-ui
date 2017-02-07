@@ -15,9 +15,9 @@ variables:
 test:
   stage: test
   script:
-    - npm install
-    - npm run test
-    - npm run deploy
+    - yarn install
+    - yarntest
+    - yarn deploy
   artifacts:
     expire_in: 30 minutes
     paths:

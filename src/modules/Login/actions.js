@@ -6,9 +6,11 @@ import {
   REQUEST_TOKEN_FULFILLED,
   REQUEST_TOKEN_REJECTED,
 } from './actionTypes';
+import { SEC_API_URL, API_TIMEOUT } from '../../constants';
 
 const securityAPI = axios.create({
-  baseURL: 'https://security.test.galacticfog.com',
+  baseURL: SEC_API_URL,
+  timeout: API_TIMEOUT,
   'content-type': 'application/x-www-form-urlencoded',
   accept: 'application/json'
 });

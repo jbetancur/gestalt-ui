@@ -3,126 +3,120 @@ const pkg = require('./package.json');
 const config = require('./config.json');
 const execSync = require('child_process').execSync;
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const merge = require('webpack-merge');
+const parts = require('./webpack.parts');
 
-const rootPath = path.join(__dirname, './');
-const buildPath = path.join(__dirname, './build');
-const srcPath = path.join(__dirname, './src');
+const PATHS = {
+  rootPath: path.join(__dirname, './'),
+  buildPath: path.join(__dirname, './build'),
+  srcPath: path.join(__dirname, './src')
+};
 
-if (!(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production')) {
-  throw new Error('Invalid Environment. NODE_ENV must be set to "production" or "development"');
-}
-
-let plugins = [];
-
-if (process.env.NODE_ENV === 'production') {
-  plugins = [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: true,
-      output: {
-        comments: false
-      },
-      compress: {
-        warnings: false
-      }
-    }),
-    new ExtractTextPlugin('theme-[hash:6].css', {
-      allChunks: true,
-      disable: false
-    })
-  ];
-} else {
-  plugins = [
-    new ExtractTextPlugin('', {
-      allChunks: true,
-      disable: true
-    })];
-}
-
-module.exports = {
-  context: __dirname,
-  devtool: 'inline-source-map',
-  entry: {
-    app: [`${srcPath}/index.jsx`],
-  },
-  output: {
-    path: buildPath,
-    filename: 'bundle-[hash:6].js',
-    publicPath: '',
-  },
-  module: {
-    loaders: [{
-      test: /(\.js|\.jsx)$/,
-      loader: 'babel-loader',
-      exclude: [/node_modules/],
-    },
-    {
-      test: /(\.jsx|\.js)$/,
-      loader: 'eslint-loader',
-      exclude: /node_modules/,
-    },
-    {
-      test: /(\.scss|\.css)$/,
-      loaders: [
-        'style-loader',
-        'css-loader?importLoaders=2',
-        'postcss-loader',
-        'sass-loader?sourceMap=inline&outputStyle=expanded',
+const common = merge([
+  {
+    context: __dirname,
+    devtool: 'inline-source-map',
+    resolve: {
+      extensions: ['.jsx', '.scss', '.js', '.json'],
+      modules: [
+        path.resolve(__dirname, PATHS.srcPath),
+        'node_modules'
       ]
     },
-    // {
-    //   test: /\.svg$/,
-    //   loader: 'url-loader'
-    // },
-    {
-      test: /\.(eot|ttf|woff|woff2)$/,
-      loader: 'url-loader'
+    entry: {
+      app: [`${PATHS.srcPath}/index.jsx`],
     },
-    {
-      test: /\.(ico)$/,
-      loader: 'raw-loader'
+    output: {
+      path: PATHS.buildPath,
+      filename: 'bundle-[hash:6].js',
+      publicPath: '',
     },
-    {
-      test: /\.(svg)$/,
-      loader: 'file-loader'
-    },
-    {
-      test: /\.(png|jpg)$/,
-      loader: 'url-loader?limit=10000' // inline base64 URLs for <=8k images, direct URLs for the rest
-    }]
+    plugins: [
+      new HtmlWebpackPlugin({
+        title: pkg.title,
+        favicon: `${PATHS.srcPath}/assets/icons/gf-logo-color.ico`,
+        template: `${PATHS.srcPath}/index.html`,
+        hash: true,
+        inject: 'body',
+      }),
+    ],
   },
-  postcss: [autoprefixer],
-  resolve: {
-    extensions: ['', '.jsx', '.scss', '.js', '.json'],
-    root: path.resolve(__dirname, srcPath),
-    modulesDirectories: [
-      'node_modules',
-      path.resolve(__dirname, './node_modules')
-    ]
-  },
-  plugins: [
-    new Clean(['build'], {
-      root: rootPath,
+  parts.babelConfig(),
+  parts.esLintConfig(),
+  parts.fontConfig(),
+  parts.icoConfig(),
+  parts.svgConfig(),
+  parts.imageConfig()
+]);
+
+module.exports = function test(env) {
+  if (env === 'production') {
+    return merge([
+      common,
+      parts.scssConfig({
+        options: {
+          sourceMap: 'inline',
+          outputStyle: 'expanded'
+        }
+      }),
+      {
+        plugins: [
+          new Clean(['build'], {
+            root: PATHS.rootPath,
+          }),
+          new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            mangle: true,
+            output: {
+              comments: false
+            },
+            compress: {
+              warnings: false
+            }
+          }),
+          new webpack.LoaderOptionsPlugin({
+            minimize: true,
+            debug: false
+          }),
+          new ExtractTextPlugin({
+            filename: 'theme-[hash:6].css',
+            allChunks: true,
+            disable: false
+          }),
+          new webpack.DefinePlugin({
+            $$API_URL$$: JSON.stringify(config.production.API_URL),
+            $$SEC_API_URL$$: JSON.stringify(config.production.SEC_API_URL),
+            $$API_TIMEOUT$$: JSON.stringify(config.production.API_TIMEOUT),
+            $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
+          })
+        ]
+      },
+    ]);
+  }
+
+  return merge([
+    common,
+    parts.scssConfig({}),
+    parts.devServer({
+      port: '8081',
+      contentBase: path.join(__dirname, 'build'),
+      compress: true
     }),
-    new HtmlWebpackPlugin({
-      title: pkg.title,
-      favicon: `${srcPath}/assets/icons/gf-logo-color.ico`,
-      template: `${srcPath}/index.html`,
-      hash: true,
-      inject: 'body',
-    }),
-    new webpack.DefinePlugin({
-      '@@APP_TITLE@@': JSON.stringify(config[process.env.NODE_ENV].APP_TITLE),
-      '@@UI-VERSION@@': JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
-    })
-  ].concat(plugins),
-  devServer: {
-    port: 8081,
-    historyApiFallback: true,
-  },
+    {
+      plugins: [
+        new ExtractTextPlugin({
+          disable: true
+        }),
+        new webpack.DefinePlugin({
+          $$API_URL$$: JSON.stringify(config.development.API_URL),
+          $$SEC_API_URL$$: JSON.stringify(config.development.SEC_API_URL),
+          $$API_TIMEOUT$$: JSON.stringify(config.development.API_TIMEOUT),
+          $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
+        })
+      ]
+    }
+  ]);
 };

@@ -1,6 +1,7 @@
 {
   "development": {
     "API_URL": "https://meta.test.galacticfog.com",
+    "SEC_API_URL": "https://security.test.galacticfog.com",
     "API_TIMEOUT": 120000,
     "COMPANY_TITLE": "Galactic Fog",
     "COMPANY_URL": "http://www.galacticfog.com/",
@@ -10,7 +11,8 @@
     "ANALYTICS_TRACKING": false
   },
   "production": {
-    "API_URL": "/api-proxy",
+    "API_URL": "/meta",
+    "SEC_API_URL": "/security",
     "API_TIMEOUT": 120000,
     "COMPANY_TITLE": "Galactic Fog",
     "COMPANY_URL": "http://www.galacticfog.com/",

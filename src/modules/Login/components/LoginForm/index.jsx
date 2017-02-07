@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const LoginCard = styled(Paper)`
+  position: relative;
   background-color: white;
 `;
 
