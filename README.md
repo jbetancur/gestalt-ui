@@ -9,27 +9,26 @@ nvm install 6
 cd gestalt-ui-react-react
 nvm use 6
 ```
+*Ensure that you ```nvm use 6``` whenever you start a new terminal. You may optionally persist this setting by using `nvm alias default <node-version>`*
 
 ### Install Binaries
 ```
 npm install -g karma karma-cli yarn
 ```
 
-*Ensure that you ```nvm use 6``` whenever you start a new terminal. You may optionally persist this setting by using `nvm alias default <node-version>`*
-
-## Development
+## Install Dependencies
 First time (and anytime dependencies are updated or changed)
 ```
 yarn install
 ```
-
+## Development
 Start the webpack dev server and hosts gestalt-ui-react for development purposes. Navigate to http://localhost:8081
 ```
 yarn dev
 ```
 
 ## Production (Distribute Build)
-Minify, optimize and compress for production deployment. Generates a ```/build``` directory can then be used for CI or statically hosted using your favorite http server.
+Minify, optimize and compress for production deployment. Generates a `/build` directory can then be used for CI or statically hosted using your favorite http server.
 ```
 yarn deploy
 ```
