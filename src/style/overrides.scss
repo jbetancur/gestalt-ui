@@ -59,3 +59,9 @@
 .md-snackbar {
   overflow: auto;
 }
+
+// Logo Positioning / left actions buttons
+.md-cell--right.md-toolbar--action-right {
+    position: absolute;
+    right: 0;
+}

@@ -122,10 +122,14 @@ a[type=button] {
     margin: 0;
     text-align: center;
 
-    .logo {
-        svg {
-            height: 2.1em;
-            width: 2.1em;
+    div {
+        margin: 0;
+        .logo {
+            margin-right: 1em;
+            svg {
+                height: 2.1em;
+                width: 2.1em;
+            }
         }
     }
 }

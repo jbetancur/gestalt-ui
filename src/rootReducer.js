@@ -17,6 +17,7 @@ import groupsReducer from './modules/Groups/reducers';
 import containersReducer from './modules/Containers/reducers';
 import policiesReducer from './modules/Policies/reducers';
 import integrationsReducer from './modules/Integrations/reducers';
+import licensingReducer from './modules/Licensing/reducers';
 
 const mediaQuery = {
   xs: '(min-width: 0) and (max-width: 599px)',
@@ -43,5 +44,6 @@ export default combineReducers({
   groups: groupsReducer,
   containers: containersReducer,
   policies: policiesReducer,
-  integrations: integrationsReducer
+  integrations: integrationsReducer,
+  licensing: licensingReducer
 });
