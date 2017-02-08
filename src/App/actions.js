@@ -7,8 +7,7 @@ import {
   FETCH_SELF_FULFILLED,
   LOG_OUT
 } from './actionTypes';
-
-const securityURL = 'https://security.test.galacticfog.com';
+import { SEC_API_URL, API_TIMEOUT } from '../constants';
 
 export function fetchSelf() {
   return (dispatch) => {
@@ -25,7 +24,8 @@ export function logout() {
   return (dispatch) => {
     const tokenId = cookie.load('auth-token');
     const securityAPI = axios.create({
-      baseURL: securityURL,
+      baseURL: SEC_API_URL,
+      timeout: API_TIMEOUT,
       headers: {
         Authorization: `Bearer ${tokenId}`
       }

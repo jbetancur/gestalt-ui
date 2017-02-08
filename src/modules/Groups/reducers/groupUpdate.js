@@ -1,7 +1,8 @@
 import {
     UPDATE_GROUP_PENDING,
     UPDATE_GROUP_FULFILLED,
-    UPDATE_GROUP_REJECTED
+    UPDATE_GROUP_REJECTED,
+    GROUP_EDIT_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
@@ -19,6 +20,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case GROUP_EDIT_UNLOADED:
+      return initialState;
     case UPDATE_GROUP_PENDING:
       return {
         ...state,
