@@ -58,6 +58,10 @@
         ]
     },
     "eslintConfig": {
+        "parser": "babel-eslint",
+        "rules": {
+          "strict": 0
+        },
         "extends": "airbnb",
         "plugins": [
             "import"

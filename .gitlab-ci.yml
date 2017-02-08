@@ -1,4 +1,4 @@
-image: galacticfog/docker-node:1.12
+image: galacticfog/docker-yarn:1.12
 
 stages:
 - test
@@ -16,7 +16,7 @@ test:
   stage: test
   script:
     - yarn install
-    - yarntest
+    #- yarn test
     - yarn deploy
   artifacts:
     expire_in: 30 minutes
@@ -31,7 +31,7 @@ docker-publish:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - echo building   $DOCKER_IMG:$DOCKER_TAG
-    - docker build -t $DOCKER_IMG:$DOCKER_TAG -f Dockerfile.server .
+    - docker build -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push     $DOCKER_IMG:$DOCKER_TAG
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
 
@@ -44,7 +44,7 @@ docker-publish:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - /usr/local/bin/update-deployed-app.sh  marathon.mesos:8080 gestalt-test-tasks/ui  $DOCKER_IMG:$DOCKER_TAG
+    - /usr/local/bin/update-deployed-app.sh  marathon.mesos:8080 gestalt-test-tasks/ui-react  $DOCKER_IMG:$DOCKER_TAG
   allow_failure: true
   artifacts:
 

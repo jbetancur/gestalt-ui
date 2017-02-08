@@ -2,8 +2,13 @@ server {
     listen       80;
     server_name  localhost;
 
-    location /api-proxy/ {
-        proxy_pass         API_URL/;
+    location /meta/ {
+        proxy_pass         META_API_URL/;
+        proxy_redirect     off;
+    }
+
+    location /security/ {
+        proxy_pass         SEC_API_URL/;
         proxy_redirect     off;
     }
 
