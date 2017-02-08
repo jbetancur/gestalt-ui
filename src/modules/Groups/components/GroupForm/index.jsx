@@ -14,7 +14,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import CardSubHeader from 'components/CardSubHeader';
 import FontIcon from 'react-md/lib/FontIcons';
 import TextFieldMD from 'react-md/lib/TextFields';
-import { differenceBy } from 'lodash';
+import { differenceBy, debounce } from 'lodash';
 import { nameMaxLen } from '../../validations';
 
 const MembersList = styled(List)`
@@ -25,10 +25,32 @@ const MembersList = styled(List)`
 `;
 
 const GroupForm = (props) => {
-  const { params, group, updatedGroup, users, addGroupMember, removeGroupMember, clearAvailableUsersFilter, clearMemberUsersFilter } = props;
-  // replace the group contect if the groupMembers (properties.users) has been updated
+  const {
+    submitLabel,
+    cancelLabel,
+    params,
+    group,
+    updatedGroup,
+    users,
+    addGroupMember,
+    removeGroupMember,
+    clearAvailableUsersFilter,
+    clearMemberUsersFilter,
+    editMode,
+    updatePending,
+    touched,
+    pristine,
+    error,
+    invalid,
+    pending,
+    submitting,
+    availableUsersFilter
+  } = props;
+  // replace the group context if the groupMembers (properties.users) has been updated
   // we have to be tricksy due to reacts immutable nature
-  const currentGroup = (group === updatedGroup) ? updatedGroup : group;
+  // TODO: Ugly, but when a group is created, the ui reroutes to group edit and reloads this data, thus editMode=true
+  // This allows us to use the current data model
+  const currentGroup = editMode && updatedGroup.id ? updatedGroup : group;
   let membersUserList = currentGroup.properties.users.slice();
   membersUserList = membersUserList.filter(val => val.name.includes(props.memberUsersFilter.filterText));
 
@@ -40,6 +62,10 @@ const GroupForm = (props) => {
     removeGroupMember(params.fqon, group.id, user.id);
   };
 
+  // prevents multiple clicks from throwing a RACE - so we use these on the ListItem
+  const removeUserDebounced = debounce(removeUser, 250);
+  const addUserDebounced = debounce(addUser, 250);
+
   const filterAvailableUsers = (value) => {
     props.filterAvailableUsers(value);
   };
@@ -50,25 +76,26 @@ const GroupForm = (props) => {
 
   /* filter out users that are already members */
   const generateAvailableUsers = () => (
-    currentGroup.properties.users ? differenceBy(users, currentGroup.properties.users, 'id').map(user =>
+    differenceBy(users, currentGroup.properties.users, 'id').map(user =>
       <ListItem
         key={user.id}
         primaryText={user.name}
         rightIcon={<FontIcon primary>add_circle</FontIcon>}
         inkDisabled
-        disabled={users && !users.length}
-        onClick={() => addUser(user)}
-      />) : null
+        disabled={updatePending}
+        onClick={() => addUserDebounced(user)}
+      />)
   );
 
   const generateMemberUsers = () => (
-    membersUserList ? membersUserList.map(user => <ListItem
+    membersUserList.map(user => <ListItem
       key={user.id}
       primaryText={user.name}
       rightIcon={<FontIcon primary>remove_circle</FontIcon>}
       inkDisabled
-      onClick={() => removeUser(user)}
-    />) : null
+      disabled={updatePending}
+      onClick={() => removeUserDebounced(user)}
+    />)
   );
 
   return (
@@ -87,7 +114,7 @@ const GroupForm = (props) => {
                   type="text"
                   required
                   maxLength={nameMaxLen}
-                  errorText={props.touched && props.error}
+                  errorText={touched && error}
                 />
                 <Field
                   className="flex-8 flex-xs-12"
@@ -99,20 +126,20 @@ const GroupForm = (props) => {
                 />
               </div>
             </CardText>
-            {props.updatePending || props.pending ? <LinearProgress id="group-form" /> : null}
+            {updatePending || pending ? <LinearProgress id="group-form" /> : null}
             <CardActions>
               <Button
                 flat
-                label={props.cancelLabel}
-                disabled={props.updatePending || props.pending || props.submitting}
+                label={cancelLabel}
+                disabled={updatePending || pending || submitting}
                 component={Link}
                 to={`${params.fqon}/groups`}
               />
               <Button
                 raised
-                label={props.submitLabel}
+                label={submitLabel}
                 type="submit"
-                disabled={props.pristine || props.updatePending || props.pending || props.invalid || props.submitting}
+                disabled={pristine || updatePending || pending || invalid || submitting}
                 primary
               />
             </CardActions>
@@ -120,7 +147,7 @@ const GroupForm = (props) => {
         </div>
       </form>
 
-      {props.editMode ? <div className="flex-row">
+      {editMode ? <div className="flex-row">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
             {props.updateMembers ? <LinearProgress id="group-members" /> : null}
@@ -135,7 +162,7 @@ const GroupForm = (props) => {
                       leftIcon={<FontIcon>filter_list</FontIcon>}
                       rightIcon={<Button icon onClick={() => clearAvailableUsersFilter()}><FontIcon>clear</FontIcon></Button>}
                       lineDirection="center"
-                      value={props.availableUsersFilter.filterText}
+                      value={availableUsersFilter.filterText}
                       onChange={value => filterAvailableUsers(value)}
                     />}
                   />
@@ -152,7 +179,6 @@ const GroupForm = (props) => {
                       leftIcon={<FontIcon>filter_list</FontIcon>}
                       rightIcon={<Button icon onClick={() => clearMemberUsersFilter()}><FontIcon>clear</FontIcon></Button>}
                       lineDirection="center"
-                      disabled={group.properties.users && !group.properties.users.length}
                       value={props.memberUsersFilter.filterText}
                       onChange={value => filterMemberUsers(value)}
                     />}

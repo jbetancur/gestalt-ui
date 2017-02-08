@@ -34,6 +34,17 @@ import {
   FILTER_MEMBER_USERS_TEXT
 } from './actionTypes';
 
+function fixProperties(data) {
+  // TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/163
+  const payload = { ...data };
+
+  if (!payload.properties) {
+    payload.properties = { users: [] };
+  }
+
+  return payload;
+}
+
 export function onUnloadGroup() {
   return (dispatch) => {
     dispatch({ type: GROUP_EDIT_UNLOADED });
@@ -113,14 +124,7 @@ export function fetchGroup(fqon, groupId) {
   return (dispatch) => {
     dispatch({ type: FETCH_GROUP_PENDING });
     axios.get(`${fqon}/groups/${groupId}`).then((response) => {
-      // TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/163
-      const payload = { ...response.data };
-
-      if (!payload.properties) {
-        payload.properties = { users: [] };
-      }
-
-      dispatch({ type: FETCH_GROUP_FULFILLED, payload });
+      dispatch({ type: FETCH_GROUP_FULFILLED, payload: fixProperties(response.data) });
     }).catch((err) => {
       dispatch({ type: FETCH_GROUP_REJECTED, payload: err });
     });
@@ -196,14 +200,8 @@ export function addGroupMember(fqon, groupId, userId) {
     dispatch({ type: ADD_GROUP_MEMBER_PENDING });
     axios.patch(`${fqon}/groups/${groupId}/users?id=${userId}`, []).then(() => {
       axios.get(`${fqon}/groups/${groupId}?expand=true`).then((response) => {
-        // TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/163
-        const payload = { ...response.data };
-
-        if (!payload.properties) {
-          payload.properties = { users: [] };
-        }
-
-        dispatch({ type: ADD_GROUP_MEMBER_FULFILLED, payload: response.data });
+        dispatch({ type: ADD_GROUP_MEMBER_FULFILLED, payload: fixProperties(response.data) });
+        dispatch(clearMemberUsersFilter());
       });
     }).catch((err) => {
       dispatch({ type: ADD_GROUP_MEMBER_REJECTED, payload: err });
@@ -216,14 +214,8 @@ export function removeGroupMember(fqon, groupId, userId) {
     dispatch({ type: REMOVE_GROUP_MEMBER_PENDING });
     axios.delete(`${fqon}/groups/${groupId}/users?id=${userId}`).then(() => {
       axios.get(`${fqon}/groups/${groupId}?expand=true`).then((response) => {
-        // TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/163
-        const payload = { ...response.data };
-
-        if (!payload.properties) {
-          payload.properties = { users: [] };
-        }
-
-        dispatch({ type: REMOVE_GROUP_MEMBER_FULFILLED, payload: response.data });
+        dispatch({ type: REMOVE_GROUP_MEMBER_FULFILLED, payload: fixProperties(response.data) });
+        dispatch(clearAvailableUsersFilter());
       });
     }).catch((err) => {
       dispatch({ type: REMOVE_GROUP_MEMBER_REJECTED, payload: err });
