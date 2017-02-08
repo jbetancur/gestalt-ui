@@ -27,6 +27,7 @@ import UserEdit from './modules/Users/containers/UserEdit';
 import Groups from './modules/Groups';
 import GroupCreate from './modules/Groups/containers/GroupCreate';
 import GroupEdit from './modules/Groups/containers/GroupEdit';
+import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
 function requireAuth(nextState, replace) {
@@ -103,6 +104,7 @@ const routes = (
           <Route path="edit" component={GroupEdit} onEnter={requireAuth} />
         </Route>
       </Route>
+      <Route path=":fqon/license" component={License} onEnter={requireAuth} />
       <Route path="*" component={NotFound} />
     </Route>
   </div>

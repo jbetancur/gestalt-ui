@@ -90,6 +90,7 @@ module.exports = function test(env) {
             $$API_URL$$: JSON.stringify(config.production.API_URL),
             $$SEC_API_URL$$: JSON.stringify(config.production.SEC_API_URL),
             $$API_TIMEOUT$$: JSON.stringify(config.production.API_TIMEOUT),
+            $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config.production.LICENSE_EXP_THRESHOLD),
             $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
           })
         ]
@@ -114,6 +115,7 @@ module.exports = function test(env) {
           $$API_URL$$: JSON.stringify(config.development.API_URL),
           $$SEC_API_URL$$: JSON.stringify(config.development.SEC_API_URL),
           $$API_TIMEOUT$$: JSON.stringify(config.development.API_TIMEOUT),
+          $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config.development.LICENSE_EXP_THRESHOLD),
           $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
         })
       ]

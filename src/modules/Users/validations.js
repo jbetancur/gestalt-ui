@@ -1,4 +1,4 @@
-import validator from 'validator';
+import { isEmail } from 'validator';
 import { isPhoneNumber, isUsername } from 'util/validations';
 
 export const usernameMaxLen = 30;
@@ -39,7 +39,7 @@ export default (values) => {
     errors.properties.email = 'email is required';
   }
 
-  if (values.properties.email && !validator.isEmail(values.properties.email)) {
+  if (values.properties.email && !isEmail(values.properties.email)) {
     errors.properties.email = 'email format is invalid';
   }
 

@@ -83,6 +83,18 @@ export default (state = initialState, action) => {
         friendlyMessage: 'Gateway Time-Out',
         error: action.payload
       };
+    case 'license/LICENSE_EXPIRING':
+      return {
+        ...state,
+        friendlyMessage: 'License Expiration',
+        error: action.payload
+      };
+    case 'license/LICENSE_EXPIRED':
+      return {
+        ...state,
+        friendlyMessage: 'License Expired',
+        error: action.payload
+      };
     default:
       return state;
   }

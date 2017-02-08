@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import styled from 'styled-components';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
@@ -10,7 +11,25 @@ import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ErrorNotifications from '../modules/ErrorNotifications';
 import GestaltIcon from '../components/GestaltIcon';
+import GestaltIconText from '../components/GestaltIconText';
+import { UI_VERSION } from '../constants';
 import * as actions from './actions';
+
+const EnhancedLogoDiv = styled.div`
+  text-align: center;
+  width: 12em;
+
+  svg {
+    width: 4em;
+    height: 4em;
+  }`;
+
+const EnhancedUIVersionDiv = styled.div`
+    color: black;
+    padding-top: 1em;
+    /* padding: 1.5em; */
+    font-size: .9em;
+  `;
 
 class App extends Component {
   static propTypes = {
@@ -111,28 +130,45 @@ class App extends Component {
   renderActionsMenu() {
     const { self } = this.props;
 
-    return (
-      <div>
-        <MenuButton
-          id="main-menu"
-          icon
-          buttonChildren="person"
-        >
-          <ListItem
-            id="main-menu--profile"
-            primaryText={self.name || ''}
-            leftIcon={<FontIcon>person</FontIcon>}
-          />
-          <Divider />
-          <ListItem
-            id="main-menu--logout"
-            primaryText="logout"
-            leftIcon={<FontIcon>input</FontIcon>}
-            onClick={e => this.logout(e)}
-          />
-        </MenuButton>
-      </div>
-    );
+    return [
+      <MenuButton
+        id="main-menu"
+        icon
+        buttonChildren="person"
+      >
+        <ListItem
+          id="main-menu--profile"
+          primaryText={self.name || ''}
+          leftIcon={<FontIcon>person</FontIcon>}
+        />
+        <Divider />
+        <ListItem
+          id="main-menu--logout"
+          primaryText="logout"
+          leftIcon={<FontIcon>input</FontIcon>}
+          onClick={e => this.logout(e)}
+        />
+      </MenuButton>,
+      <MenuButton
+        id="main"
+        icon
+        buttonChildren="help_outline"
+      >
+        <EnhancedLogoDiv>
+          <GestaltIconText />
+          <EnhancedUIVersionDiv>ui v{UI_VERSION}</EnhancedUIVersionDiv>
+        </EnhancedLogoDiv>
+        <Divider />
+        <ListItem
+          id="main-help--license"
+          primaryText="License"
+          leftIcon={<FontIcon>vpn_key</FontIcon>}
+          component={Link}
+          to={`${this.props.params.fqon}/license`}
+        />
+      </MenuButton>
+
+    ];
   }
 
   renderProgress() {

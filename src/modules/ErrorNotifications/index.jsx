@@ -32,7 +32,7 @@ class ErrorNotifications extends PureComponent {
       const { friendlyMessage, error } = nextProps.error;
 
       const errorPayload = {
-        text: `${friendlyMessage} Details: ${error.status || error} ${error.data && error.data.message ? error.data.message : ''}`,
+        text: `${friendlyMessage} : ${error.status || error} ${error.data && error.data.message ? error.data.message : ''}`,
         action: 'Close'
       };
 

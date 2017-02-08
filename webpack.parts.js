@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -126,9 +125,6 @@ exports.devServer = function devServer({ host, port }) {
       // unlike default `localhost`.
       host, // Defaults to `localhost`
       port, // Defaults to 8080
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-    ],
+    }
   };
 };
