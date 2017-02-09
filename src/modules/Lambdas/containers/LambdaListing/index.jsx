@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import LambdaItem from '../../components/LambdaItem';
-
 import * as actions from '../../actions';
 
 class Lambdas extends Component {
@@ -9,7 +8,8 @@ class Lambdas extends Component {
     fetchLambdas: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.string.isRequired
+    environmentId: PropTypes.string.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -18,19 +18,21 @@ class Lambdas extends Component {
     this.props.fetchLambdas(fqon, environmentId);
   }
 
+  componentWillUnmount() {
+    const { onUnloadListing } = this.props;
+    onUnloadListing();
+  }
+
   render() {
-    return (
-      <div>
-        <LambdaItem {...this.props} />
-      </div>
-    );
+    return <LambdaItem {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
   return {
-    lambdas: state.lambdas.fetchAll.items,
-    pending: state.lambdas.fetchAll.pending
+    lambdas: state.lambdas.fetchAll.lambdas,
+    pending: state.lambdas.fetchAll.pending,
+    selectedLambdas: state.lambdas.selectedLambdas,
   };
 }
 

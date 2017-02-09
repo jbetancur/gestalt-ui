@@ -16,7 +16,6 @@ class UserCreate extends Component {
     updateGroup: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnloadGroup: PropTypes.func.isRequired,
-    onUnloadGroupMembers: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -26,9 +25,8 @@ class UserCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadGroup, onUnloadGroupMembers } = this.props;
+    const { onUnloadGroup } = this.props;
     onUnloadGroup();
-    onUnloadGroupMembers();
   }
 
   update(values) {

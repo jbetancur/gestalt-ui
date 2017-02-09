@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
-import _map from 'lodash/map';
+import { map } from 'lodash';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
 import * as actions from '../../actions';
 
@@ -72,7 +72,7 @@ class OrgEdit extends Component {
 
 function mapStateToProps(state) {
   const { item, pending } = state.organizations.fetchOne;
-  const variables = _map(item.properties.env, (value, key) => ({ key, value }));
+  const variables = map(item.properties.env, (value, key) => ({ key, value }));
 
   return {
     organization: item,

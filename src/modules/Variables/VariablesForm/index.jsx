@@ -11,6 +11,7 @@ const renderField = ({ input, label, type, touched, error }) => (
     label={label}
     component={TextField}
     type={type}
+    value=" " // fix for [object Object] on deselect
     errorText={touched && error}
     lineDirection="center"
     required
