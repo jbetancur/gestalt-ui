@@ -10,6 +10,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
+import { FormattedDate } from 'react-intl';
 
 class LambdaItem extends Component {
   static propTypes = {
@@ -77,6 +78,8 @@ class LambdaItem extends Component {
         <TableColumn>{lambda.id}</TableColumn>
         <TableColumn>endpoints</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
+        <TableColumn>{lambda.owner.name}</TableColumn>
+        <TableColumn><FormattedDate value={lambda.created.timestamp} /></TableColumn>
         <TableColumn><FontIcon>more_vert</FontIcon></TableColumn>
       </TableRow>
       ));
@@ -92,7 +95,7 @@ class LambdaItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="lambda-listing" /> :
+          {this.props.pending ? <LinearProgress id="lambda-listing" style={{ zIndex: 999 }} /> :
           <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.lambdas.length ? null : <TableHeader>
               <TableRow>
@@ -101,6 +104,8 @@ class LambdaItem extends Component {
                 <TableColumn>UUID</TableColumn>
                 <TableColumn>Endpoints</TableColumn>
                 <TableColumn>Runtime</TableColumn>
+                <TableColumn>Owner</TableColumn>
+                <TableColumn>Created</TableColumn>
                 <TableColumn />
               </TableRow>
             </TableHeader>}

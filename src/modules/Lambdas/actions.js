@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { push, replace } from 'react-router-redux';
+import { replace } from 'react-router-redux';
 import { toggleHandler } from 'util/helpers/lists';
 import {
   FETCH_LAMBDAS_PENDING,
@@ -93,12 +93,12 @@ export function createLambda(fqon, workspaceId, environmentId, payload) {
   };
 }
 
-export function updateLambda(fqon, lambdaId, patches) {
+export function updateLambda(fqon, workspaceId, environmentId, lambdaId, patches) {
   return (dispatch) => {
     dispatch({ type: UPDATE_LAMBDA_PENDING });
     axios.patch(`${fqon}/lambdas/${lambdaId}`, patches).then((response) => {
       dispatch({ type: UPDATE_LAMBDA_FULFILLED, payload: response.data });
-      dispatch(push(`${fqon}/lambdas`));
+      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}`));
     }).catch((err) => {
       dispatch({ type: UPDATE_LAMBDA_REJECTED, payload: err });
     });

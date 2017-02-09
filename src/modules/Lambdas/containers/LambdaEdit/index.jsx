@@ -94,7 +94,7 @@ class LambdaEdit extends Component {
     const originalModel = this.originalModel(lambda);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    this.props.updateLambda(params.fqon, id, patches);
+    this.props.updateLambda(params.fqon, params.workspaceId, params.environmentId, id, patches);
   }
 
   render() {
@@ -133,6 +133,7 @@ function mapStateToProps(state) {
   return {
     lambda,
     pending,
+    updatedLambda: state.lambdas.lambdaUpdate.lambda,
     lambdaUpdatePending: state.lambdas.lambdaUpdate.pending,
     pendingProviders: state.lambdas.providers.pending,
     providers: state.lambdas.providers.providers,

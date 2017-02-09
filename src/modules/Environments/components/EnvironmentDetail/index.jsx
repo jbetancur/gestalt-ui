@@ -71,13 +71,6 @@ class EnvironmentDetail extends Component {
           buttonChildren="more_vert"
         >
           <ListItem
-            id="environments-settings-menu--create-lambda"
-            primaryText={<span>Create Lambda</span>}
-            leftIcon={<LambdaIcon />}
-            component={Link}
-            to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/createLambda`}
-          />
-          <ListItem
             id="environments-settings-menu--edit"
             primaryText={<span>Edit {environment.name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}

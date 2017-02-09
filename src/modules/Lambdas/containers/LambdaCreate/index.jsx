@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import base64 from 'base-64';
+import { cloneDeep } from 'lodash';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
@@ -20,7 +21,7 @@ class LambdaCreate extends Component {
 
   create(values) {
     const { params, createLambda } = this.props;
-    const payload = { ...values };
+    const payload = cloneDeep(values);
 
     // TODO: Workaround: Lambda providers is really an array - should be an object
     payload.properties.providers = [{ id: values.properties.providers, locations: [] }];
