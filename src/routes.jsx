@@ -20,6 +20,7 @@ import ProviderCreate from './modules/Providers/containers/ProviderCreate';
 import ProviderEdit from './modules/Providers/containers/ProviderEdit';
 import Lambdas from './modules/Lambdas';
 import LambdaCreate from './modules/Lambdas/containers/LambdaCreate';
+import LambdaEdit from './modules/Lambdas/containers/LambdaEdit';
 import Entitlements from './modules/Entitlements';
 import Users from './modules/Users';
 import UserCreate from './modules/Users/containers/UserCreate';
@@ -69,7 +70,13 @@ const routes = (
             <Route path=":environmentId" onEnter={requireAuth}>
               <IndexRoute component={EnvironmentDetails} onEnter={requireAuth} />
               <Route path="edit" component={EnvironmentEdit} onEnter={requireAuth} />
-              <Route path="createLambda" component={LambdaCreate} onEnter={requireAuth} />
+              <Route path="lambdas" onEnter={requireAuth}>
+                <IndexRoute component={Lambdas} onEnter={requireAuth} />
+                <Route path="create" component={LambdaCreate} onEnter={requireAuth} />
+                <Route path=":lambdaId" onEnter={requireAuth}>
+                  <Route path="edit" component={LambdaEdit} onEnter={requireAuth} />
+                </Route>
+              </Route>
               <Route path="providers" onEnter={requireAuth}>
                 <IndexRoute component={Providers} onEnter={requireAuth} />
                 <Route path="create" component={ProviderCreate} onEnter={requireAuth} />
@@ -88,7 +95,6 @@ const routes = (
           <Route path="edit" component={ProviderEdit} onEnter={requireAuth} />
         </Route>
       </Route>
-      <Route path=":fqon/lambdas" component={Lambdas} onEnter={requireAuth} />
       <Route path=":fqon/entitlements" component={Entitlements} onEnter={requireAuth} />
       <Route path=":fqon/users" onEnter={requireAuth}>
         <IndexRoute component={Users} onEnter={requireAuth} />

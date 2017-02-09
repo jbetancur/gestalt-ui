@@ -14,26 +14,41 @@ import FontIcon from 'react-md/lib/FontIcons';
 class LambdaItem extends Component {
   static propTypes = {
     lambdas: PropTypes.array.isRequired,
+    router: PropTypes.object.isRequired,
+    handleSelected: PropTypes.func.isRequired,
+    selectedLambdas: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.isRequired
+    environmentId: PropTypes.string.isRequired,
+    deleteLambdas: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+  }
 
-    this.state = {
-      fixedHeader: true,
-      fixedFooter: true,
-      stripedRows: false,
-      showRowHover: false,
-      selectable: true,
-      multiSelectable: true,
-      enableSelectAll: true,
-      deselectOnClickaway: true,
-      showCheckboxes: true
-    };
+  handleRowToggle(row, toggled, count) {
+    const { lambdas, handleSelected, selectedLambdas } = this.props;
+
+    handleSelected(row, toggled, count, lambdas, selectedLambdas.selectedItems);
+  }
+
+  delete() {
+    const { params, deleteLambdas } = this.props;
+    const { selectedItems } = this.props.selectedLambdas;
+    const IDs = selectedItems.map(item => (item.id));
+
+    deleteLambdas(IDs, params.fqon, params.environmentId);
+  }
+
+  edit(lambda, e) {
+    // TODO: workaround for checkbox event bubbling
+    if (e.target.className.includes('md-table-column')) {
+      const { router, params, } = this.props;
+
+      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`);
+    }
   }
 
   renderCreateButton() {
@@ -45,7 +60,7 @@ class LambdaItem extends Component {
         label="Create Lambda"
         flat
         component={Link}
-        to={`${fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/createLambda?tabIndex=0`}
+        to={`${fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/lambdas/create`}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -53,8 +68,11 @@ class LambdaItem extends Component {
   }
 
   render() {
+    const { selectedCount } = this.props.selectedLambdas;
+
     const lambdas = this.props.lambdas.map(lambda => (
-      <TableRow key={lambda.id}>
+      <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
+        <TableColumn>{lambda.description}</TableColumn>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.id}</TableColumn>
         <TableColumn>endpoints</TableColumn>
@@ -67,22 +85,25 @@ class LambdaItem extends Component {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            visible={false}
             title="Lambdas"
+            visible={selectedCount > 0}
+            contextualTitle={`${selectedCount} lambda${selectedCount > 1 ? 's' : ''} selected`}
+            actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="lambda-listing" scale={3} centered={true} /> :
-          <DataTable baseId="lambdas">
-            <TableHeader>
+          {this.props.pending ? <LinearProgress id="lambda-listing" /> :
+          <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
+            {!this.props.lambdas.length ? null : <TableHeader>
               <TableRow>
                 <TableColumn>Name</TableColumn>
+                <TableColumn>Short Name</TableColumn>
                 <TableColumn>UUID</TableColumn>
                 <TableColumn>Endpoints</TableColumn>
                 <TableColumn>Runtime</TableColumn>
                 <TableColumn />
               </TableRow>
-            </TableHeader>
+            </TableHeader>}
             <TableBody>
               {lambdas}
             </TableBody>

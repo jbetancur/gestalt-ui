@@ -1,34 +1,34 @@
 import {
-  FETCH_LAMBDAS_PENDING,
-  FETCH_LAMBDAS_REJECTED,
-  FETCH_LAMBDAS_FULFILLED,
-  LAMBDAS_UNLOADED,
+  FETCH_PROVIDERS_PENDING,
+  FETCH_PROVIDERS_FULFILLED,
+  FETCH_PROVIDERS_REJECTED,
+  LAMBDA_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  lambdas: [],
+  providers: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LAMBDAS_UNLOADED:
+    case LAMBDA_UNLOADED:
       return initialState;
-    case FETCH_LAMBDAS_PENDING:
+    case FETCH_PROVIDERS_PENDING:
       return {
         ...state,
         pending: true
       };
-    case FETCH_LAMBDAS_FULFILLED:
+    case FETCH_PROVIDERS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        lambdas: action.payload
+        providers: action.payload
       };
-    case FETCH_LAMBDAS_REJECTED:
+    case FETCH_PROVIDERS_REJECTED:
       return {
         ...state,
         pending: false,

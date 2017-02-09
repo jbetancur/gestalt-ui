@@ -22,11 +22,16 @@ export function isBase64(string) {
   return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
 }
 
+export function isLambdaName(string) {
+  return /^\S*$/.test(string);
+}
+
 export default {
   isFQON,
   isWorkspaceName,
   isEnvironmentName,
   isPhoneNumber,
   isUsername,
-  isBase64
+  isBase64,
+  isLambdaName
 };

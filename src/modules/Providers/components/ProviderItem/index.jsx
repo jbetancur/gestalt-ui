@@ -52,7 +52,7 @@ class ProviderItem extends Component {
     if (workspaceId) {
       router.push(`${params.fqon}/workspaces/${workspaceId}/providers/create`);
     } else if (environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/providers/create?tabIndex=4`);
+      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/providers/create`);
     } else {
       router.push(`${params.fqon}/providers/create`);
     }
@@ -66,7 +66,7 @@ class ProviderItem extends Component {
       if (workspaceId) {
         router.push(`${params.fqon}/workspaces/${workspaceId}/providers/${provider.id}/edit`);
       } else if (environmentId) {
-        router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/providers/${provider.id}/edit?tabIndex=4`);
+        router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/providers/${provider.id}/edit`);
       } else {
         router.push(`${params.fqon}/providers/${provider.id}/edit`);
       }

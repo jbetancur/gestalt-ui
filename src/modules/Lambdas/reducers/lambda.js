@@ -5,27 +5,31 @@ import {
     CREATE_LAMBDA_PENDING,
     CREATE_LAMBDA_FULFILLED,
     CREATE_LAMBDA_REJECTED,
-    UPDATE_LAMBDA_PENDING,
-    UPDATE_LAMBDA_FULFILLED,
-    UPDATE_LAMBDA_REJECTED
+    DELETE_LAMBDA_PENDING,
+    DELETE_LAMBDA_FULFILLED,
+    DELETE_LAMBDA_REJECTED,
+    LAMBDA_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  lambda: {
     created: {},
     modified: {},
     properties: {
       env: {},
-      headers: {}
-    }
+      headers: {},
+      providers: [],
+    },
   },
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LAMBDA_UNLOADED:
+      return initialState;
     case FETCH_LAMBDA_PENDING:
       return {
         ...state,
@@ -36,7 +40,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload
+        lambda: action.payload
       };
     case FETCH_LAMBDA_REJECTED:
       return {
@@ -54,7 +58,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        lambda: action.payload,
       };
     case CREATE_LAMBDA_REJECTED:
       return {
@@ -62,19 +66,18 @@ export default (state = initialState, action) => {
         pending: false,
         error: action.payload,
       };
-    case UPDATE_LAMBDA_PENDING:
+    case DELETE_LAMBDA_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_LAMBDA_FULFILLED:
+    case DELETE_LAMBDA_FULFILLED:
       return {
         ...state,
         pending: false,
-        completed: true,
-        item: action.payload,
+        completed: true
       };
-    case UPDATE_LAMBDA_REJECTED:
+    case DELETE_LAMBDA_REJECTED:
       return {
         ...state,
         pending: false,
