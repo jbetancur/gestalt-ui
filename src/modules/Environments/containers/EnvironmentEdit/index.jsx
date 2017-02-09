@@ -11,12 +11,17 @@ class EnvironmentEdit extends Component {
     params: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
-    updateEnvironment: PropTypes.func.isRequired
+    updateEnvironment: PropTypes.func.isRequired,
+    onUnload: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     const { params } = this.props;
     this.props.fetchEnvironment(params.fqon, params.environmentId);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   updatedModel(formValues) {
@@ -79,16 +84,16 @@ class EnvironmentEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.environments.fetchOne;
-  const variables = _map(item.properties.env, (value, key) => ({ key, value }));
+  const { environment, pending } = state.environments.fetchOne;
+  const variables = _map(environment.properties.env, (value, key) => ({ key, value }));
 
   return {
-    environment: item,
+    environment,
     pending,
     initialValues: {
-      name: item.name,
-      description: item.description,
-      properties: item.properties,
+      name: environment.name,
+      description: environment.description,
+      properties: environment.properties,
       variables
     },
     enableReinitialize: true

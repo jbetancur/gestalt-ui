@@ -7,7 +7,7 @@ import GroupForm from '../../components/GroupForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
-class UserCreate extends Component {
+class GroupEdit extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
@@ -15,7 +15,7 @@ class UserCreate extends Component {
     fetchUsers: PropTypes.func.isRequired,
     updateGroup: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnloadGroup: PropTypes.func.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
@@ -25,8 +25,8 @@ class UserCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadGroup } = this.props;
-    onUnloadGroup();
+    const { onUnload } = this.props;
+    onUnload();
   }
 
   update(values) {
@@ -65,7 +65,7 @@ function mapStateToProps(state) {
     pending: state.groups.fetchOne.pending,
     pendingUsers: state.groups.fetchUsers.pending,
     updatePending: state.groups.updateOne.pending,
-    updateMembers: state.groups.groupMembers.pending,
+    updateMembersPending: state.groups.groupMembers.pending,
     initialValues: {
       name: group.name,
       description: group.description,
@@ -80,4 +80,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'groupEdit',
   validate
-})(UserCreate));
+})(GroupEdit));

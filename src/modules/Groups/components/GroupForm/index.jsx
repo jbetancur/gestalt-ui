@@ -51,7 +51,7 @@ const GroupForm = (props) => {
   // TODO: Ugly, but when a group is created, the ui reroutes to group edit and reloads this data, thus editMode=true
   // This allows us to use the current data model
   const currentGroup = editMode && updatedGroup.id ? updatedGroup : group;
-  let membersUserList = currentGroup.properties.users.slice();
+  let membersUserList = currentGroup.properties.users ? currentGroup.properties.users.slice() : [];
   membersUserList = membersUserList.filter(val => val.name.includes(props.memberUsersFilter.filterText));
 
   const addUser = (user) => {
@@ -80,7 +80,7 @@ const GroupForm = (props) => {
       <ListItem
         key={user.id}
         primaryText={user.name}
-        rightIcon={<FontIcon primary>add_circle</FontIcon>}
+        rightIcon={<FontIcon>add_circle</FontIcon>}
         inkDisabled
         disabled={updatePending}
         onClick={() => addUserDebounced(user)}
@@ -91,7 +91,7 @@ const GroupForm = (props) => {
     membersUserList.map(user => <ListItem
       key={user.id}
       primaryText={user.name}
-      rightIcon={<FontIcon primary>remove_circle</FontIcon>}
+      rightIcon={<FontIcon>remove_circle</FontIcon>}
       inkDisabled
       disabled={updatePending}
       onClick={() => removeUserDebounced(user)}
@@ -150,7 +150,7 @@ const GroupForm = (props) => {
       {editMode ? <div className="flex-row">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            {props.updateMembers ? <LinearProgress id="group-members" /> : null}
+            {props.updateMembersPending ? <LinearProgress id="group-members" /> : null}
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <h3>Available Users</h3>
@@ -207,14 +207,14 @@ GroupForm.propTypes = {
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   updatePending: PropTypes.bool.isRequired,
-  updateMembers: PropTypes.bool.isRequired,
+  updateMembersPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -222,10 +222,12 @@ GroupForm.propTypes = {
 };
 
 GroupForm.defaultProps = {
+  touched: false,
+  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
-  editMode: false
+  editMode: false,
 };
 
 export default GroupForm;

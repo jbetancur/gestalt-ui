@@ -24,3 +24,6 @@ export const FETCH_ALLORGS_REJECTED = 'users/FETCH_ALLORGS_REJECTED';
 
 export const SELECTED_USERS = 'users/SELECTED_USERS';
 
+export const USER_UNLOADED = 'users/USER_UNLOADED';
+export const USERS_UNLOADED = 'users/USERS_UNLOADED';
+

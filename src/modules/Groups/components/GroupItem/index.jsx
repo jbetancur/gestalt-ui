@@ -23,7 +23,7 @@ class GroupItem extends Component {
     groups: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteGroups: PropTypes.func.isRequired,
-    onUnloadGroups: PropTypes.func.isRequired
+    onUnloadListing: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -36,7 +36,7 @@ class GroupItem extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnloadGroups();
+    this.props.onUnloadListing();
   }
 
   handleRowToggle(row, toggled, count) {

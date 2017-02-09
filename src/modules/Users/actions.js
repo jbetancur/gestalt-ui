@@ -20,8 +20,22 @@ import {
   FETCH_ALLORGS_PENDING,
   FETCH_ALLORGS_FULFILLED,
   FETCH_ALLORGS_REJECTED,
-  SELECTED_USERS
+  SELECTED_USERS,
+  USER_UNLOADED,
+  USERS_UNLOADED,
 } from './actionTypes';
+
+export function onUnload() {
+  return (dispatch) => {
+    dispatch({ type: USER_UNLOADED });
+  };
+}
+
+export function onUnloadListing() {
+  return (dispatch) => {
+    dispatch({ type: USERS_UNLOADED });
+  };
+}
 
 export function handleSelected(row, toggled, selectedCount, list, selectedItems) {
   const payload = {

@@ -12,13 +12,20 @@ class GroupEdit extends Component {
     params: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
+    fetchAllOrgs: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired
+    pending: PropTypes.bool.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    const { params } = this.props;
-    this.props.fetchUser(params.fqon, params.userId);
+    const { params, fetchUser, fetchAllOrgs } = this.props;
+    fetchAllOrgs(params.fqon);
+    fetchUser(params.fqon, params.userId);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   update(values) {
@@ -48,25 +55,25 @@ class GroupEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.users.fetchOne;
+  const { user, pending } = state.users.fetchOne;
   const { organizations, pendingOrgs } = state.users.fetchOrgs;
 
   return {
-    user: item,
+    user,
     organizations,
     pending,
     pendingOrgs,
     updatePending: state.users.updateOne.pending,
     initialValues: {
-      name: item.name,
-      description: item.description,
+      name: user.name,
+      description: user.description,
       properties: {
-        password: item.properties.password,
-        firstName: item.properties.firstName,
-        lastName: item.properties.lastName,
-        email: item.properties.email,
-        phoneNumber: item.properties.phoneNumber,
-        gestalt_home: item.properties.gestalt_home
+        password: user.properties.password,
+        firstName: user.properties.firstName,
+        lastName: user.properties.lastName,
+        email: user.properties.email,
+        phoneNumber: user.properties.phoneNumber,
+        gestalt_home: user.properties.gestalt_home
       }
     },
     enableReinitialize: true

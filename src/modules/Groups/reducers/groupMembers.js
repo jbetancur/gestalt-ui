@@ -5,7 +5,7 @@ import {
     REMOVE_GROUP_MEMBER_PENDING,
     REMOVE_GROUP_MEMBER_FULFILLED,
     REMOVE_GROUP_MEMBER_REJECTED,
-    GROUP_MEMBERS_UNLOADED
+    GROUP_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
@@ -23,7 +23,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GROUP_MEMBERS_UNLOADED:
+    case GROUP_UNLOADED:
       return initialState;
     case ADD_GROUP_MEMBER_PENDING:
       return {

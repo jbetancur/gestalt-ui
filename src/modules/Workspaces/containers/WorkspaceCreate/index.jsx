@@ -42,9 +42,9 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.workspaces.fetchOne;
+  const { workspace, pending } = state.workspaces.fetchOne;
   return {
-    workspace: item,
+    workspace,
     pending,
     initialValues: {
       name: '',

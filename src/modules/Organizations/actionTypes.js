@@ -21,3 +21,7 @@ export const UPDATE_ORG_REJECTED = 'orgs/UPDATE_ORG_REJECTED';
 export const DELETE_ORG_PENDING = 'orgs/DELETE_ORG_PENDING';
 export const DELETE_ORG_FULFILLED = 'orgs/DELETE_ORG_FULFILLED';
 export const DELETE_ORG_REJECTED = 'orgs/DELETE_ORG_REJECTED';
+
+export const ORG_UNLOADED = 'orgs/ORG_UNLOADED';
+export const ORGS_UNLOADED = 'orgs/ORGS_UNLOADED';
+export const ORGSET_UNLOADED = 'orgs/ORGSET_UNLOADED';

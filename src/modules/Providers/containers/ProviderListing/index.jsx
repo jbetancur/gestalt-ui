@@ -4,19 +4,21 @@ import ProviderItem from '../../components/ProviderItem';
 
 import * as actions from '../../actions';
 
-class Providers extends Component {
+class ProviderListing extends Component {
   static propTypes = {
     fetchProviders: PropTypes.func.isRequired,
     params: PropTypes.object,
-    fqon: PropTypes.string.isRequired,
+    fqon: PropTypes.string,
     workspaceId: PropTypes.string,
-    environmentId: PropTypes.string
+    environmentId: PropTypes.string,
+    onUnloadListing: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     params: {},
+    fqon: null,
     workspaceId: null,
-    environmentId: null
+    environmentId: null,
   };
 
   componentDidMount() {
@@ -27,6 +29,10 @@ class Providers extends Component {
     fetchProviders(resolvedFqon, entityId, entityKey);
   }
 
+  componentWillUnmount() {
+    this.props.onUnloadListing();
+  }
+
   render() {
     return <ProviderItem {...this.props} />;
   }
@@ -34,10 +40,10 @@ class Providers extends Component {
 
 function mapStateToProps(state) {
   return {
-    providers: state.providers.fetchAll.items,
+    providers: state.providers.fetchAll.providers,
     pending: state.providers.fetchAll.pending,
     selectedProviders: state.providers.selectedProviders
   };
 }
 
-export default connect(mapStateToProps, actions)(Providers);
+export default connect(mapStateToProps, actions)(ProviderListing);

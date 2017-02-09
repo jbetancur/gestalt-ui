@@ -8,7 +8,7 @@ import {
     DELETE_GROUP_PENDING,
     DELETE_GROUP_FULFILLED,
     DELETE_GROUP_REJECTED,
-    GROUP_EDIT_UNLOADED
+    GROUP_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
@@ -26,7 +26,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GROUP_EDIT_UNLOADED:
+    case GROUP_UNLOADED:
       return initialState;
     case FETCH_GROUP_PENDING:
       return {

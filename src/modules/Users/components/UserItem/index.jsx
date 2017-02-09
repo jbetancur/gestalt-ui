@@ -17,13 +17,14 @@ class UserItem extends Component {
   static propTypes = {
     fetchUsers: PropTypes.func.isRequired,
     handleSelected: PropTypes.func.isRequired,
-    selectedUsers: PropTypes.array.isRequired,
+    selectedUsers: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
-    deleteUsers: PropTypes.func.isRequired
+    deleteUsers: PropTypes.func.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -33,6 +34,10 @@ class UserItem extends Component {
   componentDidMount() {
     const fqon = this.props.fqon || this.props.router.params.fqon;
     this.props.fetchUsers(fqon);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnloadListing();
   }
 
   handleRowToggle(row, toggled, count) {

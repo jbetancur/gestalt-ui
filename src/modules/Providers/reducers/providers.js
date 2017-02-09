@@ -1,18 +1,21 @@
 import {
   FETCH_PROVIDERS_PENDING,
   FETCH_PROVIDERS_REJECTED,
-  FETCH_PROVIDERS_FULFILLED
+  FETCH_PROVIDERS_FULFILLED,
+  PROVIDERS_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
+  providers: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case PROVIDERS_UNLOADED:
+      return initialState;
     case FETCH_PROVIDERS_PENDING:
       return {
         ...state,
@@ -23,7 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload,
+        providers: action.payload,
       };
     case FETCH_PROVIDERS_REJECTED:
       return {

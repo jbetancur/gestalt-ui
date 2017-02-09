@@ -1,18 +1,21 @@
 import {
   FETCH_ENVIRONMENTS_PENDING,
   FETCH_ENVIRONMENTS_REJECTED,
-  FETCH_ENVIRONMENTS_FULFILLED
+  FETCH_ENVIRONMENTS_FULFILLED,
+  ENVIRONMENTS_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
+  environments: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ENVIRONMENTS_UNLOADED:
+      return initialState;
     case FETCH_ENVIRONMENTS_PENDING:
       return {
         ...state,
@@ -23,7 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload,
+        environments: action.payload,
       };
     case FETCH_ENVIRONMENTS_REJECTED:
       return {

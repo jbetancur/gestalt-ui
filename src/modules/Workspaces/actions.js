@@ -16,8 +16,22 @@ import {
   DELETE_WORKSPACE_PENDING,
   DELETE_WORKSPACE_FULFILLED,
   DELETE_WORKSPACE_REJECTED,
-  WORKSPACES_NAVIGATION
+  WORKSPACES_NAVIGATION,
+  WORKSPACE_UNLOADED,
+  WORKSPACES_UNLOADED,
 } from './actionTypes';
+
+export function onUnload() {
+  return (dispatch) => {
+    dispatch({ type: WORKSPACE_UNLOADED });
+  };
+}
+
+export function onUnloadListing() {
+  return (dispatch) => {
+    dispatch({ type: WORKSPACES_UNLOADED });
+  };
+}
 
 export function fetchWorkspaces(fqon) {
   return (dispatch) => {

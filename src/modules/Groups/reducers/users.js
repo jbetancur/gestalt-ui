@@ -2,7 +2,7 @@ import {
   FETCH_USERS_PENDING,
   FETCH_USERS_REJECTED,
   FETCH_USERS_FULFILLED,
-  GROUP_EDIT_UNLOADED
+  GROUP_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GROUP_EDIT_UNLOADED:
+    case GROUP_UNLOADED:
       return initialState;
     case FETCH_USERS_PENDING:
       return {

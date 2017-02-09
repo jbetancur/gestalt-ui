@@ -18,8 +18,22 @@ import {
   DELETE_ORG_REJECTED,
   UPDATE_ORG_PENDING,
   UPDATE_ORG_FULFILLED,
-  UPDATE_ORG_REJECTED
+  UPDATE_ORG_REJECTED,
+  ORG_UNLOADED,
+  ORGSET_UNLOADED,
 } from './actionTypes';
+
+export function onUnload() {
+  return (dispatch) => {
+    dispatch({ type: ORG_UNLOADED });
+  };
+}
+
+export function onUnloadSet() {
+  return (dispatch) => {
+    dispatch({ type: ORGSET_UNLOADED });
+  };
+}
 
 export function fetchOrgs(fqon) {
   return (dispatch) => {

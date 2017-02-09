@@ -44,9 +44,9 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.environments.fetchOne;
+  const { environment, pending } = state.environments.fetchOne;
   return {
-    environment: item,
+    environment,
     pending,
     initialValues: {
       name: '',

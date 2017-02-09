@@ -14,7 +14,8 @@ class WorkspaceItem extends Component {
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     fetchWorkspaces: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired
+    onUnloadListing: PropTypes.func.isRequired,
+    pending: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -23,6 +24,10 @@ class WorkspaceItem extends Component {
 
   componentWillMount() {
     this.props.fetchWorkspaces(this.props.router.params.fqon);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnloadListing();
   }
 
   editItem(e) {

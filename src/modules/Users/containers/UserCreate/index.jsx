@@ -8,8 +8,13 @@ import * as actions from '../../actions';
 class UserCreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    createUser: PropTypes.func.isRequired
+    createUser: PropTypes.func.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
+
+  componentWillUnmount() {
+    this.props.onUnload();
+  }
 
   create(values) {
     this.props.createUser(this.props.params.fqon, values);

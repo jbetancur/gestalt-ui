@@ -21,7 +21,21 @@ import {
   DELETE_PROVIDER_REJECTED,
   SELECTED_PROVIDERS,
   SELECTED_PROVIDER_TYPE,
+  PROVIDER_UNLOADED,
+  PROVIDERS_UNLOADED,
 } from './actionTypes';
+
+export function onUnload() {
+  return (dispatch) => {
+    dispatch({ type: PROVIDER_UNLOADED });
+  };
+}
+
+export function onUnloadListing() {
+  return (dispatch) => {
+    dispatch({ type: PROVIDERS_UNLOADED });
+  };
+}
 
 export function handleProviderType(value) {
   const payload = providerTypes[providerTypes.findIndex(item => item.value === value)].type;

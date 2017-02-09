@@ -5,7 +5,7 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    users: state.users.fetchAll.items,
+    users: state.users.fetchAll.users,
     pending: state.users.fetchAll.pending,
     selectedUsers: state.users.selectedUsers
   };

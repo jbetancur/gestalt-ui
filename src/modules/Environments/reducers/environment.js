@@ -10,13 +10,14 @@ import {
     UPDATE_ENVIRONMENT_REJECTED,
     DELETE_ENVIRONMENT_PENDING,
     DELETE_ENVIRONMENT_FULFILLED,
-    DELETE_ENVIRONMENT_REJECTED
+    DELETE_ENVIRONMENT_REJECTED,
+    ENVIRONMENT_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  environment: {
     created: {},
     modified: {},
     properties: {
@@ -28,6 +29,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ENVIRONMENT_UNLOADED:
+      return initialState;
     case FETCH_ENVIRONMENT_PENDING:
       return {
         ...state,
@@ -38,7 +41,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload
+        environment: action.payload
       };
     case FETCH_ENVIRONMENT_REJECTED:
       return {
@@ -56,7 +59,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        environment: action.payload,
       };
     case CREATE_ENVIRONMENT_REJECTED:
       return {
@@ -74,7 +77,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        environment: action.payload,
       };
     case UPDATE_ENVIRONMENT_REJECTED:
       return {

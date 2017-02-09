@@ -42,10 +42,10 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.organizations.fetchOne;
+  const { organization, pending } = state.organizations.fetchOne;
 
   return {
-    organization: item,
+    organization,
     pending,
     initialValues: {
       name: '',

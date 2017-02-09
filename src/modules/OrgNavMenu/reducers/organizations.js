@@ -1,30 +1,33 @@
 import {
   FETCH_ALLORGS_PENDING,
   FETCH_ALLORGS_FULFILLED,
-  FETCH_ALLORGS_REJECTED
+  FETCH_ALLORGS_REJECTED,
+  UNLOAD_ALLORGS,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
   error: null,
-  items: []
+  organizations: []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case UNLOAD_ALLORGS:
+      return initialState;
     case FETCH_ALLORGS_PENDING:
       return {
         ...state,
         pending: true,
-        items: []
+        organizations: []
       };
     case FETCH_ALLORGS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload
+        organizations: action.payload
       };
     case FETCH_ALLORGS_REJECTED:
       return {

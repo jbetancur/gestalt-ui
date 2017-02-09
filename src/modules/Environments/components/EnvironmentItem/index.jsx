@@ -11,7 +11,8 @@ class EnvironmentItem extends Component {
     fqon: PropTypes.string.isRequired,
     workspaceId: PropTypes.string.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired
+    pending: PropTypes.bool.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -26,6 +27,10 @@ class EnvironmentItem extends Component {
     if (nextProps.workspaceId !== this.props.workspaceId) {
       this.init(nextProps.fqon, nextProps.workspaceId);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.onUnloadListing();
   }
 
   init(fqon, workspaceId) {

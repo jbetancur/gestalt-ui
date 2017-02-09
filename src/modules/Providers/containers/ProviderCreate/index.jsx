@@ -9,8 +9,13 @@ class ProviderCreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     createProvider: PropTypes.func.isRequired,
-    selectedProviderType: PropTypes.string.isRequired
+    selectedProviderType: PropTypes.string.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
+
+  componentWillUnmount() {
+    this.props.onUnload();
+  }
 
   create(values) {
     const { params, createProvider, selectedProviderType } = this.props;
