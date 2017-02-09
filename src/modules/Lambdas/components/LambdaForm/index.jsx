@@ -19,7 +19,7 @@ import { nameMaxLen } from '../../validations';
 
 const LambdaForm = (props) => {
   // const themes = [{ displayName: 'chrome', value: 'chrome' }, { displayName: 'monokai', value: 'monokai' }];
-  const { values, params } = props;
+  const { values, params, lambda } = props;
 
   const fetchProviders = () => {
     props.fetchProviders(params.fqon, params.environmentId, 'ApiGateway');
@@ -36,7 +36,7 @@ const LambdaForm = (props) => {
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={props.title} />
+            <CardTitle title={props.title} subtitle={lambda.id ? lambda.id : null} />
             <CardText>
               <div className="flex-row">
                 <Field
@@ -179,13 +179,16 @@ const LambdaForm = (props) => {
                     component={Checkbox}
                     name="properties.compressed"
                     label="Compressed Package"
+                    // TODO: Find out why redux-form state for bool doesn't apply
+                    defaultChecked={lambda.properties.compressed}
                   /> : null}
                 <Field
                   className="flex-2 flex-xs-6"
                   id="synchronous"
                   component={Checkbox}
                   name="properties.synchronous"
-                  defaultChecked
+                  // TODO: Find out why redux-form state for bool doesn't apply
+                  defaultChecked={lambda.properties.synchronous}
                   label="Synchronous"
                 />
                 <Field
@@ -193,7 +196,8 @@ const LambdaForm = (props) => {
                   id="public"
                   component={Checkbox}
                   name="properties.public"
-                  defaultChecked
+                  // TODO: Find out why redux-form state for bool doesn't apply
+                  defaultChecked={lambda.properties.public}
                   label="Public"
                 />
                 {values.properties.code_type === 'code' ?
@@ -230,7 +234,7 @@ const LambdaForm = (props) => {
                 </div>
               </div>
             </CardText>
-            {props.lambdaUpdatePending ? <LinearProgress id="lambda-form" /> : null}
+            {props.lambdaUpdatePending || props.pending ? <LinearProgress id="lambda-form" /> : null}
             <CardActions>
               <Button
                 flat
@@ -272,6 +276,7 @@ LambdaForm.propTypes = {
   cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
   providers: PropTypes.array.isRequired,
+  lambda: PropTypes.array.isRequired,
 };
 
 LambdaForm.defaultProps = {
