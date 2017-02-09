@@ -92,21 +92,23 @@ ContainmentForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   envMap: PropTypes.object,
-  isEnvironment: PropTypes.bool
+  isEnvironment: PropTypes.bool,
 };
 
 ContainmentForm.defaultProps = {
+  touched: false,
+  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
   isEnvironment: false,
-  envMap: {}
+  envMap: {},
 };
 
 export default ContainmentForm;

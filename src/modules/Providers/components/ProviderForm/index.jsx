@@ -67,7 +67,7 @@ const ProviderForm = (props) => {
                     label="Provider Type"
                     errorText={props.touched && props.error}
                     onChange={(v, value) => updateForm(value)}
-                    disabled={provider.id}
+                    disabled={!!provider.id}
                   />
                   <Field
                     className="flex-3 flex-xs-12 flex-sm-6"
@@ -190,14 +190,16 @@ ProviderForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string
 };
 
 ProviderForm.defaultProps = {
+  touched: false,
+  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

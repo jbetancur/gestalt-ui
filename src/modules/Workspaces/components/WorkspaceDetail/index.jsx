@@ -25,7 +25,8 @@ class WorkspaceDetail extends Component {
     fetchWorkspace: PropTypes.func.isRequired,
     deleteWorkspace: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
-    pending: PropTypes.bool.isRequired
+    pending: PropTypes.bool.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -36,6 +37,10 @@ class WorkspaceDetail extends Component {
     const { fetchWorkspace, params } = this.props;
 
     fetchWorkspace(params.fqon, params.workspaceId);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   handleViewState(view, index) {
@@ -126,7 +131,7 @@ class WorkspaceDetail extends Component {
           <DetailCardTitle expander={!pending}>
             <BackArrowButton component={Link} to={`/${params.fqon}/workspaces`} />
             {this.renderActionsMenu()}
-            {pending ? null : <div className="gf-headline">{workspace.name}</div>}
+            <div className="gf-headline">{workspace.name}</div>
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="access_time"><TimeAgo date={workspace.created.timestamp} /></IconText>

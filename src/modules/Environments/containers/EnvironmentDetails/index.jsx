@@ -5,7 +5,7 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    environment: state.environments.fetchOne.item,
+    environment: state.environments.fetchOne.environment,
     workspace: state.workspaces.fetchOne.workspace,
     pending: state.environments.fetchOne.pending,
     navigation: state.environments.navigation

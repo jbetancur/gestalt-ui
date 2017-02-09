@@ -10,13 +10,14 @@ import {
   UPDATE_WORKSPACE_REJECTED,
   DELETE_WORKSPACE_PENDING,
   DELETE_WORKSPACE_FULFILLED,
-  DELETE_WORKSPACE_REJECTED
+  DELETE_WORKSPACE_REJECTED,
+  WORKSPACE_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  workspace: {
     created: {},
     modified: {},
     properties: {
@@ -28,6 +29,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case WORKSPACE_UNLOADED:
+      return initialState;
     case FETCH_WORKSPACE_PENDING:
       return {
         ...state,
@@ -38,7 +41,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        workspace: action.payload,
       };
     case FETCH_WORKSPACE_REJECTED:
       return {
@@ -56,7 +59,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        workspace: action.payload,
       };
     case CREATE_WORKSPACE_REJECTED:
       return {
@@ -74,7 +77,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        workspace: action.payload,
       };
     case UPDATE_WORKSPACE_REJECTED:
       return {

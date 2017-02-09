@@ -11,12 +11,13 @@ import {
   DELETE_ORG_PENDING,
   DELETE_ORG_FULFILLED,
   DELETE_ORG_REJECTED,
+  ORG_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  organization: {
     org: {},
     created: {},
     modified: {},
@@ -29,6 +30,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ORG_UNLOADED:
+      return initialState;
     case FETCH_ORG_PENDING:
       return {
         ...state,
@@ -39,7 +42,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        organization: action.payload,
       };
     case FETCH_ORG_REJECTED:
       return {
@@ -57,7 +60,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        organization: action.payload,
       };
     case CREATE_ORG_REJECTED:
       return {
@@ -75,7 +78,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        organization: action.payload,
       };
     case UPDATE_ORG_REJECTED:
       return {

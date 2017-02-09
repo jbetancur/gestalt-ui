@@ -11,11 +11,16 @@ class WorkspaceEdit extends Component {
     params: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
-    updateWorkspace: PropTypes.func.isRequired
+    updateWorkspace: PropTypes.func.isRequired,
+    onUnload: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     this.props.fetchWorkspace(this.props.params.fqon, this.props.params.workspaceId);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   updatedModel(formValues) {
@@ -68,19 +73,19 @@ class WorkspaceEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.workspaces.fetchOne;
-  const variables = _map(item.properties.env, (value, key) => ({ key, value }));
+  const { workspace, pending } = state.workspaces.fetchOne;
+  const variables = _map(workspace.properties.env, (value, key) => ({ key, value }));
 
   return {
-    workspace: item,
+    workspace,
     pending,
     initialValues: {
-      name: item.name,
-      description: item.description,
-      properties: item.properties,
-      variables
+      name: workspace.name,
+      description: workspace.description,
+      properties: workspace.properties,
+      variables,
     },
-    enableReinitialize: true
+    enableReinitialize: true,
   };
 }
 

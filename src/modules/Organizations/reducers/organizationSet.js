@@ -1,14 +1,15 @@
 import {
   FETCH_ORGSET_PENDING,
   FETCH_ORGSET_FULFILLED,
-  FETCH_ORGSET_REJECTED
+  FETCH_ORGSET_REJECTED,
+  ORGSET_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
-  item: {
+  organizations: [],
+  organization: {
     created: {},
     modified: {},
     properties: {
@@ -20,6 +21,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ORGSET_UNLOADED:
+      return initialState;
     case FETCH_ORGSET_PENDING:
       return {
         ...state,
@@ -30,8 +33,8 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload.item,
-        items: action.payload.items,
+        organization: action.payload.item,
+        organizations: action.payload.items,
       };
     case FETCH_ORGSET_REJECTED:
       return {

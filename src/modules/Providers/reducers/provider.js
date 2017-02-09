@@ -4,13 +4,14 @@ import {
     FETCH_PROVIDER_FULFILLED,
     CREATE_PROVIDER_PENDING,
     CREATE_PROVIDER_FULFILLED,
-    CREATE_PROVIDER_REJECTED
+    CREATE_PROVIDER_REJECTED,
+    PROVIDER_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  provider: {
     created: {},
     modified: {},
     properties: {
@@ -27,6 +28,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case PROVIDER_UNLOADED:
+      return initialState;
     case FETCH_PROVIDER_PENDING:
       return {
         ...state,
@@ -37,7 +40,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload
+        provider: action.payload
       };
     case FETCH_PROVIDER_REJECTED:
       return {
@@ -55,7 +58,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        provider: action.payload,
       };
     case CREATE_PROVIDER_REJECTED:
       return {

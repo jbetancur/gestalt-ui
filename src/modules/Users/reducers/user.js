@@ -7,13 +7,14 @@ import {
     CREATE_USER_REJECTED,
     DELETE_USER_PENDING,
     DELETE_USER_FULFILLED,
-    DELETE_USER_REJECTED
+    DELETE_USER_REJECTED,
+    USER_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  user: {
     created: {},
     modified: {},
     properties: {}
@@ -23,6 +24,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case USER_UNLOADED:
+      return initialState;
     case FETCH_USER_PENDING:
       return {
         ...state,
@@ -33,7 +36,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload
+        user: action.payload
       };
     case FETCH_USER_REJECTED:
       return {
@@ -51,7 +54,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        user: action.payload,
       };
     case CREATE_USER_REJECTED:
       return {

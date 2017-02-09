@@ -17,7 +17,7 @@ class LambdaItem extends Component {
     lambdas: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     handleSelected: PropTypes.func.isRequired,
-    selectedLambdas: PropTypes.array.isRequired,
+    selectedLambdas: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,

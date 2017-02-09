@@ -7,8 +7,8 @@ function mapStateToProps(state) {
   return {
     self: state.app.self.self,
     pending: state.organizations.fetchSet.pending,
-    organization: state.organizations.fetchSet.item,
-    organizations: state.organizations.fetchSet.items,
+    organization: state.organizations.fetchSet.organization,
+    organizations: state.organizations.fetchSet.organizations,
     currentOrgPending: state.organizations.fetchOne.pending
   };
 }

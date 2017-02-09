@@ -7,18 +7,23 @@ import ProviderForm from '../../components/ProviderForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
-class ProviderCreate extends Component {
+class ProviderEdit extends Component {
   static propTypes = {
-    pending: PropTypes.object.isRequired,
+    pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
     const { params, fetchProvider } = this.props;
     fetchProvider(params.fqon, params.providerId);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   updatedModel(formValues, originalModel) {
@@ -97,26 +102,26 @@ class ProviderCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.providers.fetchOne;
+  const { provider, pending } = state.providers.fetchOne;
   return {
-    provider: item,
+    provider,
     pending,
     updatePending: state.providers.updateOne.pending,
     selectedProviderType: state.providers.selectedProvider.type,
     initialValues: {
-      name: item.name,
-      description: item.description,
-      resource_type: item.resource_type,
+      name: provider.name,
+      description: provider.description,
+      resource_type: provider.resource_type,
       properties: {
         config: {
           auth: {
-            scheme: item.properties.config.auth.scheme,
-            username: item.properties.config.auth.username,
-            password: item.properties.config.auth.password
+            scheme: provider.properties.config.auth.scheme,
+            username: provider.properties.config.auth.username,
+            password: provider.properties.config.auth.password
           },
-          url: item.properties.config.url,
+          url: provider.properties.config.url,
         },
-        locations: item.properties.locations
+        locations: provider.properties.locations
       }
     },
     enableReinitialize: true
@@ -126,4 +131,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'providerCreate',
   validate
-})(ProviderCreate));
+})(ProviderEdit));

@@ -3,9 +3,15 @@ import {
   FETCH_ALLORGS_PENDING,
   FETCH_ALLORGS_FULFILLED,
   FETCH_ALLORGS_REJECTED,
-  FILTER_ALLORGS_TEXT
+  FILTER_ALLORGS_TEXT,
+  UNLOAD_ALLORGS,
 } from './actionTypes';
 
+export function onUnload() {
+  return (dispatch) => {
+    dispatch({ type: UNLOAD_ALLORGS });
+  };
+}
 
 export function fetchAllOrgs() {
   return (dispatch) => {

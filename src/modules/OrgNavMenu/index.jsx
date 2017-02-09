@@ -12,7 +12,8 @@ class OrgNavMenu extends Component {
     fetchAllOrgs: PropTypes.func.isRequired,
     filterOrgs: PropTypes.func.isRequired,
     organizations: PropTypes.array.isRequired,
-    orgFetching: PropTypes.bool.isRequired
+    orgFetching: PropTypes.bool.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -21,6 +22,10 @@ class OrgNavMenu extends Component {
     this.state = {
       menuName: ''
     };
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   setMenuName(menuName) {
@@ -100,7 +105,7 @@ class OrgNavMenu extends Component {
 const mapStateToProps = (state) => {
   const { orgnavmenu } = state;
   return {
-    organizations: orgnavmenu.organizations.items.filter(val => val.name.includes(orgnavmenu.filter.filterText)),
+    organizations: orgnavmenu.organizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText)),
     orgFetching: orgnavmenu.organizations.pending,
   };
 };

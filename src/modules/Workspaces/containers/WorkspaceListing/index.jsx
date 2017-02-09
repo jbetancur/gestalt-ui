@@ -4,7 +4,7 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    workspaces: state.workspaces.fetchAll.items,
+    workspaces: state.workspaces.fetchAll.workspaces,
     pending: state.workspaces.fetchAll.pending
   };
 }

@@ -27,9 +27,8 @@ import {
   REMOVE_GROUP_MEMBER_FULFILLED,
   REMOVE_GROUP_MEMBER_REJECTED,
   SELECTED_GROUPS,
-  GROUP_EDIT_UNLOADED,
+  GROUP_UNLOADED,
   GROUPS_UNLOADED,
-  GROUP_MEMBERS_UNLOADED,
   FILTER_AVAILABLE_USERS_TEXT,
   FILTER_MEMBER_USERS_TEXT
 } from './actionTypes';
@@ -45,21 +44,15 @@ function fixProperties(data) {
   return payload;
 }
 
-export function onUnloadGroup() {
+export function onUnload() {
   return (dispatch) => {
-    dispatch({ type: GROUP_EDIT_UNLOADED });
+    dispatch({ type: GROUP_UNLOADED });
   };
 }
 
-export function onUnloadGroups() {
+export function onUnloadListing() {
   return (dispatch) => {
     dispatch({ type: GROUPS_UNLOADED });
-  };
-}
-
-export function onUnloadGroupMembers() {
-  return (dispatch) => {
-    dispatch({ type: GROUP_MEMBERS_UNLOADED });
   };
 }
 

@@ -16,8 +16,22 @@ import {
   DELETE_ENVIRONMENT_PENDING,
   DELETE_ENVIRONMENT_FULFILLED,
   DELETE_ENVIRONMENT_REJECTED,
-  ENVIRONMENTS_NAVIGATION
+  ENVIRONMENTS_NAVIGATION,
+  ENVIRONMENT_UNLOADED,
+  ENVIRONMENTS_UNLOADED,
 } from './actionTypes';
+
+export function onUnload() {
+  return (dispatch) => {
+    dispatch({ type: ENVIRONMENT_UNLOADED });
+  };
+}
+
+export function onUnloadListing() {
+  return (dispatch) => {
+    dispatch({ type: ENVIRONMENTS_UNLOADED });
+  };
+}
 
 export function fetchEnvironments(fqon, workspaceId) {
   const url = workspaceId ? `/${fqon}/workspaces/${workspaceId}/environments` : `/${fqon}/environments`;

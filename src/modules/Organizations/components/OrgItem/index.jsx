@@ -21,9 +21,10 @@ class OrgItem extends Component {
     deleteOrg: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
+    onUnloadSet: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     currentOrgPending: PropTypes.bool.isRequired,
-    self: PropTypes.object.isRequired
+    self: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -40,6 +41,10 @@ class OrgItem extends Component {
     if (nextProps.params.fqon !== this.props.params.fqon) {
       this.props.fetchOrgSet(nextProps.params.fqon);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.onUnloadSet();
   }
 
   navToSubOrgs(item) {
@@ -130,11 +135,9 @@ class OrgItem extends Component {
         <DetailCard>
           <DetailCardTitle expander={!this.props.pending} title={params.fqon === self.properties.gestalt_home ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
             {this.renderActionsMenu()}
-            {pending ? null :
             <div className="gf-headline">{organization.name}
               <div className="md-caption">{organization.properties.fqon}</div>
             </div>
-            }
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="access_time"><TimeAgo date={organization.created.timestamp} /></IconText>

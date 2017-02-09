@@ -1,7 +1,8 @@
 import {
     UPDATE_USER_PENDING,
     UPDATE_USER_FULFILLED,
-    UPDATE_USER_REJECTED
+    UPDATE_USER_REJECTED,
+    USER_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
@@ -17,6 +18,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case USER_UNLOADED:
+      return initialState;
     case UPDATE_USER_PENDING:
       return {
         ...state,

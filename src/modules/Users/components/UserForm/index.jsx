@@ -142,17 +142,19 @@ UserForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string
 };
 
 UserForm.defaultProps = {
+  touched: false,
+  error: false,
   title: '',
   submitLabel: '',
-  cancelLabel: 'Cancel'
+  cancelLabel: 'Cancel',
 };
 
 export default UserForm;

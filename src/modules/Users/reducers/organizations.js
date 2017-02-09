@@ -1,7 +1,8 @@
 import {
   FETCH_ALLORGS_PENDING,
   FETCH_ALLORGS_REJECTED,
-  FETCH_ALLORGS_FULFILLED
+  FETCH_ALLORGS_FULFILLED,
+  USER_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
@@ -13,6 +14,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case USER_UNLOADED:
+      return initialState;
     case FETCH_ALLORGS_PENDING:
       return {
         ...state,

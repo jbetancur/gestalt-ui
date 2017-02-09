@@ -11,11 +11,16 @@ class OrgEdit extends Component {
     params: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
     fetchOrg: PropTypes.func.isRequired,
-    updateOrg: PropTypes.func.isRequired
+    updateOrg: PropTypes.func.isRequired,
+    onUnload: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     this.props.fetchOrg(this.props.params.fqon);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   updatedModel(formValues) {
@@ -71,19 +76,19 @@ class OrgEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { item, pending } = state.organizations.fetchOne;
-  const variables = map(item.properties.env, (value, key) => ({ key, value }));
+  const { organization, pending } = state.organizations.fetchOne;
+  const variables = map(organization.properties.env, (value, key) => ({ key, value }));
 
   return {
-    organization: item,
+    organization,
     pending,
     initialValues: {
-      name: item.name,
-      description: item.description,
-      properties: item.properties,
-      variables
+      name: organization.name,
+      description: organization.description,
+      properties: organization.properties,
+      variables,
     },
-    enableReinitialize: true
+    enableReinitialize: true,
   };
 }
 

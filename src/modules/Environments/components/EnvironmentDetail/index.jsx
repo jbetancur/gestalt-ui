@@ -30,7 +30,8 @@ class EnvironmentDetail extends Component {
     fetchEnvironment: PropTypes.func.isRequired,
     deleteEnvironment: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
-    pending: PropTypes.bool.isRequired
+    pending: PropTypes.bool.isRequired,
+    onUnload: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -38,7 +39,12 @@ class EnvironmentDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchEnvironment(this.props.params.fqon, this.props.params.environmentId);
+    const { params, fetchEnvironment } = this.props;
+    fetchEnvironment(params.fqon, params.environmentId);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnload();
   }
 
   handleViewState(view, index) {
@@ -139,7 +145,7 @@ class EnvironmentDetail extends Component {
           <DetailCardTitle expander={!pending}>
             <BackArrowButton component={Link} to={`/${params.fqon}/workspaces/${params.workspaceId}`} />
             {this.renderActionsMenu()}
-            {pending ? null : <div className="gf-headline">{environment.name}</div>}
+            <div className="gf-headline">{environment.name}</div>
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="access_time"><TimeAgo date={environment.created.timestamp} /></IconText>

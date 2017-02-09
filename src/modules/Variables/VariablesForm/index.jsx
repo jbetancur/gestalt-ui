@@ -22,8 +22,13 @@ renderField.propTypes = {
   input: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired
+  touched: PropTypes.bool,
+  error: PropTypes.string,
+};
+
+renderField.defaultProps = {
+  touched: false,
+  error: false,
 };
 
 const rendervariables = ({ fields, touched, error }) => (
@@ -61,9 +66,15 @@ const rendervariables = ({ fields, touched, error }) => (
 
 rendervariables.propTypes = {
   fields: PropTypes.func.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired
+  touched: PropTypes.bool,
+  error: PropTypes.string,
 };
+
+rendervariables.defaultProps = {
+  touched: false,
+  error: false,
+};
+
 
 const FieldArraysForm = () => <FieldArray name="variables" component={rendervariables} />;
 

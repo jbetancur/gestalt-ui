@@ -1,13 +1,14 @@
 import {
     UPDATE_PROVIDER_PENDING,
     UPDATE_PROVIDER_FULFILLED,
-    UPDATE_PROVIDER_REJECTED
+    UPDATE_PROVIDER_REJECTED,
+    PROVIDER_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  provider: {
     created: {},
     modified: {},
     properties: {}
@@ -17,6 +18,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case PROVIDER_UNLOADED:
+      return initialState;
     case UPDATE_PROVIDER_PENDING:
       return {
         ...state,
@@ -27,7 +30,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        provider: action.payload,
       };
     case UPDATE_PROVIDER_REJECTED:
       return {
