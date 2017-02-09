@@ -63,6 +63,7 @@ function mapStateToProps(state) {
         headers: {
           Accept: ''
         },
+        code: '',
         code_type: 'package',
         compressed: false,
         cpus: 0.1,

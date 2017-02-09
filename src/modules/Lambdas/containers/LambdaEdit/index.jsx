@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
+import base64 from 'base-64';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
@@ -37,8 +38,20 @@ class LambdaEdit extends Component {
       name,
       description,
       properties: {
-        environment_type: properties.environment_type,
-        env: {}
+        env: properties.env,
+        headers: properties.headers,
+        code: base64.encode(properties.code),
+        code_type: properties.code_type,
+        compressed: properties.compressed,
+        cpus: properties.cpus,
+        memory: properties.memory,
+        timeout: properties.timeout,
+        handler: properties.handler,
+        package_url: properties.package_url,
+        public: properties.public,
+        synchronous: properties.synchronous,
+        runtime: properties.runtime,
+        providers: properties.provider,
       }
     };
 
@@ -52,14 +65,24 @@ class LambdaEdit extends Component {
 
   originalModel(originalOrg) {
     const { name, description, properties } = originalOrg;
-    const { env, environment_type } = properties;
-
     return {
       name,
       description,
       properties: {
-        environment_type,
-        env
+        env: properties.env,
+        headers: properties.headers,
+        code: properties.code,
+        code_type: properties.code_type,
+        compressed: properties.compressed,
+        cpus: properties.cpus,
+        memory: properties.memory,
+        timeout: properties.timeout,
+        handler: properties.handler,
+        package_url: properties.package_url,
+        public: properties.public,
+        synchronous: properties.synchronous,
+        runtime: properties.runtime,
+        providers: properties.provider,
       }
     };
   }
@@ -90,6 +113,7 @@ function mapStateToProps(state) {
     properties: {
       env: lambda.properties.env,
       headers: lambda.properties.headers,
+      code: lambda.properties.code ? base64.decode(lambda.properties.code) : null,
       code_type: lambda.properties.code_type,
       compressed: lambda.properties.compressed,
       cpus: lambda.properties.cpus,
