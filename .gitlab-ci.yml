@@ -12,7 +12,6 @@ cache:
 
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
-  TEST_DOMAIN: "test.galacticfog.com"
 
 test:
   stage: test
@@ -41,7 +40,7 @@ docker-publish:
   image: galacticfog/gitlab-updater
   stage: deploy
   environment: test
-    url: https://ui-react.$TEST_DOMAIN
+    url: https://ui-react.test.galacticfog.com
   tags:
     - test-cluster
   script:
@@ -67,10 +66,10 @@ review:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
-    - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN\"" | http PUT $MARURL
+    - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.test.galacticfog.com\"" | http PUT $MARURL
   environment:
     name: review/$CI_BUILD_REF_NAME
-    url: https://ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN
+    url: https://ui-react-$CI_BUILD_REF_SLUG.test.galacticfog.com
     on_stop: stop_review
   only:
     - branches
