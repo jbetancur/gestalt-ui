@@ -12,7 +12,7 @@ cache:
 
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
-  TEST_DOMAIN: test.galacticfog.com
+  TEST_DOMAIN: "test.galacticfog.com"
 
 test:
   stage: test
