@@ -1,0 +1,21 @@
+{
+  "container": {
+    "docker": {
+      "forcePullImage": true,
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 80, "name": "http" }
+      ]
+    },
+    "type": "DOCKER"
+  },
+  "env": {
+    "META_API_URL": "https://meta.test.galacticfog.com",
+    "SEC_API_URL": "https://security.test.galacticfog.com"
+  },
+  "labels": {
+    "HAPROXY_GROUP": "external"
+  },
+  "cpus": 0.10,
+  "mem": 64
+}

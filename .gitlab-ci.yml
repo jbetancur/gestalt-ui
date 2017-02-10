@@ -4,6 +4,7 @@ stages:
 - test
 - publish
 - deploy
+- review
 
 cache:
   key: "$CI_PIPELINE_ID"
@@ -58,3 +59,40 @@ manual-deploy-non-develop:
   except:
     - develop
   when: manual
+
+review:
+  image: galacticfog/gitlab-updater
+  stage: review
+  variables: 
+    DOMAIN: test.galacticfog.com
+  script:
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
+    - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$DOMAIN\"" | http PUT $MARURL
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    url: https://ui-react-$CI_BUILD_REF_SLUG.$DOMAIN
+    on_stop: stop_review
+  only:
+    - branches
+  except:
+    - develop
+
+stop_review:
+  image: galacticfog/gitlab-updater
+  stage: review
+  script:
+    - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
+    - http DELETE $MARURL
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
+  tags:
+    - nginx
+    - review-apps
+    - deploy
+
