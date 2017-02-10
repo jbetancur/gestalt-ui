@@ -1,19 +1,21 @@
 const webpackConfig = require('./webpack.config');
 
-webpackConfig.devtool = 'inline-source-map';
-
 module.exports = (config) => {
   config.set({
-    webpack: webpackConfig,
+    webpack: webpackConfig(),
+    reporters: ['mocha', 'coverage'],
+    files: [
+      'node_modules/babel-polyfill/dist/polyfill.js',
+      'src/all.tests.js',
+    ],
     preprocessors: {
-      'src/**/*.js': ['webpack', 'sourcemap'],
+      'src/all.tests.js': ['webpack', 'sourcemap'],
     },
     browsers: ['PhantomJS'],
-    singleRun: true,
+    singleRun: false,
+    browserDisconnectTolerance: 10,
+    browserNoActivityTimeout: 90000,
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
-    files: [
-      'src/index.tests.js',
-    ],
     plugins: [
       'karma-phantomjs-launcher',
       'karma-chai',
@@ -25,12 +27,7 @@ module.exports = (config) => {
       'karma-sinon-chai',
       'karma-coverage',
     ],
-    loaders: ['istanbul', {
-      exclude: [
-        '**/*.test*.js',
-      ],
-    }],
-    reporters: ['mocha', 'coverage'],
+    logLevel: config.LOG_INFO,
     webpackServer: {
       noInfo: true,
     },
@@ -43,8 +40,13 @@ module.exports = (config) => {
       noInfo: true,
     },
     coverageReporter: {
-      type: 'html',
-      dir: 'coverage/',
+      includeAllSources: true,
+      failOnEmptyTestSuite: false,
+      reporters: [
+        { type: 'lcov', dir: 'coverage/' },
+        { type: 'json', dir: 'coverage/' },
+        { type: 'text-summary' },
+      ],
       instrumenterOptions: {
         istanbul: { noCompact: true },
       },

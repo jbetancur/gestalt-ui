@@ -6,10 +6,10 @@ Gestalt Ui written in React/Redux
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 nvm install 6
-cd gestalt-ui-react-react
+cd gestalt-ui-react
 nvm use 6
 ```
-*Ensure that you ```nvm use 6``` whenever you start a new terminal. You may optionally persist this setting by using `nvm alias default <node-version>`*
+*Ensure that you `nvm use 6` whenever you start a new terminal. You may optionally persist this setting by using `nvm alias default <node-version>`*
 
 ### Install Binaries
 ```
@@ -42,7 +42,7 @@ yarn deploy -- --sha `git rev-parse --short=8 HEAD`
 
 ## Configuration
 If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing the following lines in `config.json`
-Otherwise, `config.js` can be automed via CI to inject the correct values before kicking off `yarn deploy`
+Otherwise, `config.json` can be automed via CI to inject the correct values before kicking off `yarn deploy`
 For example:
 ```
 {
@@ -65,10 +65,10 @@ yarn test
 ```
 
 ### TDD Testing
-Runs the app in TDD mode. Allows you to watch the code and tests for changes with you TDD.
+Runs the app in TDD mode. Allows you to watch the code and tests for changes with you as you TDD.
 
 #### Test Suite by Specific File Path
-Runs all the tests for a test  in TDD mode. This is the fastest way to TDD when working on a single file
+Runs all the tests for a test in TDD mode. This is the fastest way to TDD when working on a single file
 ```
 yarn test-tdd -- -f spec/app/app.test.js
 ```

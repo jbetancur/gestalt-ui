@@ -16,7 +16,7 @@ test:
   stage: test
   script:
     - yarn install
-    #- yarn test
+    # - yarn test
     - yarn deploy
   artifacts:
     expire_in: 30 minutes

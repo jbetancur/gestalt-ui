@@ -18,13 +18,18 @@ const PATHS = {
 const common = merge([
   {
     context: __dirname,
-    devtool: 'inline-source-map',
     resolve: {
       extensions: ['.jsx', '.scss', '.js', '.json'],
       modules: [
         path.resolve(__dirname, PATHS.srcPath),
         'node_modules'
-      ]
+      ],
+      alias: {
+        components: path.resolve(PATHS.srcPath, 'components'),
+        modules: path.resolve(PATHS.srcPath, 'modules'),
+        util: path.resolve(PATHS.srcPath, 'util'),
+        style: path.resolve(PATHS.srcPath, 'style'),
+      },
     },
     entry: {
       app: [`${PATHS.srcPath}/index.jsx`],
@@ -70,6 +75,7 @@ module.exports = function test(env) {
           new webpack.optimize.UglifyJsPlugin({
             minimize: true,
             mangle: true,
+            sourceMap: false,
             output: {
               comments: false
             },
@@ -100,6 +106,8 @@ module.exports = function test(env) {
 
   return merge([
     common,
+    parts.externals(),
+    parts.sourceMaps(),
     parts.scssConfig({}),
     parts.devServer({
       port: '8081',
@@ -108,6 +116,8 @@ module.exports = function test(env) {
     }),
     {
       plugins: [
+        new webpack.HotModuleReplacementPlugin(), // enable HMR globally
+        new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
         new ExtractTextPlugin({
           disable: true
         }),
