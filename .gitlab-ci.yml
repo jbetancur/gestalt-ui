@@ -78,6 +78,8 @@ review:
     - branches
   except:
     - develop
+  tags:
+    - test-cluster
 
 stop_review:
   image: galacticfog/gitlab-updater
@@ -92,7 +94,5 @@ stop_review:
     name: review/$CI_BUILD_REF_NAME
     action: stop
   tags:
-    - nginx
-    - review-apps
-    - deploy
+    - test-cluster
 
