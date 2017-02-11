@@ -20,11 +20,16 @@ class UserItem extends Component {
     selectedUsers: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    fqon: PropTypes.string.isRequired,
+    fqon: PropTypes.string,
     users: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteUsers: PropTypes.func.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    fqon: '',
   };
 
   constructor(props) {
@@ -37,7 +42,9 @@ class UserItem extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnloadListing();
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   handleRowToggle(row, toggled, count) {

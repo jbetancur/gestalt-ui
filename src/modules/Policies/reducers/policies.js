@@ -7,7 +7,7 @@ import {
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
+  policies: [],
   error: null
 };
 
@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload
+        policies: action.payload
       };
     case FETCH_POLICIES_REJECTED:
       return {

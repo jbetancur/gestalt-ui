@@ -12,6 +12,7 @@ class ProviderListing extends Component {
     workspaceId: PropTypes.string,
     environmentId: PropTypes.string,
     onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -30,7 +31,9 @@ class ProviderListing extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnloadListing();
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   render() {

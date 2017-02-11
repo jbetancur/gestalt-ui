@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { push } from 'react-router-redux';
+import { replace, push } from 'react-router-redux';
 import { toggleHandler } from 'util/helpers/lists';
 import providerTypes from './lists/providerTypes';
 
@@ -95,7 +95,7 @@ export function createProvider(fqon, entityId, entityKey, payload, routeToUrl) {
     dispatch({ type: CREATE_PROVIDER_PENDING });
     axios.post(url, payload).then((response) => {
       dispatch({ type: CREATE_PROVIDER_FULFILLED, payload: response.data });
-      dispatch(push(routeToUrl));
+      dispatch(replace(routeToUrl));
     }).catch((err) => {
       dispatch({ type: CREATE_PROVIDER_REJECTED, payload: err });
     });

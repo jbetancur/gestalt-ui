@@ -4,12 +4,14 @@ import PolicyItem from '../../components/PolicyItem';
 
 import * as actions from '../../actions';
 
-class Policies extends Component {
+class PolicyListing extends Component {
   static propTypes = {
     fetchPolicies: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.string.isRequired
+    environmentId: PropTypes.string.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -18,20 +20,23 @@ class Policies extends Component {
     this.props.fetchPolicies(fqon, environmentId);
   }
 
+  componentWillUnmount() {
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
+  }
+
   render() {
-    return (
-      <div>
-        <PolicyItem {...this.props} />
-      </div>
-    );
+    return <PolicyItem {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
   return {
-    policies: state.policies.fetchAll.items,
-    pending: state.policies.fetchAll.pending
+    policies: state.policies.fetchAll.policies,
+    pending: state.policies.fetchAll.pending,
+    selectedPolicies: state.policies.selectedPolicies,
   };
 }
 
-export default connect(mapStateToProps, actions)(Policies);
+export default connect(mapStateToProps, actions)(PolicyListing);

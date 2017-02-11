@@ -1,14 +1,14 @@
 import {
-    UPDATE_USER_PENDING,
-    UPDATE_USER_FULFILLED,
-    UPDATE_USER_REJECTED,
-    USER_UNLOADED,
+    UPDATE_POLICY_PENDING,
+    UPDATE_POLICY_FULFILLED,
+    UPDATE_POLICY_REJECTED,
+    POLICY_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  user: {
+  policy: {
     created: {},
     modified: {},
     properties: {}
@@ -18,21 +18,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_UNLOADED:
+    case POLICY_UNLOADED:
       return initialState;
-    case UPDATE_USER_PENDING:
+    case UPDATE_POLICY_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_USER_FULFILLED:
+    case UPDATE_POLICY_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         item: action.payload,
       };
-    case UPDATE_USER_REJECTED:
+    case UPDATE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,

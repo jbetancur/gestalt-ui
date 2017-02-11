@@ -1,0 +1,48 @@
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
+import PolicyForm from '../../components/PolicyForm';
+import validate from '../../validations';
+import * as actions from '../../actions';
+
+class PolicyCreate extends Component {
+  static propTypes = {
+    params: PropTypes.object.isRequired,
+    createPolicy: PropTypes.func.isRequired,
+    // selectedPolicyType: PropTypes.string.isRequired,
+    onUnload: PropTypes.func.isRequired,
+  };
+
+  componentWillUnmount() {
+    this.props.onUnload();
+  }
+
+  create(values) {
+    const { params, createPolicy } = this.props;
+    createPolicy(params.fqon, params.workspaceId, params.environmentId, values);
+  }
+
+  render() {
+    return <PolicyForm title="Create Policy" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+  }
+}
+
+function mapStateToProps(state) {
+  const { pending } = state.policies.fetchOne;
+  const model = {
+    name: '',
+    description: '',
+    properties: {}
+  };
+
+  return {
+    pending,
+    // selectedPolicyType: state.policies.selectedPolicy.type,
+    initialValues: model
+  };
+}
+
+export default connect(mapStateToProps, actions)(reduxForm({
+  form: 'policyCreate',
+  validate
+})(PolicyCreate));
