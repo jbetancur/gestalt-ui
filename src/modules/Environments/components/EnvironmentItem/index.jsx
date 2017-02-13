@@ -55,7 +55,7 @@ class EnvironmentItem extends Component {
 
   renderCards(item) {
     return (
-      <Card key={item.id} className="flex-4" onClick={e => this.navEnvironmentDetails(item, e)}>
+      <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navEnvironmentDetails(item, e)}>
         <CardTitle
           title={item.name}
           subtitle={

@@ -1,34 +1,34 @@
 import {
-  FETCH_POLICIES_PENDING,
-  FETCH_POLICIES_REJECTED,
-  FETCH_POLICIES_FULFILLED,
-  POLICIES_UNLOADED,
+  FETCH_POLICYRULES_PENDING,
+  FETCH_POLICYRULES_REJECTED,
+  FETCH_POLICYRULES_FULFILLED,
+  POLICYRULES_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  policies: [],
+  policyRules: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case POLICIES_UNLOADED:
+    case POLICYRULES_UNLOADED:
       return initialState;
-    case FETCH_POLICIES_PENDING:
+    case FETCH_POLICYRULES_PENDING:
       return {
         ...state,
         pending: true
       };
-    case FETCH_POLICIES_FULFILLED:
+    case FETCH_POLICYRULES_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        policies: action.payload
+        policyRules: action.payload
       };
-    case FETCH_POLICIES_REJECTED:
+    case FETCH_POLICYRULES_REJECTED:
       return {
         ...state,
         pending: false,

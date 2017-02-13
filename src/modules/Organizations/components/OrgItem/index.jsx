@@ -98,7 +98,7 @@ class OrgItem extends Component {
 
   renderCards(item) {
     return (
-      <Card key={item.id} className="flex-4" onClick={() => this.navToSubOrgs(item)}>
+      <Card key={item.id} className="flex-4 flex-xs-12" onClick={() => this.navToSubOrgs(item)}>
         <CardTitle
           title={item.name}
           subtitle={
@@ -133,11 +133,11 @@ class OrgItem extends Component {
     return (
       <div>
         <DetailCard>
-          <DetailCardTitle expander={!this.props.pending} title={params.fqon === self.properties.gestalt_home ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
+          <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
             {this.renderActionsMenu()}
-            <div className="gf-headline">{organization.name}
+            {!pending ? <div className="gf-headline">{organization.name}
               <div className="md-caption">{organization.properties.fqon}</div>
-            </div>
+            </div> : null}
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="access_time"><TimeAgo date={organization.created.timestamp} /></IconText>

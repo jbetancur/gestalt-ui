@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        item: action.payload,
+        policy: action.payload,
       };
     case UPDATE_POLICY_REJECTED:
       return {

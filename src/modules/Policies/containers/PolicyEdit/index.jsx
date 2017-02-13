@@ -42,7 +42,7 @@ class PolicyEdit extends Component {
 
   render() {
     const { policy, pending } = this.props;
-    return pending ? <CircularActivity id="policy-load" /> : <PolicyForm editMode title={policy.name} submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.updatePolicy(values)} {...this.props} />;
+    return pending ? <CircularActivity id="policy-load" /> : <PolicyForm editMode title={policy.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.updatePolicy(values)} {...this.props} />;
   }
 }
 
@@ -58,7 +58,7 @@ function mapStateToProps(state) {
     policy,
     pending,
     updatedPolicy: state.policies.policyUpdate.policy,
-    policyUpdatePending: state.policies.policyUpdate.pending,
+    policyRuleUpdatePending: state.policies.policyUpdate.pending,
     initialValues: model,
     enableReinitialize: true,
   };

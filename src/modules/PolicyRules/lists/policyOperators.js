@@ -1,58 +1,58 @@
 export default [
   {
-    type: 'equals',
+    name: 'equals',
     inputType: 'text'
   },
   {
-    type: 'notEquals',
+    name: 'notEquals',
     inputType: 'text'
   },
   {
-    type: 'inList',
+    name: 'inList',
     inputType: 'text'
   },
   {
-    type: 'contains',
+    name: 'contains',
     inputType: 'text'
   },
   {
-    type: 'oneOf',
+    name: 'oneOf',
     inputType: 'text'
   },
   {
-    type: 'except',
+    name: 'except',
     inputType: 'text'
   },
   {
-    type: 'startsWith',
+    name: 'startsWith',
     inputType: 'text'
   },
   {
-    type: 'endsWith',
+    name: 'endsWith',
     inputType: 'text'
   },
   {
-    type: '<=',
+    name: '<=',
     inputType: 'number'
   },
   {
-    type: '==',
+    name: '==',
     inputType: 'number'
   },
   {
-    type: '>',
+    name: '>',
     inputType: 'number'
   },
   {
-    type: '<',
+    name: '<',
     inputType: 'number'
   },
   {
-    type: '>=',
+    name: '>=',
     inputType: 'number'
   },
   {
-    type: '!=',
+    name: '!=',
     inputType: 'number'
   }
 ];

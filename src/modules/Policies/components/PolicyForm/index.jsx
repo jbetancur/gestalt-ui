@@ -8,78 +8,95 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
+import PolicyRules from 'modules/PolicyRules';
 import { nameMaxLen } from '../../validations';
 
 const PolicyForm = (props) => {
-  // const {
-  //   editMode,
-  //   policy,
-  //   updatedPolicy
-  // } = props;
+  const {
+    params,
+    pending,
+    policy,
+    policyRuleUpdatePending,
+    onSubmit,
+    touched,
+    error,
+    invalid,
+    pristine,
+    submitting,
+    handleSubmit,
+    cancelLabel,
+    submitLabel,
+    title,
+    editMode,
+  } = props;
 
-
-  // const currentPolicy = editMode && updatedPolicy.id ? updatedPolicy : policy;
 
   return (
-    <div>
-      <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={<span>{props.title}</span>} />
-            <CardText>
-              <div className="flex-row">
-                <Field
-                  className="flex-6 flex-xs-12"
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  errorText={props.touched && props.error}
-                  maxLength={nameMaxLen}
-                  lineDirection="center"
-                  autoComplete="none"
-                />
-                <Field
-                  className="flex-6 flex-xs-12"
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  lineDirection="center"
-                />
-              </div>
-            </CardText>
-            {props.policyUpdatePending || props.pending ? <LinearProgress id="policy-form" style={{ zIndex: 999 }} /> : null}
-            <CardActions>
-              <Button
-                flat
-                label={props.cancelLabel}
-                disabled={props.pending || props.submitting}
-                component={Link}
-                to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
+    <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <div className="flex-row center-center">
+        <Card className="flex-10 flex-xs-12 flex-sm-12">
+          <CardTitle title={title} />
+          <CardText>
+            <div className="flex-row">
+              <Field
+                className="flex-6 flex-xs-12"
+                component={TextField}
+                name="name"
+                label="Name"
+                type="text"
+                required
+                errorText={touched && error}
+                maxLength={nameMaxLen}
+                lineDirection="center"
+                autoComplete="none"
               />
-              <Button
-                raised
-                label={props.submitLabel}
-                type="submit"
-                disabled={props.pristine || props.pending || props.invalid || props.submitting}
-                primary
+              <Field
+                className="flex-6 flex-xs-12"
+                component={TextField}
+                name="description"
+                label="Description"
+                type="text"
+                lineDirection="center"
               />
-            </CardActions>
-          </Card>
-        </div>
-      </form>
-    </div>
+
+            </div>
+          </CardText>
+          {policyRuleUpdatePending || pending ? <LinearProgress id="policy-form" style={{ zIndex: 999 }} /> : null}
+          <CardActions>
+            <Button
+              flat
+              label={cancelLabel}
+              disabled={pending || submitting}
+              component={Link}
+              to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`}
+            />
+            <Button
+              raised
+              label={submitLabel}
+              type="submit"
+              disabled={pristine || pending || invalid || submitting}
+              primary
+            />
+          </CardActions>
+        </Card>
+
+        {editMode && policy.id ?
+          <div className="flex-row center-center">
+            <div className="flex-10 flex-xs-12 flex-sm-12">
+              <PolicyRules {...props} />
+            </div>
+          </div>
+          : null}
+      </div>
+    </form>
   );
 };
 
 PolicyForm.propTypes = {
-  // policy: PropTypes.object.isRequired,
-  // updatedPolicy: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  policy: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  policyUpdatePending: PropTypes.bool.isRequired,
+  policyRuleUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -90,7 +107,7 @@ PolicyForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  // editMode: PropTypes.bool,
+  editMode: PropTypes.bool,
 };
 
 PolicyForm.defaultProps = {

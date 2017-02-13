@@ -25,6 +25,19 @@ import {
   PROVIDERS_UNLOADED,
 } from './actionTypes';
 
+function fixProperties(data) {
+  const payload = { ...data };
+
+  // TODO: providers such as kubernetes do not have this field plus the API refuses to populate a standard schema
+  // May split out providers types into their own respective modules/forms
+  if (!payload.properties.config) {
+    payload.properties = {
+      config: { auth: { scheme: '', username: '', password: '' } } };
+  }
+
+  return payload;
+}
+
 export function onUnload() {
   return (dispatch) => {
     dispatch({ type: PROVIDER_UNLOADED });
@@ -81,7 +94,7 @@ export function fetchProvider(fqon, providerId) {
   return (dispatch) => {
     dispatch({ type: FETCH_PROVIDER_PENDING });
     axios.get(`${fqon}/providers/${providerId}`).then((response) => {
-      dispatch({ type: FETCH_PROVIDER_FULFILLED, payload: response.data });
+      dispatch({ type: FETCH_PROVIDER_FULFILLED, payload: fixProperties(response.data) });
     }).catch((err) => {
       dispatch({ type: FETCH_PROVIDER_REJECTED, payload: err });
     });
