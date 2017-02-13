@@ -180,7 +180,7 @@ const LambdaForm = (props) => {
                     name="properties.compressed"
                     label="Compressed Package"
                     // TODO: Find out why redux-form state for bool doesn't apply
-                    defaultChecked={lambda.properties.compressed}
+                    checked={values.properties.compressed}
                   /> : null}
                 <Field
                   className="flex-2 flex-xs-6"
@@ -188,7 +188,7 @@ const LambdaForm = (props) => {
                   component={Checkbox}
                   name="properties.synchronous"
                   // TODO: Find out why redux-form state for bool doesn't apply
-                  defaultChecked={lambda.properties.synchronous}
+                  checked={values.properties.synchronous}
                   label="Synchronous"
                 />
                 <Field
@@ -197,7 +197,7 @@ const LambdaForm = (props) => {
                   component={Checkbox}
                   name="properties.public"
                   // TODO: Find out why redux-form state for bool doesn't apply
-                  defaultChecked={lambda.properties.public}
+                  checked={values.properties.public}
                   label="Public"
                 />
                 {values.properties.code_type === 'code' ?

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { push } from 'react-router-redux';
+import { replace, push } from 'react-router-redux';
 import { toggleHandler } from 'util/helpers/lists';
 import providerTypes from './lists/providerTypes';
 
@@ -24,6 +24,19 @@ import {
   PROVIDER_UNLOADED,
   PROVIDERS_UNLOADED,
 } from './actionTypes';
+
+function fixProperties(data) {
+  const payload = { ...data };
+
+  // TODO: providers such as kubernetes do not have this field plus the API refuses to populate a standard schema
+  // May split out providers types into their own respective modules/forms
+  if (!payload.properties.config) {
+    payload.properties = {
+      config: { auth: { scheme: '', username: '', password: '' } } };
+  }
+
+  return payload;
+}
 
 export function onUnload() {
   return (dispatch) => {
@@ -81,7 +94,7 @@ export function fetchProvider(fqon, providerId) {
   return (dispatch) => {
     dispatch({ type: FETCH_PROVIDER_PENDING });
     axios.get(`${fqon}/providers/${providerId}`).then((response) => {
-      dispatch({ type: FETCH_PROVIDER_FULFILLED, payload: response.data });
+      dispatch({ type: FETCH_PROVIDER_FULFILLED, payload: fixProperties(response.data) });
     }).catch((err) => {
       dispatch({ type: FETCH_PROVIDER_REJECTED, payload: err });
     });
@@ -95,7 +108,7 @@ export function createProvider(fqon, entityId, entityKey, payload, routeToUrl) {
     dispatch({ type: CREATE_PROVIDER_PENDING });
     axios.post(url, payload).then((response) => {
       dispatch({ type: CREATE_PROVIDER_FULFILLED, payload: response.data });
-      dispatch(push(routeToUrl));
+      dispatch(replace(routeToUrl));
     }).catch((err) => {
       dispatch({ type: CREATE_PROVIDER_REJECTED, payload: err });
     });

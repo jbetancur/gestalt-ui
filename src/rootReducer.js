@@ -16,6 +16,7 @@ import usersReducer from './modules/Users/reducers';
 import groupsReducer from './modules/Groups/reducers';
 import containersReducer from './modules/Containers/reducers';
 import policiesReducer from './modules/Policies/reducers';
+import policyRulesReducer from './modules/PolicyRules/reducers';
 import integrationsReducer from './modules/Integrations/reducers';
 import licensingReducer from './modules/Licensing/reducers';
 
@@ -44,6 +45,7 @@ export default combineReducers({
   groups: groupsReducer,
   containers: containersReducer,
   policies: policiesReducer,
+  policyRules: policyRulesReducer,
   integrations: integrationsReducer,
   licensing: licensingReducer
 });

@@ -5,11 +5,14 @@ import * as actions from '../../actions';
 
 class GroupListing extends Component {
   static propTypes = {
-    onUnload: PropTypes.func.isRequired
+    onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   componentWillUnmount() {
-    this.props.onUnload();
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   render() {

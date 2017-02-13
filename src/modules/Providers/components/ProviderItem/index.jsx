@@ -9,7 +9,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
-// import { toggleHandler } from 'util/helpers/lists';
+import { FormattedDate } from 'react-intl';
 
 class ProviderItem extends Component {
   static propTypes = {
@@ -109,6 +109,7 @@ class ProviderItem extends Component {
         <TableColumn>{provider.description}</TableColumn>
         <TableColumn>{this.formatResourceType(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
+        <TableColumn><FormattedDate value={provider.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 
@@ -123,16 +124,18 @@ class ProviderItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="providers-progress" scale={3} centered={true} /> :
+          {this.props.pending ? <LinearProgress id="providers-progress" /> :
           <DataTable baseId="providers" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
+            {!this.props.providers.length ? null :
             <TableHeader>
               <TableRow>
                 <TableColumn>Name</TableColumn>
                 <TableColumn>Description</TableColumn>
                 <TableColumn>Type</TableColumn>
                 <TableColumn>Parent</TableColumn>
+                <TableColumn>Created</TableColumn>
               </TableRow>
-            </TableHeader>
+            </TableHeader>}
             <TableBody>
               {providers}
             </TableBody>

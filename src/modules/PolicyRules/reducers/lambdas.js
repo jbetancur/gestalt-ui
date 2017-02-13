@@ -1,31 +1,34 @@
 import {
-  FETCH_POLICIES_PENDING,
-  FETCH_POLICIES_REJECTED,
-  FETCH_POLICIES_FULFILLED
+  FETCH_LAMBDAS_PENDING,
+  FETCH_LAMBDAS_FULFILLED,
+  FETCH_LAMBDAS_REJECTED,
+  LAMBDAS_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
+  lambdas: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_POLICIES_PENDING:
+    case LAMBDAS_UNLOADED:
+      return initialState;
+    case FETCH_LAMBDAS_PENDING:
       return {
         ...state,
         pending: true
       };
-    case FETCH_POLICIES_FULFILLED:
+    case FETCH_LAMBDAS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload
+        lambdas: action.payload
       };
-    case FETCH_POLICIES_REJECTED:
+    case FETCH_LAMBDAS_REJECTED:
       return {
         ...state,
         pending: false,
@@ -35,4 +38,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

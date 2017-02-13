@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux';
-import policiesFetchReducer from './policiesFetch';
+import fetchAll from './policies';
+import fetchOne from './policy';
+import policyUpdate from './policyUpdate';
+import selectedPolicies from './selectedPolicies';
 
 export default combineReducers({
-  fetchAll: policiesFetchReducer
+  fetchAll,
+  fetchOne,
+  policyUpdate,
+  selectedPolicies,
 });

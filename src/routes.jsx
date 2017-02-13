@@ -28,6 +28,13 @@ import UserEdit from './modules/Users/containers/UserEdit';
 import Groups from './modules/Groups';
 import GroupCreate from './modules/Groups/containers/GroupCreate';
 import GroupEdit from './modules/Groups/containers/GroupEdit';
+import Policies from './modules/Policies';
+import PolicyCreate from './modules/Policies/containers/PolicyCreate';
+import PolicyEdit from './modules/Policies/containers/PolicyEdit';
+import PolicyLimitRuleCreate from './modules/PolicyRules/containers/PolicyLimitRuleCreate';
+import PolicyLimitRuleEdit from './modules/PolicyRules/containers/PolicyLimitRuleEdit';
+import PolicyEventRuleCreate from './modules/PolicyRules/containers/PolicyEventRuleCreate';
+import PolicyEventRuleEdit from './modules/PolicyRules/containers/PolicyEventRuleEdit';
 import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
@@ -75,6 +82,19 @@ const routes = (
                 <Route path="create" component={LambdaCreate} onEnter={requireAuth} />
                 <Route path=":lambdaId" onEnter={requireAuth}>
                   <Route path="edit" component={LambdaEdit} onEnter={requireAuth} />
+                </Route>
+              </Route>
+              <Route path="policies" onEnter={requireAuth}>
+                <IndexRoute component={Policies} onEnter={requireAuth} />
+                <Route path="create" component={PolicyCreate} onEnter={requireAuth} />
+                <Route path=":policyId" onEnter={requireAuth}>
+                  <Route path="edit" onEnter={requireAuth}>
+                    <IndexRoute component={PolicyEdit} onEnter={requireAuth} />
+                    <Route path="rules/createlimitRule" component={PolicyLimitRuleCreate} onEnter={requireAuth} />
+                    <Route path="rules/:ruleId/editlimitRule" component={PolicyLimitRuleEdit} onEnter={requireAuth} />
+                    <Route path="rules/createeventRule" component={PolicyEventRuleCreate} onEnter={requireAuth} />
+                    <Route path="rules/:ruleId/editeventRule" component={PolicyEventRuleEdit} onEnter={requireAuth} />
+                  </Route>
                 </Route>
               </Route>
               <Route path="providers" onEnter={requireAuth}>

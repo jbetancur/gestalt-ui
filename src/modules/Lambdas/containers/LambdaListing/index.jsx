@@ -10,6 +10,7 @@ class Lambdas extends Component {
     fqon: PropTypes.string.isRequired,
     environmentId: PropTypes.string.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -19,8 +20,9 @@ class Lambdas extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing } = this.props;
+    const { onUnloadListing, clearSelected } = this.props;
     onUnloadListing();
+    clearSelected();
   }
 
   render() {

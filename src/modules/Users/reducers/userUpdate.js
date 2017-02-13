@@ -8,7 +8,7 @@ import {
 const initialState = {
   pending: false,
   completed: false,
-  item: {
+  user: {
     created: {},
     modified: {},
     properties: {}
