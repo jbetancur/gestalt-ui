@@ -13,9 +13,8 @@ import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
-import policyOperators from '../../lists/policyOperators';
 
-const PolicyLimitRuleForm = (props) => {
+const PolicyEventRuleForm = (props) => {
   const {
     params,
     pending,
@@ -30,30 +29,20 @@ const PolicyLimitRuleForm = (props) => {
     cancelLabel,
     submitLabel,
     title,
-    values,
     selectedActions,
+    editMode,
+    lambdas,
+    pendingLambdas,
   } = props;
 
-  // flatten limit arrays for policyResourceTypes
-  const policyLimiters = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].limits));
-  const policyActions = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].events));
-  // Filter policyLimiters and policyOperators to match inputTypes
-  const filteredPolicyOperators = values.properties.eval_logic.property ? policyOperators.filter((operator) => {
-    const limiterIndex = policyLimiters.findIndex(limiter => limiter.name === values.properties.eval_logic.property);
-    return operator.inputType === policyLimiters[limiterIndex].inputType;
-  }) : [];
+  const fetchLambdas = () => {
+    props.fetchLambdas(params.fqon, params.environmentId);
+  };
 
-  const valueType = values.properties.eval_logic.property ? policyLimiters.find(limiter => limiter.name === values.properties.eval_logic.property).inputType : 'text';
+  const policyTriggers = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].triggers));
 
   const onActionChecked = (action) => {
     props.handleSelectedActions(action, selectedActions);
-  };
-
-  const handleEvalFields = () => {
-    // since we need to deal with input types we should clear the form value fields
-    // when
-    props.dispatch(props.change('properties.eval_logic.operator', ''));
-    props.dispatch(props.change('properties.eval_logic.value', ''));
   };
 
   return (
@@ -77,66 +66,30 @@ const PolicyLimitRuleForm = (props) => {
               <Field
                 className="flex-8 flex-xs-12"
                 component={TextField}
+                menuItems={lambdas}
                 name="description"
                 label="Description"
                 type="text"
                 lineDirection="center"
               />
-              <div className="flex-row">
-                <Field
-                  id="rule-eval-property"
-                  className="flex-4 flex-xs-12"
-                  component={SelectField}
-                  menuItems={policyLimiters}
-                  name="properties.eval_logic.property"
-                  itemLabel="name"
-                  itemValue="name"
-                  required
-                  label="Limit"
-                  errorText={props.touched && props.error}
-                  onChange={() => handleEvalFields()}
-                />
-                {values.properties.eval_logic.property ?
-                  <Field
-                    id="rule-eval-operator"
-                    className="flex-4 flex-xs-12"
-                    component={SelectField}
-                    menuItems={filteredPolicyOperators}
-                    name="properties.eval_logic.operator"
-                    itemLabel="name"
-                    itemValue="name"
-                    required
-                    label="Operator"
-                    errorText={props.touched && props.error}
-                  /> : null }
-                {values.properties.eval_logic.operator ?
-                  <Field
-                    id="rule-eval-value"
-                    className="flex-4 flex-xs-12"
-                    component={TextField}
-                    name="properties.eval_logic.value"
-                    label="Value"
-                    type={valueType}
-                    parse={valueType === 'number' ? (value => Number(value)) : null}  // redux form formats everything as string, so force number
-                    required
-                    errorText={touched && error}
-                    lineDirection="center"
-                  /> : null}
-              </div>
-              <div className="flex-row">
-                <Field
-                  className="flex-2 flex-xs-6"
-                  id="rule-strict"
-                  component={CheckboxForm}
-                  name="properties.strict"
-                  checked={values.properties.strict}
-                  label="Strict"
-                />
-              </div>
+              <Field
+                className="flex-4 flex-xs-12"
+                component={SelectField}
+                name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                label="Lambda"
+                menuItems={pendingLambdas ? ['fetching lambdas...'] : lambdas}
+                itemLabel="name"
+                itemValue="id"
+                type="text"
+                required
+                lineDirection="center"
+                errorText={touched && error}
+                onFocus={() => fetchLambdas()}
+              />
               <fieldset>
                 <legend>Actions</legend>
                 <div className="flex-row">
-                  {policyActions.map(action =>
+                  {policyTriggers.map(action =>
                     <Field
                       key={action.name}
                       className="flex-2 flex-xs-12 flex-sm-6 flex-md-4"
@@ -174,7 +127,7 @@ const PolicyLimitRuleForm = (props) => {
   );
 };
 
-PolicyLimitRuleForm.propTypes = {
+PolicyEventRuleForm.propTypes = {
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   policyUpdatePending: PropTypes.bool.isRequired,
@@ -188,20 +141,23 @@ PolicyLimitRuleForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  values: PropTypes.object.isRequired,
+  lambdas: PropTypes.object.isRequired,
+  pendingLambdas: PropTypes.bool.isRequired,
   selectedActions: PropTypes.array.isRequired,
+  editMode: PropTypes.bool,
 };
 
-PolicyLimitRuleForm.defaultProps = {
+PolicyEventRuleForm.defaultProps = {
   touched: false,
   error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
+  editMode: false,
 };
 
 export default connect(
   (state, props) => ({
     values: getFormValues(props.form)(state)
   })
-)(PolicyLimitRuleForm);
+)(PolicyEventRuleForm);

@@ -3,26 +3,30 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
-import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
-import validate from '../../components/PolicyLimitRuleForm/validations';
+import { cloneDeep } from 'lodash';
+import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
+import validate from '../../components/PolicyEventRuleForm/validations';
 import * as actions from '../../actions';
 
-class PolicyLimitRuleEdit extends Component {
+class PolicyEventRuleEdit extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     policyRule: PropTypes.object.isRequired,
     fetchPolicyRule: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
+    onUnloadLambdas: PropTypes.func.isRequired,
     updatePolicyRule: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     selectedActions: PropTypes.array.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
+    fetchLambdas: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchPolicyRule } = this.props;
+    const { params, fetchPolicyRule, fetchLambdas } = this.props;
     fetchPolicyRule(params.fqon, params.policyId, params.ruleId);
+    fetchLambdas(params.fqon, params.environmentId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,8 +38,9 @@ class PolicyLimitRuleEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnload, clearSelectedActions } = this.props;
+    const { onUnload, onUnloadLambdas, clearSelectedActions } = this.props;
     onUnload();
+    onUnloadLambdas();
     clearSelectedActions();
   }
 
@@ -48,11 +53,11 @@ class PolicyLimitRuleEdit extends Component {
       properties
     };
 
-    const updatedModel = { ...values };
+    const payload = cloneDeep({ ...values });
+    payload.properties.lambda = values.properties.lambda.id;
+    payload.properties.actions = selectedActions;
 
-    updatedModel.properties.actions = selectedActions;
-
-    const patches = jsonPatch.compare(originalModel, updatedModel);
+    const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       this.props.updatePolicyRule(params.fqon, params.policyId, id, patches);
     }
@@ -60,7 +65,7 @@ class PolicyLimitRuleEdit extends Component {
 
   render() {
     const { policyRule, pending } = this.props;
-    return pending ? <CircularActivity id="policyRule-load" /> : <PolicyLimitRuleForm title={policyRule.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updatePolicyRule(values)} {...this.props} />;
+    return pending ? <CircularActivity id="policyRule-load" /> : <PolicyEventRuleForm editMode title={policyRule.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updatePolicyRule(values)} {...this.props} />;
   }
 }
 
@@ -79,12 +84,14 @@ function mapStateToProps(state) {
     selectedActions: state.policyRules.selectedActions.selectedActions,
     updatedPolicyRule: state.policyRules.policyRuleUpdate.policyRule,
     policyUpdatePending: state.policyRules.policyRuleUpdate.pending,
+    lambdas: state.policyRules.lambdas.lambdas,
+    pendingLambdas: state.policyRules.lambdas.pending,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
 export default connect(mapStateToProps, actions)(reduxForm({
-  form: 'policyLimitRuleEdit',
+  form: 'policyEventRuleEdit',
   validate
-})(PolicyLimitRuleEdit));
+})(PolicyEventRuleEdit));

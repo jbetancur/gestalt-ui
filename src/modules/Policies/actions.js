@@ -93,7 +93,6 @@ export function updatePolicy(fqon, workspaceId, environmentId, policyId, patches
     dispatch({ type: UPDATE_POLICY_PENDING });
     axios.patch(`${fqon}/policies/${policyId}`, patches).then((response) => {
       dispatch({ type: UPDATE_POLICY_FULFILLED, payload: response.data });
-      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}`));
     }).catch((err) => {
       dispatch({ type: UPDATE_POLICY_REJECTED, payload: err });
     });

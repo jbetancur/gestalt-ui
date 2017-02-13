@@ -33,6 +33,8 @@ import PolicyCreate from './modules/Policies/containers/PolicyCreate';
 import PolicyEdit from './modules/Policies/containers/PolicyEdit';
 import PolicyLimitRuleCreate from './modules/PolicyRules/containers/PolicyLimitRuleCreate';
 import PolicyLimitRuleEdit from './modules/PolicyRules/containers/PolicyLimitRuleEdit';
+import PolicyEventRuleCreate from './modules/PolicyRules/containers/PolicyEventRuleCreate';
+import PolicyEventRuleEdit from './modules/PolicyRules/containers/PolicyEventRuleEdit';
 import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
@@ -90,6 +92,8 @@ const routes = (
                     <IndexRoute component={PolicyEdit} onEnter={requireAuth} />
                     <Route path="rules/createlimitRule" component={PolicyLimitRuleCreate} onEnter={requireAuth} />
                     <Route path="rules/:ruleId/editlimitRule" component={PolicyLimitRuleEdit} onEnter={requireAuth} />
+                    <Route path="rules/createeventRule" component={PolicyEventRuleCreate} onEnter={requireAuth} />
+                    <Route path="rules/:ruleId/editeventRule" component={PolicyEventRuleEdit} onEnter={requireAuth} />
                   </Route>
                 </Route>
               </Route>

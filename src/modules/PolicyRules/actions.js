@@ -21,6 +21,10 @@ import {
   DELETE_POLICYRULE_FULFILLED,
   DELETE_POLICYRULE_REJECTED,
   SELECTED_ACTIONS,
+  FETCH_LAMBDAS_PENDING,
+  FETCH_LAMBDAS_FULFILLED,
+  FETCH_LAMBDAS_REJECTED,
+  LAMBDAS_UNLOADED,
 } from './actionTypes';
 
 export function onUnload() {
@@ -32,6 +36,12 @@ export function onUnload() {
 export function onUnloadListing() {
   return (dispatch) => {
     dispatch({ type: POLICYRULES_UNLOADED });
+  };
+}
+
+export function onUnloadLambdas() {
+  return (dispatch) => {
+    dispatch({ type: LAMBDAS_UNLOADED });
   };
 }
 
@@ -145,6 +155,17 @@ export function deletePolicyRules(ruleIds, fqon, policyId) {
     }).catch((err) => {
       dispatch({ type: DELETE_POLICYRULE_REJECTED, payload: err });
       dispatch(clearSelected());
+    });
+  };
+}
+
+export function fetchLambdas(fqon, environmentId) {
+  return (dispatch) => {
+    dispatch({ type: FETCH_LAMBDAS_PENDING });
+    axios.get(`/${fqon}/environments/${environmentId}/lambdas`).then((response) => {
+      dispatch({ type: FETCH_LAMBDAS_FULFILLED, payload: response.data });
+    }).catch((err) => {
+      dispatch({ type: FETCH_LAMBDAS_REJECTED, payload: err });
     });
   };
 }

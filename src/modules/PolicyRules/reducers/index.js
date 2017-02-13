@@ -4,6 +4,7 @@ import fetchOne from './policyRule';
 import policyRuleUpdate from './policyRuleUpdate';
 import selectedPolicyRules from './selectedPolicyRules';
 import selectedActions from './selectedActions';
+import lambdas from './lambdas';
 
 export default combineReducers({
   fetchAll,
@@ -11,4 +12,5 @@ export default combineReducers({
   policyRuleUpdate,
   selectedPolicyRules,
   selectedActions,
+  lambdas,
 });
