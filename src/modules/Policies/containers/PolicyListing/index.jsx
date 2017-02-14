@@ -7,16 +7,16 @@ import * as actions from '../../actions';
 class PolicyListing extends Component {
   static propTypes = {
     fetchPolicies: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
     environmentId: PropTypes.string.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    const fqon = this.props.fqon || this.props.router.params.fqon;
-    const environmentId = this.props.environmentId || this.props.router.params.environmentId;
+  componentWillMount() {
+    const fqon = this.props.fqon || this.props.params.fqon;
+    const environmentId = this.props.environmentId || this.props.params.environmentId;
     this.props.fetchPolicies(fqon, environmentId);
   }
 

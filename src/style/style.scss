@@ -1,10 +1,11 @@
 @import '~sanitize.css/sanitize.css';
 @import '~flexybox/dist/flexybox.scss';
 @import '~react-md/src/scss/react-md';
+@import 'mixins';
 @import 'fonts';
 @import 'colors';
-@import 'mixins';
 @import 'typography';
+@import 'animations';
 //THEMING
 $md-primary-color: $md-light-blue-500;
 $md-secondary-color: $md-blue-a-200;
@@ -102,10 +103,13 @@ a[type=button] {
     z-index: -999;
     margin: 0;
     text-align: center;
+    height: 100%;
     div {
         margin: 0;
         .logo {
-            margin-right: 2em;
+            animation: spinGrow .6s ease-out forwards;
+            @extend .spin-and-grow;
+            margin-right: 2.2em;
             svg {
                 height: 2.1em;
                 width: 2.1em;

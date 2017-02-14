@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GestaltLogo from '../../../../components/GestaltIcon';
+import GestaltIcon from 'components/GestaltIcon';
 
 const Wrapper = styled.div`
     background-color: #0b314a;
@@ -12,17 +12,16 @@ const Wrapper = styled.div`
     width: 100%;
     text-align: center;
     line-height: 48px;
-    svg {
-        height: 42px;
-        width: 42px;
+    .logo {
+        margin-left: 2.2em;
     }
 `;
 
 const LoginFooter = () => (
   <Wrapper>
-    <div className="flex-row center-center">
-      <div className="flex-3">
-        <GestaltLogo />
+    <div className="flex-row center-center logo-container">
+      <div className="flex-row center-center flex-12">
+        <div className="logo"><GestaltIcon /></div>
       </div>
     </div>
   </Wrapper>

@@ -16,15 +16,20 @@ class GroupItem extends Component {
   static propTypes = {
     fetchGroups: PropTypes.func.isRequired,
     handleSelected: PropTypes.func.isRequired,
-    selectedGroups: PropTypes.array.isRequired,
+    selectedGroups: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    fqon: PropTypes.string.isRequired,
+    fqon: PropTypes.string,
     groups: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteGroups: PropTypes.func.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    fqon: '',
+  }
 
   constructor(props) {
     super(props);
@@ -55,9 +60,12 @@ class GroupItem extends Component {
   delete() {
     const { params, deleteGroups } = this.props;
     const { selectedItems } = this.props.selectedGroups;
-    const userIds = selectedItems.map(item => (item.id));
+    const groupIds = selectedItems.map(item => (item.id));
+    const groupsNames = selectedItems.map(item => (item.name));
 
-    deleteGroups(userIds, params.fqon);
+    this.props.confirmDelete(() => {
+      deleteGroups(groupIds, params.fqon);
+    }, groupsNames);
   }
 
   renderCreateButton() {
@@ -96,7 +104,7 @@ class GroupItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="groups-listing" /> :
+          {this.props.pending ? <LinearProgress id="groups-listing" /> : null}
           <DataTable baseId="Groups" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.groups.length ? null :
             <TableHeader>
@@ -109,7 +117,7 @@ class GroupItem extends Component {
             <TableBody>
               {groups}
             </TableBody>
-          </DataTable>}
+          </DataTable>
         </Card>
       </div>
     );

@@ -3,6 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import { createResponsiveStateReducer } from 'redux-responsive';
 import appReducers from './App/reducers';
+import modalReducer from './modules/ModalRoot/reducers';
 import errorNotificationReducer from './modules/ErrorNotifications/reducers';
 import loginReducer from './modules/Login/reducer';
 import organizationsReducer from './modules/Organizations/reducers';
@@ -30,6 +31,7 @@ const mediaQuery = {
 export default combineReducers({
   browser: createResponsiveStateReducer(mediaQuery),
   error: errorNotificationReducer,
+  modal: modalReducer,
   routing: routerReducer,
   form: formReducer,
   app: appReducers,

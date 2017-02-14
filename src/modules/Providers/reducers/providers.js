@@ -3,6 +3,9 @@ import {
   FETCH_PROVIDERS_REJECTED,
   FETCH_PROVIDERS_FULFILLED,
   PROVIDERS_UNLOADED,
+  DELETE_PROVIDER_PENDING,
+  DELETE_PROVIDER_FULFILLED,
+  DELETE_PROVIDER_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
@@ -29,6 +32,23 @@ export default (state = initialState, action) => {
         providers: action.payload,
       };
     case FETCH_PROVIDERS_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case DELETE_PROVIDER_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case DELETE_PROVIDER_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case DELETE_PROVIDER_REJECTED:
       return {
         ...state,
         pending: false,

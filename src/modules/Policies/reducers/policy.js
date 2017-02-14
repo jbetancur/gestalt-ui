@@ -5,9 +5,6 @@ import {
     CREATE_POLICY_PENDING,
     CREATE_POLICY_FULFILLED,
     CREATE_POLICY_REJECTED,
-    DELETE_POLICY_PENDING,
-    DELETE_POLICY_FULFILLED,
-    DELETE_POLICY_REJECTED,
     POLICY_UNLOADED
 } from '../actionTypes';
 
@@ -57,23 +54,6 @@ export default (state = initialState, action) => {
         policy: action.payload,
       };
     case CREATE_POLICY_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case DELETE_POLICY_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_POLICY_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true
-      };
-    case DELETE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,

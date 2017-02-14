@@ -2,7 +2,10 @@ import {
   FETCH_GROUPS_PENDING,
   FETCH_GROUPS_REJECTED,
   FETCH_GROUPS_FULFILLED,
-  GROUPS_UNLOADED
+  GROUPS_UNLOADED,
+  DELETE_GROUP_PENDING,
+  DELETE_GROUP_FULFILLED,
+  DELETE_GROUP_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
@@ -33,6 +36,23 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload
+      };
+    case DELETE_GROUP_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case DELETE_GROUP_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case DELETE_GROUP_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
       };
     default:
       return state;

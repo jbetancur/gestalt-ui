@@ -3,6 +3,9 @@ import {
   FETCH_POLICIES_REJECTED,
   FETCH_POLICIES_FULFILLED,
   POLICIES_UNLOADED,
+  DELETE_POLICY_PENDING,
+  DELETE_POLICY_FULFILLED,
+  DELETE_POLICY_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
@@ -33,6 +36,23 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload
+      };
+    case DELETE_POLICY_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case DELETE_POLICY_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case DELETE_POLICY_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
       };
     default:
       return state;

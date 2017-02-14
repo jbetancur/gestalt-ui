@@ -5,9 +5,6 @@ import {
     CREATE_POLICYRULE_PENDING,
     CREATE_POLICYRULE_FULFILLED,
     CREATE_POLICYRULE_REJECTED,
-    DELETE_POLICYRULE_PENDING,
-    DELETE_POLICYRULE_FULFILLED,
-    DELETE_POLICYRULE_REJECTED,
     POLICYRULE_UNLOADED
 } from '../actionTypes';
 
@@ -60,23 +57,6 @@ export default (state = initialState, action) => {
         policyRule: action.payload,
       };
     case CREATE_POLICYRULE_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case DELETE_POLICYRULE_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_POLICYRULE_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true
-      };
-    case DELETE_POLICYRULE_REJECTED:
       return {
         ...state,
         pending: false,
