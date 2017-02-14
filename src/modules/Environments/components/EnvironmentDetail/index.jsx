@@ -32,6 +32,7 @@ class EnvironmentDetail extends Component {
     environment: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -61,7 +62,9 @@ class EnvironmentDetail extends Component {
   delete() {
     const { params, environment, deleteEnvironment } = this.props;
 
-    deleteEnvironment(params.fqon, environment.id, params.workspaceId);
+    this.props.confirmDelete(() => {
+      deleteEnvironment(params.fqon, environment.id, params.workspaceId);
+    }, environment.name);
   }
 
   renderActionsMenu() {
@@ -94,7 +97,6 @@ class EnvironmentDetail extends Component {
       </div>
     );
   }
-
 
   renderThings(state) {
     const { params } = this.props;

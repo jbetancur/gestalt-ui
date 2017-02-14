@@ -81,7 +81,7 @@ export function createPolicy(fqon, workspaceId, environmentId, payload) {
     dispatch({ type: CREATE_POLICY_PENDING });
     axios.post(`${fqon}/environments/${environmentId}/policies`, payload).then((response) => {
       dispatch({ type: CREATE_POLICY_FULFILLED, payload: response.data });
-      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}`));
+      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}/policies/${response.data.id}/edit`));
     }).catch((err) => {
       dispatch({ type: CREATE_POLICY_REJECTED, payload: err });
     });
@@ -122,6 +122,20 @@ export function deletePolicies(policyIds, fqon, environmentId) {
     }).catch((err) => {
       dispatch({ type: DELETE_POLICY_REJECTED, payload: err });
       dispatch(clearSelected());
+    });
+  };
+}
+
+export function confirmDelete(action, multipleItems) {
+  return (dispatch) => {
+    dispatch({
+      type: 'SHOW_MODAL',
+      modalType: 'CONFIRM',
+      modalProps: {
+        title: 'Confirm Delete Policies',
+        multipleItems,
+        onProceed: action,
+      }
     });
   };
 }

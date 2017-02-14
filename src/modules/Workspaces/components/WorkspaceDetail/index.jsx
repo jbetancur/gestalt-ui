@@ -27,6 +27,7 @@ class WorkspaceDetail extends Component {
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -56,7 +57,10 @@ class WorkspaceDetail extends Component {
 
   delete() {
     const { params, workspace, deleteWorkspace } = this.props;
-    deleteWorkspace(params.fqon, workspace.id);
+
+    this.props.confirmDelete(() => {
+      deleteWorkspace(params.fqon, workspace.id);
+    }, workspace.name);
   }
 
   renderActionsMenu() {

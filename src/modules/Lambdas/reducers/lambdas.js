@@ -3,6 +3,9 @@ import {
   FETCH_LAMBDAS_REJECTED,
   FETCH_LAMBDAS_FULFILLED,
   LAMBDAS_UNLOADED,
+  DELETE_LAMBDA_PENDING,
+  DELETE_LAMBDA_FULFILLED,
+  DELETE_LAMBDA_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
@@ -33,6 +36,23 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload
+      };
+    case DELETE_LAMBDA_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case DELETE_LAMBDA_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case DELETE_LAMBDA_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
       };
     default:
       return state;

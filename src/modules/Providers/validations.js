@@ -16,7 +16,6 @@ export default (values) => {
         url: '',
       },
       locations: [],
-      parent: {}
     }
   };
 
@@ -46,6 +45,10 @@ export default (values) => {
 
   if (values.properties.config.networks && !isJSON(values.properties.config.networks)) {
     errors.properties.config.networks = 'networks must be valid JSON';
+  }
+
+  if (!values.properties.data) {
+    errors.properties.data = 'you must provide a yaml configuration';
   }
 
   if (values.properties.config.extra) {

@@ -5,9 +5,6 @@ import {
     CREATE_USER_PENDING,
     CREATE_USER_FULFILLED,
     CREATE_USER_REJECTED,
-    DELETE_USER_PENDING,
-    DELETE_USER_FULFILLED,
-    DELETE_USER_REJECTED,
     USER_UNLOADED
 } from '../actionTypes';
 
@@ -57,23 +54,6 @@ export default (state = initialState, action) => {
         user: action.payload,
       };
     case CREATE_USER_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case DELETE_USER_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_USER_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true
-      };
-    case DELETE_USER_REJECTED:
       return {
         ...state,
         pending: false,

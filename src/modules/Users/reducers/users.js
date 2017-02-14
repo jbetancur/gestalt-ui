@@ -3,6 +3,9 @@ import {
   FETCH_USERS_REJECTED,
   FETCH_USERS_FULFILLED,
   USERS_UNLOADED,
+  DELETE_USER_PENDING,
+  DELETE_USER_FULFILLED,
+  DELETE_USER_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
@@ -33,6 +36,23 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload
+      };
+    case DELETE_USER_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case DELETE_USER_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case DELETE_USER_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
       };
     default:
       return state;

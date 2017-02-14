@@ -3,10 +3,10 @@ import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import styled from 'styled-components';
 
 const Div = styled.div`
-    z-index: 9999 !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 class Progress extends Component {
@@ -17,7 +17,7 @@ class Progress extends Component {
   render() {
     return (
       <Div>
-        <CircularProgress id={this.props.id} scale={4} {...this.props} />
+        <CircularProgress id={this.props.id} scale={3} {...this.props} />
       </Div>
     );
   }

@@ -25,6 +25,7 @@ class OrgItem extends Component {
     pending: PropTypes.bool.isRequired,
     currentOrgPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -54,7 +55,10 @@ class OrgItem extends Component {
   delete() {
     const { organization, deleteOrg } = this.props;
     const parentFQON = getParentFQON(organization);
-    deleteOrg(organization.properties.fqon, parentFQON);
+
+    this.props.confirmDelete(() => {
+      deleteOrg(organization.properties.fqon, parentFQON);
+    }, organization.name);
   }
 
   renderActionsMenu() {

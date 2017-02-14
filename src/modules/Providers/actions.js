@@ -143,3 +143,17 @@ export function deleteProviders(providerIds, fqon, entityId, entityKey) {
     });
   };
 }
+
+export function confirmDelete(action, multipleItems) {
+  return (dispatch) => {
+    dispatch({
+      type: 'SHOW_MODAL',
+      modalType: 'CONFIRM',
+      modalProps: {
+        title: 'Confirm Delete Providers',
+        multipleItems,
+        onProceed: action,
+      }
+    });
+  };
+}

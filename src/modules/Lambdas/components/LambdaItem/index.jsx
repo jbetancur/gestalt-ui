@@ -23,6 +23,7 @@ class LambdaItem extends Component {
     fqon: PropTypes.string.isRequired,
     environmentId: PropTypes.string.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -39,8 +40,11 @@ class LambdaItem extends Component {
     const { params, deleteLambdas } = this.props;
     const { selectedItems } = this.props.selectedLambdas;
     const IDs = selectedItems.map(item => (item.id));
+    const names = selectedItems.map(item => (item.name));
 
-    deleteLambdas(IDs, params.fqon, params.environmentId);
+    this.props.confirmDelete(() => {
+      deleteLambdas(IDs, params.fqon, params.environmentId);
+    }, names);
   }
 
   edit(lambda, e) {
@@ -95,7 +99,7 @@ class LambdaItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="lambda-listing" style={{ zIndex: 999 }} /> :
+          {this.props.pending ? <LinearProgress id="lambda-listing" /> : null}
           <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.lambdas.length ? null : <TableHeader>
               <TableRow>
@@ -112,7 +116,7 @@ class LambdaItem extends Component {
             <TableBody>
               {lambdas}
             </TableBody>
-          </DataTable>}
+          </DataTable>
         </Card>
       </div>
     );

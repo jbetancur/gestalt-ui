@@ -9,6 +9,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
+import ModalRoot from 'modules/ModalRoot';
 import ErrorNotifications from '../modules/ErrorNotifications';
 import GestaltIcon from '../components/GestaltIcon';
 import GestaltIconText from '../components/GestaltIconText';
@@ -188,6 +189,7 @@ class App extends Component {
   renderMain() {
     return (
       <main>
+        <ModalRoot />
         <NavigationDrawer
           contentClassName="md-grid--no-spacing"
           navItems={this.renderNavItems()}

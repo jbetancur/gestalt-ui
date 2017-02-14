@@ -111,7 +111,6 @@ export function createPolicyRule(fqon, policyId, payload) {
     dispatch({ type: CREATE_POLICYRULE_PENDING });
     axios.post(`${fqon}/policies/${policyId}/rules`, payload).then((response) => {
       dispatch({ type: CREATE_POLICYRULE_FULFILLED, payload: response.data });
-      // dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${policyId}`));
       dispatch(goBack());
     }).catch((err) => {
       dispatch({ type: CREATE_POLICYRULE_REJECTED, payload: err });
@@ -166,6 +165,20 @@ export function fetchLambdas(fqon, environmentId) {
       dispatch({ type: FETCH_LAMBDAS_FULFILLED, payload: response.data });
     }).catch((err) => {
       dispatch({ type: FETCH_LAMBDAS_REJECTED, payload: err });
+    });
+  };
+}
+
+export function confirmDelete(action, multipleItems) {
+  return (dispatch) => {
+    dispatch({
+      type: 'SHOW_MODAL',
+      modalType: 'CONFIRM',
+      modalProps: {
+        title: 'Confirm Delete Policy Rules',
+        multipleItems,
+        onProceed: action,
+      }
     });
   };
 }

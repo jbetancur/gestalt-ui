@@ -26,6 +26,7 @@ class UserItem extends Component {
     deleteUsers: PropTypes.func.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -36,7 +37,7 @@ class UserItem extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const fqon = this.props.fqon || this.props.router.params.fqon;
     this.props.fetchUsers(fqon);
   }
@@ -65,7 +66,11 @@ class UserItem extends Component {
     const { selectedItems } = this.props.selectedUsers;
     const userIds = selectedItems.map(item => (item.id));
 
-    deleteUsers(userIds, params.fqon);
+    const userNames = selectedItems.map(item => (item.name));
+
+    this.props.confirmDelete(() => {
+      deleteUsers(userIds, params.fqon);
+    }, userNames);
   }
 
   renderCreateButton() {
@@ -109,7 +114,7 @@ class UserItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="users-progress" /> :
+          {this.props.pending ? <LinearProgress id="users-progress" /> : null}
           <DataTable baseId="Users" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.users.length ? null :
             <TableHeader>
@@ -127,7 +132,7 @@ class UserItem extends Component {
             <TableBody>
               {users}
             </TableBody>
-          </DataTable>}
+          </DataTable>
         </Card>
       </div>
     );

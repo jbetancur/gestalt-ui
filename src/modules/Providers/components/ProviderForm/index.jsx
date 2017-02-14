@@ -186,7 +186,6 @@ const ProviderForm = (props) => {
                       name="properties.data"
                       minLines={15}
                       maxLines={15}
-                      helpText="test"
                     />
                   </div> : null}
               </div>

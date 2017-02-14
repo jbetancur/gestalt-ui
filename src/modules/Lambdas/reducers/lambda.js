@@ -5,9 +5,6 @@ import {
     CREATE_LAMBDA_PENDING,
     CREATE_LAMBDA_FULFILLED,
     CREATE_LAMBDA_REJECTED,
-    DELETE_LAMBDA_PENDING,
-    DELETE_LAMBDA_FULFILLED,
-    DELETE_LAMBDA_REJECTED,
     LAMBDA_UNLOADED,
 } from '../actionTypes';
 
@@ -61,23 +58,6 @@ export default (state = initialState, action) => {
         lambda: action.payload,
       };
     case CREATE_LAMBDA_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case DELETE_LAMBDA_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_LAMBDA_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true
-      };
-    case DELETE_LAMBDA_REJECTED:
       return {
         ...state,
         pending: false,

@@ -21,7 +21,8 @@ class ProviderItem extends Component {
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     workspaceId: PropTypes.string,
-    environmentId: PropTypes.string
+    environmentId: PropTypes.string,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -77,13 +78,20 @@ class ProviderItem extends Component {
     const { params, deleteProviders, workspaceId, environmentId } = this.props;
     const { selectedItems } = this.props.selectedProviders;
     const providerIds = selectedItems.map(item => (item.id));
+    const providerNames = selectedItems.map(item => (item.name));
 
     if (workspaceId) {
-      deleteProviders(providerIds, params.fqon, workspaceId, 'workspaces');
+      this.props.confirmDelete(() => {
+        deleteProviders(providerIds, params.fqon, workspaceId, 'workspaces');
+      }, providerNames);
     } else if (environmentId) {
-      deleteProviders(providerIds, params.fqon, environmentId, 'environments');
+      this.props.confirmDelete(() => {
+        deleteProviders(providerIds, params.fqon, environmentId, 'environments');
+      }, providerNames);
     } else {
-      deleteProviders(providerIds, params.fqon);
+      this.props.confirmDelete(() => {
+        deleteProviders(providerIds, params.fqon);
+      }, providerNames);
     }
   }
 
@@ -124,7 +132,7 @@ class ProviderItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="providers-progress" /> :
+          {this.props.pending ? <LinearProgress id="providers-progress" /> : null}
           <DataTable baseId="providers" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.providers.length ? null :
             <TableHeader>
@@ -139,7 +147,7 @@ class ProviderItem extends Component {
             <TableBody>
               {providers}
             </TableBody>
-          </DataTable>}
+          </DataTable>
         </Card>
       </div>
     );

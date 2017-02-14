@@ -23,6 +23,7 @@ class PolicyItem extends Component {
     deletePolicies: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -51,8 +52,11 @@ class PolicyItem extends Component {
     const { params, deletePolicies } = this.props;
     const { selectedItems } = this.props.selectedPolicies;
     const IDs = selectedItems.map(item => (item.id));
+    const names = selectedItems.map(item => (item.name));
 
-    deletePolicies(IDs, params.fqon, params.environmentId);
+    this.props.confirmDelete(() => {
+      deletePolicies(IDs, params.fqon, params.environmentId);
+    }, names);
   }
 
   edit(policy, e) {
@@ -102,7 +106,7 @@ class PolicyItem extends Component {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="policy-listing" /> :
+          {this.props.pending ? <LinearProgress id="policy-listing" /> : null}
           <DataTable baseId="policies" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.policies.length ? null :
             <TableHeader>
@@ -116,7 +120,7 @@ class PolicyItem extends Component {
             <TableBody>
               {policies}
             </TableBody>
-          </DataTable>}
+          </DataTable>
         </Card>
       </div>
     );

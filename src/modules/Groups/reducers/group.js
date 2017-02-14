@@ -5,9 +5,6 @@ import {
     CREATE_GROUP_PENDING,
     CREATE_GROUP_FULFILLED,
     CREATE_GROUP_REJECTED,
-    DELETE_GROUP_PENDING,
-    DELETE_GROUP_FULFILLED,
-    DELETE_GROUP_REJECTED,
     GROUP_UNLOADED
 } from '../actionTypes';
 
@@ -59,23 +56,6 @@ export default (state = initialState, action) => {
         group: action.payload,
       };
     case CREATE_GROUP_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case DELETE_GROUP_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_GROUP_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true
-      };
-    case DELETE_GROUP_REJECTED:
       return {
         ...state,
         pending: false,

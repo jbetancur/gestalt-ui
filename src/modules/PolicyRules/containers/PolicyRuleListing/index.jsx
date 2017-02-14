@@ -7,15 +7,14 @@ import * as actions from '../../actions';
 class PolicyRuleListing extends Component {
   static propTypes = {
     fetchPolicyRules: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    const fqon = this.props.router.params.fqon;
-    const policyId = this.props.router.params.policyId;
-    this.props.fetchPolicyRules(fqon, policyId);
+  componentWillMount() {
+    const { params } = this.props;
+    this.props.fetchPolicyRules(params.fqon, params.policyId);
   }
 
   componentWillUnmount() {
