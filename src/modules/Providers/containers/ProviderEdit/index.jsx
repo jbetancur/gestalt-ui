@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
+import base64 from 'base-64';
 import CircularActivity from 'components/CircularActivity';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../validations';
@@ -58,6 +59,10 @@ class ProviderEdit extends Component {
       }
     }
 
+    if (formValues.properties.data) {
+      model.properties.data = base64.encode(formValues.properties.data);
+    }
+
     return model;
   }
 
@@ -84,35 +89,36 @@ class ProviderEdit extends Component {
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
     if (params.workspaceId) {
-      const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
-      updateProvider(params.fqon, provider.id, patches, routeToUrlWhenDone);
+      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
+      updateProvider(params.fqon, provider.id, patches);
     } else if (params.environmentId) {
-      const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`;
-      updateProvider(params.fqon, provider.id, patches, routeToUrlWhenDone);
+      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`;
+      updateProvider(params.fqon, provider.id, patches);
     } else {
-      const routeToUrlWhenDone = `${params.fqon}/providers`;
-      updateProvider(params.fqon, provider.id, patches, routeToUrlWhenDone);
+      // const routeToUrlWhenDone = `${params.fqon}/providers`;
+      updateProvider(params.fqon, provider.id, patches);
     }
   }
 
   render() {
     const { provider, pending } = this.props;
-    return pending ? <CircularActivity id="provider-load" /> : <ProviderForm title={provider.name} submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.update(values)} {...this.props} />;
+    return pending ? <CircularActivity id="provider-load" /> : <ProviderForm title={provider.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.update(values)} {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
   const { provider, pending } = state.providers.fetchOne;
+  // console.log(provider);
   return {
     provider,
     pending,
     updatePending: state.providers.updateOne.pending,
-    selectedProviderType: state.providers.selectedProvider.type,
     initialValues: {
       name: provider.name,
       description: provider.description,
       resource_type: provider.resource_type,
       properties: {
+        data: provider.properties.data ? base64.decode(provider.properties.data) : '',
         config: {
           auth: {
             scheme: provider.properties.config.auth.scheme,

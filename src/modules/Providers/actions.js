@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { replace, push } from 'react-router-redux';
+import { goBack } from 'react-router-redux';
 import { toggleHandler } from 'util/helpers/lists';
-import providerTypes from './lists/providerTypes';
-
 import {
   FETCH_PROVIDERS_PENDING,
   FETCH_PROVIDERS_REJECTED,
@@ -20,19 +18,16 @@ import {
   DELETE_PROVIDER_FULFILLED,
   DELETE_PROVIDER_REJECTED,
   SELECTED_PROVIDERS,
-  SELECTED_PROVIDER_TYPE,
   PROVIDER_UNLOADED,
   PROVIDERS_UNLOADED,
 } from './actionTypes';
 
 function fixProperties(data) {
   const payload = { ...data };
-
   // TODO: providers such as kubernetes do not have this field plus the API refuses to populate a standard schema
   // May split out providers types into their own respective modules/forms
   if (!payload.properties.config) {
-    payload.properties = {
-      config: { auth: { scheme: '', username: '', password: '' } } };
+    payload.properties.config = { auth: { scheme: '', username: '', password: '' } };
   }
 
   return payload;
@@ -47,13 +42,6 @@ export function onUnload() {
 export function onUnloadListing() {
   return (dispatch) => {
     dispatch({ type: PROVIDERS_UNLOADED });
-  };
-}
-
-export function handleProviderType(value) {
-  const payload = providerTypes[providerTypes.findIndex(item => item.value === value)].type;
-  return (dispatch) => {
-    dispatch({ type: SELECTED_PROVIDER_TYPE, payload });
   };
 }
 
@@ -101,26 +89,28 @@ export function fetchProvider(fqon, providerId) {
   };
 }
 
-export function createProvider(fqon, entityId, entityKey, payload, routeToUrl) {
+export function createProvider(fqon, entityId, entityKey, payload) {
   const url = entityId ? `${fqon}/${entityKey}/${entityId}/providers` : `${fqon}/providers`;
 
   return (dispatch) => {
     dispatch({ type: CREATE_PROVIDER_PENDING });
     axios.post(url, payload).then((response) => {
       dispatch({ type: CREATE_PROVIDER_FULFILLED, payload: response.data });
-      dispatch(replace(routeToUrl));
+      dispatch(goBack());
+      // dispatch(replace(routeToUrl));
     }).catch((err) => {
       dispatch({ type: CREATE_PROVIDER_REJECTED, payload: err });
     });
   };
 }
 
-export function updateProvider(fqon, providerId, patches, routeToUrl) {
+export function updateProvider(fqon, providerId, patches) {
   return (dispatch) => {
     dispatch({ type: UPDATE_PROVIDER_PENDING });
     axios.patch(`${fqon}/providers/${providerId}`, patches).then((response) => {
       dispatch({ type: UPDATE_PROVIDER_FULFILLED, payload: response.data });
-      dispatch(push(routeToUrl));
+      dispatch(goBack());
+      // dispatch(push(routeToUrl));
     }).catch((err) => {
       dispatch({ type: UPDATE_PROVIDER_REJECTED, payload: err });
     });

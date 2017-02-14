@@ -33,7 +33,7 @@ export default [
     displayName: 'Scala',
     value: 'scala',
     format: 'com.package.Class;function',
-    codeFormat: 'java'
+    codeFormat: 'scala'
   }, {
     displayName: 'Other',
     value: 'other',

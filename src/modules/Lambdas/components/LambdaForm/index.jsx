@@ -218,13 +218,9 @@ const LambdaForm = (props) => {
                       mode={getRuntime().codeFormat}
                       theme="chrome"
                       name="properties.code"
-                      width="100%"
-                      height="100%"
                       maxLines={15}
                       minLines={15}
                       fontSize={14}
-                      wrapEnabled
-                      editorProps={{ $blockScrolling: Infinity }}
                     />
                   </div> : null}
               </div>
