@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import base64 from 'base-64';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
@@ -9,7 +10,6 @@ class ProviderCreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     createProvider: PropTypes.func.isRequired,
-    selectedProviderType: PropTypes.string.isRequired,
     onUnload: PropTypes.func.isRequired,
   };
 
@@ -18,7 +18,7 @@ class ProviderCreate extends Component {
   }
 
   create(values) {
-    const { params, createProvider, selectedProviderType } = this.props;
+    const { params, createProvider } = this.props;
     const {
       name,
       description,
@@ -39,7 +39,7 @@ class ProviderCreate extends Component {
       }
     };
 
-    if (values.properties.config.networks && selectedProviderType === 'container') {
+    if (values.properties.config.networks) {
       model.properties.config.networks = JSON.parse(values.properties.config.networks);
     }
 
@@ -47,21 +47,27 @@ class ProviderCreate extends Component {
       model.properties.config.extra = JSON.parse(values.properties.config.extra);
     }
 
+    if (values.properties.data) {
+      model.properties.data = base64.encode(values.properties.data);
+      delete model.properties.config;
+      delete model.properties.locations;
+      delete model.properties.networks;
+    }
 
     if (params.workspaceId) {
-      const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
-      createProvider(params.fqon, params.workspaceId, 'workspaces', model, routeToUrlWhenDone);
+      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
+      createProvider(params.fqon, params.workspaceId, 'workspaces', model);
     } else if (params.environmentId) {
-      const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`;
-      createProvider(params.fqon, params.environmentId, 'environments', model, routeToUrlWhenDone);
+      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`;
+      createProvider(params.fqon, params.environmentId, 'environments', model);
     } else {
-      const routeToUrlWhenDone = `${params.fqon}/providers`;
-      createProvider(params.fqon, null, null, model, routeToUrlWhenDone);
+      // const routeToUrlWhenDone = `${params.fqon}/providers`;
+      createProvider(params.fqon, null, null, model);
     }
   }
 
   render() {
-    return <ProviderForm title="Create Provider" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+    return <ProviderForm title="Create Provider" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 
@@ -74,7 +80,7 @@ function mapStateToProps(state) {
     properties: {
       config: {
         auth: {
-          scheme: '',
+          scheme: 'Basic',
           username: '',
           password: ''
         },
@@ -89,7 +95,6 @@ function mapStateToProps(state) {
   return {
     provider: model,
     pending,
-    selectedProviderType: state.providers.selectedProvider.type,
     initialValues: model
   };
 }

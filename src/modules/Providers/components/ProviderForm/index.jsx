@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, getFormValues } from 'redux-form';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import FileInput from 'react-md/lib/FileInputs';
+import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
@@ -13,37 +16,43 @@ import { nameMaxLen } from '../../validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { params, router, provider, selectedProviderType } = props;
+  const { provider, change, reset, values } = props;
+  const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const goBack = () => {
-    if (params.workspaceId && !params.environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
-    } else if (params.workspaceId && params.environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
-    } else {
-      router.push(`${params.fqon}/providers`);
-    }
+    props.router.goBack();
+    // if (params.workspaceId && !params.environmentId) {
+    //   router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
+    // } else if (params.workspaceId && params.environmentId) {
+    //   router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    // } else {
+    //   router.push(`${params.fqon}/providers`);
+    // }
   };
 
-  const updateForm = (value) => {
-    props.handleProviderType(value);
+  const onFile = (file) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      props.dispatch(change('properties.data', reader.result));
+    };
+
+    reader.readAsText(file);
   };
 
   const renderJSONSection = () => (
     <div className="flex-row">
-      <div className="flex-6 flex-xs-12">
-        {!props.provider.properties.config.networks ? null :
+      {!selectedProviderType.networking ? null : <div className="flex-6 flex-xs-12">
         <JSONTree
           data={props.provider.properties.config.networks}
-        />}
-      </div>
-      <div className="flex-6 flex-xs-12">
-        {!props.provider.properties.config.extra ? null :
+        />
+      </div>}
+      {!selectedProviderType.extraConfig ? null : <div className="flex-6 flex-xs-12">
         <JSONTree
           data={props.provider.properties.config.extra}
-        />}
-      </div>
-    </div >
+        />
+      </div>}
+    </div>
   );
 
   return (
@@ -66,8 +75,8 @@ const ProviderForm = (props) => {
                     required
                     label="Provider Type"
                     errorText={props.touched && props.error}
-                    onChange={(v, value) => updateForm(value)}
                     disabled={!!provider.id}
+                    onChange={() => reset()}
                   />
                   <Field
                     className="flex-3 flex-xs-12 flex-sm-6"
@@ -90,47 +99,51 @@ const ProviderForm = (props) => {
                     lineDirection="center"
                   />
                 </div>
-                <Field
-                  className="flex-6 flex-xs-12 flex-sm-12"
-                  component={TextField}
-                  name="properties.config.url"
-                  label="Provider URL/Host:Port"
-                  type="text"
-                  required
-                  errorText={props.touched && props.error}
-                  lineDirection="center"
-                />
-                <Field
-                  id="select-return-type"
-                  className="flex-2 flex-xs-12 flex-sm-4"
-                  component={SelectField}
-                  name="properties.config.auth.scheme"
-                  menuItems={['Basic']}
-                  required
-                  label="Security Scheme"
-                  errorText={props.touched && props.error}
-                />
-                <Field
-                  className="flex-2 flex-xs-12 flex-sm-4"
-                  component={TextField}
-                  name="properties.config.auth.username"
-                  label="Username"
-                  type="text"
-                  required
-                  errorText={props.touched && props.error}
-                  lineDirection="center"
-                />
-                <Field
-                  className="flex-2 flex-xs-12 flex-sm-4"
-                  component={TextField}
-                  name="properties.config.auth.password"
-                  label="Password"
-                  type="password"
-                  required
-                  errorText={props.touched && props.error}
-                  lineDirection="center"
-                />
-                {selectedProviderType === 'container' || provider.properties.config.networks ?
+                {selectedProviderType.url ?
+                  <Field
+                    className="flex-6 flex-xs-12 flex-sm-12"
+                    component={TextField}
+                    name="properties.config.url"
+                    label="Provider URL/Host:Port"
+                    type="text"
+                    required
+                    errorText={props.touched && props.error}
+                    lineDirection="center"
+                  /> : null}
+                {selectedProviderType.auth ?
+                  <Field
+                    id="select-return-type"
+                    className="flex-2 flex-xs-12 flex-sm-4"
+                    component={SelectField}
+                    name="properties.config.auth.scheme"
+                    menuItems={['Basic']}
+                    required
+                    label="Security Scheme"
+                    errorText={props.touched && props.error}
+                  /> : null}
+                {selectedProviderType.auth ?
+                  <Field
+                    className="flex-2 flex-xs-12 flex-sm-4"
+                    component={TextField}
+                    name="properties.config.auth.username"
+                    label="Username"
+                    type="text"
+                    required
+                    errorText={props.touched && props.error}
+                    lineDirection="center"
+                  /> : null}
+                {selectedProviderType.auth ?
+                  <Field
+                    className="flex-2 flex-xs-12 flex-sm-4"
+                    component={TextField}
+                    name="properties.config.auth.password"
+                    label="Password"
+                    type="password"
+                    required
+                    errorText={props.touched && props.error}
+                    lineDirection="center"
+                  /> : null}
+                {selectedProviderType.networking ?
                   <Field
                     className="flex-6 flex-xs-12"
                     component={TextField}
@@ -141,18 +154,41 @@ const ProviderForm = (props) => {
                     lineDirection="center"
                     rows={2}
                   /> : null}
-                <Field
-                  className="flex-6 flex-xs-12"
-                  component={TextField}
-                  name="properties.config.extra"
-                  label="Extra Configuration (JSON)"
-                  type="text"
-                  errorText={props.touched && props.error}
-                  lineDirection="center"
-                  rows={2}
-                />
+                {selectedProviderType.extraConfig ?
+                  <Field
+                    className="flex-6 flex-xs-12"
+                    component={TextField}
+                    name="properties.config.extra"
+                    label="Extra Configuration (JSON)"
+                    type="text"
+                    errorText={props.touched && props.error}
+                    lineDirection="center"
+                    rows={2}
+                  /> : null}
 
                 {provider.id ? renderJSONSection() : null}
+
+                {selectedProviderType.uploadConfig ?
+                  <FileInput
+                    id="imageInput1"
+                    label="Upload YAML"
+                    onChange={(file, e) => onFile(file, e)}
+                    accept="application/x-yaml"  // The IANA MIME types registry doesn't list YAML yet, so there isn't a correct one, per se.
+                    primary
+                  /> : null}
+                {selectedProviderType.uploadConfig ?
+                  <div className="flex-row">
+                    <Field
+                      className="flex-12"
+                      component={AceEditor}
+                      mode="yaml"
+                      theme="chrome"
+                      name="properties.data"
+                      minLines={15}
+                      maxLines={15}
+                      helpText="test"
+                    />
+                  </div> : null}
               </div>
             </CardText>
             {props.updatePending || props.pending ? <LinearProgress id="user-form" /> : null}
@@ -180,10 +216,9 @@ const ProviderForm = (props) => {
 
 ProviderForm.propTypes = {
   pending: PropTypes.bool.isRequired,
+  change: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
   provider: PropTypes.object,
-  selectedProviderType: PropTypes.string,
-  router: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
   updatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -194,7 +229,8 @@ ProviderForm.propTypes = {
   error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
-  cancelLabel: PropTypes.string
+  cancelLabel: PropTypes.string,
+  values: PropTypes.object.isRequired,
 };
 
 ProviderForm.defaultProps = {
@@ -204,7 +240,11 @@ ProviderForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   provider: {},
-  selectedProviderType: ''
 };
 
-export default ProviderForm;
+// Connect to this forms state in the store so we can enum the values
+export default connect(
+  (state, props) => ({
+    values: getFormValues(props.form)(state)
+  })
+)(ProviderForm);
