@@ -26,6 +26,10 @@ export function isLambdaName(string) {
   return /^\S*$/.test(string);
 }
 
+export function isContainerName(string) {
+  return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
+}
+
 export default {
   isFQON,
   isWorkspaceName,
@@ -33,5 +37,6 @@ export default {
   isPhoneNumber,
   isUsername,
   isBase64,
-  isLambdaName
+  isLambdaName,
+  isContainerName,
 };

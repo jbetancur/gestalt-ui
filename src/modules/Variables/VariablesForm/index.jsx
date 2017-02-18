@@ -23,7 +23,7 @@ renderField.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   touched: PropTypes.bool,
-  error: PropTypes.string,
+  error: PropTypes.bool,
 };
 
 renderField.defaultProps = {
@@ -31,14 +31,16 @@ renderField.defaultProps = {
   error: false,
 };
 
-const rendervariables = ({ fields, touched, error }) => (
-  <FormSection>
+const rendervariables = ({ fields, touched, error, addButtonLabel, icon }) => (
+  <FormSection name="">
     <Button
       flat
       primary
-      label="Add Variable"
+      label={addButtonLabel}
       onClick={() => fields.push({})}
-    />
+    >
+      {icon}
+    </Button>
     {touched && error}
     {fields.map((member, index) =>
       <div key={index} className="flex-row">
@@ -65,9 +67,11 @@ const rendervariables = ({ fields, touched, error }) => (
 );
 
 rendervariables.propTypes = {
-  fields: PropTypes.func.isRequired,
+  fields: PropTypes.object.isRequired,
   touched: PropTypes.bool,
-  error: PropTypes.string,
+  error: PropTypes.bool,
+  addButtonLabel: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 rendervariables.defaultProps = {
@@ -75,7 +79,18 @@ rendervariables.defaultProps = {
   error: false,
 };
 
+const FieldArraysForm = props => <FieldArray addButtonLabel={props.addButtonLabel} icon={props.icon} name={props.fieldName} component={rendervariables} />;
 
-const FieldArraysForm = () => <FieldArray name="variables" component={rendervariables} />;
+FieldArraysForm.propTypes = {
+  fieldName: PropTypes.string,
+  addButtonLabel: PropTypes.string,
+  icon: PropTypes.string,
+};
+
+FieldArraysForm.defaultProps = {
+  fieldName: 'variables',
+  addButtonLabel: 'Add Variable',
+  icon: ''
+};
 
 export default FieldArraysForm;

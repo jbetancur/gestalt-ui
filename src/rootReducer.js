@@ -20,6 +20,9 @@ import policiesReducer from './modules/Policies/reducers';
 import policyRulesReducer from './modules/PolicyRules/reducers';
 import integrationsReducer from './modules/Integrations/reducers';
 import licensingReducer from './modules/Licensing/reducers';
+import volumeModalReducer from './modules/VolumeModal/reducers';
+import networkModalReducer from './modules/NetworkModal/reducers';
+import healthCheckModalReducer from './modules/HealthCheckModal/reducers';
 
 const mediaQuery = {
   xs: '(min-width: 0) and (max-width: 599px)',
@@ -49,5 +52,8 @@ export default combineReducers({
   policies: policiesReducer,
   policyRules: policyRulesReducer,
   integrations: integrationsReducer,
-  licensing: licensingReducer
+  licensing: licensingReducer,
+  volumeModal: volumeModalReducer,
+  networkModal: networkModalReducer,
+  healthCheckModal: healthCheckModalReducer,
 });

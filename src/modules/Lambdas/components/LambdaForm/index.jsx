@@ -116,37 +116,42 @@ const LambdaForm = (props) => {
                   className="flex-1 flex-xs-12"
                   component={TextField}
                   name="properties.cpus"
-                  min="0.1"
-                  max="4.0"
-                  step="0.1"
+                  min={0.1}
+                  max={4.0}
+                  step={0.1}
                   label="CPU"
                   type="number"
                   required
                   errorText={props.touched && props.error}
                   lineDirection="center"
+                  parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
                   className="flex-1 flex-xs-12"
                   component={TextField}
                   name="properties.memory"
-                  min="32"
-                  max="8096"
-                  step="1"
+                  min={32}
+                  max={8096}
+                  step={1}
                   label="Memory"
                   type="number"
                   required
                   errorText={props.touched && props.error}
                   lineDirection="center"
+                  parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
                   className="flex-1 flex-xs-12"
                   component={TextField}
                   name="properties.timeout"
+                  min={1}
+                  step={1}
                   label="Timeout"
                   type="number"
                   required
                   errorText={props.touched && props.error}
                   lineDirection="center"
+                  parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
                   className="flex-6 flex-xs-12"

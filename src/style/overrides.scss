@@ -54,10 +54,12 @@
   }
 }
 
+// Table Fixes
 .md-table-column {
   cursor: pointer;
 }
 
+//Fix Snackbar
 .md-snackbar {
   overflow: auto;
 }
@@ -66,6 +68,17 @@
 .md-cell--right.md-toolbar--action-right {
     position: absolute;
     right: 0;
+}
+
+// Hide Cancel Button on expansion panels
+.md-expansion-panel {
+  footer {
+    button {
+      &:not(.md-text--theme-primary) {
+        display: none;
+      }
+    }
+  }
 }
 
 // Fixes font for ace editor

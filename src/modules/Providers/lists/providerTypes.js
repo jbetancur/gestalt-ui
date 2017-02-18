@@ -1,7 +1,7 @@
 export default[
   {
     name: 'Marathon',
-    value: 'Gestalt::Configuration::Provider::CaaS::DCOS',
+    value: 'Gestalt::Configuration::Provider::Marathon',
     type: 'container',
     url: true,
     auth: true,
@@ -11,7 +11,7 @@ export default[
   },
   {
     name: 'Kubernetes',
-    value: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
+    value: 'Gestalt::Configuration::Provider::CaaS',
     type: 'container',
     url: false,
     auth: false,

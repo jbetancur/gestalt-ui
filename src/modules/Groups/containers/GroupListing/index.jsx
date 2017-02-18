@@ -24,7 +24,7 @@ function mapStateToProps(state) {
   return {
     groups: state.groups.fetchAll.groups,
     pending: state.groups.fetchAll.pending,
-    selectedGroups: state.groups.selectedGroups
+    selectedGroups: state.groups.selectedGroups,
   };
 }
 

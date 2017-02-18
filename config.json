@@ -8,7 +8,8 @@
     "APP_TITLE": "Gestalt",
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
-    "ANALYTICS_TRACKING": false
+    "ANALYTICS_TRACKING": false,
+    "DEBUG": true
   },
   "production": {
     "API_URL": "/meta",
@@ -19,6 +20,7 @@
     "APP_TITLE": "Gestalt",
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
-    "ANALYTICS_TRACKING": true
+    "ANALYTICS_TRACKING": true,
+    "DEBUG": false
   }
 }

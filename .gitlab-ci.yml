@@ -40,7 +40,7 @@ docker-publish:
 .deploy_template: &deploy_to_test
   image: galacticfog/gitlab-updater
   stage: deploy
-  environment: 
+  environment:
     name: test
     url: https://ui-react.$TEST_DOMAIN
   tags:

@@ -35,6 +35,9 @@ import PolicyLimitRuleCreate from './modules/PolicyRules/containers/PolicyLimitR
 import PolicyLimitRuleEdit from './modules/PolicyRules/containers/PolicyLimitRuleEdit';
 import PolicyEventRuleCreate from './modules/PolicyRules/containers/PolicyEventRuleCreate';
 import PolicyEventRuleEdit from './modules/PolicyRules/containers/PolicyEventRuleEdit';
+import Containers from './modules/Containers';
+import ContainerCreate from './modules/Containers/containers/ContainerCreate';
+import ContainerEdit from './modules/Containers/containers/ContainerEdit';
 import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
@@ -82,6 +85,13 @@ const routes = (
                 <Route path="create" component={LambdaCreate} onEnter={requireAuth} />
                 <Route path=":lambdaId" onEnter={requireAuth}>
                   <Route path="edit" component={LambdaEdit} onEnter={requireAuth} />
+                </Route>
+              </Route>
+              <Route path="containers" onEnter={requireAuth}>
+                <IndexRoute component={Containers} onEnter={requireAuth} />
+                <Route path="create" component={ContainerCreate} onEnter={requireAuth} />
+                <Route path=":containerId" onEnter={requireAuth}>
+                  <Route path="edit" component={ContainerEdit} onEnter={requireAuth} />
                 </Route>
               </Route>
               <Route path="policies" onEnter={requireAuth}>

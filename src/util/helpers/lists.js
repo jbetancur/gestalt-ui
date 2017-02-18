@@ -37,3 +37,9 @@ export function toggleHandler(row, toggled, count, selectedItems, list) {
 
   return items;
 }
+
+export function removeItem(array, item) {
+  const newArray = array.slice();
+  newArray.splice(item, 1);
+  return newArray;
+}
