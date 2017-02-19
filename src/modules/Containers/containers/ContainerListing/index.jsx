@@ -6,31 +6,27 @@ import * as actions from '../../actions';
 
 class Containers extends Component {
   static propTypes = {
+    params: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.string.isRequired
+    environmentId: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
-    const fqon = this.props.fqon || this.props.router.params.fqon;
-    const environmentId = this.props.environmentId || this.props.router.params.environmentId;
+    const fqon = this.props.fqon || this.props.params.fqon;
+    const environmentId = this.props.environmentId || this.props.params.environmentId;
     this.props.fetchContainers(fqon, environmentId);
   }
 
   render() {
-    return (
-      <div>
-        <ContainerItem {...this.props} />
-      </div>
-    );
+    return <ContainerItem {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
   return {
-    containers: state.containers.fetchAll.items,
-    pending: state.containers.fetchAll.pending
+    containers: state.containers.fetchAll.containers,
+    pending: state.containers.fetchAll.pending,
   };
 }
 

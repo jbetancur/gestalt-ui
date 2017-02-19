@@ -159,8 +159,8 @@ class EnvironmentDetail extends Component {
           <TabsContainer themed defaultTabIndex={navigation.index}>
             <Tabs>
               <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 0)} />
-              <Tab label="API" id="apis" icon={<FontIcon>http</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
-              <Tab label="Containers" id="containers" icon={<FontIcon>apps</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />
+              <Tab label="API" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
+              <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />
               <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
               <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 4)} />
               <Tab label="Providers" id="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers', 5)} />

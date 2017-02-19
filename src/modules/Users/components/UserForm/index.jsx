@@ -133,12 +133,14 @@ const UserForm = (props) => {
 };
 
 UserForm.propTypes = {
+  params: PropTypes.object.isRequired,
   organizations: PropTypes.array.isRequired,
   pendingOrgs: PropTypes.bool.isRequired,
   pending: PropTypes.bool.isRequired,
   updatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  fetchAllOrgs: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,

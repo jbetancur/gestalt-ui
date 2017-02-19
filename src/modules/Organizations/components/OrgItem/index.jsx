@@ -106,10 +106,10 @@ class OrgItem extends Component {
         <CardTitle
           title={item.name}
           subtitle={
-            <div>
-              <div>{item.properties.fqon}</div>
-              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
-            </div>}
+          [<div>
+            <div>{item.properties.fqon}</div>
+            <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
+          </div>]}
         />
         <CardText>
           {item.description}

@@ -60,7 +60,7 @@ const ContainmentForm = (props) => {
                   errorText={props.touched && props.error}
                 /> : null}
               </div>
-              <VariablesForm envMap={props.envMap} />
+              <VariablesForm icon="list" envMap={props.envMap} />
             </CardText>
             {props.pending ? <LinearProgress id="containment-form" /> : null}
             <CardActions>
@@ -86,6 +86,7 @@ const ContainmentForm = (props) => {
 };
 
 ContainmentForm.propTypes = {
+  router: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

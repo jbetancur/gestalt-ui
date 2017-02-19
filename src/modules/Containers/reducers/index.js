@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux';
-import containersFetchReducer from './containersFetch';
+import fetchAll from './containers';
+import fetchOne from './container';
+import providers from './providers';
+import actionsModals from '../ActionModals/reducers';
 
 export default combineReducers({
-  fetchAll: containersFetchReducer
+  fetchAll,
+  fetchOne,
+  providers,
+  actionsModals,
 });

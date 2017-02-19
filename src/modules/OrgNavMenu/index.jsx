@@ -62,17 +62,15 @@ class OrgNavMenu extends Component {
     return (
       <div>
         <div style={{ padding: '1em', color: 'black' }}>
-          {
-            !orgFetching ?
-              <div>
-                <TextField
-                  id="search-orgs"
-                  label="Search"
-                  fullWidth={true}
-                  onChange={value => this.filterOrgs(value)}
-                />
-              </div> : null
-          }
+          {!orgFetching ?
+            <div>
+              <TextField
+                id="search-orgs"
+                label="Search"
+                fullWidth={true}
+                onChange={value => this.filterOrgs(value)}
+              />
+            </div> : null}
         </div>
         <div style={{ textAlign: 'center' }}>
           {orgFetching ? <CircularProgress id="orgs-nav-menu" /> : null}
@@ -94,8 +92,11 @@ class OrgNavMenu extends Component {
           className="org-nav-menubutton"
           onClick={e => this.fetchOrgList(e)}
         >
-          {this.renderSearch()}
-          {this.props.organizations.map(this.renderOrgMenuItems, this)}
+          {/* https://github.com/mlaursen/react-md/issues/259 */}
+          {[<div key="orgs-nav-menu">
+            {this.renderSearch()}
+            {this.props.organizations.map(this.renderOrgMenuItems, this)}
+          </div>]}
         </MenuButton>
       </div>
     );
