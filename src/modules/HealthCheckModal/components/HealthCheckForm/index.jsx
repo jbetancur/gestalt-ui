@@ -183,7 +183,7 @@ const HealthCheckForm = (props) => {
 };
 
 HealthCheckForm.propTypes = {
-  hideHealthCheckModal: PropTypes.func.isRequired,
+  // hideHealthCheckModal: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
