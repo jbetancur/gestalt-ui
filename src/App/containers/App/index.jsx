@@ -15,7 +15,7 @@ import TooltipFontIcon from 'components/TooltipFontIcon';
 import ErrorNotifications from 'modules/ErrorNotifications';
 import GestaltIcon from 'components/GestaltIcon';
 import GestaltIconText from 'components/GestaltIconText';
-import { UI_VERSION } from 'constants';
+import { UI_VERSION } from '../../../constants';
 import * as actions from '../../actions';
 
 const EnhancedLogoDiv = styled.div`
