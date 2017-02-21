@@ -15,7 +15,11 @@ const securityAPI = axios.create({
   accept: 'application/json'
 });
 
-export function login(username, password) {
+export function hideLoginModal() {
+  return { type: 'HIDE_LOGIN_MODAL' };
+}
+
+export function login(username, password, isModalLogin) {
   function setToken(token) {
     const currentDate = new Date(Date.now());
     const expirationDate = new Date();
@@ -34,7 +38,12 @@ export function login(username, password) {
     securityAPI.post('root/oauth/issue', payload).then((response) => {
       dispatch({ type: REQUEST_TOKEN_FULFILLED, payload: response.data });
       setToken(response.data);
-      dispatch(replace('/'));
+
+      if (isModalLogin) {
+        dispatch(hideLoginModal());
+      } else {
+        dispatch(replace('/'));
+      }
     }).catch((err) => {
       dispatch({ type: REQUEST_TOKEN_REJECTED, payload: err });
     });

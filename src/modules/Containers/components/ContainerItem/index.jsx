@@ -14,6 +14,15 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import ContainerActions from '../ContainerActions';
 
+
+// TODO: Sad hack for overflow menus within tables - research fixed option
+const TableWrapper = styled.div`
+  .md-data-table--responsive {
+    padding-bottom: 250px;
+    margin-bottom: -250px;
+  }
+`;
+
 const EnhancedTableColumn = styled(TableColumn)`
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -24,11 +33,10 @@ const EnhancedTableColumn = styled(TableColumn)`
 class ContainerItem extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
+    environment: PropTypes.object.isRequired,
     containers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
-    fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.string.isRequired,
     fetchContainers: PropTypes.func.isRequired,
   };
 
@@ -36,23 +44,34 @@ class ContainerItem extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.init();
+  }
+
   refresh() {
-    const fqon = this.props.fqon || this.props.params.fqon;
-    const environmentId = this.props.environmentId || this.props.params.environmentId;
-    this.props.fetchContainers(fqon, environmentId);
+    this.init();
+  }
+
+  init() {
+    const { params, fetchContainers } = this.props;
+    fetchContainers(params.fqon, params.environmentId);
   }
 
   edit(container, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, } = this.props;
-
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`);
+      const { router, params, environment } = this.props;
+      router.push({
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`,
+        state: {
+          environment,
+        },
+      });
     }
   }
 
   renderCreateButton() {
-    const { fqon, environmentId, params } = this.props;
+    const { params, environment } = this.props;
 
     return (
       <Button
@@ -60,7 +79,12 @@ class ContainerItem extends Component {
         label="Deploy Container"
         flat
         component={Link}
-        to={`${fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/containers/create`}
+        to={{
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/create`,
+          state: {
+            environment,
+          },
+        }}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -75,7 +99,7 @@ class ContainerItem extends Component {
     const containers = this.props.containers.map(container => (
       <TableRow key={container.id} onClick={e => this.edit(container, e)}>
         <EnhancedTableColumn>
-          <ContainerActions state={container.properties.status} container={container} {...this.props} />
+          <ContainerActions container={container} {...this.props} />
         </EnhancedTableColumn>
         <EnhancedTableColumn>{container.name}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.description}</EnhancedTableColumn>
@@ -94,6 +118,7 @@ class ContainerItem extends Component {
         <Card className="flex-12" tableCard>
           <TableCardHeader
             title={<span style={{ lineHeight: '2em' }}>Containers <span>{this.renderRefreshButton()}</span></span>}
+            visible={false} // TODO: React-md propTypes bug
           >
             <div>
               {this.renderCreateButton()}
@@ -101,25 +126,27 @@ class ContainerItem extends Component {
           </TableCardHeader>
           {this.props.pending ? <LinearProgress id="containers-listing" /> : null}
           {!this.props.containers.length ? null :
-          <DataTable baseId="containers" plain>
-            <TableHeader>
-              <TableRow>
-                <TableColumn />
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Status</TableColumn>
-                <TableColumn>Provider</TableColumn>
-                <TableColumn>Instances</TableColumn>
-                <TableColumn>CPU</TableColumn>
-                <TableColumn>Memory</TableColumn>
-                <TableColumn>Type</TableColumn>
-                <TableColumn>Age</TableColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {containers}
-            </TableBody>
-          </DataTable>}
+          <TableWrapper>
+            <DataTable baseId="containers" plain>
+              <TableHeader>
+                <TableRow>
+                  <TableColumn />
+                  <TableColumn>Name</TableColumn>
+                  <TableColumn>Description</TableColumn>
+                  <TableColumn>Status</TableColumn>
+                  <TableColumn>Provider</TableColumn>
+                  <TableColumn>Instances</TableColumn>
+                  <TableColumn>CPU</TableColumn>
+                  <TableColumn>Memory</TableColumn>
+                  <TableColumn>Type</TableColumn>
+                  <TableColumn>Modified</TableColumn>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {containers}
+              </TableBody>
+            </DataTable>
+          </TableWrapper>}
         </Card>
       </div>
     );

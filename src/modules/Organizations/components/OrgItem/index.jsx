@@ -7,7 +7,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { BackArrowButton } from 'components/Buttons';
 import IconText from 'components/IconText';
-import { Card, CardTitle, CardText } from 'components/GFCard';
+import { Card, CardTitle } from 'components/GFCard';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
 import getParentFQON from 'util/helpers/fqon';
@@ -26,6 +26,7 @@ class OrgItem extends Component {
     currentOrgPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    setCurrentOrgContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -42,6 +43,11 @@ class OrgItem extends Component {
     if (nextProps.params.fqon !== this.props.params.fqon) {
       this.props.fetchOrgSet(nextProps.params.fqon);
     }
+
+    // Keep the current Org Context Synced even on refresh
+    if (nextProps.organization !== this.props.organization) {
+      this.props.setCurrentOrgContext(nextProps.organization);
+    }
   }
 
   componentWillUnmount() {
@@ -49,7 +55,11 @@ class OrgItem extends Component {
   }
 
   navToSubOrgs(item) {
-    this.props.router.push(`/${item.properties.fqon}/organizations`);
+    const { organization, router, setCurrentOrgContext } = this.props;
+
+    router.push(`/${item.properties.fqon}/organizations`);
+    // Update the current Org Context so we can track the org we are in
+    setCurrentOrgContext(organization);
   }
 
   delete() {
@@ -58,7 +68,7 @@ class OrgItem extends Component {
 
     this.props.confirmDelete(() => {
       deleteOrg(organization.properties.fqon, parentFQON);
-    }, organization.name);
+    }, organization.description || organization.name);
   }
 
   renderActionsMenu() {
@@ -82,7 +92,7 @@ class OrgItem extends Component {
           />
           <ListItem
             id="orgs-settings-menu--edit"
-            primaryText={<span>Edit {organization.name}</span>}
+            primaryText={<span>Edit {organization.description || organization.name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             to={`/${params.fqon}/organizations/edit`}
@@ -90,8 +100,8 @@ class OrgItem extends Component {
           <Divider />
           <ListItem
             id="orgs-settings-menu--delete"
-            primaryText={<span>Delete {organization.name}</span>}
-            leftIcon={<FontIcon>delete_sweep</FontIcon>}
+            primaryText={<span>Delete {organization.description || organization.name}</span>}
+            leftIcon={<FontIcon style={{ color: 'red' }}>delete_sweep</FontIcon>}
             disabled={params.fqon === self.properties.gestalt_home || params.fqon === 'root'}
             onClick={e => this.delete(e)}
           />
@@ -104,16 +114,13 @@ class OrgItem extends Component {
     return (
       <Card key={item.id} className="flex-4 flex-xs-12" onClick={() => this.navToSubOrgs(item)}>
         <CardTitle
-          title={item.name}
+          title={item.description || item.name || 'test'}
           subtitle={
-          [<div>
-            <div>{item.properties.fqon}</div>
-            <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
-          </div>]}
+            <div>
+              <IconText icon="short_text"><div>{item.name}</div></IconText>
+              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
+            </div>}
         />
-        <CardText>
-          {item.description}
-        </CardText>
       </Card>
     );
   }
@@ -139,14 +146,14 @@ class OrgItem extends Component {
         <DetailCard>
           <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
             {this.renderActionsMenu()}
-            {!pending ? <div className="gf-headline">{organization.name}
-              <div className="md-caption">{organization.properties.fqon}</div>
+            {!pending ? <div className="gf-headline">{organization.description || organization.name}
+              <div className="md-caption"><span>fqon: {organization.properties.fqon}</span></div>
             </div> : null}
           </DetailCardTitle>
           <DetailCardText expandable>
+            <IconText icon="short_text"><div>{organization.name}</div></IconText>
             <IconText icon="access_time"><TimeAgo date={organization.created.timestamp} /></IconText>
             <IconText icon="timelapse"><TimeAgo date={organization.modified.timestamp} /></IconText>
-            <IconText icon="subtitles"><div className="md-body-1">{organization.description}</div></IconText>
             <VariablesListing envMap={organization.properties.env} />
           </DetailCardText>
           {pending || currentOrgPending ? this.renderProgress() : null}

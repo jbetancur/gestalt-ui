@@ -21,20 +21,20 @@ export default (values) => {
     errors.max_consecutive_failures = ' ';
   }
 
-  if (!values.port) {
-    errors.port = ' ';
-  }
-
-  if (!values.port_index) {
-    errors.port_index = ' ';
-  }
-
   if (!values.path) {
     errors.path = ' ';
   }
 
   if (!values.command) {
     errors.command = ' ';
+  }
+
+  if (values.port > 65536) {
+    errors.port = 'Invalid Port';
+  }
+
+  if (values.port_index > 65536) {
+    errors.port_index = 'Invalid Port';
   }
 
   return errors;

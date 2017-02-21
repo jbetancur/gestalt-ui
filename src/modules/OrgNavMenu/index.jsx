@@ -48,8 +48,8 @@ class OrgNavMenu extends Component {
         key={item.id}
         value={item.properties.fqon}
         component={Link}
-        primaryText={item.name}
-        secondaryText={item.properties.fqon}
+        primaryText={item.description || item.name}
+        secondaryText={item.name}
         to={`/${item.properties.fqon}/organizations`}
         onClick={() => this.setMenuName(item.name)}
       />
@@ -106,7 +106,7 @@ class OrgNavMenu extends Component {
 const mapStateToProps = (state) => {
   const { orgnavmenu } = state;
   return {
-    organizations: orgnavmenu.organizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText)),
+    organizations: orgnavmenu.organizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText))),
     orgFetching: orgnavmenu.organizations.pending,
   };
 };

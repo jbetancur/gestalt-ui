@@ -43,7 +43,7 @@ yarn deploy -- --sha `git rev-parse --short=8 HEAD`
 ```
 
 ## Configuration
-If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing the following lines in `config.json`
+If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing the following lines in `config.json`.
 Otherwise, `config.json` can be automed via CI to inject the correct values before kicking off `yarn deploy`
 For example:
 ```
@@ -51,10 +51,26 @@ For example:
   "development": {
     "API_URL": "https://meta.test.galacticfog.com",
     "SEC_API_URL": "https://security.test.galacticfog.com",
+    "API_TIMEOUT": 120000,
+    "COMPANY_TITLE": "Galactic Fog",
+    "COMPANY_URL": "http://www.galacticfog.com/",
+    "APP_TITLE": "Gestalt",
+    "DEFAULT_LANG": "en_us",
+    "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING": false,
+    "DEBUG": true
   },
   "production": {
     "API_URL": "/meta",
     "SEC_API_URL": "/security",
+    "API_TIMEOUT": 120000,
+    "COMPANY_TITLE": "Galactic Fog",
+    "COMPANY_URL": "http://www.galacticfog.com/",
+    "APP_TITLE": "Gestalt",
+    "DEFAULT_LANG": "en_us",
+    "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING": true,
+    "DEBUG": false
   }
 }
 ```

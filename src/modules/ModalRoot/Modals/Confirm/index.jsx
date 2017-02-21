@@ -15,7 +15,7 @@ const EnhancedDialog = styled(Dialog)`
 class ConfirmModal extends PureComponent {
   static propTypes = {
     modal: PropTypes.object.isRequired,
-    onProceed: PropTypes.func.isRequired,
+    onProceed: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     multipleItems: PropTypes.array,
@@ -23,6 +23,7 @@ class ConfirmModal extends PureComponent {
   };
 
   static defaultProps = {
+    onProceed: () => {},
     multipleItems: [],
     body: '',
   };

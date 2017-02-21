@@ -38,7 +38,7 @@ class UserItem extends Component {
   }
 
   componentWillMount() {
-    const fqon = this.props.fqon || this.props.router.params.fqon;
+    const fqon = this.props.fqon || this.props.params.fqon;
     this.props.fetchUsers(fqon);
   }
 

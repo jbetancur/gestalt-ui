@@ -11,7 +11,6 @@ import './style/style.scss';
 import routes from './routes';
 import configureStore from './configureStore';
 import { API_URL, API_TIMEOUT } from './constants';
-
 // Create an enhanced history that syncs navigation events with the store
 const store = configureStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
@@ -33,6 +32,9 @@ axios.interceptors.request.use((config) => {
 
 // Dispatch App Wide Errors via response interceptor for whatever component is listening
 axios.interceptors.response.use(null, (error) => {
+  if (error.response.status === 401) {
+    browserHistory.replace('login');
+  }
   store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
   Promise.reject(error);
 });
@@ -40,7 +42,7 @@ axios.interceptors.response.use(null, (error) => {
 ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale="en">
-      <Router routes={routes} history={history} />
+      <Router routes={routes(store)} history={history} />
     </IntlProvider>
   </Provider>,
   document.getElementById('app-root'),

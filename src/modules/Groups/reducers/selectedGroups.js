@@ -1,5 +1,6 @@
 import {
-  SELECTED_GROUPS
+  SELECTED_GROUPS,
+  SELECTED_GROUPS_CLEAR,
 } from '../actionTypes';
 
 const initialState = {
@@ -10,6 +11,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SELECTED_GROUPS_CLEAR:
+      return initialState;
     case SELECTED_GROUPS:
       return {
         ...state,

@@ -25,6 +25,7 @@ class GroupItem extends Component {
     deleteGroups: PropTypes.func.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -36,12 +37,14 @@ class GroupItem extends Component {
   }
 
   componentWillMount() {
-    const fqon = this.props.fqon || this.props.router.params.fqon;
+    const fqon = this.props.fqon || this.props.params.fqon;
     this.props.fetchGroups(fqon);
   }
 
   componentWillUnmount() {
-    this.props.onUnloadListing();
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   handleRowToggle(row, toggled, count) {

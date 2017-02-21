@@ -8,6 +8,8 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { DetailCard, DetailCardTitle } from 'components/DetailCard';
+import { BackArrowButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
@@ -15,11 +17,11 @@ import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
-import { nameMaxLen } from '../../validations';
+import { nameMaxLen, descriptionMaxLen } from '../../validations';
 
 const LambdaForm = (props) => {
   // const themes = [{ displayName: 'chrome', value: 'chrome' }, { displayName: 'monokai', value: 'monokai' }];
-  const { values, params, lambda } = props;
+  const { values, params, lambda, router: { location } } = props;
 
   const fetchProviders = () => {
     props.fetchProviders(params.fqon, params.environmentId, 'ApiGateway');
@@ -33,6 +35,15 @@ const LambdaForm = (props) => {
 
   return (
     <div>
+      <DetailCard>
+        <DetailCardTitle>
+          <BackArrowButton
+            component={Link}
+            to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
+          />
+          <div className="gf-headline">{location.state.environment.description || location.state.environment.name} / Lambdas / {props.title}</div>
+        </DetailCardTitle>
+      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
@@ -53,9 +64,9 @@ const LambdaForm = (props) => {
                   onFocus={() => fetchProviders()}
                 />
                 <Field
-                  className="flex-4 flex-xs-12"
+                  className="flex-3 flex-xs-12"
                   component={TextField}
-                  name="description"
+                  name="name"
                   label="Name"
                   type="text"
                   required
@@ -64,14 +75,12 @@ const LambdaForm = (props) => {
                   lineDirection="center"
                 />
                 <Field
-                  className="flex-4 flex-xs-12"
+                  className="flex-5 flex-xs-12"
                   component={TextField}
-                  name="name"
-                  label="Short Name"
+                  name="description"
+                  label="Description"
                   type="text"
-                  required
-                  errorText={props.touched && props.error}
-                  maxLength={nameMaxLen}
+                  maxLength={descriptionMaxLen}
                   lineDirection="center"
                 />
                 <Field
@@ -242,7 +251,7 @@ const LambdaForm = (props) => {
                 label={props.cancelLabel}
                 disabled={props.pending || props.submitting}
                 component={Link}
-                to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
+                onClick={() => props.router.goBack()}
               />
               <Button
                 raised
@@ -260,6 +269,7 @@ const LambdaForm = (props) => {
 };
 
 LambdaForm.propTypes = {
+  router: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   pendingProviders: PropTypes.bool.isRequired,

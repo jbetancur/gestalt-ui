@@ -41,7 +41,7 @@ import ContainerEdit from './modules/Containers/containers/ContainerEdit';
 import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
-function requireAuth(nextState, replace) {
+const requireAuth = () => (nextState, replace) => {
   const validCookie = !!cookie.load('auth-token') || false;
   if (!validCookie) {
     replace({
@@ -49,98 +49,98 @@ function requireAuth(nextState, replace) {
       state: { nextPathname: nextState.location.pathname }
     });
   }
-}
+};
 
-const routes = (
+const routes = store => (
   <div>
     <Route path="login" component={Login} />
-    <Route path="/" component={App} onEnter={requireAuth}>
-      <Route path=":fqon/organizations" onEnter={requireAuth}>
-        <IndexRoute component={Organizations} onEnter={requireAuth} />
-        <Route path="create" component={OrgCreate} onEnter={requireAuth} />
-        <Route path="edit" component={OrgEdit} onEnter={requireAuth} />
+    <Route path="/" component={App} onEnter={requireAuth(store)}>
+      <Route path=":fqon/organizations" onEnter={requireAuth(store)}>
+        <IndexRoute component={Organizations} onEnter={requireAuth(store)} />
+        <Route path="create" component={OrgCreate} onEnter={requireAuth(store)} />
+        <Route path="edit" component={OrgEdit} onEnter={requireAuth(store)} />
       </Route>
-      <Route path=":fqon/workspaces" onEnter={requireAuth}>
-        <IndexRoute component={Workspaces} onEnter={requireAuth} />
-        <Route path="create" component={WorkspaceCreate} onEnter={requireAuth} />
-        <Route path=":workspaceId" onEnter={requireAuth}>
-          <IndexRoute component={WorkspaceDetails} onEnter={requireAuth} />
-          <Route path="edit" component={WorkspaceEdit} onEnter={requireAuth} />
-          <Route path="createEnvironment" component={EnvironmentCreate} onEnter={requireAuth} />
-          <Route path="providers" onEnter={requireAuth}>
-            <IndexRoute component={Providers} onEnter={requireAuth} />
-            <Route path="create" component={ProviderCreate} onEnter={requireAuth} />
-            <Route path=":providerId" onEnter={requireAuth}>
-              <Route path="edit" component={ProviderEdit} onEnter={requireAuth} />
+      <Route path=":fqon/workspaces" onEnter={requireAuth(store)}>
+        <IndexRoute component={Workspaces} onEnter={requireAuth(store)} />
+        <Route path="create" component={WorkspaceCreate} onEnter={requireAuth(store)} />
+        <Route path=":workspaceId" onEnter={requireAuth(store)}>
+          <IndexRoute component={WorkspaceDetails} onEnter={requireAuth(store)} />
+          <Route path="edit" component={WorkspaceEdit} onEnter={requireAuth(store)} />
+          <Route path="createEnvironment" component={EnvironmentCreate} onEnter={requireAuth(store)} />
+          <Route path="providers" onEnter={requireAuth(store)}>
+            <IndexRoute component={Providers} onEnter={requireAuth(store)} />
+            <Route path="create" component={ProviderCreate} onEnter={requireAuth(store)} />
+            <Route path=":providerId" onEnter={requireAuth(store)}>
+              <Route path="edit" component={ProviderEdit} onEnter={requireAuth(store)} />
             </Route>
           </Route>
-          <Route path="environments" onEnter={requireAuth}>
-            <Route path="createProvider" component={ProviderCreate} onEnter={requireAuth} />
-            <IndexRoute component={Environments} onEnter={requireAuth} />
-            <Route path=":environmentId" onEnter={requireAuth}>
-              <IndexRoute component={EnvironmentDetails} onEnter={requireAuth} />
-              <Route path="edit" component={EnvironmentEdit} onEnter={requireAuth} />
-              <Route path="lambdas" onEnter={requireAuth}>
-                <IndexRoute component={Lambdas} onEnter={requireAuth} />
-                <Route path="create" component={LambdaCreate} onEnter={requireAuth} />
-                <Route path=":lambdaId" onEnter={requireAuth}>
-                  <Route path="edit" component={LambdaEdit} onEnter={requireAuth} />
+          <Route path="environments" onEnter={requireAuth(store)}>
+            <Route path="createProvider" component={ProviderCreate} onEnter={requireAuth(store)} />
+            <IndexRoute component={Environments} onEnter={requireAuth(store)} />
+            <Route path=":environmentId" onEnter={requireAuth(store)}>
+              <IndexRoute component={EnvironmentDetails} onEnter={requireAuth(store)} />
+              <Route path="edit" component={EnvironmentEdit} onEnter={requireAuth(store)} />
+              <Route path="lambdas" onEnter={requireAuth(store)}>
+                <IndexRoute component={Lambdas} onEnter={requireAuth(store)} />
+                <Route path="create" component={LambdaCreate} onEnter={requireAuth(store)} />
+                <Route path=":lambdaId" onEnter={requireAuth(store)}>
+                  <Route path="edit" component={LambdaEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
-              <Route path="containers" onEnter={requireAuth}>
-                <IndexRoute component={Containers} onEnter={requireAuth} />
-                <Route path="create" component={ContainerCreate} onEnter={requireAuth} />
-                <Route path=":containerId" onEnter={requireAuth}>
-                  <Route path="edit" component={ContainerEdit} onEnter={requireAuth} />
+              <Route path="containers" onEnter={requireAuth(store)}>
+                <IndexRoute component={Containers} onEnter={requireAuth(store)} />
+                <Route path="create" component={ContainerCreate} onEnter={requireAuth(store)} />
+                <Route path=":containerId" onEnter={requireAuth(store)}>
+                  <Route path="edit" component={ContainerEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
-              <Route path="policies" onEnter={requireAuth}>
-                <IndexRoute component={Policies} onEnter={requireAuth} />
-                <Route path="create" component={PolicyCreate} onEnter={requireAuth} />
-                <Route path=":policyId" onEnter={requireAuth}>
-                  <Route path="edit" onEnter={requireAuth}>
-                    <IndexRoute component={PolicyEdit} onEnter={requireAuth} />
-                    <Route path="rules/createlimitRule" component={PolicyLimitRuleCreate} onEnter={requireAuth} />
-                    <Route path="rules/:ruleId/editlimitRule" component={PolicyLimitRuleEdit} onEnter={requireAuth} />
-                    <Route path="rules/createeventRule" component={PolicyEventRuleCreate} onEnter={requireAuth} />
-                    <Route path="rules/:ruleId/editeventRule" component={PolicyEventRuleEdit} onEnter={requireAuth} />
+              <Route path="policies" onEnter={requireAuth(store)}>
+                <IndexRoute component={Policies} onEnter={requireAuth(store)} />
+                <Route path="create" component={PolicyCreate} onEnter={requireAuth(store)} />
+                <Route path=":policyId" onEnter={requireAuth(store)}>
+                  <Route path="edit" onEnter={requireAuth(store)}>
+                    <IndexRoute component={PolicyEdit} onEnter={requireAuth(store)} />
+                    <Route path="rules/createlimitRule" component={PolicyLimitRuleCreate} onEnter={requireAuth(store)} />
+                    <Route path="rules/:ruleId/editlimitRule" component={PolicyLimitRuleEdit} onEnter={requireAuth(store)} />
+                    <Route path="rules/createeventRule" component={PolicyEventRuleCreate} onEnter={requireAuth(store)} />
+                    <Route path="rules/:ruleId/editeventRule" component={PolicyEventRuleEdit} onEnter={requireAuth(store)} />
                   </Route>
                 </Route>
               </Route>
-              <Route path="providers" onEnter={requireAuth}>
-                <IndexRoute component={Providers} onEnter={requireAuth} />
-                <Route path="create" component={ProviderCreate} onEnter={requireAuth} />
-                <Route path=":providerId" onEnter={requireAuth}>
-                  <Route path="edit" component={ProviderEdit} onEnter={requireAuth} />
+              <Route path="providers" onEnter={requireAuth(store)}>
+                <IndexRoute component={Providers} onEnter={requireAuth(store)} />
+                <Route path="create" component={ProviderCreate} onEnter={requireAuth(store)} />
+                <Route path=":providerId" onEnter={requireAuth(store)}>
+                  <Route path="edit" component={ProviderEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
             </Route>
           </Route>
         </Route>
       </Route>
-      <Route path=":fqon/providers" onEnter={requireAuth}>
-        <IndexRoute component={Providers} onEnter={requireAuth} />
-        <Route path="create" component={ProviderCreate} onEnter={requireAuth} />
-        <Route path=":providerId" onEnter={requireAuth}>
-          <Route path="edit" component={ProviderEdit} onEnter={requireAuth} />
+      <Route path=":fqon/providers" onEnter={requireAuth(store)}>
+        <IndexRoute component={Providers} onEnter={requireAuth(store)} />
+        <Route path="create" component={ProviderCreate} onEnter={requireAuth(store)} />
+        <Route path=":providerId" onEnter={requireAuth(store)}>
+          <Route path="edit" component={ProviderEdit} onEnter={requireAuth(store)} />
         </Route>
       </Route>
-      <Route path=":fqon/entitlements" component={Entitlements} onEnter={requireAuth} />
-      <Route path=":fqon/users" onEnter={requireAuth}>
-        <IndexRoute component={Users} onEnter={requireAuth} />
-        <Route path="create" component={UserCreate} onEnter={requireAuth} />
-        <Route path=":userId" onEnter={requireAuth}>
-          <Route path="edit" component={UserEdit} onEnter={requireAuth} />
+      <Route path=":fqon/entitlements" component={Entitlements} onEnter={requireAuth(store)} />
+      <Route path=":fqon/users" onEnter={requireAuth(store)}>
+        <IndexRoute component={Users} onEnter={requireAuth(store)} />
+        <Route path="create" component={UserCreate} onEnter={requireAuth(store)} />
+        <Route path=":userId" onEnter={requireAuth(store)}>
+          <Route path="edit" component={UserEdit} onEnter={requireAuth(store)} />
         </Route>
       </Route>
-      <Route path=":fqon/groups" onEnter={requireAuth}>
-        <IndexRoute component={Groups} onEnter={requireAuth} />
-        <Route path="create" component={GroupCreate} onEnter={requireAuth} />
-        <Route path=":groupId" onEnter={requireAuth}>
-          <Route path="edit" component={GroupEdit} onEnter={requireAuth} />
+      <Route path=":fqon/groups" onEnter={requireAuth(store)}>
+        <IndexRoute component={Groups} onEnter={requireAuth(store)} />
+        <Route path="create" component={GroupCreate} onEnter={requireAuth(store)} />
+        <Route path=":groupId" onEnter={requireAuth(store)}>
+          <Route path="edit" component={GroupEdit} onEnter={requireAuth(store)} />
         </Route>
       </Route>
-      <Route path=":fqon/license" component={License} onEnter={requireAuth} />
+      <Route path=":fqon/license" component={License} onEnter={requireAuth(store)} />
       <Route path="*" component={NotFound} />
     </Route>
   </div>

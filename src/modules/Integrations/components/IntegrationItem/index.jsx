@@ -11,12 +11,20 @@ import FontIcon from 'react-md/lib/FontIcons';
 
 class IntegrationItem extends Component {
   static propTypes = {
+    params: PropTypes.object.isRequired,
     integrations: PropTypes.array.isRequired,
-    pending: PropTypes.bool.isRequired
+    pending: PropTypes.bool.isRequired,
+    fetchIntegrations: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { params, fetchIntegrations } = this.props;
+
+    fetchIntegrations(params.fqon, params.environmentId);
   }
 
   render() {

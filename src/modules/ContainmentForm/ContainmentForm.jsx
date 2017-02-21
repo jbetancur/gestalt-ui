@@ -9,7 +9,7 @@ import Toolbar from 'react-md/lib/Toolbars';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
-import { nameMaxLen, descriptionMaxLen } from './validations';
+import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ContainmentForm = (props) => {
   const goBack = () => {
@@ -20,34 +20,34 @@ const ContainmentForm = (props) => {
     <div>
       <Toolbar
         themed
-        title={<span>{props.title}</span>}
+        title={props.title}
       />
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+          <Card className="flex-8 flex-xs-12 flex-sm-12">
             <CardText>
               <div className="flex-row">
                 <Field
                   className="flex-6 flex-xs-12"
                   component={TextField}
-                  name="name"
+                  name="description"
                   label="Name"
                   type="text"
-                  required
-                  errorText={props.touched && props.error}
                   maxLength={nameMaxLen}
                   lineDirection="center"
+                  required
                 />
                 <Field
-                  className="flex-12"
+                  className="flex-6 flex-xs-12"
                   component={TextField}
-                  name="description"
-                  label="Description"
+                  name="name"
+                  label="Short Name"
                   type="text"
-                  rows={2}
-                  maxRows={4}
-                  maxLength={descriptionMaxLen}
+                  errorText={props.touched && props.error}
+                  maxLength={shortNameMaxLen}
                   lineDirection="center"
+                  required
+                  helpText="allowed characters (a-z  0-9  - )"
                 />
                 {props.isEnvironment ? <Field
                   id="environment-type"

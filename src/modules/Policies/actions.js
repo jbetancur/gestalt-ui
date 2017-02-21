@@ -76,12 +76,15 @@ export function fetchPolicy(fqon, policyId) {
   };
 }
 
-export function createPolicy(fqon, workspaceId, environmentId, payload) {
+export function createPolicy(fqon, workspaceId, environmentId, payload, environment) {
   return (dispatch) => {
     dispatch({ type: CREATE_POLICY_PENDING });
     axios.post(`${fqon}/environments/${environmentId}/policies`, payload).then((response) => {
       dispatch({ type: CREATE_POLICY_FULFILLED, payload: response.data });
-      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}/policies/${response.data.id}/edit`));
+      dispatch(replace({
+        pathname: `${fqon}/workspaces/${workspaceId}/environments/${environmentId}/policies/${response.data.id}/edit`,
+        state: { environment }
+      }));
     }).catch((err) => {
       dispatch({ type: CREATE_POLICY_REJECTED, payload: err });
     });

@@ -8,6 +8,8 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FileInput from 'react-md/lib/FileInputs';
+import { DetailCard, DetailCardTitle } from 'components/DetailCard';
+import { BackArrowButton } from 'components/Buttons';
 import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
@@ -16,18 +18,19 @@ import { nameMaxLen } from '../../validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values } = props;
+  const { provider, change, reset, values, router: { location } } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const goBack = () => {
+    const { params, router } = props;
     props.router.goBack();
-    // if (params.workspaceId && !params.environmentId) {
-    //   router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
-    // } else if (params.workspaceId && params.environmentId) {
-    //   router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
-    // } else {
-    //   router.push(`${params.fqon}/providers`);
-    // }
+    if (params.workspaceId && !params.environmentId) {
+      router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
+    } else if (params.environmentId) {
+      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    } else {
+      router.push(`${params.fqon}/providers`);
+    }
   };
 
   const onFile = (file) => {
@@ -40,23 +43,56 @@ const ProviderForm = (props) => {
     reader.readAsText(file);
   };
 
+  // TODO: becuase we have such nested structure we need to lookup that right key for the parent that was passed
+  // to this route state - must be in this order
+  const getEntityKey = () => {
+    if (location.state.environment) {
+      return 'environment';
+    }
+
+    if (location.state.workspace) {
+      return 'workspace';
+    }
+
+    if (location.state.organization) {
+      return 'organization';
+    }
+
+    return null;
+  };
+
   const renderJSONSection = () => (
     <div className="flex-row">
       {!selectedProviderType.networking ? null : <div className="flex-6 flex-xs-12">
         <JSONTree
-          data={props.provider.properties.config.networks}
+          data={props.provider.properties.config.networks || {}}
         />
       </div>}
       {!selectedProviderType.extraConfig ? null : <div className="flex-6 flex-xs-12">
         <JSONTree
-          data={props.provider.properties.config.extra}
+          data={props.provider.properties.config.extra || {}}
         />
       </div>}
     </div>
   );
 
+  const renderToolbarTitle = () => {
+    const parent = location.state[getEntityKey()].description || location.state[getEntityKey()].name;
+    if (parent) {
+      return `${parent} / Providers / ${props.title}`;
+    }
+
+    return `Providers / ${props.title}`;
+  };
+
   return (
     <div>
+      <DetailCard>
+        <DetailCardTitle>
+          <BackArrowButton onClick={() => goBack()} />
+          <div className="gf-headline">{renderToolbarTitle()}</div>
+        </DetailCardTitle>
+      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
@@ -196,7 +232,7 @@ const ProviderForm = (props) => {
                 flat
                 label={props.cancelLabel}
                 disabled={props.updatePending || props.pending || props.submitting}
-                onClick={goBack}
+                onClick={() => goBack()}
               />
               <Button
                 raised
@@ -214,6 +250,7 @@ const ProviderForm = (props) => {
 };
 
 ProviderForm.propTypes = {
+  router: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,

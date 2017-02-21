@@ -47,7 +47,7 @@ class NetworkModal extends PureComponent {
         id="network-modal"
         position="below"
         visible={this.props.networkModal.visible}
-        title={<ModalTitle title="Add Port Mapping" icon="compare_arrows" />}
+        title={<ModalTitle title="Add Port Mapping" icon="settings_ethernet" />}
         modal={false}
         closeOnEsc
         onHide={() => this.props.hideNetworkModal()}

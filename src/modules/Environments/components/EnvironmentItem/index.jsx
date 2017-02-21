@@ -1,15 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
 import TimeAgo from 'react-timeago';
 import IconText from 'components/IconText';
 import CircularActivity from 'components/CircularActivity';
-import { Card, CardTitle, CardText } from 'components/GFCard';
+import { Card, CardTitle } from 'components/GFCard';
 
 class EnvironmentItem extends Component {
   static propTypes = {
     environments: PropTypes.array.isRequired,
-    fqon: PropTypes.string.isRequired,
-    workspaceId: PropTypes.string.isRequired,
+    router: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
@@ -20,12 +19,13 @@ class EnvironmentItem extends Component {
   }
 
   componentWillMount() {
-    this.init(this.props.fqon, this.props.workspaceId);
+    const { params } = this.props;
+    this.init(params.fqon, params.workspaceId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.workspaceId !== this.props.workspaceId) {
-      this.init(nextProps.fqon, nextProps.workspaceId);
+    if (nextProps.params.workspaceId !== this.props.params.workspaceId) {
+      this.init(nextProps.params.fqon, nextProps.params.workspaceId);
     }
   }
 
@@ -38,7 +38,9 @@ class EnvironmentItem extends Component {
   }
 
   navEnvironmentDetails(item) {
-    browserHistory.push(`/${this.props.fqon}/workspaces/${this.props.workspaceId}/environments/${item.id}`);
+    const { params, router } = this.props;
+
+    router.push(`/${params.fqon}/workspaces/${params.workspaceId}/environments/${item.id}`);
   }
 
   renderCardsContainer() {
@@ -50,25 +52,23 @@ class EnvironmentItem extends Component {
   }
 
   renderProgress() {
-    return <CircularActivity id="environments-progress" scale={5} centered={true} />;
+    return <CircularActivity id="environments-progress" />;
   }
 
   renderCards(item) {
     return (
       <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navEnvironmentDetails(item, e)}>
         <CardTitle
-          title={item.name}
+          title={item.description || item.name}
           subtitle={
             <div>
-              <IconText icon="folder">{React.Children.toArray(item.properties.workspace.name)}</IconText>
+              <IconText icon="short_text"><div>{item.name}</div></IconText>
+              <IconText icon="work">{React.Children.toArray(item.properties.workspace.name)}</IconText>
               <IconText icon="description">{React.Children.toArray(item.properties.environment_type)}</IconText>
               <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
             </div>
           }
         />
-        <CardText>
-          {item.description}
-        </CardText>
       </Card>
     );
   }

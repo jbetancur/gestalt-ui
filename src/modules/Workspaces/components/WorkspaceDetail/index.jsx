@@ -60,7 +60,7 @@ class WorkspaceDetail extends Component {
 
     this.props.confirmDelete(() => {
       deleteWorkspace(params.fqon, workspace.id);
-    }, workspace.name);
+    }, workspace.description || workspace.name);
   }
 
   renderActionsMenu() {
@@ -71,7 +71,7 @@ class WorkspaceDetail extends Component {
         <MenuButton
           id="workspaces-settings-menu"
           icon
-          position="tl"
+          position={MenuButton.Positions.TOP_LEFT}
           disabled={pending}
           buttonChildren="more_vert"
         >
@@ -80,20 +80,30 @@ class WorkspaceDetail extends Component {
             primaryText="Create Environment"
             leftIcon={<FontIcon>add</FontIcon>}
             component={Link}
-            to={`/${params.fqon}/workspaces/${workspace.id}/createEnvironment`}
+            to={{
+              pathname: `/${params.fqon}/workspaces/${workspace.id}/createEnvironment`,
+              state: {
+                workspace,
+              },
+            }}
           />
           <ListItem
             id="workspaces-settings-menu--edit"
-            primaryText={<span>Edit {workspace.name}</span>}
+            primaryText={<span>Edit {workspace.description || workspace.name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
-            to={`/${params.fqon}/workspaces/${workspace.id}/edit`}
+            to={{
+              pathname: `/${params.fqon}/workspaces/${workspace.id}/edit`,
+              state: {
+                workspace,
+              },
+            }}
           />
           <Divider />
           <ListItem
             id="workspaces-settings-menu--delete"
-            primaryText={<span>Delete {workspace.name}</span>}
-            leftIcon={<FontIcon>delete_sweep</FontIcon>}
+            primaryText={<span>Delete {workspace.description || workspace.name}</span>}
+            leftIcon={<FontIcon style={{ color: 'red' }}>delete_sweep</FontIcon>}
             onClick={e => this.delete(e)}
           />
         </MenuButton>
@@ -102,20 +112,18 @@ class WorkspaceDetail extends Component {
   }
 
   renderThings(state) {
-    const { params } = this.props;
-
     switch (state) {
       case 'environments':
         return (
-          <Environments fqon={params.fqon} workspaceId={params.workspaceId} {...this.props} />
+          <Environments {...this.props} />
         );
       case 'providers':
         return (
-          <Providers fqon={params.fqon} workspaceId={params.workspaceId} {...this.props} />
+          <Providers {...this.props} />
         );
       case 'entitlements':
         return (
-          <Entitlements fqon={params.fqon} workspaceId={params.workspaceId} {...this.props} />
+          <Entitlements {...this.props} />
         );
       default:
         return <div />;
@@ -135,16 +143,16 @@ class WorkspaceDetail extends Component {
           <DetailCardTitle expander={!pending}>
             <BackArrowButton component={Link} to={`/${params.fqon}/workspaces`} />
             {this.renderActionsMenu()}
-            <div className="gf-headline">{workspace.name}</div>
+            <div className="gf-headline">{workspace.description || workspace.name}</div>
           </DetailCardTitle>
           <DetailCardText expandable>
+            <IconText icon="short_text"><span>{workspace.name}</span></IconText>
             <IconText icon="access_time"><TimeAgo date={workspace.created.timestamp} /></IconText>
             <IconText icon="timelapse"><TimeAgo date={workspace.modified.timestamp} /></IconText>
-            <IconText icon="subtitles"><div className="md-body-1">{workspace.description}</div></IconText>
             <VariablesListing envMap={workspace.properties.env} />
           </DetailCardText>
           <TabsContainer defaultTabIndex={navigation.index}>
-            <Tabs>
+            <Tabs tabId="workspace-app-tabs">
               <Tab label="Environments" id="environments" icon={<FontIcon>folder</FontIcon>} onClick={() => this.handleViewState('environments', 0)} />
               <Tab label="Providers" id="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers', 1)} />
               <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 2)} />

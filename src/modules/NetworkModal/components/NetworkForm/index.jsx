@@ -53,7 +53,7 @@ const NetworkForm = (props) => {
             name="service_port"
             type="number"
             min={0}
-            max={65536}
+            max={65535}
             label="Service Port"
             className="flex-3 flex-xs-6"
             component={TextField}
@@ -67,7 +67,7 @@ const NetworkForm = (props) => {
             name="container_port"
             type="number"
             min={0}
-            max={65536}
+            max={65535}
             label="Container Port"
             className="flex-3 flex-xs-6"
             component={TextField}

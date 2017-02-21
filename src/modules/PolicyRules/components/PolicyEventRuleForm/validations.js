@@ -1,3 +1,5 @@
+import { isUUID } from 'validator';
+
 export const nameMaxLen = 30;
 
 export default (values) => {
@@ -12,7 +14,24 @@ export default (values) => {
   }
 
   if (!values.properties.lambda) {
-    errors.properties.lambda = 'a lambda is required';
+    errors.properties.lambda = 'a lambda UUID is required';
+  }
+
+  // TODO: temporary until we get better lambda search
+  if (typeof values.properties.lambda === 'object') {
+    errors.properties.lambda = { id: null };
+
+    if (values.properties.lambda && !isUUID(values.properties.lambda.id)) {
+      errors.properties.lambda.id = 'must be a valid UUID';
+    }
+  } else {
+    if (!values.properties.lambda) {
+      errors.properties.lambda = 'a lambda UUID is required';
+    }
+
+    if (values.properties.lambda && !isUUID(values.properties.lambda)) {
+      errors.properties.lambda = 'must be a valud UUID';
+    }
   }
 
   return errors;

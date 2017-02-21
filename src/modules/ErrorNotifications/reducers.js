@@ -29,12 +29,12 @@ export default (state = initialState, action) => {
         friendlyMessage: 'API path not found',
         error: action.payload
       };
-    case 'APP_HTTP_ERROR_401':
-      return {
-        ...state,
-        friendlyMessage: 'You are unauthorized!',
-        error: action.payload
-      };
+    // case 'APP_HTTP_ERROR_401':
+    //   return {
+    //     ...state,
+    //     friendlyMessage: 'You are unauthorized!',
+    //     error: action.payload
+    //   };
     case 'APP_HTTP_ERROR_500':
       return {
         ...state,

@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux';
 
-import selfReducer from './self';
+import self from './self';
+import baseOrganization from './baseOrganization';
+import currentOrgContext from './currentOrgContext';
 
 export default combineReducers({
-  self: selfReducer
+  self,
+  baseOrganization,
+  currentOrgContext,
 });

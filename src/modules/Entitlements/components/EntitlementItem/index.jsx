@@ -10,12 +10,22 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 
 class EntitlementItem extends Component {
   static propTypes = {
+    fetchEntitlements: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
     entitlements: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired
   };
 
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { params, fetchEntitlements } = this.props;
+    const entityId = params.workspaceId || params.environmentId || null;
+    const entityKey = params.workspaceId ? 'workspaces' : 'environments';
+
+    fetchEntitlements(params.fqon, entityId, entityKey);
   }
 
   render() {

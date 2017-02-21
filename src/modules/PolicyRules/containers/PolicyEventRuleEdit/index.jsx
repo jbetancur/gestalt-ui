@@ -20,13 +20,13 @@ class PolicyEventRuleEdit extends Component {
     selectedActions: PropTypes.array.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
-    fetchLambdas: PropTypes.func.isRequired,
+    // fetchLambdas: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchPolicyRule, fetchLambdas } = this.props;
+    const { params, fetchPolicyRule } = this.props;
     fetchPolicyRule(params.fqon, params.policyId, params.ruleId);
-    fetchLambdas(params.fqon, params.environmentId);
+    // fetchLambdas(params.fqon, params.environmentId);
   }
 
   componentWillReceiveProps(nextProps) {

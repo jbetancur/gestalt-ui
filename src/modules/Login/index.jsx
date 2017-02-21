@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import * as actions from './actions';
-import LoginForm from './components/LoginForm';
+import LoginPage from './components/LoginPage';
 
 function mapStateToProps(state) {
   return {
-    token: state.login.token,
-    isAuthenticating: state.login.isAuthenticating,
-    statusText: state.login.statusText
+    token: state.login.login.token,
+    isAuthenticating: state.login.login.isAuthenticating,
+    statusText: state.login.login.statusText,
+    loginModal: state.login.loginModal,
   };
 }
 
-export default connect(mapStateToProps, actions)(LoginForm);
+export default connect(mapStateToProps, actions)(LoginPage);
