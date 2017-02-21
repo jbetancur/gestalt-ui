@@ -23,6 +23,9 @@ import {
   LAMBDA_UNLOADED,
   LAMBDAS_UNLOADED,
   SELECTED_LAMBDAS,
+  FETCH_ENV_PENDING,
+  FETCH_ENV_FULFILLED,
+  FETCH_ENV_REJECTED,
 } from './actionTypes';
 
 export function onUnload() {
@@ -70,12 +73,35 @@ export function fetchLambdas(fqon, environmentId) {
   };
 }
 
-export function fetchLambda(fqon, lambdaId) {
+export function fetchEnv(fqon, environmentId) {
+  return (dispatch) => {
+    dispatch({ type: FETCH_ENV_PENDING });
+    axios.get(`${fqon}/environments/${environmentId}/env`).then((response) => {
+      dispatch({ type: FETCH_ENV_FULFILLED, payload: response.data });
+    }).catch((err) => {
+      dispatch({ type: FETCH_ENV_REJECTED, payload: err });
+    });
+  };
+}
+
+export function fetchLambda(fqon, lambdaId, environmentId) {
   return (dispatch) => {
     dispatch({ type: FETCH_LAMBDA_PENDING });
-    axios.get(`${fqon}/lambdas/${lambdaId}`).then((response) => {
-      dispatch({ type: FETCH_LAMBDA_FULFILLED, payload: response.data });
-    }).catch((err) => {
+
+    function getLambda() {
+      return axios.get(`${fqon}/lambdas/${lambdaId}`);
+    }
+
+    function getEnv() {
+      return axios.get(`${fqon}/environments/${environmentId}/env`);
+    }
+
+    axios.all([getLambda(), getEnv()]).then(axios.spread((lambda, env) => {
+      const payload = { ...lambda.data };
+
+      payload.properties.env = Object.assign(payload.properties.env, env.data);
+      dispatch({ type: FETCH_LAMBDA_FULFILLED, payload });
+    })).catch((err) => {
       dispatch({ type: FETCH_LAMBDA_REJECTED, payload: err });
     });
   };

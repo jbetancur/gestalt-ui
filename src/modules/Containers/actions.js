@@ -27,6 +27,9 @@ import {
   MIGRATE_CONTAINER_PENDING,
   MIGRATE_CONTAINER_FULFILLED,
   MIGRATE_CONTAINER_REJECTED,
+  FETCH_ENV_PENDING,
+  FETCH_ENV_FULFILLED,
+  FETCH_ENV_REJECTED,
 } from './actionTypes';
 
 export function onUnload() {
@@ -54,12 +57,35 @@ export function fetchContainers(fqon, environmentId) {
   };
 }
 
-export function fetchContainer(fqon, containerId) {
+export function fetchEnv(fqon, environmentId) {
+  return (dispatch) => {
+    dispatch({ type: FETCH_ENV_PENDING });
+    axios.get(`${fqon}/environments/${environmentId}/env`).then((response) => {
+      dispatch({ type: FETCH_ENV_FULFILLED, payload: response.data });
+    }).catch((err) => {
+      dispatch({ type: FETCH_ENV_REJECTED, payload: err });
+    });
+  };
+}
+
+export function fetchContainer(fqon, containerId, environmentId) {
   return (dispatch) => {
     dispatch({ type: FETCH_CONTAINER_PENDING });
-    axios.get(`${fqon}/containers/${containerId}`).then((response) => {
-      dispatch({ type: FETCH_CONTAINER_FULFILLED, payload: response.data });
-    }).catch((err) => {
+
+    function getContainer() {
+      return axios.get(`${fqon}/containers/${containerId}`);
+    }
+
+    function getEnv() {
+      return axios.get(`${fqon}/environments/${environmentId}/env`);
+    }
+
+    axios.all([getContainer(), getEnv()]).then(axios.spread((container, env) => {
+      const payload = { ...container.data };
+
+      payload.properties.env = Object.assign(payload.properties.env, env.data);
+      dispatch({ type: FETCH_CONTAINER_FULFILLED, payload });
+    })).catch((err) => {
       dispatch({ type: FETCH_CONTAINER_REJECTED, payload: err });
     });
   };

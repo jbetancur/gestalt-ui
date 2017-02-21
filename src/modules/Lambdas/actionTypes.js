@@ -26,3 +26,8 @@ export const LAMBDA_UNLOADED = 'lambdas/LAMBDA_UNLOADED';
 export const LAMBDAS_UNLOADED = 'lambdas/LAMBDAS_UNLOADED';
 
 export const SELECTED_LAMBDAS = 'lambdas/SELECTED_LAMBDAS';
+
+export const FETCH_ENV_PENDING = 'lambdas/FETCH_ENV_PENDING';
+export const FETCH_ENV_FULFILLED = 'lambdas/FETCH_ENV_FULFILLED';
+export const FETCH_ENV_REJECTED = 'lambdas/FETCH_ENV_REJECTED';
+

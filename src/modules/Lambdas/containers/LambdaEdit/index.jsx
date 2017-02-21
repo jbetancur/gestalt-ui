@@ -24,7 +24,7 @@ class LambdaEdit extends Component {
     const { params, fetchLambda, fetchProviders } = this.props;
     // init providers dropdown
     fetchProviders(params.fqon, params.environmentId, 'ApiGateway');
-    fetchLambda(params.fqon, params.lambdaId);
+    fetchLambda(params.fqon, params.lambdaId, params.environmentId);
   }
 
   componentWillUnmount() {
