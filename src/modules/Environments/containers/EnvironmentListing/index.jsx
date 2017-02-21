@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import EnvironmentItem from '../../components/EnvironmentItem';
-
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {

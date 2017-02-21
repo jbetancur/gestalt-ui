@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
-import _map from 'lodash/map';
+import map from 'lodash/map';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
 import * as actions from '../../actions';
 
@@ -62,7 +62,7 @@ class WorkspaceEdit extends Component {
   render() {
     return (
       <ContainmentForm
-        title={this.props.workspace.name}
+        title={this.props.workspace.description || this.props.workspace.name}
         submitLabel="Update" cancelLabel="Cancel"
         onSubmit={values => this.updateWorkspace(values)}
         envMap={this.props.workspace.properties.env}
@@ -74,7 +74,7 @@ class WorkspaceEdit extends Component {
 
 function mapStateToProps(state) {
   const { workspace, pending } = state.workspaces.fetchOne;
-  const variables = _map(workspace.properties.env, (value, key) => ({ key, value }));
+  const variables = map(workspace.properties.env, (value, key) => ({ key, value }));
 
   return {
     workspace,

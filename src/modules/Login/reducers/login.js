@@ -2,7 +2,7 @@ import {
   REQUEST_TOKEN_PENDING,
   REQUEST_TOKEN_FULFILLED,
   REQUEST_TOKEN_REJECTED
-} from './actionTypes';
+} from '../actionTypes';
 
 const initialState = {
   isAuthenticating: false,

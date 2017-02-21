@@ -1,45 +1,6 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import ProviderItem from '../../components/ProviderItem';
-
 import * as actions from '../../actions';
-
-class ProviderListing extends Component {
-  static propTypes = {
-    fetchProviders: PropTypes.func.isRequired,
-    params: PropTypes.object,
-    fqon: PropTypes.string,
-    workspaceId: PropTypes.string,
-    environmentId: PropTypes.string,
-    onUnloadListing: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    params: {},
-    fqon: null,
-    workspaceId: null,
-    environmentId: null,
-  };
-
-  componentDidMount() {
-    const { fqon, params, workspaceId, environmentId, fetchProviders } = this.props;
-    const resolvedFqon = fqon || params.fqon;
-    const entityId = workspaceId || environmentId || null;
-    const entityKey = workspaceId ? 'workspaces' : 'environments';
-    fetchProviders(resolvedFqon, entityId, entityKey);
-  }
-
-  componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
-    clearSelected();
-  }
-
-  render() {
-    return <ProviderItem {...this.props} />;
-  }
-}
 
 function mapStateToProps(state) {
   return {
@@ -49,4 +10,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(ProviderListing);
+export default connect(mapStateToProps, actions)(ProviderItem);

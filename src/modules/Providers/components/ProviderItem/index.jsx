@@ -20,18 +20,36 @@ class ProviderItem extends Component {
     providers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
-    workspaceId: PropTypes.string,
-    environmentId: PropTypes.string,
     confirmDelete: PropTypes.func.isRequired,
+    fetchProviders: PropTypes.func.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
+    organization: PropTypes.object,
+    workspace: PropTypes.object,
+    environment: PropTypes.object,
   };
 
   static defaultProps = {
-    workspaceId: null,
-    environmentId: null
-  };
+    organization: {},
+    workspace: {},
+    environment: {},
+  }
 
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { params, fetchProviders } = this.props;
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId ? 'workspaces' : 'environments';
+    fetchProviders(params.fqon, entityId, entityKey);
+  }
+
+  componentWillUnmount() {
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   formatResourceType(resourceType) {
@@ -46,47 +64,47 @@ class ProviderItem extends Component {
   }
 
   create() {
-    const { router, params, workspaceId, environmentId } = this.props;
+    const { router, params, organization, environment, workspace } = this.props;
 
     // note the workspaceId and environmentId here are passed into the component
     // via the EnvironmentDetail Component they are not props.params
-    if (workspaceId) {
-      router.push(`${params.fqon}/workspaces/${workspaceId}/providers/create`);
-    } else if (environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/providers/create`);
+    if (params.workspaceId && !params.environmentId) {
+      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/create`, state: { workspace } });
+    } else if (params.environmentId) {
+      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/create`, state: { environment } });
     } else {
-      router.push(`${params.fqon}/providers/create`);
+      router.push({ pathname: `${params.fqon}/providers/create`, state: { organization } });
     }
   }
 
   edit(provider, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, workspaceId, environmentId } = this.props;
+      const { router, params, organization, environment, workspace } = this.props;
 
-      if (workspaceId) {
-        router.push(`${params.fqon}/workspaces/${workspaceId}/providers/${provider.id}/edit`);
-      } else if (environmentId) {
-        router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/providers/${provider.id}/edit`);
+      if (params.workspaceId && !params.environmentId) {
+        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/${provider.id}/edit`, state: { workspace } });
+      } else if (params.environmentId) {
+        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/${provider.id}/edit`, state: { environment } });
       } else {
-        router.push(`${params.fqon}/providers/${provider.id}/edit`);
+        router.push({ pathname: `${params.fqon}/providers/${provider.id}/edit`, state: { organization } });
       }
     }
   }
 
   delete() {
-    const { params, deleteProviders, workspaceId, environmentId } = this.props;
+    const { params, deleteProviders } = this.props;
     const { selectedItems } = this.props.selectedProviders;
     const providerIds = selectedItems.map(item => (item.id));
     const providerNames = selectedItems.map(item => (item.name));
 
-    if (workspaceId) {
+    if (params.workspaceId) {
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, workspaceId, 'workspaces');
+        deleteProviders(providerIds, params.fqon, params.workspaceId, 'workspaces');
       }, providerNames);
-    } else if (environmentId) {
+    } else if (params.environmentId) {
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, environmentId, 'environments');
+        deleteProviders(providerIds, params.fqon, params.environmentId, 'environments');
       }, providerNames);
     } else {
       this.props.confirmDelete(() => {

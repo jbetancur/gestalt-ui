@@ -109,7 +109,8 @@ const HealthCheckForm = (props) => {
             <Field
               name="port"
               type="number"
-              min={1}
+              min={0}
+              max={65535}
               label="Port Number"
               className="flex-2 flex-xs-6 flex-sm-6"
               component={TextField}
@@ -122,7 +123,8 @@ const HealthCheckForm = (props) => {
             <Field
               name="port_index"
               type="number"
-              min={1}
+              min={0}
+              max={65535}
               label="Port Index"
               className="flex-2 flex-xs-6 flex-sm-6"
               component={TextField}

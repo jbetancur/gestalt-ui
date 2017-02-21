@@ -10,16 +10,16 @@ class PolicyEventRuleCreate extends Component {
     params: PropTypes.object.isRequired,
     createPolicyRule: PropTypes.func.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
-    fetchLambdas: PropTypes.func.isRequired,
+    // fetchLambdas: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     onUnloadLambdas: PropTypes.func.isRequired,
     selectedActions: PropTypes.array.isRequired,
   };
 
-  componentWillMount() {
-    const { params, fetchLambdas } = this.props;
-    fetchLambdas(params.fqon, params.environmentId);
-  }
+  // componentWillMount() {
+  //   const { params, fetchLambdas } = this.props;
+  //   fetchLambdas(params.fqon, params.environmentId);
+  // }
 
   componentWillUnmount() {
     this.props.onUnload();

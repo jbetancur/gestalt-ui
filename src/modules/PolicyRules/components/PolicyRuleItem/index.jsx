@@ -24,6 +24,9 @@ class PolicyRuleItem extends Component {
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    fetchPolicyRules: PropTypes.func.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -40,6 +43,17 @@ class PolicyRuleItem extends Component {
       deselectOnClickaway: true,
       showCheckboxes: true
     };
+  }
+
+  componentWillMount() {
+    const { params, fetchPolicyRules } = this.props;
+    fetchPolicyRules(params.fqon, params.policyId);
+  }
+
+  componentWillUnmount() {
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   handleRowToggle(row, toggled, count) {
@@ -64,7 +78,10 @@ class PolicyRuleItem extends Component {
     if (e.target.className.includes('md-table-column')) {
       const { router, params, } = this.props;
       const ruleType = policyRule.resource_type.split(/[::]+/).pop();
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`);
+      router.push({
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`,
+        state: { environment: this.props.router.location.state.environment },
+      });
     }
   }
 
@@ -76,7 +93,10 @@ class PolicyRuleItem extends Component {
         key={type.value}
         primaryText={type.displayName}
         component={Link}
-        to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/create${type.name}Rule`}
+        to={{
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/create${type.name}Rule`,
+          state: { environment: this.props.router.location.state.environment },
+        }}
       />
     );
   }

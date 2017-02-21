@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // These are regular React components we will write soon
-import ConfirmModal from './Modals/Confirm';
+import CONFIRM from './Modals/Confirm';
 
 const MODAL_COMPONENTS = {
-  CONFIRM: ConfirmModal,
+  CONFIRM,
   /* other modals */
 };
 

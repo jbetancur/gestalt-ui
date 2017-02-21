@@ -14,20 +14,34 @@ import { FormattedDate } from 'react-intl';
 
 class LambdaItem extends Component {
   static propTypes = {
+    environment: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     handleSelected: PropTypes.func.isRequired,
     selectedLambdas: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
-    fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.string.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    fetchLambdas: PropTypes.func.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { params, fetchLambdas } = this.props;
+
+    fetchLambdas(params.fqon, params.environmentId);
+  }
+
+  componentWillUnmount() {
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   handleRowToggle(row, toggled, count) {
@@ -50,14 +64,19 @@ class LambdaItem extends Component {
   edit(lambda, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, } = this.props;
+      const { router, params, environment } = this.props;
 
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`);
+      router.push({
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`,
+        state: {
+          environment,
+        },
+      });
     }
   }
 
   renderCreateButton() {
-    const { fqon, environmentId, params } = this.props;
+    const { params, environment } = this.props;
 
     return (
       <Button
@@ -65,7 +84,12 @@ class LambdaItem extends Component {
         label="Create Lambda"
         flat
         component={Link}
-        to={`${fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/lambdas/create`}
+        to={{
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/create`,
+          state: {
+            environment,
+          },
+        }}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -77,8 +101,8 @@ class LambdaItem extends Component {
 
     const lambdas = this.props.lambdas.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
-        <TableColumn>{lambda.description}</TableColumn>
         <TableColumn>{lambda.name}</TableColumn>
+        <TableColumn>{lambda.description}</TableColumn>
         <TableColumn>{lambda.id}</TableColumn>
         <TableColumn>endpoints</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
@@ -104,7 +128,7 @@ class LambdaItem extends Component {
             {!this.props.lambdas.length ? null : <TableHeader>
               <TableRow>
                 <TableColumn>Name</TableColumn>
-                <TableColumn>Short Name</TableColumn>
+                <TableColumn>Description</TableColumn>
                 <TableColumn>UUID</TableColumn>
                 <TableColumn>Endpoints</TableColumn>
                 <TableColumn>Runtime</TableColumn>

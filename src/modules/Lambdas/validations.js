@@ -1,6 +1,7 @@
 import { isLambdaName } from 'util/validations';
 
 export const nameMaxLen = 30;
+export const descriptionMaxLen = 512;
 
 export default (values) => {
   const errors = {
@@ -15,23 +16,19 @@ export default (values) => {
   }
 
   if (!values.name) {
-    errors.name = 'lambda short name is required';
+    errors.name = 'lambda name is required';
   }
 
   if (values.name && !isLambdaName(values.name)) {
-    errors.name = 'invalid lambda short name format';
+    errors.name = 'invalid lambda name format';
   }
 
   if (values.name && values.name.length > nameMaxLen) {
-    errors.name = 'lambda short name is too long';
+    errors.name = 'lambda name is too long';
   }
 
-  if (!values.description) {
-    errors.description = 'lambda name is required';
-  }
-
-  if (values.description && values.description.length > nameMaxLen) {
-    errors.description = 'lambda name is too long';
+  if (values.description && values.description.length > descriptionMaxLen) {
+    errors.description = 'lambda description is too long';
   }
 
   if (!values.properties.runtime) {

@@ -67,7 +67,7 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    return <ContainerForm title={<span>Create Container</span>} submitLabel="Deploy" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return <ContainerForm title="Deploy Container" submitLabel="Deploy" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 

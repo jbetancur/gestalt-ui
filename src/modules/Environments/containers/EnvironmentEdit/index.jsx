@@ -71,7 +71,7 @@ class EnvironmentEdit extends Component {
 
     return (
       <ContainmentForm
-        title={environment.name}
+        title={environment.description || environment.name}
         submitLabel="Update"
         cancelLabel="Cancel"
         onSubmit={values => this.updateEnvironment(values)}

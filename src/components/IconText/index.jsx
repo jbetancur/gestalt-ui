@@ -21,7 +21,7 @@ const IconText = props =>
 
 IconText.propTypes = {
   icon: PropTypes.string.isRequired,
-  children: PropTypes.array.isRequired
+  children: PropTypes.object.isRequired
 };
 
 export default IconText;

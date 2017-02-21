@@ -6,7 +6,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Toolbar from 'react-md/lib/Toolbars';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import IconText from 'components/IconText';
-import { Card, CardTitle, CardText } from 'components/GFCard';
+import { Card, CardTitle } from 'components/GFCard';
 
 class WorkspaceItem extends Component {
   static propTypes = {
@@ -23,24 +23,17 @@ class WorkspaceItem extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchWorkspaces(this.props.router.params.fqon);
+    this.props.fetchWorkspaces(this.props.params.fqon);
   }
 
   componentWillUnmount() {
     this.props.onUnloadListing();
   }
 
-  editItem(e) {
-    e.stopPropagation();
-  }
-
   navWorkspaceDetails(item) {
-    this.props.router.push({
-      pathname: `/${this.props.params.fqon}/workspaces/${item.id}`,
-      state: {
-        name: item.name
-      }
-    });
+    const { router, params } = this.props;
+
+    router.push(`/${params.fqon}/workspaces/${item.id}`);
   }
 
   renderProgress() {
@@ -73,28 +66,26 @@ class WorkspaceItem extends Component {
     return (
       <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navWorkspaceDetails(item, e)}>
         <CardTitle
-          title={item.name}
+          title={item.description || item.name}
           subtitle={
             <div>
+              <IconText icon="short_text"><div>{item.name}</div></IconText>
               <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
             </div>
           }
         />
-        <CardText>
-          {item.description}
-        </CardText>
       </Card>
     );
   }
 
   render() {
-    const { pending, workspaces } = this.props;
+    const { pending } = this.props;
 
     return (
       <div>
         <Toolbar
           themed
-          title={<span>workspaces ({workspaces.length})</span>}
+          title="Workspaces"
           actions={this.renderMenu()}
         />
         {pending ? this.renderProgress() : this.renderCardsContainer()}

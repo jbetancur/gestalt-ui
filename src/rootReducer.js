@@ -5,7 +5,7 @@ import { createResponsiveStateReducer } from 'redux-responsive';
 import appReducers from './App/reducers';
 import modalReducer from './modules/ModalRoot/reducers';
 import errorNotificationReducer from './modules/ErrorNotifications/reducers';
-import loginReducer from './modules/Login/reducer';
+import loginReducer from './modules/Login/reducers';
 import organizationsReducer from './modules/Organizations/reducers';
 import oranizationNavMenu from './modules/OrgNavMenu/reducers';
 import workspacesReducer from './modules/Workspaces/reducers';

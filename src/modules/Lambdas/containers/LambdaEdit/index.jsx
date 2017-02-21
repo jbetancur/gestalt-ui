@@ -99,7 +99,7 @@ class LambdaEdit extends Component {
 
   render() {
     const { lambda, pending } = this.props;
-    return pending ? <CircularActivity id="lambda-load" /> : <LambdaForm editMode title={lambda.name} submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.updateLambda(values)} {...this.props} />;
+    return pending ? <CircularActivity id="lambda-load" /> : <LambdaForm editMode title={lambda.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updateLambda(values)} {...this.props} />;
   }
 }
 

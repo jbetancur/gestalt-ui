@@ -1,31 +1,38 @@
 import {
-  FETCH_INTEGRATIONS_PENDING,
-  FETCH_INTEGRATIONS_REJECTED,
-  FETCH_INTEGRATIONS_FULFILLED
+  FETCH_ORG_PENDING,
+  FETCH_ORG_REJECTED,
+  FETCH_ORG_FULFILLED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  integrations: [],
-  error: null
+  organization: {
+    org: {},
+    created: {},
+    modified: {},
+    properties: {
+      env: {}
+    }
+  },
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_INTEGRATIONS_PENDING:
+    case FETCH_ORG_PENDING:
       return {
         ...state,
         pending: true
       };
-    case FETCH_INTEGRATIONS_FULFILLED:
+    case FETCH_ORG_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        integrations: action.payload
+        organization: action.payload,
       };
-    case FETCH_INTEGRATIONS_REJECTED:
+    case FETCH_ORG_REJECTED:
       return {
         ...state,
         pending: false,
@@ -35,4 +42,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

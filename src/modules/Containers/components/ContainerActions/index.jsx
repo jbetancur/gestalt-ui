@@ -9,8 +9,7 @@ const ActionsWrapper = styled.div`
     display: inline-block;
 
     &.action--title {
-      position: absolute;
-      top: .7em;
+      padding-left: .3em;
     }
 
     .container--RUNNING {
@@ -70,7 +69,6 @@ const EnhancedDivider = styled(Divider)`
 class ContainerActions extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    state: PropTypes.string.isRequired,
     container: PropTypes.object.isRequired,
     deleteContainer: PropTypes.func.isRequired,
     scaleContainer: PropTypes.func.isRequired,
@@ -84,6 +82,10 @@ class ContainerActions extends Component {
 
   static defaultProps = {
     inContainerView: false,
+  }
+
+  constructor(props) {
+    super(props);
   }
 
   destroyContainer() {
@@ -120,14 +122,16 @@ class ContainerActions extends Component {
       <ActionsWrapper className={this.props.inContainerView ? 'action--title' : null}>
         <ActionsModals />
         <MenuButton
-          className={`container--${this.props.state}`}
+          className={`container--${this.props.container.properties.status}`}
           id="container-actions-menu"
-          icon
+          icon={!this.props.inContainerView}
+          flat={this.props.inContainerView}
+          label={this.props.inContainerView ? this.props.container.properties.status : null}
           buttonChildren="more_vert"
-          position="tl"
+          position={MenuButton.Positions.BOTTOM_LEFT}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
-          {[<ListWrapper id="container-actions-menu">
+          {[<ListWrapper key="container-actions-menu">
             <ListMenu>
               <div className="gf-headline-1">{this.props.container.name}</div>
               <div className="gf-subtitle">{this.props.container.properties.status}</div>

@@ -21,7 +21,8 @@ const initialState = {
     created: {},
     modified: {},
     properties: {
-      env: {}
+      env: {},
+      workspace: {},
     }
   },
   error: null

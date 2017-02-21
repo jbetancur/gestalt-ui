@@ -9,16 +9,8 @@ export default (values) => {
     errors.protocol = ' ';
   }
 
-  if (!values.service_port) {
-    errors.service_port = ' ';
-  }
-
   if (values.service_port > 65536) {
     errors.service_port = 'Invalid Port';
-  }
-
-  if (!values.container_port) {
-    errors.container_port = ' ';
   }
 
   if (values.container_port > 65536) {

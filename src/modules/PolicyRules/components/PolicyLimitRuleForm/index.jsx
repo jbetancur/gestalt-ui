@@ -85,7 +85,7 @@ const PolicyLimitRuleForm = (props) => {
               <div className="flex-row">
                 <Field
                   id="rule-eval-property"
-                  className="flex-4 flex-xs-12"
+                  className="flex-3 flex-xs-12"
                   component={SelectField}
                   menuItems={policyLimiters}
                   name="properties.eval_logic.property"
@@ -99,7 +99,7 @@ const PolicyLimitRuleForm = (props) => {
                 {values.properties.eval_logic.property ?
                   <Field
                     id="rule-eval-operator"
-                    className="flex-4 flex-xs-12"
+                    className="flex-3 flex-xs-12"
                     component={SelectField}
                     menuItems={filteredPolicyOperators}
                     name="properties.eval_logic.operator"
@@ -112,7 +112,7 @@ const PolicyLimitRuleForm = (props) => {
                 {values.properties.eval_logic.operator ?
                   <Field
                     id="rule-eval-value"
-                    className="flex-4 flex-xs-12"
+                    className="flex-3 flex-xs-12"
                     component={TextField}
                     name="properties.eval_logic.value"
                     label="Value"
@@ -122,10 +122,8 @@ const PolicyLimitRuleForm = (props) => {
                     errorText={touched && error}
                     lineDirection="center"
                   /> : null}
-              </div>
-              <div className="flex-row">
                 <Field
-                  className="flex-2 flex-xs-6"
+                  className="flex-3 flex-xs-12"
                   id="rule-strict"
                   component={CheckboxForm}
                   name="properties.strict"
@@ -158,7 +156,10 @@ const PolicyLimitRuleForm = (props) => {
               label={cancelLabel}
               disabled={pending || submitting}
               component={Link}
-              to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`}
+              to={{
+                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`,
+                state: { environment: props.router.location.state.environment },
+              }}
             />
             <Button
               raised
@@ -175,6 +176,7 @@ const PolicyLimitRuleForm = (props) => {
 };
 
 PolicyLimitRuleForm.propTypes = {
+  router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   policyUpdatePending: PropTypes.bool.isRequired,

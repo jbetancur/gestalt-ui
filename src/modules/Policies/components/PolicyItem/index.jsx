@@ -14,8 +14,7 @@ import { FormattedDate } from 'react-intl';
 
 class PolicyItem extends Component {
   static propTypes = {
-    fqon: PropTypes.string.isRequired,
-    environmentId: PropTypes.string.isRequired,
+    environment: PropTypes.string.isRequired,
     params: PropTypes.object.isRequired,
     policies: PropTypes.array.isRequired,
     selectedPolicies: PropTypes.object.isRequired,
@@ -24,22 +23,24 @@ class PolicyItem extends Component {
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    fetchPolicies: PropTypes.func.isRequired,
+    onUnloadListing: PropTypes.func.isRequired,
+    clearSelected: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+  }
 
-    this.state = {
-      fixedHeader: true,
-      fixedFooter: true,
-      stripedRows: false,
-      showRowHover: false,
-      selectable: true,
-      multiSelectable: true,
-      enableSelectAll: true,
-      deselectOnClickaway: true,
-      showCheckboxes: true
-    };
+  componentWillMount() {
+    const { params, fetchPolicies } = this.props;
+    fetchPolicies(params.fqon, params.environmentId);
+  }
+
+  componentWillUnmount() {
+    const { onUnloadListing, clearSelected } = this.props;
+    onUnloadListing();
+    clearSelected();
   }
 
   handleRowToggle(row, toggled, count) {
@@ -62,14 +63,18 @@ class PolicyItem extends Component {
   edit(policy, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, } = this.props;
-
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${policy.id}/edit`);
+      const { router, params, environment } = this.props;
+      router.push({
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${policy.id}/edit`,
+        state: {
+          environment,
+        },
+      });
     }
   }
 
   renderCreateButton() {
-    const { fqon, environmentId, params } = this.props;
+    const { environment, params } = this.props;
 
     return (
       <Button
@@ -77,7 +82,12 @@ class PolicyItem extends Component {
         label="Create Policy"
         flat
         component={Link}
-        to={`${fqon}/workspaces/${params.workspaceId}/environments/${environmentId}/policies/create`}
+        to={{
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/create`,
+          state: {
+            environment,
+          },
+        }}
       >
         <FontIcon>add</FontIcon>
       </Button>

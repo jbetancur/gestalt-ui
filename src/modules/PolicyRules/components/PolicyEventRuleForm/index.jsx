@@ -8,7 +8,7 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import SelectField from 'components/SelectField';
+// import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
 import { nameMaxLen } from './validations';
@@ -32,12 +32,12 @@ const PolicyEventRuleForm = (props) => {
     selectedActions,
     editMode,
     lambdas,
-    pendingLambdas,
+    // pendingLambdas,
   } = props;
 
-  const fetchLambdas = () => {
-    props.fetchLambdas(params.fqon, params.environmentId);
-  };
+  // const fetchLambdas = () => {
+  //   props.fetchLambdas(params.fqon, params.environmentId);
+  // };
 
   const policyTriggers = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].triggers));
 
@@ -74,6 +74,16 @@ const PolicyEventRuleForm = (props) => {
               />
               <Field
                 className="flex-4 flex-xs-12"
+                component={TextField}
+                name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                label="Lambda UUID"
+                type="text"
+                required
+                errorText={touched && error}
+                lineDirection="center"
+              />
+              {/* <Field
+                className="flex-4 flex-xs-12"
                 component={SelectField}
                 name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
                 label="Lambda"
@@ -85,7 +95,7 @@ const PolicyEventRuleForm = (props) => {
                 lineDirection="center"
                 errorText={touched && error}
                 onFocus={() => fetchLambdas()}
-              />
+              /> */}
               <fieldset>
                 <legend>Actions</legend>
                 <div className="flex-row">
@@ -111,7 +121,10 @@ const PolicyEventRuleForm = (props) => {
               label={cancelLabel}
               disabled={pending || submitting}
               component={Link}
-              to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`}
+              to={{
+                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`,
+                state: { environment: props.router.location.state.environment },
+              }}
             />
             <Button
               raised
@@ -128,6 +141,7 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
+  router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   policyUpdatePending: PropTypes.bool.isRequired,
@@ -142,7 +156,7 @@ PolicyEventRuleForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   lambdas: PropTypes.object.isRequired,
-  pendingLambdas: PropTypes.bool.isRequired,
+  // pendingLambdas: PropTypes.bool.isRequired,
   selectedActions: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
 };

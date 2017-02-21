@@ -10,11 +10,13 @@ import Divider from 'react-md/lib/Dividers';
 import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
-import ErrorNotifications from '../modules/ErrorNotifications';
-import GestaltIcon from '../components/GestaltIcon';
-import GestaltIconText from '../components/GestaltIconText';
-import { UI_VERSION } from '../constants';
-import * as actions from './actions';
+import LoginModal from 'modules/Login/components/LoginModal';
+import TooltipFontIcon from 'components/TooltipFontIcon';
+import ErrorNotifications from 'modules/ErrorNotifications';
+import GestaltIcon from 'components/GestaltIcon';
+import GestaltIconText from 'components/GestaltIconText';
+import { UI_VERSION } from 'constants';
+import * as actions from '../../actions';
 
 const EnhancedLogoDiv = styled.div`
   text-align: center;
@@ -23,14 +25,15 @@ const EnhancedLogoDiv = styled.div`
   svg {
     width: 4em;
     height: 4em;
-  }`;
+  }
+`;
 
 const EnhancedUIVersionDiv = styled.div`
-    color: black;
-    padding-top: 1em;
-    /* padding: 1.5em; */
-    font-size: .9em;
-  `;
+  color: black;
+  padding-top: 1em;
+  /* padding: 1.5em; */
+  font-size: .9em;
+`;
 
 class App extends Component {
   static propTypes = {
@@ -49,6 +52,8 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = { drawerVisible: false };
   }
 
   componentWillMount() {
@@ -62,6 +67,10 @@ class App extends Component {
   }
 
   selectedFQONName() {
+    if (this.props.params.fqon) {
+      return this.props.params.fqon;
+    }
+
     if (this.baseFQON) {
       return this.baseFQON.substring(this.baseFQON.lastIndexOf('.') + 1);
     }
@@ -73,23 +82,25 @@ class App extends Component {
     this.props.logout();
   }
 
-  renderNavItems() {
-    const { self } = this.props;
+  handleVisibleState(visible) {
+    this.setState({ drawerVisible: visible });
+  }
 
+  renderNavItems() {
     return [
       {
         key: 'organizations',
         primaryText: this.selectedFQONName() || '',
         component: Link,
-        to: `/${this.baseFQON || self.properties.gestalt_home}/organizations`,
-        leftIcon: <FontIcon>domain</FontIcon>,
+        to: `/${this.selectedFQONName()}/organizations`,
+        leftIcon: this.state.drawerVisible ? <FontIcon>domain</FontIcon> : <TooltipFontIcon tooltipPosition="right" tooltipLabel={this.selectedFQONName()}>domain</TooltipFontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
       {
         key: 'workspaces',
         primaryText: 'Workspaces',
         component: Link,
-        to: `/${this.baseFQON || self.properties.gestalt_home}/workspaces`,
+        to: `/${this.selectedFQONName()}/workspaces`,
         leftIcon: <FontIcon>work</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -97,7 +108,7 @@ class App extends Component {
         key: 'providers',
         primaryText: 'Providers',
         component: Link,
-        to: `/${this.baseFQON || self.properties.gestalt_home}/providers`,
+        to: `/${this.selectedFQONName()}/providers`,
         leftIcon: <FontIcon>cloud_queue</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -105,7 +116,7 @@ class App extends Component {
         key: 'entitlements',
         primaryText: 'Entitlements',
         component: Link,
-        to: `/${this.baseFQON || self.properties.gestalt_home}/entitlements`,
+        to: `/${this.selectedFQONName()}/entitlements`,
         leftIcon: <FontIcon>security</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -113,7 +124,7 @@ class App extends Component {
         key: 'users',
         primaryText: 'Users',
         component: Link,
-        to: `/${this.baseFQON || self.properties.gestalt_home}/users`,
+        to: `/${this.selectedFQONName()}/users`,
         leftIcon: <FontIcon>person</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -121,7 +132,7 @@ class App extends Component {
         key: 'groups',
         primaryText: 'Groups',
         component: Link,
-        to: `/${this.baseFQON || self.properties.gestalt_home}/groups`,
+        to: `/${this.selectedFQONName()}/groups`,
         leftIcon: <FontIcon>group</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       }
@@ -168,7 +179,6 @@ class App extends Component {
           to={`${this.props.params.fqon}/license`}
         />
       </MenuButton>
-
     ];
   }
 
@@ -189,6 +199,7 @@ class App extends Component {
   renderMain() {
     return (
       <main>
+        <LoginModal />
         <ModalRoot />
         <NavigationDrawer
           contentClassName="md-grid--no-spacing"
@@ -200,6 +211,7 @@ class App extends Component {
           toolbarActions={this.renderActionsMenu()}
           drawerTitle={<OrgNavMenu {...this.props} />}
           toolbarTitle={this.renderAppLogo()}
+          onVisibilityToggle={visible => this.handleVisibleState(visible)}
         >
           {React.Children.toArray(this.props.children)}
           <ErrorNotifications />

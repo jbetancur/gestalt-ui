@@ -21,9 +21,9 @@ import {
   DELETE_POLICYRULE_FULFILLED,
   DELETE_POLICYRULE_REJECTED,
   SELECTED_ACTIONS,
-  FETCH_LAMBDAS_PENDING,
-  FETCH_LAMBDAS_FULFILLED,
-  FETCH_LAMBDAS_REJECTED,
+  // FETCH_LAMBDAS_PENDING,
+  // FETCH_LAMBDAS_FULFILLED,
+  // FETCH_LAMBDAS_REJECTED,
   LAMBDAS_UNLOADED,
 } from './actionTypes';
 
@@ -158,16 +158,16 @@ export function deletePolicyRules(ruleIds, fqon, policyId) {
   };
 }
 
-export function fetchLambdas(fqon, environmentId) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_LAMBDAS_PENDING });
-    axios.get(`/${fqon}/environments/${environmentId}/lambdas`).then((response) => {
-      dispatch({ type: FETCH_LAMBDAS_FULFILLED, payload: response.data });
-    }).catch((err) => {
-      dispatch({ type: FETCH_LAMBDAS_REJECTED, payload: err });
-    });
-  };
-}
+// export function fetchLambdas(fqon, environmentId) {
+//   return (dispatch) => {
+//     dispatch({ type: FETCH_LAMBDAS_PENDING });
+//     axios.get(`/${fqon}/environments/${environmentId}/lambdas`).then((response) => {
+//       dispatch({ type: FETCH_LAMBDAS_FULFILLED, payload: response.data });
+//     }).catch((err) => {
+//       dispatch({ type: FETCH_LAMBDAS_REJECTED, payload: err });
+//     });
+//   };
+// }
 
 export function confirmDelete(action, multipleItems) {
   return (dispatch) => {

@@ -1,24 +1,6 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import GroupItem from '../../components/GroupItem';
 import * as actions from '../../actions';
-
-class GroupListing extends Component {
-  static propTypes = {
-    onUnloadListing: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
-  };
-
-  componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
-    clearSelected();
-  }
-
-  render() {
-    return <GroupItem {...this.props} />;
-  }
-}
 
 function mapStateToProps(state) {
   return {
@@ -28,4 +10,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(GroupListing);
+export default connect(mapStateToProps, actions)(GroupItem);

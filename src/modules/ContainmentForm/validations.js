@@ -1,11 +1,13 @@
-import { isFQON, isWorkspaceName, isEnvironmentName } from 'util/validations';
+import { isFQON } from 'util/validations';
 
-export const nameMaxLen = 30;
-export const descriptionMaxLen = 1024;
+export const nameMaxLen = 60;
+export const shortNameMaxLen = 30;
 
 export default (values, props) => {
   const errors = {
-    properties: {}
+    properties: {
+      environment_type: '',
+    }
   };
 
   let valPatternFunction;
@@ -15,19 +17,19 @@ export default (values, props) => {
     case 'organizationCreate':
     case 'organizationEdit':
       valPatternFunction = isFQON;
-      errorPattern = 'not an fqon pattern';
+      errorPattern = 'not a valid short-name pattern';
       break;
     case 'workspaceCreate':
     case 'workspaceEdit':
-      valPatternFunction = isWorkspaceName;
-      errorPattern = 'not a workspace pattern';
+      valPatternFunction = isFQON;
+      errorPattern = 'not a valid short-name pattern';
       break;
     case 'environmentCreate':
     case 'environmentEdit':
-      valPatternFunction = isEnvironmentName;
-      errorPattern = 'not an environment pattern';
+      valPatternFunction = isFQON;
+      errorPattern = 'not a valid short-name pattern';
       if (values.properties && !values.properties.environment_type) {
-        errors.environment_type = 'environment type is required';
+        errors.properties.environment_type = 'environment type is required';
       }
       break;
     default:
@@ -37,17 +39,21 @@ export default (values, props) => {
   }
 
   if (!values.name) {
-    errors.name = 'name is required';
+    errors.name = 'short-name is required';
   } else if (!valPatternFunction(values.name)) {
     errors.name = errorPattern;
   }
 
   if (values.name && values.name.length > nameMaxLen) {
-    errors.name = 'name is is too long';
+    errors.name = 'short-name is is too long';
   }
 
-  if (values.description && values.description.length > descriptionMaxLen) {
-    errors.description = 'description is is too long';
+  if (!values.description) {
+    errors.description = 'name is required';
+  }
+
+  if (values.description && values.description.length > nameMaxLen) {
+    errors.description = 'name is is too long';
   }
 
   if (values.variables && values.variables.length) {

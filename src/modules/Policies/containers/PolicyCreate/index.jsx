@@ -7,9 +7,9 @@ import * as actions from '../../actions';
 
 class PolicyCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createPolicy: PropTypes.func.isRequired,
-    // selectedPolicyType: PropTypes.string.isRequired,
     onUnload: PropTypes.func.isRequired,
   };
 
@@ -19,11 +19,11 @@ class PolicyCreate extends Component {
 
   create(values) {
     const { params, createPolicy } = this.props;
-    createPolicy(params.fqon, params.workspaceId, params.environmentId, values);
+    createPolicy(params.fqon, params.workspaceId, params.environmentId, values, this.props.router.location.state.environment);
   }
 
   render() {
-    return <PolicyForm title="Create Policy" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+    return <PolicyForm title="Create Policy" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 

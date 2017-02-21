@@ -46,7 +46,7 @@ class LambdaCreate extends Component {
   }
 
   render() {
-    return <LambdaForm title={<span>Create Lambda</span>} submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+    return <LambdaForm title={<span>Create Lambda</span>} submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 

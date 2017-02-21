@@ -9,7 +9,6 @@ import FontIcon from 'react-md/lib/FontIcons';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import LambdaIcon from 'components/LambdaIcon';
-import Environments from 'modules/Environments';
 import Providers from 'modules/Providers';
 import Lambdas from 'modules/Lambdas';
 import Containers from 'modules/Containers';
@@ -64,7 +63,7 @@ class EnvironmentDetail extends Component {
 
     this.props.confirmDelete(() => {
       deleteEnvironment(params.fqon, environment.id, params.workspaceId);
-    }, environment.name);
+    }, environment.description || environment.name);
   }
 
   renderActionsMenu() {
@@ -75,13 +74,13 @@ class EnvironmentDetail extends Component {
         <MenuButton
           id="environments-settings-menu"
           icon
-          position="tl"
+          position={MenuButton.Positions.TOP_LEFT}
           disabled={pending}
           buttonChildren="more_vert"
         >
           <ListItem
             id="environments-settings-menu--edit"
-            primaryText={<span>Edit {environment.name}</span>}
+            primaryText={<span>Edit {environment.description || environment.name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             to={`/${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/edit`}
@@ -89,8 +88,8 @@ class EnvironmentDetail extends Component {
           <Divider />
           <ListItem
             id="environments-settings-menu--delete"
-            primaryText={<span>Delete {environment.name}</span>}
-            leftIcon={<FontIcon>delete_sweep</FontIcon>}
+            primaryText={<span>Delete {environment.description || environment.name}</span>}
+            leftIcon={<FontIcon style={{ color: 'red' }}>delete_sweep</FontIcon>}
             onClick={e => this.delete(e)}
           />
         </MenuButton>
@@ -99,35 +98,30 @@ class EnvironmentDetail extends Component {
   }
 
   renderThings(state) {
-    const { params } = this.props;
     switch (state) {
-      case 'environments':
-        return (
-          <Environments fqon={params.fqon} workspaceId={params.workspaceId} {...this.props} />
-        );
       case 'providers':
         return (
-          <Providers fqon={params.fqon} environmentId={params.environmentId} {...this.props} />
+          <Providers {...this.props} />
         );
       case 'lambdas':
         return (
-          <Lambdas fqon={params.fqon} environmentId={params.environmentId} {...this.props} />
+          <Lambdas {...this.props} />
         );
       case 'entitlements':
         return (
-          <Entitlements fqon={params.fqon} environmentId={params.environmentId} {...this.props} />
+          <Entitlements {...this.props} />
         );
       case 'containers':
         return (
-          <Containers fqon={params.fqon} environmentId={params.environmentId} {...this.props} />
+          <Containers {...this.props} />
         );
       case 'policies':
         return (
-          <Policies fqon={params.fqon} environmentId={params.environmentId} {...this.props} />
+          <Policies {...this.props} />
         );
       case 'integrations':
         return (
-          <Integrations fqon={params.fqon} environmentId={params.environmentId} {...this.props} />
+          <Integrations {...this.props} />
         );
       default:
         return <div />;
@@ -147,17 +141,18 @@ class EnvironmentDetail extends Component {
           <DetailCardTitle expander={!pending}>
             <BackArrowButton component={Link} to={`/${params.fqon}/workspaces/${params.workspaceId}`} />
             {this.renderActionsMenu()}
-            <div className="gf-headline">{environment.name}</div>
+            <div className="gf-headline">{environment.description || environment.name}</div>
           </DetailCardTitle>
           <DetailCardText expandable>
+            <IconText icon="short_text"><span>{environment.name}</span></IconText>
+            <IconText icon="work"><span>{environment.properties.workspace.name}</span></IconText>
             <IconText icon="access_time"><TimeAgo date={environment.created.timestamp} /></IconText>
             <IconText icon="timelapse"><TimeAgo date={environment.modified.timestamp} /></IconText>
-            <IconText icon="folder">{environment.properties.environment_type}</IconText>
-            <IconText icon="subtitles"><div className="md-body-1">{environment.description}</div></IconText>
+            <IconText icon="folder"><span>{environment.properties.environment_type}</span></IconText>
             <VariablesListing envMap={environment.properties.env} />
           </DetailCardText>
           <TabsContainer themed defaultTabIndex={navigation.index}>
-            <Tabs>
+            <Tabs tabId="environment-app-tabs">
               <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 0)} />
               <Tab label="API" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
               <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />

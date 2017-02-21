@@ -27,6 +27,7 @@ import {
   REMOVE_GROUP_MEMBER_FULFILLED,
   REMOVE_GROUP_MEMBER_REJECTED,
   SELECTED_GROUPS,
+  SELECTED_GROUPS_CLEAR,
   GROUP_UNLOADED,
   GROUPS_UNLOADED,
   FILTER_AVAILABLE_USERS_TEXT,
@@ -67,13 +68,7 @@ export function handleSelected(row, toggled, selectedCount, list, selectedItems)
 }
 
 export function clearSelected() {
-  const payload = {
-    selectedCount: 0,
-    showTitle: true,
-    selectedItems: []
-  };
-
-  return { type: SELECTED_GROUPS, payload };
+  return { type: SELECTED_GROUPS_CLEAR };
 }
 
 export function filterAvailableUsers(predicate) {
