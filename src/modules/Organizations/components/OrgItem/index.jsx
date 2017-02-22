@@ -23,7 +23,6 @@ class OrgItem extends Component {
     fetchOrgSet: PropTypes.func.isRequired,
     onUnloadSet: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    currentOrgPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentOrgContext: PropTypes.func.isRequired,
@@ -139,7 +138,7 @@ class OrgItem extends Component {
 
   render() {
     const parentFQON = getParentFQON(this.props.organization);
-    const { pending, currentOrgPending, organization, self, params } = this.props;
+    const { pending, organization, self, params } = this.props;
 
     return (
       <div>
@@ -156,7 +155,7 @@ class OrgItem extends Component {
             <IconText icon="timelapse"><TimeAgo date={organization.modified.timestamp} /></IconText>
             <VariablesListing envMap={organization.properties.env} />
           </DetailCardText>
-          {pending || currentOrgPending ? this.renderProgress() : null}
+          {pending ? this.renderProgress() : null}
         </DetailCard>
         {pending ? null : this.renderCardsContainer()}
       </div>

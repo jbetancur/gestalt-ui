@@ -14,7 +14,6 @@ function mapStateToProps(state) {
     pending: state.organizations.fetchSet.pending,
     organization: state.organizations.fetchSet.organization,
     organizations: state.organizations.fetchSet.organizations,
-    currentOrgPending: state.organizations.fetchOne.pending.actions,
   };
 }
 
