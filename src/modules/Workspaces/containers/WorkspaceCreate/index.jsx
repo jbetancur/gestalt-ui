@@ -7,7 +7,8 @@ import * as actions from '../../actions';
 class OrgCreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    createWorkspace: PropTypes.func.isRequired
+    createWorkspace: PropTypes.func.isRequired,
+    currentOrgContext: PropTypes.object.isRequired,
   };
 
   createWorkspace(values) {
@@ -15,8 +16,8 @@ class OrgCreate extends Component {
       name: values.name,
       description: values.description,
       properties: {
-        env: {}
-      }
+        env: {},
+      },
     };
 
     if (values.variables) {
@@ -31,7 +32,7 @@ class OrgCreate extends Component {
   render() {
     return (
       <ContainmentForm
-        title={`${this.props.params.fqon} / Create Workspace`}
+        title={`${this.props.currentOrgContext.description || this.props.currentOrgContext.name} / Create Workspace`}
         submitLabel="Create"
         cancelLabel="Cancel"
         onSubmit={values => this.createWorkspace(values)}
@@ -46,6 +47,7 @@ function mapStateToProps(state) {
   return {
     workspace,
     pending,
+    currentOrgContext: state.app.currentOrgContext.organization,
     initialValues: {
       name: '',
       description: '',

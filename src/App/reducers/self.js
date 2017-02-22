@@ -10,7 +10,16 @@ const initialState = {
   completed: false,
   error: null,
   self: {
-    properties: {}
+    properties: {
+      gestalt_home: {
+        org: {},
+        created: {},
+        modified: {},
+        properties: {
+          env: {}
+        },
+      }
+    }
   }
 };
 

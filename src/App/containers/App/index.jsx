@@ -43,11 +43,13 @@ class App extends Component {
     children: PropTypes.object,
     selfFetching: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
+    currentOrgContext: PropTypes.object.isRequired,
+    setCurrentOrgContextfromState: PropTypes.func.isRequired,
     // browser: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    children: {}
+    children: {},
   }
 
   constructor(props) {
@@ -57,25 +59,20 @@ class App extends Component {
   }
 
   componentWillMount() {
+    // sets our current logged in users home org
     this.props.fetchSelf();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.fqon !== this.props.params.fqon) {
-      this.baseFQON = nextProps.params.fqon;
-    }
-  }
-
-  selectedFQONName() {
+    // we have to make an additional call here to set the currentOrgState
+    // This is mainly to appease browser refresh where we lose currentOrg state
     if (this.props.params.fqon) {
-      return this.props.params.fqon;
+      this.props.setCurrentOrgContextfromState(this.props.params.fqon);
     }
+  }
 
-    if (this.baseFQON) {
-      return this.baseFQON.substring(this.baseFQON.lastIndexOf('.') + 1);
-    }
-
-    return this.props.self.properties.gestalt_home;
+  getCurrentOrgContext() {
+    const { currentOrgContext, self } = this.props;
+    // if we don't have an org context then get it from the user self
+    // in the future we can map this to a favorite org
+    return currentOrgContext.id ? currentOrgContext : self.properties.gestalt_home;
   }
 
   logout() {
@@ -90,17 +87,17 @@ class App extends Component {
     return [
       {
         key: 'organizations',
-        primaryText: this.selectedFQONName() || '',
+        primaryText: this.getCurrentOrgContext().description || this.getCurrentOrgContext().name || '',
         component: Link,
-        to: `/${this.selectedFQONName()}/organizations`,
-        leftIcon: this.state.drawerVisible ? <FontIcon>domain</FontIcon> : <TooltipFontIcon tooltipPosition="right" tooltipLabel={this.selectedFQONName()}>domain</TooltipFontIcon>,
+        to: `/${this.getCurrentOrgContext().properties.fqon}/organizations`,
+        leftIcon: this.state.drawerVisible ? <FontIcon>domain</FontIcon> : <TooltipFontIcon tooltipPosition="right" tooltipLabel={this.getCurrentOrgContext().description || this.getCurrentOrgContext().name}>domain</TooltipFontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
       {
         key: 'workspaces',
         primaryText: 'Workspaces',
         component: Link,
-        to: `/${this.selectedFQONName()}/workspaces`,
+        to: `/${this.getCurrentOrgContext().properties.fqon}/workspaces`,
         leftIcon: <FontIcon>work</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -108,7 +105,7 @@ class App extends Component {
         key: 'providers',
         primaryText: 'Providers',
         component: Link,
-        to: `/${this.selectedFQONName()}/providers`,
+        to: `/${this.getCurrentOrgContext().properties.fqon}/providers`,
         leftIcon: <FontIcon>cloud_queue</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -116,7 +113,7 @@ class App extends Component {
         key: 'entitlements',
         primaryText: 'Entitlements',
         component: Link,
-        to: `/${this.selectedFQONName()}/entitlements`,
+        to: `/${this.getCurrentOrgContext().properties.fqon}/entitlements`,
         leftIcon: <FontIcon>security</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -124,7 +121,7 @@ class App extends Component {
         key: 'users',
         primaryText: 'Users',
         component: Link,
-        to: `/${this.selectedFQONName()}/users`,
+        to: `/${this.getCurrentOrgContext().properties.fqon}/users`,
         leftIcon: <FontIcon>person</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
@@ -132,7 +129,7 @@ class App extends Component {
         key: 'groups',
         primaryText: 'Groups',
         component: Link,
-        to: `/${this.selectedFQONName()}/groups`,
+        to: `/${this.getCurrentOrgContext().properties.fqon}/groups`,
         leftIcon: <FontIcon>group</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       }
@@ -231,7 +228,8 @@ function mapStateToProps(state) {
   return {
     self: app.self.self,
     selfFetching: app.self.pending,
-    browser
+    currentOrgContext: app.currentOrgContext.organization,
+    browser,
   };
 }
 
