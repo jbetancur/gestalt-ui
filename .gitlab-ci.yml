@@ -3,8 +3,8 @@ image: galacticfog/docker-yarn:1.12
 stages:
 - test
 - publish
-- deploy
 - review
+- deploy
 
 cache:
   key: "$CI_PIPELINE_ID"
@@ -88,10 +88,10 @@ stop_review:
     - http DELETE $MARURL
   variables:
     GIT_STRATEGY: none
-  when: manual
   environment:
     name: review/$CI_BUILD_REF_NAME
     action: stop
+  when: manual
   tags:
     - test-cluster
 
