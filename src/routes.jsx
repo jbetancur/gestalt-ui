@@ -37,6 +37,9 @@ import PolicyEventRuleEdit from './modules/PolicyRules/containers/PolicyEventRul
 import Containers from './modules/Containers';
 import ContainerCreate from './modules/Containers/containers/ContainerCreate';
 import ContainerEdit from './modules/Containers/containers/ContainerEdit';
+import APIs from './modules/APIs';
+import APICreate from './modules/APIs/containers/APICreate';
+import APIEdit from './modules/APIs/containers/APIEdit';
 import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
@@ -111,6 +114,13 @@ const routes = store => (
                 <Route path="create" component={ProviderCreate} onEnter={requireAuth(store)} />
                 <Route path=":providerId" onEnter={requireAuth(store)}>
                   <Route path="edit" component={ProviderEdit} onEnter={requireAuth(store)} />
+                </Route>
+              </Route>
+              <Route path="apis" onEnter={requireAuth(store)}>
+                <IndexRoute component={APIs} onEnter={requireAuth(store)} />
+                <Route path="create" component={APICreate} onEnter={requireAuth(store)} />
+                <Route path=":apiId" onEnter={requireAuth(store)}>
+                  <Route path="edit" component={APIEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
             </Route>

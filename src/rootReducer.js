@@ -13,6 +13,7 @@ import environmentsReducer from './modules/Environments/reducers';
 import providersReducer from './modules/Providers/reducers';
 import lambdasReducer from './modules/Lambdas/reducers';
 import entitlementsReducer from './modules/Entitlements/reducers';
+import apisReducer from './modules/APIs/reducers';
 import usersReducer from './modules/Users/reducers';
 import groupsReducer from './modules/Groups/reducers';
 import containersReducer from './modules/Containers/reducers';
@@ -51,6 +52,7 @@ export default combineReducers({
   containers: containersReducer,
   policies: policiesReducer,
   policyRules: policyRulesReducer,
+  apis: apisReducer,
   integrations: integrationsReducer,
   licensing: licensingReducer,
   volumeModal: volumeModalReducer,

@@ -15,6 +15,7 @@ import Containers from 'modules/Containers';
 import Policies from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import Entitlements from 'modules/Entitlements';
+import APIs from 'modules/APIs';
 import IconText from 'components/IconText';
 import { BackArrowButton } from 'components/Buttons';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
@@ -109,6 +110,10 @@ class EnvironmentDetail extends Component {
 
   renderThings(state) {
     switch (state) {
+      case 'apis':
+        return (
+          <APIs {...this.props} />
+        );
       case 'providers':
         return (
           <Providers {...this.props} />
