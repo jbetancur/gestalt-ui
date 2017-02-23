@@ -162,12 +162,16 @@ class WorkspaceDetail extends Component {
             <IconText icon="short_text"><span>{workspace.name}</span></IconText>
             <IconText icon="access_time"><TimeAgo date={workspace.created.timestamp} /></IconText>
             <IconText icon="timelapse"><TimeAgo date={workspace.modified.timestamp} /></IconText>
-            <VariablesListing envMap={workspace.properties.env} />
+            <div className="flex-row">
+              <div className="flex-6 flex-xs-12">
+                <VariablesListing envMap={workspace.properties.env} />
+              </div>
+            </div>
           </DetailCardText>
           <TabsContainer defaultTabIndex={navigation.index}>
             <Tabs tabId="workspace-app-tabs">
               <Tab label="Environments" id="environments" icon={<FontIcon>folder</FontIcon>} onClick={() => this.handleViewState('environments', 0)} />
-              <Tab label="Providers" id="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers', 1)} />
+              <Tab label="Providers" id="providers" icon={<FontIcon>cloud</FontIcon>} onClick={() => this.handleViewState('providers', 1)} />
               <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 2)} />
             </Tabs>
           </TabsContainer>

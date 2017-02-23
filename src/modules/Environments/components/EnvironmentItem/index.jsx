@@ -72,7 +72,6 @@ class EnvironmentItem extends Component {
           subtitle={
             <div>
               <IconText icon="short_text"><span>{item.name}</span></IconText>
-              <IconText icon="work"><span>{item.properties.workspace.name}</span></IconText>
               <IconText icon="description"><span>{item.properties.environment_type}</span></IconText>
               <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
             </div>

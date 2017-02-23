@@ -47,6 +47,7 @@ class App extends Component {
     setCurrentOrgContextfromState: PropTypes.func.isRequired,
     setCurrentWorkspaceContextfromState: PropTypes.func.isRequired,
     setCurrentEnvironmentContextfromState: PropTypes.func.isRequired,
+    activityIndicator: PropTypes.bool.isRequired,
     // browser: PropTypes.object.isRequired
   };
 
@@ -125,7 +126,7 @@ class App extends Component {
         primaryText: 'Providers',
         component: Link,
         to: `/${this.getCurrentOrgContext().properties.fqon}/providers`,
-        leftIcon: <FontIcon>cloud_queue</FontIcon>,
+        leftIcon: <FontIcon>cloud</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
       },
       {
@@ -211,7 +212,7 @@ class App extends Component {
     return (
       <div className="flex-row center-center logo-container">
         <div className="flex-row center-center flex-12">
-          <div className="logo"><GestaltIcon /></div>
+          <div className={`logo ${this.props.activityIndicator ? 'logo-loading' : ''}`}><GestaltIcon /></div>
         </div>
       </div>
     );
@@ -248,11 +249,11 @@ class App extends Component {
 
 function mapStateToProps(state) {
   const { app, browser } = state;
-
   return {
     self: app.self.self,
     selfFetching: app.self.pending,
     currentOrgContext: app.currentOrgContext.organization,
+    activityIndicator: app.activityIndicator.activity,
     browser,
   };
 }

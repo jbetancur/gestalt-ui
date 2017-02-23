@@ -19,9 +19,17 @@
     }
 }
 
-// TODO: Fix and remove
+// TODO: Build custom tabs component or toolbar component
 .md-tab--inactive {
-    color: black;
+    color: $md-grey-700;
+}
+
+.md-tab--active {
+  color: $md-blue-600;
+}
+
+.md-tab-indicator {
+  display: none;
 }
 
 .md-tab--icon {
@@ -33,6 +41,7 @@
 .md-tab-label {
     font-size: .5em;
 }
+//
 
 .md-btn--toolbar {
   .md-divider--vertical {
