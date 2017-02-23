@@ -50,11 +50,12 @@ body {
         // }
     }
 }
-//TODO Create style
+//TODO: Create component style
 .org-nav-menubutton {
     height: 100%;
     margin-left: 1.5em;
 }
+
 /* Override stupid chrome autofill yellow inputs ;) */
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset;

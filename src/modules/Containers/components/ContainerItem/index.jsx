@@ -33,7 +33,6 @@ const EnhancedTableColumn = styled(TableColumn)`
 class ContainerItem extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
-    environment: PropTypes.object.isRequired,
     containers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
@@ -60,18 +59,15 @@ class ContainerItem extends Component {
   edit(container, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, environment } = this.props;
+      const { router, params } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`,
-        state: {
-          environment,
-        },
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`
       });
     }
   }
 
   renderCreateButton() {
-    const { params, environment } = this.props;
+    const { params } = this.props;
 
     return (
       <Button
@@ -80,10 +76,7 @@ class ContainerItem extends Component {
         flat
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/create`,
-          state: {
-            environment,
-          },
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/create`
         }}
       >
         <FontIcon>add</FontIcon>

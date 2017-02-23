@@ -36,6 +36,7 @@ function mapStateToProps(state) {
   };
 
   return {
+    policy: model,
     pending,
     // selectedPolicyType: state.policies.selectedPolicy.type,
     initialValues: model

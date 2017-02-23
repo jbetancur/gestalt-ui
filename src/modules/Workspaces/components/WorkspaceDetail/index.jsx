@@ -15,6 +15,7 @@ import IconText from 'components/IconText';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { BackArrowButton } from 'components/Buttons';
 import { VariablesListing } from 'modules/Variables';
+import Breadcrumbs from 'modules/Breadcrumbs';
 
 class WorkspaceDetail extends Component {
   static propTypes = {
@@ -28,6 +29,7 @@ class WorkspaceDetail extends Component {
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    setCurrentWorkspaceContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -38,6 +40,14 @@ class WorkspaceDetail extends Component {
     const { fetchWorkspace, params } = this.props;
 
     fetchWorkspace(params.fqon, params.workspaceId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { workspace, setCurrentWorkspaceContext } = this.props;
+    // Keep the current Workspace Context Synced
+    if (nextProps.workspace !== workspace) {
+      setCurrentWorkspaceContext(nextProps.workspace);
+    }
   }
 
   componentWillUnmount() {
@@ -143,7 +153,10 @@ class WorkspaceDetail extends Component {
           <DetailCardTitle expander={!pending}>
             <BackArrowButton component={Link} to={`/${params.fqon}/workspaces`} />
             {this.renderActionsMenu()}
-            <div className="gf-headline">{workspace.description || workspace.name}</div>
+            <div>
+              <div className="gf-headline">{workspace.description || workspace.name}</div>
+              <div className="md-caption"><Breadcrumbs /></div>
+            </div>
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="short_text"><span>{workspace.name}</span></IconText>

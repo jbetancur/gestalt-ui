@@ -6,12 +6,15 @@ import { Card, CardTitle } from 'components/GFCard';
 
 class EnvironmentItem extends Component {
   static propTypes = {
+    workspace: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
+    setCurrentEnvironmentContext: PropTypes.func.isRequired,
+    unloadEnvironmentContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -21,6 +24,7 @@ class EnvironmentItem extends Component {
   componentWillMount() {
     const { params } = this.props;
     this.init(params.fqon, params.workspaceId);
+    this.props.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,9 +42,14 @@ class EnvironmentItem extends Component {
   }
 
   navEnvironmentDetails(item) {
-    const { params, router } = this.props;
+    const { params, router, setCurrentEnvironmentContext } = this.props;
 
-    router.push(`/${params.fqon}/workspaces/${params.workspaceId}/environments/${item.id}`);
+    router.push({
+      pathname: `/${params.fqon}/workspaces/${params.workspaceId}/environments/${item.id}`,
+      state: { workspace: this.props.workspace },
+    });
+
+    setCurrentEnvironmentContext(item);
   }
 
   renderCardsContainer() {
@@ -62,9 +71,9 @@ class EnvironmentItem extends Component {
           title={item.description || item.name}
           subtitle={
             <div>
-              <IconText icon="short_text"><div>{item.name}</div></IconText>
-              <IconText icon="work">{React.Children.toArray(item.properties.workspace.name)}</IconText>
-              <IconText icon="description">{React.Children.toArray(item.properties.environment_type)}</IconText>
+              <IconText icon="short_text"><span>{item.name}</span></IconText>
+              <IconText icon="work"><span>{item.properties.workspace.name}</span></IconText>
+              <IconText icon="description"><span>{item.properties.environment_type}</span></IconText>
               <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
             </div>
           }

@@ -10,6 +10,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedDate } from 'react-intl';
+import Breadcrumbs from 'modules/Breadcrumbs';
 
 class ProviderItem extends Component {
   static propTypes = {
@@ -24,9 +25,6 @@ class ProviderItem extends Component {
     fetchProviders: PropTypes.func.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
-    organization: PropTypes.object,
-    workspace: PropTypes.object,
-    environment: PropTypes.object,
   };
 
   static defaultProps = {
@@ -64,30 +62,30 @@ class ProviderItem extends Component {
   }
 
   create() {
-    const { router, params, organization, environment, workspace } = this.props;
+    const { router, params } = this.props;
 
     // note the workspaceId and environmentId here are passed into the component
     // via the EnvironmentDetail Component they are not props.params
     if (params.workspaceId && !params.environmentId) {
-      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/create`, state: { workspace } });
+      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/create` });
     } else if (params.environmentId) {
-      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/create`, state: { environment } });
+      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/create` });
     } else {
-      router.push({ pathname: `${params.fqon}/providers/create`, state: { organization } });
+      router.push({ pathname: `${params.fqon}/providers/create` });
     }
   }
 
   edit(provider, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, organization, environment, workspace } = this.props;
+      const { router, params } = this.props;
 
       if (params.workspaceId && !params.environmentId) {
-        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/${provider.id}/edit`, state: { workspace } });
+        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/${provider.id}/edit` });
       } else if (params.environmentId) {
-        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/${provider.id}/edit`, state: { environment } });
+        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/${provider.id}/edit` });
       } else {
-        router.push({ pathname: `${params.fqon}/providers/${provider.id}/edit`, state: { organization } });
+        router.push({ pathname: `${params.fqon}/providers/${provider.id}/edit` });
       }
     }
   }
@@ -143,7 +141,12 @@ class ProviderItem extends Component {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title="Providers"
+            title={
+              <div>
+                <div className="gf-headline">Providers</div>
+                {this.props.params.workspaceId ? null : <div className="md-caption"><Breadcrumbs /></div>}
+              </div>
+            }
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} provider${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}

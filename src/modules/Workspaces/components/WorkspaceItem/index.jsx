@@ -7,6 +7,7 @@ import Toolbar from 'react-md/lib/Toolbars';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import IconText from 'components/IconText';
 import { Card, CardTitle } from 'components/GFCard';
+import Breadcrumbs from 'modules/Breadcrumbs';
 
 class WorkspaceItem extends Component {
   static propTypes = {
@@ -16,6 +17,9 @@ class WorkspaceItem extends Component {
     fetchWorkspaces: PropTypes.func.isRequired,
     onUnloadListing: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
+    setCurrentWorkspaceContext: PropTypes.func.isRequired,
+    unloadWorkspaceContext: PropTypes.func.isRequired,
+    unloadEnvironmentContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -24,6 +28,8 @@ class WorkspaceItem extends Component {
 
   componentWillMount() {
     this.props.fetchWorkspaces(this.props.params.fqon);
+    this.props.unloadWorkspaceContext();
+    this.props.unloadEnvironmentContext();
   }
 
   componentWillUnmount() {
@@ -31,9 +37,10 @@ class WorkspaceItem extends Component {
   }
 
   navWorkspaceDetails(item) {
-    const { router, params } = this.props;
+    const { router, params, setCurrentWorkspaceContext } = this.props;
 
     router.push(`/${params.fqon}/workspaces/${item.id}`);
+    setCurrentWorkspaceContext(item);
   }
 
   renderProgress() {
@@ -44,7 +51,7 @@ class WorkspaceItem extends Component {
     return [
       <Button
         id="create-workspace"
-        label="Create"
+        label="Create Workspace"
         flat
         component={Link}
         to={`/${this.props.params.fqon}/workspaces/create`}
@@ -85,7 +92,7 @@ class WorkspaceItem extends Component {
       <div>
         <Toolbar
           themed
-          title="Workspaces"
+          title={<span className="gf-headline-1"><Breadcrumbs /> / Workspaces</span>}
           actions={this.renderMenu()}
         />
         {pending ? this.renderProgress() : this.renderCardsContainer()}

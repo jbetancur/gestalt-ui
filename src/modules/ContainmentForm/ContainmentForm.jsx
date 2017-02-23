@@ -5,7 +5,8 @@ import Card from 'react-md/lib/Cards/Card';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import Toolbar from 'react-md/lib/Toolbars';
+import { DetailCard, DetailCardTitle } from 'components/DetailCard';
+import { BackArrowButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
@@ -18,10 +19,14 @@ const ContainmentForm = (props) => {
 
   return (
     <div>
-      <Toolbar
-        themed
-        title={props.title}
-      />
+      <DetailCard>
+        <DetailCardTitle>
+          <BackArrowButton
+            onClick={() => goBack()}
+          />
+          <div className="gf-headline">{props.title}</div>
+        </DetailCardTitle>
+      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-8 flex-xs-12 flex-sm-12">

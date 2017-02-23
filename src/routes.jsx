@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import cookie from 'react-cookie';
-
 import App from './App';
 import Login from './modules/Login';
 import Organizations from './modules/Organizations';

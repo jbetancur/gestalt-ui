@@ -8,17 +8,16 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FileInput from 'react-md/lib/FileInputs';
-import { DetailCard, DetailCardTitle } from 'components/DetailCard';
-import { BackArrowButton } from 'components/Buttons';
 import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen } from '../../validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values, router: { location } } = props;
+  const { provider, change, reset, values } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const goBack = () => {
@@ -43,24 +42,6 @@ const ProviderForm = (props) => {
     reader.readAsText(file);
   };
 
-  // TODO: becuase we have such nested structure we need to lookup that right key for the parent that was passed
-  // to this route state - must be in this order
-  const getEntityKey = () => {
-    if (location.state.environment) {
-      return 'environment';
-    }
-
-    if (location.state.workspace) {
-      return 'workspace';
-    }
-
-    if (location.state.organization) {
-      return 'organization';
-    }
-
-    return null;
-  };
-
   const renderJSONSection = () => (
     <div className="flex-row">
       {!selectedProviderType.networking ? null : <div className="flex-6 flex-xs-12">
@@ -76,27 +57,20 @@ const ProviderForm = (props) => {
     </div>
   );
 
-  const renderToolbarTitle = () => {
-    const parent = location.state[getEntityKey()].description || location.state[getEntityKey()].name;
-    if (parent) {
-      return `${parent} / Providers / ${props.title}`;
-    }
-
-    return `Providers / ${props.title}`;
-  };
-
   return (
     <div>
-      <DetailCard>
-        <DetailCardTitle>
-          <BackArrowButton onClick={() => goBack()} />
-          <div className="gf-headline">{renderToolbarTitle()}</div>
-        </DetailCardTitle>
-      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
-            <CardTitle title={<span>{props.title}</span>} />
+            <CardTitle
+              title={
+                <div>
+                  <div>{props.title}</div>
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+              subtitle={provider.id ? provider.id : null}
+            />
             <CardText>
               <div className="flex-row">
                 <div className="flex-row">
@@ -250,7 +224,6 @@ const ProviderForm = (props) => {
 };
 
 ProviderForm.propTypes = {
-  router: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,

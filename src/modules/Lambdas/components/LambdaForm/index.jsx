@@ -8,20 +8,19 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { DetailCard, DetailCardTitle } from 'components/DetailCard';
-import { BackArrowButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
 
 const LambdaForm = (props) => {
   // const themes = [{ displayName: 'chrome', value: 'chrome' }, { displayName: 'monokai', value: 'monokai' }];
-  const { values, params, lambda, router: { location } } = props;
+  const { values, params, lambda } = props;
 
   const fetchProviders = () => {
     props.fetchProviders(params.fqon, params.environmentId, 'ApiGateway');
@@ -35,19 +34,18 @@ const LambdaForm = (props) => {
 
   return (
     <div>
-      <DetailCard>
-        <DetailCardTitle>
-          <BackArrowButton
-            component={Link}
-            to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
-          />
-          <div className="gf-headline">{location.state.environment.description || location.state.environment.name} / Lambdas / {props.title}</div>
-        </DetailCardTitle>
-      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={props.title} subtitle={lambda.id ? lambda.id : null} />
+            <CardTitle
+              title={
+                <div>
+                  <div>{props.title}</div>
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+              subtitle={lambda.id ? lambda.id : null}
+            />
             <CardText>
               <div className="flex-row">
                 <Field

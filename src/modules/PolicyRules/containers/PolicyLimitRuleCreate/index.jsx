@@ -39,6 +39,7 @@ function mapStateToProps(state) {
     name: '',
     description: '',
     properties: {
+      parent: {},
       strict: false,
       actions: [],
       eval_logic: {},
@@ -46,9 +47,10 @@ function mapStateToProps(state) {
   };
 
   return {
+    policyRule: model,
     pending,
     selectedActions: state.policyRules.selectedActions.selectedActions,
-    initialValues: model
+    initialValues: model,
   };
 }
 

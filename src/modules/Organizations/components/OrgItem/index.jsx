@@ -26,6 +26,8 @@ class OrgItem extends Component {
     self: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentOrgContext: PropTypes.func.isRequired,
+    unloadWorkspaceContext: PropTypes.func.isRequired,
+    unloadEnvironmentContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -36,6 +38,8 @@ class OrgItem extends Component {
 
   componentWillMount() {
     this.props.fetchOrgSet(this.props.params.fqon);
+    this.props.unloadWorkspaceContext();
+    this.props.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,11 +58,11 @@ class OrgItem extends Component {
   }
 
   navToSubOrgs(item) {
-    const { organization, router, setCurrentOrgContext } = this.props;
+    const { router, setCurrentOrgContext } = this.props;
 
     router.push(`/${item.properties.fqon}/organizations`);
     // Update the current Org Context so we can track the org we are in
-    setCurrentOrgContext(organization);
+    setCurrentOrgContext(item);
   }
 
   delete() {
@@ -117,7 +121,7 @@ class OrgItem extends Component {
           subtitle={
             <div>
               <IconText icon="short_text"><div>{item.name}</div></IconText>
-              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
+              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} minPeriod={5} /></IconText>
             </div>}
         />
       </Card>
@@ -143,11 +147,12 @@ class OrgItem extends Component {
     return (
       <div>
         <DetailCard>
-          <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
+          <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home.properties.fqon ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
             {this.renderActionsMenu()}
-            {!pending ? <div className="gf-headline">{organization.description || organization.name}
-              <div className="md-caption"><span>fqon: {organization.properties.fqon}</span></div>
-            </div> : null}
+            {!pending ?
+              <div className="gf-headline">{organization.description || organization.name}
+                <div className="md-caption"><span>fqon: {organization.properties.fqon}</span></div>
+              </div> : null}
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="short_text"><div>{organization.name}</div></IconText>

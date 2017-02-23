@@ -14,6 +14,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import CardSubHeader from 'components/CardSubHeader';
 import FontIcon from 'react-md/lib/FontIcons';
 import TextFieldMD from 'react-md/lib/TextFields';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import { differenceBy, debounce } from 'lodash';
 import { nameMaxLen } from '../../validations';
 
@@ -103,7 +104,15 @@ const GroupForm = (props) => {
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={<span>{props.title}</span>} />
+            <CardTitle
+              title={
+                <div>
+                  <div>{props.title}</div>
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+              subtitle={group.id ? group.id : null}
+            />
             <CardText>
               <div className="flex-row">
                 <Field

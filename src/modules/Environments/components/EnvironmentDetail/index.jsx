@@ -19,6 +19,7 @@ import IconText from 'components/IconText';
 import { BackArrowButton } from 'components/Buttons';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
+import Breadcrumbs from 'modules/Breadcrumbs';
 
 class EnvironmentDetail extends Component {
   static propTypes = {
@@ -32,6 +33,7 @@ class EnvironmentDetail extends Component {
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    setCurrentEnvironmentContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -41,6 +43,14 @@ class EnvironmentDetail extends Component {
   componentWillMount() {
     const { params, fetchEnvironment } = this.props;
     fetchEnvironment(params.fqon, params.environmentId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { environment, setCurrentEnvironmentContext } = this.props;
+    // Keep the current Environment Context Synced
+    if (nextProps.environment !== environment) {
+      setCurrentEnvironmentContext(nextProps.environment);
+    }
   }
 
   componentWillUnmount() {
@@ -141,7 +151,10 @@ class EnvironmentDetail extends Component {
           <DetailCardTitle expander={!pending}>
             <BackArrowButton component={Link} to={`/${params.fqon}/workspaces/${params.workspaceId}`} />
             {this.renderActionsMenu()}
-            <div className="gf-headline">{environment.description || environment.name}</div>
+            <div>
+              <div className="gf-headline">{environment.description || environment.name}</div>
+              <div className="md-caption"><Breadcrumbs /></div>
+            </div>
           </DetailCardTitle>
           <DetailCardText expandable>
             <IconText icon="short_text"><span>{environment.name}</span></IconText>

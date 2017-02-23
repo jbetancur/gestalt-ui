@@ -14,7 +14,6 @@ import { FormattedDate } from 'react-intl';
 
 class LambdaItem extends Component {
   static propTypes = {
-    environment: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     handleSelected: PropTypes.func.isRequired,
@@ -64,19 +63,16 @@ class LambdaItem extends Component {
   edit(lambda, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, environment } = this.props;
+      const { router, params } = this.props;
 
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`,
-        state: {
-          environment,
-        },
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`
       });
     }
   }
 
   renderCreateButton() {
-    const { params, environment } = this.props;
+    const { params } = this.props;
 
     return (
       <Button
@@ -85,10 +81,7 @@ class LambdaItem extends Component {
         flat
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/create`,
-          state: {
-            environment,
-          },
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/create`
         }}
       >
         <FontIcon>add</FontIcon>

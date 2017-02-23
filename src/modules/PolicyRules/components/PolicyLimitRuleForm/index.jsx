@@ -11,6 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 import policyOperators from '../../lists/policyOperators';
@@ -32,6 +33,7 @@ const PolicyLimitRuleForm = (props) => {
     title,
     values,
     selectedActions,
+    policyRule,
   } = props;
 
   // flatten limit arrays for policyResourceTypes
@@ -60,7 +62,15 @@ const PolicyLimitRuleForm = (props) => {
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <div className="flex-row center-center">
         <Card className="flex-10 flex-xs-12 flex-sm-12">
-          <CardTitle title={title} />
+          <CardTitle
+            title={
+              <div>
+                <div>{title}</div>
+                <div className="md-caption"><Breadcrumbs /> / Limit Policy</div>
+              </div>
+            }
+            subtitle={policyRule.id ? policyRule.id : null}
+          />
           <CardText>
             <div className="flex-row">
               <Field
@@ -157,8 +167,7 @@ const PolicyLimitRuleForm = (props) => {
               disabled={pending || submitting}
               component={Link}
               to={{
-                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`,
-                state: { environment: props.router.location.state.environment },
+                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`
               }}
             />
             <Button
@@ -176,7 +185,7 @@ const PolicyLimitRuleForm = (props) => {
 };
 
 PolicyLimitRuleForm.propTypes = {
-  router: PropTypes.object.isRequired,
+  policyRule: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   policyUpdatePending: PropTypes.bool.isRequired,

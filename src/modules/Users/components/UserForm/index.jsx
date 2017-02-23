@@ -8,6 +8,7 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import { usernameMaxLen } from '../../validations';
 
 const UserForm = (props) => {
@@ -24,7 +25,15 @@ const UserForm = (props) => {
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={<span>{props.title}</span>} />
+            <CardTitle
+              title={
+                <div>
+                  <div>{props.title}</div>
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+              subtitle={props.user.id ? props.user.id : null}
+            />
             <CardText>
               <div className="flex-row">
                 <Field
@@ -133,6 +142,7 @@ const UserForm = (props) => {
 };
 
 UserForm.propTypes = {
+  user: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   organizations: PropTypes.array.isRequired,
   pendingOrgs: PropTypes.bool.isRequired,

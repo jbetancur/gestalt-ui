@@ -95,7 +95,8 @@ function mapStateToProps(state) {
   return {
     provider: model,
     pending,
-    initialValues: model
+    currentOrgContext: state.app.currentOrgContext.organization,
+    initialValues: model,
   };
 }
 

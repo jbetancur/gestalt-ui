@@ -47,12 +47,14 @@ function mapStateToProps(state) {
     name: '',
     description: '',
     properties: {
+      parent: {},
       lambda: '',
       actions: [],
     }
   };
 
   return {
+    policyRule: model,
     pending,
     selectedActions: state.policyRules.selectedActions.selectedActions,
     lambdas: state.policyRules.lambdas.lambdas,

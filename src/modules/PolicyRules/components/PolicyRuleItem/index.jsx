@@ -79,8 +79,7 @@ class PolicyRuleItem extends Component {
       const { router, params, } = this.props;
       const ruleType = policyRule.resource_type.split(/[::]+/).pop();
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`,
-        state: { environment: this.props.router.location.state.environment },
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`
       });
     }
   }
@@ -94,8 +93,7 @@ class PolicyRuleItem extends Component {
         primaryText={type.displayName}
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/create${type.name}Rule`,
-          state: { environment: this.props.router.location.state.environment },
+          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/create${type.name}Rule`
         }}
       />
     );
