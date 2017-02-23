@@ -84,7 +84,7 @@ export function fetchSelf() {
     dispatch({ type: FETCH_SELF_PENDING });
     axios.get('users/self').then((selfResponse) => {
       axios.get(selfResponse.data.properties.gestalt_home).then((orgResponse) => {
-        const payload = { ...orgResponse.data };
+        const payload = { ...selfResponse.data };
 
         payload.properties.gestalt_home = orgResponse.data;
         dispatch({ type: FETCH_SELF_FULFILLED, payload });
@@ -121,5 +121,6 @@ export default {
   setCurrentWorkspaceContext,
   setCurrentEnvironmentContext,
   unloadWorkspaceContext,
-  unloadEnvironmentContext
+  unloadEnvironmentContext,
+  logout,
 };

@@ -32,10 +32,14 @@ axios.interceptors.request.use((config) => {
 
 // Dispatch App Wide Errors via response interceptor for whatever component is listening
 axios.interceptors.response.use(null, (error) => {
-  if (error.response.status === 401) {
+  const validCookie = !!cookie.load('auth-token') || false;
+
+  if (!validCookie) {
     browserHistory.replace('login');
+  } else {
+    store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
   }
-  store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
+
   Promise.reject(error);
 });
 

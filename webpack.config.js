@@ -100,6 +100,7 @@ module.exports = function test(env) {
             $$DEBUG$$: JSON.stringify(config.production.DEBUG),
             $$COMPANY_TITLE$$: JSON.stringify(config.production.COMPANY_TITLE),
             $$APP_TITLE$$: JSON.stringify(config.production.APP_TITLE),
+            $$DOCUMENTATION_URL$$: JSON.stringify(config.production.DOCUMENTATION_URL),
             $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
           })
         ]
@@ -132,6 +133,7 @@ module.exports = function test(env) {
           $$DEBUG$$: JSON.stringify(config.development.DEBUG),
           $$COMPANY_TITLE$$: JSON.stringify(config.development.COMPANY_TITLE),
           $$APP_TITLE$$: JSON.stringify(config.development.APP_TITLE),
+          $$DOCUMENTATION_URL$$: JSON.stringify(config.development.DOCUMENTATION_URL),
           $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
         })
       ]
