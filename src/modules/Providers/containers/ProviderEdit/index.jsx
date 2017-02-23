@@ -113,6 +113,7 @@ function mapStateToProps(state) {
     provider,
     pending,
     updatePending: state.providers.updateOne.pending,
+    currentOrgContext: state.app.currentOrgContext.organization,
     initialValues: {
       name: provider.name,
       description: provider.description,

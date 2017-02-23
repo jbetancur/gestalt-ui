@@ -7,10 +7,9 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { DetailCard, DetailCardTitle } from 'components/DetailCard';
-import { BackArrowButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 import PolicyRules from 'modules/PolicyRules';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen } from '../../validations';
 
 const PolicyForm = (props) => {
@@ -30,25 +29,22 @@ const PolicyForm = (props) => {
     submitLabel,
     title,
     editMode,
-    router: { location },
   } = props;
-
 
   return (
     <div>
-      <DetailCard>
-        <DetailCardTitle>
-          <BackArrowButton
-            component={Link}
-            to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
-          />
-          <div className="gf-headline">{location.state.environment.description || location.state.environment.name} / Policies / {props.title}</div>
-        </DetailCardTitle>
-      </DetailCard>
       <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={title} />
+            <CardTitle
+              title={
+                <div>
+                  <div>{title}</div>
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+              subtitle={policy.id ? policy.id : null}
+            />
             <CardText>
               <div className="flex-row">
                 <Field
@@ -106,7 +102,6 @@ const PolicyForm = (props) => {
 };
 
 PolicyForm.propTypes = {
-  router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   policy: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,

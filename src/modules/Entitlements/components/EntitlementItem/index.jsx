@@ -7,6 +7,7 @@ import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import Breadcrumbs from 'modules/Breadcrumbs';
 
 class EntitlementItem extends Component {
   static propTypes = {
@@ -39,7 +40,12 @@ class EntitlementItem extends Component {
       <div className="flex-row">
         <Card className="flex-6 flex-xs-12 flex-sm-12" tableCard>
           <TableCardHeader
-            title="Entitlements"
+            title={
+              <div>
+                <div className="gf-headline">Entitlements</div>
+                {this.props.params.workspaceId ? null : <div className="md-caption"><Breadcrumbs /></div>}
+              </div>
+            }
           />
           {this.props.pending ? <LinearProgress id="entitlements-progress" scale={3} centered={true} /> :
           <DataTable baseId="entitlements" plain>

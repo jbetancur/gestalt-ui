@@ -1,6 +1,12 @@
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { appActions } from 'App';
 import EnvironmentItem from '../../components/EnvironmentItem';
 import * as actions from '../../actions';
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Object.assign({}, actions, appActions), dispatch);
+}
 
 function mapStateToProps(state) {
   return {
@@ -9,4 +15,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(EnvironmentItem);
+export default connect(mapStateToProps, mapDispatchToProps)(EnvironmentItem);

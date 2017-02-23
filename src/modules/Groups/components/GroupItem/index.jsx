@@ -11,6 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedDate } from 'react-intl';
+import Breadcrumbs from 'modules/Breadcrumbs';
 
 class GroupItem extends Component {
   static propTypes = {
@@ -100,7 +101,12 @@ class GroupItem extends Component {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title="Groups"
+            title={
+              <div>
+                <div className="gf-headline">Groups</div>
+                <div className="md-caption"><Breadcrumbs /></div>
+              </div>
+            }
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} group${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}

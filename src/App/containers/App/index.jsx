@@ -45,6 +45,8 @@ class App extends Component {
     self: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     setCurrentOrgContextfromState: PropTypes.func.isRequired,
+    setCurrentWorkspaceContextfromState: PropTypes.func.isRequired,
+    setCurrentEnvironmentContextfromState: PropTypes.func.isRequired,
     // browser: PropTypes.object.isRequired
   };
 
@@ -65,6 +67,23 @@ class App extends Component {
     // This is mainly to appease browser refresh where we lose currentOrg state
     if (this.props.params.fqon) {
       this.props.setCurrentOrgContextfromState(this.props.params.fqon);
+    }
+
+    // do the same for workspaces
+    if (this.props.params.fqon && this.props.params.workspaceId) {
+      this.props.setCurrentWorkspaceContextfromState(this.props.params.fqon, this.props.params.workspaceId);
+    }
+
+    // do the same for environments
+    if (this.props.params.fqon && this.props.params.workspaceId && this.props.params.environmentId) {
+      this.props.setCurrentEnvironmentContextfromState(this.props.params.fqon, this.props.params.environmentId);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // where there is no fqon in the url set the current org context
+    if (nextProps.self !== this.props.self && !this.props.params.fqon) {
+      this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
     }
   }
 

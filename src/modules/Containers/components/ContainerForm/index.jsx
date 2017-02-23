@@ -13,12 +13,11 @@ import { ExpansionList, ExpansionPanel } from 'react-md/lib/ExpansionPanels';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
-import { DetailCard, DetailCardTitle } from 'components/DetailCard';
-import { BackArrowButton } from 'components/Buttons';
 import { VariablesForm } from 'modules/Variables';
 import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
 import { NetworkModal, NetworkListing } from 'modules/NetworkModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
@@ -30,7 +29,7 @@ const ExpansionPanelNoPadding = styled(ExpansionPanel)`
 `;
 
 const ContainerForm = (props) => {
-  const { values, params, container, router: { location } } = props;
+  const { values, params, container } = props;
   const selectedProvider = props.providers
     .find(provider => values.properties.provider.id === provider.id)
     || { properties: { config: { networks: [] } } };
@@ -41,20 +40,18 @@ const ContainerForm = (props) => {
 
   return (
     <div>
-      <DetailCard>
-        <DetailCardTitle>
-          <BackArrowButton
-            component={Link}
-            to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
-          />
-          <div className="gf-headline">{location.state.environment.description || location.state.environment.name} / Containers / {props.title}</div>
-        </DetailCardTitle>
-      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            <CardTitle title={<span><span>{props.title}</span>{!props.editMode ? null : <ContainerActions inContainerView container={container} {...props} />}</span>} subtitle={container.id ? container.id : null} />
-
+            <CardTitle
+              title={
+                <div>
+                  <span>{props.title}</span>{!props.editMode ? null : <ContainerActions inContainerView container={container} {...props} />}
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+              subtitle={container.id ? container.id : null}
+            />
             <CardText>
               <div className="flex-row">
                 <Field
@@ -185,7 +182,9 @@ const ContainerForm = (props) => {
                 label={props.cancelLabel}
                 disabled={props.pending || props.submitting}
                 component={Link}
-                to={`${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`}
+                to={{
+                  pathname: `${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`
+                }}
               />
               <Button
                 raised
@@ -321,7 +320,6 @@ const ContainerForm = (props) => {
 };
 
 ContainerForm.propTypes = {
-  router: PropTypes.object.isRequired,
   fetchProviders: PropTypes.func.isRequired,
   showVolumeModal: PropTypes.func.isRequired,
   showNetworkModal: PropTypes.func.isRequired,
