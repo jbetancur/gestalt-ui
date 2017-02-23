@@ -13,7 +13,6 @@ class WorkspaceEdit extends Component {
     fetchWorkspace: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
-    currentOrgContext: PropTypes.object.isRequired,
   }
 
   componentWillMount() {
@@ -63,7 +62,7 @@ class WorkspaceEdit extends Component {
   render() {
     return (
       <ContainmentForm
-        title={`${this.props.currentOrgContext.description || this.props.currentOrgContext.name} / ${this.props.workspace.description || this.props.workspace.name}`}
+        title={this.props.workspace.description || this.props.workspace.nam}
         submitLabel="Update" cancelLabel="Cancel"
         onSubmit={values => this.updateWorkspace(values)}
         envMap={this.props.workspace.properties.env}
@@ -80,7 +79,6 @@ function mapStateToProps(state) {
   return {
     workspace,
     pending,
-    currentOrgContext: state.app.currentOrgContext.organization,
     initialValues: {
       name: workspace.name,
       description: workspace.description,

@@ -31,7 +31,7 @@ class OrgCreate extends Component {
   render() {
     return (
       <ContainmentForm
-        title={`${this.props.params.fqon} / Create Organization`}
+        title="Create Organization"
         submitLabel="Create"
         cancelLabel="Cancel"
         onSubmit={values => this.createOrg(values)}

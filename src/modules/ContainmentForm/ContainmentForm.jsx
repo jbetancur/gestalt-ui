@@ -2,14 +2,14 @@ import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
+import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { DetailCard, DetailCardTitle } from 'components/DetailCard';
-import { BackArrowButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
+import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ContainmentForm = (props) => {
@@ -19,17 +19,17 @@ const ContainmentForm = (props) => {
 
   return (
     <div>
-      <DetailCard>
-        <DetailCardTitle>
-          <BackArrowButton
-            onClick={() => goBack()}
-          />
-          <div className="gf-headline">{props.title}</div>
-        </DetailCardTitle>
-      </DetailCard>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-8 flex-xs-12 flex-sm-12">
+            <CardTitle
+              title={
+                <div>
+                  <div>{props.title}</div>
+                  <div className="md-caption"><Breadcrumbs /></div>
+                </div>
+              }
+            />
             <CardText>
               <div className="flex-row">
                 <Field
@@ -52,7 +52,7 @@ const ContainmentForm = (props) => {
                   maxLength={shortNameMaxLen}
                   lineDirection="center"
                   required
-                  helpText="allowed characters (a-z  0-9  - )"
+                  helpText="allowed characters (a-z A-Z 0-9  - )"
                 />
                 {props.isEnvironment ? <Field
                   id="environment-type"

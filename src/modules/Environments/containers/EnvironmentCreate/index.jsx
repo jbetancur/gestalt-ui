@@ -6,7 +6,6 @@ import * as actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createEnvironment: PropTypes.func.isRequired
   };
@@ -31,11 +30,9 @@ class OrgCreate extends Component {
   }
 
   render() {
-    const { router: { location } } = this.props;
-
     return (
       <ContainmentForm
-        title={<span>{location.state.workspace.description || location.state.workspace.name} / Create Environment</span>}
+        title="Create Environment"
         submitLabel="Create"
         cancelLabel="Cancel"
         onSubmit={values => this.createEnvironment(values)}
