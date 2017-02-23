@@ -1,11 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import styled from 'styled-components';
 import TextField from 'react-md/lib/TextFields';
 import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import * as actions from './actions';
+
+const EnhancedMenuButton = styled(MenuButton)`
+  height: 100%;
+  margin-left: .5em;
+  font-size: 12px;
+
+  .md-icon-text:last-child {
+    padding: 1px;
+  }
+`;
+
 
 class OrgNavMenu extends Component {
   static propTypes = {
@@ -82,14 +94,13 @@ class OrgNavMenu extends Component {
   render() {
     return (
       <div>
-        <MenuButton
+        <EnhancedMenuButton
           id="orgs-menu"
-          label="Organizations"
+          label="Switch Organization"
           flat
           fullWidth
           position="below"
-          buttonChildren="domain"
-          className="org-nav-menubutton"
+          buttonChildren="expand_more"
           onClick={e => this.fetchOrgList(e)}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
@@ -97,7 +108,7 @@ class OrgNavMenu extends Component {
             {this.renderSearch()}
             {this.props.organizations.map(this.renderOrgMenuItems, this)}
           </div>]}
-        </MenuButton>
+        </EnhancedMenuButton>
       </div>
     );
   }
