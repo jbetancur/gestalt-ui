@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import PolicyForm from '../../components/PolicyForm';
+import APIForm from '../../components/APIForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
-class PolicyCreate extends Component {
+class APICreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    createPolicy: PropTypes.func.isRequired,
+    createAPI: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
   };
 
@@ -17,17 +17,17 @@ class PolicyCreate extends Component {
   }
 
   create(values) {
-    const { params, createPolicy } = this.props;
-    createPolicy(params.fqon, params.workspaceId, params.environmentId, values);
+    const { params, createAPI } = this.props;
+    createAPI(params.fqon, params.workspaceId, params.environmentId, values);
   }
 
   render() {
-    return <PolicyForm title="Create Policy" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return <APIForm title="Create API" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.policies.fetchOne;
+  const { pending } = state.apis.fetchOne;
   const model = {
     name: '',
     description: '',
@@ -35,14 +35,13 @@ function mapStateToProps(state) {
   };
 
   return {
-    policy: model,
+    api: model,
     pending,
-    // selectedPolicyType: state.policies.selectedPolicy.type,
     initialValues: model
   };
 }
 
 export default connect(mapStateToProps, actions)(reduxForm({
-  form: 'policyCreate',
+  form: 'APICreate',
   validate
-})(PolicyCreate));
+})(APICreate));
