@@ -64,7 +64,7 @@ class OrgEdit extends Component {
   render() {
     return (
       <ContainmentForm
-        title={this.props.organization.name}
+        title={this.props.organization.description || this.props.organization.name}
         submitLabel="Update"
         cancelLabel="Cancel"
         onSubmit={values => this.updateOrg(values)}

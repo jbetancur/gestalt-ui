@@ -3,10 +3,10 @@ import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
 import TimeAgo from 'react-timeago';
 import FontIcon from 'react-md/lib/FontIcons';
-import Toolbar from 'react-md/lib/Toolbars';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import IconText from 'components/IconText';
 import { Card, CardTitle } from 'components/GFCard';
+import { DetailCard, DetailCardTitle } from 'components/DetailCard';
 import Breadcrumbs from 'modules/Breadcrumbs';
 
 class WorkspaceItem extends Component {
@@ -51,7 +51,7 @@ class WorkspaceItem extends Component {
     return [
       <Button
         id="create-workspace"
-        label="Create Workspace"
+        label="Create"
         flat
         component={Link}
         to={`/${this.props.params.fqon}/workspaces/create`}
@@ -90,11 +90,12 @@ class WorkspaceItem extends Component {
 
     return (
       <div>
-        <Toolbar
-          themed
-          title={<span className="gf-headline-1"><Breadcrumbs /> / Workspaces</span>}
-          actions={this.renderMenu()}
-        />
+        <DetailCard>
+          <DetailCardTitle className="flex-row">
+            <span className="gf-headline-1 flex-8" style={{ lineHeight: '2.5em' }}><Breadcrumbs /> / Workspaces</span>
+            <span className="flex-4" style={{ textAlign: 'right' }}>{this.renderMenu()}</span>
+          </DetailCardTitle>
+        </DetailCard>
         {pending ? this.renderProgress() : this.renderCardsContainer()}
       </div>
     );

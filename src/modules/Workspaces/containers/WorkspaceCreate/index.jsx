@@ -8,7 +8,6 @@ class OrgCreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     createWorkspace: PropTypes.func.isRequired,
-    currentOrgContext: PropTypes.object.isRequired,
   };
 
   createWorkspace(values) {
@@ -32,7 +31,7 @@ class OrgCreate extends Component {
   render() {
     return (
       <ContainmentForm
-        title={`${this.props.currentOrgContext.description || this.props.currentOrgContext.name} / Create Workspace`}
+        title="Create Workspace"
         submitLabel="Create"
         cancelLabel="Cancel"
         onSubmit={values => this.createWorkspace(values)}
@@ -47,7 +46,6 @@ function mapStateToProps(state) {
   return {
     workspace,
     pending,
-    currentOrgContext: state.app.currentOrgContext.organization,
     initialValues: {
       name: '',
       description: '',
