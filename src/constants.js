@@ -7,3 +7,4 @@ export const UI_VERSION = $$UI_VERSION$$;
 export const APP_TITLE = $$APP_TITLE$$;
 export const LICENSE_EXP_THRESHOLD = $$LICENSE_EXP_THRESHOLD$$;
 export const DEBUG = $$DEBUG$$;
+export const DOCUMENTATION_URL = $$DOCUMENTATION_URL$$;

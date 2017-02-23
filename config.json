@@ -9,7 +9,8 @@
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
     "ANALYTICS_TRACKING": false,
-    "DEBUG": true
+    "DEBUG": true,
+    "DOCUMENTATION_URL": "http://docs.galacticfog.com"
   },
   "production": {
     "API_URL": "/meta",
@@ -21,6 +22,7 @@
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
     "ANALYTICS_TRACKING": true,
-    "DEBUG": false
+    "DEBUG": false,
+    "DOCUMENTATION_URL": "http://docs.galacticfog.com"
   }
 }

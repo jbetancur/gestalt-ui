@@ -15,7 +15,7 @@ import TooltipFontIcon from 'components/TooltipFontIcon';
 import ErrorNotifications from 'modules/ErrorNotifications';
 import GestaltIcon from 'components/GestaltIcon';
 import GestaltIconText from 'components/GestaltIconText';
-import { UI_VERSION } from '../../../constants';
+import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import * as actions from '../../actions';
 
 const EnhancedLogoDiv = styled.div`
@@ -193,6 +193,11 @@ class App extends Component {
           leftIcon={<FontIcon>vpn_key</FontIcon>}
           component={Link}
           to={`${this.props.params.fqon}/license`}
+        />
+        <ListItem
+          id="main-help--documentation"
+          primaryText={<a className="gf-no-link" href={DOCUMENTATION_URL} target="_blank" rel="noopener noreferrer">Documentation</a>}
+          leftIcon={<FontIcon>library_books</FontIcon>}
         />
       </MenuButton>
     ];
