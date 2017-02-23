@@ -158,7 +158,11 @@ class OrgItem extends Component {
             <IconText icon="short_text"><div>{organization.name}</div></IconText>
             <IconText icon="access_time"><TimeAgo date={organization.created.timestamp} /></IconText>
             <IconText icon="timelapse"><TimeAgo date={organization.modified.timestamp} /></IconText>
-            <VariablesListing envMap={organization.properties.env} />
+            <div className="flex-row">
+              <div className="flex-6 flex-xs-12">
+                <VariablesListing envMap={organization.properties.env} />
+              </div>
+            </div>
           </DetailCardText>
           {pending ? this.renderProgress() : null}
         </DetailCard>

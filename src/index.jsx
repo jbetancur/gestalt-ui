@@ -23,16 +23,24 @@ axios.defaults.headers.common.Accept = 'application/json';
 
 // Add a request interceptor
 axios.interceptors.request.use((config) => {
-  const newConfig = {
-    ...config,
-  };
+  const newConfig = { ...config };
+
+  store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: true });
   newConfig.headers.Authorization = `Bearer ${cookie.load('auth-token')}`;
   return newConfig;
-}, error => Promise.reject(error));
+}, (error) => {
+  store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
+
+  Promise.reject(error);
+});
 
 // Dispatch App Wide Errors via response interceptor for whatever component is listening
-axios.interceptors.response.use(null, (error) => {
+axios.interceptors.response.use((config) => {
+  store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
+  return config;
+}, (error) => {
   const validCookie = !!cookie.load('auth-token') || false;
+  store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
 
   if (!validCookie) {
     browserHistory.replace('login');

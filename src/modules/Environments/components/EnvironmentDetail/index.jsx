@@ -167,7 +167,11 @@ class EnvironmentDetail extends Component {
             <IconText icon="access_time"><TimeAgo date={environment.created.timestamp} /></IconText>
             <IconText icon="timelapse"><TimeAgo date={environment.modified.timestamp} /></IconText>
             <IconText icon="folder"><span>{environment.properties.environment_type}</span></IconText>
-            <VariablesListing envMap={environment.properties.env} />
+            <div className="flex-row">
+              <div className="flex-6 flex-xs-12">
+                <VariablesListing envMap={environment.properties.env} />
+              </div>
+            </div>
           </DetailCardText>
           <TabsContainer themed defaultTabIndex={navigation.index}>
             <Tabs tabId="environment-app-tabs">
@@ -176,8 +180,9 @@ class EnvironmentDetail extends Component {
               <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />
               <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
               <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 4)} />
-              <Tab label="Providers" id="providers" icon={<FontIcon>cloud_queue</FontIcon>} onClick={() => this.handleViewState('providers', 5)} />
+              <Tab label="Providers" id="providers" icon={<FontIcon>cloud</FontIcon>} onClick={() => this.handleViewState('providers', 5)} />
               <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 6)} />
+              <Tab id="hidden" style={{ position: 'fixed', left: '-300px', zIndex: -999999 }} />
             </Tabs>
           </TabsContainer>
           {pending ? this.renderProgress() : null}

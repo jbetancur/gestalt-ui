@@ -1,19 +1,17 @@
 import {
-  ENVIRONMENTS_NAVIGATION
+  APP_HTTP_REQUEST,
 } from '../actionTypes';
 
 const initialState = {
-  view: '',
-  index: 7
+  activity: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENVIRONMENTS_NAVIGATION:
+    case APP_HTTP_REQUEST:
       return {
         ...state,
-        view: action.payload.view,
-        index: action.payload.index
+        activity: action.activity,
       };
     default:
       return state;

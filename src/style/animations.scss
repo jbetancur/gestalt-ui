@@ -17,6 +17,25 @@
   }
 }
 
+@include keyframes(pulse) {
+  0% {
+    @include transform(scale(0.5));
+  }
+
+  33% {
+    @include transform(scale(1.1));
+  }
+
+  66% {
+    @include transform(scale(0.9));
+  }
+
+  100% {
+    @include transform(scale(0.5));
+    opacity: 1;
+  }
+}
+
 @include keyframes(spinGrow) {
   0% {
     @include transform(rotate(0deg) scale(0.00));
@@ -33,6 +52,11 @@
 }
 
 .spin-and-grow {
+  @include transform-origin(50%);
+  opacity: 1;
+}
+
+.pulse {
   @include transform-origin(50%);
   opacity: 1;
 }

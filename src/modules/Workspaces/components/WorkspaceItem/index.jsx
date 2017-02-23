@@ -51,6 +51,7 @@ class WorkspaceItem extends Component {
     return [
       <Button
         id="create-workspace"
+        key="create-workspace--button"
         label="Create"
         flat
         component={Link}
