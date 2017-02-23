@@ -1,6 +1,6 @@
 import { isFQON } from 'util/validations';
 
-export const nameMaxLen = 60;
+export const nameMaxLen = 45;
 export const shortNameMaxLen = 30;
 
 export default (values, props) => {
