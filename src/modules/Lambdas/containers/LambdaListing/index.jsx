@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
+import { sortBy } from 'lodash';
 import LambdaItem from '../../components/LambdaItem';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    lambdas: state.lambdas.fetchAll.lambdas,
+    lambdas: sortBy(state.lambdas.fetchAll.lambdas, 'name'),
     pending: state.lambdas.fetchAll.pending,
     selectedLambdas: state.lambdas.selectedLambdas,
   };

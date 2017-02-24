@@ -6,6 +6,7 @@ import TextField from 'react-md/lib/TextFields';
 import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
+import { sortBy } from 'lodash';
 import * as actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
@@ -116,8 +117,10 @@ class OrgNavMenu extends Component {
 
 const mapStateToProps = (state) => {
   const { orgnavmenu } = state;
+  const orgMenuItems = orgnavmenu.organizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText)));
+
   return {
-    organizations: orgnavmenu.organizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText))),
+    organizations: sortBy(orgMenuItems, 'name'),
     orgFetching: orgnavmenu.organizations.pending,
   };
 };
