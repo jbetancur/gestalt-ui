@@ -4,7 +4,7 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader';
 import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import _map from 'lodash/map';
+import { map, sortBy } from 'lodash';
 
 class VariablesListing extends Component {
   static propTypes = {
@@ -16,9 +16,10 @@ class VariablesListing extends Component {
   };
 
   renderRows() {
-    const envVariables = _map(this.props.envMap, (value, key) => ({ key, value }));
+    const envVariables = map(this.props.envMap, (value, key) => ({ key, value }));
+    const sortedVariables = sortBy(envVariables, 'key');
 
-    return envVariables.map((item, i) => (
+    return sortedVariables.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>{item.key}</TableColumn>
         <TableColumn>{item.value}</TableColumn>
