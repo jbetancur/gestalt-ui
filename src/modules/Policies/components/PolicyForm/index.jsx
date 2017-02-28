@@ -40,7 +40,7 @@ const PolicyForm = (props) => {
               title={
                 <div>
                   <div>{title}</div>
-                  <div className="md-caption"><Breadcrumbs /></div>
+                  <div className="md-caption"><Breadcrumbs /> / Policy</div>
                 </div>
               }
               subtitle={policy.id ? policy.id : null}

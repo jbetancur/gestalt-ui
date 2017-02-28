@@ -8,13 +8,16 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
+import SelectField from 'components/SelectField';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import APIListing from 'modules/APIEndpoints';
 import { nameMaxLen } from '../../validations';
 
 const APIForm = (props) => {
   const {
     params,
     pending,
+    apiUpdatePending,
     api,
     onSubmit,
     touched,
@@ -29,6 +32,10 @@ const APIForm = (props) => {
     // editMode,
   } = props;
 
+  const fetchProviders = () => {
+    props.fetchProviders(params.fqon, params.environmentId, 'GatewayManager');
+  };
+
   return (
     <div>
       <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -38,7 +45,7 @@ const APIForm = (props) => {
               title={
                 <div>
                   <div>{title}</div>
-                  <div className="md-caption"><Breadcrumbs /></div>
+                  <div className="md-caption"><Breadcrumbs /> / APIS</div>
                 </div>
               }
               subtitle={api.id ? api.id : null}
@@ -46,7 +53,20 @@ const APIForm = (props) => {
             <CardText>
               <div className="flex-row">
                 <Field
-                  className="flex-6 flex-xs-12"
+                  id="select-provider"
+                  className="flex-3 flex-xs-12"
+                  component={SelectField}
+                  name="properties.provider.id"
+                  required
+                  label="Provider"
+                  itemLabel="name"
+                  itemValue="id"
+                  errorText={props.touched && props.error}
+                  menuItems={props.pendingProviders ? ['fetching providers...'] : props.providers}
+                  onFocus={() => fetchProviders()}
+                />
+                <Field
+                  className="flex-4 flex-xs-12"
                   component={TextField}
                   name="name"
                   label="Name"
@@ -58,7 +78,7 @@ const APIForm = (props) => {
                   autoComplete="none"
                 />
                 <Field
-                  className="flex-6 flex-xs-12"
+                  className="flex-5 flex-xs-12"
                   component={TextField}
                   name="description"
                   label="Description"
@@ -67,7 +87,7 @@ const APIForm = (props) => {
                 />
               </div>
             </CardText>
-            {pending ? <LinearProgress id="api-form" /> : null}
+            {pending || apiUpdatePending ? <LinearProgress id="api-form" /> : null}
             <CardActions>
               <Button
                 flat
@@ -85,6 +105,14 @@ const APIForm = (props) => {
               />
             </CardActions>
           </Card>
+
+          {api.id ?
+            <div className="flex-row center-center">
+              <div className="flex-10 flex-xs-12 flex-sm-12">
+                <APIListing {...props} />
+              </div>
+            </div>
+            : null}
         </div>
       </form>
     </div>
@@ -92,9 +120,13 @@ const APIForm = (props) => {
 };
 
 APIForm.propTypes = {
+  providers: PropTypes.array.isRequired,
+  fetchProviders: PropTypes.func.isRequired,
+  pendingProviders: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
+  apiUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -105,7 +137,6 @@ APIForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  // editMode: PropTypes.bool,
 };
 
 APIForm.defaultProps = {

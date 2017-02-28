@@ -33,7 +33,7 @@ class EnvironmentDetail extends Component {
     environment: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
-    unloadEnvironmentContext: PropTypes.func.isRequired,
+    // unloadEnvironmentContext: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
   };
@@ -57,7 +57,7 @@ class EnvironmentDetail extends Component {
 
   componentWillUnmount() {
     this.props.onUnload();
-    this.props.unloadEnvironmentContext();
+    // this.props.unloadEnvironmentContext();
   }
 
   handleViewState(view, index) {
@@ -178,7 +178,7 @@ class EnvironmentDetail extends Component {
           <TabsContainer themed defaultTabIndex={navigation.index}>
             <Tabs tabId="environment-app-tabs">
               <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 0)} />
-              <Tab label="API" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
+              <Tab label="APIS" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
               <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />
               <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
               <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 4)} />

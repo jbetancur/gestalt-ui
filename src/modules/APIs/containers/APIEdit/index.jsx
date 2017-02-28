@@ -12,13 +12,15 @@ class APIEdit extends Component {
     params: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired,
     fetchAPI: PropTypes.func.isRequired,
+    fetchProviders: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     updateAPI: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchAPI } = this.props;
+    const { params, fetchAPI, fetchProviders } = this.props;
+    fetchProviders(params.fqon, params.environmentId, 'GatewayManager');
     fetchAPI(params.fqon, params.apiId);
   }
 
@@ -28,11 +30,14 @@ class APIEdit extends Component {
   }
 
   updateAPI(values) {
-    const { id, name, description } = this.props.api;
+    const { id, name, description, properties } = this.props.api;
     const { params } = this.props;
     const originalModel = {
       name,
       description,
+      properties: {
+        provider: properties.provider.id,
+      }
     };
 
     const patches = jsonPatch.compare(originalModel, values);
@@ -51,14 +56,19 @@ function mapStateToProps(state) {
 
   const model = {
     name: api.name,
-    description: api.description
+    description: api.description,
+    properties: {
+      provider: api.properties.provider,
+    }
   };
 
   return {
     api,
     pending,
+    providers: state.apis.providers.providers,
+    pendingProviders: state.apis.providers.pending,
     updatedApi: state.apis.apiUpdate.api,
-    apiRuleUpdatePending: state.apis.apiUpdate.pending,
+    apiUpdatePending: state.apis.apiUpdate.pending,
     initialValues: model,
     enableReinitialize: true,
   };

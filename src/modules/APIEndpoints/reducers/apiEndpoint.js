@@ -1,61 +1,62 @@
 import {
-    FETCH_API_PENDING,
-    FETCH_API_REJECTED,
-    FETCH_API_FULFILLED,
-    CREATE_API_PENDING,
-    CREATE_API_FULFILLED,
-    CREATE_API_REJECTED,
-    API_UNLOADED,
+    FETCH_APIENDPOINT_PENDING,
+    FETCH_APIENDPOINT_REJECTED,
+    FETCH_APIENDPOINT_FULFILLED,
+    CREATE_APIENDPOINT_PENDING,
+    CREATE_APIENDPOINT_FULFILLED,
+    CREATE_APIENDPOINT_REJECTED,
+    APIENDPOINT_UNLOADED
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  api: {
+  apiEndpoint: {
     created: {},
     modified: {},
     properties: {
-      provider: {},
-    }
+      auth_type: {},
+      implementation: {},
+    },
   },
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case API_UNLOADED:
+    case APIENDPOINT_UNLOADED:
       return initialState;
-    case FETCH_API_PENDING:
+    case FETCH_APIENDPOINT_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_API_FULFILLED:
+    case FETCH_APIENDPOINT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        api: action.payload
+        apiEndpoint: action.payload
       };
-    case FETCH_API_REJECTED:
+    case FETCH_APIENDPOINT_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case CREATE_API_PENDING:
+    case CREATE_APIENDPOINT_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case CREATE_API_FULFILLED:
+    case CREATE_APIENDPOINT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        api: action.payload,
+        apiEndpoint: action.payload,
       };
-    case CREATE_API_REJECTED:
+    case CREATE_APIENDPOINT_REJECTED:
       return {
         ...state,
         pending: false,

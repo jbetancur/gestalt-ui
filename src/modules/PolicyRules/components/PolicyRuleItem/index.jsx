@@ -31,18 +31,6 @@ class PolicyRuleItem extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      fixedHeader: true,
-      fixedFooter: true,
-      stripedRows: false,
-      showRowHover: false,
-      selectable: true,
-      multiSelectable: true,
-      enableSelectAll: true,
-      deselectOnClickaway: true,
-      showCheckboxes: true
-    };
   }
 
   componentWillMount() {

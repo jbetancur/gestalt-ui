@@ -8,18 +8,19 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-// import SelectField from 'components/SelectField';
+import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
-import CheckboxForm from 'components/Checkbox';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen } from './validations';
-import policyResourceTypes from '../../lists/policyResourceTypes';
+import authTypes from '../../lists/authTypes';
+import httpMethods from '../../lists/httpMethods';
+import implementationTypes from '../../lists/implementationTypes';
 
 const PolicyEventRuleForm = (props) => {
   const {
     params,
     pending,
-    policyUpdatePending,
+    apiEndpointUpdatePending,
     onSubmit,
     touched,
     error,
@@ -30,21 +31,9 @@ const PolicyEventRuleForm = (props) => {
     cancelLabel,
     submitLabel,
     title,
-    selectedActions,
-    editMode,
-    // lambdas,
-    policyRule,
+    // editMode,
+    apiEndpoint,
   } = props;
-
-  // const fetchLambdas = () => {
-  //   props.fetchLambdas(params.fqon, params.environmentId);
-  // };
-
-  const policyTriggers = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].triggers));
-
-  const onActionChecked = (action) => {
-    props.handleSelectedActions(action, selectedActions);
-  };
 
   return (
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -54,10 +43,10 @@ const PolicyEventRuleForm = (props) => {
             title={
               <div>
                 <div>{title}</div>
-                <div className="md-caption"><Breadcrumbs /> / Policy / Event Policy</div>
+                <div className="md-caption"><Breadcrumbs /> / APIS / Endpoint</div>
               </div>
             }
-            subtitle={policyRule.id ? policyRule.id : null}
+            subtitle={apiEndpoint.id ? apiEndpoint.id : null}
           />
           <CardText>
             <div className="flex-row">
@@ -73,56 +62,74 @@ const PolicyEventRuleForm = (props) => {
                 lineDirection="center"
               />
               <Field
-                className="flex-8 flex-xs-12"
-                component={TextField}
-                name="description"
-                label="Description"
-                type="text"
-                lineDirection="center"
+                id="auth-type"
+                className="flex-2 flex-xs-6"
+                component={SelectField}
+                name="properties.auth_type.type"
+                menuItems={authTypes}
+                itemLabel="name"
+                itemValue="value"
+                required
+                label="Auth Type"
+                errorText={props.touched && props.error}
+              />
+              <Field
+                id="auth-type"
+                className="flex-2 flex-xs-6"
+                component={SelectField}
+                name="properties.http_method"
+                menuItems={httpMethods}
+                itemLabel="name"
+                itemValue="value"
+                required
+                label="HTTP Method"
+                errorText={props.touched && props.error}
               />
               <Field
                 className="flex-4 flex-xs-12"
                 component={TextField}
-                name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                name="properties.resource"
+                label="Resource Path"
+                type="text"
+                required
+                errorText={touched && error}
+                lineDirection="center"
+              />
+              <Field
+                id="auth-type"
+                className="flex-2 flex-xs-6"
+                component={SelectField}
+                name="properties.implementation.type"
+                menuItems={implementationTypes}
+                itemLabel="name"
+                itemValue="value"
+                required
+                label="Type"
+                errorText={props.touched && props.error}
+              />
+              <Field
+                className="flex-4 flex-xs-12"
+                component={TextField}
+                name="properties.implementation.id"
                 label="Lambda UUID"
                 type="text"
                 required
                 errorText={touched && error}
                 lineDirection="center"
               />
-              {/* <Field
-                className="flex-4 flex-xs-12"
-                component={SelectField}
-                name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
-                label="Lambda"
-                menuItems={pendingLambdas ? ['fetching lambdas...'] : lambdas}
-                itemLabel="name"
-                itemValue="id"
+              <Field
+                className="flex-6 flex-xs-12"
+                component={TextField}
+                name="properties.implementation.function"
+                label="Function"
                 type="text"
                 required
-                lineDirection="center"
                 errorText={touched && error}
-                onFocus={() => fetchLambdas()}
-              /> */}
-              <fieldset>
-                <legend>Actions</legend>
-                <div className="flex-row">
-                  {policyTriggers.map(action =>
-                    <Field
-                      key={action.name}
-                      className="flex-2 flex-xs-12 flex-sm-6 flex-md-4"
-                      id={action.name}
-                      component={CheckboxForm}
-                      label={action.name}
-                      checked={!!selectedActions.find(a => a === action.name)}
-                      name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
-                      onChange={() => onActionChecked(action.name)}
-                    />)}
-                </div>
-              </fieldset>
+                lineDirection="center"
+              />
             </div>
           </CardText>
-          {policyUpdatePending || pending ? <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} /> : null}
+          {apiEndpointUpdatePending || pending ? <LinearProgress id="apiEndpoint-form" /> : null}
           <CardActions>
             <Button
               flat
@@ -130,7 +137,7 @@ const PolicyEventRuleForm = (props) => {
               disabled={pending || submitting}
               component={Link}
               to={{
-                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`
+                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`
               }}
             />
             <Button
@@ -148,10 +155,10 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
-  policyRule: PropTypes.object.isRequired,
+  apiEndpoint: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  policyUpdatePending: PropTypes.bool.isRequired,
+  apiEndpointUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -162,10 +169,7 @@ PolicyEventRuleForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  // lambdas: PropTypes.object.isRequired,
-  // pendingLambdas: PropTypes.bool.isRequired,
-  selectedActions: PropTypes.array.isRequired,
-  editMode: PropTypes.bool,
+  // editMode: PropTypes.bool,
 };
 
 PolicyEventRuleForm.defaultProps = {

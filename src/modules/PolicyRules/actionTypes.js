@@ -25,7 +25,7 @@ export const POLICYRULES_UNLOADED = 'policyrules/POLICYRULES_UNLOADED';
 
 export const SELECTED_ACTIONS = 'policyrules/SELECTED_ACTIONS';
 
-export const LAMBDAS_UNLOADED = 'policyrules/POLICYRULE_UNLOADED';
+export const LAMBDAS_UNLOADED = 'policyrules/LAMBDAS_UNLOADED';
 export const FETCH_LAMBDAS_PENDING = 'policyrules/FETCH_LAMBDAS_PENDING';
 export const FETCH_LAMBDAS_FULFILLED = 'policyrules/FETCH_LAMBDAS_FULFILLED';
 export const FETCH_LAMBDAS_REJECTED = 'policyrules/FETCH_LAMBDAS_REJECTED';
