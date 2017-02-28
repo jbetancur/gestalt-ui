@@ -16,12 +16,12 @@ class VariablesListing extends Component {
   };
 
   renderRows() {
-    const envVariables = map(this.props.envMap, (value, key) => ({ key, value }));
-    const sortedVariables = sortBy(envVariables, 'key');
+    const envVariables = map(this.props.envMap, (value, name) => ({ name, value }));
+    const sortedVariables = sortBy(envVariables, 'name');
 
     return sortedVariables.map((item, i) => (
       <TableRow key={i}>
-        <TableColumn>{item.key}</TableColumn>
+        <TableColumn>{item.name}</TableColumn>
         <TableColumn>{item.value}</TableColumn>
       </TableRow>
     ));
@@ -32,7 +32,7 @@ class VariablesListing extends Component {
       <DataTable plain>
         <TableHeader>
           <TableRow>
-            <TableColumn>Key</TableColumn>
+            <TableColumn>Name</TableColumn>
             <TableColumn>Value</TableColumn>
           </TableRow>
         </TableHeader>

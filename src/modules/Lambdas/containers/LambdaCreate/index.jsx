@@ -19,7 +19,6 @@ class LambdaCreate extends Component {
 
   componentWillMount() {
     const { params, fetchEnv } = this.props;
-
     fetchEnv(params.fqon, params.environmentId);
   }
 
@@ -47,7 +46,7 @@ class LambdaCreate extends Component {
     delete payload.variables;
     if (values.variables) {
       values.variables.forEach((variable) => {
-        payload.properties.env[variable.key] = variable.value;
+        payload.properties.env[variable.name] = variable.value;
       });
     }
 
@@ -61,7 +60,7 @@ class LambdaCreate extends Component {
 
 function mapStateToProps(state) {
   const { lambda, pending } = state.lambdas.fetchOne;
-  const variables = map(Object.assign({}, state.lambdas.env.env), (value, key) => ({ key, value }));
+  const variables = map(Object.assign({}, state.lambdas.env.env), (value, name) => ({ name, value }));
 
   return {
     lambda,

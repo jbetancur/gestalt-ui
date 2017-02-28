@@ -37,7 +37,7 @@ class EnvironmentEdit extends Component {
 
     // variables is a used for tracking out FieldArray
     formValues.variables.forEach((variable) => {
-      model.properties.env[variable.key] = variable.value;
+      model.properties.env[variable.name] = variable.value;
     });
 
     return model;
@@ -85,7 +85,7 @@ class EnvironmentEdit extends Component {
 
 function mapStateToProps(state) {
   const { environment, pending } = state.environments.fetchOne;
-  const variables = _map(environment.properties.env, (value, key) => ({ key, value }));
+  const variables = _map(environment.properties.env, (value, name) => ({ name, value }));
 
   return {
     environment,

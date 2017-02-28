@@ -40,7 +40,7 @@ class ProviderItem extends Component {
   componentDidMount() {
     const { params, fetchProviders } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId ? 'workspaces' : 'environments';
+    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
     fetchProviders(params.fqon, entityId, entityKey);
   }
 
@@ -96,7 +96,7 @@ class ProviderItem extends Component {
     const providerIds = selectedItems.map(item => (item.id));
     const providerNames = selectedItems.map(item => (item.name));
 
-    if (params.workspaceId) {
+    if (params.workspaceId && !params.environmentId) {
       this.props.confirmDelete(() => {
         deleteProviders(providerIds, params.fqon, params.workspaceId, 'workspaces');
       }, providerNames);

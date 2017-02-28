@@ -57,7 +57,7 @@ class LambdaEdit extends Component {
 
     // variables is a used for tracking out FieldArray
     formValues.variables.forEach((variable) => {
-      model.properties.env[variable.key] = variable.value;
+      model.properties.env[variable.name] = variable.value;
     });
 
     return model;
@@ -105,7 +105,7 @@ class LambdaEdit extends Component {
 
 function mapStateToProps(state) {
   const { lambda, pending } = state.lambdas.fetchOne;
-  const variables = map(lambda.properties.env, (value, key) => ({ key, value }));
+  const variables = map(lambda.properties.env, (value, name) => ({ name, value }));
 
   const model = {
     name: lambda.name,

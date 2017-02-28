@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import base64 from 'base-64';
 import ProviderForm from '../../components/ProviderForm';
-import validate from '../../validations';
+import validate from '../../components/ProviderForm/validations';
 import * as actions from '../../actions';
 
 class ProviderCreate extends Component {
@@ -32,9 +32,12 @@ class ProviderCreate extends Component {
       resource_type,
       properties: {
         config: {
-          auth: properties.config.auth,
-          url: properties.config.url
+          env: {
+            public: {},
+            private: {},
+          },
         },
+        linked_providers: values.linkedProviders,
         locations: properties.locations
       }
     };
@@ -54,7 +57,19 @@ class ProviderCreate extends Component {
       delete model.properties.networks;
     }
 
-    if (params.workspaceId) {
+    if (values.privateVariables) {
+      values.privateVariables.forEach((variable) => {
+        model.properties.config.env.private[variable.name] = variable.value;
+      });
+    }
+
+    if (values.publicVariables) {
+      values.publicVariables.forEach((variable) => {
+        model.properties.config.env.public[variable.name] = variable.value;
+      });
+    }
+
+    if (params.workspaceId && !params.environmentId) {
       // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
       createProvider(params.fqon, params.workspaceId, 'workspaces', model);
     } else if (params.environmentId) {
@@ -79,24 +94,27 @@ function mapStateToProps(state) {
     description: '',
     properties: {
       config: {
-        auth: {
-          scheme: 'Basic',
-          username: '',
-          password: ''
+        env: {
+          public: {},
+          private: {},
         },
-        extra: '',
-        networks: '',
-        url: '',
       },
+      linked_providers: [],
       locations: [{ name: 'tobeimplemented', enabled: true }]
-    }
+    },
+    publicVariables: state.providers.selectedProviderSchema.public,
+    privateVariables: state.providers.selectedProviderSchema.private
   };
 
   return {
     provider: model,
     pending,
-    currentOrgContext: state.app.currentOrgContext.organization,
+    pendingSchema: state.providers.selectedProviderSchema.pending,
+    providers: state.providers.fetchAll.providers,
+    pendingProviders: state.providers.fetchAll.pending,
     initialValues: model,
+    enableReinitialize: true,
+    keepDirtyOnReinitialize: true, // keps dirty values in forms when the provider type is changed
   };
 }
 

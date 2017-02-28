@@ -31,7 +31,7 @@ renderField.defaultProps = {
   error: false,
 };
 
-const rendervariables = ({ fields, touched, error, addButtonLabel, icon }) => (
+const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue }) => (
   <FormSection name="">
     <Button
       flat
@@ -45,17 +45,18 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon }) => (
     {fields.map((member, index) =>
       <div key={index} className="flex-row">
         <Field
-          name={`${member}.key`}
+          name={`${member}.${keyFieldValue}`}
+          disabled={!!`${member}.required`}
           type="text"
           component={renderField}
-          label="Name"
+          label={keyFieldName}
           lineDirection="center"
         />
         <Field
-          name={`${member}.value`}
+          name={`${member}.${valueFieldValue}`}
           type="text"
           component={renderField}
-          label="Value"
+          label={valueFieldName}
           lineDirection="center"
         />
         <div>
@@ -72,6 +73,10 @@ rendervariables.propTypes = {
   error: PropTypes.bool,
   addButtonLabel: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
+  keyFieldName: PropTypes.string.isRequired,
+  keyFieldValue: PropTypes.string.isRequired,
+  valueFieldName: PropTypes.string.isRequired,
+  valueFieldValue: PropTypes.string.isRequired,
 };
 
 rendervariables.defaultProps = {
@@ -79,18 +84,35 @@ rendervariables.defaultProps = {
   error: false,
 };
 
-const FieldArraysForm = props => <FieldArray addButtonLabel={props.addButtonLabel} icon={props.icon} name={props.fieldName} component={rendervariables} />;
+const FieldArraysForm = props => <FieldArray
+  addButtonLabel={props.addButtonLabel}
+  icon={props.icon}
+  name={props.fieldName}
+  component={rendervariables}
+  keyFieldName={props.keyFieldName}
+  keyFieldValue={props.keyFieldValue}
+  valueFieldName={props.valueFieldName}
+  valueFieldValue={props.valueFieldValue}
+/>;
 
 FieldArraysForm.propTypes = {
   fieldName: PropTypes.string,
   addButtonLabel: PropTypes.string,
   icon: PropTypes.string,
+  keyFieldName: PropTypes.string,
+  keyFieldValue: PropTypes.string,
+  valueFieldName: PropTypes.string,
+  valueFieldValue: PropTypes.string,
 };
 
 FieldArraysForm.defaultProps = {
   fieldName: 'variables',
   addButtonLabel: 'Add Variable',
-  icon: ''
+  icon: '',
+  keyFieldName: 'Name',
+  keyFieldValue: 'name',
+  valueFieldName: 'Value',
+  valueFieldValue: 'value',
 };
 
 export default FieldArraysForm;

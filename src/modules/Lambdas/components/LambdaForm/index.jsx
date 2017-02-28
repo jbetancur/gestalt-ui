@@ -238,7 +238,7 @@ const LambdaForm = (props) => {
               </div>
               <div className="flex-row">
                 <div className="flex-12">
-                  <VariablesForm {...props} />
+                  <VariablesForm icon="list" {...props} />
                 </div>
               </div>
             </CardText>

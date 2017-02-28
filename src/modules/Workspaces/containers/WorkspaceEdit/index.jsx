@@ -33,7 +33,7 @@ class WorkspaceEdit extends Component {
 
     // variables is a used for tracking out FieldArray
     formValues.variables.forEach((variable) => {
-      model.properties.env[variable.key] = variable.value;
+      model.properties.env[variable.name] = variable.value;
     });
 
     return model;
@@ -74,7 +74,7 @@ class WorkspaceEdit extends Component {
 
 function mapStateToProps(state) {
   const { workspace, pending } = state.workspaces.fetchOne;
-  const variables = map(workspace.properties.env, (value, key) => ({ key, value }));
+  const variables = map(workspace.properties.env, (value, name) => ({ name, value }));
 
   return {
     workspace,

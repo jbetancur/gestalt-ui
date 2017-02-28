@@ -33,6 +33,7 @@ class EnvironmentDetail extends Component {
     environment: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
+    unloadEnvironmentContext: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
   };
@@ -56,6 +57,7 @@ class EnvironmentDetail extends Component {
 
   componentWillUnmount() {
     this.props.onUnload();
+    this.props.unloadEnvironmentContext();
   }
 
   handleViewState(view, index) {

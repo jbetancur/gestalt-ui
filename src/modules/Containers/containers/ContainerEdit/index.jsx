@@ -57,8 +57,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   const { container, pending } = state.containers.fetchOne;
-  const variables = map(container.properties.env, (value, key) => ({ key, value }));
-  const labels = map(container.properties.labels, (value, key) => ({ key, value }));
+  const variables = map(container.properties.env, (value, name) => ({ name, value }));
+  const labels = map(container.properties.labels, (value, name) => ({ name, value }));
 
   const model = {
     name: container.name,

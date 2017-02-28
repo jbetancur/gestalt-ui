@@ -21,7 +21,7 @@ class OrgCreate extends Component {
 
     if (values.variables) {
       values.variables.forEach((variable) => {
-        payload.properties.env[variable.key] = variable.value;
+        payload.properties.env[variable.name] = variable.value;
       });
     }
 

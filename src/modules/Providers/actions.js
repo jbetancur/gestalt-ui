@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { goBack } from 'react-router-redux';
 import { toggleHandler } from 'util/helpers/lists';
+import constants from './constants';
 import {
   FETCH_PROVIDERS_PENDING,
   FETCH_PROVIDERS_REJECTED,
@@ -27,7 +28,11 @@ function fixProperties(data) {
   // TODO: providers such as kubernetes do not have this field plus the API refuses to populate a standard schema
   // May split out providers types into their own respective modules/forms
   if (!payload.properties.config) {
-    payload.properties.config = { auth: { scheme: '', username: '', password: '' } };
+    payload.properties.config = { env: { public: {}, private: {} } };
+  }
+
+  if (!payload.properties.linked_providers) {
+    payload.properties.linked_providers = [];
   }
 
   return payload;
@@ -157,3 +162,22 @@ export function confirmDelete(action, multipleItems) {
     });
   };
 }
+
+export function fetchSchema(type) {
+  return (dispatch) => {
+    dispatch({ type: `providers/FETCH_${type}_SCHEMA_PENDING`, schemaType: type });
+    axios.get(`/root/resourcetypes/${constants[type]}/schema?filter=config`).then((response) => {
+      dispatch({
+        type: `providers/FETCH_${type}_SCHEMA_FULFILLED`,
+        payload: {
+          public: response.data.filter(item => item.public === true),
+          private: response.data.filter(item => item.public === false),
+        },
+        schemaType: type
+      });
+    }).catch((err) => {
+      dispatch({ type: `providers/FETCH_${type}_SCHEMA_REJECTED`, payload: err, schemaType: type });
+    });
+  };
+}
+
