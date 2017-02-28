@@ -48,7 +48,7 @@ class ContainerCreate extends Component {
 
     if (values.variables) {
       values.variables.forEach((variable) => {
-        payload.properties.env[variable.key] = variable.value;
+        payload.properties.env[variable.name] = variable.value;
       });
     }
 
@@ -56,7 +56,7 @@ class ContainerCreate extends Component {
 
     if (values.labels) {
       values.labels.forEach((label) => {
-        payload.properties.labels[label.key] = label.value;
+        payload.properties.labels[label.name] = label.value;
       });
     }
 
@@ -86,7 +86,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   const { container, pending } = state.containers.fetchOne;
-  const variables = map(Object.assign({}, state.containers.env.env), (value, key) => ({ key, value }));
+  const variables = map(Object.assign({}, state.containers.env.env), (value, name) => ({ name, value }));
 
   return {
     container,

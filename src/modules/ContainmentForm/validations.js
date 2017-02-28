@@ -61,8 +61,8 @@ export default (values, props) => {
     values.variables.forEach((member, memberIndex) => {
       const memberErrors = {};
 
-      if (!member || !member.key) {
-        memberErrors.key = 'variable name is required';
+      if (!member || !member.name) {
+        memberErrors.name = 'variable name is required';
         variablesArrayErrors[memberIndex] = memberErrors;
       }
 

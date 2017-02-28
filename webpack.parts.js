@@ -1,5 +1,9 @@
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const execSync = require('child_process').execSync;
+const pkg = require('./package.json');
+const config = require('./config.json');
 
 exports.sourceMaps = () => (
   {
@@ -116,6 +120,20 @@ exports.imageConfig = () => (
       }]
     }
   }
+);
+
+exports.generateConstants = env => (
+  new webpack.DefinePlugin({
+    $$API_URL$$: JSON.stringify(config[env].API_URL),
+    $$SEC_API_URL$$: JSON.stringify(config[env].SEC_API_URL),
+    $$API_TIMEOUT$$: JSON.stringify(config[env].API_TIMEOUT),
+    $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config[env].LICENSE_EXP_THRESHOLD),
+    $$DEBUG$$: JSON.stringify(config[env].DEBUG),
+    $$COMPANY_TITLE$$: JSON.stringify(config[env].COMPANY_TITLE),
+    $$APP_TITLE$$: JSON.stringify(config[env].APP_TITLE),
+    $$DOCUMENTATION_URL$$: JSON.stringify(config[env].DOCUMENTATION_URL),
+    $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
+  })
 );
 
 exports.devServer = function devServer({ host, port }) {

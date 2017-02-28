@@ -1,11 +1,10 @@
 const path = require('path');
 const pkg = require('./package.json');
-const config = require('./config.json');
-const execSync = require('child_process').execSync;
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 
@@ -22,7 +21,7 @@ const common = merge([
       extensions: ['.jsx', '.scss', '.js', '.json'],
       modules: [
         path.resolve(__dirname, PATHS.srcPath),
-        'node_modules'
+        'node_modules',
       ],
       alias: {
         components: path.resolve(PATHS.srcPath, 'components'),
@@ -47,6 +46,10 @@ const common = merge([
         hash: true,
         inject: 'body',
       }),
+      new CircularDependencyPlugin({
+        exclude: /a\.js|node_modules/, // exclude node_modules
+        failOnError: false, // show a warning when there is a circular dependency
+      }),
     ],
   },
   parts.babelConfig(),
@@ -54,7 +57,7 @@ const common = merge([
   parts.fontConfig(),
   parts.icoConfig(),
   parts.svgConfig(),
-  parts.imageConfig()
+  parts.imageConfig(),
 ]);
 
 module.exports = function test(env) {
@@ -64,7 +67,7 @@ module.exports = function test(env) {
       parts.scssConfig({
         options: {
           sourceMap: 'inline',
-          outputStyle: 'expanded'
+          outputStyle: 'expanded',
         }
       }),
       {
@@ -77,33 +80,23 @@ module.exports = function test(env) {
             mangle: true,
             sourceMap: false,
             output: {
-              comments: false
+              comments: false,
             },
             compress: {
-              warnings: false
+              warnings: false,
             }
           }),
           new webpack.LoaderOptionsPlugin({
             minimize: true,
-            debug: false
+            debug: false,
           }),
           new ExtractTextPlugin({
             filename: 'theme-[hash:6].css',
             allChunks: true,
-            disable: false
+            disable: false,
           }),
-          new webpack.DefinePlugin({
-            $$API_URL$$: JSON.stringify(config.production.API_URL),
-            $$SEC_API_URL$$: JSON.stringify(config.production.SEC_API_URL),
-            $$API_TIMEOUT$$: JSON.stringify(config.production.API_TIMEOUT),
-            $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config.production.LICENSE_EXP_THRESHOLD),
-            $$DEBUG$$: JSON.stringify(config.production.DEBUG),
-            $$COMPANY_TITLE$$: JSON.stringify(config.production.COMPANY_TITLE),
-            $$APP_TITLE$$: JSON.stringify(config.production.APP_TITLE),
-            $$DOCUMENTATION_URL$$: JSON.stringify(config.production.DOCUMENTATION_URL),
-            $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
-          })
-        ]
+          parts.generateConstants('production'),
+        ],
       },
     ]);
   }
@@ -115,28 +108,18 @@ module.exports = function test(env) {
     parts.scssConfig({}),
     parts.devServer({
       port: '8081',
-      contentBase: path.join(__dirname, 'build'),
-      compress: true
+      contentBase: path.join(__dirname, PATHS.buildPath),
+      compress: true,
     }),
     {
       plugins: [
         new webpack.HotModuleReplacementPlugin(), // enable HMR globally
         new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
         new ExtractTextPlugin({
-          disable: true
+          disable: true,
         }),
-        new webpack.DefinePlugin({
-          $$API_URL$$: JSON.stringify(config.development.API_URL),
-          $$SEC_API_URL$$: JSON.stringify(config.development.SEC_API_URL),
-          $$API_TIMEOUT$$: JSON.stringify(config.development.API_TIMEOUT),
-          $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config.development.LICENSE_EXP_THRESHOLD),
-          $$DEBUG$$: JSON.stringify(config.development.DEBUG),
-          $$COMPANY_TITLE$$: JSON.stringify(config.development.COMPANY_TITLE),
-          $$APP_TITLE$$: JSON.stringify(config.development.APP_TITLE),
-          $$DOCUMENTATION_URL$$: JSON.stringify(config.development.DOCUMENTATION_URL),
-          $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
-        })
-      ]
-    }
+        parts.generateConstants('development'),
+      ],
+    },
   ]);
 };

@@ -35,7 +35,7 @@ class OrgEdit extends Component {
 
     // variables is a used for tracking out FieldArray
     formValues.variables.forEach((variable) => {
-      model.properties.env[variable.key] = variable.value;
+      model.properties.env[variable.name] = variable.value;
     });
 
     return model;
@@ -77,7 +77,7 @@ class OrgEdit extends Component {
 
 function mapStateToProps(state) {
   const { organization, pending } = state.organizations.fetchOne;
-  const variables = map(organization.properties.env, (value, key) => ({ key, value }));
+  const variables = map(organization.properties.env, (value, name) => ({ name, value }));
 
   return {
     organization,

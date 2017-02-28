@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
+import { map } from 'lodash';
 import CircularActivity from 'components/CircularActivity';
 import ProviderForm from '../../components/ProviderForm';
-import validate from '../../validations';
+import validate from '../../components/ProviderForm/validations';
 import * as actions from '../../actions';
 
 class ProviderEdit extends Component {
@@ -13,13 +14,18 @@ class ProviderEdit extends Component {
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     fetchProvider: PropTypes.func.isRequired,
+    fetchProviders: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     onUnload: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchProvider } = this.props;
+    const { params, fetchProvider, fetchProviders } = this.props;
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
+
+    fetchProviders(params.fqon, entityId, entityKey);
     fetchProvider(params.fqon, params.providerId);
   }
 
@@ -30,17 +36,20 @@ class ProviderEdit extends Component {
   updatedModel(formValues, originalModel) {
     // normally we don't need the original model passed here, but we are replacing networks and config from a seperate ui control'
     const { name, description, properties } = formValues;
-    const { config, locations } = properties;
+    const { locations } = properties;
     const model = {
       name,
       description,
       properties: {
         config: {
-          auth: config.auth,
-          url: config.url,
+          env: {
+            public: {},
+            private: {},
+          },
           extra: originalModel.properties.config.extra,
-          networks: originalModel.properties.config.networks
+          networks: originalModel.properties.config.networks,
         },
+        linked_providers: formValues.linkedProviders,
         locations
       }
     };
@@ -63,18 +72,27 @@ class ProviderEdit extends Component {
       model.properties.data = base64.encode(formValues.properties.data);
     }
 
+    formValues.privateVariables.forEach((variable) => {
+      model.properties.config.env.private[variable.name] = variable.value;
+    });
+
+    formValues.publicVariables.forEach((variable) => {
+      model.properties.config.env.public[variable.name] = variable.value;
+    });
+
     return model;
   }
 
   originalModel(originalOrg) {
     const { name, description, properties } = originalOrg;
-    const { config, locations } = properties;
+    const { config, locations, linked_providers } = properties;
     const model = {
       name,
       description,
       properties: {
         config,
-        locations
+        linked_providers,
+        locations,
       }
     };
 
@@ -108,28 +126,34 @@ class ProviderEdit extends Component {
 
 function mapStateToProps(state) {
   const { provider, pending } = state.providers.fetchOne;
-  // console.log(provider);
+  const privateVariables = map(provider.properties.config.env.private, (value, name) => ({ name, value }));
+  const publicVariables = map(provider.properties.config.env.public, (value, name) => ({ name, value }));
+
   return {
     provider,
     pending,
     updatePending: state.providers.updateOne.pending,
-    currentOrgContext: state.app.currentOrgContext.organization,
+    pendingSchema: state.providers.selectedProviderSchema.pending,
+    providers: state.providers.fetchAll.providers,
+    pendingProviders: state.providers.fetchAll.pending,
     initialValues: {
       name: provider.name,
       description: provider.description,
       resource_type: provider.resource_type,
       properties: {
-        data: provider.properties.data ? base64.decode(provider.properties.data) : '',
         config: {
-          auth: {
-            scheme: provider.properties.config.auth.scheme,
-            username: provider.properties.config.auth.username,
-            password: provider.properties.config.auth.password
+          env: {
+            public: {},
+            private: {},
           },
-          url: provider.properties.config.url,
         },
+        linked_providers: [],
+        data: provider.properties.data ? base64.decode(provider.properties.data) : '',
         locations: provider.properties.locations
-      }
+      },
+      publicVariables,
+      privateVariables,
+      linkedProviders: provider.properties.linked_providers,
     },
     enableReinitialize: true
   };
