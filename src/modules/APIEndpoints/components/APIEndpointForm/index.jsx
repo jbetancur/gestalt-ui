@@ -35,6 +35,8 @@ const PolicyEventRuleForm = (props) => {
     apiEndpoint,
   } = props;
 
+  const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`;
+
   return (
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <div className="flex-row center-center">
@@ -43,7 +45,16 @@ const PolicyEventRuleForm = (props) => {
             title={
               <div>
                 <div>{title}</div>
-                <div className="md-caption"><Breadcrumbs /> / APIS / Endpoint</div>
+                <div className="md-caption"><Breadcrumbs />&nbsp;/&nbsp;
+                <Link
+                  className="md-caption"
+                  style={{ textDecoration: 'none' }}
+                  to={{
+                    pathname: backLink
+                  }}
+                >
+                APIS
+                </Link> / Endpoint</div>
               </div>
             }
             subtitle={apiEndpoint.id ? apiEndpoint.id : null}
@@ -137,7 +148,7 @@ const PolicyEventRuleForm = (props) => {
               disabled={pending || submitting}
               component={Link}
               to={{
-                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`
+                pathname: backLink
               }}
             />
             <Button

@@ -32,13 +32,10 @@ const PolicyEventRuleForm = (props) => {
     title,
     selectedActions,
     editMode,
-    // lambdas,
     policyRule,
   } = props;
 
-  // const fetchLambdas = () => {
-  //   props.fetchLambdas(params.fqon, params.environmentId);
-  // };
+  const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
 
   const policyTriggers = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].triggers));
 
@@ -54,7 +51,16 @@ const PolicyEventRuleForm = (props) => {
             title={
               <div>
                 <div>{title}</div>
-                <div className="md-caption"><Breadcrumbs /> / Policy / Event Policy</div>
+                <div className="md-caption"><Breadcrumbs />&nbsp;/&nbsp;
+                <Link
+                  className="md-caption"
+                  style={{ textDecoration: 'none' }}
+                  to={{
+                    pathname: backLink
+                  }}
+                >
+                Policy
+                </Link> / Event Policy</div>
               </div>
             }
             subtitle={policyRule.id ? policyRule.id : null}
@@ -130,7 +136,7 @@ const PolicyEventRuleForm = (props) => {
               disabled={pending || submitting}
               component={Link}
               to={{
-                pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`
+                pathname: backLink
               }}
             />
             <Button
