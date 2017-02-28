@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 const EnhancedLink = styled(Link)`
@@ -25,16 +25,24 @@ const EnhancedLink = styled(Link)`
 
 class Breadcrumbs extends Component {
   static propTypes = {
+    params: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     currentWorkspaceContext: PropTypes.object.isRequired,
     currentEnvironmentContext: PropTypes.object.isRequired,
+    seperator: PropTypes.string,
   };
+
+  static defaultProps = {
+    seperator: '/'
+  }
 
   render() {
     const {
       currentOrgContext,
       currentWorkspaceContext,
       currentEnvironmentContext,
+      params,
+      seperator,
     } = this.props;
 
     return (
@@ -45,18 +53,18 @@ class Breadcrumbs extends Component {
           {currentOrgContext.description || currentOrgContext.name}
         </EnhancedLink>
 
-        {currentWorkspaceContext.id ? ' / ' : null}
+        {currentWorkspaceContext.id && params.workspaceId ? ` ${seperator} ` : null}
 
-        {currentWorkspaceContext.id ?
+        {currentWorkspaceContext.id && params.workspaceId ?
           <EnhancedLink
             to={`${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}`}
           >
             {currentWorkspaceContext.description || currentWorkspaceContext.name}
           </EnhancedLink> : null}
 
-        {currentEnvironmentContext.id ? ' / ' : null}
+        {currentEnvironmentContext.id && params.environmentId ? ` ${seperator} ` : null}
 
-        {currentEnvironmentContext.id ?
+        {currentEnvironmentContext.id && params.environmentId ?
           <EnhancedLink
             to={`${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}/environments/${currentEnvironmentContext.id}`}
           >
@@ -75,4 +83,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Breadcrumbs);
+export default connect(mapStateToProps)(withRouter(Breadcrumbs));

@@ -37,7 +37,6 @@ const ProviderForm = (props) => {
   };
 
   const goBack = () => {
-    props.router.goBack();
     if (params.workspaceId && !params.environmentId) {
       router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
     } else if (params.environmentId) {
