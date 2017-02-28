@@ -31,12 +31,16 @@ function mapStateToProps(state) {
   const model = {
     name: '',
     description: '',
-    properties: {}
+    properties: {
+      provider: {},
+    }
   };
 
   return {
     api: model,
     pending,
+    providers: state.apis.providers.providers,
+    pendingProviders: state.apis.providers.pending,
     initialValues: model
   };
 }

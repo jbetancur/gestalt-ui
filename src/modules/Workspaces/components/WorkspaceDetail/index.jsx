@@ -28,10 +28,10 @@ class WorkspaceDetail extends Component {
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
-    unloadWorkspaceContext: PropTypes.func.isRequired,
+    // unloadWorkspaceContext: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentWorkspaceContext: PropTypes.func.isRequired,
-    unloadEnvironmentContext: PropTypes.func.isRequired,
+    // unloadEnvironmentContext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -54,8 +54,8 @@ class WorkspaceDetail extends Component {
 
   componentWillUnmount() {
     this.props.onUnload();
-    this.props.unloadWorkspaceContext();
-    this.props.unloadEnvironmentContext();
+    // this.props.unloadWorkspaceContext();
+    // this.props.unloadEnvironmentContext();
   }
 
   handleViewState(view, index) {

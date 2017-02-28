@@ -47,7 +47,7 @@ const ContainerForm = (props) => {
               title={
                 <div>
                   <span>{props.title}</span>{!props.editMode ? null : <ContainerActions inContainerView container={container} {...props} />}
-                  <div className="md-caption"><Breadcrumbs /></div>
+                  <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
               subtitle={container.id ? container.id : null}

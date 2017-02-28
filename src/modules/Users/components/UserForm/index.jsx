@@ -29,7 +29,7 @@ const UserForm = (props) => {
               title={
                 <div>
                   <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /></div>
+                  <div className="md-caption"><Breadcrumbs /> / User</div>
                 </div>
               }
               subtitle={props.user.id ? props.user.id : null}

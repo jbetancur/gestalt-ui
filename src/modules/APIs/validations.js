@@ -1,4 +1,4 @@
-export const nameMaxLen = 30;
+export const nameMaxLen = 45;
 
 export default (values) => {
   const errors = {

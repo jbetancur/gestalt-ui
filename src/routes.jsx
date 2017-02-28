@@ -40,6 +40,8 @@ import ContainerEdit from './modules/Containers/containers/ContainerEdit';
 import APIs from './modules/APIs';
 import APICreate from './modules/APIs/containers/APICreate';
 import APIEdit from './modules/APIs/containers/APIEdit';
+import APIEndpointCreate from './modules/APIEndpoints/containers/APIEndpointCreate';
+import APIEndpointEdit from './modules/APIEndpoints/containers/APIEndpointEdit';
 import License from './modules/Licensing';
 import NotFound from './components/NotFound';
 
@@ -120,7 +122,11 @@ const routes = store => (
                 <IndexRoute component={APIs} onEnter={requireAuth(store)} />
                 <Route path="create" component={APICreate} onEnter={requireAuth(store)} />
                 <Route path=":apiId" onEnter={requireAuth(store)}>
-                  <Route path="edit" component={APIEdit} onEnter={requireAuth(store)} />
+                  <Route path="edit" onEnter={requireAuth(store)}>
+                    <IndexRoute component={APIEdit} onEnter={requireAuth(store)} />
+                    <Route path="apiendpoints/createEndpoint" component={APIEndpointCreate} onEnter={requireAuth(store)} />
+                    <Route path="apiendpoints/:apiEndpointId/editEndpoint" component={APIEndpointEdit} onEnter={requireAuth(store)} />
+                  </Route>
                 </Route>
               </Route>
             </Route>

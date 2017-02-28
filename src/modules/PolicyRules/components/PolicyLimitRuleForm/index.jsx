@@ -66,7 +66,7 @@ const PolicyLimitRuleForm = (props) => {
             title={
               <div>
                 <div>{title}</div>
-                <div className="md-caption"><Breadcrumbs /> / Limit Policy</div>
+                <div className="md-caption"><Breadcrumbs /> / Policy / Limit Policy</div>
               </div>
             }
             subtitle={policyRule.id ? policyRule.id : null}

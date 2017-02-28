@@ -83,6 +83,12 @@ export default (state = initialState, action) => {
         friendlyMessage: 'Gateway Time-Out',
         error: action.payload
       };
+    case 'APP_HTTP_ERROR_422':
+      return {
+        ...state,
+        friendlyMessage: 'Unprocessable Entity',
+        error: action.payload
+      };
     case 'license/LICENSE_EXPIRING':
       return {
         ...state,

@@ -40,7 +40,6 @@ class LambdaEdit extends Component {
       properties: {
         env: properties.env,
         headers: properties.headers,
-        code: base64.encode(properties.code),
         code_type: properties.code_type,
         compressed: properties.compressed,
         cpus: properties.cpus,
@@ -55,6 +54,10 @@ class LambdaEdit extends Component {
       }
     };
 
+    if (formValues.properties.code) {
+      model.properties.code = base64.encode(formValues.properties.code);
+    }
+
     // variables is a used for tracking out FieldArray
     formValues.variables.forEach((variable) => {
       model.properties.env[variable.name] = variable.value;
@@ -65,7 +68,7 @@ class LambdaEdit extends Component {
 
   originalModel(originalOrg) {
     const { name, description, properties } = originalOrg;
-    return {
+    const model = {
       name,
       description,
       properties: {
@@ -85,6 +88,12 @@ class LambdaEdit extends Component {
         providers: properties.provider,
       }
     };
+
+    if (!properties.code) {
+      delete model.properties.code;
+    }
+
+    return model;
   }
 
   updateLambda(values) {

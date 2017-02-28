@@ -155,7 +155,7 @@ const ProviderForm = (props) => {
               title={
                 <div>
                   <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /></div>
+                  <div className="md-caption"><Breadcrumbs /> / Provider</div>
                 </div>
               }
               subtitle={provider.id ? provider.id : null}

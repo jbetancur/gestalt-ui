@@ -1,61 +1,54 @@
 import {
-    FETCH_API_PENDING,
-    FETCH_API_REJECTED,
-    FETCH_API_FULFILLED,
-    CREATE_API_PENDING,
-    CREATE_API_FULFILLED,
-    CREATE_API_REJECTED,
-    API_UNLOADED,
+  FETCH_APIENDPOINTS_PENDING,
+  FETCH_APIENDPOINTS_REJECTED,
+  FETCH_APIENDPOINTS_FULFILLED,
+  APIENDPOINTS_UNLOADED,
+  DELETE_APIENDPOINT_PENDING,
+  DELETE_APIENDPOINT_FULFILLED,
+  DELETE_APIENDPOINT_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  api: {
-    created: {},
-    modified: {},
-    properties: {
-      provider: {},
-    }
-  },
+  apiEndpoints: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case API_UNLOADED:
+    case APIENDPOINTS_UNLOADED:
       return initialState;
-    case FETCH_API_PENDING:
+    case FETCH_APIENDPOINTS_PENDING:
       return {
         ...state,
-        pending: true,
+        pending: true
       };
-    case FETCH_API_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        api: action.payload
-      };
-    case FETCH_API_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case CREATE_API_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case CREATE_API_FULFILLED:
+    case FETCH_APIENDPOINTS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        api: action.payload,
+        apiEndpoints: action.payload
       };
-    case CREATE_API_REJECTED:
+    case FETCH_APIENDPOINTS_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload
+      };
+    case DELETE_APIENDPOINT_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case DELETE_APIENDPOINT_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case DELETE_APIENDPOINT_REJECTED:
       return {
         ...state,
         pending: false,
@@ -65,3 +58,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+

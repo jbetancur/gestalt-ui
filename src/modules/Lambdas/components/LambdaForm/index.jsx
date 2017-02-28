@@ -41,7 +41,7 @@ const LambdaForm = (props) => {
               title={
                 <div>
                   <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /></div>
+                  <div className="md-caption"><Breadcrumbs /> / Lambda</div>
                 </div>
               }
               subtitle={lambda.id ? lambda.id : null}
@@ -50,7 +50,7 @@ const LambdaForm = (props) => {
               <div className="flex-row">
                 <Field
                   id="select-provider"
-                  className="flex-4 flex-xs-12"
+                  className="flex-3 flex-xs-12"
                   component={SelectField}
                   name="properties.providers"
                   required
@@ -62,7 +62,7 @@ const LambdaForm = (props) => {
                   onFocus={() => fetchProviders()}
                 />
                 <Field
-                  className="flex-3 flex-xs-12"
+                  className="flex-4 flex-xs-12"
                   component={TextField}
                   name="name"
                   label="Name"

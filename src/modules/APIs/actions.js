@@ -20,6 +20,9 @@ import {
   DELETE_API_PENDING,
   DELETE_API_FULFILLED,
   DELETE_API_REJECTED,
+  FETCH_PROVIDERS_PENDING,
+  FETCH_PROVIDERS_FULFILLED,
+  FETCH_PROVIDERS_REJECTED,
 } from './actionTypes';
 
 export function onUnload() {
@@ -81,7 +84,7 @@ export function createAPI(fqon, workspaceId, environmentId, payload) {
     dispatch({ type: CREATE_API_PENDING });
     axios.post(`${fqon}/environments/${environmentId}/apis`, payload).then((response) => {
       dispatch({ type: CREATE_API_FULFILLED, payload: response.data });
-      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}`));
+      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}/apis/${response.data.id}/edit`));
     }).catch((err) => {
       dispatch({ type: CREATE_API_REJECTED, payload: err });
     });
@@ -93,7 +96,6 @@ export function updateAPI(fqon, workspaceId, environmentId, apiId, patches) {
     dispatch({ type: UPDATE_API_PENDING });
     axios.patch(`${fqon}/apis/${apiId}`, patches).then((response) => {
       dispatch({ type: UPDATE_API_FULFILLED, payload: response.data });
-      dispatch(replace(`${fqon}/workspaces/${workspaceId}/environments/${environmentId}`));
     }).catch((err) => {
       dispatch({ type: UPDATE_API_REJECTED, payload: err });
     });
@@ -123,6 +125,19 @@ export function deleteAPIs(apiIds, fqon, environmentId) {
     }).catch((err) => {
       dispatch({ type: DELETE_API_REJECTED, payload: err });
       dispatch(clearSelected());
+    });
+  };
+}
+
+export function fetchProviders(fqon, environmentId, providerType) {
+  const type = providerType ? `?type=${providerType}` : '';
+
+  return (dispatch) => {
+    dispatch({ type: FETCH_PROVIDERS_PENDING });
+    axios.get(`${fqon}/environments/${environmentId}/providers${type}`).then((response) => {
+      dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: response.data });
+    }).catch((err) => {
+      dispatch({ type: FETCH_PROVIDERS_REJECTED, payload: err });
     });
   };
 }
