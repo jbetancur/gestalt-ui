@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, getFormValues } from 'redux-form';
 import base64 from 'base-64';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
@@ -11,6 +11,11 @@ class ProviderCreate extends Component {
     params: PropTypes.object.isRequired,
     createProvider: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
+    /* container related */
+    containerValues: PropTypes.object.isRequired,
+    volumes: PropTypes.array.isRequired,
+    networks: PropTypes.array.isRequired,
+    healthChecks: PropTypes.array.isRequired,
   };
 
   componentWillUnmount() {
@@ -37,6 +42,15 @@ class ProviderCreate extends Component {
             private: {},
           },
         },
+        services: [
+          {
+            init: {
+              binding: 'eager',
+              singleton: true
+            },
+            container: {}
+          },
+        ],
         linked_providers: values.linkedProviders,
         locations: properties.locations
       }
@@ -69,6 +83,40 @@ class ProviderCreate extends Component {
       });
     }
 
+
+    // Handle our container Form and map to the provider model
+    if (this.props.containerValues) {
+      model.properties.services[0].container = this.props.containerValues;
+
+      if (this.props.containerValues.variables) {
+        this.props.containerValues.variables.forEach((variable) => {
+          model.properties.services[0].container.properties.env[variable.name] = variable.value;
+        });
+      }
+
+      if (this.props.containerValues.labels) {
+        this.props.containerValues.labels.forEach((label) => {
+          model.properties.services[0].container.properties.labels[label.name] = label.value;
+        });
+      }
+
+      delete model.properties.services[0].container.variables;
+      delete model.properties.services[0].container.labels;
+    }
+
+    if (this.props.volumes) {
+      model.properties.services[0].container.properties.volumes = this.props.volumes;
+    }
+
+    if (this.props.networks) {  // TODO: rename to portMappings
+      model.properties.services[0].container.properties.port_mappings = this.props.networks;
+    }
+
+    if (this.props.healthChecks) {
+      model.properties.services[0].container.properties.health_checks = this.props.healthChecks;
+    }
+
+    // Create it
     if (params.workspaceId && !params.environmentId) {
       // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
       createProvider(params.fqon, params.workspaceId, 'workspaces', model);
@@ -100,6 +148,17 @@ function mapStateToProps(state) {
         },
       },
       linked_providers: [],
+      services: [
+        {
+          init: {
+            binding: 'eager',
+            singleton: true
+          },
+          container: {
+
+          }
+        },
+      ],
       locations: [{ name: 'tobeimplemented', enabled: true }]
     },
     publicVariables: state.providers.selectedProviderSchema.public,
@@ -115,6 +174,10 @@ function mapStateToProps(state) {
     initialValues: model,
     enableReinitialize: true,
     keepDirtyOnReinitialize: true, // keps dirty values in forms when the provider type is changed
+    containerValues: getFormValues('containerCreate')(state),
+    volumes: state.volumeModal.volumes.volumes,
+    networks: state.networkModal.networks.networks,
+    healthChecks: state.healthCheckModal.healthChecks.healthChecks,
   };
 }
 

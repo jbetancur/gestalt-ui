@@ -24,6 +24,11 @@ class ContainerCreate extends Component {
     networks: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     pendingEnv: PropTypes.bool.isRequired,
+    inlineMode: PropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    inlineMode: false,
   };
 
   componentWillMount() {
@@ -75,7 +80,7 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    return this.props.pendingEnv ? <CircularActivity id="container-load" /> : <ContainerForm title="Deploy Container" submitLabel="Deploy" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return this.props.pendingEnv ? <CircularActivity id="container-load" /> : <ContainerForm inlineMode={this.props.inlineMode} title="Deploy Container" submitLabel="Deploy" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 
