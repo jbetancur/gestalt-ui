@@ -28,7 +28,6 @@ class ContainerCreate extends Component {
 
   componentWillMount() {
     const { params, fetchEnv } = this.props;
-
     fetchEnv(params.fqon, params.environmentId);
   }
 

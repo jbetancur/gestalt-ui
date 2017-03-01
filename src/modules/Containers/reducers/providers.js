@@ -19,6 +19,7 @@ export default (state = initialState, action) => {
     case FETCH_PROVIDERS_PENDING:
       return {
         ...state,
+        providers: action.payload,
         pending: true
       };
     case FETCH_PROVIDERS_FULFILLED:

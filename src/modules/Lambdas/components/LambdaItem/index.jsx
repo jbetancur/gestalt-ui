@@ -97,7 +97,13 @@ class LambdaItem extends Component {
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
         <TableColumn>{lambda.id}</TableColumn>
-        <TableColumn>endpoints</TableColumn>
+        <TableColumn>
+          {lambda.apiEndpoints && lambda.apiEndpoints.map(endpoint => (
+            <a className="md-caption" href={endpoint.properties.gateway_url} target="_blank" rel="noopener noreferrer">
+              {endpoint.properties.gateway_url}
+            </a>
+          ))}
+        </TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={lambda.created.timestamp} /></TableColumn>

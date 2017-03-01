@@ -73,7 +73,7 @@ function mapStateToProps(state) {
       properties: {
         env: {},
         headers: {
-          Accept: ''
+          Accept: 'text/plain'
         },
         code: '',
         code_type: 'package',

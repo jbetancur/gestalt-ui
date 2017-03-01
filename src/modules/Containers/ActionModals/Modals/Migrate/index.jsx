@@ -60,23 +60,24 @@ class MigrateModal extends PureComponent {
             disabled: !this.state.provider,
           }]}
       >
-        <div className="flex-row">
-          <div className="flex-row center-center">
-            <SelectField
-              id="container-scaleto"
-              className="flex-12"
-              label="Migrate to Provider"
-              lineDirection="center"
-              menuItems={this.props.pendingProviders ? ['fetching providers...'] : this.props.providers.filter(provider => provider.id !== this.props.provider.id)}
-              itemLabel="name"
-              itemValue="id"
-              value={this.state.provider}
-              onFocus={() => this.fetchProviders()}
-              onChange={value => this.providerChanged(value)}
-              required
-            />
-          </div>
-        </div>
+        {this.props.providers.filter(provider => provider.id !== this.props.provider.id).length ?
+          <div className="flex-row">
+            <div className="flex-row center-center">
+              <SelectField
+                id="container-scaleto"
+                className="flex-12"
+                label="Migrate to Provider"
+                lineDirection="center"
+                menuItems={this.props.pendingProviders ? ['fetching providers...'] : this.props.providers.filter(provider => provider.id !== this.props.provider.id)}
+                itemLabel="name"
+                itemValue="id"
+                value={this.state.provider}
+                onFocus={() => this.fetchProviders()}
+                onChange={value => this.providerChanged(value)}
+                required
+              />
+            </div>
+          </div> : <span>There are no providers avaiable to migrate to</span>}
       </Dialog>
     );
   }

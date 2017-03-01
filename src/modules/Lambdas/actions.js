@@ -66,6 +66,14 @@ export function fetchLambdas(fqon, environmentId) {
   return (dispatch) => {
     dispatch({ type: FETCH_LAMBDAS_PENDING });
     axios.get(`${url}?expand=true`).then((response) => {
+      // TODO: It's bad form to mutate here, but this is temporary
+      response.data.forEach((lambda) => {
+        axios.get(`${fqon}/lambdas/${lambda.id}/apiendpoints?expand=true`).then((endpointRes) => {
+          // eslint-disable-next-line no-param-reassign
+          lambda.apiEndpoints = endpointRes.data;
+        });
+      });
+
       dispatch({ type: FETCH_LAMBDAS_FULFILLED, payload: response.data });
     }).catch((err) => {
       dispatch({ type: FETCH_LAMBDAS_REJECTED, payload: err });
@@ -158,12 +166,16 @@ export function deleteLambdas(lambdaIds, fqon, environmentId) {
 }
 
 export function fetchProviders(fqon, environmentId, providerType) {
-  const type = providerType ? `?type=${providerType}` : '';
+  const type = providerType ? `&type=${providerType}` : '';
 
   return (dispatch) => {
-    dispatch({ type: FETCH_PROVIDERS_PENDING });
-    axios.get(`${fqon}/environments/${environmentId}/providers${type}`).then((response) => {
-      dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: response.data });
+    dispatch({ type: FETCH_PROVIDERS_PENDING, payload: [{ id: '', name: 'fetching providers...' }] });
+    axios.get(`${fqon}/environments/${environmentId}/providers?expand=true${type}`).then((response) => {
+      if (!response.data.length) {
+        dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });
+      } else {
+        dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: response.data });
+      }
     }).catch((err) => {
       dispatch({ type: FETCH_PROVIDERS_REJECTED, payload: err });
     });
