@@ -167,9 +167,13 @@ export function fetchProviders(fqon, environmentId, providerType) {
   const type = providerType ? `&type=${providerType}` : '';
 
   return (dispatch) => {
-    dispatch({ type: FETCH_PROVIDERS_PENDING });
+    dispatch({ type: FETCH_PROVIDERS_PENDING, payload: [{ id: '', name: 'fetching providers...' }] });
     axios.get(`${fqon}/environments/${environmentId}/providers?expand=true${type}`).then((response) => {
-      dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: response.data });
+      if (!response.data.length) {
+        dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });
+      } else {
+        dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: response.data });
+      }
     }).catch((err) => {
       dispatch({ type: FETCH_PROVIDERS_REJECTED, payload: err });
     });

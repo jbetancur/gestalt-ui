@@ -50,7 +50,7 @@ const LambdaForm = (props) => {
               <div className="flex-row">
                 <Field
                   id="select-provider"
-                  className="flex-3 flex-xs-12"
+                  className="flex-4 flex-xs-12"
                   component={SelectField}
                   name="properties.providers"
                   required
@@ -58,28 +58,8 @@ const LambdaForm = (props) => {
                   itemLabel="name"
                   itemValue="id"
                   errorText={props.touched && props.error}
-                  menuItems={props.pendingProviders ? ['fetching providers...'] : props.providers}
+                  menuItems={props.providers}
                   onFocus={() => fetchProviders()}
-                />
-                <Field
-                  className="flex-4 flex-xs-12"
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  errorText={props.touched && props.error}
-                  maxLength={nameMaxLen}
-                  lineDirection="center"
-                />
-                <Field
-                  className="flex-5 flex-xs-12"
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  maxLength={descriptionMaxLen}
-                  lineDirection="center"
                 />
                 <Field
                   id="select-runtime"
@@ -118,6 +98,26 @@ const LambdaForm = (props) => {
                   required
                   label="Accept Header"
                   errorText={props.touched && props.error}
+                />
+                <Field
+                  className="flex-4 flex-xs-12"
+                  component={TextField}
+                  name="name"
+                  label="Name"
+                  type="text"
+                  required
+                  errorText={props.touched && props.error}
+                  maxLength={nameMaxLen}
+                  lineDirection="center"
+                />
+                <Field
+                  className="flex-5 flex-xs-12"
+                  component={TextField}
+                  name="description"
+                  label="Description"
+                  type="text"
+                  maxLength={descriptionMaxLen}
+                  lineDirection="center"
                 />
                 <Field
                   className="flex-1 flex-xs-12"
@@ -270,7 +270,6 @@ LambdaForm.propTypes = {
   router: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  pendingProviders: PropTypes.bool.isRequired,
   lambdaUpdatePending: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,

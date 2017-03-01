@@ -9,7 +9,7 @@ const initialState = {
   pending: false,
   completed: false,
   providers: [],
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
@@ -19,20 +19,21 @@ export default (state = initialState, action) => {
     case FETCH_PROVIDERS_PENDING:
       return {
         ...state,
-        pending: true
+        providers: action.payload,
+        pending: true,
       };
     case FETCH_PROVIDERS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        providers: action.payload
+        providers: action.payload,
       };
     case FETCH_PROVIDERS_REJECTED:
       return {
         ...state,
         pending: false,
-        error: action.payload
+        error: action.payload,
       };
     default:
       return state;

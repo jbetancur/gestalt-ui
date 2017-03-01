@@ -64,7 +64,7 @@ const ContainerForm = (props) => {
                   itemLabel="name"
                   itemValue="id"
                   errorText={props.touched && props.error}
-                  menuItems={props.pendingProviders ? ['fetching providers...'] : props.providers}
+                  menuItems={props.providers}
                   onFocus={() => fetchProviders()}
                 />
                 {!values.properties.provider.id ? null :
@@ -326,7 +326,6 @@ ContainerForm.propTypes = {
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  pendingProviders: PropTypes.bool.isRequired,
   containerUpdatePending: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,

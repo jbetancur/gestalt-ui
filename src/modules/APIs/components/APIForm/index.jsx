@@ -62,7 +62,7 @@ const APIForm = (props) => {
                   itemLabel="name"
                   itemValue="id"
                   errorText={props.touched && props.error}
-                  menuItems={props.pendingProviders ? ['fetching providers...'] : props.providers}
+                  menuItems={props.providers}
                   onFocus={() => fetchProviders()}
                 />
                 <Field
@@ -122,7 +122,6 @@ const APIForm = (props) => {
 APIForm.propTypes = {
   providers: PropTypes.array.isRequired,
   fetchProviders: PropTypes.func.isRequired,
-  pendingProviders: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
