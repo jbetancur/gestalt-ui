@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { Field, getFormValues } from 'redux-form';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
@@ -9,7 +8,8 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { ExpansionList, ExpansionPanel } from 'react-md/lib/ExpansionPanels';
+import { ExpansionList } from 'react-md/lib/ExpansionPanels';
+import { ExpansionPanelNoPadding, ExpansionPanel } from 'components/ExpansionList';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
@@ -21,12 +21,6 @@ import Breadcrumbs from 'modules/Breadcrumbs';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
-
-const ExpansionPanelNoPadding = styled(ExpansionPanel)`
-  .md-panel-content {
-    padding: 0;
-  }
-`;
 
 const ContainerForm = (props) => {
   const { values, params, container } = props;
@@ -42,7 +36,8 @@ const ContainerForm = (props) => {
     <div>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+          <Card className={props.inlineMode ? 'flex-12 md-no-paper' : 'flex-10 flex-xs-12 flex-sm-12'}>
+            {props.inlineMode ? null :
             <CardTitle
               title={
                 <div>
@@ -51,7 +46,7 @@ const ContainerForm = (props) => {
                 </div>
               }
               subtitle={container.id ? container.id : null}
-            />
+            />}
             <CardText>
               <div className="flex-row">
                 <Field
@@ -176,6 +171,7 @@ const ContainerForm = (props) => {
 
             </CardText>
             {props.containerUpdatePending || props.pending ? <LinearProgress id="container-form-loading" /> : null}
+            {props.inlineMode ? null :
             <CardActions>
               <Button
                 flat
@@ -193,14 +189,14 @@ const ContainerForm = (props) => {
                 disabled={props.pristine || props.pending || props.containerUpdatePending || props.invalid || props.submitting}
                 primary
               />
-            </CardActions>
+            </CardActions>}
           </Card>
 
           {!values.properties.provider.id ? null :
           <div className="flex-row center-center">
-            <ExpansionList className="flex-10 flex-xs-12 flex-sm-12">
+            <ExpansionList className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               {!props.editMode ? <div /> : // react-md bug where expansion list children cannot be null
-              <ExpansionPanelNoPadding label="Details" saveLabel="Collapse" defaultExpanded>
+              <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
                 <div className="flex-row">
                   <div className="flex-12">
                     <ContainerDetails container={values} />
@@ -209,7 +205,7 @@ const ContainerForm = (props) => {
               </ExpansionPanelNoPadding>}
 
               {!values.properties.network ? <div /> :
-              <ExpansionPanelNoPadding label="Port Mappings" saveLabel="Collapse">
+              <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse">
                 <div className="flex-row">
                   <div className="flex-12">
                     <NetworkModal networkType={values.properties.network} />
@@ -228,7 +224,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanelNoPadding>}
 
-              <ExpansionPanelNoPadding label="Volumes" saveLabel="Collapse">
+              <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse">
                 <div className="flex-row">
                   <div className="flex-12">
                     <VolumeModal />
@@ -247,7 +243,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanelNoPadding>
 
-              <ExpansionPanel label="Variables" saveLabel="Collapse">
+              <ExpansionPanel label={<h3>Variables</h3>} saveLabel="Collapse">
                 <div className="flex-row">
                   <div className="flex-12">
                     <VariablesForm icon="list" {...props} />
@@ -255,7 +251,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanel>
 
-              <ExpansionPanel label="Labels" saveLabel="Collapse">
+              <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse">
                 <div className="flex-row">
                   <div className="flex-12">
                     <VariablesForm addButtonLabel="Add Label" icon="label" fieldName="labels" {...props} />
@@ -263,7 +259,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanel>
 
-              <ExpansionPanelNoPadding label="Health Checks" saveLabel="Collapse">
+              <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse">
                 <div className="flex-row">
                   <div className="flex-12">
                     <HealthCheckModal />
@@ -282,7 +278,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanelNoPadding>
 
-              <ExpansionPanel label="Optional" saveLabel="Collapse">
+              <ExpansionPanel label={<h3>Optional</h3>}saveLabel="Collapse">
                 <Field
                   className="flex-5 flex-xs-12"
                   component={TextField}
@@ -341,6 +337,7 @@ ContainerForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
+  inlineMode: PropTypes.bool,
 };
 
 ContainerForm.defaultProps = {
@@ -350,6 +347,7 @@ ContainerForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  inlineMode: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

@@ -5,7 +5,7 @@ import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 
-const renderLinkedProviders = ({ fields, touched, error, fetchProviders, providers, pendingProviders }) => (
+const renderLinkedProviders = ({ fields, touched, error, fetchProviders, providers }) => (
   <FormSection name="">
     <Button
       flat
@@ -39,7 +39,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           errorText={touched && error}
           lineDirection="center"
           required
-          menuItems={pendingProviders ? ['fetching providers...'] : providers}
+          menuItems={providers}
           onFocus={() => fetchProviders()}
         />
         <FieldRemoveButton onClick={() => fields.remove(index)} />
@@ -50,7 +50,6 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
 
 renderLinkedProviders.propTypes = {
   fetchProviders: PropTypes.func.isRequired,
-  pendingProviders: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
   fields: PropTypes.object.isRequired,
   touched: PropTypes.bool,

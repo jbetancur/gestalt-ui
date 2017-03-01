@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-import { Field, getFormValues } from 'redux-form';
+import { Field, getFormValues, isInvalid } from 'redux-form';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -9,22 +8,18 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FileInput from 'react-md/lib/FileInputs';
-import { ExpansionList, ExpansionPanel } from 'react-md/lib/ExpansionPanels';
+import { ExpansionList } from 'react-md/lib/ExpansionPanels';
+import { ExpansionPanelNoPadding } from 'components/ExpansionList';
 import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { VariablesForm } from 'modules/Variables';
+import ContainerCreate from 'modules/Containers/containers/ContainerCreate';
 import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
-
-const ExpansionPanelNoPadding = styled(ExpansionPanel)`
-  .md-panel-content {
-    padding: 0;
-  }
-`;
 
 const ProviderForm = (props) => {
   const { provider, change, reset, values, params, router } = props;
@@ -215,7 +210,7 @@ const ProviderForm = (props) => {
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={props.pristine || props.updatePending || props.pending || props.invalid || props.submitting}
+                disabled={props.pristine || props.updatePending || props.pending || props.invalid || props.submitting || props.containerCreateInvalid}
                 primary
               />
             </CardActions>
@@ -225,14 +220,20 @@ const ProviderForm = (props) => {
         {!selectedProviderType.type ? null :
         <div className="flex-row center-center">
           <ExpansionList className="flex-10 flex-xs-12 flex-sm-12">
-            <ExpansionPanelNoPadding label="Linked Providers" saveLabel="Collapse">
+            <ExpansionPanelNoPadding label={<h3>Linked Providers</h3>} saveLabel="Collapse">
               <div className="flex-row">
                 <div className="flex-12">
                   <LinkedProviders fetchProviders={getProviders} providers={props.providers} pendingProviders={props.pendingProviders} />
                 </div>
               </div>
             </ExpansionPanelNoPadding>
+
+            {props.editMode ? <div /> :
+            <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
+              <ContainerCreate params={props.params} inlineMode />
+            </ExpansionPanelNoPadding>}
           </ExpansionList>
+
         </div>}
       </form>
     </div>
@@ -262,6 +263,8 @@ ProviderForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
+  containerCreateInvalid: PropTypes.bool.isRequired,
+  editMode: PropTypes.bool,
 };
 
 ProviderForm.defaultProps = {
@@ -272,11 +275,13 @@ ProviderForm.defaultProps = {
   cancelLabel: 'Cancel',
   provider: {},
   updatePending: false,
+  editMode: false,
 };
 
 // Connect to this forms state in the store so we can enum the values
 export default connect(
   (state, props) => ({
-    values: getFormValues(props.form)(state)
+    values: getFormValues(props.form)(state),
+    containerCreateInvalid: isInvalid('containerCreate')(state),
   })
 )(ProviderForm);

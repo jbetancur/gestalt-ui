@@ -120,7 +120,7 @@ class ProviderEdit extends Component {
 
   render() {
     const { provider, pending } = this.props;
-    return pending ? <CircularActivity id="provider-load" /> : <ProviderForm title={provider.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.update(values)} {...this.props} />;
+    return pending ? <CircularActivity id="provider-load" /> : <ProviderForm editMode title={provider.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.update(values)} {...this.props} />;
   }
 }
 
