@@ -37,6 +37,7 @@ const EnhancedUIVersionDiv = styled.div`
 
 class App extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     fetchSelf: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
@@ -65,7 +66,7 @@ class App extends Component {
     // sets our current logged in users home org
     this.props.fetchSelf();
     // we have to make an additional call here to set the currentOrgState
-    // This is mainly to appease browser refresh where we lose currentOrg state
+    // This is mainly to appease browser refresh where we lose currentOrg state and wont run when there is blank fqon in the url
     if (this.props.params.fqon) {
       this.props.setCurrentOrgContextfromState(this.props.params.fqon);
     }
@@ -82,9 +83,11 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // where there is no fqon in the url set the current org context
+    // where there is no fqon in the url set the current org context to gestalt_home - we can later manage this in a user profile setting
     if (nextProps.self !== this.props.self && !this.props.params.fqon) {
       this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
+      // Make Home the workspaces view - we can later manage this in a user profile setting
+      this.props.router.replace(`${nextProps.self.properties.gestalt_home.properties.fqon}/workspaces`);
     }
   }
 
