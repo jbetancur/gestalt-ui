@@ -4,7 +4,7 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    entitlements: state.entitlements.fetchAll.items,
+    entitlements: state.entitlements.fetchAll.entitlements,
     pending: state.entitlements.fetchAll.pending
   };
 }

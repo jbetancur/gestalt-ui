@@ -1,18 +1,21 @@
 import {
   FETCH_ENTITLEMENTS_PENDING,
   FETCH_ENTITLEMENTS_REJECTED,
-  FETCH_ENTITLEMENTS_FULFILLED
+  FETCH_ENTITLEMENTS_FULFILLED,
+  ENTITLEMENTS_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  items: [],
+  entitlements: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ENTITLEMENTS_UNLOADED:
+      return initialState;
     case FETCH_ENTITLEMENTS_PENDING:
       return {
         ...state,
@@ -23,7 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        items: action.payload
+        entitlements: action.payload
       };
     case FETCH_ENTITLEMENTS_REJECTED:
       return {

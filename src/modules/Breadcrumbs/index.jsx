@@ -59,7 +59,7 @@ class Breadcrumbs extends Component {
           <EnhancedLink
             to={`${currentOrgContext.properties.fqon}/workspaces`}
           >
-            workspaces
+            Workspaces
           </EnhancedLink> : null}
 
         {currentWorkspaceContext.id && params.workspaceId ? ` ${seperator} ` : null}
