@@ -5,7 +5,9 @@ import cookie from 'react-cookie';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import es from 'react-intl/locale-data/es';
 import axios from 'axios';
 import './style/style.scss';
 import routes from './routes';
@@ -51,9 +53,19 @@ axios.interceptors.response.use((config) => {
   Promise.reject(error);
 });
 
+// Locale
+// Define user's language. Different browsers have the user locale defined
+// on different fields on the `navigator` object, so we make sure to account
+// for these different by checking all of them
+const language = (navigator.languages && navigator.languages[0]) ||
+                     navigator.language ||
+                     navigator.userLanguage;
+
+addLocaleData([...en, ...es]);
+
 ReactDOM.render(
   <Provider store={store}>
-    <IntlProvider locale="en">
+    <IntlProvider locale={language}>
       <Router routes={routes(store)} history={history} />
     </IntlProvider>
   </Provider>,

@@ -104,15 +104,15 @@ class ProviderCreate extends Component {
       delete model.properties.services[0].container.labels;
     }
 
-    if (this.props.volumes) {
+    if (this.props.volumes.length) {
       model.properties.services[0].container.properties.volumes = this.props.volumes;
     }
 
-    if (this.props.networks) {  // TODO: rename to portMappings
+    if (this.props.networks.length) {  // TODO: rename to portMappings
       model.properties.services[0].container.properties.port_mappings = this.props.networks;
     }
 
-    if (this.props.healthChecks) {
+    if (this.props.healthChecks.length) {
       model.properties.services[0].container.properties.health_checks = this.props.healthChecks;
     }
 
