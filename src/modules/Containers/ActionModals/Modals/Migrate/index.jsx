@@ -12,7 +12,6 @@ class MigrateModal extends PureComponent {
     provider: PropTypes.object.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
-    pendingProviders: PropTypes.bool.isRequired,
     providers: PropTypes.array.isRequired,
   };
 
@@ -68,7 +67,7 @@ class MigrateModal extends PureComponent {
                 className="flex-12"
                 label="Migrate to Provider"
                 lineDirection="center"
-                menuItems={this.props.pendingProviders ? ['fetching providers...'] : this.props.providers.filter(provider => provider.id !== this.props.provider.id)}
+                menuItems={this.props.providers.filter(provider => provider.id !== this.props.provider.id)}
                 itemLabel="name"
                 itemValue="id"
                 value={this.state.provider}
@@ -77,7 +76,7 @@ class MigrateModal extends PureComponent {
                 required
               />
             </div>
-          </div> : <span>There are no providers avaiable to migrate to</span>}
+          </div> : <span>There are no available providers to migrate to</span>}
       </Dialog>
     );
   }

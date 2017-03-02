@@ -7,7 +7,7 @@ const config = require('./config.json');
 
 exports.sourceMaps = () => (
   {
-    devtool: 'inline-source-map'
+    devtool: 'cheap-module-eval-source-map'
   }
 );
 
@@ -133,12 +133,17 @@ exports.generateConstants = env => (
     $$APP_TITLE$$: JSON.stringify(config[env].APP_TITLE),
     $$DOCUMENTATION_URL$$: JSON.stringify(config[env].DOCUMENTATION_URL),
     $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
+    'process.env': {
+      NODE_ENV: JSON.stringify(env), // needed by redux and react internally - otherwise not build specific to out codebase
+    }
   })
 );
 
-exports.devServer = function devServer({ host, port }) {
+exports.devServer = function devServer({ host, port, contentBase, compress }) {
   return {
     devServer: {
+      contentBase,
+      compress,
       // Enable history API fallback so HTML5 History API based
       // routing works. This is a good default that will come
       // in handy in more complicated setups.
@@ -146,7 +151,8 @@ exports.devServer = function devServer({ host, port }) {
 
       // Don't refresh if hot loading fails. If you want
       // refresh behavior, set hot: true instead.
-      hotOnly: true,
+      // hotOnly: true,
+      hot: true,
 
       // Display only errors to reduce the amount of output.
       stats: 'errors-only',

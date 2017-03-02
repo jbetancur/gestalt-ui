@@ -53,6 +53,7 @@ class WorkspaceItem extends Component {
         key="create-workspace--button"
         label="Create Workspace"
         flat
+        primary
         component={Link}
         to={`/${this.props.params.fqon}/workspaces/create`}
       >

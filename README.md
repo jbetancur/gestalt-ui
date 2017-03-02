@@ -43,9 +43,10 @@ yarn deploy -- --sha `git rev-parse --short=8 HEAD`
 ```
 
 ## Configuration
-If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing the following lines in `config.json`.
+If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing `config.json`.
 Otherwise, `config.json` can be automed via CI to inject the correct values before kicking off `yarn deploy`
-For example:
+
+Sample `config.json`:
 ```
 {
   "development": {
@@ -58,7 +59,8 @@ For example:
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
     "ANALYTICS_TRACKING": false,
-    "DEBUG": true
+    "DEBUG": true,
+    "DOCUMENTATION_URL": "http://docs.galacticfog.com"
   },
   "production": {
     "API_URL": "/meta",
@@ -70,7 +72,8 @@ For example:
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
     "ANALYTICS_TRACKING": true,
-    "DEBUG": false
+    "DEBUG": false,
+    "DOCUMENTATION_URL": "http://docs.galacticfog.com"
   }
 }
 ```
