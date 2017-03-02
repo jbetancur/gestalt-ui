@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
 import TimeAgo from 'react-timeago';
-import FontIcon from 'react-md/lib/FontIcons';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import IconText from 'components/IconText';
 import { Card, CardTitle } from 'components/GFCard';
@@ -52,12 +51,12 @@ class WorkspaceItem extends Component {
       <Button
         id="create-workspace"
         key="create-workspace--button"
-        label="Create"
+        label="Create Workspace"
         flat
         component={Link}
         to={`/${this.props.params.fqon}/workspaces/create`}
       >
-        <FontIcon>add</FontIcon>
+        add
       </Button>
     ];
   }

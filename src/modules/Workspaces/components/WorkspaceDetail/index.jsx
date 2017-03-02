@@ -8,6 +8,7 @@ import Divider from 'react-md/lib/Dividers';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
+import Button from 'react-md/lib/Buttons/Button';
 import Environments from 'modules/Environments';
 import Providers from 'modules/Providers';
 import Entitlements from 'modules/Entitlements';
@@ -86,27 +87,12 @@ class WorkspaceDetail extends Component {
           buttonChildren="more_vert"
         >
           <ListItem
-            id="workspaces-settings-menu--create"
-            primaryText="Create Environment"
-            leftIcon={<FontIcon>add</FontIcon>}
-            component={Link}
-            to={{
-              pathname: `/${params.fqon}/workspaces/${workspace.id}/createEnvironment`,
-              state: {
-                workspace,
-              },
-            }}
-          />
-          <ListItem
             id="workspaces-settings-menu--edit"
             primaryText={<span>Edit {workspace.description || workspace.name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             to={{
-              pathname: `/${params.fqon}/workspaces/${workspace.id}/edit`,
-              state: {
-                workspace,
-              },
+              pathname: `/${params.fqon}/workspaces/${workspace.id}/edit`
             }}
           />
           <Divider />
@@ -158,6 +144,21 @@ class WorkspaceDetail extends Component {
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>
+          <div style={{ textAlign: 'right' }}>
+            <Button
+              id="create-environment"
+              key="create-environment--button"
+              label="Create Environment"
+              flat
+              component={Link}
+              to={{
+                pathname: `/${params.fqon}/workspaces/${workspace.id}/createEnvironment`,
+
+              }}
+            >
+              add
+            </Button>
+          </div>
           <DetailCardText expandable>
             <IconText icon="short_text"><span>{workspace.name}</span></IconText>
             <IconText icon="access_time"><TimeAgo date={workspace.created.timestamp} /></IconText>
