@@ -107,7 +107,7 @@ module.exports = function test(env) {
     parts.sourceMaps(),
     parts.scssConfig({}),
     parts.devServer({
-      port: '8081',
+      port: 8081,
       contentBase: path.join(__dirname, PATHS.buildPath),
       compress: true,
     }),

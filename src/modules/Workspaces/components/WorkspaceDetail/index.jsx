@@ -150,6 +150,7 @@ class WorkspaceDetail extends Component {
               key="create-environment--button"
               label="Create Environment"
               flat
+              primary
               component={Link}
               to={{
                 pathname: `/${params.fqon}/workspaces/${workspace.id}/createEnvironment`,
