@@ -31,18 +31,10 @@ class OrgNavMenu extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      menuName: ''
-    };
   }
 
   componentWillUnmount() {
     this.props.onUnload();
-  }
-
-  setMenuName(menuName) {
-    this.setState({ menuName });
   }
 
   filterOrgs(value) {
@@ -64,7 +56,6 @@ class OrgNavMenu extends Component {
         primaryText={item.description || item.name}
         secondaryText={item.name}
         to={`/${item.properties.fqon}/organizations`}
-        onClick={() => this.setMenuName(item.name)}
       />
     );
   }
