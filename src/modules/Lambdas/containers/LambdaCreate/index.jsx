@@ -15,6 +15,7 @@ class LambdaCreate extends Component {
     onUnload: PropTypes.func.isRequired,
     pendingEnv: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
+    providers: PropTypes.array.isRequired,
   };
 
   componentWillMount() {
@@ -30,9 +31,9 @@ class LambdaCreate extends Component {
   create(values) {
     const { params, createLambda } = this.props;
     const payload = cloneDeep(values);
-
+    console.log(values.properties.providers);
     // TODO: Workaround: Lambda providers is really an array - should be an object
-    payload.properties.providers = [{ id: values.properties.providers, locations: [] }];
+    payload.properties.providers = [{ id: values.properties.providers, locations: this.props.providers.find(provider => provider.id === values.properties.providers).properties.locations }];
 
     // Clean up properties depending on lambda code_type
     if (values.properties.code_type === 'package') {
