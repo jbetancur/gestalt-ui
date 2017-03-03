@@ -14,7 +14,7 @@ module.exports = (config) => {
     browsers: ['PhantomJS'],
     singleRun: false,
     browserDisconnectTolerance: 10,
-    browserNoActivityTimeout: 90000,
+    browserNoActivityTimeout: 120000,
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
     plugins: [
       'karma-phantomjs-launcher',
@@ -37,7 +37,7 @@ module.exports = (config) => {
       stats: {
         colors: true,
       },
-      noInfo: true,
+      noInfo: false,
     },
     coverageReporter: {
       includeAllSources: true,
