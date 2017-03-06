@@ -92,6 +92,10 @@ stop_review:
     name: review/$CI_BUILD_REF_NAME
     action: stop
   when: manual
+  only: 
+    - branches
+  except: 
+    - develop
   tags:
     - test-cluster
 
