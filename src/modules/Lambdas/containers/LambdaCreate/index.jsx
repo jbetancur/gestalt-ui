@@ -31,7 +31,6 @@ class LambdaCreate extends Component {
   create(values) {
     const { params, createLambda } = this.props;
     const payload = cloneDeep(values);
-    console.log(values.properties.providers);
     // TODO: Workaround: Lambda providers is really an array - should be an object
     payload.properties.providers = [{ id: values.properties.providers, locations: this.props.providers.find(provider => provider.id === values.properties.providers).properties.locations }];
 

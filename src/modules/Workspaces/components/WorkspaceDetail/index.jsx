@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import cookie from 'react-cookie';
-import TimeAgo from 'react-timeago';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
@@ -9,10 +8,10 @@ import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
+import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import Environments from 'modules/Environments';
 import Providers from 'modules/Providers';
 import Entitlements from 'modules/Entitlements';
-import IconText from 'components/IconText';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { BackArrowButton } from 'components/Buttons';
 import { VariablesListing } from 'modules/Variables';
@@ -161,9 +160,11 @@ class WorkspaceDetail extends Component {
             </Button>
           </div>
           <DetailCardText expandable>
-            <IconText icon="short_text"><span>{workspace.name}</span></IconText>
-            <IconText icon="access_time"><TimeAgo date={workspace.created.timestamp} /></IconText>
-            <IconText icon="timelapse"><TimeAgo date={workspace.modified.timestamp} /></IconText>
+            <div><span className="gf-label">Name: </span><span className="gf-subtitle">{workspace.description || workspace.name}</span></div>
+            <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{workspace.name}</span></div>
+            <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={workspace.created.timestamp} /> (<FormattedDate value={workspace.created.timestamp} /> <FormattedTime value={workspace.created.timestamp} />)</span></div>
+            <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={workspace.modified.timestamp} /> (<FormattedDate value={workspace.modified.timestamp} /> <FormattedTime value={workspace.modified.timestamp} />)</span></div>
+            <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{workspace.id}</span></div>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <VariablesListing envMap={workspace.properties.env} />

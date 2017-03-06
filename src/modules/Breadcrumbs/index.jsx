@@ -16,10 +16,11 @@ const EnhancedLink = styled(Link)`
 
   &:hover {
       text-decoration: none;
+      color: black;
   }
 
   &:active {
-      text-decoration: underline;
+      text-decoration: none;
   }
 `;
 

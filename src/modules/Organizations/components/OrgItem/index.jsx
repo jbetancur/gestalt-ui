@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import TimeAgo from 'react-timeago';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -12,6 +11,7 @@ import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCa
 import { VariablesListing } from 'modules/Variables';
 import getParentFQON from 'util/helpers/fqon';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 
 class OrgItem extends Component {
   static propTypes = {
@@ -121,7 +121,7 @@ class OrgItem extends Component {
           subtitle={
             <div>
               <IconText icon="short_text"><div>{item.name}</div></IconText>
-              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} minPeriod={5} /></IconText>
+              <IconText icon="access_time"><FormattedRelative value={item.created.timestamp} /></IconText>
             </div>}
         />
       </Card>
@@ -155,9 +155,12 @@ class OrgItem extends Component {
               </div> : null}
           </DetailCardTitle>
           <DetailCardText expandable>
-            <IconText icon="short_text"><div>{organization.name}</div></IconText>
-            <IconText icon="access_time"><TimeAgo date={organization.created.timestamp} /></IconText>
-            <IconText icon="timelapse"><TimeAgo date={organization.modified.timestamp} /></IconText>
+            <div><span className="gf-label">Name: </span><span className="gf-subtitle">{organization.description || organization.name}</span></div>
+            <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{organization.name}</span></div>
+            <div><span className="gf-label">fqon: </span><span className="gf-subtitle">{organization.properties.fqon}</span></div>
+            <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={organization.created.timestamp} /> (<FormattedDate value={organization.created.timestamp} /> <FormattedTime value={organization.created.timestamp} />)</span></div>
+            <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={organization.modified.timestamp} /> (<FormattedDate value={organization.modified.timestamp} /> <FormattedTime value={organization.modified.timestamp} />)</span></div>
+            <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{organization.id}</span></div>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <VariablesListing envMap={organization.properties.env} />

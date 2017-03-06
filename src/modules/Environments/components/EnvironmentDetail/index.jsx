@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import cookie from 'react-cookie';
-import TimeAgo from 'react-timeago';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import FontIcon from 'react-md/lib/FontIcons';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import LambdaIcon from 'components/LambdaIcon';
 import Providers from 'modules/Providers';
 import Lambdas from 'modules/Lambdas';
@@ -16,7 +16,6 @@ import Policies from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import Entitlements from 'modules/Entitlements';
 import APIs from 'modules/APIs';
-import IconText from 'components/IconText';
 import { BackArrowButton } from 'components/Buttons';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
@@ -110,25 +109,21 @@ class EnvironmentDetail extends Component {
 
   renderThings(state) {
     switch (state) {
+      case 'containers':
+        return (
+          <Containers {...this.props} />
+        );
       case 'apis':
         return (
           <APIs {...this.props} />
-        );
-      case 'providers':
-        return (
-          <Providers {...this.props} />
         );
       case 'lambdas':
         return (
           <Lambdas {...this.props} />
         );
-      case 'entitlements':
+      case 'providers':
         return (
-          <Entitlements {...this.props} />
-        );
-      case 'containers':
-        return (
-          <Containers {...this.props} />
+          <Providers {...this.props} />
         );
       case 'policies':
         return (
@@ -137,6 +132,10 @@ class EnvironmentDetail extends Component {
       case 'integrations':
         return (
           <Integrations {...this.props} />
+        );
+      case 'entitlements':
+        return (
+          <Entitlements {...this.props} />
         );
       default:
         return <div />;
@@ -162,28 +161,31 @@ class EnvironmentDetail extends Component {
             </div>
           </DetailCardTitle>
           <DetailCardText expandable>
-            <IconText icon="short_text"><span>{environment.name}</span></IconText>
-            <IconText icon="work"><span>{environment.properties.workspace.name}</span></IconText>
-            <IconText icon="access_time"><TimeAgo date={environment.created.timestamp} /></IconText>
-            <IconText icon="timelapse"><TimeAgo date={environment.modified.timestamp} /></IconText>
-            <IconText icon="folder"><span>{environment.properties.environment_type}</span></IconText>
+            <div><span className="gf-label">Name: </span><span className="gf-subtitle">{environment.description || environment.name}</span></div>
+            <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{environment.name}</span></div>
+            <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
+            <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
+            <div><span className="gf-label">Environment Type: </span><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
+            <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{environment.id}</span></div>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <VariablesListing envMap={environment.properties.env} />
               </div>
             </div>
           </DetailCardText>
+          {/* make sure you edit the navigation reducer initial state index to match # of tabs + 1! */}
           <TabsContainer themed defaultTabIndex={navigation.index}>
             <Tabs tabId="environment-app-tabs">
-              <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 0)} />
-              <Tab label="APIS" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 1)} />
-              <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 2)} />
-              <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
-              <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 4)} />
-              <Tab label="Providers" id="providers" icon={<FontIcon>cloud</FontIcon>} onClick={() => this.handleViewState('providers', 5)} />
+              <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 0)} />
+              <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 1)} />
+              <Tab label="APIS" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 2)} />
+              <Tab label="Providers" id="providers" icon={<FontIcon>cloud</FontIcon>} onClick={() => this.handleViewState('providers', 3)} />
+              <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 4)} />
+              { /* <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 5)} /> */}
               <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 6)} />
               <Tab id="hidden" style={{ position: 'fixed', left: '-300px', zIndex: -999999 }} />
             </Tabs>
+            {/* Hack above for hiding ugly sliders on react-md tab component when no tab is selected */}
           </TabsContainer>
           {pending ? this.renderProgress() : null}
         </DetailCard>

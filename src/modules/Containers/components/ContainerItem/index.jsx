@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import TimeAgo from 'react-timeago';
+import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import DataTable from 'react-md/lib/DataTables/DataTable';
@@ -102,7 +102,7 @@ class ContainerItem extends Component {
         <EnhancedTableColumn>{container.properties.cpus}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.memory}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.container_type}</EnhancedTableColumn>
-        <EnhancedTableColumn>{!container.properties.age ? null : <TimeAgo date={container.properties.age} />}</EnhancedTableColumn>
+        <EnhancedTableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</EnhancedTableColumn>
       </TableRow>
       ));
 

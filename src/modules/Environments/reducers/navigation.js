@@ -4,7 +4,7 @@ import {
 
 const initialState = {
   view: '',
-  index: 7
+  index: 6
 };
 
 export default (state = initialState, action) => {
