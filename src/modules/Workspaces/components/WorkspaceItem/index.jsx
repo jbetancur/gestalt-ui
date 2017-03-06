@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
-import TimeAgo from 'react-timeago';
+import { FormattedRelative } from 'react-intl';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import IconText from 'components/IconText';
 import { Card, CardTitle } from 'components/GFCard';
@@ -78,7 +78,7 @@ class WorkspaceItem extends Component {
           subtitle={
             <div>
               <IconText icon="short_text"><div>{item.name}</div></IconText>
-              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
+              <IconText icon="access_time"><FormattedRelative value={item.created.timestamp} /></IconText>
             </div>
           }
         />

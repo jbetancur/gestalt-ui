@@ -12,10 +12,14 @@ class ProviderCreate extends Component {
     createProvider: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     /* container related */
-    containerValues: PropTypes.object.isRequired,
+    containerValues: PropTypes.object,
     volumes: PropTypes.array.isRequired,
     networks: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
+  };
+
+  static defaultProps = {
+    containerValues: {},
   };
 
   componentWillUnmount() {

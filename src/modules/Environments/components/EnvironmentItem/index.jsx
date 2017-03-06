@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import TimeAgo from 'react-timeago';
+import { FormattedRelative } from 'react-intl';
 import IconText from 'components/IconText';
 import CircularActivity from 'components/CircularActivity';
 import { Card, CardTitle } from 'components/GFCard';
@@ -73,7 +73,7 @@ class EnvironmentItem extends Component {
             <div>
               <IconText icon="short_text"><span>{item.name}</span></IconText>
               <IconText icon="description"><span>{item.properties.environment_type}</span></IconText>
-              <IconText icon="access_time"><TimeAgo date={item.created.timestamp} /></IconText>
+              <IconText icon="access_time"><FormattedRelative value={item.created.timestamp} /></IconText>
             </div>
           }
         />
