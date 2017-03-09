@@ -27,7 +27,7 @@ function fixProperties(data) {
   const payload = { ...data };
   // TODO: providers such as kubernetes do not have this field plus the API refuses to populate a standard schema
   // May split out providers types into their own respective modules/forms
-  if (!payload.properties.config) {
+  if (payload.properties.config && !payload.properties.config.env) {
     payload.properties.config = { env: { public: {}, private: {} } };
   }
 

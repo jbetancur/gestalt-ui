@@ -90,34 +90,34 @@ class ProviderCreate extends Component {
 
     // Handle our container Form and map to the provider model
     if (this.props.containerValues) {
-      model.properties.services[0].container = this.props.containerValues;
+      model.properties.services[0].container_spec = this.props.containerValues;
 
       if (this.props.containerValues.variables) {
         this.props.containerValues.variables.forEach((variable) => {
-          model.properties.services[0].container.properties.env[variable.name] = variable.value;
+          model.properties.services[0].container_spec.properties.env[variable.name] = variable.value;
         });
       }
 
       if (this.props.containerValues.labels) {
         this.props.containerValues.labels.forEach((label) => {
-          model.properties.services[0].container.properties.labels[label.name] = label.value;
+          model.properties.services[0].container_spec.properties.labels[label.name] = label.value;
         });
       }
 
-      delete model.properties.services[0].container.variables;
-      delete model.properties.services[0].container.labels;
+      delete model.properties.services[0].container_spec.variables;
+      delete model.properties.services[0].container_spec.labels;
     }
 
     if (this.props.volumes.length) {
-      model.properties.services[0].container.properties.volumes = this.props.volumes;
+      model.properties.services[0].container_spec.properties.volumes = this.props.volumes;
     }
 
     if (this.props.networks.length) {  // TODO: rename to portMappings
-      model.properties.services[0].container.properties.port_mappings = this.props.networks;
+      model.properties.services[0].container_spec.properties.port_mappings = this.props.networks;
     }
 
     if (this.props.healthChecks.length) {
-      model.properties.services[0].container.properties.health_checks = this.props.healthChecks;
+      model.properties.services[0].container_spec.properties.health_checks = this.props.healthChecks;
     }
 
     // Create it
@@ -158,7 +158,7 @@ function mapStateToProps(state) {
             binding: 'eager',
             singleton: true
           },
-          container: {
+          container_spec: {
 
           }
         },

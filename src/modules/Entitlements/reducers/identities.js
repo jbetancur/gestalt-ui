@@ -1,15 +1,14 @@
 import {
-  FETCH_ENTITLEMENTS_PENDING,
-  FETCH_ENTITLEMENTS_REJECTED,
-  FETCH_ENTITLEMENTS_FULFILLED,
+  FETCH_IDENTITIES_PENDING,
+  FETCH_IDENTITIES_REJECTED,
+  FETCH_IDENTITIES_FULFILLED,
   ENTITLEMENTS_UNLOADED,
-  UDPATE_ENTITLEMENT_TOGGLE_STATE,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  entitlements: [],
+  identities: [],
   error: null,
 };
 
@@ -17,28 +16,23 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ENTITLEMENTS_UNLOADED:
       return initialState;
-    case FETCH_ENTITLEMENTS_PENDING:
+    case FETCH_IDENTITIES_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_ENTITLEMENTS_FULFILLED:
+    case FETCH_IDENTITIES_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        entitlements: action.payload,
+        identities: action.payload,
       };
-    case FETCH_ENTITLEMENTS_REJECTED:
+    case FETCH_IDENTITIES_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
-      };
-    case UDPATE_ENTITLEMENT_TOGGLE_STATE:
-      return {
-        ...state,
-        entitlements: action.payload,
       };
     default:
       return state;
