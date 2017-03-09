@@ -11,7 +11,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    environments: sortBy(state.environments.fetchAll.environments, ['environment_type', 'name']),
+    environments: sortBy(state.environments.fetchAll.environments, ['created.timestamp', 'description', 'name']),
     pending: state.environments.fetchAll.pending
   };
 }
