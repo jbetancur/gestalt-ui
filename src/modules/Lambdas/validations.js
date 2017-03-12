@@ -8,11 +8,14 @@ export default (values) => {
     properties: {
       env: {},
       headers: {},
+      provider: {
+        id: '',
+      },
     }
   };
 
-  if (!values.properties.providers) {
-    errors.properties.providers = 'a provider is required';
+  if (values.properties.provider && !values.properties.provider.id) {
+    errors.properties.provider.id = 'a provider is required';
   }
 
   if (!values.name) {

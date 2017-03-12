@@ -11,7 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 import policyTypes from '../../lists/policyTypes';
 
 class PolicyRuleItem extends Component {
@@ -110,7 +110,7 @@ class PolicyRuleItem extends Component {
         <TableColumn>{policyRule.description}</TableColumn>
         <TableColumn>{policyRule.resource_type.split('::')[policyRule.resource_type.split('::').length - 1]}</TableColumn>
         <TableColumn>{policyRule.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={policyRule.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={policyRule.created.timestamp} /> <FormattedTime value={policyRule.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 

@@ -10,7 +10,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 import Breadcrumbs from 'modules/Breadcrumbs';
 
 class GroupItem extends Component {
@@ -93,7 +93,7 @@ class GroupItem extends Component {
       <TableRow key={group.id} onClick={e => this.edit(group, e)}>
         <TableColumn>{group.name}</TableColumn>
         <TableColumn>{group.description}</TableColumn>
-        <TableColumn><FormattedDate value={group.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={group.created.timestamp} /> <FormattedTime value={group.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 

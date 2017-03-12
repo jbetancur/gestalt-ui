@@ -8,6 +8,7 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import Divider from 'react-md/lib/Dividers';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
@@ -23,7 +24,7 @@ const LambdaForm = (props) => {
   const { values, params, lambda } = props;
 
   const fetchProviders = () => {
-    props.fetchProviders(params.fqon, params.environmentId, 'ApiGateway');
+    props.fetchProviders(params.fqon, params.environmentId, 'Kong');
   };
 
   const getRuntime = () => runTimes.filter(runtime => runtime.value === values.properties.runtime)[0] || '';
@@ -52,7 +53,7 @@ const LambdaForm = (props) => {
                   id="select-provider"
                   className="flex-4 flex-xs-12"
                   component={SelectField}
-                  name="properties.providers"
+                  name="properties.provider.id"
                   required
                   label="Provider"
                   itemLabel="name"
@@ -60,6 +61,7 @@ const LambdaForm = (props) => {
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
                   onFocus={() => fetchProviders()}
+                  // disabled={props.editMode}
                 />
                 <Field
                   id="select-runtime"
@@ -108,7 +110,6 @@ const LambdaForm = (props) => {
                   required
                   errorText={props.touched && props.error}
                   maxLength={nameMaxLen}
-                  lineDirection="center"
                 />
                 <Field
                   className="flex-5 flex-xs-12"
@@ -117,7 +118,6 @@ const LambdaForm = (props) => {
                   label="Description"
                   type="text"
                   maxLength={descriptionMaxLen}
-                  lineDirection="center"
                 />
                 <Field
                   className="flex-1 flex-xs-12"
@@ -130,7 +130,6 @@ const LambdaForm = (props) => {
                   type="number"
                   required
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
@@ -144,7 +143,6 @@ const LambdaForm = (props) => {
                   type="number"
                   required
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
@@ -157,7 +155,6 @@ const LambdaForm = (props) => {
                   type="number"
                   required
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
@@ -170,7 +167,6 @@ const LambdaForm = (props) => {
                   type="text"
                   required
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   disabled={props.editMode}
                 />
                 {values.properties.code_type === 'package' ?
@@ -182,7 +178,7 @@ const LambdaForm = (props) => {
                     type="text"
                     required
                     errorText={props.touched && props.error}
-                    lineDirection="center"
+
                   /> : null}
                 {values.properties.code_type === 'package' ?
                   <Field
@@ -236,6 +232,7 @@ const LambdaForm = (props) => {
                     />
                   </div> : null}
               </div>
+              <Divider />
               <div className="flex-row">
                 <div className="flex-12">
                   <VariablesForm icon="list" {...props} />

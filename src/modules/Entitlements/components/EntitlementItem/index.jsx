@@ -8,6 +8,8 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import Button from 'react-md/lib/Buttons/Button';
+import TextField from 'react-md/lib/TextFields';
+import CardSubHeader from 'components/CardSubHeader';
 import EntitlementTree from '../EntitlementTree';
 import { USER } from '../../constants';
 
@@ -31,6 +33,9 @@ class EntitlementItem extends Component {
     updateEntitlements: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
+    clearIdentitiesFilter: PropTypes.func.isRequired,
+    filterIdentities: PropTypes.func.isRequired,
+    identitiesFilter: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -108,6 +113,18 @@ class EntitlementItem extends Component {
               <fieldset>
                 <legend>Users & Groups</legend>
                 <MembersList>
+                  <CardSubHeader
+                    primaryText={<TextField
+                      id="filter-identities-remove"
+                      label="filter identities"
+                      leftIcon={<FontIcon>filter_list</FontIcon>}
+                      rightIcon={<Button icon onClick={() => this.props.clearIdentitiesFilter()}><FontIcon>clear</FontIcon></Button>}
+                      lineDirection="center"
+                      value={this.props.identitiesFilter.filterText}
+                      disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements}
+                      onChange={value => this.props.filterIdentities(value)}
+                    />}
+                  />
                   {this.props.pendingIdentities ? <CircularProgress id="identities-loading" centered scale={2} /> : identities}
                 </MembersList>
               </fieldset>

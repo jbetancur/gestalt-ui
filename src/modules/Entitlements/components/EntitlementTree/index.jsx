@@ -48,8 +48,9 @@ class EntitlementTreeItems extends PureComponent {
   render() {
     return (
       <div className="flex-row">
-        {!this.props.entitlements.length ? null : <fieldset>
-          <legend>{this.props.selectedIdentity.name}</legend>
+        {!this.props.entitlements.length ? null :
+        <fieldset>
+          <legend>{`Entitlements for ${this.props.selectedIdentity.name}`}</legend>
           <div className="flex-row">
             {this.props.entitlements.map(entitlement =>
               <UL key={entitlement.type}>

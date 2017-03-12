@@ -46,15 +46,7 @@ class ProviderCreate extends Component {
             private: {},
           },
         },
-        services: [
-          {
-            init: {
-              binding: 'eager',
-              singleton: true
-            },
-            container: {}
-          },
-        ],
+        services: [],
         linked_providers: values.linkedProviders,
         locations: properties.locations
       }
@@ -89,7 +81,16 @@ class ProviderCreate extends Component {
 
 
     // Handle our container Form and map to the provider model
-    if (this.props.containerValues) {
+    if (Object.keys(this.props.containerValues).length) {
+      const containerServiceModel = {
+        init: {
+          binding: 'eager',
+          singleton: true
+        },
+        container_spec: {},
+      };
+
+      model.properties.services.push(containerServiceModel);
       model.properties.services[0].container_spec = this.props.containerValues;
 
       if (this.props.containerValues.variables) {
@@ -152,18 +153,8 @@ function mapStateToProps(state) {
         },
       },
       linked_providers: [],
-      services: [
-        {
-          init: {
-            binding: 'eager',
-            singleton: true
-          },
-          container_spec: {
-
-          }
-        },
-      ],
-      locations: [{ name: 'tobeimplemented', enabled: true }]
+      services: [],
+      locations: []
     },
     publicVariables: state.providers.selectedProviderSchema.public,
     privateVariables: state.providers.selectedProviderSchema.private

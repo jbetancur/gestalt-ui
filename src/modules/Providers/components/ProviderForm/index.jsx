@@ -17,6 +17,7 @@ import SelectField from 'components/SelectField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { VariablesForm } from 'modules/Variables';
 import ContainerCreate from 'modules/Containers/containers/ContainerCreate';
+import ContainerDetails from 'modules/Containers/components/ContainerDetails';
 import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
@@ -232,8 +233,16 @@ const ProviderForm = (props) => {
             <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
               <ContainerCreate params={props.params} inlineMode />
             </ExpansionPanelNoPadding>}
-          </ExpansionList>
 
+            {!props.editMode ? <div /> : // react-md bug where expansion list children cannot be null
+            <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
+              <div className="flex-row">
+                <div className="flex-12">
+                  <ContainerDetails container={props.container} />
+                </div>
+              </div>
+            </ExpansionPanelNoPadding>}
+          </ExpansionList>
         </div>}
       </form>
     </div>
@@ -265,6 +274,7 @@ ProviderForm.propTypes = {
   cancelLabel: PropTypes.string,
   containerCreateInvalid: PropTypes.bool.isRequired,
   editMode: PropTypes.bool,
+  container: PropTypes.object,
 };
 
 ProviderForm.defaultProps = {
@@ -276,6 +286,7 @@ ProviderForm.defaultProps = {
   provider: {},
   updatePending: false,
   editMode: false,
+  container: {},
 };
 
 // Connect to this forms state in the store so we can enum the values

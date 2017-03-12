@@ -1,0 +1,10 @@
+// Fix for react-md next/sanitize
+a[type=button] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Override stupid chrome autofill yellow inputs ;) */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px $md-white inset;
+}

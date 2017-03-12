@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import DataTable from 'react-md/lib/DataTables/DataTable';
 import TableHeader from 'react-md/lib/DataTables/TableHeader';
@@ -99,7 +99,7 @@ class UserItem extends Component {
         <TableColumn>{user.properties.lastName}</TableColumn>
         <TableColumn>{user.properties.phoneNumber}</TableColumn>
         <TableColumn>{user.properties.email}</TableColumn>
-        <TableColumn><FormattedDate value={user.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={user.created.timestamp} /> <FormattedTime value={user.created.timestamp} /></TableColumn>
         <TableColumn>{user.properties.gestalt_home}</TableColumn>
       </TableRow>
       ));

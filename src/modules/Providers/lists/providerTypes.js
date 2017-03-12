@@ -31,12 +31,12 @@ export default[
     extraConfig: true,
     uploadConfig: false,
   },
-  {
-    name: 'Security',
-    value: 'Gestalt::Configuration::Provider::Security',
-    type: 'GATEWAYMANAGER',
-    networking: false,
-    extraConfig: false,
-    uploadConfig: false,
-  },
+  // {
+  //   name: 'Security',
+  //   value: 'Gestalt::Configuration::Provider::Security',
+  //   type: 'GATEWAYMANAGER',
+  //   networking: false,
+  //   extraConfig: false,
+  //   uploadConfig: false,
+  // },
 ];

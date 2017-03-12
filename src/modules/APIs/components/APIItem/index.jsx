@@ -10,7 +10,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 
 class APIItem extends Component {
   static propTypes = {
@@ -94,7 +94,7 @@ class APIItem extends Component {
         <TableColumn>{api.name}</TableColumn>
         <TableColumn>{api.description}</TableColumn>
         <TableColumn>{api.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={api.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={api.created.timestamp} /> <FormattedTime value={api.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 

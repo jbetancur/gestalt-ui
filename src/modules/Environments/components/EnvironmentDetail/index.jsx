@@ -166,6 +166,7 @@ class EnvironmentDetail extends Component {
             <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
             <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
             <div><span className="gf-label">Environment Type: </span><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
+            <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{environment.owner.name}</span></div>
             <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{environment.id}</span></div>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">

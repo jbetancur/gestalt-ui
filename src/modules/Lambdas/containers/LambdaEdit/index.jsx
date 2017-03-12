@@ -23,7 +23,7 @@ class LambdaEdit extends Component {
   componentWillMount() {
     const { params, fetchLambda, fetchProviders } = this.props;
     // init providers dropdown
-    fetchProviders(params.fqon, params.environmentId, 'ApiGateway');
+    fetchProviders(params.fqon, params.environmentId, 'Kong');
     fetchLambda(params.fqon, params.lambdaId, params.environmentId);
   }
 
@@ -50,7 +50,7 @@ class LambdaEdit extends Component {
         public: properties.public,
         synchronous: properties.synchronous,
         runtime: properties.runtime,
-        providers: properties.provider,
+        provider: properties.provider,
       }
     };
 
@@ -85,7 +85,7 @@ class LambdaEdit extends Component {
         public: properties.public,
         synchronous: properties.synchronous,
         runtime: properties.runtime,
-        providers: properties.provider,
+        provider: properties.provider,
       }
     };
 
@@ -133,8 +133,7 @@ function mapStateToProps(state) {
       public: lambda.properties.public,
       synchronous: lambda.properties.synchronous,
       runtime: lambda.properties.runtime,
-      // Providers is really an array of {id, locations[]}
-      providers: lambda.properties.providers && lambda.properties.providers.length ? lambda.properties.providers[0].id : '',
+      provider: lambda.properties.provider,
     },
     variables
   };

@@ -4,9 +4,9 @@ import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
+import Button from 'react-md/lib/Buttons/Button';
 import { BackArrowButton } from 'components/Buttons';
-import IconText from 'components/IconText';
-import { Card, CardTitle } from 'components/GFCard';
+import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
 import getParentFQON from 'util/helpers/fqon';
@@ -57,12 +57,21 @@ class OrgItem extends Component {
     this.props.onUnloadSet();
   }
 
-  navToSubOrgs(item) {
+  navToSubOrgs(organization) {
     const { router, setCurrentOrgContext } = this.props;
 
-    router.push(`/${item.properties.fqon}/organizations`);
+    router.push(`/${organization.properties.fqon}/organizations`);
     // Update the current Org Context so we can track the org we are in
-    setCurrentOrgContext(item);
+    setCurrentOrgContext(organization);
+  }
+
+  navToWorkspaces(e, organization) {
+    e.stopPropagation();
+
+    const { router, setCurrentOrgContext } = this.props;
+
+    router.push(`${organization.properties.fqon}/workspaces`);
+    setCurrentOrgContext(organization);
   }
 
   delete() {
@@ -120,10 +129,23 @@ class OrgItem extends Component {
           title={item.description || item.name || 'test'}
           subtitle={
             <div>
-              <IconText icon="short_text"><div>{item.name}</div></IconText>
-              <IconText icon="access_time"><FormattedRelative value={item.created.timestamp} /></IconText>
+              <div>{item.properties.fqon}</div>
+              {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
+              {!item.owner.name ? null : <div className="gf-caption">owner: {item.owner.name}</div>}
+              <div className="gf-caption">created <FormattedRelative value={item.created.timestamp} /></div>
+              <div className="gf-caption">modified <FormattedRelative value={item.modified.timestamp} /></div>
             </div>}
         />
+        <CardActions>
+          <Button
+            label="Workspaces"
+            flat
+            primary
+            onClick={e => this.navToWorkspaces(e, item)}
+          >
+          work
+          </Button>
+        </CardActions>
       </Card>
     );
   }
@@ -160,6 +182,8 @@ class OrgItem extends Component {
             <div><span className="gf-label">fqon: </span><span className="gf-subtitle">{organization.properties.fqon}</span></div>
             <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={organization.created.timestamp} /> (<FormattedDate value={organization.created.timestamp} /> <FormattedTime value={organization.created.timestamp} />)</span></div>
             <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={organization.modified.timestamp} /> (<FormattedDate value={organization.modified.timestamp} /> <FormattedTime value={organization.modified.timestamp} />)</span></div>
+            {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
+            {!organization.owner.name ? null : <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{organization.owner.name}</span></div>}
             <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{organization.id}</span></div>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
