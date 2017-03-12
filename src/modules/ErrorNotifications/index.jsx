@@ -21,7 +21,8 @@ class ErrorNotifications extends PureComponent {
 
     this.state = {
       toasts: [],
-      autohide: false
+      autohide: true,
+      autohideTimeout: 10000,
     };
   }
 
@@ -49,7 +50,9 @@ class ErrorNotifications extends PureComponent {
   render() {
     return (
       <div className="btn-group">
-        <EnhancedSnackBar {...this.state} onDismiss={() => this.removeToast()} />
+        <EnhancedSnackBar
+          {...this.state} onDismiss={() => this.removeToast()}
+        />
       </div>
     );
   }

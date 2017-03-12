@@ -10,7 +10,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 
 class LambdaItem extends Component {
   static propTypes = {
@@ -106,7 +106,7 @@ class LambdaItem extends Component {
         </TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={lambda.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={lambda.created.timestamp} /> <FormattedTime value={lambda.created.timestamp} /></TableColumn>
         <TableColumn><FontIcon>more_vert</FontIcon></TableColumn>
       </TableRow>
       ));

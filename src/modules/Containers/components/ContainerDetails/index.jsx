@@ -6,11 +6,14 @@ import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import TableCardHeader from 'react-md/lib/DataTables/TableCardHeader';
 
-class ContainerInstances extends Component {
+class ContainerDetails extends Component {
   static propTypes = {
     container: PropTypes.object.isRequired
   };
 
+  constructor(props) {
+    super(props);
+  }
 
   renderInstancesRows() {
     return this.props.container.properties.instances.map((item, i) => (
@@ -89,4 +92,4 @@ class ContainerInstances extends Component {
   }
 }
 
-export default ContainerInstances;
+export default ContainerDetails;

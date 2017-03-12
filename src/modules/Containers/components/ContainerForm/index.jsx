@@ -199,7 +199,7 @@ const ContainerForm = (props) => {
               <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
                 <div className="flex-row">
                   <div className="flex-12">
-                    <ContainerDetails container={values} />
+                    <ContainerDetails container={props.container} />
                   </div>
                 </div>
               </ExpansionPanelNoPadding>}
@@ -287,15 +287,17 @@ const ContainerForm = (props) => {
                   type="text"
                   errorText={props.touched && props.error}
                   lineDirection="center"
+                  helpText="Comma delimited set of constraints"
                 />
                 <Field
                   className="flex-5 flex-xs-12"
                   component={TextField}
-                  name="properties.resources"
+                  name="properties.accepted_resource_roles"
                   label="Resource Roles"
                   type="text"
                   errorText={props.touched && props.error}
                   lineDirection="center"
+                  helpText="Comma delimited set of resource roles"
                 />
                 <Field
                   className="flex-3 flex-xs-12"
@@ -305,6 +307,7 @@ const ContainerForm = (props) => {
                   type="text"
                   errorText={props.touched && props.error}
                   lineDirection="center"
+                  helpText="unix formatted username"
                 />
               </ExpansionPanel>
             </ExpansionList>

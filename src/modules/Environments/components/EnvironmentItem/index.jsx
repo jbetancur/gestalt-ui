@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedRelative } from 'react-intl';
-import IconText from 'components/IconText';
 import CircularActivity from 'components/CircularActivity';
 import { Card, CardTitle } from 'components/GFCard';
 
@@ -66,14 +65,15 @@ class EnvironmentItem extends Component {
 
   renderCards(item) {
     return (
-      <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navEnvironmentDetails(item, e)}>
+      <Card key={item.id} className="flex-4 flex-xs-12 environment-card" onClick={e => this.navEnvironmentDetails(item, e)}>
         <CardTitle
           title={item.description || item.name}
           subtitle={
             <div>
-              <IconText icon="short_text"><span>{item.name}</span></IconText>
-              <IconText icon="description"><span>{item.properties.environment_type}</span></IconText>
-              <IconText icon="access_time"><FormattedRelative value={item.created.timestamp} /></IconText>
+              <div className="gf-caption"><span>type: {item.properties.environment_type}</span></div>
+              <div className="gf-caption">owner: {item.owner.name}</div>
+              <div className="gf-caption">created <FormattedRelative value={item.created.timestamp} /></div>
+              <div className="gf-caption">modified <FormattedRelative value={item.modified.timestamp} /></div>
             </div>
           }
         />

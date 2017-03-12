@@ -147,7 +147,6 @@ UserForm.propTypes = {
   organizations: PropTypes.array.isRequired,
   pendingOrgs: PropTypes.bool.isRequired,
   pending: PropTypes.bool.isRequired,
-  updatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   fetchAllOrgs: PropTypes.func.isRequired,
@@ -158,12 +157,14 @@ UserForm.propTypes = {
   error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
-  cancelLabel: PropTypes.string
+  cancelLabel: PropTypes.string,
+  updatePending: PropTypes.bool,
 };
 
 UserForm.defaultProps = {
   touched: false,
   error: false,
+  updatePending: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

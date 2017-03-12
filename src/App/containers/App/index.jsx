@@ -227,16 +227,17 @@ class App extends Component {
         <LoginModal />
         <ModalRoot />
         <NavigationDrawer
+          drawerTitle={<OrgNavMenu {...this.props} />}
+          toolbarTitle={this.renderAppLogo()}
+          autoclose
           contentClassName="md-grid--no-spacing"
           navItems={this.renderNavItems()}
           mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
-          autoclose
           tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
           desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
           toolbarActions={this.renderActionsMenu()}
-          drawerTitle={<OrgNavMenu {...this.props} />}
-          toolbarTitle={this.renderAppLogo()}
           onVisibilityToggle={visible => this.handleVisibleState(visible)}
+          defaultMedia="desktop"
         >
           {React.Children.toArray(this.props.children)}
           <ErrorNotifications />

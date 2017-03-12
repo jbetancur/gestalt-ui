@@ -19,6 +19,8 @@ import {
   UPDATE_ENTITLEMENTS_FULFILLED,
   UPDATE_ENTITLEMENTS_REJECTED,
   ENTITLEMENTS_UNLOADED,
+  FILTER_IDENTITIES_TEXT,
+  FILTER_IDENTITIES_TEXT_CLEAR
 } from './actionTypes';
 
 /**
@@ -194,6 +196,14 @@ export function setEntitlementToggleStates(entitlements, action, toggled, isTogg
     }
   });
 
-
   return { type: UDPATE_ENTITLEMENT_TOGGLE_STATE, payload: entitlements };
 }
+
+export function filterIdentities(predicate) {
+  return { type: FILTER_IDENTITIES_TEXT, filterText: predicate };
+}
+
+export function clearIdentitiesFilter() {
+  return { type: FILTER_IDENTITIES_TEXT_CLEAR };
+}
+

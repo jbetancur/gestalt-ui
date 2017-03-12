@@ -13,6 +13,7 @@ class ProviderEdit extends Component {
   static propTypes = {
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
+    fetchContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
@@ -21,12 +22,13 @@ class ProviderEdit extends Component {
   };
 
   componentWillMount() {
-    const { params, fetchProvider, fetchProviders } = this.props;
+    const { params, fetchProvider, fetchProviders, fetchContainer } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
 
     fetchProviders(params.fqon, entityId, entityKey);
     fetchProvider(params.fqon, params.providerId);
+    fetchContainer(params.fqon, params.providerId);
   }
 
   componentWillUnmount() {
@@ -136,6 +138,7 @@ function mapStateToProps(state) {
     pendingSchema: state.providers.selectedProviderSchema.pending,
     providers: state.providers.fetchAll.providers,
     pendingProviders: state.providers.fetchAll.pending,
+    container: state.providers.container.container,
     initialValues: {
       name: provider.name,
       description: provider.description,
@@ -149,7 +152,8 @@ function mapStateToProps(state) {
         },
         linked_providers: [],
         data: provider.properties.data ? base64.decode(provider.properties.data) : '',
-        locations: provider.properties.locations
+        locations: provider.properties.locations,
+        services: provider.properties.services,
       },
       publicVariables,
       privateVariables,

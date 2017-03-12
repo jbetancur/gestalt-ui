@@ -9,7 +9,7 @@ export default (values) => {
     }
   };
 
-  if (!values.properties.provider.id) {
+  if (values.properties.provider && !values.properties.provider.id) {
     errors.properties.provider.id = 'a provider is required';
   }
 

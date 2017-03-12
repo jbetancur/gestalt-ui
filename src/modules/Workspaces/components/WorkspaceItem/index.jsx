@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedRelative } from 'react-intl';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import IconText from 'components/IconText';
 import { Card, CardTitle } from 'components/GFCard';
 import { DetailCard, DetailCardTitle } from 'components/DetailCard';
 import Breadcrumbs from 'modules/Breadcrumbs';
@@ -72,13 +71,14 @@ class WorkspaceItem extends Component {
 
   renderCards(item) {
     return (
-      <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navWorkspaceDetails(item, e)}>
+      <Card key={item.id} className="flex-4 flex-xs-12 workspace-card" onClick={e => this.navWorkspaceDetails(item, e)}>
         <CardTitle
           title={item.description || item.name}
           subtitle={
             <div>
-              <IconText icon="short_text"><div>{item.name}</div></IconText>
-              <IconText icon="access_time"><FormattedRelative value={item.created.timestamp} /></IconText>
+              <div className="gf-caption">owner: {item.owner.name}</div>
+              <div className="gf-caption">created <FormattedRelative value={item.created.timestamp} /></div>
+              <div className="gf-caption">modified <FormattedRelative value={item.modified.timestamp} /></div>
             </div>
           }
         />

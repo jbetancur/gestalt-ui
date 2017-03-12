@@ -10,7 +10,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 
 class PolicyItem extends Component {
   static propTypes = {
@@ -94,7 +94,7 @@ class PolicyItem extends Component {
         <TableColumn>{policy.name}</TableColumn>
         <TableColumn>{policy.description}</TableColumn>
         <TableColumn>{policy.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={policy.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={policy.created.timestamp} /> <FormattedTime value={policy.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 

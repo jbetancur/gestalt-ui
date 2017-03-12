@@ -20,6 +20,7 @@ const initialState = {
   workspace: {
     created: {},
     modified: {},
+    owner: {},
     properties: {
       env: {}
     }

@@ -9,7 +9,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 import Breadcrumbs from 'modules/Breadcrumbs';
 
 class ProviderItem extends Component {
@@ -133,7 +133,7 @@ class ProviderItem extends Component {
         <TableColumn>{provider.description}</TableColumn>
         <TableColumn>{this.formatResourceType(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
-        <TableColumn><FormattedDate value={provider.created.timestamp} /></TableColumn>
+        <TableColumn><FormattedDate value={provider.created.timestamp} /> <FormattedTime value={provider.created.timestamp} /></TableColumn>
       </TableRow>
       ));
 

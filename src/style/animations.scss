@@ -19,20 +19,23 @@
 
 @include keyframes(pulse) {
   0% {
-    @include transform(scale(0.5));
+    @include transform(scale(1));
   }
 
-  33% {
+  25% {
+    @include transform(scale(0.8));
+  }
+
+  50% {
     @include transform(scale(1.1));
   }
 
-  66% {
-    @include transform(scale(0.9));
+  100% {
+    @include transform(scale(0.8));
   }
 
   100% {
-    @include transform(scale(0.5));
-    opacity: 1;
+    @include transform(scale(1));
   }
 }
 

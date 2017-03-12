@@ -8,9 +8,10 @@ function mapStateToProps(state) {
     entitlements: state.entitlements.fetchAll.entitlements,
     pendingEntitlements: state.entitlements.fetchAll.pending,
     selectedIdentity: state.entitlements.selectedIdentity.identity,
-    identities: state.entitlements.identities.identities,
+    identities: state.entitlements.identities.identities.filter(val => val.name.includes(state.entitlements.identitiesFilter.filterText)),
     pendingIdentities: state.entitlements.identities.pending,
     pendingUpdateEntitlements: state.entitlements.entitlementUpdate.pending,
+    identitiesFilter: state.entitlements.identitiesFilter,
   };
 }
 

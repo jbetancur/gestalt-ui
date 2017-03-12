@@ -76,6 +76,24 @@ class ContainerCreate extends Component {
       payload.properties.health_checks = this.props.healthChecks;
     }
 
+    if (values.properties.accepted_resource_roles.length) {
+      let roles = values.properties.accepted_resource_roles;
+      roles = roles.replace(/[\s,]+/g, ',');
+
+      payload.properties.accepted_resource_roles = roles.split(',');
+    } else {
+      delete payload.properties.accepted_resource_roles;
+    }
+
+    if (values.properties.constraints.length) {
+      let constraints = values.properties.constraints;
+      constraints = constraints.replace(/[\s,]+/g, ',');
+
+      payload.properties.constraints = constraints.split(',');
+    } else {
+      delete payload.properties.constraints;
+    }
+
     createContainer(params.fqon, params.workspaceId, params.environmentId, payload);
   }
 
@@ -117,7 +135,9 @@ function mapStateToProps(state) {
         port_mappings: [],
         service_addresses: [],
         volumes: [],
-        provider: {},
+        provider: {
+          locations: [],
+        },
         force_pull: false,
         cpus: 0.1,
         memory: 128,

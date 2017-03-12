@@ -12,6 +12,7 @@ const initialState = {
   organization: {
     created: {},
     modified: {},
+    owner: {},
     properties: {
       env: {}
     }
