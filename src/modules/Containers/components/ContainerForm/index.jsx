@@ -61,6 +61,7 @@ const ContainerForm = (props) => {
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
                   onFocus={() => fetchProviders()}
+                  disabled={container.id}
                 />
                 {!values.properties.provider.id ? null :
                 <div className="flex-row">
@@ -340,7 +341,7 @@ ContainerForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
-  inlineMode: PropTypes.bool,
+  inlineMode: PropTypes.bool
 };
 
 ContainerForm.defaultProps = {

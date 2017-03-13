@@ -93,8 +93,8 @@ class WorkspaceItem extends Component {
       <div>
         <DetailCard>
           <DetailCardTitle className="flex-row">
-            <span className="gf-headline-1 flex-8" style={{ lineHeight: '2.5em' }}><Breadcrumbs /> / Workspaces</span>
-            <span className="flex-4" style={{ textAlign: 'right' }}>{this.renderMenu()}</span>
+            <span className="gf-headline-1 flex-8 flex-xs-12" style={{ lineHeight: '2.5em' }}><Breadcrumbs /> / Workspaces</span>
+            <span className="flex-4 flex-xs-12" style={{ textAlign: 'right' }}>{this.renderMenu()}</span>
           </DetailCardTitle>
         </DetailCard>
         {pending ? this.renderProgress() : this.renderCardsContainer()}

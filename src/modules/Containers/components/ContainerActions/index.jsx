@@ -10,6 +10,9 @@ const ActionsWrapper = styled.div`
 
     &.action--title {
       padding-left: .3em;
+      position: absolute;
+      right: 2em;
+      top: .7em;
     }
 
     .container--RUNNING {
@@ -128,7 +131,7 @@ class ContainerActions extends Component {
           flat={this.props.inContainerView}
           label={this.props.inContainerView ? this.props.container.properties.status : null}
           buttonChildren="more_vert"
-          position={MenuButton.Positions.BOTTOM_LEFT}
+          position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[<ListWrapper key="container-actions-menu">
