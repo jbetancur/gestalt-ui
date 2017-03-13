@@ -50,7 +50,7 @@ class GroupEdit extends Component {
 
   render() {
     const { user, pending } = this.props;
-    return pending ? <CircularActivity id="user-load" /> : <UserForm title={user.name} submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.update(values)} {...this.props} />;
+    return pending ? <CircularActivity id="user-load" /> : <UserForm title={user.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.update(values)} {...this.props} />;
   }
 }
 

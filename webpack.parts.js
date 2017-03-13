@@ -130,6 +130,7 @@ exports.generateConstants = env => (
     $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config[env].LICENSE_EXP_THRESHOLD),
     $$DEBUG$$: JSON.stringify(config[env].DEBUG),
     $$COMPANY_TITLE$$: JSON.stringify(config[env].COMPANY_TITLE),
+    $$COMPANY_URL$$: JSON.stringify(config[env].COMPANY_URL),
     $$APP_TITLE$$: JSON.stringify(config[env].APP_TITLE),
     $$DOCUMENTATION_URL$$: JSON.stringify(config[env].DOCUMENTATION_URL),
     $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),

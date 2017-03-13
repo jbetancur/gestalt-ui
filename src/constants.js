@@ -8,3 +8,5 @@ export const APP_TITLE = $$APP_TITLE$$;
 export const LICENSE_EXP_THRESHOLD = $$LICENSE_EXP_THRESHOLD$$;
 export const DEBUG = $$DEBUG$$;
 export const DOCUMENTATION_URL = $$DOCUMENTATION_URL$$;
+export const COMPANY_TITLE = $$COMPANY_TITLE$$;
+export const COMPANY_URL = $$COMPANY_URL$$;

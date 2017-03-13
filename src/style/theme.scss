@@ -1,12 +1,10 @@
 $md-primary-color: $md-light-blue-500;
 $md-secondary-color: $md-blue-a-200;
-// @include react-md-theme-toolbars($md-primary-color, $md-primary-color);
+
 @include react-md-everything;
 @include react-md-theme-toolbars($md-primary-color);
 @include react-md-navigation-drawers($md-blue-a-200);
-// @include react-md-theme-everything($md-light-blue-500, $md-blue-a-200);
-// @include react-md-theme-everything($md-primary-color, $md-secondary-color, $md-linear-progress-swatch, $md-text-field-error-color, false, 'dark-theme');
-// @include react-md-theme-toolbars($md-primary-color, $md-primary-color);
+
 .md-toolbar--over-drawer, .md-toolbar--fixed {
     background-color: $gf-deep-blue;
 }

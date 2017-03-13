@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import GestaltIcon from 'components/GestaltIcon';
+import GalacticFogIcon from 'components/GalacticFogIcon';
+import { COMPANY_URL, COMPANY_TITLE } from '../../../../constants';
 
 const Wrapper = styled.div`
     background-color: #0b314a;
@@ -12,16 +13,29 @@ const Wrapper = styled.div`
     width: 100%;
     text-align: center;
     line-height: 48px;
-    .logo {
-        margin-left: 2.2em;
+`;
+
+const A = styled.a`
+    font-size: 1.3em;
+    margin-left: 2.2em;
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+      cursor: pointer;
     }
+`;
+
+const CompanyName = styled.span`
+  color: white;
+  font-family: lovelo, Ubuntu;
 `;
 
 const LoginFooter = () => (
   <Wrapper>
     <div className="flex-row center-center logo-container">
       <div className="flex-row center-center flex-12">
-        <div className="logo"><GestaltIcon /></div>
+        <A className="logo" href={COMPANY_URL} target="_blank" rel="noopener noreferrer"><GalacticFogIcon /><CompanyName>{COMPANY_TITLE}</CompanyName></A>
       </div>
     </div>
   </Wrapper>
