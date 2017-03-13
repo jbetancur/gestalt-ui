@@ -6,6 +6,7 @@ import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
+import Avatar from 'react-md/lib/Avatars';
 import Divider from 'react-md/lib/Dividers';
 import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
@@ -49,7 +50,7 @@ class App extends Component {
     setCurrentWorkspaceContextfromState: PropTypes.func.isRequired,
     setCurrentEnvironmentContextfromState: PropTypes.func.isRequired,
     activityIndicator: PropTypes.bool.isRequired,
-    // browser: PropTypes.object.isRequired
+    browser: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -151,30 +152,46 @@ class App extends Component {
         to: `/${this.getCurrentOrgContext().properties.fqon}/groups`,
         leftIcon: <FontIcon>group</FontIcon>,
         activeStyle: { backgroundColor: 'lightgrey' }
+      },
+      {
+        key: 'logout',
+        primaryText: 'Logout',
+        leftIcon: <FontIcon>power_settings_new</FontIcon>,
+        style: { position: 'absolute', bottom: 0 },
+        onClick: () => this.props.logout(),
       }
     ];
   }
 
   renderActionsMenu() {
-    const { self } = this.props;
+    const { self, params, browser, logout } = this.props;
+
+    const renderAvatar = iconSized =>
+      <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
 
     return [
       <MenuButton
         id="main-menu"
-        icon
-        buttonChildren="person"
+        flat={browser.greaterThan.xs}
+        icon={browser.lessThan.sm}
+        label={browser.greaterThan.xs ? self.name : null}
+        buttonChildren="expand_more"
+        position={MenuButton.Positions.TOP_RIGHT}
+        iconBefore={false}
       >
         <ListItem
           id="main-menu--profile"
           primaryText={self.name || ''}
-          leftIcon={<FontIcon>person</FontIcon>}
+          leftAvatar={renderAvatar()}
+          component={Link}
+          to={`${self.properties.gestalt_home.properties.fqon}/users/${self.id}/edit`}
         />
         <Divider />
         <ListItem
           id="main-menu--logout"
           primaryText="logout"
-          leftIcon={<FontIcon>input</FontIcon>}
-          onClick={() => this.props.logout()}
+          leftIcon={<FontIcon>power_settings_new</FontIcon>}
+          onClick={() => logout()}
         />
       </MenuButton>,
       <MenuButton
@@ -192,7 +209,7 @@ class App extends Component {
           primaryText="License"
           leftIcon={<FontIcon>vpn_key</FontIcon>}
           component={Link}
-          to={`${this.props.params.fqon}/license`}
+          to={`${params.fqon}/license`}
         />
         <ListItem
           id="main-help--documentation"

@@ -89,9 +89,17 @@ body {
 
 .workspace-card {
     border-top: 2px solid $md-light-blue-200;
+    &:hover {
+        border-top: 2px solid $md-light-blue-600;
+        transition: border-top 1s;
+    }
 }
 
 .environment-card {
     border-top: 2px solid $md-yellow-600;
+    &:hover {
+        border-top: 2px solid $md-yellow-800;
+        transition: border-top 1s;
+    }
 }
 

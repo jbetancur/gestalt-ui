@@ -18,7 +18,7 @@ const LoginCard = styled(Paper)`
 const LoginCardHeader = styled(CardTitle)`
   color: white;
   font-family: lovelo, Ubuntu;
-  background-color: #222933;
+  background-color: #0b314a;
 `;
 
 const LoginError = styled.div`

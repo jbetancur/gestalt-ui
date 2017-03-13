@@ -1,7 +1,7 @@
 import { isEmail } from 'validator';
 import { isPhoneNumber, isUsername } from 'util/validations';
 
-export const usernameMaxLen = 30;
+export const usernameMaxLen = 20;
 
 export default (values) => {
   const errors = {
