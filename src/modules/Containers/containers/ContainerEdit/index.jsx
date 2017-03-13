@@ -25,10 +25,21 @@ class ContainerEdit extends Component {
   };
 
   componentWillMount() {
-    const { params, fetchContainer, fetchProviders } = this.props;
+    const { params, fetchProviders } = this.props;
     // init providers dropdown
     fetchProviders(params.fqon, params.environmentId, 'Marathon');
-    fetchContainer(params.fqon, params.containerId, params.environmentId);
+    this.populateContainer();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.container !== nextProps.container) {
+      clearTimeout(this.timeout);
+
+      if (!nextProps.pending) {
+        this.isPolling = false;
+        this.startPoll();
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -36,6 +47,16 @@ class ContainerEdit extends Component {
     onUnload();
     unloadVolumes();
     unloadNetworks();
+    clearTimeout(this.timeout);
+  }
+
+  startPoll() {
+    this.timeout = setTimeout(() => this.populateContainer(true), 5000);
+  }
+
+  populateContainer(isPolling) {
+    const { params, fetchContainer } = this.props;
+    fetchContainer(params.fqon, params.containerId, params.environmentId, isPolling);
   }
 
   redeployContainer(values) {
@@ -47,7 +68,15 @@ class ContainerEdit extends Component {
 
   render() {
     const { container, pending } = this.props;
-    return pending ? <CircularActivity id="container-load" /> : <ContainerForm editMode title={container.name} submitLabel="Redeploy" cancelLabel="Back" onSubmit={values => this.redeployContainer(values)} {...this.props} />;
+    return pending ? <CircularActivity id="container-load" /> :
+    <ContainerForm
+      editMode
+      title={container.name}
+      submitLabel="Redeploy"
+      cancelLabel="Back"
+      onSubmit={values => this.redeployContainer(values)}
+      {...this.props}
+    />;
   }
 }
 

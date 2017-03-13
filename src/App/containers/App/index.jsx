@@ -98,10 +98,6 @@ class App extends Component {
     return currentOrgContext.id ? currentOrgContext : self.properties.gestalt_home;
   }
 
-  logout() {
-    this.props.logout();
-  }
-
   handleVisibleState(visible) {
     this.setState({ drawerVisible: visible });
   }
@@ -178,7 +174,7 @@ class App extends Component {
           id="main-menu--logout"
           primaryText="logout"
           leftIcon={<FontIcon>input</FontIcon>}
-          onClick={e => this.logout(e)}
+          onClick={() => this.props.logout()}
         />
       </MenuButton>,
       <MenuButton
@@ -237,7 +233,6 @@ class App extends Component {
           desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
           toolbarActions={this.renderActionsMenu()}
           onVisibilityToggle={visible => this.handleVisibleState(visible)}
-          defaultMedia="desktop"
         >
           {React.Children.toArray(this.props.children)}
           <ErrorNotifications />

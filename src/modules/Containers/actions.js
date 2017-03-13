@@ -44,11 +44,13 @@ export function onUnloadListing() {
   };
 }
 
-export function fetchContainers(fqon, environmentId) {
+export function fetchContainers(fqon, environmentId, isPolling) {
   const url = environmentId ? `/${fqon}/environments/${environmentId}/containers` : `/${fqon}/containers`;
 
   return (dispatch) => {
-    dispatch({ type: FETCH_CONTAINERS_PENDING });
+    if (!isPolling) {
+      dispatch({ type: FETCH_CONTAINERS_PENDING });
+    }
     axios.get(`${url}?expand=true`).then((response) => {
       dispatch({ type: FETCH_CONTAINERS_FULFILLED, payload: response.data });
     }).catch((err) => {
@@ -68,9 +70,11 @@ export function fetchEnv(fqon, environmentId) {
   };
 }
 
-export function fetchContainer(fqon, containerId, environmentId) {
+export function fetchContainer(fqon, containerId, environmentId, isPolling) {
   return (dispatch) => {
-    dispatch({ type: FETCH_CONTAINER_PENDING });
+    if (!isPolling) {
+      dispatch({ type: FETCH_CONTAINER_PENDING });
+    }
 
     function getContainer() {
       return axios.get(`${fqon}/containers/${containerId}`);

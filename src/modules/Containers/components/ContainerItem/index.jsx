@@ -43,17 +43,31 @@ class ContainerItem extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.init();
   }
 
-  refresh() {
-    this.init();
+  componentWillReceiveProps(nextProps) {
+    if (this.props.containers !== nextProps.containers) {
+      clearTimeout(this.timeout);
+
+      if (!nextProps.pending) {
+        this.startPoll();
+      }
+    }
   }
 
-  init() {
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
+  startPoll() {
+    this.timeout = setTimeout(() => this.init(true), 5000);
+  }
+
+  init(isPolling) {
     const { params, fetchContainers } = this.props;
-    fetchContainers(params.fqon, params.environmentId);
+    fetchContainers(params.fqon, params.environmentId, isPolling);
   }
 
   edit(container, e) {
@@ -84,10 +98,6 @@ class ContainerItem extends Component {
     );
   }
 
-  renderRefreshButton() {
-    return <Button onClick={() => this.refresh()} icon primary>refresh</Button>;
-  }
-
   render() {
     const containers = this.props.containers.map(container => (
       <TableRow key={container.id} onClick={e => this.edit(container, e)}>
@@ -110,7 +120,7 @@ class ContainerItem extends Component {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={<span style={{ lineHeight: '2em' }}>Containers <span>{this.renderRefreshButton()}</span></span>}
+            title="Containers"
             visible={false} // TODO: React-md propTypes bug
           >
             <div>
