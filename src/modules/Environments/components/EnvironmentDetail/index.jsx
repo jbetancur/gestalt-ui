@@ -8,7 +8,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import LambdaIcon from 'components/LambdaIcon';
+import { LambdaIcon, DeleteIcon } from 'components/Icons';
 import Providers from 'modules/Providers';
 import Lambdas from 'modules/Lambdas';
 import Containers from 'modules/Containers';
@@ -99,7 +99,7 @@ class EnvironmentDetail extends Component {
           <ListItem
             id="environments-settings-menu--delete"
             primaryText={<span>Delete {environment.description || environment.name}</span>}
-            leftIcon={<FontIcon style={{ color: 'red' }}>delete_sweep</FontIcon>}
+            leftIcon={<DeleteIcon />}
             onClick={e => this.delete(e)}
           />
         </MenuButton>

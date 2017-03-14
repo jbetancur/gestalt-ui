@@ -29,7 +29,7 @@ const ContainerForm = (props) => {
     || { properties: { config: { networks: [] } } };
 
   const fetchProviders = () => {
-    props.fetchProviders(params.fqon, params.environmentId, 'Marathon');
+    props.fetchProviders(params.fqon, params.environmentId, 'CaaS');
   };
 
   return (

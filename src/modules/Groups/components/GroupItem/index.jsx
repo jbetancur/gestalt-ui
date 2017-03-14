@@ -12,6 +12,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { DeleteIconButton } from 'components/Buttons';
 
 class GroupItem extends Component {
   static propTypes = {
@@ -78,6 +79,7 @@ class GroupItem extends Component {
         id="create-group"
         label="Create Group"
         flat
+        primary
         component={Link}
         to={`${this.props.params.fqon}/groups/create`}
       >
@@ -109,7 +111,7 @@ class GroupItem extends Component {
             }
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} group${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>

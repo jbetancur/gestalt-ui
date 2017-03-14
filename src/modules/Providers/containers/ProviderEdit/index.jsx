@@ -19,6 +19,7 @@ class ProviderEdit extends Component {
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     onUnload: PropTypes.func.isRequired,
+    confirmUpdate: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
@@ -55,6 +56,15 @@ class ProviderEdit extends Component {
         locations
       }
     };
+
+
+    if (formValues.properties.config.url) {
+      model.properties.config.url = formValues.properties.config.url;
+    }
+
+    if (formValues.properties.config.auth) {
+      model.properties.config.auth = formValues.properties.config.auth;
+    }
 
     // override model only if form was changed
     if (formValues.properties.config.networks) {
@@ -108,14 +118,10 @@ class ProviderEdit extends Component {
     const updatedModel = this.updatedModel(values, originalModel);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    if (params.workspaceId) {
-      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
-      updateProvider(params.fqon, provider.id, patches);
-    } else if (params.environmentId) {
-      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`;
-      updateProvider(params.fqon, provider.id, patches);
+    // If the provider has a container defined then warn the user of an impending container restart
+    if (provider.properties.services && provider.properties.services.length) {
+      this.props.confirmUpdate(() => updateProvider(params.fqon, provider.id, patches), provider.name);
     } else {
-      // const routeToUrlWhenDone = `${params.fqon}/providers`;
       updateProvider(params.fqon, provider.id, patches);
     }
   }
@@ -145,6 +151,8 @@ function mapStateToProps(state) {
       resource_type: provider.resource_type,
       properties: {
         config: {
+          auth: provider.properties.config.auth,
+          url: provider.properties.config.url,
           env: {
             public: {},
             private: {},

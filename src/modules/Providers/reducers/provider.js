@@ -16,6 +16,7 @@ const initialState = {
     modified: {},
     properties: {
       config: {
+        auth: {},
         env: {
           private: {},
           public: {},

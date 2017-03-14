@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
     case 'APP_HTTP_ERROR_403':
       return {
         ...state,
-        friendlyMessage: 'Forbidden!',
+        friendlyMessage: 'Forbidden',
         error: action.payload
       };
     case 'APP_HTTP_ERROR_409':

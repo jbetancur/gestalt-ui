@@ -5,21 +5,24 @@ import {
   REQUEST_TOKEN_PENDING,
   REQUEST_TOKEN_FULFILLED,
   REQUEST_TOKEN_REJECTED,
+  LOG_OUT,
 } from './actionTypes';
 import { SEC_API_URL, API_TIMEOUT } from '../../constants';
-
-const securityAPI = axios.create({
-  baseURL: SEC_API_URL,
-  timeout: API_TIMEOUT,
-  'content-type': 'application/x-www-form-urlencoded',
-  accept: 'application/json'
-});
 
 export function hideLoginModal() {
   return { type: 'HIDE_LOGIN_MODAL' };
 }
 
 export function login(username, password, isModalLogin) {
+  const securityAPI = axios.create({
+    baseURL: SEC_API_URL,
+    timeout: API_TIMEOUT,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json'
+    }
+  });
+
   function setToken(token) {
     const currentDate = new Date(Date.now());
     const expirationDate = new Date();
@@ -49,3 +52,32 @@ export function login(username, password, isModalLogin) {
     });
   };
 }
+
+export function logout() {
+  return (dispatch) => {
+    dispatch({ type: LOG_OUT });
+
+    const tokenId = cookie.load('auth-token');
+
+    if (tokenId) {
+      const securityAPI = axios.create({
+        baseURL: SEC_API_URL,
+        timeout: API_TIMEOUT,
+        headers: {
+          Authorization: `Bearer ${tokenId}`
+        }
+      });
+
+      securityAPI.delete(`accessTokens/${tokenId}`);
+
+      // delete local cookie and redirect whether api token delete succeeds or not
+      cookie.remove('auth-token', { path: '/' });
+      dispatch(replace('login'));
+    }
+  };
+}
+
+export default {
+  login,
+  logout,
+};

@@ -11,6 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
+import { DeleteIconButton } from 'components/Buttons';
 
 class apiEndpointItem extends Component {
   static propTypes = {
@@ -77,6 +78,7 @@ class apiEndpointItem extends Component {
         id="create-endpoint"
         label="Create Endpoint"
         flat
+        primary
         component={Link}
         to={{
           pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/createEndpoint`
@@ -107,7 +109,7 @@ class apiEndpointItem extends Component {
           title="Endpoints"
           visible={selectedCount > 0}
           contextualTitle={`${selectedCount} endpoint${selectedCount > 1 ? 's' : ''} selected`}
-          actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+          actions={[<DeleteIconButton onClick={() => this.delete()} />]}
         >
           <div>{this.renderCreateButton()}</div>
         </TableCardHeader>

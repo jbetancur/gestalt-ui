@@ -8,10 +8,10 @@ import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import Button from 'react-md/lib/Buttons/Button';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { FormattedDate, FormattedTime } from 'react-intl';
+import { DeleteIconButton } from 'components/Buttons';
 import policyTypes from '../../lists/policyTypes';
 
 class PolicyRuleItem extends Component {
@@ -93,6 +93,7 @@ class PolicyRuleItem extends Component {
         id="create-policyRule"
         label="Create Policy Rule"
         flat
+        primary
         fullWidth
         position="below"
         buttonChildren="add"
@@ -120,7 +121,7 @@ class PolicyRuleItem extends Component {
           title="Policy Rules"
           visible={selectedCount > 0}
           contextualTitle={`${selectedCount} policy rule${selectedCount > 1 ? 's' : ''} selected`}
-          actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+          actions={[<DeleteIconButton onClick={() => this.delete()} />]}
         >
           <div>{this.renderCreateButton()}</div>
         </TableCardHeader>

@@ -8,7 +8,7 @@ const EnhancedButton = styled(Button)`
 `;
 
 const StyledIcon = styled.i`
-    color: red;
+    color: ${props => props.theme.removeIconColor};
 `;
 
 const FieldRemoveButton = props =>

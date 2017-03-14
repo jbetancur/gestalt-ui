@@ -12,6 +12,7 @@ import { VariablesListing } from 'modules/Variables';
 import getParentFQON from 'util/helpers/fqon';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
+import { DeleteIcon } from 'components/Icons';
 
 class OrgItem extends Component {
   static propTypes = {
@@ -113,7 +114,7 @@ class OrgItem extends Component {
           <ListItem
             id="orgs-settings-menu--delete"
             primaryText={<span>Delete {organization.description || organization.name}</span>}
-            leftIcon={<FontIcon style={{ color: 'red' }}>delete_sweep</FontIcon>}
+            leftIcon={<DeleteIcon />}
             disabled={params.fqon === self.properties.gestalt_home || params.fqon === 'root'}
             onClick={e => this.delete(e)}
           />

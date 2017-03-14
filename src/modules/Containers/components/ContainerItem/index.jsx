@@ -88,6 +88,7 @@ class ContainerItem extends Component {
         id="create-container"
         label="Deploy Container"
         flat
+        primary
         component={Link}
         to={{
           pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/create`

@@ -5,8 +5,8 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader';
 import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import FontIcon from 'react-md/lib/FontIcons';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
+import { FieldRemoveButton } from 'components/Buttons';
 
 const EnhancedTableColumn = styled(TableColumn)`
   padding-top: 1px !important;
@@ -60,7 +60,7 @@ class HealthCheckListing extends Component {
         <EnhancedTableColumn>{item.port}</EnhancedTableColumn>
         <EnhancedTableColumn>{item.port_index}</EnhancedTableColumn>
         <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.ignore_http_1xx} disabled /></EnhancedTableColumn>
-        <EnhancedTableColumn><FontIcon onClick={() => this.remove(item)} style={{ color: 'red' }}>remove_circle_outline</FontIcon></EnhancedTableColumn>
+        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.remove(item)} /></EnhancedTableColumn>
       </TableRow>
     ));
   }

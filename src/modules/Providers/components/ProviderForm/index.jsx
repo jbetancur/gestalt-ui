@@ -54,10 +54,56 @@ const ProviderForm = (props) => {
 
   const handleProviderChange = (value) => {
     const providerType = providerTypes.find(type => type.value === value);
-    props.fetchSchema(providerType.type);
+    props.fetchEnvSchema(providerType.type);
 
     reset();
   };
+
+  const renderConfigSection = () => (
+    !selectedProviderType.config ? null :
+    <div className="flex-row">
+      <Field
+        className="flex-6 flex-xs-12 flex-sm-12"
+        component={TextField}
+        name="properties.config.url"
+        label="Provider URL/Host:Port"
+        type="text"
+        required
+        errorText={props.touched && props.error}
+        lineDirection="center"
+      />
+      <Field
+        id="select-return-type"
+        className="flex-2 flex-xs-12 flex-sm-4"
+        component={SelectField}
+        name="properties.config.auth.scheme"
+        menuItems={['Basic']}
+        required
+        label="Security Scheme"
+        errorText={props.touched && props.error}
+      />
+      <Field
+        className="flex-2 flex-xs-12 flex-sm-4"
+        component={TextField}
+        name="properties.config.auth.username"
+        label="Username"
+        type="text"
+        required
+        errorText={props.touched && props.error}
+        lineDirection="center"
+      />
+      <Field
+        className="flex-2 flex-xs-12 flex-sm-4"
+        component={TextField}
+        name="properties.config.auth.password"
+        label="Password"
+        type="text"
+        required
+        errorText={props.touched && props.error}
+        lineDirection="center"
+      />
+    </div>
+  );
 
   const renderJSONSection = () => (
     props.pendingSchema ? null :
@@ -79,10 +125,10 @@ const ProviderForm = (props) => {
     props.pendingSchema || !selectedProviderType.type ? null :
     <div className="flex-row">
       <div className="flex-6 flex-xs-12 flex-sm-12">
-        <VariablesForm icon="public" addButtonLabel="Add Public Setting" fieldName="publicVariables" />
+        <VariablesForm icon="public" addButtonLabel="Add Public Variable" fieldName="publicVariables" />
       </div>
       <div className="flex-6 flex-xs-12 flex-sm-12">
-        <VariablesForm icon="vpn_key" addButtonLabel="Add Private Setting" fieldName="privateVariables" />
+        <VariablesForm icon="vpn_key" addButtonLabel="Add Private Variable" fieldName="privateVariables" />
       </div>
     </div>
   );
@@ -124,7 +170,6 @@ const ProviderForm = (props) => {
           label="Networks (JSON)"
           type="text"
           errorText={props.touched && props.error}
-          lineDirection="center"
           rows={2}
         /> : null}
       {selectedProviderType.extraConfig ?
@@ -135,10 +180,15 @@ const ProviderForm = (props) => {
           label="Extra Configuration (JSON)"
           type="text"
           errorText={props.touched && props.error}
-          lineDirection="center"
           rows={2}
         /> : null}
     </div>
+  );
+
+  const renderContainerPanel = () => (
+    selectedProviderType.allowContainer ? <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
+      <ContainerCreate params={props.params} inlineMode />
+    </ExpansionPanelNoPadding> : <div />
   );
 
   return (
@@ -169,7 +219,7 @@ const ProviderForm = (props) => {
                     required
                     label="Provider Type"
                     errorText={props.touched && props.error}
-                    disabled={!!provider.id}
+                    disabled={provider.id}
                     onChange={(a, value) => handleProviderChange(value)} // TODO: there is a bug with the first parram which should be the value
                   />
                   <Field
@@ -181,7 +231,7 @@ const ProviderForm = (props) => {
                     required
                     errorText={props.touched && props.error}
                     maxLength={nameMaxLen}
-                    lineDirection="center"
+                    disabled={provider.id}
                   />
                   <Field
                     className="flex-6 flex-xs-12 flex-sm-12"
@@ -190,9 +240,10 @@ const ProviderForm = (props) => {
                     label="Description"
                     type="text"
                     errorText={props.touched && props.error}
-                    lineDirection="center"
+
                   />
                 </div>
+                {renderConfigSection()}
                 {renderEditorSection()}
                 {renderVariablesSection()}
                 {renderOtherConfigSection()}
@@ -229,10 +280,7 @@ const ProviderForm = (props) => {
               </div>
             </ExpansionPanelNoPadding>
 
-            {props.editMode ? <div /> :
-            <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
-              <ContainerCreate params={props.params} inlineMode />
-            </ExpansionPanelNoPadding>}
+            {props.editMode && !selectedProviderType.allowContainer ? <div /> : renderContainerPanel()}
 
             {!props.editMode ? <div /> : // react-md bug where expansion list children cannot be null
             <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
@@ -266,7 +314,7 @@ ProviderForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
-  fetchSchema: PropTypes.func.isRequired,
+  fetchEnvSchema: PropTypes.func.isRequired,
   touched: PropTypes.bool,
   error: PropTypes.bool,
   title: PropTypes.string,

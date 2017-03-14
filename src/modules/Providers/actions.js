@@ -166,7 +166,7 @@ export function confirmDelete(action, multipleItems) {
   };
 }
 
-export function fetchSchema(type) {
+export function fetchEnvSchema(type) {
   return (dispatch) => {
     dispatch({ type: `providers/FETCH_${type}_SCHEMA_PENDING`, schemaType: type });
     axios.get(`/root/resourcetypes/${constants[type]}/schema?filter=config`).then((response) => {
@@ -198,6 +198,20 @@ export function fetchContainer(fqon, providerId) {
       }
     }).catch((err) => {
       dispatch({ type: FETCH_CONTAINER_REJECTED, payload: err });
+    });
+  };
+}
+
+export function confirmUpdate(action, item) {
+  return (dispatch) => {
+    dispatch({
+      type: 'SHOW_MODAL',
+      modalType: 'CONFIRM',
+      modalProps: {
+        title: `Updating "${item}" provider will require a restart. Are you sure you want to proceed?`,
+        onProceed: action,
+        proceedLabel: 'Update',
+      }
     });
   };
 }

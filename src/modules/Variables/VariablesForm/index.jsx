@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Field, FieldArray, FormSection } from 'redux-form';
-import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
+import { FieldRemoveButton } from 'components/Buttons';
 import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'components/TextField';
 

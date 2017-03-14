@@ -2,7 +2,6 @@ import {
   FETCH_SELF_PENDING,
   FETCH_SELF_REJECTED,
   FETCH_SELF_FULFILLED,
-  LOG_OUT
 } from '../actionTypes';
 
 const initialState = {
@@ -41,11 +40,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        error: action.payload
-      };
-    case LOG_OUT:
-      return {
-        ...state,
         error: action.payload
       };
     default:

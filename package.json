@@ -144,7 +144,7 @@
         "chai": "^3.5.0",
         "circular-dependency-plugin": "^2.0.0",
         "clean-webpack-plugin": "^0.1.14",
-        "cross-env": "^3.2.3",
+        "cross-env": "^3.2.4",
         "css-loader": "^0.27.3",
         "enzyme": "^2.7.1",
         "esformatter": "^0.10.0",
@@ -189,7 +189,7 @@
         "style-loader": "^0.13.2",
         "url-loader": "^0.5.8",
         "webpack": "^2.2.1",
-        "webpack-dev-server": "^2.4.1",
+        "webpack-dev-server": "^2.4.2",
         "webpack-merge": "^4.0.0"
     },
     "dependencies": {
@@ -222,7 +222,7 @@
         "redux-logger": "^2.8.2",
         "redux-responsive": "^4.1.1",
         "redux-thunk": "^2.2.0",
-        "sanitize.css": "4.1.0",
+        "sanitize.css": "^5.0.0",
         "styled-components": "^1.4.4",
         "validator": "^7.0.0"
     }
