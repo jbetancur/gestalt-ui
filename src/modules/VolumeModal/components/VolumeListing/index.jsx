@@ -4,8 +4,7 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader';
 import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import FontIcon from 'react-md/lib/FontIcons';
-// import Button from 'react-md/lib/Buttons/Button';
+import { FieldRemoveButton } from 'components/Buttons';
 
 class VolumeListing extends Component {
   static propTypes = {
@@ -45,7 +44,7 @@ class VolumeListing extends Component {
         <TableColumn>{item.host_path}</TableColumn>
         <TableColumn>{item.container_path}</TableColumn>
         <TableColumn>{item.persistent && item.persistent.size}</TableColumn>
-        <TableColumn><FontIcon onClick={() => this.remove(item)} style={{ color: 'red' }}>remove_circle_outline</FontIcon></TableColumn>
+        <TableColumn><FieldRemoveButton onClick={() => this.remove(item)} /></TableColumn>
       </TableRow>
     ));
   }

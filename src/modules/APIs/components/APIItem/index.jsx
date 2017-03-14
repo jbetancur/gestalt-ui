@@ -11,6 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
+import { DeleteIconButton } from 'components/Buttons';
 
 class APIItem extends Component {
   static propTypes = {
@@ -77,6 +78,7 @@ class APIItem extends Component {
         id="create-api"
         label="Create API"
         flat
+        primary
         component={Link}
         to={{
           pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/create`
@@ -105,7 +107,7 @@ class APIItem extends Component {
             title="API"
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} API${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>

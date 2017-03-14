@@ -12,19 +12,19 @@ import { APP_TITLE } from '../../../../constants';
 
 const LoginCard = styled(Paper)`
   position: relative;
-  background-color: white;
+  background-color: ${props => props.theme.cardBackgroundColor};
 `;
 
 const LoginCardHeader = styled(CardTitle)`
-  color: white;
+  color: ${props => props.theme.fontColorInverse};
   font-family: lovelo, Ubuntu;
-  background-color: #0b314a;
+  background-color: ${props => props.theme.mainNavBackgroundColor};
 `;
 
 const LoginError = styled.div`
   padding: 1em;
   width: 100%;
-  color: red;
+  color: ${props => props.theme.errorText};
   text-align:center;
 `;
 

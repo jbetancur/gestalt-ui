@@ -20,12 +20,16 @@ class ConfirmModal extends PureComponent {
     title: PropTypes.string.isRequired,
     multipleItems: PropTypes.array,
     body: PropTypes.string,
+    proceedLabel: PropTypes.string,
+    cancelLabel: PropTypes.string,
   };
 
   static defaultProps = {
     onProceed: () => {},
     multipleItems: [],
     body: '',
+    proceedLabel: 'Delete',
+    cancelLabel: 'Cancel',
   };
 
   constructor(props) {
@@ -54,12 +58,12 @@ class ConfirmModal extends PureComponent {
         actions={[{
           onClick: () => this.doIt(),
           style: { color: 'red' },
-          label: 'Delete',
+          label: this.props.proceedLabel,
         },
         {
           onClick: () => this.props.hideModal(),
           primary: true,
-          label: 'Cancel',
+          label: this.props.cancelLabel,
         }]}
       >
         <div>

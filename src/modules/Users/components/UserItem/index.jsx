@@ -13,6 +13,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { DeleteIconButton } from 'components/Buttons';
 
 class UserItem extends Component {
   static propTypes = {
@@ -80,6 +81,7 @@ class UserItem extends Component {
         id="create-user"
         label="Create User"
         flat
+        primary
         component={Link}
         to={`${this.props.params.fqon}/users/create`}
       >
@@ -116,7 +118,7 @@ class UserItem extends Component {
             }
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>

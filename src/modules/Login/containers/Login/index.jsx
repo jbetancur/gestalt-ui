@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import * as actions from './actions';
-import LoginPage from './components/LoginPage';
+import * as actions from '../../actions';
+import LoginPage from '../../components/LoginPage';
 
 function mapStateToProps(state) {
   return {

@@ -27,7 +27,7 @@ class ContainerEdit extends Component {
   componentWillMount() {
     const { params, fetchProviders } = this.props;
     // init providers dropdown
-    fetchProviders(params.fqon, params.environmentId, 'Marathon');
+    fetchProviders(params.fqon, params.environmentId, 'CaaS');
     this.populateContainer();
   }
 

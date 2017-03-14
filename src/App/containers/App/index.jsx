@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import cn from 'classnames';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
@@ -14,10 +15,12 @@ import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
 import TooltipFontIcon from 'components/TooltipFontIcon';
 import ErrorNotifications from 'modules/ErrorNotifications';
-import GestaltIcon from 'components/GestaltIcon';
-import GestaltIconText from 'components/GestaltIconText';
+import { GestaltIcon, GestaltIconText } from 'components/Icons';
+import { licenseActions } from 'modules/Licensing';
+import { loginActions } from 'modules/Login';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import * as actions from '../../actions';
+import lightTheme from '../../../style/themes/light';
 
 const EnhancedLogoDiv = styled.div`
   text-align: center;
@@ -30,7 +33,7 @@ const EnhancedLogoDiv = styled.div`
 `;
 
 const EnhancedUIVersionDiv = styled.div`
-  color: black;
+  color: ${props => props.theme.fontColor};
   padding-top: 1em;
   /* padding: 1.5em; */
   font-size: .9em;
@@ -40,6 +43,7 @@ class App extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
     fetchSelf: PropTypes.func.isRequired,
+    fetchLicense: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     children: PropTypes.object,
@@ -64,31 +68,42 @@ class App extends Component {
   }
 
   componentWillMount() {
+    const {
+      params,
+      fetchSelf,
+      setCurrentOrgContextfromState,
+      setCurrentWorkspaceContextfromState,
+      setCurrentEnvironmentContextfromState,
+      fetchLicense,
+    } = this.props;
     // sets our current logged in users home org
-    this.props.fetchSelf();
+    fetchSelf();
     // we have to make an additional call here to set the currentOrgState
     // This is mainly to appease browser refresh where we lose currentOrg state and wont run when there is blank fqon in the url
-    if (this.props.params.fqon) {
-      this.props.setCurrentOrgContextfromState(this.props.params.fqon);
+    if (params.fqon) {
+      setCurrentOrgContextfromState(params.fqon);
     }
 
     // do the same for workspaces
-    if (this.props.params.fqon && this.props.params.workspaceId) {
-      this.props.setCurrentWorkspaceContextfromState(this.props.params.fqon, this.props.params.workspaceId);
+    if (params.fqon && params.workspaceId) {
+      setCurrentWorkspaceContextfromState(params.fqon, params.workspaceId);
     }
 
     // do the same for environments
-    if (this.props.params.fqon && this.props.params.workspaceId && this.props.params.environmentId) {
-      this.props.setCurrentEnvironmentContextfromState(this.props.params.fqon, this.props.params.environmentId);
+    if (params.fqon && params.workspaceId && params.environmentId) {
+      setCurrentEnvironmentContextfromState(params.fqon, params.environmentId);
     }
+
+    // Check License Status
+    fetchLicense('root');
   }
 
   componentWillReceiveProps(nextProps) {
     // where there is no fqon in the url set the current org context to gestalt_home - we can later manage this in a user profile setting
     if (nextProps.self !== this.props.self && !this.props.params.fqon) {
       this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
-      // Make Home the workspaces view - we can later manage this in a user profile setting
-      this.props.router.replace(`${nextProps.self.properties.gestalt_home.properties.fqon}/workspaces`);
+      // Set Initial route - we can later manage this in a user profile setting
+      this.props.router.replace(`${nextProps.self.properties.gestalt_home.properties.fqon}/organizations`);
     }
   }
 
@@ -157,7 +172,7 @@ class App extends Component {
         key: 'logout',
         primaryText: 'Logout',
         leftIcon: <FontIcon>power_settings_new</FontIcon>,
-        style: { position: 'absolute', bottom: 0 },
+        style: { position: 'absolute', bottom: '1em' },
         onClick: () => this.props.logout(),
       }
     ];
@@ -175,14 +190,14 @@ class App extends Component {
         flat={browser.greaterThan.xs}
         icon={browser.lessThan.sm}
         label={browser.greaterThan.xs ? self.name : null}
-        buttonChildren="expand_more"
+        buttonChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
         position={MenuButton.Positions.TOP_RIGHT}
         iconBefore={false}
       >
         <ListItem
           id="main-menu--profile"
           primaryText={self.name || ''}
-          leftAvatar={renderAvatar()}
+          leftAvatar={renderAvatar(true)}
           component={Link}
           to={`${self.properties.gestalt_home.properties.fqon}/users/${self.id}/edit`}
         />
@@ -225,10 +240,15 @@ class App extends Component {
   }
 
   renderAppLogo() {
+    const logoClass = cn({
+      logo: true,
+      'logo-loading': this.props.activityIndicator,
+    });
+
     return (
       <div className="flex-row center-center logo-container">
         <div className="flex-row center-center flex-12">
-          <div className={`logo ${this.props.activityIndicator ? 'logo-loading' : ''}`}><GestaltIcon /></div>
+          <div className={logoClass}><GestaltIcon /></div>
         </div>
       </div>
     );
@@ -237,23 +257,25 @@ class App extends Component {
   renderMain() {
     return (
       <main>
-        <LoginModal />
-        <ModalRoot />
-        <NavigationDrawer
-          drawerTitle={<OrgNavMenu {...this.props} />}
-          toolbarTitle={this.renderAppLogo()}
-          autoclose
-          contentClassName="md-grid--no-spacing"
-          navItems={this.renderNavItems()}
-          mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
-          tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-          desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-          toolbarActions={this.renderActionsMenu()}
-          onVisibilityToggle={visible => this.handleVisibleState(visible)}
-        >
-          {React.Children.toArray(this.props.children)}
-          <ErrorNotifications />
-        </NavigationDrawer>
+        <ThemeProvider theme={lightTheme}>
+          <NavigationDrawer
+            drawerTitle={<OrgNavMenu {...this.props} />}
+            toolbarTitle={this.renderAppLogo()}
+            autoclose
+            contentClassName="md-grid--no-spacing"
+            navItems={this.renderNavItems()}
+            mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
+            tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+            desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+            toolbarActions={this.renderActionsMenu()}
+            onVisibilityToggle={visible => this.handleVisibleState(visible)}
+          >
+            <LoginModal />
+            <ModalRoot />
+            {this.props.children}
+            <ErrorNotifications />
+          </NavigationDrawer>
+        </ThemeProvider>
       </main>
     );
   }
@@ -265,6 +287,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   const { app, browser } = state;
+
   return {
     self: app.self.self,
     selfFetching: app.self.pending,
@@ -274,4 +297,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(mapStateToProps, Object.assign({}, actions, licenseActions, loginActions))(App);

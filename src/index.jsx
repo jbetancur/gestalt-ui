@@ -48,6 +48,12 @@ axios.interceptors.response.use((config) => {
     browserHistory.replace('login');
   } else {
     store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
+    // // eslint-disable-next-line no-lonely-if
+    // if (error.response.data.message && error.response.data.message.includes('license.view')) {
+    //   // Nothing for now
+    // } else {
+    //   store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
+    // }
   }
 
   Promise.reject(error);
@@ -71,3 +77,11 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app-root'),
 );
+
+// Hot reload reducers (requires Webpack HMR to be enabled)
+if (module.hot) {
+  module.hot.accept('./rootReducer', () =>
+      // eslint-disable-next-line global-require
+      store.replaceReducer(require('./rootReducer').default/* if you use Babel 6+ */)
+  );
+}

@@ -52,6 +52,14 @@ class ProviderCreate extends Component {
       }
     };
 
+    if (values.properties.config.url) {
+      model.properties.config.url = values.properties.config.url;
+    }
+
+    if (values.properties.config.auth) {
+      model.properties.config.auth = values.properties.config.auth;
+    }
+
     if (values.properties.config.networks) {
       model.properties.config.networks = JSON.parse(values.properties.config.networks);
     }
@@ -78,7 +86,6 @@ class ProviderCreate extends Component {
         model.properties.config.env.public[variable.name] = variable.value;
       });
     }
-
 
     // Handle our container Form and map to the provider model
     if (Object.keys(this.props.containerValues).length) {
@@ -147,6 +154,8 @@ function mapStateToProps(state) {
     description: '',
     properties: {
       config: {
+        auth: {},
+        url: '',
         env: {
           public: {},
           private: {},

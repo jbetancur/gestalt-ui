@@ -4,8 +4,8 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader';
 import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import FontIcon from 'react-md/lib/FontIcons';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
+import { FieldRemoveButton } from 'components/Buttons';
 
 class VolumeListing extends Component {
   static propTypes = {
@@ -45,7 +45,7 @@ class VolumeListing extends Component {
         <TableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></TableColumn>
         <TableColumn>{item.service_port}</TableColumn>
         <TableColumn>{item.container_port}</TableColumn>
-        <TableColumn><FontIcon onClick={() => this.remove(item)} style={{ color: 'red' }}>remove_circle_outline</FontIcon></TableColumn>
+        <TableColumn><FieldRemoveButton onClick={() => this.remove(item)} /></TableColumn>
       </TableRow>
     ));
   }

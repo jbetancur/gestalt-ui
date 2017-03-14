@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import GalacticFogIcon from 'components/GalacticFogIcon';
+import { GalacticFogIcon } from 'components/Icons';
 import { COMPANY_URL, COMPANY_TITLE } from '../../../../constants';
 
 const Wrapper = styled.div`
-    background-color: #0b314a;
+    background-color: ${props => props.theme.mainNavBackgroundColor};
     position: fixed;
     z-index: 0;
     left: 0;
@@ -19,7 +19,7 @@ const A = styled.a`
     font-size: 1.3em;
     margin-left: 2.2em;
     text-decoration: none;
-    color: white;
+    color: ${props => props.theme.fontColorInverse};
 
     &:hover {
       cursor: pointer;
@@ -27,7 +27,7 @@ const A = styled.a`
 `;
 
 const CompanyName = styled.span`
-  color: white;
+  color: ${props => props.theme.fontColorInverse};
   font-family: lovelo, Ubuntu;
 `;
 

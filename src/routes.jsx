@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import cookie from 'react-cookie';
 import App from './App';
-import Login from './modules/Login';
+import { Login } from './modules/Login';
 import Organizations from './modules/Organizations';
 import OrgCreate from './modules/Organizations/containers/OrgCreate';
 import OrgEdit from './modules/Organizations/containers/OrgEdit';
@@ -42,7 +42,7 @@ import APICreate from './modules/APIs/containers/APICreate';
 import APIEdit from './modules/APIs/containers/APIEdit';
 import APIEndpointCreate from './modules/APIEndpoints/containers/APIEndpointCreate';
 import APIEndpointEdit from './modules/APIEndpoints/containers/APIEndpointEdit';
-import License from './modules/Licensing';
+import { License } from './modules/Licensing';
 import NotFound from './components/NotFound';
 
 const requireAuth = () => (nextState, replace) => {

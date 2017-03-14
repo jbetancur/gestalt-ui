@@ -192,6 +192,7 @@ export function confirmDelete(action, item) {
       modalProps: {
         title: `Are you sure you want to destroy ${item}?`,
         onProceed: action,
+        proceedLabel: 'Destroy',
       }
     });
   };

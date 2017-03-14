@@ -4,6 +4,11 @@ a[type=button] {
   -webkit-appearance: none;
 }
 
+// Fix for icon vertical aligmen sanitize.scss
+.material-icons {
+  vertical-align: top;
+}
+
 /* Override stupid chrome autofill yellow inputs ;) */
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px $md-white inset;

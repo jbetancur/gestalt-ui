@@ -21,12 +21,19 @@ function parseLicense(response) {
   return response.data;
 }
 
+/**
+ * Unload the license from the state store
+ */
 export function onUnloadLicense() {
   return (dispatch) => {
     dispatch({ type: LICENSE_UNLOADED });
   };
 }
 
+/**
+ * Fetches the licese from Meta API
+ * @param {*} fqon
+ */
 export function fetchLicense(fqon) {
   return (dispatch) => {
     dispatch({ type: FETCH_LICENSE_PENDING });
@@ -60,15 +67,28 @@ export function fetchLicense(fqon) {
   };
 }
 
+/**
+ *
+ * @param {*} fqon
+ * @param {*} payload
+ * @param {*} cb - optional callback to trigger
+ */
 export function updateLicense(fqon, payload, cb) {
   return (dispatch) => {
     dispatch({ type: UPDATE_LICENSE_PENDING });
     axios.post(`${fqon}/licenses`, payload).then(() => {
       dispatch(fetchLicense(fqon));
       dispatch({ type: UPDATE_LICENSE_FULFILLED });
-      dispatch(cb());
+      if (cb) {
+        dispatch(cb());
+      }
     }).catch((err) => {
       dispatch({ type: UPDATE_LICENSE_REJECTED, payload: err });
     });
   };
 }
+
+export default {
+  fetchLicense,
+  updateLicense,
+};

@@ -1,6 +1,4 @@
 import axios from 'axios';
-import cookie from 'react-cookie';
-import { replace } from 'react-router-redux';
 import {
   FETCH_SELF_PENDING,
   FETCH_SELF_REJECTED,
@@ -19,9 +17,7 @@ import {
   CURRENT_ORG_CONTEXT,
   UNLOAD_CURRENT_WORKSPACE_CONTEXT,
   UNLOAD_CURRENT_ENVIRONMENT_CONTEXT,
-  LOG_OUT,
 } from './actionTypes';
-import { SEC_API_URL, API_TIMEOUT } from '../constants';
 
 export function setCurrentOrgContext(organization) {
   return { type: CURRENT_ORG_CONTEXT, payload: organization };
@@ -95,32 +91,10 @@ export function fetchSelf() {
   };
 }
 
-export function logout() {
-  return (dispatch) => {
-    const tokenId = cookie.load('auth-token');
-    const securityAPI = axios.create({
-      baseURL: SEC_API_URL,
-      timeout: API_TIMEOUT,
-      headers: {
-        Authorization: `Bearer ${tokenId}`
-      }
-    });
-
-    // delete local cookie and redirect whether api token delete succeeds or not
-    cookie.remove('auth-token', { path: '/' });
-    dispatch(replace('login'));
-
-    securityAPI.delete(`accessTokens/${tokenId}`).then(() => {
-      dispatch({ type: LOG_OUT });
-    });
-  };
-}
-
 export default {
   setCurrentOrgContext,
   setCurrentWorkspaceContext,
   setCurrentEnvironmentContext,
   unloadWorkspaceContext,
   unloadEnvironmentContext,
-  logout,
 };

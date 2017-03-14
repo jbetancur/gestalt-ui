@@ -11,6 +11,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { DeleteIconButton } from 'components/Buttons';
 
 class ProviderItem extends Component {
   static propTypes = {
@@ -117,6 +118,7 @@ class ProviderItem extends Component {
         id="create-provider"
         label="Create Provider"
         flat
+        primary
         onClick={() => this.create()}
       >
         <FontIcon>add</FontIcon>
@@ -133,6 +135,7 @@ class ProviderItem extends Component {
         <TableColumn>{provider.description}</TableColumn>
         <TableColumn>{this.formatResourceType(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
+        <TableColumn>{provider.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={provider.created.timestamp} /> <FormattedTime value={provider.created.timestamp} /></TableColumn>
       </TableRow>
       ));
@@ -149,7 +152,7 @@ class ProviderItem extends Component {
             }
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} provider${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<Button onClick={() => this.delete()} style={{ color: 'red' }} icon>delete</Button>]}
+            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
@@ -162,6 +165,7 @@ class ProviderItem extends Component {
                 <TableColumn>Description</TableColumn>
                 <TableColumn>Type</TableColumn>
                 <TableColumn>Parent</TableColumn>
+                <TableColumn>Owner</TableColumn>
                 <TableColumn>Created</TableColumn>
               </TableRow>
             </TableHeader>}

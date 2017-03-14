@@ -2,8 +2,14 @@ $md-primary-color: $md-light-blue-500;
 $md-secondary-color: $md-blue-a-200;
 
 @include react-md-everything;
-@include react-md-theme-toolbars($md-primary-color);
-@include react-md-navigation-drawers($md-blue-a-200);
+
+// Future Dark Theme
+@include react-md-theme-everything(
+  $md-primary-color,
+  $md-secondary-color,
+  false, // specifying dark-theme
+  'dark-theme' // class name to wrap dark-theme styles in - place on main or body as class
+);
 
 .md-toolbar--over-drawer, .md-toolbar--fixed {
     background-color: $gf-deep-blue;

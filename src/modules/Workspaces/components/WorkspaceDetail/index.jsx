@@ -16,6 +16,7 @@ import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCa
 import { BackArrowButton } from 'components/Buttons';
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { DeleteIcon } from 'components/Icons';
 
 class WorkspaceDetail extends Component {
   static propTypes = {
@@ -98,7 +99,7 @@ class WorkspaceDetail extends Component {
           <ListItem
             id="workspaces-settings-menu--delete"
             primaryText={<span>Delete {workspace.description || workspace.name}</span>}
-            leftIcon={<FontIcon style={{ color: 'red' }}>delete_sweep</FontIcon>}
+            leftIcon={<DeleteIcon />}
             onClick={e => this.delete(e)}
           />
         </MenuButton>
