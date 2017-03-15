@@ -228,3 +228,11 @@ export function migrateContainerModal(action, item, provider, fetchProvidersCb, 
   };
 }
 
+export default {
+  scaleContainer,
+  migrateContainer,
+  deleteContainer,
+  confirmDelete,
+  scaleContainerModal,
+  migrateContainerModal,
+};

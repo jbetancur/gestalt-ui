@@ -1,0 +1,45 @@
+{
+  "organizations": {
+    "title": "Organizations"
+  },
+  "workspaces": {
+    "title": "Workspaces"
+  },
+  "environemnts": {
+    "title": "Environments"
+  },
+  "providers": {
+    "title": "Providers"
+  },
+  "users": {
+    "title": "Users"
+  },
+  "groups": {
+    "title": "Groups"
+  },
+  "entitlements": {
+    "title": "Entitlements"
+  },
+  "license": {
+    "title": "License"
+  },
+  "documentation": {
+    "title": "Documentation"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "fields": {
+      "username": {
+        "label": "Username",
+        "errorText": "username is required",
+        "helpText": ""
+      },
+      "password": {
+        "label": "Password",
+        "errorText": "password is required",
+        "helpText": ""
+      }
+    }
+  }
+}

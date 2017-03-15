@@ -34,9 +34,7 @@ import PolicyLimitRuleCreate from './modules/PolicyRules/containers/PolicyLimitR
 import PolicyLimitRuleEdit from './modules/PolicyRules/containers/PolicyLimitRuleEdit';
 import PolicyEventRuleCreate from './modules/PolicyRules/containers/PolicyEventRuleCreate';
 import PolicyEventRuleEdit from './modules/PolicyRules/containers/PolicyEventRuleEdit';
-import Containers from './modules/Containers';
-import ContainerCreate from './modules/Containers/containers/ContainerCreate';
-import ContainerEdit from './modules/Containers/containers/ContainerEdit';
+import { Containers, ContainerCreate, ContainerEdit } from './modules/Containers';
 import APIs from './modules/APIs';
 import APICreate from './modules/APIs/containers/APICreate';
 import APIEdit from './modules/APIs/containers/APIEdit';

@@ -8,11 +8,14 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
+import { I18nextProvider } from 'react-i18next';
 import axios from 'axios';
 import './style/style.scss';
 import routes from './routes';
 import configureStore from './configureStore';
 import { API_URL, API_TIMEOUT } from './constants';
+import i18n from './i18n';
+
 // Create an enhanced history that syncs navigation events with the store
 const store = configureStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
@@ -72,7 +75,9 @@ addLocaleData([...en, ...es]);
 ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={language}>
-      <Router routes={routes(store)} history={history} />
+      <I18nextProvider i18n={i18n}>
+        <Router routes={routes(store)} history={history} />
+      </I18nextProvider>
     </IntlProvider>
   </Provider>,
   document.getElementById('app-root'),

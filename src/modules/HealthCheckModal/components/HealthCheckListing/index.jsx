@@ -12,7 +12,6 @@ const EnhancedTableColumn = styled(TableColumn)`
   padding-top: 1px !important;
   padding-bottom: 1px !important;
   padding-right: 1px !important;
-  padding-left: 5px !important;
   height: 3.8em;
   vertical-align: middle !important;
 `;
@@ -60,7 +59,7 @@ class HealthCheckListing extends Component {
         <EnhancedTableColumn>{item.port}</EnhancedTableColumn>
         <EnhancedTableColumn>{item.port_index}</EnhancedTableColumn>
         <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.ignore_http_1xx} disabled /></EnhancedTableColumn>
-        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.remove(item)} /></EnhancedTableColumn>
+        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.remove(item)} inTable /></EnhancedTableColumn>
       </TableRow>
     ));
   }

@@ -16,14 +16,13 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { VariablesForm } from 'modules/Variables';
-import ContainerCreate from 'modules/Containers/containers/ContainerCreate';
-import ContainerDetails from 'modules/Containers/components/ContainerDetails';
+import { ContainerCreate, ContainerDetails, ContainerActions } from 'modules/Containers';
 import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values, params, router } = props;
+  const { provider, change, reset, values, params, router, container } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const getProviders = () => {
@@ -186,9 +185,22 @@ const ProviderForm = (props) => {
   );
 
   const renderContainerPanel = () => (
-    selectedProviderType.allowContainer ? <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
-      <ContainerCreate params={props.params} inlineMode />
-    </ExpansionPanelNoPadding> : <div />
+    selectedProviderType.allowContainer ?
+      <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
+        <ContainerCreate params={props.params} inlineMode />
+      </ExpansionPanelNoPadding> : <div />
+  );
+
+  const renderContainerDetailsPanel = () => (
+    selectedProviderType.allowContainer && container.id ?
+      <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
+        <div className="flex-row">
+          <div className="flex-12" style={{ position: 'relative' }}>
+            <ContainerActions params={props.params} container={container} inContainerView />
+            <ContainerDetails container={container} />
+          </div>
+        </div>
+      </ExpansionPanelNoPadding> : <div />
   );
 
   return (
@@ -279,17 +291,8 @@ const ProviderForm = (props) => {
                 </div>
               </div>
             </ExpansionPanelNoPadding>
-
-            {props.editMode && !selectedProviderType.allowContainer ? <div /> : renderContainerPanel()}
-
-            {!props.editMode ? <div /> : // react-md bug where expansion list children cannot be null
-            <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
-              <div className="flex-row">
-                <div className="flex-12">
-                  <ContainerDetails container={props.container} />
-                </div>
-              </div>
-            </ExpansionPanelNoPadding>}
+            {props.editMode ? <div /> : renderContainerPanel()}
+            {!props.editMode ? <div /> : renderContainerDetailsPanel()}
           </ExpansionList>
         </div>}
       </form>

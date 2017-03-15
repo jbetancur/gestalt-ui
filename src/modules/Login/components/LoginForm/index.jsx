@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import i18next from 'i18next';
 import styled from 'styled-components';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -30,19 +31,20 @@ const LoginError = styled.div`
 
 const validate = (values) => {
   const errors = {};
+
   if (!values.username) {
-    errors.username = 'username is required';
+    errors.username = i18next.t('auth.fields.username.errorText');
   }
 
   if (!values.password) {
-    errors.password = 'password is required';
+    errors.password = i18next.t('auth.fields.password.errorText');
   }
 
   return errors;
 };
 
 const LoginForm = (props) => {
-  const { login, loginModal, handleSubmit, pristine, invalid, submitting, touched, error } = props;
+  const { login, loginModal, handleSubmit, pristine, invalid, submitting, touched, error, t } = props;
   const submit = (values) => {
     login(values.username, values.password, loginModal.visible);
   };
@@ -59,16 +61,14 @@ const LoginForm = (props) => {
             name="username"
             type="text"
             errorText={touched && error}
-            placeholder="Username"
-            lineDirection="center"
+            placeholder={t('auth.fields.username.label')}
           />
           <Field
             component={TextField}
             name="password"
             type="password"
             errorText={touched && error}
-            placeholder="Password"
-            lineDirection="center"
+            placeholder={t('auth.fields.password.label')}
           />
           <LoginError>{props.statusText}</LoginError>
         </CardText>
@@ -79,7 +79,7 @@ const LoginForm = (props) => {
             flat
             primary
             type="submit"
-            label="Login"
+            label={t('auth.login')}
             disabled={pristine || submitting || invalid}
           />
         </CardActions>
@@ -99,6 +99,7 @@ LoginForm.propTypes = {
   statusText: PropTypes.string,
   touched: PropTypes.bool,
   error: PropTypes.bool,
+  t: PropTypes.func.isRequired,
 };
 
 LoginForm.defaultProps = {
