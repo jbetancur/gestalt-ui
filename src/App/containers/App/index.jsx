@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { translate } from 'react-i18next';
 import styled, { ThemeProvider } from 'styled-components';
 import cn from 'classnames';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
@@ -55,6 +56,7 @@ class App extends Component {
     setCurrentEnvironmentContextfromState: PropTypes.func.isRequired,
     activityIndicator: PropTypes.bool.isRequired,
     browser: PropTypes.object.isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -119,6 +121,8 @@ class App extends Component {
   }
 
   renderNavItems() {
+    const { t, logout } = this.props;
+
     return [
       {
         key: 'organizations',
@@ -130,7 +134,7 @@ class App extends Component {
       },
       {
         key: 'workspaces',
-        primaryText: 'Workspaces',
+        primaryText: t('workspaces.title'),
         component: Link,
         to: `/${this.getCurrentOrgContext().properties.fqon}/workspaces`,
         leftIcon: <FontIcon>work</FontIcon>,
@@ -138,7 +142,7 @@ class App extends Component {
       },
       {
         key: 'providers',
-        primaryText: 'Providers',
+        primaryText: t('providers.title'),
         component: Link,
         to: `/${this.getCurrentOrgContext().properties.fqon}/providers`,
         leftIcon: <FontIcon>cloud</FontIcon>,
@@ -146,7 +150,7 @@ class App extends Component {
       },
       {
         key: 'entitlements',
-        primaryText: 'Entitlements',
+        primaryText: t('entitlements.title'),
         component: Link,
         to: `/${this.getCurrentOrgContext().properties.fqon}/entitlements`,
         leftIcon: <FontIcon>security</FontIcon>,
@@ -154,7 +158,7 @@ class App extends Component {
       },
       {
         key: 'users',
-        primaryText: 'Users',
+        primaryText: t('users.title'),
         component: Link,
         to: `/${this.getCurrentOrgContext().properties.fqon}/users`,
         leftIcon: <FontIcon>person</FontIcon>,
@@ -162,7 +166,7 @@ class App extends Component {
       },
       {
         key: 'groups',
-        primaryText: 'Groups',
+        primaryText: t('groups.title'),
         component: Link,
         to: `/${this.getCurrentOrgContext().properties.fqon}/groups`,
         leftIcon: <FontIcon>group</FontIcon>,
@@ -170,16 +174,16 @@ class App extends Component {
       },
       {
         key: 'logout',
-        primaryText: 'Logout',
+        primaryText: t('auth.logout'),
         leftIcon: <FontIcon>power_settings_new</FontIcon>,
-        style: { position: 'absolute', bottom: '1em' },
-        onClick: () => this.props.logout(),
+        style: { position: 'absolute', bottom: '1em', width: '100%' },
+        onClick: () => logout(),
       }
     ];
   }
 
   renderActionsMenu() {
-    const { self, params, browser, logout } = this.props;
+    const { self, params, browser, logout, t } = this.props;
 
     const renderAvatar = iconSized =>
       <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
@@ -204,7 +208,7 @@ class App extends Component {
         <Divider />
         <ListItem
           id="main-menu--logout"
-          primaryText="logout"
+          primaryText={t('auth.logout')}
           leftIcon={<FontIcon>power_settings_new</FontIcon>}
           onClick={() => logout()}
         />
@@ -221,14 +225,14 @@ class App extends Component {
         <Divider />
         <ListItem
           id="main-help--license"
-          primaryText="License"
+          primaryText={t('license.title')}
           leftIcon={<FontIcon>vpn_key</FontIcon>}
           component={Link}
           to={`${params.fqon}/license`}
         />
         <ListItem
           id="main-help--documentation"
-          primaryText={<a className="gf-no-link" href={DOCUMENTATION_URL} target="_blank" rel="noopener noreferrer">Documentation</a>}
+          primaryText={<a className="gf-no-link" href={DOCUMENTATION_URL} target="_blank" rel="noopener noreferrer">{t('documentation.title')}</a>}
           leftIcon={<FontIcon>library_books</FontIcon>}
         />
       </MenuButton>
@@ -297,4 +301,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, licenseActions, loginActions))(App);
+export default connect(mapStateToProps, Object.assign({}, actions, licenseActions, loginActions))(translate()(App));

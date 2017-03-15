@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 import * as actions from '../../actions';
 import LoginPage from '../../components/LoginPage';
 
@@ -11,4 +12,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(LoginPage);
+export default connect(mapStateToProps, actions)(translate()(LoginPage));

@@ -38,13 +38,13 @@ export default (values) => {
   if (!values.properties.config.url) {
     errors.properties.config.url = 'provider url is required';
   }
-  if (!values.properties.config.auth.scheme) {
+  if (values.properties.config.auth && !values.properties.config.auth.scheme) {
     errors.properties.config.auth.scheme = 'security scheme is required';
   }
-  if (!values.properties.config.auth.username) {
+  if (values.properties.config.auth && !values.properties.config.auth.username) {
     errors.properties.config.auth.username = 'username is required';
   }
-  if (!values.properties.config.auth.password) {
+  if (values.properties.config.auth && !values.properties.config.auth.password) {
     errors.properties.config.auth.password = 'password is required';
   }
 

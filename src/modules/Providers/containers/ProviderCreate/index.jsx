@@ -70,8 +70,8 @@ class ProviderCreate extends Component {
 
     if (values.properties.data) {
       model.properties.data = base64.encode(values.properties.data);
-      delete model.properties.config;
-      delete model.properties.locations;
+      delete model.properties.config.auth;
+      delete model.properties.config.url;
       delete model.properties.networks;
     }
 

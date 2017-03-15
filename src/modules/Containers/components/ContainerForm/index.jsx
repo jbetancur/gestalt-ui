@@ -90,8 +90,8 @@ const ContainerForm = (props) => {
                     component={SelectField}
                     name="properties.network"
                     menuItems={selectedProvider.properties.config.networks}
-                    disabled={!selectedProvider.properties.config.networks.length}
-                    label={!selectedProvider.properties.config.networks.length ? 'No Available Networks' : 'Network'}
+                    disabled={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length)}
+                    label={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length) ? 'No Available Networks' : 'Network'}
                     itemLabel="name"
                     itemValue="name"
                     required

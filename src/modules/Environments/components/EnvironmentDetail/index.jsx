@@ -11,7 +11,7 @@ import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { LambdaIcon, DeleteIcon } from 'components/Icons';
 import Providers from 'modules/Providers';
 import Lambdas from 'modules/Lambdas';
-import Containers from 'modules/Containers';
+import { Containers } from 'modules/Containers';
 import Policies from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import Entitlements from 'modules/Entitlements';

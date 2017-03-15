@@ -7,7 +7,7 @@ const config = require('./config.json');
 
 exports.sourceMaps = () => (
   {
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'inline-source-map' // or cheap-module-eval-source-map
   }
 );
 
