@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
 import CircularActivity from 'components/CircularActivity';
 import { map } from 'lodash';
@@ -56,14 +55,15 @@ class ContainerEdit extends Component {
 
   populateContainer(isPolling) {
     const { params, fetchContainer } = this.props;
+
     fetchContainer(params.fqon, params.containerId, params.environmentId, isPolling);
   }
 
   redeployContainer(values) {
     const { id } = this.props.container;
-    const { params } = this.props;
+    const { params, redeployContainer } = this.props;
 
-    this.props.redeployContainer(params.fqon, params.workspaceId, params.environmentId, id, values);
+    redeployContainer(params.fqon, params.workspaceId, params.environmentId, id, values);
   }
 
   render() {
@@ -78,10 +78,6 @@ class ContainerEdit extends Component {
       {...this.props}
     />;
   }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, actions, volumeModalActions, networkModalActions, healthCheckModalActions), dispatch);
 }
 
 function mapStateToProps(state) {
@@ -133,7 +129,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps,
+Object.assign({}, actions, volumeModalActions, networkModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
 })(ContainerEdit));

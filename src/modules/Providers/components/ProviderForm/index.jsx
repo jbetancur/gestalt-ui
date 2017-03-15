@@ -109,7 +109,7 @@ const ProviderForm = (props) => {
     <div className="flex-row">
       {!selectedProviderType.networking ? null : <div className="flex-6 flex-xs-12">
         <JSONTree
-          data={props.provider.properties.config.networks || {}}
+          data={props.provider.properties.config.networks || []}
         />
       </div>}
       {!selectedProviderType.extraConfig ? null : <div className="flex-6 flex-xs-12">

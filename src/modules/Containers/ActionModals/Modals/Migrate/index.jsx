@@ -25,8 +25,12 @@ class MigrateModal extends PureComponent {
     this.state = { provider: '' };
   }
 
+  componentWillMount() {
+    this.fetchProviders();
+  }
+
   fetchProviders() {
-    this.props.fetchProviders(this.props.params.fqon, this.props.params.environmentId, 'Marathon');
+    this.props.fetchProviders(this.props.params.fqon, this.props.params.environmentId, 'CaaS');
   }
 
   doIt() {

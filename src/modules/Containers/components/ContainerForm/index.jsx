@@ -41,7 +41,8 @@ const ContainerForm = (props) => {
             <CardTitle
               title={
                 <div>
-                  <span>{props.title}</span>{!props.editMode ? null : <ContainerActions inContainerView container={container} {...props} />}
+                  <span>{props.title}</span>{!props.editMode ? null :
+                  <ContainerActions inContainerView container={container} {...props} />}
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
@@ -89,9 +90,9 @@ const ContainerForm = (props) => {
                     className="flex-3 flex-xs-12"
                     component={SelectField}
                     name="properties.network"
-                    menuItems={selectedProvider.properties.config.networks}
+                    menuItems={Array.isArray(selectedProvider.properties.config.networks) ? selectedProvider.properties.config.networks : []}
                     disabled={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length)}
-                    label={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length) ? 'No Available Networks' : 'Network'}
+                    label={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length) ? 'No Configured Networks' : 'Network'}
                     itemLabel="name"
                     itemValue="name"
                     required

@@ -62,7 +62,7 @@ const NetworkForm = (props) => {
             required
             parse={value => Number(value)}  // redux form formats everything as string, so force number
           /> : null}
-        {props.networkType === 'BRIDGE' ?
+        {props.networkType !== 'HOST' ?
           <Field
             name="container_port"
             type="number"

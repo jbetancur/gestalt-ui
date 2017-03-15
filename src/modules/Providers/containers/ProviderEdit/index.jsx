@@ -112,12 +112,18 @@ class ProviderEdit extends Component {
   }
 
 
-  update(values) {
+  update(formValues) {
     const { params, provider, updateProvider } = this.props;
     const originalModel = this.originalModel(this.props.provider);
-    const updatedModel = this.updatedModel(values, originalModel);
-    const patches = jsonPatch.compare(originalModel, updatedModel);
+    const updatedModel = this.updatedModel(formValues, originalModel);
 
+    // Hack Alert: Since we dont want to treat networks as a patch array index
+    // We can appease by always forcing an op add; by deleting the networks key on the original model
+    if (formValues.properties.config.networks) {
+      delete originalModel.properties.config.networks;
+    }
+
+    const patches = jsonPatch.compare(originalModel, updatedModel);
     // If the provider has a container defined then warn the user of an impending container restart
     if (provider.properties.services && provider.properties.services.length) {
       this.props.confirmUpdate(() => updateProvider(params.fqon, provider.id, patches), provider.name);

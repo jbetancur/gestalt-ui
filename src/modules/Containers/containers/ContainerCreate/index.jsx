@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
 import { cloneDeep, map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
@@ -102,10 +101,6 @@ class ContainerCreate extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, actions, volumeModalActions, networkModalActions, healthCheckModalActions), dispatch);
-}
-
 function mapStateToProps(state) {
   const { container, pending } = state.containers.fetchOne;
   const variables = map(Object.assign({}, state.containers.env.env), (value, name) => ({ name, value }));
@@ -149,7 +144,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps,
+Object.assign({}, actions, volumeModalActions, networkModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerCreate',
   validate
 })(ContainerCreate));
+
