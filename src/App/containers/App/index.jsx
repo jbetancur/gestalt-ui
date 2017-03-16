@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { translate } from 'react-i18next';
+import i18next from 'i18next';
 import styled, { ThemeProvider } from 'styled-components';
 import cn from 'classnames';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
@@ -16,7 +17,7 @@ import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
 import TooltipFontIcon from 'components/TooltipFontIcon';
 import ErrorNotifications from 'modules/ErrorNotifications';
-import { GestaltIcon, GestaltIconText } from 'components/Icons';
+import { GestaltIcon, GestaltIconText, USEnglishLangIcon } from 'components/Icons';
 import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
@@ -204,6 +205,19 @@ class App extends Component {
           leftAvatar={renderAvatar(true)}
           component={Link}
           to={`${self.properties.gestalt_home.properties.fqon}/users/${self.id}/edit`}
+        />
+        <ListItem
+          id="main-menu--locale"
+          primaryText={t('general.nouns.language')}
+          leftIcon={<FontIcon>language</FontIcon>}
+          nestedItems={[
+            <ListItem
+              primaryText="English"
+              leftIcon={<USEnglishLangIcon />}
+              key={0}
+              onClick={() => i18next.changeLanguage('en')}
+            />,
+          ]}
         />
         <Divider />
         <ListItem

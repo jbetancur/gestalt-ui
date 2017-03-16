@@ -52,12 +52,13 @@ const common = merge([
       }),
     ],
   },
-  parts.babelConfig(),
-  parts.esLintConfig(),
+  parts.babelConfig(PATHS),
   parts.fontConfig(),
-  parts.icoConfig(),
-  parts.svgConfig(),
-  parts.imageConfig(),
+  parts.icoConfig(PATHS),
+  parts.svgConfig(PATHS),
+  parts.imageConfig(PATHS),
+  parts.yamlConfig(PATHS),
+  parts.esLintConfig(),
 ]);
 
 module.exports = function test(env) {

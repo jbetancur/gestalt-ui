@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
@@ -13,6 +14,7 @@ class OrgEdit extends Component {
     fetchOrg: PropTypes.func.isRequired,
     updateOrg: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -62,11 +64,12 @@ class OrgEdit extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <ContainmentForm
         title={this.props.organization.description || this.props.organization.name}
-        submitLabel="Update"
-        cancelLabel="Cancel"
+        submitLabel={t('general.verbs.update')}
+        cancelLabel={t('general.verbs.cancel')}
         onSubmit={values => this.updateOrg(values)}
         envMap={this.props.organization.properties.env}
         {...this.props}
@@ -95,4 +98,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'organizationEdit',
   validate
-})(OrgEdit));
+})(translate()(OrgEdit)));

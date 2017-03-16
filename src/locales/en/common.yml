@@ -1,0 +1,96 @@
+---
+general:
+  nouns:
+    name: Name
+    shortName: short-name
+    description: Description
+    owner: Owner
+    uuid: uuid
+    fqon: fqon
+    language: Language
+  verbs:
+    search: Search
+    created: Created
+    modified: Modified
+    create: Create
+    edit: Edit
+    delete: Delete
+    update: Update
+    cancel: Cancel
+    done: Done
+    back: Back
+containment:
+ fields:
+    name:
+      label: short-name
+      errorText:
+        pattern: not a valid short-name pattern
+        length: short-name is is too long
+      helpText: allowed characters (a-z A-Z 0-9  - )
+    description:
+      label: Name
+      errorText:
+        length: name is is too long
+      helpText:
+    environmentType:
+      label: Environment Type
+      errorText:
+      helpText:
+organizations:
+  title: Organizations
+  orgNav: Switch Organization
+  actions:
+    create: Create Organization
+    createSubOrg: Create SubOrganization
+workspaces:
+  title: Workspaces
+  actions:
+    create: Create Workspace
+environments:
+  title: Environments
+  actions:
+    create: Create Environment
+providers:
+  title: Providers
+  actions:
+    create: Create Provider
+users:
+  title: Users
+  actions:
+    create: Create User
+groups:
+  title: Groups
+  actions:
+    create: Create Group
+entitlements:
+  title: Entitlements
+license:
+  title: License
+variables:
+  actions:
+    add: Add Variable
+  fields:
+    name:
+      label: Name
+      errorText:
+        pattern:
+      helpText:
+    value:
+      label: Value
+      errorText:
+        pattern:
+      helpText:
+documentation:
+  title: Documentation
+auth:
+  login: Login
+  logout: Logout
+  fields:
+    username:
+      label: Username
+      errorText: username is required
+      helpText: ''
+    password:
+      label: Password
+      errorText: password is required
+      helpText: ''

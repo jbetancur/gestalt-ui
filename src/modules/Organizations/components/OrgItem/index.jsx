@@ -29,6 +29,7 @@ class OrgItem extends Component {
     setCurrentOrgContext: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -85,7 +86,7 @@ class OrgItem extends Component {
   }
 
   renderActionsMenu() {
-    const { params, pending, organization, self } = this.props;
+    const { params, pending, organization, self, t } = this.props;
 
     return (
       <div>
@@ -98,14 +99,14 @@ class OrgItem extends Component {
         >
           <ListItem
             id="orgs-settings-menu--create"
-            primaryText={<span>Create Sub-Organization</span>}
+            primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
             leftIcon={<FontIcon>add</FontIcon>}
             component={Link}
             to={`/${params.fqon}/organizations/create`}
           />
           <ListItem
             id="orgs-settings-menu--edit"
-            primaryText={<span>Edit {organization.description || organization.name}</span>}
+            primaryText={<span>{t('general.verbs.edit')} {organization.description || organization.name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             to={`/${params.fqon}/organizations/edit`}
@@ -113,7 +114,7 @@ class OrgItem extends Component {
           <Divider />
           <ListItem
             id="orgs-settings-menu--delete"
-            primaryText={<span>Delete {organization.description || organization.name}</span>}
+            primaryText={<span>{t('general.verbs.delete')} {organization.description || organization.name}</span>}
             leftIcon={<DeleteIcon />}
             disabled={params.fqon === self.properties.gestalt_home || params.fqon === 'root'}
             onClick={e => this.delete(e)}
@@ -124,22 +125,23 @@ class OrgItem extends Component {
   }
 
   renderCards(item) {
+    const { t } = this.props;
     return (
       <Card key={item.id} className="flex-4 flex-xs-12" onClick={() => this.navToSubOrgs(item)}>
         <CardTitle
-          title={item.description || item.name || 'test'}
+          title={item.description || item.name}
           subtitle={
             <div>
               <div>{item.properties.fqon}</div>
               {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-              {!item.owner.name ? null : <div className="gf-caption">owner: {item.owner.name}</div>}
-              <div className="gf-caption">created <FormattedRelative value={item.created.timestamp} /></div>
-              <div className="gf-caption">modified <FormattedRelative value={item.modified.timestamp} /></div>
+              {!item.owner.name ? null : <div className="gf-caption"><span>{t('general.nouns.owner')}: {item.owner.name}</span></div>}
+              <div className="gf-caption">{t('general.verbs.created').toLowerCase()} <FormattedRelative value={item.created.timestamp} /></div>
+              <div className="gf-caption">{t('general.verbs.modified').toLowerCase()} <FormattedRelative value={item.modified.timestamp} /></div>
             </div>}
         />
         <CardActions>
           <Button
-            label="Workspaces"
+            label={t('workspaces.title')}
             flat
             primary
             onClick={e => this.navToWorkspaces(e, item)}
@@ -165,7 +167,7 @@ class OrgItem extends Component {
 
   render() {
     const parentFQON = getParentFQON(this.props.organization);
-    const { pending, organization, self, params } = this.props;
+    const { pending, organization, self, params, t } = this.props;
 
     return (
       <div>
@@ -174,18 +176,18 @@ class OrgItem extends Component {
             {this.renderActionsMenu()}
             {!pending ?
               <div className="gf-headline">{organization.description || organization.name}
-                <div className="md-caption"><span>fqon: {organization.properties.fqon}</span></div>
+                <div className="md-caption"><span>{t('general.nouns.fqon')}: {organization.properties.fqon}</span></div>
               </div> : null}
           </DetailCardTitle>
           <DetailCardText expandable>
-            <div><span className="gf-label">Name: </span><span className="gf-subtitle">{organization.description || organization.name}</span></div>
-            <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{organization.name}</span></div>
-            <div><span className="gf-label">fqon: </span><span className="gf-subtitle">{organization.properties.fqon}</span></div>
-            <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={organization.created.timestamp} /> (<FormattedDate value={organization.created.timestamp} /> <FormattedTime value={organization.created.timestamp} />)</span></div>
-            <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={organization.modified.timestamp} /> (<FormattedDate value={organization.modified.timestamp} /> <FormattedTime value={organization.modified.timestamp} />)</span></div>
+            <div><span className="gf-label">{t('general.nouns.name')}: </span><span className="gf-subtitle">{organization.description || organization.name}</span></div>
+            <div><span className="gf-label">{t('general.nouns.shortName')}: </span><span className="gf-subtitle">{organization.name}</span></div>
+            <div><span className="gf-label">{t('general.nouns.fqon')}: </span><span className="gf-subtitle">{organization.properties.fqon}</span></div>
+            <div><span className="gf-label">{t('general.verbs.created')}: </span><span className="gf-subtitle"><FormattedRelative value={organization.created.timestamp} /> (<FormattedDate value={organization.created.timestamp} /> <FormattedTime value={organization.created.timestamp} />)</span></div>
+            <div><span className="gf-label">{t('general.verbs.modified')}: </span><span className="gf-subtitle"><FormattedRelative value={organization.modified.timestamp} /> (<FormattedDate value={organization.modified.timestamp} /> <FormattedTime value={organization.modified.timestamp} />)</span></div>
             {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
             {!organization.owner.name ? null : <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{organization.owner.name}</span></div>}
-            <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{organization.id}</span></div>
+            <div><span className="gf-label">{t('general.nouns.uuid')}: </span><span className="gf-subtitle">{organization.id}</span></div>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <VariablesListing envMap={organization.properties.env} />
