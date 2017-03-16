@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
@@ -7,7 +8,8 @@ import * as actions from '../../actions';
 class OrgCreate extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    createOrg: PropTypes.func.isRequired
+    createOrg: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   createOrg(values) {
@@ -29,11 +31,12 @@ class OrgCreate extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <ContainmentForm
-        title="Create Organization"
-        submitLabel="Create"
-        cancelLabel="Cancel"
+        title={t('organizations.actions.create')}
+        submitLabel={t('general.verbs.create')}
+        cancelLabel={t('general.verbs.cancel')}
         onSubmit={values => this.createOrg(values)}
         {...this.props}
       />
@@ -60,4 +63,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'organizationCreate',
   validate
-})(OrgCreate));
+})(translate()(OrgCreate)));

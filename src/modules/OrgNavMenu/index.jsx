@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { translate } from 'react-i18next';
 import styled from 'styled-components';
 import TextField from 'react-md/lib/TextFields';
 import CircularProgress from 'react-md/lib/Progress/CircularProgress';
@@ -19,7 +20,6 @@ const EnhancedMenuButton = styled(MenuButton)`
   }
 `;
 
-
 class OrgNavMenu extends Component {
   static propTypes = {
     fetchAllOrgs: PropTypes.func.isRequired,
@@ -27,6 +27,7 @@ class OrgNavMenu extends Component {
     organizations: PropTypes.array.isRequired,
     orgFetching: PropTypes.bool.isRequired,
     onUnload: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -61,7 +62,7 @@ class OrgNavMenu extends Component {
   }
 
   renderSearch() {
-    const { orgFetching } = this.props;
+    const { orgFetching, t } = this.props;
 
     return (
       <div>
@@ -70,7 +71,7 @@ class OrgNavMenu extends Component {
             <div>
               <TextField
                 id="search-orgs"
-                label="Search"
+                label={t('general.verbs.search')}
                 fullWidth={true}
                 onChange={value => this.filterOrgs(value)}
               />
@@ -88,7 +89,7 @@ class OrgNavMenu extends Component {
       <div>
         <EnhancedMenuButton
           id="orgs-menu"
-          label="Switch Organization"
+          label={this.props.t('organizations.orgNav')}
           flat
           fullWidth
           position="below"
@@ -116,4 +117,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(OrgNavMenu);
+export default connect(mapStateToProps, actions)(translate()(OrgNavMenu));

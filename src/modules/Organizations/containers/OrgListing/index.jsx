@@ -1,16 +1,13 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { translate } from 'react-i18next';
 import { appActions } from 'App';
 import { sortBy } from 'lodash';
 import OrgItem from '../../components/OrgItem';
 import * as actions from '../../actions';
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, actions, appActions), dispatch);
-}
-
 function mapStateToProps(state) {
   return {
+    // TODO: refactor as selector
     self: state.app.self.self,
     pending: state.organizations.fetchSet.pending,
     organization: state.organizations.fetchSet.organization,
@@ -18,4 +15,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrgItem);
+export default connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(OrgItem));

@@ -61,14 +61,14 @@ const LoginForm = (props) => {
             name="username"
             type="text"
             errorText={touched && error}
-            placeholder={t('auth.fields.username.label')}
+            placeholder={t('auth.fields.username.label', { wait: true })}
           />
           <Field
             component={TextField}
             name="password"
             type="password"
             errorText={touched && error}
-            placeholder={t('auth.fields.password.label')}
+            placeholder={t('auth.fields.password.label', { wait: true })}
           />
           <LoginError>{props.statusText}</LoginError>
         </CardText>
@@ -79,7 +79,7 @@ const LoginForm = (props) => {
             flat
             primary
             type="submit"
-            label={t('auth.login')}
+            label={t('auth.login', { wait: true })}
             disabled={pristine || submitting || invalid}
           />
         </CardActions>
@@ -110,7 +110,6 @@ LoginForm.defaultProps = {
 
 export default reduxForm({
   form: 'login',
-  fields: ['username', 'password'],
   validate
 })(LoginForm);
 

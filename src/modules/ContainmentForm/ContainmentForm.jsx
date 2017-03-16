@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
+import { translate } from 'react-i18next';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -13,9 +14,7 @@ import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ContainmentForm = (props) => {
-  const goBack = () => {
-    props.router.goBack();
-  };
+  const { t } = props;
 
   return (
     <div>
@@ -36,7 +35,7 @@ const ContainmentForm = (props) => {
                   className="flex-6 flex-xs-12"
                   component={TextField}
                   name="description"
-                  label="Name"
+                  label={t('containment.fields.description.label')}
                   type="text"
                   maxLength={nameMaxLen}
                   lineDirection="center"
@@ -46,13 +45,13 @@ const ContainmentForm = (props) => {
                   className="flex-6 flex-xs-12"
                   component={TextField}
                   name="name"
-                  label="Short Name"
+                  label={t('containment.fields.name.label')}
                   type="text"
                   errorText={props.touched && props.error}
                   maxLength={shortNameMaxLen}
                   lineDirection="center"
                   required
-                  helpText="allowed characters (a-z A-Z 0-9  - )"
+                  helpText={t('containment.fields.name.helpText')}
                 />
                 {props.isEnvironment ? <Field
                   id="environment-type"
@@ -61,7 +60,7 @@ const ContainmentForm = (props) => {
                   name="properties.environment_type"
                   menuItems={['development', 'test', 'production']}
                   required
-                  label="Environment Type"
+                  label={t('containment.fields.environmentType.label')}
                   errorText={props.touched && props.error}
                 /> : null}
               </div>
@@ -73,7 +72,7 @@ const ContainmentForm = (props) => {
                 flat
                 label={props.cancelLabel}
                 disabled={props.pending || props.submitting}
-                onClick={() => goBack()}
+                onClick={() => props.router.goBack()}
               />
               <Button
                 raised
@@ -105,6 +104,7 @@ ContainmentForm.propTypes = {
   cancelLabel: PropTypes.string,
   envMap: PropTypes.object,
   isEnvironment: PropTypes.bool,
+  t: PropTypes.func.isRequired,
 };
 
 ContainmentForm.defaultProps = {
@@ -117,4 +117,4 @@ ContainmentForm.defaultProps = {
   envMap: {},
 };
 
-export default ContainmentForm;
+export default translate()(ContainmentForm);

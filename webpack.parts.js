@@ -22,13 +22,13 @@ exports.externals = () => (
   }
 );
 
-exports.babelConfig = () => (
+exports.babelConfig = ({ srcPath }) => (
   {
     module: {
       rules: [{
         test: /(\.js|\.jsx)$/,
         loader: 'babel-loader',
-        exclude: [/node_modules/],
+        include: srcPath,
       }]
     }
   }
@@ -69,7 +69,7 @@ exports.scssConfig = ({ options }) => (
             },
             {
               loader: 'sass-loader',
-              options
+              options,
             }
           ]
         })
@@ -83,40 +83,55 @@ exports.fontConfig = () => (
     module: {
       rules: [{
         test: /\.(eot|ttf|woff|woff2)$/,
-        loader: 'url-loader'
+        loader: 'url-loader',
       }]
     }
   }
 );
 
-exports.icoConfig = () => (
+exports.icoConfig = ({ srcPath }) => (
   {
     module: {
       rules: [{
         test: /\.(ico)$/,
-        loader: 'raw-loader'
+        loader: 'raw-loader',
+        include: srcPath,
       }]
     }
   }
 );
 
-exports.svgConfig = () => (
+exports.svgConfig = ({ srcPath }) => (
   {
     module: {
       rules: [{
         test: /\.(svg)$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
+        include: srcPath,
       }]
     }
   }
 );
 
-exports.imageConfig = () => (
+exports.imageConfig = ({ srcPath }) => (
   {
     module: {
       rules: [{
         test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=10000' // inline base64 URLs for <=8k images, direct URLs for the rest
+        loader: 'url-loader?limit=10000', // inline base64 URLs for <=8k images, direct URLs for the rest
+        include: srcPath,
+      }]
+    }
+  }
+);
+
+exports.yamlConfig = ({ srcPath }) => (
+  {
+    module: {
+      rules: [{
+        test: /\.(yaml|yml)$/,
+        loader: 'yaml-loader',
+        include: srcPath,
       }]
     }
   }
