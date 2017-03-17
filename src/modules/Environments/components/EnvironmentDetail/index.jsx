@@ -180,8 +180,8 @@ class EnvironmentDetail extends Component {
               <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 0)} />
               <Tab label="Lambdas" id="lambdas" icon={<LambdaIcon />} onClick={() => this.handleViewState('lambdas', 1)} />
               <Tab label="APIS" id="apis" icon={<FontIcon>device_hub</FontIcon>} onClick={() => this.handleViewState('apis', 2)} />
-              <Tab label="Providers" id="providers" icon={<FontIcon>cloud</FontIcon>} onClick={() => this.handleViewState('providers', 3)} />
-              <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 4)} />
+              <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
+              <Tab label="Providers" id="providers" icon={<FontIcon>cloud</FontIcon>} onClick={() => this.handleViewState('providers', 4)} />
               { /* <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 5)} /> */}
               <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 6)} />
               <Tab id="hidden" style={{ position: 'fixed', left: '-300px', zIndex: -999999 }} />

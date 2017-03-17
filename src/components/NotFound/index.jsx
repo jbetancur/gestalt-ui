@@ -1,5 +1,5 @@
 import React from 'react';
-import RobotUprisingIcon from 'components/RobotUprisingIcon';
+import { RobotUprisingIcon } from 'components/Icons';
 import P from 'components/P';
 
 const NotFound = () => (

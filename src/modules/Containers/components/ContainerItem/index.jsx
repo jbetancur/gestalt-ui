@@ -106,8 +106,8 @@ class ContainerItem extends Component {
           <ContainerActions container={container} {...this.props} />
         </EnhancedTableColumn>
         <EnhancedTableColumn>{container.name}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.description}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.status}</EnhancedTableColumn>
+        <EnhancedTableColumn>{container.description}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.provider.name}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.num_instances}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.cpus}</EnhancedTableColumn>
@@ -136,8 +136,8 @@ class ContainerItem extends Component {
                 <TableRow>
                   <TableColumn />
                   <TableColumn>Name</TableColumn>
-                  <TableColumn>Description</TableColumn>
                   <TableColumn>Status</TableColumn>
+                  <TableColumn>Description</TableColumn>
                   <TableColumn>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>
                   <TableColumn>CPU</TableColumn>

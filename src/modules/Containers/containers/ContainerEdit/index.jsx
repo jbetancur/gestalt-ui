@@ -50,7 +50,7 @@ class ContainerEdit extends Component {
   }
 
   startPoll() {
-    this.timeout = setTimeout(() => this.populateContainer(true), 5000);
+    // this.timeout = setTimeout(() => this.populateContainer(true), 5000);
   }
 
   populateContainer(isPolling) {
