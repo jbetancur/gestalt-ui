@@ -35,14 +35,13 @@ class ContainerDetails extends Component {
       <div>
         <TableCardHeader title="Instances" />
         <DataTable plain>
-          {this.props.container.properties.instances.length ?
-            <TableHeader>
-              <TableRow>
-                <TableColumn>Host Address</TableColumn>
-                <TableColumn>Container Addresses</TableColumn>
-                <TableColumn>Host Port</TableColumn>
-              </TableRow>
-            </TableHeader> : null}
+          <TableHeader>
+            <TableRow>
+              <TableColumn>Host Address</TableColumn>
+              <TableColumn>Container Addresses</TableColumn>
+              <TableColumn>Host Port</TableColumn>
+            </TableRow>
+          </TableHeader>
           <TableBody>
             {this.renderInstancesRows()}
           </TableBody>
@@ -54,9 +53,9 @@ class ContainerDetails extends Component {
   renderServiceAddressesRows() {
     return this.props.container.properties.port_mappings.map((port, i) => (
       <TableRow key={i}>
-        <TableColumn>{port.service_address.host}</TableColumn>
-        <TableColumn>{port.service_address.port}</TableColumn>
-        <TableColumn>{port.service_address.protocol}</TableColumn>
+        <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
+        <TableColumn>{port.service_address && port.service_address.port}</TableColumn>
+        <TableColumn>{port.service_address && port.service_address.protocol}</TableColumn>
       </TableRow>
     ));
   }
@@ -66,14 +65,13 @@ class ContainerDetails extends Component {
       <div>
         <TableCardHeader title="Service Addresses" />
         <DataTable plain>
-          {this.props.container.properties.port_mappings.length ?
-            <TableHeader>
-              <TableRow>
-                <TableColumn>Host</TableColumn>
-                <TableColumn>Port</TableColumn>
-                <TableColumn>Protocol</TableColumn>
-              </TableRow>
-            </TableHeader> : null}
+          <TableHeader>
+            <TableRow>
+              <TableColumn>Host</TableColumn>
+              <TableColumn>Port</TableColumn>
+              <TableColumn>Protocol</TableColumn>
+            </TableRow>
+          </TableHeader>
           <TableBody>
             {this.renderServiceAddressesRows()}
           </TableBody>
@@ -86,7 +84,7 @@ class ContainerDetails extends Component {
     return (
       <div>
         {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) ? this.renderInstancesTable() : null}
-        {(this.props.container.properties.port_mappings && Object.keys(this.props.container.properties.port_mappings).length) ? this.renderServiceAddressesTable() : null}
+        {this.props.container.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
       </div>
     );
   }

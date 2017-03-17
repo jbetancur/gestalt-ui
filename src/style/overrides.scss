@@ -42,6 +42,13 @@
     font-size: .5em;
 }
 
+// removes ink pulse on tabs
+.md-tab {
+  .md-ink-container {
+    z-index: -1;
+  }
+}
+
 .md-btn--toolbar {
   .md-divider--vertical {
     display: inline-block;

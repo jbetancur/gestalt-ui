@@ -16,7 +16,7 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { VariablesForm } from 'modules/Variables';
-import { ContainerCreate, ContainerDetails, ContainerActions } from 'modules/Containers';
+import { ContainerCreate, ContainerDetails } from 'modules/Containers';
 import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
@@ -196,7 +196,7 @@ const ProviderForm = (props) => {
       <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
         <div className="flex-row">
           <div className="flex-12" style={{ position: 'relative' }}>
-            <ContainerActions params={props.params} container={container} inContainerView />
+            {/* <ContainerActions params={props.params} container={container} inContainerView /> */}
             <ContainerDetails container={container} />
           </div>
         </div>
