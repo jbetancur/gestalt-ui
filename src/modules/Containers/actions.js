@@ -59,10 +59,12 @@ export function fetchContainers(fqon, environmentId, isPolling) {
   };
 }
 
-export function fetchEnv(fqon, environmentId) {
+export function fetchEnv(fqon, entityId, entityKey) {
+  const url = entityId ? `${fqon}/${entityKey}/${entityId}/env` : `${fqon}/env`;
+
   return (dispatch) => {
     dispatch({ type: FETCH_ENV_PENDING });
-    axios.get(`${fqon}/environments/${environmentId}/env`).then((response) => {
+    axios.get(url).then((response) => {
       dispatch({ type: FETCH_ENV_FULFILLED, payload: response.data });
     }).catch((err) => {
       dispatch({ type: FETCH_ENV_REJECTED, payload: err });
@@ -167,12 +169,13 @@ export function migrateContainer(fqon, environmentId, containerId, providerId, i
   };
 }
 
-export function fetchProviders(fqon, environmentId, providerType) {
+export function fetchProvidersByType(fqon, entityId, entityKey, providerType) {
+  const url = entityId ? `${fqon}/${entityKey}/${entityId}/providers` : `${fqon}/providers`;
   const type = providerType ? `&type=${providerType}` : '';
 
   return (dispatch) => {
     dispatch({ type: FETCH_PROVIDERS_PENDING, payload: [{ id: '', name: 'fetching providers...' }] });
-    axios.get(`${fqon}/environments/${environmentId}/providers?expand=true${type}`).then((response) => {
+    axios.get(`${url}?expand=true${type}`).then((response) => {
       if (!response.data.length) {
         dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });
       } else {

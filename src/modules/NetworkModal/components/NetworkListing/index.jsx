@@ -67,7 +67,7 @@ class VolumeListing extends Component {
             <TableRow>
               <TableColumn>Name</TableColumn>
               <TableColumn>Protocol</TableColumn>
-              <TableColumn>Expose Endpoint</TableColumn>
+              <TableColumn>Expose Service</TableColumn>
               <TableColumn>Service Port</TableColumn>
               <TableColumn>Container Port</TableColumn>
               <TableColumn />

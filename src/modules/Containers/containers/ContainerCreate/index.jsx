@@ -32,7 +32,10 @@ class ContainerCreate extends Component {
 
   componentWillMount() {
     const { params, fetchEnv } = this.props;
-    fetchEnv(params.fqon, params.environmentId);
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+
+    fetchEnv(params.fqon, entityId, entityKey);
   }
 
   componentWillUnmount() {

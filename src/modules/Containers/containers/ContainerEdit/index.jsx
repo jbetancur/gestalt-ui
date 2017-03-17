@@ -15,7 +15,8 @@ class ContainerEdit extends Component {
     params: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
+    fetchEnv: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
     unloadNetworks: PropTypes.func.isRequired,
@@ -24,9 +25,12 @@ class ContainerEdit extends Component {
   };
 
   componentWillMount() {
-    const { params, fetchProviders } = this.props;
-    // init providers dropdown
-    fetchProviders(params.fqon, params.environmentId, 'CaaS');
+    const { params, fetchProvidersByType, fetchEnv } = this.props;
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+
+    fetchProvidersByType(params.fqon, entityId, entityKey, 'CaaS');
+    fetchEnv(params.fqon, entityId, entityKey);
     this.populateContainer();
   }
 
@@ -50,7 +54,7 @@ class ContainerEdit extends Component {
   }
 
   startPoll() {
-    // this.timeout = setTimeout(() => this.populateContainer(true), 5000);
+    this.timeout = setTimeout(() => this.populateContainer(true), 5000);
   }
 
   populateContainer(isPolling) {

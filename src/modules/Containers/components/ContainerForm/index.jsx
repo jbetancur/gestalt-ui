@@ -29,7 +29,10 @@ const ContainerForm = (props) => {
     || { properties: { config: { networks: [] } } };
 
   const fetchProviders = () => {
-    props.fetchProviders(params.fqon, params.environmentId, 'CaaS');
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+
+    props.fetchProvidersByType(params.fqon, entityId, entityKey, 'CaaS');
   };
 
   return (
@@ -321,7 +324,7 @@ const ContainerForm = (props) => {
 };
 
 ContainerForm.propTypes = {
-  fetchProviders: PropTypes.func.isRequired,
+  fetchProvidersByType: PropTypes.func.isRequired,
   showVolumeModal: PropTypes.func.isRequired,
   showNetworkModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
