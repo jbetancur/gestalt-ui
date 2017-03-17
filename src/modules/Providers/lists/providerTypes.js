@@ -51,7 +51,7 @@ export default [
   },
   {
     name: 'PostgreSQL',
-    value: 'estalt::Configuration::Provider::Data::PostgreSQL',
+    value: 'Gestalt::Configuration::Provider::Data::PostgreSQL',
     type: 'DATA::POSTGRESQL',
     config: false,
     networking: false,
