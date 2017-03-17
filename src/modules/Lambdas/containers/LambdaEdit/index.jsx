@@ -145,6 +145,8 @@ function mapStateToProps(state) {
     lambdaUpdatePending: state.lambdas.lambdaUpdate.pending,
     pendingProviders: state.lambdas.providers.pending,
     providers: state.lambdas.providers.providers,
+    executors: state.lambdas.executors.executors,
+    pendingExecutors: state.lambdas.executors.pending,
     initialValues: model,
     enableReinitialize: true,
   };

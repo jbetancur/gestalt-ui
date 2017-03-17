@@ -1,6 +1,6 @@
 import { isLambdaName } from 'util/validations';
 
-export const nameMaxLen = 30;
+export const nameMaxLen = 45;
 export const descriptionMaxLen = 512;
 
 export default (values) => {

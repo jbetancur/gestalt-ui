@@ -52,12 +52,11 @@ class ContainerDetails extends Component {
   }
 
   renderServiceAddressesRows() {
-    return this.props.container.properties.service_addresses.map((item, i) => (
+    return this.props.container.properties.port_mappings.map((port, i) => (
       <TableRow key={i}>
-        <TableColumn>{item.address}</TableColumn>
-        <TableColumn>
-          {item.ports && item.ports.map((port, idx) => <div key={idx}>{port}</div>)}
-        </TableColumn>
+        <TableColumn>{port.service_address.host}</TableColumn>
+        <TableColumn>{port.service_address.port}</TableColumn>
+        <TableColumn>{port.service_address.protocol}</TableColumn>
       </TableRow>
     ));
   }
@@ -67,11 +66,12 @@ class ContainerDetails extends Component {
       <div>
         <TableCardHeader title="Service Addresses" />
         <DataTable plain>
-          {this.props.container.properties.service_addresses.length ?
+          {this.props.container.properties.port_mappings.length ?
             <TableHeader>
               <TableRow>
-                <TableColumn>Address</TableColumn>
-                <TableColumn>Ports</TableColumn>
+                <TableColumn>Host</TableColumn>
+                <TableColumn>Port</TableColumn>
+                <TableColumn>Protocol</TableColumn>
               </TableRow>
             </TableHeader> : null}
           <TableBody>
@@ -86,7 +86,7 @@ class ContainerDetails extends Component {
     return (
       <div>
         {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) ? this.renderInstancesTable() : null}
-        {(this.props.container.properties.service_addresses && Object.keys(this.props.container.properties.service_addresses).length) ? this.renderServiceAddressesTable() : null}
+        {(this.props.container.properties.port_mappings && Object.keys(this.props.container.properties.port_mappings).length) ? this.renderServiceAddressesTable() : null}
       </div>
     );
   }

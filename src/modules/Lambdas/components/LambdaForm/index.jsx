@@ -15,6 +15,7 @@ import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
+// import { Scheduler } from 'modules/PeriodicScheduler';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
@@ -27,7 +28,12 @@ const LambdaForm = (props) => {
     props.fetchProviders(params.fqon, params.environmentId, 'Kong');
   };
 
-  const getRuntime = () => runTimes.filter(runtime => runtime.value === values.properties.runtime)[0] || '';
+  const fetchExecutors = () => {
+    props.fetchExecutors(params.fqon, params.environmentId, 'Executor');
+  };
+
+  // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
+  const getRuntime = () => runTimes.find(runtime => runtime.value === values.properties.runtime) || '';
 
   // const handleTheme = () => {
   //
@@ -65,16 +71,17 @@ const LambdaForm = (props) => {
                 />
                 <Field
                   id="select-runtime"
-                  className="flex-2 flex-xs-12"
+                  className="flex-3 flex-xs-12"
                   component={SelectField}
                   name="properties.runtime"
-                  menuItems={runTimes}
-                  itemLabel="displayName"
-                  itemValue="value"
+                  menuItems={props.executors}
+                  itemLabel="name"
+                  itemValue="runtime"
                   required
                   label="Runtime"
                   errorText={props.touched && props.error}
                   disabled={props.editMode}
+                  onFocus={() => fetchExecutors()}
                 />
                 <Field
                   id="select-code-type"
@@ -91,7 +98,7 @@ const LambdaForm = (props) => {
                 />
                 <Field
                   id="select-return-type"
-                  className="flex-4 flex-xs-12"
+                  className="flex-3 flex-xs-12"
                   component={SelectField}
                   name="properties.headers.Accept"
                   menuItems={acceptHeaders}
@@ -162,7 +169,6 @@ const LambdaForm = (props) => {
                   component={TextField}
                   name="properties.handler"
                   label="Handler"
-                  placeholder={getRuntime().format}
                   helpText={getRuntime().format}
                   type="text"
                   required
@@ -233,6 +239,13 @@ const LambdaForm = (props) => {
                   </div> : null}
               </div>
               <Divider />
+
+              {/* <div className="flex-row">
+                <div className="flex-12">
+                  <Scheduler />
+                </div>
+              </div> */}
+
               <div className="flex-row">
                 <div className="flex-12">
                   <VariablesForm icon="list" {...props} />
@@ -275,6 +288,7 @@ LambdaForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
+  executors: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
   touched: PropTypes.bool,
   error: PropTypes.bool,

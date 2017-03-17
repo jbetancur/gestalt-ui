@@ -26,6 +26,9 @@ import {
   FETCH_ENV_PENDING,
   FETCH_ENV_FULFILLED,
   FETCH_ENV_REJECTED,
+  FETCH_EXECUTORS_PENDING,
+  FETCH_EXECUTORS_FULFILLED,
+  FETCH_EXECUTORS_REJECTED,
 } from './actionTypes';
 
 export function onUnload() {
@@ -178,6 +181,22 @@ export function fetchProviders(fqon, environmentId, providerType) {
       }
     }).catch((err) => {
       dispatch({ type: FETCH_PROVIDERS_REJECTED, payload: err });
+    });
+  };
+}
+
+export function fetchExecutors(fqon, environmentId, executorType) {
+  return (dispatch) => {
+    dispatch({ type: FETCH_EXECUTORS_PENDING, payload: [{ runtime: '', name: 'fetching executors...' }] });
+    axios.get(`${fqon}/environments/${environmentId}/providers?expand=true&type=${executorType}`).then((response) => {
+      if (!response.data.length) {
+        dispatch({ type: FETCH_EXECUTORS_FULFILLED, payload: [{ runtime: '', name: 'No Available Executors' }] });
+      } else {
+        const payload = response.data.map(executor => ({ name: `${executor.name} (${executor.resource_type.split(/[::]+/).pop()})`, runtime: executor.properties.config.env.public.RUNTIME }));
+        dispatch({ type: FETCH_EXECUTORS_FULFILLED, payload });
+      }
+    }).catch((err) => {
+      dispatch({ type: FETCH_EXECUTORS_REJECTED, payload: err });
     });
   };
 }

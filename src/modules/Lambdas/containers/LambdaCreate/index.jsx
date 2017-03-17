@@ -68,6 +68,8 @@ function mapStateToProps(state) {
     pendingEnv: state.lambdas.env.pending,
     pendingProviders: state.lambdas.providers.pending,
     providers: state.lambdas.providers.providers,
+    executors: state.lambdas.executors.executors,
+    pendingExecutors: state.lambdas.executors.pending,
     initialValues: {
       name: '',
       properties: {

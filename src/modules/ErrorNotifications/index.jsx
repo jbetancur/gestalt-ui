@@ -22,7 +22,7 @@ class ErrorNotifications extends PureComponent {
     this.state = {
       toasts: [],
       autohide: true,
-      autohideTimeout: 10000,
+      autohideTimeout: 5000,
     };
   }
 

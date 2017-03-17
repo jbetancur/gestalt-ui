@@ -22,6 +22,7 @@ export default ({ input, meta: { touched, error }, ...others }) => (
     width="100%"
     height="100%"
     wrapEnabled
+    showPrintMargn={false}
     editorProps={{ $blockScrolling: Infinity }}
   />
 );
