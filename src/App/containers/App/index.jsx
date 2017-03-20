@@ -16,7 +16,6 @@ import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
 import TooltipFontIcon from 'components/TooltipFontIcon';
-import ErrorNotifications from 'modules/ErrorNotifications';
 import { GestaltIcon, GestaltIconText, USEnglishLangIcon } from 'components/Icons';
 import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
@@ -81,6 +80,8 @@ class App extends Component {
     } = this.props;
     // sets our current logged in users home org
     fetchSelf();
+    // Check License Status
+    fetchLicense('root');
     // we have to make an additional call here to set the currentOrgState
     // This is mainly to appease browser refresh where we lose currentOrg state and wont run when there is blank fqon in the url
     if (params.fqon) {
@@ -96,9 +97,6 @@ class App extends Component {
     if (params.fqon && params.workspaceId && params.environmentId) {
       setCurrentEnvironmentContextfromState(params.fqon, params.environmentId);
     }
-
-    // Check License Status
-    fetchLicense('root');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -280,7 +278,6 @@ class App extends Component {
             drawerTitle={<OrgNavMenu {...this.props} />}
             toolbarTitle={this.renderAppLogo()}
             autoclose
-            contentClassName="md-grid--no-spacing"
             navItems={this.renderNavItems()}
             mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
             tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
@@ -291,7 +288,6 @@ class App extends Component {
             <LoginModal />
             <ModalRoot />
             {this.props.children}
-            <ErrorNotifications />
           </NavigationDrawer>
         </ThemeProvider>
       </main>

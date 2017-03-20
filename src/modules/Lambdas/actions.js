@@ -29,6 +29,7 @@ import {
   FETCH_EXECUTORS_PENDING,
   FETCH_EXECUTORS_FULFILLED,
   FETCH_EXECUTORS_REJECTED,
+  CHANGE_EDITOR_THEME,
 } from './actionTypes';
 
 export function onUnload() {
@@ -213,4 +214,9 @@ export function confirmDelete(action, multipleItems) {
       }
     });
   };
+}
+
+export function handleTheme(theme) {
+  localStorage.setItem('gf-editor-theme', theme);
+  return { type: CHANGE_EDITOR_THEME, theme };
 }

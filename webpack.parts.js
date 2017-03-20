@@ -5,6 +5,35 @@ const execSync = require('child_process').execSync;
 const pkg = require('./package.json');
 const config = require('./config.json');
 
+exports.appEntryDevelopment = ({ srcPath }) => (
+  [
+    'babel-polyfill',
+
+    'react-hot-loader/patch',
+    // activate HMR for React
+
+    'webpack-dev-server/client?http://localhost:8081',
+    // bundle the client for webpack-dev-server
+    // and connect to the provided endpoint
+
+    'webpack/hot/only-dev-server',
+    // bundle the client for hot reloading
+    // only- means to only hot reload for successful updates
+
+    // The main app entry point
+    `${srcPath}/index.jsx`
+  ]
+);
+
+exports.appEntryProduction = ({ srcPath }) => (
+  [
+    'babel-polyfill',
+
+    // The main app entry point
+    `${srcPath}/index.jsx`
+  ]
+);
+
 exports.sourceMaps = () => (
   {
     devtool: 'inline-source-map' // or cheap-module-eval-source-map
@@ -165,14 +194,12 @@ exports.devServer = function devServer({ host, port, contentBase, compress }) {
       // in handy in more complicated setups.
       historyApiFallback: true,
 
-      // Don't refresh if hot loading fails. If you want
-      // refresh behavior, set hot: true instead.
-      // hotOnly: true,
-      hot: true,
-
       // Display only errors to reduce the amount of output.
       stats: 'errors-only',
 
+      // enable HMR on the server
+      hot: true,
+      inline: true,
       // Parse host and port from env to allow customization.
       //
       // If you use Vagrant or Cloud9, set

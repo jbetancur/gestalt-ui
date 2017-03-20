@@ -52,15 +52,14 @@ const PolicyEventRuleForm = (props) => {
               <div>
                 <div>{title}</div>
                 <div className="md-caption"><Breadcrumbs />&nbsp;/&nbsp;
-                <Link
-                  className="md-caption"
-                  style={{ textDecoration: 'none' }}
-                  to={{
-                    pathname: backLink
-                  }}
-                >
-                Policy
-                </Link> / Event Policy</div>
+                  <Link
+                    className="md-caption"
+                    style={{ textDecoration: 'none' }}
+                    to={{ pathname: backLink }}
+                  >
+                    Policy
+                  </Link><span> / Event Policy</span>
+                </div>
               </div>
             }
             subtitle={policyRule.id ? policyRule.id : null}

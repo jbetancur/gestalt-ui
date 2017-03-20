@@ -28,38 +28,19 @@ body {
 
 #app-root {
     height: 100%;
+
+    #app-wrapper {
+        height: 100%;
+    }
     // Fixes issue with react-md navigation drawer and html 100% height
     main {
+        height: 100%;
         margin-top: 0;
         padding-top: 2em;
         @media (min-width: 0) and (max-width: 768px) {
              padding-top: 1.8em;
         }
-        // @media (min-width: 454px) and (max-width: 768px) {
-        //      padding-top: 1.8em;
-        // }
     }
-}
-//TODO: Create component style
-.org-nav-menubutton {
-    height: 100%;
-    font-size: 12px;
-}
-
-.flex {
-    flex: 1;
-}
-.layout-fill {
-    padding: 0;
-    margin: 0;
-    height: 100%
-}
-
-/* drawer menu pane - note the 0px width */
-.wrapper {
-    float: left;
-    width: 100%;
-    height: 100vh;
 }
 
 .logo-container {
@@ -82,7 +63,7 @@ body {
         .logo-loading {
             animation: pulse 1s infinite forwards;
             @extend .pulse;
-            animation-delay: .5s; // prevent from happening on "normal" latency requests
+            animation-delay: 1s; // prevent from happening on "normal" latency requests
         }
     }
 }

@@ -15,8 +15,8 @@ export default function configureStore(history) {
 
   if (DEBUG) {
     // eslint-disable-next-line global-require
-    const logger = require('redux-logger');
-    middlewares = [...middlewares, logger()];
+    const { logger } = require('redux-logger');
+    middlewares = [...middlewares, logger];
   }
 
   return createStore(

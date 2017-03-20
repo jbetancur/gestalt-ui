@@ -14,7 +14,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
       onClick={() => fields.push({})}
     >
       link
-  </Button>
+    </Button>
     {touched && error}
     {fields.map((member, index) =>
       <div key={index} className="flex-row">

@@ -30,9 +30,6 @@ const common = merge([
         style: path.resolve(PATHS.srcPath, 'style'),
       },
     },
-    entry: {
-      app: [`${PATHS.srcPath}/index.jsx`],
-    },
     output: {
       path: PATHS.buildPath,
       filename: 'bundle-[hash:6].js',
@@ -72,20 +69,34 @@ module.exports = function test(env) {
         }
       }),
       {
+        entry: {
+          app: parts.appEntryProduction(PATHS),
+        },
+        performance: {
+          hints: 'warning',
+        },
         plugins: [
           new Clean(['build'], {
             root: PATHS.rootPath,
           }),
           new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            mangle: true,
-            sourceMap: false,
-            output: {
-              comments: false,
-            },
             compress: {
+              unused: true,    // Enables tree shaking
+              dead_code: true, // Enables tree shaking
+              pure_getters: true,
               warnings: false,
-            }
+              screw_ie8: true,
+              conditionals: true,
+              comparisons: true,
+              sequences: true,
+              evaluate: true,
+              join_vars: true,
+              if_return: true,
+            },
+            output: {
+              comments: false
+            },
+            sourceMap: true
           }),
           new webpack.LoaderOptionsPlugin({
             minimize: true,
@@ -113,8 +124,16 @@ module.exports = function test(env) {
       compress: true,
     }),
     {
+      entry: {
+        app: parts.appEntryDevelopment(PATHS),
+      },
+      performance: {
+        hints: false,
+      },
       plugins: [
-        new webpack.HotModuleReplacementPlugin(), // enable HMR globally
+        new webpack.HotModuleReplacementPlugin({
+          multiStep: true, // Enable multi-pass compilation for enhanced performance in larger projects.
+        }),
         new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
         new ExtractTextPlugin({
           disable: true,

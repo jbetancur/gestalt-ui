@@ -22,7 +22,6 @@ class UserItem extends Component {
     selectedUsers: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    fqon: PropTypes.string,
     users: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteUsers: PropTypes.func.isRequired,
@@ -31,17 +30,13 @@ class UserItem extends Component {
     confirmDelete: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    fqon: '',
-  };
-
   constructor(props) {
     super(props);
   }
 
   componentWillMount() {
-    const fqon = this.props.fqon || this.props.params.fqon;
-    this.props.fetchUsers(fqon);
+    const { fetchUsers, params } = this.props;
+    fetchUsers(params.fqon);
   }
 
   componentWillUnmount() {
