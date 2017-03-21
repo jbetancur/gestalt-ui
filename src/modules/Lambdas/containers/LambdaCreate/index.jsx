@@ -15,7 +15,6 @@ class LambdaCreate extends Component {
     onUnload: PropTypes.func.isRequired,
     pendingEnv: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    // providers: PropTypes.array.isRequired,
   };
 
   componentWillMount() {
@@ -54,7 +53,14 @@ class LambdaCreate extends Component {
   }
 
   render() {
-    return this.props.pendingEnv ? <CircularActivity id="container-load" /> : <LambdaForm title={<span>Create Lambda</span>} submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return this.props.pendingEnv ? <CircularActivity id="container-load" /> :
+    <LambdaForm
+      title={<span>Create Lambda</span>}
+      submitLabel="Create"
+      cancelLabel="Back"
+      onSubmit={values => this.create(values)}
+      {...this.props}
+    />;
   }
 }
 
@@ -70,6 +76,7 @@ function mapStateToProps(state) {
     providers: state.lambdas.providers.providers,
     executors: state.lambdas.executors.executors,
     pendingExecutors: state.lambdas.executors.pending,
+    theme: state.lambdas.theme,
     initialValues: {
       name: '',
       properties: {

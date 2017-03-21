@@ -11,9 +11,13 @@ import { sortBy } from 'lodash';
 import * as actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
+  top: .1em;
   height: 100%;
   margin-left: .5em;
-  font-size: 12px;
+
+  .md-icon-text {
+    font-size: 12px;
+  }
 
   .md-icon-text:last-child {
     padding: 1px;

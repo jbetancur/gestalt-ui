@@ -11,6 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Divider from 'react-md/lib/Dividers';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
+import MDSelectField from 'react-md/lib/SelectFields';
 import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
@@ -21,23 +22,10 @@ import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
 
 const LambdaForm = (props) => {
-  // const themes = [{ displayName: 'chrome', value: 'chrome' }, { displayName: 'monokai', value: 'monokai' }];
   const { values, params, lambda } = props;
-
-  const fetchProviders = () => {
-    props.fetchProviders(params.fqon, params.environmentId, 'Kong');
-  };
-
-  const fetchExecutors = () => {
-    props.fetchExecutors(params.fqon, params.environmentId, 'Executor');
-  };
 
   // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
   const getRuntime = () => runTimes.find(runtime => runtime.value === values.properties.runtime) || '';
-
-  // const handleTheme = () => {
-  //
-  // };
 
   return (
     <div>
@@ -66,7 +54,7 @@ const LambdaForm = (props) => {
                   itemValue="id"
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
-                  onFocus={() => fetchProviders()}
+                  onFocus={() => props.fetchProviders(props.params.fqon, params.environmentId, 'Kong')}
                   // disabled={props.editMode}
                 />
                 <Field
@@ -81,7 +69,7 @@ const LambdaForm = (props) => {
                   label="Runtime"
                   errorText={props.touched && props.error}
                   disabled={props.editMode}
-                  onFocus={() => fetchExecutors()}
+                  onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'Executor')}
                 />
                 <Field
                   id="select-code-type"
@@ -216,25 +204,23 @@ const LambdaForm = (props) => {
                 />
                 {values.properties.code_type === 'code' ?
                   <div className="flex-row">
-                    {/* <Field
+                    <MDSelectField
                       id="select-theme"
                       className="flex-2 flex-xs-12"
-                      component={SelectField}
-                      menuItems={themes}
-                      itemLabel="displayName"
-                      itemValue="value"
-                      defaultValue="chrome"
-                      onChange={(p, n) => handleTheme(n)}
-                    /> */}
+                      label="Editor Theme"
+                      menuItems={['monokai', 'chrome']}
+                      defaultValue={props.theme}
+                      onChange={value => props.handleTheme(value)}
+                    />
                     <Field
                       className="flex-12"
                       component={AceEditor}
                       mode={getRuntime().codeFormat}
-                      theme="chrome"
+                      theme={props.theme}
                       name="properties.code"
-                      maxLines={15}
+                      maxLines={50}
                       minLines={15}
-                      fontSize={14}
+                      fontSize={12}
                     />
                   </div> : null}
               </div>
@@ -288,6 +274,10 @@ LambdaForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
+  fetchProviders: PropTypes.func.isRequired,
+  fetchExecutors: PropTypes.func.isRequired,
+  handleTheme: PropTypes.func.isRequired,
+  theme: PropTypes.string.isRequired,
   executors: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
   touched: PropTypes.bool,

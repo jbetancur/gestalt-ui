@@ -108,7 +108,15 @@ class LambdaEdit extends Component {
 
   render() {
     const { lambda, pending } = this.props;
-    return pending ? <CircularActivity id="lambda-load" /> : <LambdaForm editMode title={lambda.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updateLambda(values)} {...this.props} />;
+    return pending ? <CircularActivity id="lambda-load" /> :
+    <LambdaForm
+      editMode
+      title={lambda.name}
+      submitLabel="Update"
+      cancelLabel="Back"
+      onSubmit={values => this.updateLambda(values)}
+      {...this.props}
+    />;
   }
 }
 
@@ -147,6 +155,7 @@ function mapStateToProps(state) {
     providers: state.lambdas.providers.providers,
     executors: state.lambdas.executors.executors,
     pendingExecutors: state.lambdas.executors.pending,
+    theme: state.lambdas.theme,
     initialValues: model,
     enableReinitialize: true,
   };

@@ -151,8 +151,9 @@ const ProviderForm = (props) => {
             mode="yaml"
             theme="chrome"
             name="properties.data"
+            maxLines={50}
             minLines={15}
-            maxLines={15}
+            fontSize={12}
           />
         </div> : null}
     </div>

@@ -69,15 +69,15 @@ const PolicyLimitRuleForm = (props) => {
               <div>
                 <div>{title}</div>
                 <div className="md-caption"><Breadcrumbs />&nbsp;/&nbsp;
-                <Link
-                  className="md-caption"
-                  style={{ textDecoration: 'none' }}
-                  to={{
-                    pathname: backLink
-                  }}
-                >
-                Policy
-                </Link> / Limit Policy</div>
+                  <Link
+                    className="md-caption"
+                    style={{ textDecoration: 'none' }}
+                    to={{
+                      pathname: backLink
+                    }}
+                  >
+                    Policy
+                  </Link><span> / Limit Policy</span></div>
               </div>
             }
             subtitle={policyRule.id ? policyRule.id : null}

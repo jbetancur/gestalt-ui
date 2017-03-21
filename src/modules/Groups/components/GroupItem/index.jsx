@@ -21,7 +21,6 @@ class GroupItem extends Component {
     selectedGroups: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    fqon: PropTypes.string,
     groups: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteGroups: PropTypes.func.isRequired,
@@ -30,17 +29,13 @@ class GroupItem extends Component {
     clearSelected: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    fqon: '',
-  }
-
   constructor(props) {
     super(props);
   }
 
   componentWillMount() {
-    const fqon = this.props.fqon || this.props.params.fqon;
-    this.props.fetchGroups(fqon);
+    const { fetchGroups, params } = this.props;
+    fetchGroups(params.fqon);
   }
 
   componentWillUnmount() {

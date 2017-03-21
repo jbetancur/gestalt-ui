@@ -134,7 +134,7 @@ class OrgItem extends Component {
             <div>
               <div>{item.properties.fqon}</div>
               {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-              {!item.owner.name ? null : <div className="gf-caption"><span>{t('general.nouns.owner')}: {item.owner.name}</span></div>}
+              {!item.owner.name ? null : <div className="gf-caption"><span>{t('general.nouns.owner').toLowerCase()}: {item.owner.name}</span></div>}
               <div className="gf-caption">{t('general.verbs.created').toLowerCase()} <FormattedRelative value={item.created.timestamp} /></div>
               <div className="gf-caption">{t('general.verbs.modified').toLowerCase()} <FormattedRelative value={item.modified.timestamp} /></div>
             </div>}
@@ -146,7 +146,7 @@ class OrgItem extends Component {
             primary
             onClick={e => this.navToWorkspaces(e, item)}
           >
-          work
+            work
           </Button>
         </CardActions>
       </Card>

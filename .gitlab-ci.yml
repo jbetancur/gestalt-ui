@@ -1,4 +1,4 @@
-image: galacticfog/docker-yarn:1.12
+image: galacticfog/docker-yarn-debian:1.12
 
 stages:
 - test
@@ -18,12 +18,13 @@ test:
   stage: test
   script:
     - yarn install
-    # - yarn test
+    - yarn test
     - yarn deploy
   artifacts:
     expire_in: 30 minutes
     paths:
     - build/
+    - coverage/
 
 docker-publish:
   services:
@@ -92,9 +93,9 @@ manual-deploy-to-test:
 #    name: review/$CI_BUILD_REF_NAME
 #    action: stop
 #  when: manual
-#  only: 
+#  only:
 #    - branches
-#  except: 
+#  except:
 #    - develop
 #  tags:
 #    - test-cluster
