@@ -1,12 +1,6 @@
 import axios from 'axios';
 import { push, replace } from 'react-router-redux';
 import {
-  FETCH_ENVIRONMENTS_PENDING,
-  FETCH_ENVIRONMENTS_REJECTED,
-  FETCH_ENVIRONMENTS_FULFILLED,
-  FETCH_ENVIRONMENT_PENDING,
-  FETCH_ENVIRONMENT_FULFILLED,
-  FETCH_ENVIRONMENT_REJECTED,
   CREATE_ENVIRONMENT_PENDING,
   CREATE_ENVIRONMENT_FULFILLED,
   CREATE_ENVIRONMENT_REJECTED,
@@ -30,29 +24,6 @@ export function onUnload() {
 export function onUnloadListing() {
   return (dispatch) => {
     dispatch({ type: ENVIRONMENTS_UNLOADED });
-  };
-}
-
-export function fetchEnvironments(fqon, workspaceId) {
-  const url = workspaceId ? `/${fqon}/workspaces/${workspaceId}/environments` : `/${fqon}/environments`;
-  return (dispatch) => {
-    dispatch({ type: FETCH_ENVIRONMENTS_PENDING });
-    axios.get(`${url}?expand=true`).then((response) => {
-      dispatch({ type: FETCH_ENVIRONMENTS_FULFILLED, payload: response.data });
-    }).catch((err) => {
-      dispatch({ type: FETCH_ENVIRONMENTS_REJECTED, payload: err });
-    });
-  };
-}
-
-export function fetchEnvironment(fqon, environmentId) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_ENVIRONMENT_PENDING });
-    axios.get(`/${fqon}/environments/${environmentId}`).then((response) => {
-      dispatch({ type: FETCH_ENVIRONMENT_FULFILLED, payload: response.data });
-    }).catch((err) => {
-      dispatch({ type: FETCH_ENVIRONMENT_REJECTED, payload: err });
-    });
   };
 }
 

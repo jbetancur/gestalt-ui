@@ -132,7 +132,7 @@ module.exports = function test(env) {
       },
       plugins: [
         new webpack.HotModuleReplacementPlugin({
-          multiStep: true, // Enable multi-pass compilation for enhanced performance in larger projects.
+          multiStep: false, // Enable multi-pass compilation for enhanced performance in larger projects.
         }),
         new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
         new ExtractTextPlugin({

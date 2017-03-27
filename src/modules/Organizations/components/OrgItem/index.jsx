@@ -81,7 +81,7 @@ class OrgItem extends Component {
     const parentFQON = getParentFQON(organization);
 
     this.props.confirmDelete(() => {
-      deleteOrg(organization.properties.fqon, parentFQON);
+      deleteOrg(organization.properties.fqon, { route: true, parentFQON });
     }, organization.description || organization.name);
   }
 

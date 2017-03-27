@@ -5,6 +5,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
+import { metaActions } from 'modules/MetaResource';
 import * as actions from '../../actions';
 
 class OrgEdit extends Component {
@@ -60,7 +61,7 @@ class OrgEdit extends Component {
     const originalModel = this.originalModel(this.props.organization);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    this.props.updateOrg(properties.fqon, patches);
+    this.props.updateOrg(properties.fqon, patches, true);
   }
 
   render() {
@@ -95,7 +96,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'organizationEdit',
   validate
 })(translate()(OrgEdit)));

@@ -1,7 +1,5 @@
+import * as metaTypes from 'modules/MetaResource/actionTypes';
 import {
-  FETCH_ORGS_PENDING,
-  FETCH_ORGS_REJECTED,
-  FETCH_ORGS_FULFILLED,
   ORGS_UNLOADED,
 } from '../actionTypes';
 
@@ -16,19 +14,19 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ORGS_UNLOADED:
       return initialState;
-    case FETCH_ORGS_PENDING:
+    case metaTypes.FETCH_ORGS_PENDING:
       return {
         ...state,
         pending: true
       };
-    case FETCH_ORGS_FULFILLED:
+    case metaTypes.FETCH_ORGS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         organizations: action.payload,
       };
-    case FETCH_ORGS_REJECTED:
+    case metaTypes.FETCH_ORGS_REJECTED:
       return {
         ...state,
         pending: false,

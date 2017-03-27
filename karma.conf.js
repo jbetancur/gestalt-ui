@@ -16,7 +16,7 @@ module.exports = (config) => {
     },
     browsers: ['PhantomJS'],
     browserConsoleLogOptions: {
-      level: 'debug',
+      level: 'log',
       terminal: true,
     },
     singleRun: false,

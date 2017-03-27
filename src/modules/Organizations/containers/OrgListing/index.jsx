@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { appActions } from 'App';
 import { sortBy } from 'lodash';
+import { metaActions } from 'modules/MetaResource';
 import OrgItem from '../../components/OrgItem';
 import * as actions from '../../actions';
 
@@ -15,4 +16,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(OrgItem));
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(OrgItem));

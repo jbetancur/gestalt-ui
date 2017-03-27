@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { appActions } from 'App';
+import { metaActions } from 'modules/MetaResource';
 import { sortBy } from 'lodash';
 import EnvironmentItem from '../../components/EnvironmentItem';
 import * as actions from '../../actions';
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, actions, appActions), dispatch);
-}
 
 function mapStateToProps(state) {
   return {
@@ -16,4 +12,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnvironmentItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(EnvironmentItem);

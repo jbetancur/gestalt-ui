@@ -1,12 +1,6 @@
 import axios from 'axios';
 import { push, replace } from 'react-router-redux';
 import {
-  FETCH_WORKSPACES_PENDING,
-  FETCH_WORKSPACES_REJECTED,
-  FETCH_WORKSPACES_FULFILLED,
-  FETCH_WORKSPACE_PENDING,
-  FETCH_WORKSPACE_REJECTED,
-  FETCH_WORKSPACE_FULFILLED,
   CREATE_WORKSPACE_PENDING,
   CREATE_WORKSPACE_FULFILLED,
   CREATE_WORKSPACE_REJECTED,
@@ -30,28 +24,6 @@ export function onUnload() {
 export function onUnloadListing() {
   return (dispatch) => {
     dispatch({ type: WORKSPACES_UNLOADED });
-  };
-}
-
-export function fetchWorkspaces(fqon) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_WORKSPACES_PENDING });
-    axios.get(`/${fqon}/workspaces?expand=true`).then((response) => {
-      dispatch({ type: FETCH_WORKSPACES_FULFILLED, payload: response.data });
-    }).catch((err) => {
-      dispatch({ type: FETCH_WORKSPACES_REJECTED, payload: err });
-    });
-  };
-}
-
-export function fetchWorkspace(fqon, workspaceId) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_WORKSPACE_PENDING });
-    axios.get(`/${fqon}/workspaces/${workspaceId}`).then((response) => {
-      dispatch({ type: FETCH_WORKSPACE_FULFILLED, payload: response.data });
-    }).catch((err) => {
-      dispatch({ type: FETCH_WORKSPACE_REJECTED, payload: err });
-    });
   };
 }
 
