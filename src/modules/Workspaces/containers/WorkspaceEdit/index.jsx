@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import map from 'lodash/map';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
+import { metaActions } from 'modules/MetaResource';
 import * as actions from '../../actions';
 
 class WorkspaceEdit extends Component {
@@ -89,7 +90,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'workspaceEdit',
   validate
 })(WorkspaceEdit));

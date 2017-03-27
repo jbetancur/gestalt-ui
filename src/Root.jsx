@@ -88,12 +88,4 @@ Root.propTypes = {
   routes: PropTypes.func.isRequired,
 };
 
-// Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept('./rootReducer', () =>
-    // eslint-disable-next-line global-require
-    store.replaceReducer(require('./rootReducer').default)
-  );
-}
-
 export default Root;

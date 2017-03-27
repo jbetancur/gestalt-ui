@@ -1,7 +1,5 @@
+import * as metaTypes from 'modules/MetaResource/actionTypes';
 import {
-  FETCH_WORKSPACE_PENDING,
-  FETCH_WORKSPACE_REJECTED,
-  FETCH_WORKSPACE_FULFILLED,
   CREATE_WORKSPACE_PENDING,
   CREATE_WORKSPACE_FULFILLED,
   CREATE_WORKSPACE_REJECTED,
@@ -32,19 +30,19 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case WORKSPACE_UNLOADED:
       return initialState;
-    case FETCH_WORKSPACE_PENDING:
+    case metaTypes.FETCH_WORKSPACE_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_WORKSPACE_FULFILLED:
+    case metaTypes.FETCH_WORKSPACE_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         workspace: action.payload,
       };
-    case FETCH_WORKSPACE_REJECTED:
+    case metaTypes.FETCH_WORKSPACE_REJECTED:
       return {
         ...state,
         pending: false,

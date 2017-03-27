@@ -1,7 +1,5 @@
+import * as metaTypes from 'modules/MetaResource/actionTypes';
 import {
-  FETCH_ENVIRONMENTS_PENDING,
-  FETCH_ENVIRONMENTS_REJECTED,
-  FETCH_ENVIRONMENTS_FULFILLED,
   ENVIRONMENTS_UNLOADED,
 } from '../actionTypes';
 
@@ -16,19 +14,19 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ENVIRONMENTS_UNLOADED:
       return initialState;
-    case FETCH_ENVIRONMENTS_PENDING:
+    case metaTypes.FETCH_ENVIRONMENTS_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_ENVIRONMENTS_FULFILLED:
+    case metaTypes.FETCH_ENVIRONMENTS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         environments: action.payload,
       };
-    case FETCH_ENVIRONMENTS_REJECTED:
+    case metaTypes.FETCH_ENVIRONMENTS_REJECTED:
       return {
         ...state,
         pending: false,

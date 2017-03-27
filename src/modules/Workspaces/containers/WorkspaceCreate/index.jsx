@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
+import { metaActions } from 'modules/MetaResource';
 import * as actions from '../../actions';
 
 class OrgCreate extends Component {
@@ -56,7 +57,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'workspaceCreate',
   validate
 })(OrgCreate));

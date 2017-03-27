@@ -1,6 +1,4 @@
-import {
-  CURRENT_ORG_CONTEXT,
-} from '../actionTypes';
+import * as metaTypes from 'modules/MetaResource/actionTypes';
 
 const initialState = {
   organization: {
@@ -15,7 +13,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CURRENT_ORG_CONTEXT:
+    case metaTypes.UPDATE_CURRENT_ORG_CONTEXT:
       return {
         ...state,
         organization: action.payload,

@@ -19,6 +19,7 @@ import TooltipFontIcon from 'components/TooltipFontIcon';
 import { GestaltIcon, GestaltIconText, USEnglishLangIcon } from 'components/Icons';
 import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
+import { metaActions } from 'modules/MetaResource';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import * as actions from '../../actions';
 import lightTheme from '../../../style/themes/light';
@@ -311,4 +312,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, licenseActions, loginActions))(translate()(App));
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, licenseActions, loginActions))(translate()(App));

@@ -8,6 +8,7 @@ import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { sortBy } from 'lodash';
+import { metaActions } from 'modules/MetaResource';
 import * as actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
@@ -121,4 +122,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(translate()(OrgNavMenu));
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(translate()(OrgNavMenu));

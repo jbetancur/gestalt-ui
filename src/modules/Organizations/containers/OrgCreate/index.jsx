@@ -3,6 +3,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ContainmentForm, validate } from 'modules/ContainmentForm';
+import { metaActions } from 'modules/MetaResource';
 import * as actions from '../../actions';
 
 class OrgCreate extends Component {
@@ -27,7 +28,7 @@ class OrgCreate extends Component {
       });
     }
 
-    this.props.createOrg(this.props.params.fqon, payload);
+    this.props.createOrg(this.props.params.fqon, payload, true);
   }
 
   render() {
@@ -60,7 +61,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'organizationCreate',
   validate
 })(translate()(OrgCreate)));
