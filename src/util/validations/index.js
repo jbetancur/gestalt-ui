@@ -1,4 +1,8 @@
 export function isFQON(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
   return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
 }
 
@@ -11,19 +15,44 @@ export function isFQON(string) {
 // }
 
 export function isPhoneNumber(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
   return /^\+\d([. -]?\d){9,14}$/.test(string);
 }
 
 export function isUsername(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
   return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
 }
 
 export function isLambdaName(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
   return /^\S*$/.test(string);
 }
 
 export function isContainerName(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
   return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
+}
+
+export function isCommaDelimited(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
+  const trimmedString = string.replace(/[\s,]+/g, ',');
+  return /^((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9]))?(,((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])))*$/.test(trimmedString);
 }
 
 export default {
@@ -34,4 +63,5 @@ export default {
   isUsername,
   isLambdaName,
   isContainerName,
+  isCommaDelimited,
 };

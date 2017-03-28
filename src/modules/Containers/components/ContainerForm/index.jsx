@@ -15,7 +15,7 @@ import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
 import { VariablesForm } from 'modules/Variables';
 import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
-import { NetworkModal, NetworkListing } from 'modules/NetworkModal';
+import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import ContainerDetails from '../ContainerDetails';
@@ -78,7 +78,6 @@ const ContainerForm = (props) => {
                     required
                     errorText={props.touched && props.error}
                     maxLength={nameMaxLen}
-                    lineDirection="center"
                   />
                   <Field
                     className="flex-9 flex-xs-12"
@@ -86,7 +85,6 @@ const ContainerForm = (props) => {
                     name="description"
                     label="Description"
                     type="text"
-                    lineDirection="center"
                   />
                   <Field
                     id="select-network"
@@ -109,7 +107,6 @@ const ContainerForm = (props) => {
                     type="text"
                     required
                     errorText={props.touched && props.error}
-                    lineDirection="center"
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -122,7 +119,6 @@ const ContainerForm = (props) => {
                     type="number"
                     required
                     errorText={props.touched && props.error}
-                    lineDirection="center"
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -136,7 +132,6 @@ const ContainerForm = (props) => {
                     type="number"
                     required
                     errorText={props.touched && props.error}
-                    lineDirection="center"
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -150,7 +145,6 @@ const ContainerForm = (props) => {
                     type="number"
                     required
                     errorText={props.touched && props.error}
-                    lineDirection="center"
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -159,7 +153,6 @@ const ContainerForm = (props) => {
                     name="properties.cmd"
                     label="Command"
                     type="text"
-                    lineDirection="center"
                   />
                   <Field
                     id="force_pull"
@@ -213,18 +206,18 @@ const ContainerForm = (props) => {
               <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse">
                 <div className="flex-row">
                   <div className="flex-12">
-                    <NetworkModal networkType={values.properties.network} />
+                    <PortMapModal networkType={values.properties.network} />
                     <Button
                       id="port-mappings"
                       flat
                       iconBefore
                       primary
                       label="Add Port Mapping"
-                      onClick={() => props.showNetworkModal()}
+                      onClick={() => props.showPortmapModal()}
                     >
                       settings_ethernet
                     </Button>
-                    <NetworkListing editMode={props.editMode} mergeNetworks={values.properties.port_mappings} />
+                    <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} />
                   </div>
                 </div>
               </ExpansionPanelNoPadding>}
@@ -291,7 +284,6 @@ const ContainerForm = (props) => {
                   label="Constraints"
                   type="text"
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   helpText="Comma delimited set of constraints"
                 />
                 <Field
@@ -301,7 +293,6 @@ const ContainerForm = (props) => {
                   label="Resource Roles"
                   type="text"
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   helpText="Comma delimited set of resource roles"
                 />
                 <Field
@@ -311,7 +302,6 @@ const ContainerForm = (props) => {
                   label="User"
                   type="text"
                   errorText={props.touched && props.error}
-                  lineDirection="center"
                   helpText="unix formatted username"
                 />
               </ExpansionPanel>
@@ -326,7 +316,7 @@ const ContainerForm = (props) => {
 ContainerForm.propTypes = {
   fetchProvidersByType: PropTypes.func.isRequired,
   showVolumeModal: PropTypes.func.isRequired,
-  showNetworkModal: PropTypes.func.isRequired,
+  showPortmapModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,

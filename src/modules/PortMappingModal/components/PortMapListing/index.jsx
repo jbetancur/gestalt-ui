@@ -16,45 +16,42 @@ const EnhancedTableColumn = styled(TableColumn)`
   vertical-align: middle !important;
 `;
 
-class VolumeListing extends Component {
+class PortMapListing extends Component {
   static propTypes = {
-    networks: PropTypes.array.isRequired,
-    mergeNetworks: PropTypes.array,
-    addNetwork: PropTypes.func.isRequired,
-    removeNetwork: PropTypes.func.isRequired,
-    unloadNetworks: PropTypes.func.isRequired,
+    portMappings: PropTypes.array.isRequired,
+    mergePortMappings: PropTypes.array,
+    addPortmapping: PropTypes.func.isRequired,
+    removePortmapping: PropTypes.func.isRequired,
+    unloadPortmappings: PropTypes.func.isRequired,
     editMode: PropTypes.bool,
   };
 
   static defaultProps = {
-    mergeNetworks: [],
+    mergePortMappings: [],
     editMode: false,
   };
 
   componentWillMount() {
-    this.props.mergeNetworks.forEach(port => this.props.addNetwork(port));
+    this.props.mergePortMappings.forEach(port => this.props.addPortmapping(port));
   }
 
   componentWillUnmount() {
     // if we dont unload state in editMode, merged entries from the container begin to stack up on unload
     if (this.props.editMode) {
-      this.props.unloadNetworks();
+      this.props.unloadPortmappings();
     }
   }
 
-  remove(volume) {
-    this.props.removeNetwork(volume);
-  }
-
   renderRows() {
-    return this.props.networks.map((item, i) => (
+    return this.props.portMappings.map((item, i) => (
       <TableRow key={i}>
         <EnhancedTableColumn>{item.name}</EnhancedTableColumn>
         <EnhancedTableColumn>{item.protocol}</EnhancedTableColumn>
         <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></EnhancedTableColumn>
         <EnhancedTableColumn>{item.service_port}</EnhancedTableColumn>
         <EnhancedTableColumn>{item.container_port}</EnhancedTableColumn>
-        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.remove(item)} inTable /></EnhancedTableColumn>
+        <EnhancedTableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><a href={host} target="_blank" rel="noopener noreferrer">{host}</a></div>)}</EnhancedTableColumn>
+        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.props.removePortmapping(item)} inTable /></EnhancedTableColumn>
       </TableRow>
     ));
   }
@@ -62,7 +59,7 @@ class VolumeListing extends Component {
   render() {
     return (
       <DataTable plain>
-        {this.props.networks.length ?
+        {this.props.portMappings.length ?
           <TableHeader>
             <TableRow>
               <TableColumn>Name</TableColumn>
@@ -70,6 +67,7 @@ class VolumeListing extends Component {
               <TableColumn>Expose Service</TableColumn>
               <TableColumn>Service Port</TableColumn>
               <TableColumn>Container Port</TableColumn>
+              <TableColumn>Virtual Hosts</TableColumn>
               <TableColumn />
             </TableRow>
           </TableHeader> : null}
@@ -81,4 +79,4 @@ class VolumeListing extends Component {
   }
 }
 
-export default VolumeListing;
+export default PortMapListing;

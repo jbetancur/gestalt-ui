@@ -1,5 +1,9 @@
+import { isCommaDelimited } from 'util/validations';
+
 export default (values) => {
-  const errors = {};
+  const errors = {
+    virtual_hosts: '',
+  };
 
   if (!values.name) {
     errors.name = ' ';
@@ -15,6 +19,10 @@ export default (values) => {
 
   if (values.container_port > 65536) {
     errors.service_port = 'Invalid Port';
+  }
+
+  if (values.virtual_hosts && !isCommaDelimited(values.virtual_hosts)) {
+    errors.virtual_hosts = 'Must be a comma delimited list';
   }
 
   return errors;

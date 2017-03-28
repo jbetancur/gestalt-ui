@@ -1,27 +1,27 @@
 import { removeItem } from 'util/helpers/lists';
 import {
-  ADD_NETWORK,
-  REMOVE_NETWORK,
-  NETWORKS_UNLOADED,
+  ADD_PORTMAPPING,
+  REMOVE_PORTMAPPING,
+  UNLOAD_PORTMAPPINGS,
 } from '../actionTypes';
 
 const initialState = {
-  networks: [],
+  portMappings: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case NETWORKS_UNLOADED:
+    case UNLOAD_PORTMAPPINGS:
       return initialState;
-    case ADD_NETWORK:
+    case ADD_PORTMAPPING:
       return {
         ...state,
-        networks: [...state.networks, action.payload],
+        portMappings: [...state.portMappings, action.payload],
       };
-    case REMOVE_NETWORK:
+    case REMOVE_PORTMAPPING:
       return {
         ...state,
-        networks: removeItem(state.networks, action.payload),
+        portMappings: removeItem(state.portMappings, action.payload),
       };
     default:
       return state;

@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import CircularActivity from 'components/CircularActivity';
 import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
-import { networkModalActions } from 'modules/NetworkModal';
+import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
@@ -19,7 +19,7 @@ class ContainerEdit extends Component {
     fetchEnv: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
-    unloadNetworks: PropTypes.func.isRequired,
+    unloadPortmappings: PropTypes.func.isRequired,
     redeployContainer: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
@@ -46,10 +46,10 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnload, unloadVolumes, unloadNetworks } = this.props;
+    const { onUnload, unloadVolumes, unloadPortmappings } = this.props;
     onUnload();
     unloadVolumes();
-    unloadNetworks();
+    unloadPortmappings();
     clearTimeout(this.timeout);
   }
 
@@ -124,8 +124,8 @@ function mapStateToProps(state) {
     providers: state.containers.providers.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
-    networkModal: state.networkModal.networkModal,
-    networks: state.networkModal.networks.networks,
+    portmapModal: state.portmapModal.portmapModal,
+    portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     initialValues: model,
@@ -134,7 +134,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-Object.assign({}, actions, volumeModalActions, networkModalActions, healthCheckModalActions))(reduxForm({
+Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
 })(ContainerEdit));

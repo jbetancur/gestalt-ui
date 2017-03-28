@@ -8,12 +8,12 @@ import Checkbox from 'components/Checkbox';
 import { ModalFooter } from 'components/Modal';
 import networkProtocols from '../../lists/networkProtocols';
 
-const NetworkForm = (props) => {
+const PortMapForm = (props) => {
   const { values } = props;
 
   const close = () => {
     props.reset();
-    props.hideNetworkModal();
+    props.hidePortmapModal();
   };
 
   return (
@@ -34,14 +34,12 @@ const NetworkForm = (props) => {
           className="flex-6 flex-xs-6"
           component={TextField}
           errorText={props.touched && props.error}
-          lineDirection="center"
           required
         />
         <Field
           name="protocol"
           className="flex-3 flex-xs-6"
           component={SelectField}
-          lineDirection="center"
           label="Protocol"
           itemLabel="displayName"
           itemValue="value"
@@ -58,7 +56,6 @@ const NetworkForm = (props) => {
             className="flex-3 flex-xs-6"
             component={TextField}
             errorText={props.touched && props.error}
-            lineDirection="center"
             required
             parse={value => Number(value)}  // redux form formats everything as string, so force number
           /> : null}
@@ -72,10 +69,17 @@ const NetworkForm = (props) => {
             className="flex-3 flex-xs-6"
             component={TextField}
             errorText={props.touched && props.error}
-            lineDirection="center"
             required
             parse={value => Number(value)}  // redux form formats everything as string, so force number
           /> : null}
+        {values.expose_endpoint ? <Field
+          name="virtual_hosts"
+          className="flex-12"
+          component={TextField}
+          label="Virtual Hosts"
+          errorText={props.touched && props.error}
+          helpText="Comma delimited set of virual host names or addresses"
+        /> : null}
       </div>
       <ModalFooter>
         <Button
@@ -95,8 +99,8 @@ const NetworkForm = (props) => {
   );
 };
 
-NetworkForm.propTypes = {
-  hideNetworkModal: PropTypes.func.isRequired,
+PortMapForm.propTypes = {
+  hidePortmapModal: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
@@ -109,7 +113,7 @@ NetworkForm.propTypes = {
   error: PropTypes.bool,
 };
 
-NetworkForm.defaultProps = {
+PortMapForm.defaultProps = {
   touched: false,
   error: false,
 };
@@ -119,4 +123,4 @@ export default connect(
   (state, props) => ({
     values: getFormValues(props.form)(state)
   })
-)(NetworkForm);
+)(PortMapForm);
