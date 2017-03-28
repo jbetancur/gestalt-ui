@@ -4,26 +4,26 @@ import { reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import { ModalTitle } from 'components/Modal';
-import NetworkForm from '../../components/NetworkForm';
+import PortMapForm from '../../components/PortMapForm';
 import * as actions from '../../actions';
-import validate from '../../components/NetworkForm/validations';
+import validate from '../../components/PortMapForm/validations';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
     width: 100%;
     max-width: 30em;
     .md-dialog-content {
-      min-height: 14em;
+      min-height: 15em;
     }
   }
 `;
 
-class NetworkModal extends PureComponent {
+class PortMapModel extends PureComponent {
   static propTypes = {
-    addNetwork: PropTypes.func.isRequired,
-    hideNetworkModal: PropTypes.func.isRequired,
+    addPortmapping: PropTypes.func.isRequired,
+    hidePortmapModal: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
-    networkModal: PropTypes.object.isRequired,
+    portmapModal: PropTypes.object.isRequired,
     networkType: PropTypes.string,
   };
 
@@ -35,24 +35,35 @@ class NetworkModal extends PureComponent {
     super(props);
   }
 
-  addNetwork(values) {
-    this.props.addNetwork(values);
-    this.props.hideNetworkModal();
+  addPortmapping(values) {
+    const payload = { ...values };
+
+    if (values.virtual_hosts && values.expose_endpoint) {
+      let hosts = values.virtual_hosts;
+      hosts = hosts.replace(/[\s,]+/g, ',');
+
+      payload.virtual_hosts = hosts.split(',');
+    } else {
+      delete payload.virtual_hosts;
+    }
+
+    this.props.addPortmapping(payload);
+    this.props.hidePortmapModal();
     this.props.reset();
   }
 
   render() {
     return (
       <EnhancedDialog
-        id="network-modal"
+        id="portmap-modal"
         position="below"
-        visible={this.props.networkModal.visible}
+        visible={this.props.portmapModal.visible}
         title={<ModalTitle title="Add Port Mapping" icon="settings_ethernet" />}
         modal={false}
         closeOnEsc
-        onHide={() => this.props.hideNetworkModal()}
+        onHide={() => this.props.hidePortmapModal()}
       >
-        <NetworkForm networkType={this.props.networkType} onSubmit={values => this.addNetwork(values)} {...this.props} />
+        <PortMapForm networkType={this.props.networkType} onSubmit={values => this.addPortmapping(values)} {...this.props} />
       </EnhancedDialog>
     );
   }
@@ -60,14 +71,14 @@ class NetworkModal extends PureComponent {
 
 function mapStateToProps(state) {
   return {
-    networkModal: state.networkModal.networkModal,
+    portmapModal: state.portmapModal.portmapModal,
     initialValues: {
       protocol: 'tcp'
-    }
+    },
   };
 }
 
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'networkCreate',
   validate,
-})(NetworkModal));
+})(PortMapModel));

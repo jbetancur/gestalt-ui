@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { cloneDeep, map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
-import { networkModalActions } from 'modules/NetworkModal';
+import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
 import CircularActivity from 'components/CircularActivity';
 import ContainerForm from '../../components/ContainerForm';
@@ -17,10 +17,10 @@ class ContainerCreate extends Component {
     fetchEnv: PropTypes.func.isRequired,
     onUnload: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
-    unloadNetworks: PropTypes.func.isRequired,
+    unloadPortmappings: PropTypes.func.isRequired,
     unloadHealthChecks: PropTypes.func.isRequired,
     volumes: PropTypes.array.isRequired,
-    networks: PropTypes.array.isRequired,
+    portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     pendingEnv: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool.isRequired,
@@ -39,10 +39,10 @@ class ContainerCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnload, unloadVolumes, unloadNetworks, unloadHealthChecks } = this.props;
+    const { onUnload, unloadVolumes, unloadPortmappings, unloadHealthChecks } = this.props;
     onUnload();
     unloadVolumes();
-    unloadNetworks();
+    unloadPortmappings();
     unloadHealthChecks();
   }
 
@@ -70,8 +70,8 @@ class ContainerCreate extends Component {
       payload.properties.volumes = this.props.volumes;
     }
 
-    if (this.props.networks) {  // TODO: rename to portMappings
-      payload.properties.port_mappings = this.props.networks;
+    if (this.props.portMappings) {
+      payload.properties.port_mappings = this.props.portMappings;
     }
 
     if (this.props.healthChecks) {
@@ -116,8 +116,8 @@ function mapStateToProps(state) {
     providers: state.containers.providers.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
-    networkModal: state.networkModal.networkModal,
-    networks: state.networkModal.networks.networks,
+    portmapModal: state.portmapModal.portmapModal,
+    portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     initialValues: {
@@ -148,7 +148,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-Object.assign({}, actions, volumeModalActions, networkModalActions, healthCheckModalActions))(reduxForm({
+Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerCreate',
   validate
 })(ContainerCreate));

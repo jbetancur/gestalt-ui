@@ -1,10 +1,12 @@
-import { isContainerName } from 'util/validations';
+import { isContainerName, isCommaDelimited } from 'util/validations';
 
 export const nameMaxLen = 30;
 
 export default (values) => {
   const errors = {
     properties: {
+      accepted_resource_roles: '',
+      constraints: '',
       provider: {},
     }
   };
@@ -41,6 +43,9 @@ export default (values) => {
     errors.properties.num_instances = 'number of instances is required';
   }
 
+  if (values.properties.accepted_resource_roles && !isCommaDelimited(values.properties.accepted_resource_roles)) {
+    errors.properties.accepted_resource_roles = 'Must be a comma delimited list';
+  }
 
   if (values.variables && values.variables.length) {
     const variablesArrayErrors = [];

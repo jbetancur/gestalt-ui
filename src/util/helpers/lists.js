@@ -40,6 +40,6 @@ export function toggleHandler(row, toggled, count, selectedItems, list) {
 
 export function removeItem(array, item) {
   const newArray = array.slice();
-  newArray.splice(item, 1);
+  newArray.splice(newArray.findIndex(a => a === item), 1);
   return newArray;
 }

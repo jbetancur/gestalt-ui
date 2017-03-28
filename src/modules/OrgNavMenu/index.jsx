@@ -30,7 +30,7 @@ class OrgNavMenu extends Component {
     fetchAllOrgs: PropTypes.func.isRequired,
     filterOrgs: PropTypes.func.isRequired,
     organizations: PropTypes.array.isRequired,
-    orgFetching: PropTypes.bool.isRequired,
+    organizationsPending: PropTypes.bool.isRequired,
     onUnloadAllOrgs: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   };
@@ -49,6 +49,7 @@ class OrgNavMenu extends Component {
 
   fetchOrgList(e) {
     e.preventDefault();
+    this.props.onUnloadAllOrgs();
     this.props.filterOrgs('');
     this.props.fetchAllOrgs();
   }
@@ -67,12 +68,12 @@ class OrgNavMenu extends Component {
   }
 
   renderSearch() {
-    const { orgFetching, t } = this.props;
+    const { organizationsPending, t } = this.props;
 
     return (
       <div>
         <div style={{ padding: '1em', color: 'black' }}>
-          {!orgFetching ?
+          {!organizationsPending ?
             <div>
               <TextField
                 id="search-orgs"
@@ -83,7 +84,7 @@ class OrgNavMenu extends Component {
             </div> : null}
         </div>
         <div style={{ textAlign: 'center' }}>
-          {orgFetching ? <CircularProgress id="orgs-nav-menu" /> : null}
+          {organizationsPending ? <CircularProgress id="orgs-nav-menu" /> : null}
         </div>
       </div>
     );
@@ -118,7 +119,7 @@ const mapStateToProps = (state) => {
 
   return {
     organizations: sortBy(orgMenuItems, 'name'),
-    orgFetching: metaResource.allOrganizations.pending,
+    organizationsPending: metaResource.allOrganizations.pending,
   };
 };
 
