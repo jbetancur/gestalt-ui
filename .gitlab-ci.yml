@@ -24,6 +24,7 @@ test:
     expire_in: 30 minutes
     paths:
     - node_modules/
+    - coverage/
 
 .publish_template: &publish
   services:
@@ -38,6 +39,8 @@ test:
     - docker build -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push     $DOCKER_IMG:$DOCKER_TAG
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+  dependencies: 
+    - test
 
 publish-develop-and-tags:
   <<: *publish
@@ -47,8 +50,7 @@ publish-develop-and-tags:
 
 manual-publish-branches:
   <<: *publish
-  when:
-    - manual
+  when: manual
 
 .deploy_template: &deploy_to_test
   image: galacticfog/gitlab-updater
@@ -64,6 +66,7 @@ manual-publish-branches:
     - /usr/local/bin/update-deployed-app.sh  marathon.mesos:8080 gestalt-test-tasks/ui-react  $DOCKER_IMG:$DOCKER_TAG
   allow_failure: true
   artifacts:
+  dependencies: []
 
 auto-deploy-develop-to-test:
   <<: *deploy_to_test
@@ -73,6 +76,20 @@ auto-deploy-develop-to-test:
 manual-deploy-to-test:
   <<: *deploy_to_test
   when: manual
+
+pages:
+  stage: publish
+  dependencies:
+    - test
+  script:
+    - mkdir -p public
+    - cp -r coverage/PhantomJS*/lcov-report/* public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - develop
 
 #review:
 #  image: galacticfog/gitlab-updater
