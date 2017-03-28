@@ -52,7 +52,6 @@ publish-develop-and-tags:
 manual-publish-branches:
   <<: *publish
   when: manual
-  allow_failure: false
 
 .deploy_template: &deploy_to_test
   image: galacticfog/gitlab-updater
