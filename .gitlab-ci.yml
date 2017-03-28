@@ -14,29 +14,41 @@ variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
   TEST_DOMAIN: test.galacticfog.com
 
+# test, save the node_modules to speed up (optional) later stages
 test:
   stage: test
   script:
     - yarn install
     - yarn test
-    - yarn deploy
   artifacts:
     expire_in: 30 minutes
     paths:
-    - build/
-    - coverage/
+    - node_modules/
 
-docker-publish:
+.publish_template: &publish
   services:
     - docker:dind
   stage: publish
   script:
     - VERSION=$(<package.json jq -r '.version')
+    - yarn install
+    - yarn deploy
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - echo building   $DOCKER_IMG:$DOCKER_TAG
     - docker build -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push     $DOCKER_IMG:$DOCKER_TAG
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+
+publish-develop-and-tags:
+  <<: *publish
+  only:
+    - develop
+    - tags
+
+manual-publish-branches:
+  <<: *publish
+  when:
+    - manual
 
 .deploy_template: &deploy_to_test
   image: galacticfog/gitlab-updater
