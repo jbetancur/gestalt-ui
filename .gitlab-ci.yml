@@ -41,6 +41,7 @@ test:
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
   dependencies: 
     - test
+  artifacts:
 
 publish-develop-and-tags:
   <<: *publish
@@ -51,6 +52,7 @@ publish-develop-and-tags:
 manual-publish-branches:
   <<: *publish
   when: manual
+  allow_failure: false
 
 .deploy_template: &deploy_to_test
   image: galacticfog/gitlab-updater
@@ -76,6 +78,8 @@ auto-deploy-develop-to-test:
 manual-deploy-to-test:
   <<: *deploy_to_test
   when: manual
+  dependencies: 
+    - manual-publish-branches
 
 pages:
   stage: publish
