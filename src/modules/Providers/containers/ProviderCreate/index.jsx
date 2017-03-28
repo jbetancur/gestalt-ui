@@ -14,7 +14,7 @@ class ProviderCreate extends Component {
     /* container related */
     containerValues: PropTypes.object,
     volumes: PropTypes.array.isRequired,
-    portmappings: PropTypes.array.isRequired,
+    portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
   };
 
@@ -60,8 +60,8 @@ class ProviderCreate extends Component {
       model.properties.config.auth = values.properties.config.auth;
     }
 
-    if (values.properties.config.portmappings) {
-      model.properties.config.portmappings = JSON.parse(values.properties.config.portmappings);
+    if (values.properties.config.portMappings) {
+      model.properties.config.portMappings = JSON.parse(values.properties.config.portMappings);
     }
 
     if (values.properties.config.extra) {
@@ -72,7 +72,7 @@ class ProviderCreate extends Component {
       model.properties.data = base64.encode(values.properties.data);
       delete model.properties.config.auth;
       delete model.properties.config.url;
-      delete model.properties.portmappings;
+      delete model.properties.portMappings;
     }
 
     if (values.privateVariables) {
@@ -120,8 +120,8 @@ class ProviderCreate extends Component {
       model.properties.services[0].container_spec.properties.volumes = this.props.volumes;
     }
 
-    if (this.props.portmappings.length) {  // TODO: rename to portMappings
-      model.properties.services[0].container_spec.properties.port_mappings = this.props.portmappings;
+    if (this.props.portMappings.length) {
+      model.properties.services[0].container_spec.properties.port_mappings = this.props.portMappings;
     }
 
     if (this.props.healthChecks.length) {
@@ -180,7 +180,7 @@ function mapStateToProps(state) {
     keepDirtyOnReinitialize: true, // keps dirty values in forms when the provider type is changed
     containerValues: getFormValues('containerCreate')(state),
     volumes: state.volumeModal.volumes.volumes,
-    portmappings: state.portmappingModal.portmappings.portmappings,
+    portMappings: state.portmapModal.portMappings.portMappings,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
   };
 }
