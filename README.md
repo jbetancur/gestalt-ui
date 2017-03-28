@@ -2,7 +2,7 @@
 Gestalt Ui written in React/Redux
 
 [![build status](https://gitlab.com/galacticfog/gestalt-ui-react/badges/develop/build.svg)](https://gitlab.com/galacticfog/gestalt-ui-react/commits/develop)
-[![coverage report](https://gitlab.com/galacticfog/gestalt-ui-react/badges/develop/coverage.svg)](https://gitlab.com/galacticfog/gestalt-ui-react/commits/develop)
+[![coverage report](https://gitlab.com/galacticfog/gestalt-ui-react/badges/develop/coverage.svg)](https://galacticfog.gitlab.io/gestalt-ui-react/)
 ## Prerequisites
 ### Install nvm
 ```
