@@ -1,5 +1,6 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
+import * as types from '../actionTypes';
 import reducer from './self';
+import { metaActions } from '../../MetaResource';
 
 const initialState = {
   pending: false,
@@ -26,11 +27,9 @@ describe('self reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle FETCH_SELF_PENDING', () => {
+  it('should handle FETCH_SELF_REQUEST', () => {
     expect(
-      reducer({}, {
-        type: metaTypes.FETCH_SELF_PENDING,
-      })
+      reducer({}, metaActions.fetchSelf())
     ).to.deep.equal({
       pending: true,
     });
@@ -39,7 +38,7 @@ describe('self reducer', () => {
   it('should handle FETCH_SELF_FULFILLED', () => {
     expect(
       reducer({}, {
-        type: metaTypes.FETCH_SELF_FULFILLED,
+        type: types.FETCH_SELF_FULFILLED,
         payload: { ...initialState.self, id: 1 },
       })
     ).to.deep.equal({
@@ -52,7 +51,7 @@ describe('self reducer', () => {
   it('should handle FETCH_SELF_REJECTED', () => {
     expect(
       reducer({}, {
-        type: metaTypes.FETCH_SELF_REJECTED,
+        type: types.FETCH_SELF_REJECTED,
         payload: 'doh!',
       })
     ).to.deep.equal({

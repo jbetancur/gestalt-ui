@@ -24,6 +24,14 @@ export function setCurrentEnvironmentContextfromState(fqon, environmentId) {
   return { type: types.SET_CURRENT_ENVIRONMENT_CONTEXT_REQUEST, fqon, environmentId };
 }
 
+export function unloadWorkspaceContext() {
+  return { type: types.UNLOAD_CURRENT_WORKSPACE_CONTEXT };
+}
+
+export function unloadEnvironmentContext() {
+  return { type: types.UNLOAD_CURRENT_ENVIRONMENT_CONTEXT };
+}
+
 export default {
   setCurrentOrgContext,
   setCurrentWorkspaceContext,
@@ -31,4 +39,6 @@ export default {
   setCurrentOrgContextfromState,
   setCurrentWorkspaceContextfromState,
   setCurrentEnvironmentContextfromState,
+  unloadWorkspaceContext,
+  unloadEnvironmentContext,
 };

@@ -7,11 +7,14 @@ import * as actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createWorkspace: PropTypes.func.isRequired,
   };
 
   createWorkspace(values) {
+    const { params, router } = this.props;
+
     const payload = {
       name: values.name,
       description: values.description,
@@ -26,7 +29,8 @@ class OrgCreate extends Component {
       });
     }
 
-    this.props.createWorkspace(this.props.params.fqon, payload);
+    const onSuccess = response => router.push(`${params.fqon}/workspaces/${response.id}`);
+    this.props.createWorkspace(params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -43,7 +47,7 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { workspace, pending } = state.workspaces.fetchOne;
+  const { workspace, pending } = state.metaResource.workspace;
   return {
     workspace,
     pending,

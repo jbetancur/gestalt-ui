@@ -1,32 +1,29 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-  ENVIRONMENTS_UNLOADED,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  environments: [],
-  error: null
+  organizations: [],
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENVIRONMENTS_UNLOADED:
+    case types.UNLOAD_ORGS:
       return initialState;
-    case metaTypes.FETCH_ENVIRONMENTS_PENDING:
+    case types.FETCH_ORGS_REQUEST:
       return {
         ...state,
-        pending: true,
+        pending: true
       };
-    case metaTypes.FETCH_ENVIRONMENTS_FULFILLED:
+    case types.FETCH_ORGS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        environments: action.payload,
+        organizations: action.payload,
       };
-    case metaTypes.FETCH_ENVIRONMENTS_REJECTED:
+    case types.FETCH_ORGS_REJECTED:
       return {
         ...state,
         pending: false,
@@ -36,4 +33,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

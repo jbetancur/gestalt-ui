@@ -1,16 +1,4 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-    CREATE_ENVIRONMENT_PENDING,
-    CREATE_ENVIRONMENT_FULFILLED,
-    CREATE_ENVIRONMENT_REJECTED,
-    UPDATE_ENVIRONMENT_PENDING,
-    UPDATE_ENVIRONMENT_FULFILLED,
-    UPDATE_ENVIRONMENT_REJECTED,
-    DELETE_ENVIRONMENT_PENDING,
-    DELETE_ENVIRONMENT_FULFILLED,
-    DELETE_ENVIRONMENT_REJECTED,
-    ENVIRONMENT_UNLOADED,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -29,74 +17,74 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENVIRONMENT_UNLOADED:
+    case types.UNLOAD_ENVIRONMENT:
       return initialState;
-    case metaTypes.FETCH_ENVIRONMENT_PENDING:
+    case types.FETCH_ENVIRONMENT_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case metaTypes.FETCH_ENVIRONMENT_FULFILLED:
+    case types.FETCH_ENVIRONMENT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         environment: action.payload
       };
-    case metaTypes.FETCH_ENVIRONMENT_REJECTED:
+    case types.FETCH_ENVIRONMENT_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case CREATE_ENVIRONMENT_PENDING:
+    case types.CREATE_ENVIRONMENT_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case CREATE_ENVIRONMENT_FULFILLED:
+    case types.CREATE_ENVIRONMENT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         environment: action.payload,
       };
-    case CREATE_ENVIRONMENT_REJECTED:
+    case types.CREATE_ENVIRONMENT_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case UPDATE_ENVIRONMENT_PENDING:
+    case types.UPDATE_ENVIRONMENT_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_ENVIRONMENT_FULFILLED:
+    case types.UPDATE_ENVIRONMENT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         environment: action.payload,
       };
-    case UPDATE_ENVIRONMENT_REJECTED:
+    case types.UPDATE_ENVIRONMENT_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case DELETE_ENVIRONMENT_PENDING:
+    case types.DELETE_ENVIRONMENT_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case DELETE_ENVIRONMENT_FULFILLED:
+    case types.DELETE_ENVIRONMENT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
       };
-    case DELETE_ENVIRONMENT_REJECTED:
+    case types.DELETE_ENVIRONMENT_REJECTED:
       return {
         ...state,
         pending: false,

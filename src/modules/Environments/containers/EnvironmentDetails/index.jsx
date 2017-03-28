@@ -6,9 +6,9 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    environment: state.environments.fetchOne.environment,
-    workspace: state.workspaces.fetchOne.workspace,
-    pending: state.environments.fetchOne.pending,
+    environment: state.metaResource.environment.environment,
+    workspace: state.metaResource.workspace.workspace,
+    pending: state.metaResource.environment.pending,
     navigation: state.environments.navigation
   };
 }

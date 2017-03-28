@@ -22,7 +22,7 @@ class OrgItem extends Component {
     deleteOrg: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    onUnloadSet: PropTypes.func.isRequired,
+    onUnloadOrgSet: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -56,7 +56,7 @@ class OrgItem extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnloadSet();
+    this.props.onUnloadOrgSet();
   }
 
   navToSubOrgs(organization) {
@@ -79,9 +79,10 @@ class OrgItem extends Component {
   delete() {
     const { organization, deleteOrg } = this.props;
     const parentFQON = getParentFQON(organization);
+    const onSuccess = () => this.props.router.replace(`${parentFQON}/organizations`);
 
     this.props.confirmDelete(() => {
-      deleteOrg(organization.properties.fqon, { route: true, parentFQON });
+      deleteOrg(organization.properties.fqon, onSuccess);
     }, organization.description || organization.name);
   }
 

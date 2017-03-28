@@ -41,10 +41,10 @@ describe('Organization Actions', () => {
       type: actionTypes.CREATE_ORG_REQUEST,
       fqon: 'iamfqon',
       payload: { id: 1 },
-      routeToOrg: false,
+      onSuccess: undefined,
     };
 
-    expect(actions.createOrg('iamfqon', { id: 1 }, false)).to.deep.equal(expectedAction);
+    expect(actions.createOrg('iamfqon', { id: 1 })).to.deep.equal(expectedAction);
   });
 
   it('should request UPDATE_ORG_REQUEST', () => {
@@ -52,19 +52,19 @@ describe('Organization Actions', () => {
       type: actionTypes.UPDATE_ORG_REQUEST,
       fqon: 'iamfqon',
       payload: [],
-      routeToListing: false,
+      onSuccess: undefined,
     };
 
-    expect(actions.updateOrg('iamfqon', [], false)).to.deep.equal(expectedAction);
+    expect(actions.updateOrg('iamfqon', [])).to.deep.equal(expectedAction);
   });
 
   it('should request DELETE_ORG_REQUEST', () => {
     const expectedAction = {
       type: actionTypes.DELETE_ORG_REQUEST,
       fqon: 'iamfqon',
-      options: {},
+      onSuccess: undefined,
     };
 
-    expect(actions.deleteOrg('iamfqon', {})).to.deep.equal(expectedAction);
+    expect(actions.deleteOrg('iamfqon')).to.deep.equal(expectedAction);
   });
 });

@@ -1,7 +1,7 @@
 import orgSagas from './organizations';
 import workspaceSagas from './workspaces';
 import environmentSagas from './environments';
-import userSagas from './users';
+import selfSagas from './self';
 import contextSagas from './contextMgmt';
 
 export default function* metaSagas() {
@@ -9,7 +9,7 @@ export default function* metaSagas() {
     orgSagas(),
     workspaceSagas(),
     environmentSagas(),
-    userSagas(),
+    selfSagas(),
     contextSagas(),
   ];
 }

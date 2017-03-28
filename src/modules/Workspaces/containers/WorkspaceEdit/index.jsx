@@ -9,11 +9,12 @@ import * as actions from '../../actions';
 
 class WorkspaceEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    onUnloadWorkspace: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -21,7 +22,7 @@ class WorkspaceEdit extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onUnloadWorkspace();
   }
 
   updatedModel(formValues) {
@@ -52,12 +53,14 @@ class WorkspaceEdit extends Component {
   }
 
   updateWorkspace(values) {
+    const { params, router } = this.props;
     const { id } = this.props.workspace;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(this.props.workspace);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    this.props.updateWorkspace(this.props.params.fqon, id, patches);
+    const onSuccess = () => router.push(`${params.fqon}/workspaces/${id}`);
+    this.props.updateWorkspace(params.fqon, id, patches, onSuccess);
   }
 
   render() {
@@ -74,7 +77,7 @@ class WorkspaceEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { workspace, pending } = state.workspaces.fetchOne;
+  const { workspace, pending } = state.metaResource.workspace;
   const variables = map(workspace.properties.env, (value, name) => ({ name, value }));
 
   return {

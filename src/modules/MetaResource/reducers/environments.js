@@ -1,38 +1,34 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-  WORKSPACES_UNLOADED,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  workspaces: [],
-  error: null,
+  environments: [],
+  error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case WORKSPACES_UNLOADED:
+    case types.UNLOAD_ENVIRONMENTS:
       return initialState;
-    case metaTypes.FETCH_WORKSPACES_PENDING:
+    case types.FETCH_ENVIRONMENTS_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case metaTypes.FETCH_WORKSPACES_FULFILLED:
+    case types.FETCH_ENVIRONMENTS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        workspaces: action.payload,
+        environments: action.payload,
       };
-    case metaTypes.FETCH_WORKSPACES_REJECTED:
+    case types.FETCH_ENVIRONMENTS_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-
     default:
       return state;
   }

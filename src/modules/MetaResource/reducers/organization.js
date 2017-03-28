@@ -1,7 +1,4 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-  ORG_UNLOADED,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -20,74 +17,74 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ORG_UNLOADED:
+    case types.UNLOAD_ORG:
       return initialState;
-    case metaTypes.FETCH_ORG_PENDING:
+    case types.FETCH_ORG_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case metaTypes.FETCH_ORG_FULFILLED:
+    case types.FETCH_ORG_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         organization: action.payload,
       };
-    case metaTypes.FETCH_ORG_REJECTED:
+    case types.FETCH_ORG_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload
       };
-    case metaTypes.CREATE_ORG_PENDING:
+    case types.CREATE_ORG_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case metaTypes.CREATE_ORG_FULFILLED:
+    case types.CREATE_ORG_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         organization: action.payload,
       };
-    case metaTypes.CREATE_ORG_REJECTED:
+    case types.CREATE_ORG_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case metaTypes.UPDATE_ORG_PENDING:
+    case types.UPDATE_ORG_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case metaTypes.UPDATE_ORG_FULFILLED:
+    case types.UPDATE_ORG_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         organization: action.payload,
       };
-    case metaTypes.UPDATE_ORG_REJECTED:
+    case types.UPDATE_ORG_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload
       };
-    case metaTypes.DELETE_ORG_PENDING:
+    case types.DELETE_ORG_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case metaTypes.DELETE_ORG_FULFILLED:
+    case types.DELETE_ORG_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
       };
-    case metaTypes.DELETE_ORG_REJECTED:
+    case types.DELETE_ORG_REJECTED:
       return {
         ...state,
         pending: false,

@@ -7,8 +7,8 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    workspaces: sortBy(state.workspaces.fetchAll.workspaces, 'name'),
-    pending: state.workspaces.fetchAll.pending
+    workspaces: sortBy(state.metaResource.workspaces.workspaces, 'name'),
+    pending: state.metaResource.workspaces.pending
   };
 }
 

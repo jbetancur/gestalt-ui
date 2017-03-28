@@ -1,7 +1,4 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-  ORGSET_UNLOADED,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -20,14 +17,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ORGSET_UNLOADED:
+    case types.UNLOAD_ORGSET:
       return initialState;
-    case metaTypes.FETCH_ORGSET_PENDING:
+    case types.FETCH_ORGSET_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case metaTypes.FETCH_ORGSET_FULFILLED:
+    case types.FETCH_ORGSET_FULFILLED:
       return {
         ...state,
         pending: false,
@@ -35,7 +32,7 @@ export default (state = initialState, action) => {
         organization: action.payload.organization,
         organizations: action.payload.organizations,
       };
-    case metaTypes.FETCH_ORGSET_REJECTED:
+    case types.FETCH_ORGSET_REJECTED:
       return {
         ...state,
         pending: false,

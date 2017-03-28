@@ -10,11 +10,12 @@ import * as actions from '../../actions';
 
 class OrgEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
     fetchOrg: PropTypes.func.isRequired,
     updateOrg: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    onUnloadOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   }
 
@@ -23,7 +24,7 @@ class OrgEdit extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onUnloadOrg();
   }
 
   updatedModel(formValues) {
@@ -61,7 +62,8 @@ class OrgEdit extends Component {
     const originalModel = this.originalModel(this.props.organization);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    this.props.updateOrg(properties.fqon, patches, true);
+    const onSuccess = response => this.props.router.push(`${response.properties.fqon}/organizations`);
+    this.props.updateOrg(properties.fqon, patches, onSuccess);
   }
 
   render() {
@@ -80,7 +82,7 @@ class OrgEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { organization, pending } = state.organizations.fetchOne;
+  const { organization, pending } = state.metaResource.organization;
   const variables = map(organization.properties.env, (value, name) => ({ name, value }));
 
   return {

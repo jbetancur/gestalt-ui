@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes';
-import * as actions from './users';
+import * as actions from './self';
 
 describe('Context Actions', () => {
   it('should request FETCH_SELF_REQUEST', () => {

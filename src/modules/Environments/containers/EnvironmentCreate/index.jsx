@@ -7,11 +7,13 @@ import * as actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createEnvironment: PropTypes.func.isRequired
   };
 
   createEnvironment(values) {
+    const { params, router } = this.props;
     const payload = {
       name: values.name,
       description: values.description,
@@ -27,7 +29,8 @@ class OrgCreate extends Component {
       });
     }
 
-    this.props.createEnvironment(this.props.params.fqon, this.props.params.workspaceId, payload);
+    const onSuccess = response => router.push(`${params.fqon}/workspaces/${response.properties.workspace.id}/environments/${response.id}`);
+    this.props.createEnvironment(this.props.params.fqon, this.props.params.workspaceId, payload, onSuccess);
   }
 
   render() {
@@ -45,7 +48,7 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { environment, pending } = state.environments.fetchOne;
+  const { environment, pending } = state.metaResource.environment;
   return {
     environment,
     pending,

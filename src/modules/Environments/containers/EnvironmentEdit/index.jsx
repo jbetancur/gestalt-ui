@@ -9,11 +9,12 @@ import * as actions from '../../actions';
 
 class EnvironmentEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    onUnloadEnvironment: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -22,7 +23,7 @@ class EnvironmentEdit extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onUnloadEnvironment();
   }
 
   updatedModel(formValues) {
@@ -59,12 +60,14 @@ class EnvironmentEdit extends Component {
   }
 
   updateEnvironment(values) {
+    const { params, router } = this.props;
     const { id } = this.props.environment;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(this.props.environment);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    this.props.updateEnvironment(this.props.params.fqon, id, patches);
+    const onSuccess = response => router.push(`${params.fqon}/workspaces/${response.properties.workspace.id}/environments/${response.id}`);
+    this.props.updateEnvironment(this.props.params.fqon, id, patches, onSuccess);
   }
 
   render() {
@@ -85,7 +88,7 @@ class EnvironmentEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { environment, pending } = state.environments.fetchOne;
+  const { environment, pending } = state.metaResource.environment;
   const variables = _map(environment.properties.env, (value, name) => ({ name, value }));
 
   return {
