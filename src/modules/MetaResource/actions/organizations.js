@@ -1,5 +1,21 @@
 import * as types from '../actionTypes';
 
+export function onUnloadAllOrgs() {
+  return { type: types.UNLOAD_ALLORGS };
+}
+
+export function onUnloadOrg() {
+  return { type: types.UNLOAD_ORG };
+}
+
+export function onUnloadOrgSet() {
+  return { type: types.UNLOAD_ORGSET };
+}
+
+export function onUnloadOrgs() {
+  return { type: types.UNLOAD_ORGS };
+}
+
 export function fetchAllOrgs() {
   return { type: types.FETCH_ALLORGS_REQUEST };
 }
@@ -16,19 +32,23 @@ export function fetchOrgSet(fqon) {
   return { type: types.FETCH_ORGSET_REQUEST, fqon };
 }
 
-export function createOrg(fqon, payload, routeToOrg) {
-  return { type: types.CREATE_ORG_REQUEST, fqon, payload, routeToOrg };
+export function createOrg(fqon, payload, onSuccess) {
+  return { type: types.CREATE_ORG_REQUEST, fqon, payload, onSuccess };
 }
 
-export function updateOrg(fqon, payload, routeToListing) {
-  return { type: types.UPDATE_ORG_REQUEST, fqon, payload, routeToListing };
+export function updateOrg(fqon, payload, onSuccess) {
+  return { type: types.UPDATE_ORG_REQUEST, fqon, payload, onSuccess };
 }
 
-export function deleteOrg(fqon, options) {
-  return { type: types.DELETE_ORG_REQUEST, fqon, options };
+export function deleteOrg(fqon, onSuccess) {
+  return { type: types.DELETE_ORG_REQUEST, fqon, onSuccess };
 }
 
 export default {
+  onUnloadAllOrgs,
+  onUnloadOrg,
+  onUnloadOrgSet,
+  onUnloadOrgs,
   fetchAllOrgs,
   fetchOrgs,
   fetchOrgSet,

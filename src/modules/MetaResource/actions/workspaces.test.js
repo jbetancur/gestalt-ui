@@ -20,4 +20,38 @@ describe('Workspace Actions', () => {
 
     expect(actions.fetchWorkspace('iamfqon', '1')).to.deep.equal(expectedAction);
   });
+
+  it('should handle CREATE_WORKSPACE_REQUEST', () => {
+    const expectedAction = {
+      type: actionTypes.CREATE_WORKSPACE_REQUEST,
+      fqon: 'iamfqon',
+      payload: { name: 'test' },
+      onSuccess: undefined,
+    };
+
+    expect(actions.createWorkspace('iamfqon', { name: 'test' })).to.deep.equal(expectedAction);
+  });
+
+  it('should handle UPDATE_WORKSPACE_REQUEST', () => {
+    const expectedAction = {
+      type: actionTypes.UPDATE_WORKSPACE_REQUEST,
+      fqon: 'iamfqon',
+      workspaceId: '1',
+      payload: [],
+      onSuccess: undefined,
+    };
+
+    expect(actions.updateWorkspace('iamfqon', '1', [])).to.deep.equal(expectedAction);
+  });
+
+  it('should handle DELETE_WORKSPACE_REQUEST', () => {
+    const expectedAction = {
+      type: actionTypes.DELETE_WORKSPACE_REQUEST,
+      fqon: 'iamfqon',
+      workspaceId: '1',
+      onSuccess: undefined,
+    };
+
+    expect(actions.deleteWorkspace('iamfqon', '1')).to.deep.equal(expectedAction);
+  });
 });

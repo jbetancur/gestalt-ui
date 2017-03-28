@@ -1,5 +1,4 @@
 import { metaActions } from 'modules/MetaResource';
-import * as actions from '../actions';
 import reducer from './currentEnvironmentContext';
 
 const initialState = {
@@ -22,7 +21,7 @@ describe('currentEnvironmentContext reducer', () => {
 
   it('should handle UNLOAD_CURRENT_ENVIRONMENT_CONTEXT and clear the state', () => {
     expect(
-      reducer({}, actions.unloadEnvironmentContext())
+      reducer({}, metaActions.unloadEnvironmentContext())
     ).to.deep.equal(initialState);
   });
 

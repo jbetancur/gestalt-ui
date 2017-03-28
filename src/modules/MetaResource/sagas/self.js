@@ -6,8 +6,6 @@ import * as types from '../actionTypes';
  * fetchSelf
  */
 export function* fetchSelf() {
-  yield put({ type: types.FETCH_SELF_PENDING });
-
   try {
     const response = yield call(axios.get, 'users/self');
     const orgResponse = yield call(axios.get, response.data.properties.gestalt_home);

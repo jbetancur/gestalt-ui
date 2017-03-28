@@ -1,37 +1,33 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-  UNLOAD_ALLORGS,
-} from '../actionTypes';
+import * as metaTypes from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  error: null,
   organizations: [],
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case UNLOAD_ALLORGS:
+    case metaTypes.UNLOAD_ALLORGS:
       return initialState;
-    case metaTypes.FETCH_ALLORGS_PENDING:
+    case metaTypes.FETCH_ALLORGS_REQUEST:
       return {
         ...state,
         pending: true,
-        organizations: []
       };
     case metaTypes.FETCH_ALLORGS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        organizations: action.payload
+        organizations: action.payload,
       };
     case metaTypes.FETCH_ALLORGS_REJECTED:
       return {
         ...state,
         pending: false,
-        error: action.payload
+        error: action.payload,
       };
     default:
       return state;

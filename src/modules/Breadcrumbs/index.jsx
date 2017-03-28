@@ -87,9 +87,9 @@ class Breadcrumbs extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentOrgContext: state.app.currentOrgContext.organization,
-    currentWorkspaceContext: state.app.currentWorkspaceContext.workspace,
-    currentEnvironmentContext: state.app.currentEnvironmentContext.environment,
+    currentOrgContext: state.metaResource.currentOrgContext.organization,
+    currentWorkspaceContext: state.metaResource.currentWorkspaceContext.workspace,
+    currentEnvironmentContext: state.metaResource.currentEnvironmentContext.environment,
   };
 }
 

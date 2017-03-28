@@ -301,12 +301,12 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app, browser } = state;
+  const { app, metaResource, browser } = state;
 
   return {
-    self: app.self.self,
-    selfFetching: app.self.pending,
-    currentOrgContext: app.currentOrgContext.organization,
+    self: metaResource.self.self,
+    selfFetching: metaResource.self.pending,
+    currentOrgContext: metaResource.currentOrgContext.organization,
     activityIndicator: app.activityIndicator.activity,
     browser,
   };

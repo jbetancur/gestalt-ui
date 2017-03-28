@@ -5483,9 +5483,9 @@ react-hot-loader@next:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-i18next@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-2.2.1.tgz#ef7bd032061206cd574ebdf40fcb9a168c33c839"
+react-i18next@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-2.2.3.tgz#cb6ae3ed11f5327fb691a9de277e9c31a8c50d4a"
   dependencies:
     hoist-non-react-statics "1.2.0"
 
@@ -6455,9 +6455,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-style-loader@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.16.0.tgz#5f001a9bf58fff9fd40f8aa3b9738ab99d4000c7"
+style-loader@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.16.1.tgz#50e325258d4e78421dd9680636b41e8661595d10"
   dependencies:
     loader-utils "^1.0.2"
 

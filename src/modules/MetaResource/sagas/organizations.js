@@ -1,5 +1,4 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
-import { push, replace } from 'react-router-redux';
 import axios from 'axios';
 import * as types from '../actionTypes';
 
@@ -7,8 +6,6 @@ import * as types from '../actionTypes';
  * fetchAllOrgs
  */
 export function* fetchAllOrgs() {
-  yield put({ type: types.FETCH_ALLORGS_PENDING });
-
   try {
     const response = yield call(axios.get, 'orgs?expand=true');
     yield put({ type: types.FETCH_ALLORGS_FULFILLED, payload: response.data });
@@ -22,8 +19,6 @@ export function* fetchAllOrgs() {
  * @param {*} action - { fqon }
  */
 export function* fetchOrgs(action) {
-  yield put({ type: types.FETCH_ORGS_PENDING });
-
   try {
     const response = yield call(axios.get, `${action.fqon}/orgs?expand=true`);
     yield put({ type: types.FETCH_ORGS_FULFILLED, payload: response.data });
@@ -37,8 +32,6 @@ export function* fetchOrgs(action) {
  * @param {*} action - { fqon }
  */
 export function* fetchOrg(action) {
-  yield put({ type: types.FETCH_ORG_PENDING });
-
   try {
     const response = yield call(axios.get, action.fqon);
     yield put({ type: types.FETCH_ORG_FULFILLED, payload: response.data });
@@ -52,8 +45,6 @@ export function* fetchOrg(action) {
  * @param {*} action - { fqon }
  */
 export function* fetchOrgSet(action) {
-  yield put({ type: types.FETCH_ORGSET_PENDING });
-
   function getOrg() {
     return axios.get(action.fqon);
   }
@@ -78,17 +69,15 @@ export function* fetchOrgSet(action) {
 
 /**
  * createOrg
- * @param {*} action - { fqon, payload, routeToOrg }
+ * @param {*} action - { fqon, payload, onSuccess {returns response.data} }
  */
 export function* createOrg(action) {
-  yield put({ type: types.CREATE_ORG_PENDING });
-
   try {
     const response = yield call(axios.post, action.fqon, action.payload);
     yield put({ type: types.CREATE_ORG_FULFILLED, payload: response.data });
 
-    if (action.routeToOrg) {
-      yield put(push(`${response.data.properties.fqon}/organizations`));
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(response.data);
     }
   } catch (e) {
     yield put({ type: types.CREATE_ORG_REJECTED, payload: e.message });
@@ -97,17 +86,15 @@ export function* createOrg(action) {
 
 /**
  * updateOrg
- * @param {*} action - { fqon, payload, routeToListing }
+ * @param {*} action - { fqon, payload, onSuccess {returns response.data}  }
  */
 export function* updateOrg(action) {
-  yield put({ type: types.UPDATE_ORG_PENDING });
-
   try {
     const response = yield call(axios.patch, action.fqon, action.payload);
     yield put({ type: types.UPDATE_ORG_FULFILLED, payload: response.data });
 
-    if (action.routeToListing) {
-      yield put(push(`${response.data.properties.fqon}/organizations`));
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(response.data);
     }
   } catch (e) {
     yield put({ type: types.UPDATE_ORG_REJECTED, payload: e.message });
@@ -116,18 +103,15 @@ export function* updateOrg(action) {
 
 /**
  * deleteOrg
- * @param {*} action - { fqon, options: { route: bool, parentFQON: string } }
+ * @param {*} action - { fqon, onSuccess }
  */
 export function* deleteOrg(action) {
-  const options = action.options || {};
-  yield put({ type: types.DELETE_ORG_PENDING });
-
   try {
     yield call(axios.delete, `${action.fqon}?force=true`);
     yield put({ type: types.DELETE_ORG_FULFILLED });
 
-    if (options.route) {
-      yield put(replace(`${options.parentFQON}/organizations`));
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess();
     }
   } catch (e) {
     yield put({ type: types.DELETE_ORG_REJECTED, payload: e.message });

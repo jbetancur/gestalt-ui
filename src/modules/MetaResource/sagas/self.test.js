@@ -1,23 +1,17 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
+
 import userSagas, {
   fetchSelf,
-} from './users';
+} from './self';
 import * as types from '../actionTypes';
 
-describe('User Sagas', () => {
+describe('Self Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchSelf Sequence', () => {
     const saga = fetchSelf();
     let result;
-
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_SELF_PENDING })
-      );
-    });
 
     it('should make an api call for the user/self', () => {
       result = saga.next();
@@ -44,7 +38,6 @@ describe('User Sagas', () => {
       const sagaError = fetchSelf({ fqon: 'iamfqon', UserId: 1 });
       let resultError = sagaError.next();
 
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
@@ -57,7 +50,7 @@ describe('User Sagas', () => {
     let result;
     const rootSaga = userSagas();
 
-    it('should fork a watcher for fetchAllOrgs', () => {
+    it('should fork a watcher for fetchSelf', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.FETCH_SELF_REQUEST, fetchSelf)

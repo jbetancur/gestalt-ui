@@ -28,7 +28,7 @@ class WorkspaceDetail extends Component {
     deleteWorkspace: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    onUnloadWorkspace: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentWorkspaceContext: PropTypes.func.isRequired,
   };
@@ -52,7 +52,7 @@ class WorkspaceDetail extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onUnloadWorkspace();
   }
 
   handleViewState(view, index) {
@@ -67,10 +67,11 @@ class WorkspaceDetail extends Component {
   }
 
   delete() {
-    const { params, workspace, deleteWorkspace } = this.props;
+    const { params, router, workspace, deleteWorkspace } = this.props;
 
+    const onSuccess = () => router.push(`${params.fqon}/workspaces`);
     this.props.confirmDelete(() => {
-      deleteWorkspace(params.fqon, workspace.id);
+      deleteWorkspace(params.fqon, workspace.id, onSuccess);
     }, workspace.description || workspace.name);
   }
 

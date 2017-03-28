@@ -3,10 +3,11 @@ import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import { createResponsiveStateReducer } from 'redux-responsive';
 import appReducers from './App/reducers';
+import metaResourceReducers from './modules/MetaResource/reducers';
 import modalReducer from './modules/ModalRoot/reducers';
 import errorNotificationReducer from './modules/ErrorNotifications/reducers';
 import loginReducer from './modules/Login/reducers';
-import organizationsReducer from './modules/Organizations/reducers';
+// import organizationsReducer from './modules/Organizations/reducers';
 import oranizationNavMenu from './modules/OrgNavMenu/reducers';
 import workspacesReducer from './modules/Workspaces/reducers';
 import environmentsReducer from './modules/Environments/reducers';
@@ -40,8 +41,9 @@ export default combineReducers({
   routing: routerReducer,
   form: formReducer,
   app: appReducers,
+  metaResource: metaResourceReducers,
   login: loginReducer,
-  organizations: organizationsReducer,
+  // organizations: organizationsReducer,
   orgnavmenu: oranizationNavMenu,
   workspaces: workspacesReducer,
   environments: environmentsReducer,

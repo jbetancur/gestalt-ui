@@ -1,10 +1,7 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
-import {
-  UNLOAD_CURRENT_WORKSPACE_CONTEXT,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
-  workspace: {
+  environment: {
     org: {},
     created: {},
     modified: {},
@@ -16,12 +13,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case UNLOAD_CURRENT_WORKSPACE_CONTEXT:
+    case types.UNLOAD_CURRENT_ENVIRONMENT_CONTEXT:
       return initialState;
-    case metaTypes.UPDATE_CURRENT_WORKSPACE_CONTEXT:
+    case types.UPDATE_CURRENT_ENVIRONMENT_CONTEXT:
       return {
         ...state,
-        workspace: action.payload,
+        environment: action.payload,
       };
     default:
       return state;

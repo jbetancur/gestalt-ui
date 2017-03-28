@@ -31,7 +31,7 @@ class EnvironmentDetail extends Component {
     deleteEnvironment: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    onUnloadEnvironment: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
   };
@@ -54,7 +54,7 @@ class EnvironmentDetail extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onUnloadEnvironment();
   }
 
   handleViewState(view, index) {
@@ -69,10 +69,11 @@ class EnvironmentDetail extends Component {
   }
 
   delete() {
-    const { params, environment, deleteEnvironment } = this.props;
+    const { params, router, environment, deleteEnvironment } = this.props;
 
+    const onSuccess = () => router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
     this.props.confirmDelete(() => {
-      deleteEnvironment(params.fqon, environment.id, params.workspaceId);
+      deleteEnvironment(params.fqon, environment.id, onSuccess);
     }, environment.description || environment.name);
   }
 

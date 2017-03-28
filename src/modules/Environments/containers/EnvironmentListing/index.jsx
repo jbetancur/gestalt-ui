@@ -7,8 +7,8 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    environments: sortBy(state.environments.fetchAll.environments, ['created.timestamp', 'description', 'name']),
-    pending: state.environments.fetchAll.pending
+    environments: sortBy(state.metaResource.environments.environments, ['created.timestamp', 'description', 'name']),
+    pending: state.metaResource.environments.pending
   };
 }
 

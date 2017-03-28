@@ -8,6 +8,7 @@ import * as actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
@@ -28,7 +29,8 @@ class OrgCreate extends Component {
       });
     }
 
-    this.props.createOrg(this.props.params.fqon, payload, true);
+    const onSuccess = response => this.props.router.push(`${response.properties.fqon}/organizations`);
+    this.props.createOrg(this.props.params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -46,7 +48,7 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { organization, pending } = state.organizations.fetchOne;
+  const { organization, pending } = state.metaResource.organization;
 
   return {
     organization,

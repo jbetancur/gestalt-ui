@@ -9,10 +9,10 @@ import * as actions from '../../actions';
 function mapStateToProps(state) {
   return {
     // TODO: refactor as selector
-    self: state.app.self.self,
-    pending: state.organizations.fetchSet.pending,
-    organization: state.organizations.fetchSet.organization,
-    organizations: sortBy(state.organizations.fetchSet.organizations, 'name'),
+    self: state.metaResource.self.self,
+    pending: state.metaResource.organizationSet.pending,
+    organization: state.metaResource.organizationSet.organization,
+    organizations: sortBy(state.metaResource.organizationSet.organizations, 'name'),
   };
 }
 

@@ -31,7 +31,7 @@ class OrgNavMenu extends Component {
     filterOrgs: PropTypes.func.isRequired,
     organizations: PropTypes.array.isRequired,
     orgFetching: PropTypes.bool.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    onUnloadAllOrgs: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   };
 
@@ -40,7 +40,7 @@ class OrgNavMenu extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onUnloadAllOrgs();
   }
 
   filterOrgs(value) {
@@ -113,12 +113,12 @@ class OrgNavMenu extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { orgnavmenu } = state;
-  const orgMenuItems = orgnavmenu.organizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText)));
+  const { orgnavmenu, metaResource } = state;
+  const orgMenuItems = metaResource.allOrganizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText)));
 
   return {
     organizations: sortBy(orgMenuItems, 'name'),
-    orgFetching: orgnavmenu.organizations.pending,
+    orgFetching: metaResource.allOrganizations.pending,
   };
 };
 

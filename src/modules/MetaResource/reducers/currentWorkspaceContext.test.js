@@ -1,5 +1,4 @@
 import { metaActions } from 'modules/MetaResource';
-import * as actions from '../actions';
 import reducer from './currentWorkspaceContext';
 
 const initialState = {
@@ -22,7 +21,7 @@ describe('currentWorkspaceContext reducer', () => {
 
   it('should handle UNLOAD_CURRENT_WORKSPACE_CONTEXT and clear the state', () => {
     expect(
-      reducer({}, actions.unloadWorkspaceContext())
+      reducer({}, metaActions.unloadWorkspaceContext())
     ).to.deep.equal(initialState);
   });
 

@@ -1,4 +1,4 @@
-import * as metaTypes from 'modules/MetaResource/actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -20,19 +20,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case metaTypes.FETCH_SELF_PENDING:
+    case types.FETCH_SELF_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case metaTypes.FETCH_SELF_FULFILLED:
+    case types.FETCH_SELF_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         self: action.payload
       };
-    case metaTypes.FETCH_SELF_REJECTED:
+    case types.FETCH_SELF_REJECTED:
       return {
         ...state,
         pending: false,

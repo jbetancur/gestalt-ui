@@ -19,13 +19,6 @@ describe('Organization Sagas', () => {
     const saga = fetchAllOrgs();
     let result;
 
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ALLORGS_PENDING })
-      );
-    });
-
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
@@ -44,7 +37,6 @@ describe('Organization Sagas', () => {
       const sagaError = fetchAllOrgs();
       let resultError = sagaError.next();
 
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
@@ -56,13 +48,6 @@ describe('Organization Sagas', () => {
   describe('fetchOrgs Sequence', () => {
     const saga = fetchOrgs({ fqon: 'iamfqon' });
     let result;
-
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ORGS_PENDING })
-      );
-    });
 
     it('should make an api call', () => {
       result = saga.next();
@@ -81,7 +66,7 @@ describe('Organization Sagas', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = fetchOrgs({ fqon: 'iamfqon' });
       let resultError = sagaError.next();
-      resultError = sagaError.next();
+
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
@@ -93,13 +78,6 @@ describe('Organization Sagas', () => {
   describe('fetchOrg Sequence', () => {
     const saga = fetchOrg({ fqon: 'iamfqon' });
     let result;
-
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ORG_PENDING })
-      );
-    });
 
     it('should make an api call', () => {
       result = saga.next();
@@ -118,7 +96,6 @@ describe('Organization Sagas', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = fetchOrg({ fqon: 'iamfqon' });
       let resultError = sagaError.next();
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
@@ -130,13 +107,6 @@ describe('Organization Sagas', () => {
   describe('fetchOrgSet Sequence', () => {
     const saga = fetchOrgSet({ fqon: 'iamfqon' });
     let result;
-
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ORGSET_PENDING })
-      );
-    });
 
     it('should make an api call', () => {
       result = saga.next();
@@ -164,7 +134,6 @@ describe('Organization Sagas', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = fetchOrgSet({ fqon: 'iamfqon' });
       let resultError = sagaError.next();
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
@@ -178,13 +147,6 @@ describe('Organization Sagas', () => {
     const saga = createOrg(action);
     let result;
 
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.CREATE_ORG_PENDING })
-      );
-    });
-
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
@@ -197,12 +159,22 @@ describe('Organization Sagas', () => {
       expect(result.value).to.deep.equal(
         put({ type: types.CREATE_ORG_FULFILLED, payload: { id: 1 } })
       );
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { fqon: 'iamfqon', payload: { name: 'iamnewfqon' }, onSuccess: sinon.stub() };
+      const sagaSuccess = createOrg(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = createOrg(action);
       let resultError = sagaError.next();
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
@@ -216,13 +188,6 @@ describe('Organization Sagas', () => {
     const saga = updateOrg(action);
     let result;
 
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.UPDATE_ORG_PENDING })
-      );
-    });
-
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
@@ -235,13 +200,24 @@ describe('Organization Sagas', () => {
       expect(result.value).to.deep.equal(
         put({ type: types.UPDATE_ORG_FULFILLED, payload: { id: 1 } })
       );
+
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { fqon: 'iamfqon', payload: [], onSuccess: sinon.stub() };
+      const sagaSuccess = updateOrg(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = updateOrg(action);
       let resultError = sagaError.next();
 
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
       expect(resultError.value).to.deep.equal(
         put({ type: types.UPDATE_ORG_REJECTED, payload: error })
@@ -253,13 +229,6 @@ describe('Organization Sagas', () => {
     const action = { fqon: 'iamfqon' };
     const saga = deleteOrg(action);
     let result;
-
-    it('should dispatch a pending status', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_ORG_PENDING })
-      );
-    });
 
     it('should make an api call', () => {
       result = saga.next();
@@ -273,12 +242,24 @@ describe('Organization Sagas', () => {
       expect(result.value).to.deep.equal(
         put({ type: types.DELETE_ORG_FULFILLED })
       );
+
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { fqon: 'iamfqon', onSuccess: sinon.stub() };
+      const sagaSuccess = deleteOrg(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next();
+      sagaSuccess.next();
+      // eslint-disable-next-line no-unused-expressions
+      expect(onSuccessAction.onSuccess).to.have.been.called;
     });
 
     it('should dispatch a reject status when there is an error', () => {
       const sagaError = deleteOrg(action);
       let resultError = sagaError.next();
-      resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
