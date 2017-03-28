@@ -39,7 +39,7 @@ test:
     - docker build -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push     $DOCKER_IMG:$DOCKER_TAG
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
-    - cat $DOCKER_TAG > DOCKER_TAG
+    - echo $DOCKER_TAG > DOCKER_TAG
   dependencies: 
     - test
   artifacts:
@@ -65,7 +65,7 @@ manual-publish-branches:
   tags:
     - test-cluster
   script:
-    - if [ ! -e DOCKER_TAG ]; then echo "DOCKER_TAG is missing, you probably need to (re)run the publish step"; exit 1; fi
+    - (if [ ! -e DOCKER_TAG ]; then echo "DOCKER_TAG is missing, you probably need to (re)run the publish step"; exit 1; fi)
     - DOCKER_TAG=$(cat DOCKER_TAG)
     - echo "Will deploy docker tag: $DOCKER_IMG:$DOCKER_TAG"
     - /usr/local/bin/update-deployed-app.sh  marathon.mesos:8080 gestalt-test-tasks/ui-react  $DOCKER_IMG:$DOCKER_TAG
