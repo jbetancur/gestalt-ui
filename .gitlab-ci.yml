@@ -24,6 +24,7 @@ test:
     expire_in: 30 minutes
     paths:
     - node_modules/
+    - yarn.lock
     - coverage/
 
 .publish_template: &publish
