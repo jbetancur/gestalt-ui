@@ -5,8 +5,8 @@ import {
   FETCH_POLICIES_PENDING,
   FETCH_POLICIES_REJECTED,
   FETCH_POLICIES_FULFILLED,
-  POLICY_UNLOADED,
-  POLICIES_UNLOADED,
+  UNLOAD_POLICY,
+  UNLOAD_POLICIES,
   SELECTED_POLICIES,
   FETCH_POLICY_PENDING,
   FETCH_POLICY_FULFILLED,
@@ -24,13 +24,13 @@ import {
 
 export function onUnload() {
   return (dispatch) => {
-    dispatch({ type: POLICY_UNLOADED });
+    dispatch({ type: UNLOAD_POLICY });
   };
 }
 
 export function onUnloadListing() {
   return (dispatch) => {
-    dispatch({ type: POLICIES_UNLOADED });
+    dispatch({ type: UNLOAD_POLICIES });
   };
 }
 

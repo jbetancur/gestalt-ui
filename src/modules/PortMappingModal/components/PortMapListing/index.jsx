@@ -50,7 +50,7 @@ class PortMapListing extends Component {
         <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></EnhancedTableColumn>
         <EnhancedTableColumn>{item.service_port}</EnhancedTableColumn>
         <EnhancedTableColumn>{item.container_port}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><a href={host} target="_blank" rel="noopener noreferrer">{host}</a></div>)}</EnhancedTableColumn>
+        <EnhancedTableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><a href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</a></div>)}</EnhancedTableColumn>
         <EnhancedTableColumn><FieldRemoveButton onClick={() => this.props.removePortmapping(item)} inTable /></EnhancedTableColumn>
       </TableRow>
     ));

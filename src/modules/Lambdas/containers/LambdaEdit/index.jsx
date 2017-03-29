@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
@@ -11,25 +12,22 @@ import * as actions from '../../actions';
 
 class LambdaEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
     fetchLambda: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchLambda, fetchProviders } = this.props;
+    const { params, fetchLambda, fetchProviders, fetchExecutors } = this.props;
     // init providers dropdown
-    fetchProviders(params.fqon, params.environmentId, 'Kong');
+    fetchProviders(params.fqon, params.environmentId, 'Lambda');
+    fetchExecutors(params.fqon, params.environmentId, 'Executor');
     fetchLambda(params.fqon, params.lambdaId, params.environmentId);
-  }
-
-  componentWillUnmount() {
-    const { onUnload } = this.props;
-    onUnload();
   }
 
   updatedModel(formValues) {
@@ -98,12 +96,16 @@ class LambdaEdit extends Component {
 
   updateLambda(values) {
     const { id } = this.props.lambda;
-    const { lambda, params } = this.props;
+    const { lambda, params, router } = this.props;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(lambda);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    this.props.updateLambda(params.fqon, params.workspaceId, params.environmentId, id, patches);
+    const onSuccess = () => {
+      router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    };
+
+    this.props.updateLambda(params.fqon, id, patches, onSuccess);
   }
 
   render() {
@@ -121,7 +123,7 @@ class LambdaEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { lambda, pending } = state.lambdas.fetchOne;
+  const { lambda, pending } = state.metaResource.lambda;
   const variables = map(lambda.properties.env, (value, name) => ({ name, value }));
 
   const model = {
@@ -149,8 +151,7 @@ function mapStateToProps(state) {
   return {
     lambda,
     pending,
-    updatedLambda: state.lambdas.lambdaUpdate.lambda,
-    lambdaUpdatePending: state.lambdas.lambdaUpdate.pending,
+    lambdaUpdatePending: state.metaResource.lambdaUpdate.pending,
     pendingProviders: state.lambdas.providers.pending,
     providers: state.lambdas.providers.providers,
     executors: state.lambdas.executors.executors,
@@ -161,7 +162,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'lambdaEdit',
   validate
 })(LambdaEdit));

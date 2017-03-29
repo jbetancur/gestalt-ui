@@ -20,6 +20,5 @@ export const DELETE_POLICY_REJECTED = 'policies/DELETE_POLICY_REJECTED';
 
 export const SELECTED_POLICIES = 'policies/SELECTED_POLICIES';
 
-export const POLICY_UNLOADED = 'policies/POLICY_UNLOADED';
-export const POLICIES_UNLOADED = 'policies/POLICIES_UNLOADED';
-
+export const UNLOAD_POLICY = 'policies/UNLOAD_POLICY';
+export const UNLOAD_POLICIES = 'policies/UNLOAD_POLICIES';

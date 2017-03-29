@@ -11,6 +11,9 @@ import workspaces from './workspaces';
 import workspace from './workspace';
 import environments from './environments';
 import environment from './environment';
+import lambdas from './lambdas';
+import lambda from './lambda';
+import lambdaUpdate from './lambdaUpdate';
 import self from './self';
 
 export default combineReducers({
@@ -25,5 +28,8 @@ export default combineReducers({
   workspace,
   environments,
   environment,
+  lambdas,
+  lambda,
+  lambdaUpdate,
   self,
 });
