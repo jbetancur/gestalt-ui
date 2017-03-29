@@ -1,8 +1,9 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-  FETCH_PROVIDERS_PENDING,
+  FETCH_PROVIDERS_REQUEST,
   FETCH_PROVIDERS_FULFILLED,
   FETCH_PROVIDERS_REJECTED,
-  LAMBDA_UNLOADED,
+  // UNLOAD_LAMBDA,
 } from '../actionTypes';
 
 const initialState = {
@@ -14,9 +15,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LAMBDA_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_PROVIDERS_PENDING:
+    case FETCH_PROVIDERS_REQUEST:
       return {
         ...state,
         providers: action.payload,

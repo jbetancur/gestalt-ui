@@ -1,54 +1,56 @@
-import {
-  FETCH_LAMBDAS_PENDING,
-  FETCH_LAMBDAS_REJECTED,
-  FETCH_LAMBDAS_FULFILLED,
-  LAMBDAS_UNLOADED,
-  DELETE_LAMBDA_PENDING,
-  DELETE_LAMBDA_FULFILLED,
-  DELETE_LAMBDA_REJECTED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  lambdas: [],
+  lambda: {
+    created: {},
+    modified: {},
+    properties: {
+      env: {},
+      headers: {},
+      providers: [],
+    },
+  },
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LAMBDAS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_LAMBDAS_PENDING:
-      return {
-        ...state,
-        pending: true
-      };
-    case FETCH_LAMBDAS_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        lambdas: action.payload
-      };
-    case FETCH_LAMBDAS_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload
-      };
-    case DELETE_LAMBDA_PENDING:
+    case types.FETCH_LAMBDA_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case DELETE_LAMBDA_FULFILLED:
+    case types.FETCH_LAMBDA_FULFILLED:
       return {
         ...state,
         pending: false,
-        completed: true
+        completed: true,
+        lambda: action.payload
       };
-    case DELETE_LAMBDA_REJECTED:
+    case types.FETCH_LAMBDA_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case types.CREATE_LAMBDA_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.CREATE_LAMBDA_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true,
+        lambda: action.payload,
+      };
+    case types.CREATE_LAMBDA_REJECTED:
       return {
         ...state,
         pending: false,
@@ -58,4 +60,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

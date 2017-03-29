@@ -2,6 +2,7 @@ import context from './context';
 import organizations from './organizations';
 import workspaces from './workspaces';
 import environments from './environments';
+import lambdas from './lambdas';
 import self from './self';
 
 export default Object.assign({},
@@ -9,5 +10,6 @@ export default Object.assign({},
   organizations,
   workspaces,
   environments,
+  lambdas,
   self,
 );

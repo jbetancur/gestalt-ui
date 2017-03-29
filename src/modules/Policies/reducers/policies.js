@@ -2,7 +2,7 @@ import {
   FETCH_POLICIES_PENDING,
   FETCH_POLICIES_REJECTED,
   FETCH_POLICIES_FULFILLED,
-  POLICIES_UNLOADED,
+  UNLOAD_POLICIES,
   DELETE_POLICY_PENDING,
   DELETE_POLICY_FULFILLED,
   DELETE_POLICY_REJECTED,
@@ -17,7 +17,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case POLICIES_UNLOADED:
+    case UNLOAD_POLICIES:
       return initialState;
     case FETCH_POLICIES_PENDING:
       return {

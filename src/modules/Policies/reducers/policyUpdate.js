@@ -2,7 +2,7 @@ import {
     UPDATE_POLICY_PENDING,
     UPDATE_POLICY_FULFILLED,
     UPDATE_POLICY_REJECTED,
-    POLICY_UNLOADED,
+    UNLOAD_POLICY,
 } from '../actionTypes';
 
 const initialState = {
@@ -18,7 +18,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case POLICY_UNLOADED:
+    case UNLOAD_POLICY:
       return initialState;
     case UPDATE_POLICY_PENDING:
       return {

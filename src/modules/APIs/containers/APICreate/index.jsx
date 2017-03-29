@@ -32,7 +32,9 @@ function mapStateToProps(state) {
     name: '',
     description: '',
     properties: {
-      provider: {},
+      provider: {
+        locations: ['notimplemented'],
+      },
     }
   };
 

@@ -24,7 +24,6 @@ class LambdaItem extends Component {
     deleteLambdas: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchLambdas: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
@@ -39,8 +38,7 @@ class LambdaItem extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { clearSelected } = this.props;
     clearSelected();
   }
 
@@ -51,13 +49,18 @@ class LambdaItem extends Component {
   }
 
   delete() {
-    const { params, deleteLambdas } = this.props;
+    const { params, deleteLambdas, clearSelected, fetchLambdas } = this.props;
     const { selectedItems } = this.props.selectedLambdas;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
+    const onSuccess = () => {
+      clearSelected();
+      fetchLambdas(params.fqon, params.environmentId);
+    };
+
     this.props.confirmDelete(() => {
-      deleteLambdas(IDs, params.fqon, params.environmentId);
+      deleteLambdas(IDs, params.fqon, onSuccess);
     }, names);
   }
 

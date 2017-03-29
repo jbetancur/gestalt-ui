@@ -54,7 +54,7 @@ const LambdaForm = (props) => {
                   itemValue="id"
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
-                  onFocus={() => props.fetchProviders(props.params.fqon, params.environmentId, 'Kong')}
+                  onFocus={() => props.fetchProviders(props.params.fqon, params.environmentId, 'Lambda')}
                   // disabled={props.editMode}
                 />
                 <Field
@@ -172,7 +172,6 @@ const LambdaForm = (props) => {
                     type="text"
                     required
                     errorText={props.touched && props.error}
-
                   /> : null}
                 {values.properties.code_type === 'package' ?
                   <Field

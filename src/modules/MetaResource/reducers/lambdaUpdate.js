@@ -1,9 +1,5 @@
-import {
-    UPDATE_LAMBDA_PENDING,
-    UPDATE_LAMBDA_FULFILLED,
-    UPDATE_LAMBDA_REJECTED,
-    LAMBDA_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -22,21 +18,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LAMBDA_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case UPDATE_LAMBDA_PENDING:
+    case types.UPDATE_LAMBDA_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_LAMBDA_FULFILLED:
+    case types.UPDATE_LAMBDA_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         lambda: action.payload,
       };
-    case UPDATE_LAMBDA_REJECTED:
+    case types.UPDATE_LAMBDA_REJECTED:
       return {
         ...state,
         pending: false,

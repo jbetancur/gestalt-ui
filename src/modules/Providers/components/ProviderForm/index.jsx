@@ -96,7 +96,7 @@ const ProviderForm = (props) => {
         component={TextField}
         name="properties.config.auth.password"
         label="Password"
-        type="text"
+        type="password"
         required
         errorText={props.touched && props.error}
         lineDirection="center"

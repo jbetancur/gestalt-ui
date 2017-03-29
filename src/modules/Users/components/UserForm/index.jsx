@@ -16,10 +16,6 @@ const UserForm = (props) => {
     props.router.push(`${props.params.fqon}/users`);
   };
 
-  const fetchOrgs = () => {
-    props.fetchAllOrgs(props.params.fqon);
-  };
-
   return (
     <div>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
@@ -106,7 +102,7 @@ const UserForm = (props) => {
                   label="Gestalt Home"
                   lineDirection="center"
                   errorText={props.touched && props.error}
-                  onFocus={() => fetchOrgs()}
+                  onFocus={() => props.fetchAllOrgs(props.params.fqon)}
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -143,6 +139,7 @@ const UserForm = (props) => {
 
 UserForm.propTypes = {
   user: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   organizations: PropTypes.array.isRequired,
   pendingOrgs: PropTypes.bool.isRequired,

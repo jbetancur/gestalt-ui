@@ -1,8 +1,8 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-    FETCH_ENV_PENDING,
+    FETCH_ENV_REQUEST,
     FETCH_ENV_REJECTED,
     FETCH_ENV_FULFILLED,
-    LAMBDA_UNLOADED,
 } from '../actionTypes';
 
 const initialState = {
@@ -14,9 +14,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LAMBDA_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_ENV_PENDING:
+    case FETCH_ENV_REQUEST:
       return {
         ...state,
         pending: true,

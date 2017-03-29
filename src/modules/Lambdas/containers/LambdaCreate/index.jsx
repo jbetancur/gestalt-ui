@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import base64 from 'base-64';
 import { cloneDeep, map } from 'lodash';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
@@ -10,9 +11,9 @@ import * as actions from '../../actions';
 
 class LambdaCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createLambda: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
     pendingEnv: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
   };
@@ -22,13 +23,8 @@ class LambdaCreate extends Component {
     fetchEnv(params.fqon, params.environmentId);
   }
 
-  componentWillUnmount() {
-    const { onUnload } = this.props;
-    onUnload();
-  }
-
   create(values) {
-    const { params, createLambda } = this.props;
+    const { params, router, createLambda } = this.props;
     const payload = cloneDeep(values);
     // TODO: fake locations for now
     payload.properties.provider = { id: values.properties.provider.id, locations: [] };
@@ -49,7 +45,11 @@ class LambdaCreate extends Component {
       });
     }
 
-    createLambda(params.fqon, params.workspaceId, params.environmentId, payload);
+    const onSuccess = () => {
+      router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    };
+
+    createLambda(params.fqon, params.environmentId, payload, onSuccess);
   }
 
   render() {
@@ -65,7 +65,7 @@ class LambdaCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { lambda, pending } = state.lambdas.fetchOne;
+  const { lambda, pending } = state.metaResource.lambda;
   const variables = map(Object.assign({}, state.lambdas.env.env), (value, name) => ({ name, value }));
 
   return {
@@ -104,7 +104,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'lambdaCreate',
   validate
 })(LambdaCreate));
