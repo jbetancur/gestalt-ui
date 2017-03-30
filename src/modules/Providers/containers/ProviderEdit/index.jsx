@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
 import { map } from 'lodash';
@@ -12,13 +13,13 @@ import * as actions from '../../actions';
 class ProviderEdit extends Component {
   static propTypes = {
     pending: PropTypes.bool.isRequired,
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
-    onUnload: PropTypes.func.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
   };
 
@@ -30,10 +31,6 @@ class ProviderEdit extends Component {
     fetchProviders(params.fqon, entityId, entityKey);
     fetchProvider(params.fqon, params.providerId);
     fetchContainer(params.fqon, params.providerId);
-  }
-
-  componentWillUnmount() {
-    this.props.onUnload();
   }
 
   updatedModel(formValues, originalModel) {
@@ -53,7 +50,7 @@ class ProviderEdit extends Component {
           networks: originalModel.properties.config.networks,
         },
         linked_providers: formValues.linkedProviders,
-        locations
+        locations,
       }
     };
 
@@ -113,7 +110,7 @@ class ProviderEdit extends Component {
 
 
   update(formValues) {
-    const { params, provider, updateProvider } = this.props;
+    const { params, router, provider, updateProvider } = this.props;
     const originalModel = this.originalModel(this.props.provider);
     const updatedModel = this.updatedModel(formValues, originalModel);
 
@@ -124,11 +121,22 @@ class ProviderEdit extends Component {
     }
 
     const patches = jsonPatch.compare(originalModel, updatedModel);
+
+    let onSuccess;
+    if (params.workspaceId && !params.environmentId) {
+      onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}`);
+    } else if (params.environmentId) {
+      onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    } else {
+      onSuccess = () => router.replace(`${params.fqon}/providers`);
+    }
+
+
     // If the provider has a container defined then warn the user of an impending container restart
     if (provider.properties.services && provider.properties.services.length) {
-      this.props.confirmUpdate(() => updateProvider(params.fqon, provider.id, patches), provider.name);
+      this.props.confirmUpdate(() => updateProvider(params.fqon, provider.id, patches, onSuccess), provider.name);
     } else {
-      updateProvider(params.fqon, provider.id, patches);
+      updateProvider(params.fqon, provider.id, patches, onSuccess);
     }
   }
 
@@ -139,17 +147,17 @@ class ProviderEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { provider, pending } = state.providers.fetchOne;
+  const { provider, pending } = state.metaResource.provider;
   const privateVariables = map(provider.properties.config.env.private, (value, name) => ({ name, value }));
   const publicVariables = map(provider.properties.config.env.public, (value, name) => ({ name, value }));
 
   return {
     provider,
     pending,
-    updatePending: state.providers.updateOne.pending,
+    updatePending: state.metaResource.providerUpdate.pending,
     pendingSchema: state.providers.selectedProviderSchema.pending,
-    providers: state.providers.fetchAll.providers,
-    pendingProviders: state.providers.fetchAll.pending,
+    providers: state.metaResource.providers.providers,
+    pendingProviders: state.metaResource.providers.pending,
     container: state.providers.container.container,
     initialValues: {
       name: provider.name,
@@ -177,7 +185,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'providerCreate',
   validate
 })(ProviderEdit));

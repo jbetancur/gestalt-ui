@@ -1,34 +1,36 @@
-import {
-    FETCH_ENV_PENDING,
-    FETCH_ENV_REJECTED,
-    FETCH_ENV_FULFILLED,
-    CONTAINER_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  env: {},
-  error: null
+  api: {
+    created: {},
+    modified: {},
+    properties: {
+      provider: {},
+    }
+  },
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CONTAINER_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_ENV_PENDING:
+    case types.UPDATE_API_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_ENV_FULFILLED:
+    case types.UPDATE_API_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        env: action.payload
+        api: action.payload,
       };
-    case FETCH_ENV_REJECTED:
+    case types.UPDATE_API_REJECTED:
       return {
         ...state,
         pending: false,

@@ -11,6 +11,9 @@ const initialState = {
       env: {},
       headers: {},
       providers: [],
+      periodic_info: {
+        payload: {},
+      },
     },
   },
   error: null

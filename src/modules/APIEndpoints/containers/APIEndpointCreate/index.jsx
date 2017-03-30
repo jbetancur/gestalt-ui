@@ -1,26 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
 import * as actions from '../../actions';
 
 class APIEndpointCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
   };
 
-  componentWillUnmount() {
-    this.props.onUnload();
-  }
-
   create(values) {
-    const { params, createAPIEndpoint } = this.props;
+    const { params, router, createAPIEndpoint } = this.props;
     const payload = { ...values };
 
-    createAPIEndpoint(params.fqon, params.apiId, payload);
+    const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
+    createAPIEndpoint(params.fqon, params.apiId, payload, onSuccess);
   }
 
   render() {
@@ -29,30 +27,30 @@ class APIEndpointCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.apiEndpoints.fetchOne;
+  const { pending } = state.metaResource.apiEndpoint;
   const model = {
     name: '',
     description: '',
     properties: {
-      auth_type: {
-        type: 'None',
-      },
-      http_method: 'GET',
-      implementation: {
-        type: 'Lambda',
-      },
+      // auth_type: {
+      //   type: 'None',
+      // },
+      // http_method: 'GET',
+      resource: '',
+      upstream_url: '',
+      implementation_id: '',
     }
   };
 
   return {
     apiEndpoint: model,
     pending,
-    pendingAPIEndpoints: state.apiEndpoints.pending,
+    pendingAPIEndpoints: state.metaResource.apiEndpoints.pending,
     initialValues: model
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'apiEndpointCreate',
   validate
 })(APIEndpointCreate));

@@ -5,8 +5,8 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    apis: sortBy(state.apis.fetchAll.apis, 'name'),
-    pending: state.apis.fetchAll.pending,
+    apis: sortBy(state.metaResource.apis.apis, 'name'),
+    pending: state.metaResource.apis.pending,
     selectedAPIs: state.apis.selectedAPIs,
   };
 }

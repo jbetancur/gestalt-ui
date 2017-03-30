@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment-timezone';
 import { Field, getFormValues } from 'redux-form';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
@@ -20,6 +21,8 @@ import Breadcrumbs from 'modules/Breadcrumbs';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
+
+const timezones = moment.tz.names();
 
 const LambdaForm = (props) => {
   const { values, params, lambda } = props;
@@ -54,7 +57,7 @@ const LambdaForm = (props) => {
                   itemValue="id"
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
-                  onFocus={() => props.fetchProviders(props.params.fqon, params.environmentId, 'Lambda')}
+                  onFocus={() => props.fetchProvidersByType(props.params.fqon, params.environmentId, 'environments', 'Lambda')}
                   // disabled={props.editMode}
                 />
                 <Field
@@ -69,7 +72,7 @@ const LambdaForm = (props) => {
                   label="Runtime"
                   errorText={props.touched && props.error}
                   disabled={props.editMode}
-                  onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'Executor')}
+                  onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor')}
                 />
                 <Field
                   id="select-code-type"
@@ -201,6 +204,7 @@ const LambdaForm = (props) => {
                   checked={values.properties.public}
                   label="Public"
                 />
+
                 {values.properties.code_type === 'code' ?
                   <div className="flex-row">
                     <MDSelectField
@@ -223,7 +227,44 @@ const LambdaForm = (props) => {
                     />
                   </div> : null}
               </div>
+              <h4>Periodic Configuration</h4>
               <Divider />
+              <div className="flex-row">
+                <Field
+                  className="flex-3 flex-xs-12"
+                  component={TextField}
+                  name="properties.periodic_info.schedule"
+                  label="Schedule"
+                  helpText="Date and time format - ISO 8601"
+                  type="text"
+                  errorText={props.touched && props.error}
+                />
+                <Field
+                  className="flex-3 flex-xs-12"
+                  component={SelectField}
+                  name="properties.periodic_info.timezone"
+                  label="Timezone"
+                  menuItems={timezones}
+                  errorText={props.touched && props.error}
+                />
+                <Field
+                  className="flex-2 flex-xs-12"
+                  component={TextField}
+                  name="properties.periodic_info.payload.eventName"
+                  label="Event Name"
+                  type="text"
+                  errorText={props.touched && props.error}
+                />
+                <Field
+                  className="flex-4 flex-xs-12"
+                  component={TextField}
+                  name="properties.periodic_info.payload.data"
+                  label="json payload"
+                  type="text"
+                  errorText={props.touched && props.error}
+                  rows={2}
+                />
+              </div>
 
               {/* <div className="flex-row">
                 <div className="flex-12">
@@ -273,7 +314,7 @@ LambdaForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
-  fetchProviders: PropTypes.func.isRequired,
+  fetchProvidersByType: PropTypes.func.isRequired,
   fetchExecutors: PropTypes.func.isRequired,
   handleTheme: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,

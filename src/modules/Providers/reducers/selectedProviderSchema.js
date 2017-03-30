@@ -1,6 +1,4 @@
-import {
-    PROVIDER_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 const initialState = {
   pending: false,
@@ -12,7 +10,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PROVIDER_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
     case `providers/FETCH_${action.schemaType}_SCHEMA_PENDING`:
       return {

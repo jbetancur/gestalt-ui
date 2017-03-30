@@ -24,7 +24,6 @@ class apiEndpointItem extends Component {
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
@@ -38,8 +37,7 @@ class apiEndpointItem extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { clearSelected } = this.props;
     clearSelected();
   }
 
@@ -50,13 +48,18 @@ class apiEndpointItem extends Component {
   }
 
   delete() {
-    const { params, deleteAPIEndpoints } = this.props;
+    const { params, fetchAPIEndpoints, deleteAPIEndpoints, clearSelected } = this.props;
     const { selectedItems } = this.props.selectedEndpoints;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
+    const onSuccess = () => {
+      clearSelected();
+      fetchAPIEndpoints(params.fqon, params.apiId);
+    };
+
     this.props.confirmDelete(() => {
-      deleteAPIEndpoints(IDs, params.fqon, params.apiId);
+      deleteAPIEndpoints(IDs, params.fqon, params.apiId, onSuccess);
     }, names);
   }
 
@@ -94,9 +97,10 @@ class apiEndpointItem extends Component {
     const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
         <TableColumn>{apiEndpoint.name}</TableColumn>
-        <TableColumn>{apiEndpoint.properties.implementation.type}</TableColumn>
-        <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn>
-        <TableColumn>{apiEndpoint.properties.http_method}</TableColumn>
+        <TableColumn>{apiEndpoint.properties.implementation_id}</TableColumn>
+        <TableColumn>{apiEndpoint.properties.upstream_url}</TableColumn>
+        {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn>
+        <TableColumn>{apiEndpoint.properties.http_method}</TableColumn> */}
         <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
@@ -119,9 +123,10 @@ class apiEndpointItem extends Component {
           <TableHeader>
             <TableRow>
               <TableColumn>Name</TableColumn>
-              <TableColumn>Type</TableColumn>
-              <TableColumn>Security</TableColumn>
-              <TableColumn>HTTP Method</TableColumn>
+              <TableColumn>Lambda UUID</TableColumn>
+              <TableColumn>Upstream Url</TableColumn>
+              {/* <TableColumn>Security</TableColumn>
+              <TableColumn>HTTP Method</TableColumn> */}
               <TableColumn>Resource Path</TableColumn>
               <TableColumn>Owner</TableColumn>
               <TableColumn>Created</TableColumn>

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
@@ -120,8 +121,8 @@ function mapStateToProps(state) {
   return {
     container,
     pending,
-    pendingProviders: state.containers.providers.pending,
-    providers: state.containers.providers.providers,
+    pendingProviders: state.metaResource.providersByType.pending,
+    providers: state.metaResource.providersByType.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -134,7 +135,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+Object.assign({}, actions, metaActions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
 })(ContainerEdit));

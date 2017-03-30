@@ -1,71 +1,54 @@
-import {
-    FETCH_PROVIDER_PENDING,
-    FETCH_PROVIDER_REJECTED,
-    FETCH_PROVIDER_FULFILLED,
-    CREATE_PROVIDER_PENDING,
-    CREATE_PROVIDER_FULFILLED,
-    CREATE_PROVIDER_REJECTED,
-    PROVIDER_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  provider: {
+  api: {
     created: {},
     modified: {},
     properties: {
-      config: {
-        auth: {},
-        env: {
-          private: {},
-          public: {},
-        },
-        networks: []
-      },
-      linked_providers: [],
-      locations: [],
-      parent: {}
+      provider: {},
     }
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PROVIDER_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_PROVIDER_PENDING:
+    case types.FETCH_API_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_PROVIDER_FULFILLED:
+    case types.FETCH_API_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        provider: action.payload
+        api: action.payload
       };
-    case FETCH_PROVIDER_REJECTED:
+    case types.FETCH_API_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case CREATE_PROVIDER_PENDING:
+    case types.CREATE_API_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case CREATE_PROVIDER_FULFILLED:
+    case types.CREATE_API_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        provider: action.payload,
+        api: action.payload,
       };
-    case CREATE_PROVIDER_REJECTED:
+    case types.CREATE_API_REJECTED:
       return {
         ...state,
         pending: false,

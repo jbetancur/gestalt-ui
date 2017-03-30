@@ -20,7 +20,8 @@ class LambdaCreate extends Component {
 
   componentWillMount() {
     const { params, fetchEnv } = this.props;
-    fetchEnv(params.fqon, params.environmentId);
+
+    fetchEnv(params.fqon, params.environmentId, 'environments');
   }
 
   create(values) {
@@ -66,16 +67,16 @@ class LambdaCreate extends Component {
 
 function mapStateToProps(state) {
   const { lambda, pending } = state.metaResource.lambda;
-  const variables = map(Object.assign({}, state.lambdas.env.env), (value, name) => ({ name, value }));
+  const variables = map(Object.assign({}, state.metaResource.env.env), (value, name) => ({ name, value }));
 
   return {
     lambda,
     pending,
-    pendingEnv: state.lambdas.env.pending,
-    pendingProviders: state.lambdas.providers.pending,
-    providers: state.lambdas.providers.providers,
-    executors: state.lambdas.executors.executors,
-    pendingExecutors: state.lambdas.executors.pending,
+    pendingEnv: state.metaResource.env.pending,
+    pendingProviders: state.metaResource.providersByType.pending,
+    providers: state.metaResource.providersByType.providers,
+    executors: state.metaResource.executors.executors,
+    pendingExecutors: state.metaResource.executors.pending,
     theme: state.lambdas.theme,
     initialValues: {
       name: '',
@@ -97,6 +98,9 @@ function mapStateToProps(state) {
         runtime: 'nodejs',
         // Providers is really an array of {id, locations[]}
         provider: {},
+        periodic_info: {
+          payload: {},
+        },
       },
       variables,
     },

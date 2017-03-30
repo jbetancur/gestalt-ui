@@ -13,7 +13,6 @@ const renderField = ({ input, label, type, touched, error }) => (
     type={type}
     value=" " // fix for [object Object] on deselect
     errorText={touched && error}
-    lineDirection="center"
     required
   />
 );
@@ -46,22 +45,17 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
       <div key={index} className="flex-row">
         <Field
           name={`${member}.${keyFieldValue}`}
-          disabled={!!`${member}.required`}
           type="text"
           component={renderField}
           label={keyFieldName}
-          lineDirection="center"
         />
         <Field
           name={`${member}.${valueFieldValue}`}
           type="text"
           component={renderField}
           label={valueFieldName}
-          lineDirection="center"
         />
-        <div>
-          <FieldRemoveButton onClick={() => fields.remove(index)} />
-        </div>
+        <FieldRemoveButton onClick={() => fields.remove(index)} />
       </div>
     )}
   </FormSection>

@@ -16,9 +16,6 @@ import {
   DELETE_CONTAINER_PENDING,
   DELETE_CONTAINER_FULFILLED,
   DELETE_CONTAINER_REJECTED,
-  FETCH_PROVIDERS_PENDING,
-  FETCH_PROVIDERS_FULFILLED,
-  FETCH_PROVIDERS_REJECTED,
   CONTAINER_UNLOADED,
   CONTAINERS_UNLOADED,
   SCALE_CONTAINER_PENDING,
@@ -27,9 +24,6 @@ import {
   MIGRATE_CONTAINER_PENDING,
   MIGRATE_CONTAINER_FULFILLED,
   MIGRATE_CONTAINER_REJECTED,
-  FETCH_ENV_PENDING,
-  FETCH_ENV_FULFILLED,
-  FETCH_ENV_REJECTED,
 } from './actionTypes';
 
 export function onUnload() {
@@ -55,19 +49,6 @@ export function fetchContainers(fqon, environmentId, isPolling) {
       dispatch({ type: FETCH_CONTAINERS_FULFILLED, payload: response.data });
     }).catch((err) => {
       dispatch({ type: FETCH_CONTAINERS_REJECTED, payload: err });
-    });
-  };
-}
-
-export function fetchEnv(fqon, entityId, entityKey) {
-  const url = entityId ? `${fqon}/${entityKey}/${entityId}/env` : `${fqon}/env`;
-
-  return (dispatch) => {
-    dispatch({ type: FETCH_ENV_PENDING });
-    axios.get(url).then((response) => {
-      dispatch({ type: FETCH_ENV_FULFILLED, payload: response.data });
-    }).catch((err) => {
-      dispatch({ type: FETCH_ENV_REJECTED, payload: err });
     });
   };
 }
@@ -165,24 +146,6 @@ export function migrateContainer(fqon, environmentId, containerId, providerId, i
       }
     }).catch((err) => {
       dispatch({ type: MIGRATE_CONTAINER_REJECTED, payload: err });
-    });
-  };
-}
-
-export function fetchProvidersByType(fqon, entityId, entityKey, providerType) {
-  const url = entityId ? `${fqon}/${entityKey}/${entityId}/providers` : `${fqon}/providers`;
-  const type = providerType ? `&type=${providerType}` : '';
-
-  return (dispatch) => {
-    dispatch({ type: FETCH_PROVIDERS_PENDING, payload: [{ id: '', name: 'fetching providers...' }] });
-    axios.get(`${url}?expand=true${type}`).then((response) => {
-      if (!response.data.length) {
-        dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });
-      } else {
-        dispatch({ type: FETCH_PROVIDERS_FULFILLED, payload: response.data });
-      }
-    }).catch((err) => {
-      dispatch({ type: FETCH_PROVIDERS_REJECTED, payload: err });
     });
   };
 }

@@ -1,10 +1,5 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
-import {
-  FETCH_PROVIDERS_REQUEST,
-  FETCH_PROVIDERS_FULFILLED,
-  FETCH_PROVIDERS_REJECTED,
-  // UNLOAD_LAMBDA,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -17,20 +12,20 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return initialState;
-    case FETCH_PROVIDERS_REQUEST:
+    case types.FETCH_PROVIDERS_BYTYPE_REQUEST:
       return {
         ...state,
-        providers: action.payload,
         pending: true,
+        providers: [{ id: '', name: 'fetching providers...' }],
       };
-    case FETCH_PROVIDERS_FULFILLED:
+    case types.FETCH_PROVIDERS_BYTYPE_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         providers: action.payload,
       };
-    case FETCH_PROVIDERS_REJECTED:
+    case types.FETCH_PROVIDERS_BYTYPE_REJECTED:
       return {
         ...state,
         pending: false,

@@ -1,38 +1,36 @@
-import {
-    UPDATE_API_PENDING,
-    UPDATE_API_FULFILLED,
-    UPDATE_API_REJECTED,
-    API_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  api: {
+  apiendpoint: {
     created: {},
     modified: {},
-    properties: {}
+    properties: {
+      auth_type: {},
+    },
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case API_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case UPDATE_API_PENDING:
+    case types.UPDATE_APIENDPOINT_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_API_FULFILLED:
+    case types.UPDATE_APIENDPOINT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        api: action.payload,
+        apiEndpoint: action.payload,
       };
-    case UPDATE_API_REJECTED:
+    case types.UPDATE_APIENDPOINT_REJECTED:
       return {
         ...state,
         pending: false,
