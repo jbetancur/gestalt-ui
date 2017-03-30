@@ -32,10 +32,6 @@ const APIForm = (props) => {
     // editMode,
   } = props;
 
-  const fetchProviders = () => {
-    props.fetchProviders(params.fqon, params.environmentId, 'GatewayManager');
-  };
-
   return (
     <div>
       <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -63,7 +59,7 @@ const APIForm = (props) => {
                   itemValue="id"
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
-                  onFocus={() => fetchProviders()}
+                  onFocus={() => props.fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'GatewayManager')}
                 />
                 <Field
                   className="flex-4 flex-xs-12"
@@ -121,7 +117,7 @@ const APIForm = (props) => {
 
 APIForm.propTypes = {
   providers: PropTypes.array.isRequired,
-  fetchProviders: PropTypes.func.isRequired,
+  fetchProvidersByType: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,

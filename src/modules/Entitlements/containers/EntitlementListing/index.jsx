@@ -4,7 +4,7 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    self: state.app.self.self,
+    self: state.metaResource.self.self,
     entitlements: state.entitlements.fetchAll.entitlements,
     pendingEntitlements: state.entitlements.fetchAll.pending,
     selectedIdentity: state.entitlements.selectedIdentity.identity,

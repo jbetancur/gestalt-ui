@@ -1,38 +1,35 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-    UPDATE_PROVIDER_PENDING,
-    UPDATE_PROVIDER_FULFILLED,
-    UPDATE_PROVIDER_REJECTED,
-    PROVIDER_UNLOADED,
+  FETCH_EXECUTORS_REQUEST,
+  FETCH_EXECUTORS_FULFILLED,
+  FETCH_EXECUTORS_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  provider: {
-    created: {},
-    modified: {},
-    properties: {}
-  },
-  error: null
+  executors: [],
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PROVIDER_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case UPDATE_PROVIDER_PENDING:
+    case FETCH_EXECUTORS_REQUEST:
       return {
         ...state,
+        executors: [{ id: '', name: 'fetching executors...' }],
         pending: true,
       };
-    case UPDATE_PROVIDER_FULFILLED:
+    case FETCH_EXECUTORS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        provider: action.payload,
+        executors: action.payload,
       };
-    case UPDATE_PROVIDER_REJECTED:
+    case FETCH_EXECUTORS_REJECTED:
       return {
         ...state,
         pending: false,

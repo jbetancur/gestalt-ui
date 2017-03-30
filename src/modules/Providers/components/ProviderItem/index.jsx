@@ -24,7 +24,6 @@ class ProviderItem extends Component {
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
@@ -42,12 +41,12 @@ class ProviderItem extends Component {
     const { params, fetchProviders } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+
     fetchProviders(params.fqon, entityId, entityKey);
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { clearSelected } = this.props;
     clearSelected();
   }
 
@@ -92,22 +91,37 @@ class ProviderItem extends Component {
   }
 
   delete() {
-    const { params, deleteProviders } = this.props;
+    const { params, fetchProviders, deleteProviders, clearSelected } = this.props;
     const { selectedItems } = this.props.selectedProviders;
     const providerIds = selectedItems.map(item => (item.id));
     const providerNames = selectedItems.map(item => (item.name));
 
     if (params.workspaceId && !params.environmentId) {
+      const onSuccess = () => {
+        clearSelected();
+        fetchProviders(params.fqon, params.workspaceId, 'workspaces');
+      };
+
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, params.workspaceId, 'workspaces');
+        deleteProviders(providerIds, params.fqon, params.workspaceId, 'workspaces', onSuccess);
       }, providerNames);
     } else if (params.environmentId) {
+      const onSuccess = () => {
+        clearSelected();
+        fetchProviders(params.fqon, params.environmentId, 'environments');
+      };
+
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, params.environmentId, 'environments');
+        deleteProviders(providerIds, params.fqon, params.environmentId, 'environments', onSuccess);
       }, providerNames);
     } else {
+      const onSuccess = () => {
+        clearSelected();
+        fetchProviders(params.fqon);
+      };
+
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon);
+        deleteProviders(providerIds, params.fqon, null, null, onSuccess);
       }, providerNames);
     }
   }
@@ -133,7 +147,7 @@ class ProviderItem extends Component {
       <TableRow key={provider.id} onClick={e => this.edit(provider, e)}>
         <TableColumn>{provider.name}</TableColumn>
         <TableColumn>{provider.description}</TableColumn>
-        <TableColumn>{this.formatResourceType(provider.resource_type)}</TableColumn>
+        <TableColumn>{provider.resource_type && this.formatResourceType(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
         <TableColumn>{provider.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={provider.created.timestamp} /> <FormattedTime value={provider.created.timestamp} /></TableColumn>

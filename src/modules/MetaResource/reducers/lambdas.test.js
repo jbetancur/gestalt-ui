@@ -9,7 +9,7 @@ const initialState = {
   error: null
 };
 
-describe('lambds reducer', () => {
+describe('lambdas reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})

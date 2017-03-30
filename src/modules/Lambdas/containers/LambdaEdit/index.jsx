@@ -16,17 +16,17 @@ class LambdaEdit extends Component {
     params: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
     fetchLambda: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
     fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchLambda, fetchProviders, fetchExecutors } = this.props;
+    const { params, fetchLambda, fetchProvidersByType, fetchExecutors } = this.props;
     // init providers dropdown
-    fetchProviders(params.fqon, params.environmentId, 'Lambda');
-    fetchExecutors(params.fqon, params.environmentId, 'Executor');
+    fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'Lambda');
+    fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor');
     fetchLambda(params.fqon, params.lambdaId, params.environmentId);
   }
 
@@ -49,6 +49,7 @@ class LambdaEdit extends Component {
         synchronous: properties.synchronous,
         runtime: properties.runtime,
         provider: properties.provider,
+        periodic_info: properties.periodic_info
       }
     };
 
@@ -84,6 +85,7 @@ class LambdaEdit extends Component {
         synchronous: properties.synchronous,
         runtime: properties.runtime,
         provider: properties.provider,
+        periodic_info: properties.periodic_info,
       }
     };
 
@@ -144,6 +146,7 @@ function mapStateToProps(state) {
       synchronous: lambda.properties.synchronous,
       runtime: lambda.properties.runtime,
       provider: lambda.properties.provider,
+      periodic_info: lambda.properties.periodic_info,
     },
     variables
   };
@@ -152,10 +155,10 @@ function mapStateToProps(state) {
     lambda,
     pending,
     lambdaUpdatePending: state.metaResource.lambdaUpdate.pending,
-    pendingProviders: state.lambdas.providers.pending,
-    providers: state.lambdas.providers.providers,
-    executors: state.lambdas.executors.executors,
-    pendingExecutors: state.lambdas.executors.pending,
+    pendingProviders: state.metaResource.providersByType.pending,
+    providers: state.metaResource.providersByType.providers,
+    executors: state.metaResource.executors.executors,
+    pendingExecutors: state.metaResource.executors.pending,
     theme: state.lambdas.theme,
     initialValues: model,
     enableReinitialize: true,

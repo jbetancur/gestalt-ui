@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import base64 from 'base-64';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
@@ -8,9 +9,9 @@ import * as actions from '../../actions';
 
 class ProviderCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createProvider: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
     /* container related */
     containerValues: PropTypes.object,
     volumes: PropTypes.array.isRequired,
@@ -22,12 +23,8 @@ class ProviderCreate extends Component {
     containerValues: {},
   };
 
-  componentWillUnmount() {
-    this.props.onUnload();
-  }
-
   create(values) {
-    const { params, createProvider } = this.props;
+    const { params, router, createProvider } = this.props;
     const {
       name,
       description,
@@ -128,16 +125,22 @@ class ProviderCreate extends Component {
       model.properties.services[0].container_spec.properties.health_checks = this.props.healthChecks;
     }
 
+    let onSuccess;
+    if (params.workspaceId && !params.environmentId) {
+      onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}`);
+    } else if (params.environmentId) {
+      onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    } else {
+      onSuccess = () => router.replace(`${params.fqon}/providers`);
+    }
+
     // Create it
     if (params.workspaceId && !params.environmentId) {
-      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}`;
-      createProvider(params.fqon, params.workspaceId, 'workspaces', model);
+      createProvider(params.fqon, params.workspaceId, 'workspaces', model, onSuccess);
     } else if (params.environmentId) {
-      // const routeToUrlWhenDone = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`;
-      createProvider(params.fqon, params.environmentId, 'environments', model);
+      createProvider(params.fqon, params.environmentId, 'environments', model, onSuccess);
     } else {
-      // const routeToUrlWhenDone = `${params.fqon}/providers`;
-      createProvider(params.fqon, null, null, model);
+      createProvider(params.fqon, null, null, model, onSuccess);
     }
   }
 
@@ -147,7 +150,7 @@ class ProviderCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.providers.fetchOne;
+  const { pending } = state.metaResource.provider;
 
   const model = {
     name: '',
@@ -163,18 +166,18 @@ function mapStateToProps(state) {
       },
       linked_providers: [],
       services: [],
-      locations: []
+      locations: [],
     },
     publicVariables: state.providers.selectedProviderSchema.public,
-    privateVariables: state.providers.selectedProviderSchema.private
+    privateVariables: state.providers.selectedProviderSchema.private,
   };
 
   return {
     provider: model,
     pending,
     pendingSchema: state.providers.selectedProviderSchema.pending,
-    providers: state.providers.fetchAll.providers,
-    pendingProviders: state.providers.fetchAll.pending,
+    providers: state.metaResource.providers.providers,
+    pendingProviders: state.metaResource.providers.pending,
     initialValues: model,
     enableReinitialize: true,
     keepDirtyOnReinitialize: true, // keps dirty values in forms when the provider type is changed
@@ -185,7 +188,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'providerCreate',
-  validate
+  validate,
 })(ProviderCreate));

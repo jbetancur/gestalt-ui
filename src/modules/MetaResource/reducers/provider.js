@@ -1,62 +1,64 @@
-import {
-    FETCH_APIENDPOINT_PENDING,
-    FETCH_APIENDPOINT_REJECTED,
-    FETCH_APIENDPOINT_FULFILLED,
-    CREATE_APIENDPOINT_PENDING,
-    CREATE_APIENDPOINT_FULFILLED,
-    CREATE_APIENDPOINT_REJECTED,
-    APIENDPOINT_UNLOADED
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  apiEndpoint: {
+  provider: {
     created: {},
     modified: {},
     properties: {
-      auth_type: {},
-      implementation: {},
-    },
+      config: {
+        auth: {},
+        env: {
+          private: {},
+          public: {},
+        },
+        networks: []
+      },
+      linked_providers: [],
+      locations: [],
+      parent: {}
+    }
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case APIENDPOINT_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_APIENDPOINT_PENDING:
+    case types.FETCH_PROVIDER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_APIENDPOINT_FULFILLED:
+    case types.FETCH_PROVIDER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        apiEndpoint: action.payload
+        provider: action.payload
       };
-    case FETCH_APIENDPOINT_REJECTED:
+    case types.FETCH_PROVIDER_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case CREATE_APIENDPOINT_PENDING:
+    case types.CREATE_PROVIDER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case CREATE_APIENDPOINT_FULFILLED:
+    case types.CREATE_PROVIDER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        apiEndpoint: action.payload,
+        provider: action.payload,
       };
-    case CREATE_APIENDPOINT_REJECTED:
+    case types.CREATE_PROVIDER_REJECTED:
       return {
         ...state,
         pending: false,

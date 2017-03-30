@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { cloneDeep } from 'lodash';
@@ -10,10 +11,10 @@ import * as actions from '../../actions';
 
 class APIEndpointEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     apiEndpoint: PropTypes.object.isRequired,
     fetchAPIEndpoint: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
     updateAPIEndpoint: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
@@ -23,14 +24,9 @@ class APIEndpointEdit extends Component {
     fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId);
   }
 
-  componentWillUnmount() {
-    const { onUnload } = this.props;
-    onUnload();
-  }
-
   updateAPIEndpoint(values) {
     const { id, name, description, properties } = this.props.apiEndpoint;
-    const { params } = this.props;
+    const { params, router } = this.props;
     const originalModel = {
       name,
       description,
@@ -41,7 +37,8 @@ class APIEndpointEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
-      this.props.updateAPIEndpoint(params.fqon, params.apiId, id, patches);
+      const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
+      this.props.updateAPIEndpoint(params.fqon, params.apiId, id, patches, onSuccess);
     }
   }
 
@@ -52,7 +49,7 @@ class APIEndpointEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { apiEndpoint, pending } = state.apiEndpoints.fetchOne;
+  const { apiEndpoint, pending } = state.metaResource.apiEndpoint;
 
   const model = {
     name: apiEndpoint.name,
@@ -63,14 +60,14 @@ function mapStateToProps(state) {
   return {
     apiEndpoint,
     pending,
-    updatedapiEndpoint: state.apiEndpoints.apiEndpointUpdate.apiEndpoint,
-    apiEndpointUpdatePending: state.apiEndpoints.apiEndpointUpdate.pending,
+    updatedapiEndpoint: state.metaResource.apiEndpointUpdate.apiEndpoint,
+    apiEndpointUpdatePending: state.metaResource.apiEndpointUpdate.pending,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'apiEndpointEdit',
   validate
 })(APIEndpointEdit));

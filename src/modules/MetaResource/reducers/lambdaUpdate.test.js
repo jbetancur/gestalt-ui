@@ -12,12 +12,15 @@ const initialState = {
       env: {},
       headers: {},
       providers: [],
+      periodic_info: {
+        payload: {},
+      },
     },
   },
   error: null
 };
 
-describe('lambda reducer', () => {
+describe('lambda update reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})

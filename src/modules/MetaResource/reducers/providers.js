@@ -1,54 +1,52 @@
-import {
-  FETCH_APIS_PENDING,
-  FETCH_APIS_REJECTED,
-  FETCH_APIS_FULFILLED,
-  APIS_UNLOADED,
-  DELETE_API_PENDING,
-  DELETE_API_FULFILLED,
-  DELETE_API_REJECTED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  apis: [],
-  error: null
+  providers: [],
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case APIS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_APIS_PENDING:
-      return {
-        ...state,
-        pending: true
-      };
-    case FETCH_APIS_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        apis: action.payload
-      };
-    case FETCH_APIS_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload
-      };
-    case DELETE_API_PENDING:
+    case types.FETCH_PROVIDERS_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case DELETE_API_FULFILLED:
+    case types.FETCH_PROVIDERS_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true,
+        providers: action.payload,
+      };
+    case types.FETCH_PROVIDERS_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case types.DELETE_PROVIDERS_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_PROVIDER_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_PROVIDER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true
       };
-    case DELETE_API_REJECTED:
+    case types.DELETE_PROVIDER_REJECTED:
       return {
         ...state,
         pending: false,

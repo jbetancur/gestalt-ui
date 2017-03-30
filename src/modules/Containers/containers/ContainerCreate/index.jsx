@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import { cloneDeep, map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
@@ -106,14 +107,14 @@ class ContainerCreate extends Component {
 
 function mapStateToProps(state) {
   const { container, pending } = state.containers.fetchOne;
-  const variables = map(Object.assign({}, state.containers.env.env), (value, name) => ({ name, value }));
+  const variables = map(Object.assign({}, state.metaResource.env.env), (value, name) => ({ name, value }));
 
   return {
     container,
     pending,
-    pendingEnv: state.containers.env.pending,
-    pendingProviders: state.containers.providers.pending,
-    providers: state.containers.providers.providers,
+    pendingEnv: state.metaResource.env.pending,
+    pendingProviders: state.metaResource.providersByType.pending,
+    providers: state.metaResource.providersByType.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -148,7 +149,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+Object.assign({}, actions, metaActions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerCreate',
   validate
 })(ContainerCreate));

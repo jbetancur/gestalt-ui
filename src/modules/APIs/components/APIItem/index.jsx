@@ -24,7 +24,6 @@ class APIItem extends Component {
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
@@ -38,8 +37,7 @@ class APIItem extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { clearSelected } = this.props;
     clearSelected();
   }
 
@@ -50,13 +48,18 @@ class APIItem extends Component {
   }
 
   delete() {
-    const { params, deleteAPIs } = this.props;
+    const { params, fetchAPIs, deleteAPIs, clearSelected } = this.props;
     const { selectedItems } = this.props.selectedAPIs;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
+    const onSuccess = () => {
+      clearSelected();
+      fetchAPIs(params.fqon, params.environmentId);
+    };
+
     this.props.confirmDelete(() => {
-      deleteAPIs(IDs, params.fqon, params.environmentId);
+      deleteAPIs(IDs, params.fqon, onSuccess);
     }, names);
   }
 

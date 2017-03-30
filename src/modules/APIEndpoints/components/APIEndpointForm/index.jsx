@@ -8,12 +8,13 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import SelectField from 'components/SelectField';
+// import SelectField from 'components/SelectField';
+import MDSelectField from 'react-md/lib/SelectFields';
 import TextField from 'components/TextField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen } from './validations';
-import authTypes from '../../lists/authTypes';
-import httpMethods from '../../lists/httpMethods';
+// import authTypes from '../../lists/authTypes';
+// import httpMethods from '../../lists/httpMethods';
 import implementationTypes from '../../lists/implementationTypes';
 
 const PolicyEventRuleForm = (props) => {
@@ -62,7 +63,7 @@ const PolicyEventRuleForm = (props) => {
           <CardText>
             <div className="flex-row">
               <Field
-                className="flex-4 flex-xs-12"
+                className="flex-3 flex-xs-12"
                 component={TextField}
                 name="name"
                 label="Name"
@@ -70,9 +71,8 @@ const PolicyEventRuleForm = (props) => {
                 required
                 errorText={touched && error}
                 maxLength={nameMaxLen}
-                lineDirection="center"
               />
-              <Field
+              {/* <Field
                 id="auth-type"
                 className="flex-2 flex-xs-6"
                 component={SelectField}
@@ -95,7 +95,7 @@ const PolicyEventRuleForm = (props) => {
                 required
                 label="HTTP Method"
                 errorText={props.touched && props.error}
-              />
+              /> */}
               <Field
                 className="flex-4 flex-xs-12"
                 component={TextField}
@@ -104,31 +104,28 @@ const PolicyEventRuleForm = (props) => {
                 type="text"
                 required
                 errorText={touched && error}
-                lineDirection="center"
+                helpText="ex: /path1"
               />
-              <Field
-                id="auth-type"
+              <MDSelectField
+                id="endpoint-type"
                 className="flex-2 flex-xs-6"
-                component={SelectField}
-                name="properties.implementation.type"
                 menuItems={implementationTypes}
                 itemLabel="name"
                 itemValue="value"
+                defaultValue="lambdas"
                 required
                 label="Type"
-                errorText={props.touched && props.error}
               />
               <Field
-                className="flex-4 flex-xs-12"
+                className="flex-3 flex-xs-12"
                 component={TextField}
-                name="properties.implementation.id"
+                name="properties.implementation_id"
                 label="Lambda UUID"
                 type="text"
                 required
                 errorText={touched && error}
-                lineDirection="center"
               />
-              <Field
+              {/* <Field
                 className="flex-6 flex-xs-12"
                 component={TextField}
                 name="properties.implementation.function"
@@ -136,8 +133,7 @@ const PolicyEventRuleForm = (props) => {
                 type="text"
                 required
                 errorText={touched && error}
-                lineDirection="center"
-              />
+              /> */}
             </div>
           </CardText>
           {apiEndpointUpdatePending || pending ? <LinearProgress id="apiEndpoint-form" /> : null}

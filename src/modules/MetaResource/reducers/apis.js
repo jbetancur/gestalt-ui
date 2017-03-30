@@ -1,54 +1,52 @@
-import {
-  FETCH_APIENDPOINTS_PENDING,
-  FETCH_APIENDPOINTS_REJECTED,
-  FETCH_APIENDPOINTS_FULFILLED,
-  APIENDPOINTS_UNLOADED,
-  DELETE_APIENDPOINT_PENDING,
-  DELETE_APIENDPOINT_FULFILLED,
-  DELETE_APIENDPOINT_REJECTED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  apiEndpoints: [],
-  error: null
+  apis: [],
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case APIENDPOINTS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_APIENDPOINTS_PENDING:
+    case types.FETCH_APIS_REQUEST:
       return {
         ...state,
         pending: true
       };
-    case FETCH_APIENDPOINTS_FULFILLED:
+    case types.FETCH_APIS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        apiEndpoints: action.payload
+        apis: action.payload
       };
-    case FETCH_APIENDPOINTS_REJECTED:
+    case types.FETCH_APIS_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload
       };
-    case DELETE_APIENDPOINT_PENDING:
+    case types.DELETE_APIS_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case DELETE_APIENDPOINT_FULFILLED:
+    case types.DELETE_API_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_API_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true
       };
-    case DELETE_APIENDPOINT_REJECTED:
+    case types.DELETE_API_REJECTED:
       return {
         ...state,
         pending: false,
