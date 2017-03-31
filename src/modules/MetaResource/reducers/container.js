@@ -1,12 +1,5 @@
-import {
-    FETCH_CONTAINER_PENDING,
-    FETCH_CONTAINER_REJECTED,
-    FETCH_CONTAINER_FULFILLED,
-    CREATE_CONTAINER_PENDING,
-    CREATE_CONTAINER_FULFILLED,
-    CREATE_CONTAINER_REJECTED,
-    CONTAINER_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -27,44 +20,62 @@ const initialState = {
       force_pull: false,
     },
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CONTAINER_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_CONTAINER_PENDING:
+    case types.FETCH_CONTAINER_REQUEST:
       return {
         ...state,
-        pending: true,
+        // eslint-disable-next-line no-unneeded-ternary
+        pending: action.isPolling ? false : true, // TODO: polling will be removed when we have SSE
       };
-    case FETCH_CONTAINER_FULFILLED:
+    case types.FETCH_CONTAINER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         container: action.payload
       };
-    case FETCH_CONTAINER_REJECTED:
+    case types.FETCH_CONTAINER_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case CREATE_CONTAINER_PENDING:
+    case types.CREATE_CONTAINER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case CREATE_CONTAINER_FULFILLED:
+    case types.CREATE_CONTAINER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         container: action.payload,
       };
-    case CREATE_CONTAINER_REJECTED:
+    case types.CREATE_CONTAINER_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case types.DELETE_CONTAINER_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_CONTAINER_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case types.DELETE_CONTAINER_REJECTED:
       return {
         ...state,
         pending: false,

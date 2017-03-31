@@ -13,7 +13,6 @@ class WorkspaceItem extends Component {
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     fetchWorkspaces: PropTypes.func.isRequired,
-    onUnloadWorkspaces: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     setCurrentWorkspaceContext: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
@@ -28,10 +27,6 @@ class WorkspaceItem extends Component {
     this.props.fetchWorkspaces(this.props.params.fqon);
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();
-  }
-
-  componentWillUnmount() {
-    this.props.onUnloadWorkspaces();
   }
 
   navWorkspaceDetails(item) {

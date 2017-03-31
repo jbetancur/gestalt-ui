@@ -11,7 +11,6 @@ class EnvironmentItem extends Component {
     params: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnloadEnvironments: PropTypes.func.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
   };
@@ -30,10 +29,6 @@ class EnvironmentItem extends Component {
     if (nextProps.params.workspaceId !== this.props.params.workspaceId) {
       this.init(nextProps.params.fqon, nextProps.params.workspaceId);
     }
-  }
-
-  componentWillUnmount() {
-    this.props.onUnloadEnvironments();
   }
 
   init(fqon, workspaceId) {

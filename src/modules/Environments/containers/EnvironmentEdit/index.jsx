@@ -14,16 +14,11 @@ class EnvironmentEdit extends Component {
     environment: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
-    onUnloadEnvironment: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     const { params } = this.props;
     this.props.fetchEnvironment(params.fqon, params.environmentId);
-  }
-
-  componentWillUnmount() {
-    this.props.onUnloadEnvironment();
   }
 
   updatedModel(formValues) {

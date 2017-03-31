@@ -23,12 +23,6 @@ describe('workspace reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle UNLOAD_WORKSPACE', () => {
-    expect(
-      reducer({}, metaActions.onUnloadWorkspace())
-    ).to.deep.equal(initialState);
-  });
-
   it('should handle FETCH_WORKSPACE_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchWorkspace())

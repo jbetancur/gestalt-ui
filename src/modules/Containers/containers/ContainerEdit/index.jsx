@@ -13,15 +13,15 @@ import * as actions from '../../actions';
 
 class ContainerEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
     unloadPortmappings: PropTypes.func.isRequired,
-    redeployContainer: PropTypes.func.isRequired,
+    updateContainer: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
 
@@ -47,8 +47,7 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnload, unloadVolumes, unloadPortmappings } = this.props;
-    onUnload();
+    const { unloadVolumes, unloadPortmappings } = this.props;
     unloadVolumes();
     unloadPortmappings();
     clearTimeout(this.timeout);
@@ -66,9 +65,10 @@ class ContainerEdit extends Component {
 
   redeployContainer(values) {
     const { id } = this.props.container;
-    const { params, redeployContainer } = this.props;
+    const { params, router, updateContainer } = this.props;
+    const onSuccess = () => router.goBack();
 
-    redeployContainer(params.fqon, params.workspaceId, params.environmentId, id, values);
+    updateContainer(params.fqon, params.environmentId, id, values, onSuccess);
   }
 
   render() {
@@ -86,7 +86,7 @@ class ContainerEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { container, pending } = state.containers.fetchOne;
+  const { container, pending } = state.metaResource.container;
   const variables = map(container.properties.env, (value, name) => ({ name, value }));
   const labels = map(container.properties.labels, (value, name) => ({ name, value }));
 

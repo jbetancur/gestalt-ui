@@ -13,10 +13,10 @@ import * as actions from '../../actions';
 
 class ContainerCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createContainer: PropTypes.func.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
     unloadPortmappings: PropTypes.func.isRequired,
     unloadHealthChecks: PropTypes.func.isRequired,
@@ -40,15 +40,14 @@ class ContainerCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnload, unloadVolumes, unloadPortmappings, unloadHealthChecks } = this.props;
-    onUnload();
+    const { unloadVolumes, unloadPortmappings, unloadHealthChecks } = this.props;
     unloadVolumes();
     unloadPortmappings();
     unloadHealthChecks();
   }
 
   create(values) {
-    const { params, createContainer } = this.props;
+    const { params, router, createContainer } = this.props;
     const payload = cloneDeep(values);
 
     delete payload.variables;
@@ -97,7 +96,9 @@ class ContainerCreate extends Component {
       delete payload.properties.constraints;
     }
 
-    createContainer(params.fqon, params.workspaceId, params.environmentId, payload);
+    const onSuccess = () => router.goBack();
+
+    createContainer(params.fqon, params.environmentId, payload, onSuccess);
   }
 
   render() {
@@ -106,7 +107,7 @@ class ContainerCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { container, pending } = state.containers.fetchOne;
+  const { container, pending } = state.metaResource.container;
   const variables = map(Object.assign({}, state.metaResource.env.env), (value, name) => ({ name, value }));
 
   return {

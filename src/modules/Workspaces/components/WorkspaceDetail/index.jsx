@@ -28,7 +28,6 @@ class WorkspaceDetail extends Component {
     deleteWorkspace: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnloadWorkspace: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentWorkspaceContext: PropTypes.func.isRequired,
   };
@@ -49,10 +48,6 @@ class WorkspaceDetail extends Component {
     if (nextProps.workspace !== workspace) {
       setCurrentWorkspaceContext(nextProps.workspace);
     }
-  }
-
-  componentWillUnmount() {
-    this.props.onUnloadWorkspace();
   }
 
   handleViewState(view, index) {
