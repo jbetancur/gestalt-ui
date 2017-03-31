@@ -14,15 +14,10 @@ class WorkspaceEdit extends Component {
     workspace: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
-    onUnloadWorkspace: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     this.props.fetchWorkspace(this.props.params.fqon, this.props.params.workspaceId);
-  }
-
-  componentWillUnmount() {
-    this.props.onUnloadWorkspace();
   }
 
   updatedModel(formValues) {

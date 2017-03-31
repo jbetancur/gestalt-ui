@@ -71,6 +71,7 @@ const EnhancedDivider = styled(Divider)`
 
 class ContainerActions extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     deleteContainer: PropTypes.func.isRequired,
@@ -78,6 +79,8 @@ class ContainerActions extends Component {
     scaleContainerModal: PropTypes.func.isRequired,
     migrateContainer: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
+    fetchContainers: PropTypes.func.isRequired,
+    fetchContainer: PropTypes.func.isRequired,
     migrateContainerModal: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     inContainerView: PropTypes.bool,
@@ -92,31 +95,64 @@ class ContainerActions extends Component {
   }
 
   destroyContainer() {
-    const { params, confirmDelete, deleteContainer, container, inContainerView } = this.props;
+    const { params, router, confirmDelete, fetchContainers, deleteContainer, container, inContainerView } = this.props;
+
+    const onSuccess = () => {
+      if (inContainerView) {
+        router.goBack();
+      } else {
+        fetchContainers(params.fqon, params.environmentId);
+      }
+    };
 
     confirmDelete(() => {
-      deleteContainer(params.fqon, params.environmentId, container.id, inContainerView);
+      deleteContainer(params.fqon, container.id, onSuccess);
     }, container.name);
   }
 
   suspendContainer() {
-    const { params, scaleContainer, container, inContainerView } = this.props;
-    scaleContainer(params.fqon, params.environmentId, container.id, 0, inContainerView);
+    const { params, fetchContainer, fetchContainers, scaleContainer, container, inContainerView } = this.props;
+
+    const onSuccess = () => {
+      if (inContainerView) {
+        fetchContainer(params.fqon, container.id, params.environmentId, true);
+      } else {
+        fetchContainers(params.fqon, params.environmentId);
+      }
+    };
+
+    scaleContainer(params.fqon, params.environmentId, container.id, 0, onSuccess);
   }
 
   scaleContainer() {
-    const { params, scaleContainer, scaleContainerModal, container, inContainerView } = this.props;
+    const { params, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, container, inContainerView } = this.props;
+    const onSuccess = () => {
+      if (inContainerView) {
+        fetchContainer(params.fqon, container.id, params.environmentId, true);
+      } else {
+        fetchContainers(params.fqon, params.environmentId);
+      }
+    };
+
     scaleContainerModal((numInstances) => {
       if (numInstances !== container.properties.num_instances) {
-        scaleContainer(params.fqon, params.environmentId, container.id, numInstances, inContainerView);
+        scaleContainer(params.fqon, params.environmentId, container.id, numInstances, onSuccess);
       }
     }, container.name, container.properties.num_instances);
   }
 
   migrateContainer() {
-    const { params, fetchProviders, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
+    const { params, fetchContainer, fetchContainers, fetchProviders, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
+    const onSuccess = () => {
+      if (inContainerView) {
+        fetchContainer(params.fqon, container.id, params.environmentId, true);
+      } else {
+        fetchContainers(params.fqon, params.environmentId);
+      }
+    };
+
     migrateContainerModal((providerId) => {
-      migrateContainer(params.fqon, params.environmentId, container.id, providerId, inContainerView);
+      migrateContainer(params.fqon, params.environmentId, container.id, providerId, onSuccess);
     }, container.name, container.properties.provider, fetchProviders, params);
   }
 

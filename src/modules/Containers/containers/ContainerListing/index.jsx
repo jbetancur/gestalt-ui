@@ -6,8 +6,8 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    containers: sortBy(state.containers.fetchAll.containers, 'name'),
-    pending: state.containers.fetchAll.pending,
+    containers: sortBy(state.metaResource.containers.containers, 'name'),
+    pending: state.metaResource.containers.pending,
   };
 }
 

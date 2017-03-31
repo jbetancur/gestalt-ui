@@ -2,6 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Dialog from 'react-md/lib/Dialogs';
 import TextField from 'react-md/lib/TextFields';
+import * as actions from '../../actions';
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
@@ -76,14 +77,6 @@ class ConfirmModal extends PureComponent {
 function mapStateToProps(state) {
   return {
     actionsModal: state.containers.actionsModals,
-  };
-}
-
-function actions(dispatch) {
-  return {
-    hideModal: () => {
-      dispatch({ type: 'HIDE_CONTAINER_MODAL' });
-    }
   };
 }
 

@@ -6,6 +6,7 @@ import lambdas from './lambdas';
 import apis from './apis';
 import apiEndpoints from './apiEndpoints';
 import providers from './providers';
+import containers from './containers';
 import env from './env';
 import self from './self';
 
@@ -18,6 +19,7 @@ export default Object.assign({},
   apis,
   apiEndpoints,
   providers,
+  containers,
   env,
   self,
 );

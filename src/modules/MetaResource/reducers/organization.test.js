@@ -24,12 +24,6 @@ describe('organization reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle UNLOAD_ORG', () => {
-    expect(
-      reducer({}, metaActions.onUnloadOrg())
-    ).to.deep.equal(initialState);
-  });
-
   it('should handle FETCH_ORG_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchOrg())

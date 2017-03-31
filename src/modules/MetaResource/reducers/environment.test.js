@@ -24,12 +24,6 @@ describe('environment reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle UNLOAD_ENVIRONMENT', () => {
-    expect(
-      reducer({}, metaActions.onUnloadEnvironment())
-    ).to.deep.equal(initialState);
-  });
-
   it('should handle FETCH_ENVIRONMENT_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchEnvironment())

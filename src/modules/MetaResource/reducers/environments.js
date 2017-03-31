@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.UNLOAD_ENVIRONMENTS:
+    case LOCATION_CHANGE:
       return initialState;
     case types.FETCH_ENVIRONMENTS_REQUEST:
       return {

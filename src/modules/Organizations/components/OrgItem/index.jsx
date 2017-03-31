@@ -22,10 +22,10 @@ class OrgItem extends Component {
     deleteOrg: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    onUnloadOrgSet: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    onUnloadOrgSet: PropTypes.func.isRequired,
     setCurrentOrgContext: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
@@ -56,6 +56,10 @@ class OrgItem extends Component {
   }
 
   componentWillUnmount() {
+    /*
+      explicitly unload orgs when component is unloaded - normally we do
+      this via LOCATION_CHANGE within the reducer, but this presents an issue with side navigation
+    */
     this.props.onUnloadOrgSet();
   }
 

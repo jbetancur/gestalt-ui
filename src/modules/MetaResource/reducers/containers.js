@@ -1,9 +1,5 @@
-import {
-  FETCH_CONTAINERS_PENDING,
-  FETCH_CONTAINERS_REJECTED,
-  FETCH_CONTAINERS_FULFILLED,
-  CONTAINERS_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -14,21 +10,22 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CONTAINERS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_CONTAINERS_PENDING:
+    case types.FETCH_CONTAINERS_REQUEST:
       return {
         ...state,
-        pending: true,
+        // eslint-disable-next-line no-unneeded-ternary
+        pending: action.isPolling ? false : true, // TODO: polling will be removed when we have SSE
       };
-    case FETCH_CONTAINERS_FULFILLED:
+    case types.FETCH_CONTAINERS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         containers: action.payload,
       };
-    case FETCH_CONTAINERS_REJECTED:
+    case types.FETCH_CONTAINERS_REJECTED:
       return {
         ...state,
         pending: false,

@@ -15,16 +15,11 @@ class OrgEdit extends Component {
     organization: PropTypes.object.isRequired,
     fetchOrg: PropTypes.func.isRequired,
     updateOrg: PropTypes.func.isRequired,
-    onUnloadOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     this.props.fetchOrg(this.props.params.fqon);
-  }
-
-  componentWillUnmount() {
-    this.props.onUnloadOrg();
   }
 
   updatedModel(formValues) {

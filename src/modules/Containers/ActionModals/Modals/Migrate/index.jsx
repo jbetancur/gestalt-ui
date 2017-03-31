@@ -1,7 +1,9 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { metaActions } from 'modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
+import * as actions from '../../actions';
 
 class MigrateModal extends PureComponent {
   static propTypes = {
@@ -10,7 +12,7 @@ class MigrateModal extends PureComponent {
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     provider: PropTypes.object.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
   };
@@ -30,7 +32,7 @@ class MigrateModal extends PureComponent {
   }
 
   fetchProviders() {
-    this.props.fetchProviders(this.props.params.fqon, this.props.params.environmentId, 'CaaS');
+    this.props.fetchProvidersByType(this.props.params.fqon, this.props.params.environmentId, 'environments', 'CaaS');
   }
 
   doIt() {
@@ -89,17 +91,9 @@ class MigrateModal extends PureComponent {
 function mapStateToProps(state) {
   return {
     actionsModal: state.containers.actionsModals,
-    providers: state.containers.providers.providers,
-    pendingProviders: state.containers.providers.pending,
+    providers: state.metaResource.providersByType.providers,
+    pendingProviders: state.metaResource.providersByType.pending,
   };
 }
 
-function actions(dispatch) {
-  return {
-    hideModal: () => {
-      dispatch({ type: 'HIDE_CONTAINER_MODAL' });
-    }
-  };
-}
-
-export default connect(mapStateToProps, actions)(MigrateModal);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(MigrateModal);

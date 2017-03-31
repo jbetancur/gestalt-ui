@@ -12,10 +12,11 @@ describe('Organization Actions', () => {
 
   it('should request FETCH_ORGS_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_ORGS_REQUEST
+      type: actionTypes.FETCH_ORGS_REQUEST,
+      fqon: 'iamfqon',
     };
 
-    expect(actions.fetchOrgs()).to.deep.equal(expectedAction);
+    expect(actions.fetchOrgs('iamfqon')).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_ORG_REQUEST', () => {

@@ -25,6 +25,8 @@ import provider from './provider';
 import providerUpdate from './providerUpdate';
 import providersByType from './providersByType';
 import executors from './executors';
+import containers from './containers';
+import container from './container';
 import env from './env';
 import self from './self';
 
@@ -54,6 +56,8 @@ export default combineReducers({
   providerUpdate,
   providersByType,
   executors,
+  containers,
+  container,
   env,
   self,
 });

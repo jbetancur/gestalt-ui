@@ -5,8 +5,9 @@ import lambdaSagas from './lambdas';
 import apiSagas from './apis';
 import apiEndpointSagas from './apiEndpoints';
 import providerSagas from './providers';
-import env from './env';
+import containerSagas from './containers';
 import selfSagas from './self';
+import env from './env';
 import contextSagas from './contextMgmt';
 
 export default function* metaSagas() {
@@ -18,6 +19,7 @@ export default function* metaSagas() {
     apiSagas(),
     apiEndpointSagas(),
     providerSagas(),
+    containerSagas(),
     selfSagas(),
     env(),
     contextSagas(),

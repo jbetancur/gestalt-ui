@@ -103,9 +103,9 @@ class LambdaItem extends Component {
         <TableColumn>{lambda.description}</TableColumn>
         <TableColumn>{lambda.id}</TableColumn>
         <TableColumn>
-          {lambda.apiEndpoints && lambda.apiEndpoints.map(endpoint => (
-            <a className="md-caption" href={endpoint.properties.gateway_url} target="_blank" rel="noopener noreferrer">
-              {endpoint.properties.gateway_url}
+          {lambda.apiEndpoints.length && lambda.apiEndpoints.map(endpoint => (
+            <a key={endpoint.id} className="md-caption" href={endpoint.properties.resource} target="_blank" rel="noopener noreferrer">
+              {endpoint.properties.resource}
             </a>
           ))}
         </TableColumn>
