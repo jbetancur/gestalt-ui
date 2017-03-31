@@ -101,6 +101,7 @@ export const DELETE_ENVIRONMENT_REQUEST = 'metaResource/DELETE_ENVIRONMENT_REQUE
 export const DELETE_ENVIRONMENT_FULFILLED = 'metaResource/DELETE_ENVIRONMENT_FULFILLED';
 export const DELETE_ENVIRONMENT_REJECTED = 'metaResource/DELETE_ENVIRONMENT_REJECTED';
 
+export const UNLOAD_ENVIRONMENTS = 'metaResource/UNLOAD_ENVIRONMENTS';
 /**
  * Self
  */
@@ -132,8 +133,8 @@ export const DELETE_LAMBDA_REQUEST = 'metaResource/DELETE_LAMBDA_REQUEST';
 export const DELETE_LAMBDA_FULFILLED = 'metaResource/DELETE_LAMBDA_FULFILLED';
 export const DELETE_LAMBDA_REJECTED = 'metaResource/DELETE_LAMBDA_REJECTED';
 
-export const UNLOAD_LAMBDA = 'metaResource/UNLOAD_LAMBDA';
 export const UNLOAD_LAMBDAS = 'metaResource/UNLOAD_LAMBDAS';
+
 
 /**
  * APIS
@@ -159,6 +160,8 @@ export const DELETE_API_REQUEST = 'metaResource/DELETE_API_REQUEST';
 export const DELETE_API_FULFILLED = 'metaResource/DELETE_API_FULFILLED';
 export const DELETE_API_REJECTED = 'metaResource/DELETE_API_REJECTED';
 
+export const UNLOAD_APIS = 'metaResource/UNLOAD_APIS';
+
 /**
  * API Endpoints
  */
@@ -182,6 +185,8 @@ export const DELETE_APIENDPOINTS_REQUEST = 'metaResource/DELETE_APIENDPOINTS_REQ
 export const DELETE_APIENDPOINT_REQUEST = 'metaResource/DELETE_APIENDPOINT_REQUEST';
 export const DELETE_APIENDPOINT_FULFILLED = 'metaResource/DELETE_APIENDPOINT_FULFILLED';
 export const DELETE_APIENDPOINT_REJECTED = 'metaResource/DELETE_APIENDPOINT_REJECTED';
+
+export const UNLOAD_APIENDPOINTS = 'metaResource/UNLOAD_APIENDPOINTS';
 
 /**
  * Providers
@@ -215,6 +220,8 @@ export const FETCH_EXECUTORS_REQUEST = 'metaResource/FETCH_EXECUTORS_REQUEST';
 export const FETCH_EXECUTORS_FULFILLED = 'metaResource/FETCH_EXECUTORS_FULFILLED';
 export const FETCH_EXECUTORS_REJECTED = 'metaResource/FETCH_EXECUTORS_REJECTED';
 
+export const UNLOAD_PROVIDERS = 'metaResource/UNLOAD_PROVIDERS';
+
 /**
  * Containers
  */
@@ -246,6 +253,7 @@ export const MIGRATE_CONTAINER_REQUEST = 'metaResource/MIGRATE_CONTAINER_REQUEST
 export const MIGRATE_CONTAINER_FULFILLED = 'metaResource/MIGRATE_CONTAINER_FULFILLED';
 export const MIGRATE_CONTAINER_REJECTED = 'metaResource/MIGRATE_CONTAINER_REJECTED';
 
+export const UNLOAD_CONTAINERS = 'metaResource/UNLOAD_CONTAINERS';
 /**
  * Env Vars
  */

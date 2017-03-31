@@ -26,8 +26,9 @@ describe('Lambda Sagas', () => {
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
+      result = saga.next([{ data: [{ id: 1 }] }]);
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1 }] })
+        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1, properties: { apiEndpoints: [{ id: 1 }] } }] })
       );
     });
 
@@ -56,8 +57,9 @@ describe('Lambda Sagas', () => {
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
+      result = saga.next([{ data: [{ id: 1 }] }]);
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1 }] })
+        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1, properties: { apiEndpoints: [{ id: 1 }] } }] })
       );
     });
 

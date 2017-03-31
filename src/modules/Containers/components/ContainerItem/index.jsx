@@ -37,6 +37,7 @@ class ContainerItem extends Component {
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
+    unloadContainers: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -58,6 +59,7 @@ class ContainerItem extends Component {
   }
 
   componentWillUnmount() {
+    this.props.unloadContainers();
     clearTimeout(this.timeout);
   }
 

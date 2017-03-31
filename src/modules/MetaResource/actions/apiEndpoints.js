@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadAPIEndpoints
+ */
+export function unloadAPIEndpoints() {
+  return { type: types.UNLOAD_APIENDPOINTS };
+}
+
+/**
  * fetchAPIEndpoints
  * @param {string} fqon
  * @param {string} apiId
@@ -65,6 +72,7 @@ export function deleteAPIEndpoints(apiendpointIds, fqon, apiId, onSuccess) {
 }
 
 export default {
+  unloadAPIEndpoints,
   fetchAPIEndpoints,
   fetchAPIEndpoint,
   createAPIEndpoint,

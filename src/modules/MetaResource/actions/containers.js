@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadContainers
+ */
+export function unloadContainers() {
+  return { type: types.UNLOAD_CONTAINERS };
+}
+
+/**
  * fetchContainers
  * @param {string} fqon
  * @param {string} environmentId
@@ -78,6 +85,7 @@ export function migrateContainer(fqon, environmentId, containerId, providerId, o
 }
 
 export default {
+  unloadContainers,
   fetchContainers,
   fetchContainer,
   createContainer,

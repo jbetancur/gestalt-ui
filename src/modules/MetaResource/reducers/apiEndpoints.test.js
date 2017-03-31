@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './apiEndpoints';
 import { metaActions } from '../../MetaResource';
@@ -8,10 +9,23 @@ const initialState = {
   apiEndpoints: [],
   error: null,
 };
+
 describe('apiEndpoints reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
+    ).to.deep.equal(initialState);
+  });
+
+  it('should return the initial state on UNLOAD_APIENDPOINTS', () => {
+    expect(
+      reducer({ apiEndpoints: [{ id: 1 }] }, metaActions.unloadAPIEndpoints())
+    ).to.deep.equal(initialState);
+  });
+
+  it('should handle LOCATION_CHANGE', () => {
+    expect(
+      reducer({ apiEndpoints: [{ id: 1 }] }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 

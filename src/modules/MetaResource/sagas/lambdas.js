@@ -10,16 +10,11 @@ export function* fetchLambdas(action) {
   try {
     const url = action.environmentId ? `${action.fqon}/environments/${action.environmentId}/lambdas` : `${action.fqon}/lambdas`;
     const response = yield call(axios.get, `${url}?expand=true`);
+    const apieEndpointsResponse = yield response.data.map(lambda => call(axios.get, `${action.fqon}/lambdas/${lambda.id}/apiendpoints?expand=true`));
+    // merge endpoints into lambda
+    const payload = response.data.map((lambda, i) => Object.assign(lambda, { properties: { apiEndpoints: apieEndpointsResponse[i].data } }));
 
-    // TODO: It's bad form to mutate here, but this is temporary until we have an expand call
-    response.data.forEach((lambda) => {
-      axios.get(`${action.fqon}/lambdas/${lambda.id}/apiendpoints?expand=true`).then((endpointRes) => {
-        // eslint-disable-next-line no-param-reassign
-        lambda.apiEndpoints = endpointRes.data;
-      });
-    });
-
-    yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: response.data });
+    yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_LAMBDAS_REJECTED, payload: e.message });
   }

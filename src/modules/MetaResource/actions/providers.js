@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadProviders
+ */
+export function unloadProviders() {
+  return { type: types.UNLOAD_PROVIDERS };
+}
+
+/**
  * fetchProviders
  * @param {string} fqon
  * @param {string} entityId
@@ -87,6 +94,7 @@ export function deleteProviders(providerIds, fqon, entityId, entityKey, onSucces
 }
 
 export default {
+  unloadProviders,
   fetchProviders,
   fetchProvidersByType,
   fetchExecutors,

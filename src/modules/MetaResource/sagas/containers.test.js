@@ -233,7 +233,7 @@ describe('Container Sagas', () => {
   });
 
   describe('scaleContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', containerId: '2', numInstances: 42, onSuccess: sinon.stub() };
+    const action = { fqon: 'iamfqon', environmentId: '1', containerId: '2', numInstances: 42 };
     const saga = scaleContainer(action);
     let result;
 
@@ -276,7 +276,7 @@ describe('Container Sagas', () => {
   });
 
   describe('migrateContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', containerId: '2', providerId: 42, onSuccess: sinon.stub() };
+    const action = { fqon: 'iamfqon', environmentId: '1', containerId: '2', providerId: 42 };
     const saga = migrateContainer(action);
     let result;
 

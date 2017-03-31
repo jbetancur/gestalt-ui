@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadAPIs
+ */
+export function unloadAPIs() {
+  return { type: types.UNLOAD_APIS };
+}
+
+/**
  * fetchAPIs
  * @param {string} fqon
  * @param {string} environmentId
@@ -62,6 +69,7 @@ export function deleteAPIs(apiIds, fqon, onSuccess) {
 }
 
 export default {
+  unloadAPIs,
   fetchAPIs,
   fetchAPI,
   createAPI,

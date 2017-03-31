@@ -25,6 +25,7 @@ class APIItem extends Component {
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
+    unloadAPIs: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,7 +38,8 @@ class APIItem extends Component {
   }
 
   componentWillUnmount() {
-    const { clearSelected } = this.props;
+    const { unloadAPIs, clearSelected } = this.props;
+    unloadAPIs();
     clearSelected();
   }
 

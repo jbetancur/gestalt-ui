@@ -1,10 +1,18 @@
-import * as actionTypes from '../actionTypes';
+import * as types from '../actionTypes';
 import * as actions from './environments';
 
 describe('Environment Actions', () => {
+  it('should request UNLOAD_ENVIRONMENTS', () => {
+    const expectedAction = {
+      type: types.UNLOAD_ENVIRONMENTS,
+    };
+
+    expect(actions.unloadEnvironments()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_ENVIRONMENTS_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_ENVIRONMENTS_REQUEST,
+      type: types.FETCH_ENVIRONMENTS_REQUEST,
       fqon: 'iamfqon',
       workspaceId: undefined,
     };
@@ -14,7 +22,7 @@ describe('Environment Actions', () => {
 
   it('should request FETCH_ENVIRONMENT_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_ENVIRONMENT_REQUEST,
+      type: types.FETCH_ENVIRONMENT_REQUEST,
       fqon: 'iamfqon',
       environmentId: '1',
     };
@@ -24,7 +32,7 @@ describe('Environment Actions', () => {
 
   it('should handle CREATE_ENVIRONMENT_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.CREATE_ENVIRONMENT_REQUEST,
+      type: types.CREATE_ENVIRONMENT_REQUEST,
       fqon: 'iamfqon',
       workspaceId: '1',
       payload: { name: 'test' },
@@ -36,7 +44,7 @@ describe('Environment Actions', () => {
 
   it('should handle UPDATE_ENVIRONMENT_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.UPDATE_ENVIRONMENT_REQUEST,
+      type: types.UPDATE_ENVIRONMENT_REQUEST,
       fqon: 'iamfqon',
       environmentId: '1',
       payload: [],
@@ -48,7 +56,7 @@ describe('Environment Actions', () => {
 
   it('should handle DELETE_ENVIRONMENT_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.DELETE_ENVIRONMENT_REQUEST,
+      type: types.DELETE_ENVIRONMENT_REQUEST,
       fqon: 'iamfqon',
       environmentId: '1',
       onSuccess: undefined,

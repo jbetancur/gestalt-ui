@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './apiEndpoint';
 import { metaActions } from '../../MetaResource';
@@ -19,6 +20,12 @@ describe('apiEndpoint reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
+    ).to.deep.equal(initialState);
+  });
+
+  it('should handle LOCATION_CHANGE', () => {
+    expect(
+      reducer({ apiEndpoint: { id: 1 } }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 
