@@ -25,6 +25,7 @@ class apiEndpointItem extends Component {
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
+    unloadAPIEndpoints: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,7 +38,8 @@ class apiEndpointItem extends Component {
   }
 
   componentWillUnmount() {
-    const { clearSelected } = this.props;
+    const { unloadAPIEndpoints, clearSelected } = this.props;
+    unloadAPIEndpoints();
     clearSelected();
   }
 

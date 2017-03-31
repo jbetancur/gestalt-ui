@@ -12,6 +12,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return initialState;
+    case types.UNLOAD_CONTAINERS:
+      return initialState;
     case types.FETCH_CONTAINERS_REQUEST:
       return {
         ...state,

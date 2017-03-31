@@ -12,6 +12,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return initialState;
+    case types.UNLOAD_ENVIRONMENTS:
+      return initialState;
     case types.FETCH_ENVIRONMENTS_REQUEST:
       return {
         ...state,

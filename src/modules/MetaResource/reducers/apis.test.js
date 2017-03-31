@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './apis';
 import { metaActions } from '../../MetaResource';
@@ -13,6 +14,18 @@ describe('apis reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
+    ).to.deep.equal(initialState);
+  });
+
+  it('should return the initial state on UNLOAD_APIS', () => {
+    expect(
+      reducer({ apis: [{ id: 1 }] }, metaActions.unloadAPIs())
+    ).to.deep.equal(initialState);
+  });
+
+  it('should handle LOCATION_CHANGE', () => {
+    expect(
+      reducer({ apis: [{ id: 1 }] }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 

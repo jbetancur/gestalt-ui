@@ -2,6 +2,14 @@ import * as types from '../actionTypes';
 import * as actions from './lambdas';
 
 describe('Lambda Actions', () => {
+  it('should request UNLOAD_LAMBDAS', () => {
+    const expectedAction = {
+      type: types.UNLOAD_LAMBDAS,
+    };
+
+    expect(actions.unloadLambdas()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_LAMBDAS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_LAMBDAS_REQUEST,

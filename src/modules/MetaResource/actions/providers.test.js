@@ -2,6 +2,14 @@ import * as types from '../actionTypes';
 import * as actions from './providers';
 
 describe('Provider Actions', () => {
+  it('should request UNLOAD_PROVIDERS', () => {
+    const expectedAction = {
+      type: types.UNLOAD_PROVIDERS,
+    };
+
+    expect(actions.unloadProviders()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_PROVIDERS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_PROVIDERS_REQUEST,

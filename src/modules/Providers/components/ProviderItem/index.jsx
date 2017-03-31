@@ -25,6 +25,7 @@ class ProviderItem extends Component {
     confirmDelete: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
+    unloadProviders: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -46,7 +47,8 @@ class ProviderItem extends Component {
   }
 
   componentWillUnmount() {
-    const { clearSelected } = this.props;
+    const { unloadProviders, clearSelected } = this.props;
+    unloadProviders();
     clearSelected();
   }
 

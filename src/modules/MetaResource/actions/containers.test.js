@@ -2,6 +2,14 @@ import * as types from '../actionTypes';
 import * as actions from './containers';
 
 describe('Container Actions', () => {
+  it('should request UNLOAD_CONTAINERS', () => {
+    const expectedAction = {
+      type: types.UNLOAD_CONTAINERS,
+    };
+
+    expect(actions.unloadContainers()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_CONTAINERS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_CONTAINERS_REQUEST,

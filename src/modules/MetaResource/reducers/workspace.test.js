@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './workspace';
 import { metaActions } from '../../MetaResource';
@@ -20,6 +21,12 @@ describe('workspace reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
+    ).to.deep.equal(initialState);
+  });
+
+  it('should handle LOCATION_CHANGE', () => {
+    expect(
+      reducer({ workspace: { id: 1 } }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 

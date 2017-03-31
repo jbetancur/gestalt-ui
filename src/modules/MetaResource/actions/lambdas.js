@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadLambdas
+ */
+export function unloadLambdas() {
+  return { type: types.UNLOAD_LAMBDAS };
+}
+
+/**
  * fetchLambdas
  * @param {string} fqon
  * @param {string} environmentId
@@ -62,6 +69,7 @@ export function deleteLambdas(lambdaIds, fqon, onSuccess) {
 }
 
 export default {
+  unloadLambdas,
   fetchLambdas,
   fetchLambda,
   createLambda,

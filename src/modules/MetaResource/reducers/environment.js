@@ -13,7 +13,7 @@ const initialState = {
       workspace: {},
     }
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {

@@ -2,6 +2,14 @@ import * as types from '../actionTypes';
 import * as actions from './apis';
 
 describe('API Actions', () => {
+  it('should request UNLOAD_APIS', () => {
+    const expectedAction = {
+      type: types.UNLOAD_APIS,
+    };
+
+    expect(actions.unloadAPIs()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_APIS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_APIS_REQUEST,

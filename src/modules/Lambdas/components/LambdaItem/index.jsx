@@ -25,6 +25,7 @@ class LambdaItem extends Component {
     confirmDelete: PropTypes.func.isRequired,
     fetchLambdas: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
+    unloadLambdas: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -38,7 +39,8 @@ class LambdaItem extends Component {
   }
 
   componentWillUnmount() {
-    const { clearSelected } = this.props;
+    const { unloadLambdas, clearSelected } = this.props;
+    unloadLambdas();
     clearSelected();
   }
 
@@ -94,21 +96,24 @@ class LambdaItem extends Component {
     );
   }
 
+  renderAPIEndpoints(lambda) {
+    return lambda.properties.apiEndpoints.map(endpoint => (
+      <div>
+        <a key={endpoint.id} className="md-caption" href={endpoint.properties.resource} target="_blank" rel="noopener noreferrer">
+          {endpoint.properties.resource}
+        </a>
+      </div>
+    ));
+  }
+
   render() {
     const { selectedCount } = this.props.selectedLambdas;
-
     const lambdas = this.props.lambdas.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
         <TableColumn>{lambda.id}</TableColumn>
-        <TableColumn>
-          {lambda.apiEndpoints.length && lambda.apiEndpoints.map(endpoint => (
-            <a key={endpoint.id} className="md-caption" href={endpoint.properties.resource} target="_blank" rel="noopener noreferrer">
-              {endpoint.properties.resource}
-            </a>
-          ))}
-        </TableColumn>
+        <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={lambda.created.timestamp} /> <FormattedTime value={lambda.created.timestamp} /></TableColumn>

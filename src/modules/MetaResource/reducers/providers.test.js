@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './providers';
 import { metaActions } from '../../MetaResource';
@@ -13,6 +14,18 @@ describe('providers reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
+    ).to.deep.equal(initialState);
+  });
+
+  it('should return the initial state on UNLOAD_PROVIDERS', () => {
+    expect(
+      reducer({ providers: [{ id: 1 }] }, metaActions.unloadProviders())
+    ).to.deep.equal(initialState);
+  });
+
+  it('should handle LOCATION_CHANGE', () => {
+    expect(
+      reducer({ providers: [{ id: 1 }] }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 

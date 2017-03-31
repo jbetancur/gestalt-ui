@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadEnvironments
+ */
+export function unloadEnvironments() {
+  return { type: types.UNLOAD_ENVIRONMENTS };
+}
+
+/**
  * fetchEnvironments
  * @param {string} fqon
  * @param {string} workspaceId
@@ -51,6 +58,7 @@ export function deleteEnvironment(fqon, environmentId, onSuccess) {
 }
 
 export default {
+  unloadEnvironments,
   fetchEnvironments,
   fetchEnvironment,
   createEnvironment,

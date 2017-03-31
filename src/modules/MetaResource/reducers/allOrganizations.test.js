@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './allOrganizations';
 import { metaActions } from '../../MetaResource';
@@ -16,9 +17,15 @@ describe('allOrganizations reducer', () => {
     ).to.deep.equal(initialState);
   });
 
+  it('should handle LOCATION_CHANGE', () => {
+    expect(
+      reducer({ organizations: [{ id: 1 }] }, { type: LOCATION_CHANGE })
+    ).to.deep.equal(initialState);
+  });
+
   it('should handle UNLOAD_ALLORGS', () => {
     expect(
-      reducer({}, metaActions.onUnloadAllOrgs())
+      reducer({ organizations: [{ id: 1 }] }, metaActions.onUnloadAllOrgs())
     ).to.deep.equal(initialState);
   });
 
