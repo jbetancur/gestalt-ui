@@ -1,59 +1,54 @@
-import {
-    FETCH_POLICY_PENDING,
-    FETCH_POLICY_REJECTED,
-    FETCH_POLICY_FULFILLED,
-    CREATE_POLICY_PENDING,
-    CREATE_POLICY_FULFILLED,
-    CREATE_POLICY_REJECTED,
-    UNLOAD_POLICY
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  policy: {
-    created: {},
-    modified: {},
-    properties: {}
-  },
+  policies: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case UNLOAD_POLICY:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_POLICY_PENDING:
+    case types.UNLOAD_POLICIES:
+      return initialState;
+    case types.FETCH_POLICIES_REQUEST:
       return {
         ...state,
-        pending: true,
+        pending: true
       };
-    case FETCH_POLICY_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        policy: action.payload
-      };
-    case FETCH_POLICY_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case CREATE_POLICY_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case CREATE_POLICY_FULFILLED:
+    case types.FETCH_POLICIES_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        policy: action.payload,
+        policies: action.payload
       };
-    case CREATE_POLICY_REJECTED:
+    case types.FETCH_POLICIES_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload
+      };
+    case types.DELETE_POLICIES_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_POLICY_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_POLICY_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case types.DELETE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,
@@ -63,3 +58,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+

@@ -1,62 +1,52 @@
-import {
-    FETCH_POLICYRULE_PENDING,
-    FETCH_POLICYRULE_REJECTED,
-    FETCH_POLICYRULE_FULFILLED,
-    CREATE_POLICYRULE_PENDING,
-    CREATE_POLICYRULE_FULFILLED,
-    CREATE_POLICYRULE_REJECTED,
-    POLICYRULE_UNLOADED
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  policyRule: {
+  policy: {
     created: {},
     modified: {},
-    properties: {
-      actions: [],
-      eval_logic: {}
-    }
+    properties: {}
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case POLICYRULE_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_POLICYRULE_PENDING:
+    case types.FETCH_POLICY_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_POLICYRULE_FULFILLED:
+    case types.FETCH_POLICY_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        policyRule: action.payload
+        policy: action.payload
       };
-    case FETCH_POLICYRULE_REJECTED:
+    case types.FETCH_POLICY_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case CREATE_POLICYRULE_PENDING:
+    case types.CREATE_POLICY_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case CREATE_POLICYRULE_FULFILLED:
+    case types.CREATE_POLICY_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        policyRule: action.payload,
+        policy: action.payload,
       };
-    case CREATE_POLICYRULE_REJECTED:
+    case types.CREATE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,

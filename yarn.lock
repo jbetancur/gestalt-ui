@@ -252,9 +252,9 @@ aws4@^1.2.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-axios@^0.15.3:
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.3.tgz#2c9d638b2e191a08ea1d6cc988eadd6ba5bdc053"
+axios@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.0.tgz#6ed9771d815f429e7510f2838262957c4953d3b6"
   dependencies:
     follow-redirects "1.0.0"
 
@@ -2659,9 +2659,9 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
-file-loader@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.11.0.tgz#af018f39c44617305f1ee92f850c7a65a4331616"
+file-loader@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.11.1.tgz#6b328ee1234a729e4e47d36375dd6d35c0e1db84"
   dependencies:
     loader-utils "^1.0.2"
 

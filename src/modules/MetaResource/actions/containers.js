@@ -84,6 +84,15 @@ export function migrateContainer(fqon, environmentId, containerId, providerId, o
   return { type: types.MIGRATE_CONTAINER_REQUEST, fqon, environmentId, containerId, providerId, onSuccess };
 }
 
+/**
+ * fetchProviderContainer
+ * @param {string} fqon
+ * @param {string} providerId
+ */
+export function fetchProviderContainer(fqon, providerId) {
+  return { type: types.FETCH_PROVIDER_CONTAINER_REQUEST, fqon, providerId };
+}
+
 export default {
   unloadContainers,
   fetchContainers,
@@ -93,4 +102,5 @@ export default {
   deleteContainer,
   scaleContainer,
   migrateContainer,
+  fetchProviderContainer,
 };

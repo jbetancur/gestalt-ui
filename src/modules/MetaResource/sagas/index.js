@@ -6,6 +6,8 @@ import apiSagas from './apis';
 import apiEndpointSagas from './apiEndpoints';
 import providerSagas from './providers';
 import containerSagas from './containers';
+import policySagas from './policies';
+import policyRuleSagas from './policyRules';
 import selfSagas from './self';
 import env from './env';
 import contextSagas from './contextMgmt';
@@ -20,6 +22,8 @@ export default function* metaSagas() {
     apiEndpointSagas(),
     providerSagas(),
     containerSagas(),
+    policySagas(),
+    policyRuleSagas(),
     selfSagas(),
     env(),
     contextSagas(),

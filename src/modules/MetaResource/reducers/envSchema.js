@@ -1,4 +1,5 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -12,12 +13,12 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return initialState;
-    case `providers/FETCH_${action.schemaType}_SCHEMA_PENDING`:
+    case types.FETCH_ENV_SCHEMA_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case `providers/FETCH_${action.schemaType}_SCHEMA_FULFILLED`:
+    case types.FETCH_ENV_SCHEMA_FULFILLED:
       return {
         ...state,
         pending: false,
@@ -25,7 +26,7 @@ export default (state = initialState, action) => {
         public: action.payload.public,
         private: action.payload.private,
       };
-    case `providers/FETCH_${action.schemaType}_SCHEMA_REJECTED`:
+    case types.FETCH_ENV_SCHEMA_REJECTED:
       return {
         ...state,
         pending: false,

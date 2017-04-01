@@ -1,128 +1,95 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
-import lambdaSagas, {
-  fetchLambdas,
-  fetchLambda,
-  createLambda,
-  updateLambda,
-  deleteLambda,
-  deleteLambdas,
-} from './lambdas';
+import policySagas, {
+  fetchPolicies,
+  fetchPolicy,
+  createPolicy,
+  updatePolicy,
+  deletePolicy,
+  deletePolicies,
+} from './policies';
 import * as types from '../actionTypes';
 
-describe('Lambda Sagas', () => {
+describe('Policy Sagas', () => {
   const error = 'an error has occured';
 
-  describe('fetchLambdas Sequence with an environmentId', () => {
-    const saga = fetchLambdas({ fqon: 'iamfqon', environmentId: '1' });
+  describe('fetchPolicies Sequence', () => {
+    const saga = fetchPolicies({ fqon: 'iamfqon', environmentId: '1' });
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/environments/1/lambdas?expand=true')
+        call(axios.get, 'iamfqon/environments/1/policies?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1, properties: { test: 'prop should be present' } }] });
-      result = saga.next([{ data: [{ id: 1 }] }]);
+      result = saga.next({ data: [{ id: 1 }] });
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1, properties: { apiEndpoints: [{ id: 1 }], test: 'prop should be present' } }] })
+        put({ type: types.FETCH_POLICIES_FULFILLED, payload: [{ id: 1 }] })
       );
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchLambdas({ fqon: 'iamfqon' });
+      const sagaError = fetchPolicies({ fqon: 'iamfqon' });
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_REJECTED, payload: error })
+        put({ type: types.FETCH_POLICIES_REJECTED, payload: error })
       );
     });
   });
 
-  describe('fetchLambdas Sequence without an environmentId', () => {
-    const saga = fetchLambdas({ fqon: 'iamfqon' });
+  describe('fetchPolicy Sequence', () => {
+    const saga = fetchPolicy({ fqon: 'iamfqon', policyId: '1' });
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/lambdas?expand=true')
+        call(axios.get, 'iamfqon/policies/1')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1, properties: { test: 'prop should be present' } }] });
-      result = saga.next([{ data: [{ id: 1 }] }]);
+      result = saga.next({ data: { id: 1 } });
+
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1, properties: { apiEndpoints: [{ id: 1 }], test: 'prop should be present' } }] })
+        put({ type: types.FETCH_POLICY_FULFILLED, payload: { id: 1 } })
       );
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchLambdas({ fqon: 'iamfqon' });
+      const sagaError = fetchPolicy({ fqon: 'iamfqon', policyId: 1 });
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_REJECTED, payload: error })
+        put({ type: types.FETCH_POLICY_REJECTED, payload: error })
       );
     });
   });
 
-  describe('fetchLambda Sequence', () => {
-    const saga = fetchLambda({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+  describe('createPolicy Sequence', () => {
+    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewapi' } };
+    const saga = createPolicy(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.all, [axios.get('iamfqon/lambdas/1'), axios.get('iamfqon/environments/2/env')])
-      );
-    });
-
-    it('should return a payload and dispatch a success status', () => {
-      const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
-      result = saga.next(promiseArray);
-
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDA_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
-      );
-    });
-
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchLambda({ fqon: 'iamfqon', environmentId: 1 });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDA_REJECTED, payload: error })
-      );
-    });
-  });
-
-  describe('createLambda Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
-    const saga = createLambda(action);
-    let result;
-
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        call(axios.post, 'iamfqon/environments/1/lambdas', action.payload)
+        call(axios.post, 'iamfqon/environments/1/policies', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
       expect(result.value).to.deep.equal(
-        put({ type: types.CREATE_LAMBDA_FULFILLED, payload: { id: 1 } })
+        put({ type: types.CREATE_POLICY_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
       result = saga.next();
@@ -130,7 +97,7 @@ describe('Lambda Sagas', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const onSuccessAction = { ...action, onSuccess: sinon.stub() };
-      const sagaSuccess = createLambda(onSuccessAction);
+      const sagaSuccess = createPolicy(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
@@ -138,32 +105,32 @@ describe('Lambda Sagas', () => {
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = createLambda(action);
+      const sagaError = createPolicy(action);
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.CREATE_LAMBDA_REJECTED, payload: error })
+        put({ type: types.CREATE_POLICY_REJECTED, payload: error })
       );
     });
   });
 
-  describe('updateLambda Sequence', () => {
-    const action = { fqon: 'iamfqon', lambdaId: '1', payload: [] };
-    const saga = updateLambda(action);
+  describe('updatePolicy Sequence', () => {
+    const action = { fqon: 'iamfqon', policyId: '1', payload: [] };
+    const saga = updatePolicy(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.patch, 'iamfqon/lambdas/1', action.payload)
+        call(axios.patch, 'iamfqon/policies/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
       expect(result.value).to.deep.equal(
-        put({ type: types.UPDATE_LAMBDA_FULFILLED, payload: { id: 1 } })
+        put({ type: types.UPDATE_POLICY_FULFILLED, payload: { id: 1 } })
       );
 
       // Finish the iteration
@@ -171,8 +138,8 @@ describe('Lambda Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { fqon: 'iamfqon', environmentId: '1', payload: [], onSuccess: sinon.stub() };
-      const sagaSuccess = updateLambda(onSuccessAction);
+      const onSuccessAction = { fqon: 'iamfqon', policyId: '1', payload: [], onSuccess: sinon.stub() };
+      const sagaSuccess = updatePolicy(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
@@ -180,32 +147,32 @@ describe('Lambda Sagas', () => {
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = updateLambda(action);
+      const sagaError = updatePolicy(action);
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
       expect(resultError.value).to.deep.equal(
-        put({ type: types.UPDATE_LAMBDA_REJECTED, payload: error })
+        put({ type: types.UPDATE_POLICY_REJECTED, payload: error })
       );
     });
   });
 
-  describe('deleteLambda Sequence', () => {
-    const action = { fqon: 'iamfqon', lambdaId: '1' };
-    const saga = deleteLambda(action);
+  describe('deletePolicy Sequence', () => {
+    const action = { fqon: 'iamfqon', policyId: '1' };
+    const saga = deletePolicy(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.delete, 'iamfqon/lambdas/1?force=true')
+        call(axios.delete, 'iamfqon/policies/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_LAMBDA_FULFILLED })
+        put({ type: types.DELETE_POLICY_FULFILLED })
       );
 
       // Finish the iteration
@@ -214,7 +181,7 @@ describe('Lambda Sagas', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const onSuccessAction = { ...action, onSuccess: sinon.stub() };
-      const sagaSuccess = deleteLambda(onSuccessAction);
+      const sagaSuccess = deletePolicy(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
@@ -223,32 +190,32 @@ describe('Lambda Sagas', () => {
     });
 
     it('should dispatch a reject status when there is an error', () => {
-      const sagaError = deleteLambda(action);
+      const sagaError = deletePolicy(action);
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_LAMBDA_REJECTED, payload: error })
+        put({ type: types.DELETE_POLICY_REJECTED, payload: error })
       );
     });
   });
 
-  describe('deleteLambdas Sequence', () => {
-    const action = { lambdaIds: ['1'], fqon: 'iamfqon' };
-    const saga = deleteLambdas(action);
+  describe('deletePolicies Sequence', () => {
+    const action = { policyIds: ['1'], fqon: 'iamfqon' };
+    const saga = deletePolicies(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.all, [axios.delete('iamfqon/lambdas/1?force=true')])
+        call(axios.all, [axios.delete('iamfqon/policies/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_LAMBDA_FULFILLED })
+        put({ type: types.DELETE_POLICY_FULFILLED })
       );
 
       // Finish the iteration
@@ -257,7 +224,7 @@ describe('Lambda Sagas', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const onSuccessAction = { ...action, onSuccess: sinon.stub() };
-      const sagaSuccess = deleteLambdas(onSuccessAction);
+      const sagaSuccess = deletePolicies(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
@@ -266,59 +233,59 @@ describe('Lambda Sagas', () => {
     });
 
     it('should dispatch a reject status when there is an error', () => {
-      const sagaError = deleteLambdas(action);
+      const sagaError = deletePolicies(action);
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_LAMBDA_REJECTED, payload: error })
+        put({ type: types.DELETE_POLICY_REJECTED, payload: error })
       );
     });
   });
 
-  describe('lambdaSagas', () => {
+  describe('policySagas', () => {
     let result;
-    const rootSaga = lambdaSagas();
+    const rootSaga = policySagas();
 
-    it('should fork a watcher for fetchLambdas', () => {
+    it('should fork a watcher for fetchPolicies', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
-        fork(takeLatest, types.FETCH_LAMBDAS_REQUEST, fetchLambdas)
+        fork(takeLatest, types.FETCH_POLICIES_REQUEST, fetchPolicies)
       );
     });
 
-    it('should fork a watcher for fetchLambda', () => {
+    it('should fork a watcher for fetchPolicy', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
-        fork(takeLatest, types.FETCH_LAMBDA_REQUEST, fetchLambda)
+        fork(takeLatest, types.FETCH_POLICY_REQUEST, fetchPolicy)
       );
     });
 
-    it('should fork a watcher for createLambda', () => {
+    it('should fork a watcher for createPolicy', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
-        fork(takeLatest, types.CREATE_LAMBDA_REQUEST, createLambda)
+        fork(takeLatest, types.CREATE_POLICY_REQUEST, createPolicy)
       );
     });
 
-    it('should fork a watcher for updateLambda', () => {
+    it('should fork a watcher for updatePolicy', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
-        fork(takeLatest, types.UPDATE_LAMBDA_REQUEST, updateLambda)
+        fork(takeLatest, types.UPDATE_POLICY_REQUEST, updatePolicy)
       );
     });
 
-    it('should fork a watcher for deleteLambda', () => {
+    it('should fork a watcher for deletePolicy', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
-        fork(takeLatest, types.DELETE_LAMBDA_REQUEST, deleteLambda)
+        fork(takeLatest, types.DELETE_POLICY_REQUEST, deletePolicy)
       );
     });
 
-    it('should fork a watcher for deleteLambdas', () => {
+    it('should fork a watcher for deletePolicies', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
-        fork(takeLatest, types.DELETE_LAMBDAS_REQUEST, deleteLambdas)
+        fork(takeLatest, types.DELETE_POLICIES_REQUEST, deletePolicies)
       );
     });
   });

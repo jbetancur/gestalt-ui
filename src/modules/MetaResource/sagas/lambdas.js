@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { merge } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -12,7 +13,7 @@ export function* fetchLambdas(action) {
     const response = yield call(axios.get, `${url}?expand=true`);
     const apieEndpointsResponse = yield response.data.map(lambda => call(axios.get, `${action.fqon}/lambdas/${lambda.id}/apiendpoints?expand=true`));
     // merge endpoints into lambda
-    const payload = response.data.map((lambda, i) => Object.assign(lambda, { properties: { apiEndpoints: apieEndpointsResponse[i].data } }));
+    const payload = response.data.map((lambda, i) => merge(lambda, { properties: { apiEndpoints: apieEndpointsResponse[i].data } }));
 
     yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload });
   } catch (e) {

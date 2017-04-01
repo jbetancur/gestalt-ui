@@ -1,24 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
 class PolicyCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createPolicy: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
   };
 
-  componentWillUnmount() {
-    this.props.onUnload();
-  }
-
   create(values) {
-    const { params, createPolicy } = this.props;
-    createPolicy(params.fqon, params.workspaceId, params.environmentId, values);
+    const { params, router, createPolicy } = this.props;
+    const onSuccess = response => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${response.id}/edit`);
+    createPolicy(params.fqon, params.environmentId, values, onSuccess);
   }
 
   render() {
@@ -27,7 +25,7 @@ class PolicyCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.policies.fetchOne;
+  const { pending } = state.metaResource.policy;
   const model = {
     name: '',
     description: '',
@@ -37,12 +35,11 @@ function mapStateToProps(state) {
   return {
     policy: model,
     pending,
-    // selectedPolicyType: state.policies.selectedPolicy.type,
     initialValues: model
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyCreate',
   validate
 })(PolicyCreate));

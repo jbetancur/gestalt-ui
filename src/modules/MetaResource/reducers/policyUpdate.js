@@ -1,38 +1,38 @@
-import {
-  FETCH_LAMBDAS_PENDING,
-  FETCH_LAMBDAS_FULFILLED,
-  FETCH_LAMBDAS_REJECTED,
-  LAMBDAS_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  lambdas: [],
+  policy: {
+    created: {},
+    modified: {},
+    properties: {}
+  },
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LAMBDAS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_LAMBDAS_PENDING:
+    case types.UPDATE_POLICY_REQUEST:
       return {
         ...state,
-        pending: true
+        pending: true,
       };
-    case FETCH_LAMBDAS_FULFILLED:
+    case types.UPDATE_POLICY_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        lambdas: action.payload
+        policy: action.payload,
       };
-    case FETCH_LAMBDAS_REJECTED:
+    case types.UPDATE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,
-        error: action.payload
+        error: action.payload,
       };
     default:
       return state;

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import PolicyForm from '../../components/PolicyForm';
@@ -12,7 +13,6 @@ class PolicyEdit extends Component {
     params: PropTypes.object.isRequired,
     policy: PropTypes.object.isRequired,
     fetchPolicy: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
     updatePolicy: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
@@ -20,11 +20,6 @@ class PolicyEdit extends Component {
   componentWillMount() {
     const { params, fetchPolicy } = this.props;
     fetchPolicy(params.fqon, params.policyId);
-  }
-
-  componentWillUnmount() {
-    const { onUnload } = this.props;
-    onUnload();
   }
 
   updatePolicy(values) {
@@ -36,8 +31,7 @@ class PolicyEdit extends Component {
     };
 
     const patches = jsonPatch.compare(originalModel, values);
-
-    this.props.updatePolicy(params.fqon, params.workspaceId, params.environmentId, id, patches);
+    this.props.updatePolicy(params.fqon, id, patches);
   }
 
   render() {
@@ -47,7 +41,7 @@ class PolicyEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { policy, pending } = state.policies.fetchOne;
+  const { policy, pending } = state.metaResource.policy;
 
   const model = {
     name: policy.name,
@@ -57,14 +51,14 @@ function mapStateToProps(state) {
   return {
     policy,
     pending,
-    updatedPolicy: state.policies.policyUpdate.policy,
-    policyRuleUpdatePending: state.policies.policyUpdate.pending,
+    updatedPolicy: state.metaResource.policyUpdate.policy,
+    policyRuleUpdatePending: state.metaResource.policyRuleUpdate.pending,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyEdit',
   validate
 })(PolicyEdit));

@@ -1,38 +1,37 @@
-import {
-    UPDATE_POLICY_PENDING,
-    UPDATE_POLICY_FULFILLED,
-    UPDATE_POLICY_REJECTED,
-    UNLOAD_POLICY,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  policy: {
+  policyRule: {
     created: {},
     modified: {},
-    properties: {}
+    properties: {
+      actions: [],
+      eval_logic: {}
+    }
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case UNLOAD_POLICY:
+    case LOCATION_CHANGE:
       return initialState;
-    case UPDATE_POLICY_PENDING:
+    case types.UPDATE_POLICYRULE_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_POLICY_FULFILLED:
+    case types.UPDATE_POLICYRULE_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        policy: action.payload,
+        policyRule: action.payload,
       };
-    case UPDATE_POLICY_REJECTED:
+    case types.UPDATE_POLICYRULE_REJECTED:
       return {
         ...state,
         pending: false,

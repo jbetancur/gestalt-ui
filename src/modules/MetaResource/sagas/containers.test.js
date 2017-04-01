@@ -8,6 +8,7 @@ import containerSagas, {
   deleteContainer,
   scaleContainer,
   migrateContainer,
+  fetchProviderContainer,
 } from './containers';
 import * as types from '../actionTypes';
 
@@ -318,6 +319,80 @@ describe('Container Sagas', () => {
     });
   });
 
+  describe('fetchProviderContainer Sequence', () => {
+    const action = { fqon: 'iamfqon', providerId: '1' };
+    let result;
+
+    describe('when there is a container', () => {
+      const saga = fetchProviderContainer(action);
+
+      it('should make an api call to get containers', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/providers/1/containers')
+        );
+      });
+
+      it('should make an api call to get container', () => {
+        result = saga.next({ data: [{ id: 1 }] });
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/providers/1/containers/1')
+        );
+      });
+
+      it('should return dispatch a success status', () => {
+        result = saga.next({ data: { id: 1, name: 'yay' } });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, name: 'yay' } })
+        );
+
+        // Finish the iteration
+        result = saga.next();
+      });
+
+      it('should dispatch a reject status when there is an error', () => {
+        const sagaError = fetchProviderContainer(action);
+        let resultError = sagaError.next();
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
+        );
+      });
+    });
+
+    describe('when there is no container response', () => {
+      const saga = fetchProviderContainer(action);
+
+      it('should make an api call to get containers', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/providers/1/containers')
+        );
+      });
+
+      it('should make an api call to get container', () => {
+        result = saga.next({ data: [] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINER_FULFILLED })
+        );
+
+        // Finish the iteration
+        result = saga.next();
+      });
+
+      it('should dispatch a reject status when there is an error', () => {
+        const sagaError = fetchProviderContainer(action);
+        let resultError = sagaError.next();
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
+        );
+      });
+    });
+  });
+
   describe('containerSagas', () => {
     let result;
     const rootSaga = containerSagas();
@@ -368,6 +443,13 @@ describe('Container Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer)
+      );
+    });
+
+    it('should fork a watcher for fetchProviderContainer', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.FETCH_PROVIDER_CONTAINER_REQUEST, fetchProviderContainer)
       );
     });
   });
