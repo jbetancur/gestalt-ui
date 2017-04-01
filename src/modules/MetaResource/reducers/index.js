@@ -27,7 +27,14 @@ import providersByType from './providersByType';
 import executors from './executors';
 import containers from './containers';
 import container from './container';
+import policies from './policies';
+import policy from './policy';
+import policyUpdate from './policyUpdate';
+import policyRules from './policyRules';
+import policyRule from './policyRule';
+import policyRuleUpdate from './policyRuleUpdate';
 import env from './env';
+import envSchema from './envSchema';
 import self from './self';
 
 export default combineReducers({
@@ -58,6 +65,13 @@ export default combineReducers({
   executors,
   containers,
   container,
+  policies,
+  policy,
+  policyUpdate,
+  policyRules,
+  policyRule,
+  policyRuleUpdate,
   env,
+  envSchema,
   self,
 });

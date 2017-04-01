@@ -12,4 +12,13 @@ describe('Env Actions', () => {
 
     expect(actions.fetchEnv('iamfqon', '1', 'whatevs')).to.deep.equal(expectedAction);
   });
+
+  it('should request FETCH_ENV_SCHEMA_REQUEST', () => {
+    const expectedAction = {
+      type: types.FETCH_ENV_SCHEMA_REQUEST,
+      schemaType: 'whatevs',
+    };
+
+    expect(actions.fetchEnvSchema('whatevs')).to.deep.equal(expectedAction);
+  });
 });

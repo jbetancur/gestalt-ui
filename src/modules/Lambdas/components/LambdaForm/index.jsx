@@ -134,9 +134,9 @@ const LambdaForm = (props) => {
                   className="flex-1 flex-xs-12"
                   component={TextField}
                   name="properties.memory"
-                  min={32}
-                  max={8096}
-                  step={1}
+                  min={256}
+                  max={2048}
+                  step={256}
                   label="Memory"
                   type="number"
                   required

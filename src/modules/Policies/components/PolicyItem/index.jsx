@@ -24,7 +24,7 @@ class PolicyItem extends Component {
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchPolicies: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
+    unloadPolicies: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
 
@@ -38,8 +38,8 @@ class PolicyItem extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { unloadPolicies, clearSelected } = this.props;
+    unloadPolicies();
     clearSelected();
   }
 
@@ -50,13 +50,18 @@ class PolicyItem extends Component {
   }
 
   delete() {
-    const { params, deletePolicies } = this.props;
+    const { params, fetchPolicies, deletePolicies, clearSelected } = this.props;
     const { selectedItems } = this.props.selectedPolicies;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
+    const onSuccess = () => {
+      clearSelected();
+      fetchPolicies(params.fqon, params.environmentId);
+    };
+
     this.props.confirmDelete(() => {
-      deletePolicies(IDs, params.fqon, params.environmentId);
+      deletePolicies(IDs, params.fqon, onSuccess);
     }, names);
   }
 

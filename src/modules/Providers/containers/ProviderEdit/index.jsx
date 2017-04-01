@@ -15,7 +15,7 @@ class ProviderEdit extends Component {
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    fetchContainer: PropTypes.func.isRequired,
+    fetchProviderContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
@@ -24,13 +24,13 @@ class ProviderEdit extends Component {
   };
 
   componentWillMount() {
-    const { params, fetchProvider, fetchProviders, fetchContainer } = this.props;
+    const { params, fetchProvider, fetchProviders, fetchProviderContainer } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
 
     fetchProviders(params.fqon, entityId, entityKey);
     fetchProvider(params.fqon, params.providerId);
-    fetchContainer(params.fqon, params.providerId);
+    fetchProviderContainer(params.fqon, params.providerId);
   }
 
   updatedModel(formValues, originalModel) {
@@ -155,10 +155,10 @@ function mapStateToProps(state) {
     provider,
     pending,
     updatePending: state.metaResource.providerUpdate.pending,
-    pendingSchema: state.providers.selectedProviderSchema.pending,
+    pendingSchema: state.metaResource.envSchema.pending,
     providers: state.metaResource.providers.providers,
     pendingProviders: state.metaResource.providers.pending,
-    container: state.providers.container.container,
+    container: state.metaResource.container.container,
     initialValues: {
       name: provider.name,
       description: provider.description,

@@ -10,6 +10,15 @@ export function fetchEnv(fqon, entityId, entityKey) {
   return { type: types.FETCH_ENV_REQUEST, fqon, entityId, entityKey };
 }
 
+/**
+ * fetchEnvSchema
+ * @param {string} schemaType
+ */
+export function fetchEnvSchema(schemaType) {
+  return { type: types.FETCH_ENV_SCHEMA_REQUEST, schemaType };
+}
+
 export default {
   fetchEnv,
+  fetchEnvSchema,
 };

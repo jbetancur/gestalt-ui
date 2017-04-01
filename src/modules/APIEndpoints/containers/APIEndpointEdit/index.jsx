@@ -37,7 +37,7 @@ class APIEndpointEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
-      const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
+      const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/APIS/${params.apiId}/edit`);
       this.props.updateAPIEndpoint(params.fqon, params.apiId, id, patches, onSuccess);
     }
   }

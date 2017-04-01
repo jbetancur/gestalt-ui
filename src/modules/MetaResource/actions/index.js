@@ -7,6 +7,8 @@ import apis from './apis';
 import apiEndpoints from './apiEndpoints';
 import providers from './providers';
 import containers from './containers';
+import policies from './policies';
+import policyRules from './policyRules';
 import env from './env';
 import self from './self';
 
@@ -20,6 +22,8 @@ export default Object.assign({},
   apiEndpoints,
   providers,
   containers,
+  policies,
+  policyRules,
   env,
   self,
 );

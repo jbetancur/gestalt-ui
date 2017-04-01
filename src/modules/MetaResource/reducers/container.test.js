@@ -38,6 +38,14 @@ describe('container reducer', () => {
     ).to.deep.equal(initialState);
   });
 
+  it('should handle FETCH_PROVIDER_CONTAINER_REQUEST', () => {
+    expect(
+      reducer({}, metaActions.fetchProviderContainer())
+    ).to.deep.equal({
+      pending: true,
+    });
+  });
+
   it('should handle FETCH_CONTAINER_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchContainer())

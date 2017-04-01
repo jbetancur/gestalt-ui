@@ -93,4 +93,14 @@ describe('Container Actions', () => {
 
     expect(actions.migrateContainer('iamfqon', '1', '2', '3')).to.deep.equal(expectedAction);
   });
+
+  it('should request FETCH_PROVIDER_CONTAINER_REQUEST', () => {
+    const expectedAction = {
+      type: types.FETCH_PROVIDER_CONTAINER_REQUEST,
+      fqon: 'iamfqon',
+      providerId: '1',
+    };
+
+    expect(actions.fetchProviderContainer('iamfqon', '1')).to.deep.equal(expectedAction);
+  });
 });

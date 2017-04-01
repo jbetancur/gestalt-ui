@@ -2,8 +2,10 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import envSagas, {
   fetchEnv,
+  fetchEnvSchema,
 } from './env';
 import * as types from '../actionTypes';
+// import constants from '../constants/envSchema'; // TODO: mock up with rewire
 
 describe('API Sagas', () => {
   const error = 'an error has occured';
@@ -57,6 +59,36 @@ describe('API Sagas', () => {
     });
   });
 
+  describe('fetchEnvSchema Sequence', () => {
+    let result;
+    const saga = fetchEnvSchema({ schemaType: 'KONG' }); // TODO: Rewire this, but babel rewire plugin is borked
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'root/resourcetypes/25acb32c-6635-49d1-ba19-4cf317003ff6/schema?filter=config')
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: [{ name: 'PUBLIC', value: 'yup', public: true }, { name: 'PRIVATE', value: 'nope', public: false }] });
+      expect(result.value).to.deep.equal(
+        put({ type: types.FETCH_ENV_SCHEMA_FULFILLED, payload: { public: [{ name: 'PUBLIC', value: 'yup', public: true }], private: [{ name: 'PRIVATE', value: 'nope', public: false }] } })
+      );
+    });
+
+    it('should return a payload and dispatch a reject status when there is an error', () => {
+      const sagaError = fetchEnvSchema({ schemaType: 'KONG' });
+      let resultError = sagaError.next();
+
+      resultError = sagaError.throw({ message: error });
+
+      expect(resultError.value).to.deep.equal(
+        put({ type: types.FETCH_ENV_SCHEMA_REJECTED, payload: error })
+      );
+    });
+  });
+
   describe('envSagas', () => {
     let result;
     const rootSaga = envSagas();
@@ -65,6 +97,13 @@ describe('API Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.FETCH_ENV_REQUEST, fetchEnv)
+      );
+    });
+
+    it('should fork a watcher for fetchEnvSchema', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.FETCH_ENV_SCHEMA_REQUEST, fetchEnvSchema)
       );
     });
   });

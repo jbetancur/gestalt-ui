@@ -168,14 +168,14 @@ function mapStateToProps(state) {
       services: [],
       locations: [],
     },
-    publicVariables: state.providers.selectedProviderSchema.public,
-    privateVariables: state.providers.selectedProviderSchema.private,
+    publicVariables: state.metaResource.envSchema.public,
+    privateVariables: state.metaResource.envSchema.private,
   };
 
   return {
     provider: model,
     pending,
-    pendingSchema: state.providers.selectedProviderSchema.pending,
+    pendingSchema: state.metaResource.envSchema.pending,
     providers: state.metaResource.providers.providers,
     pendingProviders: state.metaResource.providers.pending,
     initialValues: model,

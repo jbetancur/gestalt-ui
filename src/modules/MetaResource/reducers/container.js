@@ -33,12 +33,17 @@ export default (state = initialState, action) => {
         // eslint-disable-next-line no-unneeded-ternary
         pending: action.isPolling ? false : true, // TODO: polling will be removed when we have SSE
       };
+    case types.FETCH_PROVIDER_CONTAINER_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
     case types.FETCH_CONTAINER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        container: action.payload
+        container: action.payload || initialState.container,
       };
     case types.FETCH_CONTAINER_REJECTED:
       return {

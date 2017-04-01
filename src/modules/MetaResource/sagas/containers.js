@@ -127,6 +127,25 @@ export function* migrateContainer(action) {
   }
 }
 
+/**
+ * fetchProviderContainer
+ * @param {*} action - { fqon, providerId }
+ */
+export function* fetchProviderContainer(action) {
+  try {
+    const response = yield call(axios.get, `${action.fqon}/providers/${action.providerId}/containers`);
+
+    if (response.data.length) {
+      const containerResponse = yield call(axios.get, `${action.fqon}/providers/${action.providerId}/containers/${response.data[0].id}`);
+      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data });
+    } else {
+      yield put({ type: types.FETCH_CONTAINER_FULFILLED });
+    }
+  } catch (e) {
+    yield put({ type: types.FETCH_CONTAINER_REJECTED, payload: e.message });
+  }
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_CONTAINERS_REQUEST, fetchContainers);
@@ -136,4 +155,5 @@ export default function* () {
   yield fork(takeLatest, types.DELETE_CONTAINER_REQUEST, deleteContainer);
   yield fork(takeLatest, types.SCALE_CONTAINER_REQUEST, scaleContainer);
   yield fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer);
+  yield fork(takeLatest, types.FETCH_PROVIDER_CONTAINER_REQUEST, fetchProviderContainer);
 }

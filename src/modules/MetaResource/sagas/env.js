@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import constants from '../constants/envSchema';
 import * as types from '../actionTypes';
 
 /**
@@ -17,8 +18,28 @@ export function* fetchEnv(action) {
   }
 }
 
+/**
+ * fetchEnvSchema
+ * @param {*} action { schemaType }
+ */
+export function* fetchEnvSchema(action) {
+  try {
+    const response = yield call(axios.get, `root/resourcetypes/${constants[action.schemaType]}/schema?filter=config`);
+
+    const payload = {
+      public: response.data.filter(item => item.public === true),
+      private: response.data.filter(item => item.public === false),
+    };
+
+    yield put({ type: types.FETCH_ENV_SCHEMA_FULFILLED, payload });
+  } catch (e) {
+    yield put({ type: types.FETCH_ENV_SCHEMA_REJECTED, payload: e.message });
+  }
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_ENV_REQUEST, fetchEnv);
+  yield fork(takeLatest, types.FETCH_ENV_SCHEMA_REQUEST, fetchEnvSchema);
 }
 
