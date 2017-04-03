@@ -72,26 +72,24 @@ describe('Container Actions', () => {
     const expectedAction = {
       type: types.SCALE_CONTAINER_REQUEST,
       fqon: 'iamfqon',
-      environmentId: '1',
       containerId: '2',
       numInstances: 42,
       onSuccess: undefined,
     };
 
-    expect(actions.scaleContainer('iamfqon', '1', '2', 42)).to.deep.equal(expectedAction);
+    expect(actions.scaleContainer('iamfqon', '2', 42)).to.deep.equal(expectedAction);
   });
 
   it('should handle MIGRATE_CONTAINER_REQUEST', () => {
     const expectedAction = {
       type: types.MIGRATE_CONTAINER_REQUEST,
       fqon: 'iamfqon',
-      environmentId: '1',
       containerId: '2',
       providerId: '3',
       onSuccess: undefined,
     };
 
-    expect(actions.migrateContainer('iamfqon', '1', '2', '3')).to.deep.equal(expectedAction);
+    expect(actions.migrateContainer('iamfqon', '2', '3')).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_PROVIDER_CONTAINER_REQUEST', () => {

@@ -95,11 +95,11 @@ export function* deleteContainer(action) {
 
 /**
  * scaleContainer
- * @param {*} action - { fqon, environmentId, containerId, numInstances, onSuccess }
+ * @param {*} action - { fqon, containerId, numInstances, onSuccess }
  */
 export function* scaleContainer(action) {
   try {
-    yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers/${action.containerId}/scale?numInstances=${action.numInstances}`);
+    yield call(axios.post, `${action.fqon}/containers/${action.containerId}/scale?numInstances=${action.numInstances}`);
     yield put({ type: types.SCALE_CONTAINER_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
@@ -112,11 +112,11 @@ export function* scaleContainer(action) {
 
 /**
  * migrateContainer
- * @param {*} action - { fqon, environmentId, containerId, providerId, onSuccess }
+ * @param {*} action - { fqon, containerId, providerId, onSuccess }
  */
 export function* migrateContainer(action) {
   try {
-    yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers/${action.containerId}/migrate?provider=${action.providerId}`);
+    yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}`);
     yield put({ type: types.MIGRATE_CONTAINER_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {

@@ -31,7 +31,7 @@ class EntitlementItem extends Component {
     selectedIdentity: PropTypes.object.isRequired,
     entitlements: PropTypes.array.isRequired,
     updateEntitlements: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
+    unloadEntitlements: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
     clearIdentitiesFilter: PropTypes.func.isRequired,
     filterIdentities: PropTypes.func.isRequired,
@@ -51,13 +51,13 @@ class EntitlementItem extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.unloadEntitlements();
   }
 
   update(e) {
     e.stopPropagation();
 
-    const { params, updateEntitlements, entitlements, selectedIdentity } = this.props;
+    const { params, fetchEntitlements, updateEntitlements, entitlements, selectedIdentity } = this.props;
     const entityId = params.workspaceId || params.environmentId || null;
     const entityKey = params.workspaceId ? 'workspaces' : 'environments';
 
@@ -68,7 +68,8 @@ class EntitlementItem extends Component {
       });
     });
 
-    updateEntitlements(params.fqon, selectedIdentity, actions, entityId, entityKey);
+    const onSuccess = () => fetchEntitlements(params.fqon, entityId, entityKey, selectedIdentity);
+    updateEntitlements(params.fqon, selectedIdentity, actions, entityId, entityKey, onSuccess);
   }
 
   handleSelectedIdentity(identity) {

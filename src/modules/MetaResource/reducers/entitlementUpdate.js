@@ -1,9 +1,5 @@
-import {
-  UPDATE_ENTITLEMENTS_PENDING,
-  UPDATE_ENTITLEMENTS_FULFILLED,
-  UPDATE_ENTITLEMENTS_REJECTED,
-  ENTITLEMENTS_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -14,21 +10,23 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENTITLEMENTS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case UPDATE_ENTITLEMENTS_PENDING:
+    case types.UNLOAD_ENTITLEMENTS:
+      return initialState;
+    case types.UPDATE_ENTITLEMENT_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_ENTITLEMENTS_FULFILLED:
+    case types.UPDATE_ENTITLEMENT_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         entitlement: action.payload,
       };
-    case UPDATE_ENTITLEMENTS_REJECTED:
+    case types.UPDATE_ENTITLEMENT_REJECTED:
       return {
         ...state,
         pending: false,

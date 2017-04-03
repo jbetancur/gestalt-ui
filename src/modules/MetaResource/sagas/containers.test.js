@@ -234,14 +234,14 @@ describe('Container Sagas', () => {
   });
 
   describe('scaleContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', containerId: '2', numInstances: 42 };
+    const action = { fqon: 'iamfqon', containerId: '2', numInstances: 42 };
     const saga = scaleContainer(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.post, 'iamfqon/environments/1/containers/2/scale?numInstances=42')
+        call(axios.post, 'iamfqon/containers/2/scale?numInstances=42')
       );
     });
 
@@ -277,14 +277,14 @@ describe('Container Sagas', () => {
   });
 
   describe('migrateContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', containerId: '2', providerId: 42 };
+    const action = { fqon: 'iamfqon', containerId: '2', providerId: 42 };
     const saga = migrateContainer(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.post, 'iamfqon/environments/1/containers/2/migrate?provider=42')
+        call(axios.post, 'iamfqon/containers/2/migrate?provider=42')
       );
     });
 

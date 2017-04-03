@@ -1,7 +1,5 @@
-import {
-  SELECTED_IDENTITY,
-  ENTITLEMENTS_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   identity: {},
@@ -9,9 +7,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENTITLEMENTS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case SELECTED_IDENTITY:
+    case types.UNLOAD_ENTITLEMENTS:
+      return initialState;
+    case types.SELECTED_IDENTITY:
       return {
         ...state,
         identity: action.payload,

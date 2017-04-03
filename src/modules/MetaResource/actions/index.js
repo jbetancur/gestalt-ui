@@ -9,6 +9,7 @@ import providers from './providers';
 import containers from './containers';
 import policies from './policies';
 import policyRules from './policyRules';
+import entitlements from './entitlements';
 import env from './env';
 import self from './self';
 
@@ -24,6 +25,7 @@ export default Object.assign({},
   containers,
   policies,
   policyRules,
+  entitlements,
   env,
   self,
 );
