@@ -136,7 +136,7 @@ class ContainerActions extends Component {
 
     scaleContainerModal((numInstances) => {
       if (numInstances !== container.properties.num_instances) {
-        scaleContainer(params.fqon, params.environmentId, container.id, numInstances, onSuccess);
+        scaleContainer(params.fqon, container.id, numInstances, onSuccess);
       }
     }, container.name, container.properties.num_instances);
   }
@@ -152,7 +152,7 @@ class ContainerActions extends Component {
     };
 
     migrateContainerModal((providerId) => {
-      migrateContainer(params.fqon, params.environmentId, container.id, providerId, onSuccess);
+      migrateContainer(params.fqon, container.id, providerId, onSuccess);
     }, container.name, container.properties.provider, fetchProviders, params);
   }
 

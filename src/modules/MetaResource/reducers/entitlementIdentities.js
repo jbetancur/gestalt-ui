@@ -1,9 +1,5 @@
-import {
-  FETCH_IDENTITIES_PENDING,
-  FETCH_IDENTITIES_REJECTED,
-  FETCH_IDENTITIES_FULFILLED,
-  ENTITLEMENTS_UNLOADED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -14,21 +10,23 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENTITLEMENTS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_IDENTITIES_PENDING:
+    case types.UNLOAD_ENTITLEMENTS:
+      return initialState;
+    case types.FETCH_IDENTITIES_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_IDENTITIES_FULFILLED:
+    case types.FETCH_IDENTITIES_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
         identities: action.payload,
       };
-    case FETCH_IDENTITIES_REJECTED:
+    case types.FETCH_IDENTITIES_REJECTED:
       return {
         ...state,
         pending: false,

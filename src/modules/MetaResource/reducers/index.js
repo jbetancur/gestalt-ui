@@ -35,6 +35,10 @@ import policyRule from './policyRule';
 import policyRuleUpdate from './policyRuleUpdate';
 import env from './env';
 import envSchema from './envSchema';
+import entitlements from './entitlements';
+import entitlementUpdate from './entitlementUpdate';
+import entitlementIdentities from './entitlementIdentities';
+import entitlementSelectedIdentity from './entitlementSelectedIdentity';
 import self from './self';
 
 export default combineReducers({
@@ -71,6 +75,10 @@ export default combineReducers({
   policyRules,
   policyRule,
   policyRuleUpdate,
+  entitlements,
+  entitlementUpdate,
+  entitlementIdentities,
+  entitlementSelectedIdentity,
   env,
   envSchema,
   self,

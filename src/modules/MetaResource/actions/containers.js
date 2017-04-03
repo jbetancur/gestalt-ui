@@ -63,25 +63,23 @@ export function deleteContainer(fqon, containerId, onSuccess) {
 /**
  * deleteContainer
  * @param {string} fqon
- * @param {string} environmentId
  * @param {string} containerId
  * @param {integer} numInstances
  * @callback {*} onSuccess
  */
-export function scaleContainer(fqon, environmentId, containerId, numInstances, onSuccess) {
-  return { type: types.SCALE_CONTAINER_REQUEST, fqon, environmentId, containerId, numInstances, onSuccess };
+export function scaleContainer(fqon, containerId, numInstances, onSuccess) {
+  return { type: types.SCALE_CONTAINER_REQUEST, fqon, containerId, numInstances, onSuccess };
 }
 
 /**
  * migrateContainer
  * @param {string} fqon
- * @param {string} environmentId
  * @param {string} containerId
  * @param {string} providerId
  * @callback {*} onSuccess
  */
-export function migrateContainer(fqon, environmentId, containerId, providerId, onSuccess) {
-  return { type: types.MIGRATE_CONTAINER_REQUEST, fqon, environmentId, containerId, providerId, onSuccess };
+export function migrateContainer(fqon, containerId, providerId, onSuccess) {
+  return { type: types.MIGRATE_CONTAINER_REQUEST, fqon, containerId, providerId, onSuccess };
 }
 
 /**
