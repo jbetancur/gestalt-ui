@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import UserForm from '../../components/UserForm';
@@ -9,27 +10,23 @@ import * as actions from '../../actions';
 
 class GroupEdit extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
-    fetchAllOrgs: PropTypes.func.isRequired,
+    fetchAllOrgsDropDown: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnload: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchUser, fetchAllOrgs } = this.props;
-    fetchAllOrgs(params.fqon);
+    const { params, fetchUser, fetchAllOrgsDropDown } = this.props;
+    fetchAllOrgsDropDown(params.fqon);
     fetchUser(params.fqon, params.userId);
   }
 
-  componentWillUnmount() {
-    this.props.onUnload();
-  }
-
   update(values) {
-    const { params, user } = this.props;
+    const { params, router, user, updateUser } = this.props;
     const { name, description, properties: { password, firstName, lastName, phoneNumber, email, gestalt_home } } = user;
     const originalModel = {
       name,
@@ -45,7 +42,9 @@ class GroupEdit extends Component {
     };
 
     const patches = jsonPatch.compare(originalModel, values);
-    this.props.updateUser(params.fqon, user.id, patches);
+    const onSuccess = () => router.replace(`${params.fqon}/users`);
+
+    updateUser(params.fqon, user.id, patches, onSuccess);
   }
 
   render() {
@@ -55,15 +54,13 @@ class GroupEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user, pending } = state.users.fetchOne;
-  const { organizations, pendingOrgs } = state.users.fetchOrgs;
+  const { user, pending } = state.metaResource.user;
 
   return {
     user,
-    organizations,
     pending,
-    pendingOrgs,
-    updatePending: state.users.updateOne.pending,
+    organizations: state.metaResource.allOrganizationsDropDown.organizations,
+    updatePending: state.metaResource.userUpdate.pending,
     initialValues: {
       name: user.name,
       description: user.description,
@@ -80,7 +77,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'userEdit',
   validate
 })(GroupEdit));

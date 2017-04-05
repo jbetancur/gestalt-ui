@@ -22,6 +22,14 @@ export function fetchAllOrgs() {
 }
 
 /**
+ * fetchAllOrgsDropDown
+ * Used for populating a name/value based dropdown with all orgs including the current org
+ */
+export function fetchAllOrgsDropDown(fqon) {
+  return { type: types.FETCH_ALLORGS_DROPDOWN_REQUEST, fqon };
+}
+
+/**
  * fetchOrgs
  * @param {string} fqon
  */
@@ -76,6 +84,7 @@ export function deleteOrg(fqon, onSuccess) {
 
 export default {
   onUnloadAllOrgs,
+  fetchAllOrgsDropDown,
   onUnloadOrgSet,
   fetchAllOrgs,
   fetchOrgs,

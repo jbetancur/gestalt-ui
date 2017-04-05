@@ -1,32 +1,33 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
-import * as types from '../actionTypes';
-
+import * as metaTypes from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  executors: [],
+  organizations: [],
   error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case metaTypes.UNLOAD_ALLORGS:
+      return initialState;
     case LOCATION_CHANGE:
       return initialState;
-    case types.FETCH_EXECUTORS_REQUEST:
+    case metaTypes.FETCH_ALLORGS_DROPDOWN_REQUEST:
       return {
         ...state,
-        executors: [{ id: '', name: 'fetching executors...' }],
         pending: true,
+        organizations: [{ name: 'fetching organizations...', value: '' }],
       };
-    case types.FETCH_EXECUTORS_FULFILLED:
+    case metaTypes.FETCH_ALLORGS_DROPDOWN_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        executors: action.payload,
+        organizations: action.payload,
       };
-    case types.FETCH_EXECUTORS_REJECTED:
+    case metaTypes.FETCH_ALLORGS_DROPDOWN_REJECTED:
       return {
         ...state,
         pending: false,

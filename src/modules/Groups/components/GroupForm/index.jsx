@@ -55,12 +55,14 @@ const GroupForm = (props) => {
   let membersUserList = currentGroup.properties.users ? currentGroup.properties.users.slice() : [];
   membersUserList = membersUserList.filter(val => val.name.includes(props.memberUsersFilter.filterText));
 
+  const onSuccess = () => clearAvailableUsersFilter();
+
   const addUser = (user) => {
-    addGroupMember(params.fqon, group.id, user.id);
+    addGroupMember(params.fqon, group.id, user.id, onSuccess);
   };
 
   const removeUser = (user) => {
-    removeGroupMember(params.fqon, group.id, user.id);
+    removeGroupMember(params.fqon, group.id, user.id, onSuccess);
   };
 
   // prevents multiple clicks from throwing a RACE - so we use these on the ListItem

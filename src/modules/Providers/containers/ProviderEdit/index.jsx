@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
+import { containerActionCreators } from 'modules/Containers';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
 import { map } from 'lodash';
@@ -185,7 +186,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, containerActionCreators))(reduxForm({
   form: 'providerCreate',
   validate
 })(ProviderEdit));

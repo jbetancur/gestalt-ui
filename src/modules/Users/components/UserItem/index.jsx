@@ -25,7 +25,7 @@ class UserItem extends Component {
     users: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteUsers: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
+    unloadUsers: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
   };
@@ -40,8 +40,8 @@ class UserItem extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { unloadUsers, clearSelected } = this.props;
+    unloadUsers();
     clearSelected();
   }
 
@@ -59,14 +59,19 @@ class UserItem extends Component {
   }
 
   delete() {
-    const { params, deleteUsers } = this.props;
+    const { params, fetchUsers, deleteUsers, clearSelected } = this.props;
     const { selectedItems } = this.props.selectedUsers;
     const userIds = selectedItems.map(item => (item.id));
 
     const userNames = selectedItems.map(item => (item.name));
 
+    const onSuccess = () => {
+      clearSelected();
+      fetchUsers(params.fqon);
+    };
+
     this.props.confirmDelete(() => {
-      deleteUsers(userIds, params.fqon);
+      deleteUsers(userIds, params.fqon, onSuccess);
     }, userNames);
   }
 

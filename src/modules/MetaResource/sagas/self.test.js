@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 
-import userSagas, {
+import selfSagas, {
   fetchSelf,
 } from './self';
 import * as types from '../actionTypes';
@@ -32,10 +32,13 @@ describe('Self Sagas', () => {
       expect(result.value).to.deep.equal(
         put({ type: types.FETCH_SELF_FULFILLED, payload: { id: 1, properties: { gestalt_home: { id: 1 } } } })
       );
+
+      // Finish the iteration
+      result = saga.next();
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchSelf({ fqon: 'iamfqon', UserId: 1 });
+      const sagaError = fetchSelf({ fqon: 'iamfqon' });
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
@@ -46,9 +49,9 @@ describe('Self Sagas', () => {
     });
   });
 
-  describe('userSagas', () => {
+  describe('selfSagas', () => {
     let result;
-    const rootSaga = userSagas();
+    const rootSaga = selfSagas();
 
     it('should fork a watcher for fetchSelf', () => {
       result = rootSaga.next();

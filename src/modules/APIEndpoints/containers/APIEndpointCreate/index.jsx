@@ -11,12 +11,14 @@ class APIEndpointCreate extends Component {
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
+    lambdaProvider: PropTypes.object.isRequired,
   };
 
   create(values) {
-    const { params, router, createAPIEndpoint } = this.props;
+    const { params, router, createAPIEndpoint, lambdaProvider } = this.props;
     const payload = { ...values };
 
+    payload.properties.upstream_url = `https://${lambdaProvider.properties.config.env.public.LAMBDA_DATABASE_NAME}/lambdas/${values.properties.implementation_id}/invoke`;
     const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
     createAPIEndpoint(params.fqon, params.apiId, payload, onSuccess);
   }
@@ -46,6 +48,7 @@ function mapStateToProps(state) {
     apiEndpoint: model,
     pending,
     pendingAPIEndpoints: state.metaResource.apiEndpoints.pending,
+    lambdaProvider: state.metaResource.lambdaProvider.provider,
     initialValues: model
   };
 }

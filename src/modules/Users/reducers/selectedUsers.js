@@ -1,11 +1,11 @@
 import {
-  SELECTED_USERS
+  SELECTED_USERS,
 } from '../actionTypes';
 
 const initialState = {
   selectedCount: 0,
   showTitle: true,
-  selectedItems: []
+  selectedItems: [],
 };
 
 export default (state = initialState, action) => {
@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
         ...state,
         selectedCount: action.payload.selectedCount,
         showTitle: action.payload.showTitle,
-        selectedItems: action.payload.selectedItems
+        selectedItems: action.payload.selectedItems,
       };
     default:
       return state;

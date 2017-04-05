@@ -1,59 +1,54 @@
-import {
-    FETCH_USER_PENDING,
-    FETCH_USER_REJECTED,
-    FETCH_USER_FULFILLED,
-    CREATE_USER_PENDING,
-    CREATE_USER_FULFILLED,
-    CREATE_USER_REJECTED,
-    USER_UNLOADED
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  user: {
-    created: {},
-    modified: {},
-    properties: {}
-  },
+  groups: [],
   error: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_USER_PENDING:
+    case types.UNLOAD_GROUPS:
+      return initialState;
+    case types.FETCH_GROUPS_REQUEST:
       return {
         ...state,
-        pending: true,
+        pending: true
       };
-    case FETCH_USER_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        user: action.payload
-      };
-    case FETCH_USER_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-    case CREATE_USER_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
-    case CREATE_USER_FULFILLED:
+    case types.FETCH_GROUPS_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        user: action.payload,
+        groups: action.payload
       };
-    case CREATE_USER_REJECTED:
+    case types.FETCH_GROUPS_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload
+      };
+    case types.DELETE_GROUPS_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_GROUP_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.DELETE_GROUP_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true
+      };
+    case types.DELETE_GROUP_REJECTED:
       return {
         ...state,
         pending: false,
@@ -63,3 +58,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+

@@ -76,4 +76,14 @@ describe('Lambda Actions', () => {
 
     expect(actions.deleteLambdas([], 'iamfqon')).to.deep.equal(expectedAction);
   });
+
+  it('should request FETCH_LAMBDA_PROVIDER_REQUEST', () => {
+    const expectedAction = {
+      type: types.FETCH_LAMBDA_PROVIDER_REQUEST,
+      fqon: 'iamfqon',
+      lambdaId: '1',
+    };
+
+    expect(actions.fetchLambdaProvider('iamfqon', '1')).to.deep.equal(expectedAction);
+  });
 });

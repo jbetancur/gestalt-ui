@@ -320,7 +320,7 @@ ContainerForm.propTypes = {
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  containerUpdatePending: PropTypes.bool.isRequired,
+  containerUpdatePending: PropTypes.bool,
   params: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -339,6 +339,7 @@ ContainerForm.propTypes = {
 };
 
 ContainerForm.defaultProps = {
+  containerUpdatePending: false,
   touched: false,
   error: false,
   title: '',

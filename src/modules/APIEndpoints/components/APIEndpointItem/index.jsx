@@ -99,8 +99,9 @@ class apiEndpointItem extends Component {
     const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
         <TableColumn>{apiEndpoint.name}</TableColumn>
-        <TableColumn>{apiEndpoint.properties.implementation_id}</TableColumn>
-        <TableColumn>{apiEndpoint.properties.upstream_url}</TableColumn>
+        <TableColumn>
+          <a href={apiEndpoint.properties.upstream_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.upstream_url}</a>
+        </TableColumn>
         {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn>
         <TableColumn>{apiEndpoint.properties.http_method}</TableColumn> */}
         <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
@@ -125,7 +126,6 @@ class apiEndpointItem extends Component {
           <TableHeader>
             <TableRow>
               <TableColumn>Name</TableColumn>
-              <TableColumn>Lambda UUID</TableColumn>
               <TableColumn>Upstream Url</TableColumn>
               {/* <TableColumn>Security</TableColumn>
               <TableColumn>HTTP Method</TableColumn> */}

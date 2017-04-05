@@ -10,6 +10,8 @@ import containers from './containers';
 import policies from './policies';
 import policyRules from './policyRules';
 import entitlements from './entitlements';
+import users from './users';
+import groups from './groups';
 import env from './env';
 import self from './self';
 
@@ -26,6 +28,8 @@ export default Object.assign({},
   policies,
   policyRules,
   entitlements,
+  users,
+  groups,
   env,
   self,
 );

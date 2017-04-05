@@ -1,11 +1,26 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 
-
 const initialState = {
   pending: false,
   completed: false,
-  executors: [],
+  provider: {
+    created: {},
+    modified: {},
+    properties: {
+      config: {
+        auth: {},
+        env: {
+          private: {},
+          public: {},
+        },
+        networks: [],
+      },
+      linked_providers: [],
+      locations: [],
+      parent: {}
+    }
+  },
   error: null,
 };
 
@@ -13,20 +28,19 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return initialState;
-    case types.FETCH_EXECUTORS_REQUEST:
+    case types.FETCH_LAMBDA_PROVIDER_REQUEST:
       return {
         ...state,
-        executors: [{ id: '', name: 'fetching executors...' }],
         pending: true,
       };
-    case types.FETCH_EXECUTORS_FULFILLED:
+    case types.FETCH_LAMBDA_PROVIDER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        executors: action.payload,
+        provider: action.payload,
       };
-    case types.FETCH_EXECUTORS_REJECTED:
+    case types.FETCH_LAMBDA_PROVIDER_REJECTED:
       return {
         ...state,
         pending: false,

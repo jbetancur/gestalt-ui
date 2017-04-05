@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, getFormValues } from 'redux-form';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -15,6 +16,7 @@ import { nameMaxLen } from '../../validations';
 
 const APIForm = (props) => {
   const {
+    values,
     params,
     pending,
     apiUpdatePending,
@@ -31,6 +33,12 @@ const APIForm = (props) => {
     title,
     // editMode,
   } = props;
+
+  const selectedProviderLocations = () => {
+    const selectedProvider = props.providers.find(provider => provider.id === values.properties.provider.id) || { properties: { locations: [{ id: '', name: 'No Locations Available' }] } };
+    // TODO: filter locations by KONG typeId
+    return selectedProvider.properties && selectedProvider.properties.locations.map(locations => locations);
+  };
 
   return (
     <div>
@@ -50,7 +58,7 @@ const APIForm = (props) => {
               <div className="flex-row">
                 <Field
                   id="select-provider"
-                  className="flex-3 flex-xs-12"
+                  className="flex-4 flex-xs-12"
                   component={SelectField}
                   name="properties.provider.id"
                   required
@@ -62,6 +70,18 @@ const APIForm = (props) => {
                   onFocus={() => props.fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'GatewayManager')}
                 />
                 <Field
+                  id="select-location"
+                  className="flex-4 flex-xs-12"
+                  component={SelectField}
+                  name="properties.provider.location"
+                  required
+                  label="Location"
+                  itemLabel="name"
+                  itemValue="name"
+                  errorText={props.touched && props.error}
+                  menuItems={selectedProviderLocations()}
+                />
+                <Field
                   className="flex-4 flex-xs-12"
                   component={TextField}
                   name="name"
@@ -70,16 +90,14 @@ const APIForm = (props) => {
                   required
                   errorText={touched && error}
                   maxLength={nameMaxLen}
-                  lineDirection="center"
                   autoComplete="none"
                 />
                 <Field
-                  className="flex-5 flex-xs-12"
+                  className="flex-6 flex-xs-12"
                   component={TextField}
                   name="description"
                   label="Description"
                   type="text"
-                  lineDirection="center"
                 />
               </div>
             </CardText>
@@ -116,6 +134,7 @@ const APIForm = (props) => {
 };
 
 APIForm.propTypes = {
+  values: PropTypes.object.isRequired,
   providers: PropTypes.array.isRequired,
   fetchProvidersByType: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
@@ -143,4 +162,9 @@ APIForm.defaultProps = {
   editMode: false,
 };
 
-export default APIForm;
+// Connect to this forms state in the store so we can enum the values
+export default connect(
+  (state, props) => ({
+    values: getFormValues(props.form)(state)
+  })
+)(APIForm);

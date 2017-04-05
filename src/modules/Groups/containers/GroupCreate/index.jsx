@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import GroupForm from '../../components/GroupForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
 class GroupCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createGroup: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired
@@ -17,14 +19,17 @@ class GroupCreate extends Component {
   }
 
   create(values) {
+    const { params, router, createGroup } = this.props;
     const { name, description } = values;
-    const model = {
+    const payload = {
       name,
       description,
-      properties: {}
+      properties: {},
     };
 
-    this.props.createGroup(this.props.params.fqon, model);
+    const onSuccess = response => router.replace(`${params.fqon}/groups/${response.id}/edit`);
+
+    createGroup(params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -33,25 +38,18 @@ class GroupCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const model = {
-    name: '',
-    properties: {
-      users: []
-    }
-  };
-
   return {
-    group: model,
-    users: state.groups.fetchUsers.users,
-    pending: state.groups.fetchOne.pending,
-    pendingUsers: state.groups.fetchUsers.pending,
-    updatePending: state.groups.updateOne.pending,
-    updateMembers: state.groups.groupMembers.pending,
-    initialValues: model
+    group: state.metaResource.group.group,
+    users: state.metaResource.users.users,
+    pending: state.metaResource.group.pending,
+    pendingUsers: state.metaResource.users.pending,
+    updatePending: state.metaResource.groupUpdate.pending,
+    updateMembers: state.metaResource.groupMembers.pending,
+    initialValues: state.metaResource.group.group,
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'groupCreate',
   validate
 })(GroupCreate));

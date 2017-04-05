@@ -1,54 +1,54 @@
-import {
-  FETCH_USERS_PENDING,
-  FETCH_USERS_REJECTED,
-  FETCH_USERS_FULFILLED,
-  USERS_UNLOADED,
-  DELETE_USER_PENDING,
-  DELETE_USER_FULFILLED,
-  DELETE_USER_REJECTED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  users: [],
-  error: null
+  group: {
+    created: {},
+    modified: {},
+    properties: {
+      users: [],
+    },
+  },
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USERS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_USERS_PENDING:
-      return {
-        ...state,
-        pending: true
-      };
-    case FETCH_USERS_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        users: action.payload
-      };
-    case FETCH_USERS_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload
-      };
-    case DELETE_USER_PENDING:
+    case types.FETCH_GROUP_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case DELETE_USER_FULFILLED:
+    case types.FETCH_GROUP_FULFILLED:
       return {
         ...state,
         pending: false,
-        completed: true
+        completed: true,
+        group: action.payload,
       };
-    case DELETE_USER_REJECTED:
+    case types.FETCH_GROUP_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case types.CREATE_GROUP_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.CREATE_GROUP_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true,
+        group: action.payload,
+      };
+    case types.CREATE_GROUP_REJECTED:
       return {
         ...state,
         pending: false,
@@ -58,4 +58,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

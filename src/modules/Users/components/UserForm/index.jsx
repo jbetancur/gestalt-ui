@@ -95,14 +95,14 @@ const UserForm = (props) => {
                   className="flex-6 flex-xs-12"
                   component={SelectField}
                   name="properties.gestalt_home"
-                  menuItems={props.pendingOrgs ? ['fetching organizations...'] : props.organizations}
+                  menuItems={props.organizations}
                   required
                   itemLabel="name"
                   itemValue="value"
                   label="Gestalt Home"
                   lineDirection="center"
                   errorText={props.touched && props.error}
-                  onFocus={() => props.fetchAllOrgs(props.params.fqon)}
+                  onFocus={() => props.fetchAllOrgsDropDown(props.params.fqon)}
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -142,11 +142,10 @@ UserForm.propTypes = {
   router: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   organizations: PropTypes.array.isRequired,
-  pendingOrgs: PropTypes.bool.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  fetchAllOrgs: PropTypes.func.isRequired,
+  fetchAllOrgsDropDown: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,

@@ -1,12 +1,5 @@
-import {
-    ADD_GROUP_MEMBER_PENDING,
-    ADD_GROUP_MEMBER_FULFILLED,
-    ADD_GROUP_MEMBER_REJECTED,
-    REMOVE_GROUP_MEMBER_PENDING,
-    REMOVE_GROUP_MEMBER_FULFILLED,
-    REMOVE_GROUP_MEMBER_REJECTED,
-    GROUP_UNLOADED
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
@@ -15,47 +8,47 @@ const initialState = {
     created: {},
     modified: {},
     properties: {
-      users: []
-    }
+      users: [],
+    },
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GROUP_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case ADD_GROUP_MEMBER_PENDING:
+    case types.ADD_GROUP_MEMBER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case ADD_GROUP_MEMBER_FULFILLED:
+    case types.ADD_GROUP_MEMBER_FULFILLED:
       return {
         ...state,
         pending: false,
         group: action.payload,
         completed: true
       };
-    case ADD_GROUP_MEMBER_REJECTED:
+    case types.ADD_GROUP_MEMBER_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case REMOVE_GROUP_MEMBER_PENDING:
+    case types.REMOVE_GROUP_MEMBER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case REMOVE_GROUP_MEMBER_FULFILLED:
+    case types.REMOVE_GROUP_MEMBER_FULFILLED:
       return {
         ...state,
         pending: false,
         group: action.payload,
         completed: true
       };
-    case REMOVE_GROUP_MEMBER_REJECTED:
+    case types.REMOVE_GROUP_MEMBER_REJECTED:
       return {
         ...state,
         pending: false,

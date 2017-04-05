@@ -1,54 +1,52 @@
-import {
-  FETCH_GROUPS_PENDING,
-  FETCH_GROUPS_REJECTED,
-  FETCH_GROUPS_FULFILLED,
-  GROUPS_UNLOADED,
-  DELETE_GROUP_PENDING,
-  DELETE_GROUP_FULFILLED,
-  DELETE_GROUP_REJECTED,
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  groups: [],
-  error: null
+  user: {
+    created: {},
+    modified: {},
+    properties: {},
+  },
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GROUPS_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case FETCH_GROUPS_PENDING:
-      return {
-        ...state,
-        pending: true
-      };
-    case FETCH_GROUPS_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-        groups: action.payload
-      };
-    case FETCH_GROUPS_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload
-      };
-    case DELETE_GROUP_PENDING:
+    case types.FETCH_USER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case DELETE_GROUP_FULFILLED:
+    case types.FETCH_USER_FULFILLED:
       return {
         ...state,
         pending: false,
-        completed: true
+        completed: true,
+        user: action.payload
       };
-    case DELETE_GROUP_REJECTED:
+    case types.FETCH_USER_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case types.CREATE_USER_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case types.CREATE_USER_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true,
+        user: action.payload,
+      };
+    case types.CREATE_USER_REJECTED:
       return {
         ...state,
         pending: false,
@@ -58,4 +56,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

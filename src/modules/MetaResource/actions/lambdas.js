@@ -68,6 +68,15 @@ export function deleteLambdas(lambdaIds, fqon, onSuccess) {
   return { type: types.DELETE_LAMBDAS_REQUEST, lambdaIds, fqon, onSuccess };
 }
 
+/**
+ * fetchLambdaProvider
+ * @param {string} fqon
+ * @param {string} lambdaId
+ */
+export function fetchLambdaProvider(fqon, lambdaId) {
+  return { type: types.FETCH_LAMBDA_PROVIDER_REQUEST, fqon, lambdaId };
+}
+
 export default {
   unloadLambdas,
   fetchLambdas,
@@ -76,4 +85,5 @@ export default {
   updateLambda,
   deleteLambda,
   deleteLambdas,
+  fetchLambdaProvider,
 };
