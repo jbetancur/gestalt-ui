@@ -1,40 +1,34 @@
-import {
-    UPDATE_GROUP_PENDING,
-    UPDATE_GROUP_FULFILLED,
-    UPDATE_GROUP_REJECTED,
-    GROUP_UNLOADED
-} from '../actionTypes';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as types from '../actionTypes';
 
 const initialState = {
   pending: false,
   completed: false,
-  group: {
+  user: {
     created: {},
     modified: {},
-    properties: {
-      users: []
-    }
+    properties: {},
   },
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GROUP_UNLOADED:
+    case LOCATION_CHANGE:
       return initialState;
-    case UPDATE_GROUP_PENDING:
+    case types.UPDATE_USER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case UPDATE_GROUP_FULFILLED:
+    case types.UPDATE_USER_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        group: action.payload,
+        user: action.payload,
       };
-    case UPDATE_GROUP_REJECTED:
+    case types.UPDATE_USER_REJECTED:
       return {
         ...state,
         pending: false,

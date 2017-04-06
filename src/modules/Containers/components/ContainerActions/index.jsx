@@ -84,10 +84,12 @@ class ContainerActions extends Component {
     migrateContainerModal: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     inContainerView: PropTypes.bool,
+    disableDestroy: PropTypes.bool,
   }
 
   static defaultProps = {
     inContainerView: false,
+    disableDestroy: false,
   }
 
   constructor(props) {
@@ -121,7 +123,7 @@ class ContainerActions extends Component {
       }
     };
 
-    scaleContainer(params.fqon, params.environmentId, container.id, 0, onSuccess);
+    scaleContainer(params.fqon, container.id, 0, onSuccess);
   }
 
   scaleContainer() {
@@ -179,7 +181,8 @@ class ContainerActions extends Component {
             <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />
             <ListItem className="button--scale" primaryText="Scale" onClick={() => this.scaleContainer()} />
             <ListItem primaryText="Migrate" onClick={() => this.migrateContainer()} />
-            <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />
+            {this.props.disableDestroy ? null :
+            <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
           </ListWrapper>]}
         </MenuButton>
       </ActionsWrapper>

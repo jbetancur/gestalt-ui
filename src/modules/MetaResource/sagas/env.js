@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
-import constants from '../constants/envSchema';
+import constants from '../constants/resourceTypes';
 import * as types from '../actionTypes';
 
 /**

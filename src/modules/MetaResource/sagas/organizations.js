@@ -118,6 +118,31 @@ export function* deleteOrg(action) {
   }
 }
 
+/**
+ * fetchAllOrgsDropDown
+ * @param {*} action - { fqon }
+ */
+export function* fetchAllOrgsDropDown(action) {
+  function getOrg() {
+    return axios.get(action.fqon);
+  }
+
+  function getSubOrgs() {
+    return axios.get(`${action.fqon}/orgs?expand=true`);
+  }
+
+  try {
+    const response = yield call(axios.all, [getOrg(), getSubOrgs()]);
+
+    const payload = response[1].data.map(item => ({ name: item.name, value: item.properties.fqon }));
+    payload.unshift({ name: response[0].data.name, value: response[0].data.properties.fqon });
+
+    yield put({ type: types.FETCH_ALLORGS_DROPDOWN_FULFILLED, payload });
+  } catch (e) {
+    yield put({ type: types.FETCH_ALLORGS_DROPDOWN_REJECTED, payload: e.message });
+  }
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_ALLORGS_REQUEST, fetchAllOrgs);
@@ -127,5 +152,6 @@ export default function* () {
   yield fork(takeLatest, types.CREATE_ORG_REQUEST, createOrg);
   yield fork(takeLatest, types.UPDATE_ORG_REQUEST, updateOrg);
   yield fork(takeLatest, types.DELETE_ORG_REQUEST, deleteOrg);
+  yield fork(takeLatest, types.FETCH_ALLORGS_DROPDOWN_REQUEST, fetchAllOrgsDropDown);
 }
 

@@ -56,6 +56,8 @@ const requireAuth = () => (nextState, replace) => {
 const routes = store => (
   <div>
     <Route path="login" component={Login} />
+    <Route path="/undefined/*" component={App} onEnter={requireAuth(store)} />
+    <Route path="/[object%20Object]/*" component={App} onEnter={requireAuth(store)} />
     <Route path="/" component={App} onEnter={requireAuth(store)}>
       <Route path=":fqon/organizations" onEnter={requireAuth(store)}>
         <IndexRoute component={Organizations} onEnter={requireAuth(store)} />

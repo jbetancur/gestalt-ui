@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from '../../components/GroupForm';
@@ -15,7 +16,6 @@ class GroupEdit extends Component {
     fetchUsers: PropTypes.func.isRequired,
     updateGroup: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    onUnload: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
@@ -24,13 +24,8 @@ class GroupEdit extends Component {
     fetchUsers(params.fqon);
   }
 
-  componentWillUnmount() {
-    const { onUnload } = this.props;
-    onUnload();
-  }
-
   update(values) {
-    const { params, group } = this.props;
+    const { params, group, updateGroup } = this.props;
     const { name, description } = group;
 
     const originalModel = {
@@ -44,7 +39,7 @@ class GroupEdit extends Component {
     };
 
     const patches = jsonPatch.compare(originalModel, model);
-    this.props.updateGroup(params.fqon, group.id, patches);
+    updateGroup(params.fqon, group.id, patches);
   }
 
   render() {
@@ -54,18 +49,18 @@ class GroupEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { group } = state.groups.fetchOne;
+  const { group, pending } = state.metaResource.group;
 
   return {
     group,
-    updatedGroup: state.groups.groupMembers.group,
-    users: state.groups.fetchUsers.users.filter(val => val.name.includes(state.groups.availableUsersFilter.filterText)),
+    pending,
+    updatedGroup: state.metaResource.groupMembers.group,
+    updateMembersPending: state.metaResource.groupMembers.pending,
+    updatePending: state.metaResource.groupUpdate.pending,
+    users: state.metaResource.users.users.filter(val => val.name.includes(state.groups.availableUsersFilter.filterText)),
+    pendingUsers: state.metaResource.users.pending,
     memberUsersFilter: state.groups.memberUsersFilter,
     availableUsersFilter: state.groups.availableUsersFilter,
-    pending: state.groups.fetchOne.pending,
-    pendingUsers: state.groups.fetchUsers.pending,
-    updatePending: state.groups.updateOne.pending,
-    updateMembersPending: state.groups.groupMembers.pending,
     initialValues: {
       name: group.name,
       description: group.description,
@@ -77,7 +72,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'groupEdit',
   validate
 })(GroupEdit));

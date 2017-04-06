@@ -4,10 +4,19 @@ import * as actions from './organizations';
 describe('Organization Actions', () => {
   it('should request FETCH_ALLORGS_REQUEST', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_ALLORGS_REQUEST
+      type: actionTypes.FETCH_ALLORGS_REQUEST,
     };
 
     expect(actions.fetchAllOrgs()).to.deep.equal(expectedAction);
+  });
+
+  it('should request FETCH_ALLORGS_DROPDOWN_REQUEST', () => {
+    const expectedAction = {
+      type: actionTypes.FETCH_ALLORGS_DROPDOWN_REQUEST,
+      fqon: 'iamfqon',
+    };
+
+    expect(actions.fetchAllOrgsDropDown('iamfqon')).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_ORGS_REQUEST', () => {

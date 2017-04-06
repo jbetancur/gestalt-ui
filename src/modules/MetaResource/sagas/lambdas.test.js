@@ -7,6 +7,7 @@ import lambdaSagas, {
   updateLambda,
   deleteLambda,
   deleteLambdas,
+  fetchLambdaProvider,
 } from './lambdas';
 import * as types from '../actionTypes';
 
@@ -276,6 +277,47 @@ describe('Lambda Sagas', () => {
     });
   });
 
+  describe('fetchLambdaProvider Sequence', () => {
+    const saga = fetchLambdaProvider({ fqon: 'iamfqon', lambdaId: 1 });
+    let result;
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'iamfqon/lambdas/1')
+      );
+    });
+
+    it('should make an api call for the provider', () => {
+      result = saga.next({ data: { id: 2, properties: { provider: { id: 42 } } } });
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'iamfqon/providers/42?expand=true')
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 2 } });
+      expect(result.value).to.deep.equal(
+        put({ type: types.FETCH_LAMBDA_PROVIDER_FULFILLED, payload: { id: 2 } })
+      );
+
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    it('should return a payload and dispatch a reject status when there is an error', () => {
+      const sagaError = fetchLambdaProvider({ fqon: 'iamfqon', lambdaId: 1 });
+      let resultError = sagaError.next();
+
+      resultError = sagaError.throw({ message: error });
+
+      expect(resultError.value).to.deep.equal(
+        put({ type: types.FETCH_LAMBDA_PROVIDER_REJECTED, payload: error })
+      );
+    });
+  });
+
+
   describe('lambdaSagas', () => {
     let result;
     const rootSaga = lambdaSagas();
@@ -319,6 +361,13 @@ describe('Lambda Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.DELETE_LAMBDAS_REQUEST, deleteLambdas)
+      );
+    });
+
+    it('should fork a watcher for fetchLambdaProvider', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.FETCH_LAMBDA_PROVIDER_REQUEST, fetchLambdaProvider)
       );
     });
   });

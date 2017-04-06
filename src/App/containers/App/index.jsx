@@ -274,23 +274,33 @@ class App extends Component {
   renderMain() {
     return (
       <main>
-        <ThemeProvider theme={lightTheme}>
-          <NavigationDrawer
-            drawerTitle={<OrgNavMenu {...this.props} />}
-            toolbarTitle={this.renderAppLogo()}
-            autoclose
-            navItems={this.renderNavItems()}
-            mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
-            tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-            desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-            toolbarActions={this.renderActionsMenu()}
-            onVisibilityToggle={visible => this.handleVisibleState(visible)}
-          >
-            <LoginModal />
-            <ModalRoot />
-            {this.props.children}
-          </NavigationDrawer>
-        </ThemeProvider>
+        {this.props.self.id ? // self must be present to render ui
+          <ThemeProvider theme={lightTheme}>
+            <NavigationDrawer
+              drawerTitle={<OrgNavMenu {...this.props} />}
+              toolbarTitle={this.renderAppLogo()}
+              autoclose
+              navItems={this.renderNavItems()}
+              mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
+              tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+              desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+              toolbarActions={this.renderActionsMenu()}
+              onVisibilityToggle={visible => this.handleVisibleState(visible)}
+            >
+              <LoginModal />
+              <ModalRoot />
+              {this.props.children}
+            </NavigationDrawer>
+          </ThemeProvider> :
+          <div className="flex-row" style={{ height: '100%' }}>
+            <div className="flex-row center-center">
+              <div className="flex-8">
+                <h1>
+                  There was an issue connecting to the Gestalt API. If a page refresh does not solve the issue please contact your Gestalt admin.
+                </h1>
+              </div>
+            </div>
+          </div>}
       </main>
     );
   }

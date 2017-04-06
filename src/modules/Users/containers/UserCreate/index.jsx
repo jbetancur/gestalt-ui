@@ -1,23 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { metaActions } from 'modules/MetaResource';
 import UserForm from '../../components/UserForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
 
 class UserCreate extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     createUser: PropTypes.func.isRequired,
-    onUnload: PropTypes.func.isRequired,
   };
 
-  componentWillUnmount() {
-    this.props.onUnload();
-  }
-
   create(values) {
-    this.props.createUser(this.props.params.fqon, values);
+    const { router, params, createUser } = this.props;
+    const onSuccess = () => router.replace(`${params.fqon}/users`);
+
+    createUser(params.fqon, values, onSuccess);
   }
 
   render() {
@@ -26,8 +26,7 @@ class UserCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.users.fetchOne;
-  const { organizations, pendingOrgs } = state.users.fetchOrgs;
+  const { pending } = state.metaResource.user;
   const model = {
     name: '',
     properties: {
@@ -42,14 +41,13 @@ function mapStateToProps(state) {
 
   return {
     user: model,
-    organizations,
     pending,
-    pendingOrgs,
+    organizations: state.metaResource.allOrganizationsDropDown.organizations,
     initialValues: model
   };
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'userCreate',
   validate
 })(UserCreate));

@@ -115,6 +115,21 @@ export function* deleteLambdas(action) {
   }
 }
 
+/**
+ * fetchLambdaProvider
+ * @param {*} action - { fqon, lambdaId }
+ */
+export function* fetchLambdaProvider(action) {
+  try {
+    const response = yield call(axios.get, `${action.fqon}/lambdas/${action.lambdaId}`);
+    const providerResponse = yield call(axios.get, `${action.fqon}/providers/${response.data.properties.provider.id}?expand=true`);
+
+    yield put({ type: types.FETCH_LAMBDA_PROVIDER_FULFILLED, payload: providerResponse.data });
+  } catch (e) {
+    yield put({ type: types.FETCH_LAMBDA_PROVIDER_REJECTED, payload: e.message });
+  }
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_LAMBDAS_REQUEST, fetchLambdas);
@@ -123,4 +138,5 @@ export default function* () {
   yield fork(takeLatest, types.UPDATE_LAMBDA_REQUEST, updateLambda);
   yield fork(takeLatest, types.DELETE_LAMBDA_REQUEST, deleteLambda);
   yield fork(takeLatest, types.DELETE_LAMBDAS_REQUEST, deleteLambdas);
+  yield fork(takeLatest, types.FETCH_LAMBDA_PROVIDER_REQUEST, fetchLambdaProvider);
 }

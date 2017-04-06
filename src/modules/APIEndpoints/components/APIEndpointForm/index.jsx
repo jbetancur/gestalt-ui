@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { isUUID } from 'validator';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -34,9 +35,12 @@ const PolicyEventRuleForm = (props) => {
     title,
     // editMode,
     apiEndpoint,
+    fetchLambdaProvider,
   } = props;
 
   const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`;
+
+  const implementationChanged = value => isUUID(value) && fetchLambdaProvider(params.fqon, value);
 
   return (
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -124,6 +128,7 @@ const PolicyEventRuleForm = (props) => {
                 type="text"
                 required
                 errorText={touched && error}
+                onChange={(value1, value2) => implementationChanged(value2)}
               />
               {/* <Field
                 className="flex-6 flex-xs-12"
@@ -162,15 +167,16 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
+  fetchLambdaProvider: PropTypes.func.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  apiEndpointUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  apiEndpointUpdatePending: PropTypes.bool,
   touched: PropTypes.bool,
   error: PropTypes.bool,
   title: PropTypes.string,
@@ -180,6 +186,7 @@ PolicyEventRuleForm.propTypes = {
 };
 
 PolicyEventRuleForm.defaultProps = {
+  apiEndpointUpdatePending: false,
   touched: false,
   error: false,
   title: '',

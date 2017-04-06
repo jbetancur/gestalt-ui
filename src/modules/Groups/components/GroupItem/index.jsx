@@ -24,7 +24,7 @@ class GroupItem extends Component {
     groups: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteGroups: PropTypes.func.isRequired,
-    onUnloadListing: PropTypes.func.isRequired,
+    unloadGroups: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
   };
@@ -39,8 +39,8 @@ class GroupItem extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadListing, clearSelected } = this.props;
-    onUnloadListing();
+    const { unloadGroups, clearSelected } = this.props;
+    unloadGroups();
     clearSelected();
   }
 
@@ -58,13 +58,18 @@ class GroupItem extends Component {
   }
 
   delete() {
-    const { params, deleteGroups } = this.props;
+    const { params, fetchGroups, deleteGroups, clearSelected } = this.props;
     const { selectedItems } = this.props.selectedGroups;
     const groupIds = selectedItems.map(item => (item.id));
     const groupsNames = selectedItems.map(item => (item.name));
 
+    const onSuccess = () => {
+      clearSelected();
+      fetchGroups(params.fqon);
+    };
+
     this.props.confirmDelete(() => {
-      deleteGroups(groupIds, params.fqon);
+      deleteGroups(groupIds, params.fqon, onSuccess);
     }, groupsNames);
   }
 

@@ -17,6 +17,7 @@ class APIEndpointEdit extends Component {
     fetchAPIEndpoint: PropTypes.func.isRequired,
     updateAPIEndpoint: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
+    lambdaProvider: PropTypes.object.isRequired,
   };
 
   componentWillMount() {
@@ -26,7 +27,7 @@ class APIEndpointEdit extends Component {
 
   updateAPIEndpoint(values) {
     const { id, name, description, properties } = this.props.apiEndpoint;
-    const { params, router } = this.props;
+    const { params, router, lambdaProvider } = this.props;
     const originalModel = {
       name,
       description,
@@ -34,7 +35,7 @@ class APIEndpointEdit extends Component {
     };
 
     const payload = cloneDeep({ ...values });
-
+    payload.properties.upstream_url = `https://${lambdaProvider.properties.config.env.public.LAMBDA_DATABASE_NAME}/lambdas/${values.properties.implementation_id}/invoke`;
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/APIS/${params.apiId}/edit`);
@@ -62,6 +63,7 @@ function mapStateToProps(state) {
     pending,
     updatedapiEndpoint: state.metaResource.apiEndpointUpdate.apiEndpoint,
     apiEndpointUpdatePending: state.metaResource.apiEndpointUpdate.pending,
+    lambdaProvider: state.metaResource.lambdaProvider.provider,
     initialValues: model,
     enableReinitialize: true,
   };
