@@ -33,7 +33,7 @@ class ContainerDetails extends Component {
   renderInstancesTable() {
     return (
       <div>
-        <TableCardHeader title="Instances" />
+        <TableCardHeader title={`Instances (${this.props.container.properties.instances.length}/${this.props.container.properties.num_instances})`} />
         <DataTable plain>
           <TableHeader>
             <TableRow>
