@@ -111,7 +111,7 @@ class ContainerItem extends Component {
         <EnhancedTableColumn>{container.properties.status}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.description}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.provider.name}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.properties.num_instances}</EnhancedTableColumn>
+        <EnhancedTableColumn>{`${container.properties.instances.length}/${container.properties.num_instances}`}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.cpus}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.memory}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.container_type}</EnhancedTableColumn>
