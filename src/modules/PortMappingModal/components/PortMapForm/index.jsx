@@ -78,7 +78,7 @@ const PortMapForm = (props) => {
           component={TextField}
           label="Virtual Hosts"
           errorText={props.touched && props.error}
-          helpText="Comma delimited set of virual host names or addresses"
+          helpText="Comma delimited set of virtual host names or addresses"
         /> : null}
       </div>
       <ModalFooter>

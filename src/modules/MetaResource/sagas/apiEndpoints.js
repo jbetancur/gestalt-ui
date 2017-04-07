@@ -9,6 +9,10 @@ import * as types from '../actionTypes';
 export function* fetchAPIEndpoints(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/apis/${action.apiId}/apiendpoints?expand=true`);
+    // const responseAPI = yield call(axios.get, `${action.fqon}/apis/${action.apiId}`); // need this to get the provider.id
+    // const responseGatewayProvider = yield call(axios.get, `${action.fqon}/providers/${responseAPI.data.properties.provider.id}`);
+    // const payload = response.data.map(endpoint =>
+    //   ({ ...endpoint, properties: { e: `https://${responseGatewayProvider.data.properties.config.env.public.HTTP_API_VHOST_0}/${responseAPI.data.name}${endpoint.properties.resource}` } }));
 
     yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: response.data });
   } catch (e) {
@@ -18,13 +22,17 @@ export function* fetchAPIEndpoints(action) {
 
 /**
  * fetchAPIEndpoint
- * @param {*} action { fqon, apiId, apiendpointId }
+ * @param {*} action { fqon, apiId, apiendpointId, onSuccess }
  */
 export function* fetchAPIEndpoint(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/apis/${action.apiId}/apiendpoints/${action.apiendpointId}`);
 
     yield put({ type: types.FETCH_APIENDPOINT_FULFILLED, payload: response.data });
+
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(response.data);
+    }
   } catch (e) {
     yield put({ type: types.FETCH_APIENDPOINT_REJECTED, payload: e.message });
   }

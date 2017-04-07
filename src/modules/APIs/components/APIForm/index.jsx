@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
+// import { metaConstants } from 'modules/MetaResource';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -16,7 +17,7 @@ import { nameMaxLen } from '../../validations';
 
 const APIForm = (props) => {
   const {
-    values,
+    // values,
     params,
     pending,
     apiUpdatePending,
@@ -31,14 +32,8 @@ const APIForm = (props) => {
     cancelLabel,
     submitLabel,
     title,
-    // editMode,
+    editMode,
   } = props;
-
-  const selectedProviderLocations = () => {
-    const selectedProvider = props.providers.find(provider => provider.id === values.properties.provider.id) || { properties: { locations: [{ id: '', name: 'No Locations Available' }] } };
-    // TODO: filter locations by KONG typeId
-    return selectedProvider.properties && selectedProvider.properties.locations.map(locations => locations);
-  };
 
   return (
     <div>
@@ -60,45 +55,49 @@ const APIForm = (props) => {
                   id="select-provider"
                   className="flex-4 flex-xs-12"
                   component={SelectField}
-                  name="properties.provider.id"
+                  name="properties.provider.locations"
                   required
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
-                  onFocus={() => props.fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'GatewayManager')}
+                  onFocus={() => props.fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments')}
+                  disabled={editMode}
                 />
-                <Field
-                  id="select-location"
-                  className="flex-4 flex-xs-12"
-                  component={SelectField}
-                  name="properties.provider.location"
-                  required
-                  label="Location"
-                  itemLabel="name"
-                  itemValue="name"
-                  errorText={props.touched && props.error}
-                  menuItems={selectedProviderLocations()}
-                />
-                <Field
-                  className="flex-4 flex-xs-12"
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  errorText={touched && error}
-                  maxLength={nameMaxLen}
-                  autoComplete="none"
-                />
-                <Field
-                  className="flex-6 flex-xs-12"
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                />
+                {/* {values.properties.provider.id ?
+                  <Field
+                    id="select-location"
+                    className="flex-4 flex-xs-12"
+                    component={SelectField}
+                    name="properties.provider.locations"
+                    required
+                    label="Location"
+                    itemLabel="name"
+                    itemValue="id"
+                    errorText={props.touched && props.error}
+                    menuItems={selectedProviderLocations()}
+                  /> : null} */}
+                <div className="flex-row">
+                  <Field
+                    className="flex-4 flex-xs-12"
+                    component={TextField}
+                    name="name"
+                    label="Name"
+                    type="text"
+                    required
+                    errorText={touched && error}
+                    maxLength={nameMaxLen}
+                    autoComplete="none"
+                  />
+                  <Field
+                    className="flex-8 flex-xs-12"
+                    component={TextField}
+                    name="description"
+                    label="Description"
+                    type="text"
+                  />
+                </div>
               </div>
             </CardText>
             {pending || apiUpdatePending ? <LinearProgress id="api-form" /> : null}
@@ -134,9 +133,9 @@ const APIForm = (props) => {
 };
 
 APIForm.propTypes = {
-  values: PropTypes.object.isRequired,
+  // values: PropTypes.object.isRequired,
   providers: PropTypes.array.isRequired,
-  fetchProvidersByType: PropTypes.func.isRequired,
+  fetchProviderKongsByGateway: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
@@ -151,6 +150,7 @@ APIForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
+  editMode: PropTypes.bool
 };
 
 APIForm.defaultProps = {

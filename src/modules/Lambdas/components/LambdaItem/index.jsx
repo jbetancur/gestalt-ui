@@ -99,8 +99,8 @@ class LambdaItem extends Component {
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
       <div>
-        <a key={endpoint.id} className="md-caption" href={endpoint.properties.resource} target="_blank" rel="noopener noreferrer">
-          {endpoint.properties.resource}
+        <a key={endpoint.id} className="md-caption" href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+          {endpoint.properties.public_url}
         </a>
       </div>
     ));
@@ -117,7 +117,6 @@ class LambdaItem extends Component {
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={lambda.created.timestamp} /> <FormattedTime value={lambda.created.timestamp} /></TableColumn>
-        <TableColumn><FontIcon>more_vert</FontIcon></TableColumn>
       </TableRow>
       ));
 
@@ -143,7 +142,6 @@ class LambdaItem extends Component {
                 <TableColumn>Runtime</TableColumn>
                 <TableColumn>Owner</TableColumn>
                 <TableColumn>Created</TableColumn>
-                <TableColumn />
               </TableRow>
             </TableHeader>}
             <TableBody>

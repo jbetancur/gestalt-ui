@@ -29,6 +29,16 @@ export function fetchProvidersByType(fqon, entityId, entityKey, providerType) {
 }
 
 /**
+ * fetchProviderKongsByGateway
+ * @param {string} fqon
+ * @param {string} entityId
+ * @param {string} entityKey oneOf(workspaces || environments || null)
+ */
+export function fetchProviderKongsByGateway(fqon, entityId, entityKey) {
+  return { type: types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fqon, entityId, entityKey };
+}
+
+/**
  * fetchExecutors
  * @param {string} fqon
  * @param {string} entityId
@@ -97,6 +107,7 @@ export default {
   unloadProviders,
   fetchProviders,
   fetchProvidersByType,
+  fetchProviderKongsByGateway,
   fetchExecutors,
   fetchProvider,
   createProvider,

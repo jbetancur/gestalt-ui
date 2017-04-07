@@ -21,9 +21,10 @@ export function fetchAPIEndpoints(fqon, apiId) {
  * @param {string} fqon
  * @param {string} apiId
  * @param {string} apiendpointId
+ * @callback {*} onSuccess - callback to be performed on success - returns response
  */
-export function fetchAPIEndpoint(fqon, apiId, apiendpointId) {
-  return { type: types.FETCH_APIENDPOINT_REQUEST, fqon, apiId, apiendpointId };
+export function fetchAPIEndpoint(fqon, apiId, apiendpointId, onSuccess) {
+  return { type: types.FETCH_APIENDPOINT_REQUEST, fqon, apiId, apiendpointId, onSuccess };
 }
 
 /**

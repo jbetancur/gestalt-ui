@@ -100,11 +100,10 @@ class apiEndpointItem extends Component {
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
         <TableColumn>{apiEndpoint.name}</TableColumn>
         <TableColumn>
-          <a href={apiEndpoint.properties.upstream_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.upstream_url}</a>
+          <a href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</a>
         </TableColumn>
         {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn>
         <TableColumn>{apiEndpoint.properties.http_method}</TableColumn> */}
-        <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
       </TableRow>
@@ -126,10 +125,9 @@ class apiEndpointItem extends Component {
           <TableHeader>
             <TableRow>
               <TableColumn>Name</TableColumn>
-              <TableColumn>Upstream Url</TableColumn>
               {/* <TableColumn>Security</TableColumn>
               <TableColumn>HTTP Method</TableColumn> */}
-              <TableColumn>Resource Path</TableColumn>
+              <TableColumn>Public URL</TableColumn>
               <TableColumn>Owner</TableColumn>
               <TableColumn>Created</TableColumn>
             </TableRow>

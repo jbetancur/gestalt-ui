@@ -4,15 +4,7 @@ import * as types from '../actionTypes';
 const initialState = {
   pending: false,
   completed: false,
-  api: {
-    created: {},
-    modified: {},
-    properties: {
-      provider: {
-        locations: [],
-      },
-    }
-  },
+  providers: [],
   error: null,
 };
 
@@ -20,19 +12,20 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return initialState;
-    case types.UPDATE_API_REQUEST:
+    case types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST:
       return {
         ...state,
         pending: true,
+        providers: [{ id: '', name: 'fetching providers...' }],
       };
-    case types.UPDATE_API_FULFILLED:
+    case types.FETCH_PROVIDERS_KONG_GATEWAY_FULFILLED:
       return {
         ...state,
         pending: false,
         completed: true,
-        api: action.payload,
+        providers: action.payload,
       };
-    case types.UPDATE_API_REJECTED:
+    case types.FETCH_PROVIDERS_KONG_GATEWAY_REJECTED:
       return {
         ...state,
         pending: false,
@@ -42,3 +35,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
