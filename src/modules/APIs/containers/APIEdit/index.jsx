@@ -13,29 +13,31 @@ class APIEdit extends Component {
     params: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired,
     fetchAPI: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
+    fetchProviderKongsByGateway: PropTypes.func.isRequired,
     updateAPI: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchAPI, fetchProvidersByType } = this.props;
-    fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'GatewayManager');
+    const { params, fetchAPI, fetchProviderKongsByGateway } = this.props;
+    fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments');
     fetchAPI(params.fqon, params.apiId);
   }
 
   updateAPI(values) {
-    const { id, name, description, properties } = this.props.api;
+    const { id, name, description } = this.props.api;
     const { params } = this.props;
     const originalModel = {
       name,
       description,
-      properties: {
-        provider: properties.provider.id,
-      }
     };
 
-    const patches = jsonPatch.compare(originalModel, values);
+    const newModel = {
+      name: values.name,
+      description: values.description,
+    };
+
+    const patches = jsonPatch.compare(originalModel, newModel);
 
     this.props.updateAPI(params.fqon, params.environmentId, id, patches);
   }
@@ -53,15 +55,17 @@ function mapStateToProps(state) {
     name: api.name,
     description: api.description,
     properties: {
-      provider: api.properties.provider,
+      provider: {
+        locations: api.properties.provider.locations.length && api.properties.provider.locations[0],
+      },
     }
   };
 
   return {
     api,
     pending,
-    providers: state.metaResource.providersByType.providers,
-    pendingProviders: state.metaResource.providersByType.pending,
+    providers: state.metaResource.fetchProviderKongsByGateway.providers,
+    pendingProviders: state.metaResource.fetchProviderKongsByGateway.pending,
     updatedApi: state.metaResource.apiUpdate.api,
     apiUpdatePending: state.metaResource.apiUpdate.pending,
     initialValues: model,

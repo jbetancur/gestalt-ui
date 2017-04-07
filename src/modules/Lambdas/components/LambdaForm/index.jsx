@@ -58,7 +58,7 @@ const LambdaForm = (props) => {
                   errorText={props.touched && props.error}
                   menuItems={props.providers}
                   onFocus={() => props.fetchProvidersByType(props.params.fqon, params.environmentId, 'environments', 'Lambda')}
-                  // disabled={props.editMode}
+                  disabled={props.editMode}
                 />
                 <Field
                   id="select-runtime"

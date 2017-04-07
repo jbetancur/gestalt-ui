@@ -291,7 +291,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call for the provider', () => {
       result = saga.next({ data: { id: 2, properties: { provider: { id: 42 } } } });
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/providers/42?expand=true')
+        call(axios.get, 'iamfqon/providers/42')
       );
     });
 

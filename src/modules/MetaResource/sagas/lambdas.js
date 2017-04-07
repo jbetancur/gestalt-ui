@@ -122,7 +122,7 @@ export function* deleteLambdas(action) {
 export function* fetchLambdaProvider(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/lambdas/${action.lambdaId}`);
-    const providerResponse = yield call(axios.get, `${action.fqon}/providers/${response.data.properties.provider.id}?expand=true`);
+    const providerResponse = yield call(axios.get, `${action.fqon}/providers/${response.data.properties.provider.id}`);
 
     yield put({ type: types.FETCH_LAMBDA_PROVIDER_FULFILLED, payload: providerResponse.data });
   } catch (e) {

@@ -44,7 +44,8 @@ describe('API Endpoint Sagas', () => {
   });
 
   describe('fetchAPIEndpoint Sequence', () => {
-    const saga = fetchAPIEndpoint({ fqon: 'iamfqon', apiId: '1', apiendpointId: '2' });
+    const action = { fqon: 'iamfqon', apiId: '1', apiendpointId: '2' };
+    const saga = fetchAPIEndpoint(action);
     let result;
 
     it('should make an api call', () => {
@@ -62,8 +63,18 @@ describe('API Endpoint Sagas', () => {
       );
     });
 
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const sagaSuccess = fetchAPIEndpoint(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+    });
+
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchAPIEndpoint({ fqon: 'iamfqon', apiId: 1 });
+      const sagaError = fetchAPIEndpoint(action);
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });

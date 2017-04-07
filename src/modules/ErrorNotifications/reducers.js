@@ -101,6 +101,12 @@ export default (state = initialState, action) => {
         friendlyMessage: 'License Expired',
         error: action.payload
       };
+    case 'APP_ERROR_GENERAL':
+      return {
+        ...state,
+        friendlyMessage: '',
+        error: action.payload
+      };
     default:
       return state;
   }

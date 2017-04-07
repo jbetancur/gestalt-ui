@@ -18,7 +18,11 @@ class APIEndpointCreate extends Component {
     const { params, router, createAPIEndpoint, lambdaProvider } = this.props;
     const payload = { ...values };
 
-    payload.properties.upstream_url = `https://${lambdaProvider.properties.config.env.public.LAMBDA_DATABASE_NAME}/lambdas/${values.properties.implementation_id}/invoke`;
+    const { SERVICE_HOST, SERVICE_PORT } = lambdaProvider.properties.config.env.public;
+    const upstreamURL = `http://${SERVICE_HOST}:${SERVICE_PORT || 80}/lambdas/${values.properties.implementation_id}/invoke`;
+
+    payload.properties.upstream_url = upstreamURL;
+
     const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
     createAPIEndpoint(params.fqon, params.apiId, payload, onSuccess);
   }

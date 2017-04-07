@@ -3,6 +3,7 @@ import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import providersagas, {
   fetchProviders,
   fetchProvidersByType,
+  fetchProviderKongsByGateway,
   fetchExecutors,
   fetchProvider,
   createProvider,
@@ -487,6 +488,13 @@ describe('Provider Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.FETCH_PROVIDERS_BYTYPE_REQUEST, fetchProvidersByType)
+      );
+    });
+
+    it('should fork a watcher for fetchProviderKongsByGateway', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fetchProviderKongsByGateway)
       );
     });
 

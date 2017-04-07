@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { isUUID } from 'validator';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
@@ -15,14 +16,21 @@ class APIEndpointEdit extends Component {
     params: PropTypes.object.isRequired,
     apiEndpoint: PropTypes.object.isRequired,
     fetchAPIEndpoint: PropTypes.func.isRequired,
+    fetchLambdaProvider: PropTypes.func.isRequired,
     updateAPIEndpoint: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     lambdaProvider: PropTypes.object.isRequired,
   };
 
   componentWillMount() {
-    const { params, fetchAPIEndpoint } = this.props;
-    fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId);
+    const { params, fetchAPIEndpoint, fetchLambdaProvider } = this.props;
+    const onSuccess = (response) => {
+      if (response.properties.implementation_id && isUUID(response.properties.implementation_id)) {
+        fetchLambdaProvider(params.fqon, response.properties.implementation_id);
+      }
+    };
+
+    fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId, onSuccess);
   }
 
   updateAPIEndpoint(values) {
@@ -35,7 +43,10 @@ class APIEndpointEdit extends Component {
     };
 
     const payload = cloneDeep({ ...values });
-    payload.properties.upstream_url = `https://${lambdaProvider.properties.config.env.public.LAMBDA_DATABASE_NAME}/lambdas/${values.properties.implementation_id}/invoke`;
+    const { SERVICE_HOST, SERVICE_PORT } = lambdaProvider.properties.config.env.public;
+    const upstreamURL = `http://${SERVICE_HOST}:${SERVICE_PORT || 80}/lambdas/${values.properties.implementation_id}/invoke`;
+    payload.properties.upstream_url = upstreamURL;
+
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/APIS/${params.apiId}/edit`);

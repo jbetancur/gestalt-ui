@@ -26,6 +26,7 @@ import providers from './providers';
 import provider from './provider';
 import providerUpdate from './providerUpdate';
 import providersByType from './providersByType';
+import fetchProviderKongsByGateway from './fetchProviderKongsByGateway';
 import executors from './executors';
 import containers from './containers';
 import container from './container';
@@ -77,6 +78,7 @@ export default combineReducers({
   provider,
   providerUpdate,
   providersByType,
+  fetchProviderKongsByGateway,
   executors,
   containers,
   container,

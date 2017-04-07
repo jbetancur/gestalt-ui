@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { flatten, merge } from 'lodash';
 import * as types from '../actionTypes';
 
 
@@ -50,6 +51,29 @@ export function* fetchProvidersByType(action) {
     }
   } catch (e) {
     yield put({ type: types.FETCH_PROVIDERS_BYTYPE_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * fetchProviderKongsByGateway
+ * @param {*} action { fqon, entityKey, entityId, providerType }
+ */
+export function* fetchProviderKongsByGateway(action) {
+  const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
+
+  try {
+    const responseGWs = yield call(axios.get, `${url}?expand=true&type=GatewayManager`);
+    const responseKongs = yield call(axios.get, `${url}?expand=true&type=Kong`);
+    const gatewayProviders = responseKongs.data.map(kong => responseGWs.data.map(gw => gw.properties.linked_providers.find(lp => lp.id === kong.id) && gw));
+    const payload = responseKongs.data.map(provider => merge(provider, { properties: { gatewayProvider: flatten(gatewayProviders)[0] } }));
+
+    if (!payload.length) {
+      yield put({ type: types.FETCH_PROVIDERS_KONG_GATEWAY_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });
+    } else {
+      yield put({ type: types.FETCH_PROVIDERS_KONG_GATEWAY_FULFILLED, payload });
+    }
+  } catch (e) {
+    yield put({ type: types.FETCH_PROVIDERS_KONG_GATEWAY_REJECTED, payload: e.message });
   }
 }
 
@@ -164,6 +188,7 @@ export function* deleteProviders(action) {
 export default function* () {
   yield fork(takeLatest, types.FETCH_PROVIDERS_REQUEST, fetchProviders);
   yield fork(takeLatest, types.FETCH_PROVIDERS_BYTYPE_REQUEST, fetchProvidersByType);
+  yield fork(takeLatest, types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fetchProviderKongsByGateway);
   yield fork(takeLatest, types.FETCH_EXECUTORS_REQUEST, fetchExecutors);
   yield fork(takeLatest, types.FETCH_PROVIDER_REQUEST, fetchProvider);
   yield fork(takeLatest, types.CREATE_PROVIDER_REQUEST, createProvider);

@@ -33,6 +33,17 @@ describe('Provider Actions', () => {
     expect(actions.fetchProvidersByType('iamfqon', '1', 'environments', 'whateverType')).to.deep.equal(expectedAction);
   });
 
+  it('should request FETCH_PROVIDERS_KONG_GATEWAY_REQUEST', () => {
+    const expectedAction = {
+      type: types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST,
+      fqon: 'iamfqon',
+      entityId: '1',
+      entityKey: 'environments',
+    };
+
+    expect(actions.fetchProviderKongsByGateway('iamfqon', '1', 'environments')).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_EXECUTORS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_EXECUTORS_REQUEST,

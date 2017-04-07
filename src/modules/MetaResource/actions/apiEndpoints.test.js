@@ -26,6 +26,7 @@ describe('API Actions', () => {
       fqon: 'iamfqon',
       apiId: '1',
       apiendpointId: '2',
+      onSuccess: undefined,
     };
 
     expect(actions.fetchAPIEndpoint('iamfqon', '1', '2')).to.deep.equal(expectedAction);

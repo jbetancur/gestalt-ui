@@ -1,24 +1,16 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
-import reducer from './apiUpdate';
+import reducer from './fetchProviderKongsByGateway';
 import { metaActions } from '../../MetaResource';
 
 const initialState = {
   pending: false,
   completed: false,
-  api: {
-    created: {},
-    modified: {},
-    properties: {
-      provider: {
-        locations: [],
-      },
-    }
-  },
+  providers: [],
   error: null,
 };
 
-describe('api update reducer', () => {
+describe('fetchProviderKongsByGateway reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
@@ -27,35 +19,36 @@ describe('api update reducer', () => {
 
   it('should handle LOCATION_CHANGE', () => {
     expect(
-      reducer({ api: { id: 1 } }, { type: LOCATION_CHANGE })
+      reducer({ providers: [{ id: 1 }] }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 
-  it('should handle UPDATE_API_REQUEST', () => {
+  it('should handle FETCH_PROVIDERS_KONG_GATEWAY_REQUEST', () => {
     expect(
-      reducer({}, metaActions.updateAPI())
+      reducer({}, metaActions.fetchProviderKongsByGateway())
     ).to.deep.equal({
       pending: true,
+      providers: [{ id: '', name: 'fetching providers...' }],
     });
   });
 
-  it('should handle UPDATE_API_FULFILLED', () => {
+  it('should handle FETCH_PROVIDERS_KONG_GATEWAY_FULFILLED', () => {
     expect(
       reducer({}, {
-        type: types.UPDATE_API_FULFILLED,
-        payload: { ...initialState.api, id: 1 },
+        type: types.FETCH_PROVIDERS_KONG_GATEWAY_FULFILLED,
+        payload: [...initialState.providers, { id: 1 }],
       })
     ).to.deep.equal({
       pending: false,
       completed: true,
-      api: { ...initialState.api, id: 1 },
+      providers: [...initialState.providers, { id: 1 }],
     });
   });
 
-  it('should handle UPDATE_API_REJECTED', () => {
+  it('should handle FETCH_PROVIDERS_KONG_GATEWAY_REJECTED', () => {
     expect(
       reducer({}, {
-        type: types.UPDATE_API_REJECTED,
+        type: types.FETCH_PROVIDERS_KONG_GATEWAY_REJECTED,
         payload: 'doh!',
       })
     ).to.deep.equal({

@@ -70,7 +70,7 @@ const ContainerForm = (props) => {
                 {!values.properties.provider.id ? null :
                 <div className="flex-row">
                   <Field
-                    className="flex-3 flex-xs-12"
+                    className="flex-4 flex-xs-12"
                     component={TextField}
                     name="name"
                     label="Name"
@@ -80,7 +80,7 @@ const ContainerForm = (props) => {
                     maxLength={nameMaxLen}
                   />
                   <Field
-                    className="flex-9 flex-xs-12"
+                    className="flex-8 flex-xs-12"
                     component={TextField}
                     name="description"
                     label="Description"

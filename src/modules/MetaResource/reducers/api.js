@@ -8,7 +8,9 @@ const initialState = {
     created: {},
     modified: {},
     properties: {
-      provider: {},
+      provider: {
+        locations: [],
+      },
     }
   },
   error: null,

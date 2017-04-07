@@ -1,6 +1,6 @@
 import { isContainerName, isCommaDelimited } from 'util/validations';
 
-export const nameMaxLen = 30;
+export const nameMaxLen = 60;
 
 export default (values) => {
   const errors = {
@@ -12,7 +12,7 @@ export default (values) => {
   };
 
   if (values.properties.provider && !values.properties.provider.id) {
-    errors.properties.provider.id = 'a provider is required';
+    errors.properties.provider.id = 'a CaaS provider type is required';
   }
 
   if (!values.name) {
