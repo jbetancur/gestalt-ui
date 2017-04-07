@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
