@@ -1,4 +1,5 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dialog from 'react-md/lib/Dialogs';
 import TextField from 'react-md/lib/TextFields';

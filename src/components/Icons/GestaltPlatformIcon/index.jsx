@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Isvg from 'react-inlinesvg';
 import styled from 'styled-components';
 import cn from 'classnames';

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedRelative } from 'react-intl';
 import CircularActivity from 'components/CircularActivity';
 import { Card, CardTitle } from 'components/GFCard';
