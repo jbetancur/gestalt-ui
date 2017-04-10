@@ -19,7 +19,7 @@ class GroupEdit extends Component {
     pending: PropTypes.bool.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchGroup, fetchUsers } = this.props;
     fetchGroup(params.fqon, params.groupId);
     fetchUsers(params.fqon);

@@ -26,7 +26,7 @@ class ContainerEdit extends Component {
     pending: PropTypes.bool.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchProvidersByType, fetchEnv } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';

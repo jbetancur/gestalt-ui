@@ -19,7 +19,7 @@ class APIEdit extends Component {
     pending: PropTypes.bool.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchAPI, fetchProviderKongsByGateway } = this.props;
     fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments');
     fetchAPI(params.fqon, params.apiId);

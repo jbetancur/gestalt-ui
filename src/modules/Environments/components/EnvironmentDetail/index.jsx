@@ -40,7 +40,7 @@ class EnvironmentDetail extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchEnvironment } = this.props;
     fetchEnvironment(params.fqon, params.environmentId);
   }

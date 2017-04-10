@@ -45,7 +45,7 @@ class ContainerItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.init();
   }
 

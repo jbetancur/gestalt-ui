@@ -24,7 +24,7 @@ class PolicyEventRuleEdit extends Component {
     // fetchLambdas: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchPolicyRule } = this.props;
     fetchPolicyRule(params.fqon, params.policyId, params.ruleId);
     // fetchLambdas(params.fqon, params.environmentId);

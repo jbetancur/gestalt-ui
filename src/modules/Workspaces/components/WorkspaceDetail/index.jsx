@@ -37,7 +37,7 @@ class WorkspaceDetail extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchWorkspace, params } = this.props;
 
     fetchWorkspace(params.fqon, params.workspaceId);

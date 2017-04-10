@@ -21,7 +21,7 @@ class EnvironmentItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params } = this.props;
     this.init(params.fqon, params.workspaceId);
     this.props.unloadEnvironmentContext();

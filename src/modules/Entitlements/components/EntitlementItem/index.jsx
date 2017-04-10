@@ -43,7 +43,7 @@ class EntitlementItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchIdentities, self } = this.props;
     // get all users and groups from users base org
     if (self.properties.gestalt_home.properties.fqon) {

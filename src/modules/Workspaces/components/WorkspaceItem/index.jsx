@@ -24,7 +24,7 @@ class WorkspaceItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchWorkspaces(this.props.params.fqon);
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();

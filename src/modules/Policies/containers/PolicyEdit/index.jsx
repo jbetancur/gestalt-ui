@@ -18,7 +18,7 @@ class PolicyEdit extends Component {
     pending: PropTypes.bool.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchPolicy } = this.props;
     fetchPolicy(params.fqon, params.policyId);
   }

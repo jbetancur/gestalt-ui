@@ -32,7 +32,7 @@ class ContainerCreate extends Component {
     inlineMode: false,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchEnv } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';

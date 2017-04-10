@@ -33,7 +33,7 @@ class APIItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchAPIs } = this.props;
     fetchAPIs(params.fqon, params.environmentId);
   }

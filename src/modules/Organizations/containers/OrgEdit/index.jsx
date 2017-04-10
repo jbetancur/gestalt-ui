@@ -19,7 +19,7 @@ class OrgEdit extends Component {
     t: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchOrg(this.props.params.fqon);
   }
 

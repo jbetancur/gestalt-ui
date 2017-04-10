@@ -71,7 +71,7 @@ class App extends Component {
     this.state = { drawerVisible: false };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       params,
       fetchSelf,

@@ -35,7 +35,7 @@ class UserItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchUsers, params } = this.props;
     fetchUsers(params.fqon);
   }

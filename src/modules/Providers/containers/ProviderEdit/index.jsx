@@ -25,7 +25,7 @@ class ProviderEdit extends Component {
     confirmUpdate: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchProvider, fetchProviders, fetchProviderContainer } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';

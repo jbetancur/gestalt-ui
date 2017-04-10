@@ -22,7 +22,7 @@ class PolicyLimitRuleEdit extends Component {
     handleSelectedActions: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchPolicyRule } = this.props;
     fetchPolicyRule(params.fqon, params.policyId, params.ruleId);
   }

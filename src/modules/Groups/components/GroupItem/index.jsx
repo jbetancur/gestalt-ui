@@ -34,7 +34,7 @@ class GroupItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchGroups, params } = this.props;
     fetchGroups(params.fqon);
   }
