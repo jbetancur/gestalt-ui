@@ -2,6 +2,14 @@ import * as actionTypes from '../actionTypes';
 import * as actions from './workspaces';
 
 describe('Workspace Actions', () => {
+  it('should request UNLOAD_WORKSPACES', () => {
+    const expectedAction = {
+      type: actionTypes.UNLOAD_WORKSPACES,
+    };
+
+    expect(actions.unloadWorkspaces()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_WORKSPACES_REQUEST', () => {
     const expectedAction = {
       type: actionTypes.FETCH_WORKSPACES_REQUEST,

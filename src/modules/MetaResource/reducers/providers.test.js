@@ -23,12 +23,6 @@ describe('providers reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle LOCATION_CHANGE', () => {
-    expect(
-      reducer({ providers: [{ id: 1 }] }, { type: LOCATION_CHANGE })
-    ).to.deep.equal(initialState);
-  });
-
   it('should handle FETCH_PROVIDERS_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchProviders())
