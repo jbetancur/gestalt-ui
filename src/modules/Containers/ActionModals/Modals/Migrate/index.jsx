@@ -28,7 +28,7 @@ class MigrateModal extends PureComponent {
     this.state = { provider: '' };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchProviders();
   }
 

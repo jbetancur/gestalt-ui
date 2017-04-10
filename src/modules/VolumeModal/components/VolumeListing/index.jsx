@@ -31,7 +31,7 @@ class VolumeListing extends Component {
     editMode: false,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.mergeVolumes.forEach(vol => this.props.addVolume(vol));
   }
 

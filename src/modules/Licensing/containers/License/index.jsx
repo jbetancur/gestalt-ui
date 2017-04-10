@@ -16,7 +16,7 @@ class License extends Component {
     reset: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchLicense } = this.props;
     fetchLicense('root');
   }

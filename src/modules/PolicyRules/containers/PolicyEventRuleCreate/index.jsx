@@ -17,7 +17,7 @@ class PolicyEventRuleCreate extends Component {
     selectedActions: PropTypes.array.isRequired,
   };
 
-  // componentWillMount() {
+  // componentDidMount() {
   //   const { params, fetchLambdas } = this.props;
   //   fetchLambdas(params.fqon, params.environmentId);
   // }

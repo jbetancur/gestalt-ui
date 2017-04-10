@@ -17,7 +17,7 @@ class EnvironmentEdit extends Component {
     updateEnvironment: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params } = this.props;
     this.props.fetchEnvironment(params.fqon, params.environmentId);
   }

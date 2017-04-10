@@ -15,7 +15,7 @@ class GroupCreate extends Component {
     fetchUsers: PropTypes.func.isRequired
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchUsers(this.props.params.fqon);
   }
 

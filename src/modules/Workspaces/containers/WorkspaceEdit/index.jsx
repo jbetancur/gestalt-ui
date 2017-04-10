@@ -17,7 +17,7 @@ class WorkspaceEdit extends Component {
     updateWorkspace: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchWorkspace(this.props.params.fqon, this.props.params.workspaceId);
   }
 

@@ -39,7 +39,7 @@ class OrgItem extends Component {
     this.state = { visible: false };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchOrgSet(this.props.params.fqon);
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();

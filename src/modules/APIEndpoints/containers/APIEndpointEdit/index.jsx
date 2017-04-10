@@ -23,7 +23,7 @@ class APIEndpointEdit extends Component {
     lambdaProvider: PropTypes.object.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchAPIEndpoint, fetchLambdaProvider } = this.props;
     const onSuccess = (response) => {
       if (response.properties.implementation_id && isUUID(response.properties.implementation_id)) {

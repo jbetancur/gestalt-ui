@@ -19,7 +19,7 @@ class LambdaCreate extends Component {
     fetchEnv: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchEnv } = this.props;
 
     fetchEnv(params.fqon, params.environmentId, 'environments');

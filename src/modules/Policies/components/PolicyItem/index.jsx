@@ -33,7 +33,7 @@ class PolicyItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchPolicies } = this.props;
     fetchPolicies(params.fqon, params.environmentId);
   }

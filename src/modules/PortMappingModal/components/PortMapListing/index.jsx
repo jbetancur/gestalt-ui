@@ -32,7 +32,7 @@ class PortMapListing extends Component {
     editMode: false,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.mergePortMappings.forEach(port => this.props.addPortmapping(port));
   }
 

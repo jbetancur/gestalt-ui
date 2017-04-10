@@ -34,7 +34,7 @@ class PolicyRuleItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchPolicyRules } = this.props;
     fetchPolicyRules(params.fqon, params.policyId);
   }

@@ -23,7 +23,7 @@ class LambdaEdit extends Component {
     pending: PropTypes.bool.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchLambda, fetchProvidersByType, fetchExecutors } = this.props;
     // init providers dropdown
     fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'Lambda');

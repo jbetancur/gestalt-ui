@@ -32,7 +32,7 @@ class HealthCheckListing extends Component {
     editMode: false,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.mergeHealthChecks.forEach(hc => this.props.addHealthCheck(hc));
   }
 

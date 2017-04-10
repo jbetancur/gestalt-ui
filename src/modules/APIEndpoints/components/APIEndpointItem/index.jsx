@@ -32,7 +32,7 @@ class apiEndpointItem extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params, fetchAPIEndpoints } = this.props;
     fetchAPIEndpoints(params.fqon, params.apiId);
   }
