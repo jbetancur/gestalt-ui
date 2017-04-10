@@ -93,6 +93,7 @@ module.exports = function test(env) {
               join_vars: true,
               if_return: true,
             },
+            mangle: true,
             output: {
               comments: false
             },
@@ -108,6 +109,7 @@ module.exports = function test(env) {
             disable: false,
           }),
           parts.generateConstants('production'),
+          new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don need them at this time
         ],
       },
     ]);
