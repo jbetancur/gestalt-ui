@@ -1,4 +1,3 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './entitlementIdentities';
 import { metaActions } from '../../MetaResource';
@@ -14,12 +13,6 @@ describe('entitlement identities reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
-    ).to.deep.equal(initialState);
-  });
-
-  it('should handle LOCATION_CHANGE', () => {
-    expect(
-      reducer({ identities: [{ id: 1 }] }, { type: LOCATION_CHANGE })
     ).to.deep.equal(initialState);
   });
 

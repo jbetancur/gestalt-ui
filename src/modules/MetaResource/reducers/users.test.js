@@ -23,12 +23,6 @@ describe('users reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle LOCATION_CHANGE', () => {
-    expect(
-      reducer({ users: [{ id: 1 }] }, { type: LOCATION_CHANGE })
-    ).to.deep.equal(initialState);
-  });
-
   it('should handle FETCH_USERS_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchUsers())

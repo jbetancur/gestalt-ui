@@ -82,6 +82,8 @@ export const DELETE_WORKSPACE_REQUEST = 'metaResource/DELETE_WORKSPACE_REQUEST';
 export const DELETE_WORKSPACE_FULFILLED = 'metaResource/DELETE_WORKSPACE_FULFILLED';
 export const DELETE_WORKSPACE_REJECTED = 'metaResource/DELETE_WORKSPACE_REJECTED';
 
+export const UNLOAD_WORKSPACES = 'metaResource/UNLOAD_WORKSPACES';
+
 /**
  * Environments
  */

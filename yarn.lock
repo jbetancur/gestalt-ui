@@ -5274,15 +5274,9 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0, prop-types@^15.5.6:
+prop-types@^15.0.0, prop-types@^15.5.2, prop-types@^15.5.6, prop-types@~15.5.0:
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.6.tgz#797a915b1714b645ebb7c5d6cc690346205bd2aa"
-  dependencies:
-    fbjs "^0.8.9"
-
-prop-types@^15.5.2, prop-types@~15.5.0:
-  version "15.5.4"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.4.tgz#2ed3692716a5060f8cc020946d8238e7419d92c0"
   dependencies:
     fbjs "^0.8.9"
 
@@ -5503,9 +5497,9 @@ react-hot-loader@next:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-i18next@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-2.2.3.tgz#cb6ae3ed11f5327fb691a9de277e9c31a8c50d4a"
+react-i18next@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-3.0.0.tgz#228e780534cbddbd7fc1fe75e96e3114cc473d1c"
   dependencies:
     hoist-non-react-statics "1.2.0"
 

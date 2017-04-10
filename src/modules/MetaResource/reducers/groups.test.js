@@ -23,12 +23,6 @@ describe('groups reducer', () => {
     ).to.deep.equal(initialState);
   });
 
-  it('should handle LOCATION_CHANGE', () => {
-    expect(
-      reducer({ groups: [{ id: 1 }] }, { type: LOCATION_CHANGE })
-    ).to.deep.equal(initialState);
-  });
-
   it('should handle FETCH_GROUPS_REQUEST', () => {
     expect(
       reducer({}, metaActions.fetchGroups())

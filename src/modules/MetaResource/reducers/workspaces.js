@@ -1,4 +1,3 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 
 const initialState = {
@@ -10,7 +9,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOCATION_CHANGE:
+    case types.UNLOAD_WORKSPACES:
       return initialState;
     case types.FETCH_WORKSPACES_REQUEST:
       return {

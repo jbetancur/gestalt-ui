@@ -1,5 +1,13 @@
 import * as types from '../actionTypes';
 
+
+/**
+ * unloadWorkspaces
+ */
+export function unloadWorkspaces() {
+  return { type: types.UNLOAD_WORKSPACES };
+}
+
 /**
  * fetchWorkspaces
  * @param {string} fqon
@@ -50,6 +58,7 @@ export function deleteWorkspace(fqon, workspaceId, onSuccess) {
 
 
 export default {
+  unloadWorkspaces,
   fetchWorkspaces,
   fetchWorkspace,
   createWorkspace,

@@ -99,8 +99,8 @@ class LambdaItem extends Component {
 
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
-      <div>
-        <a key={endpoint.id} className="md-caption" href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+      <div key={endpoint.id} >
+        <a className="md-caption" href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
         </a>
       </div>
