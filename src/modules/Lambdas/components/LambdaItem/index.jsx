@@ -11,6 +11,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 
@@ -113,7 +114,7 @@ class LambdaItem extends Component {
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
-        <TableColumn>{lambda.id}</TableColumn>
+        <TableColumn><CopyToClipboard text={lambda.id}><div><span>{lambda.id}</span><Button primary stye={{ display: 'inline-grid' }} tooltipPosition="right" tooltipLabel="Copy">content_copy</Button></div></CopyToClipboard></TableColumn>
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>

@@ -11,6 +11,7 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Divider from 'react-md/lib/Dividers';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import MDSelectField from 'react-md/lib/SelectFields';
@@ -43,7 +44,9 @@ const LambdaForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Lambda</div>
                 </div>
               }
-              subtitle={lambda.id ? lambda.id : null}
+              subtitle={lambda.id ?
+                <CopyToClipboard text={lambda.id}><div><span>{lambda.id}</span><Button primary stye={{ display: 'inline-grid' }} tooltipPosition="right" tooltipLabel="Copy">content_copy</Button></div></CopyToClipboard>
+                : null}
             />
             <CardText>
               <div className="flex-row">

@@ -1,18 +1,23 @@
 /* TooltpFontIcon.jsx */
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import styled from 'styled-components';
 import FontIcon from 'react-md/lib/FontIcons';
 import injectTooltip from 'react-md/lib/Tooltips';
 
 // Material icons shouldn't have any other children other than the child string and
 // it gets converted into a span if the tooltip is added, so we add a container
 // around the two.
+
+const TooltipWrapper = styled.div`
+  position: absolute;
+`;
+
 const TooltipFontIcon = injectTooltip(({ children, iconClassName, className, tooltip, ...props }) => (
-  <div {...props} className={classnames(className, 'inline-rel-container')}>
+  <TooltipWrapper {...props}>
     {tooltip}
     <FontIcon iconClassName={iconClassName}>{children}</FontIcon>
-  </div>
+  </TooltipWrapper>
 ));
 
 TooltipFontIcon.propTypes = {
