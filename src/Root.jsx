@@ -55,6 +55,13 @@ axios.interceptors.response.use((config) => {
     } else {
       store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
     }
+
+    // reroute to root if the context is no longer available
+    if (error.response.data.message &&
+      error.response.data.message.includes('not found') &&
+      error.response.data.code === 404) {
+      browserHistory.replace('/');
+    }
   }
 
   Promise.reject(error);

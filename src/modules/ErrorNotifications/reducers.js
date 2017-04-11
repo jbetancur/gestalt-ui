@@ -10,7 +10,8 @@ export default (state = initialState, action) => {
   // Catch all REJECTIONS
   if (action.type.includes('REJECTED')) {
     // TODO: axios bug on failed promise
-    if (action.payload.message && action.payload.message === 'Cannot read property \'data\' of undefined') {
+    // don't display this annoying error
+    if (action.payload && action.payload.includes('Cannot read property \'data\' of undefined')) {
       return state;
     }
 
@@ -62,7 +63,7 @@ export default (state = initialState, action) => {
     case 'APP_HTTP_ERROR_400':
       return {
         ...state,
-        friendlyMessage: 'Bad Request',
+        friendlyMessage: '',
         error: action.payload
       };
     case 'APP_HTTP_ERROR_415':

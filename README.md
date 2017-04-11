@@ -86,27 +86,26 @@ yarn test
 ```
 
 ### TDD Testing
-Runs the app in TDD mode. Allows you to watch the code and tests for changes with you as you TDD.
-
-#### Test Suite by Specific File Path
-Runs all the tests for a test in TDD mode. This is the fastest way to TDD when working on a single file
+Runs the app in watch mode, which allows you to watch the code and tests for changes with you as you TDD.
 ```
-yarn test-tdd -- -f spec/app/app.test.js
+yarn test-tdd
 ```
 
-#### Test Suite by Module
-Runs all the tests for a single module in TDD mode. Slower than a single file, but useful for multiple tests
+### Cross Browser Testing
+Runs all Tests against the following browsers: PhantomJS,Chrome,Firefox,Safari. Useful for cross browser unit testing.
 
-For example:
 ```
-yarn test-tdd -- -m app
+yarn test-browser
 ```
-For this mode to work a <module>.tests.js file must exist in the spec directory.
 
 ### Code Coverage
+Simply opens a browser window with coverage results.
+
 ```
 yarn test-coverage
 ```
+
+
 
 ### Maintenance Modes
 

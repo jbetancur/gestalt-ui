@@ -108,8 +108,8 @@ module.exports = function test(env) {
             allChunks: true,
             disable: false,
           }),
-          parts.generateConstants('production'),
           new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don need them at this time
+          parts.generateConstants('production'),
         ],
       },
     ]);
