@@ -11,7 +11,6 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Divider from 'react-md/lib/Dividers';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import MDSelectField from 'react-md/lib/SelectFields';
@@ -20,6 +19,7 @@ import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
 // import { Scheduler } from 'modules/PeriodicScheduler';
+import LambdaUUID from '../LambdaUUID';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
@@ -44,9 +44,7 @@ const LambdaForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Lambda</div>
                 </div>
               }
-              subtitle={lambda.id ?
-                <CopyToClipboard text={lambda.id}><div><span>{lambda.id}</span><Button primary stye={{ display: 'inline-grid' }} tooltipPosition="right" tooltipLabel="Copy">content_copy</Button></div></CopyToClipboard>
-                : null}
+              subtitle={lambda.id ? <LambdaUUID lambda={lambda} /> : null}
             />
             <CardText>
               <div className="flex-row">
