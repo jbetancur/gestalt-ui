@@ -80,6 +80,16 @@ export default [
     allowContainer: true,
   },
   {
+    name: 'Policy',
+    value: 'Gestalt::Configuration::Provider::Policy',
+    type: 'POLICY',
+    config: false,
+    networking: false,
+    extraConfig: false,
+    uploadConfig: false,
+    allowContainer: true,
+  },
+  {
     name: 'Lambda',
     value: 'Gestalt::Configuration::Provider::Lambda',
     type: 'LAMBDA',

@@ -16,6 +16,7 @@ export const LAMBDA_CSHARP = '421d0798-1e93-433c-a103-3b48fe578dbf';
 export const LAMBDA_GO = '019ea97a-d2c5-4891-b197-c23b3a7d3112';
 export const MESSAGING = '80d48917-7e05-47c6-a5b6-613a2d55b58a';
 export const RABBITMQ = '39cb96f1-0dc8-4ce6-9d88-863988fa1e16';
+export const POLICY = '9b6f7ec6-2e75-4b95-90dc-0e17935f8d4b';
 
 export default {
   KONG,
@@ -26,6 +27,7 @@ export default {
   'DATA::POSTGRESQL': DATA_POSTGRESQL,
   MESSAGING,
   'MESSAGING::RABBITMQ': RABBITMQ,
+  POLICY,
   LAMBDA,
   'LAMBDA::NODEJS': LAMBDA_NODEJS,
   'LAMBDA::SCALA': LAMBDA_SCALA,
