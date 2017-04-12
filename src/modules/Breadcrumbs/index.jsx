@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router';
@@ -25,8 +25,9 @@ const EnhancedLink = styled(Link)`
   }
 `;
 
-class Breadcrumbs extends Component {
+class Breadcrumbs extends PureComponent {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     currentWorkspaceContext: PropTypes.object.isRequired,
@@ -38,6 +39,12 @@ class Breadcrumbs extends Component {
     seperator: '/'
   }
 
+  allowNav(e, route) {
+    if (this.props.router.location.pathname === route) {
+      e.preventDefault();
+    }
+  }
+
   render() {
     const {
       currentOrgContext,
@@ -47,10 +54,16 @@ class Breadcrumbs extends Component {
       seperator,
     } = this.props;
 
+    const orgsRoute = `/${currentOrgContext.properties.fqon}/organizations`;
+    const workspacesRoute = `/${currentOrgContext.properties.fqon}/workspaces`;
+    const workspaceRoute = `/${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}`;
+    const environmentRoute = `/${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}/environments/${currentEnvironmentContext.id}`;
+
     return (
       <span>
         <EnhancedLink
-          to={`${currentOrgContext.properties.fqon}/organizations`}
+          onClick={e => this.allowNav(e, orgsRoute)}
+          to={orgsRoute}
         >
           {currentOrgContext.description || currentOrgContext.name}
         </EnhancedLink>
@@ -59,7 +72,8 @@ class Breadcrumbs extends Component {
 
         {currentWorkspaceContext.id && params.workspaceId ?
           <EnhancedLink
-            to={`${currentOrgContext.properties.fqon}/workspaces`}
+            onClick={e => this.allowNav(e, workspacesRoute)}
+            to={workspacesRoute}
           >
             Workspaces
           </EnhancedLink> : null}
@@ -68,7 +82,8 @@ class Breadcrumbs extends Component {
 
         {currentWorkspaceContext.id && params.workspaceId ?
           <EnhancedLink
-            to={`${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}`}
+            onClick={e => this.allowNav(e, workspaceRoute)}
+            to={workspaceRoute}
           >
             {currentWorkspaceContext.description || currentWorkspaceContext.name}
           </EnhancedLink> : null}
@@ -77,7 +92,8 @@ class Breadcrumbs extends Component {
 
         {currentEnvironmentContext.id && params.environmentId ?
           <EnhancedLink
-            to={`${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}/environments/${currentEnvironmentContext.id}`}
+            onClick={e => this.allowNav(e, environmentRoute)}
+            to={environmentRoute}
           >
             {currentEnvironmentContext.description || currentEnvironmentContext.name}
           </EnhancedLink> : null}

@@ -29,7 +29,7 @@ acorn-to-esprima@^2.0.6, acorn-to-esprima@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/acorn-to-esprima/-/acorn-to-esprima-2.0.8.tgz#003f0c642eb92132f417d3708f14ada82adf2eb1"
 
-acorn@4.0.4, acorn@^4.0.4:
+acorn@4.0.4, acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.4.tgz#17a8d6a7a6c4ef538b814ec9abac2779293bf30a"
 
@@ -37,9 +37,9 @@ acorn@^3.0.4:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
-acorn@^4.0.11, acorn@^4.0.3:
-  version "4.0.11"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
+acorn@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.0.3.tgz#c460df08491463f028ccb82eab3730bf01087b3d"
 
 after@0.8.2:
   version "0.8.2"
@@ -2014,7 +2014,7 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-ejs@^2.5.5:
+ejs@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.6.tgz#479636bfa3fe3b1debd52087f0acb204b4f19c88"
 
@@ -2557,7 +2557,7 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
-express@^4.13.3, express@^4.14.1:
+express@^4.13.3, express@^4.15.2:
   version "4.15.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.15.2.tgz#af107fc148504457f2dca9a6f2571d7129b97b35"
   dependencies:
@@ -2688,7 +2688,7 @@ filename-regex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.0.tgz#996e3e80479b98b9897f15a8a58b3d084e926775"
 
-filesize@^3.5.4:
+filesize@^3.5.6:
   version "3.5.6"
   resolved "https://registry.yarnpkg.com/filesize/-/filesize-3.5.6.tgz#5fd98f3eac94ec9516ef8ed5782fad84a01a0a1a"
 
@@ -2791,12 +2791,6 @@ form-data@~2.1.1:
     asynckit "^0.4.0"
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
-
-formatio@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/formatio/-/formatio-1.1.1.tgz#5ed3ccd636551097383465d996199100e86161e9"
-  dependencies:
-    samsam "~1.1"
 
 formatio@1.2.0:
   version "1.2.0"
@@ -3790,16 +3784,16 @@ jsx-ast-utils@^1.0.0, jsx-ast-utils@^1.3.4:
   dependencies:
     object-assign "^4.1.0"
 
-karma-chai-plugins@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/karma-chai-plugins/-/karma-chai-plugins-0.8.0.tgz#e18374e79b628dadbbaba177ed348d130879f68d"
+karma-chai-plugins@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/karma-chai-plugins/-/karma-chai-plugins-0.9.0.tgz#b2a1a7e807f0b1bb19fb66c4744963ba5c31aa7d"
   dependencies:
     chai "^3.4.1"
     chai-as-promised "^5.1.0"
     chai-dom "^1.2.2"
     chai-jquery "^2.0.0"
     chai-things "^0.2.0"
-    sinon "^1.17.2"
+    sinon "^2.1.0"
     sinon-chai "^2.8.0"
 
 karma-chai@^0.1.0:
@@ -4177,10 +4171,6 @@ log4js@^0.6.31:
   dependencies:
     readable-stream "~1.0.2"
     semver "~4.3.3"
-
-lolex@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/lolex/-/lolex-1.3.2.tgz#7c3da62ffcb30f0f5a80a2566ca24e45d8a01f31"
 
 lolex@^1.6.0:
   version "1.6.0"
@@ -4750,7 +4740,7 @@ onetime@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
 
-opener@^1.4.2:
+opener@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
 
@@ -5306,13 +5296,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0:
-  version "15.5.6"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.6.tgz#797a915b1714b645ebb7c5d6cc690346205bd2aa"
-  dependencies:
-    fbjs "^0.8.9"
-
-prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.0.0, prop-types@^15.5.7, prop-types@~15.5.7:
   version "15.5.7"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.7.tgz#231c4f29cdd82e355011d4889386ca9059544dd1"
   dependencies:
@@ -5503,9 +5487,9 @@ react-cookie@^1.0.5:
     is-node "^1.0.2"
     object-assign "^4.1.0"
 
-react-copy-to-clipboard@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-4.2.3.tgz#268c5a0fbde9a95d96145014e7f85110b0e7fb8e"
+react-copy-to-clipboard@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-4.3.0.tgz#5d2e8ec3fa1900ea902ce0fe34db2d829ad9c3ef"
   dependencies:
     copy-to-clipboard "^3"
 
@@ -6061,10 +6045,6 @@ safe-buffer@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
 
-samsam@1.1.2, samsam@~1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.1.2.tgz#bec11fdc83a9fda063401210e40176c3024d1567"
-
 samsam@1.x, samsam@^1.1.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.2.1.tgz#edd39093a3184370cb859243b2bdf255e7d8ea67"
@@ -6216,15 +6196,6 @@ signal-exit@^3.0.0:
 sinon-chai@^2.8.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-2.9.0.tgz#34d820042bc9661a14527130d401eb462c49bb84"
-
-sinon@^1.17.2:
-  version "1.17.7"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-1.17.7.tgz#4542a4f49ba0c45c05eb2e9dd9d203e2b8efe0bf"
-  dependencies:
-    formatio "1.1.1"
-    lolex "1.3.2"
-    samsam "1.1.2"
-    util ">=0.10.3 <1"
 
 sinon@^2.1.0:
   version "2.1.0"
@@ -6839,7 +6810,7 @@ util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
 
-util@0.10.3, "util@>=0.10.3 <1", util@^0.10.3:
+util@0.10.3, util@^0.10.3:
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/util/-/util-0.10.3.tgz#7afb1afe50805246489e3db7fe0ed379336ac0f9"
   dependencies:
@@ -6924,20 +6895,20 @@ wbuf@^1.1.0, wbuf@^1.4.0:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-webpack-bundle-analyzer@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.3.1.tgz#d97f8aadbcce68fc865c5787741d8549359a25cd"
+webpack-bundle-analyzer@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.4.0.tgz#e406b016e7452bc864793848c79308782accba8e"
   dependencies:
-    acorn "^4.0.11"
+    acorn "^5.0.3"
     chalk "^1.1.3"
     commander "^2.9.0"
-    ejs "^2.5.5"
-    express "^4.14.1"
-    filesize "^3.5.4"
+    ejs "^2.5.6"
+    express "^4.15.2"
+    filesize "^3.5.6"
     gzip-size "^3.0.0"
     lodash "^4.17.4"
     mkdirp "^0.5.1"
-    opener "^1.4.2"
+    opener "^1.4.3"
 
 webpack-dev-middleware@^1.0.11, webpack-dev-middleware@^1.9.0:
   version "1.10.1"
