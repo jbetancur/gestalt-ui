@@ -151,7 +151,6 @@ class WorkspaceDetail extends Component {
               component={Link}
               to={{
                 pathname: `/${params.fqon}/workspaces/${workspace.id}/createEnvironment`,
-
               }}
             >
               add

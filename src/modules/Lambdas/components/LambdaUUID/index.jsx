@@ -19,7 +19,6 @@ class LambdaUUID extends PureComponent {
         <Button
           label={this.props.lambda.id}
           iconBefore={false}
-          stye={{ display: 'inline-grid' }}
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel="Copy UUID"
         >
