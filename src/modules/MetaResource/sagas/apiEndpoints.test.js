@@ -24,10 +24,21 @@ describe('API Endpoint Sagas', () => {
       );
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1 }] });
+    it('should make an api call for the provider', () => {
+      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: [{ id: 1 }] })
+        call(axios.get, 'iamfqon/providers/42')
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } } } } } });
+      expect(result.value).to.deep.equal(
+        put({
+          type: types.FETCH_APIENDPOINTS_FULFILLED,
+          payload: [
+            { id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }]
+        })
       );
     });
 

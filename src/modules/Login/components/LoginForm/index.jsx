@@ -96,7 +96,7 @@ LoginForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  isAuthenticating: PropTypes.bool.isRequired,
+  isAuthenticating: PropTypes.bool,
   statusText: PropTypes.string,
   touched: PropTypes.bool,
   error: PropTypes.bool,
@@ -104,6 +104,7 @@ LoginForm.propTypes = {
 };
 
 LoginForm.defaultProps = {
+  isAuthenticating: false,
   touched: false,
   error: false,
   statusText: '',
