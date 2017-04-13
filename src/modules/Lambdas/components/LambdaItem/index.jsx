@@ -101,7 +101,7 @@ class LambdaItem extends Component {
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
       <div key={endpoint.id} >
-        <a className="md-caption" href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+        <a className="gf-caption-plain" href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
         </a>
       </div>
@@ -114,7 +114,7 @@ class LambdaItem extends Component {
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
-        <TableColumn><LambdaUUID lambda={lambda} /></TableColumn>
+        <TableColumn style={{ fontSize: '.7em', padding: 0 }}><LambdaUUID lambda={lambda} /></TableColumn>
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
