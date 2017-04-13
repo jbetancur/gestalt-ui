@@ -23,7 +23,7 @@
   }
 
   25% {
-    @include transform(scale(0.8));
+    @include transform(scale(0.9));
   }
 
   50% {
@@ -31,7 +31,7 @@
   }
 
   100% {
-    @include transform(scale(0.8));
+    @include transform(scale(0.9));
   }
 
   100% {

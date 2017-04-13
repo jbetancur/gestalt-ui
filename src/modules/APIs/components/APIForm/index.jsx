@@ -89,7 +89,7 @@ const APIForm = (props) => {
                     required
                     errorText={touched && error}
                     maxLength={nameMaxLen}
-                    autoComplete="none"
+                    disabled={editMode}
                   />
                   <Field
                     className="flex-8 flex-xs-12"

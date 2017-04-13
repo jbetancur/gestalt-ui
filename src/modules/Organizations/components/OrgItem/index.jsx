@@ -6,7 +6,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import Button from 'react-md/lib/Buttons/Button';
-import { BackArrowButton } from 'components/Buttons';
+import { NavUpArrowButton } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
@@ -178,7 +178,7 @@ class OrgItem extends Component {
     return (
       <div>
         <DetailCard>
-          <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home.properties.fqon ? null : <BackArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
+          <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home.properties.fqon ? null : <NavUpArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
             {this.renderActionsMenu()}
             {!pending ?
               <div className="gf-headline">{organization.description || organization.name}
