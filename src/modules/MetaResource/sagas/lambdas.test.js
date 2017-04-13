@@ -25,11 +25,28 @@ describe('Lambda Sagas', () => {
       );
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1, properties: { test: 'prop should be present' } }] });
-      result = saga.next([{ data: [{ id: 1 }] }]);
+    it('should make an api call for endpoints', () => {
+      result = saga.next({ data: [{ id: 1 }] });
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1, properties: { apiEndpoints: [{ id: 1 }], test: 'prop should be present' } }] })
+        call(axios.get, 'iamfqon/lambdas/1/apiendpoints?expand=true')
+      );
+    });
+
+    it('should make an api call for the provider', () => {
+      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'iamfqon/providers/42')
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } } } } } });
+      expect(result.value).to.deep.equal(
+        put({
+          type: types.FETCH_LAMBDAS_FULFILLED,
+          payload: [
+            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
+        })
       );
     });
 
@@ -57,10 +74,15 @@ describe('Lambda Sagas', () => {
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1, properties: { test: 'prop should be present' } }] });
-      result = saga.next([{ data: [{ id: 1 }] }]);
+      result = saga.next({ data: [{ id: 1 }] });
+      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
+      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } } } } } });
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: [{ id: 1, properties: { apiEndpoints: [{ id: 1 }], test: 'prop should be present' } }] })
+        put({
+          type: types.FETCH_LAMBDAS_FULFILLED,
+          payload: [
+            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
+        })
       );
     });
 

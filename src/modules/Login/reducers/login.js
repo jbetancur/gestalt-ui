@@ -34,11 +34,7 @@ export default (state = initialState, action) => {
         ) ? 'Invalid username or password' : `Authentication Error: ${action.payload}`
       };
     case LOG_OUT:
-      return {
-        ...state,
-        isAuthenticating: false,
-        error: action.payload
-      };
+      return {};
     default:
       return state;
   }

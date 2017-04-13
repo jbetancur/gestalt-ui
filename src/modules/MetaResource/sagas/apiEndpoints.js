@@ -8,13 +8,25 @@ import * as types from '../actionTypes';
  */
 export function* fetchAPIEndpoints(action) {
   try {
-    const response = yield call(axios.get, `${action.fqon}/apis/${action.apiId}/apiendpoints?expand=true`);
-    // const responseAPI = yield call(axios.get, `${action.fqon}/apis/${action.apiId}`); // need this to get the provider.id
-    // const responseGatewayProvider = yield call(axios.get, `${action.fqon}/providers/${responseAPI.data.properties.provider.id}`);
-    // const payload = response.data.map(endpoint =>
-    //   ({ ...endpoint, properties: { e: `https://${responseGatewayProvider.data.properties.config.env.public.HTTP_API_VHOST_0}/${responseAPI.data.name}${endpoint.properties.resource}` } }));
+    const responseEndpoints = yield call(axios.get, `${action.fqon}/apis/${action.apiId}/apiendpoints?expand=true`);
 
-    yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: response.data });
+    const endpoints = [];
+    // this is a niche case with generators and arrays where we need an imperative loop to collate public_url into endpoints
+    // eslint-disable-next-line
+    for (const endpoint of responseEndpoints.data) {
+      const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
+      endpoints.push(
+        {
+          ...endpoint,
+          properties: {
+            ...endpoint.properties,
+            public_url: `https://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}`
+          }
+        }
+      );
+    }
+
+    yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: endpoints });
   } catch (e) {
     yield put({ type: types.FETCH_APIENDPOINTS_REJECTED, payload: e.message });
   }
