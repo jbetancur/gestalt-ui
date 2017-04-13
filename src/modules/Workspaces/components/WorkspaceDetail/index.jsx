@@ -14,7 +14,6 @@ import Environments from 'modules/Environments';
 import Providers from 'modules/Providers';
 import Entitlements from 'modules/Entitlements';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
-import { BackArrowButton } from 'components/Buttons';
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { DeleteIcon } from 'components/Icons';
@@ -134,7 +133,6 @@ class WorkspaceDetail extends Component {
       <div>
         <DetailCard>
           <DetailCardTitle expander={!pending}>
-            <BackArrowButton component={Link} to={`/${params.fqon}/workspaces`} />
             {this.renderActionsMenu()}
             <div>
               <div className="gf-headline">{workspace.description || workspace.name}</div>

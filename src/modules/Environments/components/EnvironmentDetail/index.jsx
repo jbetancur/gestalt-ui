@@ -17,7 +17,6 @@ import Policies from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import Entitlements from 'modules/Entitlements';
 import APIs from 'modules/APIs';
-import { BackArrowButton } from 'components/Buttons';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
@@ -144,13 +143,12 @@ class EnvironmentDetail extends Component {
   }
 
   render() {
-    const { pending, environment, params, navigation } = this.props;
+    const { pending, environment, navigation } = this.props;
 
     return (
       <div>
         <DetailCard>
           <DetailCardTitle expander={!pending}>
-            <BackArrowButton component={Link} to={`/${params.fqon}/workspaces/${params.workspaceId}`} />
             {this.renderActionsMenu()}
             <div>
               <div className="gf-headline">{environment.description || environment.name}</div>

@@ -8,6 +8,7 @@ const EnhancedButton = styled(Button)`
   }
 `;
 
-const BackArrowButton = props => <EnhancedButton icon {...props}>arrow_back</EnhancedButton>;
+const NavUpArrowButton = props =>
+  <EnhancedButton icon tooltipLabel="up one level" tooltipPosition="bottom" {...props}>arrow_upward</EnhancedButton>;
 
-export default BackArrowButton;
+export default NavUpArrowButton;
