@@ -8,6 +8,7 @@ export default [
     extraConfig: true,
     uploadConfig: false,
     allowContainer: false,
+    externalProtocol: true,
   },
   {
     name: 'Kubernetes',
@@ -18,6 +19,7 @@ export default [
     extraConfig: false,
     uploadConfig: true,
     allowContainer: false,
+    externalProtocol: true,
   },
   {
     name: 'APIGateway (Kong)',
@@ -28,6 +30,7 @@ export default [
     extraConfig: true,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: true,
   },
   {
     name: 'GatewayManager',
@@ -38,6 +41,7 @@ export default [
     extraConfig: true,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Security',
@@ -48,6 +52,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: false,
+    externalProtocol: false,
   },
   {
     name: 'PostgreSQL',
@@ -58,6 +63,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: false,
+    externalProtocol: false,
   },
   // {
   //   name: 'Messaging',
@@ -78,6 +84,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Policy',
@@ -88,6 +95,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda',
@@ -98,6 +106,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor NodeJS',
@@ -108,6 +117,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor Scala',
@@ -118,6 +128,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor Java',
@@ -128,6 +139,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor Ruby',
@@ -138,6 +150,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor Python',
@@ -148,6 +161,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor C#',
@@ -158,6 +172,7 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
   {
     name: 'Lambda Executor Go',
@@ -168,5 +183,6 @@ export default [
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
+    externalProtocol: false,
   },
 ];

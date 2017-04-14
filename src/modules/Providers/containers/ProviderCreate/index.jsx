@@ -54,6 +54,10 @@ class ProviderCreate extends Component {
       model.properties.config.url = values.properties.config.url;
     }
 
+    if (values.properties.config.external_protocol) {
+      model.properties.config.external_protocol = values.properties.config.external_protocol;
+    }
+
     if (values.properties.config.auth) {
       model.properties.config.auth = values.properties.config.auth;
     }
@@ -159,7 +163,7 @@ function mapStateToProps(state) {
     properties: {
       config: {
         auth: {},
-        url: '',
+        external_protocol: 'https',
         env: {
           public: {},
           private: {},

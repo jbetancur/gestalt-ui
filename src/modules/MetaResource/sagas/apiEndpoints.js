@@ -20,7 +20,7 @@ export function* fetchAPIEndpoints(action) {
           ...endpoint,
           properties: {
             ...endpoint.properties,
-            public_url: `http://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}`
+            public_url: `${kongProviderResponse.data.properties.config.external_protocol}://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}`
           }
         }
       );

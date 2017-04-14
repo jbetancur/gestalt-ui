@@ -20,8 +20,8 @@ export function* fetchContainers(action) {
       const apieEndpointsResponse = yield call(axios.get, `${action.fqon}/containers/${container.id}/apiendpoints?expand=true`);
       // eslint-disable-next-line
       for (const endpoint of apieEndpointsResponse.data) {
-        const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
-        apiEndpoints.push(merge(endpoint, { properties: { public_url: `http://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
+        const providerResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
+        apiEndpoints.push(merge(endpoint, { properties: { public_url: `${providerResponse.data.properties.config.external_protocol}://${providerResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
       }
       containers.push(merge(container, { properties: { apiEndpoints } }));
     }

@@ -61,6 +61,10 @@ class ProviderEdit extends Component {
       model.properties.config.url = formValues.properties.config.url;
     }
 
+    if (formValues.properties.config.external_protocol) {
+      model.properties.config.external_protocol = formValues.properties.config.external_protocol;
+    }
+
     if (formValues.properties.config.auth) {
       model.properties.config.auth = formValues.properties.config.auth;
     }
@@ -169,6 +173,7 @@ function mapStateToProps(state) {
         config: {
           auth: provider.properties.config.auth,
           url: provider.properties.config.url,
+          external_protocol: provider.properties.config.external_protocol,
           env: {
             public: {},
             private: {},
@@ -183,7 +188,7 @@ function mapStateToProps(state) {
       privateVariables,
       linkedProviders: provider.properties.linked_providers,
     },
-    enableReinitialize: true
+    enableReinitialize: true,
   };
 }
 
