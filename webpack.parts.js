@@ -177,6 +177,8 @@ exports.generateConstants = env => (
     $$COMPANY_URL$$: JSON.stringify(config[env].COMPANY_URL),
     $$APP_TITLE$$: JSON.stringify(config[env].APP_TITLE),
     $$DOCUMENTATION_URL$$: JSON.stringify(config[env].DOCUMENTATION_URL),
+    $$ANALYTICS_TRACKING$$: JSON.stringify(config[env].ANALYTICS_TRACKING),
+    $$ANALYTICS_TRACKING_ACCT$$: JSON.stringify(config[env].ANALYTICS_TRACKING_ACCT),
     $$UI_VERSION$$: JSON.stringify(`${pkg.version}-${execSync('git rev-parse --short=8 HEAD')}`),
     'process.env': {
       NODE_ENV: JSON.stringify(env), // needed by redux and react internally - otherwise not build specific to out codebase

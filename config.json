@@ -8,6 +8,7 @@
     "APP_TITLE": "Gestalt",
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING_ACCT": "",
     "ANALYTICS_TRACKING": false,
     "DEBUG": true,
     "DOCUMENTATION_URL": "http://docs.galacticfog.com"
@@ -21,6 +22,7 @@
     "APP_TITLE": "Gestalt",
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING_ACCT": "UA-68192914-2",
     "ANALYTICS_TRACKING": true,
     "DEBUG": false,
     "DOCUMENTATION_URL": "http://docs.galacticfog.com"
