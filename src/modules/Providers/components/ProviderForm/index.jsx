@@ -62,6 +62,21 @@ const ProviderForm = (props) => {
     reset();
   };
 
+  const renderExternalProtocolSection = () => (
+    !selectedProviderType.externalProtocol ? null : <Field
+      id="select-return-type"
+      className="flex-2 flex-xs-12 flex-sm-4"
+      component={SelectField}
+      name="properties.config.external_protocol"
+      menuItems={[{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }]}
+      itemLabel="name"
+      itemValue="value"
+      label="External Protocol"
+      helpText="The protocol used to reach any externally exposed endpoints"
+      errorText={props.touched && props.error}
+    />
+  );
+
   const renderConfigSection = () => (
     !selectedProviderType.config ? null :
     <div className="flex-row">
@@ -73,7 +88,6 @@ const ProviderForm = (props) => {
         type="text"
         required
         errorText={props.touched && props.error}
-        lineDirection="center"
       />
       <Field
         id="select-return-type"
@@ -93,7 +107,6 @@ const ProviderForm = (props) => {
         type="text"
         required
         errorText={props.touched && props.error}
-        lineDirection="center"
       />
       <Field
         className="flex-2 flex-xs-12 flex-sm-4"
@@ -103,7 +116,6 @@ const ProviderForm = (props) => {
         type="password"
         required
         errorText={props.touched && props.error}
-        lineDirection="center"
       />
     </div>
   );
@@ -266,6 +278,7 @@ const ProviderForm = (props) => {
                   />
                 </div>
                 {renderConfigSection()}
+                {renderExternalProtocolSection()}
                 {renderEditorSection()}
                 {renderVariablesSection()}
                 {renderOtherConfigSection()}

@@ -25,19 +25,19 @@ describe('API Endpoint Sagas', () => {
     });
 
     it('should make an api call for the provider', () => {
-      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
+      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }] });
       expect(result.value).to.deep.equal(
         call(axios.get, 'iamfqon/providers/42')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } } } } } });
+      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
       expect(result.value).to.deep.equal(
         put({
           type: types.FETCH_APIENDPOINTS_FULFILLED,
           payload: [
-            { id: 1, properties: { public_url: 'http://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }]
+            { id: 1, properties: { public_url: 'https://vhostness/testapi/testpath', parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }]
         })
       );
     });
