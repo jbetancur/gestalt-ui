@@ -1,6 +1,6 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
-import reducer from './fetchProviderKongsByGateway';
+import reducer from './providerKongsByGateway';
 import { metaActions } from '../../MetaResource';
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
   error: null,
 };
 
-describe('fetchProviderKongsByGateway reducer', () => {
+describe('providerKongsByGateway reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})

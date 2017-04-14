@@ -2,6 +2,7 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import containerSagas, {
   fetchContainers,
+  fetchContainersDropDown,
   fetchContainer,
   createContainer,
   updateContainer,
@@ -96,6 +97,57 @@ describe('Container Sagas', () => {
       expect(resultError.value).to.deep.equal(
         put({ type: types.FETCH_CONTAINERS_REJECTED, payload: error })
       );
+    });
+  });
+
+  describe('fetchContainersDropDown Sequence', () => {
+    describe('fetchProvidersByType when there are containers', () => {
+      const saga = fetchContainersDropDown({ fqon: 'iamfqon', environmentId: '1' });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/environments/1/containers?expand=true')
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next({ data: [{ id: 1 }] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINERS_DROPDOWN_FULFILLED, payload: [{ id: 1 }] })
+        );
+      });
+
+      it('should return a payload and dispatch a reject status when there is an error', () => {
+        const sagaError = fetchContainersDropDown({ fqon: 'iamfqon' });
+        let resultError = sagaError.next();
+
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINERS_DROPDOWN_REJECTED, payload: error })
+        );
+      });
+    });
+
+    describe('fetchLambdasDropDown when there are NO containers', () => {
+      const saga = fetchContainersDropDown({ fqon: 'iamfqon', environmentId: 1 });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/environments/1/containers?expand=true')
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next({ data: [] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINERS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Containers' }] })
+        );
+      });
     });
   });
 
@@ -425,6 +477,13 @@ describe('Container Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.FETCH_CONTAINERS_REQUEST, fetchContainers)
+      );
+    });
+
+    it('should fork a watcher for fetchContainersDropDown', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.FETCH_CONTAINERS_DROPDOWN_REQUEST, fetchContainersDropDown)
       );
     });
 

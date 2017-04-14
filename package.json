@@ -221,7 +221,7 @@
         "classnames": "^2.2.5",
         "fast-json-patch": "^1.1.8",
         "flexybox": "^0.7.0",
-        "i18next": "^7.2.2",
+        "i18next": "^7.2.3",
         "i18next-browser-languagedetector": "^1.0.1",
         "i18next-localstorage-cache": "^1.1.0",
         "i18next-xhr-backend": "^1.4.1",
@@ -256,7 +256,7 @@
         "redux-saga": "https://github.com/ysd002/redux-saga.git",
         "redux-thunk": "^2.2.0",
         "sanitize.css": "^5.0.0",
-        "styled-components": "^1.4.4",
+        "styled-components": "^1.4.5",
         "validator": "^7.0.0"
     }
 }

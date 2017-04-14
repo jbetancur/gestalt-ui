@@ -71,7 +71,8 @@ class apiEndpointItem extends Component {
     if (e.target.className.includes('md-table-column')) {
       const { router, params, } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
+        query: { implementationType: apiEndpoint.properties.implementation_type },
       });
     }
   }
@@ -99,7 +100,7 @@ class apiEndpointItem extends Component {
     const { selectedCount } = this.props.selectedEndpoints;
     const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
-        <TableColumn>{apiEndpoint.name}</TableColumn>
+        <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
         <TableColumn>
           <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
@@ -126,7 +127,7 @@ class apiEndpointItem extends Component {
           {!this.props.apiEndpoints.length ? null :
           <TableHeader>
             <TableRow>
-              <TableColumn>Name</TableColumn>
+              <TableColumn>Resource Path</TableColumn>
               {/* <TableColumn>Security</TableColumn>
               <TableColumn>HTTP Method</TableColumn> */}
               <TableColumn>Public URL</TableColumn>
