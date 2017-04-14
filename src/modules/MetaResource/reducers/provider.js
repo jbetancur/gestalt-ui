@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         completed: true,
-        provider: action.payload
+        provider: action.payload,
       };
     case types.FETCH_PROVIDER_REJECTED:
       return {

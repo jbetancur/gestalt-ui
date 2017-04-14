@@ -210,9 +210,9 @@ describe('Provider Sagas', () => {
       });
 
       it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: { id: 1, properties: { linked_providers: [] } } });
+        result = saga.next({ data: { id: 1, properties: { linked_providers: [], config: { randomProp: 'shoudbehere' } } } });
         expect(result.value).to.deep.equal(
-          put({ type: types.FETCH_PROVIDER_FULFILLED, payload: { id: 1, properties: { linked_providers: [] } } })
+          put({ type: types.FETCH_PROVIDER_FULFILLED, payload: { id: 1, properties: { linked_providers: [], config: { randomProp: 'shoudbehere', env: { public: {}, private: {} } } } } })
         );
       });
     });
