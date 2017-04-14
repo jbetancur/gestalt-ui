@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 import Button from 'react-md/lib/Buttons/Button';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-class LambdaUUID extends PureComponent {
+class CopyUUIDButton extends PureComponent {
   static propTypes = {
-    lambda: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
     tooltipPosition: PropTypes.string,
+    showUUID: PropTypes.bool,
   }
 
   static defaultProps = {
     tooltipPosition: 'right',
+    showUUID: true,
   }
 
   render() {
     return (
-      <CopyToClipboard text={this.props.lambda.id}>
+      <CopyToClipboard text={this.props.model.id}>
         <Button
-          label={this.props.lambda.id}
+          label={this.props.showUUID ? this.props.model.id : null}
           iconBefore={false}
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel="Copy UUID"
@@ -29,4 +31,4 @@ class LambdaUUID extends PureComponent {
   }
 }
 
-export default LambdaUUID;
+export default CopyUUIDButton;

@@ -8,7 +8,7 @@ const EnhancedCard = styled(Card)`
   max-Width: 28em;
   height: 13.5em;
   cursor: pointer;
-  box-shadow: ${props => props.theme.boxShadow}
+  // box-shadow: ${props => props.theme.boxShadow};
 `;
 
 const GFCard = props => <EnhancedCard {...props} />;

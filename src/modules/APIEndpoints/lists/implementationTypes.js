@@ -1,6 +1,10 @@
 export default [
   {
     name: 'Lambda',
-    value: 'lambdas',
+    value: 'lambda',
+  },
+  {
+    name: 'Container',
+    value: 'container',
   },
 ];

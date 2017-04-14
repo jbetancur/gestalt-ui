@@ -19,7 +19,7 @@ import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
 // import { Scheduler } from 'modules/PeriodicScheduler';
-import LambdaUUID from '../LambdaUUID';
+import { CopyUUIDButton } from 'components/Buttons';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
@@ -44,7 +44,7 @@ const LambdaForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Lambda</div>
                 </div>
               }
-              subtitle={lambda.id ? <LambdaUUID lambda={lambda} /> : null}
+              subtitle={lambda.id ? <CopyUUIDButton model={lambda} /> : null}
             />
             <CardText>
               <div className="flex-row">
@@ -190,15 +190,6 @@ const LambdaForm = (props) => {
                   /> : null}
                 <Field
                   className="flex-2 flex-xs-6"
-                  id="synchronous"
-                  component={Checkbox}
-                  name="properties.synchronous"
-                  // TODO: Find out why redux-form state for bool doesn't apply
-                  checked={values.properties.synchronous}
-                  label="Synchronous"
-                />
-                <Field
-                  className="flex-2 flex-xs-6"
                   id="public"
                   component={Checkbox}
                   name="properties.public"
@@ -250,24 +241,26 @@ const LambdaForm = (props) => {
                   errorText={props.touched && props.error}
                 />
                 <Field
-                  className="flex-2 flex-xs-12"
+                  className="flex-3 flex-xs-12"
                   component={TextField}
                   name="properties.periodic_info.payload.eventName"
                   label="Event Name"
                   type="text"
                   errorText={props.touched && props.error}
                 />
-                <Field
-                  className="flex-4 flex-xs-12"
-                  component={TextField}
-                  name="properties.periodic_info.payload.data"
-                  label="json payload"
-                  type="text"
-                  errorText={props.touched && props.error}
-                  rows={2}
-                />
+                <div className="flex-row">
+                  <Field
+                    className="flex-4 flex-xs-12"
+                    component={TextField}
+                    name="properties.periodic_info.payload.data"
+                    label="json payload"
+                    type="text"
+                    errorText={props.touched && props.error}
+                    rows={2}
+                  />
+                </div>
               </div>
-
+              <Divider />
               {/* <div className="flex-row">
                 <div className="flex-12">
                   <Scheduler />

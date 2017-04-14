@@ -13,8 +13,9 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
+import A from 'components/A';
+import { CopyUUIDButton } from 'components/Buttons';
 import ContainerActions from '../ContainerActions';
-
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
@@ -102,6 +103,16 @@ class ContainerItem extends Component {
     );
   }
 
+  renderAPIEndpoints(container) {
+    return container.properties.apiEndpoints.map(endpoint => (
+      <div key={endpoint.id} >
+        <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+          {endpoint.properties.public_url}
+        </A>
+      </div>
+    ));
+  }
+
   render() {
     const containers = this.props.containers.map(container => (
       <TableRow key={container.id} onClick={e => this.edit(container, e)}>
@@ -110,12 +121,11 @@ class ContainerItem extends Component {
         </EnhancedTableColumn>
         <EnhancedTableColumn>{container.name}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.status}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.description}</EnhancedTableColumn>
+        <EnhancedTableColumn><CopyUUIDButton model={container} showUUID={false} /></EnhancedTableColumn>
+        <EnhancedTableColumn>{this.renderAPIEndpoints(container)}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.provider.name}</EnhancedTableColumn>
-        <EnhancedTableColumn>{`${container.properties.instances.length}/${container.properties.num_instances}`}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.properties.cpus}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.properties.memory}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.properties.container_type}</EnhancedTableColumn>
+        <EnhancedTableColumn>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</EnhancedTableColumn>
+        <EnhancedTableColumn>{`${container.properties.cpus} / ${container.properties.memory}`}</EnhancedTableColumn>
         <EnhancedTableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</EnhancedTableColumn>
       </TableRow>
       ));
@@ -140,13 +150,12 @@ class ContainerItem extends Component {
                   <TableColumn />
                   <TableColumn>Name</TableColumn>
                   <TableColumn>Status</TableColumn>
-                  <TableColumn>Description</TableColumn>
+                  <TableColumn>UUID</TableColumn>
+                  <TableColumn>Endpoints</TableColumn>
                   <TableColumn>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>
-                  <TableColumn>CPU</TableColumn>
-                  <TableColumn>Memory</TableColumn>
-                  <TableColumn>Type</TableColumn>
-                  <TableColumn>Modified</TableColumn>
+                  <TableColumn>CPU / Memory</TableColumn>
+                  <TableColumn>Age</TableColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>

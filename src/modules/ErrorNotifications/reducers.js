@@ -7,11 +7,16 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+  // Ignore login REJECTIONS
+  if (action.type.includes('REQUEST_TOKEN_REJECTED')) {
+    return state;
+  }
+
   // Catch all REJECTIONS
   if (action.type.includes('REJECTED')) {
     // TODO: axios bug on failed promise
     // don't display this annoying error
-    if (action.payload && action.payload.includes('Cannot read property \'data\' of undefined')) {
+    if (action.payload && (typeof action.payload === 'string' && action.payload.includes('Cannot read property \'data\' of undefined'))) {
       return state;
     }
 

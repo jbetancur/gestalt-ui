@@ -19,6 +19,7 @@ import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
 import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { CopyUUIDButton } from 'components/Buttons';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
@@ -50,7 +51,7 @@ const ContainerForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
-              subtitle={container.id ? container.id : null}
+              subtitle={container.id ? <CopyUUIDButton model={container} /> : null}
             />}
             <CardText>
               <div className="flex-row">

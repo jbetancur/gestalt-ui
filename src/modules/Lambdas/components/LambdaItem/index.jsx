@@ -12,8 +12,8 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { DeleteIconButton } from 'components/Buttons';
-import LambdaUUID from '../LambdaUUID';
+import { DeleteIconButton, CopyUUIDButton } from 'components/Buttons';
+import A from 'components/A';
 
 class LambdaItem extends Component {
   static propTypes = {
@@ -101,9 +101,9 @@ class LambdaItem extends Component {
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
       <div key={endpoint.id} >
-        <a className="gf-caption-plain" href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+        <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
-        </a>
+        </A>
       </div>
     ));
   }
@@ -114,7 +114,7 @@ class LambdaItem extends Component {
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
-        <TableColumn style={{ fontSize: '.7em', padding: 0 }}><LambdaUUID lambda={lambda} /></TableColumn>
+        <TableColumn><CopyUUIDButton model={lambda} showUUID={false} /></TableColumn>
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
