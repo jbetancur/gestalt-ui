@@ -1,4 +1,4 @@
-import { isCommaDelimited } from 'util/validations';
+import { isCommaDelimited, isContainerName } from 'util/validations';
 
 export default (values) => {
   const errors = {
@@ -7,6 +7,10 @@ export default (values) => {
 
   if (!values.name) {
     errors.name = ' ';
+  }
+
+  if (!isContainerName(values.name)) {
+    errors.name = 'invalid port name';
   }
 
   if (!values.protocol) {

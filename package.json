@@ -256,7 +256,7 @@
         "redux-saga": "https://github.com/ysd002/redux-saga.git",
         "redux-thunk": "^2.2.0",
         "sanitize.css": "^5.0.0",
-        "styled-components": "^1.4.4",
+        "styled-components": "^1.4.5",
         "validator": "^7.0.0"
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, getFormValues } from 'redux-form';
+import { Field, getFormValues, change } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
@@ -17,7 +17,7 @@ import Breadcrumbs from 'modules/Breadcrumbs';
 // import httpMethods from '../../lists/httpMethods';
 import implementationTypes from '../../lists/implementationTypes';
 
-const PolicyEventRuleForm = (props) => {
+const APIEndpointForm = (props) => {
   const {
     reset,
     values,
@@ -40,9 +40,22 @@ const PolicyEventRuleForm = (props) => {
     fetchContainersDropDown,
     lambdasDropDown,
     containersDropDown,
+    lambdasDropDownPending,
+    containersDropDownPending,
   } = props;
 
   const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`;
+
+  // TODO: implement selectors
+  const containerPorts = () => {
+    const container = containersDropDown.find(cont => cont.id === values.properties.implementation_id);
+    return container && container.properties && container.properties.port_mappings;
+  };
+
+  const fetchContainers = () => {
+    props.dispatch(change(props.form, 'properties.container_port_name', ''));
+    fetchContainersDropDown(params.fqon, params.environmentId);
+  };
 
   return (
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -128,7 +141,7 @@ const PolicyEventRuleForm = (props) => {
                   required
                   label="Container"
                   errorText={touched && error}
-                  onFocus={() => fetchContainersDropDown(params.fqon, params.environmentId)}
+                  onFocus={() => fetchContainers()}
                 /> : null}
               {values.properties.implementation_type === 'lambda' ?
                 <Field
@@ -143,26 +156,21 @@ const PolicyEventRuleForm = (props) => {
                   label="Lambda"
                   errorText={touched && error}
                   onFocus={() => fetchLambdasDropDown(params.fqon, params.environmentId)}
+                  disabled={lambdasDropDownPending}
                 /> : null}
-              {/* {values.properties.implementation_type ?
-                <Field
-                  className="flex-3 flex-xs-12"
-                  component={TextField}
-                  name="properties.implementation_id"
-                  label={`${values.properties.implementation_type} uuid`}
-                  type="text"
-                  required
-                  errorText={touched && error}
-                /> : null} */}
               {values.properties.implementation_type === 'container' ?
                 <Field
+                  id="container-ports-dropdown"
                   className="flex-3 flex-xs-12"
-                  component={TextField}
+                  component={SelectField}
                   name="properties.container_port_name"
-                  label="Container Port Name"
-                  type="text"
+                  menuItems={containerPorts()}
+                  itemLabel="name"
+                  itemValue="name"
                   required
+                  label="Container Port Name"
                   errorText={touched && error}
+                  disabled={containersDropDownPending}
                 /> : null}
               {values.properties.implementation_type === 'lambda' ?
                 <Field
@@ -200,7 +208,7 @@ const PolicyEventRuleForm = (props) => {
               raised
               label={submitLabel}
               type="submit"
-              disabled={pristine || pending || invalid || submitting}
+              disabled={pristine || pending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
               primary
             />
           </CardActions>
@@ -210,7 +218,9 @@ const PolicyEventRuleForm = (props) => {
   );
 };
 
-PolicyEventRuleForm.propTypes = {
+APIEndpointForm.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
@@ -226,6 +236,8 @@ PolicyEventRuleForm.propTypes = {
   fetchContainersDropDown: PropTypes.func.isRequired,
   lambdasDropDown: PropTypes.array.isRequired,
   containersDropDown: PropTypes.array.isRequired,
+  lambdasDropDownPending: PropTypes.bool.isRequired,
+  containersDropDownPending: PropTypes.bool.isRequired,
   touched: PropTypes.bool,
   error: PropTypes.bool,
   title: PropTypes.string,
@@ -234,7 +246,7 @@ PolicyEventRuleForm.propTypes = {
   editMode: PropTypes.bool,
 };
 
-PolicyEventRuleForm.defaultProps = {
+APIEndpointForm.defaultProps = {
   apiEndpointUpdatePending: false,
   touched: false,
   error: false,
@@ -248,4 +260,4 @@ export default connect(
   (state, props) => ({
     values: getFormValues(props.form)(state)
   })
-)(PolicyEventRuleForm);
+)(APIEndpointForm);

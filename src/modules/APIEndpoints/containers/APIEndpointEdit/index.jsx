@@ -17,11 +17,20 @@ class APIEndpointEdit extends Component {
     apiEndpoint: PropTypes.object.isRequired,
     fetchAPIEndpoint: PropTypes.func.isRequired,
     updateAPIEndpoint: PropTypes.func.isRequired,
+    fetchContainersDropDown: PropTypes.func.isRequired,
+    fetchLambdasDropDown: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
-    const { params, fetchAPIEndpoint } = this.props;
+    const { params, router, fetchAPIEndpoint, fetchContainersDropDown, fetchLambdasDropDown } = this.props;
+
+    if (router.location.query.implementationType === 'container') {
+      fetchContainersDropDown(params.fqon, params.environmentId);
+    } else {
+      fetchLambdasDropDown(params.fqon, params.environmentId);
+    }
+
     fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId);
   }
 
@@ -67,6 +76,8 @@ function mapStateToProps(state) {
     lambdaProvider: state.metaResource.lambdaProvider.provider,
     lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
     containersDropDown: state.metaResource.containersDropDown.containers,
+    lambdasDropDownPending: state.metaResource.lambdasDropDown.pending,
+    containersDropDownPending: state.metaResource.containersDropDown.pending,
     initialValues: model,
     enableReinitialize: true,
   };

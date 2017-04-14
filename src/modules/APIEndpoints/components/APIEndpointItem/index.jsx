@@ -71,7 +71,8 @@ class apiEndpointItem extends Component {
     if (e.target.className.includes('md-table-column')) {
       const { router, params, } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`
+        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
+        query: { implementationType: apiEndpoint.properties.implementation_type },
       });
     }
   }
