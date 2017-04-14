@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
+import ReactGA from 'react-ga';
 import { replace } from 'react-router-redux';
 import {
   REQUEST_TOKEN_PENDING,
@@ -7,7 +8,7 @@ import {
   REQUEST_TOKEN_REJECTED,
   LOG_OUT,
 } from './actionTypes';
-import { SEC_API_URL, API_TIMEOUT } from '../../constants';
+import { SEC_API_URL, API_TIMEOUT, UI_VERSION, ANALYTICS_TRACKING, ANALYTICS_TRACKING_ACCT } from '../../constants';
 
 export function hideLoginModal() {
   return { type: 'HIDE_LOGIN_MODAL' };
@@ -41,6 +42,22 @@ export function login(username, password, isModalLogin) {
     securityAPI.post('root/oauth/issue', payload).then((response) => {
       dispatch({ type: REQUEST_TOKEN_FULFILLED, payload: response.data });
       setToken(response.data);
+
+      if (ANALYTICS_TRACKING) {
+        ReactGA.initialize(ANALYTICS_TRACKING_ACCT, {
+          debug: false,
+          gaOptions: {
+            auto: true,
+            clientId: username,
+          },
+        });
+
+        ReactGA.event({
+          category: `UI-LOGIN v${UI_VERSION}`,
+          label: `UI-LOGIN v${UI_VERSION}`,
+          action: `User Logged into Ui v${UI_VERSION}`,
+        });
+      }
 
       if (isModalLogin) {
         dispatch(hideLoginModal());
