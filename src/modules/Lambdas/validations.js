@@ -1,5 +1,5 @@
 import { isLambdaName } from 'util/validations';
-import { isJSON, isISO8601 } from 'validator';
+import { isJSON } from 'validator';
 
 export const nameMaxLen = 45;
 export const descriptionMaxLen = 512;
@@ -70,11 +70,11 @@ export default (values) => {
     errors.properties.headers.Accept = 'accept header is required';
   }
 
-  if (values.properties.periodic_info &&
-      values.properties.periodic_info.schedule &&
-      !isISO8601(values.properties.periodic_info.schedule)) {
-    errors.properties.periodic_info.schedule = 'must be a valid ISO 8601 format';
-  }
+  // if (values.properties.periodic_info &&
+  //     values.properties.periodic_info.schedule &&
+  //     !isISO8601(values.properties.periodic_info.schedule)) {
+  //   errors.properties.periodic_info.schedule = 'must be a valid ISO 8601 format';
+  // }
 
   if (values.properties.periodic_info &&
       values.properties.periodic_info.payload &&

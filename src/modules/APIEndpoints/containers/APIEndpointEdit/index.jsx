@@ -35,6 +35,8 @@ class APIEndpointEdit extends Component {
     };
 
     const payload = cloneDeep({ ...values });
+    payload.name = payload.properties.resource.split('/').join('-');
+
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/APIS/${params.apiId}/edit`);
@@ -44,7 +46,7 @@ class APIEndpointEdit extends Component {
 
   render() {
     const { apiEndpoint, pending } = this.props;
-    return pending ? <CircularActivity id="apiEndpoint-loading" /> : <APIEndpointForm editMode title={apiEndpoint.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updateAPIEndpoint(values)} {...this.props} />;
+    return pending ? <CircularActivity id="apiEndpoint-loading" /> : <APIEndpointForm editMode title={apiEndpoint.properties.resource} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updateAPIEndpoint(values)} {...this.props} />;
   }
 }
 
@@ -63,6 +65,8 @@ function mapStateToProps(state) {
     updatedapiEndpoint: state.metaResource.apiEndpointUpdate.apiEndpoint,
     apiEndpointUpdatePending: state.metaResource.apiEndpointUpdate.pending,
     lambdaProvider: state.metaResource.lambdaProvider.provider,
+    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
+    containersDropDown: state.metaResource.containersDropDown.containers,
     initialValues: model,
     enableReinitialize: true,
   };

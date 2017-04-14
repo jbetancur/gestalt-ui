@@ -14,7 +14,6 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import A from 'components/A';
-import { CopyUUIDButton } from 'components/Buttons';
 import ContainerActions from '../ContainerActions';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
@@ -121,7 +120,6 @@ class ContainerItem extends Component {
         </EnhancedTableColumn>
         <EnhancedTableColumn>{container.name}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.status}</EnhancedTableColumn>
-        <EnhancedTableColumn><CopyUUIDButton model={container} showUUID={false} /></EnhancedTableColumn>
         <EnhancedTableColumn>{this.renderAPIEndpoints(container)}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.provider.name}</EnhancedTableColumn>
         <EnhancedTableColumn>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</EnhancedTableColumn>
@@ -150,7 +148,6 @@ class ContainerItem extends Component {
                   <TableColumn />
                   <TableColumn>Name</TableColumn>
                   <TableColumn>Status</TableColumn>
-                  <TableColumn>UUID</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
                   <TableColumn>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>

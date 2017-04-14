@@ -16,6 +16,7 @@ import lambdas from './lambdas';
 import lambda from './lambda';
 import lambdaUpdate from './lambdaUpdate';
 import lambdaProvider from './lambdaProvider';
+import lambdasDropDown from './lambdasDropDown';
 import apis from './apis';
 import api from './api';
 import apiUpdate from './apiUpdate';
@@ -26,10 +27,11 @@ import providers from './providers';
 import provider from './provider';
 import providerUpdate from './providerUpdate';
 import providersByType from './providersByType';
-import fetchProviderKongsByGateway from './fetchProviderKongsByGateway';
+import fetchProviderKongsByGateway from './providerKongsByGateway';
 import executors from './executors';
 import containers from './containers';
 import container from './container';
+import containersDropDown from './containersDropDown';
 import policies from './policies';
 import policy from './policy';
 import policyUpdate from './policyUpdate';
@@ -68,6 +70,7 @@ export default combineReducers({
   lambda,
   lambdaUpdate,
   lambdaProvider,
+  lambdasDropDown,
   apis,
   api,
   apiUpdate,
@@ -82,6 +85,7 @@ export default combineReducers({
   executors,
   containers,
   container,
+  containersDropDown,
   policies,
   policy,
   policyUpdate,

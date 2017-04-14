@@ -12,7 +12,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { DeleteIconButton, CopyUUIDButton } from 'components/Buttons';
+import { DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
 
 class LambdaItem extends Component {
@@ -114,7 +114,6 @@ class LambdaItem extends Component {
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
-        <TableColumn><CopyUUIDButton model={lambda} showUUID={false} /></TableColumn>
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
@@ -139,7 +138,6 @@ class LambdaItem extends Component {
               <TableRow>
                 <TableColumn>Name</TableColumn>
                 <TableColumn>Description</TableColumn>
-                <TableColumn>UUID</TableColumn>
                 <TableColumn>Endpoints</TableColumn>
                 <TableColumn>Runtime</TableColumn>
                 <TableColumn>Owner</TableColumn>

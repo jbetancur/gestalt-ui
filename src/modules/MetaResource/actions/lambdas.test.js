@@ -20,6 +20,16 @@ describe('Lambda Actions', () => {
     expect(actions.fetchLambdas('iamfqon', '1')).to.deep.equal(expectedAction);
   });
 
+  it('should request FETCH_LAMBDAS_DROPDOWN_REQUEST', () => {
+    const expectedAction = {
+      type: types.FETCH_LAMBDAS_DROPDOWN_REQUEST,
+      fqon: 'iamfqon',
+      environmentId: '1',
+    };
+
+    expect(actions.fetchLambdasDropDown('iamfqon', '1')).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_LAMBDA_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_LAMBDA_REQUEST,

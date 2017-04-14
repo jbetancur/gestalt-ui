@@ -17,6 +17,7 @@ class APIEndpointCreate extends Component {
   create(values) {
     const { params, router, createAPIEndpoint } = this.props;
     const payload = { ...values };
+    payload.name = payload.properties.resource.split('/').join('-');
 
     const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
     createAPIEndpoint(params.fqon, params.apiId, payload, onSuccess);
@@ -48,6 +49,8 @@ function mapStateToProps(state) {
     pending,
     pendingAPIEndpoints: state.metaResource.apiEndpoints.pending,
     lambdaProvider: state.metaResource.lambdaProvider.provider,
+    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
+    containersDropDown: state.metaResource.containersDropDown.containers,
     initialValues: model,
     enableReinitialize: true,
   };

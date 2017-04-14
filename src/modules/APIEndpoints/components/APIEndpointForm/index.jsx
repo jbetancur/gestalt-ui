@@ -13,7 +13,6 @@ import Checkbox from 'components/Checkbox';
 import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
 import Breadcrumbs from 'modules/Breadcrumbs';
-import { nameMaxLen } from './validations';
 // import authTypes from '../../lists/authTypes';
 // import httpMethods from '../../lists/httpMethods';
 import implementationTypes from '../../lists/implementationTypes';
@@ -37,6 +36,10 @@ const PolicyEventRuleForm = (props) => {
     title,
     editMode,
     apiEndpoint,
+    fetchLambdasDropDown,
+    fetchContainersDropDown,
+    lambdasDropDown,
+    containersDropDown,
   } = props;
 
   const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`;
@@ -79,16 +82,6 @@ const PolicyEventRuleForm = (props) => {
                 errorText={touched && error}
                 onChange={() => reset()}
               />
-              <Field
-                className="flex-4 flex-xs-12"
-                component={TextField}
-                name="name"
-                label="Name"
-                type="text"
-                required
-                errorText={touched && error}
-                maxLength={nameMaxLen}
-              />
               {/* <Field
                 id="auth-type"
                 className="flex-2 flex-xs-6"
@@ -114,56 +107,82 @@ const PolicyEventRuleForm = (props) => {
                 errorText={props.touched && props.error}
               /> */}
               <Field
-                className="flex-6 flex-xs-12"
+                className="flex-4 flex-xs-12"
                 component={TextField}
                 name="properties.resource"
                 label="Resource Path"
                 type="text"
                 required
                 errorText={touched && error}
-                helpText="ex: /path1"
+                helpText="ex: /path or /path1/path2"
               />
-              <div className="flex-row">
-                {values.properties.implementation_type ?
-                  <Field
-                    className="flex-3 flex-xs-12"
-                    component={TextField}
-                    name="properties.implementation_id"
-                    label={`${values.properties.implementation_type} uuid`}
-                    type="text"
-                    required
-                    errorText={touched && error}
-                  /> : null}
-                {values.properties.implementation_type === 'container' ?
-                  <Field
-                    className="flex-3 flex-xs-12"
-                    component={TextField}
-                    name="properties.container_port_name"
-                    label="Container Port Name"
-                    type="text"
-                    required
-                    errorText={touched && error}
-                  /> : null}
-                {values.properties.implementation_type === 'lambda' ?
-                  <Field
-                    className="flex-2 flex-xs-6"
-                    id="synchronous"
-                    component={Checkbox}
-                    name="properties.synchronous"
-                    // TODO: Find out why redux-form state for bool doesn't apply
-                    checked={values.properties.synchronous}
-                    label="Synchronous"
-                  /> : null}
-                {/* <Field
-                  className="flex-6 flex-xs-12"
+              {values.properties.implementation_type === 'container' ?
+                <Field
+                  id="containers-dropdown"
+                  className="flex-2 flex-xs-6"
+                  component={SelectField}
+                  name="properties.implementation_id"
+                  menuItems={containersDropDown}
+                  itemLabel="name"
+                  itemValue="id"
+                  required
+                  label="Container"
+                  errorText={touched && error}
+                  onFocus={() => fetchContainersDropDown(params.fqon, params.environmentId)}
+                /> : null}
+              {values.properties.implementation_type === 'lambda' ?
+                <Field
+                  id="lambdas-dropdown"
+                  className="flex-2 flex-xs-6"
+                  component={SelectField}
+                  name="properties.implementation_id"
+                  menuItems={lambdasDropDown}
+                  itemLabel="name"
+                  itemValue="id"
+                  required
+                  label="Lambda"
+                  errorText={touched && error}
+                  onFocus={() => fetchLambdasDropDown(params.fqon, params.environmentId)}
+                /> : null}
+              {/* {values.properties.implementation_type ?
+                <Field
+                  className="flex-3 flex-xs-12"
                   component={TextField}
-                  name="properties.implementation.function"
-                  label="Function"
+                  name="properties.implementation_id"
+                  label={`${values.properties.implementation_type} uuid`}
                   type="text"
                   required
                   errorText={touched && error}
-                /> */}
-              </div>
+                /> : null} */}
+              {values.properties.implementation_type === 'container' ?
+                <Field
+                  className="flex-3 flex-xs-12"
+                  component={TextField}
+                  name="properties.container_port_name"
+                  label="Container Port Name"
+                  type="text"
+                  required
+                  errorText={touched && error}
+                /> : null}
+              {values.properties.implementation_type === 'lambda' ?
+                <Field
+                  className="flex-2 flex-xs-6"
+                  id="synchronous"
+                  component={Checkbox}
+                  name="properties.synchronous"
+                  // TODO: Find out why redux-form state for bool doesn't apply
+                  checked={values.properties.synchronous}
+                  label="Synchronous"
+                /> : null}
+              {/* <Field
+                className="flex-6 flex-xs-12"
+                component={TextField}
+                name="properties.implementation.function"
+                label="Function"
+                type="text"
+                required
+                errorText={touched && error}
+              /> */}
             </div>
           </CardText>
           {apiEndpointUpdatePending || pending ? <LinearProgress id="apiEndpoint-form" /> : null}
@@ -203,6 +222,10 @@ PolicyEventRuleForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   apiEndpointUpdatePending: PropTypes.bool,
+  fetchLambdasDropDown: PropTypes.func.isRequired,
+  fetchContainersDropDown: PropTypes.func.isRequired,
+  lambdasDropDown: PropTypes.array.isRequired,
+  containersDropDown: PropTypes.array.isRequired,
   touched: PropTypes.bool,
   error: PropTypes.bool,
   title: PropTypes.string,
