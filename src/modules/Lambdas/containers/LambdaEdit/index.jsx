@@ -47,7 +47,6 @@ class LambdaEdit extends Component {
         handler: properties.handler,
         package_url: properties.package_url,
         public: properties.public,
-        synchronous: properties.synchronous,
         runtime: properties.runtime,
         provider: properties.provider,
         periodic_info: properties.periodic_info
@@ -83,7 +82,6 @@ class LambdaEdit extends Component {
         handler: properties.handler,
         package_url: properties.package_url,
         public: properties.public,
-        synchronous: properties.synchronous,
         runtime: properties.runtime,
         provider: properties.provider,
         periodic_info: properties.periodic_info,
@@ -144,7 +142,6 @@ function mapStateToProps(state) {
       handler: lambda.properties.handler,
       package_url: lambda.properties.package_url,
       public: lambda.properties.public,
-      synchronous: lambda.properties.synchronous,
       runtime: lambda.properties.runtime,
       provider: lambda.properties.provider,
       periodic_info: lambda.properties.periodic_info,

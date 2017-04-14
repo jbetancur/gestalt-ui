@@ -8,6 +8,7 @@ import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FieldRemoveButton } from 'components/Buttons';
+import A from 'components/A';
 
 const EnhancedTableColumn = styled(TableColumn)`
   padding-top: 1px !important;
@@ -51,7 +52,7 @@ class PortMapListing extends Component {
         <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></EnhancedTableColumn>
         <EnhancedTableColumn>{item.service_port}</EnhancedTableColumn>
         <EnhancedTableColumn>{item.container_port}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><a href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</a></div>)}</EnhancedTableColumn>
+        <EnhancedTableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><A href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</A></div>)}</EnhancedTableColumn>
         <EnhancedTableColumn><FieldRemoveButton onClick={() => this.props.removePortmapping(item)} inTable /></EnhancedTableColumn>
       </TableRow>
     ));

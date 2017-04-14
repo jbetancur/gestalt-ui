@@ -37,7 +37,7 @@ describe('API Endpoint Sagas', () => {
         put({
           type: types.FETCH_APIENDPOINTS_FULFILLED,
           payload: [
-            { id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }]
+            { id: 1, properties: { public_url: 'http://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }]
         })
       );
     });

@@ -20,6 +20,10 @@ const ActionsWrapper = styled.div`
       color: #4CAF50;
     }
 
+    .container--LAUNCHED {
+      color: #4CAF50;
+    }
+
     .container--HEALTHY {
       color: #607D8B;
     }

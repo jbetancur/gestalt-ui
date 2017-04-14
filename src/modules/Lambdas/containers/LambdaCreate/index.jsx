@@ -95,7 +95,6 @@ function mapStateToProps(state) {
         handler: '',
         package_url: '',
         public: true,
-        synchronous: true,
         runtime: 'nodejs',
         // Providers is really an array of {id, locations[]}
         provider: {},

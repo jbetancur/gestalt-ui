@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { isUUID } from 'validator';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-// import SelectField from 'components/SelectField';
-import MDSelectField from 'react-md/lib/SelectFields';
+import Checkbox from 'components/Checkbox';
+import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { nameMaxLen } from './validations';
@@ -21,6 +20,8 @@ import implementationTypes from '../../lists/implementationTypes';
 
 const PolicyEventRuleForm = (props) => {
   const {
+    reset,
+    values,
     params,
     pending,
     apiEndpointUpdatePending,
@@ -34,14 +35,11 @@ const PolicyEventRuleForm = (props) => {
     cancelLabel,
     submitLabel,
     title,
-    // editMode,
+    editMode,
     apiEndpoint,
-    fetchLambdaProvider,
   } = props;
 
   const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`;
-
-  const implementationChanged = value => isUUID(value) && fetchLambdaProvider(params.fqon, value);
 
   return (
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -68,7 +66,21 @@ const PolicyEventRuleForm = (props) => {
           <CardText>
             <div className="flex-row">
               <Field
-                className="flex-3 flex-xs-12"
+                id="endpoint-type"
+                className="flex-2 flex-xs-6"
+                component={SelectField}
+                name="properties.implementation_type"
+                menuItems={implementationTypes}
+                itemLabel="name"
+                itemValue="value"
+                required
+                label="Type"
+                disabled={editMode}
+                errorText={touched && error}
+                onChange={() => reset()}
+              />
+              <Field
+                className="flex-4 flex-xs-12"
                 component={TextField}
                 name="name"
                 label="Name"
@@ -102,7 +114,7 @@ const PolicyEventRuleForm = (props) => {
                 errorText={props.touched && props.error}
               /> */}
               <Field
-                className="flex-4 flex-xs-12"
+                className="flex-6 flex-xs-12"
                 component={TextField}
                 name="properties.resource"
                 label="Resource Path"
@@ -111,35 +123,47 @@ const PolicyEventRuleForm = (props) => {
                 errorText={touched && error}
                 helpText="ex: /path1"
               />
-              <MDSelectField
-                id="endpoint-type"
-                className="flex-2 flex-xs-6"
-                menuItems={implementationTypes}
-                itemLabel="name"
-                itemValue="value"
-                defaultValue="lambdas"
-                required
-                label="Type"
-              />
-              <Field
-                className="flex-3 flex-xs-12"
-                component={TextField}
-                name="properties.implementation_id"
-                label="Lambda UUID"
-                type="text"
-                required
-                errorText={touched && error}
-                onChange={(value1, value2) => implementationChanged(value2)}
-              />
-              {/* <Field
-                className="flex-6 flex-xs-12"
-                component={TextField}
-                name="properties.implementation.function"
-                label="Function"
-                type="text"
-                required
-                errorText={touched && error}
-              /> */}
+              <div className="flex-row">
+                {values.properties.implementation_type ?
+                  <Field
+                    className="flex-3 flex-xs-12"
+                    component={TextField}
+                    name="properties.implementation_id"
+                    label={`${values.properties.implementation_type} uuid`}
+                    type="text"
+                    required
+                    errorText={touched && error}
+                  /> : null}
+                {values.properties.implementation_type === 'container' ?
+                  <Field
+                    className="flex-3 flex-xs-12"
+                    component={TextField}
+                    name="properties.container_port_name"
+                    label="Container Port Name"
+                    type="text"
+                    required
+                    errorText={touched && error}
+                  /> : null}
+                {values.properties.implementation_type === 'lambda' ?
+                  <Field
+                    className="flex-2 flex-xs-6"
+                    id="synchronous"
+                    component={Checkbox}
+                    name="properties.synchronous"
+                    // TODO: Find out why redux-form state for bool doesn't apply
+                    checked={values.properties.synchronous}
+                    label="Synchronous"
+                  /> : null}
+                {/* <Field
+                  className="flex-6 flex-xs-12"
+                  component={TextField}
+                  name="properties.implementation.function"
+                  label="Function"
+                  type="text"
+                  required
+                  errorText={touched && error}
+                /> */}
+              </div>
             </div>
           </CardText>
           {apiEndpointUpdatePending || pending ? <LinearProgress id="apiEndpoint-form" /> : null}
@@ -168,7 +192,8 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
-  fetchLambdaProvider: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
@@ -183,7 +208,7 @@ PolicyEventRuleForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  // editMode: PropTypes.bool,
+  editMode: PropTypes.bool,
 };
 
 PolicyEventRuleForm.defaultProps = {

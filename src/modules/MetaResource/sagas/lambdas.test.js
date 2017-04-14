@@ -45,7 +45,7 @@ describe('Lambda Sagas', () => {
         put({
           type: types.FETCH_LAMBDAS_FULFILLED,
           payload: [
-            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
+            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'http://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
         })
       );
     });
@@ -81,7 +81,7 @@ describe('Lambda Sagas', () => {
         put({
           type: types.FETCH_LAMBDAS_FULFILLED,
           payload: [
-            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
+            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'http://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
         })
       );
     });

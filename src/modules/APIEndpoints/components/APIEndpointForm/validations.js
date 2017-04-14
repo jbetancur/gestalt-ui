@@ -1,5 +1,4 @@
 import { isUUID, isURL } from 'validator';
-// import { isAbsolutePath, isURL } from 'util/validations';
 
 export const nameMaxLen = 45;
 
@@ -17,15 +16,23 @@ export default (values) => {
   }
 
   if (values.properties.resource && !isURL(values.properties.resource, { require_protocol: false, require_host: false, allow_trailing_dot: false })) {
-    errors.properties.resource = 'must be valid URL Path';
+    errors.properties.resource = 'must be valid url path';
   }
 
-  // if (!values.properties.implementation_id) {
-  //   errors.properties.implementation_id = 'a lambda UUID is required';
-  // }
+  if (!values.properties.implementation_id) {
+    errors.properties.implementation_id = ' ';
+  }
 
   if (values.properties.implementation_id && !isUUID(values.properties.implementation_id)) {
     errors.properties.implementation_id = 'must be a valid UUID';
+  }
+
+  if (!values.properties.implementation_type) {
+    errors.properties.implementation_type = ' ';
+  }
+
+  if (!values.properties.container_port_name) {
+    errors.properties.container_port_name = ' ';
   }
 
   // /* eslint-disable dot-notation */

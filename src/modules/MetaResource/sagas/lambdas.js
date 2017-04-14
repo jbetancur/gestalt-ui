@@ -21,7 +21,7 @@ export function* fetchLambdas(action) {
       // eslint-disable-next-line
       for (const endpoint of apieEndpointsResponse.data) {
         const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
-        apiEndpoints.push(merge(endpoint, { properties: { public_url: `https://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
+        apiEndpoints.push(merge(endpoint, { properties: { public_url: `http://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
       }
       lambdas.push(merge(lambda, { properties: { apiEndpoints } }));
     }

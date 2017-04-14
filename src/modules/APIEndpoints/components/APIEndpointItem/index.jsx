@@ -12,6 +12,7 @@ import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
+import A from 'components/A';
 
 class apiEndpointItem extends Component {
   static propTypes = {
@@ -100,10 +101,11 @@ class apiEndpointItem extends Component {
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
         <TableColumn>{apiEndpoint.name}</TableColumn>
         <TableColumn>
-          <a href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</a>
+          <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
         {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn>
-        <TableColumn>{apiEndpoint.properties.http_method}</TableColumn> */}
+      <TableColumn>{apiEndpoint.properties.http_method}</TableColumn> */}
+        <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
       </TableRow>
@@ -128,6 +130,7 @@ class apiEndpointItem extends Component {
               {/* <TableColumn>Security</TableColumn>
               <TableColumn>HTTP Method</TableColumn> */}
               <TableColumn>Public URL</TableColumn>
+              <TableColumn>Type</TableColumn>
               <TableColumn>Owner</TableColumn>
               <TableColumn>Created</TableColumn>
             </TableRow>
