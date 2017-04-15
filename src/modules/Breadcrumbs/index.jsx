@@ -40,7 +40,8 @@ class Breadcrumbs extends PureComponent {
   }
 
   allowNav(e, route) {
-    if (this.props.router.location.pathname === route) {
+    // strip '/'to make compares reliable
+    if ((this.props.router.location.pathname.split('/').join('') === route.split('/').join(''))) {
       e.preventDefault();
     }
   }
