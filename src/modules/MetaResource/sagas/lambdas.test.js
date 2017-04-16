@@ -151,23 +151,44 @@ describe('Lambda Sagas', () => {
   });
 
   describe('fetchLambda Sequence', () => {
-    const saga = fetchLambda({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
-    let result;
+    describe('when there are NO env variables to merge', () => {
+      const saga = fetchLambda({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+      let result;
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.all, [axios.get('iamfqon/lambdas/1'), axios.get('iamfqon/environments/2/env')])
+        );
+      });
 
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        call(axios.all, [axios.get('iamfqon/lambdas/1'), axios.get('iamfqon/environments/2/env')])
-      );
+      it('should return a payload and dispatch a success status', () => {
+        const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
+        result = saga.next(promiseArray);
+
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_LAMBDA_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
+        );
+      });
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
-      result = saga.next(promiseArray);
+    describe('when there ARE env variables to merge from the parent', () => {
+      const saga = fetchLambda({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+      let result;
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.all, [axios.get('iamfqon/lambdas/1'), axios.get('iamfqon/environments/2/env')])
+        );
+      });
 
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDA_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
-      );
+      it('should return a payload and dispatch a success status and override the parents env vars', () => {
+        const promiseArray = [{ data: { id: 1, properties: { env: { test: 'morty' } } } }, { data: { test: 'rick' } }];
+        result = saga.next(promiseArray);
+
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_LAMBDA_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' } } } })
+        );
+      });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -181,6 +202,8 @@ describe('Lambda Sagas', () => {
       );
     });
   });
+
+
 
   describe('createLambda Sequence', () => {
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };

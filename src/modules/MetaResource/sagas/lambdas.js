@@ -68,7 +68,7 @@ export function* fetchLambda(action) {
   try {
     const response = yield call(axios.all, [getLambda(), getEnv()]);
     const payload = { ...response[0].data };
-    payload.properties.env = Object.assign(payload.properties.env, response[1].data);
+    payload.properties.env = Object.assign(response[1].data, payload.properties.env);
 
     yield put({ type: types.FETCH_LAMBDA_FULFILLED, payload });
   } catch (e) {

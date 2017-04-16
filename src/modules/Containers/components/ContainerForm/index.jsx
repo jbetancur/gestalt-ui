@@ -64,7 +64,6 @@ const ContainerForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  errorText={props.touched && props.error}
                   menuItems={props.providers}
                   onFocus={() => fetchProviders()}
                   disabled={container.id}
@@ -78,7 +77,6 @@ const ContainerForm = (props) => {
                     label="Name"
                     type="text"
                     required
-                    errorText={props.touched && props.error}
                     maxLength={nameMaxLen}
                   />
                   <Field
@@ -99,7 +97,6 @@ const ContainerForm = (props) => {
                     itemLabel="name"
                     itemValue="name"
                     required
-                    errorText={props.touched && props.error}
                   />
                   <Field
                     className="flex-6 flex-xs-12"
@@ -108,7 +105,7 @@ const ContainerForm = (props) => {
                     label="Image"
                     type="text"
                     required
-                    errorText={props.touched && props.error}
+
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -120,7 +117,7 @@ const ContainerForm = (props) => {
                     label="Instances"
                     type="number"
                     required
-                    errorText={props.touched && props.error}
+
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -133,7 +130,6 @@ const ContainerForm = (props) => {
                     label="CPU"
                     type="number"
                     required
-                    errorText={props.touched && props.error}
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -146,7 +142,6 @@ const ContainerForm = (props) => {
                     label="Memory"
                     type="number"
                     required
-                    errorText={props.touched && props.error}
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -285,7 +280,6 @@ const ContainerForm = (props) => {
                   name="properties.constraints"
                   label="Constraints"
                   type="text"
-                  errorText={props.touched && props.error}
                   helpText="Comma delimited set of constraints"
                 />
                 <Field
@@ -294,7 +288,6 @@ const ContainerForm = (props) => {
                   name="properties.accepted_resource_roles"
                   label="Resource Roles"
                   type="text"
-                  errorText={props.touched && props.error}
                   helpText="Comma delimited set of resource roles"
                 />
                 <Field
@@ -303,7 +296,6 @@ const ContainerForm = (props) => {
                   name="properties.user"
                   label="User"
                   type="text"
-                  errorText={props.touched && props.error}
                   helpText="unix formatted username"
                 />
               </ExpansionPanel>
@@ -331,8 +323,6 @@ ContainerForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
   container: PropTypes.object.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,

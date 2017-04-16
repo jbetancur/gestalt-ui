@@ -251,8 +251,6 @@ APIEndpointForm.propTypes = {
 
 APIEndpointForm.defaultProps = {
   apiEndpointUpdatePending: false,
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

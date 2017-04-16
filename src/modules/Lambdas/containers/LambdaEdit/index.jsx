@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
-import { map } from 'lodash';
+import { map, cloneDeep } from 'lodash';
 import base64 from 'base-64';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
@@ -33,11 +33,11 @@ class LambdaEdit extends Component {
 
   updatedModel(formValues) {
     const { name, description, properties } = formValues;
-    const model = {
+    const model = cloneDeep({
       name,
       description,
       properties: {
-        env: properties.env,
+        env: {},
         headers: properties.headers,
         code_type: properties.code_type,
         compressed: properties.compressed,
@@ -51,13 +51,13 @@ class LambdaEdit extends Component {
         provider: properties.provider,
         periodic_info: properties.periodic_info
       }
-    };
+    });
 
     if (formValues.properties.code) {
       model.properties.code = base64.encode(formValues.properties.code);
     }
 
-    // variables is a used for tracking out FieldArray
+    // variables is used for tracking our FieldArray
     formValues.variables.forEach((variable) => {
       model.properties.env[variable.name] = variable.value;
     });
@@ -101,10 +101,7 @@ class LambdaEdit extends Component {
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(lambda);
     const patches = jsonPatch.compare(originalModel, updatedModel);
-
-    const onSuccess = () => {
-      router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
-    };
+    const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
 
     this.props.updateLambda(params.fqon, id, patches, onSuccess);
   }
