@@ -9,6 +9,7 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import Autocomplete from 'react-md/lib/Autocompletes';
 import Checkbox from 'components/Checkbox';
 import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
@@ -25,8 +26,6 @@ const APIEndpointForm = (props) => {
     pending,
     apiEndpointUpdatePending,
     onSubmit,
-    touched,
-    error,
     invalid,
     pristine,
     submitting,
@@ -55,6 +54,10 @@ const APIEndpointForm = (props) => {
   const fetchContainers = () => {
     props.dispatch(change(props.form, 'properties.container_port_name', ''));
     fetchContainersDropDown(params.fqon, params.environmentId);
+  };
+
+  const handleAutoComplete = (value) => {
+    props.dispatch(change(props.form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
   };
 
   return (
@@ -92,7 +95,6 @@ const APIEndpointForm = (props) => {
                 required
                 label="Type"
                 disabled={editMode}
-                errorText={touched && error}
                 onChange={() => reset()}
               />
               {/* <Field
@@ -126,13 +128,12 @@ const APIEndpointForm = (props) => {
                 label="Resource Path"
                 type="text"
                 required
-                errorText={touched && error}
                 helpText="ex: /path or /path1/path2"
               />
               {values.properties.implementation_type === 'container' ?
                 <Field
                   id="containers-dropdown"
-                  className="flex-2 flex-xs-6"
+                  className="flex-3 flex-xs-12"
                   component={SelectField}
                   name="properties.implementation_id"
                   menuItems={containersDropDown}
@@ -140,23 +141,40 @@ const APIEndpointForm = (props) => {
                   itemValue="id"
                   required
                   label="Container"
-                  errorText={touched && error}
                   onFocus={() => fetchContainers()}
+                  helpText="container from the current environment"
                 /> : null}
               {values.properties.implementation_type === 'lambda' ?
+                <div className="flex-3 flex-sm-6 flex-xs-12">
+                  <Autocomplete
+                    id="lambdas-dropdown"
+                    data={lambdasDropDown}
+                    dataLabel="name"
+                    dataValue="id"
+                    label="Search Lambdas"
+                    clearOnAutocomplete
+                    onClick={() => fetchLambdasDropDown(params.fqon)}
+                    onAutocomplete={value => handleAutoComplete(value)}
+                    helpText="search by lambda name or uuid"
+                  />
+                  {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
+                  {values.properties.implementation_type === 'lambda' && values.properties.implementation_id ?
+                    <Field
+                      component={TextField}
+                      name="properties.implementation_id"
+                      label="Selected Lambda UUID"
+                      disabled={true}
+                    /> : null}
+                </div> : null}
+              {values.properties.implementation_type === 'lambda' ?
                 <Field
-                  id="lambdas-dropdown"
                   className="flex-2 flex-xs-6"
-                  component={SelectField}
-                  name="properties.implementation_id"
-                  menuItems={lambdasDropDown}
-                  itemLabel="name"
-                  itemValue="id"
-                  required
-                  label="Lambda"
-                  errorText={touched && error}
-                  onFocus={() => fetchLambdasDropDown(params.fqon, params.environmentId)}
-                  disabled={lambdasDropDownPending}
+                  id="synchronous"
+                  component={Checkbox}
+                  name="properties.synchronous"
+                  // TODO: Find out why redux-form state for bool doesn't apply
+                  checked={values.properties.synchronous}
+                  label="Synchronous"
                 /> : null}
               {values.properties.implementation_type === 'container' ?
                 <Field
@@ -169,18 +187,6 @@ const APIEndpointForm = (props) => {
                   itemValue="name"
                   required
                   label="Container Port Name"
-                  errorText={touched && error}
-                  disabled={containersDropDownPending}
-                /> : null}
-              {values.properties.implementation_type === 'lambda' ?
-                <Field
-                  className="flex-2 flex-xs-6"
-                  id="synchronous"
-                  component={Checkbox}
-                  name="properties.synchronous"
-                  // TODO: Find out why redux-form state for bool doesn't apply
-                  checked={values.properties.synchronous}
-                  label="Synchronous"
                 /> : null}
               {/* <Field
                 className="flex-6 flex-xs-12"
@@ -189,7 +195,6 @@ const APIEndpointForm = (props) => {
                 label="Function"
                 type="text"
                 required
-                errorText={touched && error}
               /> */}
             </div>
           </CardText>
@@ -238,8 +243,6 @@ APIEndpointForm.propTypes = {
   containersDropDown: PropTypes.array.isRequired,
   lambdasDropDownPending: PropTypes.bool.isRequired,
   containersDropDownPending: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,

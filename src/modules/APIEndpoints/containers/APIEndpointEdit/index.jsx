@@ -28,7 +28,7 @@ class APIEndpointEdit extends Component {
     if (router.location.query.implementationType === 'container') {
       fetchContainersDropDown(params.fqon, params.environmentId);
     } else {
-      fetchLambdasDropDown(params.fqon, params.environmentId);
+      fetchLambdasDropDown(params.fqon);
     }
 
     fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId);

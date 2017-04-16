@@ -32,7 +32,7 @@ export default (values) => {
   }
 
   if (!values.properties.container_port_name) {
-    errors.properties.container_port_name = ' ';
+    errors.properties.container_port_name = 'select a container port name, otherwise, ensure that you created an exposed port mapping';
   }
 
   // /* eslint-disable dot-notation */
