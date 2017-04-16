@@ -57,7 +57,6 @@ const LambdaForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  errorText={props.touched && props.error}
                   menuItems={props.providers}
                   onFocus={() => props.fetchProvidersByType(props.params.fqon, params.environmentId, 'environments', 'Lambda')}
                   disabled={props.editMode}
@@ -72,7 +71,6 @@ const LambdaForm = (props) => {
                   itemValue="runtime"
                   required
                   label="Runtime"
-                  errorText={props.touched && props.error}
                   disabled={props.editMode}
                   onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor')}
                 />
@@ -86,7 +84,6 @@ const LambdaForm = (props) => {
                   itemValue="value"
                   required
                   label="Code Type"
-                  errorText={props.touched && props.error}
                   disabled={props.editMode}
                 />
                 <Field
@@ -99,7 +96,6 @@ const LambdaForm = (props) => {
                   itemValue="value"
                   required
                   label="Accept Header"
-                  errorText={props.touched && props.error}
                 />
                 <Field
                   className="flex-4 flex-xs-12"
@@ -108,7 +104,6 @@ const LambdaForm = (props) => {
                   label="Name"
                   type="text"
                   required
-                  errorText={props.touched && props.error}
                   maxLength={nameMaxLen}
                 />
                 <Field
@@ -129,7 +124,6 @@ const LambdaForm = (props) => {
                   label="CPU"
                   type="number"
                   required
-                  errorText={props.touched && props.error}
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
@@ -142,7 +136,6 @@ const LambdaForm = (props) => {
                   label="Memory"
                   type="number"
                   required
-                  errorText={props.touched && props.error}
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
@@ -154,7 +147,6 @@ const LambdaForm = (props) => {
                   label="Timeout"
                   type="number"
                   required
-                  errorText={props.touched && props.error}
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
@@ -165,7 +157,6 @@ const LambdaForm = (props) => {
                   helpText={getRuntime().format}
                   type="text"
                   required
-                  errorText={props.touched && props.error}
                   disabled={props.editMode}
                 />
                 {values.properties.code_type === 'package' ?
@@ -176,7 +167,7 @@ const LambdaForm = (props) => {
                     label="Package URL"
                     type="text"
                     required
-                    errorText={props.touched && props.error}
+
                   /> : null}
                 {values.properties.code_type === 'package' ?
                   <Field
@@ -230,7 +221,6 @@ const LambdaForm = (props) => {
                   label="Schedule"
                   helpText="Date and time format - ISO 8601"
                   type="text"
-                  errorText={props.touched && props.error}
                 />
                 <Field
                   className="flex-3 flex-xs-12"
@@ -238,7 +228,6 @@ const LambdaForm = (props) => {
                   name="properties.periodic_info.timezone"
                   label="Timezone"
                   menuItems={timezones}
-                  errorText={props.touched && props.error}
                 />
                 <Field
                   className="flex-3 flex-xs-12"
@@ -246,7 +235,6 @@ const LambdaForm = (props) => {
                   name="properties.periodic_info.payload.eventName"
                   label="Event Name"
                   type="text"
-                  errorText={props.touched && props.error}
                 />
                 <div className="flex-row">
                   <Field
@@ -255,7 +243,7 @@ const LambdaForm = (props) => {
                     name="properties.periodic_info.payload.data"
                     label="json payload"
                     type="text"
-                    errorText={props.touched && props.error}
+
                     rows={2}
                   />
                 </div>
@@ -315,8 +303,6 @@ LambdaForm.propTypes = {
   theme: PropTypes.string.isRequired,
   executors: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -324,8 +310,6 @@ LambdaForm.propTypes = {
 };
 
 LambdaForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

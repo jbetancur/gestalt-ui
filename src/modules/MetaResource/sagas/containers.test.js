@@ -131,7 +131,7 @@ describe('Container Sagas', () => {
       });
     });
 
-    describe('fetchLambdasDropDown when there are NO containers', () => {
+    describe('fetchContainersDropDown when there are NO containers', () => {
       const saga = fetchContainersDropDown({ fqon: 'iamfqon', environmentId: 1 });
       let result;
 
@@ -152,34 +152,44 @@ describe('Container Sagas', () => {
   });
 
   describe('fetchContainer Sequence', () => {
-    const saga = fetchContainer({ fqon: 'iamfqon', containerId: 1, environmentId: 2 });
-    let result;
+    describe('when there are NO env variables to merge', () => {
+      const saga = fetchContainer({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+      let result;
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.all, [axios.get('iamfqon/containers/1'), axios.get('iamfqon/environments/2/env')])
+        );
+      });
 
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        call(axios.all, [axios.get('iamfqon/containers/1'), axios.get('iamfqon/environments/2/env')])
-      );
+      it('should return a payload and dispatch a success status', () => {
+        const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
+        result = saga.next(promiseArray);
+
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
+        );
+      });
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
-      result = saga.next(promiseArray);
+    describe('when there ARE env variables to merge from the parent', () => {
+      const saga = fetchContainer({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+      let result;
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.all, [axios.get('iamfqon/containers/1'), axios.get('iamfqon/environments/2/env')])
+        );
+      });
 
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
-      );
-    });
+      it('should return a payload and dispatch a success status and override the parents env vars', () => {
+        const promiseArray = [{ data: { id: 1, properties: { env: { test: 'morty' } } } }, { data: { test: 'rick' } }];
+        result = saga.next(promiseArray);
 
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchContainer({ fqon: 'iamfqon', environmentId: 1 });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
-      );
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' } } } })
+        );
+      });
     });
   });
 
