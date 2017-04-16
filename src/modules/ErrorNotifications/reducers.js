@@ -16,7 +16,11 @@ export default (state = initialState, action) => {
   if (action.type.includes('REJECTED')) {
     // TODO: axios bug on failed promise
     // don't display this annoying error
-    if (action.payload && (typeof action.payload === 'string' && action.payload.includes('Cannot read property \'data\' of undefined'))) {
+    if (action.payload && action.payload.message && action.payload.message.includes('Cannot read property \'data\' of undefined')) {
+      return state;
+    }
+
+    if (typeof action.payload === 'string' && action.payload.includes('Cannot read property \'data\' of undefined')) {
       return state;
     }
 
