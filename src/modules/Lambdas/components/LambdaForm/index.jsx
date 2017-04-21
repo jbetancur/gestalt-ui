@@ -50,7 +50,7 @@ const LambdaForm = (props) => {
               <div className="flex-row">
                 <Field
                   id="select-provider"
-                  className="flex-4 flex-xs-12"
+                  className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.provider.id"
                   required
@@ -63,7 +63,7 @@ const LambdaForm = (props) => {
                 />
                 <Field
                   id="select-runtime"
-                  className="flex-3 flex-xs-12"
+                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.runtime"
                   menuItems={props.executors}
@@ -76,7 +76,7 @@ const LambdaForm = (props) => {
                 />
                 <Field
                   id="select-code-type"
-                  className="flex-2 flex-xs-12"
+                  className="flex-2 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.code_type"
                   menuItems={[{ displayName: 'Inline', value: 'code' }, { displayName: 'Package', value: 'package' }]}
@@ -88,7 +88,7 @@ const LambdaForm = (props) => {
                 />
                 <Field
                   id="select-return-type"
-                  className="flex-3 flex-xs-12"
+                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.headers.Accept"
                   menuItems={acceptHeaders}
@@ -98,7 +98,7 @@ const LambdaForm = (props) => {
                   label="Accept Header"
                 />
                 <Field
-                  className="flex-4 flex-xs-12"
+                  className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
                   component={TextField}
                   name="name"
                   label="Name"
@@ -107,7 +107,7 @@ const LambdaForm = (props) => {
                   maxLength={nameMaxLen}
                 />
                 <Field
-                  className="flex-5 flex-xs-12"
+                  className="flex-5 flex-xs-12 flex-sm-6 flex-md-6"
                   component={TextField}
                   name="description"
                   label="Description"
@@ -115,7 +115,7 @@ const LambdaForm = (props) => {
                   maxLength={descriptionMaxLen}
                 />
                 <Field
-                  className="flex-1 flex-xs-12"
+                  className="flex-1 flex-xs-4 flex-sm-4 flex-md-4"
                   component={TextField}
                   name="properties.cpus"
                   min={0.1}
@@ -127,7 +127,7 @@ const LambdaForm = (props) => {
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
-                  className="flex-1 flex-xs-12"
+                  className="flex-1 flex-xs-4 flex-sm-4 flex-md-4"
                   component={TextField}
                   name="properties.memory"
                   min={256}
@@ -139,7 +139,7 @@ const LambdaForm = (props) => {
                   parse={value => Number(value)}  // redux form formats everything as string, so force number
                 />
                 <Field
-                  className="flex-1 flex-xs-12"
+                  className="flex-1 flex-xs-4 flex-sm-4 flex-md-4"
                   component={TextField}
                   name="properties.timeout"
                   min={1}
@@ -161,7 +161,7 @@ const LambdaForm = (props) => {
                 />
                 {values.properties.code_type === 'package' ?
                   <Field
-                    className="flex-6 flex-xs-12"
+                    className="flex-6 flex-xs-12 flex-sm-6 flex-md-6"
                     component={TextField}
                     name="properties.package_url"
                     label="Package URL"
@@ -171,7 +171,7 @@ const LambdaForm = (props) => {
                   /> : null}
                 {values.properties.code_type === 'package' ?
                   <Field
-                    className="flex-2 flex-xs-12"
+                    className="flex-2 flex-xs-12 flex-sm-6 flex-md-6"
                     id="compressed-packageurl"
                     component={Checkbox}
                     name="properties.compressed"
@@ -193,7 +193,7 @@ const LambdaForm = (props) => {
                   <div className="flex-row">
                     <MDSelectField
                       id="select-theme"
-                      className="flex-2 flex-xs-12"
+                      className="flex-2 flex-xs-12 flex-sm-6 flex-md-6"
                       label="Editor Theme"
                       menuItems={['monokai', 'chrome']}
                       defaultValue={props.theme}
@@ -215,7 +215,7 @@ const LambdaForm = (props) => {
               <Divider />
               <div className="flex-row">
                 <Field
-                  className="flex-3 flex-xs-12"
+                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                   component={TextField}
                   name="properties.periodic_info.schedule"
                   label="Schedule"
@@ -223,14 +223,14 @@ const LambdaForm = (props) => {
                   type="text"
                 />
                 <Field
-                  className="flex-3 flex-xs-12"
+                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.periodic_info.timezone"
                   label="Timezone"
                   menuItems={timezones}
                 />
                 <Field
-                  className="flex-3 flex-xs-12"
+                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                   component={TextField}
                   name="properties.periodic_info.payload.eventName"
                   label="Event Name"
@@ -238,7 +238,7 @@ const LambdaForm = (props) => {
                 />
                 <div className="flex-row">
                   <Field
-                    className="flex-4 flex-xs-12"
+                    className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
                     component={TextField}
                     name="properties.periodic_info.payload.data"
                     label="json payload"

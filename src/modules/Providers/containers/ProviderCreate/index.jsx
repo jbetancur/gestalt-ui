@@ -173,8 +173,8 @@ function mapStateToProps(state) {
       services: [],
       locations: [],
     },
-    publicVariables: state.metaResource.envSchema.public,
-    privateVariables: state.metaResource.envSchema.private,
+    publicVariables: state.metaResource.envSchema.schema.public,
+    privateVariables: state.metaResource.envSchema.schema.private,
   };
 
   return {

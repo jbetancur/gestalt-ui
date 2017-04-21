@@ -119,16 +119,11 @@ describe('Organization Sagas', () => {
 
     it('should return a payload and dispatch a success status', () => {
       const promiseArray = [{ data: { id: 1 } }, { data: [{ id: 1 }] }];
-      const expectedPayload = {
-        data: {
-          organization: { id: 1 },
-          organizations: [{ id: 1 }],
-        },
-      };
+      const expectedPayload = { id: 1, subOrganizations: [{ id: 1 }] };
 
       result = saga.next(promiseArray);
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ORGSET_FULFILLED, payload: expectedPayload.data })
+        put({ type: types.FETCH_ORGSET_FULFILLED, payload: expectedPayload })
       );
     });
 

@@ -64,7 +64,7 @@ class WorkspaceDetail extends Component {
   delete() {
     const { params, router, workspace, deleteWorkspace } = this.props;
 
-    const onSuccess = () => router.push(`${params.fqon}/workspaces`);
+    const onSuccess = () => router.replace(`${params.fqon}/workspaces`);
     this.props.confirmDelete(() => {
       deleteWorkspace(params.fqon, workspace.id, onSuccess);
     }, workspace.description || workspace.name);

@@ -55,11 +55,7 @@ export function* fetchOrgSet(action) {
 
   try {
     const response = yield call(axios.all, [getOrg(), getSubOrgs()]);
-
-    const payload = {
-      organization: response[0].data,
-      organizations: response[1].data,
-    };
+    const payload = { ...response[0].data, subOrganizations: response[1].data };
 
     yield put({ type: types.FETCH_ORGSET_FULFILLED, payload });
   } catch (e) {
