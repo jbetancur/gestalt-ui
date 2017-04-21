@@ -12,7 +12,7 @@ function mapStateToProps(state) {
     self: state.metaResource.self.self,
     pending: state.metaResource.organizationSet.pending,
     organization: state.metaResource.organizationSet.organization,
-    organizations: sortBy(state.metaResource.organizationSet.organizations, 'name'),
+    organizations: sortBy(state.metaResource.organizationSet.organization.subOrganizations, 'name'),
   };
 }
 
