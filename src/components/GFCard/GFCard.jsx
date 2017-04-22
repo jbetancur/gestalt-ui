@@ -8,6 +8,7 @@ const EnhancedCard = styled(Card)`
   max-Width: 28em;
   height: 13.5em;
   cursor: pointer;
+  border-radius: 2px;
   // box-shadow: ${props => props.theme.boxShadow};
 `;
 

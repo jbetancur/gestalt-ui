@@ -55,7 +55,7 @@ class WorkspaceEdit extends Component {
     const originalModel = this.originalModel(this.props.workspace);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    const onSuccess = () => router.push(`${params.fqon}/workspaces/${id}`);
+    const onSuccess = () => router.goBack();
     this.props.updateWorkspace(params.fqon, id, patches, onSuccess);
   }
 
@@ -63,7 +63,8 @@ class WorkspaceEdit extends Component {
     return (
       <ContainmentForm
         title={this.props.workspace.description || this.props.workspace.nam}
-        submitLabel="Update" cancelLabel="Cancel"
+        submitLabel="Update"
+        cancelLabel="Back"
         onSubmit={values => this.updateWorkspace(values)}
         envMap={this.props.workspace.properties.env}
         {...this.props}

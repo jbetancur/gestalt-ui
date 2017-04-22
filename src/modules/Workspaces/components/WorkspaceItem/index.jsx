@@ -4,12 +4,13 @@ import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedRelative } from 'react-intl';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { Card, CardTitle } from 'components/GFCard';
+import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle } from 'components/DetailCard';
 import Breadcrumbs from 'modules/Breadcrumbs';
 
 class WorkspaceItem extends Component {
   static propTypes = {
+    t: PropTypes.func.isRequired,
     workspaces: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -35,6 +36,14 @@ class WorkspaceItem extends Component {
 
     router.push(`/${params.fqon}/workspaces/${item.id}`);
     setCurrentWorkspaceContext(item);
+  }
+
+  edit(e, workspace) {
+    e.stopPropagation();
+
+    const { params, router } = this.props;
+
+    router.push(`/${params.fqon}/workspaces/${workspace.id}/edit`);
   }
 
   renderProgress() {
@@ -66,6 +75,8 @@ class WorkspaceItem extends Component {
   }
 
   renderCards(item) {
+    const { t } = this.props;
+
     return (
       <Card key={item.id} className="flex-4 flex-xs-12 workspace-card" onClick={e => this.navWorkspaceDetails(item, e)}>
         <CardTitle
@@ -78,6 +89,15 @@ class WorkspaceItem extends Component {
             </div>
           }
         />
+        <CardActions>
+          <Button
+            tooltipLabel={t('general.verbs.edit')}
+            icon
+            onClick={e => this.edit(e, item)}
+          >
+            edit
+          </Button>
+        </CardActions>
       </Card>
     );
   }

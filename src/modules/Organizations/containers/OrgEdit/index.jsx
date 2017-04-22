@@ -58,7 +58,7 @@ class OrgEdit extends Component {
     const originalModel = this.originalModel(this.props.organization);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    const onSuccess = response => this.props.router.push(`${response.properties.fqon}/organizations`);
+    const onSuccess = () => this.props.router.goBack();
     this.props.updateOrg(properties.fqon, patches, onSuccess);
   }
 
@@ -68,7 +68,7 @@ class OrgEdit extends Component {
       <ContainmentForm
         title={this.props.organization.description || this.props.organization.name}
         submitLabel={t('general.verbs.update')}
-        cancelLabel={t('general.verbs.cancel')}
+        cancelLabel={t('general.verbs.back')}
         onSubmit={values => this.updateOrg(values)}
         envMap={this.props.organization.properties.env}
         {...this.props}

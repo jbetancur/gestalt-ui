@@ -39,7 +39,6 @@ const ContainmentForm = (props) => {
                   label={t('containment.fields.description.label')}
                   type="text"
                   maxLength={nameMaxLen}
-                  lineDirection="center"
                   required
                 />
                 <Field
@@ -50,7 +49,6 @@ const ContainmentForm = (props) => {
                   type="text"
                   errorText={props.touched && props.error}
                   maxLength={shortNameMaxLen}
-                  lineDirection="center"
                   required
                   helpText={t('containment.fields.name.helpText')}
                 />
@@ -72,7 +70,7 @@ const ContainmentForm = (props) => {
               <Button
                 flat
                 label={props.cancelLabel}
-                disabled={props.pending || props.submitting}
+                disabled={props.submitting}
                 onClick={() => props.router.goBack()}
               />
               <Button

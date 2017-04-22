@@ -56,13 +56,13 @@ class EnvironmentEdit extends Component {
   }
 
   updateEnvironment(values) {
-    const { params, router } = this.props;
+    const { router } = this.props;
     const { id } = this.props.environment;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(this.props.environment);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    const onSuccess = response => router.push(`${params.fqon}/workspaces/${response.properties.workspace.id}/environments/${response.id}`);
+    const onSuccess = () => router.goBack();
     this.props.updateEnvironment(this.props.params.fqon, id, patches, onSuccess);
   }
 
@@ -73,7 +73,7 @@ class EnvironmentEdit extends Component {
       <ContainmentForm
         title={environment.description || environment.name}
         submitLabel="Update"
-        cancelLabel="Cancel"
+        cancelLabel="Back"
         onSubmit={values => this.updateEnvironment(values)}
         envMap={environment.properties.env}
         isEnvironment
