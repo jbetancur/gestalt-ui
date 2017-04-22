@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative } from 'react-intl';
+import Button from 'react-md/lib/Buttons/Button';
 import CircularActivity from 'components/CircularActivity';
-import { Card, CardTitle } from 'components/GFCard';
+import { Card, CardTitle, CardActions } from 'components/GFCard';
 
 class EnvironmentItem extends Component {
   static propTypes = {
-    workspace: PropTypes.object.isRequired,
+    t: PropTypes.func.isRequired,
+    // workspace: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -44,12 +46,16 @@ class EnvironmentItem extends Component {
   navEnvironmentDetails(item) {
     const { params, router, setCurrentEnvironmentContext } = this.props;
 
-    router.push({
-      pathname: `/${params.fqon}/workspaces/${params.workspaceId}/environments/${item.id}`,
-      state: { workspace: this.props.workspace },
-    });
-
+    router.push(`/${params.fqon}/workspaces/${params.workspaceId}/environments/${item.id}`);
     setCurrentEnvironmentContext(item);
+  }
+
+  edit(e, environment) {
+    e.stopPropagation();
+
+    const { params, router } = this.props;
+
+    router.push(`/${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}/edit`);
   }
 
   renderCardsContainer() {
@@ -65,6 +71,8 @@ class EnvironmentItem extends Component {
   }
 
   renderCards(item) {
+    const { t } = this.props;
+
     return (
       <Card key={item.id} className="flex-4 flex-xs-12 environment-card" onClick={e => this.navEnvironmentDetails(item, e)}>
         <CardTitle
@@ -78,6 +86,15 @@ class EnvironmentItem extends Component {
             </div>
           }
         />
+        <CardActions>
+          <Button
+            tooltipLabel={t('general.verbs.edit')}
+            icon
+            onClick={e => this.edit(e, item)}
+          >
+            edit
+          </Button>
+        </CardActions>
       </Card>
     );
   }

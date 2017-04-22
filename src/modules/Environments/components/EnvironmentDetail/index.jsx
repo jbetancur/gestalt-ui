@@ -156,14 +156,16 @@ class EnvironmentDetail extends Component {
             </div>
           </DetailCardTitle>
           <DetailCardText expandable>
-            <div><span className="gf-label">Name: </span><span className="gf-subtitle">{environment.description || environment.name}</span></div>
-            <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{environment.name}</span></div>
-            <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
-            <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
-            <div><span className="gf-label">Environment Type: </span><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
-            <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{environment.owner.name}</span></div>
-            <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{environment.id}</span></div>
             <div className="flex-row">
+              <div className="flex-6 flex-xs-12">
+                <div><span className="gf-label">Name: </span><span className="gf-subtitle">{environment.description || environment.name}</span></div>
+                <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{environment.name}</span></div>
+                <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
+                <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
+                <div><span className="gf-label">Environment Type: </span><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
+                <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{environment.owner.name}</span></div>
+                <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{environment.id}</span></div>
+              </div>
               <div className="flex-6 flex-xs-12">
                 <VariablesListing envMap={environment.properties.env} />
               </div>

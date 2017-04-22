@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { appActions } from 'App';
 import { sortBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
+import { translate } from 'react-i18next';
 import WorkspaceItem from '../../components/WorkspaceItem';
 import * as actions from '../../actions';
 
@@ -12,4 +13,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(WorkspaceItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(WorkspaceItem));
