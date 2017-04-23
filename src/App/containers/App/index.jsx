@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import cn from 'classnames';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -16,31 +16,15 @@ import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
-import TooltipFontIcon from 'components/TooltipFontIcon';
-import { GestaltIcon, GestaltIconText, USEnglishLangIcon } from 'components/Icons';
+import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
 import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
 import { metaActions } from 'modules/MetaResource';
+import A from 'components/A';
+import ListItemStacked from 'components/ListItemStacked';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import * as actions from '../../actions';
 import lightTheme from '../../../style/themes/light';
-
-const EnhancedLogoDiv = styled.div`
-  text-align: center;
-  width: 12em;
-
-  svg {
-    width: 4em;
-    height: 4em;
-  }
-`;
-
-const EnhancedUIVersionDiv = styled.div`
-  color: ${props => props.theme.fontColor};
-  padding-top: 1em;
-  /* padding: 1.5em; */
-  font-size: .9em;
-`;
 
 class App extends Component {
   static propTypes = {
@@ -125,71 +109,83 @@ class App extends Component {
     const { t, logout } = this.props;
 
     return [
-      {
-        key: 'organizations',
-        primaryText: this.getCurrentOrgContext().description || this.getCurrentOrgContext().name || '',
-        component: Link,
-        to: `/${this.getCurrentOrgContext().properties.fqon}/organizations`,
-        leftIcon: this.state.drawerVisible ? <FontIcon>domain</FontIcon> : <TooltipFontIcon tooltipPosition="right" tooltipLabel={this.getCurrentOrgContext().description || this.getCurrentOrgContext().name}>domain</TooltipFontIcon>,
-        activeStyle: { backgroundColor: 'lightgrey' }
-      },
-      {
-        key: 'workspaces',
-        primaryText: t('workspaces.title'),
-        component: Link,
-        to: `/${this.getCurrentOrgContext().properties.fqon}/workspaces`,
-        leftIcon: <FontIcon>work</FontIcon>,
-        activeStyle: { backgroundColor: 'lightgrey' }
-      },
-      {
-        key: 'providers',
-        primaryText: t('providers.title'),
-        component: Link,
-        to: `/${this.getCurrentOrgContext().properties.fqon}/providers`,
-        leftIcon: <FontIcon>cloud</FontIcon>,
-        activeStyle: { backgroundColor: 'lightgrey' }
-      },
-      {
-        key: 'entitlements',
-        primaryText: t('entitlements.title'),
-        component: Link,
-        to: `/${this.getCurrentOrgContext().properties.fqon}/entitlements`,
-        leftIcon: <FontIcon>security</FontIcon>,
-        activeStyle: { backgroundColor: 'lightgrey' }
-      },
-      {
-        key: 'users',
-        primaryText: t('users.title'),
-        component: Link,
-        to: `/${this.getCurrentOrgContext().properties.fqon}/users`,
-        leftIcon: <FontIcon>person</FontIcon>,
-        activeStyle: { backgroundColor: 'lightgrey' }
-      },
-      {
-        key: 'groups',
-        primaryText: t('groups.title'),
-        component: Link,
-        to: `/${this.getCurrentOrgContext().properties.fqon}/groups`,
-        leftIcon: <FontIcon>group</FontIcon>,
-        activeStyle: { backgroundColor: 'lightgrey' }
-      },
-      {
-        key: 'logout',
-        primaryText: t('auth.logout'),
-        leftIcon: <FontIcon>power_settings_new</FontIcon>,
-        style: { position: 'absolute', bottom: '1em', width: '100%' },
-        onClick: () => logout(),
-      }
+      <ListItemStacked
+        icon="domain"
+        title={t('organizations.title')}
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/organizations`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <ListItemStacked
+        icon="work"
+        title={t('workspaces.title')}
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/workspaces`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <ListItemStacked
+        icon="cloud"
+        title={t('providers.title')}
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/providers`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <ListItemStacked
+        icon="security"
+        title={t('entitlements.title')}
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/entitlements`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <ListItemStacked
+        icon="person"
+        title={t('users.title')}
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/users`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <ListItemStacked
+        icon="group"
+        title={t('groups.title')}
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/groups`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <Divider />,
+      <ListItemStacked
+        icon="vpn_key"
+        title="Licensing"
+        component={Link}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/license`}
+        activeStyle={{ backgroundColor: 'lightgrey' }}
+      />,
+      <ListItemStacked
+        icon="library_books"
+        title={t('documentation.title')}
+        component={A}
+        href={DOCUMENTATION_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        inkDisabled
+      />,
+      <ListItemStacked
+        icon="power_settings_new"
+        title={t('auth.logout')}
+        style={{ position: 'absolute', bottom: '1em', width: '100%' }}
+        inkDisabled
+        onClick={() => logout()}
+      />,
     ];
   }
 
   renderActionsMenu() {
-    const { self, params, browser, logout, t } = this.props;
+    const { self, browser, logout, t } = this.props;
 
     const renderAvatar = iconSized =>
       <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
 
     return [
+      <OrgNavMenu {...this.props} />,
       <MenuButton
         id="main-menu"
         flat={browser.greaterThan.xs}
@@ -219,6 +215,11 @@ class App extends Component {
             />,
           ]}
         />
+        <ListItem
+          className="gf-caption"
+          primaryText={`Ui v${UI_VERSION}`}
+          leftIcon={<FontIcon>info_outline</FontIcon>}
+        />
         <Divider />
         <ListItem
           id="main-menu--logout"
@@ -227,29 +228,6 @@ class App extends Component {
           onClick={() => logout()}
         />
       </MenuButton>,
-      <MenuButton
-        id="main"
-        icon
-        buttonChildren="help_outline"
-      >
-        <EnhancedLogoDiv>
-          <GestaltIconText />
-          <EnhancedUIVersionDiv>ui v{UI_VERSION}</EnhancedUIVersionDiv>
-        </EnhancedLogoDiv>
-        <Divider />
-        <ListItem
-          id="main-help--license"
-          primaryText={t('license.title')}
-          leftIcon={<FontIcon>vpn_key</FontIcon>}
-          component={Link}
-          to={`${params.fqon}/license`}
-        />
-        <ListItem
-          id="main-help--documentation"
-          primaryText={<a className="gf-no-link" href={DOCUMENTATION_URL} target="_blank" rel="noopener noreferrer">{t('documentation.title')}</a>}
-          leftIcon={<FontIcon>library_books</FontIcon>}
-        />
-      </MenuButton>
     ];
   }
 
@@ -264,11 +242,12 @@ class App extends Component {
     });
 
     return (
-      <div className="flex-row center-center logo-container">
-        <div className="flex-row center-center flex-12">
-          <div className={logoClass}><GestaltIcon /></div>
-        </div>
-      </div>
+      this.props.browser.greaterThan.sm ?
+        <div className="flex-row center-center no-gutter logo-container">
+          <div className="flex-row center-center no-gutter flex-12 logo-container">
+            <div className={logoClass}><GestaltIcon /></div>
+          </div>
+        </div> : null
     );
   }
 
@@ -278,15 +257,16 @@ class App extends Component {
         {this.props.self.id ? // self must be present to render ui
           <ThemeProvider theme={lightTheme}>
             <NavigationDrawer
-              drawerTitle={<OrgNavMenu {...this.props} />}
+              // drawerTitle={this.renderAppLogo()}
               toolbarTitle={this.renderAppLogo()}
               autoclose
               navItems={this.renderNavItems()}
               mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
-              tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-              desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+              tabletDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
+              desktopDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
               toolbarActions={this.renderActionsMenu()}
               onVisibilityToggle={visible => this.handleVisibleState(visible)}
+              includeDrawerHeader={false}
             >
               <LoginModal />
               <ModalRoot />

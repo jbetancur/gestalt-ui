@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import iconSVG from 'assets/icons/lambda.svg';
 
 const EnhancedIcon = styled(Isvg)`
-  padding: .6em;
+  padding: .4em;
 `;
 
 const LambdaIcon = () => (

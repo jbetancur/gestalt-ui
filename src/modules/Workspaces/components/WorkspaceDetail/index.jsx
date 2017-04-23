@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import cookie from 'react-cookie';
+import styled from 'styled-components';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
@@ -17,6 +18,20 @@ import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCa
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { DeleteIcon } from 'components/Icons';
+
+const CreateButtonSpan = styled.span`
+  position: absolute;
+  right: 4em;
+  top: 1em;
+
+  @media screen and (max-width: 768px) {
+    position: relative;
+    text-align: right;
+    left: .8em;
+    top: 0;
+    margin-top: -1em;
+  }
+`;
 
 class WorkspaceDetail extends Component {
   static propTypes = {
@@ -139,7 +154,7 @@ class WorkspaceDetail extends Component {
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>
-          <div style={{ textAlign: 'right' }}>
+          <CreateButtonSpan>
             <Button
               id="create-environment"
               key="create-environment--button"
@@ -153,7 +168,7 @@ class WorkspaceDetail extends Component {
             >
               add
             </Button>
-          </div>
+          </CreateButtonSpan>
           <DetailCardText expandable>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">

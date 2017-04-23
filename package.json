@@ -210,7 +210,7 @@
         "url-loader": "^0.5.8",
         "webpack": "^2.4.1",
         "webpack-bundle-analyzer": "^2.4.0",
-        "webpack-dev-server": "^2.4.3",
+        "webpack-dev-server": "^2.4.4",
         "webpack-merge": "^4.1.0",
         "yaml-loader": "^0.4.0"
     },
@@ -252,7 +252,7 @@
         "redux-form": "^6.6.3",
         "redux-localstorage": "^0.4.1",
         "redux-logger": "^3.0.1",
-        "redux-responsive": "^4.1.1",
+        "redux-responsive": "^4.2.1",
         "redux-saga": "^0.14.7",
         "redux-thunk": "^2.2.0",
         "sanitize.css": "^5.0.0",

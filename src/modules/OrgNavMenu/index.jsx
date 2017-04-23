@@ -13,9 +13,9 @@ import { metaActions } from 'modules/MetaResource';
 import * as actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
-  top: .1em;
-  height: 100%;
-  margin-left: .5em;
+  // top: .1em;
+  // height: 100%;
+  // margin-left: .5em;
 
   .md-icon-text {
     font-size: 12px;
@@ -28,10 +28,12 @@ const EnhancedMenuButton = styled(MenuButton)`
 
 class OrgNavMenu extends Component {
   static propTypes = {
+    params: PropTypes.object.isRequired,
     fetchAllOrgs: PropTypes.func.isRequired,
     filterOrgs: PropTypes.func.isRequired,
     organizations: PropTypes.array.isRequired,
     organizationsPending: PropTypes.bool.isRequired,
+    currentOrgContext: PropTypes.object.isRequired,
     onUnloadAllOrgs: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   };
@@ -92,24 +94,24 @@ class OrgNavMenu extends Component {
   }
 
   render() {
+    const { params, currentOrgContext } = this.props;
+
     return (
-      <div>
-        <EnhancedMenuButton
-          id="orgs-menu"
-          label={this.props.t('organizations.orgNav')}
-          flat
-          fullWidth
-          position="below"
-          buttonChildren="expand_more"
-          onClick={e => this.fetchOrgList(e)}
-        >
-          {/* https://github.com/mlaursen/react-md/issues/259 */}
-          {[<div key="orgs-nav-menu">
-            {this.renderSearch()}
-            {this.props.organizations.map(this.renderOrgMenuItems, this)}
-          </div>]}
-        </EnhancedMenuButton>
-      </div>
+      <EnhancedMenuButton
+        id="orgs-menu"
+        label={this.props.currentOrgContext.description || currentOrgContext.name || ''}
+        position={MenuButton.Positions.TOP_RIGHT}
+        buttonChildren={currentOrgContext.properties.fqon === params.fqon ? 'expand_more' : null}
+        flat
+        iconBefore={false}
+        onClick={e => this.fetchOrgList(e)}
+      >
+        {/* https://github.com/mlaursen/react-md/issues/259 */}
+        {[<div key="orgs-nav-menu">
+          {this.renderSearch()}
+          {this.props.organizations.map(this.renderOrgMenuItems, this)}
+        </div>]}
+      </EnhancedMenuButton>
     );
   }
 }
@@ -121,6 +123,7 @@ const mapStateToProps = (state) => {
   return {
     organizations: sortBy(orgMenuItems, 'name'),
     organizationsPending: metaResource.allOrganizations.pending,
+    currentOrgContext: metaResource.currentOrgContext.organization,
   };
 };
 

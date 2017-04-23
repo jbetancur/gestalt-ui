@@ -14,3 +14,7 @@ $md-secondary-color: $md-blue-a-200;
 .md-toolbar--over-drawer, .md-toolbar--fixed {
     background-color: $gf-deep-blue;
 }
+
+.md-cell--right, .md-toolbar--action-right {
+  top: .1em;
+}

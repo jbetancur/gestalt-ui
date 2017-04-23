@@ -44,27 +44,24 @@ body {
 }
 
 .logo-container {
-    z-index: -999;
-    margin: 0;
     text-align: center;
-    height: 100%;
-    div {
-        margin: 0;
-        .logo {
-            // animation: spinGrow .6s ease-out forwards;
-            // @extend .spin-and-grow;
-            margin-right: 2.2em;
-            svg {
-                height: 2.1em;
-                width: 2.1em;
-            }
-        }
+    margin: 0;
+    margin-left: .7em;
 
-        .logo-loading {
-            animation: pulse 1s infinite forwards;
-            @extend .pulse;
-            animation-delay: 1s; // prevent from happening on "normal" latency requests
+    .logo {
+        // animation: spinGrow .6s ease-out forwards;
+        // @extend .spin-and-grow;
+        // margin-right: .3em;
+        svg {
+            height: 2.2em;
+            width: 2.2em;
         }
+    }
+
+    .logo-loading {
+        animation: pulse 1s infinite forwards;
+        @extend .pulse;
+        animation-delay: 1s; // prevent from happening on "normal" latency requests
     }
 }
 

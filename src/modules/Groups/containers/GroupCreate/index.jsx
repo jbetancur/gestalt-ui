@@ -34,7 +34,7 @@ class GroupCreate extends Component {
   }
 
   render() {
-    return <GroupForm title="Create Group" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+    return <GroupForm title="Create Team" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 

@@ -209,9 +209,7 @@ class OrgItem extends Component {
           <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home.properties.fqon ? null : <NavUpArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
             {this.renderActionsMenu(organization)}
             {!pending ?
-              <div className="gf-headline">{organization.description || organization.name}
-                <div className="md-caption"><span>{t('general.nouns.fqon')}: {organization.properties.fqon}</span></div>
-              </div> : null}
+              <div className="gf-headline">{organization.description || organization.name}</div> : null}
           </DetailCardTitle>
           <DetailCardText expandable>
             <div className="flex-row">
