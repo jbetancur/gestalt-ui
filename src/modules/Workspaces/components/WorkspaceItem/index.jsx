@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedRelative } from 'react-intl';
+import styled from 'styled-components';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle } from 'components/DetailCard';
 import Breadcrumbs from 'modules/Breadcrumbs';
+
+const CreateButtonSpan = styled.span`
+  text-align: right;
+`;
 
 class WorkspaceItem extends Component {
   static propTypes = {
@@ -50,7 +55,7 @@ class WorkspaceItem extends Component {
     return <LinearProgress id="workspaces-progress" />;
   }
 
-  renderMenu() {
+  renderCreateButton() {
     return [
       <Button
         id="create-workspace"
@@ -109,8 +114,15 @@ class WorkspaceItem extends Component {
       <div>
         <DetailCard>
           <DetailCardTitle className="flex-row">
-            <span className="gf-headline-1 flex-8 flex-xs-12" style={{ lineHeight: '2.5em' }}><Breadcrumbs /> / Workspaces</span>
-            <span className="flex-4 flex-xs-12" style={{ textAlign: 'right' }}>{this.renderMenu()}</span>
+            <div className="flex-8 flex-xs-12">
+              <div className="gf-headline">Workspaces</div>
+              <div className="md-caption"><Breadcrumbs /></div>
+            </div>
+            <CreateButtonSpan
+              className="flex-4 flex-xs-12"
+            >
+              {this.renderCreateButton()}
+            </CreateButtonSpan>
           </DetailCardTitle>
         </DetailCard>
         {pending ? this.renderProgress() : this.renderCardsContainer()}

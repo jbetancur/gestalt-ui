@@ -59,9 +59,9 @@ users:
   actions:
     create: Create User
 groups:
-  title: Groups
+  title: Teams
   actions:
-    create: Create Group
+    create: Create Team
 entitlements:
   title: Entitlements
 license:

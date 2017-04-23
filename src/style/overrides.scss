@@ -1,13 +1,36 @@
 
-//Make bottom menu Button full width of text
+// Hack the react-md nav bar for stacked icons
+@media screen and (min-width: 768px) {
+  #main-content {
+    margin-left: 90px;
+  }
+
+  .md-drawer--left {
+    margin-top: 4em;
+    transform: translate3d(0, 0, 0);
+    width: 90px;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 320px) {
+  .md-drawer--left {
+      width: 90px;
+  }
+}
+
+// reduce padding for menu button text + icons
+.md-icon-text:first-child {
+    padding-right: 4px;
+}
+
+// Make bottom menu Button full width of text
 .md-list--menu-below {
   width: auto;
 }
 
 #orgs-menu {
-  .md-list--menu-below {
-    width: 125%;
-    margin-left: .2em;
+  .md-list--menu-tr {
+    min-width: 10em;
   }
 }
 
@@ -33,13 +56,17 @@
 }
 
 .md-tab--icon {
-    font-size: 1.2em;
-    height: 57px;
+    font-size: 1em;
+    height: 52px;
     padding-bottom: 7px;
 }
 
 .md-tab-label {
     font-size: .5em;
+}
+
+.md-icon--tab {
+  margin-bottom: 5px
 }
 
 // removes ink pulse on tabs

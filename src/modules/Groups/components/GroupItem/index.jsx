@@ -78,7 +78,7 @@ class GroupItem extends Component {
     return (
       <Button
         id="create-group"
-        label="Create Group"
+        label="Create Team"
         flat
         primary
         component={Link}
@@ -106,7 +106,7 @@ class GroupItem extends Component {
           <TableCardHeader
             title={
               <div>
-                <div className="gf-headline">Groups</div>
+                <div className="gf-headline">Teams</div>
                 <div className="md-caption"><Breadcrumbs /></div>
               </div>
             }

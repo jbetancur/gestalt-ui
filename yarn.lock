@@ -5781,13 +5781,12 @@ redux-logger@^3.0.1:
   dependencies:
     deep-diff "0.3.4"
 
-redux-responsive@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.1.1.tgz#eb34adcfde10a6e65d06ebafb763a21497a1176d"
+redux-responsive@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.2.1.tgz#0d339d11ccd9d153f38a64a81e25dfc886e979d6"
   dependencies:
     lodash "^4.2.1"
     mediaquery "0.0.3"
-    redux "^3.5.2"
 
 redux-saga@^0.14.7:
   version "0.14.7"
@@ -5797,7 +5796,7 @@ redux-thunk@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
-redux@^3.5.2, redux@^3.6.0:
+redux@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
   dependencies:
@@ -6956,9 +6955,9 @@ webpack-dev-middleware@^1.10.2:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@^2.4.3:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.4.3.tgz#ead74bfdc78049684734724ca54000a17509c5f5"
+webpack-dev-server@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.4.4.tgz#1adb41640970421ec7b866e82384e8cebeed85de"
   dependencies:
     ansi-html "0.0.7"
     chokidar "^1.6.0"
