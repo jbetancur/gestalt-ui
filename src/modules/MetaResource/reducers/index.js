@@ -28,7 +28,7 @@ export default combineReducers({
   currentWorkspaceContext,
   currentEnvironmentContext,
   envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel, true),
-  allOrganizations: reducerFactory(['fetch'], 'organizations', 'allorgs', [], true),
+  allOrganizations: reducerFactory(['fetch'], 'organizations', 'allorgs', []),
   allOrganizationsDropDown: reducerFactory(['fetch'], 'organizations', 'allorgs_dropdown', [], true, [{ name: 'fetching organizations...', value: '' }]),
   organizations: reducerFactory(['fetch'], 'organizations', 'orgs', [], true),
   organization: reducerFactory(['fetch', 'create', 'update', 'delete'], 'organization', 'org', organizationModel, true),

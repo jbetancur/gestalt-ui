@@ -94,7 +94,7 @@ class OrgNavMenu extends Component {
   }
 
   render() {
-    const { params, currentOrgContext } = this.props;
+    const { params, currentOrgContext, organizationsPending } = this.props;
 
     return (
       <EnhancedMenuButton
@@ -109,7 +109,7 @@ class OrgNavMenu extends Component {
         {/* https://github.com/mlaursen/react-md/issues/259 */}
         {[<div key="orgs-nav-menu">
           {this.renderSearch()}
-          {this.props.organizations.map(this.renderOrgMenuItems, this)}
+          {!organizationsPending ? this.props.organizations.map(this.renderOrgMenuItems, this) : null}
         </div>]}
       </EnhancedMenuButton>
     );
