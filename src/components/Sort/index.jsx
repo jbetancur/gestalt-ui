@@ -33,7 +33,7 @@ const Sort = props => (
       </IconDiv>
       <SelectField
         id="sort--key"
-        className="flex-1"
+        className="flex-1 flex-xs-6 flex-sm-3"
         menuItems={sortItems}
         itemLabel="name"
         itemValue="value"
@@ -42,7 +42,7 @@ const Sort = props => (
       />
       <SelectField
         id="sort--order"
-        className="flex-1"
+        className="flex-1 flex-xs-4 flex-sm-2"
         menuItems={orderItems}
         itemLabel="name"
         itemValue="value"
