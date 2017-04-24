@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { orderBy } from 'lodash';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedRelative } from 'react-intl';
@@ -8,6 +9,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle } from 'components/DetailCard';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import Sort from 'components/Sort';
 
 const CreateButtonSpan = styled.span`
   text-align: right;
@@ -28,6 +30,8 @@ class WorkspaceItem extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = { sortKey: 'description', order: 'asc' };
   }
 
   componentDidMount() {
@@ -72,9 +76,18 @@ class WorkspaceItem extends Component {
   }
 
   renderCardsContainer() {
+    const sortedWorkspaces = orderBy(this.props.workspaces, this.state.sortKey, this.state.order);
+
     return (
       <div className="flex-row">
-        {this.props.workspaces.map(this.renderCards, this)}
+        <Sort
+          visible={sortedWorkspaces.length}
+          sortKey={this.state.sortKey}
+          order={this.state.order}
+          setKey={value => this.setState({ sortKey: value })}
+          setOrder={value => this.setState({ order: value })}
+        />
+        {sortedWorkspaces.map(this.renderCards, this)}
       </div>
     );
   }

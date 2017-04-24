@@ -110,6 +110,7 @@ class App extends Component {
 
     return [
       <ListItemStacked
+        key="organizations"
         icon="domain"
         title={t('organizations.title')}
         component={Link}
@@ -117,6 +118,7 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
+        key="workspaces"
         icon="work"
         title={t('workspaces.title')}
         component={Link}
@@ -124,6 +126,7 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
+        key="providers"
         icon="cloud"
         title={t('providers.title')}
         component={Link}
@@ -131,6 +134,7 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
+        key="entitlements"
         icon="security"
         title={t('entitlements.title')}
         component={Link}
@@ -138,6 +142,7 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
+        key="users"
         icon="person"
         title={t('users.title')}
         component={Link}
@@ -145,6 +150,7 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
+        key="groups"
         icon="group"
         title={t('groups.title')}
         component={Link}
@@ -153,6 +159,7 @@ class App extends Component {
       />,
       <Divider />,
       <ListItemStacked
+        key="licensing"
         icon="vpn_key"
         title="Licensing"
         component={Link}
@@ -160,6 +167,7 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
+        key="docs"
         icon="library_books"
         title={t('documentation.title')}
         component={A}
@@ -169,6 +177,7 @@ class App extends Component {
         inkDisabled
       />,
       <ListItemStacked
+        key="logout"
         icon="power_settings_new"
         title={t('auth.logout')}
         style={{ position: 'absolute', bottom: '1em', width: '100%' }}

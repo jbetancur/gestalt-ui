@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { orderBy } from 'lodash';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -14,6 +15,7 @@ import getParentFQON from 'util/helpers/fqon';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { DeleteIcon } from 'components/Icons';
+import Sort from 'components/Sort';
 
 class OrgItem extends Component {
   static propTypes = {
@@ -36,7 +38,7 @@ class OrgItem extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { visible: false };
+    this.state = { sortKey: 'description', order: 'asc' };
   }
 
   componentDidMount() {
@@ -188,9 +190,18 @@ class OrgItem extends Component {
   }
 
   renderCardsContainer() {
+    const sortedOrgs = orderBy(this.props.organizations, this.state.sortKey, this.state.order);
+
     return (
       <div className="flex-row">
-        {this.props.organizations.map(this.renderCards, this)}
+        <Sort
+          visible={sortedOrgs.length}
+          sortKey={this.state.sortKey}
+          order={this.state.order}
+          setKey={value => this.setState({ sortKey: value })}
+          setOrder={value => this.setState({ order: value })}
+        />
+        {sortedOrgs.map(this.renderCards, this)}
       </div>
     );
   }
