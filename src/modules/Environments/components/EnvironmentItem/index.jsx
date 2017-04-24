@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative } from 'react-intl';
+import { orderBy } from 'lodash';
 import Button from 'react-md/lib/Buttons/Button';
 import CircularActivity from 'components/CircularActivity';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
+import Sort from 'components/Sort';
 
 class EnvironmentItem extends Component {
   static propTypes = {
@@ -21,6 +23,8 @@ class EnvironmentItem extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = { sortKey: 'created.timestamp', order: 'asc' };
   }
 
   componentDidMount() {
@@ -59,9 +63,18 @@ class EnvironmentItem extends Component {
   }
 
   renderCardsContainer() {
+    const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
+
     return (
       <div className="flex-row">
-        {this.props.environments.map(this.renderCards, this)}
+        <Sort
+          visible={sortedEnvironments.length}
+          sortKey={this.state.sortKey}
+          order={this.state.order}
+          setKey={value => this.setState({ sortKey: value })}
+          setOrder={value => this.setState({ order: value })}
+        />
+        {sortedEnvironments.map(this.renderCards, this)}
       </div>
     );
   }

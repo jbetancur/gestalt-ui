@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { appActions } from 'App';
-import { sortBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
 import { translate } from 'react-i18next';
 import WorkspaceItem from '../../components/WorkspaceItem';
@@ -8,7 +7,7 @@ import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    workspaces: sortBy(state.metaResource.workspaces.workspaces, 'name'),
+    workspaces: state.metaResource.workspaces.workspaces,
     pending: state.metaResource.workspaces.pending
   };
 }
