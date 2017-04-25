@@ -110,7 +110,6 @@ const PolicyLimitRuleForm = (props) => {
                   itemValue="name"
                   required
                   label="Limit"
-                  errorText={props.touched && props.error}
                   onChange={() => handleEvalFields()}
                 />
                 {values.properties.eval_logic.property ?
@@ -124,7 +123,6 @@ const PolicyLimitRuleForm = (props) => {
                     itemValue="name"
                     required
                     label="Operator"
-                    errorText={props.touched && props.error}
                   /> : null }
                 {values.properties.eval_logic.operator ?
                   <Field
