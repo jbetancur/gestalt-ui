@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, getFormValues } from 'redux-form';
+import { Field, getFormValues, change } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Button from 'react-md/lib/Buttons/Button';
@@ -9,7 +9,7 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-// import SelectField from 'components/SelectField';
+import Autocomplete from 'react-md/lib/Autocompletes';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
 import Breadcrumbs from 'modules/Breadcrumbs';
@@ -18,12 +18,11 @@ import policyResourceTypes from '../../lists/policyResourceTypes';
 
 const PolicyEventRuleForm = (props) => {
   const {
+    values,
     params,
     pending,
     policyUpdatePending,
     onSubmit,
-    touched,
-    error,
     invalid,
     pristine,
     submitting,
@@ -34,6 +33,9 @@ const PolicyEventRuleForm = (props) => {
     selectedActions,
     editMode,
     policyRule,
+    lambdasDropDown,
+    lambdasDropDownPending,
+    fetchLambdasDropDown,
   } = props;
 
   const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
@@ -42,6 +44,10 @@ const PolicyEventRuleForm = (props) => {
 
   const onActionChecked = (action) => {
     props.handleSelectedActions(action, selectedActions);
+  };
+
+  const handleAutoComplete = (value) => {
+    props.dispatch(change(props.form, editMode ? 'properties.lambda.id' : 'properties.lambda', lambdasDropDown.find(l => l.name === value).id));
   };
 
   return (
@@ -74,9 +80,7 @@ const PolicyEventRuleForm = (props) => {
                 label="Name"
                 type="text"
                 required
-                errorText={touched && error}
                 maxLength={nameMaxLen}
-                lineDirection="center"
               />
               <Field
                 className="flex-8 flex-xs-12"
@@ -84,32 +88,28 @@ const PolicyEventRuleForm = (props) => {
                 name="description"
                 label="Description"
                 type="text"
-                lineDirection="center"
               />
-              <Field
-                className="flex-4 flex-xs-12"
-                component={TextField}
-                name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
-                label="Lambda UUID"
-                type="text"
-                required
-                errorText={touched && error}
-                lineDirection="center"
-              />
-              {/* <Field
-                className="flex-4 flex-xs-12"
-                component={SelectField}
-                name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
-                label="Lambda"
-                menuItems={pendingLambdas ? ['fetching lambdas...'] : lambdas}
-                itemLabel="name"
-                itemValue="id"
-                type="text"
-                required
-                lineDirection="center"
-                errorText={touched && error}
-                onFocus={() => fetchLambdas()}
-              /> */}
+              <div className="flex-3 flex-sm-6 flex-xs-12">
+                <Autocomplete
+                  id="lambdas-dropdown"
+                  data={lambdasDropDown}
+                  dataLabel="name"
+                  dataValue="id"
+                  label="Search Lambdas"
+                  clearOnAutocomplete
+                  onClick={() => fetchLambdasDropDown(params.fqon)}
+                  onAutocomplete={value => handleAutoComplete(value)}
+                  helpText="search by lambda name or uuid"
+                />
+                {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
+                {values.properties.lambda ?
+                  <Field
+                    component={TextField}
+                    name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                    label="Selected Lambda UUID"
+                    disabled
+                  /> : null}
+              </div>
               <fieldset>
                 <legend>Actions</legend>
                 <div className="flex-row">
@@ -143,7 +143,7 @@ const PolicyEventRuleForm = (props) => {
               raised
               label={submitLabel}
               type="submit"
-              disabled={pristine || pending || invalid || submitting}
+              disabled={pristine || lambdasDropDownPending || pending || invalid || submitting}
               primary
             />
           </CardActions>
@@ -154,6 +154,7 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
+  values: PropTypes.object.isRequired,
   policyRule: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
@@ -163,20 +164,17 @@ PolicyEventRuleForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  // lambdas: PropTypes.object.isRequired,
-  // pendingLambdas: PropTypes.bool.isRequired,
   selectedActions: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
+  fetchLambdasDropDown: PropTypes.func.isRequired,
+  lambdasDropDown: PropTypes.array.isRequired,
+  lambdasDropDownPending: PropTypes.bool.isRequired,
 };
 
 PolicyEventRuleForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
