@@ -62,14 +62,14 @@ const LoginForm = (props) => {
             name="username"
             type="text"
             errorText={touched && error}
-            placeholder={t('auth.fields.username.label', { wait: true })}
+            placeholder={t('auth.fields.username.label')}
           />
           <Field
             component={TextField}
             name="password"
             type="password"
             errorText={touched && error}
-            placeholder={t('auth.fields.password.label', { wait: true })}
+            placeholder={t('auth.fields.password.label')}
           />
           <LoginError>{props.statusText}</LoginError>
         </CardText>
@@ -80,7 +80,7 @@ const LoginForm = (props) => {
             flat
             primary
             type="submit"
-            label={t('auth.login', { wait: true })}
+            label={t('auth.login')}
             disabled={pristine || submitting || invalid}
           />
         </CardActions>
