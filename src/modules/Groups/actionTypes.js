@@ -1,6 +1,3 @@
-export const SELECTED_GROUPS = 'groups/SELECTED_GROUPS';
-export const SELECTED_GROUPS_CLEAR = 'groups/SELECTED_GROUPS_CLEAR';
-
 export const RESET_GROUP = 'groups/RESET_GROUP';
 
 export const FILTER_AVAILABLE_USERS_TEXT = 'groups/FILTER_AVAILABLE_USERS_TEXT';

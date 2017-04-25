@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { FormattedRelative } from 'react-intl';
@@ -31,7 +31,7 @@ const EnhancedTableColumn = styled(TableColumn)`
   vertical-align: middle !important;
 `;
 
-class ContainerItem extends Component {
+class ContainerItem extends PureComponent {
   static propTypes = {
     router: PropTypes.object.isRequired,
     containers: PropTypes.array.isRequired,
@@ -39,6 +39,9 @@ class ContainerItem extends Component {
     params: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -61,6 +64,7 @@ class ContainerItem extends Component {
 
   componentWillUnmount() {
     this.props.unloadContainers();
+    this.props.clearTableSort();
     clearTimeout(this.timeout);
   }
 
@@ -113,6 +117,8 @@ class ContainerItem extends Component {
   }
 
   render() {
+    const { handleTableSortIcon, sortTable } = this.props;
+
     const containers = this.props.containers.map(container => (
       <TableRow key={container.id} onClick={e => this.edit(container, e)}>
         <EnhancedTableColumn>
@@ -122,8 +128,8 @@ class ContainerItem extends Component {
         <EnhancedTableColumn>{container.properties.status}</EnhancedTableColumn>
         <EnhancedTableColumn>{this.renderAPIEndpoints(container)}</EnhancedTableColumn>
         <EnhancedTableColumn>{container.properties.provider.name}</EnhancedTableColumn>
-        <EnhancedTableColumn>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</EnhancedTableColumn>
-        <EnhancedTableColumn>{`${container.properties.cpus} / ${container.properties.memory}`}</EnhancedTableColumn>
+        <EnhancedTableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</EnhancedTableColumn>
+        <EnhancedTableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</EnhancedTableColumn>
         <EnhancedTableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</EnhancedTableColumn>
       </TableRow>
       ));
@@ -146,13 +152,13 @@ class ContainerItem extends Component {
               <TableHeader>
                 <TableRow>
                   <TableColumn />
-                  <TableColumn>Name</TableColumn>
-                  <TableColumn>Status</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Status</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
-                  <TableColumn>Provider</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('properties.provider.name')} onClick={() => sortTable('properties.provider.name')}>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>
                   <TableColumn>CPU / Memory</TableColumn>
-                  <TableColumn>Age</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('properties.age')} onClick={() => sortTable('properties.age')}>Age</TableColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>

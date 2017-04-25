@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
-import { sortBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
+import { tableActions } from 'modules/TableManager';
 import APIEndpointItem from '../../components/APIEndpointItem';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    apiEndpoints: sortBy(state.metaResource.apiEndpoints.apiEndpoints, 'name'),
+    apiEndpoints: orderBy(state.metaResource.apiEndpoints.apiEndpoints, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
     pending: state.metaResource.apiEndpoints.pending,
-    selectedEndpoints: state.apiEndpoints.selectedEndpoints,
+    selectedEndpoints: state.tableManager.tableSelected,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(APIEndpointItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, tableActions))(APIEndpointItem);

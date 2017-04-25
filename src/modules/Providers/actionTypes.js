@@ -1,1 +1,0 @@
-export const SELECTED_PROVIDERS = 'providers/SELECTED_PROVIDERS';

@@ -1,1 +1,0 @@
-export const SELECTED_POLICIES = 'policies/SELECTED_POLICIES';

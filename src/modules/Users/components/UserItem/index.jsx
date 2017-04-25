@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { FormattedDate, FormattedTime } from 'react-intl';
@@ -9,17 +9,15 @@ import TableCardHeader from 'react-md/lib/DataTables/TableCardHeader';
 import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import TableSortColumn from 'components/TableSortColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { DeleteIconButton } from 'components/Buttons';
 
-class UserItem extends Component {
+class UserItem extends PureComponent {
   static propTypes = {
     fetchUsers: PropTypes.func.isRequired,
-    handleSelected: PropTypes.func.isRequired,
     selectedUsers: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -27,8 +25,12 @@ class UserItem extends Component {
     pending: PropTypes.bool.isRequired,
     deleteUsers: PropTypes.func.isRequired,
     unloadUsers: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -41,15 +43,16 @@ class UserItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadUsers, clearSelected } = this.props;
+    const { unloadUsers, clearTableSelected, clearTableSort } = this.props;
     unloadUsers();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { users, handleSelected, selectedUsers } = this.props;
+    const { users, handleTableSelected, selectedUsers } = this.props;
 
-    handleSelected(row, toggled, count, users, selectedUsers.selectedItems);
+    handleTableSelected(row, toggled, count, users, selectedUsers.selectedItems);
   }
 
   edit(user, e) {
@@ -60,14 +63,14 @@ class UserItem extends Component {
   }
 
   delete() {
-    const { params, fetchUsers, deleteUsers, clearSelected } = this.props;
+    const { params, fetchUsers, deleteUsers, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedUsers;
     const userIds = selectedItems.map(item => (item.id));
 
     const userNames = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchUsers(params.fqon);
     };
 
@@ -93,6 +96,7 @@ class UserItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedUsers;
+    const { handleTableSortIcon, sortTable } = this.props;
 
     const users = this.props.users.map(user => (
       <TableRow key={user.id} onClick={e => this.edit(user, e)}>
@@ -100,12 +104,12 @@ class UserItem extends Component {
         <TableColumn>{user.description}</TableColumn>
         <TableColumn>{user.properties.firstName}</TableColumn>
         <TableColumn>{user.properties.lastName}</TableColumn>
-        <TableColumn>{user.properties.phoneNumber}</TableColumn>
+        <TableColumn numeric>{user.properties.phoneNumber}</TableColumn>
         <TableColumn>{user.properties.email}</TableColumn>
         <TableColumn><FormattedDate value={user.created.timestamp} /> <FormattedTime value={user.created.timestamp} /></TableColumn>
         <TableColumn>{user.properties.gestalt_home}</TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div className="flex-row">
@@ -128,14 +132,14 @@ class UserItem extends Component {
             {!this.props.users.length ? null :
             <TableHeader>
               <TableRow>
-                <TableSortColumn list={this.props.users} name="Name" sortBy="name" />
-                <TableColumn>Description</TableColumn>
-                <TableColumn>First Name</TableColumn>
-                <TableColumn>Last Name</TableColumn>
-                <TableColumn>Phone Number</TableColumn>
-                <TableColumn>Email</TableColumn>
-                <TableColumn>Created</TableColumn>
-                <TableColumn>Home</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.firstName')} onClick={() => sortTable('properties.firstName')}>First Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.lastName')} onClick={() => sortTable('properties.lastName')}>Last Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.phoneNumber')} onClick={() => sortTable('properties.phoneNumber')}>Phone Number</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.email')} onClick={() => sortTable('properties.email')}>Email</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.gestalt_home')} onClick={() => sortTable('properties.gestalt_home')}>Home</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
@@ -15,19 +15,22 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 import policyTypes from '../../lists/policyTypes';
 
-class PolicyRuleItem extends Component {
+class PolicyRuleItem extends PureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     policyRules: PropTypes.array.isRequired,
     selectedPolicyRules: PropTypes.object.isRequired,
-    handleSelected: PropTypes.func.isRequired,
     deletePolicyRules: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchPolicyRules: PropTypes.func.isRequired,
     unloadPolicyRules: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -40,25 +43,26 @@ class PolicyRuleItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadPolicyRules, clearSelected } = this.props;
+    const { unloadPolicyRules, clearTableSelected, clearTableSort } = this.props;
     unloadPolicyRules();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { policyRules, handleSelected, selectedPolicyRules } = this.props;
+    const { policyRules, handleTableSelected, selectedPolicyRules } = this.props;
 
-    handleSelected(row, toggled, count, policyRules, selectedPolicyRules.selectedItems);
+    handleTableSelected(row, toggled, count, policyRules, selectedPolicyRules.selectedItems);
   }
 
   delete() {
-    const { params, fetchPolicyRules, deletePolicyRules, clearSelected } = this.props;
+    const { params, fetchPolicyRules, deletePolicyRules, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedPolicyRules;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchPolicyRules(params.fqon, params.policyId);
     };
 
@@ -111,6 +115,8 @@ class PolicyRuleItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedPolicyRules;
+    const { handleTableSortIcon, sortTable } = this.props;
+
     const policyRules = this.props.policyRules.map(policyRule => (
       <TableRow key={policyRule.id} onClick={e => this.edit(policyRule, e)}>
         <TableColumn>{policyRule.name}</TableColumn>
@@ -136,11 +142,11 @@ class PolicyRuleItem extends Component {
           {!this.props.policyRules.length ? null :
           <TableHeader>
             <TableRow>
-              <TableColumn>Name</TableColumn>
-              <TableColumn>Description</TableColumn>
-              <TableColumn>Type</TableColumn>
-              <TableColumn>Owner</TableColumn>
-              <TableColumn>Created</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
             </TableRow>
           </TableHeader>}
           <TableBody>

@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
-import { sortBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
+import { tableActions } from 'modules/TableManager';
 import LambdaItem from '../../components/LambdaItem';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    lambdas: sortBy(state.metaResource.lambdas.lambdas, 'name'),
+    lambdas: orderBy(state.metaResource.lambdas.lambdas, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
     pending: state.metaResource.lambdas.pending,
-    selectedLambdas: state.lambdas.selectedLambdas,
+    selectedLambdas: state.tableManager.tableSelected,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(LambdaItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, tableActions))(LambdaItem);

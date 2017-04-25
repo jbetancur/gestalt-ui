@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import DataTable from 'react-md/lib/DataTables/DataTable';
@@ -14,11 +14,9 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { DeleteIconButton } from 'components/Buttons';
 
-class ProviderItem extends Component {
+class ProviderItem extends PureComponent {
   static propTypes = {
     deleteProviders: PropTypes.func.isRequired,
-    handleSelected: PropTypes.func.isRequired,
-    selectedProviders: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
@@ -27,6 +25,12 @@ class ProviderItem extends Component {
     fetchProviders: PropTypes.func.isRequired,
     clearSelected: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
+    selectedProviders: PropTypes.object.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -48,9 +52,10 @@ class ProviderItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadProviders, clearSelected } = this.props;
+    const { unloadProviders, clearTableSelected, clearTableSort } = this.props;
     unloadProviders();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   formatResourceType(resourceType) {
@@ -59,9 +64,9 @@ class ProviderItem extends Component {
   }
 
   handleRowToggle(row, toggled, count) {
-    const { providers, handleSelected, selectedProviders } = this.props;
+    const { providers, handleTableSelected, selectedProviders } = this.props;
 
-    handleSelected(row, toggled, count, providers, selectedProviders.selectedItems);
+    handleTableSelected(row, toggled, count, providers, selectedProviders.selectedItems);
   }
 
   create() {
@@ -145,6 +150,7 @@ class ProviderItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedProviders;
+    const { handleTableSortIcon, sortTable } = this.props;
 
     const providers = this.props.providers.map(provider => (
       <TableRow key={provider.id} onClick={e => this.edit(provider, e)}>
@@ -178,12 +184,12 @@ class ProviderItem extends Component {
             {!this.props.providers.length ? null :
             <TableHeader>
               <TableRow>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Type</TableColumn>
-                <TableColumn>Parent</TableColumn>
-                <TableColumn>Owner</TableColumn>
-                <TableColumn>Created</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.parent.name')} onClick={() => sortTable('properties.parent.name')}>Parent</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Type</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Type</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

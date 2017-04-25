@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
 import DataTable from 'react-md/lib/DataTables/DataTable';
@@ -14,19 +14,22 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
 
-class apiEndpointItem extends Component {
+class apiEndpointItem extends PureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     selectedEndpoints: PropTypes.object.isRequired,
-    handleSelected: PropTypes.func.isRequired,
     deleteAPIEndpoints: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -39,25 +42,26 @@ class apiEndpointItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadAPIEndpoints, clearSelected } = this.props;
+    const { unloadAPIEndpoints, clearTableSelected, clearTableSort } = this.props;
     unloadAPIEndpoints();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { apiEndpoints, handleSelected, selectedEndpoints } = this.props;
+    const { apiEndpoints, handleTableSelected, selectedEndpoints } = this.props;
 
-    handleSelected(row, toggled, count, apiEndpoints, selectedEndpoints.selectedItems);
+    handleTableSelected(row, toggled, count, apiEndpoints, selectedEndpoints.selectedItems);
   }
 
   delete() {
-    const { params, fetchAPIEndpoints, deleteAPIEndpoints, clearSelected } = this.props;
+    const { params, fetchAPIEndpoints, deleteAPIEndpoints, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedEndpoints;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchAPIEndpoints(params.fqon, params.apiId);
     };
 
@@ -98,6 +102,8 @@ class apiEndpointItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedEndpoints;
+    const { handleTableSortIcon, sortTable } = this.props;
+
     const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
         <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
@@ -127,13 +133,13 @@ class apiEndpointItem extends Component {
           {!this.props.apiEndpoints.length ? null :
           <TableHeader>
             <TableRow>
-              <TableColumn>Resource Path</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('properties.resource', true)} onClick={() => sortTable('properties.resource')}>Resource Path</TableColumn>
               {/* <TableColumn>Security</TableColumn>
               <TableColumn>HTTP Method</TableColumn> */}
-              <TableColumn>Public URL</TableColumn>
-              <TableColumn>Type</TableColumn>
-              <TableColumn>Owner</TableColumn>
-              <TableColumn>Created</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('properties.implementation_type')} onClick={() => sortTable('properties.implementation_type')}>Type</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
             </TableRow>
           </TableHeader>}
           <TableBody>
