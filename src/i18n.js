@@ -26,7 +26,7 @@ i18n
     // have a common namespace used around the full app
     ns: ['common'],
     defaultNS: 'common',
-
+    wait: true,
     debug: DEBUG,
 
     cache: {
