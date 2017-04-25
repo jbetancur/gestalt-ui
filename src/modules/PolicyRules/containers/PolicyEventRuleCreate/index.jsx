@@ -13,14 +13,8 @@ class PolicyEventRuleCreate extends Component {
     params: PropTypes.object.isRequired,
     createPolicyRule: PropTypes.func.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
-    // fetchLambdas: PropTypes.func.isRequired,
     selectedActions: PropTypes.array.isRequired,
   };
-
-  // componentDidMount() {
-  //   const { params, fetchLambdas } = this.props;
-  //   fetchLambdas(params.fqon, params.environmentId);
-  // }
 
   componentWillUnmount() {
     this.props.clearSelectedActions();
@@ -57,9 +51,9 @@ function mapStateToProps(state) {
     policyRule: model,
     pending,
     selectedActions: state.policyRules.selectedActions.selectedActions,
-    // lambdas: state.policyRules.lambdas.lambdas,
-    // pendingLambdas: state.policyRules.lambdas.pending,
-    initialValues: model
+    lambdaProvider: state.metaResource.lambdaProvider.provider,
+    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
+    initialValues: model,
   };
 }
 

@@ -20,8 +20,6 @@ const PolicyForm = (props) => {
     policy,
     policyRuleUpdatePending,
     onSubmit,
-    touched,
-    error,
     invalid,
     pristine,
     submitting,
@@ -55,9 +53,7 @@ const PolicyForm = (props) => {
                   label="Name"
                   type="text"
                   required
-                  errorText={touched && error}
                   maxLength={nameMaxLen}
-                  lineDirection="center"
                   autoComplete="none"
                 />
                 <Field
@@ -66,7 +62,6 @@ const PolicyForm = (props) => {
                   name="description"
                   label="Description"
                   type="text"
-                  lineDirection="center"
                 />
               </div>
             </CardText>
@@ -112,8 +107,6 @@ PolicyForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -121,8 +114,6 @@ PolicyForm.propTypes = {
 };
 
 PolicyForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

@@ -23,8 +23,6 @@ const PolicyLimitRuleForm = (props) => {
     pending,
     policyUpdatePending,
     onSubmit,
-    touched,
-    error,
     invalid,
     pristine,
     submitting,
@@ -92,9 +90,7 @@ const PolicyLimitRuleForm = (props) => {
                 label="Name"
                 type="text"
                 required
-                errorText={touched && error}
                 maxLength={nameMaxLen}
-                lineDirection="center"
               />
               <Field
                 className="flex-8 flex-xs-12"
@@ -102,7 +98,6 @@ const PolicyLimitRuleForm = (props) => {
                 name="description"
                 label="Description"
                 type="text"
-                lineDirection="center"
               />
               <div className="flex-row">
                 <Field
@@ -141,8 +136,6 @@ const PolicyLimitRuleForm = (props) => {
                     type={valueType}
                     parse={valueType === 'number' ? (value => Number(value)) : null}  // redux form formats everything as string, so force number
                     required
-                    errorText={touched && error}
-                    lineDirection="center"
                   /> : null}
                 <Field
                   className="flex-3 flex-xs-12"
@@ -206,8 +199,6 @@ PolicyLimitRuleForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -216,8 +207,6 @@ PolicyLimitRuleForm.propTypes = {
 };
 
 PolicyLimitRuleForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

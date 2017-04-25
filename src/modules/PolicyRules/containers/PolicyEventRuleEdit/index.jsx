@@ -84,8 +84,8 @@ function mapStateToProps(state) {
     selectedActions: state.policyRules.selectedActions.selectedActions,
     updatedPolicyRule: state.metaResource.policyRuleUpdate.policyRule,
     policyUpdatePending: state.metaResource.policyRuleUpdate.pending,
-    // lambdas: state.policyRules.lambdas.lambdas,
-    // pendingLambdas: state.policyRules.lambdas.pending,
+    lambdaProvider: state.metaResource.lambdaProvider.provider,
+    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
     initialValues: model,
     enableReinitialize: true,
   };
