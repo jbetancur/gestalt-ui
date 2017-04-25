@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
-import { sortBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
+import { tableActions } from 'modules/TableManager';
 import PolicyItem from '../../components/PolicyItem';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    policies: sortBy(state.metaResource.policies.policies, 'name'),
+    policies: orderBy(state.metaResource.policies.policies, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
     pending: state.metaResource.policies.pending,
-    selectedPolicies: state.policies.selectedPolicies,
+    selectedPolicies: state.tableManager.tableSelected,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(PolicyItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, tableActions))(PolicyItem);

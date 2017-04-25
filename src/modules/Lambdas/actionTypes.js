@@ -1,3 +1,1 @@
-export const SELECTED_LAMBDAS = 'lambdas/SELECTED_LAMBDAS';
-
 export const CHANGE_EDITOR_THEME = 'lambdas/CHANGE_EDITOR_THEME';

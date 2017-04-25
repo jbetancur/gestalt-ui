@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
@@ -14,19 +14,22 @@ import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 
-class APIItem extends Component {
+class APIItem extends PureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     apis: PropTypes.array.isRequired,
     selectedAPIs: PropTypes.object.isRequired,
-    handleSelected: PropTypes.func.isRequired,
     deleteAPIs: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
     unloadAPIs: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -39,25 +42,26 @@ class APIItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadAPIs, clearSelected } = this.props;
+    const { unloadAPIs, clearTableSelected, clearTableSort } = this.props;
     unloadAPIs();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { apis, handleSelected, selectedAPIs } = this.props;
+    const { apis, handleTableSelected, selectedAPIs } = this.props;
 
-    handleSelected(row, toggled, count, apis, selectedAPIs.selectedItems);
+    handleTableSelected(row, toggled, count, apis, selectedAPIs.selectedItems);
   }
 
   delete() {
-    const { params, fetchAPIs, deleteAPIs, clearSelected } = this.props;
+    const { params, fetchAPIs, deleteAPIs, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedAPIs;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchAPIs(params.fqon, params.environmentId);
     };
 
@@ -97,6 +101,8 @@ class APIItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedAPIs;
+    const { handleTableSortIcon, sortTable } = this.props;
+
     const apis = this.props.apis.map(api => (
       <TableRow key={api.id} onClick={e => this.edit(api, e)}>
         <TableColumn>{api.name}</TableColumn>
@@ -122,10 +128,10 @@ class APIItem extends Component {
             {!this.props.apis.length ? null :
             <TableHeader>
               <TableRow>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Owner</TableColumn>
-                <TableColumn>Created</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

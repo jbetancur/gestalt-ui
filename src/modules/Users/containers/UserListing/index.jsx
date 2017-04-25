@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
-import { sortBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
+import { tableActions } from 'modules/TableManager';
 import UserItem from '../../components/UserItem';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    users: sortBy(state.metaResource.users.users, 'name'),
+    selectedUsers: state.tableManager.tableSelected,
+    users: orderBy(state.metaResource.users.users, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
     pending: state.metaResource.users.pending,
-    selectedUsers: state.users.selectedUsers
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(UserItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, tableActions))(UserItem);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
@@ -14,19 +14,22 @@ import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 
-class PolicyItem extends Component {
+class PolicyItem extends PureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     policies: PropTypes.array.isRequired,
     selectedPolicies: PropTypes.object.isRequired,
-    handleSelected: PropTypes.func.isRequired,
     deletePolicies: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchPolicies: PropTypes.func.isRequired,
     unloadPolicies: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -39,25 +42,26 @@ class PolicyItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadPolicies, clearSelected } = this.props;
+    const { unloadPolicies, clearTableSelected, clearTableSort } = this.props;
     unloadPolicies();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { policies, handleSelected, selectedPolicies } = this.props;
+    const { policies, handleTableSelected, selectedPolicies } = this.props;
 
-    handleSelected(row, toggled, count, policies, selectedPolicies.selectedItems);
+    handleTableSelected(row, toggled, count, policies, selectedPolicies.selectedItems);
   }
 
   delete() {
-    const { params, fetchPolicies, deletePolicies, clearSelected } = this.props;
+    const { params, fetchPolicies, deletePolicies, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedPolicies;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchPolicies(params.fqon, params.environmentId);
     };
 
@@ -97,6 +101,8 @@ class PolicyItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedPolicies;
+    const { handleTableSortIcon, sortTable } = this.props;
+
     const policies = this.props.policies.map(policy => (
       <TableRow key={policy.id} onClick={e => this.edit(policy, e)}>
         <TableColumn>{policy.name}</TableColumn>
@@ -122,10 +128,10 @@ class PolicyItem extends Component {
             {!this.props.policies.length ? null :
             <TableHeader>
               <TableRow>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Owner</TableColumn>
-                <TableColumn>Created</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

@@ -11,21 +11,22 @@ import loginReducer from './modules/Login/reducers';
 import oranizationNavMenu from './modules/OrgNavMenu/reducers';
 import workspacesReducer from './modules/Workspaces/reducers';
 import environmentsReducer from './modules/Environments/reducers';
-import providersReducer from './modules/Providers/reducers';
+// import providersReducer from './modules/Providers/reducers';
 import lambdasReducer from './modules/Lambdas/reducers';
 import entitlementsReducer from './modules/Entitlements/reducers';
-import apisReducer from './modules/APIs/reducers';
-import apiEndpointsReducer from './modules/APIEndpoints/reducers';
-import usersReducer from './modules/Users/reducers';
+// import apisReducer from './modules/APIs/reducers';
+// import apiEndpointsReducer from './modules/APIEndpoints/reducers';
+// import usersReducer from './modules/Users/reducers';
 import groupsReducer from './modules/Groups/reducers';
 import containersReducer from './modules/Containers/reducers';
-import policiesReducer from './modules/Policies/reducers';
+// import policiesReducer from './modules/Policies/reducers';
 import policyRulesReducer from './modules/PolicyRules/reducers';
 import integrationsReducer from './modules/Integrations/reducers';
 import licensingReducer from './modules/Licensing/reducers';
 import volumeModalReducer from './modules/VolumeModal/reducers';
 import portmapModalReducer from './modules/PortMappingModal/reducers';
 import healthCheckModalReducer from './modules/HealthCheckModal/reducers';
+import tableManagerReducer from './modules/TableManager/reducers';
 
 const mediaQuery = {
   xs: '(min-width: 0) and (max-width: 599px)',
@@ -47,19 +48,20 @@ export default combineReducers({
   orgnavmenu: oranizationNavMenu,
   workspaces: workspacesReducer,
   environments: environmentsReducer,
-  providers: providersReducer,
+  // providers: providersReducer,
   lambdas: lambdasReducer,
   entitlements: entitlementsReducer,
-  users: usersReducer,
+  // users: usersReducer,
   groups: groupsReducer,
   containers: containersReducer,
-  policies: policiesReducer,
+  // policies: policiesReducer,
   policyRules: policyRulesReducer,
-  apis: apisReducer,
-  apiEndpoints: apiEndpointsReducer,
+  // apis: apisReducer,
+  // apiEndpoints: apiEndpointsReducer,
   integrations: integrationsReducer,
   licensing: licensingReducer,
   volumeModal: volumeModalReducer,
   portmapModal: portmapModalReducer,
   healthCheckModal: healthCheckModalReducer,
+  tableManager: tableManagerReducer,
 });

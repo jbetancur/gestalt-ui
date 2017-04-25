@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
@@ -15,11 +15,9 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { DeleteIconButton } from 'components/Buttons';
 
-class GroupItem extends Component {
+class GroupItem extends PureComponent {
   static propTypes = {
     fetchGroups: PropTypes.func.isRequired,
-    handleSelected: PropTypes.func.isRequired,
-    selectedGroups: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     groups: PropTypes.array.isRequired,
@@ -27,7 +25,12 @@ class GroupItem extends Component {
     deleteGroups: PropTypes.func.isRequired,
     unloadGroups: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    selectedGroups: PropTypes.object.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -40,15 +43,16 @@ class GroupItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadGroups, clearSelected } = this.props;
+    const { unloadGroups, clearTableSelected, clearTableSort } = this.props;
     unloadGroups();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { groups, handleSelected, selectedGroups } = this.props;
+    const { groups, handleTableSelected, selectedGroups } = this.props;
 
-    handleSelected(row, toggled, count, groups, selectedGroups.selectedItems);
+    handleTableSelected(row, toggled, count, groups, selectedGroups.selectedItems);
   }
 
   edit(group, e) {
@@ -59,13 +63,13 @@ class GroupItem extends Component {
   }
 
   delete() {
-    const { params, fetchGroups, deleteGroups, clearSelected } = this.props;
+    const { params, fetchGroups, deleteGroups, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedGroups;
     const groupIds = selectedItems.map(item => (item.id));
     const groupsNames = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchGroups(params.fqon);
     };
 
@@ -91,6 +95,7 @@ class GroupItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedGroups;
+    const { handleTableSortIcon, sortTable } = this.props;
 
     const groups = this.props.groups.map(group => (
       <TableRow key={group.id} onClick={e => this.edit(group, e)}>
@@ -98,7 +103,15 @@ class GroupItem extends Component {
         <TableColumn>{group.description}</TableColumn>
         <TableColumn><FormattedDate value={group.created.timestamp} /> <FormattedTime value={group.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
+
+    // const handleTableSortIcon = (key) => {
+    //   if (key === this.props.sortKey) {
+    //     return this.props.sortOrder === 'asc';
+    //   }
+
+    //   return undefined;
+    // };
 
     return (
       <div className="flex-row">
@@ -121,9 +134,9 @@ class GroupItem extends Component {
             {!this.props.groups.length ? null :
             <TableHeader>
               <TableRow>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Created</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

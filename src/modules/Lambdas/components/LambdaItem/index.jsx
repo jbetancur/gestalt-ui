@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
@@ -15,19 +15,22 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton, CopyUUIDButton } from 'components/Buttons';
 import A from 'components/A';
 
-class LambdaItem extends Component {
+class LambdaItem extends PureComponent {
   static propTypes = {
     lambdas: PropTypes.array.isRequired,
     router: PropTypes.object.isRequired,
-    handleSelected: PropTypes.func.isRequired,
     selectedLambdas: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchLambdas: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
     unloadLambdas: PropTypes.func.isRequired,
+    handleTableSortIcon: PropTypes.func.isRequired,
+    handleTableSelected: PropTypes.func.isRequired,
+    clearTableSelected: PropTypes.func.isRequired,
+    clearTableSort: PropTypes.func.isRequired,
+    sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -41,25 +44,26 @@ class LambdaItem extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadLambdas, clearSelected } = this.props;
+    const { unloadLambdas, clearTableSelected, clearTableSort } = this.props;
     unloadLambdas();
-    clearSelected();
+    clearTableSelected();
+    clearTableSort();
   }
 
   handleRowToggle(row, toggled, count) {
-    const { lambdas, handleSelected, selectedLambdas } = this.props;
+    const { lambdas, handleTableSelected, selectedLambdas } = this.props;
 
-    handleSelected(row, toggled, count, lambdas, selectedLambdas.selectedItems);
+    handleTableSelected(row, toggled, count, lambdas, selectedLambdas.selectedItems);
   }
 
   delete() {
-    const { params, deleteLambdas, clearSelected, fetchLambdas } = this.props;
+    const { params, deleteLambdas, clearTableSelected, fetchLambdas } = this.props;
     const { selectedItems } = this.props.selectedLambdas;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
-      clearSelected();
+      clearTableSelected();
       fetchLambdas(params.fqon, params.environmentId);
     };
 
@@ -110,6 +114,8 @@ class LambdaItem extends Component {
 
   render() {
     const { selectedCount } = this.props.selectedLambdas;
+    const { handleTableSortIcon, sortTable } = this.props;
+
     const lambdas = this.props.lambdas.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
         <TableColumn>{lambda.name}</TableColumn>
@@ -137,13 +143,13 @@ class LambdaItem extends Component {
           <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.lambdas.length ? null : <TableHeader>
               <TableRow>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
                 <TableColumn>UUID</TableColumn>
                 <TableColumn>Endpoints</TableColumn>
-                <TableColumn>Runtime</TableColumn>
-                <TableColumn>Owner</TableColumn>
-                <TableColumn>Created</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.runtime')} onClick={() => sortTable('properties.runtime')}>Runtime</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>
