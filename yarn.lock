@@ -5490,12 +5490,11 @@ react-cookie@^1.0.5:
     is-node "^1.0.2"
     object-assign "^4.1.0"
 
-react-copy-to-clipboard@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-4.3.1.tgz#aa429ce6029077c987e2bc4af7eec9a09ba5075b"
+react-copy-to-clipboard@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.0.0.tgz#23ccdd7c4d9ec2cc763839e2a55b1220aeb4f33d"
   dependencies:
     copy-to-clipboard "^3"
-    create-react-class "^15.5.2"
     prop-types "^15.5.8"
 
 react-deep-force-update@^2.0.1:
@@ -5776,11 +5775,10 @@ redux-logger@^3.0.1:
   dependencies:
     deep-diff "0.3.4"
 
-redux-responsive@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.0.tgz#f9c8fe8a418b44b2ef34c098ba832862eaeba90e"
+redux-responsive@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.1.tgz#9655f4550e0d365c0ec03f8742db3a4615b2f8d6"
   dependencies:
-    lodash "^4.2.1"
     mediaquery "0.0.3"
 
 redux-saga@^0.14.8:
@@ -6950,9 +6948,9 @@ webpack-dev-middleware@^1.10.2:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@^2.4.4:
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.4.4.tgz#1adb41640970421ec7b866e82384e8cebeed85de"
+webpack-dev-server@^2.4.5:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.4.5.tgz#31384ce81136be1080b4b4cde0eb9b90e54ee6cf"
   dependencies:
     ansi-html "0.0.7"
     chokidar "^1.6.0"

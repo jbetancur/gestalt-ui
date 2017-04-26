@@ -157,7 +157,7 @@ class App extends Component {
         to={`/${this.getCurrentOrgContext().properties.fqon}/groups`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
-      <Divider />,
+      <Divider key="navbar-section-divider-1" />,
       <ListItemStacked
         key="licensing"
         icon="vpn_key"

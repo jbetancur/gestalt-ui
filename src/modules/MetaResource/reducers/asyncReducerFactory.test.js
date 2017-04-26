@@ -77,7 +77,7 @@ describe('reducerFactory', () => {
 
       expect(
         reducer({}, {
-          type: 'UNLOAD_YOUWANT',
+          type: 'metaResource/UNLOAD_YOUWANT',
         })
       ).to.deep.equal(initialState);
     });

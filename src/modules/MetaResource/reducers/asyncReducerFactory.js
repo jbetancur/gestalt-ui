@@ -65,7 +65,7 @@ export default function createAsyncReducer(verbs, key, category, model, clearSta
     }
 
     Object.assign(actions, {
-      [`UNLOAD_${categoryUpper}`]: () => initialState,
+      [`metaResource/UNLOAD_${categoryUpper}`]: () => initialState,
       default: () => state,
     });
 
