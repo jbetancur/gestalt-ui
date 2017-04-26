@@ -40,9 +40,7 @@ const GroupForm = (props) => {
     clearMemberUsersFilter,
     editMode,
     updatePending,
-    touched,
     pristine,
-    error,
     invalid,
     pending,
     submitting,
@@ -114,7 +112,7 @@ const GroupForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Team</div>
                 </div>
               }
-              subtitle={group.id ? group.id : null}
+              subtitle={group.id}
             />
             <CardText>
               <div className="flex-row">
@@ -126,7 +124,6 @@ const GroupForm = (props) => {
                   type="text"
                   required
                   maxLength={nameMaxLen}
-                  errorText={touched && error}
                 />
                 <Field
                   className="flex-8 flex-xs-12"
@@ -134,11 +131,10 @@ const GroupForm = (props) => {
                   name="description"
                   label="Description"
                   type="text"
-                  lineDirection="center"
                 />
               </div>
             </CardText>
-            {updatePending || pending ? <LinearProgress id="group-form" /> : null}
+            {(updatePending || pending) && <LinearProgress id="group-form" />}
             <CardActions>
               <Button
                 flat
@@ -159,10 +155,11 @@ const GroupForm = (props) => {
         </div>
       </form>
 
-      {editMode ? <div className="flex-row">
+      {editMode &&
+      <div className="flex-row">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            {props.updateMembersPending ? <LinearProgress id="group-members" /> : null}
+            {props.updateMembersPending && <LinearProgress id="group-members" />}
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <h3>Available Users</h3>
@@ -173,7 +170,7 @@ const GroupForm = (props) => {
                       label="filter available users"
                       leftIcon={<FontIcon>filter_list</FontIcon>}
                       rightIcon={<Button icon onClick={() => clearAvailableUsersFilter()}><FontIcon>clear</FontIcon></Button>}
-                      lineDirection="center"
+
                       value={availableUsersFilter.filterText}
                       onChange={value => filterAvailableUsers(value)}
                     />}
@@ -190,7 +187,7 @@ const GroupForm = (props) => {
                       label="filter members"
                       leftIcon={<FontIcon>filter_list</FontIcon>}
                       rightIcon={<Button icon onClick={() => clearMemberUsersFilter()}><FontIcon>clear</FontIcon></Button>}
-                      lineDirection="center"
+
                       value={props.memberUsersFilter.filterText}
                       onChange={value => filterMemberUsers(value)}
                     />}
@@ -201,7 +198,7 @@ const GroupForm = (props) => {
             </div>
           </Card>
         </div>
-      </div> : null}
+      </div>}
     </div>
   );
 };
@@ -225,8 +222,6 @@ GroupForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -234,8 +229,6 @@ GroupForm.propTypes = {
 };
 
 GroupForm.defaultProps = {
-  touched: false,
-  error: false,
   updatedGroup: {},
   updateMembersPending: false,
   availableUsersFilter: {},

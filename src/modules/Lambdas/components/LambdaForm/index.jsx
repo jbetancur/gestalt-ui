@@ -44,7 +44,7 @@ const LambdaForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Lambda</div>
                 </div>
               }
-              subtitle={lambda.id ? <CopyUUIDButton model={lambda} /> : null}
+              subtitle={lambda.id && <CopyUUIDButton model={lambda} />}
             />
             <CardText>
               <div className="flex-row">
@@ -159,7 +159,7 @@ const LambdaForm = (props) => {
                   required
                   disabled={props.editMode}
                 />
-                {values.properties.code_type === 'package' ?
+                {values.properties.code_type === 'package' &&
                   <Field
                     className="flex-6 flex-xs-12 flex-sm-6 flex-md-6"
                     component={TextField}
@@ -168,8 +168,8 @@ const LambdaForm = (props) => {
                     type="text"
                     required
 
-                  /> : null}
-                {values.properties.code_type === 'package' ?
+                  />}
+                {values.properties.code_type === 'package' &&
                   <Field
                     className="flex-2 flex-xs-12 flex-sm-6 flex-md-6"
                     id="compressed-packageurl"
@@ -178,7 +178,7 @@ const LambdaForm = (props) => {
                     label="Compressed Package"
                     // TODO: Find out why redux-form state for bool doesn't apply
                     checked={values.properties.compressed}
-                  /> : null}
+                  />}
                 <Field
                   className="flex-2 flex-xs-6"
                   id="public"
@@ -189,7 +189,7 @@ const LambdaForm = (props) => {
                   label="Public"
                 />
 
-                {values.properties.code_type === 'code' ?
+                {values.properties.code_type === 'code' &&
                   <div className="flex-row">
                     <MDSelectField
                       id="select-theme"
@@ -209,7 +209,7 @@ const LambdaForm = (props) => {
                       minLines={15}
                       fontSize={12}
                     />
-                  </div> : null}
+                  </div>}
               </div>
               <h4>Periodic Configuration</h4>
               <Divider />
@@ -243,7 +243,6 @@ const LambdaForm = (props) => {
                     name="properties.periodic_info.payload.data"
                     label="json payload"
                     type="text"
-
                     rows={2}
                   />
                 </div>
@@ -261,7 +260,7 @@ const LambdaForm = (props) => {
                 </div>
               </div>
             </CardText>
-            {props.lambdaUpdatePending || props.pending ? <LinearProgress id="lambda-form" /> : null}
+            {(props.lambdaUpdatePending || props.pending) && <LinearProgress id="lambda-form" />}
             <CardActions>
               <Button
                 flat

@@ -42,7 +42,7 @@ const PolicyForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Policy</div>
                 </div>
               }
-              subtitle={policy.id ? policy.id : null}
+              subtitle={policy.id}
             />
             <CardText>
               <div className="flex-row">
@@ -65,7 +65,7 @@ const PolicyForm = (props) => {
                 />
               </div>
             </CardText>
-            {policyRuleUpdatePending || pending ? <LinearProgress id="policy-form" /> : null}
+            {(policyRuleUpdatePending || pending) && <LinearProgress id="policy-form" />}
             <CardActions>
               <Button
                 flat
@@ -84,13 +84,12 @@ const PolicyForm = (props) => {
             </CardActions>
           </Card>
 
-          {editMode && policy.id ?
+          {(editMode && policy.id) &&
             <div className="flex-row center-center">
               <div className="flex-10 flex-xs-12 flex-sm-12">
                 <PolicyRules {...props} />
               </div>
-            </div>
-            : null}
+            </div>}
         </div>
       </form>
     </div>

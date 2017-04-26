@@ -130,7 +130,7 @@ const APIEndpointForm = (props) => {
                 required
                 helpText="ex: /path or /path1/path2"
               />
-              {values.properties.implementation_type === 'container' ?
+              {values.properties.implementation_type === 'container' &&
                 <Field
                   id="containers-dropdown"
                   className="flex-3 flex-xs-12"
@@ -143,8 +143,8 @@ const APIEndpointForm = (props) => {
                   label="Container"
                   onFocus={() => fetchContainers()}
                   helpText="container from the current environment"
-                /> : null}
-              {values.properties.implementation_type === 'lambda' ?
+                />}
+              {values.properties.implementation_type === 'lambda' &&
                 <div className="flex-3 flex-sm-6 flex-xs-12">
                   <Autocomplete
                     id="lambdas-dropdown"
@@ -158,15 +158,15 @@ const APIEndpointForm = (props) => {
                     helpText="search by lambda name or uuid"
                   />
                   {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
-                  {values.properties.implementation_type === 'lambda' && values.properties.implementation_id ?
+                  {(values.properties.implementation_type === 'lambda' && values.properties.implementation_id) &&
                     <Field
                       component={TextField}
                       name="properties.implementation_id"
                       label="Selected Lambda UUID"
                       disabled={true}
-                    /> : null}
-                </div> : null}
-              {values.properties.implementation_type === 'lambda' ?
+                    />}
+                </div>}
+              {values.properties.implementation_type === 'lambda' &&
                 <Field
                   className="flex-2 flex-xs-6"
                   id="synchronous"
@@ -175,8 +175,8 @@ const APIEndpointForm = (props) => {
                   // TODO: Find out why redux-form state for bool doesn't apply
                   checked={values.properties.synchronous}
                   label="Synchronous"
-                /> : null}
-              {values.properties.implementation_type === 'container' ?
+                />}
+              {values.properties.implementation_type === 'container' &&
                 <Field
                   id="container-ports-dropdown"
                   className="flex-3 flex-xs-12"
@@ -187,7 +187,7 @@ const APIEndpointForm = (props) => {
                   itemValue="name"
                   required
                   label="Container Port Name"
-                /> : null}
+                />}
               {/* <Field
                 className="flex-6 flex-xs-12"
                 component={TextField}
@@ -198,7 +198,7 @@ const APIEndpointForm = (props) => {
               /> */}
             </div>
           </CardText>
-          {apiEndpointUpdatePending || pending ? <LinearProgress id="apiEndpoint-form" /> : null}
+          {(apiEndpointUpdatePending || pending) && <LinearProgress id="apiEndpoint-form" />}
           <CardActions>
             <Button
               flat

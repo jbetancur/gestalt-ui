@@ -73,7 +73,6 @@ const ProviderForm = (props) => {
       itemValue="value"
       label="External Protocol"
       helpText="The protocol used to reach any externally exposed endpoints"
-      errorText={props.touched && props.error}
     />
   );
 
@@ -87,7 +86,6 @@ const ProviderForm = (props) => {
         label="Provider URL/Host:Port"
         type="text"
         required
-        errorText={props.touched && props.error}
       />
       <Field
         id="select-return-type"
@@ -97,7 +95,6 @@ const ProviderForm = (props) => {
         menuItems={['Basic']}
         required
         label="Security Scheme"
-        errorText={props.touched && props.error}
       />
       <Field
         className="flex-2 flex-xs-12 flex-sm-4"
@@ -106,7 +103,6 @@ const ProviderForm = (props) => {
         label="Username"
         type="text"
         required
-        errorText={props.touched && props.error}
       />
       <Field
         className="flex-2 flex-xs-12 flex-sm-4"
@@ -115,7 +111,6 @@ const ProviderForm = (props) => {
         label="Password"
         type="password"
         required
-        errorText={props.touched && props.error}
       />
     </div>
   );
@@ -185,7 +180,6 @@ const ProviderForm = (props) => {
           name="properties.config.networks"
           label="Networks (JSON)"
           type="text"
-          errorText={props.touched && props.error}
           rows={2}
         /> : null}
       {selectedProviderType.extraConfig ?
@@ -195,7 +189,6 @@ const ProviderForm = (props) => {
           name="properties.config.extra"
           label="Extra Configuration (JSON)"
           type="text"
-          errorText={props.touched && props.error}
           rows={2}
         /> : null}
     </div>
@@ -252,7 +245,6 @@ const ProviderForm = (props) => {
                     itemValue="value"
                     required
                     label="Provider Type"
-                    errorText={props.touched && props.error}
                     disabled={provider.id}
                     onChange={(a, value) => handleProviderChange(value)} // TODO: there is a bug with the first parram which should be the value
                   />
@@ -263,7 +255,6 @@ const ProviderForm = (props) => {
                     label="Name"
                     type="text"
                     required
-                    errorText={props.touched && props.error}
                     maxLength={nameMaxLen}
                     disabled={provider.id}
                   />
@@ -273,8 +264,6 @@ const ProviderForm = (props) => {
                     name="description"
                     label="Description"
                     type="text"
-                    errorText={props.touched && props.error}
-
                   />
                 </div>
                 {renderConfigSection()}
@@ -341,8 +330,6 @@ ProviderForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
   fetchEnvSchema: PropTypes.func.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -352,8 +339,6 @@ ProviderForm.propTypes = {
 };
 
 ProviderForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

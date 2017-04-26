@@ -42,16 +42,16 @@ const ContainerForm = (props) => {
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className={props.inlineMode ? 'flex-12 md-no-paper' : 'flex-10 flex-xs-12 flex-sm-12'}>
-            {props.inlineMode ? null :
+            {!props.inlineMode &&
             <CardTitle
               title={
                 <div>
-                  <span>{props.title}</span>{!props.editMode ? null :
+                  <span>{props.title}</span>{props.editMode &&
                   <ContainerActions inContainerView container={container} {...props} />}
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
-              subtitle={container.id ? <CopyUUIDButton model={container} /> : null}
+              subtitle={container.id && <CopyUUIDButton model={container} />}
             />}
             <CardText>
               <div className="flex-row">
@@ -68,7 +68,7 @@ const ContainerForm = (props) => {
                   onFocus={() => fetchProviders()}
                   disabled={container.id}
                 />
-                {!values.properties.provider.id ? null :
+                {values.properties.provider.id &&
                 <div className="flex-row">
                   <Field
                     className="flex-4 flex-xs-12"
@@ -117,7 +117,6 @@ const ContainerForm = (props) => {
                     label="Instances"
                     type="number"
                     required
-
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
@@ -165,8 +164,8 @@ const ContainerForm = (props) => {
               </div>
 
             </CardText>
-            {props.containerUpdatePending || props.pending ? <LinearProgress id="container-form-loading" /> : null}
-            {props.inlineMode ? null :
+            {(props.containerUpdatePending || props.pending) && <LinearProgress id="container-form-loading" />}
+            {!props.inlineMode &&
             <CardActions>
               <Button
                 flat
@@ -187,7 +186,7 @@ const ContainerForm = (props) => {
             </CardActions>}
           </Card>
 
-          {!values.properties.provider.id ? null :
+          {values.properties.provider.id &&
           <div className="flex-row center-center">
             <ExpansionList className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               {!props.editMode ? <div /> : // react-md bug where expansion list children cannot be null

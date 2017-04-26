@@ -47,12 +47,12 @@ const ContainmentForm = (props) => {
                   name="name"
                   label={t('containment.fields.name.label')}
                   type="text"
-                  errorText={props.touched && props.error}
                   maxLength={shortNameMaxLen}
                   required
                   helpText={t('containment.fields.name.helpText')}
                 />
-                {props.isEnvironment ? <Field
+                {props.isEnvironment &&
+                <Field
                   id="environment-type"
                   className="flex-6 flex-xs-12"
                   component={SelectField}
@@ -60,8 +60,7 @@ const ContainmentForm = (props) => {
                   menuItems={['development', 'test', 'production']}
                   required
                   label={t('containment.fields.environmentType.label')}
-                  errorText={props.touched && props.error}
-                /> : null}
+                />}
               </div>
               <VariablesForm icon="list" envMap={props.envMap} />
             </CardText>
@@ -96,8 +95,6 @@ ContainmentForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -107,8 +104,6 @@ ContainmentForm.propTypes = {
 };
 
 ContainmentForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
