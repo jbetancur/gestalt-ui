@@ -20,6 +20,7 @@ import APIs from 'modules/APIs';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import DotActivity from 'components/DotActivity';
 
 class EnvironmentDetail extends Component {
   static propTypes = {
@@ -151,7 +152,7 @@ class EnvironmentDetail extends Component {
           <DetailCardTitle expander={!pending}>
             {this.renderActionsMenu()}
             <div>
-              <div className="gf-headline">{environment.description || environment.name}</div>
+              <div className="gf-headline">{!pending ? environment.description || environment.name : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>

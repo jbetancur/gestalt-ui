@@ -24,8 +24,6 @@ const APIForm = (props) => {
     apiUpdatePending,
     api,
     onSubmit,
-    touched,
-    error,
     invalid,
     pristine,
     submitting,
@@ -61,7 +59,6 @@ const APIForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  errorText={props.touched && props.error}
                   menuItems={props.providers}
                   onFocus={() => props.fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments')}
                   disabled={editMode}
@@ -76,7 +73,7 @@ const APIForm = (props) => {
                     label="Location"
                     itemLabel="name"
                     itemValue="id"
-                    errorText={props.touched && props.error}
+
                     menuItems={selectedProviderLocations()}
                   /> : null} */}
                 <div className="flex-row">
@@ -87,7 +84,6 @@ const APIForm = (props) => {
                     label="Name"
                     type="text"
                     required
-                    errorText={touched && error}
                     maxLength={nameMaxLen}
                     disabled={editMode}
                   />
@@ -101,7 +97,7 @@ const APIForm = (props) => {
                 </div>
               </div>
             </CardText>
-            {pending || apiUpdatePending ? <LinearProgress id="api-form" /> : null}
+            {(pending || apiUpdatePending) && <LinearProgress id="api-form" />}
             <CardActions>
               <Button
                 flat
@@ -146,8 +142,6 @@ APIForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -155,8 +149,6 @@ APIForm.propTypes = {
 };
 
 APIForm.defaultProps = {
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

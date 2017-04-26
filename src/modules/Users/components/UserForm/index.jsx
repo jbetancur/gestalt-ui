@@ -29,7 +29,7 @@ const UserForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / User</div>
                 </div>
               }
-              subtitle={props.user.id ? props.user.id : null}
+              subtitle={props.user.id}
             />
             <CardText>
               <div className="flex-row">
@@ -40,9 +40,7 @@ const UserForm = (props) => {
                   label="Username"
                   type="text"
                   required
-                  errorText={props.touched && props.error}
                   maxLength={usernameMaxLen}
-                  lineDirection="center"
                   autoComplete="none"
                 />
                 <Field
@@ -52,7 +50,6 @@ const UserForm = (props) => {
                   label="Password"
                   type="text"
                   required
-                  lineDirection="center"
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -61,7 +58,6 @@ const UserForm = (props) => {
                   label="First Name"
                   type="text"
                   required
-                  errorText={props.touched && props.error}
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -70,7 +66,6 @@ const UserForm = (props) => {
                   label="Last Name"
                   type="text"
                   required
-                  lineDirection="center"
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -79,8 +74,6 @@ const UserForm = (props) => {
                   label="Email"
                   type="email"
                   required
-                  errorText={props.touched && props.error}
-                  lineDirection="center"
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -89,7 +82,6 @@ const UserForm = (props) => {
                   label="Phone Number"
                   type="text"
                   required
-                  lineDirection="center"
                 />
                 <Field
                   id="select-gestalt-home"
@@ -101,8 +93,6 @@ const UserForm = (props) => {
                   itemLabel="name"
                   itemValue="value"
                   label="Gestalt Home"
-                  lineDirection="center"
-                  errorText={props.touched && props.error}
                   onFocus={() => props.fetchAllOrgsDropDown(props.params.fqon)}
                 />
                 <Field
@@ -111,11 +101,10 @@ const UserForm = (props) => {
                   name="description"
                   label="Description"
                   type="text"
-                  lineDirection="center"
                 />
               </div>
             </CardText>
-            {props.updatePending || props.pending ? <LinearProgress id="user-form" /> : null}
+            {(props.updatePending || props.pending) && <LinearProgress id="user-form" />}
             <CardActions>
               <Button
                 flat
@@ -150,8 +139,6 @@ UserForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -159,8 +146,6 @@ UserForm.propTypes = {
 };
 
 UserForm.defaultProps = {
-  touched: false,
-  error: false,
   updatePending: false,
   title: '',
   submitLabel: '',

@@ -69,35 +69,35 @@ class Breadcrumbs extends PureComponent {
           {currentOrgContext.description || currentOrgContext.name}
         </EnhancedLink>
 
-        {currentWorkspaceContext.id && params.workspaceId ? ` ${seperator} ` : null}
+        {(currentWorkspaceContext.id && params.workspaceId) && ` ${seperator} `}
 
-        {currentWorkspaceContext.id && params.workspaceId ?
+        {(currentWorkspaceContext.id && params.workspaceId) &&
           <EnhancedLink
             onClick={e => this.allowNav(e, workspacesRoute)}
             to={workspacesRoute}
           >
             Workspaces
-          </EnhancedLink> : null}
+          </EnhancedLink>}
 
-        {currentWorkspaceContext.id && params.workspaceId ? ` ${seperator} ` : null}
+        {(currentWorkspaceContext.id && params.workspaceId) && ` ${seperator} `}
 
-        {currentWorkspaceContext.id && params.workspaceId ?
+        {(currentWorkspaceContext.id && params.workspaceId) &&
           <EnhancedLink
             onClick={e => this.allowNav(e, workspaceRoute)}
             to={workspaceRoute}
           >
             {currentWorkspaceContext.description || currentWorkspaceContext.name}
-          </EnhancedLink> : null}
+          </EnhancedLink>}
 
-        {currentEnvironmentContext.id && params.environmentId ? ` ${seperator} ` : null}
+        {(currentEnvironmentContext.id && params.environmentId) && ` ${seperator} `}
 
-        {currentEnvironmentContext.id && params.environmentId ?
+        {(currentEnvironmentContext.id && params.environmentId) &&
           <EnhancedLink
             onClick={e => this.allowNav(e, environmentRoute)}
             to={environmentRoute}
           >
             {currentEnvironmentContext.description || currentEnvironmentContext.name}
-          </EnhancedLink> : null}
+          </EnhancedLink>}
       </span>
     );
   }

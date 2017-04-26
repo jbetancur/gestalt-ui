@@ -22,6 +22,7 @@ import { loginActions } from 'modules/Login';
 import { metaActions } from 'modules/MetaResource';
 import A from 'components/A';
 import ListItemStacked from 'components/ListItemStacked';
+import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import * as actions from '../../actions';
 import lightTheme from '../../../style/themes/light';
@@ -199,7 +200,7 @@ class App extends Component {
         id="main-menu"
         flat={browser.greaterThan.xs}
         icon={browser.lessThan.sm}
-        label={browser.greaterThan.xs ? self.name : null}
+        label={browser.greaterThan.xs && self.name}
         buttonChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
         position={MenuButton.Positions.TOP_RIGHT}
         iconBefore={false}
@@ -251,12 +252,12 @@ class App extends Component {
     });
 
     return (
-      this.props.browser.greaterThan.sm ?
+      this.props.browser.greaterThan.sm &&
         <div className="flex-row center-center no-gutter logo-container">
           <div className="flex-row center-center no-gutter flex-12 logo-container">
             <div className={logoClass}><GestaltIcon /></div>
           </div>
-        </div> : null
+        </div>
     );
   }
 
@@ -281,16 +282,7 @@ class App extends Component {
               <ModalRoot />
               {this.props.children}
             </NavigationDrawer>
-          </ThemeProvider> :
-          <div className="flex-row" style={{ height: '100%' }}>
-            <div className="flex-row center-center">
-              <div className="flex-8">
-                <h1>
-                  There was an issue connecting to the Gestalt API. If a page refresh does not solve the issue please contact your Gestalt admin.
-                </h1>
-              </div>
-            </div>
-          </div>}
+          </ThemeProvider> : <AppError />}
       </main>
     );
   }

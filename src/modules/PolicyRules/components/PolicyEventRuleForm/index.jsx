@@ -69,7 +69,7 @@ const PolicyEventRuleForm = (props) => {
                 </div>
               </div>
             }
-            subtitle={policyRule.id ? policyRule.id : null}
+            subtitle={policyRule.id}
           />
           <CardText>
             <div className="flex-row">
@@ -102,13 +102,13 @@ const PolicyEventRuleForm = (props) => {
                   helpText="search by lambda name or uuid"
                 />
                 {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
-                {values.properties.lambda ?
+                {values.properties.lambda &&
                   <Field
                     component={TextField}
                     name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
                     label="Selected Lambda UUID"
                     disabled
-                  /> : null}
+                  />}
               </div>
               <fieldset>
                 <legend>Actions</legend>
@@ -128,7 +128,7 @@ const PolicyEventRuleForm = (props) => {
               </fieldset>
             </div>
           </CardText>
-          {policyUpdatePending || pending ? <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} /> : null}
+          {(policyUpdatePending || pending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
           <CardActions>
             <Button
               flat

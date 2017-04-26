@@ -16,10 +16,11 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { DeleteIcon } from 'components/Icons';
 import Sort from 'components/Sort';
+import DotActivity from 'components/DotActivity';
 
 class OrgItem extends Component {
   static propTypes = {
-    organizations: PropTypes.array.isRequired,
+    organizations: PropTypes.array,
     organization: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     deleteOrg: PropTypes.func.isRequired,
@@ -33,6 +34,10 @@ class OrgItem extends Component {
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    organizations: [],
   };
 
   constructor(props) {
@@ -157,7 +162,7 @@ class OrgItem extends Component {
             <div>
               <div>{item.properties.fqon}</div>
               {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-              {!item.owner.name ? null : <div className="gf-caption"><span>{t('general.nouns.owner').toLowerCase()}: {item.owner.name}</span></div>}
+              {item.owner.name && <div className="gf-caption"><span>{t('general.nouns.owner').toLowerCase()}: {item.owner.name}</span></div>}
               <div className="gf-caption">{t('general.verbs.created').toLowerCase()} <FormattedRelative value={item.created.timestamp} /></div>
               <div className="gf-caption">{t('general.verbs.modified').toLowerCase()} <FormattedRelative value={item.modified.timestamp} /></div>
             </div>}
@@ -195,7 +200,7 @@ class OrgItem extends Component {
     return (
       <div className="flex-row">
         <Sort
-          visible={sortedOrgs.length}
+          visible={sortedOrgs.length > 0}
           sortKey={this.state.sortKey}
           order={this.state.order}
           setKey={value => this.setState({ sortKey: value })}
@@ -217,10 +222,14 @@ class OrgItem extends Component {
     return (
       <div>
         <DetailCard>
-          <DetailCardTitle expander={!pending} title={params.fqon === self.properties.gestalt_home.properties.fqon ? null : <NavUpArrowButton component={Link} to={`/${parentFQON}/organizations`} />}>
+          <DetailCardTitle
+            expander={!pending}
+            title={
+              !(params.fqon === self.properties.gestalt_home.properties.fqon) && <NavUpArrowButton visible={!pending} component={Link} to={`/${parentFQON}/organizations`} />
+            }
+          >
             {this.renderActionsMenu(organization)}
-            {!pending ?
-              <div className="gf-headline">{organization.description || organization.name}</div> : null}
+            {!pending ? <div className="gf-headline">{organization.description || organization.name}</div> : <DotActivity />}
           </DetailCardTitle>
           <DetailCardText expandable>
             <div className="flex-row">
@@ -231,7 +240,7 @@ class OrgItem extends Component {
                 <div><span className="gf-label">{t('general.verbs.created')}: </span><span className="gf-subtitle"><FormattedRelative value={organization.created.timestamp} /> (<FormattedDate value={organization.created.timestamp} /> <FormattedTime value={organization.created.timestamp} />)</span></div>
                 <div><span className="gf-label">{t('general.verbs.modified')}: </span><span className="gf-subtitle"><FormattedRelative value={organization.modified.timestamp} /> (<FormattedDate value={organization.modified.timestamp} /> <FormattedTime value={organization.modified.timestamp} />)</span></div>
                 {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-                {!organization.owner.name ? null : <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{organization.owner.name}</span></div>}
+                {organization.owner.name && <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{organization.owner.name}</span></div>}
                 <div><span className="gf-label">{t('general.nouns.uuid')}: </span><span className="gf-subtitle">{organization.id}</span></div>
               </div>
               <div className="flex-6 flex-xs-12">
@@ -239,9 +248,8 @@ class OrgItem extends Component {
               </div>
             </div>
           </DetailCardText>
-          {pending ? this.renderProgress() : null}
         </DetailCard>
-        {pending ? null : this.renderCardsContainer()}
+        {pending ? this.renderProgress() : this.renderCardsContainer()}
       </div>
     );
   }

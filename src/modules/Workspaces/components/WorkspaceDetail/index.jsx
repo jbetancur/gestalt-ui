@@ -18,6 +18,7 @@ import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCa
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { DeleteIcon } from 'components/Icons';
+import DotActivity from 'components/DotActivity';
 
 const CreateButtonSpan = styled.span`
   position: absolute;
@@ -150,7 +151,7 @@ class WorkspaceDetail extends Component {
           <DetailCardTitle expander={!pending}>
             {this.renderActionsMenu()}
             <div>
-              <div className="gf-headline">{workspace.description || workspace.name}</div>
+              <div className="gf-headline">{!pending ? workspace.description || workspace.name : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>

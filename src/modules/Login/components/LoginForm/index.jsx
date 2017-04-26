@@ -45,7 +45,7 @@ const validate = (values) => {
 };
 
 const LoginForm = (props) => {
-  const { login, loginModal, handleSubmit, pristine, invalid, submitting, touched, error, t } = props;
+  const { login, loginModal, handleSubmit, pristine, invalid, submitting, t } = props;
   const submit = (values) => {
     login(values.username, values.password, loginModal.visible);
   };
@@ -61,19 +61,17 @@ const LoginForm = (props) => {
             component={TextField}
             name="username"
             type="text"
-            errorText={touched && error}
             placeholder={t('auth.fields.username.label')}
           />
           <Field
             component={TextField}
             name="password"
             type="password"
-            errorText={touched && error}
             placeholder={t('auth.fields.password.label')}
           />
           <LoginError>{props.statusText}</LoginError>
         </CardText>
-        {props.isAuthenticating ? <LinearProgress id="login-form" /> : null}
+        {props.isAuthenticating && <LinearProgress id="login-form" />}
         <CardActions className="flex-row">
           <Button
             className="flex-12"
@@ -98,15 +96,11 @@ LoginForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   isAuthenticating: PropTypes.bool,
   statusText: PropTypes.string,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   t: PropTypes.func.isRequired,
 };
 
 LoginForm.defaultProps = {
   isAuthenticating: false,
-  touched: false,
-  error: false,
   statusText: '',
 };
 

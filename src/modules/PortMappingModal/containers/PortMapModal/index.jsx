@@ -74,7 +74,8 @@ function mapStateToProps(state) {
   return {
     portmapModal: state.portmapModal.portmapModal,
     initialValues: {
-      protocol: 'tcp'
+      protocol: 'tcp',
+      expose_endpoint: true,
     },
   };
 }
