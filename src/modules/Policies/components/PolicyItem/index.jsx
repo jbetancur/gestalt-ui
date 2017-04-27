@@ -116,7 +116,7 @@ class PolicyItem extends PureComponent {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title="Policy"
+            title={<div className="gf-headline">Policies</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} polic${selectedCount > 1 ? 'ies' : 'y'} selected`}
             actions={[<DeleteIconButton onClick={() => this.delete()} />]}

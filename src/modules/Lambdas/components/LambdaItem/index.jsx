@@ -132,7 +132,7 @@ class LambdaItem extends PureComponent {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title="Lambdas"
+            title={<div className="gf-headline">Lambdas</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} lambda${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={() => this.delete()} />]}

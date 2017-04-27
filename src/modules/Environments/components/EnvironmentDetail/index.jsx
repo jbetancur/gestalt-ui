@@ -7,7 +7,6 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import FontIcon from 'react-md/lib/FontIcons';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { LambdaIcon, DeleteIcon } from 'components/Icons';
 import Providers from 'modules/Providers';
@@ -139,10 +138,6 @@ class EnvironmentDetail extends Component {
     }
   }
 
-  renderProgress() {
-    return <LinearProgress id="workspace-progress" />;
-  }
-
   render() {
     const { pending, environment, navigation } = this.props;
 
@@ -186,7 +181,6 @@ class EnvironmentDetail extends Component {
             </Tabs>
             {/* Hack above for hiding ugly sliders on react-md tab component when no tab is selected */}
           </TabsContainer>
-          {pending ? this.renderProgress() : null}
         </DetailCard>
         {this.renderThings(navigation.view)}
       </div>

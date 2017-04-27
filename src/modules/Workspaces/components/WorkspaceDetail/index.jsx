@@ -7,7 +7,6 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
@@ -138,10 +137,6 @@ class WorkspaceDetail extends Component {
     }
   }
 
-  renderProgress() {
-    return <LinearProgress id="workspace-progress" />;
-  }
-
   render() {
     const { pending, workspace, params, navigation } = this.props;
 
@@ -192,7 +187,6 @@ class WorkspaceDetail extends Component {
               <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 2)} />
             </Tabs>
           </TabsContainer>
-          {pending ? this.renderProgress() : null}
         </DetailCard>
 
         <div>

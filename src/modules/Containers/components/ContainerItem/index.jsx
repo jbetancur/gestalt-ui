@@ -138,7 +138,7 @@ class ContainerItem extends PureComponent {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title="Containers"
+            title={<div className="gf-headline">Containers</div>}
             visible={false} // TODO: React-md propTypes bug
           >
             <div>
