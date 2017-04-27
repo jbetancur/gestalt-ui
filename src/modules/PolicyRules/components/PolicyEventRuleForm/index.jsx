@@ -99,7 +99,7 @@ const PolicyEventRuleForm = (props) => {
                   clearOnAutocomplete
                   onClick={() => fetchLambdasDropDown(params.fqon)}
                   onAutocomplete={value => handleAutoComplete(value)}
-                  helpText="search by lambda name or uuid, or paste a uuid below"
+                  helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                 />
                 {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
                 <Field

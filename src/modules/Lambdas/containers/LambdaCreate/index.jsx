@@ -40,6 +40,10 @@ class LambdaCreate extends Component {
       payload.properties.code = base64.encode(payload.properties.code);
     }
 
+    if (!values.properties.periodic_info.schedule) {
+      delete payload.properties.periodic_info;
+    }
+
     delete payload.variables;
     if (values.variables) {
       values.variables.forEach((variable) => {

@@ -155,15 +155,14 @@ const APIEndpointForm = (props) => {
                     clearOnAutocomplete
                     onClick={() => fetchLambdasDropDown(params.fqon)}
                     onAutocomplete={value => handleAutoComplete(value)}
-                    helpText="search by lambda name or uuid"
+                    helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                   />
                   {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
-                  {(values.properties.implementation_type === 'lambda' && values.properties.implementation_id) &&
+                  {(values.properties.implementation_type === 'lambda') &&
                     <Field
                       component={TextField}
                       name="properties.implementation_id"
-                      label="Selected Lambda UUID"
-                      disabled={true}
+                      label="Lambda UUID"
                     />}
                 </div>}
               {values.properties.implementation_type === 'lambda' &&
