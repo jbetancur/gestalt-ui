@@ -30,7 +30,7 @@ export default (values) => {
     }
 
     if (values.properties.lambda && !isUUID(values.properties.lambda)) {
-      errors.properties.lambda = 'must be a valud UUID';
+      errors.properties.lambda = 'must be a valid UUID';
     }
   }
 

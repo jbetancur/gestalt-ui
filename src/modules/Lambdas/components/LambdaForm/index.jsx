@@ -10,7 +10,6 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import Divider from 'react-md/lib/Dividers';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import MDSelectField from 'react-md/lib/SelectFields';
@@ -211,43 +210,43 @@ const LambdaForm = (props) => {
                     />
                   </div>}
               </div>
-              <h4>Periodic Configuration</h4>
-              <Divider />
-              <div className="flex-row">
-                <Field
-                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
-                  component={TextField}
-                  name="properties.periodic_info.schedule"
-                  label="Schedule"
-                  helpText="Date and time format - ISO 8601"
-                  type="text"
-                />
-                <Field
-                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
-                  component={SelectField}
-                  name="properties.periodic_info.timezone"
-                  label="Timezone"
-                  menuItems={timezones}
-                />
-                <Field
-                  className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
-                  component={TextField}
-                  name="properties.periodic_info.payload.eventName"
-                  label="Event Name"
-                  type="text"
-                />
+              <fieldset>
+                <legend>Periodic Configuration</legend>
                 <div className="flex-row">
                   <Field
-                    className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
+                    className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                     component={TextField}
-                    name="properties.periodic_info.payload.data"
-                    label="json payload"
+                    name="properties.periodic_info.schedule"
+                    label="Schedule"
+                    helpText="Date and time format - ISO 8601"
                     type="text"
-                    rows={2}
                   />
+                  <Field
+                    className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
+                    component={SelectField}
+                    name="properties.periodic_info.timezone"
+                    label="Timezone"
+                    menuItems={timezones}
+                  />
+                  <Field
+                    className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
+                    component={TextField}
+                    name="properties.periodic_info.payload.eventName"
+                    label="Event Name"
+                    type="text"
+                  />
+                  <div className="flex-row">
+                    <Field
+                      className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
+                      component={TextField}
+                      name="properties.periodic_info.payload.data"
+                      label="json payload"
+                      type="text"
+                      rows={2}
+                    />
+                  </div>
                 </div>
-              </div>
-              <Divider />
+              </fieldset>
               {/* <div className="flex-row">
                 <div className="flex-12">
                   <Scheduler />
