@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import cn from 'classnames';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -20,7 +20,6 @@ import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
 import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
 import { metaActions } from 'modules/MetaResource';
-import A from 'components/A';
 import ListItemStacked from 'components/ListItemStacked';
 import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
@@ -171,7 +170,7 @@ class App extends Component {
         key="docs"
         icon="library_books"
         title={t('documentation.title')}
-        component={A}
+        component={styled.a`text-decoration: none;`}
         href={DOCUMENTATION_URL}
         target="_blank"
         rel="noopener noreferrer"
