@@ -116,7 +116,7 @@ class APIItem extends PureComponent {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title="API"
+            title={<div className="gf-headline">API</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} API${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={() => this.delete()} />]}

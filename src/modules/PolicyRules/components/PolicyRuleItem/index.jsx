@@ -130,7 +130,7 @@ class PolicyRuleItem extends PureComponent {
     return (
       <Card tableCard>
         <TableCardHeader
-          title="Policy Rules"
+          title={<div className="gf-headline">Policy Rules</div>}
           visible={selectedCount > 0}
           contextualTitle={`${selectedCount} policy rule${selectedCount > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={() => this.delete()} />]}
