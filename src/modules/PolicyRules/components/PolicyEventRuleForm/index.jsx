@@ -18,7 +18,7 @@ import policyResourceTypes from '../../lists/policyResourceTypes';
 
 const PolicyEventRuleForm = (props) => {
   const {
-    values,
+    // values,
     params,
     pending,
     policyUpdatePending,
@@ -99,16 +99,14 @@ const PolicyEventRuleForm = (props) => {
                   clearOnAutocomplete
                   onClick={() => fetchLambdasDropDown(params.fqon)}
                   onAutocomplete={value => handleAutoComplete(value)}
-                  helpText="search by lambda name or uuid"
+                  helpText="search by lambda name or uuid, or paste a uuid below"
                 />
                 {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
-                {values.properties.lambda &&
-                  <Field
-                    component={TextField}
-                    name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
-                    label="Selected Lambda UUID"
-                    disabled
-                  />}
+                <Field
+                  component={TextField}
+                  name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                  label="Lambda UUID"
+                />
               </div>
               <fieldset>
                 <legend>Actions</legend>
@@ -154,7 +152,7 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
-  values: PropTypes.object.isRequired,
+  // values: PropTypes.object.isRequired,
   policyRule: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
