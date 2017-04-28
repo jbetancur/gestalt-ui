@@ -33,7 +33,6 @@ const HealthCheckForm = (props) => {
             name="protocol"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={SelectField}
-            lineDirection="center"
             label="Protocol"
             itemLabel="displayName"
             itemValue="value"
@@ -48,8 +47,6 @@ const HealthCheckForm = (props) => {
             label="Grace Period"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            errorText={props.touched && props.error}
-            lineDirection="center"
             parse={value => Number(value)}  // redux form formats everything as string, so force number
             required
             helpText="seconds"
@@ -61,8 +58,6 @@ const HealthCheckForm = (props) => {
             label="Interval"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            errorText={props.touched && props.error}
-            lineDirection="center"
             parse={value => Number(value)}  // redux form formats everything as string, so force number
             required
             helpText="seconds"
@@ -74,8 +69,6 @@ const HealthCheckForm = (props) => {
             label="Timeout"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            errorText={props.touched && props.error}
-            lineDirection="center"
             parse={value => Number(value)}  // redux form formats everything as string, so force number
             required
             helpText="seconds"
@@ -87,8 +80,6 @@ const HealthCheckForm = (props) => {
             label="Max Consecutive Failures"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            errorText={props.touched && props.error}
-            lineDirection="center"
             parse={value => Number(value)}  // redux form formats everything as string, so force number
             required
           />
@@ -99,7 +90,6 @@ const HealthCheckForm = (props) => {
               name="port_type"
               className="flex-3 flex-xs-6 flex-sm-6"
               component={SelectField}
-              lineDirection="center"
               label="Port Type"
               itemLabel="displayName"
               itemValue="value"
@@ -115,8 +105,6 @@ const HealthCheckForm = (props) => {
               label="Port Number"
               className="flex-2 flex-xs-6 flex-sm-6"
               component={TextField}
-              errorText={props.touched && props.error}
-              lineDirection="center"
               parse={value => Number(value)}  // redux form formats everything as string, so force number
               required
             /> : null}
@@ -129,8 +117,6 @@ const HealthCheckForm = (props) => {
               label="Port Index"
               className="flex-2 flex-xs-6 flex-sm-6"
               component={TextField}
-              errorText={props.touched && props.error}
-              lineDirection="center"
               parse={value => Number(value)}  // redux form formats everything as string, so force number
               required
             /> : null}
@@ -141,8 +127,6 @@ const HealthCheckForm = (props) => {
               label="Path"
               className="flex"
               component={TextField}
-              errorText={props.touched && props.error}
-              lineDirection="center"
               required
             /> : null}
           {selectedHCProtocol && selectedHCProtocol.supportsCMD ?
@@ -152,8 +136,6 @@ const HealthCheckForm = (props) => {
               label="Command"
               className="flex"
               component={TextField}
-              errorText={props.touched && props.error}
-              lineDirection="center"
               required
             /> : null}
           {selectedHCProtocol && selectedHCProtocol.supportsURL ?
@@ -195,13 +177,6 @@ HealthCheckForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
-};
-
-HealthCheckForm.defaultProps = {
-  touched: false,
-  error: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

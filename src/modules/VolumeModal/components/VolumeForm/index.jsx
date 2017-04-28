@@ -25,7 +25,6 @@ const VolumeForm = (props) => {
           name="type"
           className="flex-2 flex-xs-6 flex-sm-6"
           component={SelectField}
-          lineDirection="center"
           label="Type"
           itemLabel="type"
           itemValue="type"
@@ -37,7 +36,6 @@ const VolumeForm = (props) => {
           name="mode"
           className="flex-2 flex-xs-6 flex-sm-6"
           component={SelectField}
-          lineDirection="center"
           label="Mode"
           itemLabel="displayName"
           itemValue="mode"
@@ -52,8 +50,6 @@ const VolumeForm = (props) => {
             label="Size (MiB)"
             className="flex-2 flex-xs-12"
             component={TextField}
-            errorText={props.touched && props.error}
-            lineDirection="center"
             parse={value => Number(value)}  // redux form formats everything as string, so force number
             required
           /> :
@@ -63,8 +59,6 @@ const VolumeForm = (props) => {
             label="Host Path"
             className="flex-4 flex-xs-12 flex-sm-12"
             component={TextField}
-            errorText={props.touched && props.error}
-            lineDirection="center"
             helpText="absolute path (/dir)"
             required
           />}
@@ -74,8 +68,6 @@ const VolumeForm = (props) => {
           label="Container Path"
           className="flex flex-sm-12"
           component={TextField}
-          errorText={props.touched && props.error}
-          lineDirection="center"
           helpText="relative path (dir)"
           required
         />
@@ -107,13 +99,6 @@ VolumeForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
-};
-
-VolumeForm.defaultProps = {
-  touched: false,
-  error: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

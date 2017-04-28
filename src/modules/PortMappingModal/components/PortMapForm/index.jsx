@@ -34,7 +34,6 @@ const PortMapForm = (props) => {
           label="Name"
           className="flex-6 flex-xs-6"
           component={TextField}
-          errorText={props.touched && props.error}
           required
         />
         <Field
@@ -56,7 +55,6 @@ const PortMapForm = (props) => {
             label="Service Port"
             className="flex-3 flex-xs-6"
             component={TextField}
-            errorText={props.touched && props.error}
             required
             parse={value => Number(value)}  // redux form formats everything as string, so force number
           /> : null}
@@ -69,7 +67,6 @@ const PortMapForm = (props) => {
             label="Container Port"
             className="flex-3 flex-xs-6"
             component={TextField}
-            errorText={props.touched && props.error}
             required
             parse={value => Number(value)}  // redux form formats everything as string, so force number
           /> : null}
@@ -78,7 +75,6 @@ const PortMapForm = (props) => {
           className="flex-12"
           component={TextField}
           label="Virtual Hosts"
-          errorText={props.touched && props.error}
           helpText="Comma delimited set of virtual host names or addresses"
         /> : null}
       </div>
@@ -110,13 +106,6 @@ PortMapForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   networkType: PropTypes.string.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
-};
-
-PortMapForm.defaultProps = {
-  touched: false,
-  error: false,
 };
 
 // Connect to this forms state in the store so we can enum the values
