@@ -57,7 +57,7 @@ class LambdaEdit extends Component {
       model.properties.code = base64.encode(formValues.properties.code);
     }
 
-    if (!formValues.properties.periodic_info.schedule) {
+    if (formValues.properties.periodic_info && !formValues.properties.periodic_info.schedule) {
       delete model.properties.periodic_info;
     }
 
