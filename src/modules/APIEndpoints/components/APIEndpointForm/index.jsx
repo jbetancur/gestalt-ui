@@ -142,6 +142,7 @@ const APIEndpointForm = (props) => {
                   required
                   label="Container"
                   onFocus={() => fetchContainers()}
+                  async
                   helpText="container from the current environment"
                 />}
               {values.properties.implementation_type === 'lambda' &&

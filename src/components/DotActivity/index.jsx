@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
 /* Huge thanks to @tobiasahlin at http://tobiasahlin.com/spinkit/ */
@@ -13,9 +14,9 @@ const animation = keyframes`
 
 const SpinDiv = styled.div`
   &.spinner > div {
-    width: 10px;
-    height: 10px;
-    background-color: ${props => props.theme.colors['$md-grey-500']};
+    width: ${props => `${props.size}em`};
+    height: ${props => `${props.size}em`};
+    background-color: ${props => (props.dropdown && props.theme.activityDotColorDropDown) || props.theme.activityDotColor};
     border-radius: 100%;
     display: inline-block;
     animation: ${animation} 1.4s infinite ease-in-out both;
@@ -26,16 +27,25 @@ const SpinDiv = styled.div`
   }
 
   &.spinner .bounce2 {
-    -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
   }
 `;
 
-const DotActivity = () =>
-  <SpinDiv className="spinner">
+const DotActivity = props =>
+  <SpinDiv size={props.size} dropdown={props.dropdown} className="spinner">
     <div classNamw="bounce1" />
     <div className="bounce2" />
     <div className="bounce3" />
   </SpinDiv>;
+
+DotActivity.propTypes = {
+  size: PropTypes.string,
+  dropdown: PropTypes.bool,
+};
+
+DotActivity.defaultProps = {
+  size: '.6',
+  dropdown: false,
+};
 
 export default DotActivity;

@@ -99,7 +99,7 @@ function mapStateToProps(state) {
         handler: '',
         package_url: '',
         public: true,
-        runtime: 'nodejs',
+        runtime: '',
         // Providers is really an array of {id, locations[]}
         provider: {},
         periodic_info: {

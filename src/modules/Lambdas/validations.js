@@ -9,9 +9,7 @@ export default (values) => {
     properties: {
       env: {},
       headers: {},
-      provider: {
-        id: '',
-      },
+      provider: {},
       periodic_info: {
         payload: {},
       },
