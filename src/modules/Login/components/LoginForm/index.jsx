@@ -15,12 +15,15 @@ import { APP_TITLE } from '../../../../constants';
 const LoginCard = styled(Paper)`
   position: relative;
   background-color: ${props => props.theme.cardBackgroundColor};
+  border-radius: 2px;
 `;
 
 const LoginCardHeader = styled(CardTitle)`
   color: ${props => props.theme.fontColorInverse};
   font-family: lovelo, Ubuntu;
   background-color: ${props => props.theme.mainNavBackgroundColor};
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
 `;
 
 const LoginError = styled.div`
