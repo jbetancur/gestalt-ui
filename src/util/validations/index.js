@@ -43,7 +43,7 @@ export function isContainerName(string) {
     return string;
   }
 
-  return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
+  return /^[a-z]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
 }
 
 export function isCommaDelimited(string) {
