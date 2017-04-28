@@ -57,6 +57,7 @@ const LambdaForm = (props) => {
                   itemLabel="name"
                   itemValue="id"
                   menuItems={props.providers}
+                  async
                   onFocus={() => props.fetchProvidersByType(props.params.fqon, params.environmentId, 'environments', 'Lambda')}
                   disabled={props.editMode}
                 />
@@ -70,8 +71,9 @@ const LambdaForm = (props) => {
                   itemValue="runtime"
                   required
                   label="Runtime"
-                  disabled={props.editMode}
+                  async
                   onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor')}
+                  disabled={props.editMode}
                 />
                 <Field
                   id="select-code-type"
@@ -156,7 +158,6 @@ const LambdaForm = (props) => {
                   helpText={getRuntime().format}
                   type="text"
                   required
-                  disabled={props.editMode}
                 />
                 {values.properties.code_type === 'package' &&
                   <Field
@@ -237,7 +238,7 @@ const LambdaForm = (props) => {
                   />
                   <div className="flex-row">
                     <Field
-                      className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
+                      className="flex-6 flex-xs-12 flex-sm-6 flex-md-6"
                       component={TextField}
                       name="properties.periodic_info.payload.data"
                       label="json payload"

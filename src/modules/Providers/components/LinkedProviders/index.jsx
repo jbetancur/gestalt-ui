@@ -26,8 +26,6 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           label="Prefix"
           className="flex-5"
           value=" " // fix for [object Object] on deselect
-          errorText={touched && error}
-          lineDirection="center"
           required
         />
         <Field
@@ -37,10 +35,9 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           className="flex-5"
           itemLabel="name"
           itemValue="id"
-          errorText={touched && error}
-          lineDirection="center"
           required
           menuItems={providers}
+          async
           onFocus={() => fetchProviders()}
         />
         <FieldRemoveButton onClick={() => fields.remove(index)} />

@@ -10,4 +10,6 @@ export default {
   removeIconColor: colors['$md-red-500'],
   // boxShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 1px 1px 0 rgba(0, 0, 0, 0.12), 0 1px 1px -2px rgba(0, 0, 0, 0.2)',
   errorText: colors['$md-red-500'],
+  activityDotColor: colors['$md-grey-500'],
+  activityDotColorDropDown: colors['$md-blue-500'],
 };

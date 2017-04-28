@@ -240,12 +240,13 @@ const ProviderForm = (props) => {
                     className="flex-3 flex-xs-12 flex-sm-6"
                     component={SelectField}
                     name="resource_type"
-                    menuItems={props.pendingSchema ? ['fetching schema...'] : providerTypes}
+                    menuItems={providerTypes}
                     itemLabel="name"
                     itemValue="value"
                     required
                     label="Provider Type"
                     disabled={provider.id}
+                    async
                     onChange={(a, value) => handleProviderChange(value)} // TODO: there is a bug with the first parram which should be the value
                   />
                   <Field

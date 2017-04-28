@@ -147,8 +147,8 @@
     },
     "esformatter-jsx": {},
     "browserslist": [
-      "> 1%",
-      "last 2 versions"
+        "> 1%",
+        "last 2 versions"
     ],
     "devDependencies": {
         "autoprefixer": "^6.7.7",

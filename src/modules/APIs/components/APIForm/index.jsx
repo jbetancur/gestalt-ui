@@ -60,6 +60,7 @@ const APIForm = (props) => {
                   itemLabel="name"
                   itemValue="id"
                   menuItems={props.providers}
+                  async
                   onFocus={() => props.fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments')}
                   disabled={editMode}
                 />

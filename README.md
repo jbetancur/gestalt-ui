@@ -11,7 +11,7 @@ nvm install 7
 cd gestalt-ui-react
 nvm use 7
 ```
-*Ensure that you `nvm use 7` whenever you start a new terminal. You may optionally persist this setting by using `nvm alias default 7`*
+*Ensure that you `nvm use 7` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 7`*
 
 ### Install Binaries
 ```
@@ -43,7 +43,7 @@ yarn deploy -- --sha `git rev-parse --short=8 HEAD`
 ```
 
 ## Configuration
-If you wish to change Development or Production variables in the gestalt-ui-react prior to building, you may do so by editing `config.json`.
+If you wish to change Development or Production variables in  gestalt-ui-react prior to building, you may do so by editing `config.json`.
 Otherwise, `config.json` can be automed via CI to inject the correct values before kicking off `yarn deploy`
 
 Sample `config.json`:
@@ -58,6 +58,7 @@ Sample `config.json`:
     "APP_TITLE": "Gestalt",
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING_ACCT": "",
     "ANALYTICS_TRACKING": false,
     "DEBUG": true,
     "DOCUMENTATION_URL": "http://docs.galacticfog.com"
@@ -71,6 +72,7 @@ Sample `config.json`:
     "APP_TITLE": "Gestalt",
     "DEFAULT_LANG": "en_us",
     "LICENSE_EXP_THRESHOLD": 15,
+    "ANALYTICS_TRACKING_ACCT": "xxxx",
     "ANALYTICS_TRACKING": true,
     "DEBUG": false,
     "DOCUMENTATION_URL": "http://docs.galacticfog.com"
@@ -92,7 +94,7 @@ yarn test-tdd
 ```
 
 ### Cross Browser Testing
-Runs all Tests against the following browsers: PhantomJS,Chrome,Firefox,Safari. Useful for cross browser unit testing.
+Runs all Tests against the following browsers: PhantomJS, Chrome, Firefox, Safari. Useful for cross browser unit testing.
 
 ```
 yarn test-browser

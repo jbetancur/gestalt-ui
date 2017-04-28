@@ -66,6 +66,7 @@ const ContainerForm = (props) => {
                   itemValue="id"
                   menuItems={props.providers}
                   onFocus={() => fetchProviders()}
+                  async
                   disabled={container.id}
                 />
                 {values.properties.provider.id &&
