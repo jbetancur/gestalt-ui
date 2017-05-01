@@ -1,10 +1,23 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { metaActions } from 'modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
+import DotActivity from 'components/DotActivity';
 import * as actions from '../../actions';
+
+const EnhancedDialog = styled(Dialog)`
+  .md-dialog {
+    min-width: 24em;
+  }
+
+  // Fix Scrolling issue in dialogs with drop downs
+  .md-dialog-content {
+      overflow: visible;
+  }
+`;
 
 class MigrateModal extends PureComponent {
   static propTypes = {
@@ -16,6 +29,7 @@ class MigrateModal extends PureComponent {
     fetchProvidersByType: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
+    pendingProviders: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -29,10 +43,6 @@ class MigrateModal extends PureComponent {
   }
 
   componentDidMount() {
-    this.fetchProviders();
-  }
-
-  fetchProviders() {
     this.props.fetchProvidersByType(this.props.params.fqon, this.props.params.environmentId, 'environments', 'CaaS');
   }
 
@@ -45,9 +55,18 @@ class MigrateModal extends PureComponent {
     this.setState({ provider: value });
   }
 
+  formatResourceType(resourceType) {
+    const split = resourceType.split('::');
+    return split[split.length - 1];
+  }
+
   render() {
+    const providers = this.props.providers
+      .filter(provider => provider.id !== this.props.provider.id)
+      .map(provider => ({ id: provider.id, name: `${provider.name} (${this.formatResourceType(provider.resource_type)})` }));
+
     return (
-      <Dialog
+      <EnhancedDialog
         id="container-actions-modal"
         visible={this.props.actionsModal.visible}
         title={this.props.title}
@@ -66,23 +85,27 @@ class MigrateModal extends PureComponent {
             disabled: !this.state.provider,
           }]}
       >
-        <div className="flex-row">
-          <div className="flex-row center-center">
-            <SelectField
-              id="container-scaleto"
-              className="flex-12"
-              label="Migrate to Provider"
-              lineDirection="center"
-              menuItems={this.props.providers.filter(provider => provider.id !== this.props.provider.id)}
-              itemLabel="name"
-              itemValue="id"
-              value={this.state.provider}
-              onFocus={() => this.fetchProviders()}
-              onChange={value => this.providerChanged(value)}
-            />
-          </div>
-        </div>
-      </Dialog>
+        {this.props.pendingProviders ? <DotActivity size="1" dropdown /> :
+        <div>
+          {providers.length ?
+            <div className="flex-row">
+              <div className="flex-row center-center">
+                <SelectField
+                  id="container-scaleto"
+                  className="flex-12"
+                  label="Migrate to Provider"
+                  lineDirection="center"
+                  menuItems={providers}
+                  itemLabel="name"
+                  itemValue="id"
+                  value={this.state.provider}
+                  onChange={value => this.providerChanged(value)}
+                  required
+                />
+              </div>
+            </div> : <span>There are no available providers to migrate to</span>}
+        </div>}
+      </EnhancedDialog>
     );
   }
 }
