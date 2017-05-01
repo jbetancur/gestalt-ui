@@ -38,7 +38,7 @@ const common = merge([
     plugins: [
       new HtmlWebpackPlugin({
         title: pkg.title,
-        favicon: `${PATHS.srcPath}/assets/icons/gf-logo-color.ico`,
+        favicon: `${PATHS.srcPath}/assets/icons/favicon.ico`,
         template: `${PATHS.srcPath}/index.html`,
         hash: true,
         inject: 'body',

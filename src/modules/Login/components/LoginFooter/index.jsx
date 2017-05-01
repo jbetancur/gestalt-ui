@@ -25,6 +25,7 @@ const A = styled.a`
     }
 
     svg {
+        margin-top: -.05em;
         height: 2em;
         width: 2em;
     }
