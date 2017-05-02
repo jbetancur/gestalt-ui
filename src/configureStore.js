@@ -10,6 +10,16 @@ import { DEBUG } from './constants';
 
 const sagaMiddleware = createSagaMiddleware();
 
+// Compose all reducers to clear their state on logout
+const composeResetReducer = reducer => (state, action) => {
+  // Clear the srore except for browser state
+  if (action.type === 'auth/LOG_OUT') {
+    return reducer(Object.assign({}, { browser: state.browser }), action);
+  }
+
+  return reducer(state, action);
+};
+
 export default function configureStore(history) {
   let middlewares = [
     sagaMiddleware,
@@ -32,7 +42,7 @@ export default function configureStore(history) {
   }
 
   const store = createStore(
-    rootReducer,
+    composeResetReducer(rootReducer),
     composeWithDevTools(
       responsiveStoreEnhancer,
       applyMiddleware(...middlewares)

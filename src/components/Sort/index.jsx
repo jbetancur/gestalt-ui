@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SelectField from 'react-md/lib/SelectFields';
 import FontIcon from 'react-md/lib/FontIcons';
+import Button from 'react-md/lib/Buttons/Button';
 
 const OuterDiv = styled.div`
   padding-left: 2em;
@@ -10,6 +11,10 @@ const OuterDiv = styled.div`
 
 const IconDiv = styled.div`
   margin-top: 1em;
+`;
+
+const OrderButton = styled(Button)`
+  margin-top: .2em;
 `;
 
 const sortItems = [
@@ -20,13 +25,13 @@ const sortItems = [
   { name: 'modified', value: 'modified.timestamp' }
 ];
 
-const orderItems = [
-  { name: 'ascending', value: 'asc' },
-  { name: 'descending', value: 'desc' }
-];
+const Sort = (props) => {
+  const handleSort = (value) => {
+    const orderValue = value === 'asc' ? 'desc' : 'asc';
+    props.setOrder(orderValue);
+  };
 
-const Sort = props => (
-  props.visible ?
+  return props.visible &&
     <OuterDiv className="flex-row">
       <IconDiv>
         <FontIcon>sort</FontIcon>
@@ -40,17 +45,14 @@ const Sort = props => (
         defaultValue={props.sortKey}
         onChange={value => props.setKey(value)}
       />
-      <SelectField
-        id="sort--order"
-        className="flex-1 flex-xs-4 flex-sm-2"
-        menuItems={orderItems}
-        itemLabel="name"
-        itemValue="value"
-        defaultValue={props.order}
-        onChange={value => props.setOrder(value)}
-      />
-    </OuterDiv> : null
-);
+      <OrderButton
+        icon
+        onClick={() => handleSort(props.order)}
+      >
+        {props.order === 'asc' ? 'arrow_upward' : 'arrow_downward'}
+      </OrderButton>
+    </OuterDiv>;
+};
 
 Sort.propTypes = {
   visible: PropTypes.bool,
