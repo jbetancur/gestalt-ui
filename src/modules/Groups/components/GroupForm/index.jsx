@@ -109,7 +109,7 @@ const GroupForm = (props) => {
               title={
                 <div>
                   <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /> / Team</div>
+                  <div className="md-caption"><Breadcrumbs /> / Group</div>
                 </div>
               }
               subtitle={group.id}

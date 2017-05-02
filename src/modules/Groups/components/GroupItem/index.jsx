@@ -82,7 +82,7 @@ class GroupItem extends PureComponent {
     return (
       <Button
         id="create-group"
-        label="Create Team"
+        label="Create Group"
         flat
         primary
         component={Link}
@@ -119,7 +119,7 @@ class GroupItem extends PureComponent {
           <TableCardHeader
             title={
               <div>
-                <div className="gf-headline">Teams</div>
+                <div className="gf-headline">Groups</div>
                 <div className="md-caption"><Breadcrumbs /></div>
               </div>
             }
