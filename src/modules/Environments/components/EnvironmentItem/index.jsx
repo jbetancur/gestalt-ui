@@ -68,7 +68,7 @@ class EnvironmentItem extends Component {
     return (
       <div className="flex-row">
         <Sort
-          visible={sortedEnvironments.length}
+          visible={sortedEnvironments.length > 0}
           sortKey={this.state.sortKey}
           order={this.state.order}
           setKey={value => this.setState({ sortKey: value })}
