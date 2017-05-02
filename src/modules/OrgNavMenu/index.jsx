@@ -101,7 +101,7 @@ class OrgNavMenu extends Component {
         id="orgs-menu"
         label={this.props.currentOrgContext.description || currentOrgContext.name || ''}
         position={MenuButton.Positions.TOP_RIGHT}
-        buttonChildren={currentOrgContext.properties.fqon === params.fqon ? 'expand_more' : null}
+        buttonChildren={currentOrgContext.properties.fqon === params.fqon && 'expand_more'}
         flat
         iconBefore={false}
         onClick={e => this.fetchOrgList(e)}
@@ -109,7 +109,7 @@ class OrgNavMenu extends Component {
         {/* https://github.com/mlaursen/react-md/issues/259 */}
         {[<div key="orgs-nav-menu">
           {this.renderSearch()}
-          {!organizationsPending ? this.props.organizations.map(this.renderOrgMenuItems, this) : null}
+          {!organizationsPending && this.props.organizations.map(this.renderOrgMenuItems, this)}
         </div>]}
       </EnhancedMenuButton>
     );

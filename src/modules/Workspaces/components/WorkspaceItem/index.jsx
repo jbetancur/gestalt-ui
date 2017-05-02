@@ -81,7 +81,7 @@ class WorkspaceItem extends Component {
     return (
       <div className="flex-row">
         <Sort
-          visible={sortedWorkspaces.length}
+          visible={sortedWorkspaces.length > 0}
           sortKey={this.state.sortKey}
           order={this.state.order}
           setKey={value => this.setState({ sortKey: value })}
