@@ -74,7 +74,7 @@ const PolicyEventRuleForm = (props) => {
           <CardText>
             <div className="flex-row">
               <Field
-                className="flex-4 flex-xs-12"
+                className="flex-4 flex-xs-12 flex-sm-6"
                 component={TextField}
                 name="name"
                 label="Name"
@@ -83,47 +83,54 @@ const PolicyEventRuleForm = (props) => {
                 maxLength={nameMaxLen}
               />
               <Field
-                className="flex-8 flex-xs-12"
+                className="flex-8 flex-xs-12 flex-sm-6"
                 component={TextField}
                 name="description"
                 label="Description"
                 type="text"
               />
-              <div className="flex-3 flex-sm-6 flex-xs-12">
-                <Autocomplete
-                  id="lambdas-dropdown"
-                  data={lambdasDropDown}
-                  dataLabel="name"
-                  dataValue="id"
-                  label="Search Lambdas"
-                  clearOnAutocomplete
-                  onClick={() => fetchLambdasDropDown(params.fqon)}
-                  onAutocomplete={value => handleAutoComplete(value)}
-                  helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
-                />
-                {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
-                <Field
-                  component={TextField}
-                  name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
-                  label="Lambda UUID"
-                />
-              </div>
-              <fieldset>
-                <legend>Actions</legend>
-                <div className="flex-row">
-                  {policyTriggers.map(action =>
+              <div className="flex-row">
+                <div className="flex-4 flex-sm-6 flex-xs-12">
+                  <fieldset>
+                    <legend>Lambda</legend>
+                    <Autocomplete
+                      id="lambdas-dropdown"
+                      data={lambdasDropDown}
+                      dataLabel="name"
+                      dataValue="id"
+                      clearOnAutocomplete
+                      onClick={() => fetchLambdasDropDown(params.fqon)}
+                      onAutocomplete={value => handleAutoComplete(value)}
+                      placeholder="Search"
+                      helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
+                    />
+                    {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
                     <Field
-                      key={action.name}
-                      className="flex-2 flex-xs-12 flex-sm-6 flex-md-4"
-                      id={action.name}
-                      component={CheckboxForm}
-                      label={action.name}
-                      checked={!!selectedActions.find(a => a === action.name)}
-                      name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
-                      onChange={() => onActionChecked(action.name)}
-                    />)}
+                      component={TextField}
+                      name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                      label="Lambda UUID"
+                    />
+                  </fieldset>
                 </div>
-              </fieldset>
+                <div className="flex-8 flex-xs-12 flex-sm-12">
+                  <fieldset>
+                    <legend>Actions</legend>
+                    <div className="flex-row">
+                      {policyTriggers.map(action =>
+                        <Field
+                          key={action.name}
+                          className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
+                          id={action.name}
+                          component={CheckboxForm}
+                          label={action.name}
+                          checked={!!selectedActions.find(a => a === action.name)}
+                          name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                          onChange={() => onActionChecked(action.name)}
+                        />)}
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
             </div>
           </CardText>
           {(policyUpdatePending || pending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
