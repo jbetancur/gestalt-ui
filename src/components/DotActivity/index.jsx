@@ -33,7 +33,7 @@ const SpinDiv = styled.div`
 
 const DotActivity = props =>
   <SpinDiv size={props.size} dropdown={props.dropdown} className="spinner">
-    <div classNamw="bounce1" />
+    <div className="bounce1" />
     <div className="bounce2" />
     <div className="bounce3" />
   </SpinDiv>;
