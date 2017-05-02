@@ -1,4 +1,69 @@
 export default {
+  api: {
+    triggers: [
+      {
+        name: 'api.create.post'
+      },
+
+      {
+        name: 'api.delete.post'
+      }
+    ],
+    events: [],
+    limits: [],
+  },
+  apiendpoint: {
+    triggers: [
+      {
+        name: 'apiendpoint.create.post'
+      },
+
+      {
+        name: 'apiendpoint.delete.post'
+      }
+    ],
+    events: [],
+    limits: [],
+  },
+  org: {
+    triggers: [
+      {
+        name: 'org.create.post'
+      },
+
+      {
+        name: 'org.delete.post'
+      }
+    ],
+    events: [],
+    limits: [],
+  },
+  workspace: {
+    triggers: [
+      {
+        name: 'workspace.create.post'
+      },
+
+      {
+        name: 'workspace.delete.post'
+      }
+    ],
+    events: [],
+    limits: [],
+  },
+  environment: {
+    triggers: [
+      {
+        name: 'environment.create.post'
+      },
+
+      {
+        name: 'environment.delete.post'
+      }
+    ],
+    events: [],
+    limits: [],
+  },
   container: {
     triggers: [
 
@@ -109,14 +174,14 @@ export default {
         name: 'lambda.name',
         inputType: 'text'
       },
-      // {
-      //   name: 'lambda.properties.cpus',
-      //   inputType: 'number'
-      // },
-      // {
-      //   name: 'lambda.properties.memory',
-      //   inputType: 'number'
-      // },
+      {
+        name: 'lambda.properties.cpus',
+        inputType: 'number'
+      },
+      {
+        name: 'lambda.properties.memory',
+        inputType: 'number'
+      },
       {
         name: 'lambda.properites.timeout',
         inputType: 'number'
@@ -138,5 +203,18 @@ export default {
         inputType: 'text'
       }
     ]
-  }
+  },
+  provider: {
+    triggers: [
+      {
+        name: 'provider.create.post'
+      },
+
+      {
+        name: 'provider.delete.post'
+      }
+    ],
+    events: [],
+    limits: [],
+  },
 };
