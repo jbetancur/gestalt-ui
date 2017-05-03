@@ -225,7 +225,7 @@ const APIEndpointForm = (props) => {
 
 APIEndpointForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired,
+  form: PropTypes.string.isRequired,
   reset: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
@@ -241,8 +241,8 @@ APIEndpointForm.propTypes = {
   fetchContainersDropDown: PropTypes.func.isRequired,
   lambdasDropDown: PropTypes.array.isRequired,
   containersDropDown: PropTypes.array.isRequired,
-  lambdasDropDownPending: PropTypes.bool.isRequired,
-  containersDropDownPending: PropTypes.bool.isRequired,
+  lambdasDropDownPending: PropTypes.bool,
+  containersDropDownPending: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -250,6 +250,8 @@ APIEndpointForm.propTypes = {
 };
 
 APIEndpointForm.defaultProps = {
+  lambdasDropDownPending: false,
+  containersDropDownPending: false,
   apiEndpointUpdatePending: false,
   title: '',
   submitLabel: '',

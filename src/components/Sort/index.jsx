@@ -31,7 +31,7 @@ const Sort = (props) => {
     props.setOrder(orderValue);
   };
 
-  return props.visible &&
+  return !!props.visible &&
     <OuterDiv className="flex-row">
       <IconDiv>
         <FontIcon>sort</FontIcon>
