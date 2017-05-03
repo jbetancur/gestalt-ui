@@ -23,7 +23,6 @@ class ProviderItem extends PureComponent {
     router: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
     selectedProviders: PropTypes.object.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
@@ -99,14 +98,14 @@ class ProviderItem extends PureComponent {
   }
 
   delete() {
-    const { params, fetchProviders, deleteProviders, clearSelected } = this.props;
+    const { params, fetchProviders, deleteProviders, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedProviders;
     const providerIds = selectedItems.map(item => (item.id));
     const providerNames = selectedItems.map(item => (item.name));
 
     if (params.workspaceId && !params.environmentId) {
       const onSuccess = () => {
-        clearSelected();
+        clearTableSelected();
         fetchProviders(params.fqon, params.workspaceId, 'workspaces');
       };
 
@@ -115,7 +114,7 @@ class ProviderItem extends PureComponent {
       }, providerNames);
     } else if (params.environmentId) {
       const onSuccess = () => {
-        clearSelected();
+        clearTableSelected();
         fetchProviders(params.fqon, params.environmentId, 'environments');
       };
 
@@ -124,7 +123,7 @@ class ProviderItem extends PureComponent {
       }, providerNames);
     } else {
       const onSuccess = () => {
-        clearSelected();
+        clearTableSelected();
         fetchProviders(params.fqon);
       };
 
