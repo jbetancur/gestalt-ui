@@ -1,16 +1,19 @@
 import axios from 'axios';
+import { delay } from 'redux-saga';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { API_RETRIES } from '../../../constants';
 
 import selfSagas, {
   fetchSelf,
+  handleSelf,
 } from './self';
 import * as types from '../actionTypes';
 
 describe('Self Sagas', () => {
   const error = 'an error has occured';
 
-  describe('fetchSelf Sequence', () => {
-    const saga = fetchSelf();
+  describe('handleSelf Sequence', () => {
+    const saga = handleSelf(1);
     let result;
 
     it('should make an api call for the user/self', () => {
@@ -27,10 +30,42 @@ describe('Self Sagas', () => {
       );
     });
 
-    it('should return a payload and dispatch a success status', () => {
+    it('should return a payload', () => {
       result = saga.next({ data: { id: 1 } });
+      expect(result.value).to.deep.equal({ id: 1, properties: { gestalt_home: { id: 1 } } });
+
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    describe('handleSelf Sequence failure', () => {
+      it('should handle a timeout', () => {
+        const sagaError = handleSelf(1);
+        let resultError = sagaError.next();
+
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).to.deep.equal(
+          call(delay, 2000)
+        );
+      });
+    });
+  });
+  describe('fetchSelf Sequence', () => {
+    const saga = fetchSelf();
+    let result;
+
+    it('should call the function handleSelf', () => {
+      result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_SELF_FULFILLED, payload: { id: 1, properties: { gestalt_home: { id: 1 } } } })
+        call(handleSelf, API_RETRIES)
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 1, properties: { gestalt_home: { id: 1 } } } });
+      expect(result.value).to.deep.equal(
+        put({ type: types.FETCH_SELF_FULFILLED, payload: { data: { id: 1, properties: { gestalt_home: { id: 1 } } } } })
       );
 
       // Finish the iteration
