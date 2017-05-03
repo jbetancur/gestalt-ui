@@ -9,6 +9,14 @@ const EnhancedButton = styled(Button)`
 `;
 
 const NavUpArrowButton = props =>
-  props.visible && <EnhancedButton icon tooltipLabel="up one level" tooltipPosition="bottom" {...props}>arrow_upward</EnhancedButton>;
+  !!props.visible &&
+  <EnhancedButton
+    icon
+    tooltipLabel="up one level"
+    tooltipPosition="bottom"
+    {...props}
+  >
+    arrow_upward
+    </EnhancedButton>;
 
 export default NavUpArrowButton;
