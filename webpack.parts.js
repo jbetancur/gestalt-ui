@@ -171,6 +171,7 @@ exports.generateConstants = env => (
     $$API_URL$$: JSON.stringify(config[env].API_URL),
     $$SEC_API_URL$$: JSON.stringify(config[env].SEC_API_URL),
     $$API_TIMEOUT$$: JSON.stringify(config[env].API_TIMEOUT),
+    $$API_RETRIES$$: JSON.stringify(config[env].API_RETRIES),
     $$LICENSE_EXP_THRESHOLD$$: JSON.stringify(config[env].LICENSE_EXP_THRESHOLD),
     $$DEBUG$$: JSON.stringify(config[env].DEBUG),
     $$COMPANY_TITLE$$: JSON.stringify(config[env].COMPANY_TITLE),

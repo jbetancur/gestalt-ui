@@ -3,6 +3,7 @@
 export const API_URL = $$API_URL$$;
 export const SEC_API_URL = $$SEC_API_URL$$;
 export const API_TIMEOUT = $$API_TIMEOUT$$;
+export const API_RETRIES = $$API_RETRIES$$;
 export const UI_VERSION = $$UI_VERSION$$;
 export const APP_TITLE = $$APP_TITLE$$;
 export const LICENSE_EXP_THRESHOLD = $$LICENSE_EXP_THRESHOLD$$;
