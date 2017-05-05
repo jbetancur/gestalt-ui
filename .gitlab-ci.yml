@@ -101,3 +101,42 @@ pages:
   only:
     - develop
 
+review:
+  image: galacticfog/gitlab-updater
+  stage: review
+  script:
+    - (if [ ! -e DOCKER_TAG ]; then echo "DOCKER_TAG is missing, you probably need to (re)run the publish step"; exit 1; fi);
+    - DOCKER_TAG=$(cat DOCKER_TAG)
+    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG"
+    - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
+    - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN\"" | http PUT $MARURL
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - publish-develop-and-tags
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    url: https://ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN
+    on_stop: stop_review
+  only:
+    - /^review-app-.*$/
+  tags:
+    - test-cluster
+
+stop_review:
+  image: galacticfog/gitlab-updater
+  stage: review
+  script:
+    - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
+    - http DELETE $MARURL
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
+  when: manual
+  only:
+    - /^review-app-.*$/
+  tags:
+    - test-cluster
+
