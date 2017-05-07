@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FieldRemoveButton } from 'components/Buttons';
 import A from 'components/A';
-
-const EnhancedTableColumn = styled(TableColumn)`
-  padding-top: 1px !important;
-  padding-bottom: 1px !important;
-  padding-right: 1px !important;
-  height: 3.8em;
-  vertical-align: middle !important;
-`;
 
 class PortMapListing extends Component {
   static propTypes = {
@@ -47,13 +34,13 @@ class PortMapListing extends Component {
   renderRows() {
     return this.props.portMappings.map((item, i) => (
       <TableRow key={i}>
-        <EnhancedTableColumn>{item.name}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.protocol}</EnhancedTableColumn>
-        <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></EnhancedTableColumn>
-        <EnhancedTableColumn>{item.service_port}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.container_port}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><A href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</A></div>)}</EnhancedTableColumn>
-        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.props.removePortmapping(item)} inTable /></EnhancedTableColumn>
+        <TableColumn>{item.name}</TableColumn>
+        <TableColumn>{item.protocol}</TableColumn>
+        <TableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></TableColumn>
+        <TableColumn>{item.service_port}</TableColumn>
+        <TableColumn>{item.container_port}</TableColumn>
+        <TableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><A href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</A></div>)}</TableColumn>
+        <TableColumn containsButtons><FieldRemoveButton onClick={() => this.props.removePortmapping(item)} inTable /></TableColumn>
       </TableRow>
     ));
   }

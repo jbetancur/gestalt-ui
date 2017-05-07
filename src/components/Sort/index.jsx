@@ -13,7 +13,7 @@ const IconDiv = styled.div`
   margin-top: 1em;
 `;
 
-const OrderButton = styled(Button)`
+const SortOrderButton = styled(Button)`
   margin-top: .2em;
 `;
 
@@ -38,19 +38,21 @@ const Sort = (props) => {
       </IconDiv>
       <SelectField
         id="sort--key"
-        className="flex-1 flex-xs-6 flex-sm-3"
+        className="flex-1 flex-xs-9 flex-sm-3"
         menuItems={sortItems}
         itemLabel="name"
         itemValue="value"
         defaultValue={props.sortKey}
         onChange={value => props.setKey(value)}
       />
-      <OrderButton
+      <SortOrderButton
         icon
+        tooltipLabel={props.order === 'asc' ? 'ascending' : 'descending'}
+        tooltipPosition="right"
         onClick={() => handleSort(props.order)}
       >
         {props.order === 'asc' ? 'arrow_upward' : 'arrow_downward'}
-      </OrderButton>
+      </SortOrderButton>
     </OuterDiv>;
 };
 

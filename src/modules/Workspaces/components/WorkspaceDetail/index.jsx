@@ -96,6 +96,8 @@ class WorkspaceDetail extends Component {
           position={MenuButton.Positions.TOP_LEFT}
           disabled={pending}
           buttonChildren="more_vert"
+          tooltipLabel="Actions"
+          tooltipPosition="bottom"
         >
           <ListItem
             id="workspaces-settings-menu--edit"
@@ -142,7 +144,7 @@ class WorkspaceDetail extends Component {
 
     return (
       <div>
-        <DetailCard>
+        <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle expander={!pending}>
             {this.renderActionsMenu()}
             <div>
@@ -176,7 +178,10 @@ class WorkspaceDetail extends Component {
                 <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{workspace.id}</span></div>
               </div>
               <div className="flex-6 flex-xs-12">
-                <VariablesListing envMap={workspace.properties.env} />
+                <fieldset>
+                  <legend>Variables</legend>
+                  <VariablesListing envMap={workspace.properties.env} />
+                </fieldset>
               </div>
             </div>
           </DetailCardText>

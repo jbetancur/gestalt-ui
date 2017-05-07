@@ -139,3 +139,8 @@
 .md-no-paper {
   box-shadow: none;
 }
+
+.material-icons--primary {
+  @extend .material-icons;
+  color: $md-blue-500 !important;
+}

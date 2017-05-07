@@ -74,8 +74,6 @@ class ProviderCreate extends Component {
       model.properties.config.networks = JSON.parse(values.properties.config.networks);
     }
 
-    // [{ "name": "test" }]
-
     if (values.properties.data) {
       model.properties.data = base64.encode(values.properties.data);
       delete model.properties.config.auth;

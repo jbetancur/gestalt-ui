@@ -12,6 +12,6 @@ const EnhancedCard = styled(Card)`
   // box-shadow: ${props => props.theme.boxShadow};
 `;
 
-const GFCard = props => <EnhancedCard {...props} />;
+const GFCard = props => <EnhancedCard raise {...props} />;
 
 export default GFCard;

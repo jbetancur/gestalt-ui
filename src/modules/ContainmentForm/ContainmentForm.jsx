@@ -62,7 +62,10 @@ const ContainmentForm = (props) => {
                   label={t('containment.fields.environmentType.label')}
                 />}
               </div>
-              <VariablesForm icon="list" envMap={props.envMap} />
+              <fieldset>
+                <legend>Variables</legend>
+                <VariablesForm icon="add" envMap={props.envMap} />
+              </fieldset>
             </CardText>
             {props.pending ? <LinearProgress id="containment-form" /> : null}
             <CardActions>

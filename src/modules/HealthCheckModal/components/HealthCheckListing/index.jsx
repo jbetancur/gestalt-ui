@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FieldRemoveButton } from 'components/Buttons';
-
-const EnhancedTableColumn = styled(TableColumn)`
-  padding-top: 1px !important;
-  padding-bottom: 1px !important;
-  padding-right: 1px !important;
-  height: 3.8em;
-  vertical-align: middle !important;
-`;
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
 
 class HealthCheckListing extends Component {
   static propTypes = {
@@ -50,17 +37,17 @@ class HealthCheckListing extends Component {
   renderRows() {
     return this.props.healthChecks.map((item, i) => (
       <TableRow key={i}>
-        <EnhancedTableColumn>{item.protocol}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.grace_period_seconds}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.interval_seconds}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.timeout_seconds}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.max_consecutive_failures}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.path}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.command}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.port}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.port_index}</EnhancedTableColumn>
-        <EnhancedTableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.ignore_http_1xx} disabled /></EnhancedTableColumn>
-        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.remove(item)} inTable /></EnhancedTableColumn>
+        <TableColumn>{item.protocol}</TableColumn>
+        <TableColumn>{item.grace_period_seconds}</TableColumn>
+        <TableColumn>{item.interval_seconds}</TableColumn>
+        <TableColumn>{item.timeout_seconds}</TableColumn>
+        <TableColumn>{item.max_consecutive_failures}</TableColumn>
+        <TableColumn>{item.path}</TableColumn>
+        <TableColumn>{item.command}</TableColumn>
+        <TableColumn>{item.port}</TableColumn>
+        <TableColumn>{item.port_index}</TableColumn>
+        <TableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.ignore_http_1xx} disabled /></TableColumn>
+        <TableColumn containsButtons><FieldRemoveButton onClick={() => this.remove(item)} inTable /></TableColumn>
       </TableRow>
     ));
   }
