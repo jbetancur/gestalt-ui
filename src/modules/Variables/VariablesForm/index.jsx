@@ -43,7 +43,7 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
     </Button>
     {touched && error}
     {fields.map((member, index) =>
-      <div key={index} className="flex-row">
+      <div key={index} className="flex-row no-gutter">
         <Field
           name={`${member}.${keyFieldValue}`}
           type="text"
@@ -102,8 +102,8 @@ FieldArraysForm.propTypes = {
 
 FieldArraysForm.defaultProps = {
   fieldName: 'variables',
-  addButtonLabel: 'Add Variable',
-  icon: '',
+  addButtonLabel: 'Variable',
+  icon: 'add',
   keyFieldName: 'Name',
   keyFieldValue: 'name',
   valueFieldName: 'Value',

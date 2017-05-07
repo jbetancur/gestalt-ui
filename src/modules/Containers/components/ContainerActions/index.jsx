@@ -165,16 +165,17 @@ class ContainerActions extends Component {
 
   render() {
     return (
-      <ActionsWrapper className={this.props.inContainerView ? 'action--title' : null}>
+      <ActionsWrapper className={this.props.inContainerView && 'action--title'}>
         <ActionsModals />
         <MenuButton
           className={`container--${this.props.container.properties.status}`}
           id="container-actions-menu"
           icon={!this.props.inContainerView}
           flat={this.props.inContainerView}
-          label={this.props.inContainerView ? this.props.container.properties.status : null}
+          label={this.props.inContainerView && this.props.container.properties.status}
           buttonChildren="more_vert"
           position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
+          tooltipLabel={!this.props.inContainerView && 'Actions'}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[<ListWrapper key="container-actions-menu">
@@ -186,7 +187,7 @@ class ContainerActions extends Component {
             <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />
             <ListItem className="button--scale" primaryText="Scale" onClick={() => this.scaleContainer()} />
             <ListItem primaryText="Migrate" onClick={() => this.migrateContainer()} />
-            {this.props.disableDestroy ? null :
+            {!this.props.disableDestroy &&
             <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
           </ListWrapper>]}
         </MenuButton>

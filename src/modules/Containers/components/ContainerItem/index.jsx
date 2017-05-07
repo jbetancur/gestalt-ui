@@ -4,16 +4,11 @@ import { Link } from 'react-router';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableCardHeader from 'react-md/lib/DataTables/TableCardHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 import A from 'components/A';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import ContainerActions from '../ContainerActions';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
@@ -22,13 +17,6 @@ const TableWrapper = styled.div`
     padding-bottom: 250px;
     margin-bottom: -250px;
   }
-`;
-
-const EnhancedTableColumn = styled(TableColumn)`
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  height: 3.8em;
-  vertical-align: middle !important;
 `;
 
 class ContainerItem extends PureComponent {
@@ -120,17 +108,25 @@ class ContainerItem extends PureComponent {
     const { handleTableSortIcon, sortTable } = this.props;
 
     const containers = this.props.containers.map(container => (
-      <TableRow key={container.id} onClick={e => this.edit(container, e)}>
-        <EnhancedTableColumn>
+      <TableRow key={container.id} onClick={e => this.edit(container, e)} expandable>
+        <TableColumn containsButtons>
           <ContainerActions container={container} {...this.props} />
-        </EnhancedTableColumn>
-        <EnhancedTableColumn>{container.name}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.properties.status}</EnhancedTableColumn>
-        <EnhancedTableColumn>{this.renderAPIEndpoints(container)}</EnhancedTableColumn>
-        <EnhancedTableColumn>{container.properties.provider.name}</EnhancedTableColumn>
-        <EnhancedTableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</EnhancedTableColumn>
-        <EnhancedTableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</EnhancedTableColumn>
-        <EnhancedTableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</EnhancedTableColumn>
+          {/* <Button
+            icon
+            tooltipLabel="Logs"
+            to={`containers/${container.id}/logs`}
+            target="_blank"
+            component={Link}
+          >subject
+        </Button> */}
+        </TableColumn>
+        <TableColumn>{container.name}</TableColumn>
+        <TableColumn>{container.properties.status}</TableColumn>
+        <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
+        <TableColumn>{container.properties.provider.name}</TableColumn>
+        <TableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
+        <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
+        <TableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</TableColumn>
       </TableRow>
       ));
 
@@ -145,7 +141,7 @@ class ContainerItem extends PureComponent {
               {this.renderCreateButton()}
             </div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="containers-listing" /> : null}
+          {this.props.pending && <LinearProgress id="containers-listing" />}
           {!this.props.containers.length ? null :
           <TableWrapper>
             <DataTable baseId="containers" plain>

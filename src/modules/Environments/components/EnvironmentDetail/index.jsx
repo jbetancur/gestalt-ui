@@ -83,6 +83,8 @@ class EnvironmentDetail extends Component {
           position={MenuButton.Positions.TOP_LEFT}
           disabled={pending}
           buttonChildren="more_vert"
+          tooltipLabel="Actions"
+          tooltipPosition="bottom"
         >
           <ListItem
             id="environments-settings-menu--edit"
@@ -143,7 +145,7 @@ class EnvironmentDetail extends Component {
 
     return (
       <div>
-        <DetailCard>
+        <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle expander={!pending}>
             {this.renderActionsMenu()}
             <div>
@@ -163,7 +165,10 @@ class EnvironmentDetail extends Component {
                 <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{environment.id}</span></div>
               </div>
               <div className="flex-6 flex-xs-12">
-                <VariablesListing envMap={environment.properties.env} />
+                <fieldset>
+                  <legend>Variables</legend>
+                  <VariablesListing envMap={environment.properties.env} />
+                </fieldset>
               </div>
             </div>
           </DetailCardText>

@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import { FieldRemoveButton } from 'components/Buttons';
-
-const EnhancedTableColumn = styled(TableColumn)`
-  padding-top: 1px !important;
-  padding-bottom: 1px !important;
-  padding-right: 1px !important;
-  height: 3.8em;
-  vertical-align: middle !important;
-`;
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
 
 class VolumeListing extends Component {
   static propTypes = {
@@ -42,19 +29,15 @@ class VolumeListing extends Component {
     }
   }
 
-  remove(volume) {
-    this.props.removeVolume(volume);
-  }
-
   renderRows() {
     return this.props.volumes.map((item, i) => (
       <TableRow key={i}>
-        <EnhancedTableColumn>{item.type || item.plugin}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.mode}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.host_path}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.container_path}</EnhancedTableColumn>
-        <EnhancedTableColumn>{item.persistent && item.persistent.size}</EnhancedTableColumn>
-        <EnhancedTableColumn><FieldRemoveButton onClick={() => this.remove(item)} inTable /></EnhancedTableColumn>
+        <TableColumn>{item.type || item.plugin}</TableColumn>
+        <TableColumn>{item.mode}</TableColumn>
+        <TableColumn>{item.host_path}</TableColumn>
+        <TableColumn>{item.container_path}</TableColumn>
+        <TableColumn>{item.persistent && item.persistent.size}</TableColumn>
+        <TableColumn containsButtons><FieldRemoveButton onClick={() => this.props.removeVolume(item)} inTable /></TableColumn>
       </TableRow>
     ));
   }

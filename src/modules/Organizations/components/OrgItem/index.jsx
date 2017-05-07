@@ -121,6 +121,8 @@ class OrgItem extends Component {
           disabled={pending}
           buttonChildren="more_vert"
           onClick={e => e.stopPropagation()}
+          tooltipLabel="Actions"
+          tooltipPosition="bottom"
         >
           <ListItem
             id="orgs-settings-menu--create"
@@ -221,7 +223,7 @@ class OrgItem extends Component {
 
     return (
       <div>
-        <DetailCard>
+        <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle
             expander={!pending}
             title={
@@ -244,7 +246,10 @@ class OrgItem extends Component {
                 <div><span className="gf-label">{t('general.nouns.uuid')}: </span><span className="gf-subtitle">{organization.id}</span></div>
               </div>
               <div className="flex-6 flex-xs-12">
-                <VariablesListing envMap={organization.properties.env} />
+                <fieldset>
+                  <legend>Variables</legend>
+                  <VariablesListing envMap={organization.properties.env} />
+                </fieldset>
               </div>
             </div>
           </DetailCardText>

@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import TableCardHeader from 'react-md/lib/DataTables/TableCardHeader';
+// import { Link } from 'react-router';
+// import Button from 'react-md/lib/Buttons/Button';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
-class ContainerDetails extends Component {
+class ContainerDetails extends PureComponent {
   static propTypes = {
     container: PropTypes.object.isRequired
   };
@@ -19,6 +16,17 @@ class ContainerDetails extends Component {
   renderInstancesRows() {
     return this.props.container.properties.instances.map((item, i) => (
       <TableRow key={i}>
+        {/* <TableColumn containsButtons>
+          <Button
+            icon
+            tooltipLabel="Logs"
+            tooltipPosition="right"
+            to={`containers/${this.props.container.id}/logs`}
+            target="_blank"
+            component={Link}
+          >subject
+          </Button>
+        </TableColumn> */}
         <TableColumn>{item.host}</TableColumn>
         <TableColumn>
           {item.ipAddresses && item.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)}
@@ -34,10 +42,11 @@ class ContainerDetails extends Component {
   renderInstancesTable() {
     return (
       <div>
-        <TableCardHeader title={`Instances (${this.props.container.properties.instances.length}/${this.props.container.properties.num_instances})`} />
+        <TableCardHeader title={<h3>{`Instances (${this.props.container.properties.instances.length}/${this.props.container.properties.num_instances})`}</h3>} />
         <DataTable plain>
           <TableHeader>
             <TableRow>
+              {/* <TableColumn /> */}
               <TableColumn>Host Address</TableColumn>
               <TableColumn>Container Addresses</TableColumn>
               <TableColumn>Host Port</TableColumn>
@@ -64,7 +73,7 @@ class ContainerDetails extends Component {
   renderServiceAddressesTable() {
     return (
       <div>
-        <TableCardHeader title="Service Addresses" />
+        <TableCardHeader title={<h3>Service Instances</h3>} />
         <DataTable plain>
           <TableHeader>
             <TableRow>
@@ -84,8 +93,8 @@ class ContainerDetails extends Component {
   render() {
     return (
       <div>
-        {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) ? this.renderInstancesTable() : null}
-        {this.props.container.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
+        {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) && this.renderInstancesTable()}
+        {this.props.container.properties.port_mappings.some(prop => prop.service_address) && this.renderServiceAddressesTable()}
       </div>
     );
   }

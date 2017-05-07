@@ -23,7 +23,7 @@ import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values, params, router, container } = props;
+  const { provider, change, reset, values, params, router, container, fetchEnvSchema } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const getProviders = () => {
@@ -56,7 +56,7 @@ const ProviderForm = (props) => {
     const providerType = providerTypes.find(type => type.value === value);
 
     if (providerType) {
-      props.fetchEnvSchema(providerType.type);
+      fetchEnvSchema(providerType.type);
     }
 
     reset();
@@ -146,15 +146,15 @@ const ProviderForm = (props) => {
   const renderEditorSection = () => (
     props.pendingSchema ? null :
     <div className="flex-row">
-      {selectedProviderType.uploadConfig ?
+      {selectedProviderType.uploadConfig &&
         <FileInput
           id="imageInput1"
           label="Upload YAML"
           onChange={(file, e) => onFile(file, e)}
           accept="application/x-yaml"  // The IANA MIME types registry doesn't list YAML yet, so there isn't a correct one, per se.
           primary
-        /> : null}
-      {selectedProviderType.uploadConfig ?
+        />}
+      {selectedProviderType.uploadConfig &&
         <div className="flex-row">
           <Field
             className="flex-12"
@@ -166,14 +166,14 @@ const ProviderForm = (props) => {
             minLines={15}
             fontSize={12}
           />
-        </div> : null}
+        </div>}
     </div>
   );
 
   const renderOtherConfigSection = () => (
-    props.pendingSchema ? null :
+    !props.pendingSchema &&
     <div className="flex-row">
-      {selectedProviderType.networking ?
+      {selectedProviderType.networking &&
         <Field
           className="flex-6 flex-xs-12"
           component={TextField}
@@ -181,8 +181,8 @@ const ProviderForm = (props) => {
           label="Networks (JSON)"
           type="text"
           rows={2}
-        /> : null}
-      {selectedProviderType.extraConfig ?
+        />}
+      {selectedProviderType.extraConfig &&
         <Field
           className="flex-6 flex-xs-12"
           component={TextField}
@@ -190,26 +190,34 @@ const ProviderForm = (props) => {
           label="Extra Configuration (JSON)"
           type="text"
           rows={2}
-        /> : null}
+        />}
     </div>
   );
 
-  const renderContainerPanel = () => (
-    selectedProviderType.allowContainer ?
-      <ExpansionPanelNoPadding label={<h3>Container</h3>} saveLabel="Cancel Container">
-        <ContainerCreate params={props.params} inlineMode />
-      </ExpansionPanelNoPadding> : <div />
+  const renderContainerSection = () => (
+    selectedProviderType.allowContainer &&
+      <div className="flex-row center-center">
+        <Card title="Container" className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
+          <CardTitle
+            title="Container"
+            subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
+          />
+          <ContainerCreate params={props.params} inlineMode />
+        </Card>
+      </div>
   );
 
   const renderContainerDetailsPanel = () => (
-    selectedProviderType.allowContainer && container.id ?
-      <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
-        <div className="flex-row">
-          <div className="flex-12" style={{ position: 'relative' }}>
-            <ContainerDetails container={container} />
+    selectedProviderType.allowContainer && container.id &&
+      <div className="flex-row center-center no-gutter">
+        <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
+          <div className="flex-row">
+            <div className="flex">
+              <ContainerDetails container={props.container} />
+            </div>
           </div>
-        </div>
-      </ExpansionPanelNoPadding> : <div />
+        </Card>
+      </div>
   );
 
   const renderContainerActions = () => (
@@ -230,7 +238,7 @@ const ProviderForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Provider</div>
                 </div>
               }
-              subtitle={provider.id ? provider.id : null}
+              subtitle={provider.id}
             />
             <CardText>
               <div className="flex-row">
@@ -272,7 +280,7 @@ const ProviderForm = (props) => {
                 {renderEditorSection()}
                 {renderVariablesSection()}
                 {renderOtherConfigSection()}
-                {provider.id ? renderJSONSection() : null}
+                {provider.id && renderJSONSection()}
               </div>
             </CardText>
             {props.updatePending || props.pendingSchema || props.pending ? <LinearProgress id="provider-form" /> : null}
@@ -294,19 +302,20 @@ const ProviderForm = (props) => {
           </Card>
         </div>
 
+        {!props.editMode ? <div /> : renderContainerDetailsPanel()}
+
         {!selectedProviderType.type ? null :
         <div className="flex-row center-center">
-          <ExpansionList className="flex-10 flex-xs-12 flex-sm-12">
-            <ExpansionPanelNoPadding label={<h3>Linked Providers</h3>} saveLabel="Collapse" defaultExpanded>
+          <ExpansionList className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
+            <ExpansionPanelNoPadding label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded>
               <div className="flex-row">
                 <div className="flex-12">
                   <LinkedProviders fetchProviders={getProviders} providers={props.providers} pendingProviders={props.pendingProviders} />
                 </div>
               </div>
             </ExpansionPanelNoPadding>
-            {props.editMode ? <div /> : renderContainerPanel()}
-            {!props.editMode ? <div /> : renderContainerDetailsPanel()}
           </ExpansionList>
+          {!props.editMode && renderContainerSection()}
         </div>}
       </form>
     </div>

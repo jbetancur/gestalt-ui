@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
 import { Link } from 'react-router';
+import styled from 'styled-components';
 import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -24,6 +25,11 @@ import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
 
+const ListButton = styled(Button) `
+  margin-left: 1.7em;
+  margin-bottom: .5em;
+`;
+
 const ContainerForm = (props) => {
   const { values, params, container } = props;
   const selectedProvider = props.providers
@@ -41,9 +47,16 @@ const ContainerForm = (props) => {
     <div>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
-          <Card className={props.inlineMode ? 'flex-12 md-no-paper' : 'flex-10 flex-xs-12 flex-sm-12'}>
+          <Card
+            className={props.inlineMode ? 'flex-12 md-no-paper' : 'flex-10 flex-xs-12 flex-sm-12'}
+            expanderTooltipLabel="Configure for Redeploy"
+            expanderIconChildren="edit"
+            primary
+            expanderIconClassName="material-icons--primary"
+          >
             {!props.inlineMode &&
             <CardTitle
+              expander={container.id}
               title={
                 <div>
                   <span>{props.title}</span>{props.editMode &&
@@ -53,7 +66,7 @@ const ContainerForm = (props) => {
               }
               subtitle={container.id && <CopyUUIDButton model={container} />}
             />}
-            <CardText>
+            <CardText expandable={container.id}>
               <div className="flex-row">
                 <Field
                   id="select-provider"
@@ -89,7 +102,7 @@ const ContainerForm = (props) => {
                   />
                   <Field
                     id="select-network"
-                    className="flex-3 flex-xs-12"
+                    className="flex-4 flex-xs-12"
                     component={SelectField}
                     name="properties.network"
                     menuItems={Array.isArray(selectedProvider.properties.config.networks) ? selectedProvider.properties.config.networks : []}
@@ -98,15 +111,15 @@ const ContainerForm = (props) => {
                     itemLabel="name"
                     itemValue="name"
                     required
+                    helpText="Select a network to configure port mappings"
                   />
                   <Field
-                    className="flex-6 flex-xs-12"
+                    className="flex-5 flex-xs-12"
                     component={TextField}
                     name="properties.image"
                     label="Image"
                     type="text"
                     required
-
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -145,7 +158,7 @@ const ContainerForm = (props) => {
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
-                    className="flex-5 flex-xs-12"
+                    className="flex-4 flex-xs-12"
                     component={TextField}
                     name="properties.cmd"
                     label="Command"
@@ -153,7 +166,7 @@ const ContainerForm = (props) => {
                   />
                   <Field
                     id="force_pull"
-                    className="flex-3 flex-xs-12"
+                    className="flex-4 flex-xs-12"
                     component={Checkbox}
                     name="properties.force_pull"
                     // TODO: Find out why redux-form state for bool doesn't apply
@@ -167,7 +180,7 @@ const ContainerForm = (props) => {
             </CardText>
             {(props.containerUpdatePending || props.pending) && <LinearProgress id="container-form-loading" />}
             {!props.inlineMode &&
-            <CardActions>
+            <CardActions expandable={container.id}>
               <Button
                 flat
                 label={props.cancelLabel}
@@ -181,93 +194,93 @@ const ContainerForm = (props) => {
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={props.pristine || props.pending || props.containerUpdatePending || props.invalid || props.submitting}
+                disabled={container.id ? props.pending || props.containerUpdatePending || props.invalid || props.submitting : props.pristine || props.pending || props.containerUpdatePending || props.invalid || props.submitting}
                 primary
               />
             </CardActions>}
           </Card>
 
           {values.properties.provider.id &&
-          <div className="flex-row center-center">
-            <ExpansionList className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
-              {!props.editMode ? <div /> : // react-md bug where expansion list children cannot be null
-              <ExpansionPanelNoPadding label={<h3>Container Details</h3>} saveLabel="Collapse" defaultExpanded>
-                <div className="flex-row">
-                  <div className="flex-12">
-                    <ContainerDetails container={props.container} />
-                  </div>
+          <div className="flex-row center-center no-gutter">
+            {props.editMode &&
+            <Card className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
+              <div className="flex-row">
+                <div className="flex">
+                  <ContainerDetails container={props.container} />
                 </div>
-              </ExpansionPanelNoPadding>}
+              </div>
+            </Card>}
 
+            <ExpansionList className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               {!values.properties.network ? <div /> :
               <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse">
-                <div className="flex-row">
-                  <div className="flex-12">
+                <div className="flex-row no-gutter">
+                  <div className="flex">
                     <PortMapModal networkType={values.properties.network} />
-                    <Button
+                    <ListButton
                       id="port-mappings"
                       flat
                       iconBefore
                       primary
-                      label="Add Port Mapping"
+                      label="Port Mapping"
                       onClick={() => props.showPortmapModal()}
                     >
-                      settings_ethernet
-                    </Button>
+                      add
+                    </ListButton>
                     <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} />
                   </div>
                 </div>
               </ExpansionPanelNoPadding>}
 
               <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse">
-                <div className="flex-row">
-                  <div className="flex-12">
+                <div className="flex-row no-gutter">
+                  <div className="flex">
                     <VolumeModal />
-                    <Button
+                    <ListButton
                       id="volume-modes"
                       flat
                       iconBefore
                       primary
-                      label="Add Volume"
+                      label="Volume"
                       onClick={() => props.showVolumeModal()}
                     >
-                      storage
-                    </Button>
+                      add
+                    </ListButton>
                     <VolumeListing editMode={props.editMode} mergeVolumes={values.properties.volumes} />
                   </div>
                 </div>
               </ExpansionPanelNoPadding>
 
               <ExpansionPanel label={<h3>Variables</h3>} saveLabel="Collapse">
-                <div className="flex-row">
+                <div className="flex-row no-gutter">
                   <div className="flex-12">
-                    <VariablesForm icon="list" {...props} />
+                    <VariablesForm icon="add" {...props} />
                   </div>
                 </div>
               </ExpansionPanel>
 
               <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse">
-                <div className="flex-row">
+                <div className="flex-row no-gutter">
                   <div className="flex-12">
-                    <VariablesForm addButtonLabel="Add Label" icon="label" fieldName="labels" {...props} />
+                    <VariablesForm addButtonLabel="Label" icon="add" fieldName="labels" {...props} />
                   </div>
                 </div>
               </ExpansionPanel>
 
               <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse">
-                <div className="flex-row">
-                  <div className="flex-12">
+                <div className="flex-row no-gutter">
+                  <div className="flex">
                     <HealthCheckModal />
-                    <Button
+                    <ListButton
                       id="health-checks"
                       flat
                       iconBefore
                       primary
-                      label="Add Health Check"
+                      label="Health Check"
                       onClick={() => props.showHealthCheckModal()}
                     >
-                      mood
-                    </Button>
+                      add
+                    </ListButton>
                     <HealthCheckListing editMode={props.editMode} mergeHealthChecks={values.properties.health_checks} />
                   </div>
                 </div>
