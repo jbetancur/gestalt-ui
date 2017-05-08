@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
-import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { ModalFooter } from 'components/Modal';
 import Checkbox from 'components/Checkbox';
+import { Button } from 'components/Buttons';
 import healthCheckProtocols from '../../lists/healthCheckProtocols';
 import healthCheckPortTypes from '../../lists/healthCheckPortTypes';
 

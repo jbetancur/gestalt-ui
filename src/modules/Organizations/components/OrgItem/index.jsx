@@ -6,8 +6,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
-import Button from 'react-md/lib/Buttons/Button';
-import { NavUpArrowButton } from 'components/Buttons';
+import { Button, NavUpArrowButton } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
@@ -157,7 +156,7 @@ class OrgItem extends Component {
     const { t } = this.props;
 
     return (
-      <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navToSubOrgs(e, item)}>
+      <Card key={item.id} className="flex-4 flex-xs-12" onClick={e => this.navToSubOrgs(e, item)} raise>
         <CardTitle
           title={item.description || item.name}
           subtitle={

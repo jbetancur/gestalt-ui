@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, FormSection } from 'redux-form';
 import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
-import Button from 'react-md/lib/Buttons/Button';
+import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 

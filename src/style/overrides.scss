@@ -96,11 +96,6 @@
   }
 }
 
-// Table Fixes
-.md-table-column {
-  cursor: pointer;
-}
-
 //Fix Snackbar
 .md-snackbar {
   overflow: auto;
@@ -121,19 +116,6 @@
       }
     }
   }
-}
-
-// Fixes font for ace editor
-.ace_editor, .ace_editor div {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-
-    .ace_line {
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-
-        span {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-        }
-    }
 }
 
 .md-no-paper {

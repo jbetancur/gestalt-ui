@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SelectField from 'react-md/lib/SelectFields';
 import FontIcon from 'react-md/lib/FontIcons';
-import Button from 'react-md/lib/Buttons/Button';
+import { Button } from 'components/Buttons';
 
 const OuterDiv = styled.div`
   padding-left: 2em;
@@ -14,6 +14,7 @@ const IconDiv = styled.div`
 `;
 
 const SortOrderButton = styled(Button)`
+  margin: 0;
   margin-top: .2em;
 `;
 

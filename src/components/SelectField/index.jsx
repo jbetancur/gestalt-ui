@@ -15,7 +15,7 @@ const Div = styled.div`
 
 const ActivityIndicator = () => (
   <Div>
-    <DotActivity size="1.2" dropdown />
+    <DotActivity size={1.2} dropdown centered />
   </Div>
 );
 

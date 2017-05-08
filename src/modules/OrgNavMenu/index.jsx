@@ -5,10 +5,10 @@ import { Link } from 'react-router';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
 import TextField from 'react-md/lib/TextFields';
-import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { sortBy } from 'lodash';
+import DotActivity from 'components/DotActivity';
 import { metaActions } from 'modules/MetaResource';
 import * as actions from './actions';
 
@@ -76,7 +76,7 @@ class OrgNavMenu extends Component {
     return (
       <div>
         <div style={{ padding: '1em', color: 'black' }}>
-          {!organizationsPending ?
+          {!organizationsPending &&
             <div>
               <TextField
                 id="search-orgs"
@@ -84,11 +84,9 @@ class OrgNavMenu extends Component {
                 fullWidth={true}
                 onChange={value => this.filterOrgs(value)}
               />
-            </div> : null}
+            </div>}
         </div>
-        <div style={{ textAlign: 'center' }}>
-          {organizationsPending ? <CircularProgress id="orgs-nav-menu" /> : null}
-        </div>
+        {organizationsPending && <DotActivity dropdown size={1.2} id="orgs-nav-menu" centered />}
       </div>
     );
   }

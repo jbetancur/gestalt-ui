@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { Link } from 'react-router';
-import Button from 'react-md/lib/Buttons/Button';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { DetailCard, DetailCardTitle } from 'components/DetailCard';
+import { Button } from 'components/Buttons';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import Sort from 'components/Sort';
 
@@ -96,7 +96,7 @@ class WorkspaceItem extends Component {
     const { t } = this.props;
 
     return (
-      <Card key={item.id} className="flex-4 flex-xs-12 workspace-card" onClick={e => this.navWorkspaceDetails(item, e)}>
+      <Card key={item.id} className="flex-4 flex-xs-12 workspace-card" onClick={e => this.navWorkspaceDetails(item, e)} raise>
         <CardTitle
           title={item.description || item.name}
           subtitle={

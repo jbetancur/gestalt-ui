@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FormattedDate } from 'react-intl';
-import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import Label from 'components/Label';
 import P from 'components/P';
@@ -19,8 +19,6 @@ const LicenseForm = (props) => {
     submitting,
     pristine,
     invalid,
-    touched,
-    error,
     handleSubmit,
     onSubmit,
     router,
@@ -66,8 +64,6 @@ const LicenseForm = (props) => {
                     label="License Key"
                     type="text"
                     rows={4}
-                    lineDirection="center"
-                    errorText={touched && error}
                     required
                   />
                 </div>
@@ -120,8 +116,6 @@ LicenseForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
   submitLabel: PropTypes.string,
   router: PropTypes.object.isRequired,
   licenseInfo: PropTypes.object.isRequired,

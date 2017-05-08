@@ -7,9 +7,9 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import Paper from 'react-md/lib/Papers';
-import Button from 'react-md/lib/Buttons/Button';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import TextField from '../../../../components/TextField';
+import { Button } from 'components/Buttons';
+import TextField from 'components/TextField';
 import { APP_TITLE } from '../../../../constants';
 
 const LoginCard = styled(Paper)`

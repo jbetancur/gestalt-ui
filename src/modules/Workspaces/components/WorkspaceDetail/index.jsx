@@ -8,7 +8,6 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import FontIcon from 'react-md/lib/FontIcons';
-import Button from 'react-md/lib/Buttons/Button';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import Environments from 'modules/Environments';
 import Providers from 'modules/Providers';
@@ -16,6 +15,7 @@ import Entitlements from 'modules/Entitlements';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { Button } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 import DotActivity from 'components/DotActivity';
 

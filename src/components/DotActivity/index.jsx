@@ -12,7 +12,15 @@ const animation = keyframes`
   }
 `;
 
+const SpinWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
 const SpinDiv = styled.div`
+  text-align: ${props => (props.centered ? 'center' : 'left')};
+
   &.spinner > div {
     width: ${props => `${props.size}em`};
     height: ${props => `${props.size}em`};
@@ -32,20 +40,24 @@ const SpinDiv = styled.div`
 `;
 
 const DotActivity = props =>
-  <SpinDiv size={props.size} dropdown={props.dropdown} className="spinner">
-    <div className="bounce1" />
-    <div className="bounce2" />
-    <div className="bounce3" />
-  </SpinDiv>;
+  <SpinWrapper>
+    <SpinDiv size={props.size} dropdown={props.dropdown} className="spinner" centered={props.centered}>
+      <div className="bounce1" />
+      <div className="bounce2" />
+      <div className="bounce3" />
+    </SpinDiv>
+  </SpinWrapper>;
 
 DotActivity.propTypes = {
-  size: PropTypes.string,
+  size: PropTypes.integer,
   dropdown: PropTypes.bool,
+  centered: PropTypes.bool,
 };
 
 DotActivity.defaultProps = {
-  size: '.6',
+  size: 0.6,
   dropdown: false,
+  centered: false,
 };
 
 export default DotActivity;

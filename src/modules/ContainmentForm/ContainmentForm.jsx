@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { translate } from 'react-i18next';
-import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -12,6 +11,7 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { Button } from 'components/Buttons';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ContainmentForm = (props) => {

@@ -6,11 +6,12 @@ import styled from 'styled-components';
 import FontIcon from 'react-md/lib/FontIcons';
 import List from 'react-md/lib/Lists/List';
 import ListItem from 'react-md/lib/Lists/ListItem';
-import CircularProgress from 'react-md/lib/Progress/CircularProgress';
+// import CircularProgress from 'react-md/lib/Progress/CircularProgress';
+import DotActivity from 'components/DotActivity';
 import Breadcrumbs from 'modules/Breadcrumbs';
-import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'react-md/lib/TextFields';
 import CardSubHeader from 'components/CardSubHeader';
+import { Button } from 'components/Buttons';
 import EntitlementTree from '../EntitlementTree';
 import { USER } from '../../constants';
 
@@ -108,7 +109,7 @@ class EntitlementItem extends Component {
           <div className="flex-row">
             <div className="flex-6 flex-xs-12">
               {this.props.pendingEntitlements || this.props.pendingUpdateEntitlements ?
-                <CircularProgress id="entitlements-loading" centered scale={2} /> :
+                <DotActivity dropdown size={1.5} id="entitlements-loading" centered /> :
                 <EntitlementTree {...this.props} />}
             </div>
             <div className="flex-6 flex-xs-12">
@@ -127,7 +128,7 @@ class EntitlementItem extends Component {
                       onChange={value => this.props.filterIdentities(value)}
                     />}
                   />
-                  {this.props.pendingIdentities ? <CircularProgress id="identities-loading" centered scale={2} /> : identities}
+                  {this.props.pendingIdentities ? <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
                 </MembersList>
               </fieldset>
             </div>

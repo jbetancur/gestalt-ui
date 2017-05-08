@@ -4,10 +4,9 @@ import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { DeleteIconButton } from 'components/Buttons';
+import { Button, DeleteIconButton } from 'components/Buttons';
 
 class PolicyItem extends PureComponent {
   static propTypes = {

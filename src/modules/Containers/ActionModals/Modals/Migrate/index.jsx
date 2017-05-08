@@ -85,7 +85,7 @@ class MigrateModal extends PureComponent {
             disabled: !this.state.provider,
           }]}
       >
-        {this.props.pendingProviders ? <DotActivity size="1" dropdown /> :
+        {this.props.pendingProviders ? <DotActivity size={1} dropdown /> :
         <div>
           {providers.length ?
             <div className="flex-row">

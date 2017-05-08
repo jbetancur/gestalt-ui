@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router';
-// import Button from 'react-md/lib/Buttons/Button';
+// import { Button } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class ContainerDetails extends PureComponent {

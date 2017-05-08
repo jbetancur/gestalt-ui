@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
-import Button from 'react-md/lib/Buttons/Button';
+import { Button } from 'components/Buttons';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import ContainerActions from '../ContainerActions';

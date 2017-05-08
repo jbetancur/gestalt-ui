@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative } from 'react-intl';
 import { orderBy } from 'lodash';
-import Button from 'react-md/lib/Buttons/Button';
 import CircularActivity from 'components/CircularActivity';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import Sort from 'components/Sort';
+import { Button } from 'components/Buttons';
 
 class EnvironmentItem extends Component {
   static propTypes = {
@@ -87,7 +87,7 @@ class EnvironmentItem extends Component {
     const { t } = this.props;
 
     return (
-      <Card key={item.id} className="flex-4 flex-xs-12 environment-card" onClick={e => this.navEnvironmentDetails(item, e)}>
+      <Card key={item.id} className="flex-4 flex-xs-12 environment-card" onClick={e => this.navEnvironmentDetails(item, e)} raise>
         <CardTitle
           title={item.description || item.name}
           subtitle={
