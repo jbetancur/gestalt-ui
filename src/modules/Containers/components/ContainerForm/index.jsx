@@ -180,7 +180,7 @@ const ContainerForm = (props) => {
             </CardText>
             {(props.containerUpdatePending || props.pending) && <LinearProgress id="container-form-loading" />}
             {!props.inlineMode &&
-            <CardActions expandable={container.id}>
+            <CardActions>
               <Button
                 flat
                 label={props.cancelLabel}

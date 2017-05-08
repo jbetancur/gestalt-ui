@@ -93,8 +93,8 @@ class ContainerDetails extends PureComponent {
   render() {
     return (
       <div>
-        {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) && this.renderInstancesTable()}
-        {this.props.container.properties.port_mappings.some(prop => prop.service_address) && this.renderServiceAddressesTable()}
+        {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) ? this.renderInstancesTable() : null}
+        {this.props.container.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
       </div>
     );
   }
