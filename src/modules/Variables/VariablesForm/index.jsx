@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, FormSection } from 'redux-form';
-import { FieldRemoveButton } from 'components/Buttons';
-import Button from 'react-md/lib/Buttons/Button';
+import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
 const renderField = ({ input, label, type, touched, error }) => (

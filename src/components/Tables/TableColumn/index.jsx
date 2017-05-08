@@ -7,6 +7,11 @@ const TCol = styled(TableColumn)`
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   height: 3.8em;
+
+  // Table Fixes
+  .md-table-column {
+    cursor: pointer;
+  }
 `;
 
 const EnhancedTableColumn = props => (props.containsButtons ? <TCol {...props} /> : <TableColumn {...props} />);

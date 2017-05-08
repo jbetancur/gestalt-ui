@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Field } from 'redux-form';
 import styled from 'styled-components';
-import Button from 'react-md/lib/Buttons/Button';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -16,6 +15,7 @@ import CardSubHeader from 'components/CardSubHeader';
 import FontIcon from 'react-md/lib/FontIcons';
 import TextFieldMD from 'react-md/lib/TextFields';
 import Breadcrumbs from 'modules/Breadcrumbs';
+import { Button } from 'components/Buttons';
 import { differenceBy, debounce } from 'lodash';
 import { nameMaxLen } from '../../validations';
 
