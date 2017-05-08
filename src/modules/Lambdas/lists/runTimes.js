@@ -11,7 +11,7 @@ export default [
   },
   {
     value: 'nodejs',
-    format: 'Package format: {script-name};{function} | Inline format: {function}',
+    format: 'Package format: {filename};{function} | Inline format: {function}',
     codeFormat: 'javascript'
   },
   {

@@ -47,7 +47,7 @@ const PolicyForm = (props) => {
             <CardText>
               <div className="flex-row">
                 <Field
-                  className="flex-6 flex-xs-12"
+                  className="flex-5 flex-xs-12"
                   component={TextField}
                   name="name"
                   label="Name"
@@ -57,7 +57,7 @@ const PolicyForm = (props) => {
                   autoComplete="none"
                 />
                 <Field
-                  className="flex-6 flex-xs-12"
+                  className="flex-7 flex-xs-12"
                   component={TextField}
                   name="description"
                   label="Description"

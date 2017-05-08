@@ -213,7 +213,7 @@ const LambdaForm = (props) => {
               </div>
               <fieldset>
                 <legend>Periodic Configuration</legend>
-                <div className="flex-row">
+                <div className="flex-row no-gutter">
                   <Field
                     className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                     component={TextField}
@@ -254,9 +254,12 @@ const LambdaForm = (props) => {
                 </div>
               </div> */}
 
-              <div className="flex-row">
-                <div className="flex-12">
-                  <VariablesForm icon="list" {...props} />
+              <div className="flex-row no-gutter">
+                <div className="flex">
+                  <fieldset>
+                    <legend>Variables</legend>
+                    <VariablesForm icon="add" {...props} />
+                  </fieldset>
                 </div>
               </div>
             </CardText>
