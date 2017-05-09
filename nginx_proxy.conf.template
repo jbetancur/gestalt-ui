@@ -16,6 +16,7 @@ server {
         root   /usr/share/nginx/html;
         index  index.html index.htm;
         try_files $uri $uri/ /index.html;
+        gzip_static on;
     }
 
     error_page   500 502 503 504  /50x.html;
@@ -23,4 +24,7 @@ server {
         root   /usr/share/nginx/html;
     }
 
+    gzip on;
+    gzip_vary on;
+    gzip_types text/plain text/css application/javascript text/html image/svg+xml;
 }

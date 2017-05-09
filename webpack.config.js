@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 
@@ -40,13 +41,31 @@ const common = merge([
         title: pkg.title,
         favicon: `${PATHS.srcPath}/assets/icons/favicon.ico`,
         template: `${PATHS.srcPath}/index.html`,
-        hash: true,
         inject: 'body',
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
+        },
       }),
       new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/, // exclude node_modules
         failOnError: false, // show a warning when there is a circular dependency
       }),
+      new CompressionPlugin({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|ico|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      })
     ],
   },
   parts.babelConfig(PATHS),
