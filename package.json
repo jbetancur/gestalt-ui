@@ -167,6 +167,7 @@
         "chai": "^3.5.0",
         "circular-dependency-plugin": "^3.0.0",
         "clean-webpack-plugin": "^0.1.16",
+        "compression-webpack-plugin": "^0.4.0",
         "cross-env": "^4.0.0",
         "css-loader": "^0.28.1",
         "enzyme": "^2.8.2",
@@ -257,6 +258,7 @@
         "redux-responsive": "^4.3.1",
         "redux-saga": "^0.15.3",
         "redux-thunk": "^2.2.0",
+        "reselect": "^3.0.0",
         "sanitize.css": "^5.0.0",
         "styled-components": "^1.4.6",
         "validator": "^7.0.0"
