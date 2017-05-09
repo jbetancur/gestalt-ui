@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 
-const TCol = styled(TableColumn)`
+const EnhancedTCol = styled(TableColumn)`
+  cursor: pointer;
+`;
+
+const TColButtons = styled(EnhancedTCol)`
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   height: 3.8em;
-
-  // Table Fixes
-  .md-table-column {
-    cursor: pointer;
-  }
 `;
 
-const EnhancedTableColumn = props => (props.containsButtons ? <TCol {...props} /> : <TableColumn {...props} />);
+const EnhancedTableColumn = props => (props.containsButtons ? <TColButtons {...props} /> : <EnhancedTCol {...props} />);
 
 EnhancedTableColumn.propTypes = {
   containsButtons: PropTypes.bool,

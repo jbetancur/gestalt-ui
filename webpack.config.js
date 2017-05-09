@@ -138,7 +138,9 @@ module.exports = function test(env) {
         }),
         new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
         new ExtractTextPlugin({
-          disable: true,
+          filename: 'theme-[hash:6].css',
+          allChunks: true,
+          disable: false,
         }),
         parts.generateConstants('development'),
       ],
