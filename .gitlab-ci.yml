@@ -109,7 +109,7 @@ review:
     - DOCKER_TAG=$(cat DOCKER_TAG)
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG"
     - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
-    - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN\"" | http PUT $MARURL
+    - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN\" | .labels.CI_COMMIT_SHA = \"$CI_COMMIT_SHA\"" | http PUT $MARURL
   dependencies:
     - publish-develop-and-tags
   environment:
