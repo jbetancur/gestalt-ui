@@ -69,7 +69,7 @@ const ContainerForm = (props) => {
               <div className="flex-row">
                 <Field
                   id="select-provider"
-                  className="flex-4 flex-xs-12"
+                  className="flex-5 flex-xs-12"
                   component={SelectField}
                   name="properties.provider.id"
                   required
@@ -84,7 +84,7 @@ const ContainerForm = (props) => {
                 {values.properties.provider.id &&
                 <div className="flex-row">
                   <Field
-                    className="flex-4 flex-xs-12"
+                    className="flex-5 flex-xs-12"
                     component={TextField}
                     name="name"
                     label="Name"
@@ -93,11 +93,19 @@ const ContainerForm = (props) => {
                     maxLength={nameMaxLen}
                   />
                   <Field
-                    className="flex-8 flex-xs-12"
+                    className="flex-7 flex-xs-12"
                     component={TextField}
                     name="description"
                     label="Description"
                     type="text"
+                  />
+                  <Field
+                    className="flex-5 flex-xs-12"
+                    component={TextField}
+                    name="properties.image"
+                    label="Image"
+                    type="text"
+                    required
                   />
                   <Field
                     id="select-network"
@@ -111,14 +119,6 @@ const ContainerForm = (props) => {
                     itemValue="name"
                     required
                     helpText="Select a network to configure port mappings"
-                  />
-                  <Field
-                    className="flex-5 flex-xs-12"
-                    component={TextField}
-                    name="properties.image"
-                    label="Image"
-                    type="text"
-                    required
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -157,7 +157,7 @@ const ContainerForm = (props) => {
                     parse={value => Number(value)}  // redux form formats everything as string, so force number
                   />
                   <Field
-                    className="flex-4 flex-xs-12"
+                    className="flex-5 flex-xs-12"
                     component={TextField}
                     name="properties.cmd"
                     label="Command"
