@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
@@ -12,7 +12,7 @@ import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
 import * as actions from '../../actions';
 
-class ProviderEdit extends Component {
+class ProviderEdit extends PureComponent {
   static propTypes = {
     pending: PropTypes.bool.isRequired,
     router: PropTypes.object.isRequired,

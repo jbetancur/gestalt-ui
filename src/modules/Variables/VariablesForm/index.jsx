@@ -4,7 +4,7 @@ import { Field, FieldArray, FormSection } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
-const renderField = ({ input, label, type, touched, error }) => (
+const renderField = ({ input, label, type }) => (
   <Field
     {...input}
     className="flex-5"
@@ -12,7 +12,6 @@ const renderField = ({ input, label, type, touched, error }) => (
     component={TextField}
     type={type}
     value=" " // fix for [object Object] on deselect
-    errorText={touched && error}
     required
   />
 );
@@ -21,13 +20,6 @@ renderField.propTypes = {
   input: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
-};
-
-renderField.defaultProps = {
-  touched: false,
-  error: false,
 };
 
 const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue }) => (
