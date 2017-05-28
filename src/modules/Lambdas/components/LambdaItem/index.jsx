@@ -108,10 +108,21 @@ class LambdaItem extends PureComponent {
 
   render() {
     const { selectedCount } = this.props.selectedLambdas;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { handleTableSortIcon, sortTable, params } = this.props;
 
     const lambdas = this.props.lambdas.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
+        <TableColumn containsButtons>
+          <Button
+            icon
+            tooltipLabel="View Log"
+            tooltipPosition="right"
+            to={{ pathname: 'logs', query: { name: lambda.name, fqon: params.fqon, providerId: lambda.properties.provider.id, logType: 'lambda', logId: lambda.id } }}
+            target="_blank"
+            component={Link}
+          >subject
+          </Button>
+        </TableColumn>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
         <TableColumn><CopyUUIDButton model={lambda} showUUID={false} /></TableColumn>
@@ -137,6 +148,7 @@ class LambdaItem extends PureComponent {
           <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.lambdas.length ? null : <TableHeader>
               <TableRow>
+                <TableColumn />
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                 <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
                 <TableColumn>UUID</TableColumn>

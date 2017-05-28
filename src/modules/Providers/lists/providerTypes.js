@@ -98,6 +98,17 @@ export default [
     externalProtocol: false,
   },
   {
+    name: 'Logging',
+    value: 'Gestalt::Configuration::Provider::Logging',
+    type: 'LOGGING',
+    config: false,
+    networking: false,
+    extraConfig: false,
+    uploadConfig: false,
+    allowContainer: true,
+    externalProtocol: false,
+  },
+  {
     name: 'Lambda',
     value: 'Gestalt::Configuration::Provider::Lambda',
     type: 'LAMBDA',

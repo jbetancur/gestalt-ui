@@ -14,6 +14,7 @@ import userSagas from './users';
 import groupSagas from './groups';
 import env from './env';
 import contextSagas from './contextMgmt';
+import loggingSagas from './logging';
 
 export default function* metaSagas() {
   yield [
@@ -33,5 +34,6 @@ export default function* metaSagas() {
     groupSagas(),
     env(),
     contextSagas(),
+    loggingSagas(),
   ];
 }

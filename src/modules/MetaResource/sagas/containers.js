@@ -168,7 +168,7 @@ export function* fetchProviderContainer(action) {
     const response = yield call(axios.get, `${action.fqon}/providers/${action.providerId}/containers`);
 
     if (response.data.length) {
-      const containerResponse = yield call(axios.get, `${action.fqon}/providers/${action.providerId}/containers/${response.data[0].id}`);
+      const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}`);
       yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data });
     } else {
       yield put({ type: types.FETCH_CONTAINER_FULFILLED });

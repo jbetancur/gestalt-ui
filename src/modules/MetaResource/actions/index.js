@@ -14,6 +14,7 @@ import users from './users';
 import groups from './groups';
 import env from './env';
 import self from './self';
+import logging from './logging';
 
 export default Object.assign({},
   context,
@@ -32,4 +33,5 @@ export default Object.assign({},
   groups,
   env,
   self,
+  logging,
 );

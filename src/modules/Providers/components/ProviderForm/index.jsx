@@ -29,7 +29,7 @@ const ProviderForm = (props) => {
   const getProviders = () => {
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
-    props.fetchProviders(params.fqon, entityId, entityKey);
+    props.fetchProvidersByType(params.fqon, entityId, entityKey);
   };
 
   const goBack = () => {
@@ -213,7 +213,7 @@ const ProviderForm = (props) => {
         <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
           <div className="flex-row">
             <div className="flex">
-              <ContainerDetails container={props.container} />
+              <ContainerDetails container={props.container} params={props.params} />
             </div>
           </div>
         </Card>
@@ -229,8 +229,14 @@ const ProviderForm = (props) => {
     <div>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
+          <Card
+            className="flex-10 flex-xs-12 flex-sm-12 flex-md-12"
+            // expanderIconChildren="edit"
+            // expanderTooltipLabel="Edit"
+            // expanderIconClassName="material-icons--primary"
+          >
             <CardTitle
+              // expander
               title={
                 <div>
                   <div>{props.title}</div>

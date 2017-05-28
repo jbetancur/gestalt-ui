@@ -7,7 +7,7 @@ import envSagas, {
 import * as types from '../actionTypes';
 // import constants from '../constants/envSchema'; // TODO: mock up with rewire
 
-describe('API Sagas', () => {
+describe('Env Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchEnv Sequence', () => {

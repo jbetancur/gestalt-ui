@@ -422,7 +422,7 @@ describe('Container Sagas', () => {
       it('should make an api call to get container', () => {
         result = saga.next({ data: [{ id: 1 }] });
         expect(result.value).to.deep.equal(
-          call(axios.get, 'iamfqon/providers/1/containers/1')
+          call(axios.get, 'iamfqon/containers/1')
         );
       });
 
