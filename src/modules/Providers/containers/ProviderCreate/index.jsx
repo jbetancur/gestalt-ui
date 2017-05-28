@@ -185,7 +185,7 @@ function mapStateToProps(state) {
     provider: model,
     pending,
     pendingSchema: state.metaResource.envSchema.pending,
-    providers: state.metaResource.providers.providers,
+    providers: state.metaResource.providersByType.providers,
     pendingProviders: state.metaResource.providers.pending,
     initialValues: model,
     enableReinitialize: true,

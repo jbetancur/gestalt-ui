@@ -40,9 +40,10 @@ export function* fetchProviders(action) {
  */
 export function* fetchProvidersByType(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
+  const urlHasType = action.providerType ? `${url}?expand=true&type=${action.providerType}` : `${url}?expand=true`;
 
   try {
-    const response = yield call(axios.get, `${url}?expand=true&type=${action.providerType}`);
+    const response = yield call(axios.get, urlHasType);
 
     if (!response.data.length) {
       yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });

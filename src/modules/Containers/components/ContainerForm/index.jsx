@@ -24,7 +24,7 @@ import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
 
-const ListButton = styled(Button) `
+const ListButton = styled(Button)`
   margin-left: 1.7em;
   margin-bottom: .5em;
 `;
@@ -58,8 +58,8 @@ const ContainerForm = (props) => {
               expander={container.id}
               title={
                 <div>
-                  <span>{props.title}</span>{props.editMode &&
-                  <ContainerActions inContainerView container={container} {...props} />}
+                  <span>{props.title}</span>
+                  {props.editMode && <ContainerActions inContainerView container={container} {...props} />}
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
@@ -205,7 +205,7 @@ const ContainerForm = (props) => {
             <Card className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               <div className="flex-row">
                 <div className="flex">
-                  <ContainerDetails container={props.container} />
+                  <ContainerDetails container={props.container} params={props.params} />
                 </div>
               </div>
             </Card>}

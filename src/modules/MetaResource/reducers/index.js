@@ -76,4 +76,5 @@ export default combineReducers({
   groupMembers: reducerFactory(['add', 'remove'], 'group', 'group_member', groupModel, true),
   env: reducerFactory(['fetch'], 'env', 'env', {}),
   self: reducerFactory(['fetch'], 'self', 'self', selfModel),
+  logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }, true),
 });

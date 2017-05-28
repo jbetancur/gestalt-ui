@@ -19,18 +19,18 @@ class ProviderEdit extends PureComponent {
     params: PropTypes.object.isRequired,
     fetchProviderContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { params, fetchProvider, fetchProviders, fetchProviderContainer } = this.props;
+    const { params, fetchProvider, fetchProvidersByType, fetchProviderContainer } = this.props;
     const entityId = params.environmentId || params.workspaceId || null;
     const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
 
-    fetchProviders(params.fqon, entityId, entityKey);
+    fetchProvidersByType(params.fqon, entityId, entityKey);
     fetchProvider(params.fqon, params.providerId);
     fetchProviderContainer(params.fqon, params.providerId);
   }
@@ -55,7 +55,6 @@ class ProviderEdit extends PureComponent {
         locations,
       }
     };
-
 
     if (formValues.properties.config.url) {
       model.properties.config.url = formValues.properties.config.url;
@@ -126,6 +125,12 @@ class ProviderEdit extends PureComponent {
       delete originalModel.properties.config.networks;
     }
 
+    // Hack Alert: Since we dont want to treat linked_providers as a patch array index
+    // We can appease by always forcing an op add; by deleting the linked_providers key on the original model
+    if (formValues.properties.linked_providers) {
+      delete originalModel.properties.linked_providers;
+    }
+
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
     let onSuccess;
@@ -137,7 +142,6 @@ class ProviderEdit extends PureComponent {
       onSuccess = () => router.replace(`${params.fqon}/providers`);
     }
 
-
     // If the provider has a container defined then warn the user of an impending container restart
     if (provider.properties.services && provider.properties.services.length) {
       this.props.confirmUpdate(() => updateProvider(params.fqon, provider.id, patches, onSuccess), provider.name);
@@ -148,7 +152,15 @@ class ProviderEdit extends PureComponent {
 
   render() {
     const { provider, pending } = this.props;
-    return pending ? <CircularActivity id="provider-load" /> : <ProviderForm editMode title={provider.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.update(values)} {...this.props} />;
+    return pending ? <CircularActivity id="provider-load" /> :
+    <ProviderForm
+      editMode
+      title={provider.name}
+      submitLabel="Update"
+      cancelLabel="Back"
+      onSubmit={values => this.update(values)}
+      {...this.props}
+    />;
   }
 }
 
@@ -162,7 +174,7 @@ function mapStateToProps(state) {
     pending,
     updatePending: state.metaResource.providerUpdate.pending,
     pendingSchema: state.metaResource.envSchema.pending,
-    providers: state.metaResource.providers.providers,
+    providers: state.metaResource.providersByType.providers,
     pendingProviders: state.metaResource.providers.pending,
     container: state.metaResource.container.container,
     initialValues: {

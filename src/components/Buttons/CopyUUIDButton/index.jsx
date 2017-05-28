@@ -1,7 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Button from 'react-md/lib/Buttons/Button';
 import CopyToClipboard from 'react-copy-to-clipboard';
+
+const EnhancedButton = styled(Button)`
+  text-transform: none;
+  padding: .3em;
+`;
 
 class CopyUUIDButton extends PureComponent {
   static propTypes = {
@@ -18,14 +24,14 @@ class CopyUUIDButton extends PureComponent {
   render() {
     return (
       <CopyToClipboard text={this.props.model.id}>
-        <Button
+        <EnhancedButton
           label={this.props.showUUID ? this.props.model.id : null}
-          iconBefore={false}
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel="Copy UUID"
+          flat={this.props.showUUID}
         >
         content_copy
-            </Button>
+        </EnhancedButton>
       </CopyToClipboard>
     );
   }

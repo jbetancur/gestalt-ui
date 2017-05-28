@@ -41,6 +41,7 @@ import APIEdit from './modules/APIs/containers/APIEdit';
 import APIEndpointCreate from './modules/APIEndpoints/containers/APIEndpointCreate';
 import APIEndpointEdit from './modules/APIEndpoints/containers/APIEndpointEdit';
 import { License } from './modules/Licensing';
+import Logging from './modules/Logging';
 import NotFound from './components/NotFound';
 
 const requireAuth = () => (nextState, replace) => {
@@ -58,6 +59,7 @@ const routes = store => (
     <Route path="login" component={Login} />
     <Route path="/undefined/*" component={App} onEnter={requireAuth(store)} />
     <Route path="/[object%20Object]/*" component={App} onEnter={requireAuth(store)} />
+    <Route path="/logs" component={Logging} onEnter={requireAuth(store)} />
     <Route path="/" component={App} onEnter={requireAuth(store)}>
       <Route path=":fqon/organizations" onEnter={requireAuth(store)}>
         <IndexRoute component={Organizations} onEnter={requireAuth(store)} />

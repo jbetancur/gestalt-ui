@@ -42,7 +42,26 @@ const LambdaForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Lambda</div>
                 </div>
               }
-              subtitle={lambda.id && <CopyUUIDButton model={lambda} />}
+              subtitle={
+                lambda.id &&
+                <div>
+                  <div>
+                    <CopyUUIDButton model={lambda} />
+                  </div>
+                  <div>
+                    <Button
+                      style={{ padding: '.3em' }}
+                      label="View Log"
+                      to={{ pathname: 'logs', query: { name: lambda.name, fqon: props.params.fqon, providerId: lambda.properties.provider.id, logType: 'lambda', logId: lambda.id } }}
+                      target="_blank"
+                      component={Link}
+                      flat
+                      primary
+                    >subject
+                  </Button>
+                  </div>
+                </div>
+              }
             />
             <CardText>
               <div className="flex-row">
@@ -290,7 +309,7 @@ LambdaForm.propTypes = {
   router: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  lambdaUpdatePending: PropTypes.bool.isRequired,
+  lambdaUpdatePending: PropTypes.bool,
   params: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -315,6 +334,7 @@ LambdaForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  lambdaUpdatePending: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

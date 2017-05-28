@@ -12,6 +12,7 @@ import 'brace/mode/yaml';
 import 'brace/mode/scala';
 import 'brace/theme/chrome';
 import 'brace/theme/monokai';
+import 'brace/ext/language_tools';
 
 const EnhancedAceEditor = styled(AceEditor)`
   // Fixes font for ace editor
@@ -35,6 +36,11 @@ export default ({ input, meta: { touched, error }, ...others }) => (
     height="100%"
     wrapEnabled
     showPrintMargin={false}
+    highlightActiveLine={true}
+    setOptions={{
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true,
+    }}
     editorProps={{ $blockScrolling: Infinity }}
   />
 );

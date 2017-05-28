@@ -61,7 +61,7 @@ class LambdaCreate extends Component {
   render() {
     return this.props.pendingEnv ? <CircularActivity id="container-load" /> :
     <LambdaForm
-      title={<span>Create Lambda</span>}
+      title="Create Lambda"
       submitLabel="Create"
       cancelLabel="Back"
       onSubmit={values => this.create(values)}

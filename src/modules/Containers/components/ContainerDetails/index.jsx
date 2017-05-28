@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router';
-// import { Button } from 'components/Buttons';
+import { Link } from 'react-router';
+import { Button } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class ContainerDetails extends PureComponent {
   static propTypes = {
-    container: PropTypes.object.isRequired
+    container: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -14,19 +15,21 @@ class ContainerDetails extends PureComponent {
   }
 
   renderInstancesRows() {
-    return this.props.container.properties.instances.map((item, i) => (
+    const { params, container } = this.props;
+
+    return container.properties.instances.map((item, i) => (
       <TableRow key={i}>
-        {/* <TableColumn containsButtons>
+        <TableColumn containsButtons>
           <Button
             icon
-            tooltipLabel="Logs"
+            tooltipLabel="View Log"
             tooltipPosition="right"
-            to={`containers/${this.props.container.id}/logs`}
+            to={{ pathname: 'logs', query: { name: `${container.name} - ${item.host}`, fqon: params.fqon, providerId: container.properties.provider.id, logType: 'container', logId: item.id } }}
             target="_blank"
             component={Link}
           >subject
           </Button>
-        </TableColumn> */}
+        </TableColumn>
         <TableColumn>{item.host}</TableColumn>
         <TableColumn>
           {item.ipAddresses && item.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)}
@@ -46,7 +49,7 @@ class ContainerDetails extends PureComponent {
         <DataTable plain>
           <TableHeader>
             <TableRow>
-              {/* <TableColumn /> */}
+              <TableColumn />
               <TableColumn>Host Address</TableColumn>
               <TableColumn>Container Addresses</TableColumn>
               <TableColumn>Host Port</TableColumn>
