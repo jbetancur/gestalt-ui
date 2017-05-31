@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { metaActions } from 'modules/MetaResource';
 import axios from 'axios';
 import CircularActivity from 'components/CircularActivity';
-import { Button } from 'components/Buttons';
+import { Button, FileDownloadButton } from 'components/Buttons';
 import { API_TIMEOUT } from '../../constants';
 
 const fontSizes = {
   sm: 11,
-  lg: 13,
+  lg: 14,
 };
 
 const PageWrapper = styled.div`
@@ -20,18 +20,19 @@ const PageWrapper = styled.div`
 
 const Toolbar = styled.header`
   position: relative;
-  min-height: 4em;
+  min-height: 3.5em;
   width: 100%;
-  padding: 1em;
   position: fixed;
   background-color: white;
   z-index: 1;
 `;
 
+const ToolbarTitle = styled.div`
+  padding-left: 1em;
+`;
+
 const ToolbarActions = styled.div`
-  position: absolute;
-  right: 1em;
-  top: .5em;
+  text-align: right;
 `;
 
 const FontSizeButton = styled(Button) `
@@ -41,7 +42,7 @@ const FontSizeButton = styled(Button) `
 const CodeWrapper = styled.div`
   height: 100%;
   background-color: black;
-  padding-top: ${props => (props.fontSize === fontSizes.lg ? '5em' : '6em')};
+  padding-top: ${props => (props.fontSize === fontSizes.lg ? '4.5em' : '5.5em')};
   font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
 `;
 
@@ -65,7 +66,7 @@ const Code = styled.code`
 `;
 
 const LogItem = styled.div`
-  Zfont-family: "Ubuntu Mono", "lucida console", monospace;
+  font-family: "Ubuntu Mono", "lucida console", monospace;
   word-wrap: break-word;
 `;
 
@@ -100,27 +101,31 @@ class Logging extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location } = this.props;
-
     if (nextProps.logProviderURL !== this.props.logProviderURL) {
-      this.setState({ logPending: true });
-      const logAPI = axios.create({
-        baseURL: nextProps.logProviderURL,
-        timeout: API_TIMEOUT,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      });
-
-      logAPI.get(location.query.logId).then((response) => {
-        this.setState({ logPending: false });
-
-        if (response.data && response.data.length) {
-          this.setState({ logs: response.data });
-        }
-      }).catch(() => this.setState({ logPending: false }));
+      this.fetchLogs(nextProps);
     }
+  }
+
+  fetchLogs(currentProps) {
+    const { location } = this.props;
+    const logAPI = axios.create({
+      baseURL: currentProps.logProviderURL,
+      timeout: API_TIMEOUT,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    });
+
+    this.setState({ logPending: true });
+
+    logAPI.get(location.query.logId).then((response) => {
+      this.setState({ logPending: false });
+
+      if (response.data && response.data.length) {
+        this.setState({ logs: response.data.reverse() });
+      }
+    }).catch(() => this.setState({ logPending: false }));
   }
 
   changeFontSize() {
@@ -137,15 +142,36 @@ class Logging extends PureComponent {
     return (
       <PageWrapper>
         <Toolbar>
-          <div>
-            <span className="gf-headline">Logs for {location.query.name} ({location.query.logType})</span>
-            <ToolbarActions>
+          <div className="flex-row start-center">
+            <ToolbarTitle className="flex-7">
+              <div className="gf-headline-1">Logs for {location.query.name} ({location.query.logType})</div>
+            </ToolbarTitle>
+            <ToolbarActions className="flex-5">
+              <Button
+                icon
+                tooltipLabel="Refresh Log"
+                onClick={() => this.fetchLogs(this.props)}
+              >refresh
+              </Button>
               <FontSizeButton
                 flipState={this.state.fontSize === fontSizes.lg ? 1 : -1}
                 icon
+                tooltipLabel="Toggle Font Size"
                 onClick={() => this.changeFontSize()}
               >text_fields
               </FontSizeButton>
+              <FileDownloadButton
+                icon
+                data={this.state.logs.join('\n')}
+                tooltipLabel="Download Log"
+                fileName={`${location.query.name}-${location.query.logType}.log`}
+              />
+              <Button
+                icon
+                tooltipLabel="Close"
+                onClick={() => window.close()}
+              >close
+              </Button>
             </ToolbarActions>
           </div>
         </Toolbar>
