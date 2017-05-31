@@ -222,7 +222,13 @@ const ProviderForm = (props) => {
 
   const renderContainerActions = () => (
     selectedProviderType.allowContainer && container.id ?
-      <ContainerActions container={container} inContainerView {...props} disableDestroy /> : null
+      <ContainerActions
+        container={container}
+        inContainerView
+        disableDestroy
+        disablePromote
+        {...props}
+      /> : null
   );
 
   return (

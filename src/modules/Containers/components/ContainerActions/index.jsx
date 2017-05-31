@@ -83,18 +83,23 @@ class ContainerActions extends Component {
     scaleContainer: PropTypes.func.isRequired,
     scaleContainerModal: PropTypes.func.isRequired,
     migrateContainer: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     fetchContainer: PropTypes.func.isRequired,
     migrateContainerModal: PropTypes.func.isRequired,
+    promoteContainer: PropTypes.func.isRequired,
+    promoteContainerModal: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    fetchEnvironment: PropTypes.func.isRequired,
+    setCurrentEnvironmentContext: PropTypes.func.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
+    disablePromote: PropTypes.bool,
   }
 
   static defaultProps = {
     inContainerView: false,
     disableDestroy: false,
+    disablePromote: false,
   }
 
   constructor(props) {
@@ -149,7 +154,7 @@ class ContainerActions extends Component {
   }
 
   migrateContainer() {
-    const { params, fetchContainer, fetchContainers, fetchProviders, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
+    const { params, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
         fetchContainer(params.fqon, container.id, params.environmentId, true);
@@ -160,7 +165,33 @@ class ContainerActions extends Component {
 
     migrateContainerModal((providerId) => {
       migrateContainer(params.fqon, container.id, providerId, onSuccess);
-    }, container.name, container.properties.provider, fetchProviders, params);
+    }, container.name, container.properties.provider, params);
+  }
+
+  promoteContainer() {
+    const { params, promoteContainer, promoteContainerModal, container, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
+    const onSuccess = environment => () => {
+      this.props.router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}`);
+      fetchEnvironment(params.fqon, environment.id);
+      setCurrentEnvironmentContext(environment);
+      fetchContainers(params.fqon, environment.id);
+      // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
+      // if (inContainerView) {
+      //   this.props.router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
+      //   setCurrentEnvironmentContext(environment);
+      //   fetchContainer(params.fqon, container.id, environment.id, true);
+      // } else {
+      //   // TODO: Need to refactor this when we refactor the routing logic
+      //   this.props.router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}`);
+      //   fetchEnvironment(params.fqon, environment.id);
+      //   setCurrentEnvironmentContext(environment);
+      //   fetchContainers(params.fqon, environment.id);
+      // }
+    };
+
+    promoteContainerModal((environment) => {
+      promoteContainer(params.fqon, container.id, environment.id, onSuccess(environment));
+    }, container.name, params);
   }
 
   render() {
@@ -187,6 +218,8 @@ class ContainerActions extends Component {
             <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />
             <ListItem className="button--scale" primaryText="Scale" onClick={() => this.scaleContainer()} />
             <ListItem primaryText="Migrate" onClick={() => this.migrateContainer()} />
+            {!this.props.disablePromote &&
+              <ListItem primaryText="Promote" onClick={() => this.promoteContainer()} />}
             {!this.props.disableDestroy &&
             <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
           </ListWrapper>]}

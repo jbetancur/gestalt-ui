@@ -60,8 +60,8 @@ class EntitlementItem extends Component {
     e.stopPropagation();
 
     const { params, fetchEntitlements, updateEntitlements, entitlements, selectedIdentity } = this.props;
-    const entityId = params.workspaceId || params.environmentId || null;
-    const entityKey = params.workspaceId ? 'workspaces' : 'environments';
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
 
     const actions = [];
     entitlements.forEach((entitlement) => {
@@ -76,8 +76,8 @@ class EntitlementItem extends Component {
 
   handleSelectedIdentity(identity) {
     const { params, fetchEntitlements } = this.props;
-    const entityId = params.workspaceId || params.environmentId || null;
-    const entityKey = params.workspaceId ? 'workspaces' : 'environments';
+    const entityId = params.environmentId || params.workspaceId || null;
+    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
 
     fetchEntitlements(params.fqon, entityId, entityKey, identity);
   }

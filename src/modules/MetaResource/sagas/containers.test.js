@@ -9,6 +9,7 @@ import containerSagas, {
   deleteContainer,
   scaleContainer,
   migrateContainer,
+  promoteContainer,
   fetchProviderContainer,
 } from './containers';
 import * as types from '../actionTypes';
@@ -363,7 +364,7 @@ describe('Container Sagas', () => {
   });
 
   describe('migrateContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', containerId: '2', providerId: 42 };
+    const action = { fqon: 'iamfqon', containerId: '2', providerId: '42' };
     const saga = migrateContainer(action);
     let result;
 
@@ -375,7 +376,7 @@ describe('Container Sagas', () => {
     });
 
     it('should return dispatch a success status', () => {
-      result = saga.next();
+      result = saga.next({});
       expect(result.value).to.deep.equal(
         put({ type: types.MIGRATE_CONTAINER_FULFILLED })
       );
@@ -388,7 +389,7 @@ describe('Container Sagas', () => {
       const onSuccessAction = { ...action, onSuccess: sinon.stub() };
       const sagaSuccess = migrateContainer(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next();
+      sagaSuccess.next({});
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
       expect(onSuccessAction.onSuccess).to.have.been.called;
@@ -404,6 +405,50 @@ describe('Container Sagas', () => {
       );
     });
   });
+
+  describe('promoteContainer Sequence', () => {
+    const action = { fqon: 'iamfqon', containerId: '2', environmentId: '42' };
+    const saga = promoteContainer(action);
+    let result;
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.post, 'iamfqon/containers/2/promote?target=42')
+      );
+    });
+
+    it('should return dispatch a success status', () => {
+      result = saga.next({});
+      expect(result.value).to.deep.equal(
+        put({ type: types.PROMOTE_CONTAINER_FULFILLED })
+      );
+
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const sagaSuccess = promoteContainer(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({});
+      sagaSuccess.next();
+      // eslint-disable-next-line no-unused-expressions
+      expect(onSuccessAction.onSuccess).to.have.been.called;
+    });
+
+    it('should dispatch a reject status when there is an error', () => {
+      const sagaError = promoteContainer(action);
+      let resultError = sagaError.next();
+      resultError = sagaError.throw({ message: error });
+
+      expect(resultError.value).to.deep.equal(
+        put({ type: types.PROMOTE_CONTAINER_REJECTED, payload: error })
+      );
+    });
+  });
+
 
   describe('fetchProviderContainer Sequence', () => {
     const action = { fqon: 'iamfqon', providerId: '1' };
@@ -536,6 +581,13 @@ describe('Container Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer)
+      );
+    });
+
+    it('should fork a watcher for promoteContainer', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer)
       );
     });
 

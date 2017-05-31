@@ -49,7 +49,7 @@ const DotActivity = props =>
   </SpinWrapper>;
 
 DotActivity.propTypes = {
-  size: PropTypes.integer,
+  size: PropTypes.number,
   dropdown: PropTypes.bool,
   centered: PropTypes.bool,
 };

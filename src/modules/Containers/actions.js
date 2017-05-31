@@ -26,7 +26,7 @@ export function scaleContainerModal(action, item, numInstances) {
   };
 }
 
-export function migrateContainerModal(action, item, provider, fetchProvidersCb, params) {
+export function migrateContainerModal(action, item, provider, params) {
   return (dispatch) => {
     dispatch({
       type: 'SHOW_CONTAINER_MODAL',
@@ -34,7 +34,20 @@ export function migrateContainerModal(action, item, provider, fetchProvidersCb, 
       modalProps: {
         title: item,
         provider,
-        fetchProviders: fetchProvidersCb,
+        params,
+        onProceed: action,
+      }
+    });
+  };
+}
+
+export function promoteContainerModal(action, item, params) {
+  return (dispatch) => {
+    dispatch({
+      type: 'SHOW_CONTAINER_MODAL',
+      modalType: 'PROMOTE',
+      modalProps: {
+        title: item,
         params,
         onProceed: action,
       }
@@ -46,4 +59,5 @@ export default {
   confirmDelete,
   scaleContainerModal,
   migrateContainerModal,
+  promoteContainerModal,
 };
