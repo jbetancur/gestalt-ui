@@ -52,7 +52,7 @@ class apiEndpointItem extends PureComponent {
     const { params, fetchAPIEndpoints, deleteAPIEndpoints, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedEndpoints;
     const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
+    const names = selectedItems.map(item => (item.properties.resource));
 
     const onSuccess = () => {
       clearTableSelected();
