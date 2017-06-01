@@ -78,6 +78,9 @@ export default {
       },
       {
         name: 'container.migrate.pre'
+      },
+      {
+        name: 'container.promote.pre'
       }
     ],
     events: [

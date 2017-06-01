@@ -93,6 +93,17 @@ export function migrateContainer(fqon, containerId, providerId, onSuccess) {
 }
 
 /**
+ * promoteContainer
+ * @param {string} fqon
+ * @param {string} containerId
+ * @param {string} environmentId
+ * @callback {*} onSuccess
+ */
+export function promoteContainer(fqon, containerId, environmentId, onSuccess) {
+  return { type: types.PROMOTE_CONTAINER_REQUEST, fqon, containerId, environmentId, onSuccess };
+}
+
+/**
  * fetchProviderContainer
  * @param {string} fqon
  * @param {string} providerId
@@ -111,5 +122,6 @@ export default {
   deleteContainer,
   scaleContainer,
   migrateContainer,
+  promoteContainer,
   fetchProviderContainer,
 };

@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 
 import SCALE from './Modals/Scale';
 import MIGRATE from './Modals/Migrate';
+import PROMOTE from './Modals/Promote';
 
 const MODAL_COMPONENTS = {
   SCALE,
   MIGRATE,
+  PROMOTE,
   /* other modals */
 };
 

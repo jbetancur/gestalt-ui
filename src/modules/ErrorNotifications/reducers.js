@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
 
     return {
       ...state,
-      friendlyMessage: 'An Application Error Occured',
+      friendlyMessage: '',
       error: action.payload || 'Unknown'
     };
   }

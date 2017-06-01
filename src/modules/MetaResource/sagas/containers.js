@@ -148,14 +148,41 @@ export function* scaleContainer(action) {
  */
 export function* migrateContainer(action) {
   try {
-    yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}`);
-    yield put({ type: types.MIGRATE_CONTAINER_FULFILLED });
+    const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}`);
+    // TODO: Workaround since Meta does not return a response on rejection
+    if (response) {
+      yield put({ type: types.MIGRATE_CONTAINER_FULFILLED });
 
-    if (typeof action.onSuccess === 'function') {
-      action.onSuccess();
+      if (typeof action.onSuccess === 'function') {
+        action.onSuccess();
+      }
+    } else {
+      yield put({ type: types.MIGRATE_CONTAINER_REJECTED, payload: 'Unable to Migrate Container' });
     }
   } catch (e) {
     yield put({ type: types.MIGRATE_CONTAINER_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * promoteContainer
+ * @param {*} action - { fqon, containerId, environmentId, onSuccess }
+ */
+export function* promoteContainer(action) {
+  try {
+    const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/promote?target=${action.environmentId}`);
+    // TODO: Workaround since Meta does not return a response on rejection
+    if (response) {
+      yield put({ type: types.PROMOTE_CONTAINER_FULFILLED });
+
+      if (typeof action.onSuccess === 'function') {
+        action.onSuccess();
+      }
+    } else {
+      yield put({ type: types.PROMOTE_CONTAINER_REJECTED, payload: 'Unable to Promote Container' });
+    }
+  } catch (e) {
+    yield put({ type: types.PROMOTE_CONTAINER_REJECTED, payload: e.message });
   }
 }
 
@@ -188,5 +215,6 @@ export default function* () {
   yield fork(takeLatest, types.DELETE_CONTAINER_REQUEST, deleteContainer);
   yield fork(takeLatest, types.SCALE_CONTAINER_REQUEST, scaleContainer);
   yield fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer);
+  yield fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer);
   yield fork(takeLatest, types.FETCH_PROVIDER_CONTAINER_REQUEST, fetchProviderContainer);
 }

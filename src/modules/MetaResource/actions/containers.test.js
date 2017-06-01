@@ -102,6 +102,18 @@ describe('Container Actions', () => {
     expect(actions.migrateContainer('iamfqon', '2', '3')).to.deep.equal(expectedAction);
   });
 
+  it('should handle PROMOTE_CONTAINER_REQUEST', () => {
+    const expectedAction = {
+      type: types.PROMOTE_CONTAINER_REQUEST,
+      fqon: 'iamfqon',
+      containerId: '2',
+      environmentId: '3',
+      onSuccess: undefined,
+    };
+
+    expect(actions.promoteContainer('iamfqon', '2', '3')).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_PROVIDER_CONTAINER_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_PROVIDER_CONTAINER_REQUEST,

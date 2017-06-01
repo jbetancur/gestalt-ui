@@ -151,6 +151,7 @@ class Logging extends PureComponent {
                 icon
                 tooltipLabel="Refresh Log"
                 onClick={() => this.fetchLogs(this.props)}
+                disabled={logProviderPending || this.state.logPending}
               >refresh
               </Button>
               <FontSizeButton
@@ -165,6 +166,7 @@ class Logging extends PureComponent {
                 data={this.state.logs.join('\n')}
                 tooltipLabel="Download Log"
                 fileName={`${location.query.name}-${location.query.logType}.log`}
+                disabled={logProviderPending || this.state.logPending}
               />
               <Button
                 icon

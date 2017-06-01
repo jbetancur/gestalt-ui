@@ -108,17 +108,9 @@ class ContainerItem extends PureComponent {
     const { handleTableSortIcon, sortTable } = this.props;
 
     const containers = this.props.containers.map(container => (
-      <TableRow key={container.id} onClick={e => this.edit(container, e)} expandable>
+      <TableRow key={container.id} onClick={e => this.edit(container, e)}>
         <TableColumn containsButtons>
           <ContainerActions container={container} {...this.props} />
-          {/* <Button
-            icon
-            tooltipLabel="Logs"
-            to={`containers/${container.id}/logs`}
-            target="_blank"
-            component={Link}
-          >subject
-        </Button> */}
         </TableColumn>
         <TableColumn>{container.name}</TableColumn>
         <TableColumn>{container.properties.status}</TableColumn>
