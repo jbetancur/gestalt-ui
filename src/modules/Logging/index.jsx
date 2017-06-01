@@ -15,7 +15,7 @@ const fontSizes = {
 
 const PageWrapper = styled.div`
   height: 100%;
-  // position: relative;
+  position: relative;
 `;
 
 const Toolbar = styled.header`
@@ -35,11 +35,14 @@ const ToolbarActions = styled.div`
   text-align: right;
 `;
 
-const FontSizeButton = styled(Button) `
-  transform: ${props => `scaleX(${props.flipState || 1})`};
+const FontSizeButton = styled(Button)`
+  i {
+    transform: ${props => `scaleX(${props.flipState || 1})`};
+  }
 `;
 
 const CodeWrapper = styled.div`
+  position: relative;
   height: 100%;
   background-color: black;
   padding-top: ${props => (props.fontSize === fontSizes.lg ? '4.5em' : '5.5em')};
@@ -68,6 +71,24 @@ const Code = styled.code`
 const LogItem = styled.div`
   font-family: "Ubuntu Mono", "lucida console", monospace;
   word-wrap: break-word;
+`;
+
+const ScrollButtons = styled.div`
+  position: fixed;
+  z-index: 9999;
+  top: 46%;
+  height: 100px;
+  right: 1em;
+`;
+
+const TopScrollButton = styled(Button)`
+  color: white;
+  display: block;
+`;
+
+const BottomScrollButton = styled(Button)`
+  color: white;
+  display: block;
 `;
 
 class Logging extends PureComponent {
@@ -123,7 +144,8 @@ class Logging extends PureComponent {
       this.setState({ logPending: false });
 
       if (response.data && response.data.length) {
-        this.setState({ logs: response.data.reverse() });
+        this.setState({ logs: response.data });
+        window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
       }
     }).catch(() => this.setState({ logPending: false }));
   }
@@ -179,12 +201,32 @@ class Logging extends PureComponent {
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>
           {(logProviderPending || this.state.logPending) ? <CircularActivity id="log-loading" /> :
-          <Pre>
-            <Code>
-              {this.state.logs.map((log, i) =>
-                <LogItem key={i}>{log}</LogItem>)}
-            </Code>
-          </Pre>}
+          <div>
+            <ScrollButtons>
+              <TopScrollButton
+                icon
+                primary
+                tooltipLabel="Scroll to Top"
+                tooltipPosition="left"
+                onClick={() => window.scrollTo(0, 0)}
+              >arrow_upward
+              </TopScrollButton>
+              <BottomScrollButton
+                icon
+                primary
+                tooltipLabel="Scroll to Bottom"
+                tooltipPosition="left"
+                onClick={() => window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)}
+              >arrow_downward
+            </BottomScrollButton>
+            </ScrollButtons>
+            <Pre>
+              <Code>
+                {this.state.logs.map((log, i) =>
+                  <LogItem key={i}>{log}</LogItem>)}
+              </Code>
+            </Pre>
+          </div>}
         </CodeWrapper>
       </PageWrapper>
     );
