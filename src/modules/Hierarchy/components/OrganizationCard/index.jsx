@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
@@ -9,7 +10,7 @@ class OrganizationCard extends PureComponent {
     router: PropTypes.object.isRequired,
     setCurrentOrgContext: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
-    // theme: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
   }
 
@@ -32,10 +33,10 @@ class OrganizationCard extends PureComponent {
   }
 
   render() {
-    const { t, model } = this.props;
+    const { t, model, theme } = this.props;
 
     return (
-      <Card key={model.id} className="flex-4 flex-xs-12 organization-card" onClick={e => this.navTo(e, model, 'hierarchy')} raise typeSymbol="O" typeColor="#607d8b">
+      <Card key={model.id} className="flex-4 flex-xs-12" onClick={e => this.navTo(e, model, 'hierarchy')} raise typeSymbol="O" typeColor={theme.organizationCard}>
         <CardTitle
           title={model.description || model.name}
           subtitle={
@@ -85,4 +86,4 @@ class OrganizationCard extends PureComponent {
   }
 }
 
-export default OrganizationCard;
+export default withTheme(OrganizationCard);

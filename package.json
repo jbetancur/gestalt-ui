@@ -224,7 +224,7 @@
         "base-64": "^0.1.0",
         "brace": "^0.10.0",
         "classnames": "^2.2.5",
-        "fast-json-patch": "^1.2.1",
+        "fast-json-patch": "^1.2.2",
         "flexybox": "^0.7.0",
         "i18next": "^8.4.0",
         "i18next-browser-languagedetector": "^1.0.1",

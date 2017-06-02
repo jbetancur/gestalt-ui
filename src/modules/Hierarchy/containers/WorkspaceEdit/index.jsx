@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import map from 'lodash/map';
 import { metaActions } from 'modules/MetaResource';
-import { ContainmentForm, validate } from '../../components/ContainmentForm';
+import { HierarchyForm, validate } from '../../components/HierarchyForm';
 import * as actions from '../../actions';
 
 class WorkspaceEdit extends Component {
@@ -61,7 +61,7 @@ class WorkspaceEdit extends Component {
 
   render() {
     return (
-      <ContainmentForm
+      <HierarchyForm
         title={this.props.workspace.description || this.props.workspace.nam}
         submitLabel="Update"
         cancelLabel="Back"

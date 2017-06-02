@@ -14,7 +14,7 @@ import Breadcrumbs from 'modules/Breadcrumbs';
 import { Button } from 'components/Buttons';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
-const ContainmentForm = (props) => {
+const HierarchyForm = (props) => {
   const { t } = props;
 
   return (
@@ -90,7 +90,7 @@ const ContainmentForm = (props) => {
   );
 };
 
-ContainmentForm.propTypes = {
+HierarchyForm.propTypes = {
   router: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -106,7 +106,7 @@ ContainmentForm.propTypes = {
   t: PropTypes.func.isRequired,
 };
 
-ContainmentForm.defaultProps = {
+HierarchyForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
@@ -114,4 +114,4 @@ ContainmentForm.defaultProps = {
   envMap: {},
 };
 
-export default translate()(ContainmentForm);
+export default translate()(HierarchyForm);

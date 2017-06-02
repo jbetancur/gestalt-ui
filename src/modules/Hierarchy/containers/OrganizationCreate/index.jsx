@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
-import { ContainmentForm, validate } from '../../components/ContainmentForm';
+import { HierarchyForm, validate } from '../../components/HierarchyForm';
 import * as actions from '../../actions';
 
 class OrgCreate extends Component {
@@ -37,7 +37,7 @@ class OrgCreate extends Component {
   render() {
     const { t } = this.props;
     return (
-      <ContainmentForm
+      <HierarchyForm
         title={t('organizations.actions.create')}
         submitLabel={t('general.verbs.create')}
         cancelLabel={t('general.verbs.cancel')}
