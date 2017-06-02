@@ -52,7 +52,7 @@ class LambdaCreate extends Component {
     }
 
     const onSuccess = () => {
-      router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+      router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
     };
 
     createLambda(params.fqon, params.environmentId, payload, onSuccess);

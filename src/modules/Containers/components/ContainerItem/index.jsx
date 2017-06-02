@@ -70,7 +70,7 @@ class ContainerItem extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { router, params } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`
+        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`
       });
     }
   }
@@ -86,7 +86,7 @@ class ContainerItem extends PureComponent {
         primary
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/containers/create`
+          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/containers/create`
         }}
       >
         <FontIcon>add</FontIcon>

@@ -1,1 +1,0 @@
-export const WORKSPACES_NAVIGATION = 'workspace/WORKSPACES_NAVIGATION';

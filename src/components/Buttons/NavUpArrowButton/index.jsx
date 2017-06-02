@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from 'react-md/lib/Buttons/Button';
 
@@ -18,5 +19,13 @@ const NavUpArrowButton = props =>
   >
     arrow_upward
     </EnhancedButton>;
+
+NavUpArrowButton.propTypes = {
+  visible: PropTypes.bool,
+};
+
+NavUpArrowButton.defaultProps = {
+  visible: true,
+};
 
 export default NavUpArrowButton;

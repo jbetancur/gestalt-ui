@@ -34,9 +34,9 @@ const ProviderForm = (props) => {
 
   const goBack = () => {
     if (params.workspaceId && !params.environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}`);
+      router.push(`${params.fqon}/hierarchy/${params.workspaceId}`);
     } else if (params.environmentId) {
-      router.push(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+      router.push(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
     } else {
       router.push(`${params.fqon}/providers`);
     }

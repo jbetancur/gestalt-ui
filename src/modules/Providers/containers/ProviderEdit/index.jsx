@@ -135,9 +135,9 @@ class ProviderEdit extends PureComponent {
 
     let onSuccess;
     if (params.workspaceId && !params.environmentId) {
-      onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}`);
+      onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}`);
     } else if (params.environmentId) {
-      onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+      onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
     } else {
       onSuccess = () => router.replace(`${params.fqon}/providers`);
     }

@@ -19,7 +19,7 @@ class APIEndpointCreate extends Component {
     const payload = { ...values };
     payload.name = payload.properties.resource.split('/').join('-');
 
-    const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
+    const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
     createAPIEndpoint(params.fqon, params.apiId, payload, onSuccess);
   }
 

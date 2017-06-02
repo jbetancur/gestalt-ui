@@ -35,7 +35,7 @@ const PolicyLimitRuleForm = (props) => {
     policyRule,
   } = props;
 
-  const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
+  const backLink = `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
 
   // flatten limit arrays for policyResourceTypes
   const policyLimiters = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].limits));

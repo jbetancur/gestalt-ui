@@ -186,7 +186,7 @@ const ContainerForm = (props) => {
                 disabled={props.pending || props.submitting}
                 component={Link}
                 to={{
-                  pathname: `${props.params.fqon}/workspaces/${props.params.workspaceId}/environments/${props.params.environmentId}`
+                  pathname: `${props.params.fqon}/hierarchy/${props.params.workspaceId}/environments/${props.params.environmentId}`
                 }}
               />
               <Button

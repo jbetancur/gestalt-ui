@@ -3,17 +3,17 @@ import { Route, IndexRoute } from 'react-router';
 import cookie from 'react-cookie';
 import App from './App';
 import { Login } from './modules/Login';
-import Organizations from './modules/Organizations';
-import OrgCreate from './modules/Organizations/containers/OrgCreate';
-import OrgEdit from './modules/Organizations/containers/OrgEdit';
-import WorkspaceCreate from './modules/Workspaces/containers/WorkspaceCreate';
-import WorkspaceEdit from './modules/Workspaces/containers/WorkspaceEdit';
-import Workspaces from './modules/Workspaces';
-import WorkspaceDetails from './modules/Workspaces/containers/WorkspaceDetails';
-import Environments from './modules/Environments';
-import EnvironmentEdit from './modules/Environments/containers/EnvironmentEdit';
-import EnvironmentDetails from './modules/Environments/containers/EnvironmentDetails';
-import EnvironmentCreate from './modules/Environments/containers/EnvironmentCreate';
+import Hierarchy, {
+  OrganizationCreate,
+  OrganizationEdit,
+  WorkspaceCreate,
+  WorkspaceEdit,
+  WorkspaceContext,
+  EnvironmentListing,
+  EnvironmentCreate,
+  EnvironmentEdit,
+  EnvironmentContext
+} from './modules/Hierarchy';
 import Providers from './modules/Providers';
 import ProviderCreate from './modules/Providers/containers/ProviderCreate';
 import ProviderEdit from './modules/Providers/containers/ProviderEdit';
@@ -61,17 +61,17 @@ const routes = store => (
     <Route path="/[object%20Object]/*" component={App} onEnter={requireAuth(store)} />
     <Route path="/logs" component={Logging} onEnter={requireAuth(store)} />
     <Route path="/" component={App} onEnter={requireAuth(store)}>
-      <Route path=":fqon/organizations" onEnter={requireAuth(store)}>
-        <IndexRoute component={Organizations} onEnter={requireAuth(store)} />
-        <Route path="create" component={OrgCreate} onEnter={requireAuth(store)} />
-        <Route path="edit" component={OrgEdit} onEnter={requireAuth(store)} />
-      </Route>
-      <Route path=":fqon/workspaces" onEnter={requireAuth(store)}>
-        <IndexRoute component={Workspaces} onEnter={requireAuth(store)} />
-        <Route path="create" component={WorkspaceCreate} onEnter={requireAuth(store)} />
+
+      <Route path=":fqon/hierarchy" onEnter={requireAuth(store)}>
+        <IndexRoute component={Hierarchy} onEnter={requireAuth(store)} />
+
+        <Route path="createOrganization" component={OrganizationCreate} onEnter={requireAuth(store)} />
+        <Route path="editOrganization" component={OrganizationEdit} onEnter={requireAuth(store)} />
+
+        <Route path="createWorkspace" component={WorkspaceCreate} onEnter={requireAuth(store)} />
         <Route path=":workspaceId" onEnter={requireAuth(store)}>
-          <IndexRoute component={WorkspaceDetails} onEnter={requireAuth(store)} />
-          <Route path="edit" component={WorkspaceEdit} onEnter={requireAuth(store)} />
+          <IndexRoute component={WorkspaceContext} onEnter={requireAuth(store)} />
+          <Route path="editWorkspace" component={WorkspaceEdit} onEnter={requireAuth(store)} />
           <Route path="createEnvironment" component={EnvironmentCreate} onEnter={requireAuth(store)} />
           <Route path="providers" onEnter={requireAuth(store)}>
             <IndexRoute component={Providers} onEnter={requireAuth(store)} />
@@ -82,9 +82,9 @@ const routes = store => (
           </Route>
           <Route path="environments" onEnter={requireAuth(store)}>
             <Route path="createProvider" component={ProviderCreate} onEnter={requireAuth(store)} />
-            <IndexRoute component={Environments} onEnter={requireAuth(store)} />
+            <IndexRoute component={EnvironmentListing} onEnter={requireAuth(store)} />
             <Route path=":environmentId" onEnter={requireAuth(store)}>
-              <IndexRoute component={EnvironmentDetails} onEnter={requireAuth(store)} />
+              <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
               <Route path="edit" component={EnvironmentEdit} onEnter={requireAuth(store)} />
               <Route path="lambdas" onEnter={requireAuth(store)}>
                 <IndexRoute component={Lambdas} onEnter={requireAuth(store)} />
@@ -135,6 +135,7 @@ const routes = store => (
           </Route>
         </Route>
       </Route>
+
       <Route path=":fqon/providers" onEnter={requireAuth(store)}>
         <IndexRoute component={Providers} onEnter={requireAuth(store)} />
         <Route path="create" component={ProviderCreate} onEnter={requireAuth(store)} />
@@ -142,6 +143,7 @@ const routes = store => (
           <Route path="edit" component={ProviderEdit} onEnter={requireAuth(store)} />
         </Route>
       </Route>
+
       <Route path=":fqon/entitlements" component={Entitlements} onEnter={requireAuth(store)} />
       <Route path=":fqon/users" onEnter={requireAuth(store)}>
         <IndexRoute component={Users} onEnter={requireAuth(store)} />
@@ -150,6 +152,7 @@ const routes = store => (
           <Route path="edit" component={UserEdit} onEnter={requireAuth(store)} />
         </Route>
       </Route>
+
       <Route path=":fqon/groups" onEnter={requireAuth(store)}>
         <IndexRoute component={Groups} onEnter={requireAuth(store)} />
         <Route path="create" component={GroupCreate} onEnter={requireAuth(store)} />
@@ -157,6 +160,7 @@ const routes = store => (
           <Route path="edit" component={GroupEdit} onEnter={requireAuth(store)} />
         </Route>
       </Route>
+
       <Route path=":fqon/license" component={License} onEnter={requireAuth(store)} />
       <Route path="*" component={NotFound} />
     </Route>

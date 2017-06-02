@@ -105,7 +105,7 @@ class LambdaEdit extends Component {
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(lambda);
     const patches = jsonPatch.compare(originalModel, updatedModel);
-    const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`);
+    const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
 
     this.props.updateLambda(params.fqon, id, patches, onSuccess);
   }

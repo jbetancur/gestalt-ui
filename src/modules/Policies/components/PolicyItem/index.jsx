@@ -69,7 +69,7 @@ class PolicyItem extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { router, params } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${policy.id}/edit`
+        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${policy.id}/edit`
       });
     }
   }
@@ -85,7 +85,7 @@ class PolicyItem extends PureComponent {
         primary
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/create`
+          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/create`
         }}
       >
         <FontIcon>add</FontIcon>

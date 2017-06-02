@@ -26,7 +26,7 @@ class PolicyEventRuleCreate extends Component {
     payload.resource_type = 'Gestalt::Resource::Rule::Event';
     payload.properties.actions = selectedActions;
 
-    const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
+    const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
     createPolicyRule(params.fqon, params.policyId, payload, onSuccess);
   }
 

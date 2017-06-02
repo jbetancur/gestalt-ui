@@ -27,7 +27,7 @@ class APICreate extends Component {
     // locations is an array, but we only need the first value to be the kong id
     payload.properties.provider.locations = [payload.properties.provider.locations]; // this is really the kong provider id
 
-    const onSuccess = response => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${response.id}/edit`);
+    const onSuccess = response => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${response.id}/edit`);
 
     if (!payload.properties.provider.id) {
       this.props.dispatch({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create API. You must create and link a gateway manager provider type first' });

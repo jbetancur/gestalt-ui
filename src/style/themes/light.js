@@ -12,4 +12,7 @@ export default {
   errorText: colors['$md-red-500'],
   activityDotColor: colors['$md-grey-500'],
   activityDotColorDropDown: colors['$md-blue-500'],
+  organizationCard: colors['$md-blue-grey-200'],
+  workspaceCard: colors['$md-green-500'],
+  environmentCard: colors['$md-yellow-600;'],
 };

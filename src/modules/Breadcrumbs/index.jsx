@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import FontIcon from 'react-md/lib/FontIcons';
 
 const EnhancedLink = styled(Link)`
   color: inherit;
@@ -25,6 +26,11 @@ const EnhancedLink = styled(Link)`
   }
 `;
 
+const Icon = styled(FontIcon)`
+  font-size: 14px;
+  padding-right: .3em;
+`;
+
 class Breadcrumbs extends PureComponent {
   static propTypes = {
     router: PropTypes.object.isRequired,
@@ -36,10 +42,10 @@ class Breadcrumbs extends PureComponent {
   };
 
   static defaultProps = {
-    seperator: '/'
+    seperator: '/',
   }
 
-  allowNav(e, route) {
+  checkIfShouldNav(e, route) {
     // strip '/'to make compares reliable
     if ((this.props.router.location.pathname.split('/').join('') === route.split('/').join(''))) {
       e.preventDefault();
@@ -55,48 +61,38 @@ class Breadcrumbs extends PureComponent {
       seperator,
     } = this.props;
 
-    const orgsRoute = `/${currentOrgContext.properties.fqon}/organizations`;
-    const workspacesRoute = `/${currentOrgContext.properties.fqon}/workspaces`;
-    const workspaceRoute = `/${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}`;
-    const environmentRoute = `/${currentOrgContext.properties.fqon}/workspaces/${currentWorkspaceContext.id}/environments/${currentEnvironmentContext.id}`;
+    const orgsRoute = `/${currentOrgContext.properties.fqon}/hierarchy`;
+    // const workspacesRoute = `/${currentOrgContext.properties.fqon}/hierarchy`;
+    const workspaceRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}`;
+    const environmentRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}/environments/${currentEnvironmentContext.id}`;
 
     return (
       <span>
         <EnhancedLink
-          onClick={e => this.allowNav(e, orgsRoute)}
+          onClick={e => this.checkIfShouldNav(e, orgsRoute)}
           to={orgsRoute}
         >
-          {currentOrgContext.description || currentOrgContext.name}
+          <span><Icon>domain</Icon>{currentOrgContext.description || currentOrgContext.name}</span>
         </EnhancedLink>
 
         {(currentWorkspaceContext.id && params.workspaceId) && ` ${seperator} `}
 
         {(currentWorkspaceContext.id && params.workspaceId) &&
           <EnhancedLink
-            onClick={e => this.allowNav(e, workspacesRoute)}
-            to={workspacesRoute}
-          >
-            Workspaces
-          </EnhancedLink>}
-
-        {(currentWorkspaceContext.id && params.workspaceId) && ` ${seperator} `}
-
-        {(currentWorkspaceContext.id && params.workspaceId) &&
-          <EnhancedLink
-            onClick={e => this.allowNav(e, workspaceRoute)}
+            onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
             to={workspaceRoute}
           >
-            {currentWorkspaceContext.description || currentWorkspaceContext.name}
+            <span><Icon>work</Icon>{currentWorkspaceContext.description || currentWorkspaceContext.name}</span>
           </EnhancedLink>}
 
         {(currentEnvironmentContext.id && params.environmentId) && ` ${seperator} `}
 
         {(currentEnvironmentContext.id && params.environmentId) &&
           <EnhancedLink
-            onClick={e => this.allowNav(e, environmentRoute)}
+            onClick={e => this.checkIfShouldNav(e, environmentRoute)}
             to={environmentRoute}
           >
-            {currentEnvironmentContext.description || currentEnvironmentContext.name}
+            <span><Icon>folder</Icon>{currentEnvironmentContext.description || currentEnvironmentContext.name}</span>
           </EnhancedLink>}
       </span>
     );

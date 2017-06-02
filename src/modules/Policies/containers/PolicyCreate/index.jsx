@@ -16,7 +16,7 @@ class PolicyCreate extends Component {
 
   create(values) {
     const { params, router, createPolicy } = this.props;
-    const onSuccess = response => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${response.id}/edit`);
+    const onSuccess = response => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${response.id}/edit`);
     createPolicy(params.fqon, params.environmentId, values, onSuccess);
   }
 

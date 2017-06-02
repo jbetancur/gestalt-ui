@@ -43,7 +43,7 @@ class WorkspaceItem extends Component {
   navWorkspaceDetails(item) {
     const { router, params, setCurrentWorkspaceContext } = this.props;
 
-    router.push(`/${params.fqon}/workspaces/${item.id}`);
+    router.push(`/${params.fqon}/hierarchy/${item.id}`);
     setCurrentWorkspaceContext(item);
   }
 
@@ -52,7 +52,7 @@ class WorkspaceItem extends Component {
 
     const { params, router } = this.props;
 
-    router.push(`/${params.fqon}/workspaces/${workspace.id}/edit`);
+    router.push(`/${params.fqon}/hierarchy/${workspace.id}/edit`);
   }
 
   renderProgress() {
@@ -68,7 +68,7 @@ class WorkspaceItem extends Component {
         flat
         primary
         component={Link}
-        to={`/${this.props.params.fqon}/workspaces/create`}
+        to={`/${this.props.params.fqon}/hierarchy/create`}
       >
         add
       </Button>
