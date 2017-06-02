@@ -5,6 +5,9 @@ import styled from 'styled-components';
 
 const UL = styled.ul`
     list-style-type: none;
+    margin-top: .3em;
+    margin-bottom: .3em;
+    padding-left: 1.1em;
 
     .md-selection-control-container {
       height: 1.3em;
@@ -49,37 +52,37 @@ class EntitlementTreeItems extends PureComponent {
   render() {
     return (
       <div className="flex-row">
-        {!this.props.entitlements.length ? null :
-        <fieldset>
-          <legend>{`Entitlements for ${this.props.selectedIdentity.name}`}</legend>
-          <div className="flex-row">
-            {this.props.entitlements.map(entitlement =>
-              <UL key={entitlement.type}>
-                <li key={entitlement.type}>
-                  <Checkbox
-                    id={entitlement.type}
-                    name={entitlement.type}
-                    label={entitlement.type}
-                    checked={entitlement.toggled}
-                    onChange={() => this.handleCheckAll(entitlement)}
-                  />
-                </li>
-                <UL>
-                  {entitlement.actions.map(action =>
-                    <li key={action.key}>
-                      <Checkbox
-                        id={action.key}
-                        name={action.key}
-                        label={action.action}
-                        checked={action.toggled}
-                        onChange={() => this.handleChecked(action)}
-                      />
-                    </li>
-                  )}
-                </UL>
-              </UL>)}
-          </div>
-        </fieldset>}
+        {(this.props.entitlements.length && this.props.selectedIdentity.name) ?
+          <fieldset>
+            <legend>{`Entitlements for ${this.props.selectedIdentity.name}`}</legend>
+            <div className="flex-row">
+              {this.props.entitlements.map(entitlement =>
+                <UL key={entitlement.type}>
+                  <li key={entitlement.type}>
+                    <Checkbox
+                      id={entitlement.type}
+                      name={entitlement.type}
+                      label={entitlement.type}
+                      checked={entitlement.toggled}
+                      onChange={() => this.handleCheckAll(entitlement)}
+                    />
+                  </li>
+                  <UL>
+                    {entitlement.actions.map(action =>
+                      <li key={action.key}>
+                        <Checkbox
+                          id={action.key}
+                          name={action.key}
+                          label={action.action}
+                          checked={action.toggled}
+                          onChange={() => this.handleChecked(action)}
+                        />
+                      </li>
+                    )}
+                  </UL>
+                </UL>)}
+            </div>
+          </fieldset> : null}
       </div>
     );
   }

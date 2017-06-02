@@ -18,11 +18,15 @@ import { USER } from '../../constants';
 const MembersList = styled(List)`
   min-height: 20em;
   box-shadow: none;
-  // border: 1px solid #f5f5f5;
+
+  .md-list-tile--active {
+    background: none;
+  }
 `;
 
 const CardTitleStyled = styled(CardTitle)`
-  margin-top: .5em;
+  margin-top: 1em;
+  padding-bottom: 0;
 `;
 
 class EntitlementItem extends Component {
@@ -117,7 +121,7 @@ class EntitlementItem extends Component {
                 <EntitlementTree {...this.props} />}
             </div>
             <div className="flex-6 flex-xs-12">
-              <fieldset>
+              <fieldset style={{ height: '100%' }}>
                 <legend>Users & Groups</legend>
                 <MembersList>
                   <CardSubHeader
