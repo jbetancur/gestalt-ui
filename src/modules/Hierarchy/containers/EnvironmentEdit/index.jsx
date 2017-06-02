@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import _map from 'lodash/map';
 import { metaActions } from 'modules/MetaResource';
-import { ContainmentForm, validate } from 'modules/Hierarchy/components/ContainmentForm';
+import { HierarchyForm, validate } from 'modules/Hierarchy/components/HierarchyForm';
 import * as actions from '../../actions';
 
 class EnvironmentEdit extends Component {
@@ -70,7 +70,7 @@ class EnvironmentEdit extends Component {
     const { environment } = this.props;
 
     return (
-      <ContainmentForm
+      <HierarchyForm
         title={environment.description || environment.name}
         submitLabel="Update"
         cancelLabel="Back"

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
-import { ContainmentForm, validate } from 'modules/Hierarchy/components/ContainmentForm';
+import { HierarchyForm, validate } from 'modules/Hierarchy/components/HierarchyForm';
 import * as actions from '../../actions';
 
 class OrgCreate extends Component {
@@ -36,7 +36,7 @@ class OrgCreate extends Component {
 
   render() {
     return (
-      <ContainmentForm
+      <HierarchyForm
         title="Create Environment"
         submitLabel="Create"
         cancelLabel="Cancel"

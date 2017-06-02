@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
-import { ContainmentForm, validate } from '../../components/ContainmentForm';
+import { HierarchyForm, validate } from '../../components/HierarchyForm';
 import * as actions from '../../actions';
 
 class OrgEdit extends Component {
@@ -65,7 +65,7 @@ class OrgEdit extends Component {
   render() {
     const { t } = this.props;
     return (
-      <ContainmentForm
+      <HierarchyForm
         title={this.props.organization.description || this.props.organization.name}
         submitLabel={t('general.verbs.update')}
         cancelLabel={t('general.verbs.back')}

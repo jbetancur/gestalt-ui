@@ -1,44 +1,45 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withTheme } from 'styled-components';
-import { Button } from 'components/Buttons';
-import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
+import { withTheme } from 'styled-components';
+import { Card, CardTitle, CardActions } from 'components/GFCard';
+import { Button } from 'components/Buttons';
 
-class WorkspaceCard extends PureComponent {
+class EnvironmentCard extends PureComponent {
   static propTypes = {
     router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    setCurrentWorkspaceContext: PropTypes.func.isRequired,
-    model: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    theme: PropTypes.object.isRequired,
+    setCurrentEnvironmentContext: PropTypes.func.isRequired,
+    model: PropTypes.object.isRequired,
   };
 
-  navWorkspaceDetails(item) {
-    const { router, params, setCurrentWorkspaceContext } = this.props;
+  navEnvironmentDetails(item) {
+    const { params, router, setCurrentEnvironmentContext } = this.props;
 
-    router.push(`/${params.fqon}/hierarchy/${item.id}`);
-    setCurrentWorkspaceContext(item);
+    router.push(`/${params.fqon}/hierarchy/${params.workspaceId}/environments/${item.id}`);
+    setCurrentEnvironmentContext(item);
   }
 
-  edit(e, workspace) {
+  edit(e, environment) {
     e.stopPropagation();
 
     const { params, router } = this.props;
 
-    router.push(`/${params.fqon}/hierarchy/${workspace.id}/editWorkspace`);
+    router.push(`/${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}/edit`);
   }
 
   render() {
-    const { t, model, theme } = this.props;
+    const { model, t, theme } = this.props;
 
     return (
-      <Card key={model.id} className="flex-4 flex-xs-12" onClick={e => this.navWorkspaceDetails(model, e)} raise typeSymbol="W" typeColor={theme.workspaceCard}>
+      <Card key={model.id} className="flex-4 flex-xs-12" onClick={e => this.navEnvironmentDetails(model, e)} raise typeColor={theme.environmentCard}>
         <CardTitle
           title={model.description || model.name}
           subtitle={
             <div>
+              <div className="gf-caption"><span>type: {model.properties.environment_type}</span></div>
               <div className="gf-caption">owner: {model.owner.name}</div>
               <div className="gf-caption">created <FormattedRelative value={model.created.timestamp} /></div>
               <div className="gf-caption">modified <FormattedRelative value={model.modified.timestamp} /></div>
@@ -59,4 +60,4 @@ class WorkspaceCard extends PureComponent {
   }
 }
 
-export default withTheme(WorkspaceCard);
+export default withTheme(EnvironmentCard);
