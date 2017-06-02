@@ -72,7 +72,7 @@ class LambdaItem extends PureComponent {
       const { router, params } = this.props;
 
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`
+        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`
       });
     }
   }
@@ -88,7 +88,7 @@ class LambdaItem extends PureComponent {
         primary
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/lambdas/create`
+          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/lambdas/create`
         }}
       >
         <FontIcon>add</FontIcon>

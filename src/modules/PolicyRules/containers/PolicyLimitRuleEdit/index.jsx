@@ -55,7 +55,7 @@ class PolicyLimitRuleEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, updatedModel);
     if (patches.length) {
-      const onSuccess = () => router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
+      const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
       this.props.updatePolicyRule(params.fqon, params.policyId, id, patches, onSuccess);
     }
   }

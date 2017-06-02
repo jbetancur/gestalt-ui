@@ -171,18 +171,18 @@ class ContainerActions extends Component {
   promoteContainer() {
     const { params, promoteContainer, promoteContainerModal, container, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
     const onSuccess = environment => () => {
-      this.props.router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}`);
+      this.props.router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}`);
       fetchEnvironment(params.fqon, environment.id);
       setCurrentEnvironmentContext(environment);
       fetchContainers(params.fqon, environment.id);
       // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
       // if (inContainerView) {
-      //   this.props.router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
+      //   this.props.router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
       //   setCurrentEnvironmentContext(environment);
       //   fetchContainer(params.fqon, container.id, environment.id, true);
       // } else {
       //   // TODO: Need to refactor this when we refactor the routing logic
-      //   this.props.router.replace(`${params.fqon}/workspaces/${params.workspaceId}/environments/${environment.id}`);
+      //   this.props.router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}`);
       //   fetchEnvironment(params.fqon, environment.id);
       //   setCurrentEnvironmentContext(environment);
       //   fetchContainers(params.fqon, environment.id);

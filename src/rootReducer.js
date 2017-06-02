@@ -9,8 +9,7 @@ import errorNotificationReducer from './modules/ErrorNotifications/reducers';
 import loginReducer from './modules/Login/reducers';
 // import organizationsReducer from './modules/Organizations/reducers';
 import oranizationNavMenu from './modules/OrgNavMenu/reducers';
-import workspacesReducer from './modules/Workspaces/reducers';
-import environmentsReducer from './modules/Environments/reducers';
+import hierarchyReducer from './modules/Hierarchy/reducers';
 // import providersReducer from './modules/Providers/reducers';
 import lambdasReducer from './modules/Lambdas/reducers';
 import entitlementsReducer from './modules/Entitlements/reducers';
@@ -44,10 +43,8 @@ export default combineReducers({
   app: appReducers,
   metaResource: metaResourceReducers,
   login: loginReducer,
-  // organizations: organizationsReducer,
   orgnavmenu: oranizationNavMenu,
-  workspaces: workspacesReducer,
-  environments: environmentsReducer,
+  hierarchy: hierarchyReducer,
   // providers: providersReducer,
   lambdas: lambdasReducer,
   entitlements: entitlementsReducer,

@@ -72,7 +72,7 @@ const PolicyForm = (props) => {
                 label={cancelLabel}
                 disabled={pending || submitting}
                 component={Link}
-                to={`${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}`}
+                to={`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`}
               />
               <Button
                 raised

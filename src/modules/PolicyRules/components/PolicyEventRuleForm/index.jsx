@@ -38,7 +38,7 @@ const PolicyEventRuleForm = (props) => {
     fetchLambdasDropDown,
   } = props;
 
-  const backLink = `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
+  const backLink = `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
 
   const policyTriggers = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].triggers));
 

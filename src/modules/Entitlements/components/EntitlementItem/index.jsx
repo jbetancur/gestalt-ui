@@ -21,6 +21,10 @@ const MembersList = styled(List)`
   // border: 1px solid #f5f5f5;
 `;
 
+const CardTitleStyled = styled(CardTitle)`
+  margin-top: .5em;
+`;
+
 class EntitlementItem extends Component {
   static propTypes = {
     fetchEntitlements: PropTypes.func.isRequired,
@@ -98,7 +102,7 @@ class EntitlementItem extends Component {
     return (
       <div className="flex-row">
         <Card className="flex-row flex-12">
-          <CardTitle
+          <CardTitleStyled
             title={
               <div>
                 <div className="gf-headline">Entitlements</div>

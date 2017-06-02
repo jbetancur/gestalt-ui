@@ -65,7 +65,7 @@ class OrgNavMenu extends Component {
         component={Link}
         primaryText={item.description || item.name}
         secondaryText={item.name}
-        to={`/${item.properties.fqon}/organizations`}
+        to={`/${item.properties.fqon}/hierarchy`}
       />
     );
   }

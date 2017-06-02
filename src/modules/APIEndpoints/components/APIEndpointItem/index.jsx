@@ -69,7 +69,7 @@ class apiEndpointItem extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { router, params, } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
+        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
         query: { implementationType: apiEndpoint.properties.implementation_type },
       });
     }
@@ -86,7 +86,7 @@ class apiEndpointItem extends PureComponent {
         primary
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/createEndpoint`
+          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/createEndpoint`
         }}
       >
         <FontIcon>add</FontIcon>

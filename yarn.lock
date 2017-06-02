@@ -2694,9 +2694,9 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fast-json-patch@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-1.2.0.tgz#30397e9553c236e891fd47bf7fed0585540f26fb"
+fast-json-patch@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-1.2.1.tgz#177ef854e24534558fda470583f7aab617ed6008"
 
 fast-levenshtein@~2.0.4:
   version "2.0.6"

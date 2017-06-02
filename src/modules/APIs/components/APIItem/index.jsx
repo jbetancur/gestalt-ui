@@ -69,7 +69,7 @@ class APIItem extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { router, params } = this.props;
       router.push({
-        pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/${api.id}/edit`
+        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${api.id}/edit`
       });
     }
   }
@@ -85,7 +85,7 @@ class APIItem extends PureComponent {
         primary
         component={Link}
         to={{
-          pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/apis/create`
+          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/create`
         }}
       >
         <FontIcon>add</FontIcon>

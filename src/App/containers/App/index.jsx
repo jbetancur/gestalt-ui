@@ -16,7 +16,7 @@ import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
-import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
+import { GestaltIcon, USEnglishLangIcon, HierarchyIcon, ProviderIcon } from 'components/Icons';
 import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
 import { metaActions } from 'modules/MetaResource';
@@ -90,7 +90,7 @@ class App extends Component {
     if (nextProps.self !== this.props.self && !this.props.params.fqon) {
       this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
       // Set Initial route - we can later manage this in a user profile setting
-      this.props.router.replace(`${nextProps.self.properties.gestalt_home.properties.fqon}/organizations`);
+      this.props.router.replace(`${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
     }
   }
 
@@ -110,24 +110,16 @@ class App extends Component {
 
     return [
       <ListItemStacked
-        key="organizations"
-        icon="domain"
+        key="hierarchy"
+        icon={<HierarchyIcon />}
         title={t('organizations.title')}
         component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/organizations`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-      />,
-      <ListItemStacked
-        key="workspaces"
-        icon="work"
-        title={t('workspaces.title')}
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/workspaces`}
+        to={`/${this.getCurrentOrgContext().properties.fqon}/hierarchy`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
         key="providers"
-        icon="cloud"
+        icon={<ProviderIcon />}
         title={t('providers.title')}
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/providers`}

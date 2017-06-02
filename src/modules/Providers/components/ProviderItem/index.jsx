@@ -68,9 +68,9 @@ class ProviderItem extends PureComponent {
     // note the workspaceId and environmentId here are passed into the component
     // via the EnvironmentDetail Component they are not props.params
     if (params.workspaceId && !params.environmentId) {
-      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/create` });
+      router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/providers/create` });
     } else if (params.environmentId) {
-      router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/create` });
+      router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/providers/create` });
     } else {
       router.push({ pathname: `${params.fqon}/providers/create` });
     }
@@ -82,9 +82,9 @@ class ProviderItem extends PureComponent {
       const { router, params } = this.props;
 
       if (params.workspaceId && !params.environmentId) {
-        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/providers/${provider.id}/edit` });
+        router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/providers/${provider.id}/edit` });
       } else if (params.environmentId) {
-        router.push({ pathname: `${params.fqon}/workspaces/${params.workspaceId}/environments/${params.environmentId}/providers/${provider.id}/edit` });
+        router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/providers/${provider.id}/edit` });
       } else {
         router.push({ pathname: `${params.fqon}/providers/${provider.id}/edit` });
       }

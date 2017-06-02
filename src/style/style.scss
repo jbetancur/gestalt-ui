@@ -64,19 +64,3 @@ body {
         animation-delay: 1s; // prevent from happening on "normal" latency requests
     }
 }
-
-.workspace-card {
-    border-top: 2px solid $md-light-blue-200;
-    &:hover {
-        border-top: 2px solid $md-light-blue-600;
-        transition: border-top 1s;
-    }
-}
-
-.environment-card {
-    border-top: 2px solid $md-yellow-600;
-    &:hover {
-        border-top: 2px solid $md-yellow-800;
-        transition: border-top 1s;
-    }
-}

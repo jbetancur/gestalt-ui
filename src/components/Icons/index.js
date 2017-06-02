@@ -5,3 +5,5 @@ export { default as GestaltIconText } from './GestaltIconText';
 export { default as LambdaIcon } from './LambdaIcon';
 export { default as USEnglishLangIcon } from './USEnglishLangIcon';
 export { default as RobotUprisingIcon } from './RobotUprisingIcon';
+export { default as HierarchyIcon } from './HierarchyIcon';
+export { default as ProviderIcon } from './ProviderIcon';
