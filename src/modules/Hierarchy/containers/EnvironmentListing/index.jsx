@@ -59,7 +59,7 @@ class EnvironmentContext extends PureComponent {
           setKey={value => this.setState({ sortKey: value })}
           setOrder={value => this.setState({ order: value })}
         />
-        {sortedEnvironments.map(item => <EnvironmentCard model={item} {...this.props} />)}
+        {sortedEnvironments.map(item => <EnvironmentCard key={item.id} model={item} {...this.props} />)}
       </div>
     );
   }

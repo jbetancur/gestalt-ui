@@ -34,7 +34,7 @@ class EnvironmentCard extends PureComponent {
     const { model, t, theme } = this.props;
 
     return (
-      <Card key={model.id} className="flex-4 flex-xs-12" onClick={e => this.navEnvironmentDetails(model, e)} raise typeColor={theme.environmentCard}>
+      <Card className="flex-4 flex-xs-12" onClick={e => this.navEnvironmentDetails(model, e)} raise typeColor={theme.environmentCard}>
         <CardTitle
           title={model.description || model.name}
           subtitle={
