@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from 'react-md/lib/Cards/Card';
-import { CardTitle } from 'components/GFCard';
 import styled from 'styled-components';
 import FontIcon from 'react-md/lib/FontIcons';
 import List from 'react-md/lib/Lists/List';
 import ListItem from 'react-md/lib/Lists/ListItem';
-// import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import DotActivity from 'components/DotActivity';
-import Breadcrumbs from 'modules/Breadcrumbs';
 import TextField from 'react-md/lib/TextFields';
 import CardSubHeader from 'components/CardSubHeader';
 import { Button } from 'components/Buttons';
@@ -16,17 +12,13 @@ import EntitlementTree from '../EntitlementTree';
 import { USER } from '../../constants';
 
 const MembersList = styled(List)`
-  min-height: 20em;
+  height: 24.5em;
   box-shadow: none;
+  overflow: scroll;
 
   .md-list-tile--active {
     background: none;
   }
-`;
-
-const CardTitleStyled = styled(CardTitle)`
-  margin-top: 1em;
-  padding-bottom: 0;
 `;
 
 class EntitlementItem extends Component {
@@ -105,43 +97,35 @@ class EntitlementItem extends Component {
 
     return (
       <div className="flex-row">
-        <Card className="flex-row flex-12">
-          <CardTitleStyled
-            title={
-              <div>
-                <div className="gf-headline">Entitlements</div>
-                {this.props.params.workspaceId ? null : <div className="md-caption"><Breadcrumbs /></div>}
-              </div>
-            }
-          />
-          <div className="flex-row">
-            <div className="flex-6 flex-xs-12">
-              {this.props.pendingEntitlements || this.props.pendingUpdateEntitlements ?
-                <DotActivity dropdown size={1.5} id="entitlements-loading" centered /> :
-                <EntitlementTree {...this.props} />}
-            </div>
-            <div className="flex-6 flex-xs-12">
-              <fieldset style={{ height: '100%' }}>
-                <legend>Users & Groups</legend>
-                <MembersList>
-                  <CardSubHeader
-                    primaryText={<TextField
-                      id="filter-identities-remove"
-                      label="filter identities"
-                      leftIcon={<FontIcon>filter_list</FontIcon>}
-                      rightIcon={<Button icon onClick={() => this.props.clearIdentitiesFilter()}><FontIcon>clear</FontIcon></Button>}
-                      lineDirection="center"
-                      value={this.props.identitiesFilter.filterText}
-                      disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements}
-                      onChange={value => this.props.filterIdentities(value)}
-                    />}
-                  />
-                  {this.props.pendingIdentities ? <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
-                </MembersList>
-              </fieldset>
-            </div>
+        <div className="flex-row">
+          <div className="flex-5 flex-xs-12">
+            <fieldset style={{ height: '100%' }}>
+              <legend>Users & Groups</legend>
+              <MembersList>
+                <CardSubHeader
+                  primaryText={<TextField
+                    id="filter-identities-remove"
+                    label="filter identities"
+                    leftIcon={<FontIcon>filter_list</FontIcon>}
+                    rightIcon={<Button icon onClick={() => this.props.clearIdentitiesFilter()}><FontIcon>clear</FontIcon></Button>}
+                    lineDirection="center"
+                    value={this.props.identitiesFilter.filterText}
+                    disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements}
+                    onChange={value => this.props.filterIdentities(value)}
+                  />}
+                />
+                {this.props.pendingIdentities ? <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
+              </MembersList>
+            </fieldset>
           </div>
-        </Card>
+
+          <div className="flex-7 flex-xs-12">
+            {this.props.pendingEntitlements || this.props.pendingUpdateEntitlements ?
+              <DotActivity dropdown size={1.5} id="entitlements-loading" centered /> :
+              <EntitlementTree {...this.props} />}
+          </div>
+
+        </div>
       </div>
     );
   }

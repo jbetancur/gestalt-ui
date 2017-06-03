@@ -20,7 +20,6 @@ import ProviderEdit from './modules/Providers/containers/ProviderEdit';
 import Lambdas from './modules/Lambdas';
 import LambdaCreate from './modules/Lambdas/containers/LambdaCreate';
 import LambdaEdit from './modules/Lambdas/containers/LambdaEdit';
-import Entitlements from './modules/Entitlements';
 import Users from './modules/Users';
 import UserCreate from './modules/Users/containers/UserCreate';
 import UserEdit from './modules/Users/containers/UserEdit';
@@ -144,7 +143,6 @@ const routes = store => (
         </Route>
       </Route>
 
-      <Route path=":fqon/entitlements" component={Entitlements} onEnter={requireAuth(store)} />
       <Route path=":fqon/users" onEnter={requireAuth(store)}>
         <IndexRoute component={Users} onEnter={requireAuth(store)} />
         <Route path="create" component={UserCreate} onEnter={requireAuth(store)} />

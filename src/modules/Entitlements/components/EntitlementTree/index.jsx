@@ -7,7 +7,7 @@ const UL = styled.ul`
     list-style-type: none;
     margin-top: .3em;
     margin-bottom: .3em;
-    padding-left: 1.1em;
+    padding-left: 1em;
 
     .md-selection-control-container {
       height: 1.3em;
@@ -22,6 +22,11 @@ const UL = styled.ul`
     i {
       font-size: 1.3em;
     }
+`;
+
+const EntitlementDiv = styled.div`
+  height: 24.5em;
+  overflow: scroll;
 `;
 
 class EntitlementTreeItems extends PureComponent {
@@ -53,9 +58,9 @@ class EntitlementTreeItems extends PureComponent {
     return (
       <div className="flex-row">
         {(this.props.entitlements.length && this.props.selectedIdentity.name) ?
-          <fieldset>
+          <fieldset style={{ height: '100%' }}>
             <legend>{`Entitlements for ${this.props.selectedIdentity.name}`}</legend>
-            <div className="flex-row">
+            <EntitlementDiv className="flex-row">
               {this.props.entitlements.map(entitlement =>
                 <UL key={entitlement.type}>
                   <li key={entitlement.type}>
@@ -81,7 +86,7 @@ class EntitlementTreeItems extends PureComponent {
                     )}
                   </UL>
                 </UL>)}
-            </div>
+            </EntitlementDiv>
           </fieldset> : null}
       </div>
     );

@@ -35,7 +35,7 @@ class HierarchyDetail extends PureComponent {
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle
-            expander={!pendingOrgset || pendingWorkspaces}
+            expander={!(pendingOrgset || pendingWorkspaces)}
             title={
               !(params.fqon === self.properties.gestalt_home.properties.fqon) &&
               <NavUpArrowButton disabled={pendingOrgset || pendingWorkspaces} component={Link} to={`/${parentFQON}/hierarchy`} />

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { translate } from 'react-i18next';
+import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -13,6 +14,10 @@ import { VariablesForm } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { Button } from 'components/Buttons';
 import { nameMaxLen, shortNameMaxLen } from './validations';
+
+const ActionIconSection = styled.div`
+    text-align: right;
+`;
 
 const HierarchyForm = (props) => {
   const { t } = props;
@@ -68,20 +73,31 @@ const HierarchyForm = (props) => {
               </fieldset>
             </CardText>
             {props.pending ? <LinearProgress id="containment-form" /> : null}
-            <CardActions>
-              <Button
-                flat
-                label={props.cancelLabel}
-                disabled={props.submitting}
-                onClick={() => props.router.goBack()}
-              />
-              <Button
-                raised
-                label={props.submitLabel}
-                type="submit"
-                disabled={props.pristine || props.pending || props.invalid || props.submitting}
-                primary
-              />
+            <CardActions className="flex-row no-gutter">
+              <div className="flex-10 flex-xs-12">
+                <Button
+                  flat
+                  label={props.cancelLabel}
+                  disabled={props.submitting}
+                  onClick={() => props.router.goBack()}
+                />
+                <Button
+                  raised
+                  label={props.submitLabel}
+                  type="submit"
+                  disabled={props.pristine || props.pending || props.invalid || props.submitting}
+                  primary
+                />
+              </div>
+              <ActionIconSection className="flex-2 flex-xs-12">
+                <Button
+                  tooltipLabel="Entitlements"
+                  icon
+                  onClick={() => props.showEntitlementsModal(props.title)}
+                >
+                  security
+                </Button>
+              </ActionIconSection>
             </CardActions>
           </Card>
         </div>
@@ -104,6 +120,7 @@ HierarchyForm.propTypes = {
   envMap: PropTypes.object,
   isEnvironment: PropTypes.bool,
   t: PropTypes.func.isRequired,
+  showEntitlementsModal: PropTypes.func.isRequired,
 };
 
 HierarchyForm.defaultProps = {

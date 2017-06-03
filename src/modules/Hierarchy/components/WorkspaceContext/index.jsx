@@ -10,7 +10,6 @@ import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import Providers from 'modules/Providers';
-import Entitlements from 'modules/Entitlements';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
 import Breadcrumbs from 'modules/Breadcrumbs';
@@ -46,6 +45,7 @@ class WorkspaceContext extends Component {
     pending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentWorkspaceContext: PropTypes.func.isRequired,
+    showEntitlementsModal: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -88,6 +88,7 @@ class WorkspaceContext extends Component {
 
   renderActionsMenu() {
     const { workspace, pending, params } = this.props;
+    const name = workspace.description || workspace.name;
 
     return (
       <div>
@@ -101,18 +102,33 @@ class WorkspaceContext extends Component {
           tooltipPosition="bottom"
         >
           <ListItem
+            id="workspaces-settings-menu--create"
+            primaryText="Create Environment"
+            leftIcon={<FontIcon>create_new_folder</FontIcon>}
+            component={Link}
+            to={{
+              pathname: `/${params.fqon}/hierarchy/${workspace.id}/createEnvironment`
+            }}
+          />
+          <ListItem
             id="workspaces-settings-menu--edit"
-            primaryText={<span>Edit {workspace.description || workspace.name}</span>}
+            primaryText={<span>Edit {name} Workspace</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             to={{
               pathname: `/${params.fqon}/hierarchy/${workspace.id}/editWorkspace`
             }}
           />
+          <ListItem
+            id="workspaces-settings-menu--entitlements"
+            primaryText={<span>Entitlements {name}</span>}
+            leftIcon={<FontIcon>security</FontIcon>}
+            onClick={() => this.props.showEntitlementsModal(name, 'Workspace')}
+          />
           <Divider />
           <ListItem
             id="workspaces-settings-menu--delete"
-            primaryText={<span>Delete {workspace.description || workspace.name}</span>}
+            primaryText={<span>Delete {name} Workspace</span>}
             leftIcon={<DeleteIcon />}
             onClick={e => this.delete(e)}
           />
@@ -130,10 +146,6 @@ class WorkspaceContext extends Component {
       case 'providers':
         return (
           <Providers {...this.props} />
-        );
-      case 'entitlements':
-        return (
-          <Entitlements {...this.props} />
         );
       default:
         return <div />;
@@ -158,16 +170,13 @@ class WorkspaceContext extends Component {
           <CreateButtonSpan>
             <Button
               id="create-environment"
-              key="create-environment--button"
-              label="Create Environment"
               flat
               primary
+              label="Create Environment"
               component={Link}
-              to={{
-                pathname: `/${params.fqon}/hierarchy/${workspace.id}/createEnvironment`,
-              }}
+              to={`/${params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
             >
-              add
+              create_new_folder
             </Button>
           </CreateButtonSpan>
           <DetailCardText expandable>
@@ -192,7 +201,6 @@ class WorkspaceContext extends Component {
             <Tabs tabId="workspace-app-tabs">
               <Tab label="Environments" id="environments" icon={<FontIcon>folder</FontIcon>} onClick={() => this.handleViewState('environments', 0)} />
               <Tab label="Providers" id="providers" icon={<ProviderIcon />} onClick={() => this.handleViewState('providers', 1)} />
-              <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 2)} />
             </Tabs>
           </TabsContainer>
         </DetailCard>

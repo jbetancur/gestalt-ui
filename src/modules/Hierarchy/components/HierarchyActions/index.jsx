@@ -18,6 +18,7 @@ class HierarchyAction extends PureComponent {
     confirmDelete: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    showEntitlementsModal: PropTypes.func.isRequired,
   };
 
   delete(e, organization) {
@@ -28,11 +29,12 @@ class HierarchyAction extends PureComponent {
 
     this.props.confirmDelete(() => {
       deleteOrg(organization.properties.fqon, onSuccess);
-    }, organization.description || organization.name, 'Organization');
+    }, name, 'Organization');
   }
 
   render() {
     const { organization, params, pendingOrgset, self, t } = this.props;
+    const name = organization.description || organization.name;
 
     return (
       <div>
@@ -64,16 +66,22 @@ class HierarchyAction extends PureComponent {
           />
           <ListItem
             id="orgs-settings-menu--edit"
-            primaryText={<span>{t('general.verbs.edit')} {organization.description || organization.name}</span>}
+            primaryText={<span>{t('general.verbs.edit')} {name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             onClick={e => e.stopPropagation()}
             to={`/${organization.properties.fqon}/hierarchy/editOrganization`}
           />
+          <ListItem
+            id="orgs-settings-menu--entitlements"
+            primaryText={<span>Entitlements {name}</span>}
+            leftIcon={<FontIcon>security</FontIcon>}
+            onClick={() => this.props.showEntitlementsModal(name, 'Organization')}
+          />
           <Divider />
           <ListItem
             id="orgs-settings-menu--delete"
-            primaryText={<span>{t('general.verbs.delete')} {organization.description || organization.name}</span>}
+            primaryText={<span>{t('general.verbs.delete')} {name}</span>}
             leftIcon={<DeleteIcon />}
             disabled={params.fqon === self.properties.gestalt_home || params.fqon === 'root'}
             onClick={e => this.delete(e, organization)}

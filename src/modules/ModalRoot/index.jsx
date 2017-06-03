@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // These are regular React components we will write soon
+import { EntitlementModal } from 'modules/Entitlements';
+
 import CONFIRM from './Modals/Confirm';
 
 const MODAL_COMPONENTS = {
   CONFIRM,
+  EntitlementModal,
   /* other modals */
 };
 
