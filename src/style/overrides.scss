@@ -125,3 +125,13 @@
   @extend .material-icons;
   color: $md-blue-500 !important;
 }
+
+.md-tooltip-container {
+  span {
+    border-radius: 4px;
+  }
+}
+
+.md-dialog {
+  border-radius: 4px;
+}

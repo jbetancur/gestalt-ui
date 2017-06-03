@@ -126,14 +126,6 @@ class App extends Component {
         activeStyle={{ backgroundColor: 'lightgrey' }}
       />,
       <ListItemStacked
-        key="entitlements"
-        icon="security"
-        title={t('entitlements.title')}
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/entitlements`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-      />,
-      <ListItemStacked
         key="users"
         icon="person"
         title={t('users.title')}

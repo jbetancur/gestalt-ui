@@ -4,7 +4,7 @@ import {
 
 const initialState = {
   view: '',
-  index: 6, // should be plus 1 the total tabs
+  index: 5, // should be plus 1 the total tabs
 };
 
 export default (state = initialState, action) => {

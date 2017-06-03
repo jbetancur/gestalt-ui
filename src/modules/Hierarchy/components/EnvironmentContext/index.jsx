@@ -15,7 +15,6 @@ import Lambdas from 'modules/Lambdas';
 import { Containers } from 'modules/Containers';
 import Policies from 'modules/Policies';
 import Integrations from 'modules/Integrations';
-import Entitlements from 'modules/Entitlements';
 import APIs from 'modules/APIs';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
@@ -35,6 +34,7 @@ class EnvironmentContext extends Component {
     pending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
+    showEntitlementsModal: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -71,11 +71,12 @@ class EnvironmentContext extends Component {
     const onSuccess = () => router.push(`${params.fqon}/hierarchy/${params.workspaceId}`);
     this.props.confirmDelete(() => {
       deleteEnvironment(params.fqon, environment.id, onSuccess);
-    }, environment.description || environment.name, 'Environment');
+    }, name, 'Environment');
   }
 
   renderActionsMenu() {
     const { params, pending, environment } = this.props;
+    const name = environment.description || environment.name;
 
     return (
       <div>
@@ -90,15 +91,21 @@ class EnvironmentContext extends Component {
         >
           <ListItem
             id="environments-settings-menu--edit"
-            primaryText={<span>Edit {environment.description || environment.name}</span>}
+            primaryText={<span>Edit {name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
             to={`/${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/edit`}
           />
+          <ListItem
+            id="orgs-settings-menu--entitlements"
+            primaryText={<span>Entitlements {name}</span>}
+            leftIcon={<FontIcon>security</FontIcon>}
+            onClick={() => this.props.showEntitlementsModal(name, 'Environment')}
+          />
           <Divider />
           <ListItem
             id="environments-settings-menu--delete"
-            primaryText={<span>Delete {environment.description || environment.name}</span>}
+            primaryText={<span>Delete {name}</span>}
             leftIcon={<DeleteIcon />}
             onClick={e => this.delete(e)}
           />
@@ -133,10 +140,6 @@ class EnvironmentContext extends Component {
         return (
           <Integrations {...this.props} />
         );
-      case 'entitlements':
-        return (
-          <Entitlements {...this.props} />
-        );
       default:
         return <div />;
     }
@@ -145,6 +148,7 @@ class EnvironmentContext extends Component {
   render() {
     const { params, pending, environment, navigation } = this.props;
     const parentFQON = getParentFQON(environment);
+    const name = environment.description || environment.name;
 
     return (
       <div>
@@ -153,14 +157,14 @@ class EnvironmentContext extends Component {
             <NavUpArrowButton component={Link} to={`/${parentFQON}/hierarchy/${params.workspaceId}`} />
             {this.renderActionsMenu()}
             <div>
-              <div className="gf-headline">{!pending ? environment.description || environment.name : <DotActivity />}</div>
+              <div className="gf-headline">{!pending ? name : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>
           <DetailCardText expandable>
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
-                <div><span className="gf-label">Name: </span><span className="gf-subtitle">{environment.description || environment.name}</span></div>
+                <div><span className="gf-label">Name: </span><span className="gf-subtitle">{name}</span></div>
                 <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{environment.name}</span></div>
                 <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
                 <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
@@ -185,7 +189,6 @@ class EnvironmentContext extends Component {
               <Tab label="Policies" id="policies" icon={<FontIcon>verified_user</FontIcon>} onClick={() => this.handleViewState('policies', 3)} />
               <Tab label="Providers" id="providers" icon={<ProviderIcon />} onClick={() => this.handleViewState('providers', 4)} />
               { /* <Tab label="Integrations" id="integrations" icon={<FontIcon>share</FontIcon>} onClick={() => this.handleViewState('integrations', 5)} /> */}
-              <Tab label="Entitlements" id="entitlements" icon={<FontIcon>security</FontIcon>} onClick={() => this.handleViewState('entitlements', 5)} />
               <Tab id="hidden" style={{ position: 'fixed', left: '-300px', zIndex: -999999 }} />
             </Tabs>
             {/* Hack above for hiding ugly sliders on react-md tab component when no tab is selected */}

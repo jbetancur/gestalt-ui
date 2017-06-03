@@ -43,3 +43,6 @@ export function clearIdentitiesFilter() {
   return { type: FILTER_IDENTITIES_TEXT_CLEAR };
 }
 
+export function hideEntitlementsModal() {
+  return { type: 'HIDE_MODAL' };
+}

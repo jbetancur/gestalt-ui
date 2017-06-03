@@ -33,3 +33,13 @@ export function confirmDelete(action, item, HierarchyType) {
     }
   };
 }
+
+export function showEntitlementsModal(item, HierarchyType) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'EntitlementModal',
+    modalProps: {
+      title: `Entitlements for "${item}" ${HierarchyType || ''}`,
+    }
+  };
+}

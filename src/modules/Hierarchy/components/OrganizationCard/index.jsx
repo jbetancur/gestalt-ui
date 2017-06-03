@@ -34,11 +34,12 @@ class OrganizationCard extends PureComponent {
 
   render() {
     const { t, model, theme } = this.props;
+    const name = model.description || model.name;
 
     return (
       <Card key={model.id} className="flex-4 flex-xs-12" onClick={e => this.navTo(e, model, 'hierarchy')} raise typeSymbol="O" typeColor={theme.organizationCard}>
         <CardTitle
-          title={model.description || model.name}
+          title={name}
           subtitle={
             <div>
               <div>{model.properties.fqon}</div>
@@ -49,14 +50,6 @@ class OrganizationCard extends PureComponent {
             </div>}
         />
         <CardActions>
-          {/* <Button
-            tooltipLabel="Sub Orgs"
-            icon
-            onClick={e => this.navTo(e, model, 'organizations')}
-          >
-            domain
-          </Button>*/}
-
           {/* <Button
             tooltipLabel={t('users.title')}
             icon
