@@ -243,7 +243,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.patch, 'iamfqon/containers/1', action.payload)
+        call(axios.put, 'iamfqon/containers/1', action.payload)
       );
     });
 

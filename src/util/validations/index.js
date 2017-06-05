@@ -55,6 +55,16 @@ export function isCommaDelimited(string) {
   return /^((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9]))?(,((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])))*$/.test(trimmedString);
 }
 
+export function isCommaDelimitedConstraints(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
+  const trimmedString = string.replace(/[\s,]+/g, ',');
+  return /^(((\[[^\]]+\])\.)*(\[[^\]]+\]))?(,(((\[[^\]]+\])\.)*(\[[^\]]+\])))*$/.test(trimmedString);
+}
+
+
 export default {
   isFQON,
   // isWorkspaceName,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
-import { cloneDeep, map } from 'lodash';
+import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
@@ -11,6 +11,7 @@ import CircularActivity from 'components/CircularActivity';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
+import { generateContainerPayload } from '../../payloadTransformers';
 
 class ContainerCreate extends Component {
   static propTypes = {
@@ -48,55 +49,8 @@ class ContainerCreate extends Component {
   }
 
   create(values) {
-    const { params, router, createContainer } = this.props;
-    const payload = cloneDeep(values);
-
-    delete payload.variables;
-
-    if (values.variables) {
-      values.variables.forEach((variable) => {
-        payload.properties.env[variable.name] = variable.value;
-      });
-    }
-
-    delete payload.labels;
-
-    if (values.labels) {
-      values.labels.forEach((label) => {
-        payload.properties.labels[label.name] = label.value;
-      });
-    }
-
-    if (this.props.volumes) {
-      payload.properties.volumes = this.props.volumes;
-    }
-
-    if (this.props.portMappings) {
-      payload.properties.port_mappings = this.props.portMappings;
-    }
-
-    if (this.props.healthChecks) {
-      payload.properties.health_checks = this.props.healthChecks;
-    }
-
-    if (values.properties.accepted_resource_roles.length) {
-      let roles = values.properties.accepted_resource_roles;
-      roles = roles.replace(/[\s,]+/g, ',');
-
-      payload.properties.accepted_resource_roles = roles.split(',');
-    } else {
-      delete payload.properties.accepted_resource_roles;
-    }
-
-    if (values.properties.constraints.length) {
-      let constraints = values.properties.constraints;
-      constraints = constraints.replace(/[\s,]+/g, ',');
-
-      payload.properties.constraints = constraints.split(',');
-    } else {
-      delete payload.properties.constraints;
-    }
-
+    const { params, router, createContainer, volumes, portMappings, healthChecks } = this.props;
+    const payload = generateContainerPayload(values, volumes, portMappings, healthChecks);
     const onSuccess = () => router.goBack();
 
     createContainer(params.fqon, params.environmentId, payload, onSuccess);

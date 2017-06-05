@@ -56,6 +56,7 @@ export default combineReducers({
   executors: reducerFactory(['fetch'], 'executors', 'executors', [], true, []),
   containers: reducerFactory(['fetch'], 'containers', 'containers', [], true),
   container: reducerFactory(['fetch', 'create'], 'container', 'container', containerModel, true),
+  containerUpdate: reducerFactory(['update'], 'container', 'container', containerModel, true),
   containersDropDown: reducerFactory(['fetch'], 'containers', 'containers_dropdown', [], true, []),
   policies: reducerFactory(['fetch', 'delete'], 'policies', 'policies', [], true),
   policy: reducerFactory(['fetch', 'create'], 'policy', 'policy', policyModel, true),

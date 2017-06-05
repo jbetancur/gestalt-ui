@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
     case 'APP_HTTP_ERROR_500':
       return {
         ...state,
-        friendlyMessage: 'Server error occured',
+        friendlyMessage: 'Server error',
         error: action.payload
       };
     case 'APP_HTTP_ERROR_403':
