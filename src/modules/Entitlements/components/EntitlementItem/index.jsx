@@ -11,6 +11,23 @@ import { Button } from 'components/Buttons';
 import EntitlementTree from '../EntitlementTree';
 import { USER } from '../../constants';
 
+function generateEntityState(params) {
+  const entity = {
+    id: params.containerId || params.lambdaId || params.environmentId || params.workspaceId || null,
+    key: params.workspaceId && params.environmentId ? 'environments' : 'workspaces',
+  };
+
+  if (params.lambdaId) {
+    entity.key = 'lambdas';
+  }
+
+  if (params.containerId) {
+    entity.key = 'containers';
+  }
+
+  return entity;
+}
+
 const MembersList = styled(List)`
   height: 24.5em;
   box-shadow: none;
@@ -60,8 +77,7 @@ class EntitlementItem extends Component {
     e.stopPropagation();
 
     const { params, fetchEntitlements, updateEntitlements, entitlements, selectedIdentity } = this.props;
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+    const entity = generateEntityState(params);
 
     const actions = [];
     entitlements.forEach((entitlement) => {
@@ -70,16 +86,15 @@ class EntitlementItem extends Component {
       });
     });
 
-    const onSuccess = () => fetchEntitlements(params.fqon, entityId, entityKey, selectedIdentity);
-    updateEntitlements(params.fqon, selectedIdentity, actions, entityId, entityKey, onSuccess);
+    const onSuccess = () => fetchEntitlements(params.fqon, entity.id, entity.key, selectedIdentity);
+    updateEntitlements(params.fqon, selectedIdentity, actions, entity.id, entity.key, onSuccess);
   }
 
   handleSelectedIdentity(identity) {
     const { params, fetchEntitlements } = this.props;
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+    const entity = generateEntityState(params);
 
-    fetchEntitlements(params.fqon, entityId, entityKey, identity);
+    fetchEntitlements(params.fqon, entity.id, entity.key, identity);
   }
 
   render() {
@@ -87,7 +102,8 @@ class EntitlementItem extends Component {
       <ListItem
         key={ident.id}
         primaryText={ident.name}
-        rightIcon={this.props.selectedIdentity.id === ident.id ? <Button flat primary label="Save" style={{ marginTop: '-.3em' }} onClick={e => this.update(e)} disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements} /> : null}
+        rightIcon={this.props.selectedIdentity.id === ident.id ?
+          <Button flat primary label="Save" style={{ marginTop: '-.3em' }} onClick={e => this.update(e)} disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements} /> : null}
         leftIcon={<FontIcon>{ident.typeId === USER ? 'person' : 'group'}</FontIcon>}
         active={this.props.selectedIdentity.id === ident.id}
         onClick={() => this.handleSelectedIdentity(ident)}
@@ -114,7 +130,8 @@ class EntitlementItem extends Component {
                     onChange={value => this.props.filterIdentities(value)}
                   />}
                 />
-                {this.props.pendingIdentities ? <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
+                {this.props.pendingIdentities ?
+                  <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
               </MembersList>
             </fieldset>
           </div>

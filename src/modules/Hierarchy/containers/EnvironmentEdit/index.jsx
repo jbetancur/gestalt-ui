@@ -77,6 +77,7 @@ class EnvironmentEdit extends Component {
         onSubmit={values => this.updateEnvironment(values)}
         envMap={environment.properties.env}
         isEnvironment
+        editMode
         {...this.props}
       />
     );

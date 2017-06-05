@@ -20,7 +20,7 @@ const ActionIconSection = styled.div`
 `;
 
 const HierarchyForm = (props) => {
-  const { t } = props;
+  const { t, editMode } = props;
 
   return (
     <div>
@@ -90,13 +90,15 @@ const HierarchyForm = (props) => {
                 />
               </div>
               <ActionIconSection className="flex-2 flex-xs-12">
-                <Button
-                  tooltipLabel="Entitlements"
-                  icon
-                  onClick={() => props.showEntitlementsModal(props.title)}
-                >
+                {editMode &&
+                  <Button
+                    tooltipLabel="Entitlements"
+                    tooltipPosition="top"
+                    icon
+                    onClick={() => props.showEntitlementsModal(props.title)}
+                  >
                   security
-                </Button>
+                </Button>}
               </ActionIconSection>
             </CardActions>
           </Card>
@@ -121,6 +123,7 @@ HierarchyForm.propTypes = {
   isEnvironment: PropTypes.bool,
   t: PropTypes.func.isRequired,
   showEntitlementsModal: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
 };
 
 HierarchyForm.defaultProps = {
@@ -129,6 +132,7 @@ HierarchyForm.defaultProps = {
   cancelLabel: 'Cancel',
   isEnvironment: false,
   envMap: {},
+  editMode: false,
 };
 
 export default translate()(HierarchyForm);

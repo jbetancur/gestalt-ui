@@ -67,6 +67,7 @@ class WorkspaceEdit extends Component {
         cancelLabel="Back"
         onSubmit={values => this.updateWorkspace(values)}
         envMap={this.props.workspace.properties.env}
+        editMode
         {...this.props}
       />
     );

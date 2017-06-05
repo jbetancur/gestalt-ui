@@ -6,7 +6,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 const EnhancedButton = styled(Button)`
   text-transform: none;
-  padding: .3em;
+  // padding: .3em;
 `;
 
 class CopyUUIDButton extends PureComponent {
@@ -29,6 +29,7 @@ class CopyUUIDButton extends PureComponent {
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel="Copy UUID"
           flat={this.props.showUUID}
+          icon={!this.props.showUUID}
         >
         content_copy
         </EnhancedButton>
