@@ -120,7 +120,7 @@ describe('Validations', () => {
     });
 
     it('should validate if is comma delimited', () => {
-      expect(isCommaDelimitedConstraints('["hostname", "CLUSTER", "a.specific.node.com"],["hostname1", "CLUSTER1", "a.specific.node.com"],["hostname1", "CLUSTER1", "a.specific.node.com"]')).to.equal(true);
+      expect(isCommaDelimitedConstraints('hostname:LIKE:test,hostname:UNIQUE')).to.equal(true);
     });
 
     it('should return the original value if arg is not a string', () => {
