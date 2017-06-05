@@ -39,14 +39,15 @@ const SpinDiv = styled.div`
   }
 `;
 
-const DotActivity = props =>
+const DotActivity = props => (
   <SpinWrapper>
     <SpinDiv size={props.size} dropdown={props.dropdown} className="spinner" centered={props.centered}>
       <div className="bounce1" />
       <div className="bounce2" />
       <div className="bounce3" />
     </SpinDiv>
-  </SpinWrapper>;
+  </SpinWrapper>
+);
 
 DotActivity.propTypes = {
   size: PropTypes.number,

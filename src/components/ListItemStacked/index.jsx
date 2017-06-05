@@ -26,13 +26,14 @@ const Text = styled.div`
   text-transform: uppercase;
 `;
 
-const ListItemStacked = props =>
+const ListItemStacked = props => (
   <EnhancedListItem {...props}>
     <Wrapper>
       <FontIcon>{props.icon}</FontIcon>
       <Text>{props.title}</Text>
     </Wrapper>
-  </EnhancedListItem>;
+  </EnhancedListItem>
+);
 
 ListItemStacked.propTypes = {
   icon: PropTypes.string.isRequired,

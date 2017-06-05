@@ -33,7 +33,7 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
       {icon}
     </Button>
     {touched && error}
-    {fields.map((member, index) =>
+    {fields.map((member, index) => (
       <div key={index} className="flex-row no-gutter">
         <Field
           name={`${member}.${keyFieldValue}`}
@@ -49,7 +49,7 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
         />
         <FieldRemoveButton onClick={() => fields.remove(index)} />
       </div>
-    )}
+    ))}
   </FormSection>
 );
 
@@ -70,16 +70,18 @@ rendervariables.defaultProps = {
   error: false,
 };
 
-const FieldArraysForm = props => <FieldArray
-  addButtonLabel={props.addButtonLabel}
-  icon={props.icon}
-  name={props.fieldName}
-  component={rendervariables}
-  keyFieldName={props.keyFieldName}
-  keyFieldValue={props.keyFieldValue}
-  valueFieldName={props.valueFieldName}
-  valueFieldValue={props.valueFieldValue}
-/>;
+const FieldArraysForm = props => (
+  <FieldArray
+    addButtonLabel={props.addButtonLabel}
+    icon={props.icon}
+    name={props.fieldName}
+    component={rendervariables}
+    keyFieldName={props.keyFieldName}
+    keyFieldValue={props.keyFieldValue}
+    valueFieldName={props.valueFieldName}
+    valueFieldValue={props.valueFieldValue}
+  />
+);
 
 FieldArraysForm.propTypes = {
   fieldName: PropTypes.string,

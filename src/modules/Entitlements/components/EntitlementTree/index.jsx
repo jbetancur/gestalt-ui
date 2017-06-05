@@ -61,7 +61,7 @@ class EntitlementTreeItems extends PureComponent {
           <fieldset style={{ height: '100%' }}>
             <legend>{`Entitlements for ${this.props.selectedIdentity.name}`}</legend>
             <EntitlementDiv className="flex-row">
-              {this.props.entitlements.map(entitlement =>
+              {this.props.entitlements.map(entitlement => (
                 <UL key={entitlement.type}>
                   <li key={entitlement.type}>
                     <Checkbox
@@ -73,7 +73,7 @@ class EntitlementTreeItems extends PureComponent {
                     />
                   </li>
                   <UL>
-                    {entitlement.actions.map(action =>
+                    {entitlement.actions.map(action => (
                       <li key={action.key}>
                         <Checkbox
                           id={action.key}
@@ -83,9 +83,9 @@ class EntitlementTreeItems extends PureComponent {
                           onChange={() => this.handleChecked(action)}
                         />
                       </li>
-                    )}
+                    ))}
                   </UL>
-                </UL>)}
+                </UL>))}
             </EntitlementDiv>
           </fieldset> : null}
       </div>

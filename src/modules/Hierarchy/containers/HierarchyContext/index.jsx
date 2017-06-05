@@ -116,7 +116,7 @@ function mapStateToProps(state) {
     organization: state.metaResource.organizationSet.organization,
     organizations: state.metaResource.organizationSet.organization.subOrganizations,
     workspaces: state.metaResource.workspaces.workspaces,
-    pendingWorkspaces: state.metaResource.workspaces.pending
+    pendingWorkspaces: state.metaResource.workspaces.pending,
   };
 }
 

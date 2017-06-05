@@ -5,7 +5,7 @@ const DIV = styled.div`
   height: 100%;
 `;
 
-const AppError = () =>
+const AppError = () => (
   <DIV className="flex-row">
     <div className="flex-row center-center">
       <div className="flex-8">
@@ -14,6 +14,7 @@ const AppError = () =>
         </h1>
       </div>
     </div>
-  </DIV>;
+  </DIV>
+);
 
 export default AppError;

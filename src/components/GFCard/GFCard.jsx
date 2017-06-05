@@ -35,11 +35,12 @@ const Type = styled.div`
     }
 `;
 
-const GFCard = props =>
+const GFCard = props => (
   <EnhancedCard typeSymbol={props.typeSymbol} {...props}>
     <Type typeSymbol={props.typeSymbol} typeColor={props.typeColor}><span>{props.typeSymbol}</span></Type>
     {props.children}
-  </EnhancedCard>;
+  </EnhancedCard>
+);
 
 GFCard.propTypes = {
   children: PropTypes.array,
