@@ -44,21 +44,27 @@ const LambdaForm = (props) => {
               }
               subtitle={
                 lambda.id &&
-                <div>
-                  <div>
+                <div className="flex-row no-gutter">
+                  <div className="flex-12">
                     <CopyUUIDButton model={lambda} />
                   </div>
-                  <div>
+                  <div className="flex-12">
                     <Button
-                      style={{ padding: '.3em' }}
-                      label="View Log"
+                      label="Log"
                       to={{ pathname: 'logs', query: { name: lambda.name, fqon: props.params.fqon, providerId: lambda.properties.provider.id, logType: 'lambda', logId: lambda.id } }}
                       target="_blank"
                       component={Link}
+                      showUUID
                       flat
-                      primary
                     >subject
-                  </Button>
+                    </Button>
+                    <Button
+                      label="Entitlements"
+                      flat
+                      onClick={() => props.showEntitlementsModal(props.title)}
+                    >
+                      security
+                    </Button>
                   </div>
                 </div>
               }
@@ -282,7 +288,7 @@ const LambdaForm = (props) => {
               </div>
             </CardText>
             {(props.lambdaUpdatePending || props.pending) && <LinearProgress id="lambda-form" />}
-            <CardActions>
+            <CardActions className="flex-row no-gutter">
               <Button
                 flat
                 label={props.cancelLabel}
@@ -323,6 +329,7 @@ LambdaForm.propTypes = {
   theme: PropTypes.string.isRequired,
   executors: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
+  showEntitlementsModal: PropTypes.func.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,

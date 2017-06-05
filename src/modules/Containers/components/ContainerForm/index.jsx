@@ -63,7 +63,25 @@ const ContainerForm = (props) => {
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
-              subtitle={container.id && <CopyUUIDButton model={container} />}
+              subtitle={container.id &&
+                <div className="flex-row no-gutter">
+                  <div className="flex-12">
+                    <CopyUUIDButton
+                      showUUID
+                      model={container}
+                    />
+                  </div>
+                  {/* <div className="flex-12">
+                    <Button
+                      label="Entitlements"
+                      flat
+                      onClick={() => props.showEntitlementsModal(props.title)}
+                    >
+                      security
+                    </Button>
+                  </div> */}
+                </div>
+              }
             />}
             <CardText expandable={container.id}>
               <div className="flex-row">
@@ -179,7 +197,7 @@ const ContainerForm = (props) => {
             </CardText>
             {(props.pendingContainerUpdate || props.pending) && <LinearProgress id="container-form-loading" />}
             {!props.inlineMode &&
-            <CardActions>
+            <CardActions className="flex-row no-gutter">
               <Button
                 flat
                 label={props.cancelLabel}
@@ -335,6 +353,7 @@ ContainerForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
   container: PropTypes.object.isRequired,
+  // showEntitlementsModal: PropTypes.func.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,

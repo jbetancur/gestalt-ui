@@ -71,6 +71,7 @@ class OrgEdit extends Component {
         cancelLabel={t('general.verbs.back')}
         onSubmit={values => this.updateOrg(values)}
         envMap={this.props.organization.properties.env}
+        editMode
         {...this.props}
       />
     );

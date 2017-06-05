@@ -20,3 +20,13 @@ export function handleTheme(theme) {
   localStorage.setItem('gf-editor-theme', theme);
   return { type: CHANGE_EDITOR_THEME, theme };
 }
+
+export function showEntitlementsModal(item) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'EntitlementModal',
+    modalProps: {
+      title: `Entitlements for "${item}"`,
+    }
+  };
+}

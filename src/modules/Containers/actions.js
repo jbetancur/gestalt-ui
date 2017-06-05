@@ -55,6 +55,17 @@ export function promoteContainerModal(action, item, params) {
   };
 }
 
+export function showEntitlementsModal(item) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'EntitlementModal',
+    modalProps: {
+      title: `Entitlements for "${item}"`,
+    }
+  };
+}
+
+
 export default {
   confirmDelete,
   scaleContainerModal,
