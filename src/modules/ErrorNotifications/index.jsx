@@ -52,7 +52,8 @@ class ErrorNotifications extends PureComponent {
     return (
       <div className="btn-group">
         <EnhancedSnackBar
-          {...this.state} onDismiss={() => this.removeToast()}
+          {...this.state}
+          onDismiss={() => this.removeToast()}
         />
       </div>
     );

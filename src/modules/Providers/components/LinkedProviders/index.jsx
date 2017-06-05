@@ -17,7 +17,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
       add
     </Button>
     {touched && error}
-    {fields.map((member, index) =>
+    {fields.map((member, index) => (
       <div key={index} className="flex-row">
         <Field
           name={`${member}.name`}
@@ -42,7 +42,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
         />
         <FieldRemoveButton onClick={() => fields.remove(index)} />
       </div>
-    )}
+    ))}
   </FormSection>
 );
 
@@ -59,13 +59,15 @@ renderLinkedProviders.defaultProps = {
   error: false,
 };
 
-const FieldArraysForm = props => <FieldArray
-  fetchProviders={props.fetchProviders}
-  providers={props.providers}
-  pendingProviders={props.pendingProviders}
-  name="linkedProviders"
-  component={renderLinkedProviders}
-/>;
+const FieldArraysForm = props => (
+  <FieldArray
+    fetchProviders={props.fetchProviders}
+    providers={props.providers}
+    pendingProviders={props.pendingProviders}
+    name="linkedProviders"
+    component={renderLinkedProviders}
+  />
+);
 
 FieldArraysForm.propTypes = {
   fetchProviders: PropTypes.func.isRequired,

@@ -79,25 +79,27 @@ const GroupForm = (props) => {
   /* filter out users that are already members */
   const generateAvailableUsers = () => (
     differenceBy(users, currentGroup.properties.users, 'id').map(user =>
-      <ListItem
+      (<ListItem
         key={user.id}
         primaryText={user.name}
         rightIcon={<FontIcon>add_circle</FontIcon>}
         inkDisabled
         disabled={updatePending}
         onClick={() => addUserDebounced(user)}
-      />)
+      />))
   );
 
   const generateMemberUsers = () => (
-    membersUserList.map(user => <ListItem
-      key={user.id}
-      primaryText={user.name}
-      rightIcon={<FontIcon>remove_circle</FontIcon>}
-      inkDisabled
-      disabled={updatePending}
-      onClick={() => removeUserDebounced(user)}
-    />)
+    membersUserList.map(user => (
+      <ListItem
+        key={user.id}
+        primaryText={user.name}
+        rightIcon={<FontIcon>remove_circle</FontIcon>}
+        inkDisabled
+        disabled={updatePending}
+        onClick={() => removeUserDebounced(user)}
+      />)
+    )
   );
 
   return (

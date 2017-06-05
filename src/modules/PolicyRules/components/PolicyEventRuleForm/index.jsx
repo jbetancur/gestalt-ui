@@ -116,7 +116,7 @@ const PolicyEventRuleForm = (props) => {
                   <fieldset>
                     <legend>Actions</legend>
                     <div className="flex-row">
-                      {policyTriggers.map(action =>
+                      {policyTriggers.map(action => (
                         <Field
                           key={action.name}
                           className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
@@ -126,7 +126,7 @@ const PolicyEventRuleForm = (props) => {
                           checked={!!selectedActions.find(a => a === action.name)}
                           name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
                           onChange={() => onActionChecked(action.name)}
-                        />)}
+                        />))}
                     </div>
                   </fieldset>
                 </div>

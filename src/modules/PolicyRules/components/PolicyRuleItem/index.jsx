@@ -80,7 +80,7 @@ class PolicyRuleItem extends PureComponent {
   renderCreateMenuItems() {
     const { params } = this.props;
 
-    return policyTypes.map(type =>
+    return policyTypes.map(type => (
       <ListItem
         key={type.value}
         primaryText={type.displayName}
@@ -88,7 +88,7 @@ class PolicyRuleItem extends PureComponent {
         to={{
           pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/create${type.name}Rule`
         }}
-      />
+      />)
     );
   }
 

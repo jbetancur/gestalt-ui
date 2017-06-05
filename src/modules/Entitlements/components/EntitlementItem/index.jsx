@@ -83,7 +83,7 @@ class EntitlementItem extends Component {
   }
 
   render() {
-    const identities = this.props.identities.map(ident =>
+    const identities = this.props.identities.map(ident => (
       <ListItem
         key={ident.id}
         primaryText={ident.name}
@@ -93,7 +93,7 @@ class EntitlementItem extends Component {
         onClick={() => this.handleSelectedIdentity(ident)}
         inkDisabled
         disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements}
-      />);
+      />));
 
     return (
       <div className="flex-row">

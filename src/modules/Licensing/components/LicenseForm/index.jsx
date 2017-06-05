@@ -72,7 +72,7 @@ const LicenseForm = (props) => {
                     {generateDetailItems()}
                   </div>
                   <div className="flex-6 flex-xs-12">
-                    {Object.keys(licenseInfo.features).map(feature =>
+                    {Object.keys(licenseInfo.features).map(feature => (
                       <Checkbox
                         id={feature}
                         name={feature}
@@ -81,7 +81,7 @@ const LicenseForm = (props) => {
                         defaultChecked={licenseInfo.features[feature]}
                         disabled
                       />
-                    )}
+                    ))}
                   </div>
                 </div>}
               </div>

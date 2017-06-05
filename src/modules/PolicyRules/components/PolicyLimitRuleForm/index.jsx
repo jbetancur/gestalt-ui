@@ -147,7 +147,7 @@ const PolicyLimitRuleForm = (props) => {
               <fieldset>
                 <legend>Actions</legend>
                 <div className="flex-row">
-                  {policyActions.map(action =>
+                  {policyActions.map(action => (
                     <Field
                       key={action.name}
                       className="flex-2 flex-xs-12 flex-sm-6 flex-md-4"
@@ -157,7 +157,7 @@ const PolicyLimitRuleForm = (props) => {
                       checked={!!selectedActions.find(a => a === action.name)}
                       name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
                       onChange={() => onActionChecked(action.name)}
-                    />)}
+                    />))}
                 </div>
               </fieldset>
             </div>

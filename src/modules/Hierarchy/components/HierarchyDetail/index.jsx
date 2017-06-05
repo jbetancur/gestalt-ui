@@ -8,7 +8,6 @@ import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCa
 import DotActivity from 'components/DotActivity';
 import { NavUpArrowButton } from 'components/Buttons';
 import Breadcrumbs from 'modules/Breadcrumbs';
-
 import HierarchyActions from '../../components/HierarchyActions';
 
 class HierarchyDetail extends PureComponent {
