@@ -45,7 +45,7 @@ class ContainerDetails extends PureComponent {
   renderInstancesTable() {
     return (
       <div>
-        <TableCardHeader title={<h3>{`Instances (${this.props.container.properties.instances.length}/${this.props.container.properties.num_instances})`}</h3>} />
+        <TableCardHeader title={<span className="gf-headline">{`Instances (${this.props.container.properties.instances.length}/${this.props.container.properties.num_instances})`}</span>} />
         <DataTable plain>
           <TableHeader>
             <TableRow>
@@ -76,7 +76,7 @@ class ContainerDetails extends PureComponent {
   renderServiceAddressesTable() {
     return (
       <div>
-        <TableCardHeader title={<h3>Service Instances</h3>} />
+        <TableCardHeader title={<span className="gf-headline">Service Instances</span>} />
         <DataTable plain>
           <TableHeader>
             <TableRow>

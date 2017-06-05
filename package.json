@@ -220,7 +220,7 @@
         "yaml-loader": "^0.4.0"
     },
     "dependencies": {
-        "axios": "^0.16.1",
+        "axios": "^0.16.2",
         "base-64": "^0.1.0",
         "brace": "^0.10.0",
         "classnames": "^2.2.5",

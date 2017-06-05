@@ -5,6 +5,7 @@ import {
   isLambdaName,
   isContainerName,
   isCommaDelimited,
+  isCommaDelimitedConstraints,
 } from './index';
 
 // TODO: pass arrays of validations for more thurough tests
@@ -106,6 +107,24 @@ describe('Validations', () => {
 
     it('should return the original value if arg is not a string', () => {
       expect(isCommaDelimited({})).to.deep.equal({});
+    });
+  });
+
+  describe('isCommaDelimitedConstraints', () => {
+    it('should validate if not comma delimited', () => {
+      expect(isCommaDelimitedConstraints('this | is  [ not ] comma.delimited')).to.equal(false);
+    });
+
+    it('should validate if comma delimited, but not constraint', () => {
+      expect(isCommaDelimitedConstraints('this,test,is,comma,delimited.com')).to.equal(false);
+    });
+
+    it('should validate if is comma delimited', () => {
+      expect(isCommaDelimitedConstraints('["hostname", "CLUSTER", "a.specific.node.com"],["hostname1", "CLUSTER1", "a.specific.node.com"],["hostname1", "CLUSTER1", "a.specific.node.com"]')).to.equal(true);
+    });
+
+    it('should return the original value if arg is not a string', () => {
+      expect(isCommaDelimitedConstraints({})).to.deep.equal({});
     });
   });
 });

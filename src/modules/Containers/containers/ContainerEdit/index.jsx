@@ -11,6 +11,7 @@ import { healthCheckModalActions } from 'modules/HealthCheckModal';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
 import * as actions from '../../actions';
+import { generateContainerPayload } from '../../payloadTransformers';
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -24,6 +25,9 @@ class ContainerEdit extends Component {
     unloadPortmappings: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
+    volumes: PropTypes.array.isRequired,
+    portMappings: PropTypes.array.isRequired,
+    healthChecks: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -65,11 +69,12 @@ class ContainerEdit extends Component {
   }
 
   redeployContainer(values) {
-    const { id } = this.props.container;
-    const { params, router, updateContainer } = this.props;
+    const { params, router, container, updateContainer, volumes, portMappings, healthChecks } = this.props;
+    const payload = generateContainerPayload(values, volumes, portMappings, healthChecks, true);
     const onSuccess = () => router.goBack();
+    clearTimeout(this.timeout);
 
-    updateContainer(params.fqon, params.environmentId, id, values, onSuccess);
+    updateContainer(params.fqon, container.id, payload, onSuccess);
   }
 
   render() {
@@ -123,6 +128,7 @@ function mapStateToProps(state) {
     container,
     pending,
     pendingProviders: state.metaResource.providersByType.pending,
+    pendingContainerUpdate: state.metaResource.containerUpdate.pending,
     providers: state.metaResource.providersByType.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,

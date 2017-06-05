@@ -177,7 +177,7 @@ const ContainerForm = (props) => {
               </div>
 
             </CardText>
-            {(props.containerUpdatePending || props.pending) && <LinearProgress id="container-form-loading" />}
+            {(props.pendingContainerUpdate || props.pending) && <LinearProgress id="container-form-loading" />}
             {!props.inlineMode &&
             <CardActions>
               <Button
@@ -193,7 +193,7 @@ const ContainerForm = (props) => {
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={container.id ? props.pending || props.containerUpdatePending || props.invalid || props.submitting : props.pristine || props.pending || props.containerUpdatePending || props.invalid || props.submitting}
+                disabled={container.id ? props.pending || props.pendingContainerUpdate || props.invalid || props.submitting : props.pristine || props.pending || props.pendingContainerUpdate || props.invalid || props.submitting}
                 primary
               />
             </CardActions>}
@@ -292,7 +292,7 @@ const ContainerForm = (props) => {
                   name="properties.constraints"
                   label="Constraints"
                   type="text"
-                  helpText="Comma delimited set of constraints"
+                  helpText='Comma delimited set of constraints e.g. ["<field name", "<operator>", "<optional parameter>"], ["<field name", "<operator>"] ...'
                 />
                 <Field
                   className="flex-5 flex-xs-12"
@@ -326,7 +326,7 @@ ContainerForm.propTypes = {
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  containerUpdatePending: PropTypes.bool,
+  pendingContainerUpdate: PropTypes.bool,
   params: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -343,7 +343,7 @@ ContainerForm.propTypes = {
 };
 
 ContainerForm.defaultProps = {
-  containerUpdatePending: false,
+  pendingContainerUpdate: false,
   touched: false,
   error: false,
   title: '',

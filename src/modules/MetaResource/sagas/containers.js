@@ -97,7 +97,7 @@ export function* createContainer(action) {
  */
 export function* updateContainer(action) {
   try {
-    const response = yield call(axios.patch, `${action.fqon}/containers/${action.containerId}`, action.payload);
+    const response = yield call(axios.put, `${action.fqon}/containers/${action.containerId}`, action.payload);
     yield put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: response.data });
 
     if (typeof action.onSuccess === 'function') {
