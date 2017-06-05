@@ -292,7 +292,7 @@ const ContainerForm = (props) => {
                   name="properties.constraints"
                   label="Constraints"
                   type="text"
-                  helpText='Comma delimited set of constraints e.g. ["<field name", "<operator>", "<optional parameter>"], ["<field name", "<operator>"] ...'
+                  helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
                 />
                 <Field
                   className="flex-5 flex-xs-12"

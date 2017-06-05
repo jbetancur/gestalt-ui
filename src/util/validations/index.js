@@ -61,7 +61,7 @@ export function isCommaDelimitedConstraints(string) {
   }
 
   const trimmedString = string.replace(/[\s,]+/g, ',');
-  return /^(((\[[^\]]+\])\.)*(\[[^\]]+\]))?(,(((\[[^\]]+\])\.)*(\[[^\]]+\])))*$/.test(trimmedString);
+  return /^(([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)(,[ ]*([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)*$/.test(trimmedString);
 }
 
 

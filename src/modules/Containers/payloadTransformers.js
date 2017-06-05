@@ -1,5 +1,9 @@
 import { cloneDeep } from 'lodash';
 
+function arrayifyish(string) {
+  return string.replace(/[\s,]+/g, ',').split(',');
+}
+
 /**
  * generateContainerPayload
  * Handle Payload formatting/mutations to comply with meta api
@@ -74,10 +78,11 @@ export function generateContainerPayload(sourcePayload, volumes, portMappings, h
   if (source.properties.accepted_resource_roles && source.properties.accepted_resource_roles.length) {
     // convert to string if an array (updateMode)
     if (Array.isArray(source.properties.accepted_resource_roles)) {
-      payload.properties.accepted_resource_roles = source.properties.accepted_resource_roles.toString();
+      payload.properties.accepted_resource_roles = source.properties.accepted_resource_roles.join();
+      payload.properties.accepted_resource_roles = arrayifyish(payload.properties.accepted_resource_roles);
+    } else {
+      payload.properties.accepted_resource_roles = arrayifyish(source.properties.accepted_resource_roles);
     }
-
-    payload.properties.accepted_resource_roles = source.properties.accepted_resource_roles.replace(/[\s,]+/g, ',').split(',');
   } else {
     delete payload.properties.accepted_resource_roles;
   }
@@ -86,10 +91,11 @@ export function generateContainerPayload(sourcePayload, volumes, portMappings, h
   if (source.properties.constraints && source.properties.constraints.length) {
     // convert to string if an array (updateMode)
     if (Array.isArray(source.properties.constraints)) {
-      payload.properties.constraints = source.properties.constraints.toString();
+      payload.properties.constraints = source.properties.constraints.join();
+      payload.properties.constraints = arrayifyish(payload.properties.constraints);
+    } else {
+      payload.properties.constraints = arrayifyish(source.properties.constraints);
     }
-
-    payload.properties.constraints = JSON.parse(`[${source.properties.constraints}]`);
   } else {
     delete payload.properties.constraints;
   }
