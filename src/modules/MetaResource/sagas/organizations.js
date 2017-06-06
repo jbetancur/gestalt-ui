@@ -41,7 +41,7 @@ export function* fetchOrg(action) {
 }
 
 /**
- * fetchOrgSet
+ * fetchOrgSet - fetch the org, suborgs and workspaces for a fqon
  * @param {*} action - { fqon }
  */
 export function* fetchOrgSet(action) {
@@ -53,9 +53,17 @@ export function* fetchOrgSet(action) {
     return axios.get(`${action.fqon}/orgs?expand=true`);
   }
 
+  function getWorkspaces() {
+    return axios.get(`${action.fqon}/workspaces?expand=true`);
+  }
+
   try {
-    const response = yield call(axios.all, [getOrg(), getSubOrgs()]);
-    const payload = { ...response[0].data, subOrganizations: response[1].data };
+    const response = yield call(axios.all, [getOrg(), getSubOrgs(), getWorkspaces()]);
+    const payload = {
+      ...response[0].data,
+      subOrganizations: response[1].data,
+      workspaces: response[2].data,
+    };
 
     yield put({ type: types.FETCH_ORGSET_FULFILLED, payload });
   } catch (e) {
