@@ -21,7 +21,6 @@ class HierarchyContext extends PureComponent {
     fetchOrgSet: PropTypes.func.isRequired,
     fetchWorkspaces: PropTypes.func.isRequired,
     pendingOrgset: PropTypes.bool.isRequired,
-    workspacesPending: PropTypes.bool.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
     setCurrentOrgContext: PropTypes.func.isRequired,
@@ -42,7 +41,7 @@ class HierarchyContext extends PureComponent {
 
   componentDidMount() {
     this.props.fetchOrgSet(this.props.params.fqon);
-    this.props.fetchWorkspaces(this.props.params.fqon);
+    // this.props.fetchWorkspaces(this.props.params.fqon);
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();
   }
@@ -96,12 +95,12 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { organization, pendingOrgset, workspacesPending } = this.props;
+    const { organization, pendingOrgset } = this.props;
 
     return (
       <div>
         <HierarchyDetail model={organization} {...this.props} />
-        {(pendingOrgset || workspacesPending) ? <LinearProgress id="heirarchy-progress" /> : this.renderCardsContainer()}
+        {pendingOrgset ? <LinearProgress id="heirarchy-progress" /> : this.renderCardsContainer()}
       </div>
     );
   }
@@ -115,8 +114,7 @@ function mapStateToProps(state) {
     pendingOrgset: state.metaResource.organizationSet.pending,
     organization: state.metaResource.organizationSet.organization,
     organizations: state.metaResource.organizationSet.organization.subOrganizations,
-    workspaces: state.metaResource.workspaces.workspaces,
-    pendingWorkspaces: state.metaResource.workspaces.pending,
+    workspaces: state.metaResource.organizationSet.organization.workspaces,
   };
 }
 

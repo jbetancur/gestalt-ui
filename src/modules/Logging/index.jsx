@@ -4,9 +4,37 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { metaActions } from 'modules/MetaResource';
 import axios from 'axios';
+import SelectField from 'react-md/lib/SelectFields';
 import CircularActivity from 'components/CircularActivity';
 import { Button, FileDownloadButton } from 'components/Buttons';
 import { API_TIMEOUT } from '../../constants';
+
+const timeSpans = [
+  {
+    name: 'Show All',
+    value: 'all',
+  },
+  {
+    name: 'Last 5 Minutes',
+    value: '5m',
+  },
+  {
+    name: 'Last 15 Minutes',
+    value: '15m',
+  },
+  {
+    name: 'Last Hour',
+    value: '1h',
+  },
+  {
+    name: ' Last 2 Hours',
+    value: '2h',
+  },
+  {
+    name: 'Last Day',
+    value: '1d',
+  },
+];
 
 const fontSizes = {
   sm: 11,
@@ -35,6 +63,13 @@ const ToolbarActions = styled.div`
   text-align: right;
 `;
 
+const ToolbarControls = styled.div`
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: .3em;
+`;
+
 const FontSizeButton = styled(Button)`
   i {
     transform: ${props => `scaleX(${props.flipState || 1})`};
@@ -47,6 +82,10 @@ const CodeWrapper = styled.div`
   background-color: black;
   padding-top: ${props => (props.fontSize === fontSizes.lg ? '4.5em' : '5.5em')};
   font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
+
+  @media screen and (max-width: 599px) {
+    padding-top: ${props => (props.fontSize === fontSizes.lg ? '7.5em' : '8.5em')};
+  }
 `;
 
 const Pre = styled.pre`
@@ -109,6 +148,7 @@ class Logging extends PureComponent {
     this.state = {
       logs: [`${props.location.query.name} ${props.location.query.logType} has not logged any messages yet...`],
       logPending: false,
+      logTimespan: 'all',
       fontSize: fontSizes.lg,
     };
   }
@@ -123,11 +163,17 @@ class Logging extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.logProviderURL !== this.props.logProviderURL) {
-      this.fetchLogs(nextProps);
+      this.fetchLogs(nextProps, this.state);
     }
   }
 
-  fetchLogs(currentProps) {
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.logTimespan !== this.state.logTimespan) {
+      this.fetchLogs(nextProps, nextState);
+    }
+  }
+
+  fetchLogs(currentProps, currentState) {
     const { location } = this.props;
     const logAPI = axios.create({
       baseURL: currentProps.logProviderURL,
@@ -140,7 +186,9 @@ class Logging extends PureComponent {
 
     this.setState({ logPending: true });
 
-    logAPI.get(location.query.logId).then((response) => {
+    const time = (currentState.logTimespan && currentState.logTimespan !== 'all') ? `?time=${currentState.logTimespan}` : '';
+
+    logAPI.get(`${location.query.logId}${time}`).then((response) => {
       this.setState({ logPending: false });
 
       if (response.data && response.data.length) {
@@ -165,14 +213,27 @@ class Logging extends PureComponent {
       <PageWrapper>
         <Toolbar>
           <div className="flex-row start-center">
-            <ToolbarTitle className="flex-7">
+            <ToolbarTitle className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-8">
               <div className="gf-headline-1">Logs for {location.query.name} ({location.query.logType})</div>
             </ToolbarTitle>
-            <ToolbarActions className="flex-5">
+            <ToolbarActions className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-4">
+              <ToolbarControls>
+                <SelectField
+                  id="log--timespan"
+                  menuItems={timeSpans}
+                  itemLabel="name"
+                  itemValue="value"
+                  defaultValue={this.state.logTimespan}
+                  lineDirection="center"
+                  position="below"
+                  disabled={logProviderPending || this.state.logPending}
+                  onChange={value => this.setState({ logTimespan: value })}
+                />
+              </ToolbarControls>
               <Button
                 icon
                 tooltipLabel="Refresh Log"
-                onClick={() => this.fetchLogs(this.props)}
+                onClick={() => this.fetchLogs(this.props, this.state)}
                 disabled={logProviderPending || this.state.logPending}
               >refresh
               </Button>

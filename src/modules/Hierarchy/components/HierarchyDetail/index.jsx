@@ -14,7 +14,6 @@ class HierarchyDetail extends PureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     pendingOrgset: PropTypes.bool.isRequired,
-    pendingWorkspaces: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -27,22 +26,22 @@ class HierarchyDetail extends PureComponent {
   }
 
   render() {
-    const { params, model, pendingOrgset, pendingWorkspaces, self, t } = this.props;
+    const { params, model, pendingOrgset, self, t } = this.props;
     const parentFQON = getParentFQON(model);
 
     return (
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle
-            expander={!(pendingOrgset || pendingWorkspaces)}
+            expander={!pendingOrgset}
             title={
               !(params.fqon === self.properties.gestalt_home.properties.fqon) &&
-              <NavUpArrowButton disabled={pendingOrgset || pendingWorkspaces} component={Link} to={`/${parentFQON}/hierarchy`} />
+              <NavUpArrowButton disabled={pendingOrgset} component={Link} to={`/${parentFQON}/hierarchy`} />
             }
           >
             <HierarchyActions organization={model} {...this.props} />
             <div>
-              <div className="gf-headline">{!(pendingOrgset || pendingWorkspaces) ? <div className="gf-headline">{model.description || model.name}</div> : <DotActivity />}</div>
+              <div className="gf-headline">{!pendingOrgset ? <div className="gf-headline">{model.description || model.name}</div> : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>

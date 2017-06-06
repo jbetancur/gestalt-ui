@@ -113,13 +113,13 @@ describe('Organization Sagas', () => {
       result = saga.next();
 
       expect(result.value).to.deep.equal(
-        call(axios.all, [axios.get('iamfqon'), axios.get('iamfqon/orgs?expand=true')])
+        call(axios.all, [axios.get('iamfqon'), axios.get('iamfqon/orgs?expand=true'), axios.get('iamfqon/workspaces?expand=true')])
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      const promiseArray = [{ data: { id: 1 } }, { data: [{ id: 1 }] }];
-      const expectedPayload = { id: 1, subOrganizations: [{ id: 1 }] };
+      const promiseArray = [{ data: { id: 1 } }, { data: [{ id: 1 }] }, { data: [{ id: 3 }] }];
+      const expectedPayload = { id: 1, subOrganizations: [{ id: 1 }], workspaces: [{ id: 3 }] };
 
       result = saga.next(promiseArray);
       expect(result.value).to.deep.equal(
