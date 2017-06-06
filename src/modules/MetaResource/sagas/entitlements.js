@@ -78,6 +78,7 @@ export function* fetchIdentities(action) {
  * @param {*} action { fqon, newIdentity, actions, entityId, entityKey }
  */
 export function* updateEntitlements(action) {
+  const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/entitlements` : `${action.fqon}/entitlements`;
   const actionParam = action.actions || [];
 
   try {
@@ -98,7 +99,7 @@ export function* updateEntitlements(action) {
 
       // check if identities have changed to prevent unnecessary PUTS
       if (clonedIdenities.length !== originalIdentifies.length) {
-        return axios.put(`${action.fqon}/entitlements/${actionItem.entitlement.id}`, {
+        return axios.put(`${url}/${actionItem.entitlement.id}`, {
           id: actionItem.entitlement.id,
           name: actionItem.entitlement.name,
           properties: {

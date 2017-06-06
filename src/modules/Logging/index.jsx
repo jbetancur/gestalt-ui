@@ -130,6 +130,8 @@ const BottomScrollButton = styled(Button)`
   display: block;
 `;
 
+const defaultLog = location => [`${location.query.name} ${location.query.logType} has not logged any messages yet...`];
+
 class Logging extends PureComponent {
   static propTypes = {
     // fqon: PropTypes.string.isRequired,
@@ -146,9 +148,9 @@ class Logging extends PureComponent {
     super(props);
 
     this.state = {
-      logs: [`${props.location.query.name} ${props.location.query.logType} has not logged any messages yet...`],
+      logs: defaultLog(props.location),
       logPending: false,
-      logTimespan: 'all',
+      logTimespan: '5m',
       fontSize: fontSizes.lg,
     };
   }
@@ -194,6 +196,8 @@ class Logging extends PureComponent {
       if (response.data && response.data.length) {
         this.setState({ logs: response.data });
         window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+      } else {
+        this.setState({ logs: defaultLog(this.props.location) });
       }
     }).catch(() => this.setState({ logPending: false }));
   }
