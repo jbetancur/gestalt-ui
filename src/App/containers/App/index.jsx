@@ -106,7 +106,7 @@ class App extends Component {
   }
 
   renderNavItems() {
-    const { t, logout } = this.props;
+    const { params, t, logout } = this.props;
 
     return [
       <ListItemStacked
@@ -132,6 +132,7 @@ class App extends Component {
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/users`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
+        visible={params.fqon === 'root'}
       />,
       <ListItemStacked
         key="groups"
@@ -140,6 +141,7 @@ class App extends Component {
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/groups`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
+        visible={params.fqon === 'root'}
       />,
       <Divider key="navbar-section-divider-1" />,
       <ListItemStacked
@@ -265,7 +267,7 @@ class App extends Component {
               <ModalRoot />
               {this.props.children}
             </NavigationDrawer>
-          </ThemeProvider> : <AppError />}
+          </ThemeProvider> : <AppError {...this.props} />}
       </main>
     );
   }

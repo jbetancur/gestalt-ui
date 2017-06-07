@@ -23,7 +23,9 @@ export function* fetchLogProvider(action) {
     }
 
     // find the linked provider by typeId
-    linkedLoggingProvider = caasProviderRes.data.properties.linked_providers.find(provider => provider.typeId === LOGGING);
+    if (caasProviderRes.data.properties.linked_providers && caasProviderRes.data.properties.linked_providers.length) {
+      linkedLoggingProvider = caasProviderRes.data.properties.linked_providers.find(provider => provider.typeId === LOGGING);
+    }
 
     if (linkedLoggingProvider && linkedLoggingProvider.id) {
       logProviderRes = yield call(axios.get, `${action.fqon}/providers/${linkedLoggingProvider.id}`);
