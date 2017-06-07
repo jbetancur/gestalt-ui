@@ -1,47 +1,66 @@
+const codeOptions = [
+  { displayName: 'Package', value: 'package' },
+];
+
+const codeOptionsInline = [
+  ...codeOptions,
+  { displayName: 'Inline', value: 'code' },
+];
+
+
 export default [
   {
     value: 'java;scala',
     format: 'com.package.Class;function',
-    codeFormat: 'java'
+    codeFormat: 'java',
+    codeOptions,
   },
   {
     value: 'java',
     format: 'com.package.Class;function',
-    codeFormat: 'java'
+    codeFormat: 'java',
+    codeOptions,
   },
   {
     value: 'nodejs',
     format: 'Package format: {filename};{function} | Inline format: {function}',
-    codeFormat: 'javascript'
+    codeFormat: 'javascript',
+    codeOptions: codeOptionsInline,
   },
   {
     value: 'python',
     format: '{filename}.py',
-    codeFormat: 'python'
+    codeFormat: 'python',
+    codeOptions,
   },
   {
     value: 'csharp',
     format: '/path/to/executable',
-    codeFormat: 'csharp'
+    codeFormat: 'csharp',
+    codeOptions,
   },
   {
     value: 'csharp;dotnet',
     format: '/path/to/executable',
-    codeFormat: 'csharp'
+    codeFormat: 'csharp',
+    codeOptions,
   },
   {
     value: 'ruby',
     format: '{filename}.rb',
-    codeFormat: 'ruby'
+    codeFormat: 'ruby',
+    codeOptions,
   },
   {
     value: 'golang',
     format: '{go executable filename}',
-    codeFormat: 'golang'
+    codeFormat: 'golang',
+    codeOptions,
   },
   {
     value: 'scala',
     format: 'com.package.Class;function',
-    codeFormat: 'scala'
+    codeFormat: 'scala',
+    codeOptions,
   },
 ];

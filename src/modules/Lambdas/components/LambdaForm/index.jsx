@@ -30,6 +30,14 @@ const LambdaForm = (props) => {
   // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
   const getRuntime = () => runTimes.find(runtime => runtime.value === values.properties.runtime) || '';
 
+  // if doesn't support inline set back to package
+  const handleSupportsInline = () => {
+    const items = getRuntime().codeOptions;
+    if (items && items.some(opt => opt.value !== 'code')) {
+      props.dispatch(props.change('properties.code_type', 'package'));
+    }
+  };
+
   return (
     <div>
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
@@ -97,6 +105,7 @@ const LambdaForm = (props) => {
                   label="Runtime"
                   async
                   onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor')}
+                  onChange={() => handleSupportsInline()}
                   disabled={props.editMode}
                 />
                 <Field
@@ -104,12 +113,12 @@ const LambdaForm = (props) => {
                   className="flex-2 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.code_type"
-                  menuItems={[{ displayName: 'Inline', value: 'code' }, { displayName: 'Package', value: 'package' }]}
+                  menuItems={getRuntime().codeOptions}
                   itemLabel="displayName"
                   itemValue="value"
                   required
                   label="Code Type"
-                  disabled={props.editMode}
+                  disabled={props.editMode || !values.properties.runtime}
                 />
                 <Field
                   id="select-return-type"
@@ -322,6 +331,8 @@ LambdaForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
   providers: PropTypes.array.isRequired,
   fetchProvidersByType: PropTypes.func.isRequired,
   fetchExecutors: PropTypes.func.isRequired,
