@@ -131,6 +131,7 @@ const BottomScrollButton = styled(Button)`
 `;
 
 const defaultLog = location => [`${location.query.name} ${location.query.logType} has not logged any messages yet...`];
+const defaultLogNoProvider = () => ['A Log Provider has not been configured'];
 
 class Logging extends PureComponent {
   static propTypes = {
@@ -148,7 +149,7 @@ class Logging extends PureComponent {
     super(props);
 
     this.state = {
-      logs: defaultLog(props.location),
+      logs: props.logProviderURL ? defaultLog(props.location) : defaultLogNoProvider(props.location),
       logPending: false,
       logTimespan: '5m',
       fontSize: fontSizes.lg,
@@ -175,6 +176,14 @@ class Logging extends PureComponent {
     }
   }
 
+  scrollToBottom() {
+    window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
   fetchLogs(currentProps, currentState) {
     const { location } = this.props;
     const logAPI = axios.create({
@@ -195,7 +204,7 @@ class Logging extends PureComponent {
 
       if (response.data && response.data.length) {
         this.setState({ logs: response.data });
-        window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+        this.scrollToBottom();
       } else {
         this.setState({ logs: defaultLog(this.props.location) });
       }
@@ -211,7 +220,8 @@ class Logging extends PureComponent {
   }
 
   render() {
-    const { location, logProviderPending } = this.props;
+    const { location, logProviderPending, logProviderURL } = this.props;
+    const { logs, logPending, logTimespan, fontSize } = this.state;
 
     return (
       <PageWrapper>
@@ -227,10 +237,10 @@ class Logging extends PureComponent {
                   menuItems={timeSpans}
                   itemLabel="name"
                   itemValue="value"
-                  defaultValue={this.state.logTimespan}
+                  defaultValue={logTimespan}
                   lineDirection="center"
                   position="below"
-                  disabled={logProviderPending || this.state.logPending}
+                  disabled={logProviderPending || logPending || !logProviderURL}
                   onChange={value => this.setState({ logTimespan: value })}
                 />
               </ToolbarControls>
@@ -238,11 +248,11 @@ class Logging extends PureComponent {
                 icon
                 tooltipLabel="Refresh Log"
                 onClick={() => this.fetchLogs(this.props, this.state)}
-                disabled={logProviderPending || this.state.logPending}
+                disabled={logProviderPending || logPending || !logProviderURL}
               >refresh
               </Button>
               <FontSizeButton
-                flipState={this.state.fontSize === fontSizes.lg ? 1 : -1}
+                flipState={fontSize === fontSizes.lg ? 1 : -1}
                 icon
                 tooltipLabel="Toggle Font Size"
                 onClick={() => this.changeFontSize()}
@@ -250,10 +260,10 @@ class Logging extends PureComponent {
               </FontSizeButton>
               <FileDownloadButton
                 icon
-                data={this.state.logs.join('\n')}
+                data={logs.length && logs.join('\n')}
                 tooltipLabel="Download Log"
                 fileName={`${location.query.name}-${location.query.logType}.log`}
-                disabled={logProviderPending || this.state.logPending}
+                disabled={logProviderPending || logPending || !logProviderURL}
               />
               <Button
                 icon
@@ -265,7 +275,7 @@ class Logging extends PureComponent {
           </div>
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>
-          {(logProviderPending || this.state.logPending) ? <CircularActivity id="log-loading" /> :
+          {(logProviderPending || logPending) ? <CircularActivity id="log-loading" /> :
           <div>
             <ScrollButtons>
               <TopScrollButton
@@ -273,7 +283,7 @@ class Logging extends PureComponent {
                 primary
                 tooltipLabel="Scroll to Top"
                 tooltipPosition="left"
-                onClick={() => window.scrollTo(0, 0)}
+                onClick={() => this.scrollToTop()}
               >arrow_upward
               </TopScrollButton>
               <BottomScrollButton
@@ -281,7 +291,7 @@ class Logging extends PureComponent {
                 primary
                 tooltipLabel="Scroll to Bottom"
                 tooltipPosition="left"
-                onClick={() => window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)}
+                onClick={() => this.scrollToBottom()}
               >arrow_downward
             </BottomScrollButton>
             </ScrollButtons>
