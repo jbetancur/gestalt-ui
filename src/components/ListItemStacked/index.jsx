@@ -5,6 +5,8 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
 
 const EnhancedListItem = styled(ListItem)`
+  display: ${props => (props.visible ? 'visible' : 'none')};
+
   @media screen and (min-width: 1025px) {
     .md-list-tile {
       height: 48px;
@@ -27,7 +29,7 @@ const Text = styled.div`
 `;
 
 const ListItemStacked = props => (
-  <EnhancedListItem {...props}>
+  <EnhancedListItem visible={props.visible} {...props}>
     <Wrapper>
       <FontIcon>{props.icon}</FontIcon>
       <Text>{props.title}</Text>
@@ -38,6 +40,11 @@ const ListItemStacked = props => (
 ListItemStacked.propTypes = {
   icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
+};
+
+ListItemStacked.defaultProps = {
+  visible: true,
 };
 
 export default ListItemStacked;

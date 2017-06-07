@@ -65,7 +65,7 @@ export function* fetchIdentities(action) {
 
   try {
     const response = yield call(axios.all, [getUsers(), getGroups()]);
-    const payload = sortBy(response[0].data.concat(response[1].data), 'name');
+    const payload = sortBy(response[0].data.concat(response[1].data || []), 'name');
 
     yield put({ type: types.FETCH_IDENTITIES_FULFILLED, payload });
   } catch (e) {

@@ -51,7 +51,7 @@ class EntitlementItem extends Component {
     entitlements: PropTypes.array.isRequired,
     updateEntitlements: PropTypes.func.isRequired,
     unloadEntitlements: PropTypes.func.isRequired,
-    self: PropTypes.object.isRequired,
+    // self: PropTypes.object.isRequired,
     clearIdentitiesFilter: PropTypes.func.isRequired,
     filterIdentities: PropTypes.func.isRequired,
     identitiesFilter: PropTypes.object.isRequired,
@@ -62,11 +62,9 @@ class EntitlementItem extends Component {
   }
 
   componentDidMount() {
-    const { fetchIdentities, self } = this.props;
-    // get all users and groups from users base org
-    if (self.properties.gestalt_home.properties.fqon) {
-      fetchIdentities(self.properties.gestalt_home.properties.fqon);
-    }
+    const { fetchIdentities } = this.props;
+    // TODO: When Meta supports cascading query of users/groups
+    fetchIdentities('root');
   }
 
   componentWillUnmount() {
