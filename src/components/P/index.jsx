@@ -7,6 +7,7 @@ const EnhancedP = styled.p`
   padding-bottom: 1em;
   line-height: 1.05;
   font-size: ${props => `${props.fontSize}px`};
+  display: block;
 `;
 
 const P = props => <EnhancedP fontSize={props.fontSize}>{props.children}</EnhancedP>;
