@@ -49,17 +49,40 @@ axios.interceptors.response.use((config) => {
   if (!validCookie) {
     browserHistory.replace('login');
   } else {
-    // eslint-disable-next-line no-lonely-if
-    if (error.response.data.message && error.response.data.message.includes('license.view')) {
-      // Nothing for now
-    } else {
-      store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
+    const permissions = [
+      'license.view',
+      'org.view',
+      'workspace.view',
+      'environment.view',
+      'lambda.view',
+      'container.view',
+      'policy.view',
+      'api.view',
+      'apiendpoint.view',
+      'provider.view',
+      'entitlement.view',
+      'integration.view',
+      'user.view',
+      'group.view',
+    ];
+    const response = error.response.data;
+
+    // TODO: Until we have a permissions prefetch API - for now Handle routing when context view permissions are thrown
+    if (response.message) {
+      // eslint-disable-next-line no-lonely-if
+      if (response.message.includes('license.view')) {
+        // Nothing for now
+      } else if (response.code === 403 && permissions.some(entitlement => response.message.includes(entitlement))) {
+        browserHistory.goBack();
+      } else {
+        store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
+      }
     }
 
     // reroute to root if the context is no longer available
-    if (error.response.data.message &&
-      error.response.data.message.includes('not found') &&
-      error.response.data.code === 404) {
+    if (response.message &&
+      response.message.includes('not found') &&
+      response.code === 404) {
       browserHistory.replace('/');
     }
   }

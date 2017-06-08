@@ -27,39 +27,39 @@ export default {
   },
   org: {
     triggers: [
-      {
-        name: 'org.create.post'
-      },
+      // {
+      //   name: 'org.create.post'
+      // },
 
-      {
-        name: 'org.delete.post'
-      }
+      // {
+      //   name: 'org.delete.post'
+      // }
     ],
     events: [],
     limits: [],
   },
   workspace: {
     triggers: [
-      {
-        name: 'workspace.create.post'
-      },
+      // {
+      //   name: 'workspace.create.post'
+      // },
 
-      {
-        name: 'workspace.delete.post'
-      }
+      // {
+      //   name: 'workspace.delete.post'
+      // }
     ],
     events: [],
     limits: [],
   },
   environment: {
     triggers: [
-      {
-        name: 'environment.create.post'
-      },
+      // {
+      //   name: 'environment.create.post'
+      // },
 
-      {
-        name: 'environment.delete.post'
-      }
+      // {
+      //   name: 'environment.delete.post'
+      // }
     ],
     events: [],
     limits: [],

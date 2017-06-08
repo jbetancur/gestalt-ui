@@ -260,7 +260,7 @@
         "redux-thunk": "^2.2.0",
         "reselect": "^3.0.1",
         "sanitize.css": "^5.0.0",
-        "styled-components": "^2.0.0",
+        "styled-components": "^2.0.1",
         "validator": "^7.0.0"
     }
 }

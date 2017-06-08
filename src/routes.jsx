@@ -160,6 +160,7 @@ const routes = store => (
       </Route>
 
       <Route path=":fqon/license" component={License} onEnter={requireAuth(store)} />
+      <Route path=":fqon/*" component={NotFound} />
       <Route path="*" component={NotFound} />
     </Route>
   </div>
