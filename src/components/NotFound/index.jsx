@@ -74,13 +74,16 @@ const lyrics = [
 ];
 
 const NotFound = props => (
-  <div className="flex-row">
+  <div className="flex-row center-center">
     <div className="flex-row center-center flex-12">
       <div className="flex-row center-center">
         <h1>No Disassemble!</h1>
       </div>
       <div className="flex-row center-center">
         <P fontSize={14}>{lyrics[Math.floor(Math.random() * lyrics.length)]}</P>
+        <div className="flex-row center-center">
+          <P fontSize={14}>{lyrics[Math.floor(Math.random() * lyrics.length)]}</P>
+        </div>
         <div className="flex-row center-center">
           <Button
             primary
