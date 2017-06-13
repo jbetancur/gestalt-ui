@@ -47,9 +47,10 @@ const UserForm = (props) => {
                   className="flex-6 flex-xs-12"
                   component={TextField}
                   name="properties.password"
-                  label="Password"
+                  placeholder={props.user.id && 'Reset Password'}
+                  label={props.user.id ? 'Reset Password' : 'New Password'}
                   type="text"
-                  required
+                  required={!props.user.id}
                 />
                 <Field
                   className="flex-6 flex-xs-12"

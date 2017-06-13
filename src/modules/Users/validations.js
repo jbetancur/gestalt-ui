@@ -3,7 +3,7 @@ import { isPhoneNumber, isUsername } from 'util/validations';
 
 export const usernameMaxLen = 20;
 
-export default (values) => {
+export default (values, props) => {
   const errors = {
     properties: {
       password: '',
@@ -23,7 +23,7 @@ export default (values) => {
     errors.name = 'invalid username format';
   }
 
-  if (!values.properties.password) {
+  if (!values.properties.password && !props.user.id) {
     errors.properties.password = 'password is required';
   }
 
