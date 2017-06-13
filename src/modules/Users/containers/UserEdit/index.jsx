@@ -66,7 +66,6 @@ function mapStateToProps(state) {
       name: user.name,
       description: user.description,
       properties: {
-        password: user.properties.password,
         firstName: user.properties.firstName,
         lastName: user.properties.lastName,
         email: user.properties.email,
