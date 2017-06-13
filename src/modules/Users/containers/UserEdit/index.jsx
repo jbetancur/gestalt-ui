@@ -42,6 +42,11 @@ class GroupEdit extends Component {
       }
     };
 
+    // Clear the password from the payload if its undefined
+    if (user.id && !values.password) {
+      delete originalModel.properties.password;
+    }
+
     const patches = jsonPatch.compare(originalModel, values);
     const onSuccess = () => router.replace(`${params.fqon}/users`);
 
