@@ -84,9 +84,11 @@ export default {
       }
     ],
     events: [
-
       {
         name: 'container.create'
+      },
+      {
+        name: 'container.update'
       },
       {
         name: 'container.delete'
@@ -167,6 +169,9 @@ export default {
     events: [
       {
         name: 'lambda.create'
+      },
+      {
+        name: 'lambda.update'
       },
       {
         name: 'lambda.delete'
