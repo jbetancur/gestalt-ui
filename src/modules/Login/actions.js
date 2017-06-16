@@ -14,7 +14,7 @@ export function hideLoginModal() {
   return { type: 'HIDE_LOGIN_MODAL' };
 }
 
-export function login(username, password, isModalLogin) {
+export function login(username, password, successPath, isModalLogin) {
   const securityAPI = axios.create({
     baseURL: SEC_API_URL,
     timeout: API_TIMEOUT,
@@ -62,7 +62,7 @@ export function login(username, password, isModalLogin) {
       if (isModalLogin) {
         dispatch(hideLoginModal());
       } else {
-        dispatch(replace('/'));
+        dispatch(replace(successPath));
       }
     }).catch((err) => {
       dispatch({ type: REQUEST_TOKEN_REJECTED, payload: err });

@@ -50,7 +50,9 @@ const validate = (values) => {
 const LoginForm = (props) => {
   const { login, loginModal, handleSubmit, pristine, invalid, submitting, t } = props;
   const submit = (values) => {
-    login(values.username, values.password, loginModal.visible);
+    // TODO: disabled for now since we need to refactor routing - but this allows us to redirect to a pasted path
+    // const path = (props.router.location.state && props.router.location.state.nextPathname) || '/';
+    login(values.username, values.password, '/', loginModal.visible);
   };
 
   return (
@@ -91,6 +93,7 @@ const LoginForm = (props) => {
 };
 
 LoginForm.propTypes = {
+  // router: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
   loginModal: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
