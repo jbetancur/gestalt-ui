@@ -17,7 +17,7 @@ import Hierarchy, {
 import Providers from './modules/Providers';
 import ProviderCreate from './modules/Providers/containers/ProviderCreate';
 import ProviderEdit from './modules/Providers/containers/ProviderEdit';
-import Lambdas from './modules/Lambdas';
+// import Lambdas from './modules/Lambdas';
 import LambdaCreate from './modules/Lambdas/containers/LambdaCreate';
 import LambdaEdit from './modules/Lambdas/containers/LambdaEdit';
 import Users from './modules/Users';
@@ -26,15 +26,15 @@ import UserEdit from './modules/Users/containers/UserEdit';
 import Groups from './modules/Groups';
 import GroupCreate from './modules/Groups/containers/GroupCreate';
 import GroupEdit from './modules/Groups/containers/GroupEdit';
-import Policies from './modules/Policies';
+// import Policies from './modules/Policies';
 import PolicyCreate from './modules/Policies/containers/PolicyCreate';
 import PolicyEdit from './modules/Policies/containers/PolicyEdit';
 import PolicyLimitRuleCreate from './modules/PolicyRules/containers/PolicyLimitRuleCreate';
 import PolicyLimitRuleEdit from './modules/PolicyRules/containers/PolicyLimitRuleEdit';
 import PolicyEventRuleCreate from './modules/PolicyRules/containers/PolicyEventRuleCreate';
 import PolicyEventRuleEdit from './modules/PolicyRules/containers/PolicyEventRuleEdit';
-import { Containers, ContainerCreate, ContainerEdit } from './modules/Containers';
-import APIs from './modules/APIs';
+import { ContainerCreate, ContainerEdit } from './modules/Containers';
+// import APIs from './modules/APIs';
 import APICreate from './modules/APIs/containers/APICreate';
 import APIEdit from './modules/APIs/containers/APIEdit';
 import APIEndpointCreate from './modules/APIEndpoints/containers/APIEndpointCreate';
@@ -86,21 +86,21 @@ const routes = store => (
               <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
               <Route path="edit" component={EnvironmentEdit} onEnter={requireAuth(store)} />
               <Route path="lambdas" onEnter={requireAuth(store)}>
-                <IndexRoute component={Lambdas} onEnter={requireAuth(store)} />
+                <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
                 <Route path="create" component={LambdaCreate} onEnter={requireAuth(store)} />
                 <Route path=":lambdaId" onEnter={requireAuth(store)}>
                   <Route path="edit" component={LambdaEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
               <Route path="containers" onEnter={requireAuth(store)}>
-                <IndexRoute component={Containers} onEnter={requireAuth(store)} />
+                <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
                 <Route path="create" component={ContainerCreate} onEnter={requireAuth(store)} />
                 <Route path=":containerId" onEnter={requireAuth(store)}>
                   <Route path="edit" component={ContainerEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
               <Route path="policies" onEnter={requireAuth(store)}>
-                <IndexRoute component={Policies} onEnter={requireAuth(store)} />
+                <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
                 <Route path="create" component={PolicyCreate} onEnter={requireAuth(store)} />
                 <Route path=":policyId" onEnter={requireAuth(store)}>
                   <Route path="edit" onEnter={requireAuth(store)}>
@@ -113,14 +113,14 @@ const routes = store => (
                 </Route>
               </Route>
               <Route path="providers" onEnter={requireAuth(store)}>
-                <IndexRoute component={Providers} onEnter={requireAuth(store)} />
+                <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
                 <Route path="create" component={ProviderCreate} onEnter={requireAuth(store)} />
                 <Route path=":providerId" onEnter={requireAuth(store)}>
                   <Route path="edit" component={ProviderEdit} onEnter={requireAuth(store)} />
                 </Route>
               </Route>
               <Route path="apis" onEnter={requireAuth(store)}>
-                <IndexRoute component={APIs} onEnter={requireAuth(store)} />
+                <IndexRoute component={EnvironmentContext} onEnter={requireAuth(store)} />
                 <Route path="create" component={APICreate} onEnter={requireAuth(store)} />
                 <Route path=":apiId" onEnter={requireAuth(store)}>
                   <Route path="edit" onEnter={requireAuth(store)}>

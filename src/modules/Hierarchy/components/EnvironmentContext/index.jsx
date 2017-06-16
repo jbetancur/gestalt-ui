@@ -71,7 +71,7 @@ class EnvironmentContext extends Component {
     const onSuccess = () => router.push(`${params.fqon}/hierarchy/${params.workspaceId}`);
     this.props.confirmDelete(() => {
       deleteEnvironment(params.fqon, environment.id, onSuccess);
-    }, name, 'Environment');
+    }, environment.description || environment.name, 'Environment');
   }
 
   renderActionsMenu() {
