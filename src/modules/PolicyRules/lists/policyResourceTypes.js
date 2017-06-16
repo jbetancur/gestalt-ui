@@ -66,9 +66,11 @@ export default {
   },
   container: {
     triggers: [
-
       {
         name: 'container.create.post'
+      },
+      {
+        name: 'container.update.post'
       },
       {
         name: 'container.delete.post'
@@ -160,7 +162,9 @@ export default {
       {
         name: 'lambda.create.post'
       },
-
+      {
+        name: 'lambda.update.post'
+      },
       {
         name: 'lambda.delete.post'
       }
@@ -217,7 +221,9 @@ export default {
       {
         name: 'provider.create.post'
       },
-
+      {
+        name: 'provider.create.post'
+      },
       {
         name: 'provider.delete.post'
       }
