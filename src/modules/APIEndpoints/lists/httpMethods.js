@@ -1,22 +1,22 @@
 export default [
   {
-    name: 'GET',
+    label: 'GET',
     value: 'GET',
   },
   {
-    name: 'POST',
+    label: 'POST',
     value: 'POST',
   },
   {
-    name: 'PUT',
+    label: 'PUT',
     value: 'PUT',
   },
   {
-    name: 'DELETE',
+    label: 'DELETE',
     value: 'DELETE',
   },
   {
-    name: 'PATCH',
+    label: 'PATCH',
     value: 'PATCH',
   }
 ];

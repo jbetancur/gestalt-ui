@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import selectedEndpoints from './selectedEndpoints';
+import rateLimitToggled from './rateLimitToggled';
 
 export default combineReducers({
-  selectedEndpoints,
+  rateLimitToggled,
 });

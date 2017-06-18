@@ -11,17 +11,22 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Autocomplete from 'react-md/lib/Autocompletes';
 import Checkbox from 'components/Checkbox';
 import SelectField from 'components/SelectField';
+import SelectionControlGroup from 'components/SelectionControlGroup';
 import TextField from 'components/TextField';
 import Breadcrumbs from 'modules/Breadcrumbs';
 import { Button } from 'components/Buttons';
+import HelpText from 'components/HelpText';
 // import authTypes from '../../lists/authTypes';
-// import httpMethods from '../../lists/httpMethods';
+import RateLimit from '../RateLimit';
+import httpMethods from '../../lists/httpMethods';
 import implementationTypes from '../../lists/implementationTypes';
 
 const APIEndpointForm = (props) => {
   const {
+    form,
     reset,
     values,
+    dispatch,
     params,
     pending,
     apiEndpointUpdatePending,
@@ -57,7 +62,11 @@ const APIEndpointForm = (props) => {
   };
 
   const handleAutoComplete = (value) => {
-    props.dispatch(change(props.form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
+    dispatch(change(props.form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
+  };
+
+  const handleRateLimitToggle = (value) => {
+    props.toggleRateLimit(value);
   };
 
   return (
@@ -107,22 +116,9 @@ const APIEndpointForm = (props) => {
                 itemValue="value"
                 required
                 label="Auth Type"
-                errorText={props.touched && props.error}
-              />
-              <Field
-                id="auth-type"
-                className="flex-2 flex-xs-6"
-                component={SelectField}
-                name="properties.http_method"
-                menuItems={httpMethods}
-                itemLabel="name"
-                itemValue="value"
-                required
-                label="HTTP Method"
-                errorText={props.touched && props.error}
               /> */}
               <Field
-                className="flex-4 flex-xs-12"
+                className="flex-5 flex-xs-12"
                 component={TextField}
                 name="properties.resource"
                 label="Resource Path"
@@ -179,7 +175,7 @@ const APIEndpointForm = (props) => {
               {values.properties.implementation_type === 'container' &&
                 <Field
                   id="container-ports-dropdown"
-                  className="flex-3 flex-xs-12"
+                  className="flex-2 flex-xs-12"
                   component={SelectField}
                   name="properties.container_port_name"
                   menuItems={containerPorts()}
@@ -188,6 +184,30 @@ const APIEndpointForm = (props) => {
                   required
                   label="Container Port Name"
                 />}
+              <div className="flex-row">
+                <div className="flex-6 flex-xs-12">
+                  <Field
+                    inline
+                    controlStyle={{ minWidth: '7em' }}
+                    component={SelectionControlGroup}
+                    type="checkbox"
+                    id="controlGroupCheckbox"
+                    name="properties.methods"
+                    label={<span>HTTP Methods<span>*</span></span>}
+                    controls={httpMethods}
+                  />
+                  <HelpText message="* at least one http method is required" />
+                </div>
+
+                <RateLimit
+                  className="flex-6 flex-xs-12"
+                  rateLimitToggledName="properties.rateLimit.toggled"
+                  perMinuteName="properties.rateLimit.perMinute"
+                  isToggled={editMode && values.properties.rateLimit}
+                  onToggledState={value => handleRateLimitToggle(value)}
+                />
+              </div>
+
               {/* <Field
                 className="flex-6 flex-xs-12"
                 component={TextField}
@@ -224,6 +244,7 @@ const APIEndpointForm = (props) => {
 };
 
 APIEndpointForm.propTypes = {
+  toggleRateLimit: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   form: PropTypes.string.isRequired,
   reset: PropTypes.func.isRequired,
@@ -261,6 +282,6 @@ APIEndpointForm.defaultProps = {
 
 export default connect(
   (state, props) => ({
-    values: getFormValues(props.form)(state)
+    values: getFormValues(props.form)(state),
   })
 )(APIEndpointForm);

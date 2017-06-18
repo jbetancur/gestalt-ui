@@ -3,5 +3,6 @@ export default {
   modified: {},
   properties: {
     auth_type: {},
+    rateLimit: {},
   },
 };

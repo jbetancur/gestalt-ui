@@ -4,7 +4,9 @@ export const nameMaxLen = 45;
 
 export default (values) => {
   const errors = {
-    properties: {},
+    properties: {
+      rateLimit: {},
+    },
   };
 
   if (!values.name) {
@@ -34,6 +36,19 @@ export default (values) => {
   if (!values.properties.container_port_name) {
     errors.properties.container_port_name = 'select a container port name, otherwise, ensure that you created an exposed port mapping';
   }
+
+  if (!values.properties.methods) {
+    errors.properties.methods = ' ';
+  }
+
+  if (values.properties.rateLimit && !values.properties.rateLimit.perMinute) {
+    errors.properties.rateLimit.perMinute = ' ';
+  }
+
+  if (values.properties.rateLimit && (values.properties.rateLimit.perMinute > 65536 || values.properties.rateLimit.perMinute === 0)) {
+    errors.properties.rateLimit.perMinute = 'enter a value between 1 and 65536';
+  }
+
 
   // /* eslint-disable dot-notation */
   // if (!values.properties.implementation['function']) {

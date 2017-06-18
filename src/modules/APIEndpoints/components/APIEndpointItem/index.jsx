@@ -104,8 +104,9 @@ class apiEndpointItem extends PureComponent {
         <TableColumn>
           <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
-        {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn>
-      <TableColumn>{apiEndpoint.properties.http_method}</TableColumn> */}
+        {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn> */}
+        <TableColumn><span className="gf-caption">{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(', ')}</span></TableColumn>
+        <TableColumn>{apiEndpoint.properties.rateLimit && apiEndpoint.properties.rateLimit.perMinute}</TableColumn>
         <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
@@ -128,9 +129,10 @@ class apiEndpointItem extends PureComponent {
           <TableHeader>
             <TableRow>
               <TableColumn sorted={handleTableSortIcon('properties.resource', true)} onClick={() => sortTable('properties.resource')}>Resource Path</TableColumn>
-              {/* <TableColumn>Security</TableColumn>
-              <TableColumn>HTTP Method</TableColumn> */}
+              {/* <TableColumn>Security</TableColumn> */}
               <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
+              <TableColumn>HTTP Methods</TableColumn>
+              <TableColumn>Rate Limit (per minute)</TableColumn>
               <TableColumn sorted={handleTableSortIcon('properties.implementation_type')} onClick={() => sortTable('properties.implementation_type')}>Type</TableColumn>
               <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
               <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>

@@ -31,9 +31,12 @@ const ListButton = styled(Button)`
 
 const ContainerForm = (props) => {
   const { values, params, container } = props;
-  const selectedProvider = props.providers
-    .find(provider => values.properties.provider.id === provider.id)
-    || { properties: { config: { networks: [] } } };
+  let selectedProvider = props.providers.find(provider => values.properties.provider.id === provider.id);
+
+  // fix whwen missing properties.config.networks property
+  if (selectedProvider && !selectedProvider.properties.config) {
+    selectedProvider = { ...selectedProvider, properties: { config: { networks: [] } } };
+  }
 
   const fetchProviders = () => {
     const entityId = params.environmentId || params.workspaceId || null;
@@ -363,8 +366,6 @@ ContainerForm.propTypes = {
 
 ContainerForm.defaultProps = {
   pendingContainerUpdate: false,
-  touched: false,
-  error: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

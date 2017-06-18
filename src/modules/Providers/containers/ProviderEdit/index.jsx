@@ -168,6 +168,29 @@ function mapStateToProps(state) {
   const { provider, pending } = state.metaResource.provider;
   const privateVariables = map(provider.properties.config.env.private, (value, name) => ({ name, value }));
   const publicVariables = map(provider.properties.config.env.public, (value, name) => ({ name, value }));
+  const model = {
+    name: provider.name,
+    description: provider.description,
+    resource_type: provider.resource_type,
+    properties: {
+      config: {
+        auth: provider.properties.config.auth,
+        url: provider.properties.config.url,
+        external_protocol: provider.properties.config.external_protocol,
+        env: {
+          public: {},
+          private: {},
+        },
+      },
+      linked_providers: [],
+      data: provider.properties.data ? base64.decode(provider.properties.data) : '',
+      locations: provider.properties.locations,
+      services: provider.properties.services,
+    },
+    publicVariables,
+    privateVariables,
+    linkedProviders: provider.properties.linked_providers,
+  };
 
   return {
     provider,
@@ -177,29 +200,7 @@ function mapStateToProps(state) {
     providers: state.metaResource.providersByType.providers,
     pendingProviders: state.metaResource.providers.pending,
     container: state.metaResource.container.container,
-    initialValues: {
-      name: provider.name,
-      description: provider.description,
-      resource_type: provider.resource_type,
-      properties: {
-        config: {
-          auth: provider.properties.config.auth,
-          url: provider.properties.config.url,
-          external_protocol: provider.properties.config.external_protocol,
-          env: {
-            public: {},
-            private: {},
-          },
-        },
-        linked_providers: [],
-        data: provider.properties.data ? base64.decode(provider.properties.data) : '',
-        locations: provider.properties.locations,
-        services: provider.properties.services,
-      },
-      publicVariables,
-      privateVariables,
-      linkedProviders: provider.properties.linked_providers,
-    },
+    initialValues: model,
     enableReinitialize: true,
   };
 }
