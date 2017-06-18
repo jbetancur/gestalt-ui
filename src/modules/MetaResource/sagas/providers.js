@@ -8,6 +8,10 @@ function fixProperties(data) {
   const payload = { ...data };
   // TODO: providers such as kubernetes do not have this field
   // May split out providers types into their own respective modules/forms
+  if (!payload.properties.config) {
+    payload.properties.config = {};
+  }
+
   if (payload.properties.config && !payload.properties.config.env) {
     payload.properties.config = merge(payload.properties.config, { env: { public: {}, private: {} } });
   }
