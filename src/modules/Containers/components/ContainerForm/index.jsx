@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
 import { Link } from 'react-router';
+import { merge } from 'lodash';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -31,12 +32,9 @@ const ListButton = styled(Button)`
 
 const ContainerForm = (props) => {
   const { values, params, container } = props;
-  let selectedProvider = props.providers.find(provider => values.properties.provider.id === provider.id);
 
-  // fix whwen missing properties.config.networks property
-  if (selectedProvider && !selectedProvider.properties.config) {
-    selectedProvider = { ...selectedProvider, properties: { config: { networks: [] } } };
-  }
+  const selectedProvider = merge({ properties: { config: { networks: [] } } },
+    props.providers.find(provider => values.properties.provider.id === provider.id));
 
   const fetchProviders = () => {
     const entityId = params.environmentId || params.workspaceId || null;
@@ -133,9 +131,9 @@ const ContainerForm = (props) => {
                     className="flex-4 flex-xs-12"
                     component={SelectField}
                     name="properties.network"
-                    menuItems={Array.isArray(selectedProvider.properties.config.networks) ? selectedProvider.properties.config.networks : []}
-                    disabled={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length)}
-                    label={!(selectedProvider.properties.config.networks && selectedProvider.properties.config.networks.length) ? 'No Configured Networks' : 'Network'}
+                    menuItems={selectedProvider.properties.config.networks}
+                    disabled={!selectedProvider.properties.config.networks.length}
+                    label={!selectedProvider.properties.config.networks.length ? 'No Configured Networks' : 'Network'}
                     itemLabel="name"
                     itemValue="name"
                     required
