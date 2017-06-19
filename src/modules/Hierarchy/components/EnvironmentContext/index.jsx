@@ -146,7 +146,7 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { params, pending, environment, navigation } = this.props;
+    const { params, router, pending, environment, navigation } = this.props;
     const parentFQON = getParentFQON(environment);
     const name = environment.description || environment.name;
 
@@ -154,7 +154,7 @@ class EnvironmentContext extends Component {
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle expander={!pending}>
-            <NavUpArrowButton component={Link} to={`/${parentFQON}/hierarchy/${params.workspaceId}`} />
+            <NavUpArrowButton disabled={pending} onClick={() => router.push(`/${parentFQON}/hierarchy/${params.workspaceId}`)} />
             {this.renderActionsMenu()}
             <div>
               <div className="gf-headline">{!pending ? name : <DotActivity />}</div>

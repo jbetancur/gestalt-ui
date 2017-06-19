@@ -153,14 +153,14 @@ class WorkspaceContext extends Component {
   }
 
   render() {
-    const { pending, workspace, params, navigation } = this.props;
+    const { pending, router, workspace, params, navigation } = this.props;
     const parentFQON = getParentFQON(workspace);
 
     return (
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle expander={!pending}>
-            <NavUpArrowButton component={Link} to={`/${parentFQON}/hierarchy`} />
+            <NavUpArrowButton disabled={pending} onClick={() => router.push(`/${parentFQON}/hierarchy`)} />
             {this.renderActionsMenu()}
             <div>
               <div className="gf-headline">{!pending ? workspace.description || workspace.name : <DotActivity />}</div>
