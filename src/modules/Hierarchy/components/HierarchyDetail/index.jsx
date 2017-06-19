@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import getParentFQON from 'util/helpers/fqon';
 import { VariablesListing } from 'modules/Variables';
@@ -12,6 +11,7 @@ import HierarchyActions from '../../components/HierarchyActions';
 
 class HierarchyDetail extends PureComponent {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     pendingOrgset: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
@@ -26,7 +26,7 @@ class HierarchyDetail extends PureComponent {
   }
 
   render() {
-    const { params, model, pendingOrgset, self, t } = this.props;
+    const { params, router, model, pendingOrgset, self, t } = this.props;
     const parentFQON = getParentFQON(model);
 
     return (
@@ -36,7 +36,7 @@ class HierarchyDetail extends PureComponent {
             expander={!pendingOrgset}
             title={
               !(params.fqon === self.properties.gestalt_home.properties.fqon) &&
-              <NavUpArrowButton disabled={pendingOrgset} component={Link} to={`/${parentFQON}/hierarchy`} />
+              <NavUpArrowButton disabled={pendingOrgset} onClick={() => router.push(`/${parentFQON}/hierarchy`)} />
             }
           >
             <HierarchyActions organization={model} {...this.props} />
