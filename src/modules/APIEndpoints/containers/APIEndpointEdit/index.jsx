@@ -21,6 +21,7 @@ class APIEndpointEdit extends Component {
     fetchLambdasDropDown: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
     pending: PropTypes.bool.isRequired,
+    unloadRateLimitToggleState: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -33,6 +34,10 @@ class APIEndpointEdit extends Component {
     }
 
     fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId);
+  }
+
+  componentWillUnmount() {
+    this.props.unloadRateLimitToggleState();
   }
 
   updateAPIEndpoint(values) {

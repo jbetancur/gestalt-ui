@@ -14,7 +14,12 @@ class APIEndpointCreate extends Component {
     params: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
+    unloadRateLimitToggleState: PropTypes.func.isRequired,
   };
+
+  componentWillUnmount() {
+    this.props.unloadRateLimitToggleState();
+  }
 
   create(values) {
     const { params, router, createAPIEndpoint, rateLimitToggled } = this.props;
