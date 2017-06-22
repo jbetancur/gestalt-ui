@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
@@ -21,10 +21,10 @@ const TableWrapper = styled.div`
 
 class ContainerItem extends PureComponent {
   static propTypes = {
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     containers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
@@ -61,22 +61,22 @@ class ContainerItem extends PureComponent {
   }
 
   init(isPolling) {
-    const { params, fetchContainers } = this.props;
-    fetchContainers(params.fqon, params.environmentId, isPolling);
+    const { match, fetchContainers } = this.props;
+    fetchContainers(match.params.fqon, match.params.environmentId, isPolling);
   }
 
   edit(container, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params } = this.props;
-      router.push({
-        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/containers/${container.id}/edit`
+      const { history, match } = this.props;
+      history.push({
+        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/${container.id}/edit`
       });
     }
   }
 
   renderCreateButton() {
-    const { params } = this.props;
+    const { match } = this.props;
 
     return (
       <Button
@@ -86,7 +86,7 @@ class ContainerItem extends PureComponent {
         primary
         component={Link}
         to={{
-          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/containers/create`
+          pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`
         }}
       >
         <FontIcon>add</FontIcon>

@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class PolicyCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createPolicy: PropTypes.func.isRequired,
   };
 
   create(values) {
-    const { params, router, createPolicy } = this.props;
-    const onSuccess = response => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${response.id}/edit`);
-    createPolicy(params.fqon, params.environmentId, values, onSuccess);
+    const { match, history, createPolicy } = this.props;
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${response.id}/edit`);
+    createPolicy(match.params.fqon, match.params.environmentId, values, onSuccess);
   }
 
   render() {
@@ -43,4 +44,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyCreate',
   validate
-})(PolicyCreate));
+})(context(PolicyCreate)));

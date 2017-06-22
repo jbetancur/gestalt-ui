@@ -21,12 +21,19 @@ export function handleTheme(theme) {
   return { type: CHANGE_EDITOR_THEME, theme };
 }
 
-export function showEntitlementsModal(item) {
+export function showEntitlementsModal(item, params) {
   return {
     type: 'SHOW_MODAL',
     modalType: 'EntitlementModal',
     modalProps: {
       title: `Entitlements for "${item}"`,
+      params,
     }
   };
 }
+
+export default {
+  confirmDelete,
+  handleTheme,
+  showEntitlementsModal,
+};

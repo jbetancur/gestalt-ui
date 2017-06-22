@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import PortMapListing from '../../components/PortMapListing';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 function mapStateToProps(state) {
   return {

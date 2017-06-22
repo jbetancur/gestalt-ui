@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import cookie from 'react-cookie';
 import getParentFQON from 'util/helpers/fqon';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
@@ -10,22 +10,22 @@ import FontIcon from 'react-md/lib/FontIcons';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { LambdaIcon, DeleteIcon, ProviderIcon } from 'components/Icons';
-import Providers from 'modules/Providers';
-import Lambdas from 'modules/Lambdas';
+import { Providers } from 'modules/Providers';
+import { Lambdas } from 'modules/Lambdas';
 import { Containers } from 'modules/Containers';
-import Policies from 'modules/Policies';
+import { Policies } from 'modules/Policies';
 import Integrations from 'modules/Integrations';
-import APIs from 'modules/APIs';
+import { APIs } from 'modules/APIs';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import DotActivity from 'components/DotActivity';
 import { NavUpArrowButton } from 'components/Buttons';
 
 class EnvironmentContext extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     handleEnvironmentNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
@@ -33,7 +33,6 @@ class EnvironmentContext extends Component {
     environment: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    setCurrentEnvironmentContext: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
   };
 
@@ -42,40 +41,32 @@ class EnvironmentContext extends Component {
   }
 
   componentDidMount() {
-    const { params, fetchEnvironment } = this.props;
-    fetchEnvironment(params.fqon, params.environmentId);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { environment, setCurrentEnvironmentContext } = this.props;
-    // Keep the current Environment Context Synced
-    if (nextProps.environment !== environment) {
-      setCurrentEnvironmentContext(nextProps.environment);
-    }
+    const { match, fetchEnvironment } = this.props;
+    fetchEnvironment(match.params.fqon, match.params.environmentId);
   }
 
   handleViewState(view, index) {
-    const { handleEnvironmentNavigation, router } = this.props;
+    const { handleEnvironmentNavigation, history } = this.props;
     const validCookie = !!cookie.load('auth-token') || false;
 
     if (!validCookie) {
-      router.replace('/login');
+      history.replace('/login');
     }
 
     handleEnvironmentNavigation(view, index);
   }
 
   delete() {
-    const { params, router, environment, deleteEnvironment } = this.props;
+    const { match, history, environment, deleteEnvironment } = this.props;
 
-    const onSuccess = () => router.push(`${params.fqon}/hierarchy/${params.workspaceId}`);
+    const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
     this.props.confirmDelete(() => {
-      deleteEnvironment(params.fqon, environment.id, onSuccess);
+      deleteEnvironment(match.params.fqon, environment.id, onSuccess);
     }, environment.description || environment.name, 'Environment');
   }
 
   renderActionsMenu() {
-    const { params, pending, environment } = this.props;
+    const { match, pending, environment } = this.props;
     const name = environment.description || environment.name;
 
     return (
@@ -94,13 +85,13 @@ class EnvironmentContext extends Component {
             primaryText={<span>Edit {name}</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
-            to={`/${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/edit`}
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/edit`}
           />
           <ListItem
             id="orgs-settings-menu--entitlements"
             primaryText={<span>Entitlements {name}</span>}
             leftIcon={<FontIcon>security</FontIcon>}
-            onClick={() => this.props.showEntitlementsModal(name, 'Environment')}
+            onClick={() => this.props.showEntitlementsModal(name, match.params, 'Environment')}
           />
           <Divider />
           <ListItem
@@ -146,7 +137,7 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { params, router, pending, environment, navigation } = this.props;
+    const { match, history, pending, environment, navigation } = this.props;
     const parentFQON = getParentFQON(environment);
     const name = environment.description || environment.name;
 
@@ -154,7 +145,7 @@ class EnvironmentContext extends Component {
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle expander={!pending}>
-            <NavUpArrowButton disabled={pending} onClick={() => router.push(`/${parentFQON}/hierarchy/${params.workspaceId}`)} />
+            <NavUpArrowButton disabled={pending} onClick={() => history.push(`/${parentFQON}/hierarchy/${match.params.workspaceId}`)} />
             {this.renderActionsMenu()}
             <div>
               <div className="gf-headline">{!pending ? name : <DotActivity />}</div>

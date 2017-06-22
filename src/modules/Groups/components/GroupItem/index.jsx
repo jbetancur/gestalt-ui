@@ -1,19 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class GroupItem extends PureComponent {
   static propTypes = {
     fetchGroups: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     groups: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteGroups: PropTypes.func.isRequired,
@@ -32,8 +32,8 @@ class GroupItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchGroups, params } = this.props;
-    fetchGroups(params.fqon);
+    const { fetchGroups, match } = this.props;
+    fetchGroups(match.params.fqon);
   }
 
   componentWillUnmount() {
@@ -52,23 +52,23 @@ class GroupItem extends PureComponent {
   edit(group, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      this.props.router.push(`${this.props.params.fqon}/groups/${group.id}/edit`);
+      this.props.history.push(`/${this.props.match.params.fqon}/groups/${group.id}/edit`);
     }
   }
 
   delete() {
-    const { params, fetchGroups, deleteGroups, clearTableSelected } = this.props;
+    const { match, fetchGroups, deleteGroups, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedGroups;
     const groupIds = selectedItems.map(item => (item.id));
     const groupsNames = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
       clearTableSelected();
-      fetchGroups(params.fqon);
+      fetchGroups(match.params.fqon);
     };
 
     this.props.confirmDelete(() => {
-      deleteGroups(groupIds, params.fqon, onSuccess);
+      deleteGroups(groupIds, match.params.fqon, onSuccess);
     }, groupsNames);
   }
 
@@ -80,7 +80,7 @@ class GroupItem extends PureComponent {
         flat
         primary
         component={Link}
-        to={`${this.props.params.fqon}/groups/create`}
+        to={`/${this.props.match.params.fqon}/groups/create`}
       >
         <FontIcon>add</FontIcon>
       </Button>

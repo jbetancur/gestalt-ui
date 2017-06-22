@@ -34,3 +34,9 @@ export function confirmDelete(action, multipleItems) {
     });
   };
 }
+
+export default {
+  handleSelectedActions,
+  clearSelectedActions,
+  confirmDelete,
+};

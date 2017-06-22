@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import { ModalTitle } from 'components/Modal';
 import HealthCheckForm from '../../components/HealthCheckForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 import validate from '../../components/HealthCheckForm/validations';
 
 const EnhancedDialog = styled(Dialog)`

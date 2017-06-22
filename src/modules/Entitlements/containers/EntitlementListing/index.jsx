@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { metaActions } from 'modules/MetaResource';
 import EntitlementItem from '../../components/EntitlementItem';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 function mapStateToProps(state) {
   return {

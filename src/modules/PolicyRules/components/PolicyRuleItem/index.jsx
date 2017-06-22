@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
@@ -12,12 +12,12 @@ import policyTypes from '../../lists/policyTypes';
 
 class PolicyRuleItem extends PureComponent {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     policyRules: PropTypes.array.isRequired,
     selectedPolicyRules: PropTypes.object.isRequired,
     deletePolicyRules: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchPolicyRules: PropTypes.func.isRequired,
     unloadPolicyRules: PropTypes.func.isRequired,
@@ -33,8 +33,8 @@ class PolicyRuleItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { params, fetchPolicyRules } = this.props;
-    fetchPolicyRules(params.fqon, params.policyId);
+    const { match, fetchPolicyRules } = this.props;
+    fetchPolicyRules(match.params.fqon, match.params.policyId);
   }
 
   componentWillUnmount() {
@@ -51,43 +51,39 @@ class PolicyRuleItem extends PureComponent {
   }
 
   delete() {
-    const { params, fetchPolicyRules, deletePolicyRules, clearTableSelected } = this.props;
+    const { match, fetchPolicyRules, deletePolicyRules, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedPolicyRules;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
       clearTableSelected();
-      fetchPolicyRules(params.fqon, params.policyId);
+      fetchPolicyRules(match.params.fqon, match.params.policyId);
     };
 
     this.props.confirmDelete(() => {
-      deletePolicyRules(IDs, params.fqon, params.policyId, onSuccess);
+      deletePolicyRules(IDs, match.params.fqon, match.params.policyId, onSuccess);
     }, names);
   }
 
   edit(policyRule, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, } = this.props;
+      const { history, match, } = this.props;
       const ruleType = policyRule.resource_type.split(/[::]+/).pop();
-      router.push({
-        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`
-      });
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`);
     }
   }
 
   renderCreateMenuItems() {
-    const { params } = this.props;
+    const { match } = this.props;
 
     return policyTypes.map(type => (
       <ListItem
         key={type.value}
         primaryText={type.displayName}
         component={Link}
-        to={{
-          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit/rules/create${type.name}Rule`
-        }}
+        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit/rules/create${type.name}Rule`}
       />)
     );
   }

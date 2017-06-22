@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -10,10 +10,10 @@ import { DeleteIcon } from 'components/Icons';
 
 class HierarchyAction extends PureComponent {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
     pendingOrgset: PropTypes.bool.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     deleteOrg: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
@@ -23,9 +23,9 @@ class HierarchyAction extends PureComponent {
 
   delete(e, organization) {
     e.stopPropagation();
-    const { deleteOrg } = this.props;
+    const { history, deleteOrg } = this.props;
     const parentFQON = getParentFQON(organization);
-    const onSuccess = () => this.props.router.replace(`${parentFQON}/hierarchy`);
+    const onSuccess = () => history.replace(`/${parentFQON}/hierarchy`);
 
     this.props.confirmDelete(() => {
       deleteOrg(organization.properties.fqon, onSuccess);
@@ -33,7 +33,7 @@ class HierarchyAction extends PureComponent {
   }
 
   render() {
-    const { organization, params, pendingOrgset, self, t } = this.props;
+    const { organization, match, pendingOrgset, self, t } = this.props;
     const name = organization.description || organization.name;
 
     return (
@@ -76,14 +76,14 @@ class HierarchyAction extends PureComponent {
             id="orgs-settings-menu--entitlements"
             primaryText={<span>Entitlements {name}</span>}
             leftIcon={<FontIcon>security</FontIcon>}
-            onClick={() => this.props.showEntitlementsModal(name, 'Organization')}
+            onClick={() => this.props.showEntitlementsModal(name, match.params, 'Organization')}
           />
           <Divider />
           <ListItem
             id="orgs-settings-menu--delete"
             primaryText={<span>{t('general.verbs.delete')} {name}</span>}
             leftIcon={<DeleteIcon />}
-            disabled={params.fqon === self.properties.gestalt_home || params.fqon === 'root'}
+            disabled={match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root'}
             onClick={e => this.delete(e, organization)}
           />
         </MenuButton>

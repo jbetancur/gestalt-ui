@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -12,10 +12,10 @@ import A from 'components/A';
 class LambdaItem extends PureComponent {
   static propTypes = {
     lambdas: PropTypes.array.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     selectedLambdas: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchLambdas: PropTypes.func.isRequired,
@@ -32,9 +32,9 @@ class LambdaItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { params, fetchLambdas } = this.props;
+    const { match, fetchLambdas } = this.props;
 
-    fetchLambdas(params.fqon, params.environmentId);
+    fetchLambdas(match.params.fqon, match.params.environmentId);
   }
 
   componentWillUnmount() {
@@ -51,34 +51,32 @@ class LambdaItem extends PureComponent {
   }
 
   delete() {
-    const { params, deleteLambdas, clearTableSelected, fetchLambdas } = this.props;
+    const { match, deleteLambdas, clearTableSelected, fetchLambdas } = this.props;
     const { selectedItems } = this.props.selectedLambdas;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
       clearTableSelected();
-      fetchLambdas(params.fqon, params.environmentId);
+      fetchLambdas(match.params.fqon, match.params.environmentId);
     };
 
     this.props.confirmDelete(() => {
-      deleteLambdas(IDs, params.fqon, onSuccess);
+      deleteLambdas(IDs, match.params.fqon, onSuccess);
     }, names);
   }
 
   edit(lambda, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params } = this.props;
+      const { history, match } = this.props;
 
-      router.push({
-        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/lambdas/${lambda.id}/edit`
-      });
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/lambdas/${lambda.id}/edit`);
     }
   }
 
   renderCreateButton() {
-    const { params } = this.props;
+    const { match } = this.props;
 
     return (
       <Button
@@ -87,9 +85,7 @@ class LambdaItem extends PureComponent {
         flat
         primary
         component={Link}
-        to={{
-          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/lambdas/create`
-        }}
+        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/lambdas/create`}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -108,7 +104,7 @@ class LambdaItem extends PureComponent {
 
   render() {
     const { selectedCount } = this.props.selectedLambdas;
-    const { handleTableSortIcon, sortTable, params } = this.props;
+    const { handleTableSortIcon, sortTable, match } = this.props;
 
     const lambdas = this.props.lambdas.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
@@ -117,7 +113,10 @@ class LambdaItem extends PureComponent {
             icon
             tooltipLabel="View Log"
             tooltipPosition="right"
-            to={{ pathname: 'logs', query: { name: lambda.name, fqon: params.fqon, providerId: lambda.properties.provider.id, logType: 'lambda', logId: lambda.id } }}
+            to={{
+              pathname: '/logs',
+              search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
+            }}
             target="_blank"
             component={Link}
           >subject

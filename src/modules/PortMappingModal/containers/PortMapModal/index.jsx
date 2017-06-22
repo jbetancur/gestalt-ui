@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import { ModalTitle } from 'components/Modal';
 import PortMapForm from '../../components/PortMapForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 import validate from '../../components/PortMapForm/validations';
 
 const EnhancedDialog = styled(Dialog)`

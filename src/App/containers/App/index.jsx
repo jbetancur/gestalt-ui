@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import cookie from 'react-cookie';
+import { Switch, Route, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
 import styled, { ThemeProvider } from 'styled-components';
 import cn from 'classnames';
+import HierarchyRoot from 'modules/Hierarchy';
+import NotFound from 'components/NotFound';
+import ProviderRoot from 'modules/Providers';
+import UserRoot from 'modules/Users';
+import GroupRoot from 'modules/Groups';
+import Licensing, { licenseActions } from 'modules/Licensing';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
@@ -17,29 +24,25 @@ import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
 import { GestaltIcon, USEnglishLangIcon, HierarchyIcon, ProviderIcon } from 'components/Icons';
-import { licenseActions } from 'modules/Licensing';
 import { loginActions } from 'modules/Login';
 import { metaActions } from 'modules/MetaResource';
 import ListItemStacked from 'components/ListItemStacked';
 import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
-import * as actions from '../../actions';
+import actions from '../../actions';
 import lightTheme from '../../../style/themes/light';
 
 class App extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     fetchSelf: PropTypes.func.isRequired,
     fetchLicense: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired,
-    children: PropTypes.object,
+    match: PropTypes.object.isRequired,
     selfFetching: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     setCurrentOrgContextfromState: PropTypes.func.isRequired,
-    setCurrentWorkspaceContextfromState: PropTypes.func.isRequired,
-    setCurrentEnvironmentContextfromState: PropTypes.func.isRequired,
     activityIndicator: PropTypes.bool.isRequired,
     browser: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -57,40 +60,21 @@ class App extends Component {
 
   componentDidMount() {
     const {
-      params,
+      // match,
       fetchSelf,
-      setCurrentOrgContextfromState,
-      setCurrentWorkspaceContextfromState,
-      setCurrentEnvironmentContextfromState,
+      // setCurrentOrgContextfromState,
       fetchLicense,
     } = this.props;
     // sets our current logged in users home org
     fetchSelf();
     // Check License Status
     fetchLicense('root');
-    // we have to make an additional call here to set the currentOrgState
-    // This is mainly to appease browser refresh where we lose currentOrg state and wont run when there is blank fqon in the url
-    if (params.fqon) {
-      setCurrentOrgContextfromState(params.fqon);
-    }
-
-    // do the same for workspaces
-    if (params.fqon && params.workspaceId) {
-      setCurrentWorkspaceContextfromState(params.fqon, params.workspaceId);
-    }
-
-    // do the same for environments
-    if (params.fqon && params.workspaceId && params.environmentId) {
-      setCurrentEnvironmentContextfromState(params.fqon, params.environmentId);
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    // where there is no fqon in the url set the current org context to gestalt_home - we can later manage this in a user profile setting
-    if (nextProps.self !== this.props.self && !this.props.params.fqon) {
+    if (nextProps.self !== this.props.self && !this.props.match.params.fqon) {
       this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
-      // Set Initial route - we can later manage this in a user profile setting
-      this.props.router.replace(`${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
+      this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
     }
   }
 
@@ -101,12 +85,21 @@ class App extends Component {
     return currentOrgContext.id ? currentOrgContext : self.properties.gestalt_home;
   }
 
+  logout() {
+    const { history, logout } = this.props;
+
+    logout();
+    // delete local cookie and redirect whether api token delete succeeds or not
+    cookie.remove('auth-token', { path: '/' });
+    history.replace('/login');
+  }
+
   handleVisibleState(visible) {
     this.setState({ drawerVisible: visible });
   }
 
   renderNavItems() {
-    const { params, t, logout } = this.props;
+    const { match, t } = this.props;
 
     return [
       <ListItemStacked
@@ -132,7 +125,7 @@ class App extends Component {
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/users`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
-        visible={params.fqon === 'root'}
+        visible={match.params.fqon === 'root'}
       />,
       <ListItemStacked
         key="groups"
@@ -141,7 +134,7 @@ class App extends Component {
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/groups`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
-        visible={params.fqon === 'root'}
+        visible={match.params.fqon === 'root'}
       />,
       <Divider key="navbar-section-divider-1" />,
       <ListItemStacked
@@ -168,13 +161,13 @@ class App extends Component {
         title={t('auth.logout')}
         style={{ position: 'absolute', bottom: '1em', width: '100%' }}
         inkDisabled
-        onClick={() => logout()}
+        onClick={() => this.logout()}
       />,
     ];
   }
 
   renderActionsMenu() {
-    const { self, browser, logout, t } = this.props;
+    const { self, browser, t } = this.props;
 
     const renderAvatar = iconSized =>
       <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
@@ -195,7 +188,7 @@ class App extends Component {
           primaryText={self.name || ''}
           leftAvatar={renderAvatar(true)}
           component={Link}
-          to={`${self.properties.gestalt_home.properties.fqon}/users/${self.id}/edit`}
+          to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}/edit`}
         />
         <ListItem
           id="main-menu--locale"
@@ -220,7 +213,7 @@ class App extends Component {
           id="main-menu--logout"
           primaryText={t('auth.logout')}
           leftIcon={<FontIcon>power_settings_new</FontIcon>}
-          onClick={() => logout()}
+          onClick={() => this.logout()}
         />
       </MenuButton>,
     ];
@@ -265,7 +258,15 @@ class App extends Component {
             >
               <LoginModal />
               <ModalRoot />
-              {this.props.children}
+              <Switch>
+                <Route path={'/:fqon/hierarchy'} component={HierarchyRoot} />
+                <Route path={'/:fqon/providers'} component={ProviderRoot} />
+                <Route path={'/:fqon/users'} component={UserRoot} />
+                <Route path={'/:fqon/groups'} component={GroupRoot} />
+                <Route exact path={'/:fqon/license'} component={Licensing} />
+                <Route path={'/undefined/hierarchy/*'} component={NotFound} />
+                <Route component={NotFound} />
+              </Switch>
             </NavigationDrawer>
           </ThemeProvider> : <AppError {...this.props} />}
       </main>

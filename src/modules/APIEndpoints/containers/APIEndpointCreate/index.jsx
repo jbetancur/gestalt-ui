@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { compact, cloneDeep } from 'lodash';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class APIEndpointCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
     unloadRateLimitToggleState: PropTypes.func.isRequired,
@@ -22,7 +23,7 @@ class APIEndpointCreate extends Component {
   }
 
   create(values) {
-    const { params, router, createAPIEndpoint, rateLimitToggled } = this.props;
+    const { match, history, createAPIEndpoint, rateLimitToggled } = this.props;
     const payload = cloneDeep(values);
     payload.name = payload.properties.resource.split('/').join('-');
 
@@ -39,8 +40,8 @@ class APIEndpointCreate extends Component {
       delete payload.properties.rateLimit.toggled;
     }
 
-    const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`);
-    createAPIEndpoint(params.fqon, params.apiId, payload, onSuccess);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
+    createAPIEndpoint(match.params.fqon, match.params.apiId, payload, onSuccess);
   }
 
   render() {
@@ -91,4 +92,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'apiEndpointCreate',
   validate
-})(APIEndpointCreate));
+})(context(APIEndpointCreate)));

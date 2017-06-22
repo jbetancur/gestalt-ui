@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
@@ -14,7 +14,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import CardSubHeader from 'components/CardSubHeader';
 import FontIcon from 'react-md/lib/FontIcons';
 import TextFieldMD from 'react-md/lib/TextFields';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import { differenceBy, debounce } from 'lodash';
 import { nameMaxLen } from '../../validations';
@@ -30,7 +30,7 @@ const GroupForm = (props) => {
   const {
     submitLabel,
     cancelLabel,
-    params,
+    match,
     group,
     updatedGroup,
     users,
@@ -57,11 +57,11 @@ const GroupForm = (props) => {
   const onSuccess = () => clearAvailableUsersFilter();
 
   const addUser = (user) => {
-    addGroupMember(params.fqon, group.id, user.id, onSuccess);
+    addGroupMember(match.params.fqon, group.id, user.id, onSuccess);
   };
 
   const removeUser = (user) => {
-    removeGroupMember(params.fqon, group.id, user.id, onSuccess);
+    removeGroupMember(match.params.fqon, group.id, user.id, onSuccess);
   };
 
   // prevents multiple clicks from throwing a RACE - so we use these on the ListItem
@@ -143,7 +143,7 @@ const GroupForm = (props) => {
                 label={cancelLabel}
                 disabled={updatePending || pending || submitting}
                 component={Link}
-                to={`${params.fqon}/groups`}
+                to={`/${match.params.fqon}/groups`}
               />
               <Button
                 raised
@@ -215,7 +215,7 @@ GroupForm.propTypes = {
   clearMemberUsersFilter: PropTypes.func.isRequired,
   availableUsersFilter: PropTypes.object,
   memberUsersFilter: PropTypes.object,
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   updatePending: PropTypes.bool.isRequired,
   updateMembersPending: PropTypes.bool,

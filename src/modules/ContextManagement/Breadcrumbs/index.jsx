@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link, withRouter } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import FontIcon from 'react-md/lib/FontIcons';
 
@@ -33,8 +33,8 @@ const Icon = styled(FontIcon)`
 
 class Breadcrumbs extends PureComponent {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     currentWorkspaceContext: PropTypes.object.isRequired,
     currentEnvironmentContext: PropTypes.object.isRequired,
@@ -47,7 +47,7 @@ class Breadcrumbs extends PureComponent {
 
   checkIfShouldNav(e, route) {
     // strip '/'to make compares reliable
-    if ((this.props.router.location.pathname.split('/').join('') === route.split('/').join(''))) {
+    if ((this.props.location.pathname.split('/').join('') === route.split('/').join(''))) {
       e.preventDefault();
     }
   }
@@ -57,7 +57,7 @@ class Breadcrumbs extends PureComponent {
       currentOrgContext,
       currentWorkspaceContext,
       currentEnvironmentContext,
-      params,
+      match,
       seperator,
     } = this.props;
 
@@ -75,9 +75,9 @@ class Breadcrumbs extends PureComponent {
           <span><Icon>domain</Icon>{currentOrgContext.description || currentOrgContext.name}</span>
         </EnhancedLink>
 
-        {(currentWorkspaceContext.id && params.workspaceId) && ` ${seperator} `}
+        {(currentWorkspaceContext.id && match.params.workspaceId) && ` ${seperator} `}
 
-        {(currentWorkspaceContext.id && params.workspaceId) &&
+        {(currentWorkspaceContext.id && match.params.workspaceId) &&
           <EnhancedLink
             onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
             to={workspaceRoute}
@@ -85,9 +85,9 @@ class Breadcrumbs extends PureComponent {
             <span><Icon>work</Icon>{currentWorkspaceContext.description || currentWorkspaceContext.name}</span>
           </EnhancedLink>}
 
-        {(currentEnvironmentContext.id && params.environmentId) && ` ${seperator} `}
+        {(currentEnvironmentContext.id && match.params.environmentId) && ` ${seperator} `}
 
-        {(currentEnvironmentContext.id && params.environmentId) &&
+        {(currentEnvironmentContext.id && match.params.environmentId) &&
           <EnhancedLink
             onClick={e => this.checkIfShouldNav(e, environmentRoute)}
             to={environmentRoute}

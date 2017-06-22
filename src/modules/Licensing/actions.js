@@ -89,6 +89,7 @@ export function updateLicense(fqon, payload, cb) {
 }
 
 export default {
+  onUnloadLicense,
   fetchLicense,
   updateLicense,
 };

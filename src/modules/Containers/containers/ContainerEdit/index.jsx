@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import { map } from 'lodash';
@@ -10,13 +11,13 @@ import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 import { generateContainerPayload } from '../../payloadTransformers';
 
 class ContainerEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
@@ -31,12 +32,12 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchProvidersByType, fetchEnv } = this.props;
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+    const { match, fetchProvidersByType, fetchEnv } = this.props;
+    const entityId = match.params.environmentId || match.params.workspaceId || null;
+    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
-    fetchProvidersByType(params.fqon, entityId, entityKey, 'CaaS');
-    fetchEnv(params.fqon, entityId, entityKey);
+    fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
+    fetchEnv(match.params.fqon, entityId, entityKey);
     this.populateContainer();
   }
 
@@ -63,18 +64,18 @@ class ContainerEdit extends Component {
   }
 
   populateContainer(isPolling) {
-    const { params, fetchContainer } = this.props;
+    const { match, fetchContainer } = this.props;
 
-    fetchContainer(params.fqon, params.containerId, params.environmentId, isPolling);
+    fetchContainer(match.params.fqon, match.params.containerId, match.params.environmentId, isPolling);
   }
 
   redeployContainer(values) {
-    const { params, router, container, updateContainer, volumes, portMappings, healthChecks } = this.props;
+    const { match, history, container, updateContainer, volumes, portMappings, healthChecks } = this.props;
     const payload = generateContainerPayload(values, volumes, portMappings, healthChecks, true);
-    const onSuccess = () => router.goBack();
+    const onSuccess = () => history.goBack();
     clearTimeout(this.timeout);
 
-    updateContainer(params.fqon, container.id, payload, onSuccess);
+    updateContainer(match.params.fqon, container.id, payload, onSuccess);
   }
 
   render() {
@@ -145,4 +146,4 @@ export default connect(mapStateToProps,
 Object.assign({}, actions, metaActions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
-})(ContainerEdit));
+})(context(ContainerEdit)));

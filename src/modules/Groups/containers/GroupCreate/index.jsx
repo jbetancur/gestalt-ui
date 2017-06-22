@@ -2,25 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import GroupForm from '../../components/GroupForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class GroupCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createGroup: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    this.props.fetchUsers(this.props.params.fqon);
+    this.props.fetchUsers(this.props.match.params.fqon);
   }
 
   create(values) {
-    const { params, router, createGroup } = this.props;
+    const { match, history, createGroup } = this.props;
     const { name, description } = values;
     const payload = {
       name,
@@ -28,9 +29,9 @@ class GroupCreate extends Component {
       properties: {},
     };
 
-    const onSuccess = response => router.replace(`${params.fqon}/groups/${response.id}/edit`);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/groups/${response.id}/edit`);
 
-    createGroup(params.fqon, payload, onSuccess);
+    createGroup(match.params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -53,4 +54,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'groupCreate',
   validate
-})(GroupCreate));
+})(context(GroupCreate)));

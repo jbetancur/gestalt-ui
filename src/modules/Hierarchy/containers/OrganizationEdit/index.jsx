@@ -5,14 +5,15 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { HierarchyForm, validate } from '../../components/HierarchyForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class OrgEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
     fetchOrg: PropTypes.func.isRequired,
     updateOrg: PropTypes.func.isRequired,
@@ -20,7 +21,7 @@ class OrgEdit extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOrg(this.props.params.fqon);
+    this.props.fetchOrg(this.props.match.params.fqon);
   }
 
   updatedModel(formValues) {
@@ -58,7 +59,7 @@ class OrgEdit extends Component {
     const originalModel = this.originalModel(this.props.organization);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    const onSuccess = () => this.props.router.goBack();
+    const onSuccess = () => this.props.history.goBack();
     this.props.updateOrg(properties.fqon, patches, onSuccess);
   }
 
@@ -98,4 +99,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'organizationEdit',
   validate
-})(translate()(OrgEdit)));
+})(translate()(context(OrgEdit))));

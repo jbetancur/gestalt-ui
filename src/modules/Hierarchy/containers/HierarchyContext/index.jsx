@@ -3,27 +3,26 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
+import { context } from 'modules/ContextManagement';
 import { appActions } from 'App';
 import { metaActions } from 'modules/MetaResource';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Sort from 'components/Sort';
-import HierarchyDetail from '../../components/HierarchyDetail';
+import HierarchyContextComponent from '../../components/HierarchyContext';
 import OrganizationCard from '../../components/OrganizationCard';
 import WorkspaceCard from '../../components/WorkspaceCard';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
     organizations: PropTypes.array,
     organization: PropTypes.object.isRequired,
     workspaces: PropTypes.array,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    fetchWorkspaces: PropTypes.func.isRequired,
     pendingOrgset: PropTypes.bool.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
-    setCurrentOrgContext: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
   };
@@ -40,21 +39,15 @@ class HierarchyContext extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchOrgSet(this.props.params.fqon);
-    // this.props.fetchWorkspaces(this.props.params.fqon);
+    this.props.fetchOrgSet(this.props.match.params.fqon);
+    // this.props.fetchWorkspaces(this.props.match.params.fqon);
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.fqon !== this.props.params.fqon) {
-      this.props.fetchOrgSet(nextProps.params.fqon);
-      this.props.fetchWorkspaces(nextProps.params.fqon);
-    }
-
-    // Keep the current Org Context Synced even on refresh
-    if (nextProps.organization !== this.props.organization) {
-      this.props.setCurrentOrgContext(nextProps.organization);
+    if (nextProps.match.params.fqon !== this.props.match.params.fqon) {
+      this.props.fetchOrgSet(nextProps.match.params.fqon);
     }
   }
 
@@ -79,7 +72,7 @@ class HierarchyContext extends PureComponent {
     return (
       <div className="flex-row">
         <Sort
-          visible={sortedOrgs.length}
+          visible={sortedOrgs.length > 0}
           sortKey={this.state.sortKey}
           order={this.state.order}
           setKey={value => this.setState({ sortKey: value })}
@@ -96,11 +89,10 @@ class HierarchyContext extends PureComponent {
 
   render() {
     const { organization, pendingOrgset } = this.props;
-
     return (
       <div>
-        <HierarchyDetail model={organization} {...this.props} />
-        {pendingOrgset ? <LinearProgress id="heirarchy-progress" /> : this.renderCardsContainer()}
+        <HierarchyContextComponent model={organization} {...this.props} />
+        {pendingOrgset ? <LinearProgress id="hierarchy-progress" /> : this.renderCardsContainer()}
       </div>
     );
   }
@@ -109,7 +101,6 @@ class HierarchyContext extends PureComponent {
 
 function mapStateToProps(state) {
   return {
-    // TODO: refactor as selector
     self: state.metaResource.self.self,
     pendingOrgset: state.metaResource.organizationSet.pending,
     organization: state.metaResource.organizationSet.organization,
@@ -118,4 +109,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(HierarchyContext));
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(context(HierarchyContext)));

@@ -76,8 +76,8 @@ const EnhancedDivider = styled(Divider)`
 
 class ContainerActions extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     deleteContainer: PropTypes.func.isRequired,
     scaleContainer: PropTypes.func.isRequired,
@@ -107,91 +107,91 @@ class ContainerActions extends Component {
   }
 
   destroyContainer() {
-    const { params, router, confirmDelete, fetchContainers, deleteContainer, container, inContainerView } = this.props;
+    const { match, history, confirmDelete, fetchContainers, deleteContainer, container, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
-        router.goBack();
+        history.goBack();
       } else {
-        fetchContainers(params.fqon, params.environmentId);
+        fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
     confirmDelete(() => {
-      deleteContainer(params.fqon, container.id, onSuccess);
+      deleteContainer(match.params.fqon, container.id, onSuccess);
     }, container.name);
   }
 
   suspendContainer() {
-    const { params, fetchContainer, fetchContainers, scaleContainer, container, inContainerView } = this.props;
+    const { match, fetchContainer, fetchContainers, scaleContainer, container, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(params.fqon, container.id, params.environmentId, true);
+        fetchContainer(match.params.fqon, container.id, match.params.environmentId, true);
       } else {
-        fetchContainers(params.fqon, params.environmentId);
+        fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
-    scaleContainer(params.fqon, container.id, 0, onSuccess);
+    scaleContainer(match.params.fqon, container.id, 0, onSuccess);
   }
 
   scaleContainer() {
-    const { params, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, container, inContainerView } = this.props;
+    const { match, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, container, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(params.fqon, container.id, params.environmentId, true);
+        fetchContainer(match.params.fqon, container.id, match.params.environmentId, true);
       } else {
-        fetchContainers(params.fqon, params.environmentId);
+        fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
     scaleContainerModal((numInstances) => {
       if (numInstances !== container.properties.num_instances) {
-        scaleContainer(params.fqon, container.id, numInstances, onSuccess);
+        scaleContainer(match.params.fqon, container.id, numInstances, onSuccess);
       }
     }, container.name, container.properties.num_instances);
   }
 
   migrateContainer() {
-    const { params, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
+    const { match, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(params.fqon, container.id, params.environmentId, true);
+        fetchContainer(match.params.fqon, container.id, match.params.environmentId, true);
       } else {
-        fetchContainers(params.fqon, params.environmentId);
+        fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
     migrateContainerModal((providerId) => {
-      migrateContainer(params.fqon, container.id, providerId, onSuccess);
-    }, container.name, container.properties.provider, params);
+      migrateContainer(match.params.fqon, container.id, providerId, onSuccess);
+    }, container.name, container.properties.provider, match.params);
   }
 
   promoteContainer() {
-    const { params, promoteContainer, promoteContainerModal, container, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
+    const { match, promoteContainer, promoteContainerModal, container, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
     const onSuccess = environment => () => {
-      this.props.router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}`);
-      fetchEnvironment(params.fqon, environment.id);
+      this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
+      fetchEnvironment(match.params.fqon, environment.id);
       setCurrentEnvironmentContext(environment);
-      fetchContainers(params.fqon, environment.id);
+      fetchContainers(match.params.fqon, environment.id);
       // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
       // if (inContainerView) {
-      //   this.props.router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
+      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
       //   setCurrentEnvironmentContext(environment);
-      //   fetchContainer(params.fqon, container.id, environment.id, true);
+      //   fetchContainer(match.params.fqon, container.id, environment.id, true);
       // } else {
       //   // TODO: Need to refactor this when we refactor the routing logic
-      //   this.props.router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}`);
-      //   fetchEnvironment(params.fqon, environment.id);
+      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
+      //   fetchEnvironment(match.params.fqon, environment.id);
       //   setCurrentEnvironmentContext(environment);
-      //   fetchContainers(params.fqon, environment.id);
+      //   fetchContainers(match.params.fqon, environment.id);
       // }
     };
 
     promoteContainerModal((environment) => {
-      promoteContainer(params.fqon, container.id, environment.id, onSuccess(environment));
-    }, container.name, params);
+      promoteContainer(match.params.fqon, container.id, environment.id, onSuccess(environment));
+    }, container.name, match.params);
   }
 
   render() {

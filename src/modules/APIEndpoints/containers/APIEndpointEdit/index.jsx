@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
+import { context } from 'modules/ContextManagement';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { cloneDeep, compact } from 'lodash';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class APIEndpointEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     apiEndpoint: PropTypes.object.isRequired,
     fetchAPIEndpoint: PropTypes.func.isRequired,
     updateAPIEndpoint: PropTypes.func.isRequired,
@@ -25,15 +26,15 @@ class APIEndpointEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, router, fetchAPIEndpoint, fetchContainersDropDown, fetchLambdasDropDown } = this.props;
+    const { match, history, fetchAPIEndpoint, fetchContainersDropDown, fetchLambdasDropDown } = this.props;
 
-    if (router.location.query.implementationType === 'container') {
-      fetchContainersDropDown(params.fqon, params.environmentId);
+    if (history.location.query.implementationType === 'container') {
+      fetchContainersDropDown(match.params.fqon, match.params.environmentId);
     } else {
-      fetchLambdasDropDown(params.fqon);
+      fetchLambdasDropDown(match.params.fqon);
     }
 
-    fetchAPIEndpoint(params.fqon, params.apiId, params.apiEndpointId);
+    fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
   }
 
   componentWillUnmount() {
@@ -42,7 +43,7 @@ class APIEndpointEdit extends Component {
 
   updateAPIEndpoint(values) {
     const { id, name, description, properties } = this.props.apiEndpoint;
-    const { params, router, rateLimitToggled } = this.props;
+    const { match, history, rateLimitToggled } = this.props;
     const originalModel = {
       name,
       description,
@@ -69,8 +70,8 @@ class APIEndpointEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
-      const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/APIS/${params.apiId}/edit`);
-      this.props.updateAPIEndpoint(params.fqon, params.apiId, id, patches, onSuccess);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/APIS/${match.params.apiId}/edit`);
+      this.props.updateAPIEndpoint(match.params.fqon, match.params.apiId, id, patches, onSuccess);
     }
   }
 
@@ -121,4 +122,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'apiEndpointEdit',
   validate
-})(APIEndpointEdit));
+})(context(APIEndpointEdit)));

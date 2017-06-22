@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { orderBy } from 'lodash';
 import { metaActions } from 'modules/MetaResource';
+import { context } from 'modules/ContextManagement';
 import { tableActions } from 'modules/TableManager';
 import APIItem from '../../components/APIItem';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
@@ -13,4 +14,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, tableActions))(APIItem);
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, tableActions))(context(APIItem));

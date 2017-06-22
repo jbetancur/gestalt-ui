@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import { Field, getFormValues } from 'redux-form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -15,7 +15,7 @@ import MDSelectField from 'react-md/lib/SelectFields';
 import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import { VariablesForm } from 'modules/Variables';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 // import { Scheduler } from 'modules/PeriodicScheduler';
 import { Button, CopyUUIDButton } from 'components/Buttons';
 import runTimes from '../../lists/runTimes';
@@ -25,7 +25,7 @@ import { nameMaxLen, descriptionMaxLen } from '../../validations';
 const timezones = moment.tz.names();
 
 const LambdaForm = (props) => {
-  const { values, params, lambda } = props;
+  const { values, match, lambda } = props;
 
   // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
   const getRuntime = () => runTimes.find(runtime => runtime.value === values.properties.runtime) || '';
@@ -59,7 +59,10 @@ const LambdaForm = (props) => {
                   <div className="flex-12">
                     <Button
                       label="Log"
-                      to={{ pathname: 'logs', query: { name: lambda.name, fqon: props.params.fqon, providerId: lambda.properties.provider.id, logType: 'lambda', logId: lambda.id } }}
+                      to={{
+                        pathname: '/logs',
+                        search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
+                      }}
                       target="_blank"
                       component={Link}
                       showUUID
@@ -69,7 +72,7 @@ const LambdaForm = (props) => {
                     <Button
                       label="Entitlements"
                       flat
-                      onClick={() => props.showEntitlementsModal(props.title)}
+                      onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
                     >
                       security
                     </Button>
@@ -90,7 +93,7 @@ const LambdaForm = (props) => {
                   itemValue="id"
                   menuItems={props.providers}
                   async
-                  onFocus={() => props.fetchProvidersByType(props.params.fqon, params.environmentId, 'environments', 'Lambda')}
+                  onFocus={() => props.fetchProvidersByType(props.match.params.fqon, match.params.environmentId, 'environments', 'Lambda')}
                   disabled={props.editMode}
                 />
                 <Field
@@ -104,7 +107,7 @@ const LambdaForm = (props) => {
                   required
                   label="Runtime"
                   async
-                  onFocus={() => props.fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor')}
+                  onFocus={() => props.fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor')}
                   onChange={() => handleSupportsInline()}
                   disabled={props.editMode}
                 />
@@ -302,8 +305,7 @@ const LambdaForm = (props) => {
                 flat
                 label={props.cancelLabel}
                 disabled={props.pending || props.submitting}
-                component={Link}
-                onClick={() => props.router.goBack()}
+                onClick={() => props.history.goBack()}
               />
               <Button
                 raised
@@ -321,11 +323,11 @@ const LambdaForm = (props) => {
 };
 
 LambdaForm.propTypes = {
-  router: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   lambdaUpdatePending: PropTypes.bool,
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

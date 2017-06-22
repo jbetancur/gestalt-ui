@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Button } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class ContainerDetails extends PureComponent {
   static propTypes = {
     container: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -15,7 +15,7 @@ class ContainerDetails extends PureComponent {
   }
 
   renderInstancesRows() {
-    const { params, container } = this.props;
+    const { match, container } = this.props;
 
     return container.properties.instances.map((item, i) => (
       <TableRow key={i}>
@@ -24,7 +24,10 @@ class ContainerDetails extends PureComponent {
             icon
             tooltipLabel="View Log"
             tooltipPosition="right"
-            to={{ pathname: 'logs', query: { name: `${container.name} - ${item.host}`, fqon: params.fqon, providerId: container.properties.provider.id, logType: 'container', logId: item.id } }}
+            to={{
+              pathname: '/logs',
+              search: `?name=${container.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${container.properties.provider.id}&logType=container&logId=${item.id}`
+            }}
             target="_blank"
             component={Link}
           >subject

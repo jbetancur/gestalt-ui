@@ -21,7 +21,7 @@ const LicenseForm = (props) => {
     invalid,
     handleSubmit,
     onSubmit,
-    router,
+    history,
     licenseInfo,
   } = props;
 
@@ -92,7 +92,7 @@ const LicenseForm = (props) => {
                 flat
                 label="Cancel"
                 disabled={updatedLicenseInfoPending || submitting}
-                onClick={() => router.goBack()}
+                onClick={() => history.goBack()}
               />
               <Button
                 raised
@@ -117,7 +117,7 @@ LicenseForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   submitLabel: PropTypes.string,
-  router: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   licenseInfo: PropTypes.object.isRequired,
 };
 

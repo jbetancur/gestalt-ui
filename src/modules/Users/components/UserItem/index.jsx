@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
@@ -13,8 +13,8 @@ class UserItem extends PureComponent {
   static propTypes = {
     fetchUsers: PropTypes.func.isRequired,
     selectedUsers: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     deleteUsers: PropTypes.func.isRequired,
@@ -32,8 +32,8 @@ class UserItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchUsers, params } = this.props;
-    fetchUsers(params.fqon);
+    const { fetchUsers, match } = this.props;
+    fetchUsers(match.params.fqon);
   }
 
   componentWillUnmount() {
@@ -52,12 +52,12 @@ class UserItem extends PureComponent {
   edit(user, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      this.props.router.push(`${this.props.params.fqon}/users/${user.id}/edit`);
+      this.props.history.push(`/${this.props.match.params.fqon}/users/${user.id}/edit`);
     }
   }
 
   delete() {
-    const { params, fetchUsers, deleteUsers, clearTableSelected } = this.props;
+    const { match, fetchUsers, deleteUsers, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedUsers;
     const userIds = selectedItems.map(item => (item.id));
 
@@ -65,11 +65,11 @@ class UserItem extends PureComponent {
 
     const onSuccess = () => {
       clearTableSelected();
-      fetchUsers(params.fqon);
+      fetchUsers(match.params.fqon);
     };
 
     this.props.confirmDelete(() => {
-      deleteUsers(userIds, params.fqon, onSuccess);
+      deleteUsers(userIds, match.params.fqon, onSuccess);
     }, userNames);
   }
 
@@ -81,7 +81,7 @@ class UserItem extends PureComponent {
         flat
         primary
         component={Link}
-        to={`${this.props.params.fqon}/users/create`}
+        to={`/${this.props.match.params.fqon}/users/create`}
       >
         <FontIcon>add</FontIcon>
       </Button>

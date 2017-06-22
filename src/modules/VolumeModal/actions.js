@@ -34,4 +34,10 @@ export function removeVolume(volume) {
   return { type: REMOVE_VOLUME, payload: volume };
 }
 
-export default { showVolumeModal, hideVolumeModal, unloadVolumes, addVolume, removeVolume };
+export default {
+  showVolumeModal,
+  hideVolumeModal,
+  unloadVolumes,
+  addVolume,
+  removeVolume,
+};

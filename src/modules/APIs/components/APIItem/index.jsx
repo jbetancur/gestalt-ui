@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -10,12 +10,12 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 
 class APIItem extends PureComponent {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     apis: PropTypes.array.isRequired,
     selectedAPIs: PropTypes.object.isRequired,
     deleteAPIs: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
     unloadAPIs: PropTypes.func.isRequired,
@@ -31,8 +31,8 @@ class APIItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { params, fetchAPIs } = this.props;
-    fetchAPIs(params.fqon, params.environmentId);
+    const { match, fetchAPIs } = this.props;
+    fetchAPIs(match.params.fqon, match.params.environmentId);
   }
 
   componentWillUnmount() {
@@ -49,33 +49,31 @@ class APIItem extends PureComponent {
   }
 
   delete() {
-    const { params, fetchAPIs, deleteAPIs, clearTableSelected } = this.props;
+    const { match, fetchAPIs, deleteAPIs, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedAPIs;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {
       clearTableSelected();
-      fetchAPIs(params.fqon, params.environmentId);
+      fetchAPIs(match.params.fqon, match.params.environmentId);
     };
 
     this.props.confirmDelete(() => {
-      deleteAPIs(IDs, params.fqon, onSuccess);
+      deleteAPIs(IDs, match.params.fqon, onSuccess);
     }, names);
   }
 
   edit(api, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params } = this.props;
-      router.push({
-        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${api.id}/edit`
-      });
+      const { history, match } = this.props;
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${api.id}/edit`);
     }
   }
 
   renderCreateButton() {
-    const { params } = this.props;
+    const { match } = this.props;
 
     return (
       <Button
@@ -84,9 +82,7 @@ class APIItem extends PureComponent {
         flat
         primary
         component={Link}
-        to={{
-          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/create`
-        }}
+        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/create`}
       >
         <FontIcon>add</FontIcon>
       </Button>

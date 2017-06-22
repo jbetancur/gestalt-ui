@@ -6,7 +6,7 @@ import { metaActions } from 'modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
 import DotActivity from 'components/DotActivity';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {

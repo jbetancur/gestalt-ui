@@ -9,12 +9,12 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { usernameMaxLen } from '../../validations';
 
 const UserForm = (props) => {
   const goBack = () => {
-    props.router.push(`${props.params.fqon}/users`);
+    props.history.push(`/${props.match.params.fqon}/users`);
   };
 
   return (
@@ -95,7 +95,7 @@ const UserForm = (props) => {
                   itemValue="value"
                   label="Gestalt Home"
                   async
-                  onFocus={() => props.fetchAllOrgsDropDown(props.params.fqon)}
+                  onFocus={() => props.fetchAllOrgsDropDown(props.match.params.fqon)}
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -131,8 +131,8 @@ const UserForm = (props) => {
 
 UserForm.propTypes = {
   user: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   organizations: PropTypes.array.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,

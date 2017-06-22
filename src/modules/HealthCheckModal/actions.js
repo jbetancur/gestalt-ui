@@ -34,4 +34,10 @@ export function removeHealthCheck(healthCheck) {
   return { type: REMOVE_HEALTH_CHECK, payload: healthCheck };
 }
 
-export default { showHealthCheckModal, hideHealthCheckModal, unloadHealthChecks, addHealthCheck, removeHealthCheck };
+export default {
+  showHealthCheckModal,
+  hideHealthCheckModal,
+  unloadHealthChecks,
+  addHealthCheck,
+  removeHealthCheck
+};

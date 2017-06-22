@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class PolicyEdit extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     policy: PropTypes.object.isRequired,
     fetchPolicy: PropTypes.func.isRequired,
     updatePolicy: PropTypes.func.isRequired,
@@ -19,20 +20,20 @@ class PolicyEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchPolicy } = this.props;
-    fetchPolicy(params.fqon, params.policyId);
+    const { match, fetchPolicy } = this.props;
+    fetchPolicy(match.params.fqon, match.params.policyId);
   }
 
   updatePolicy(values) {
     const { id, name, description } = this.props.policy;
-    const { params } = this.props;
+    const { match } = this.props;
     const originalModel = {
       name,
       description,
     };
 
     const patches = jsonPatch.compare(originalModel, values);
-    this.props.updatePolicy(params.fqon, id, patches);
+    this.props.updatePolicy(match.params.fqon, id, patches);
   }
 
   render() {
@@ -62,4 +63,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyEdit',
   validate
-})(PolicyEdit));
+})(context(PolicyEdit)));

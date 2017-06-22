@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -12,14 +12,14 @@ import { Button } from 'components/Buttons';
 import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 import policyOperators from '../../lists/policyOperators';
 
 const PolicyLimitRuleForm = (props) => {
   const {
-    params,
+    match,
     pending,
     policyUpdatePending,
     onSubmit,
@@ -35,7 +35,7 @@ const PolicyLimitRuleForm = (props) => {
     policyRule,
   } = props;
 
-  const backLink = `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`;
+  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`;
 
   // flatten limit arrays for policyResourceTypes
   const policyLimiters = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].limits));
@@ -71,9 +71,7 @@ const PolicyLimitRuleForm = (props) => {
                   <Link
                     className="md-caption"
                     style={{ textDecoration: 'none' }}
-                    to={{
-                      pathname: backLink
-                    }}
+                    to={backLink}
                   >
                     Policy
                   </Link><span> / Limit Policy</span></div>
@@ -169,9 +167,7 @@ const PolicyLimitRuleForm = (props) => {
               label={cancelLabel}
               disabled={pending || submitting}
               component={Link}
-              to={{
-                pathname: backLink
-              }}
+              to={backLink}
             />
             <Button
               raised
@@ -189,7 +185,7 @@ const PolicyLimitRuleForm = (props) => {
 
 PolicyLimitRuleForm.propTypes = {
   policyRule: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   policyUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,

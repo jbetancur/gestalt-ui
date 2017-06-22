@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
@@ -10,13 +11,13 @@ import { healthCheckModalActions } from 'modules/HealthCheckModal';
 import CircularActivity from 'components/CircularActivity';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 import { generateContainerPayload } from '../../payloadTransformers';
 
 class ContainerCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createContainer: PropTypes.func.isRequired,
     fetchEnv: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
@@ -34,11 +35,11 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchEnv } = this.props;
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+    const { match, fetchEnv } = this.props;
+    const entityId = match.params.environmentId || match.params.workspaceId || null;
+    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
-    fetchEnv(params.fqon, entityId, entityKey);
+    fetchEnv(match.params.fqon, entityId, entityKey);
   }
 
   componentWillUnmount() {
@@ -49,11 +50,11 @@ class ContainerCreate extends Component {
   }
 
   create(values) {
-    const { params, router, createContainer, volumes, portMappings, healthChecks } = this.props;
+    const { match, history, createContainer, volumes, portMappings, healthChecks } = this.props;
     const payload = generateContainerPayload(values, volumes, portMappings, healthChecks);
-    const onSuccess = () => router.goBack();
+    const onSuccess = () => history.goBack();
 
-    createContainer(params.fqon, params.environmentId, payload, onSuccess);
+    createContainer(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }
 
   render() {
@@ -108,5 +109,5 @@ export default connect(mapStateToProps,
 Object.assign({}, actions, metaActions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerCreate',
   validate
-})(ContainerCreate));
+})(context(ContainerCreate)));
 

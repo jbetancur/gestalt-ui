@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -9,13 +9,13 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
-import PolicyRules from 'modules/PolicyRules';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { PolicyRules } from 'modules/PolicyRules';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { nameMaxLen } from '../../validations';
 
 const PolicyForm = (props) => {
   const {
-    params,
+    match,
     pending,
     policy,
     policyRuleUpdatePending,
@@ -72,7 +72,7 @@ const PolicyForm = (props) => {
                 label={cancelLabel}
                 disabled={pending || submitting}
                 component={Link}
-                to={`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`}
+                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
               />
               <Button
                 raised
@@ -97,7 +97,7 @@ const PolicyForm = (props) => {
 };
 
 PolicyForm.propTypes = {
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   policy: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   policyRuleUpdatePending: PropTypes.bool.isRequired,

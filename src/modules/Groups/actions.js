@@ -40,3 +40,11 @@ export function confirmDelete(action, multipleItems) {
     });
   };
 }
+
+export default {
+  filterAvailableUsers,
+  clearAvailableUsersFilter,
+  filterMemberUsers,
+  clearMemberUsersFilter,
+  confirmDelete,
+};
