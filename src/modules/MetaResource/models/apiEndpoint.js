@@ -2,7 +2,13 @@ export default {
   created: {},
   modified: {},
   properties: {
-    auth_type: {},
-    rateLimit: {},
+    methods: [],
+    plugins: {
+      rateLimit: {},
+      gestaltSecurity: {
+        users: [],
+        groups: [],
+      },
+    },
   },
 };

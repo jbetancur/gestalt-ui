@@ -3,8 +3,10 @@ import {
   UNLOAD_RATE_LIMIT,
 } from './actionTypes';
 
-export function unloadRateLimitToggleState() {
-  return { type: UNLOAD_RATE_LIMIT };
+export function unloadToggleStates() {
+  return (dispatch) => {
+    dispatch({ type: UNLOAD_RATE_LIMIT });
+  };
 }
 
 export function toggleRateLimit(toggled) {
@@ -24,7 +26,7 @@ export function confirmDelete(action, multipleItems) {
 }
 
 export default {
-  unloadRateLimitToggleState,
+  unloadToggleStates,
   toggleRateLimit,
   confirmDelete,
 };

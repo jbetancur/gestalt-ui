@@ -5,7 +5,10 @@ export const nameMaxLen = 45;
 export default (values) => {
   const errors = {
     properties: {
-      rateLimit: {},
+      plugins: {
+        rateLimit: {},
+        gestaltSecurity: {},
+      },
     },
   };
 
@@ -41,12 +44,12 @@ export default (values) => {
     errors.properties.methods = ' ';
   }
 
-  if (values.properties.rateLimit && !values.properties.rateLimit.perMinute) {
-    errors.properties.rateLimit.perMinute = ' ';
+  if (values.properties.plugins.rateLimit && !values.properties.plugins.rateLimit.perMinute) {
+    errors.properties.plugins.rateLimit.perMinute = ' ';
   }
 
-  if (values.properties.rateLimit && (values.properties.rateLimit.perMinute > 65536 || values.properties.rateLimit.perMinute === 0)) {
-    errors.properties.rateLimit.perMinute = 'enter a value between 1 and 65536';
+  if (values.properties.plugins.rateLimit && (values.properties.plugins.rateLimit.perMinute > 65536 || values.properties.plugins.rateLimit.perMinute === 0)) {
+    errors.properties.plugins.rateLimit.perMinute = 'enter a value between 1 and 65536';
   }
 
 

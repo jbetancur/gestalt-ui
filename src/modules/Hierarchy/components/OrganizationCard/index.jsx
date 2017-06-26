@@ -8,7 +8,6 @@ import { FormattedRelative } from 'react-intl';
 class OrganizationCard extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    setCurrentOrgContext: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -17,11 +16,9 @@ class OrganizationCard extends PureComponent {
   navTo(e, organization, route) {
     e.stopPropagation();
 
-    const { history, setCurrentOrgContext } = this.props;
+    const { history } = this.props;
     const path = route ? `/${organization.properties.fqon}/${route}` : `/${organization.properties.fqon}`;
     history.push(path);
-    // Update the current Org Context so we can track the org we are in
-    setCurrentOrgContext(organization);
   }
 
   edit(e, organization) {

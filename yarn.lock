@@ -5900,8 +5900,8 @@ react-swipeable-views-utils@^0.12.0:
     react-swipeable-views-core "^0.11.1"
 
 react-swipeable-views@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.1.tgz#c3788f9d353341e10863ef3a012eafa6cd4545bc"
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.3.tgz#b0d3f417bcbcd06afda2f8437c15e8360a568744"
   dependencies:
     babel-runtime "^6.23.0"
     dom-helpers "^3.2.1"

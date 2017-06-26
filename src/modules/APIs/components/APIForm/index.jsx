@@ -38,7 +38,7 @@ const APIForm = (props) => {
     <div>
       <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+          <Card className="flex-11 flex-xs-12 flex-sm-12">
             <CardTitle
               title={
                 <div>
@@ -119,7 +119,7 @@ const APIForm = (props) => {
 
           {api.id ?
             <div className="flex-row center-center">
-              <div className="flex-10 flex-xs-12 flex-sm-12">
+              <div className="flex-11 flex-xs-12 flex-sm-12">
                 <APIEndpoints {...props} />
               </div>
             </div>

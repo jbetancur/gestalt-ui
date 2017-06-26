@@ -18,6 +18,7 @@ import { Button } from 'components/Buttons';
 import HelpText from 'components/HelpText';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../RateLimit';
+import Security from '../Security';
 import httpMethods from '../../lists/httpMethods';
 import implementationTypes from '../../lists/implementationTypes';
 
@@ -201,10 +202,16 @@ const APIEndpointForm = (props) => {
 
                 <RateLimit
                   className="flex-6 flex-xs-12"
-                  rateLimitToggledName="properties.rateLimit.toggled"
-                  perMinuteName="properties.rateLimit.perMinute"
-                  isToggled={editMode && values.properties.rateLimit}
+                  rateLimitToggledName="properties.plugins.rateLimit.toggled"
+                  perMinuteName="properties.plugins.rateLimit.perMinute"
+                  isToggled={editMode && values.properties.plugins.rateLimit}
                   onToggledState={value => handleRateLimitToggle(value)}
+                />
+
+                <Security
+                  className="flex-3"
+                  enabledName="properties.plugins.gestaltSecurity.enabled"
+                  {...props}
                 />
               </div>
 
@@ -225,9 +232,7 @@ const APIEndpointForm = (props) => {
               label={cancelLabel}
               disabled={pending || submitting}
               component={Link}
-              to={{
-                pathname: backLink
-              }}
+              to={backLink}
             />
             <Button
               raised
