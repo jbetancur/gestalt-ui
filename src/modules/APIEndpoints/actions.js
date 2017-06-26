@@ -22,3 +22,9 @@ export function confirmDelete(action, multipleItems) {
     }
   };
 }
+
+export default {
+  unloadRateLimitToggleState,
+  toggleRateLimit,
+  confirmDelete,
+};

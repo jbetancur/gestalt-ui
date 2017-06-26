@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class PolicyEventRuleCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createPolicyRule: PropTypes.func.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     selectedActions: PropTypes.array.isRequired,
@@ -21,13 +22,13 @@ class PolicyEventRuleCreate extends Component {
   }
 
   create(values) {
-    const { params, router, createPolicyRule, selectedActions } = this.props;
+    const { match, history, createPolicyRule, selectedActions } = this.props;
     const payload = { ...values };
     payload.resource_type = 'Gestalt::Resource::Rule::Event';
     payload.properties.actions = selectedActions;
 
-    const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
-    createPolicyRule(params.fqon, params.policyId, payload, onSuccess);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+    createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
   }
 
   render() {
@@ -60,4 +61,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyEventRuleCreate',
   validate
-})(PolicyEventRuleCreate));
+})(context(PolicyEventRuleCreate)));

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
+import { context } from 'modules/ContextManagement';
 import IntegrationsItem from '../../components/IntegrationItem';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
@@ -9,4 +10,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(IntegrationsItem);
+export default connect(mapStateToProps, actions)(context(IntegrationsItem));

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { containerActionCreators } from 'modules/Containers';
 import jsonPatch from 'fast-json-patch';
@@ -10,13 +11,13 @@ import { map } from 'lodash';
 import CircularActivity from 'components/CircularActivity';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class ProviderEdit extends PureComponent {
   static propTypes = {
     pending: PropTypes.bool.isRequired,
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     fetchProviderContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
@@ -26,13 +27,13 @@ class ProviderEdit extends PureComponent {
   };
 
   componentDidMount() {
-    const { params, fetchProvider, fetchProvidersByType, fetchProviderContainer } = this.props;
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
+    const { match, fetchProvider, fetchProvidersByType, fetchProviderContainer } = this.props;
+    const entityId = match.params.environmentId || match.params.workspaceId || null;
+    const entityKey = match.params.workspaceId && match.params.enviromentId ? 'environments' : 'workspaces';
 
-    fetchProvidersByType(params.fqon, entityId, entityKey);
-    fetchProvider(params.fqon, params.providerId);
-    fetchProviderContainer(params.fqon, params.providerId);
+    fetchProvidersByType(match.params.fqon, entityId, entityKey);
+    fetchProvider(match.params.fqon, match.params.providerId);
+    fetchProviderContainer(match.params.fqon, match.params.providerId);
   }
 
   updatedModel(formValues, originalModel) {
@@ -115,7 +116,7 @@ class ProviderEdit extends PureComponent {
 
 
   update(formValues) {
-    const { params, router, provider, updateProvider } = this.props;
+    const { match, history, provider, updateProvider } = this.props;
     const originalModel = this.originalModel(this.props.provider);
     const updatedModel = this.updatedModel(formValues, originalModel);
 
@@ -134,19 +135,19 @@ class ProviderEdit extends PureComponent {
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
     let onSuccess;
-    if (params.workspaceId && !params.environmentId) {
-      onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}`);
-    } else if (params.environmentId) {
-      onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
+    if (match.params.workspaceId && !match.params.environmentId) {
+      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
+    } else if (match.params.environmentId) {
+      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     } else {
-      onSuccess = () => router.replace(`${params.fqon}/providers`);
+      onSuccess = () => history.replace(`/${match.params.fqon}/providers`);
     }
 
     // If the provider has a container defined then warn the user of an impending container restart
     if (provider.properties.services && provider.properties.services.length) {
-      this.props.confirmUpdate(() => updateProvider(params.fqon, provider.id, patches, onSuccess), provider.name);
+      this.props.confirmUpdate(() => updateProvider(match.params.fqon, provider.id, patches, onSuccess), provider.name);
     } else {
-      updateProvider(params.fqon, provider.id, patches, onSuccess);
+      updateProvider(match.params.fqon, provider.id, patches, onSuccess);
     }
   }
 
@@ -208,4 +209,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions, containerActionCreators))(reduxForm({
   form: 'providerCreate',
   validate
-})(ProviderEdit));
+})(context(ProviderEdit)));

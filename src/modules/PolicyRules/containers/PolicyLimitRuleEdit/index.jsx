@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class PolicyLimitRuleEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     policyRule: PropTypes.object.isRequired,
     fetchPolicyRule: PropTypes.func.isRequired,
     updatePolicyRule: PropTypes.func.isRequired,
@@ -23,8 +24,8 @@ class PolicyLimitRuleEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchPolicyRule } = this.props;
-    fetchPolicyRule(params.fqon, params.policyId, params.ruleId);
+    const { match, fetchPolicyRule } = this.props;
+    fetchPolicyRule(match.params.fqon, match.params.policyId, match.params.ruleId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,7 +43,7 @@ class PolicyLimitRuleEdit extends Component {
 
   updatePolicyRule(values) {
     const { id, name, description, properties } = this.props.policyRule;
-    const { params, router, selectedActions } = this.props;
+    const { match, history, selectedActions } = this.props;
     const originalModel = {
       name,
       description,
@@ -55,8 +56,8 @@ class PolicyLimitRuleEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, updatedModel);
     if (patches.length) {
-      const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
-      this.props.updatePolicyRule(params.fqon, params.policyId, id, patches, onSuccess);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+      this.props.updatePolicyRule(match.params.fqon, match.params.policyId, id, patches, onSuccess);
     }
   }
 
@@ -89,4 +90,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyLimitRuleEdit',
   validate
-})(PolicyLimitRuleEdit));
+})(context(PolicyLimitRuleEdit)));

@@ -69,12 +69,12 @@ const common = merge([
     ],
   },
   parts.babelConfig(PATHS),
-  parts.fontConfig(),
+  parts.fontConfig(PATHS),
   parts.icoConfig(PATHS),
   parts.svgConfig(PATHS),
   parts.imageConfig(PATHS),
   parts.yamlConfig(PATHS),
-  parts.esLintConfig(),
+  parts.esLintConfig(PATHS),
 ]);
 
 module.exports = function test(env) {
@@ -127,7 +127,7 @@ module.exports = function test(env) {
             allChunks: true,
             disable: false,
           }),
-          new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don need them at this time
+          new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don't need them at this time
           parts.generateConstants('production'),
         ],
       },

@@ -2,16 +2,17 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import base64 from 'base-64';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class ProviderCreate extends PureComponent {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createProvider: PropTypes.func.isRequired,
     /* container related */
     containerValues: PropTypes.object,
@@ -25,7 +26,7 @@ class ProviderCreate extends PureComponent {
   };
 
   create(values) {
-    const { params, router, createProvider } = this.props;
+    const { match, history, createProvider } = this.props;
     const {
       name,
       description,
@@ -135,21 +136,21 @@ class ProviderCreate extends PureComponent {
     }
 
     let onSuccess;
-    if (params.workspaceId && !params.environmentId) {
-      onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}`);
-    } else if (params.environmentId) {
-      onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
+    if (match.params.workspaceId && !match.params.environmentId) {
+      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
+    } else if (match.params.environmentId) {
+      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     } else {
-      onSuccess = () => router.replace(`${params.fqon}/providers`);
+      onSuccess = () => history.replace(`/${match.params.fqon}/providers`);
     }
 
     // Create it
-    if (params.workspaceId && !params.environmentId) {
-      createProvider(params.fqon, params.workspaceId, 'workspaces', model, onSuccess);
-    } else if (params.environmentId) {
-      createProvider(params.fqon, params.environmentId, 'environments', model, onSuccess);
+    if (match.params.workspaceId && !match.params.environmentId) {
+      createProvider(match.params.fqon, match.params.workspaceId, 'workspaces', model, onSuccess);
+    } else if (match.params.environmentId) {
+      createProvider(match.params.fqon, match.params.environmentId, 'environments', model, onSuccess);
     } else {
-      createProvider(params.fqon, null, null, model, onSuccess);
+      createProvider(match.params.fqon, null, null, model, onSuccess);
     }
   }
 
@@ -200,4 +201,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'providerCreate',
   validate,
-})(ProviderCreate));
+})(context(ProviderCreate)));

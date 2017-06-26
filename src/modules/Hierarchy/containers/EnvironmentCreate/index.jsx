@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { HierarchyForm, validate } from 'modules/Hierarchy/components/HierarchyForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createEnvironment: PropTypes.func.isRequired
   };
 
   createEnvironment(values) {
-    const { params, router } = this.props;
+    const { match, history } = this.props;
     const payload = {
       name: values.name,
       description: values.description,
@@ -30,8 +31,8 @@ class OrgCreate extends Component {
       });
     }
 
-    const onSuccess = response => router.push(`${params.fqon}/hierarchy/${response.properties.workspace.id}/environments/${response.id}`);
-    this.props.createEnvironment(this.props.params.fqon, this.props.params.workspaceId, payload, onSuccess);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments/${response.id}`);
+    this.props.createEnvironment(this.props.match.params.fqon, this.props.match.params.workspaceId, payload, onSuccess);
   }
 
   render() {
@@ -67,4 +68,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'environmentCreate',
   validate
-})(OrgCreate));
+})(context(OrgCreate)));

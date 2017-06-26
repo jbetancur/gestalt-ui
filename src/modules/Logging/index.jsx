@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { parse } from 'query-string';
 import { metaActions } from 'modules/MetaResource';
 import axios from 'axios';
 import SelectField from 'react-md/lib/SelectFields';
@@ -130,7 +131,11 @@ const BottomScrollButton = styled(Button)`
   display: block;
 `;
 
-const defaultLog = location => [`${location.query.name} ${location.query.logType} has not logged any messages yet...`];
+const defaultLog = (location) => {
+  const query = parse(location.search);
+  return [`${query.name} ${query.logType} has not logged any messages yet...`];
+};
+
 const defaultLogNoProvider = () => ['A Log Provider has not been configured'];
 
 class Logging extends PureComponent {
@@ -158,9 +163,10 @@ class Logging extends PureComponent {
 
   componentDidMount() {
     const { location, fetchLogProvider } = this.props;
+    const query = parse(location.search);
 
     if (!this.props.logProviderURL) {
-      fetchLogProvider(location.query.fqon, location.query.providerId, location.query.logType);
+      fetchLogProvider(query.fqon, query.providerId, query.logType);
     }
   }
 
@@ -186,6 +192,7 @@ class Logging extends PureComponent {
 
   fetchLogs(currentProps, currentState) {
     const { location } = this.props;
+    const query = parse(location.search);
     const logAPI = axios.create({
       baseURL: currentProps.logProviderURL,
       timeout: API_TIMEOUT,
@@ -199,7 +206,7 @@ class Logging extends PureComponent {
 
     const time = (currentState.logTimespan && currentState.logTimespan !== 'all') ? `?time=${currentState.logTimespan}` : '';
 
-    logAPI.get(`${location.query.logId}${time}`).then((response) => {
+    logAPI.get(`${query.logId}${time}`).then((response) => {
       this.setState({ logPending: false });
 
       if (response.data && response.data.length) {
@@ -222,13 +229,14 @@ class Logging extends PureComponent {
   render() {
     const { location, logProviderPending, logProviderURL } = this.props;
     const { logs, logPending, logTimespan, fontSize } = this.state;
+    const query = parse(location.search);
 
     return (
       <PageWrapper>
         <Toolbar>
           <div className="flex-row start-center">
             <ToolbarTitle className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-8">
-              <div className="gf-headline-1">Logs for {location.query.name} ({location.query.logType})</div>
+              <div className="gf-headline-1">Logs for {query.name} ({query.logType})</div>
             </ToolbarTitle>
             <ToolbarActions className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-4">
               <ToolbarControls>
@@ -262,7 +270,7 @@ class Logging extends PureComponent {
                 icon
                 data={logs.length && logs.join('\n')}
                 tooltipLabel="Download Log"
-                fileName={`${location.query.name}-${location.query.logType}.log`}
+                fileName={`${query.name}-${query.logType}.log`}
                 disabled={logProviderPending || logPending || !logProviderURL}
               />
               <Button

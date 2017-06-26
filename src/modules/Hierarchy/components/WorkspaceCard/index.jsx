@@ -7,8 +7,8 @@ import { FormattedRelative } from 'react-intl';
 
 class WorkspaceCard extends PureComponent {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     setCurrentWorkspaceContext: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
@@ -16,18 +16,18 @@ class WorkspaceCard extends PureComponent {
   };
 
   navWorkspaceDetails(item) {
-    const { router, params, setCurrentWorkspaceContext } = this.props;
+    const { history, match, setCurrentWorkspaceContext } = this.props;
 
-    router.push(`/${params.fqon}/hierarchy/${item.id}`);
+    history.push(`/${match.params.fqon}/hierarchy/${item.id}`);
     setCurrentWorkspaceContext(item);
   }
 
   edit(e, workspace) {
     e.stopPropagation();
 
-    const { params, router } = this.props;
+    const { match, history } = this.props;
 
-    router.push(`/${params.fqon}/hierarchy/${workspace.id}/editWorkspace`);
+    history.push(`/${match.params.fqon}/hierarchy/${workspace.id}/editWorkspace`);
   }
 
   render() {

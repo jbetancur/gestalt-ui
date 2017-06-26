@@ -4,29 +4,30 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import base64 from 'base-64';
 import { cloneDeep, map } from 'lodash';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class LambdaCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createLambda: PropTypes.func.isRequired,
     pendingEnv: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { params, fetchEnv } = this.props;
+    const { match, fetchEnv } = this.props;
 
-    fetchEnv(params.fqon, params.environmentId, 'environments');
+    fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
   }
 
   create(values) {
-    const { params, router, createLambda } = this.props;
+    const { match, history, createLambda } = this.props;
     const payload = cloneDeep(values);
     // TODO: fake locations for now
     payload.properties.provider = { id: values.properties.provider.id, locations: [] };
@@ -52,10 +53,10 @@ class LambdaCreate extends Component {
     }
 
     const onSuccess = () => {
-      router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     };
 
-    createLambda(params.fqon, params.environmentId, payload, onSuccess);
+    createLambda(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }
 
   render() {
@@ -115,5 +116,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'lambdaCreate',
   validate
-})(LambdaCreate));
+})(context(LambdaCreate)));
 

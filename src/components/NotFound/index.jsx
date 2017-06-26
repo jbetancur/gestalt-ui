@@ -77,8 +77,8 @@ const NotFound = props => (
           <Button
             primary
             raised
-            label={`Navigate back to ${props.params.fqon}`}
-            onClick={() => props.router.replace(`${props.params.fqon}/hierarchy`)}
+            label={`Navigate back to ${props.match.params.fqon}`}
+            onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
           />
         </div>
       </div>
@@ -87,8 +87,8 @@ const NotFound = props => (
   </div>);
 
 NotFound.propTypes = {
-  router: PropTypes.func.isRequired,
-  params: PropTypes.object.isRequired,
+  history: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

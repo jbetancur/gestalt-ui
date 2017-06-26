@@ -4,21 +4,22 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import map from 'lodash/map';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { HierarchyForm, validate } from '../../components/HierarchyForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class WorkspaceEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
-    this.props.fetchWorkspace(this.props.params.fqon, this.props.params.workspaceId);
+    this.props.fetchWorkspace(this.props.match.params.fqon, this.props.match.params.workspaceId);
   }
 
   updatedModel(formValues) {
@@ -49,14 +50,14 @@ class WorkspaceEdit extends Component {
   }
 
   updateWorkspace(values) {
-    const { params, router } = this.props;
+    const { match, history } = this.props;
     const { id } = this.props.workspace;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(this.props.workspace);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    const onSuccess = () => router.goBack();
-    this.props.updateWorkspace(params.fqon, id, patches, onSuccess);
+    const onSuccess = () => history.goBack();
+    this.props.updateWorkspace(match.params.fqon, id, patches, onSuccess);
   }
 
   render() {
@@ -94,4 +95,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'workspaceEdit',
   validate
-})(WorkspaceEdit));
+})(context(WorkspaceEdit)));

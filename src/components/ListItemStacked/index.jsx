@@ -38,7 +38,7 @@ const ListItemStacked = props => (
 );
 
 ListItemStacked.propTypes = {
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   title: PropTypes.string.isRequired,
   visible: PropTypes.bool,
 };

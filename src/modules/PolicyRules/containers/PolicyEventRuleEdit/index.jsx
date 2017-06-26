@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { cloneDeep } from 'lodash';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class PolicyEventRuleEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     policyRule: PropTypes.object.isRequired,
     fetchPolicyRule: PropTypes.func.isRequired,
     updatePolicyRule: PropTypes.func.isRequired,
@@ -25,9 +26,9 @@ class PolicyEventRuleEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchPolicyRule } = this.props;
-    fetchPolicyRule(params.fqon, params.policyId, params.ruleId);
-    // fetchLambdas(params.fqon, params.environmentId);
+    const { match, fetchPolicyRule } = this.props;
+    fetchPolicyRule(match.params.fqon, match.params.policyId, match.params.ruleId);
+    // fetchLambdas(match.params.fqon, match.params.environmentId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +46,7 @@ class PolicyEventRuleEdit extends Component {
 
   updatePolicyRule(values) {
     const { id, name, description, properties } = this.props.policyRule;
-    const { params, router, selectedActions } = this.props;
+    const { match, history, selectedActions } = this.props;
     const originalModel = {
       name,
       description,
@@ -58,8 +59,8 @@ class PolicyEventRuleEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
-      const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/policies/${params.policyId}/edit`);
-      this.props.updatePolicyRule(params.fqon, params.policyId, id, patches, onSuccess);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+      this.props.updatePolicyRule(match.params.fqon, match.params.policyId, id, patches, onSuccess);
     }
   }
 
@@ -94,4 +95,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'policyEventRuleEdit',
   validate
-})(PolicyEventRuleEdit));
+})(context(PolicyEventRuleEdit)));

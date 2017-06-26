@@ -25,3 +25,8 @@ export function confirmUpdate(action, item) {
     });
   };
 }
+
+export default {
+  confirmDelete,
+  confirmUpdate,
+};

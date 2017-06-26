@@ -11,7 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
@@ -79,7 +79,7 @@ const HierarchyForm = (props) => {
                   flat
                   label={props.cancelLabel}
                   disabled={props.submitting}
-                  onClick={() => props.router.goBack()}
+                  onClick={() => props.history.goBack()}
                 />
                 <Button
                   raised
@@ -95,7 +95,7 @@ const HierarchyForm = (props) => {
                     tooltipLabel="Entitlements"
                     tooltipPosition="top"
                     icon
-                    onClick={() => props.showEntitlementsModal(props.title)}
+                    onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
                   >
                   security
                 </Button>}
@@ -109,7 +109,8 @@ const HierarchyForm = (props) => {
 };
 
 HierarchyForm.propTypes = {
-  router: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

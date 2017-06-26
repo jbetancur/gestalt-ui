@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { HierarchyForm, validate } from '../../components/HierarchyForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   };
@@ -30,8 +31,8 @@ class OrgCreate extends Component {
       });
     }
 
-    const onSuccess = response => this.props.router.push(`${response.properties.fqon}/hierarchy`);
-    this.props.createOrg(this.props.params.fqon, payload, onSuccess);
+    const onSuccess = response => this.props.history.replace(`/${response.properties.fqon}/hierarchy`);
+    this.props.createOrg(this.props.match.params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -67,4 +68,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'organizationCreate',
   validate
-})(translate()(OrgCreate)));
+})(translate()(context(OrgCreate))));

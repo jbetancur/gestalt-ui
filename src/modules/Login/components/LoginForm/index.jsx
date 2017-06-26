@@ -52,7 +52,13 @@ const LoginForm = (props) => {
   const submit = (values) => {
     // TODO: disabled for now since we need to refactor routing - but this allows us to redirect to a pasted path
     // const path = (props.router.location.state && props.router.location.state.nextPathname) || '/';
-    login(values.username, values.password, '/', loginModal.visible);
+    login(values.username, values.password).then(() => {
+      if (loginModal.visible) {
+        props.hideLoginModal();
+      } else {
+        props.history.replace('/');
+      }
+    });
   };
 
   return (

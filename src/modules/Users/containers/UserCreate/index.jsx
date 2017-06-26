@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import UserForm from '../../components/UserForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class UserCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createUser: PropTypes.func.isRequired,
   };
 
   create(values) {
-    const { router, params, createUser } = this.props;
-    const onSuccess = () => router.replace(`${params.fqon}/users`);
+    const { history, match, createUser } = this.props;
+    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
-    createUser(params.fqon, values, onSuccess);
+    createUser(match.params.fqon, values, onSuccess);
   }
 
   render() {
@@ -51,4 +52,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'userCreate',
   validate
-})(UserCreate));
+})(context(UserCreate)));

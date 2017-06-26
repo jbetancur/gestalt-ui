@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import UserForm from '../../components/UserForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class GroupEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
     fetchAllOrgsDropDown: PropTypes.func.isRequired,
@@ -21,13 +22,13 @@ class GroupEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchUser, fetchAllOrgsDropDown } = this.props;
-    fetchAllOrgsDropDown(params.fqon);
-    fetchUser(params.fqon, params.userId);
+    const { match, fetchUser, fetchAllOrgsDropDown } = this.props;
+    fetchAllOrgsDropDown(match.params.fqon);
+    fetchUser(match.params.fqon, match.params.userId);
   }
 
   update(values) {
-    const { params, router, user, updateUser } = this.props;
+    const { match, history, user, updateUser } = this.props;
     const { name, description, properties: { password, firstName, lastName, phoneNumber, email, gestalt_home } } = user;
     const originalModel = {
       name,
@@ -48,9 +49,9 @@ class GroupEdit extends Component {
     }
 
     const patches = jsonPatch.compare(originalModel, values);
-    const onSuccess = () => router.replace(`${params.fqon}/users`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
-    updateUser(params.fqon, user.id, patches, onSuccess);
+    updateUser(match.params.fqon, user.id, patches, onSuccess);
   }
 
   render() {
@@ -85,4 +86,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'userEdit',
   validate
-})(GroupEdit));
+})(context(GroupEdit)));

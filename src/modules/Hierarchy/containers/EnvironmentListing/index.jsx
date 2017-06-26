@@ -8,13 +8,13 @@ import { translate } from 'react-i18next';
 import CircularActivity from 'components/CircularActivity';
 import Sort from 'components/Sort';
 import EnvironmentCard from '../../components/EnvironmentCard';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
-class EnvironmentContext extends PureComponent {
+class EnvironmentListing extends PureComponent {
   static propTypes = {
     // workspace: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
@@ -28,14 +28,14 @@ class EnvironmentContext extends PureComponent {
   }
 
   componentDidMount() {
-    const { params } = this.props;
-    this.init(params.fqon, params.workspaceId);
+    const { match } = this.props;
+    this.init(match.params.fqon, match.params.workspaceId);
     this.props.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.workspaceId !== this.props.params.workspaceId) {
-      this.init(nextProps.params.fqon, nextProps.params.workspaceId);
+    if (nextProps.match.params.workspaceId !== this.props.match.params.workspaceId) {
+      this.init(nextProps.match.params.fqon, nextProps.match.params.workspaceId);
     }
   }
 
@@ -80,4 +80,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(EnvironmentContext));
+export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(EnvironmentListing));

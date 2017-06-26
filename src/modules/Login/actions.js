@@ -1,12 +1,12 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
 import ReactGA from 'react-ga';
-import { replace } from 'react-router-redux';
 import {
   REQUEST_TOKEN_PENDING,
   REQUEST_TOKEN_FULFILLED,
   REQUEST_TOKEN_REJECTED,
   LOG_OUT,
+  LOG_OUT_REJECTED,
 } from './actionTypes';
 import { SEC_API_URL, API_TIMEOUT, UI_VERSION, ANALYTICS_TRACKING, ANALYTICS_TRACKING_ACCT } from '../../constants';
 
@@ -14,7 +14,7 @@ export function hideLoginModal() {
   return { type: 'HIDE_LOGIN_MODAL' };
 }
 
-export function login(username, password, successPath, isModalLogin) {
+export function login(username, password) {
   const securityAPI = axios.create({
     baseURL: SEC_API_URL,
     timeout: API_TIMEOUT,
@@ -39,7 +39,7 @@ export function login(username, password, successPath, isModalLogin) {
     const encodedPassword = encodeURIComponent(password);
     const payload = `grant_type=password&username=${encodedUserName}&password=${encodedPassword}`;
 
-    securityAPI.post('root/oauth/issue', payload).then((response) => {
+    return securityAPI.post('root/oauth/issue', payload).then((response) => {
       dispatch({ type: REQUEST_TOKEN_FULFILLED, payload: response.data });
       setToken(response.data);
 
@@ -57,12 +57,6 @@ export function login(username, password, successPath, isModalLogin) {
           label: `UI-LOGIN v${UI_VERSION}`,
           action: `User Logged into Ui v${UI_VERSION}`,
         });
-      }
-
-      if (isModalLogin) {
-        dispatch(hideLoginModal());
-      } else {
-        dispatch(replace(successPath));
       }
     }).catch((err) => {
       dispatch({ type: REQUEST_TOKEN_REJECTED, payload: err });
@@ -85,16 +79,16 @@ export function logout() {
         }
       });
 
-      securityAPI.delete(`accessTokens/${tokenId}`);
-
-      // delete local cookie and redirect whether api token delete succeeds or not
-      cookie.remove('auth-token', { path: '/' });
-      dispatch(replace('login'));
+      return securityAPI.delete(`accessTokens/${tokenId}`);
     }
+
+    // must return something - so purpoesly goes into the ether...
+    return dispatch({ type: LOG_OUT_REJECTED });
   };
 }
 
 export default {
+  hideLoginModal,
   login,
   logout,
 };

@@ -6,9 +6,7 @@ $md-secondary-color: $md-blue-a-200;
 // Future Dark Theme
 @include react-md-theme-everything(
   $md-primary-color,
-  $md-secondary-color,
-  false, // specifying dark-theme
-  'dark-theme' // class name to wrap dark-theme styles in - place on main or body as class
+  $md-secondary-color
 );
 
 .md-toolbar--over-drawer, .md-toolbar--fixed {

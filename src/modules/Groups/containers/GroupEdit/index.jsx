@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from '../../components/GroupForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class GroupEdit extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
     fetchGroup: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired,
@@ -20,13 +21,13 @@ class GroupEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchGroup, fetchUsers } = this.props;
-    fetchGroup(params.fqon, params.groupId);
-    fetchUsers(params.fqon);
+    const { match, fetchGroup, fetchUsers } = this.props;
+    fetchGroup(match.params.fqon, match.params.groupId);
+    fetchUsers(match.params.fqon);
   }
 
   update(values) {
-    const { params, group, updateGroup } = this.props;
+    const { match, group, updateGroup } = this.props;
     const { name, description } = group;
 
     const originalModel = {
@@ -40,7 +41,7 @@ class GroupEdit extends Component {
     };
 
     const patches = jsonPatch.compare(originalModel, model);
-    updateGroup(params.fqon, group.id, patches);
+    updateGroup(match.params.fqon, group.id, patches);
   }
 
   render() {
@@ -76,4 +77,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'groupEdit',
   validate
-})(GroupEdit));
+})(context(GroupEdit)));

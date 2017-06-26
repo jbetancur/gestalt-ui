@@ -6,13 +6,13 @@ import { VariablesListing } from 'modules/Variables';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import DotActivity from 'components/DotActivity';
 import { NavUpArrowButton } from 'components/Buttons';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import HierarchyActions from '../../components/HierarchyActions';
 
-class HierarchyDetail extends PureComponent {
+class HierarchyContext extends PureComponent {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     pendingOrgset: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
@@ -26,7 +26,7 @@ class HierarchyDetail extends PureComponent {
   }
 
   render() {
-    const { params, router, model, pendingOrgset, self, t } = this.props;
+    const { match, history, model, pendingOrgset, self, t } = this.props;
     const parentFQON = getParentFQON(model);
 
     return (
@@ -35,8 +35,8 @@ class HierarchyDetail extends PureComponent {
           <DetailCardTitle
             expander={!pendingOrgset}
             title={
-              !(params.fqon === self.properties.gestalt_home.properties.fqon) &&
-              <NavUpArrowButton disabled={pendingOrgset} onClick={() => router.push(`/${parentFQON}/hierarchy`)} />
+              !(match.params.fqon === self.properties.gestalt_home.properties.fqon) &&
+              <NavUpArrowButton disabled={pendingOrgset} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
             }
           >
             <HierarchyActions organization={model} {...this.props} />
@@ -71,4 +71,4 @@ class HierarchyDetail extends PureComponent {
   }
 }
 
-export default HierarchyDetail;
+export default HierarchyContext;

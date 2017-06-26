@@ -7,8 +7,8 @@ import { Button } from 'components/Buttons';
 
 class EnvironmentCard extends PureComponent {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     theme: PropTypes.object.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
@@ -16,18 +16,18 @@ class EnvironmentCard extends PureComponent {
   };
 
   navEnvironmentDetails(item) {
-    const { params, router, setCurrentEnvironmentContext } = this.props;
+    const { match, history, setCurrentEnvironmentContext } = this.props;
 
-    router.push(`/${params.fqon}/hierarchy/${params.workspaceId}/environments/${item.id}`);
+    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${item.id}`);
     setCurrentEnvironmentContext(item);
   }
 
   edit(e, environment) {
     e.stopPropagation();
 
-    const { params, router } = this.props;
+    const { match, history } = this.props;
 
-    router.push(`/${params.fqon}/hierarchy/${params.workspaceId}/environments/${environment.id}/edit`);
+    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/edit`);
   }
 
   render() {

@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import { ModalTitle } from 'components/Modal';
 import EntitlementListing from '../EntitlementListing';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
@@ -25,6 +25,7 @@ class EntitlementModal extends PureComponent {
     modal: PropTypes.bool.isRequired,
     hideEntitlementsModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    params: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -49,7 +50,7 @@ class EntitlementModal extends PureComponent {
             label: 'Close',
           }]}
       >
-        <EntitlementListing {...this.props} />
+        <EntitlementListing params={this.props.params} {...this.props} />
       </EnhancedDialog>
     );
   }

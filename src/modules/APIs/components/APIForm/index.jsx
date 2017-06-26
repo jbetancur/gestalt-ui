@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
 // import { metaConstants } from 'modules/MetaResource';
@@ -11,15 +11,15 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import Breadcrumbs from 'modules/Breadcrumbs';
-import APIListing from 'modules/APIEndpoints';
+import { Breadcrumbs } from 'modules/ContextManagement';
+import { APIEndpoints } from 'modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import { nameMaxLen } from '../../validations';
 
 const APIForm = (props) => {
   const {
     // values,
-    params,
+    match,
     pending,
     apiUpdatePending,
     api,
@@ -61,7 +61,7 @@ const APIForm = (props) => {
                   itemValue="id"
                   menuItems={props.providers}
                   async
-                  onFocus={() => props.fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments')}
+                  onFocus={() => props.fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments')}
                   disabled={editMode}
                 />
                 {/* {values.properties.provider.id ?
@@ -105,7 +105,7 @@ const APIForm = (props) => {
                 label={cancelLabel}
                 disabled={pending || submitting}
                 component={Link}
-                to={`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`}
+                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
               />
               <Button
                 raised
@@ -120,7 +120,7 @@ const APIForm = (props) => {
           {api.id ?
             <div className="flex-row center-center">
               <div className="flex-10 flex-xs-12 flex-sm-12">
-                <APIListing {...props} />
+                <APIEndpoints {...props} />
               </div>
             </div>
             : null}
@@ -134,7 +134,7 @@ APIForm.propTypes = {
   // values: PropTypes.object.isRequired,
   providers: PropTypes.array.isRequired,
   fetchProviderKongsByGateway: PropTypes.func.isRequired,
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   apiUpdatePending: PropTypes.bool.isRequired,

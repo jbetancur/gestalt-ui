@@ -4,17 +4,17 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class ProviderItem extends PureComponent {
   static propTypes = {
     deleteProviders: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
@@ -37,11 +37,11 @@ class ProviderItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { params, fetchProviders } = this.props;
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+    const { match, fetchProviders } = this.props;
+    const entityId = match.params.environmentId || match.params.workspaceId || null;
+    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
-    fetchProviders(params.fqon, entityId, entityKey);
+    fetchProviders(match.params.fqon, entityId, entityKey);
   }
 
   componentWillUnmount() {
@@ -63,66 +63,66 @@ class ProviderItem extends PureComponent {
   }
 
   create() {
-    const { router, params } = this.props;
+    const { history, match } = this.props;
 
     // note the workspaceId and environmentId here are passed into the component
-    // via the EnvironmentDetail Component they are not props.params
-    if (params.workspaceId && !params.environmentId) {
-      router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/providers/create` });
-    } else if (params.environmentId) {
-      router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/providers/create` });
+    // via the EnvironmentDetail Component they are not props.match
+    if (match.params.workspaceId && !match.params.environmentId) {
+      history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/create` });
+    } else if (match.params.environmentId) {
+      history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/providers/create` });
     } else {
-      router.push({ pathname: `${params.fqon}/providers/create` });
+      history.push({ pathname: `/${match.params.fqon}/providers/create` });
     }
   }
 
   edit(provider, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params } = this.props;
+      const { history, match } = this.props;
 
-      if (params.workspaceId && !params.environmentId) {
-        router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/providers/${provider.id}/edit` });
-      } else if (params.environmentId) {
-        router.push({ pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/providers/${provider.id}/edit` });
+      if (match.params.workspaceId && !match.params.environmentId) {
+        history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/${provider.id}/edit` });
+      } else if (match.params.environmentId) {
+        history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/providers/${provider.id}/edit` });
       } else {
-        router.push({ pathname: `${params.fqon}/providers/${provider.id}/edit` });
+        history.push({ pathname: `/${match.params.fqon}/providers/${provider.id}/edit` });
       }
     }
   }
 
   delete() {
-    const { params, fetchProviders, deleteProviders, clearTableSelected } = this.props;
+    const { match, fetchProviders, deleteProviders, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedProviders;
     const providerIds = selectedItems.map(item => (item.id));
     const providerNames = selectedItems.map(item => (item.name));
 
-    if (params.workspaceId && !params.environmentId) {
+    if (match.params.workspaceId && !match.params.environmentId) {
       const onSuccess = () => {
         clearTableSelected();
-        fetchProviders(params.fqon, params.workspaceId, 'workspaces');
+        fetchProviders(match.params.fqon, match.params.workspaceId, 'workspaces');
       };
 
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, params.workspaceId, 'workspaces', onSuccess);
+        deleteProviders(providerIds, match.params.fqon, match.params.workspaceId, 'workspaces', onSuccess);
       }, providerNames);
-    } else if (params.environmentId) {
+    } else if (match.params.environmentId) {
       const onSuccess = () => {
         clearTableSelected();
-        fetchProviders(params.fqon, params.environmentId, 'environments');
+        fetchProviders(match.params.fqon, match.params.environmentId, 'environments');
       };
 
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, params.environmentId, 'environments', onSuccess);
+        deleteProviders(providerIds, match.params.fqon, match.params.environmentId, 'environments', onSuccess);
       }, providerNames);
     } else {
       const onSuccess = () => {
         clearTableSelected();
-        fetchProviders(params.fqon);
+        fetchProviders(match.params.fqon);
       };
 
       this.props.confirmDelete(() => {
-        deleteProviders(providerIds, params.fqon, null, null, onSuccess);
+        deleteProviders(providerIds, match.params.fqon, null, null, onSuccess);
       }, providerNames);
     }
   }
@@ -163,7 +163,7 @@ class ProviderItem extends PureComponent {
             title={
               <div>
                 <div className="gf-headline">Providers</div>
-                {this.props.params.workspaceId ? null : <div className="md-caption"><Breadcrumbs /></div>}
+                {this.props.match.params.workspaceId ? null : <div className="md-caption"><Breadcrumbs /></div>}
               </div>
             }
             visible={selectedCount > 0}

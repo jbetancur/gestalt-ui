@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues, change } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -13,7 +13,7 @@ import Checkbox from 'components/Checkbox';
 import SelectField from 'components/SelectField';
 import SelectionControlGroup from 'components/SelectionControlGroup';
 import TextField from 'components/TextField';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import HelpText from 'components/HelpText';
 // import authTypes from '../../lists/authTypes';
@@ -27,7 +27,7 @@ const APIEndpointForm = (props) => {
     reset,
     values,
     dispatch,
-    params,
+    match,
     pending,
     apiEndpointUpdatePending,
     onSubmit,
@@ -48,7 +48,7 @@ const APIEndpointForm = (props) => {
     containersDropDownPending,
   } = props;
 
-  const backLink = `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit`;
+  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`;
 
   // TODO: implement selectors
   const containerPorts = () => {
@@ -58,7 +58,7 @@ const APIEndpointForm = (props) => {
 
   const fetchContainers = () => {
     props.dispatch(change(props.form, 'properties.container_port_name', ''));
-    fetchContainersDropDown(params.fqon, params.environmentId);
+    fetchContainersDropDown(match.params.fqon, match.params.environmentId);
   };
 
   const handleAutoComplete = (value) => {
@@ -150,7 +150,7 @@ const APIEndpointForm = (props) => {
                     dataValue="id"
                     label="Search Lambdas"
                     clearOnAutocomplete
-                    onClick={() => fetchLambdasDropDown(params.fqon)}
+                    onClick={() => fetchLambdasDropDown(match.params.fqon)}
                     onAutocomplete={value => handleAutoComplete(value)}
                     helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                   />
@@ -250,7 +250,7 @@ APIEndpointForm.propTypes = {
   reset: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

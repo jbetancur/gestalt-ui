@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
 import TextField from 'react-md/lib/TextFields';
@@ -10,7 +10,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import { sortBy } from 'lodash';
 import DotActivity from 'components/DotActivity';
 import { metaActions } from 'modules/MetaResource';
-import * as actions from './actions';
+import actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
   // top: .1em;
@@ -28,7 +28,7 @@ const EnhancedMenuButton = styled(MenuButton)`
 
 class OrgNavMenu extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     fetchAllOrgs: PropTypes.func.isRequired,
     filterOrgs: PropTypes.func.isRequired,
     organizations: PropTypes.array.isRequired,
@@ -92,14 +92,14 @@ class OrgNavMenu extends Component {
   }
 
   render() {
-    const { params, currentOrgContext, organizationsPending } = this.props;
+    const { match, currentOrgContext, organizationsPending } = this.props;
 
     return (
       <EnhancedMenuButton
         id="orgs-menu"
         label={this.props.currentOrgContext.description || currentOrgContext.name || ''}
         position={MenuButton.Positions.TOP_RIGHT}
-        buttonChildren={currentOrgContext.properties.fqon === params.fqon && 'expand_more'}
+        buttonChildren={currentOrgContext.properties.fqon === match.params.fqon && 'expand_more'}
         flat
         iconBefore={false}
         onClick={e => this.fetchOrgList(e)}

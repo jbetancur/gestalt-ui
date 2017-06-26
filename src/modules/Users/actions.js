@@ -11,3 +11,7 @@ export function confirmDelete(action, multipleItems) {
     });
   };
 }
+
+export default {
+  confirmDelete,
+};

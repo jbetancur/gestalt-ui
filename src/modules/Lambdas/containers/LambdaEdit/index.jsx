@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
@@ -9,12 +10,12 @@ import { map, cloneDeep } from 'lodash';
 import base64 from 'base-64';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class LambdaEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
     fetchLambda: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
@@ -24,11 +25,11 @@ class LambdaEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchLambda, fetchProvidersByType, fetchExecutors } = this.props;
+    const { match, fetchLambda, fetchProvidersByType, fetchExecutors } = this.props;
     // init providers dropdown
-    fetchProvidersByType(params.fqon, params.environmentId, 'environments', 'Lambda');
-    fetchExecutors(params.fqon, params.environmentId, 'environments', 'Executor');
-    fetchLambda(params.fqon, params.lambdaId, params.environmentId);
+    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
+    fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
+    fetchLambda(match.params.fqon, match.params.lambdaId, match.params.environmentId);
   }
 
   updatedModel(formValues) {
@@ -101,13 +102,13 @@ class LambdaEdit extends Component {
 
   updateLambda(values) {
     const { id } = this.props.lambda;
-    const { lambda, params, router } = this.props;
+    const { lambda, match, history } = this.props;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(lambda);
     const patches = jsonPatch.compare(originalModel, updatedModel);
-    const onSuccess = () => router.replace(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
 
-    this.props.updateLambda(params.fqon, id, patches, onSuccess);
+    this.props.updateLambda(match.params.fqon, id, patches, onSuccess);
   }
 
   render() {
@@ -167,4 +168,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'lambdaEdit',
   validate
-})(LambdaEdit));
+})(context(LambdaEdit)));

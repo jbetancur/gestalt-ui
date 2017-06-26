@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -10,12 +10,12 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 
 class apiEndpointItem extends PureComponent {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     selectedEndpoints: PropTypes.object.isRequired,
     deleteAPIEndpoints: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
@@ -31,8 +31,8 @@ class apiEndpointItem extends PureComponent {
   }
 
   componentDidMount() {
-    const { params, fetchAPIEndpoints } = this.props;
-    fetchAPIEndpoints(params.fqon, params.apiId);
+    const { match, fetchAPIEndpoints } = this.props;
+    fetchAPIEndpoints(match.params.fqon, match.params.apiId);
   }
 
   componentWillUnmount() {
@@ -49,34 +49,34 @@ class apiEndpointItem extends PureComponent {
   }
 
   delete() {
-    const { params, fetchAPIEndpoints, deleteAPIEndpoints, clearTableSelected } = this.props;
+    const { match, fetchAPIEndpoints, deleteAPIEndpoints, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedEndpoints;
     const IDs = selectedItems.map(item => (item.id));
     const names = selectedItems.map(item => (item.properties.resource));
 
     const onSuccess = () => {
       clearTableSelected();
-      fetchAPIEndpoints(params.fqon, params.apiId);
+      fetchAPIEndpoints(match.params.fqon, match.params.apiId);
     };
 
     this.props.confirmDelete(() => {
-      deleteAPIEndpoints(IDs, params.fqon, params.apiId, onSuccess);
+      deleteAPIEndpoints(IDs, match.params.fqon, match.params.apiId, onSuccess);
     }, names);
   }
 
   edit(apiEndpoint, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { router, params, } = this.props;
-      router.push({
-        pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
+      const { history, match, } = this.props;
+      history.push({
+        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
         query: { implementationType: apiEndpoint.properties.implementation_type },
       });
     }
   }
 
   renderCreateButton() {
-    const { params } = this.props;
+    const { match } = this.props;
 
     return (
       <Button
@@ -85,9 +85,7 @@ class apiEndpointItem extends PureComponent {
         flat
         primary
         component={Link}
-        to={{
-          pathname: `${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}/apis/${params.apiId}/edit/apiendpoints/createEndpoint`
-        }}
+        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/createEndpoint`}
       >
         <FontIcon>add</FontIcon>
       </Button>

@@ -18,4 +18,6 @@ export function fetchIntegrations(fqon, environmentId) {
   };
 }
 
-export { fetchIntegrations as default };
+export default {
+  fetchIntegrations,
+};

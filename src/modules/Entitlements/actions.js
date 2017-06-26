@@ -46,3 +46,10 @@ export function clearIdentitiesFilter() {
 export function hideEntitlementsModal() {
   return { type: 'HIDE_MODAL' };
 }
+
+export default {
+  setEntitlementToggleStates,
+  filterIdentities,
+  clearIdentitiesFilter,
+  hideEntitlementsModal,
+};

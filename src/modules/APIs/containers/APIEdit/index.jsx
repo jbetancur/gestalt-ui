@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { metaActions } from 'modules/MetaResource';
+import { context } from 'modules/ContextManagement';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class APIEdit extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired,
     fetchAPI: PropTypes.func.isRequired,
     fetchProviderKongsByGateway: PropTypes.func.isRequired,
@@ -20,14 +21,14 @@ class APIEdit extends Component {
   };
 
   componentDidMount() {
-    const { params, fetchAPI, fetchProviderKongsByGateway } = this.props;
-    fetchProviderKongsByGateway(params.fqon, params.environmentId, 'environments');
-    fetchAPI(params.fqon, params.apiId);
+    const { match, fetchAPI, fetchProviderKongsByGateway } = this.props;
+    fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
+    fetchAPI(match.params.fqon, match.params.apiId);
   }
 
   updateAPI(values) {
     const { id, name, description } = this.props.api;
-    const { params } = this.props;
+    const { match } = this.props;
     const originalModel = {
       name,
       description,
@@ -40,7 +41,7 @@ class APIEdit extends Component {
 
     const patches = jsonPatch.compare(originalModel, newModel);
 
-    this.props.updateAPI(params.fqon, params.environmentId, id, patches);
+    this.props.updateAPI(match.params.fqon, match.params.environmentId, id, patches);
   }
 
   render() {
@@ -77,4 +78,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'apiEdit',
   validate
-})(APIEdit));
+})(context(APIEdit)));

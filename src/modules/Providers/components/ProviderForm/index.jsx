@@ -14,7 +14,7 @@ import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import { VariablesForm } from 'modules/Variables';
 import { ContainerCreate, ContainerDetails, ContainerActions } from 'modules/Containers';
@@ -23,22 +23,22 @@ import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values, params, router, container, fetchEnvSchema } = props;
+  const { provider, change, reset, values, match, history, container, fetchEnvSchema } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const getProviders = () => {
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.enviromentId ? 'environments' : 'workspaces';
-    props.fetchProvidersByType(params.fqon, entityId, entityKey);
+    const entityId = match.params.environmentId || match.params.workspaceId || null;
+    const entityKey = match.params.workspaceId && match.params.enviromentId ? 'environments' : 'workspaces';
+    props.fetchProvidersByType(match.params.fqon, entityId, entityKey);
   };
 
   const goBack = () => {
-    if (params.workspaceId && !params.environmentId) {
-      router.push(`${params.fqon}/hierarchy/${params.workspaceId}`);
-    } else if (params.environmentId) {
-      router.push(`${params.fqon}/hierarchy/${params.workspaceId}/environments/${params.environmentId}`);
+    if (match.params.workspaceId && !match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
+    } else if (match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     } else {
-      router.push(`${params.fqon}/providers`);
+      history.push(`/${match.params.fqon}/providers`);
     }
   };
 
@@ -202,7 +202,7 @@ const ProviderForm = (props) => {
             title="Container"
             subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
           />
-          <ContainerCreate params={props.params} inlineMode />
+          <ContainerCreate match={props.match} inlineMode />
         </Card>
       </div>
   );
@@ -213,7 +213,7 @@ const ProviderForm = (props) => {
         <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
           <div className="flex-row">
             <div className="flex">
-              <ContainerDetails container={props.container} params={props.params} />
+              <ContainerDetails container={props.container} match={props.match} />
             </div>
           </div>
         </Card>
@@ -335,8 +335,8 @@ const ProviderForm = (props) => {
 };
 
 ProviderForm.propTypes = {
-  params: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,

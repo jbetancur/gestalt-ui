@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dialog from 'react-md/lib/Dialogs';
 import TextField from 'react-md/lib/TextFields';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class ConfirmModal extends PureComponent {
   static propTypes = {

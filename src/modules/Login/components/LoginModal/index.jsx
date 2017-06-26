@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import LoginForm from 'modules/Login/components/LoginForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { merge } from 'lodash';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
@@ -19,7 +19,7 @@ import { VariablesForm } from 'modules/Variables';
 import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
 import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, CopyUUIDButton } from 'components/Buttons';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
@@ -31,16 +31,16 @@ const ListButton = styled(Button)`
 `;
 
 const ContainerForm = (props) => {
-  const { values, params, container } = props;
+  const { values, match, container } = props;
 
   const selectedProvider = merge({ properties: { config: { networks: [] } } },
     props.providers.find(provider => values.properties.provider.id === provider.id));
 
   const fetchProviders = () => {
-    const entityId = params.environmentId || params.workspaceId || null;
-    const entityKey = params.workspaceId && params.environmentId ? 'environments' : 'workspaces';
+    const entityId = match.params.environmentId || match.params.workspaceId || null;
+    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
-    props.fetchProvidersByType(params.fqon, entityId, entityKey, 'CaaS');
+    props.fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
   };
 
   return (
@@ -76,7 +76,7 @@ const ContainerForm = (props) => {
                     <Button
                       label="Entitlements"
                       flat
-                      onClick={() => props.showEntitlementsModal(props.title)}
+                      onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
                     >
                       security
                     </Button>
@@ -204,9 +204,7 @@ const ContainerForm = (props) => {
                 label={props.cancelLabel}
                 disabled={props.pending || props.submitting}
                 component={Link}
-                to={{
-                  pathname: `${props.params.fqon}/hierarchy/${props.params.workspaceId}/environments/${props.params.environmentId}`
-                }}
+                to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environments/${props.match.params.environmentId}`}
               />
               <Button
                 raised
@@ -224,7 +222,7 @@ const ContainerForm = (props) => {
             <Card className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               <div className="flex-row">
                 <div className="flex">
-                  <ContainerDetails container={props.container} params={props.params} />
+                  <ContainerDetails container={props.container} match={props.match} />
                 </div>
               </div>
             </Card>}
@@ -346,7 +344,7 @@ ContainerForm.propTypes = {
   values: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   pendingContainerUpdate: PropTypes.bool,
-  params: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

@@ -4,22 +4,23 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import _map from 'lodash/map';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { HierarchyForm, validate } from 'modules/Hierarchy/components/HierarchyForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class EnvironmentEdit extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
-    const { params } = this.props;
-    this.props.fetchEnvironment(params.fqon, params.environmentId);
+    const { match } = this.props;
+    this.props.fetchEnvironment(match.params.fqon, match.params.environmentId);
   }
 
   updatedModel(formValues) {
@@ -56,14 +57,14 @@ class EnvironmentEdit extends Component {
   }
 
   updateEnvironment(values) {
-    const { router } = this.props;
+    const { history } = this.props;
     const { id } = this.props.environment;
     const updatedModel = this.updatedModel(values);
     const originalModel = this.originalModel(this.props.environment);
     const patches = jsonPatch.compare(originalModel, updatedModel);
 
-    const onSuccess = () => router.goBack();
-    this.props.updateEnvironment(this.props.params.fqon, id, patches, onSuccess);
+    const onSuccess = () => history.goBack();
+    this.props.updateEnvironment(this.props.match.params.fqon, id, patches, onSuccess);
   }
 
   render() {
@@ -104,4 +105,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'environmentEdit',
   validate
-})(EnvironmentEdit));
+})(context(EnvironmentEdit)));

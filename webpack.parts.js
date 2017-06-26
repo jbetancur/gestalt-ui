@@ -8,18 +8,7 @@ const config = require('./config.json');
 exports.appEntryDevelopment = ({ srcPath }) => (
   [
     'babel-polyfill',
-
     'react-hot-loader/patch',
-    // activate HMR for React
-
-    'webpack-dev-server/client?http://localhost:8081',
-    // bundle the client for webpack-dev-server
-    // and connect to the provided endpoint
-
-    'webpack/hot/only-dev-server',
-    // bundle the client for hot reloading
-    // only- means to only hot reload for successful updates
-
     // The main app entry point
     `${srcPath}/index.jsx`
   ]
@@ -69,17 +58,17 @@ exports.esLintConfig = () => (
       rules: [{
         test: /(\.jsx|\.js)$/,
         loader: 'eslint-loader',
-        exclude: /node_modules/,
       }]
     }
   }
 );
 
-exports.scssConfig = ({ options }) => (
+exports.scssConfig = ({ options, srcPath }) => (
   {
     module: {
       rules: [{
         test: /(\.scss|\.css)$/,
+        include: srcPath,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -107,14 +96,15 @@ exports.scssConfig = ({ options }) => (
   }
 );
 
-exports.fontConfig = () => (
+exports.fontConfig = ({ srcPath }) => (
   {
     module: {
       rules: [{
         test: /\.(eot|ttf|woff|woff2)$/,
         loader: 'url-loader',
-      }]
-    }
+        include: [srcPath, /material-design-icons/],
+      }],
+    },
   }
 );
 
@@ -201,7 +191,7 @@ exports.devServer = function devServer({ host, port, contentBase, compress }) {
       stats: 'errors-only',
 
       // enable HMR on the server
-      hot: true,
+      hot: false,
       inline: true,
       // Parse host and port from env to allow customization.
       //

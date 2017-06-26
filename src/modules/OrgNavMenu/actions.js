@@ -8,4 +8,6 @@ export function filterOrgs(predicate) {
   };
 }
 
-export default { filterOrgs };
+export default {
+  filterOrgs,
+};

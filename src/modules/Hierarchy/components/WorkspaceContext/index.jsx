@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import cookie from 'react-cookie';
 import styled from 'styled-components';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
@@ -9,10 +9,10 @@ import Divider from 'react-md/lib/Dividers';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import Providers from 'modules/Providers';
+import { Providers } from 'modules/Providers';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import { VariablesListing } from 'modules/Variables';
-import Breadcrumbs from 'modules/Breadcrumbs';
+import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, NavUpArrowButton } from 'components/Buttons';
 import { DeleteIcon, ProviderIcon } from 'components/Icons';
 import DotActivity from 'components/DotActivity';
@@ -35,8 +35,8 @@ const CreateButtonSpan = styled.span`
 
 class WorkspaceContext extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     handleWorkspaceNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
@@ -44,7 +44,6 @@ class WorkspaceContext extends Component {
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    setCurrentWorkspaceContext: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
   };
 
@@ -53,41 +52,33 @@ class WorkspaceContext extends Component {
   }
 
   componentDidMount() {
-    const { fetchWorkspace, params } = this.props;
+    const { fetchWorkspace, match } = this.props;
 
-    fetchWorkspace(params.fqon, params.workspaceId);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { workspace, setCurrentWorkspaceContext } = this.props;
-    // Keep the current Workspace Context Synced
-    if (nextProps.workspace !== workspace) {
-      setCurrentWorkspaceContext(nextProps.workspace);
-    }
+    fetchWorkspace(match.params.fqon, match.params.workspaceId);
   }
 
   handleViewState(view, index) {
-    const { handleWorkspaceNavigation, router } = this.props;
+    const { handleWorkspaceNavigation, history } = this.props;
     const validCookie = !!cookie.load('auth-token') || false;
 
     if (!validCookie) {
-      router.replace('login');
+      history.replace('login');
     }
 
     handleWorkspaceNavigation(view, index);
   }
 
   delete() {
-    const { params, router, workspace, deleteWorkspace } = this.props;
+    const { match, history, workspace, deleteWorkspace } = this.props;
 
-    const onSuccess = () => router.replace(`${params.fqon}/hierarchy`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
     this.props.confirmDelete(() => {
-      deleteWorkspace(params.fqon, workspace.id, onSuccess);
+      deleteWorkspace(match.params.fqon, workspace.id, onSuccess);
     }, workspace.description || workspace.name, 'Workspace');
   }
 
   renderActionsMenu() {
-    const { workspace, pending, params } = this.props;
+    const { workspace, pending, match } = this.props;
     const name = workspace.description || workspace.name;
 
     return (
@@ -106,24 +97,20 @@ class WorkspaceContext extends Component {
             primaryText="Create Environment"
             leftIcon={<FontIcon>create_new_folder</FontIcon>}
             component={Link}
-            to={{
-              pathname: `/${params.fqon}/hierarchy/${workspace.id}/createEnvironment`
-            }}
+            to={`/${match.params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
           />
           <ListItem
             id="workspaces-settings-menu--edit"
             primaryText={<span>Edit {name} Workspace</span>}
             leftIcon={<FontIcon>edit</FontIcon>}
             component={Link}
-            to={{
-              pathname: `/${params.fqon}/hierarchy/${workspace.id}/editWorkspace`
-            }}
+            to={`/${match.params.fqon}/hierarchy/${workspace.id}/editWorkspace`}
           />
           <ListItem
             id="workspaces-settings-menu--entitlements"
             primaryText={<span>Entitlements {name}</span>}
             leftIcon={<FontIcon>security</FontIcon>}
-            onClick={() => this.props.showEntitlementsModal(name, 'Workspace')}
+            onClick={() => this.props.showEntitlementsModal(name, match.params, 'Workspace')}
           />
           <Divider />
           <ListItem
@@ -153,14 +140,14 @@ class WorkspaceContext extends Component {
   }
 
   render() {
-    const { pending, router, workspace, params, navigation } = this.props;
+    const { pending, history, workspace, match, navigation } = this.props;
     const parentFQON = getParentFQON(workspace);
 
     return (
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle expander={!pending}>
-            <NavUpArrowButton disabled={pending} onClick={() => router.push(`/${parentFQON}/hierarchy`)} />
+            <NavUpArrowButton disabled={pending} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
             {this.renderActionsMenu()}
             <div>
               <div className="gf-headline">{!pending ? workspace.description || workspace.name : <DotActivity />}</div>
@@ -174,7 +161,7 @@ class WorkspaceContext extends Component {
               primary
               label="Create Environment"
               component={Link}
-              to={`/${params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
+              to={`/${match.params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
             >
               create_new_folder
             </Button>

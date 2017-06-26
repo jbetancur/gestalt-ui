@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
 import { HierarchyForm, validate } from '../../components/HierarchyForm';
-import * as actions from '../../actions';
+import actions from '../../actions';
 
 class OrgCreate extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     createWorkspace: PropTypes.func.isRequired,
   };
 
   createWorkspace(values) {
-    const { params, router } = this.props;
+    const { match, history } = this.props;
 
     const payload = {
       name: values.name,
@@ -30,8 +31,8 @@ class OrgCreate extends Component {
       });
     }
 
-    const onSuccess = response => router.push(`${params.fqon}/hierarchy/${response.id}`);
-    this.props.createWorkspace(params.fqon, payload, onSuccess);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.id}`);
+    this.props.createWorkspace(match.params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -65,4 +66,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
   form: 'workspaceCreate',
   validate
-})(OrgCreate));
+})(context(OrgCreate)));
