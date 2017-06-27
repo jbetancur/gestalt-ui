@@ -44,7 +44,9 @@ const GroupForm = (props) => {
     invalid,
     pending,
     submitting,
-    availableUsersFilter
+    availableUsersFilter,
+    filterAvailableUsers,
+    filterMemberUsers,
   } = props;
   // replace the group context if the groupMembers (properties.users) has been updated
   // we have to be tricksy due to reacts immutable nature
@@ -67,14 +69,6 @@ const GroupForm = (props) => {
   // prevents multiple clicks from throwing a RACE - so we use these on the ListItem
   const removeUserDebounced = debounce(removeUser, 250);
   const addUserDebounced = debounce(addUser, 250);
-
-  const filterAvailableUsers = (value) => {
-    props.filterAvailableUsers(value);
-  };
-
-  const filterMemberUsers = (value) => {
-    props.filterMemberUsers(value);
-  };
 
   /* filter out users that are already members */
   const generateAvailableUsers = () => (
@@ -206,6 +200,8 @@ const GroupForm = (props) => {
 };
 
 GroupForm.propTypes = {
+  filterAvailableUsers: PropTypes.func.isRequired,
+  filterMemberUsers: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   updatedGroup: PropTypes.object,
   users: PropTypes.array.isRequired,

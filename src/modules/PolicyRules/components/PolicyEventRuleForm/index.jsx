@@ -18,7 +18,6 @@ import policyResourceTypes from '../../lists/policyResourceTypes';
 
 const PolicyEventRuleForm = (props) => {
   const {
-    // values,
     match,
     pending,
     policyUpdatePending,
@@ -36,6 +35,9 @@ const PolicyEventRuleForm = (props) => {
     lambdasDropDown,
     lambdasDropDownPending,
     fetchLambdasDropDown,
+    handleSelectedActions,
+    dispatch,
+    form,
   } = props;
 
   const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`;
@@ -43,11 +45,11 @@ const PolicyEventRuleForm = (props) => {
   const policyTriggers = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].triggers));
 
   const onActionChecked = (action) => {
-    props.handleSelectedActions(action, selectedActions);
+    handleSelectedActions(action, selectedActions);
   };
 
   const handleAutoComplete = (value) => {
-    props.dispatch(change(props.form, editMode ? 'properties.lambda.id' : 'properties.lambda', lambdasDropDown.find(l => l.name === value).id));
+    dispatch(change(form, editMode ? 'properties.lambda.id' : 'properties.lambda', lambdasDropDown.find(l => l.name === value).id));
   };
 
   return (
@@ -157,7 +159,9 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
-  // values: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  handleSelectedActions: PropTypes.func.isRequired,
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
