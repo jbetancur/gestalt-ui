@@ -11,13 +11,18 @@ import healthCheckProtocols from '../../lists/healthCheckProtocols';
 import healthCheckPortTypes from '../../lists/healthCheckPortTypes';
 
 const HealthCheckForm = (props) => {
-  const { values, reset, change } = props;
+  const {
+    values,
+    reset,
+    change,
+    hideHealthCheckModal
+  } = props;
 
   const selectedHCProtocol = healthCheckProtocols.find(item => values.protocol === item.value);
 
   const close = () => {
-    props.reset();
-    props.hideHealthCheckModal();
+    reset();
+    hideHealthCheckModal();
   };
 
   const clearPorts = () => {
@@ -168,7 +173,7 @@ const HealthCheckForm = (props) => {
 };
 
 HealthCheckForm.propTypes = {
-  // hideHealthCheckModal: PropTypes.func.isRequired,
+  hideHealthCheckModal: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,

@@ -76,9 +76,6 @@ export default function ContextWrapper(BaseComponent) {
     const { metaResource } = state;
 
     return {
-      organization: state.metaResource.organizationSet.organization,
-      workspace: state.metaResource.workspace.workspace,
-      environment: state.metaResource.environment.environment,
       currentOrgContext: metaResource.currentOrgContext.organization,
       currentWorkspaceContext: metaResource.currentWorkspaceContext.workspace,
       currentEnvironmentContext: metaResource.currentEnvironmentContext.environment,

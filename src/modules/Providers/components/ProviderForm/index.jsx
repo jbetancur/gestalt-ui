@@ -23,13 +23,13 @@ import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values, match, history, container, fetchEnvSchema } = props;
+  const { provider, change, reset, values, match, history, container, fetchEnvSchema, fetchProvidersByType } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const getProviders = () => {
     const entityId = match.params.environmentId || match.params.workspaceId || null;
     const entityKey = match.params.workspaceId && match.params.enviromentId ? 'environments' : 'workspaces';
-    props.fetchProvidersByType(match.params.fqon, entityId, entityKey);
+    fetchProvidersByType(match.params.fqon, entityId, entityKey);
   };
 
   const goBack = () => {
@@ -352,6 +352,7 @@ ProviderForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
   fetchEnvSchema: PropTypes.func.isRequired,
+  fetchProvidersByType: PropTypes.func.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,

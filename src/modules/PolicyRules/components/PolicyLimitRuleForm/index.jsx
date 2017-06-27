@@ -33,6 +33,9 @@ const PolicyLimitRuleForm = (props) => {
     values,
     selectedActions,
     policyRule,
+    handleSelectedActions,
+    dispatch,
+    change,
   } = props;
 
   const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`;
@@ -49,14 +52,14 @@ const PolicyLimitRuleForm = (props) => {
   const valueType = values.properties.eval_logic.property ? policyLimiters.find(limiter => limiter.name === values.properties.eval_logic.property).inputType : 'text';
 
   const onActionChecked = (action) => {
-    props.handleSelectedActions(action, selectedActions);
+    handleSelectedActions(action, selectedActions);
   };
 
   const handleEvalFields = () => {
     // since we need to deal with input types we should clear the form value fields
     // when
-    props.dispatch(props.change('properties.eval_logic.operator', ''));
-    props.dispatch(props.change('properties.eval_logic.value', ''));
+    dispatch(change('properties.eval_logic.operator', ''));
+    dispatch(change('properties.eval_logic.value', ''));
   };
 
   return (
@@ -184,6 +187,9 @@ const PolicyLimitRuleForm = (props) => {
 };
 
 PolicyLimitRuleForm.propTypes = {
+  handleSelectedActions: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
