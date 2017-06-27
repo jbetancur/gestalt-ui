@@ -15,11 +15,11 @@ class APIEndpointCreate extends Component {
     match: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
-    unloadRateLimitToggleState: PropTypes.func.isRequired,
+    unloadToggleStates: PropTypes.func.isRequired,
   };
 
   componentWillUnmount() {
-    this.props.unloadRateLimitToggleState();
+    this.props.unloadToggleStates();
   }
 
   create(values) {
@@ -34,10 +34,10 @@ class APIEndpointCreate extends Component {
 
     // clear the rate limit from the payload if it is not triggered
     if (!rateLimitToggled) {
-      delete payload.properties.rateLimit;
+      delete payload.properties.plugins.rateLimit;
     } else {
       // no need to submit to API since this is just used to manage form state
-      delete payload.properties.rateLimit.toggled;
+      delete payload.properties.plugins.rateLimit.toggled;
     }
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
@@ -60,14 +60,17 @@ class APIEndpointCreate extends Component {
 function mapStateToProps(state) {
   const { pending } = state.metaResource.apiEndpoint;
   const model = {
-    name: '',
     properties: {
-      // auth_type: {
-      //   type: 'None',
-      // },
       methods: 'GET',  // converts to array
-      rateLimit: {
-        perMinute: 60,
+      plugins: {
+        rateLimit: {
+          perMinute: 60,
+        },
+        gestaltSecurity: {
+          enabled: false,
+          users: [],
+          groups: [],
+        },
       },
       implementation_type: 'lambda',
       resource: '',
@@ -83,6 +86,7 @@ function mapStateToProps(state) {
     lambdaProvider: state.metaResource.lambdaProvider.provider,
     lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
     containersDropDown: state.metaResource.containersDropDown.containers,
+    identities: state.metaResource.entitlementIdentities.identities,
     rateLimitToggled: state.apiEndpoints.rateLimitToggled.toggled,
     initialValues: model,
     enableReinitialize: true,

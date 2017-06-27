@@ -6,6 +6,7 @@ import { metaActions } from 'modules/MetaResource';
 import { context } from 'modules/ContextManagement';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
+import { parse } from 'query-string';
 import { cloneDeep, compact } from 'lodash';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
@@ -22,23 +23,27 @@ class APIEndpointEdit extends Component {
     fetchLambdasDropDown: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
     pending: PropTypes.bool.isRequired,
-    unloadRateLimitToggleState: PropTypes.func.isRequired,
+    unloadToggleStates: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const { match, history, fetchAPIEndpoint, fetchContainersDropDown, fetchLambdasDropDown } = this.props;
+    const query = parse(location.search);
 
-    if (history.location.query.implementationType === 'container') {
+    if (query.implementationType === 'container') {
       fetchContainersDropDown(match.params.fqon, match.params.environmentId);
-    } else {
+    } else if (query.implementationType === 'lambda') {
       fetchLambdasDropDown(match.params.fqon);
+    } else {
+      // if the search params are missing then go back to the API parent
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/APIS/${match.params.apiId}/edit`);
     }
 
     fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
   }
 
   componentWillUnmount() {
-    this.props.unloadRateLimitToggleState();
+    this.props.unloadToggleStates();
   }
 
   updateAPIEndpoint(values) {
@@ -62,10 +67,10 @@ class APIEndpointEdit extends Component {
 
     // clear the rate limit from the payload if it is not triggered
     if (!rateLimitToggled) {
-      delete payload.properties.rateLimit;
+      delete payload.properties.plugins.rateLimit;
     } else {
       // no need to submit to API since this is just used to manage form state
-      delete payload.properties.rateLimit.toggled;
+      delete payload.properties.plugins.rateLimit.toggled;
     }
 
     const patches = jsonPatch.compare(originalModel, payload);
@@ -99,6 +104,7 @@ function mapStateToProps(state) {
     properties: apiEndpoint.properties,
   };
 
+  // TODO: move this logic to reselect
   if (model.properties.methods && Array.isArray(model.properties.methods)) {
     model.properties.methods = model.properties.methods.join(',');
   }
@@ -112,6 +118,7 @@ function mapStateToProps(state) {
     lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
     containersDropDown: state.metaResource.containersDropDown.containers,
     lambdasDropDownPending: state.metaResource.lambdasDropDown.pending,
+    identities: state.metaResource.entitlementIdentities.identities,
     containersDropDownPending: state.metaResource.containersDropDown.pending,
     rateLimitToggled: state.apiEndpoints.rateLimitToggled.toggled,
     initialValues: model,

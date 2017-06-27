@@ -15,7 +15,6 @@ export default class RateLimit extends PureComponent {
 
   static defaultProps = {
     className: '',
-    rateLimitToggledName: false,
     isToggled: false,
     onToggledState: v => v,
   };

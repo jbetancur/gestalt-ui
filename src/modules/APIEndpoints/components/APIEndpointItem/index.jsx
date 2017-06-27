@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
@@ -70,9 +71,14 @@ class apiEndpointItem extends PureComponent {
       const { history, match, } = this.props;
       history.push({
         pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
-        query: { implementationType: apiEndpoint.properties.implementation_type },
+        search: `?implementationType=${apiEndpoint.properties.implementation_type}`
       });
     }
+  }
+
+  formatResourceState(state) {
+    const split = state.split('::');
+    return split[split.length - 1];
   }
 
   renderCreateButton() {
@@ -98,13 +104,22 @@ class apiEndpointItem extends PureComponent {
 
     const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
+        <TableColumn style={{ color: this.formatResourceState(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
+          {this.formatResourceState(apiEndpoint.resource_state)}
+        </TableColumn>
         <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
         <TableColumn>
           <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
-        {/* <TableColumn>{apiEndpoint.properties.auth_type.type}</TableColumn> */}
-        <TableColumn><span className="gf-caption">{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(', ')}</span></TableColumn>
-        <TableColumn>{apiEndpoint.properties.rateLimit && apiEndpoint.properties.rateLimit.perMinute}</TableColumn>
+        <TableColumn>
+          <span className="gf-caption-sm"><span>{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(',')}</span></span>
+        </TableColumn>
+        <TableColumn numeric>
+          {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.perMinute}
+        </TableColumn>
+        <TableColumn>
+          <Checkbox style={{ height: '1.4em' }} defaultChecked={apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled} disabled />
+        </TableColumn>
         <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
@@ -126,14 +141,15 @@ class apiEndpointItem extends PureComponent {
           {!this.props.apiEndpoints.length ? null :
           <TableHeader>
             <TableRow>
-              <TableColumn sorted={handleTableSortIcon('properties.resource', true)} onClick={() => sortTable('properties.resource')}>Resource Path</TableColumn>
-              {/* <TableColumn>Security</TableColumn> */}
+              <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('properties.resource')} onClick={() => sortTable('properties.resource')}>Path</TableColumn>
               <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
-              <TableColumn>HTTP Methods</TableColumn>
-              <TableColumn>Rate Limit (per minute)</TableColumn>
+              <TableColumn>Methods</TableColumn>
+              <TableColumn numeric>Rate Limit</TableColumn>
+              <TableColumn style={{ padding: 0 }}>Authentication</TableColumn>
               <TableColumn sorted={handleTableSortIcon('properties.implementation_type')} onClick={() => sortTable('properties.implementation_type')}>Type</TableColumn>
               <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+              <TableColumn sorted={handleTableSortIcon('created.timestamp', true)} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
             </TableRow>
           </TableHeader>}
           <TableBody>
