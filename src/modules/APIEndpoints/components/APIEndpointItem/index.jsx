@@ -107,7 +107,6 @@ class apiEndpointItem extends PureComponent {
         <TableColumn style={{ color: this.formatResourceState(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
           {this.formatResourceState(apiEndpoint.resource_state)}
         </TableColumn>
-        <TableColumn>{apiEndpoint.properties.resource}</TableColumn>
         <TableColumn>
           <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
@@ -142,7 +141,6 @@ class apiEndpointItem extends PureComponent {
           <TableHeader>
             <TableRow>
               <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('properties.resource')} onClick={() => sortTable('properties.resource')}>Path</TableColumn>
               <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
               <TableColumn>Methods</TableColumn>
               <TableColumn numeric>Rate Limit</TableColumn>
