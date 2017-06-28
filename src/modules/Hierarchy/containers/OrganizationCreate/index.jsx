@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
-import { HierarchyForm, validate } from '../../components/HierarchyForm';
+import HierarchyForm from '../../components/HierarchyForm';
+import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
 
 class OrgCreate extends Component {

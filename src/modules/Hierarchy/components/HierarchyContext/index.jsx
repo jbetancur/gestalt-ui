@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import getParentFQON from 'util/helpers/fqon';
+import { getParentFQON } from 'util/helpers/strings';
 import { VariablesListing } from 'modules/Variables';
 import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
 import DotActivity from 'components/DotActivity';

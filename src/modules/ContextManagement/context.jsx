@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /**
- * Higher-order component (HOC) to handle keeping our navication context updated
+ * Higher-order component (HOC) to handle keeping our navigation context updated
+ * It requires that you have wrapper this component with org, workspace and environment redux state
  */
 export default function ContextWrapper(BaseComponent) {
   class Context extends PureComponent {
     static propTypes = {
       match: PropTypes.object.isRequired,
-      organization: PropTypes.object.isRequired,
-      workspace: PropTypes.object.isRequired,
-      environment: PropTypes.object.isRequired,
+      organizationSet: PropTypes.object,
+      workspace: PropTypes.object,
+      environment: PropTypes.object,
       currentOrgContext: PropTypes.object.isRequired,
       currentWorkspaceContext: PropTypes.object.isRequired,
       currentEnvironmentContext: PropTypes.object.isRequired,
@@ -21,6 +22,12 @@ export default function ContextWrapper(BaseComponent) {
       setCurrentOrgContext: PropTypes.func.isRequired,
       setCurrentWorkspaceContext: PropTypes.func.isRequired,
       setCurrentEnvironmentContext: PropTypes.func.isRequired,
+    };
+
+    static defaultProps = {
+      organizationSet: {},
+      workspace: {},
+      environment: {},
     };
 
     componentWillMount() {
@@ -54,8 +61,8 @@ export default function ContextWrapper(BaseComponent) {
 
     componentWillReceiveProps(nextProps) {
       // TODO: This is a fallback for keeping contexts synced with store but we still need to move all the logic from Nav Cards to here
-      if (nextProps.organization !== this.props.organization) {
-        this.props.setCurrentOrgContext(nextProps.organization);
+      if (nextProps.organizationSet !== this.props.organizationSet) {
+        this.props.setCurrentOrgContext(nextProps.organizationSet);
       }
 
       if (nextProps.workspace !== this.props.workspace) {
