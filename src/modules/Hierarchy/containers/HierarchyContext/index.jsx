@@ -16,7 +16,7 @@ import actions from '../../actions';
 class HierarchyContext extends PureComponent {
   static propTypes = {
     organizations: PropTypes.array,
-    organization: PropTypes.object.isRequired,
+    organizationSet: PropTypes.object.isRequired,
     workspaces: PropTypes.array,
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
@@ -88,10 +88,10 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { organization, pendingOrgset } = this.props;
+    const { organizationSet, pendingOrgset } = this.props;
     return (
       <div>
-        <HierarchyContextComponent model={organization} {...this.props} />
+        <HierarchyContextComponent model={organizationSet} {...this.props} />
         {pendingOrgset ? <LinearProgress id="hierarchy-progress" /> : this.renderCardsContainer()}
       </div>
     );
@@ -103,7 +103,7 @@ function mapStateToProps(state) {
   return {
     self: state.metaResource.self.self,
     pendingOrgset: state.metaResource.organizationSet.pending,
-    organization: state.metaResource.organizationSet.organization,
+    organizationSet: state.metaResource.organizationSet.organization,
     organizations: state.metaResource.organizationSet.organization.subOrganizations,
     workspaces: state.metaResource.organizationSet.organization.workspaces,
   };

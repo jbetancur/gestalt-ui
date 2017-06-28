@@ -45,6 +45,7 @@ const HierarchyForm = (props) => {
                   type="text"
                   maxLength={nameMaxLen}
                   required
+                  disabled={props.pending}
                 />
                 <Field
                   className="flex-6 flex-xs-12"
@@ -55,6 +56,7 @@ const HierarchyForm = (props) => {
                   maxLength={shortNameMaxLen}
                   required
                   helpText={t('containment.fields.name.helpText')}
+                  disabled={props.pending}
                 />
                 {props.isEnvironment &&
                 <Field
@@ -65,6 +67,7 @@ const HierarchyForm = (props) => {
                   menuItems={['development', 'test', 'production']}
                   required
                   label={t('containment.fields.environmentType.label')}
+                  disabled={props.pending}
                 />}
               </div>
               <fieldset>

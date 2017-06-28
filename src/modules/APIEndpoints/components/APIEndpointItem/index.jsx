@@ -8,6 +8,7 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { parseChildClass } from 'util/helpers/strings';
 
 class apiEndpointItem extends PureComponent {
   static propTypes = {
@@ -76,11 +77,6 @@ class apiEndpointItem extends PureComponent {
     }
   }
 
-  formatResourceState(state) {
-    const split = state.split('::');
-    return split[split.length - 1];
-  }
-
   renderCreateButton() {
     const { match } = this.props;
 
@@ -104,8 +100,8 @@ class apiEndpointItem extends PureComponent {
 
     const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
-        <TableColumn style={{ color: this.formatResourceState(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
-          {this.formatResourceState(apiEndpoint.resource_state)}
+        <TableColumn style={{ color: parseChildClass(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
+          {parseChildClass(apiEndpoint.resource_state)}
         </TableColumn>
         <TableColumn>
           <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>

@@ -6,7 +6,8 @@ import jsonPatch from 'fast-json-patch';
 import _map from 'lodash/map';
 import { context } from 'modules/ContextManagement';
 import { metaActions } from 'modules/MetaResource';
-import { HierarchyForm, validate } from 'modules/Hierarchy/components/HierarchyForm';
+import HierarchyForm from '../../components/HierarchyForm';
+import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
 
 class EnvironmentEdit extends Component {
