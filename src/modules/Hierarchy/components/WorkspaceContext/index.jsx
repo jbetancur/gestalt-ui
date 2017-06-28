@@ -16,7 +16,7 @@ import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, NavUpArrowButton } from 'components/Buttons';
 import { DeleteIcon, ProviderIcon } from 'components/Icons';
 import DotActivity from 'components/DotActivity';
-import getParentFQON from 'util/helpers/fqon';
+import { getParentFQON } from 'util/helpers/strings';
 import Environments from '../../containers/EnvironmentListing';
 
 const CreateButtonSpan = styled.span`

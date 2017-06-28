@@ -7,6 +7,7 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { parseChildClass } from 'util/helpers/strings';
 
 class ProviderItem extends PureComponent {
   static propTypes = {
@@ -49,11 +50,6 @@ class ProviderItem extends PureComponent {
     unloadProviders();
     clearTableSelected();
     clearTableSort();
-  }
-
-  formatResourceType(resourceType) {
-    const split = resourceType.split('::');
-    return split[split.length - 1];
   }
 
   handleRowToggle(row, toggled, count) {
@@ -149,7 +145,7 @@ class ProviderItem extends PureComponent {
       <TableRow key={provider.id} onClick={e => this.edit(provider, e)}>
         <TableColumn>{provider.name}</TableColumn>
         <TableColumn>{provider.description}</TableColumn>
-        <TableColumn>{provider.resource_type && this.formatResourceType(provider.resource_type)}</TableColumn>
+        <TableColumn>{provider.resource_type && parseChildClass(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
         <TableColumn>{provider.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={provider.created.timestamp} /> <FormattedTime value={provider.created.timestamp} /></TableColumn>

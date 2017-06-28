@@ -192,7 +192,6 @@ const ContainerForm = (props) => {
                     label="Force Pull Image on Every Launch"
                   />
                 </div>}
-
               </div>
 
             </CardText>

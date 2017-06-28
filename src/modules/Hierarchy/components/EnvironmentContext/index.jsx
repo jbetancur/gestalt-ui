@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import cookie from 'react-cookie';
-import getParentFQON from 'util/helpers/fqon';
+import { getParentFQON } from 'util/helpers/strings';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
