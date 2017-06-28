@@ -238,7 +238,7 @@ const APIEndpointForm = (props) => {
               raised
               label={submitLabel}
               type="submit"
-              disabled={pristine || pending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
+              disabled={pristine || pending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
               primary
             />
           </CardActions>

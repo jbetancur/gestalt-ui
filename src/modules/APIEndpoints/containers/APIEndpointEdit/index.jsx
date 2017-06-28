@@ -101,7 +101,9 @@ function mapStateToProps(state) {
   const model = {
     name: apiEndpoint.name,
     description: apiEndpoint.description,
-    properties: apiEndpoint.properties,
+    properties: {
+      ...apiEndpoint.properties,
+    },
   };
 
   // TODO: move this logic to reselect
