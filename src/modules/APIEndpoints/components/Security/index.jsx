@@ -49,7 +49,7 @@ export default class APIEndpointSecurity extends PureComponent {
 
   render() {
     const { values } = this.props;
-    const securityEnabled = values.properties.plugins.gestaltSecurity.enabled;
+    const securityEnabled = values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled;
 
     return (
       <div className={this.props.className}>
