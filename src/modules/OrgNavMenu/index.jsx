@@ -93,13 +93,14 @@ class OrgNavMenu extends Component {
 
   render() {
     const { match, currentOrgContext, organizationsPending } = this.props;
+    const showMenu = currentOrgContext.properties.fqon === match.params.fqon;
 
     return (
-      <EnhancedMenuButton
+      showMenu && <EnhancedMenuButton
         id="orgs-menu"
         label={this.props.currentOrgContext.description || currentOrgContext.name || ''}
         position={MenuButton.Positions.TOP_RIGHT}
-        buttonChildren={currentOrgContext.properties.fqon === match.params.fqon && 'expand_more'}
+        buttonChildren="expand_more"
         flat
         iconBefore={false}
         onClick={e => this.fetchOrgList(e)}

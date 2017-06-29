@@ -183,7 +183,7 @@
         "eslint-config-airbnb": "^15.0.1",
         "eslint-import-resolver-webpack": "^0.8.3",
         "eslint-loader": "^1.8.0",
-        "eslint-plugin-import": "^2.6.0",
+        "eslint-plugin-import": "^2.6.1",
         "eslint-plugin-jsx-a11y": "^5.0.3",
         "eslint-plugin-react": "^7.1.0",
         "extract-text-webpack-plugin": "^2.1.2",
@@ -246,7 +246,7 @@
         "react-copy-to-clipboard": "^5.0.0",
         "react-dom": "^15.6.1",
         "react-ga": "^2.2.0",
-        "react-i18next": "^4.4.0",
+        "react-i18next": "^4.5.0",
         "react-inlinesvg": "^0.6.0",
         "react-intl": "^2.3.0",
         "react-json-tree": "^0.10.9",
@@ -265,6 +265,6 @@
         "reselect": "^3.0.1",
         "sanitize.css": "^5.0.0",
         "styled-components": "^2.1.0",
-        "validator": "^7.1.0"
+        "validator": "^7.2.0"
     }
 }
