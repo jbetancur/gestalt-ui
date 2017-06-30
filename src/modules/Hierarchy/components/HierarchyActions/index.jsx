@@ -12,7 +12,7 @@ class HierarchyAction extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
-    pendingOrgset: PropTypes.bool.isRequired,
+    orangizationSetPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     deleteOrg: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -33,7 +33,7 @@ class HierarchyAction extends PureComponent {
   }
 
   render() {
-    const { organizationSet, match, pendingOrgset, self, t } = this.props;
+    const { organizationSet, match, orangizationSetPending, self, t } = this.props;
     const name = organizationSet.description || organizationSet.name;
 
     return (
@@ -42,7 +42,7 @@ class HierarchyAction extends PureComponent {
           id="orgs-settings-menu"
           icon
           position="tl"
-          disabled={pendingOrgset}
+          disabled={orangizationSetPending}
           buttonChildren="more_vert"
           onClick={e => e.stopPropagation()}
           tooltipLabel="Actions"

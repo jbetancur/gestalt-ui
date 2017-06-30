@@ -16,7 +16,7 @@ class UserItem extends PureComponent {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
-    pending: PropTypes.bool.isRequired,
+    usersPending: PropTypes.bool.isRequired,
     deleteUsers: PropTypes.func.isRequired,
     unloadUsers: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -121,9 +121,9 @@ class UserItem extends PureComponent {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="users-progress" /> : null}
+          {this.props.usersPending && <LinearProgress id="users-progress" />}
           <DataTable baseId="Users" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {!this.props.users.length ? null :
+            {this.props.users.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

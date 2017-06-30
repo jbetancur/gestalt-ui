@@ -32,17 +32,17 @@ const GroupForm = (props) => {
     cancelLabel,
     match,
     group,
-    updatedGroup,
+    groupUpdated,
     users,
     addGroupMember,
     removeGroupMember,
     clearAvailableUsersFilter,
     clearMemberUsersFilter,
     editMode,
-    updatePending,
+    groupUpdatePending,
     pristine,
     invalid,
-    pending,
+    groupPending,
     submitting,
     availableUsersFilter,
     filterAvailableUsers,
@@ -52,7 +52,7 @@ const GroupForm = (props) => {
   // we have to be tricksy due to reacts immutable nature
   // TODO: Ugly, but when a group is created, the ui reroutes to group edit and reloads this data, thus editMode=true
   // This allows us to use the current data model
-  const currentGroup = editMode && updatedGroup.id ? updatedGroup : group;
+  const currentGroup = editMode && groupUpdated.id ? groupUpdated : group;
   let membersUserList = currentGroup.properties.users ? currentGroup.properties.users.slice() : [];
   membersUserList = membersUserList.filter(val => val.name.includes(props.memberUsersFilter.filterText));
 
@@ -78,7 +78,7 @@ const GroupForm = (props) => {
         primaryText={user.name}
         rightIcon={<FontIcon>add_circle</FontIcon>}
         inkDisabled
-        disabled={updatePending}
+        disabled={groupUpdatePending}
         onClick={() => addUserDebounced(user)}
       />))
   );
@@ -90,7 +90,7 @@ const GroupForm = (props) => {
         primaryText={user.name}
         rightIcon={<FontIcon>remove_circle</FontIcon>}
         inkDisabled
-        disabled={updatePending}
+        disabled={groupUpdatePending}
         onClick={() => removeUserDebounced(user)}
       />)
     )
@@ -130,12 +130,12 @@ const GroupForm = (props) => {
                 />
               </div>
             </CardText>
-            {(updatePending || pending) && <LinearProgress id="group-form" />}
+            {(groupUpdatePending || groupPending) && <LinearProgress id="group-form" />}
             <CardActions>
               <Button
                 flat
                 label={cancelLabel}
-                disabled={updatePending || pending || submitting}
+                disabled={groupUpdatePending || groupPending || submitting}
                 component={Link}
                 to={`/${match.params.fqon}/groups`}
               />
@@ -143,7 +143,7 @@ const GroupForm = (props) => {
                 raised
                 label={submitLabel}
                 type="submit"
-                disabled={pristine || updatePending || pending || invalid || submitting}
+                disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
                 primary
               />
             </CardActions>
@@ -155,7 +155,7 @@ const GroupForm = (props) => {
       <div className="flex-row">
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
-            {props.updateMembersPending && <LinearProgress id="group-members" />}
+            {props.groupMembersPending && <LinearProgress id="group-members" />}
             <div className="flex-row">
               <div className="flex-6 flex-xs-12">
                 <h3>Available Users</h3>
@@ -203,7 +203,7 @@ GroupForm.propTypes = {
   filterAvailableUsers: PropTypes.func.isRequired,
   filterMemberUsers: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  updatedGroup: PropTypes.object,
+  groupUpdated: PropTypes.object,
   users: PropTypes.array.isRequired,
   addGroupMember: PropTypes.func.isRequired,
   clearAvailableUsersFilter: PropTypes.func.isRequired,
@@ -212,9 +212,9 @@ GroupForm.propTypes = {
   availableUsersFilter: PropTypes.object,
   memberUsersFilter: PropTypes.object,
   match: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
-  updatePending: PropTypes.bool.isRequired,
-  updateMembersPending: PropTypes.bool,
+  groupPending: PropTypes.bool.isRequired,
+  groupUpdatePending: PropTypes.bool.isRequired,
+  groupMembersPending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -227,8 +227,8 @@ GroupForm.propTypes = {
 };
 
 GroupForm.defaultProps = {
-  updatedGroup: {},
-  updateMembersPending: false,
+  groupUpdated: {},
+  groupMembersPending: false,
   availableUsersFilter: {},
   memberUsersFilter: {},
   title: '',

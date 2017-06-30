@@ -14,7 +14,7 @@ class PolicyItem extends PureComponent {
     policies: PropTypes.array.isRequired,
     selectedPolicies: PropTypes.object.isRequired,
     deletePolicies: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    policiesPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchPolicies: PropTypes.func.isRequired,
@@ -113,9 +113,9 @@ class PolicyItem extends PureComponent {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="policy-listing" /> : null}
+          {this.props.policiesPending && <LinearProgress id="policy-listing" />}
           <DataTable baseId="policies" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {!this.props.policies.length ? null :
+            {this.props.policies.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

@@ -6,7 +6,7 @@ import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 
-const renderLinkedProviders = ({ fields, touched, error, fetchProviders, providers }) => (
+const renderLinkedProviders = ({ fields, touched, error, fetchProviders, providersModel }) => (
   <FormSection name="">
     <Button
       flat
@@ -36,7 +36,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           itemLabel="name"
           itemValue="id"
           required
-          menuItems={providers}
+          menuItems={providersModel}
           async
           onFocus={() => fetchProviders()}
         />
@@ -48,7 +48,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
 
 renderLinkedProviders.propTypes = {
   fetchProviders: PropTypes.func.isRequired,
-  providers: PropTypes.array.isRequired,
+  providersModel: PropTypes.array.isRequired,
   fields: PropTypes.object.isRequired,
   touched: PropTypes.bool,
   error: PropTypes.bool,
@@ -62,8 +62,7 @@ renderLinkedProviders.defaultProps = {
 const FieldArraysForm = props => (
   <FieldArray
     fetchProviders={props.fetchProviders}
-    providers={props.providers}
-    pendingProviders={props.pendingProviders}
+    providersModel={props.providersModel}
     name="linkedProviders"
     component={renderLinkedProviders}
   />
@@ -71,8 +70,7 @@ const FieldArraysForm = props => (
 
 FieldArraysForm.propTypes = {
   fetchProviders: PropTypes.func.isRequired,
-  pendingProviders: PropTypes.bool.isRequired,
-  providers: PropTypes.array.isRequired,
+  providersModel: PropTypes.array.isRequired,
 };
 
 export default FieldArraysForm;

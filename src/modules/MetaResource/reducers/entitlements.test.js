@@ -1,6 +1,6 @@
 import * as types from '../actionTypes';
 import reducer from './entitlements';
-import { metaActions } from '../../MetaResource';
+import metaActions from '../actions';
 
 const initialState = {
   pending: false,

@@ -1,7 +1,7 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from '../actionTypes';
 import reducer from './entitlementSelectedIdentity';
-import { metaActions } from '../../MetaResource';
+import metaActions from '../actions';
 
 const initialState = {
   identity: {},

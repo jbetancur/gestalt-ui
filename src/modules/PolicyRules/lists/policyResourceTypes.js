@@ -222,7 +222,7 @@ export default {
         name: 'provider.create.post'
       },
       {
-        name: 'provider.create.post'
+        name: 'provider.update.post'
       },
       {
         name: 'provider.delete.post'

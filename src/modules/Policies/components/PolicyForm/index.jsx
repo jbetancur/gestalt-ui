@@ -16,9 +16,9 @@ import { nameMaxLen } from '../../validations';
 const PolicyForm = (props) => {
   const {
     match,
-    pending,
+    policyPending,
     policy,
-    policyRuleUpdatePending,
+    policyUpdatePending,
     onSubmit,
     invalid,
     pristine,
@@ -65,12 +65,12 @@ const PolicyForm = (props) => {
                 />
               </div>
             </CardText>
-            {(policyRuleUpdatePending || pending) && <LinearProgress id="policy-form" />}
+            {(policyUpdatePending || policyPending) && <LinearProgress id="policy-form" />}
             <CardActions>
               <Button
                 flat
                 label={cancelLabel}
-                disabled={pending || submitting}
+                disabled={policyPending || submitting}
                 component={Link}
                 to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
               />
@@ -78,7 +78,7 @@ const PolicyForm = (props) => {
                 raised
                 label={submitLabel}
                 type="submit"
-                disabled={pristine || pending || invalid || submitting}
+                disabled={pristine || policyPending || policyUpdatePending || invalid || submitting}
                 primary
               />
             </CardActions>
@@ -99,8 +99,8 @@ const PolicyForm = (props) => {
 PolicyForm.propTypes = {
   match: PropTypes.object.isRequired,
   policy: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
-  policyRuleUpdatePending: PropTypes.bool.isRequired,
+  policyPending: PropTypes.bool.isRequired,
+  policyUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

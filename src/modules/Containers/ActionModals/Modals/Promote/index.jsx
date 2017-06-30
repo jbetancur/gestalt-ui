@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
 import DotActivity from 'components/DotActivity';
@@ -28,7 +28,7 @@ class PromoteModal extends PureComponent {
     fetchEnvironments: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
-    pendingEnvironments: PropTypes.bool.isRequired,
+    environmentsPending: PropTypes.bool.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
   };
 
@@ -84,7 +84,7 @@ class PromoteModal extends PureComponent {
             disabled: !this.state.environment,
           }]}
       >
-        {this.props.pendingEnvironments ? <DotActivity size={1} dropdown /> :
+        {this.props.environmentsPending ? <DotActivity size={1} dropdown /> :
         <div>
           {environments.length ?
             <div className="flex-row">
@@ -113,8 +113,8 @@ function mapStateToProps(state) {
   return {
     actionsModal: state.containers.actionsModals,
     environments: state.metaResource.environments.environments,
-    pendingEnvironments: state.metaResource.environments.pending,
+    environmentsPending: state.metaResource.environments.pending,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(PromoteModal);
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(PromoteModal));

@@ -78,7 +78,7 @@ class ContainerActions extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    container: PropTypes.object.isRequired,
+    containerModel: PropTypes.object.isRequired,
     deleteContainer: PropTypes.func.isRequired,
     scaleContainer: PropTypes.func.isRequired,
     scaleContainerModal: PropTypes.func.isRequired,
@@ -107,7 +107,7 @@ class ContainerActions extends Component {
   }
 
   destroyContainer() {
-    const { match, history, confirmDelete, fetchContainers, deleteContainer, container, inContainerView } = this.props;
+    const { match, history, confirmDelete, fetchContainers, deleteContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -118,58 +118,58 @@ class ContainerActions extends Component {
     };
 
     confirmDelete(() => {
-      deleteContainer(match.params.fqon, container.id, onSuccess);
-    }, container.name);
+      deleteContainer(match.params.fqon, containerModel.id, onSuccess);
+    }, containerModel.name);
   }
 
   suspendContainer() {
-    const { match, fetchContainer, fetchContainers, scaleContainer, container, inContainerView } = this.props;
+    const { match, fetchContainer, fetchContainers, scaleContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(match.params.fqon, container.id, match.params.environmentId, true);
+        fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
       } else {
         fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
-    scaleContainer(match.params.fqon, container.id, 0, onSuccess);
+    scaleContainer(match.params.fqon, containerModel.id, 0, onSuccess);
   }
 
   scaleContainer() {
-    const { match, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, container, inContainerView } = this.props;
+    const { match, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(match.params.fqon, container.id, match.params.environmentId, true);
+        fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
       } else {
         fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
     scaleContainerModal((numInstances) => {
-      if (numInstances !== container.properties.num_instances) {
-        scaleContainer(match.params.fqon, container.id, numInstances, onSuccess);
+      if (numInstances !== containerModel.properties.num_instances) {
+        scaleContainer(match.params.fqon, containerModel.id, numInstances, onSuccess);
       }
-    }, container.name, container.properties.num_instances);
+    }, containerModel.name, containerModel.properties.num_instances);
   }
 
   migrateContainer() {
-    const { match, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, container, inContainerView } = this.props;
+    const { match, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(match.params.fqon, container.id, match.params.environmentId, true);
+        fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
       } else {
         fetchContainers(match.params.fqon, match.params.environmentId);
       }
     };
 
     migrateContainerModal((providerId) => {
-      migrateContainer(match.params.fqon, container.id, providerId, onSuccess);
-    }, container.name, container.properties.provider, match.params);
+      migrateContainer(match.params.fqon, containerModel.id, providerId, onSuccess);
+    }, containerModel.name, containerModel.properties.provider, match.params);
   }
 
   promoteContainer() {
-    const { match, promoteContainer, promoteContainerModal, container, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
+    const { match, promoteContainer, promoteContainerModal, containerModel, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
       fetchEnvironment(match.params.fqon, environment.id);
@@ -190,8 +190,8 @@ class ContainerActions extends Component {
     };
 
     promoteContainerModal((environment) => {
-      promoteContainer(match.params.fqon, container.id, environment.id, onSuccess(environment));
-    }, container.name, match.params);
+      promoteContainer(match.params.fqon, containerModel.id, environment.id, onSuccess(environment));
+    }, containerModel.name, match.params);
   }
 
   render() {
@@ -199,11 +199,11 @@ class ContainerActions extends Component {
       <ActionsWrapper className={this.props.inContainerView && 'action--title'}>
         <ActionsModals />
         <MenuButton
-          className={`container--${this.props.container.properties.status}`}
+          className={`container--${this.props.containerModel.properties.status}`}
           id="container-actions-menu"
           icon={!this.props.inContainerView}
           flat={this.props.inContainerView}
-          label={this.props.inContainerView && this.props.container.properties.status}
+          label={this.props.inContainerView && this.props.containerModel.properties.status}
           buttonChildren="more_vert"
           position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
           tooltipLabel={!this.props.inContainerView && 'Actions'}
@@ -211,8 +211,8 @@ class ContainerActions extends Component {
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[<ListWrapper key="container-actions-menu">
             <ListMenu>
-              <div className="gf-headline-1">{this.props.container.name}</div>
-              <div className="gf-subtitle">{this.props.container.properties.status}</div>
+              <div className="gf-headline-1">{this.props.containerModel.name}</div>
+              <div className="gf-subtitle">{this.props.containerModel.properties.status}</div>
             </ListMenu>
             <EnhancedDivider />
             <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />

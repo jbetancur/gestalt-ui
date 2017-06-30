@@ -9,7 +9,7 @@ class IntegrationItem extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     integrations: PropTypes.array.isRequired,
-    pending: PropTypes.bool.isRequired,
+    pendingIntegrations: PropTypes.bool.isRequired,
     fetchIntegrations: PropTypes.func.isRequired,
   };
 
@@ -38,7 +38,7 @@ class IntegrationItem extends Component {
           <TableCardHeader
             title="Integrations"
           />
-          {this.props.pending ? <LinearProgress scale={3} centered={true} /> : <DataTable baseId="integrations">
+          {this.props.pendingIntegrations ? <LinearProgress scale={3} centered={true} /> : <DataTable baseId="integrations">
             <TableHeader>
               <TableRow>
                 <TableColumn>Name</TableColumn>

@@ -20,7 +20,7 @@ const APIForm = (props) => {
   const {
     // values,
     match,
-    pending,
+    apiPending,
     apiUpdatePending,
     api,
     onSubmit,
@@ -59,7 +59,7 @@ const APIForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  menuItems={props.providers}
+                  menuItems={props.providersKongByGateway}
                   async
                   onFocus={() => props.fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments')}
                   disabled={editMode}
@@ -98,12 +98,12 @@ const APIForm = (props) => {
                 </div>
               </div>
             </CardText>
-            {(pending || apiUpdatePending) && <LinearProgress id="api-form" />}
+            {(apiPending || apiUpdatePending) && <LinearProgress id="api-form" />}
             <CardActions>
               <Button
                 flat
                 label={cancelLabel}
-                disabled={pending || submitting}
+                disabled={apiPending || submitting}
                 component={Link}
                 to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
               />
@@ -111,7 +111,7 @@ const APIForm = (props) => {
                 raised
                 label={submitLabel}
                 type="submit"
-                disabled={pristine || pending || invalid || submitting}
+                disabled={pristine || apiPending || apiUpdatePending || invalid || submitting}
                 primary
               />
             </CardActions>
@@ -132,11 +132,11 @@ const APIForm = (props) => {
 
 APIForm.propTypes = {
   // values: PropTypes.object.isRequired,
-  providers: PropTypes.array.isRequired,
+  providersKongByGateway: PropTypes.array.isRequired,
   fetchProviderKongsByGateway: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
+  apiPending: PropTypes.bool.isRequired,
   apiUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

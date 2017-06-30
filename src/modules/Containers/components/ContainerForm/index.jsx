@@ -34,7 +34,7 @@ const ContainerForm = (props) => {
   const { values, match, container } = props;
 
   const selectedProvider = merge({ properties: { config: { networks: [] } } },
-    props.providers.find(provider => values.properties.provider.id === provider.id));
+    props.providersByType.find(provider => values.properties.provider.id === provider.id));
 
   const fetchProviders = () => {
     const entityId = match.params.environmentId || match.params.workspaceId || null;
@@ -60,7 +60,12 @@ const ContainerForm = (props) => {
               title={
                 <div>
                   <span>{props.title}</span>
-                  {props.editMode && <ContainerActions inContainerView container={container} {...props} />}
+                  {props.editMode &&
+                    <ContainerActions
+                      inContainerView
+                      containerModel={container}
+                      {...props}
+                    />}
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                 </div>
               }
@@ -95,7 +100,7 @@ const ContainerForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  menuItems={props.providers}
+                  menuItems={props.providersByType}
                   onFocus={() => fetchProviders()}
                   async
                   disabled={container.id}
@@ -195,13 +200,13 @@ const ContainerForm = (props) => {
               </div>
 
             </CardText>
-            {(props.pendingContainerUpdate || props.pending) && <LinearProgress id="container-form-loading" />}
+            {(props.containerUpdatePending || props.containerPending) && <LinearProgress id="container-form-loading" />}
             {!props.inlineMode &&
             <CardActions className="flex-row no-gutter">
               <Button
                 flat
                 label={props.cancelLabel}
-                disabled={props.pending || props.submitting}
+                disabled={props.containerPending || props.submitting}
                 component={Link}
                 to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environments/${props.match.params.environmentId}`}
               />
@@ -209,7 +214,7 @@ const ContainerForm = (props) => {
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={container.id ? props.pending || props.pendingContainerUpdate || props.invalid || props.submitting : props.pristine || props.pending || props.pendingContainerUpdate || props.invalid || props.submitting}
+                disabled={container.id ? props.containerPending || props.containerUpdatePending || props.invalid || props.submitting : props.pristine || props.containerPending || props.containerUpdatePending || props.invalid || props.submitting}
                 primary
               />
             </CardActions>}
@@ -221,14 +226,14 @@ const ContainerForm = (props) => {
             <Card className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               <div className="flex-row">
                 <div className="flex">
-                  <ContainerDetails container={props.container} match={props.match} />
+                  <ContainerDetails containerModel={props.container} match={props.match} />
                 </div>
               </div>
             </Card>}
 
             <ExpansionList className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
               {!values.properties.network ? <div /> :
-              <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse">
+              <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex">
                     <PortMapModal networkType={values.properties.network} />
@@ -242,12 +247,12 @@ const ContainerForm = (props) => {
                     >
                       add
                     </ListButton>
-                    <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} />
+                    <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} {...props} />
                   </div>
                 </div>
               </ExpansionPanelNoPadding>}
 
-              <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse">
+              <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex">
                     <VolumeModal />
@@ -266,7 +271,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanelNoPadding>
 
-              <ExpansionPanel label={<h3>Variables</h3>} saveLabel="Collapse">
+              <ExpansionPanel label={<h3>Variables</h3>} saveLabel="Collapse" defaultExpanded={values.variables && values.variables.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
                     <VariablesForm icon="add" {...props} />
@@ -274,7 +279,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanel>
 
-              <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse">
+              <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse" defaultExpanded={values.labels && values.labels.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
                     <VariablesForm addButtonLabel="Label" icon="add" fieldName="labels" {...props} />
@@ -282,7 +287,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanel>
 
-              <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse">
+              <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex">
                     <HealthCheckModal />
@@ -341,15 +346,15 @@ ContainerForm.propTypes = {
   showPortmapModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
-  pendingContainerUpdate: PropTypes.bool,
+  containerPending: PropTypes.bool.isRequired,
+  containerUpdatePending: PropTypes.bool,
   match: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  providers: PropTypes.array.isRequired,
+  providersByType: PropTypes.array.isRequired,
   container: PropTypes.object.isRequired,
   // showEntitlementsModal: PropTypes.func.isRequired,
   title: PropTypes.string,
@@ -360,7 +365,7 @@ ContainerForm.propTypes = {
 };
 
 ContainerForm.defaultProps = {
-  pendingContainerUpdate: false,
+  containerUpdatePending: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import base64 from 'base-64';
 import { cloneDeep, map } from 'lodash';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
@@ -16,7 +16,7 @@ class LambdaCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createLambda: PropTypes.func.isRequired,
-    pendingEnv: PropTypes.bool.isRequired,
+    envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
   };
 
@@ -60,7 +60,7 @@ class LambdaCreate extends Component {
   }
 
   render() {
-    return this.props.pendingEnv ? <CircularActivity id="container-load" /> :
+    return this.props.envPending ? <CircularActivity id="container-load" /> :
     <LambdaForm
       title="Create Lambda"
       submitLabel="Create"
@@ -72,17 +72,9 @@ class LambdaCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { lambda, pending } = state.metaResource.lambda;
   const variables = map(Object.assign({}, state.metaResource.env.env), (value, name) => ({ name, value }));
 
   return {
-    lambda,
-    pending,
-    pendingEnv: state.metaResource.env.pending,
-    pendingProviders: state.metaResource.providersByType.pending,
-    providers: state.metaResource.providersByType.providers,
-    executors: state.metaResource.executors.executors,
-    pendingExecutors: state.metaResource.executors.pending,
     theme: state.lambdas.theme,
     initialValues: {
       name: '',
@@ -113,8 +105,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'lambdaCreate',
   validate
-})(context(LambdaCreate)));
+})(context(LambdaCreate))));
 

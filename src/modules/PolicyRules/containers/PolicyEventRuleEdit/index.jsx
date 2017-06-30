@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { cloneDeep } from 'lodash';
@@ -18,7 +18,7 @@ class PolicyEventRuleEdit extends Component {
     policyRule: PropTypes.object.isRequired,
     fetchPolicyRule: PropTypes.func.isRequired,
     updatePolicyRule: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    policyRulePending: PropTypes.bool.isRequired,
     selectedActions: PropTypes.array.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
@@ -65,13 +65,13 @@ class PolicyEventRuleEdit extends Component {
   }
 
   render() {
-    const { policyRule, pending } = this.props;
-    return pending ? <CircularActivity id="policyRule-load" /> : <PolicyEventRuleForm editMode title={policyRule.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updatePolicyRule(values)} {...this.props} />;
+    const { policyRule, policyRulePending } = this.props;
+    return policyRulePending ? <CircularActivity id="policyRule-load" /> : <PolicyEventRuleForm editMode title={policyRule.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updatePolicyRule(values)} {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
-  const { policyRule, pending } = state.metaResource.policyRule;
+  const { policyRule } = state.metaResource.policyRule;
 
   const model = {
     name: policyRule.name,
@@ -80,19 +80,13 @@ function mapStateToProps(state) {
   };
 
   return {
-    policyRule,
-    pending,
     selectedActions: state.policyRules.selectedActions.selectedActions,
-    updatedPolicyRule: state.metaResource.policyRuleUpdate.policyRule,
-    policyUpdatePending: state.metaResource.policyRuleUpdate.pending,
-    lambdaProvider: state.metaResource.lambdaProvider.provider,
-    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyEventRuleEdit',
   validate
-})(context(PolicyEventRuleEdit)));
+})(context(PolicyEventRuleEdit))));

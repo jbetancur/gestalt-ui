@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -27,21 +27,21 @@ class PolicyCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.metaResource.policy;
+  const { policyPending } = state.metaResource.policy;
   const model = {
     name: '',
     description: '',
-    properties: {}
+    properties: {},
   };
 
   return {
     policy: model,
-    pending,
+    policyPending,
     initialValues: model
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyCreate',
   validate
-})(context(PolicyCreate)));
+})(context(PolicyCreate))));

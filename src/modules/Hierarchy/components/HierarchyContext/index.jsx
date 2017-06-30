@@ -13,7 +13,7 @@ class HierarchyContext extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    pendingOrgset: PropTypes.bool.isRequired,
+    orangizationSetPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -26,22 +26,22 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { match, history, model, pendingOrgset, self, t } = this.props;
+    const { match, history, model, orangizationSetPending, self, t } = this.props;
     const parentFQON = getParentFQON(model);
 
     return (
       <div>
         <DetailCard expanderTooltipLabel="Details">
           <DetailCardTitle
-            expander={!pendingOrgset}
+            expander={!orangizationSetPending}
             title={
               !(match.params.fqon === self.properties.gestalt_home.properties.fqon) &&
-              <NavUpArrowButton disabled={pendingOrgset} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
+              <NavUpArrowButton disabled={orangizationSetPending} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
             }
           >
             <HierarchyActions organization={model} {...this.props} />
             <div>
-              <div className="gf-headline">{!pendingOrgset ? <div className="gf-headline">{model.description || model.name}</div> : <DotActivity />}</div>
+              <div className="gf-headline">{!orangizationSetPending ? <div className="gf-headline">{model.description || model.name}</div> : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>

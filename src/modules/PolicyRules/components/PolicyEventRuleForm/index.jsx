@@ -19,8 +19,8 @@ import policyResourceTypes from '../../lists/policyResourceTypes';
 const PolicyEventRuleForm = (props) => {
   const {
     match,
-    pending,
-    policyUpdatePending,
+    policyRulePending,
+    policyRuleUpdatePending,
     onSubmit,
     invalid,
     pristine,
@@ -135,12 +135,12 @@ const PolicyEventRuleForm = (props) => {
               </div>
             </div>
           </CardText>
-          {(policyUpdatePending || pending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
+          {(policyRuleUpdatePending || policyRulePending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
           <CardActions>
             <Button
               flat
               label={cancelLabel}
-              disabled={pending || submitting}
+              disabled={policyRulePending || submitting}
               component={Link}
               to={backLink}
             />
@@ -148,7 +148,7 @@ const PolicyEventRuleForm = (props) => {
               raised
               label={submitLabel}
               type="submit"
-              disabled={pristine || lambdasDropDownPending || pending || invalid || submitting}
+              disabled={pristine || lambdasDropDownPending || policyRulePending || invalid || submitting}
               primary
             />
           </CardActions>
@@ -164,8 +164,8 @@ PolicyEventRuleForm.propTypes = {
   handleSelectedActions: PropTypes.func.isRequired,
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
-  policyUpdatePending: PropTypes.bool.isRequired,
+  policyRulePending: PropTypes.bool.isRequired,
+  policyRuleUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
 import actions from '../../actions';
@@ -32,12 +32,19 @@ class PolicyEventRuleCreate extends Component {
   }
 
   render() {
-    return <PolicyEventRuleForm title="Create Event Rule" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return (
+      <PolicyEventRuleForm
+        title="Create Event Rule"
+        submitLabel="Create"
+        cancelLabel="Back"
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.metaResource.policy;
   const model = {
     name: '',
     description: '',
@@ -50,15 +57,12 @@ function mapStateToProps(state) {
 
   return {
     policyRule: model,
-    pending,
     selectedActions: state.policyRules.selectedActions.selectedActions,
-    lambdaProvider: state.metaResource.lambdaProvider.provider,
-    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
     initialValues: model,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyEventRuleCreate',
   validate
-})(context(PolicyEventRuleCreate)));
+})(context(PolicyEventRuleCreate))));

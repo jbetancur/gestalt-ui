@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import { context } from 'modules/ContextManagement';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
@@ -22,7 +22,8 @@ class APIEndpointEdit extends Component {
     fetchContainersDropDown: PropTypes.func.isRequired,
     fetchLambdasDropDown: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
-    pending: PropTypes.bool.isRequired,
+
+    apiEndpointPending: PropTypes.bool.isRequired,
     unloadToggleStates: PropTypes.func.isRequired,
   };
 
@@ -81,8 +82,8 @@ class APIEndpointEdit extends Component {
   }
 
   render() {
-    const { apiEndpoint, pending } = this.props;
-    return pending ?
+    const { apiEndpoint, apiEndpointPending } = this.props;
+    return apiEndpointPending ?
       <CircularActivity id="apiEndpoint-loading" /> :
       <APIEndpointForm
         editMode
@@ -96,7 +97,7 @@ class APIEndpointEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { apiEndpoint, pending } = state.metaResource.apiEndpoint;
+  const { apiEndpoint } = state.metaResource.apiEndpoint;
 
   const model = {
     name: apiEndpoint.name,
@@ -112,23 +113,13 @@ function mapStateToProps(state) {
   }
 
   return {
-    apiEndpoint,
-    pending,
-    updatedapiEndpoint: state.metaResource.apiEndpointUpdate.apiEndpoint,
-    apiEndpointUpdatePending: state.metaResource.apiEndpointUpdate.pending,
-    lambdaProvider: state.metaResource.lambdaProvider.provider,
-    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
-    containersDropDown: state.metaResource.containersDropDown.containers,
-    lambdasDropDownPending: state.metaResource.lambdasDropDown.pending,
-    identities: state.metaResource.entitlementIdentities.identities,
-    containersDropDownPending: state.metaResource.containersDropDown.pending,
     rateLimitToggled: state.apiEndpoints.rateLimitToggled.toggled,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'apiEndpointEdit',
   validate
-})(context(APIEndpointEdit)));
+})(context(APIEndpointEdit))));

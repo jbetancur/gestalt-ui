@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import base64 from 'base-64';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
@@ -160,8 +160,6 @@ class ProviderCreate extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.metaResource.provider;
-
   const model = {
     name: '',
     description: '',
@@ -184,10 +182,6 @@ function mapStateToProps(state) {
 
   return {
     provider: model,
-    pending,
-    pendingSchema: state.metaResource.envSchema.pending,
-    providers: state.metaResource.providersByType.providers,
-    pendingProviders: state.metaResource.providers.pending,
     initialValues: model,
     enableReinitialize: true,
     keepDirtyOnReinitialize: true, // keps dirty values in forms when the provider type is changed
@@ -198,7 +192,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'providerCreate',
   validate,
-})(context(ProviderCreate)));
+})(context(ProviderCreate))));

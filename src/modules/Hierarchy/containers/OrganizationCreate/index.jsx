@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -15,6 +15,7 @@ class OrgCreate extends Component {
     match: PropTypes.object.isRequired,
     createOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
+    organizationPending: PropTypes.bool.isRequired,
   };
 
   createOrg(values) {
@@ -44,6 +45,7 @@ class OrgCreate extends Component {
         submitLabel={t('general.verbs.create')}
         cancelLabel={t('general.verbs.cancel')}
         onSubmit={values => this.createOrg(values)}
+        pending={this.props.organizationPending}
         {...this.props}
       />
     );
@@ -51,11 +53,10 @@ class OrgCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { organization, pending } = state.metaResource.organization;
+  const { organization } = state.metaResource.organization;
 
   return {
     organization,
-    pending,
     initialValues: {
       name: '',
       description: '',
@@ -66,7 +67,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'organizationCreate',
   validate
-})(translate()(context(OrgCreate))));
+})(translate()(context(OrgCreate)))));

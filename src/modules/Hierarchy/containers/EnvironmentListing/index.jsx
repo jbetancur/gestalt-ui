@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { connect } from 'react-redux';
 import { appActions } from 'App';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import { translate } from 'react-i18next';
 import CircularActivity from 'components/CircularActivity';
 import Sort from 'components/Sort';
@@ -12,11 +12,10 @@ import actions from '../../actions';
 
 class EnvironmentListing extends PureComponent {
   static propTypes = {
-    // workspace: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
     match: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    environemntsPending: PropTypes.bool.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
   };
@@ -69,15 +68,12 @@ class EnvironmentListing extends PureComponent {
   }
 
   render() {
-    return this.props.pending ? this.renderProgress() : this.renderCardsContainer();
+    return this.props.environemntsPending ? this.renderProgress() : this.renderCardsContainer();
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    environments: state.metaResource.environments.environments,
-    pending: state.metaResource.environments.pending
-  };
+function mapStateToProps() {
+  return {};
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(EnvironmentListing));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(EnvironmentListing)));

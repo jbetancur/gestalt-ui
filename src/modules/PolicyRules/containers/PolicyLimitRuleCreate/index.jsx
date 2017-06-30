@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
 import actions from '../../actions';
@@ -32,12 +32,19 @@ class PolicyLimitRuleCreate extends Component {
   }
 
   render() {
-    return <PolicyLimitRuleForm title="Create Limit Rule" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return (
+      <PolicyLimitRuleForm
+        title="Create Limit Rule"
+        submitLabel="Create"
+        cancelLabel="Back"
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.metaResource.policy;
   const model = {
     name: '',
     description: '',
@@ -51,13 +58,12 @@ function mapStateToProps(state) {
 
   return {
     policyRule: model,
-    pending,
     selectedActions: state.policyRules.selectedActions.selectedActions,
     initialValues: model,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyLimitRuleCreate',
   validate
-})(context(PolicyLimitRuleCreate)));
+})(context(PolicyLimitRuleCreate))));

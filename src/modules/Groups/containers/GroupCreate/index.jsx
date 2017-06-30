@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import GroupForm from '../../components/GroupForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -35,23 +35,26 @@ class GroupCreate extends Component {
   }
 
   render() {
-    return <GroupForm title="Create Team" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+    return (
+      <GroupForm
+        title="Create Team"
+        submitLabel="Create"
+        cancelLabel="Cancel"
+        onSubmit={values =>
+        this.create(values)}
+        {...this.props}
+      />
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    group: state.metaResource.group.group,
-    users: state.metaResource.users.users,
-    pending: state.metaResource.group.pending,
-    pendingUsers: state.metaResource.users.pending,
-    updatePending: state.metaResource.groupUpdate.pending,
-    updateMembers: state.metaResource.groupMembers.pending,
     initialValues: state.metaResource.group.group,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'groupCreate',
   validate
-})(context(GroupCreate)));
+})(context(GroupCreate))));

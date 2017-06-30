@@ -15,7 +15,7 @@ class GroupItem extends PureComponent {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     groups: PropTypes.array.isRequired,
-    pending: PropTypes.bool.isRequired,
+    groupsPending: PropTypes.bool.isRequired,
     deleteGroups: PropTypes.func.isRequired,
     unloadGroups: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -99,14 +99,6 @@ class GroupItem extends PureComponent {
       </TableRow>
     ));
 
-    // const handleTableSortIcon = (key) => {
-    //   if (key === this.props.sortKey) {
-    //     return this.props.sortOrder === 'asc';
-    //   }
-
-    //   return undefined;
-    // };
-
     return (
       <div className="flex-row">
         <Card className="flex-12" tableCard>
@@ -123,9 +115,9 @@ class GroupItem extends PureComponent {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="groups-listing" /> : null}
+          {this.props.groupsPending ? <LinearProgress id="groups-listing" /> : null}
           <DataTable baseId="Groups" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {!this.props.groups.length ? null :
+            {this.props.groups.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

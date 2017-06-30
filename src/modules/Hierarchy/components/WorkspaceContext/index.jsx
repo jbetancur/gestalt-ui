@@ -42,7 +42,7 @@ class WorkspaceContext extends Component {
     fetchWorkspace: PropTypes.func.isRequired,
     deleteWorkspace: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
-    pending: PropTypes.bool.isRequired,
+    workspacePending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
   };
@@ -78,7 +78,7 @@ class WorkspaceContext extends Component {
   }
 
   renderActionsMenu() {
-    const { workspace, pending, match } = this.props;
+    const { workspace, workspacePending, match } = this.props;
     const name = workspace.description || workspace.name;
 
     return (
@@ -87,7 +87,7 @@ class WorkspaceContext extends Component {
           id="workspaces-settings-menu"
           icon
           position={MenuButton.Positions.TOP_LEFT}
-          disabled={pending}
+          disabled={workspacePending}
           buttonChildren="more_vert"
           tooltipLabel="Actions"
           tooltipPosition="bottom"
@@ -140,17 +140,17 @@ class WorkspaceContext extends Component {
   }
 
   render() {
-    const { pending, history, workspace, match, navigation } = this.props;
+    const { workspacePending, history, workspace, match, navigation } = this.props;
     const parentFQON = getParentFQON(workspace);
 
     return (
       <div>
         <DetailCard expanderTooltipLabel="Details">
-          <DetailCardTitle expander={!pending}>
-            <NavUpArrowButton disabled={pending} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
+          <DetailCardTitle expander={!workspacePending}>
+            <NavUpArrowButton disabled={workspacePending} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
             {this.renderActionsMenu()}
             <div>
-              <div className="gf-headline">{!pending ? workspace.description || workspace.name : <DotActivity />}</div>
+              <div className="gf-headline">{!workspacePending ? workspace.description || workspace.name : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>
