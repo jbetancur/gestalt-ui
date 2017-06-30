@@ -256,7 +256,7 @@
         "react-router-redux": "next",
         "react-test-renderer": "^15.6.1",
         "redux": "^3.7.1",
-        "redux-form": "^6.8.0",
+        "redux-form": "6.7.0",
         "redux-localstorage": "^0.4.1",
         "redux-logger": "^3.0.6",
         "redux-responsive": "^4.3.2",
