@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { context } from 'modules/ContextManagement';
 import { appActions } from 'App';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Sort from 'components/Sort';
 import HierarchyContextComponent from '../../components/HierarchyContext';
@@ -15,12 +15,12 @@ import actions from '../../actions';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
-    organizations: PropTypes.array,
+    organizationsSet: PropTypes.array,
     organizationSet: PropTypes.object.isRequired,
-    workspaces: PropTypes.array,
+    workspacesSet: PropTypes.array,
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    pendingOrgset: PropTypes.bool.isRequired,
+    orangizationSetPending: PropTypes.bool.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
@@ -28,8 +28,8 @@ class HierarchyContext extends PureComponent {
   };
 
   static defaultProps = {
-    organizations: [],
-    workspaces: [],
+    organizationsSet: [],
+    workspacesSet: [],
   };
 
   constructor(props) {
@@ -61,7 +61,7 @@ class HierarchyContext extends PureComponent {
   }
 
   renderCardsContainer() {
-    const cardItems = this.props.organizations.concat(this.props.workspaces);
+    const cardItems = this.props.organizationsSet.concat(this.props.workspacesSet);
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
     const cardTypes = {
       'Gestalt::Resource::Organization': 'organization',
@@ -88,25 +88,19 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { organizationSet, pendingOrgset } = this.props;
+    const { organizationSet, orangizationSetPending } = this.props;
     return (
       <div>
         <HierarchyContextComponent model={organizationSet} {...this.props} />
-        {pendingOrgset ? <LinearProgress id="hierarchy-progress" /> : this.renderCardsContainer()}
+        {orangizationSetPending ? <LinearProgress id="hierarchy-progress" /> : this.renderCardsContainer()}
       </div>
     );
   }
 }
 
 
-function mapStateToProps(state) {
-  return {
-    self: state.metaResource.self.self,
-    pendingOrgset: state.metaResource.organizationSet.pending,
-    organizationSet: state.metaResource.organizationSet.organization,
-    organizations: state.metaResource.organizationSet.organization.subOrganizations,
-    workspaces: state.metaResource.organizationSet.organization.workspaces,
-  };
+function mapStateToProps() {
+  return {};
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, appActions))(translate()(context(HierarchyContext)));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(context(HierarchyContext))));

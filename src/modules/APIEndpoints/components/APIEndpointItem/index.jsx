@@ -16,7 +16,7 @@ class apiEndpointItem extends PureComponent {
     apiEndpoints: PropTypes.array.isRequired,
     selectedEndpoints: PropTypes.object.isRequired,
     deleteAPIEndpoints: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    apiEndpointsPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
@@ -131,9 +131,9 @@ class apiEndpointItem extends PureComponent {
         >
           <div>{this.renderCreateButton()}</div>
         </TableCardHeader>
-        {this.props.pending ? <LinearProgress id="apiEndpoint-listing" /> : null}
+        {this.props.apiEndpointsPending && <LinearProgress id="apiEndpoint-listing" />}
         <DataTable baseId="apiEndpoints" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-          {!this.props.apiEndpoints.length ? null :
+          {this.props.apiEndpoints.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>

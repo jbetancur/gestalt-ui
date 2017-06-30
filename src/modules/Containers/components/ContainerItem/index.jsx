@@ -23,7 +23,7 @@ class ContainerItem extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     containers: PropTypes.array.isRequired,
-    pending: PropTypes.bool.isRequired,
+    containersPending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
@@ -44,7 +44,7 @@ class ContainerItem extends PureComponent {
     if (this.props.containers !== nextProps.containers) {
       clearTimeout(this.timeout);
 
-      if (!nextProps.pending) {
+      if (!nextProps.containersPending) {
         this.startPoll();
       }
     }
@@ -85,9 +85,7 @@ class ContainerItem extends PureComponent {
         flat
         primary
         component={Link}
-        to={{
-          pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`
-        }}
+        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -110,7 +108,10 @@ class ContainerItem extends PureComponent {
     const containers = this.props.containers.map(container => (
       <TableRow key={container.id} onClick={e => this.edit(container, e)}>
         <TableColumn containsButtons>
-          <ContainerActions container={container} {...this.props} />
+          <ContainerActions
+            containerModel={container}
+            {...this.props}
+          />
         </TableColumn>
         <TableColumn>{container.name}</TableColumn>
         <TableColumn>{container.properties.status}</TableColumn>
@@ -133,8 +134,8 @@ class ContainerItem extends PureComponent {
               {this.renderCreateButton()}
             </div>
           </TableCardHeader>
-          {this.props.pending && <LinearProgress id="containers-listing" />}
-          {!this.props.containers.length ? null :
+          {this.props.containersPending && <LinearProgress id="containers-listing" />}
+          {this.props.containers.length > 0 &&
           <TableWrapper>
             <DataTable baseId="containers" plain>
               <TableHeader>

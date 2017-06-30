@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import { map, cloneDeep } from 'lodash';
@@ -21,7 +21,7 @@ class LambdaEdit extends Component {
     fetchProvidersByType: PropTypes.func.isRequired,
     fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    lambdaPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -112,8 +112,8 @@ class LambdaEdit extends Component {
   }
 
   render() {
-    const { lambda, pending } = this.props;
-    return pending ? <CircularActivity id="lambda-load" /> :
+    const { lambda, lambdaPending } = this.props;
+    return lambdaPending ? <CircularActivity id="lambda-load" /> :
     <LambdaForm
       editMode
       title={lambda.name}
@@ -126,7 +126,7 @@ class LambdaEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { lambda, pending } = state.metaResource.lambda;
+  const { lambda } = state.metaResource.lambda;
   const variables = map(lambda.properties.env, (value, name) => ({ name, value }));
 
   const model = {
@@ -148,24 +148,18 @@ function mapStateToProps(state) {
       provider: lambda.properties.provider,
       periodic_info: lambda.properties.periodic_info,
     },
-    variables
+    variables,
   };
 
   return {
     lambda,
-    pending,
-    lambdaUpdatePending: state.metaResource.lambdaUpdate.pending,
-    pendingProviders: state.metaResource.providersByType.pending,
-    providers: state.metaResource.providersByType.providers,
-    executors: state.metaResource.executors.executors,
-    pendingExecutors: state.metaResource.executors.pending,
     theme: state.lambdas.theme,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'lambdaEdit',
   validate
-})(context(LambdaEdit)));
+})(context(LambdaEdit))));

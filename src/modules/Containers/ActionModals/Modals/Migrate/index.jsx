@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
 import DotActivity from 'components/DotActivity';
@@ -28,8 +28,8 @@ class MigrateModal extends PureComponent {
     provider: PropTypes.object.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
-    providers: PropTypes.array.isRequired,
-    pendingProviders: PropTypes.bool.isRequired,
+    providersByType: PropTypes.array.isRequired,
+    providersByTypePending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -61,7 +61,7 @@ class MigrateModal extends PureComponent {
   }
 
   render() {
-    const providers = this.props.providers
+    const providers = this.props.providersByType
       .filter(provider => provider.id !== this.props.provider.id)
       .map(provider => ({ id: provider.id, name: `${provider.name} (${this.formatResourceType(provider.resource_type)})` }));
 
@@ -85,7 +85,7 @@ class MigrateModal extends PureComponent {
             disabled: !this.state.provider,
           }]}
       >
-        {this.props.pendingProviders ? <DotActivity size={1} dropdown /> :
+        {this.props.providersByTypePending ? <DotActivity size={1} dropdown /> :
         <div>
           {providers.length ?
             <div className="flex-row">
@@ -113,9 +113,7 @@ class MigrateModal extends PureComponent {
 function mapStateToProps(state) {
   return {
     actionsModal: state.containers.actionsModals,
-    providers: state.metaResource.providersByType.providers,
-    pendingProviders: state.metaResource.providersByType.pending,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(MigrateModal);
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(MigrateModal));

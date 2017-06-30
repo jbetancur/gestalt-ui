@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import UserForm from '../../components/UserForm';
@@ -18,7 +18,7 @@ class GroupEdit extends Component {
     fetchUser: PropTypes.func.isRequired,
     fetchAllOrgsDropDown: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    userPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -55,19 +55,23 @@ class GroupEdit extends Component {
   }
 
   render() {
-    const { user, pending } = this.props;
-    return pending ? <CircularActivity id="user-load" /> : <UserForm title={user.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.update(values)} {...this.props} />;
+    const { user, userPending } = this.props;
+    return userPending ? <CircularActivity id="user-load" /> :
+    <UserForm
+      title={user.name}
+      submitLabel="Update"
+      cancelLabel="Back"
+      onSubmit={values => this.update(values)}
+      {...this.props}
+    />;
   }
 }
 
 function mapStateToProps(state) {
-  const { user, pending } = state.metaResource.user;
+  const { user } = state.metaResource.user;
 
   return {
     user,
-    pending,
-    organizations: state.metaResource.allOrganizationsDropDown.organizations,
-    updatePending: state.metaResource.userUpdate.pending,
     initialValues: {
       name: user.name,
       description: user.description,
@@ -83,7 +87,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'userEdit',
   validate
-})(context(GroupEdit)));
+})(context(GroupEdit))));

@@ -89,7 +89,7 @@ const UserForm = (props) => {
                   className="flex-6 flex-xs-12"
                   component={SelectField}
                   name="properties.gestalt_home"
-                  menuItems={props.organizations}
+                  menuItems={props.allOrganizationsDropDown}
                   required
                   itemLabel="name"
                   itemValue="value"
@@ -106,19 +106,19 @@ const UserForm = (props) => {
                 />
               </div>
             </CardText>
-            {(props.updatePending || props.pending) && <LinearProgress id="user-form" />}
+            {(props.userUpdatePending || props.userPending) && <LinearProgress id="user-form" />}
             <CardActions>
               <Button
                 flat
                 label={props.cancelLabel}
-                disabled={props.pending || props.submitting}
+                disabled={props.userPending || props.submitting}
                 onClick={() => goBack()}
               />
               <Button
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={props.pristine || props.pending || props.invalid || props.submitting}
+                disabled={props.pristine || props.userPending || props.userUpdatePending || props.invalid || props.submitting}
                 primary
               />
             </CardActions>
@@ -133,8 +133,8 @@ UserForm.propTypes = {
   user: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  organizations: PropTypes.array.isRequired,
-  pending: PropTypes.bool.isRequired,
+  allOrganizationsDropDown: PropTypes.array.isRequired,
+  userPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   fetchAllOrgsDropDown: PropTypes.func.isRequired,
@@ -144,11 +144,11 @@ UserForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  updatePending: PropTypes.bool,
+  userUpdatePending: PropTypes.bool,
 };
 
 UserForm.defaultProps = {
-  updatePending: false,
+  userUpdatePending: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

@@ -116,14 +116,16 @@ const ProviderForm = (props) => {
   );
 
   const renderJSONSection = () => (
-    props.pendingSchema ? null :
+    !props.envSchemaPending &&
     <div className="flex-row">
-      {!selectedProviderType.networking ? null : <div className="flex-6 flex-xs-12">
+      {selectedProviderType.networking &&
+      <div className="flex-6 flex-xs-12">
         <JSONTree
           data={props.provider.properties.config.networks || []}
         />
       </div>}
-      {!selectedProviderType.extraConfig ? null : <div className="flex-6 flex-xs-12">
+      {selectedProviderType.extraConfig &&
+      <div className="flex-6 flex-xs-12">
         <JSONTree
           data={props.provider.properties.config.extra || {}}
         />
@@ -132,7 +134,7 @@ const ProviderForm = (props) => {
   );
 
   const renderVariablesSection = () => (
-    props.pendingSchema || !selectedProviderType.type ? null :
+    props.envSchemaPending || !selectedProviderType.type ? null :
     <div className="flex-row">
       <div className="flex-6 flex-xs-12 flex-sm-12">
         <VariablesForm icon="public" addButtonLabel="Add Public Variable" fieldName="publicVariables" />
@@ -144,7 +146,7 @@ const ProviderForm = (props) => {
   );
 
   const renderEditorSection = () => (
-    props.pendingSchema ? null :
+    !props.envSchemaPending &&
     <div className="flex-row">
       {selectedProviderType.uploadConfig &&
         <FileInput
@@ -171,7 +173,7 @@ const ProviderForm = (props) => {
   );
 
   const renderOtherConfigSection = () => (
-    !props.pendingSchema &&
+    !props.envSchemaPending &&
     <div className="flex-row">
       {selectedProviderType.networking &&
         <Field
@@ -213,7 +215,7 @@ const ProviderForm = (props) => {
         <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
           <div className="flex-row">
             <div className="flex">
-              <ContainerDetails container={props.container} match={props.match} />
+              <ContainerDetails containerModel={props.container} match={props.match} />
             </div>
           </div>
         </Card>
@@ -223,7 +225,7 @@ const ProviderForm = (props) => {
   const renderContainerActions = () => (
     selectedProviderType.allowContainer && container.id ?
       <ContainerActions
-        container={container}
+        containerModel={container}
         inContainerView
         disableDestroy
         disablePromote
@@ -295,19 +297,19 @@ const ProviderForm = (props) => {
                 {provider.id && renderJSONSection()}
               </div>
             </CardText>
-            {props.updatePending || props.pendingSchema || props.pending ? <LinearProgress id="provider-form" /> : null}
+            {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
             <CardActions>
               <Button
                 flat
                 label={props.cancelLabel}
-                disabled={props.updatePending || props.pending || props.submitting}
+                disabled={props.providerUpdatePending || props.providerPending || props.submitting}
                 onClick={() => goBack()}
               />
               <Button
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={props.pristine || props.updatePending || props.pendingSchema || props.pending || props.invalid || props.submitting || props.containerCreateInvalid}
+                disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
                 primary
               />
             </CardActions>
@@ -322,7 +324,7 @@ const ProviderForm = (props) => {
             <ExpansionPanelNoPadding label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded>
               <div className="flex-row">
                 <div className="flex-12">
-                  <LinkedProviders fetchProviders={getProviders} providers={props.providers} pendingProviders={props.pendingProviders} />
+                  <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
                 </div>
               </div>
             </ExpansionPanelNoPadding>
@@ -337,14 +339,14 @@ const ProviderForm = (props) => {
 ProviderForm.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
+  providerPending: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
-  providers: PropTypes.array.isRequired,
-  pendingProviders: PropTypes.bool.isRequired,
+  providersByType: PropTypes.array.isRequired,
+  providersByTypePending: PropTypes.bool.isRequired,
   provider: PropTypes.object,
-  updatePending: PropTypes.bool,
-  pendingSchema: PropTypes.bool.isRequired,
+  providerUpdatePending: PropTypes.bool,
+  envSchemaPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -366,7 +368,7 @@ ProviderForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   provider: {},
-  updatePending: false,
+  providerUpdatePending: false,
   editMode: false,
   container: {},
 };

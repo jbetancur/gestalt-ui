@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import { context } from 'modules/ContextManagement';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
@@ -17,7 +17,7 @@ class APIEdit extends Component {
     fetchAPI: PropTypes.func.isRequired,
     fetchProviderKongsByGateway: PropTypes.func.isRequired,
     updateAPI: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    apiPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -45,13 +45,13 @@ class APIEdit extends Component {
   }
 
   render() {
-    const { api, pending } = this.props;
-    return pending ? <CircularActivity id="api-loading" /> : <APIForm editMode title={api.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.updateAPI(values)} {...this.props} />;
+    const { api, apiPending } = this.props;
+    return apiPending ? <CircularActivity id="api-loading" /> : <APIForm editMode title={api.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.updateAPI(values)} {...this.props} />;
   }
 }
 
 function mapStateToProps(state) {
-  const { api, pending } = state.metaResource.api;
+  const { api } = state.metaResource.api;
 
   const model = {
     name: api.name,
@@ -65,17 +65,12 @@ function mapStateToProps(state) {
 
   return {
     api,
-    pending,
-    providers: state.metaResource.fetchProviderKongsByGateway.providers,
-    pendingProviders: state.metaResource.fetchProviderKongsByGateway.pending,
-    updatedApi: state.metaResource.apiUpdate.api,
-    apiUpdatePending: state.metaResource.apiUpdate.pending,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'apiEdit',
   validate
-})(context(APIEdit)));
+})(context(APIEdit))));

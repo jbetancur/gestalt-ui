@@ -29,7 +29,7 @@ const APIEndpointForm = (props) => {
     values,
     dispatch,
     match,
-    pending,
+    apiEndpointPending,
     apiEndpointUpdatePending,
     onSubmit,
     invalid,
@@ -225,12 +225,12 @@ const APIEndpointForm = (props) => {
               /> */}
             </div>
           </CardText>
-          {(apiEndpointUpdatePending || pending) && <LinearProgress id="apiEndpoint-form" />}
+          {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
           <CardActions>
             <Button
               flat
               label={cancelLabel}
-              disabled={pending || submitting}
+              disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
               component={Link}
               to={backLink}
             />
@@ -238,7 +238,7 @@ const APIEndpointForm = (props) => {
               raised
               label={submitLabel}
               type="submit"
-              disabled={pristine || pending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
+              disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
               primary
             />
           </CardActions>
@@ -256,7 +256,7 @@ APIEndpointForm.propTypes = {
   values: PropTypes.object.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
+  apiEndpointPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

@@ -14,7 +14,7 @@ class APIItem extends PureComponent {
     apis: PropTypes.array.isRequired,
     selectedAPIs: PropTypes.object.isRequired,
     deleteAPIs: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    apisPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
@@ -113,7 +113,7 @@ class APIItem extends PureComponent {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="api-listing" /> : null}
+          {this.props.apisPending ? <LinearProgress id="api-listing" /> : null}
           <DataTable baseId="apis" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {!this.props.apis.length ? null :
             <TableHeader>

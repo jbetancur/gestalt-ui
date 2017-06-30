@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { parse } from 'query-string';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import axios from 'axios';
 import SelectField from 'react-md/lib/SelectFields';
 import CircularActivity from 'components/CircularActivity';
@@ -316,11 +316,8 @@ class Logging extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    logProviderPending: state.metaResource.logProvider.pending,
-    logProviderURL: state.metaResource.logProvider.logProvider.url,
-  };
+function mapStateToProps() {
+  return {};
 }
 
-export default connect(mapStateToProps, Object.assign({}, metaActions))(Logging);
+export default withMetaResource(connect(mapStateToProps)(Logging));

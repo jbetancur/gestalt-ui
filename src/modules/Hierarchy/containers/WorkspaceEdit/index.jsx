@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -17,6 +17,7 @@ class WorkspaceEdit extends Component {
     workspace: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
+    workspacePending: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
@@ -70,6 +71,7 @@ class WorkspaceEdit extends Component {
         onSubmit={values => this.updateWorkspace(values)}
         envMap={this.props.workspace.properties.env}
         editMode
+        pending={this.props.workspacePending}
         {...this.props}
       />
     );
@@ -77,12 +79,10 @@ class WorkspaceEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { workspace, pending } = state.metaResource.workspace;
+  const { workspace } = state.metaResource.workspace;
   const variables = map(workspace.properties.env, (value, name) => ({ name, value }));
 
   return {
-    workspace,
-    pending,
     initialValues: {
       name: workspace.name,
       description: workspace.description,
@@ -93,7 +93,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'workspaceEdit',
   validate
-})(context(WorkspaceEdit)));
+})(context(WorkspaceEdit))));

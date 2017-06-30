@@ -9,7 +9,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { sortBy } from 'lodash';
 import DotActivity from 'components/DotActivity';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
@@ -31,8 +31,8 @@ class OrgNavMenu extends Component {
     match: PropTypes.object.isRequired,
     fetchAllOrgs: PropTypes.func.isRequired,
     filterOrgs: PropTypes.func.isRequired,
-    organizations: PropTypes.array.isRequired,
-    organizationsPending: PropTypes.bool.isRequired,
+    allOrganizations: PropTypes.array.isRequired,
+    allOrganizationsPending: PropTypes.bool.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     onUnloadAllOrgs: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
@@ -71,12 +71,12 @@ class OrgNavMenu extends Component {
   }
 
   renderSearch() {
-    const { organizationsPending, t } = this.props;
+    const { allOrganizationsPending, t } = this.props;
 
     return (
       <div>
         <div style={{ padding: '1em', color: 'black' }}>
-          {!organizationsPending &&
+          {!allOrganizationsPending &&
             <div>
               <TextField
                 id="search-orgs"
@@ -86,13 +86,13 @@ class OrgNavMenu extends Component {
               />
             </div>}
         </div>
-        {organizationsPending && <DotActivity dropdown size={1.2} id="orgs-nav-menu" centered />}
+        {allOrganizationsPending && <DotActivity dropdown size={1.2} id="orgs-nav-menu" centered />}
       </div>
     );
   }
 
   render() {
-    const { match, currentOrgContext, organizationsPending } = this.props;
+    const { match, currentOrgContext, allOrganizationsPending } = this.props;
     const showMenu = currentOrgContext.properties.fqon === match.params.fqon;
 
     return (
@@ -108,7 +108,7 @@ class OrgNavMenu extends Component {
         {/* https://github.com/mlaursen/react-md/issues/259 */}
         {[<div key="orgs-nav-menu">
           {this.renderSearch()}
-          {!organizationsPending && this.props.organizations.map(this.renderOrgMenuItems, this)}
+          {!allOrganizationsPending && this.props.allOrganizations.map(this.renderOrgMenuItems, this)}
         </div>]}
       </EnhancedMenuButton>
     );
@@ -120,10 +120,9 @@ const mapStateToProps = (state) => {
   const orgMenuItems = metaResource.allOrganizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText)));
 
   return {
-    organizations: sortBy(orgMenuItems, 'name'),
-    organizationsPending: metaResource.allOrganizations.pending,
+    allOrganizations: sortBy(orgMenuItems, 'name'),
     currentOrgContext: metaResource.currentOrgContext.organization,
   };
 };
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(translate()(OrgNavMenu));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(translate()(OrgNavMenu)));

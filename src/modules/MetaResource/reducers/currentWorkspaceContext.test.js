@@ -1,4 +1,4 @@
-import { metaActions } from 'modules/MetaResource';
+import metaActions from '../actions';
 import reducer from './currentWorkspaceContext';
 
 const initialState = {

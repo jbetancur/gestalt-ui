@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { compact, cloneDeep } from 'lodash';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
 import actions from '../../actions';
@@ -58,7 +58,6 @@ class APIEndpointCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const { pending } = state.metaResource.apiEndpoint;
   const model = {
     properties: {
       methods: 'GET',  // converts to array
@@ -81,19 +80,13 @@ function mapStateToProps(state) {
 
   return {
     apiEndpoint: model,
-    pending,
-    pendingAPIEndpoints: state.metaResource.apiEndpoints.pending,
-    lambdaProvider: state.metaResource.lambdaProvider.provider,
-    lambdasDropDown: state.metaResource.lambdasDropDown.lambdas,
-    containersDropDown: state.metaResource.containersDropDown.containers,
-    identities: state.metaResource.entitlementIdentities.identities,
     rateLimitToggled: state.apiEndpoints.rateLimitToggled.toggled,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'apiEndpointCreate',
   validate
-})(context(APIEndpointCreate)));
+})(context(APIEndpointCreate))));

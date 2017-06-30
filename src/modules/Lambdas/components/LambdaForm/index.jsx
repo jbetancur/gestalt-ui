@@ -91,7 +91,7 @@ const LambdaForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  menuItems={props.providers}
+                  menuItems={props.providersByType}
                   async
                   onFocus={() => props.fetchProvidersByType(props.match.params.fqon, match.params.environmentId, 'environments', 'Lambda')}
                   disabled={props.editMode}
@@ -101,7 +101,7 @@ const LambdaForm = (props) => {
                   className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                   component={SelectField}
                   name="properties.runtime"
-                  menuItems={props.executors}
+                  menuItems={props.executorsDropDown}
                   itemLabel="name"
                   itemValue="runtime"
                   required
@@ -299,19 +299,19 @@ const LambdaForm = (props) => {
                 </div>
               </div>
             </CardText>
-            {(props.lambdaUpdatePending || props.pending) && <LinearProgress id="lambda-form" />}
+            {(props.lambdaUpdatePending || props.lambdaPending) && <LinearProgress id="lambda-form" />}
             <CardActions className="flex-row no-gutter">
               <Button
                 flat
                 label={props.cancelLabel}
-                disabled={props.pending || props.submitting}
+                disabled={props.lambdaPending || props.submitting}
                 onClick={() => props.history.goBack()}
               />
               <Button
                 raised
                 label={props.submitLabel}
                 type="submit"
-                disabled={props.pristine || props.pending || props.lambdaUpdatePending || props.invalid || props.submitting}
+                disabled={props.pristine || props.lambdaPending || props.lambdaUpdatePending || props.invalid || props.submitting}
                 primary
               />
             </CardActions>
@@ -325,7 +325,7 @@ const LambdaForm = (props) => {
 LambdaForm.propTypes = {
   history: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
+  lambdaPending: PropTypes.bool.isRequired,
   lambdaUpdatePending: PropTypes.bool,
   match: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -335,12 +335,12 @@ LambdaForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
-  providers: PropTypes.array.isRequired,
+  providersByType: PropTypes.array.isRequired,
   fetchProvidersByType: PropTypes.func.isRequired,
   fetchExecutors: PropTypes.func.isRequired,
   handleTheme: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
-  executors: PropTypes.array.isRequired,
+  executorsDropDown: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
   showEntitlementsModal: PropTypes.func.isRequired,
   title: PropTypes.string,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import { containerActionCreators } from 'modules/Containers';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
@@ -15,7 +15,7 @@ import actions from '../../actions';
 
 class ProviderEdit extends PureComponent {
   static propTypes = {
-    pending: PropTypes.bool.isRequired,
+    providerPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     fetchProviderContainer: PropTypes.func.isRequired,
@@ -152,8 +152,8 @@ class ProviderEdit extends PureComponent {
   }
 
   render() {
-    const { provider, pending } = this.props;
-    return pending ? <CircularActivity id="provider-load" /> :
+    const { provider, providerPending } = this.props;
+    return providerPending ? <CircularActivity id="provider-load" /> :
     <ProviderForm
       editMode
       title={provider.name}
@@ -166,7 +166,7 @@ class ProviderEdit extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { provider, pending } = state.metaResource.provider;
+  const { provider } = state.metaResource.provider;
   const privateVariables = map(provider.properties.config.env.private, (value, name) => ({ name, value }));
   const publicVariables = map(provider.properties.config.env.public, (value, name) => ({ name, value }));
   const model = {
@@ -194,19 +194,12 @@ function mapStateToProps(state) {
   };
 
   return {
-    provider,
-    pending,
-    updatePending: state.metaResource.providerUpdate.pending,
-    pendingSchema: state.metaResource.envSchema.pending,
-    providers: state.metaResource.providersByType.providers,
-    pendingProviders: state.metaResource.providers.pending,
-    container: state.metaResource.container.container,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, containerActionCreators))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, containerActionCreators))(reduxForm({
   form: 'providerCreate',
   validate
-})(context(ProviderEdit)));
+})(context(ProviderEdit))));

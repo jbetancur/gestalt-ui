@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -13,6 +13,7 @@ class OrgCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createWorkspace: PropTypes.func.isRequired,
+    workspacePending: PropTypes.bool.isRequired,
   };
 
   createWorkspace(values) {
@@ -43,17 +44,15 @@ class OrgCreate extends Component {
         submitLabel="Create"
         cancelLabel="Cancel"
         onSubmit={values => this.createWorkspace(values)}
+        pending={this.props.workspacePending}
         {...this.props}
       />
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { workspace, pending } = state.metaResource.workspace;
+function mapStateToProps() {
   return {
-    workspace,
-    pending,
     initialValues: {
       name: '',
       description: '',
@@ -64,7 +63,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'workspaceCreate',
   validate
-})(context(OrgCreate)));
+})(context(OrgCreate))));

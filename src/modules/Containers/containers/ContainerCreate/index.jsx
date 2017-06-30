@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
@@ -26,7 +26,7 @@ class ContainerCreate extends Component {
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
-    pendingEnv: PropTypes.bool.isRequired,
+    envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool.isRequired,
   };
 
@@ -58,20 +58,23 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    return this.props.pendingEnv ? <CircularActivity id="container-load" /> : <ContainerForm inlineMode={this.props.inlineMode} title="Deploy Container" submitLabel="Deploy" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return this.props.envPending ? <CircularActivity id="container-load" /> :
+    <ContainerForm
+      inlineMode={this.props.inlineMode}
+      title="Deploy Container"
+      submitLabel="Deploy"
+      cancelLabel="Back"
+      onSubmit={values =>
+      this.create(values)}
+      {...this.props}
+    />;
   }
 }
 
 function mapStateToProps(state) {
-  const { container, pending } = state.metaResource.container;
   const variables = map(Object.assign({}, state.metaResource.env.env), (value, name) => ({ name, value }));
 
   return {
-    container,
-    pending,
-    pendingEnv: state.metaResource.env.pending,
-    pendingProviders: state.metaResource.providersByType.pending,
-    providers: state.metaResource.providersByType.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -105,9 +108,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps,
-Object.assign({}, actions, metaActions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps,
+Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerCreate',
   validate
-})(context(ContainerCreate)));
+})(context(ContainerCreate))));
 

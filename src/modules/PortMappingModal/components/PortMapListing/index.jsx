@@ -48,7 +48,7 @@ class PortMapListing extends Component {
   render() {
     return (
       <DataTable plain>
-        {this.props.portMappings.length ?
+        {this.props.portMappings.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn>Name</TableColumn>
@@ -59,7 +59,7 @@ class PortMapListing extends Component {
               <TableColumn>Virtual Hosts</TableColumn>
               <TableColumn />
             </TableRow>
-          </TableHeader> : null}
+          </TableHeader>}
         <TableBody>
           {this.renderRows()}
         </TableBody>

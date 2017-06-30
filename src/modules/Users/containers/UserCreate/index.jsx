@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import UserForm from '../../components/UserForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -27,8 +27,7 @@ class UserCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { pending } = state.metaResource.user;
+function mapStateToProps() {
   const model = {
     name: '',
     properties: {
@@ -43,13 +42,11 @@ function mapStateToProps(state) {
 
   return {
     user: model,
-    pending,
-    organizations: state.metaResource.allOrganizationsDropDown.organizations,
     initialValues: model
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'userCreate',
   validate
-})(context(UserCreate)));
+})(context(UserCreate))));

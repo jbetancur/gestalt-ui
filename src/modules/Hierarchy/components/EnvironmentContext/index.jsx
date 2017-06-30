@@ -31,7 +31,7 @@ class EnvironmentContext extends Component {
     fetchEnvironment: PropTypes.func.isRequired,
     deleteEnvironment: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
-    pending: PropTypes.bool.isRequired,
+    environmentPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
   };
@@ -66,7 +66,7 @@ class EnvironmentContext extends Component {
   }
 
   renderActionsMenu() {
-    const { match, pending, environment } = this.props;
+    const { match, environmentPending, environment } = this.props;
     const name = environment.description || environment.name;
 
     return (
@@ -75,7 +75,7 @@ class EnvironmentContext extends Component {
           id="environments-settings-menu"
           icon
           position={MenuButton.Positions.TOP_LEFT}
-          disabled={pending}
+          disabled={environmentPending}
           buttonChildren="more_vert"
           tooltipLabel="Actions"
           tooltipPosition="bottom"
@@ -137,18 +137,18 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { match, history, pending, environment, navigation } = this.props;
+    const { match, history, environmentPending, environment, navigation } = this.props;
     const parentFQON = getParentFQON(environment);
     const name = environment.description || environment.name;
 
     return (
       <div>
         <DetailCard expanderTooltipLabel="Details">
-          <DetailCardTitle expander={!pending}>
-            <NavUpArrowButton disabled={pending} onClick={() => history.push(`/${parentFQON}/hierarchy/${match.params.workspaceId}`)} />
+          <DetailCardTitle expander={!environmentPending}>
+            <NavUpArrowButton disabled={environmentPending} onClick={() => history.push(`/${parentFQON}/hierarchy/${match.params.workspaceId}`)} />
             {this.renderActionsMenu()}
             <div>
-              <div className="gf-headline">{!pending ? name : <DotActivity />}</div>
+              <div className="gf-headline">{!environmentPending ? name : <DotActivity />}</div>
               <div className="md-caption"><Breadcrumbs /></div>
             </div>
           </DetailCardTitle>

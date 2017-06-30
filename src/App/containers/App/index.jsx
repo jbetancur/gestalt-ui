@@ -25,7 +25,7 @@ import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Login/components/LoginModal';
 import { GestaltIcon, USEnglishLangIcon, HierarchyIcon, ProviderIcon } from 'components/Icons';
 import { loginActions } from 'modules/Login';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import ListItemStacked from 'components/ListItemStacked';
 import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
@@ -39,7 +39,7 @@ class App extends Component {
     fetchLicense: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
-    selfFetching: PropTypes.bool.isRequired,
+    selfPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     setCurrentOrgContextfromState: PropTypes.func.isRequired,
@@ -274,20 +274,17 @@ class App extends Component {
   }
 
   render() {
-    return this.props.selfFetching ? this.renderProgress() : this.renderMain();
+    return this.props.selfPending ? this.renderProgress() : this.renderMain();
   }
 }
 
 function mapStateToProps(state) {
-  const { app, metaResource, browser } = state;
+  const { app, browser } = state;
 
   return {
-    self: metaResource.self.self,
-    selfFetching: metaResource.self.pending,
-    currentOrgContext: metaResource.currentOrgContext.organization,
     activityIndicator: app.activityIndicator.activity,
     browser,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions, licenseActions, loginActions))(translate()(App));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, licenseActions, loginActions))(translate()(App)));

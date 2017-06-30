@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import PolicyForm from '../../components/PolicyForm';
@@ -16,7 +16,7 @@ class PolicyEdit extends Component {
     policy: PropTypes.object.isRequired,
     fetchPolicy: PropTypes.func.isRequired,
     updatePolicy: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    policyPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -37,13 +37,22 @@ class PolicyEdit extends Component {
   }
 
   render() {
-    const { policy, pending } = this.props;
-    return pending ? <CircularActivity id="policy-load" /> : <PolicyForm editMode title={policy.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.updatePolicy(values)} {...this.props} />;
+    const { policy, policyPending } = this.props;
+    return policyPending ?
+      <CircularActivity id="policy-load" /> :
+      <PolicyForm
+        editMode
+        title={policy.name}
+        submitLabel="Update"
+        cancelLabel="Done"
+        onSubmit={values => this.updatePolicy(values)}
+        {...this.props}
+      />;
   }
 }
 
 function mapStateToProps(state) {
-  const { policy, pending } = state.metaResource.policy;
+  const { policy } = state.metaResource.policy;
 
   const model = {
     name: policy.name,
@@ -51,16 +60,12 @@ function mapStateToProps(state) {
   };
 
   return {
-    policy,
-    pending,
-    updatedPolicy: state.metaResource.policyUpdate.policy,
-    policyRuleUpdatePending: state.metaResource.policyRuleUpdate.pending,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyEdit',
   validate
-})(context(PolicyEdit)));
+})(context(PolicyEdit))));

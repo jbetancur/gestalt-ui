@@ -44,9 +44,9 @@ class EntitlementItem extends Component {
     fetchIdentities: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     identities: PropTypes.array.isRequired,
-    pendingEntitlements: PropTypes.bool.isRequired,
-    pendingIdentities: PropTypes.bool.isRequired,
-    pendingUpdateEntitlements: PropTypes.bool.isRequired,
+    entitlementsPending: PropTypes.bool.isRequired,
+    identitiesPending: PropTypes.bool.isRequired,
+    entitlementsUpdatePending: PropTypes.bool.isRequired,
     selectedIdentity: PropTypes.object.isRequired,
     entitlements: PropTypes.array.isRequired,
     updateEntitlements: PropTypes.func.isRequired,
@@ -101,12 +101,12 @@ class EntitlementItem extends Component {
         key={ident.id}
         primaryText={ident.name}
         rightIcon={this.props.selectedIdentity.id === ident.id ?
-          <Button flat primary label="Save" style={{ marginTop: '-.3em' }} onClick={e => this.update(e)} disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements} /> : null}
+          <Button flat primary label="Save" style={{ marginTop: '-.3em' }} onClick={e => this.update(e)} disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending} /> : null}
         leftIcon={<FontIcon>{ident.typeId === USER ? 'person' : 'group'}</FontIcon>}
         active={this.props.selectedIdentity.id === ident.id}
         onClick={() => this.handleSelectedIdentity(ident)}
         inkDisabled
-        disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements}
+        disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending}
       />));
 
     return (
@@ -124,18 +124,18 @@ class EntitlementItem extends Component {
                     rightIcon={<Button icon onClick={() => this.props.clearIdentitiesFilter()}><FontIcon>clear</FontIcon></Button>}
                     lineDirection="center"
                     value={this.props.identitiesFilter.filterText}
-                    disabled={this.props.pendingEntitlements || this.props.pendingUpdateEntitlements}
+                    disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending}
                     onChange={value => this.props.filterIdentities(value)}
                   />}
                 />
-                {this.props.pendingIdentities ?
+                {this.props.identitiesPending ?
                   <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
               </MembersList>
             </fieldset>
           </div>
 
           <div className="flex-7 flex-xs-12">
-            {this.props.pendingEntitlements || this.props.pendingUpdateEntitlements ?
+            {this.props.entitlementsPending || this.props.entitlementsUpdatePending ?
               <DotActivity dropdown size={1.5} id="entitlements-loading" centered /> :
               <EntitlementTree {...this.props} />}
           </div>

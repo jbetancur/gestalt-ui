@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import { map } from 'lodash';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -19,6 +19,7 @@ class OrgEdit extends Component {
     fetchOrg: PropTypes.func.isRequired,
     updateOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
+    organizationPending: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
@@ -74,6 +75,7 @@ class OrgEdit extends Component {
         onSubmit={values => this.updateOrg(values)}
         envMap={this.props.organization.properties.env}
         editMode
+        pending={this.props.organizationPending}
         {...this.props}
       />
     );
@@ -81,12 +83,10 @@ class OrgEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { organization, pending } = state.metaResource.organization;
+  const { organization } = state.metaResource.organization;
   const variables = map(organization.properties.env, (value, name) => ({ name, value }));
 
   return {
-    organization,
-    pending,
     initialValues: {
       name: organization.name,
       description: organization.description,
@@ -97,7 +97,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'organizationEdit',
   validate
-})(translate()(context(OrgEdit))));
+})(translate()(context(OrgEdit)))));

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -12,7 +12,8 @@ class OrgCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createEnvironment: PropTypes.func.isRequired
+    createEnvironment: PropTypes.func.isRequired,
+    environmentPending: PropTypes.bool.isRequired,
   };
 
   createEnvironment(values) {
@@ -44,17 +45,15 @@ class OrgCreate extends Component {
         cancelLabel="Cancel"
         onSubmit={values => this.createEnvironment(values)}
         isEnvironment
+        pending={this.props.environmentPending}
         {...this.props}
       />
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { environment, pending } = state.metaResource.environment;
+function mapStateToProps() {
   return {
-    environment,
-    pending,
     initialValues: {
       name: '',
       description: '',
@@ -66,7 +65,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'environmentCreate',
   validate
-})(context(OrgCreate)));
+})(context(OrgCreate))));

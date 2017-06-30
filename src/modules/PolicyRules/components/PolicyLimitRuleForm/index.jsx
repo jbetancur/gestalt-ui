@@ -20,8 +20,8 @@ import policyOperators from '../../lists/policyOperators';
 const PolicyLimitRuleForm = (props) => {
   const {
     match,
-    pending,
-    policyUpdatePending,
+    policyRulePending,
+    policyRuleUpdatePending,
     onSubmit,
     invalid,
     pristine,
@@ -163,12 +163,12 @@ const PolicyLimitRuleForm = (props) => {
               </fieldset>
             </div>
           </CardText>
-          {policyUpdatePending || pending ? <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} /> : null}
+          {policyRuleUpdatePending || policyRulePending ? <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} /> : null}
           <CardActions>
             <Button
               flat
               label={cancelLabel}
-              disabled={pending || submitting}
+              disabled={policyRulePending || submitting}
               component={Link}
               to={backLink}
             />
@@ -176,7 +176,7 @@ const PolicyLimitRuleForm = (props) => {
               raised
               label={submitLabel}
               type="submit"
-              disabled={pristine || pending || invalid || submitting}
+              disabled={pristine || policyRulePending || invalid || submitting}
               primary
             />
           </CardActions>
@@ -192,8 +192,8 @@ PolicyLimitRuleForm.propTypes = {
   change: PropTypes.func.isRequired,
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
-  policyUpdatePending: PropTypes.bool.isRequired,
+  policyRulePending: PropTypes.bool.isRequired,
+  policyRuleUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

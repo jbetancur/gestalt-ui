@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from '../../components/GroupForm';
@@ -17,7 +17,7 @@ class GroupEdit extends Component {
     fetchGroup: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired,
     updateGroup: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    groupPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -45,22 +45,25 @@ class GroupEdit extends Component {
   }
 
   render() {
-    const { group, pending } = this.props;
-    return pending ? <CircularActivity id="group-loading" /> : <GroupForm editMode title={group.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.update(values)} {...this.props} />;
+    const { group, groupPending } = this.props;
+    return groupPending ? <CircularActivity id="group-loading" /> :
+    <GroupForm
+      editMode
+      title={group.name}
+      submitLabel="Update"
+      cancelLabel="Done"
+      onSubmit={values => this.update(values)}
+      {...this.props}
+    />;
   }
 }
 
 function mapStateToProps(state) {
-  const { group, pending } = state.metaResource.group;
+  const { group } = state.metaResource.group;
 
   return {
     group,
-    pending,
-    updatedGroup: state.metaResource.groupMembers.group,
-    updateMembersPending: state.metaResource.groupMembers.pending,
-    updatePending: state.metaResource.groupUpdate.pending,
     users: state.metaResource.users.users.filter(val => val.name.includes(state.groups.availableUsersFilter.filterText)),
-    pendingUsers: state.metaResource.users.pending,
     memberUsersFilter: state.groups.memberUsersFilter,
     availableUsersFilter: state.groups.availableUsersFilter,
     initialValues: {
@@ -74,7 +77,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'groupEdit',
   validate
-})(context(GroupEdit)));
+})(context(GroupEdit))));

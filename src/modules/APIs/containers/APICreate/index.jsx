@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -14,16 +14,16 @@ class APICreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createAPI: PropTypes.func.isRequired,
-    providers: PropTypes.array.isRequired,
+    providersKongByGateway: PropTypes.array.isRequired,
   };
 
   create(values) {
-    const { match, history, createAPI, providers } = this.props;
+    const { match, history, createAPI, providersKongByGateway } = this.props;
     const payload = { ...values };
 
     // TODO: this will eventually go away
     // get the gateway provider Id from our frankenstein provider
-    const selectedProvider = providers.find(provider => provider.id === payload.properties.provider.locations);
+    const selectedProvider = providersKongByGateway.find(provider => provider.id === payload.properties.provider.locations);
     payload.properties.provider.id = selectedProvider.properties.gatewayProvider && selectedProvider.properties.gatewayProvider.id; // this is really the Gatewayprovier.id
     // locations is an array, but we only need the first value to be the kong id
     payload.properties.provider.locations = [payload.properties.provider.locations]; // this is really the kong provider id
@@ -42,8 +42,7 @@ class APICreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { pending } = state.metaResource.api;
+function mapStateToProps() {
   const model = {
     name: '',
     description: '',
@@ -54,14 +53,11 @@ function mapStateToProps(state) {
 
   return {
     api: model,
-    pending,
-    providers: state.metaResource.fetchProviderKongsByGateway.providers,
-    pendingProviders: state.metaResource.fetchProviderKongsByGateway.pending,
     initialValues: model,
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'APICreate',
   validate
-})(context(APICreate)));
+})(context(APICreate))));

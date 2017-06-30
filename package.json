@@ -246,7 +246,7 @@
         "react-copy-to-clipboard": "^5.0.0",
         "react-dom": "^15.6.1",
         "react-ga": "^2.2.0",
-        "react-i18next": "^4.5.0",
+        "react-i18next": "^4.6.1",
         "react-inlinesvg": "^0.6.0",
         "react-intl": "^2.3.0",
         "react-json-tree": "^0.10.9",

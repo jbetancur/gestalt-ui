@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import CircularActivity from 'components/CircularActivity';
 import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
@@ -25,7 +25,7 @@ class ContainerEdit extends Component {
     unloadVolumes: PropTypes.func.isRequired,
     unloadPortmappings: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
-    pending: PropTypes.bool.isRequired,
+    containerPending: PropTypes.bool.isRequired,
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
@@ -45,7 +45,7 @@ class ContainerEdit extends Component {
     if (this.props.container !== nextProps.container) {
       clearTimeout(this.timeout);
 
-      if (!nextProps.pending) {
+      if (!nextProps.containerPending) {
         this.isPolling = false;
         this.startPoll();
       }
@@ -74,13 +74,13 @@ class ContainerEdit extends Component {
     const payload = generateContainerPayload(values, volumes, portMappings, healthChecks, true);
     const onSuccess = () => history.goBack();
     clearTimeout(this.timeout);
-
+    console.log(values);
     updateContainer(match.params.fqon, container.id, payload, onSuccess);
   }
 
   render() {
-    const { container, pending } = this.props;
-    return pending ? <CircularActivity id="container-load" /> :
+    const { container, containerPending } = this.props;
+    return containerPending ? <CircularActivity id="container-load" /> :
     <ContainerForm
       editMode
       title={container.name}
@@ -93,7 +93,7 @@ class ContainerEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { container, pending } = state.metaResource.container;
+  const { container } = state.metaResource.container;
   const variables = map(container.properties.env, (value, name) => ({ name, value }));
   const labels = map(container.properties.labels, (value, name) => ({ name, value }));
 
@@ -127,10 +127,6 @@ function mapStateToProps(state) {
 
   return {
     container,
-    pending,
-    pendingProviders: state.metaResource.providersByType.pending,
-    pendingContainerUpdate: state.metaResource.containerUpdate.pending,
-    providers: state.metaResource.providersByType.providers,
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -142,8 +138,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps,
-Object.assign({}, actions, metaActions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps,
+Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
-})(context(ContainerEdit)));
+})(context(ContainerEdit))));

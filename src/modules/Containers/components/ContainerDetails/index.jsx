@@ -6,7 +6,7 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 
 class ContainerDetails extends PureComponent {
   static propTypes = {
-    container: PropTypes.object.isRequired,
+    containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
   };
 
@@ -15,9 +15,9 @@ class ContainerDetails extends PureComponent {
   }
 
   renderInstancesRows() {
-    const { match, container } = this.props;
+    const { match, containerModel } = this.props;
 
-    return container.properties.instances.map((item, i) => (
+    return containerModel.properties.instances.map((item, i) => (
       <TableRow key={i}>
         <TableColumn containsButtons>
           <Button
@@ -26,7 +26,7 @@ class ContainerDetails extends PureComponent {
             tooltipPosition="right"
             to={{
               pathname: '/logs',
-              search: `?name=${container.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${container.properties.provider.id}&logType=container&logId=${item.id}`
+              search: `?name=${containerModel.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${containerModel.properties.provider.id}&logType=container&logId=${item.id}`
             }}
             target="_blank"
             component={Link}
@@ -48,7 +48,7 @@ class ContainerDetails extends PureComponent {
   renderInstancesTable() {
     return (
       <div>
-        <TableCardHeader title={<span className="gf-headline">{`Instances (${this.props.container.properties.instances.length}/${this.props.container.properties.num_instances})`}</span>} />
+        <TableCardHeader title={<span className="gf-headline">{`Instances (${this.props.containerModel.properties.instances.length}/${this.props.containerModel.properties.num_instances})`}</span>} />
         <DataTable plain>
           <TableHeader>
             <TableRow>
@@ -67,7 +67,7 @@ class ContainerDetails extends PureComponent {
   }
 
   renderServiceAddressesRows() {
-    return this.props.container.properties.port_mappings.map((port, i) => (
+    return this.props.containerModel.properties.port_mappings.map((port, i) => (
       <TableRow key={i}>
         <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
         <TableColumn>{port.service_address && port.service_address.port}</TableColumn>
@@ -99,8 +99,8 @@ class ContainerDetails extends PureComponent {
   render() {
     return (
       <div>
-        {(this.props.container.properties.instances && Object.keys(this.props.container.properties.instances).length) ? this.renderInstancesTable() : null}
-        {this.props.container.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
+        {(this.props.containerModel.properties.instances && Object.keys(this.props.containerModel.properties.instances).length) ? this.renderInstancesTable() : null}
+        {this.props.containerModel.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
       </div>
     );
   }

@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import _map from 'lodash/map';
 import { context } from 'modules/ContextManagement';
-import { metaActions } from 'modules/MetaResource';
+import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -17,6 +17,7 @@ class EnvironmentEdit extends Component {
     environment: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
+    environmentPending: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
@@ -80,6 +81,7 @@ class EnvironmentEdit extends Component {
         envMap={environment.properties.env}
         isEnvironment
         editMode
+        pending={this.props.environmentPending}
         {...this.props}
       />
     );
@@ -87,12 +89,10 @@ class EnvironmentEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { environment, pending } = state.metaResource.environment;
+  const { environment } = state.metaResource.environment;
   const variables = _map(environment.properties.env, (value, name) => ({ name, value }));
 
   return {
-    environment,
-    pending,
     initialValues: {
       name: environment.name,
       description: environment.description,
@@ -103,7 +103,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, Object.assign({}, actions, metaActions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'environmentEdit',
   validate
-})(context(EnvironmentEdit)));
+})(context(EnvironmentEdit))));
