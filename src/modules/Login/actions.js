@@ -30,7 +30,7 @@ export function login(username, password) {
     expirationDate.setTime(currentDate.getTime() + (token.expires_in * 1000));
     let cookieConfig = { expires: expirationDate, path: '/' };
 
-    if (!window.location.hostname === 'localhost') {
+    if (window.location.hostname !== 'localhost') {
       cookieConfig = Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
     }
 
