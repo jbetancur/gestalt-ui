@@ -74,7 +74,7 @@ class ContainerEdit extends Component {
     const payload = generateContainerPayload(values, volumes, portMappings, healthChecks, true);
     const onSuccess = () => history.goBack();
     clearTimeout(this.timeout);
-    console.log(values);
+
     updateContainer(match.params.fqon, container.id, payload, onSuccess);
   }
 
@@ -109,7 +109,6 @@ function mapStateToProps(state) {
       health_checks: container.properties.health_checks,
       instances: container.properties.instances,
       port_mappings: container.properties.port_mappings,
-      service_addresses: container.properties.service_addresses,
       volumes: container.properties.volumes,
       provider: container.properties.provider,
       force_pull: container.properties.force_pull,
