@@ -92,7 +92,6 @@ function mapStateToProps(state) {
         health_checks: [],
         instances: [],
         port_mappings: [],
-        service_addresses: [],
         volumes: [],
         provider: {
           locations: [],

@@ -27,9 +27,14 @@ export function login(username, password) {
   function setToken(token) {
     const currentDate = new Date(Date.now());
     const expirationDate = new Date();
-
     expirationDate.setTime(currentDate.getTime() + (token.expires_in * 1000));
-    cookie.save('auth-token', token.access_token, { expires: expirationDate, path: '/' });
+    let cookieConfig = { expires: expirationDate, path: '/' };
+
+    if (!window.location.hostname === 'localhost') {
+      cookieConfig = Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
+    }
+
+    cookie.save('auth-token', token.access_token, cookieConfig);
   }
 
   return (dispatch) => {
