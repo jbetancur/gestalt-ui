@@ -10,6 +10,20 @@ import {
 } from './actionTypes';
 import { SEC_API_URL, API_TIMEOUT, UI_VERSION, ANALYTICS_TRACKING, ANALYTICS_TRACKING_ACCT } from '../../constants';
 
+function setToken(token) {
+  const currentDate = new Date(Date.now());
+  const expirationDate = new Date();
+  expirationDate.setTime(currentDate.getTime() + (token.expires_in * 1000));
+  const cookieConfig = { expires: expirationDate, path: '/' };
+
+  // Only set the domain if this token is not a local dev environment
+  if (window.location.hostname !== 'localhost') {
+    Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
+  }
+
+  cookie.save('auth-token', token.access_token, cookieConfig);
+}
+
 export function hideLoginModal() {
   return { type: 'HIDE_LOGIN_MODAL' };
 }
@@ -23,19 +37,6 @@ export function login(username, password) {
       Accept: 'application/json'
     }
   });
-
-  function setToken(token) {
-    const currentDate = new Date(Date.now());
-    const expirationDate = new Date();
-    expirationDate.setTime(currentDate.getTime() + (token.expires_in * 1000));
-    let cookieConfig = { expires: expirationDate, path: '/' };
-
-    if (window.location.hostname !== 'localhost') {
-      cookieConfig = Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
-    }
-
-    cookie.save('auth-token', token.access_token, cookieConfig);
-  }
 
   return (dispatch) => {
     dispatch({ type: REQUEST_TOKEN_PENDING });
