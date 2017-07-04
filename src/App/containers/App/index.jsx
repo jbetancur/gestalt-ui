@@ -89,8 +89,16 @@ class App extends Component {
     const { history, logout } = this.props;
 
     logout();
+    // TODO: Refactor to Login Auth Component
     // delete local cookie and redirect whether api token delete succeeds or not
-    cookie.remove('auth-token', { path: '/' });
+    const cookieConfig = { path: '/' };
+
+    // Must supply the domain to delete the cookie
+    if (window.location.hostname !== 'localhost') {
+      Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
+    }
+
+    cookie.remove('auth-token', cookieConfig);
     history.replace('/login');
   }
 
