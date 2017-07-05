@@ -13,7 +13,7 @@ export default function configureInterceptors(store, history) {
     const newConfig = { ...config };
 
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: true });
-    newConfig.headers.Authorization = `Bearer ${cookie.load('auth-token')}`;
+    newConfig.headers.Authorization = `Bearer ${cookie.load('auth_token')}`;
     return newConfig;
   }, (error) => {
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
@@ -26,7 +26,7 @@ export default function configureInterceptors(store, history) {
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
     return config;
   }, (error) => {
-    const validCookie = !!cookie.load('auth-token') || false;
+    const validCookie = !!cookie.load('auth_token') || false;
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
 
     if (!validCookie) {

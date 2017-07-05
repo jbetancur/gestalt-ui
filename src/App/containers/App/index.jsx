@@ -98,7 +98,7 @@ class App extends Component {
       Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
     }
 
-    cookie.remove('auth-token', cookieConfig);
+    cookie.remove('auth_token', cookieConfig);
     history.replace('/login');
   }
 

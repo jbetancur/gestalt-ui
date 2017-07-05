@@ -59,7 +59,7 @@ class WorkspaceContext extends Component {
 
   handleViewState(view, index) {
     const { handleWorkspaceNavigation, history } = this.props;
-    const validCookie = !!cookie.load('auth-token') || false;
+    const validCookie = !!cookie.load('auth_token') || false;
 
     if (!validCookie) {
       history.replace('login');
