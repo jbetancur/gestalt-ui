@@ -9,7 +9,7 @@ export default function AuthWrapper(BaseComponent) {
   class Restricted extends PureComponent {
     checkAuthentication(params) {
       const { history } = params;
-      const validCookie = !!cookie.load('auth-token') || false;
+      const validCookie = !!cookie.load('auth_token') || false;
 
       if (!validCookie) {
         history.replace({

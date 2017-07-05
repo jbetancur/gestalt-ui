@@ -21,7 +21,7 @@ function setToken(token) {
     Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
   }
 
-  cookie.save('auth-token', token.access_token, cookieConfig);
+  cookie.save('auth_token', token.access_token, cookieConfig);
 }
 
 export function hideLoginModal() {
@@ -74,7 +74,7 @@ export function logout() {
   return (dispatch) => {
     dispatch({ type: LOG_OUT });
 
-    const tokenId = cookie.load('auth-token');
+    const tokenId = cookie.load('auth_token');
 
     if (tokenId) {
       const securityAPI = axios.create({
