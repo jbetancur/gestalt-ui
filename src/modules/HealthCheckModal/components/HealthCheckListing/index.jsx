@@ -46,7 +46,7 @@ class HealthCheckListing extends Component {
         <TableColumn>{item.command}</TableColumn>
         <TableColumn>{item.port}</TableColumn>
         <TableColumn>{item.port_index}</TableColumn>
-        <TableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.ignore_http_1xx} disabled /></TableColumn>
+        <TableColumn containsButtons><Checkbox defaultChecked={item.ignore_http_1xx} disabled /></TableColumn>
         <TableColumn containsButtons><FieldRemoveButton onClick={() => this.remove(item)} inTable /></TableColumn>
       </TableRow>
     ));
