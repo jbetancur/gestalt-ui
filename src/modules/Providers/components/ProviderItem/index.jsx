@@ -14,7 +14,7 @@ class ProviderItem extends PureComponent {
     deleteProviders: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
-    pendingProvider: PropTypes.bool.isRequired,
+    providersPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
@@ -168,7 +168,7 @@ class ProviderItem extends PureComponent {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pendingProvider && <LinearProgress id="providers-progress" />}
+          {this.props.providersPending && <LinearProgress id="providers-progress" />}
           <DataTable baseId="providers" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {this.props.providers.length > 0 &&
             <TableHeader>

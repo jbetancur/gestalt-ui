@@ -113,7 +113,7 @@ class apiEndpointItem extends PureComponent {
           {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.perMinute}
         </TableColumn>
         <TableColumn>
-          <Checkbox style={{ height: '1.4em' }} defaultChecked={apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled} disabled />
+          <Checkbox defaultChecked={apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled} disabled />
         </TableColumn>
         <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>

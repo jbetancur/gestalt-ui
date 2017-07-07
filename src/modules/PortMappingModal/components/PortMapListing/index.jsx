@@ -36,10 +36,10 @@ class PortMapListing extends Component {
       <TableRow key={i}>
         <TableColumn>{item.name}</TableColumn>
         <TableColumn>{item.protocol}</TableColumn>
-        <TableColumn><Checkbox style={{ height: '1.4em' }} defaultChecked={item.expose_endpoint} disabled /></TableColumn>
+        <TableColumn containsButtons><Checkbox defaultChecked={item.expose_endpoint} disabled /></TableColumn>
         <TableColumn>{item.service_port}</TableColumn>
         <TableColumn>{item.container_port}</TableColumn>
-        <TableColumn>{item.virtual_hosts && item.virtual_hosts.map(host => <div><A href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</A></div>)}</TableColumn>
+        <TableColumn >{item.virtual_hosts && item.virtual_hosts.map(host => <div><A href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</A></div>)}</TableColumn>
         <TableColumn containsButtons><FieldRemoveButton onClick={() => this.props.removePortmapping(item)} inTable /></TableColumn>
       </TableRow>
     ));
