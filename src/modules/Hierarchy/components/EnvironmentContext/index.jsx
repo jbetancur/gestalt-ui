@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookie';
 import { getParentFQON } from 'util/helpers/strings';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -46,12 +45,7 @@ class EnvironmentContext extends Component {
   }
 
   handleViewState(view, index) {
-    const { handleEnvironmentNavigation, history } = this.props;
-    const validCookie = !!cookie.load('auth_token') || false;
-
-    if (!validCookie) {
-      history.replace('/login');
-    }
+    const { handleEnvironmentNavigation } = this.props;
 
     handleEnvironmentNavigation(view, index);
   }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cookie from 'react-cookie';
+import Cookies from 'universal-cookie';
 import { API_URL, API_TIMEOUT } from './constants';
 
 // Axios Defaults
@@ -8,12 +8,14 @@ axios.defaults.timeout = API_TIMEOUT;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common.Accept = 'application/json';
 
+const cookies = new Cookies();
+
 export default function configureInterceptors(store, history) {
   axios.interceptors.request.use((config) => {
     const newConfig = { ...config };
 
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: true });
-    newConfig.headers.Authorization = `Bearer ${cookie.load('auth_token')}`;
+    newConfig.headers.Authorization = `Bearer ${cookies.get('auth_token')}`;
     return newConfig;
   }, (error) => {
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
@@ -26,10 +28,11 @@ export default function configureInterceptors(store, history) {
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
     return config;
   }, (error) => {
-    const validCookie = !!cookie.load('auth_token') || false;
+    const validCookie = !!cookies.get('auth_token') || false;
     store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
 
     if (!validCookie) {
+      // fall back for missing token
       history.replace('/login');
     } else {
       const permissions = [

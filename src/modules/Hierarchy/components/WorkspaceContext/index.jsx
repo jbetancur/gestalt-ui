@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookie';
 import styled from 'styled-components';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -58,12 +57,7 @@ class WorkspaceContext extends Component {
   }
 
   handleViewState(view, index) {
-    const { handleWorkspaceNavigation, history } = this.props;
-    const validCookie = !!cookie.load('auth_token') || false;
-
-    if (!validCookie) {
-      history.replace('login');
-    }
+    const { handleWorkspaceNavigation } = this.props;
 
     handleWorkspaceNavigation(view, index);
   }
