@@ -11,7 +11,7 @@ import ErrorNotifications from 'modules/ErrorNotifications';
 import configureStore from './configureStore';
 import i18n from './i18n';
 import App from './App';
-import { Login, restricted } from './modules/Login';
+import { Login, restricted } from './modules/Auth';
 import Logging from './modules/Logging';
 import configureHTTP from './configureHTTP';
 import './style/style.scss';
@@ -45,8 +45,8 @@ const Root = () => (
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/logs" component={restricted(Logging)} />
-              <Route exact path="/" component={App} />
-              <Route path="/:fqon" component={App} />
+              <Route exact path="/" component={restricted(App)} />
+              <Route path="/:fqon" component={restricted(App)} />
             </Switch>
           </ConnectedRouter>
         </div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import cookie from 'react-cookie';
 import { Switch, Route, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
@@ -22,9 +21,9 @@ import Divider from 'react-md/lib/Dividers';
 import CircularActivity from 'components/CircularActivity';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
-import LoginModal from 'modules/Login/components/LoginModal';
+import LoginModal from 'modules/Auth/components/LoginModal';
 import { GestaltIcon, USEnglishLangIcon, HierarchyIcon, ProviderIcon } from 'components/Icons';
-import { loginActions } from 'modules/Login';
+import { loginActions } from 'modules/Auth';
 import { withMetaResource } from 'modules/MetaResource';
 import ListItemStacked from 'components/ListItemStacked';
 import AppError from '../../components/AppError';
@@ -89,16 +88,6 @@ class App extends Component {
     const { history, logout } = this.props;
 
     logout();
-    // TODO: Refactor to Login Auth Component
-    // delete local cookie and redirect whether api token delete succeeds or not
-    const cookieConfig = { path: '/' };
-
-    // Must supply the domain to delete the cookie
-    if (window.location.hostname !== 'localhost') {
-      Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
-    }
-
-    cookie.remove('auth_token', cookieConfig);
     history.replace('/login');
   }
 

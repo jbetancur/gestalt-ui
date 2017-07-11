@@ -14,7 +14,7 @@ class LambdaItem extends PureComponent {
     lambdas: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
     selectedLambdas: PropTypes.object.isRequired,
-    lambdaPending: PropTypes.bool.isRequired,
+    lambdasPending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -143,7 +143,7 @@ class LambdaItem extends PureComponent {
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.lambdaPending && <LinearProgress id="lambda-listing" />}
+          {this.props.lambdasPending && <LinearProgress id="lambda-listing" />}
           <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
             {this.props.lambdas.length > 0 &&
             <TableHeader>

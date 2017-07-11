@@ -6,7 +6,7 @@ import appReducers from './App/reducers';
 import metaResourceReducers from './modules/MetaResource/reducers';
 import modalReducer from './modules/ModalRoot/reducers';
 import errorNotificationReducer from './modules/ErrorNotifications/reducers';
-import loginReducer from './modules/Login/reducers';
+import loginReducer from './modules/Auth/reducers';
 // import organizationsReducer from './modules/Organizations/reducers';
 import oranizationNavMenu from './modules/OrgNavMenu/reducers';
 import hierarchyReducer from './modules/Hierarchy/reducers';

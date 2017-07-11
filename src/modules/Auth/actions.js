@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cookie from 'react-cookie';
+import Cookies from 'universal-cookie';
 import ReactGA from 'react-ga';
 import {
   REQUEST_TOKEN_PENDING,
@@ -10,18 +10,25 @@ import {
 } from './actionTypes';
 import { SEC_API_URL, API_TIMEOUT, UI_VERSION, ANALYTICS_TRACKING, ANALYTICS_TRACKING_ACCT } from '../../constants';
 
-function setToken(token) {
-  const currentDate = new Date(Date.now());
-  const expirationDate = new Date();
-  expirationDate.setTime(currentDate.getTime() + (token.expires_in * 1000));
-  const cookieConfig = { expires: expirationDate, path: '/' };
+const cookies = new Cookies();
 
-  // Only set the domain if this token is not a local dev environment
+function configureCookie(cookieOptions) {
+  const cookieConfig = Object.assign({ path: '/' }, cookieOptions);
+
+  // Allow all sub domains
   if (window.location.hostname !== 'localhost') {
     Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
   }
 
-  cookie.save('auth_token', token.access_token, cookieConfig);
+  return cookieConfig;
+}
+
+function setToken(token) {
+  const currentDate = new Date(Date.now());
+  const expirationDate = new Date();
+
+  expirationDate.setTime(currentDate.getTime() + (token.expires_in * 1000));
+  cookies.set('auth_token', token.access_token, configureCookie({ expires: expirationDate }));
 }
 
 export function hideLoginModal() {
@@ -34,7 +41,7 @@ export function login(username, password) {
     timeout: API_TIMEOUT,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Accept: 'application/json'
+      Accept: 'application/json',
     }
   });
 
@@ -73,8 +80,7 @@ export function login(username, password) {
 export function logout() {
   return (dispatch) => {
     dispatch({ type: LOG_OUT });
-
-    const tokenId = cookie.load('auth_token');
+    const tokenId = cookies.get('auth_token');
 
     if (tokenId) {
       const securityAPI = axios.create({
@@ -84,6 +90,8 @@ export function logout() {
           Authorization: `Bearer ${tokenId}`
         }
       });
+
+      cookies.remove('auth_token', configureCookie());
 
       return securityAPI.delete(`accessTokens/${tokenId}`);
     }
