@@ -283,7 +283,7 @@ class Logging extends PureComponent {
           </div>
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>
-          {(logProviderPending || logPending) ? <ActivityContainer id="log-loading" /> :
+          {(logProviderPending || logPending) ? <ActivityContainer id="log-loading" primary /> :
           <div>
             <ScrollButtons>
               <TopScrollButton

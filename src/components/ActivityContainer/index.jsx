@@ -13,12 +13,17 @@ const Div = styled.div`
 class Progress extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    primary: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    primary: false,
   };
 
   render() {
     return (
       <Div>
-        <DotActivity id={this.props.id} size={3} centered />
+        <DotActivity id={this.props.id} size={3} centered primary={this.props.primary} />
       </Div>
     );
   }
