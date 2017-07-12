@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'modules/MetaResource';
 import { context } from 'modules/ContextManagement';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import { parse } from 'query-string';
 import { cloneDeep, compact } from 'lodash';
@@ -84,7 +84,7 @@ class APIEndpointEdit extends Component {
   render() {
     const { apiEndpoint, apiEndpointPending } = this.props;
     return apiEndpointPending ?
-      <CircularActivity id="apiEndpoint-loading" /> :
+      <ActivityContainer id="apiEndpoint-loading" /> :
       <APIEndpointForm
         editMode
         title={apiEndpoint.properties.resource}

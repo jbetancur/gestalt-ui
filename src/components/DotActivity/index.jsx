@@ -24,7 +24,7 @@ const SpinDiv = styled.div`
   &.spinner > div {
     width: ${props => `${props.size}em`};
     height: ${props => `${props.size}em`};
-    background-color: ${props => (props.dropdown && props.theme.activityDotColorDropDown) || props.theme.activityDotColor};
+    background-color: ${props => (props.primary && props.theme.activityDotColorDropDown) || props.theme.activityDotColor};
     border-radius: 100%;
     display: inline-block;
     animation: ${animation} 1.4s infinite ease-in-out both;
@@ -41,7 +41,7 @@ const SpinDiv = styled.div`
 
 const DotActivity = props => (
   <SpinWrapper>
-    <SpinDiv size={props.size} dropdown={props.dropdown} className="spinner" centered={props.centered}>
+    <SpinDiv size={props.size} primary={props.primary} className="spinner" centered={props.centered}>
       <div className="bounce1" />
       <div className="bounce2" />
       <div className="bounce3" />
@@ -51,13 +51,13 @@ const DotActivity = props => (
 
 DotActivity.propTypes = {
   size: PropTypes.number,
-  dropdown: PropTypes.bool,
+  primary: PropTypes.bool,
   centered: PropTypes.bool,
 };
 
 DotActivity.defaultProps = {
   size: 0.6,
-  dropdown: false,
+  primary: false,
   centered: false,
 };
 

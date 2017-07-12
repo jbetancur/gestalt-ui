@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
@@ -64,7 +64,7 @@ class PolicyLimitRuleEdit extends Component {
   render() {
     const { policyRule, policyRulePending } = this.props;
     return policyRulePending ?
-      <CircularActivity id="policyRule-load" /> :
+      <ActivityContainer id="policyRule-load" /> :
       <PolicyLimitRuleForm
         title={policyRule.name}
         submitLabel="Update"

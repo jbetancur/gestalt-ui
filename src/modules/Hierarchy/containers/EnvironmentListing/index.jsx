@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import { translate } from 'react-i18next';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import Sort from 'components/Sort';
 import EnvironmentCard from '../../components/EnvironmentCard';
 import actions from '../../actions';
@@ -64,7 +64,7 @@ class EnvironmentListing extends PureComponent {
   }
 
   renderProgress() {
-    return <CircularActivity id="environments-progress" />;
+    return <ActivityContainer id="environments-progress" />;
   }
 
   render() {

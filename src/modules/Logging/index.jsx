@@ -6,7 +6,7 @@ import { parse } from 'query-string';
 import { withMetaResource } from 'modules/MetaResource';
 import axios from 'axios';
 import SelectField from 'react-md/lib/SelectFields';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import { Button, FileDownloadButton } from 'components/Buttons';
 import { API_TIMEOUT } from '../../constants';
 
@@ -283,7 +283,7 @@ class Logging extends PureComponent {
           </div>
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>
-          {(logProviderPending || logPending) ? <CircularActivity id="log-loading" /> :
+          {(logProviderPending || logPending) ? <ActivityContainer id="log-loading" /> :
           <div>
             <ScrollButtons>
               <TopScrollButton

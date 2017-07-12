@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from '../../components/GroupForm';
 import validate from '../../validations';
@@ -46,7 +46,7 @@ class GroupEdit extends Component {
 
   render() {
     const { group, groupPending } = this.props;
-    return groupPending ? <CircularActivity id="group-loading" /> :
+    return groupPending ? <ActivityContainer id="group-loading" /> :
     <GroupForm
       editMode
       title={group.name}

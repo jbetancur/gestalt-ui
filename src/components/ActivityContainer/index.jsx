@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import CircularProgress from 'react-md/lib/Progress/CircularProgress';
+import DotActivity from 'components/DotActivity';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -8,17 +8,17 @@ const Div = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 9999;
 `;
-
-class Progress extends Component {
+class Progress extends PureComponent {
   static propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
   };
 
   render() {
     return (
       <Div>
-        <CircularProgress id={this.props.id} scale={3} {...this.props} />
+        <DotActivity id={this.props.id} size={3} centered />
       </Div>
     );
   }

@@ -84,7 +84,7 @@ class PromoteModal extends PureComponent {
             disabled: !this.state.environment,
           }]}
       >
-        {this.props.environmentsPending ? <DotActivity size={1} dropdown /> :
+        {this.props.environmentsPending ? <DotActivity size={1} primary /> :
         <div>
           {environments.length ?
             <div className="flex-row">
