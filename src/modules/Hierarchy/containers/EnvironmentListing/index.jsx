@@ -15,7 +15,7 @@ class EnvironmentListing extends PureComponent {
     environments: PropTypes.array.isRequired,
     match: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
-    environemntsPending: PropTypes.bool.isRequired,
+    environmentsPending: PropTypes.bool.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
   };
@@ -68,7 +68,7 @@ class EnvironmentListing extends PureComponent {
   }
 
   render() {
-    return this.props.environemntsPending ? this.renderProgress() : this.renderCardsContainer();
+    return this.props.environmentsPending ? this.renderProgress() : this.renderCardsContainer();
   }
 }
 

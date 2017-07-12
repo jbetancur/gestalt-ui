@@ -5768,13 +5768,11 @@ react-hot-loader@next:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-i18next@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-4.6.2.tgz#cc1d9f2535efec0e9c13e9b9dfd94e7e19baeb7b"
+react-i18next@^4.6.3:
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-4.6.3.tgz#97f3f676f794ca8cfc7864a83fbf12cce18ffc91"
   dependencies:
     hoist-non-react-statics "1.2.0"
-    prop-types "^15.5.10"
-    react "^15.6.1"
 
 react-inlinesvg@^0.6.0:
   version "0.6.0"
@@ -7358,9 +7356,9 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.1.0.tgz#ac0675e500db835f9ab2369d29ba096f51ad0731"
+webpack@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.2.0.tgz#8b0cae0e1a9fd76bfbf0eab61a8c2ada848c312f"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"

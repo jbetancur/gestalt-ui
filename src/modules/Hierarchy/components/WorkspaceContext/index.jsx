@@ -21,7 +21,7 @@ import Environments from '../../containers/EnvironmentListing';
 const CreateButtonSpan = styled.span`
   position: absolute;
   right: 4em;
-  top: 1em;
+  top: .5em;
 
   @media screen and (max-width: 768px) {
     position: relative;
@@ -151,10 +151,11 @@ class WorkspaceContext extends Component {
           <CreateButtonSpan>
             <Button
               id="create-environment"
-              flat
+              icon
               primary
-              label="Create Environment"
               component={Link}
+              tooltipLabel="Create Environment"
+              tooltipPosition="left"
               to={`/${match.params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
             >
               create_new_folder

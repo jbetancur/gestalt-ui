@@ -34,7 +34,7 @@ class OrganizationCard extends PureComponent {
     const name = model.description || model.name;
 
     return (
-      <Card key={model.id} className="flex-4 flex-xs-12" onClick={e => this.navTo(e, model, 'hierarchy')} raise typeSymbol="O" typeColor={theme.organizationCard}>
+      <Card key={model.id} className="flex-3 flex-xs-12" onClick={e => this.navTo(e, model, 'hierarchy')} raise typeSymbol="O" typeColor={theme.organizationCard}>
         <CardTitle
           title={name}
           subtitle={
