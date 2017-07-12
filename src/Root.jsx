@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
+import { ThemeProvider } from 'styled-components';
 import createHistory from 'history/createBrowserHistory';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
@@ -14,6 +15,7 @@ import App from './App';
 import { Login, restricted } from './modules/Auth';
 import Logging from './modules/Logging';
 import configureHTTP from './configureHTTP';
+import lightTheme from './style/themes/light';
 import './style/style.scss';
 
 // Create our store
@@ -36,23 +38,25 @@ const language = (navigator.languages && navigator.languages[0]) ||
 addLocaleData([...en, ...es]);
 
 const Root = () => (
-  <Provider store={store}>
-    <IntlProvider locale={language}>
-      <I18nextProvider i18n={i18n}>
-        <div id="app-wrapper">
-          <ErrorNotifications />
-          <ConnectedRouter history={history}>
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/logs" component={restricted(Logging)} />
-              <Route exact path="/" component={restricted(App)} />
-              <Route path="/:fqon" component={restricted(App)} />
-            </Switch>
-          </ConnectedRouter>
-        </div>
-      </I18nextProvider>
-    </IntlProvider>
-  </Provider>
+  <ThemeProvider theme={lightTheme}>
+    <Provider store={store}>
+      <IntlProvider locale={language}>
+        <I18nextProvider i18n={i18n}>
+          <div id="app-wrapper">
+            <ErrorNotifications />
+            <ConnectedRouter history={history}>
+              <Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/logs" component={restricted(Logging)} />
+                <Route exact path="/" component={restricted(App)} />
+                <Route path="/:fqon" component={restricted(App)} />
+              </Switch>
+            </ConnectedRouter>
+          </div>
+        </I18nextProvider>
+      </IntlProvider>
+    </Provider>
+  </ThemeProvider>
 );
 
 export default Root;

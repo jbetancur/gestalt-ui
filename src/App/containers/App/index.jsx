@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import cn from 'classnames';
 import HierarchyRoot from 'modules/Hierarchy';
 import NotFound from 'components/NotFound';
@@ -29,7 +29,6 @@ import ListItemStacked from 'components/ListItemStacked';
 import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import actions from '../../actions';
-import lightTheme from '../../../style/themes/light';
 
 class App extends Component {
   static propTypes = {
@@ -269,11 +268,7 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <ThemeProvider theme={lightTheme}>
-        {this.props.selfPending ? this.renderProgress() : this.renderMain()}
-      </ThemeProvider>
-    );
+    return this.props.selfPending ? this.renderProgress() : this.renderMain();
   }
 }
 
