@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { isFQON } from 'util/validations';
 
 export const nameMaxLen = 45;
-export const shortNameMaxLen = 30;
+export const shortNameMaxLen = 25;
 
 export default (values, props) => {
   const errors = {
@@ -45,7 +45,7 @@ export default (values, props) => {
     errors.name = errorPattern;
   }
 
-  if (values.name && values.name.length > nameMaxLen) {
+  if (values.name && values.name.length > shortNameMaxLen) {
     errors.name = i18next.t('containment.fields.name.errorText.length');
   }
 

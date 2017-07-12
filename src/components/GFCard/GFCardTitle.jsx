@@ -7,6 +7,11 @@ const EnhancedCardTitle = styled(CardTitle)`
       padding-left: 23px;
       padding-right: 23px;
   }
+  
+  .md-card-title--title {
+    max-width: 24em;
+    word-break: break-word;
+  }
 `;
 
 export default EnhancedCardTitle;
