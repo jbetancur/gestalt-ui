@@ -129,14 +129,14 @@ class EntitlementItem extends Component {
                   />}
                 />
                 {this.props.identitiesPending ?
-                  <DotActivity dropdown size={1.5} id="identities-loading" centered /> : identities}
+                  <DotActivity primary size={1.5} id="identities-loading" centered /> : identities}
               </MembersList>
             </fieldset>
           </div>
 
           <div className="flex-7 flex-xs-12">
             {this.props.entitlementsPending || this.props.entitlementsUpdatePending ?
-              <DotActivity dropdown size={1.5} id="entitlements-loading" centered /> :
+              <DotActivity primary size={1.5} id="entitlements-loading" centered /> :
               <EntitlementTree {...this.props} />}
           </div>
 

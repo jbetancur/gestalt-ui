@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
@@ -39,7 +39,7 @@ class PolicyEdit extends Component {
   render() {
     const { policy, policyPending } = this.props;
     return policyPending ?
-      <CircularActivity id="policy-load" /> :
+      <ActivityContainer id="policy-load" /> :
       <PolicyForm
         editMode
         title={policy.name}

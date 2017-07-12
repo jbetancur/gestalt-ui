@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import { cloneDeep } from 'lodash';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
@@ -66,7 +66,7 @@ class PolicyEventRuleEdit extends Component {
 
   render() {
     const { policyRule, policyRulePending } = this.props;
-    return policyRulePending ? <CircularActivity id="policyRule-load" /> : <PolicyEventRuleForm editMode title={policyRule.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updatePolicyRule(values)} {...this.props} />;
+    return policyRulePending ? <ActivityContainer id="policyRule-load" /> : <PolicyEventRuleForm editMode title={policyRule.name} submitLabel="Update" cancelLabel="Back" onSubmit={values => this.updatePolicyRule(values)} {...this.props} />;
   }
 }
 

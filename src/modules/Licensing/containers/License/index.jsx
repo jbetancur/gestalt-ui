@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import LicenseForm from '../../components/LicenseForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -42,7 +42,7 @@ class License extends Component {
 
   render() {
     const { pending } = this.props;
-    return pending ? <CircularActivity id="license-load" /> : <LicenseForm submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.update(values)} {...this.props} />;
+    return pending ? <ActivityContainer id="license-load" /> : <LicenseForm submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.update(values)} {...this.props} />;
   }
 }
 

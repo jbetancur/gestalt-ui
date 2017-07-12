@@ -86,7 +86,7 @@ class OrgNavMenu extends Component {
               />
             </div>}
         </div>
-        {allOrganizationsPending && <DotActivity dropdown size={1.2} id="orgs-nav-menu" centered />}
+        {allOrganizationsPending && <DotActivity primary size={1.2} id="orgs-nav-menu" centered />}
       </div>
     );
   }

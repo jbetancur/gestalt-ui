@@ -18,7 +18,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Avatar from 'react-md/lib/Avatars';
 import Divider from 'react-md/lib/Dividers';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Auth/components/LoginModal';
@@ -217,7 +217,7 @@ class App extends Component {
   }
 
   renderProgress() {
-    return <CircularActivity id="app-main-progess" />;
+    return <ActivityContainer id="app-main-progess" />;
   }
 
   renderAppLogo() {
@@ -238,40 +238,42 @@ class App extends Component {
 
   renderMain() {
     return (
-      <main>
-        {this.props.self.id ? // self must be present to render ui
-          <ThemeProvider theme={lightTheme}>
-            <NavigationDrawer
-              // drawerTitle={this.renderAppLogo()}
-              toolbarTitle={this.renderAppLogo()}
-              autoclose
-              navItems={this.renderNavItems()}
-              mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
-              tabletDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
-              desktopDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
-              toolbarActions={this.renderActionsMenu()}
-              onVisibilityToggle={visible => this.handleVisibleState(visible)}
-              includeDrawerHeader={false}
-            >
-              <LoginModal />
-              <ModalRoot />
-              <Switch>
-                <Route path={'/:fqon/hierarchy'} component={HierarchyRoot} />
-                <Route path={'/:fqon/providers'} component={ProviderRoot} />
-                <Route path={'/:fqon/users'} component={UserRoot} />
-                <Route path={'/:fqon/groups'} component={GroupRoot} />
-                <Route exact path={'/:fqon/license'} component={Licensing} />
-                <Route path={'/undefined/hierarchy/*'} component={NotFound} />
-                <Route component={NotFound} />
-              </Switch>
-            </NavigationDrawer>
-          </ThemeProvider> : <AppError {...this.props} />}
-      </main>
+      this.props.self.id ?
+        <main>
+          <NavigationDrawer
+            // drawerTitle={this.renderAppLogo()}
+            toolbarTitle={this.renderAppLogo()}
+            autoclose
+            navItems={this.renderNavItems()}
+            mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
+            tabletDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
+            desktopDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
+            toolbarActions={this.renderActionsMenu()}
+            onVisibilityToggle={visible => this.handleVisibleState(visible)}
+            includeDrawerHeader={false}
+          >
+            <LoginModal />
+            <ModalRoot />
+            <Switch>
+              <Route path={'/:fqon/hierarchy'} component={HierarchyRoot} />
+              <Route path={'/:fqon/providers'} component={ProviderRoot} />
+              <Route path={'/:fqon/users'} component={UserRoot} />
+              <Route path={'/:fqon/groups'} component={GroupRoot} />
+              <Route exact path={'/:fqon/license'} component={Licensing} />
+              <Route path={'/undefined/hierarchy/*'} component={NotFound} />
+              <Route component={NotFound} />
+            </Switch>
+          </NavigationDrawer>
+        </main> : <AppError {...this.props} />
     );
   }
 
   render() {
-    return this.props.selfPending ? this.renderProgress() : this.renderMain();
+    return (
+      <ThemeProvider theme={lightTheme}>
+        {this.props.selfPending ? this.renderProgress() : this.renderMain()}
+      </ThemeProvider>
+    );
   }
 }
 

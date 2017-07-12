@@ -2,19 +2,19 @@
 // Hack the react-md nav bar for stacked icons
 @media screen and (min-width: 768px) {
   #main-content {
-    margin-left: 90px;
+    margin-left: 80px;
   }
 
   .md-drawer--left {
     margin-top: 4em;
     transform: translate3d(0, 0, 0);
-    width: 90px;
+    width: 80px;
   }
 }
 
 @media screen and (max-width: 1024px) and (min-width: 320px) {
   .md-drawer--left {
-      width: 90px;
+      width: 80px;
   }
 }
 

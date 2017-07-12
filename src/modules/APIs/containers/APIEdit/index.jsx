@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'modules/MetaResource';
 import { context } from 'modules/ContextManagement';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
@@ -46,7 +46,7 @@ class APIEdit extends Component {
 
   render() {
     const { api, apiPending } = this.props;
-    return apiPending ? <CircularActivity id="api-loading" /> : <APIForm editMode title={api.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.updateAPI(values)} {...this.props} />;
+    return apiPending ? <ActivityContainer id="api-loading" /> : <APIForm editMode title={api.name} submitLabel="Update" cancelLabel="Done" onSubmit={values => this.updateAPI(values)} {...this.props} />;
   }
 }
 

@@ -8,7 +8,7 @@ import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -58,7 +58,7 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    return this.props.envPending ? <CircularActivity id="container-load" /> :
+    return this.props.envPending ? <ActivityContainer id="container-load" /> :
     <ContainerForm
       inlineMode={this.props.inlineMode}
       title="Deploy Container"

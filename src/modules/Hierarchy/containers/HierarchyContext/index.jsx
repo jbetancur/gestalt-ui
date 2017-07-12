@@ -6,7 +6,7 @@ import { orderBy } from 'lodash';
 import { context } from 'modules/ContextManagement';
 import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import ActivityContainer from 'components/ActivityContainer';
 import Sort from 'components/Sort';
 import HierarchyContextComponent from '../../components/HierarchyContext';
 import OrganizationCard from '../../components/OrganizationCard';
@@ -92,7 +92,7 @@ class HierarchyContext extends PureComponent {
     return (
       <div>
         <HierarchyContextComponent model={organizationSet} {...this.props} />
-        {orangizationSetPending ? <LinearProgress id="hierarchy-progress" /> : this.renderCardsContainer()}
+        {orangizationSetPending ? <ActivityContainer id="hierarchy-progress" /> : this.renderCardsContainer()}
       </div>
     );
   }

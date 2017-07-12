@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import { map, cloneDeep } from 'lodash';
 import base64 from 'base-64';
@@ -113,7 +113,7 @@ class LambdaEdit extends Component {
 
   render() {
     const { lambda, lambdaPending } = this.props;
-    return lambdaPending ? <CircularActivity id="lambda-load" /> :
+    return lambdaPending ? <ActivityContainer id="lambda-load" /> :
     <LambdaForm
       editMode
       title={lambda.name}

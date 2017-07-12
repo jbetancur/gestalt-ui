@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
@@ -80,7 +80,7 @@ class ContainerEdit extends Component {
 
   render() {
     const { container, containerPending } = this.props;
-    return containerPending ? <CircularActivity id="container-load" /> :
+    return containerPending ? <ActivityContainer id="container-load" /> :
     <ContainerForm
       editMode
       title={container.name}

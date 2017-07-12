@@ -11,6 +11,7 @@ const TColButtons = styled(EnhancedTCol)`
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   height: 3.8em;
+  vertical-align: middle !important;
 `;
 
 const EnhancedTableColumn = props => (props.containsButtons ? <TColButtons {...props} /> : <EnhancedTCol {...props} />);

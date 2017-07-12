@@ -6,7 +6,7 @@ import base64 from 'base-64';
 import { cloneDeep, map } from 'lodash';
 import { context } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import CircularActivity from 'components/CircularActivity';
+import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -60,7 +60,7 @@ class LambdaCreate extends Component {
   }
 
   render() {
-    return this.props.envPending ? <CircularActivity id="container-load" /> :
+    return this.props.envPending ? <ActivityContainer id="container-load" /> :
     <LambdaForm
       title="Create Lambda"
       submitLabel="Create"
