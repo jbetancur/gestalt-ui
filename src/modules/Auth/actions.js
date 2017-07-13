@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { isIP } from 'validator';
 import Cookies from 'universal-cookie';
 import ReactGA from 'react-ga';
 import {
@@ -15,8 +16,9 @@ const cookies = new Cookies();
 function configureCookie(cookieOptions) {
   const cookieConfig = Object.assign({ path: '/' }, cookieOptions);
 
-  // Allow all sub domains
-  if (window.location.hostname !== 'localhost') {
+  // Allow sub domains
+  const hostname = window.location.hostname;
+  if (hostname !== 'localhost' && !isIP(hostname)) {
     Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
   }
 
