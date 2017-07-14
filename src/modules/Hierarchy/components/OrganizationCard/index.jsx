@@ -26,7 +26,7 @@ class OrganizationCard extends PureComponent {
 
     const { history } = this.props;
 
-    history.push(`${organization.properties.fqon}/editOrganization`);
+    history.push(`/${organization.properties.fqon}/editOrganization`);
   }
 
   render() {
