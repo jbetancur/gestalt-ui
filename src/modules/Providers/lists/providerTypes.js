@@ -21,6 +21,17 @@ export default [
     allowContainer: false,
     externalProtocol: true,
   },
+  // {
+  //   name: 'Docker',
+  //   value: 'Gestalt::Configuration::Provider::CaaS::Docker',
+  //   type: 'DOCKER',
+  //   config: true,
+  //   networking: true,
+  //   extraConfig: false,
+  //   uploadConfig: false,
+  //   allowContainer: false,
+  //   externalProtocol: true,
+  // },
   {
     name: 'APIGateway (Kong)',
     value: 'Gestalt::Configuration::Provider::Kong',

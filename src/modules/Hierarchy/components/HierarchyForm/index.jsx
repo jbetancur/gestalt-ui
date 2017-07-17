@@ -71,7 +71,7 @@ const HierarchyForm = (props) => {
                 />}
               </div>
               <fieldset>
-                <legend>Variables</legend>
+                <legend>Environment Variables</legend>
                 <VariablesForm icon="add" envMap={props.envMap} />
               </fieldset>
             </CardText>

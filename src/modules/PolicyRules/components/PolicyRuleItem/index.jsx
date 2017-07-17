@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
@@ -12,78 +11,35 @@ import policyTypes from '../../lists/policyTypes';
 
 class PolicyRuleItem extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
-    policyRules: PropTypes.array.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    onDeleteToggle: PropTypes.func.isRequired,
+    model: PropTypes.array.isRequired,
     selectedPolicyRules: PropTypes.object.isRequired,
-    deletePolicyRules: PropTypes.func.isRequired,
     policyRulesPending: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    fetchPolicyRules: PropTypes.func.isRequired,
-    unloadPolicyRules: PropTypes.func.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-  }
 
-  componentDidMount() {
-    const { match, fetchPolicyRules } = this.props;
-    fetchPolicyRules(match.params.fqon, match.params.policyId);
-  }
-
-  componentWillUnmount() {
-    const { unloadPolicyRules, clearTableSelected, clearTableSort } = this.props;
-    unloadPolicyRules();
-    clearTableSelected();
-    clearTableSort();
+    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
   handleRowToggle(row, toggled, count) {
-    const { policyRules, handleTableSelected, selectedPolicyRules } = this.props;
+    const { model, handleTableSelected, selectedPolicyRules } = this.props;
 
-    handleTableSelected(row, toggled, count, policyRules, selectedPolicyRules.selectedItems);
-  }
-
-  delete() {
-    const { match, fetchPolicyRules, deletePolicyRules, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedPolicyRules;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
-
-    const onSuccess = () => {
-      clearTableSelected();
-      fetchPolicyRules(match.params.fqon, match.params.policyId);
-    };
-
-    this.props.confirmDelete(() => {
-      deletePolicyRules(IDs, match.params.fqon, match.params.policyId, onSuccess);
-    }, names);
-  }
-
-  edit(policyRule, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match, } = this.props;
-      const ruleType = policyRule.resource_type.split(/[::]+/).pop();
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`);
-    }
+    handleTableSelected(row, toggled, count, model, selectedPolicyRules.selectedItems);
   }
 
   renderCreateMenuItems() {
-    const { match } = this.props;
-
     return policyTypes.map(type => (
       <ListItem
         key={type.value}
         primaryText={type.displayName}
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit/rules/create${type.name}Rule`}
+        onClick={() => this.props.onCreateToggle(type)}
       />)
     );
   }
@@ -108,8 +64,8 @@ class PolicyRuleItem extends PureComponent {
     const { selectedCount } = this.props.selectedPolicyRules;
     const { handleTableSortIcon, sortTable } = this.props;
 
-    const policyRules = this.props.policyRules.map(policyRule => (
-      <TableRow key={policyRule.id} onClick={e => this.edit(policyRule, e)}>
+    const policyRules = this.props.model.map(policyRule => (
+      <TableRow key={policyRule.id} onClick={e => this.props.onEditToggle(policyRule, e)}>
         <TableColumn>{policyRule.name}</TableColumn>
         <TableColumn>{policyRule.description}</TableColumn>
         <TableColumn>{policyRule.resource_type.split('::')[policyRule.resource_type.split('::').length - 1]}</TableColumn>
@@ -124,13 +80,13 @@ class PolicyRuleItem extends PureComponent {
           title={<div className="gf-headline">Policy Rules</div>}
           visible={selectedCount > 0}
           contextualTitle={`${selectedCount} policy rule${selectedCount > 1 ? 's' : ''} selected`}
-          actions={[<DeleteIconButton onClick={() => this.delete()} />]}
+          actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
         >
           <div>{this.renderCreateButton()}</div>
         </TableCardHeader>
         {this.props.policyRulesPending && <LinearProgress id="policyRule-listing" />}
-        <DataTable baseId="policyRules" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-          {this.props.policyRules.length > 0 &&
+        <DataTable baseId="policyRules" onRowToggle={this.handleRowToggle}>
+          {this.props.model.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

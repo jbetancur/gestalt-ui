@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
  * Higher-order component (HOC) to handle keeping our navigation context updated
  * It requires that you have wrapper this component with org, workspace and environment redux state
  */
-export default function ContextWrapper(BaseComponent) {
+export default function WithContext(BaseComponent) {
   class Context extends PureComponent {
     static propTypes = {
       match: PropTypes.object.isRequired,

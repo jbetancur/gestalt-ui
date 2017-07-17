@@ -18,6 +18,7 @@ export const MESSAGING = '80d48917-7e05-47c6-a5b6-613a2d55b58a';
 export const RABBITMQ = '39cb96f1-0dc8-4ce6-9d88-863988fa1e16';
 export const POLICY = '9b6f7ec6-2e75-4b95-90dc-0e17935f8d4b';
 export const LOGGING = 'e1782fef-4b7c-4f75-b8b8-6e6e2ecd82b2';
+export const DOCKER = 'e1782fef-4b7c-4f75-b8b8-6e6e2ecd82b2';
 
 export default {
   KONG,
@@ -30,6 +31,7 @@ export default {
   'MESSAGING::RABBITMQ': RABBITMQ,
   POLICY,
   LOGGING,
+  DOCKER,
   LAMBDA,
   'LAMBDA::NODEJS': LAMBDA_NODEJS,
   'LAMBDA::SCALA': LAMBDA_SCALA,

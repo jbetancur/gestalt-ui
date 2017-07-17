@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import { containerActionCreators } from 'modules/Containers';
 import jsonPatch from 'fast-json-patch';
@@ -202,4 +202,4 @@ function mapStateToProps(state) {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, containerActionCreators))(reduxForm({
   form: 'providerCreate',
   validate
-})(context(ProviderEdit))));
+})(withContext(ProviderEdit))));

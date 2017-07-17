@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
@@ -11,66 +10,27 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 
 class UserItem extends PureComponent {
   static propTypes = {
-    fetchUsers: PropTypes.func.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    onDeleteToggle: PropTypes.func.isRequired,
     selectedUsers: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
-    users: PropTypes.array.isRequired,
+    model: PropTypes.array.isRequired,
     usersPending: PropTypes.bool.isRequired,
-    deleteUsers: PropTypes.func.isRequired,
-    unloadUsers: PropTypes.func.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-  }
 
-  componentDidMount() {
-    const { fetchUsers, match } = this.props;
-    fetchUsers(match.params.fqon);
-  }
-
-  componentWillUnmount() {
-    const { unloadUsers, clearTableSelected, clearTableSort } = this.props;
-    unloadUsers();
-    clearTableSelected();
-    clearTableSort();
+    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
   handleRowToggle(row, toggled, count) {
-    const { users, handleTableSelected, selectedUsers } = this.props;
+    const { model, handleTableSelected, selectedUsers } = this.props;
 
-    handleTableSelected(row, toggled, count, users, selectedUsers.selectedItems);
-  }
-
-  edit(user, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      this.props.history.push(`/${this.props.match.params.fqon}/users/${user.id}/edit`);
-    }
-  }
-
-  delete() {
-    const { match, fetchUsers, deleteUsers, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedUsers;
-    const userIds = selectedItems.map(item => (item.id));
-
-    const userNames = selectedItems.map(item => (item.name));
-
-    const onSuccess = () => {
-      clearTableSelected();
-      fetchUsers(match.params.fqon);
-    };
-
-    this.props.confirmDelete(() => {
-      deleteUsers(userIds, match.params.fqon, onSuccess);
-    }, userNames);
+    handleTableSelected(row, toggled, count, model, selectedUsers.selectedItems);
   }
 
   renderCreateButton() {
@@ -80,8 +40,7 @@ class UserItem extends PureComponent {
         label="Create User"
         flat
         primary
-        component={Link}
-        to={`/${this.props.match.params.fqon}/users/create`}
+        onClick={this.props.onCreateToggle}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -92,8 +51,8 @@ class UserItem extends PureComponent {
     const { selectedCount } = this.props.selectedUsers;
     const { handleTableSortIcon, sortTable } = this.props;
 
-    const users = this.props.users.map(user => (
-      <TableRow key={user.id} onClick={e => this.edit(user, e)}>
+    const users = this.props.model.map(user => (
+      <TableRow key={user.id} onClick={e => this.props.onEditToggle(user, e)}>
         <TableColumn>{user.name}</TableColumn>
         <TableColumn>{user.description}</TableColumn>
         <TableColumn>{user.properties.firstName}</TableColumn>
@@ -117,13 +76,13 @@ class UserItem extends PureComponent {
             }
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
+            actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
           {this.props.usersPending && <LinearProgress id="users-progress" />}
-          <DataTable baseId="Users" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {this.props.users.length > 0 &&
+          <DataTable baseId="Users" onRowToggle={this.handleRowToggle}>
+            {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

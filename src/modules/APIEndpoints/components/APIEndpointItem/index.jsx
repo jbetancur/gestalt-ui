@@ -1,5 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
@@ -12,82 +12,37 @@ import { parseChildClass } from 'util/helpers/strings';
 
 class apiEndpointItem extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
-    apiEndpoints: PropTypes.array.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    onDeleteToggle: PropTypes.func.isRequired,
+    model: PropTypes.array.isRequired,
     selectedEndpoints: PropTypes.object.isRequired,
-    deleteAPIEndpoints: PropTypes.func.isRequired,
-    apiEndpointsPending: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    fetchAPIEndpoints: PropTypes.func.isRequired,
-    unloadAPIEndpoints: PropTypes.func.isRequired,
+    pending: PropTypes.bool.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-  }
 
-  componentDidMount() {
-    const { match, fetchAPIEndpoints } = this.props;
-    fetchAPIEndpoints(match.params.fqon, match.params.apiId);
-  }
-
-  componentWillUnmount() {
-    const { unloadAPIEndpoints, clearTableSelected, clearTableSort } = this.props;
-    unloadAPIEndpoints();
-    clearTableSelected();
-    clearTableSort();
+    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
   handleRowToggle(row, toggled, count) {
-    const { apiEndpoints, handleTableSelected, selectedEndpoints } = this.props;
+    const { model, handleTableSelected, selectedEndpoints } = this.props;
 
-    handleTableSelected(row, toggled, count, apiEndpoints, selectedEndpoints.selectedItems);
-  }
-
-  delete() {
-    const { match, fetchAPIEndpoints, deleteAPIEndpoints, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedEndpoints;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.properties.resource));
-
-    const onSuccess = () => {
-      clearTableSelected();
-      fetchAPIEndpoints(match.params.fqon, match.params.apiId);
-    };
-
-    this.props.confirmDelete(() => {
-      deleteAPIEndpoints(IDs, match.params.fqon, match.params.apiId, onSuccess);
-    }, names);
-  }
-
-  edit(apiEndpoint, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match, } = this.props;
-      history.push({
-        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
-        search: `?implementationType=${apiEndpoint.properties.implementation_type}`
-      });
-    }
+    handleTableSelected(row, toggled, count, model, selectedEndpoints.selectedItems);
   }
 
   renderCreateButton() {
-    const { match } = this.props;
-
     return (
       <Button
         id="create-endpoint"
         label="Create Endpoint"
         flat
         primary
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/createEndpoint`}
+        onClick={this.props.onCreateToggle}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -98,8 +53,8 @@ class apiEndpointItem extends PureComponent {
     const { selectedCount } = this.props.selectedEndpoints;
     const { handleTableSortIcon, sortTable } = this.props;
 
-    const apiEndpoints = this.props.apiEndpoints.map(apiEndpoint => (
-      <TableRow key={apiEndpoint.id} onClick={e => this.edit(apiEndpoint, e)}>
+    const endpoints = this.props.model.map(apiEndpoint => (
+      <TableRow key={apiEndpoint.id} onClick={e => this.props.onEditToggle(apiEndpoint, e)}>
         <TableColumn style={{ color: parseChildClass(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
           {parseChildClass(apiEndpoint.resource_state)}
         </TableColumn>
@@ -127,13 +82,13 @@ class apiEndpointItem extends PureComponent {
           title={<div className="gf-headline">Endpoints</div>}
           visible={selectedCount > 0}
           contextualTitle={`${selectedCount} endpoint${selectedCount > 1 ? 's' : ''} selected`}
-          actions={[<DeleteIconButton onClick={() => this.delete()} />]}
+          actions={[<DeleteIconButton onClick={() => this.props.onDeleteToggle()} />]}
         >
           <div>{this.renderCreateButton()}</div>
         </TableCardHeader>
-        {this.props.apiEndpointsPending && <LinearProgress id="apiEndpoint-listing" />}
-        <DataTable baseId="apiEndpoints" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-          {this.props.apiEndpoints.length > 0 &&
+        {this.props.pending && <LinearProgress id="apiEndpoint-listing" />}
+        <DataTable baseId="apiEndpoints" onRowToggle={this.handleRowToggle}>
+          {this.props.model.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>
@@ -147,7 +102,7 @@ class apiEndpointItem extends PureComponent {
             </TableRow>
           </TableHeader>}
           <TableBody>
-            {apiEndpoints}
+            {endpoints}
           </TableBody>
         </DataTable>
       </Card>

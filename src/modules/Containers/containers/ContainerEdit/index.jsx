@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import { map } from 'lodash';
@@ -141,4 +141,4 @@ export default withMetaResource(connect(mapStateToProps,
 Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
-})(context(ContainerEdit))));
+})(withContext(ContainerEdit))));

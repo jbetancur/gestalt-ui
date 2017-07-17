@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import EnvironmentContext from '../../components/EnvironmentContext';
 import actions from '../../actions';
 
@@ -11,4 +11,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(context(EnvironmentContext)));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(withContext(EnvironmentContext)));

@@ -293,7 +293,7 @@ const LambdaForm = (props) => {
               <div className="flex-row no-gutter">
                 <div className="flex">
                   <fieldset>
-                    <legend>Variables</legend>
+                    <legend>Environment Variables</legend>
                     <VariablesForm icon="add" {...props} />
                   </fieldset>
                 </div>
