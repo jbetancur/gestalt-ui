@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
@@ -10,6 +9,7 @@ import { Button } from 'components/Buttons';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import ContainerActions from '../ContainerActions';
+import ContainerIcon from '../ContainerIcon';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
@@ -21,14 +21,11 @@ const TableWrapper = styled.div`
 
 class ContainerItem extends PureComponent {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    containers: PropTypes.array.isRequired,
-    containersPending: PropTypes.bool.isRequired,
-    match: PropTypes.object.isRequired,
-    fetchContainers: PropTypes.func.isRequired,
-    unloadContainers: PropTypes.func.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    model: PropTypes.array.isRequired,
+    pending: PropTypes.bool.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
@@ -36,56 +33,14 @@ class ContainerItem extends PureComponent {
     super(props);
   }
 
-  componentDidMount() {
-    this.init();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.containers !== nextProps.containers) {
-      clearTimeout(this.timeout);
-
-      if (!nextProps.containersPending) {
-        this.startPoll();
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.unloadContainers();
-    this.props.clearTableSort();
-    clearTimeout(this.timeout);
-  }
-
-  startPoll() {
-    this.timeout = setTimeout(() => this.init(true), 5000);
-  }
-
-  init(isPolling) {
-    const { match, fetchContainers } = this.props;
-    fetchContainers(match.params.fqon, match.params.environmentId, isPolling);
-  }
-
-  edit(container, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match } = this.props;
-      history.push({
-        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/${container.id}/edit`
-      });
-    }
-  }
-
   renderCreateButton() {
-    const { match } = this.props;
-
     return (
       <Button
         id="create-container"
         label="Deploy Container"
         flat
         primary
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`}
+        onClick={this.props.onCreateToggle}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -105,8 +60,8 @@ class ContainerItem extends PureComponent {
   render() {
     const { handleTableSortIcon, sortTable } = this.props;
 
-    const containers = this.props.containers.map(container => (
-      <TableRow key={container.id} onClick={e => this.edit(container, e)}>
+    const containers = this.props.model.map(container => (
+      <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
         <TableColumn containsButtons>
           <ContainerActions
             containerModel={container}
@@ -116,6 +71,7 @@ class ContainerItem extends PureComponent {
         <TableColumn>{container.name}</TableColumn>
         <TableColumn>{container.properties.status}</TableColumn>
         <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
+        <TableColumn containsButtons><ContainerIcon resourceType={container.properties.provider.resource_type} /></TableColumn>
         <TableColumn>{container.properties.provider.name}</TableColumn>
         <TableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
         <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
@@ -134,16 +90,17 @@ class ContainerItem extends PureComponent {
               {this.renderCreateButton()}
             </div>
           </TableCardHeader>
-          {this.props.containersPending && <LinearProgress id="containers-listing" />}
-          {this.props.containers.length > 0 &&
+          {this.props.pending && <LinearProgress id="containers-listing" />}
+          {this.props.model.length > 0 &&
           <TableWrapper>
             <DataTable baseId="containers" plain>
               <TableHeader>
                 <TableRow>
                   <TableColumn />
                   <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Status</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Health</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Platform</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('properties.provider.name')} onClick={() => sortTable('properties.provider.name')}>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>
                   <TableColumn>CPU / Memory</TableColumn>

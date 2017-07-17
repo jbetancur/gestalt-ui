@@ -115,6 +115,7 @@ const ContainerForm = (props) => {
                     type="text"
                     required
                     maxLength={nameMaxLen}
+                    disabled={container.id}
                   />
                   <Field
                     className="flex-7 flex-xs-12"
@@ -271,7 +272,7 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanelNoPadding>
 
-              <ExpansionPanel label={<h3>Variables</h3>} saveLabel="Collapse" defaultExpanded={values.variables && values.variables.length > 0}>
+              <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.variables && values.variables.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
                     <VariablesForm icon="add" {...props} />

@@ -11,81 +11,38 @@ import A from 'components/A';
 
 class LambdaItem extends PureComponent {
   static propTypes = {
-    lambdas: PropTypes.array.isRequired,
-    history: PropTypes.object.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    onDeleteToggle: PropTypes.func.isRequired,
+    model: PropTypes.array.isRequired,
     selectedLambdas: PropTypes.object.isRequired,
-    lambdasPending: PropTypes.bool.isRequired,
+    pending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
-    deleteLambdas: PropTypes.func.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    fetchLambdas: PropTypes.func.isRequired,
-    unloadLambdas: PropTypes.func.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-  }
 
-  componentDidMount() {
-    const { match, fetchLambdas } = this.props;
-
-    fetchLambdas(match.params.fqon, match.params.environmentId);
-  }
-
-  componentWillUnmount() {
-    const { unloadLambdas, clearTableSelected, clearTableSort } = this.props;
-    unloadLambdas();
-    clearTableSelected();
-    clearTableSort();
+    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
   handleRowToggle(row, toggled, count) {
-    const { lambdas, handleTableSelected, selectedLambdas } = this.props;
+    const { model, handleTableSelected, selectedLambdas } = this.props;
 
-    handleTableSelected(row, toggled, count, lambdas, selectedLambdas.selectedItems);
-  }
-
-  delete() {
-    const { match, deleteLambdas, clearTableSelected, fetchLambdas } = this.props;
-    const { selectedItems } = this.props.selectedLambdas;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
-
-    const onSuccess = () => {
-      clearTableSelected();
-      fetchLambdas(match.params.fqon, match.params.environmentId);
-    };
-
-    this.props.confirmDelete(() => {
-      deleteLambdas(IDs, match.params.fqon, onSuccess);
-    }, names);
-  }
-
-  edit(lambda, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match } = this.props;
-
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/lambdas/${lambda.id}/edit`);
-    }
+    handleTableSelected(row, toggled, count, model, selectedLambdas.selectedItems);
   }
 
   renderCreateButton() {
-    const { match } = this.props;
-
     return (
       <Button
         id="create-lambda"
         label="Create Lambda"
         flat
         primary
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/lambdas/create`}
+        onClick={this.props.onCreateToggle}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -106,8 +63,8 @@ class LambdaItem extends PureComponent {
     const { selectedCount } = this.props.selectedLambdas;
     const { handleTableSortIcon, sortTable, match } = this.props;
 
-    const lambdas = this.props.lambdas.map(lambda => (
-      <TableRow key={lambda.id} onClick={e => this.edit(lambda, e)}>
+    const lambdas = this.props.model.map(lambda => (
+      <TableRow key={lambda.id} onClick={e => this.props.onEditToggle(lambda, e)}>
         <TableColumn containsButtons>
           <Button
             icon
@@ -139,13 +96,13 @@ class LambdaItem extends PureComponent {
             title={<div className="gf-headline">Lambdas</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} lambda${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
+            actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.lambdasPending && <LinearProgress id="lambda-listing" />}
-          <DataTable baseId="Lambdas" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {this.props.lambdas.length > 0 &&
+          {this.props.pending && <LinearProgress id="lambda-listing" />}
+          <DataTable baseId="Lambdas" onRowToggle={this.handleRowToggle}>
+            {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn />

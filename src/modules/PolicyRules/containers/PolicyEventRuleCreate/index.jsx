@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
@@ -65,4 +65,4 @@ function mapStateToProps(state) {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyEventRuleCreate',
   validate
-})(context(PolicyEventRuleCreate))));
+})(withContext(PolicyEventRuleCreate))));

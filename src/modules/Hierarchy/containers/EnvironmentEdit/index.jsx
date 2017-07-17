@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
 import _map from 'lodash/map';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
@@ -106,4 +106,4 @@ function mapStateToProps(state) {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'environmentEdit',
   validate
-})(context(EnvironmentEdit))));
+})(withContext(EnvironmentEdit))));

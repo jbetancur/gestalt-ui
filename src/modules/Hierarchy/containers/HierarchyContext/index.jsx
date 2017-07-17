@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
@@ -103,4 +103,4 @@ function mapStateToProps() {
   return {};
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(context(HierarchyContext))));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(withContext(HierarchyContext))));

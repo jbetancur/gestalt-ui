@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -10,79 +9,37 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 
 class APIItem extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
-    apis: PropTypes.array.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    onDeleteToggle: PropTypes.func.isRequired,
+    model: PropTypes.array.isRequired,
     selectedAPIs: PropTypes.object.isRequired,
-    deleteAPIs: PropTypes.func.isRequired,
-    apisPending: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    fetchAPIs: PropTypes.func.isRequired,
-    unloadAPIs: PropTypes.func.isRequired,
+    pending: PropTypes.bool.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-  }
 
-  componentDidMount() {
-    const { match, fetchAPIs } = this.props;
-    fetchAPIs(match.params.fqon, match.params.environmentId);
-  }
-
-  componentWillUnmount() {
-    const { unloadAPIs, clearTableSelected, clearTableSort } = this.props;
-    unloadAPIs();
-    clearTableSelected();
-    clearTableSort();
+    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
   handleRowToggle(row, toggled, count) {
-    const { apis, handleTableSelected, selectedAPIs } = this.props;
+    const { model, handleTableSelected, selectedAPIs } = this.props;
 
-    handleTableSelected(row, toggled, count, apis, selectedAPIs.selectedItems);
-  }
-
-  delete() {
-    const { match, fetchAPIs, deleteAPIs, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedAPIs;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
-
-    const onSuccess = () => {
-      clearTableSelected();
-      fetchAPIs(match.params.fqon, match.params.environmentId);
-    };
-
-    this.props.confirmDelete(() => {
-      deleteAPIs(IDs, match.params.fqon, onSuccess);
-    }, names);
-  }
-
-  edit(api, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match } = this.props;
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${api.id}/edit`);
-    }
+    handleTableSelected(row, toggled, count, model, selectedAPIs.selectedItems);
   }
 
   renderCreateButton() {
-    const { match } = this.props;
-
     return (
       <Button
         id="create-api"
         label="Create API"
         flat
         primary
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/create`}
+        onClick={this.props.onCreateToggle}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -93,8 +50,8 @@ class APIItem extends PureComponent {
     const { selectedCount } = this.props.selectedAPIs;
     const { handleTableSortIcon, sortTable } = this.props;
 
-    const apis = this.props.apis.map(api => (
-      <TableRow key={api.id} onClick={e => this.edit(api, e)}>
+    const apis = this.props.model.map(api => (
+      <TableRow key={api.id} onClick={e => this.props.onEditToggle(api, e)}>
         <TableColumn>{api.name}</TableColumn>
         <TableColumn>{api.description}</TableColumn>
         <TableColumn>{api.owner.name}</TableColumn>
@@ -109,13 +66,13 @@ class APIItem extends PureComponent {
             title={<div className="gf-headline">API</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} API${selectedCount > 1 ? 's' : ''} selected`}
-            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
+            actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.apisPending ? <LinearProgress id="api-listing" /> : null}
-          <DataTable baseId="apis" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {!this.props.apis.length ? null :
+          {this.props.pending && <LinearProgress id="api-listing" />}
+          <DataTable baseId="apis" onRowToggle={this.handleRowToggle}>
+            {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

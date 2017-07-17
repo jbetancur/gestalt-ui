@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
@@ -60,4 +60,4 @@ function mapStateToProps() {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'APICreate',
   validate
-})(context(APICreate))));
+})(withContext(APICreate))));

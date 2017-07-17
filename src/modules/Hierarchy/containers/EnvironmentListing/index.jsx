@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { connect } from 'react-redux';
+import { withTheme } from 'styled-components';
 import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import { translate } from 'react-i18next';
@@ -14,7 +15,9 @@ class EnvironmentListing extends PureComponent {
   static propTypes = {
     environments: PropTypes.array.isRequired,
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
+    setCurrentEnvironmentContext: PropTypes.func.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
@@ -24,6 +27,9 @@ class EnvironmentListing extends PureComponent {
     super(props);
 
     this.state = { sortKey: 'created.timestamp', order: 'asc' };
+
+    this.navEnvironmentDetails = this.navEnvironmentDetails.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +52,20 @@ class EnvironmentListing extends PureComponent {
     this.props.fetchEnvironments(fqon, workspaceId);
   }
 
+  navEnvironmentDetails(item) {
+    const { match, history, setCurrentEnvironmentContext } = this.props;
+
+    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${item.id}`);
+    setCurrentEnvironmentContext(item);
+  }
+
+  edit(e, environment) {
+    const { match, history } = this.props;
+
+    e.stopPropagation();
+    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/edit`);
+  }
+
   renderCardsContainer() {
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
@@ -58,7 +78,15 @@ class EnvironmentListing extends PureComponent {
           setKey={value => this.setState({ sortKey: value })}
           setOrder={value => this.setState({ order: value })}
         />
-        {sortedEnvironments.map(item => <EnvironmentCard key={item.id} model={item} {...this.props} />)}
+        {sortedEnvironments.map(item => (
+          <EnvironmentCard
+            key={item.id}
+            model={item}
+            onEditToggle={this.edit}
+            onNavigationToggle={this.navEnvironmentDetails}
+            {...this.props}
+          />)
+        )}
       </div>
     );
   }
@@ -72,8 +100,6 @@ class EnvironmentListing extends PureComponent {
   }
 }
 
-function mapStateToProps() {
-  return {};
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(EnvironmentListing)));
+export default withMetaResource(
+  connect(null, Object.assign({}, actions, appActions))(translate()(withTheme(EnvironmentListing)))
+);

@@ -1,40 +1,28 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative } from 'react-intl';
-import { withTheme } from 'styled-components';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { Button } from 'components/Buttons';
 
 class EnvironmentCard extends PureComponent {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    onNavigationToggle: PropTypes.func.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     theme: PropTypes.object.isRequired,
-    setCurrentEnvironmentContext: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
   };
-
-  navEnvironmentDetails(item) {
-    const { match, history, setCurrentEnvironmentContext } = this.props;
-
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${item.id}`);
-    setCurrentEnvironmentContext(item);
-  }
-
-  edit(e, environment) {
-    e.stopPropagation();
-
-    const { match, history } = this.props;
-
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/edit`);
-  }
 
   render() {
     const { model, t, theme } = this.props;
 
     return (
-      <Card className="flex-3 flex-xs-12" onClick={e => this.navEnvironmentDetails(model, e)} raise typeColor={theme.environmentCard}>
+      <Card
+        className="flex-3 flex-xs-12"
+        onClick={e => this.props.onNavigationToggle(model, e)}
+        raise
+        typeColor={theme.environmentCard}
+      >
         <CardTitle
           title={model.description || model.name}
           subtitle={
@@ -50,7 +38,7 @@ class EnvironmentCard extends PureComponent {
           <Button
             tooltipLabel={t('general.verbs.edit')}
             icon
-            onClick={e => this.edit(e, model)}
+            onClick={e => this.props.onEditToggle(e, model)}
           >
             edit
           </Button>
@@ -60,4 +48,4 @@ class EnvironmentCard extends PureComponent {
   }
 }
 
-export default withTheme(EnvironmentCard);
+export default EnvironmentCard;

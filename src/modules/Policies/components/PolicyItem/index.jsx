@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
@@ -10,79 +9,37 @@ import { Button, DeleteIconButton } from 'components/Buttons';
 
 class PolicyItem extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
-    policies: PropTypes.array.isRequired,
+    onEditToggle: PropTypes.func.isRequired,
+    onCreateToggle: PropTypes.func.isRequired,
+    onDeleteToggle: PropTypes.func.isRequired,
+    model: PropTypes.array.isRequired,
     selectedPolicies: PropTypes.object.isRequired,
-    deletePolicies: PropTypes.func.isRequired,
     policiesPending: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    fetchPolicies: PropTypes.func.isRequired,
-    unloadPolicies: PropTypes.func.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-  }
 
-  componentDidMount() {
-    const { match, fetchPolicies } = this.props;
-    fetchPolicies(match.params.fqon, match.params.environmentId);
-  }
-
-  componentWillUnmount() {
-    const { unloadPolicies, clearTableSelected, clearTableSort } = this.props;
-    unloadPolicies();
-    clearTableSelected();
-    clearTableSort();
+    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
   handleRowToggle(row, toggled, count) {
-    const { policies, handleTableSelected, selectedPolicies } = this.props;
+    const { model, handleTableSelected, selectedPolicies } = this.props;
 
-    handleTableSelected(row, toggled, count, policies, selectedPolicies.selectedItems);
-  }
-
-  delete() {
-    const { match, fetchPolicies, deletePolicies, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedPolicies;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
-
-    const onSuccess = () => {
-      clearTableSelected();
-      fetchPolicies(match.params.fqon, match.params.environmentId);
-    };
-
-    this.props.confirmDelete(() => {
-      deletePolicies(IDs, match.params.fqon, onSuccess);
-    }, names);
-  }
-
-  edit(policy, e) {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match } = this.props;
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${policy.id}/edit`);
-    }
+    handleTableSelected(row, toggled, count, model, selectedPolicies.selectedItems);
   }
 
   renderCreateButton() {
-    const { match } = this.props;
-
     return (
       <Button
         id="create-policy"
         label="Create Policy"
         flat
         primary
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/create`}
+        onClick={this.props.onCreateToggle}
       >
         <FontIcon>add</FontIcon>
       </Button>
@@ -93,8 +50,8 @@ class PolicyItem extends PureComponent {
     const { selectedCount } = this.props.selectedPolicies;
     const { handleTableSortIcon, sortTable } = this.props;
 
-    const policies = this.props.policies.map(policy => (
-      <TableRow key={policy.id} onClick={e => this.edit(policy, e)}>
+    const policies = this.props.model.map(policy => (
+      <TableRow key={policy.id} onClick={e => this.props.onEditToggle(policy, e)}>
         <TableColumn>{policy.name}</TableColumn>
         <TableColumn>{policy.description}</TableColumn>
         <TableColumn>{policy.owner.name}</TableColumn>
@@ -109,13 +66,13 @@ class PolicyItem extends PureComponent {
             title={<div className="gf-headline">Policies</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} polic${selectedCount > 1 ? 'ies' : 'y'} selected`}
-            actions={[<DeleteIconButton onClick={() => this.delete()} />]}
+            actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
           {this.props.policiesPending && <LinearProgress id="policy-listing" />}
-          <DataTable baseId="policies" onRowToggle={(r, t, c) => this.handleRowToggle(r, t, c)}>
-            {this.props.policies.length > 0 &&
+          <DataTable baseId="policies" onRowToggle={this.handleRowToggle}>
+            {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import base64 from 'base-64';
 import { cloneDeep, map } from 'lodash';
-import { context } from 'modules/ContextManagement';
+import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../../components/LambdaForm';
@@ -108,5 +108,5 @@ function mapStateToProps(state) {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'lambdaCreate',
   validate
-})(context(LambdaCreate))));
+})(withContext(LambdaCreate))));
 
