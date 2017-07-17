@@ -9,6 +9,7 @@ export default [
     uploadConfig: false,
     allowContainer: false,
     externalProtocol: true,
+    allowEnvVariables: true,
   },
   {
     name: 'Kubernetes',
@@ -20,6 +21,7 @@ export default [
     uploadConfig: true,
     allowContainer: false,
     externalProtocol: true,
+    allowEnvVariables: true,
   },
   // {
   //   name: 'Docker',
@@ -31,6 +33,7 @@ export default [
   //   uploadConfig: false,
   //   allowContainer: false,
   //   externalProtocol: true,
+  //   allowEnvVariables: true,
   // },
   {
     name: 'APIGateway (Kong)',
@@ -42,6 +45,7 @@ export default [
     uploadConfig: false,
     allowContainer: true,
     externalProtocol: true,
+    allowEnvVariables: true,
   },
   {
     name: 'GatewayManager',
@@ -53,6 +57,7 @@ export default [
     uploadConfig: false,
     allowContainer: true,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Security',
@@ -64,6 +69,7 @@ export default [
     uploadConfig: false,
     allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'PostgreSQL',
@@ -75,17 +81,8 @@ export default [
     uploadConfig: false,
     allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
-  // {
-  //   name: 'Messaging',
-  //   value: 'Gestalt::Configuration::Provider::Messaging',
-  //   type: 'MESSAGING',
-  //   config: false,
-  //   networking: false,
-  //   extraConfig: false,
-  //   uploadConfig: false,
-  //   allowContainer: true,
-  // },
   {
     name: 'RabbitMQ',
     value: 'Gestalt::Configuration::Provider::Messaging::RabbitMQ',
@@ -96,6 +93,7 @@ export default [
     uploadConfig: false,
     allowContainer: true,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Policy',
@@ -107,6 +105,7 @@ export default [
     uploadConfig: false,
     allowContainer: true,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Logging',
@@ -118,6 +117,7 @@ export default [
     uploadConfig: false,
     allowContainer: true,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda',
@@ -129,6 +129,7 @@ export default [
     uploadConfig: false,
     allowContainer: true,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor NodeJS',
@@ -138,8 +139,9 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor Scala',
@@ -149,8 +151,9 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor Java',
@@ -160,8 +163,9 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor Ruby',
@@ -171,8 +175,9 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor Python',
@@ -182,8 +187,9 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor C#',
@@ -193,8 +199,9 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
   {
     name: 'Lambda Executor Go',
@@ -204,7 +211,8 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
+    allowEnvVariables: true,
   },
 ];
