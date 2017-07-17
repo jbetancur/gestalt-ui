@@ -56,7 +56,7 @@ const ProviderForm = (props) => {
     const providerType = providerTypes.find(type => type.value === value);
 
     // no need to fetch the env schema if a container is not being required
-    if (providerType && providerType.allowContainer) {
+    if (providerType && providerType.allowEnvVariables) {
       fetchEnvSchema(providerType.type);
     }
 
@@ -135,7 +135,7 @@ const ProviderForm = (props) => {
   );
 
   const renderVariablesSection = () => (
-    props.envSchemaPending || (selectedProviderType.type && selectedProviderType.allowContainer &&
+    props.envSchemaPending || (selectedProviderType.type && selectedProviderType.allowEnvVariables &&
     <div className="flex-row">
       <div className="flex-6 flex-xs-12 flex-sm-12">
         <VariablesForm icon="public" addButtonLabel="Add Public Variable" fieldName="publicVariables" />
