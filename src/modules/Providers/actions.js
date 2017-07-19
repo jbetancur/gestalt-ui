@@ -26,7 +26,19 @@ export function confirmUpdate(action, item) {
   };
 }
 
+export function showProviderInstanceModal() {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'ProviderInstanceModal',
+    modalProps: {
+      title: 'Create Provider Instance',
+    }
+  };
+}
+
+
 export default {
   confirmDelete,
   confirmUpdate,
+  showProviderInstanceModal,
 };

@@ -21,6 +21,7 @@ class ProviderListing extends PureComponent {
     clearTableSelected: PropTypes.func.isRequired,
     clearTableSort: PropTypes.func.isRequired,
     providersPending: PropTypes.bool.isRequired,
+    showProviderInstanceModal: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -119,6 +120,7 @@ class ProviderListing extends PureComponent {
         onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
+        onToggleInstanceModal={() => this.props.showProviderInstanceModal()}
         {...this.props}
       />
     );

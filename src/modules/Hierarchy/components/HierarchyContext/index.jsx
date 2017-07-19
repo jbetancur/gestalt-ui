@@ -59,7 +59,7 @@ class HierarchyContext extends PureComponent {
               </div>
               <div className="flex-6 flex-xs-12">
                 <fieldset>
-                  <legend>Variables</legend>
+                  <legend>Environment Variables</legend>
                   <VariablesListing envMap={model.properties.env} />
                 </fieldset>
               </div>
