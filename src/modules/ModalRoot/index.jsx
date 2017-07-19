@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 
 // These are regular React components we will write soon
 import { EntitlementModal } from 'modules/Entitlements';
+import { ProviderInstanceModal } from 'modules/ProviderInstance';
 
 import CONFIRM from './Modals/Confirm';
 
 const MODAL_COMPONENTS = {
   CONFIRM,
   EntitlementModal,
+  ProviderInstanceModal,
   /* other modals */
 };
 

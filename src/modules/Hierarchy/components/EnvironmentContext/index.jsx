@@ -159,7 +159,7 @@ class EnvironmentContext extends Component {
               </div>
               <div className="flex-6 flex-xs-12">
                 <fieldset>
-                  <legend>Variables</legend>
+                  <legend>Environment Variables</legend>
                   <VariablesListing envMap={environment.properties.env} />
                 </fieldset>
               </div>
