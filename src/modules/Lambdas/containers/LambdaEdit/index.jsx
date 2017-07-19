@@ -50,7 +50,7 @@ class LambdaEdit extends Component {
         public: properties.public,
         runtime: properties.runtime,
         provider: properties.provider,
-        periodic_info: properties.periodic_info
+        periodic_info: properties.periodic_info,
       }
     });
 
@@ -60,6 +60,13 @@ class LambdaEdit extends Component {
 
     if (formValues.properties.periodic_info && !formValues.properties.periodic_info.schedule) {
       delete model.properties.periodic_info;
+    }
+
+    if (formValues.properties.periodic_info &&
+      formValues.properties.periodic_info.schedule &&
+      formValues.properties.periodic_info.payload &&
+      formValues.properties.periodic_info.payload.data) {
+      model.properties.periodic_info.payload.data = base64.encode(model.properties.periodic_info.payload.data);
     }
 
     // variables is used for tracking our FieldArray
@@ -135,7 +142,7 @@ function mapStateToProps(state) {
     properties: {
       env: lambda.properties.env,
       headers: lambda.properties.headers,
-      code: lambda.properties.code ? base64.decode(lambda.properties.code) : null,
+      code: lambda.properties.code && base64.decode(lambda.properties.code),
       code_type: lambda.properties.code_type,
       compressed: lambda.properties.compressed,
       cpus: lambda.properties.cpus,
@@ -146,7 +153,15 @@ function mapStateToProps(state) {
       public: lambda.properties.public,
       runtime: lambda.properties.runtime,
       provider: lambda.properties.provider,
-      periodic_info: lambda.properties.periodic_info,
+      // TODO: Refactor this into some model
+      periodic_info: {
+        payload: {
+          data: lambda.properties.periodic_info && lambda.properties.periodic_info.payload && lambda.properties.periodic_info.payload.data && base64.decode(lambda.properties.periodic_info.payload.data),
+          eventName: lambda.properties.periodic_info && lambda.properties.periodic_info.payload && lambda.properties.periodic_info.payload.eventName,
+        },
+        schedule: lambda.properties.periodic_info && lambda.properties.periodic_info.schedule,
+        timezone: lambda.properties.periodic_info && lambda.properties.periodic_info.timezone,
+      },
     },
     variables,
   };
