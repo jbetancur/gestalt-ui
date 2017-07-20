@@ -18,6 +18,7 @@ class LambdaCreate extends Component {
     createLambda: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -72,7 +73,7 @@ class LambdaCreate extends Component {
     <LambdaForm
       title="Create Lambda"
       submitLabel="Create"
-      cancelLabel="Back"
+      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
       onSubmit={values => this.create(values)}
       {...this.props}
     />;

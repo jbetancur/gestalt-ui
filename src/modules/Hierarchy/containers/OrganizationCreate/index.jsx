@@ -16,6 +16,7 @@ class OrgCreate extends Component {
     createOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     organizationPending: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   createOrg(values) {
@@ -43,7 +44,7 @@ class OrgCreate extends Component {
       <HierarchyForm
         title={t('organizations.actions.create')}
         submitLabel={t('general.verbs.create')}
-        cancelLabel={t('general.verbs.cancel')}
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.createOrg(values)}
         pending={this.props.organizationPending}
         {...this.props}

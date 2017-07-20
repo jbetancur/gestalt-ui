@@ -19,6 +19,7 @@ class GroupEdit extends Component {
     fetchAllOrgsDropDown: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     userPending: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -60,7 +61,7 @@ class GroupEdit extends Component {
     <UserForm
       title={user.name}
       submitLabel="Update"
-      cancelLabel="Back"
+      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
       onSubmit={values => this.update(values)}
       {...this.props}
     />;

@@ -19,6 +19,7 @@ class ProviderCreate extends PureComponent {
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -155,7 +156,7 @@ class ProviderCreate extends PureComponent {
   }
 
   render() {
-    return <ProviderForm title="Create Provider" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return <ProviderForm title="Create Provider" submitLabel="Create" cancelLabel={this.props.pristine ? 'Back' : 'Cancel'} onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 
@@ -184,7 +185,7 @@ function mapStateToProps(state) {
     provider: model,
     initialValues: model,
     enableReinitialize: true,
-    keepDirtyOnReinitialize: true, // keps dirty values in forms when the provider type is changed
+    keepDirtyOnReinitialize: true, // keeps dirty values in forms when the provider type is changed
     containerValues: getFormValues('containerCreate')(state),
     volumes: state.volumeModal.volumes.volumes,
     portMappings: state.portmapModal.portMappings.portMappings,

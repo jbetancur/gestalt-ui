@@ -22,9 +22,9 @@ class APIEndpointEdit extends Component {
     fetchContainersDropDown: PropTypes.func.isRequired,
     fetchLambdasDropDown: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
-
     apiEndpointPending: PropTypes.bool.isRequired,
     unloadToggleStates: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -89,7 +89,7 @@ class APIEndpointEdit extends Component {
         editMode
         title={apiEndpoint.properties.resource}
         submitLabel="Update"
-        cancelLabel="Back"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.updateAPIEndpoint(values)}
         {...this.props}
       />;

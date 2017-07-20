@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { responsiveStoreEnhancer } from 'redux-responsive';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
 import { DEBUG } from './constants';
@@ -43,9 +43,14 @@ export default function configureStore(history) {
 
   const store = createStore(
     composeResetReducer(rootReducer),
-    composeWithDevTools(
+    // causes issues with redux-form - enable for troubleshooting purposes only
+    // composeWithDevTools(
+    //   responsiveStoreEnhancer,
+    //   applyMiddleware(...middlewares),
+    // ),
+    compose(
       responsiveStoreEnhancer,
-      applyMiddleware(...middlewares)
+      applyMiddleware(...middlewares),
     ),
   );
 

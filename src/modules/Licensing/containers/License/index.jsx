@@ -15,6 +15,7 @@ class License extends Component {
     pending: PropTypes.bool.isRequired,
     onUnloadLicense: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -42,7 +43,14 @@ class License extends Component {
 
   render() {
     const { pending } = this.props;
-    return pending ? <ActivityContainer id="license-load" /> : <LicenseForm submitLabel="Update" cancelLabel="Cancel" onSubmit={values => this.update(values)} {...this.props} />;
+    return pending ?
+      <ActivityContainer id="license-load" /> :
+      <LicenseForm
+        submitLabel="Update"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.update(values)}
+        {...this.props}
+      />;
   }
 }
 

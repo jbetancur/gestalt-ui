@@ -24,6 +24,7 @@ class ProviderEdit extends PureComponent {
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -158,7 +159,7 @@ class ProviderEdit extends PureComponent {
       editMode
       title={provider.name}
       submitLabel="Update"
-      cancelLabel="Back"
+      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
       onSubmit={values => this.update(values)}
       {...this.props}
     />;

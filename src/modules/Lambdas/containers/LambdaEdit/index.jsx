@@ -22,6 +22,7 @@ class LambdaEdit extends Component {
     fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -125,7 +126,7 @@ class LambdaEdit extends Component {
       editMode
       title={lambda.name}
       submitLabel="Update"
-      cancelLabel="Back"
+      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
       onSubmit={values => this.updateLambda(values)}
       {...this.props}
     />;

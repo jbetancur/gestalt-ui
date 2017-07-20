@@ -13,7 +13,8 @@ class GroupCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createGroup: PropTypes.func.isRequired,
-    fetchUsers: PropTypes.func.isRequired
+    fetchUsers: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -39,7 +40,7 @@ class GroupCreate extends Component {
       <GroupForm
         title="Create Team"
         submitLabel="Create"
-        cancelLabel="Cancel"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values =>
         this.create(values)}
         {...this.props}

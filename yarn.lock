@@ -2800,7 +2800,7 @@ faye-websocket@~0.11.0:
   dependencies:
     websocket-driver ">=0.5.1"
 
-fbjs@^0.8, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
+fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
   version "0.8.11"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.11.tgz#340b590b8a2278a01ef7467c07a16da9b753db24"
   dependencies:
@@ -5712,9 +5712,9 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-ace@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-5.1.0.tgz#a320fce4bede79a945f3b596265ce5ade607f9bb"
+react-ace@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-5.1.1.tgz#4371736828ed6c79f2db6d4f9cee0e5bc2a278a7"
   dependencies:
     brace "^0.10.0"
     lodash.get "^4.4.2"
@@ -5789,11 +5789,10 @@ react-i18next@^4.6.4:
   dependencies:
     hoist-non-react-statics "1.2.0"
 
-react-inlinesvg@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.6.0.tgz#f73139f14a2f90d53a05400b8d2e63718a4fc58b"
+react-inlinesvg@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.6.2.tgz#cad181824652934f6235ff2b09e39b8c86344aab"
   dependencies:
-    fbjs "^0.8"
     httpplease "^0.16"
     once "^1.4"
 
@@ -5814,9 +5813,9 @@ react-json-tree@^0.10.9:
     prop-types "^15.5.8"
     react-base16-styling "^0.5.1"
 
-react-md@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.0.16.tgz#398046418152a005e4e4281a3c7c8dba186460cf"
+react-md@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.0.17.tgz#aa97f9243db039e69e51d099f141a95fab24b2ab"
   dependencies:
     classnames "^2.2.5"
     invariant "^2.2.1"
@@ -5825,6 +5824,7 @@ react-md@^1.0.16:
     react-prop-types "^0.4.0"
     react-swipeable-views "^0.12.1"
     react-transition-group "^1.1.3"
+    resize-observer-polyfill "^1.4.2"
 
 react-motion@^0.5.0:
   version "0.5.0"
@@ -6270,6 +6270,10 @@ requires-port@1.0.x, requires-port@1.x.x:
 reselect@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
+
+resize-observer-polyfill@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.4.2.tgz#a37198e6209e888acb1532a9968e06d38b6788e5"
 
 resolve-from@^1.0.0:
   version "1.0.1"

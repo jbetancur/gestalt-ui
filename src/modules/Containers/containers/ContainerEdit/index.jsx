@@ -29,6 +29,7 @@ class ContainerEdit extends Component {
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -85,7 +86,7 @@ class ContainerEdit extends Component {
       editMode
       title={container.name}
       submitLabel="Redeploy"
-      cancelLabel="Back"
+      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
       onSubmit={values => this.redeployContainer(values)}
       {...this.props}
     />;

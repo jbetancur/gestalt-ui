@@ -16,6 +16,7 @@ class APIEndpointCreate extends Component {
     createAPIEndpoint: PropTypes.func.isRequired,
     rateLimitToggled: PropTypes.bool.isRequired,
     unloadToggleStates: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentWillUnmount() {
@@ -49,7 +50,7 @@ class APIEndpointCreate extends Component {
       <APIEndpointForm
         title="Create Endpoint"
         submitLabel="Create"
-        cancelLabel="Back"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.create(values)}
         {...this.props}
       />

@@ -13,6 +13,7 @@ class PolicyCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createPolicy: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
@@ -22,7 +23,15 @@ class PolicyCreate extends Component {
   }
 
   render() {
-    return <PolicyForm title="Create Policy" submitLabel="Create" cancelLabel="Back" onSubmit={values => this.create(values)} {...this.props} />;
+    return (
+      <PolicyForm
+        title="Create Policy"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
+    );
   }
 }
 

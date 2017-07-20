@@ -98,6 +98,7 @@ class LambdaItem extends PureComponent {
             contextualTitle={`${selectedCount} lambda${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
+            {/* <div><Button flat label="Promote" /></div> */}
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
           {this.props.pending && <LinearProgress id="lambda-listing" />}

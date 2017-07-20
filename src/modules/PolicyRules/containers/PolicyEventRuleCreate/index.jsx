@@ -15,6 +15,7 @@ class PolicyEventRuleCreate extends Component {
     createPolicyRule: PropTypes.func.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     selectedActions: PropTypes.array.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentWillUnmount() {
@@ -36,7 +37,7 @@ class PolicyEventRuleCreate extends Component {
       <PolicyEventRuleForm
         title="Create Event Rule"
         submitLabel="Create"
-        cancelLabel="Back"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.create(values)}
         {...this.props}
       />

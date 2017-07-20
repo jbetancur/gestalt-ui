@@ -112,6 +112,10 @@ class ProviderListing extends PureComponent {
     }
   }
 
+  handleInstanceModalFinish() {
+    this.props.showProviderInstanceModal();
+  }
+
   render() {
     return (
       <ProviderItem
@@ -120,7 +124,7 @@ class ProviderListing extends PureComponent {
         onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
-        onToggleInstanceModal={() => this.props.showProviderInstanceModal()}
+        onToggleInstanceModal={() => this.handleInstanceModalFinish()}
         {...this.props}
       />
     );
