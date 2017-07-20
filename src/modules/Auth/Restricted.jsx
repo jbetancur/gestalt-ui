@@ -10,7 +10,7 @@ const cookies = new Cookies();
 export default function AuthWrapper(BaseComponent) {
   class Restricted extends PureComponent {
     static propTypes = {
-      history: PropTypes.func.isRequired,
+      history: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
     };
 

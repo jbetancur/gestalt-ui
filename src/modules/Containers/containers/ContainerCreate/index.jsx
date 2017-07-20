@@ -28,6 +28,7 @@ class ContainerCreate extends Component {
     healthChecks: PropTypes.array.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -63,7 +64,7 @@ class ContainerCreate extends Component {
       inlineMode={this.props.inlineMode}
       title="Deploy Container"
       submitLabel="Deploy"
-      cancelLabel="Back"
+      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
       onSubmit={values =>
       this.create(values)}
       {...this.props}

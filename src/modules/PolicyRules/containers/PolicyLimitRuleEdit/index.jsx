@@ -21,6 +21,7 @@ class PolicyLimitRuleEdit extends Component {
     selectedActions: PropTypes.array.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -68,7 +69,7 @@ class PolicyLimitRuleEdit extends Component {
       <PolicyLimitRuleForm
         title={policyRule.name}
         submitLabel="Update"
-        cancelLabel="Back"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.updatePolicyRule(values)}
         {...this.props}
       />;

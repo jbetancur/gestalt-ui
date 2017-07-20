@@ -13,6 +13,7 @@ class UserCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createUser: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
@@ -23,7 +24,7 @@ class UserCreate extends Component {
   }
 
   render() {
-    return <UserForm title="Create User" submitLabel="Create" cancelLabel="Cancel" onSubmit={values => this.create(values)} {...this.props} />;
+    return <UserForm title="Create User" submitLabel="Create" cancelLabel={this.props.pristine ? 'Back' : 'Cancel'} onSubmit={values => this.create(values)} {...this.props} />;
   }
 }
 
