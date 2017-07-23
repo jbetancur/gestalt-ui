@@ -5,11 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import jsonPatch from 'fast-json-patch';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
 import actions from '../../actions';
-import { generateEventPolicyRulePayload } from '../../payloadTransformer';
+import { generateEventPolicyRulePatches } from '../../payloadTransformer';
 
 class PolicyEventRuleEdit extends Component {
   static propTypes = {
@@ -46,19 +45,13 @@ class PolicyEventRuleEdit extends Component {
   }
 
   updatePolicyRule(values) {
-    const { id, name, description, properties } = this.props.policyRule;
-    const { match, history, selectedActions } = this.props;
-    const originalModel = {
-      name,
-      description,
-      properties
-    };
+    const { match, history, policyRule, updatePolicyRule, selectedActions } = this.props;
+    const patches = generateEventPolicyRulePatches(policyRule, values, selectedActions);
 
-    const payload = generateEventPolicyRulePayload(values, selectedActions, true);
-    const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
-      this.props.updatePolicyRule(match.params.fqon, match.params.policyId, id, patches, onSuccess);
+
+      updatePolicyRule(match.params.fqon, match.params.policyId, policyRule.id, patches, onSuccess);
     }
   }
 

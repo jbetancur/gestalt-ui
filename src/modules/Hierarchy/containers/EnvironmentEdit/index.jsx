@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import jsonPatch from 'fast-json-patch';
-import { cloneDeep } from 'lodash';
-import { arrayToMap, mapTo2DArray } from 'util/helpers/transformations';
+import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
+import { generateEnvironmentPatches } from '../../payloadTransformer';
 
 class EnvironmentEdit extends Component {
   static propTypes = {
@@ -27,42 +26,12 @@ class EnvironmentEdit extends Component {
     this.props.fetchEnvironment(match.params.fqon, match.params.environmentId);
   }
 
-  updatedModel(formValues) {
-    const { name, description, properties } = cloneDeep(formValues);
-    const model = {
-      name,
-      description,
-      properties: {
-        environment_type: properties.environment_type,
-        env: arrayToMap(properties.env, 'name', 'value'),
-      }
-    };
-
-    return model;
-  }
-
-  originalModel(payload) {
-    const { name, description, properties: { environment_type } } = cloneDeep(payload);
-
-    return {
-      name,
-      description,
-      properties: {
-        environment_type,
-        env: arrayToMap(mapTo2DArray(payload.properties.env), 'name', 'value'),
-      }
-    };
-  }
-
-  updateEnvironment(values) {
-    const { history } = this.props;
-    const { id } = this.props.environment;
-    const updatedModel = this.updatedModel(values);
-    const originalModel = this.originalModel(this.props.environment);
-    const patches = jsonPatch.compare(originalModel, updatedModel);
-
+  update(values) {
+    const { match, history, environment, updateEnvironment } = this.props;
+    const patches = generateEnvironmentPatches(environment, values);
     const onSuccess = () => history.goBack();
-    this.props.updateEnvironment(this.props.match.params.fqon, id, patches, onSuccess);
+
+    updateEnvironment(match.params.fqon, environment.id, patches, onSuccess);
   }
 
   render() {
@@ -73,7 +42,7 @@ class EnvironmentEdit extends Component {
         title={environment.description || environment.name}
         submitLabel="Update"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.updateEnvironment(values)}
+        onSubmit={values => this.update(values)}
         envMap={environment.properties.env}
         isEnvironment
         editMode

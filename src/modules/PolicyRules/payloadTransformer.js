@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import jsonPatch from 'fast-json-patch';
 
 /**
  * generateEventPolicyRulePayload
@@ -40,7 +41,43 @@ export function generateLimitPolicyRulePayload(sourcePayload, selectedActions = 
   return payload;
 }
 
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ * @param {Object} selectedActions
+ */
+export function generateEventPolicyRulePatches(originalPayload, updatedPayload, selectedActions) {
+  const { name, description, properties } = cloneDeep(originalPayload);
+  const model = {
+    name,
+    description,
+    properties
+  };
+
+  return jsonPatch.compare(model, generateEventPolicyRulePayload(updatedPayload, selectedActions, true));
+}
+
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ * @param {Object} selectedActions
+ */
+export function generateLimitPolicyRulePatches(originalPayload, updatedPayload, selectedActions) {
+  const { name, description, properties } = cloneDeep(originalPayload);
+  const model = {
+    name,
+    description,
+    properties
+  };
+
+  return jsonPatch.compare(model, generateLimitPolicyRulePayload(updatedPayload, selectedActions, true));
+}
+
 export default {
   generateEventPolicyRulePayload,
+  generateEventPolicyRulePatches,
   generateLimitPolicyRulePayload,
+  generateLimitPolicyRulePatches,
 };

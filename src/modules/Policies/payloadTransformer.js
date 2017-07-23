@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import jsonPatch from 'fast-json-patch';
 
 /**
  * generatePolicyPayload
@@ -8,7 +9,7 @@ import { cloneDeep } from 'lodash';
  * @param {Object} providersKongByGateway
  * @param {Boolean} updateMode
  */
-export function generatePolicyPayload(sourcePayload, providersKongByGateway = {}, updateMode = false) {
+export function generatePolicyPayload(sourcePayload, updateMode = false) {
   const payload = cloneDeep(sourcePayload);
 
   if (updateMode) {
@@ -21,6 +22,22 @@ export function generatePolicyPayload(sourcePayload, providersKongByGateway = {}
   return payload;
 }
 
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ */
+export function generatePolicyPatches(originalPayload, updatedPayload) {
+  const { name, description } = cloneDeep(originalPayload);
+  const model = {
+    name,
+    description,
+  };
+
+  return jsonPatch.compare(model, generatePolicyPayload(updatedPayload, true));
+}
+
 export default {
   generatePolicyPayload,
+  generatePolicyPatches,
 };

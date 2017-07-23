@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
 import base64 from 'base-64';
+import jsonPatch from 'fast-json-patch';
 import { arrayToMap } from 'util/helpers/transformations';
 
 /**
@@ -62,6 +63,45 @@ export function generateLambdaPayload(sourcePayload, updateMode = false) {
   return model;
 }
 
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ */
+export function generateLambdaPatches(originalPayload, updatedPayload) {
+  const { name, description, properties } = cloneDeep(originalPayload);
+  const model = {
+    name,
+    description,
+    properties: {
+      env: properties.env,
+      headers: properties.headers,
+      code: properties.code,
+      code_type: properties.code_type,
+      compressed: properties.compressed,
+      cpus: properties.cpus,
+      memory: properties.memory,
+      timeout: properties.timeout,
+      handler: properties.handler,
+      package_url: properties.package_url,
+      public: properties.public,
+      runtime: properties.runtime,
+      provider: properties.provider,
+      periodic_info: properties.periodic_info,
+    }
+  };
+
+  if (!properties.code) {
+    delete model.properties.code;
+  } else {
+    delete model.properties.package_url;
+    delete model.properties.compressed;
+  }
+
+  return jsonPatch.compare(model, generateLambdaPayload(updatedPayload, true));
+}
+
 export default {
   generateLambdaPayload,
+  generateLambdaPatches,
 };

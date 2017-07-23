@@ -5,11 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import jsonPatch from 'fast-json-patch';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
 import actions from '../../actions';
-import { generateLimitPolicyRulePayload } from '../../payloadTransformer';
+import { generateLimitPolicyRulePatches } from '../../payloadTransformer';
 
 class PolicyLimitRuleEdit extends Component {
   static propTypes = {
@@ -44,19 +43,13 @@ class PolicyLimitRuleEdit extends Component {
   }
 
   updatePolicyRule(values) {
-    const { id, name, description, properties } = this.props.policyRule;
-    const { match, history, selectedActions } = this.props;
-    const originalModel = {
-      name,
-      description,
-      properties,
-    };
+    const { match, history, selectedActions, policyRule, updatePolicyRule } = this.props;
 
-    const payload = generateLimitPolicyRulePayload(values, selectedActions, true);
-    const patches = jsonPatch.compare(originalModel, payload);
+    const patches = generateLimitPolicyRulePatches(policyRule, values, selectedActions);
+
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
-      this.props.updatePolicyRule(match.params.fqon, match.params.policyId, id, patches, onSuccess);
+      updatePolicyRule(match.params.fqon, match.params.policyId, policyRule.id, patches, onSuccess);
     }
   }
 

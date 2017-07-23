@@ -5,11 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'modules/MetaResource';
 import { withContext } from 'modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
-import jsonPatch from 'fast-json-patch';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
 import actions from '../../actions';
-import { generateAPIPayload } from '../../payloadTransformer';
+import { generateAPIPatches } from '../../payloadTransformer';
 
 class APIEdit extends Component {
   static propTypes = {
@@ -28,17 +27,10 @@ class APIEdit extends Component {
   }
 
   updateAPI(values) {
-    const { id, name, description } = this.props.api;
-    const { match } = this.props;
-    const payload = generateAPIPayload(values, null, true);
-    const originalModel = {
-      name,
-      description,
-    };
+    const { match, api, updateAPI } = this.props;
+    const patches = generateAPIPatches(api, values);
 
-    const patches = jsonPatch.compare(originalModel, payload);
-
-    this.props.updateAPI(match.params.fqon, match.params.environmentId, id, patches);
+    updateAPI(match.params.fqon, match.params.environmentId, api.id, patches);
   }
 
   render() {
