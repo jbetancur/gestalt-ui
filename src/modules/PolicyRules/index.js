@@ -22,3 +22,4 @@ export { default as PolicyLimitRuleCreate } from './containers/PolicyLimitRuleCr
 export { default as PolicyLimitRuleEdit } from './containers/PolicyLimitRuleEdit';
 export { default as PolicyEventRuleCreate } from './containers/PolicyEventRuleCreate';
 export { default as PolicyEventRuleEdit } from './containers/PolicyEventRuleEdit';
+export { default as payloadTransformer } from './payloadTransformer';

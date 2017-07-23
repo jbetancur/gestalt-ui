@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
-import { map } from 'lodash';
+import { arrayToMap, mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
@@ -26,29 +26,27 @@ class WorkspaceEdit extends Component {
   }
 
   updatedModel(formValues) {
-    const { name, description } = formValues;
+    const { name, description, properties } = formValues;
     const model = {
       name,
       description,
-      properties: { env: {} }
+      properties: {
+        env: arrayToMap(properties.env, 'name', 'value'),
+      },
     };
-
-    // variables is a used for tracking out FieldArray
-    formValues.variables.forEach((variable) => {
-      model.properties.env[variable.name] = variable.value;
-    });
 
     return model;
   }
 
   originalModel(originalOrg) {
     const { name, description, properties } = originalOrg;
-    const { env } = properties;
 
     return {
       name,
       description,
-      properties: { env }
+      properties: {
+        env: arrayToMap(mapTo2DArray(properties.env), 'name', 'value'),
+      }
     };
   }
 
@@ -81,14 +79,15 @@ class WorkspaceEdit extends Component {
 
 function mapStateToProps(state) {
   const { workspace } = state.metaResource.workspace;
-  const variables = map(workspace.properties.env, (value, name) => ({ name, value }));
 
   return {
     initialValues: {
       name: workspace.name,
       description: workspace.description,
-      properties: workspace.properties,
-      variables,
+      properties: {
+        ...workspace.properties,
+        env: mapTo2DArray(workspace.properties.env),
+      },
     },
     enableReinitialize: true,
   };

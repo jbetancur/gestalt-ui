@@ -5,14 +5,14 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import { map } from 'lodash';
+import { mapTo2DArray } from 'util/helpers/transformations';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
 import actions from '../../actions';
-import { generateContainerPayload } from '../../payloadTransformers';
+import { generateContainerPayload } from '../../payloadTransformer';
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -72,7 +72,22 @@ class ContainerEdit extends Component {
 
   redeployContainer(values) {
     const { match, history, container, updateContainer, volumes, portMappings, healthChecks } = this.props;
-    const payload = generateContainerPayload(values, volumes, portMappings, healthChecks, true);
+    const mergeProps = [
+      {
+        key: 'volumes',
+        value: volumes,
+      },
+      {
+        key: 'port_mappings',
+        value: portMappings,
+      },
+      {
+        key: 'health_checks',
+        value: healthChecks,
+      }
+    ];
+
+    const payload = generateContainerPayload(values, mergeProps, true);
     const onSuccess = () => history.goBack();
     clearTimeout(this.timeout);
 
@@ -95,15 +110,12 @@ class ContainerEdit extends Component {
 
 function mapStateToProps(state) {
   const { container } = state.metaResource.container;
-  const variables = map(container.properties.env, (value, name) => ({ name, value }));
-  const labels = map(container.properties.labels, (value, name) => ({ name, value }));
-
   const model = {
     name: container.name,
     description: container.description,
     properties: {
-      env: container.properties.env,
-      labels: container.properties.labels,
+      env: mapTo2DArray(container.properties.env),
+      labels: mapTo2DArray(container.properties.labels),
       container_type: container.properties.container_type,
       accepted_resource_roles: container.properties.accepted_resource_roles,
       constraints: container.properties.constraints,
@@ -121,8 +133,6 @@ function mapStateToProps(state) {
       cmd: container.properties.cmd,
       user: container.properties.user,
     },
-    variables,
-    labels,
   };
 
   return {

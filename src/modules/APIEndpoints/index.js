@@ -16,3 +16,4 @@ export default APIRoot;
 export { default as APIEndpoints } from './containers/APIEndpointListing';
 export { default as APIEndpointCreate } from './containers/APIEndpointCreate';
 export { default as APIEndpointEdit } from './containers/APIEndpointEdit';
+export { default as payloadTransformer } from './payloadTransformer';

@@ -7,10 +7,10 @@ import { withContext } from 'modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import { parse } from 'query-string';
-import { cloneDeep, compact } from 'lodash';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
 import actions from '../../actions';
+import { generateAPIEndpointPayload } from '../../payloadTransformer';
 
 class APIEndpointEdit extends Component {
   static propTypes = {
@@ -21,9 +21,7 @@ class APIEndpointEdit extends Component {
     updateAPIEndpoint: PropTypes.func.isRequired,
     fetchContainersDropDown: PropTypes.func.isRequired,
     fetchLambdasDropDown: PropTypes.func.isRequired,
-    rateLimitToggled: PropTypes.bool.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
-    unloadToggleStates: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
   };
 
@@ -43,38 +41,18 @@ class APIEndpointEdit extends Component {
     fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
   }
 
-  componentWillUnmount() {
-    this.props.unloadToggleStates();
-  }
-
   updateAPIEndpoint(values) {
     const { id, name, description, properties } = this.props.apiEndpoint;
-    const { match, history, rateLimitToggled } = this.props;
+    const { match, history } = this.props;
     const originalModel = {
       name,
       description,
       properties,
     };
 
-    const payload = cloneDeep({ ...values });
-    payload.name = payload.properties.resource.split('/').join('-');
-    // meta patch cannot currently handle array patching - so force a replace on /properties/methods
-    delete payload.properties.methods;
-
-    // convert comma delimited strings  to an array and remove blank entries
-    if (!Array.isArray(payload.properties.methods)) {
-      payload.properties.methods = compact(values.properties.methods.split(','));
-    }
-
-    // clear the rate limit from the payload if it is not triggered
-    if (!rateLimitToggled) {
-      delete payload.properties.plugins.rateLimit;
-    } else {
-      // no need to submit to API since this is just used to manage form state
-      delete payload.properties.plugins.rateLimit.toggled;
-    }
-
+    const payload = generateAPIEndpointPayload(values, true);
     const patches = jsonPatch.compare(originalModel, payload);
+
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/APIS/${match.params.apiId}/edit`);
       this.props.updateAPIEndpoint(match.params.fqon, match.params.apiId, id, patches, onSuccess);
@@ -104,6 +82,9 @@ function mapStateToProps(state) {
     description: apiEndpoint.description,
     properties: {
       ...apiEndpoint.properties,
+      plugins: {
+        ...apiEndpoint.properties.plugins,
+      }
     },
   };
 
@@ -113,7 +94,6 @@ function mapStateToProps(state) {
   }
 
   return {
-    rateLimitToggled: state.apiEndpoints.rateLimitToggled.toggled,
     initialValues: model,
     enableReinitialize: true,
   };

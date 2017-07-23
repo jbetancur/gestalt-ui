@@ -24,7 +24,15 @@ class UserCreate extends Component {
   }
 
   render() {
-    return <UserForm title="Create User" submitLabel="Create" cancelLabel={this.props.pristine ? 'Back' : 'Cancel'} onSubmit={values => this.create(values)} {...this.props} />;
+    return (
+      <UserForm
+        title="Create User"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
+    );
   }
 }
 

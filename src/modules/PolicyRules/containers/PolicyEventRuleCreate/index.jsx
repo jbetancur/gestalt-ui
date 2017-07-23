@@ -7,6 +7,7 @@ import { withMetaResource } from 'modules/MetaResource';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
 import actions from '../../actions';
+import { generateEventPolicyRulePayload } from '../../payloadTransformer';
 
 class PolicyEventRuleCreate extends Component {
   static propTypes = {
@@ -24,9 +25,7 @@ class PolicyEventRuleCreate extends Component {
 
   create(values) {
     const { match, history, createPolicyRule, selectedActions } = this.props;
-    const payload = { ...values };
-    payload.resource_type = 'Gestalt::Resource::Rule::Event';
-    payload.properties.actions = selectedActions;
+    const payload = generateEventPolicyRulePayload(values, selectedActions);
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);

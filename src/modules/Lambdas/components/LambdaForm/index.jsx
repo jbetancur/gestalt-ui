@@ -259,6 +259,7 @@ const LambdaForm = (props) => {
                     type="text"
                   />
                   <Field
+                    id="periodic-timezone"
                     className="flex-3 flex-xs-12 flex-sm-6 flex-md-6"
                     component={SelectField}
                     name="properties.periodic_info.timezone"
@@ -284,17 +285,12 @@ const LambdaForm = (props) => {
                   </div>
                 </div>
               </fieldset>
-              {/* <div className="flex-row">
-                <div className="flex-12">
-                  <Scheduler />
-                </div>
-              </div> */}
 
               <div className="flex-row no-gutter">
                 <div className="flex">
                   <fieldset>
                     <legend>Environment Variables</legend>
-                    <VariablesForm icon="add" {...props} />
+                    <VariablesForm icon="add" fieldName="properties.env" {...props} />
                   </fieldset>
                 </div>
               </div>

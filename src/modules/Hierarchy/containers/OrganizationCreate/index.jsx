@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { arrayToMap } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
@@ -24,15 +25,9 @@ class OrgCreate extends Component {
       name: values.name,
       description: values.description,
       properties: {
-        env: {}
+        env: arrayToMap(values.properties.env, 'name', 'value'),
       }
     };
-
-    if (values.variables) {
-      values.variables.forEach((variable) => {
-        payload.properties.env[variable.name] = variable.value;
-      });
-    }
 
     const onSuccess = response => this.props.history.replace(`/${response.properties.fqon}/hierarchy`);
     this.props.createOrg(this.props.match.params.fqon, payload, onSuccess);
@@ -62,7 +57,7 @@ function mapStateToProps(state) {
       name: '',
       description: '',
       properties: {
-        env: {}
+        env: [],
       }
     }
   };

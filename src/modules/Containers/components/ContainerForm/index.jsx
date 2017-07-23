@@ -272,18 +272,18 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanelNoPadding>
 
-              <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.variables && values.variables.length > 0}>
+              <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.properties.env.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
-                    <VariablesForm icon="add" {...props} />
+                    <VariablesForm icon="add" fieldName="properties.env" {...props} />
                   </div>
                 </div>
               </ExpansionPanel>
 
-              <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse" defaultExpanded={values.labels && values.labels.length > 0}>
+              <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse" defaultExpanded={values.properties.labels.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
-                    <VariablesForm addButtonLabel="Label" icon="add" fieldName="labels" {...props} />
+                    <VariablesForm addButtonLabel="Label" icon="add" fieldName="properties.labels" {...props} />
                   </div>
                 </div>
               </ExpansionPanel>

@@ -66,10 +66,6 @@ const APIEndpointForm = (props) => {
     dispatch(change(props.form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
   };
 
-  const handleRateLimitToggle = (value) => {
-    props.toggleRateLimit(value);
-  };
-
   return (
     <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <div className="flex-row center-center">
@@ -202,10 +198,9 @@ const APIEndpointForm = (props) => {
 
                 <RateLimit
                   className="flex-6 flex-xs-12"
-                  rateLimitToggledName="properties.plugins.rateLimit.toggled"
+                  rateLimitToggledName="properties.plugins.rateLimit.enabled"
                   perMinuteName="properties.plugins.rateLimit.perMinute"
-                  isToggled={editMode && values.properties.plugins.rateLimit}
-                  onToggledState={value => handleRateLimitToggle(value)}
+                  isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled}
                 />
 
                 <Security
@@ -249,7 +244,6 @@ const APIEndpointForm = (props) => {
 };
 
 APIEndpointForm.propTypes = {
-  toggleRateLimit: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   form: PropTypes.string.isRequired,
   reset: PropTypes.func.isRequired,

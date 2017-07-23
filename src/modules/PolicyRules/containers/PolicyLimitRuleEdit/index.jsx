@@ -9,6 +9,7 @@ import jsonPatch from 'fast-json-patch';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
 import actions from '../../actions';
+import { generateLimitPolicyRulePayload } from '../../payloadTransformer';
 
 class PolicyLimitRuleEdit extends Component {
   static propTypes = {
@@ -48,14 +49,11 @@ class PolicyLimitRuleEdit extends Component {
     const originalModel = {
       name,
       description,
-      properties
+      properties,
     };
 
-    const updatedModel = { ...values };
-
-    updatedModel.properties.actions = selectedActions;
-
-    const patches = jsonPatch.compare(originalModel, updatedModel);
+    const payload = generateLimitPolicyRulePayload(values, selectedActions, true);
+    const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
       this.props.updatePolicyRule(match.params.fqon, match.params.policyId, id, patches, onSuccess);

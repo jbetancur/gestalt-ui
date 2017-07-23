@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
@@ -65,10 +64,10 @@ class apiEndpointItem extends PureComponent {
           <span className="gf-caption-sm"><span>{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(',')}</span></span>
         </TableColumn>
         <TableColumn numeric>
-          {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.perMinute}
+          {apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.enabled && apiEndpoint.properties.plugins.rateLimit.perMinute}
         </TableColumn>
         <TableColumn>
-          <Checkbox defaultChecked={apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled} disabled />
+          {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled && <FontIcon>checked</FontIcon>}
         </TableColumn>
         <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>

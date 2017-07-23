@@ -7,6 +7,7 @@ import { withMetaResource } from 'modules/MetaResource';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
 import actions from '../../actions';
+import { generatePolicyPayload } from '../../payloadTransformer';
 
 class PolicyCreate extends Component {
   static propTypes = {
@@ -18,8 +19,10 @@ class PolicyCreate extends Component {
 
   create(values) {
     const { match, history, createPolicy } = this.props;
+    const payload = generatePolicyPayload(values);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${response.id}/edit`);
-    createPolicy(match.params.fqon, match.params.environmentId, values, onSuccess);
+
+    createPolicy(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }
 
   render() {
@@ -35,8 +38,7 @@ class PolicyCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { policyPending } = state.metaResource.policy;
+function mapStateToProps() {
   const model = {
     name: '',
     description: '',
@@ -45,7 +47,6 @@ function mapStateToProps(state) {
 
   return {
     policy: model,
-    policyPending,
     initialValues: model
   };
 }

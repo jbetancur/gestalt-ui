@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
-import { map } from 'lodash';
+import { arrayToMap, mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
@@ -27,31 +27,27 @@ class OrgEdit extends Component {
   }
 
   updatedModel(formValues) {
-    const { name, description } = formValues;
+    const { name, description, properties } = formValues;
     const model = {
       name,
       description,
       properties: {
-        env: {}
-      }
+        env: arrayToMap(properties.env, 'name', 'value'),
+      },
     };
-
-    // variables is a used for tracking out FieldArray
-    formValues.variables.forEach((variable) => {
-      model.properties.env[variable.name] = variable.value;
-    });
 
     return model;
   }
 
-  originalModel(originalOrg) {
-    const { name, description, properties } = originalOrg;
-    const { env } = properties;
+  originalModel(payload) {
+    const { name, description, properties } = payload;
 
     return {
       name,
       description,
-      properties: { env }
+      properties: {
+        env: arrayToMap(mapTo2DArray(properties.env), 'name', 'value'),
+      }
     };
   }
 
@@ -84,14 +80,15 @@ class OrgEdit extends Component {
 
 function mapStateToProps(state) {
   const { organization } = state.metaResource.organization;
-  const variables = map(organization.properties.env, (value, name) => ({ name, value }));
 
   return {
     initialValues: {
       name: organization.name,
       description: organization.description,
-      properties: organization.properties,
-      variables,
+      properties: {
+        ...organization.properties,
+        env: mapTo2DArray(organization.properties.env),
+      },
     },
     enableReinitialize: true,
   };

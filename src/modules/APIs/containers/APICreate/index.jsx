@@ -7,6 +7,7 @@ import { withMetaResource } from 'modules/MetaResource';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
 import actions from '../../actions';
+import { generateAPIPayload } from '../../payloadTransformer';
 
 class APICreate extends Component {
   static propTypes = {
@@ -20,15 +21,7 @@ class APICreate extends Component {
 
   create(values) {
     const { match, history, createAPI, providersKongByGateway } = this.props;
-    const payload = { ...values };
-
-    // TODO: this will eventually go away
-    // get the gateway provider Id from our frankenstein provider
-    const selectedProvider = providersKongByGateway.find(provider => provider.id === payload.properties.provider.locations);
-    payload.properties.provider.id = selectedProvider.properties.gatewayProvider && selectedProvider.properties.gatewayProvider.id; // this is really the Gatewayprovier.id
-    // locations is an array, but we only need the first value to be the kong id
-    payload.properties.provider.locations = [payload.properties.provider.locations]; // this is really the kong provider id
-
+    const payload = generateAPIPayload(values, providersKongByGateway);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${response.id}/edit`);
 
     if (!payload.properties.provider.id) {

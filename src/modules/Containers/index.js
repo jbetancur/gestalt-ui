@@ -19,3 +19,4 @@ export { default as ContainerEdit } from './containers/ContainerEdit';
 export { default as ContainerDetails } from './components/ContainerDetails';
 export { default as ContainerActions } from './components/ContainerActions';
 export { default as containerActionCreators } from './actions';
+export { default as payloadTransformer } from './payloadTransformer';
