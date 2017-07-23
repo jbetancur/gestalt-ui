@@ -9,6 +9,7 @@ import jsonPatch from 'fast-json-patch';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
 import actions from '../../actions';
+import { generateAPIPayload } from '../../payloadTransformer';
 
 class APIEdit extends Component {
   static propTypes = {
@@ -29,17 +30,13 @@ class APIEdit extends Component {
   updateAPI(values) {
     const { id, name, description } = this.props.api;
     const { match } = this.props;
+    const payload = generateAPIPayload(values, null, true);
     const originalModel = {
       name,
       description,
     };
 
-    const newModel = {
-      name: values.name,
-      description: values.description,
-    };
-
-    const patches = jsonPatch.compare(originalModel, newModel);
+    const patches = jsonPatch.compare(originalModel, payload);
 
     this.props.updateAPI(match.params.fqon, match.params.environmentId, id, patches);
   }

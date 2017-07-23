@@ -9,6 +9,7 @@ import jsonPatch from 'fast-json-patch';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
 import actions from '../../actions';
+import { generatePolicyPayload } from '../../payloadTransformer';
 
 class PolicyEdit extends Component {
   static propTypes = {
@@ -27,12 +28,13 @@ class PolicyEdit extends Component {
   updatePolicy(values) {
     const { id, name, description } = this.props.policy;
     const { match } = this.props;
+    const payload = generatePolicyPayload(values, true);
     const originalModel = {
       name,
       description,
     };
 
-    const patches = jsonPatch.compare(originalModel, values);
+    const patches = jsonPatch.compare(originalModel, payload);
     this.props.updatePolicy(match.params.fqon, id, patches);
   }
 

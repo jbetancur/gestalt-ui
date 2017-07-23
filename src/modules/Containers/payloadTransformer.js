@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import { arrayToMap } from 'util/helpers/transformations';
 
 function arrayifyish(string) {
   return string.replace(/[\s,]+/g, ',').split(',');
@@ -7,29 +8,25 @@ function arrayifyish(string) {
 /**
  * generateContainerPayload
  * Handle Payload formatting/mutations to comply with meta api
- * @param {*} sourcePayload
- * @param {*} updateMode
- * @param {*} volumes
- * @param {*} portMappings
- * @param {*} healthChecks
+ * @param {Object} sourcePayload
+ * @param {Array} mergeSet
+ * @param {Boolean} updateMode
  */
-export function generateContainerPayload(sourcePayload, volumes, portMappings, healthChecks, updateMode) {
+export function generateContainerPayload(sourcePayload, mergeSet = [], updateMode = false) {
   const source = cloneDeep(sourcePayload);
 
   const payload = {
     name: source.name,
     description: source.description,
     properties: {
-      // these are going to be mutated to satisfy meta
-      env: {},
-      labels: {},
+      env: arrayToMap(source.properties.env, 'name', 'value'),
+      labels: arrayToMap(source.properties.labels, 'name', 'value'),
       volumes: [],
       port_mappings: [],
       health_checks: [],
       accepted_resource_roles: [],
       constraints: [],
       provider: source.properties.provider, // deleted in updateMode
-      //
       container_type: source.properties.container_type,
       force_pull: source.properties.force_pull,
       cpus: source.properties.cpus,
@@ -39,40 +36,8 @@ export function generateContainerPayload(sourcePayload, volumes, portMappings, h
       image: source.properties.image,
       cmd: source.properties.cmd,
       user: source.properties.user,
-    }
+    },
   };
-
-  if (updateMode) {
-    // we dont want to change the provider on updateMode (i.e. PUT, PATCH container)
-    delete payload.properties.provider;
-  }
-
-  // Convert variables from array back to map on the payload
-  if (source.variables) {
-    source.variables.forEach((variable) => {
-      payload.properties.env[variable.name] = variable.value;
-    });
-  }
-
-  // Convert labels from array back to map on the payload
-  if (source.labels) {
-    source.labels.forEach((label) => {
-      payload.properties.labels[label.name] = label.value;
-    });
-  }
-
-  // monkey patch these to the payload
-  if (volumes) {
-    payload.properties.volumes = volumes;
-  }
-
-  if (portMappings) {
-    payload.properties.port_mappings = portMappings;
-  }
-
-  if (healthChecks) {
-    payload.properties.health_checks = healthChecks;
-  }
 
   // these will be in a string format as a result of redux-form limitations - superced by a future chips component
   if (source.properties.accepted_resource_roles && source.properties.accepted_resource_roles.length) {
@@ -100,5 +65,18 @@ export function generateContainerPayload(sourcePayload, volumes, portMappings, h
     delete payload.properties.constraints;
   }
 
+  mergeSet.forEach((p) => {
+    payload.properties[p.key] = p.value;
+  });
+
+  if (updateMode) {
+    // we dont want to change the provider on updateMode (i.e. PUT, PATCH container)
+    delete payload.properties.provider;
+  }
+
   return payload;
 }
+
+export default {
+  generateContainerPayload,
+};

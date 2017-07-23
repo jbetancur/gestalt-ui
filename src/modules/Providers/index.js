@@ -22,3 +22,4 @@ export default ProviderRoot;
 export { default as Providers } from './containers/ProviderListing';
 export { default as ProviderEdit } from './containers/ProviderCreate';
 export { default as ProviderCreate } from './containers/ProviderCreate';
+export { default as payloadTransformer } from './payloadTransformer';

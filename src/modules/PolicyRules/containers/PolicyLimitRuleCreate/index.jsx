@@ -7,6 +7,7 @@ import { withMetaResource } from 'modules/MetaResource';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
 import actions from '../../actions';
+import { generateLimitPolicyRulePayload } from '../../payloadTransformer';
 
 class PolicyLimitRuleCreate extends Component {
   static propTypes = {
@@ -24,9 +25,7 @@ class PolicyLimitRuleCreate extends Component {
 
   create(values) {
     const { match, history, createPolicyRule, selectedActions } = this.props;
-    const payload = { ...values };
-    payload.resource_type = 'Gestalt::Resource::Rule::Limit';
-    payload.properties.actions = selectedActions;
+    const payload = generateLimitPolicyRulePayload(values, selectedActions);
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);

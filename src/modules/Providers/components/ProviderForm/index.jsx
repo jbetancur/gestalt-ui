@@ -64,7 +64,7 @@ const ProviderForm = (props) => {
   };
 
   const renderExternalProtocolSection = () => (
-    !selectedProviderType.externalProtocol ? null : <Field
+    selectedProviderType.externalProtocol && <Field
       id="select-return-type"
       className="flex-2 flex-xs-12 flex-sm-4"
       component={SelectField}
@@ -77,42 +77,45 @@ const ProviderForm = (props) => {
     />
   );
 
-  const renderConfigSection = () => (
-    !selectedProviderType.config ? null :
-    <div className="flex-row">
-      <Field
-        className="flex-6 flex-xs-12 flex-sm-12"
-        component={TextField}
-        name="properties.config.url"
-        label="Provider URL/Host:Port"
-        type="text"
-        required
-      />
-      <Field
-        id="select-return-type"
-        className="flex-2 flex-xs-12 flex-sm-4"
-        component={SelectField}
-        name="properties.config.auth.scheme"
-        menuItems={['Basic']}
-        required
-        label="Security Scheme"
-      />
-      <Field
-        className="flex-2 flex-xs-12 flex-sm-4"
-        component={TextField}
-        name="properties.config.auth.username"
-        label="Username"
-        type="text"
-        required
-      />
-      <Field
-        className="flex-2 flex-xs-12 flex-sm-4"
-        component={TextField}
-        name="properties.config.auth.password"
-        label="Password"
-        type="password"
-        required
-      />
+  const renderConfigAndSecuritySections = () => (
+    <div className="flex-row no-gutter">
+      {selectedProviderType.config &&
+        <Field
+          className="flex-6 flex-xs-12 flex-sm-12"
+          component={TextField}
+          name="properties.config.url"
+          label="Provider URL/Host:Port"
+          type="text"
+          required
+        />}
+      {selectedProviderType.security &&
+        <div className="flex-6 flex-xs-12 flex-sm-12 flex-row">
+          <Field
+            id="select-return-type"
+            className="flex-4 flex-xs-12 flex-sm-4"
+            component={SelectField}
+            name="properties.config.auth.scheme"
+            menuItems={['Basic']}
+            required
+            label="Security Scheme"
+          />
+          <Field
+            className="flex-4 flex-xs-12 flex-sm-4"
+            component={TextField}
+            name="properties.config.auth.username"
+            label="Username"
+            type="text"
+            required
+          />
+          <Field
+            className="flex-4 flex-xs-12 flex-sm-4"
+            component={TextField}
+            name="properties.config.auth.password"
+            label="Password"
+            type="password"
+            required
+          />
+        </div>}
     </div>
   );
 
@@ -138,10 +141,18 @@ const ProviderForm = (props) => {
     props.envSchemaPending || (selectedProviderType.type && selectedProviderType.allowEnvVariables &&
     <div className="flex-row">
       <div className="flex-6 flex-xs-12 flex-sm-12">
-        <VariablesForm icon="public" addButtonLabel="Add Public Variable" fieldName="publicVariables" />
+        <VariablesForm
+          icon="public"
+          addButtonLabel="Add Public Variable"
+          fieldName="properties.config.env.public"
+        />
       </div>
       <div className="flex-6 flex-xs-12 flex-sm-12">
-        <VariablesForm icon="vpn_key" addButtonLabel="Add Private Variable" fieldName="privateVariables" />
+        <VariablesForm
+          icon="vpn_key"
+          addButtonLabel="Add Private Variable"
+          fieldName="properties.config.env.private"
+        />
       </div>
     </div>)
   );
@@ -224,14 +235,14 @@ const ProviderForm = (props) => {
   );
 
   const renderContainerActions = () => (
-    selectedProviderType.allowContainer && container.id ?
+    (selectedProviderType.allowContainer && container.id) &&
       <ContainerActions
         containerModel={container}
         inContainerView
         disableDestroy
         disablePromote
         {...props}
-      /> : null
+      />
   );
 
   return (
@@ -290,7 +301,7 @@ const ProviderForm = (props) => {
                     type="text"
                   />
                 </div>
-                {renderConfigSection()}
+                {renderConfigAndSecuritySections()}
                 {renderExternalProtocolSection()}
                 {renderEditorSection()}
                 {renderVariablesSection()}
@@ -319,7 +330,7 @@ const ProviderForm = (props) => {
 
         {!props.editMode ? <div /> : renderContainerDetailsPanel()}
 
-        {!selectedProviderType.type ? null :
+        {selectedProviderType.type &&
         <div className="flex-row center-center">
           <ExpansionList className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
             <ExpansionPanelNoPadding label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded>

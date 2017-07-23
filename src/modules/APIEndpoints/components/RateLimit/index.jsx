@@ -9,32 +9,16 @@ export default class RateLimit extends PureComponent {
     className: PropTypes.string,
     rateLimitToggledName: PropTypes.string.isRequired,
     perMinuteName: PropTypes.string.isRequired,
-    isToggled: PropTypes.bool,
-    onToggledState: PropTypes.func,
+    isToggled: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     className: '',
     isToggled: false,
-    onToggledState: v => v,
   };
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      showLimits: props.isToggled,
-    };
-  }
-
-  onToggledState() {
-    return this.state.showLimits;
-  }
-
-  handleCheckedState() {
-    const newState = !this.state.showLimits;
-    this.setState({ showLimits: newState });
-    this.props.onToggledState(newState);
   }
 
   render() {
@@ -45,13 +29,12 @@ export default class RateLimit extends PureComponent {
             id="show-rate-limits"
             component={Checkbox}
             name={this.props.rateLimitToggledName}
-            checked={this.state.showLimits}
+            checked={this.props.isToggled}
             label="Rate Limit"
             style={{ minWidth: '10em' }}
-            onChange={() => this.handleCheckedState()}
             className="flex-3 flex-xs-12"
           />
-          {this.state.showLimits &&
+          {this.props.isToggled &&
           <Field
             component={TextField}
             name={this.props.perMinuteName}

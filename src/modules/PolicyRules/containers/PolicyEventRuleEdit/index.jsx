@@ -6,10 +6,10 @@ import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
-import { cloneDeep } from 'lodash';
 import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
 import validate from '../../components/PolicyEventRuleForm/validations';
 import actions from '../../actions';
+import { generateEventPolicyRulePayload } from '../../payloadTransformer';
 
 class PolicyEventRuleEdit extends Component {
   static propTypes = {
@@ -54,10 +54,7 @@ class PolicyEventRuleEdit extends Component {
       properties
     };
 
-    const payload = cloneDeep({ ...values });
-    payload.properties.lambda = values.properties.lambda.id;
-    payload.properties.actions = selectedActions;
-
+    const payload = generateEventPolicyRulePayload(values, selectedActions, true);
     const patches = jsonPatch.compare(originalModel, payload);
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);

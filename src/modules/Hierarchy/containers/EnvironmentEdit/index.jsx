@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import jsonPatch from 'fast-json-patch';
-import _map from 'lodash/map';
+import { cloneDeep } from 'lodash';
+import { arrayToMap, mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
@@ -27,34 +28,28 @@ class EnvironmentEdit extends Component {
   }
 
   updatedModel(formValues) {
-    const { name, description, properties } = formValues;
+    const { name, description, properties } = cloneDeep(formValues);
     const model = {
       name,
       description,
       properties: {
         environment_type: properties.environment_type,
-        env: {}
+        env: arrayToMap(properties.env, 'name', 'value'),
       }
     };
-
-    // variables is a used for tracking out FieldArray
-    formValues.variables.forEach((variable) => {
-      model.properties.env[variable.name] = variable.value;
-    });
 
     return model;
   }
 
-  originalModel(originalOrg) {
-    const { name, description, properties } = originalOrg;
-    const { env, environment_type } = properties;
+  originalModel(payload) {
+    const { name, description, properties: { environment_type } } = cloneDeep(payload);
 
     return {
       name,
       description,
       properties: {
         environment_type,
-        env
+        env: arrayToMap(mapTo2DArray(payload.properties.env), 'name', 'value'),
       }
     };
   }
@@ -91,14 +86,15 @@ class EnvironmentEdit extends Component {
 
 function mapStateToProps(state) {
   const { environment } = state.metaResource.environment;
-  const variables = _map(environment.properties.env, (value, name) => ({ name, value }));
 
   return {
     initialValues: {
       name: environment.name,
       description: environment.description,
-      properties: environment.properties,
-      variables
+      properties: {
+        ...environment.properties,
+        env: mapTo2DArray(environment.properties.env),
+      },
     },
     enableReinitialize: true
   };

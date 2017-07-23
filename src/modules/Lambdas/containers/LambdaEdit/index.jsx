@@ -6,11 +6,12 @@ import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
-import { map, cloneDeep } from 'lodash';
+import { mapTo2DArray } from 'util/helpers/transformations';
 import base64 from 'base-64';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
 import actions from '../../actions';
+import { generateLambdaPayload } from '../../payloadTransformer';
 
 class LambdaEdit extends Component {
   static propTypes = {
@@ -31,51 +32,6 @@ class LambdaEdit extends Component {
     fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
     fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchLambda(match.params.fqon, match.params.lambdaId, match.params.environmentId);
-  }
-
-  updatedModel(formValues) {
-    const { name, description, properties } = formValues;
-    const model = cloneDeep({
-      name,
-      description,
-      properties: {
-        env: {},
-        headers: properties.headers,
-        code_type: properties.code_type,
-        compressed: properties.compressed,
-        cpus: properties.cpus,
-        memory: properties.memory,
-        timeout: properties.timeout,
-        handler: properties.handler,
-        package_url: properties.package_url,
-        public: properties.public,
-        runtime: properties.runtime,
-        provider: properties.provider,
-        periodic_info: properties.periodic_info,
-      }
-    });
-
-    if (formValues.properties.code) {
-      model.properties.code = base64.encode(formValues.properties.code);
-    }
-
-    if (formValues.properties.periodic_info && !formValues.properties.periodic_info.schedule) {
-      delete model.properties.periodic_info;
-    }
-
-    if (formValues.properties.periodic_info &&
-      formValues.properties.periodic_info.schedule &&
-      formValues.properties.periodic_info.payload &&
-      formValues.properties.periodic_info.payload.data) {
-      model.properties.periodic_info.payload.data = base64.encode(model.properties.periodic_info.payload.data);
-    }
-
-    // variables is used for tracking our FieldArray
-    formValues.variables.forEach((variable) => {
-      model.properties.env[variable.name] = variable.value;
-    });
-
-    return model;
   }
 
   originalModel(originalOrg) {
@@ -103,6 +59,9 @@ class LambdaEdit extends Component {
 
     if (!properties.code) {
       delete model.properties.code;
+    } else {
+      delete model.properties.package_url;
+      delete model.properties.compressed;
     }
 
     return model;
@@ -111,7 +70,7 @@ class LambdaEdit extends Component {
   updateLambda(values) {
     const { id } = this.props.lambda;
     const { lambda, match, history } = this.props;
-    const updatedModel = this.updatedModel(values);
+    const updatedModel = generateLambdaPayload(values, true);
     const originalModel = this.originalModel(lambda);
     const patches = jsonPatch.compare(originalModel, updatedModel);
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
@@ -135,13 +94,12 @@ class LambdaEdit extends Component {
 
 function mapStateToProps(state) {
   const { lambda } = state.metaResource.lambda;
-  const variables = map(lambda.properties.env, (value, name) => ({ name, value }));
 
   const model = {
     name: lambda.name,
     description: lambda.description,
     properties: {
-      env: lambda.properties.env,
+      env: mapTo2DArray(lambda.properties.env),
       headers: lambda.properties.headers,
       code: lambda.properties.code && base64.decode(lambda.properties.code),
       code_type: lambda.properties.code_type,
@@ -164,7 +122,6 @@ function mapStateToProps(state) {
         timezone: lambda.properties.periodic_info && lambda.properties.periodic_info.timezone,
       },
     },
-    variables,
   };
 
   return {

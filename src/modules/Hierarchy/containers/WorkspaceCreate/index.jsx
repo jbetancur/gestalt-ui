@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { arrayToMap } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
@@ -24,15 +25,9 @@ class OrgCreate extends Component {
       name: values.name,
       description: values.description,
       properties: {
-        env: {},
+        env: arrayToMap(values.properties.env, 'name', 'value'),
       },
     };
-
-    if (values.variables) {
-      values.variables.forEach((variable) => {
-        payload.properties.env[variable.name] = variable.value;
-      });
-    }
 
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.id}`);
     this.props.createWorkspace(match.params.fqon, payload, onSuccess);
@@ -58,7 +53,7 @@ function mapStateToProps() {
       name: '',
       description: '',
       properties: {
-        env: {}
+        env: [],
       }
     }
   };

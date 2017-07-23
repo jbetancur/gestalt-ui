@@ -72,7 +72,7 @@ const HierarchyForm = (props) => {
               </div>
               <fieldset>
                 <legend>Environment Variables</legend>
-                <VariablesForm icon="add" envMap={props.envMap} />
+                <VariablesForm icon="add" fieldName="properties.env" />
               </fieldset>
             </CardText>
             {props.pending ? <LinearProgress id="containment-form" /> : null}
@@ -123,7 +123,6 @@ HierarchyForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  envMap: PropTypes.object,
   isEnvironment: PropTypes.bool,
   t: PropTypes.func.isRequired,
   showEntitlementsModal: PropTypes.func.isRequired,
@@ -135,7 +134,6 @@ HierarchyForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   isEnvironment: false,
-  envMap: {},
   editMode: false,
 };
 

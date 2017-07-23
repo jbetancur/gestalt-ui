@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, FieldArray, FormSection } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 
 const renderLinkedProviders = ({ fields, touched, error, fetchProviders, providersModel }) => (
-  <FormSection name="">
+  <div>
     <Button
       flat
       primary
@@ -43,7 +43,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
         <FieldRemoveButton onClick={() => fields.remove(index)} />
       </div>
     ))}
-  </FormSection>
+  </div>
 );
 
 renderLinkedProviders.propTypes = {
@@ -63,7 +63,7 @@ const FieldArraysForm = props => (
   <FieldArray
     fetchProviders={props.fetchProviders}
     providersModel={props.providersModel}
-    name="linkedProviders"
+    name="properties.linked_providers"
     component={renderLinkedProviders}
   />
 );

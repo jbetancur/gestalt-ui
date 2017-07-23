@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, FieldArray, FormSection } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
@@ -23,7 +23,7 @@ renderField.propTypes = {
 };
 
 const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue }) => (
-  <FormSection name="">
+  <div>
     <Button
       flat
       primary
@@ -50,7 +50,7 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
         <FieldRemoveButton onClick={() => fields.remove(index)} />
       </div>
     ))}
-  </FormSection>
+  </div>
 );
 
 rendervariables.propTypes = {

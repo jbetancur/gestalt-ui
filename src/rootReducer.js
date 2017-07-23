@@ -14,7 +14,7 @@ import hierarchyReducer from './modules/Hierarchy/reducers';
 import lambdasReducer from './modules/Lambdas/reducers';
 import entitlementsReducer from './modules/Entitlements/reducers';
 // import apisReducer from './modules/APIs/reducers';
-import apiEndpointsReducer from './modules/APIEndpoints/reducers';
+// import apiEndpointsReducer from './modules/APIEndpoints/reducers';
 // import usersReducer from './modules/Users/reducers';
 import groupsReducer from './modules/Groups/reducers';
 import containersReducer from './modules/Containers/reducers';
@@ -54,7 +54,7 @@ export default combineReducers({
   // policies: policiesReducer,
   policyRules: policyRulesReducer,
   // apis: apisReducer,
-  apiEndpoints: apiEndpointsReducer,
+  // apiEndpoints: apiEndpointsReducer,
   integrations: integrationsReducer,
   licensing: licensingReducer,
   volumeModal: volumeModalReducer,

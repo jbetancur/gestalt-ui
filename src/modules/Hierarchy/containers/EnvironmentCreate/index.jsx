@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
+import { arrayToMap } from 'util/helpers/transformations';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
@@ -24,15 +25,9 @@ class OrgCreate extends Component {
       description: values.description,
       properties: {
         environment_type: values.properties.environment_type,
-        env: {}
+        env: arrayToMap(values.properties.env, 'name', 'value'),
       }
     };
-
-    if (values.variables) {
-      values.variables.forEach((variable) => {
-        payload.properties.env[variable.name] = variable.value;
-      });
-    }
 
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments/${response.id}`);
     this.props.createEnvironment(this.props.match.params.fqon, this.props.match.params.workspaceId, payload, onSuccess);
@@ -60,7 +55,7 @@ function mapStateToProps() {
       description: '',
       properties: {
         environment_type: '',
-        env: {}
+        env: [],
       }
     }
   };

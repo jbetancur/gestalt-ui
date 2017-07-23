@@ -2,44 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { compact, cloneDeep } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
 import actions from '../../actions';
+import { generateAPIEndpointPayload } from '../../payloadTransformer';
 
 class APIEndpointCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
-    rateLimitToggled: PropTypes.bool.isRequired,
-    unloadToggleStates: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
   };
 
-  componentWillUnmount() {
-    this.props.unloadToggleStates();
-  }
-
   create(values) {
-    const { match, history, createAPIEndpoint, rateLimitToggled } = this.props;
-    const payload = cloneDeep(values);
-    payload.name = payload.properties.resource.split('/').join('-');
-
-    // convert comma delimited string to an array and remove blank entries
-    if (values.properties.methods) {
-      payload.properties.methods = compact(values.properties.methods.split(','));
-    }
-
-    // clear the rate limit from the payload if it is not triggered
-    if (!rateLimitToggled) {
-      delete payload.properties.plugins.rateLimit;
-    } else {
-      // no need to submit to API since this is just used to manage form state
-      delete payload.properties.plugins.rateLimit.toggled;
-    }
+    const { match, history, createAPIEndpoint } = this.props;
+    const payload = generateAPIEndpointPayload(values);
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
     createAPIEndpoint(match.params.fqon, match.params.apiId, payload, onSuccess);
@@ -58,12 +38,13 @@ class APIEndpointCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   const model = {
     properties: {
       methods: 'GET',  // converts to array
       plugins: {
         rateLimit: {
+          enabled: false,
           perMinute: 60,
         },
         gestaltSecurity: {
@@ -81,7 +62,6 @@ function mapStateToProps(state) {
 
   return {
     apiEndpoint: model,
-    rateLimitToggled: state.apiEndpoints.rateLimitToggled.toggled,
     initialValues: model,
     enableReinitialize: true,
   };

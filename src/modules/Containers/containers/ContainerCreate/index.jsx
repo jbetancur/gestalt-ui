@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { map } from 'lodash';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
@@ -12,7 +11,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
 import actions from '../../actions';
-import { generateContainerPayload } from '../../payloadTransformers';
+import { generateContainerPayload } from '../../payloadTransformer';
 
 class ContainerCreate extends Component {
   static propTypes = {
@@ -52,7 +51,22 @@ class ContainerCreate extends Component {
 
   create(values) {
     const { match, history, createContainer, volumes, portMappings, healthChecks } = this.props;
-    const payload = generateContainerPayload(values, volumes, portMappings, healthChecks);
+    const mergeProps = [
+      {
+        key: 'volumes',
+        value: volumes,
+      },
+      {
+        key: 'port_mappings',
+        value: portMappings,
+      },
+      {
+        key: 'health_checks',
+        value: healthChecks,
+      }
+    ];
+
+    const payload = generateContainerPayload(values, mergeProps);
     const onSuccess = () => history.goBack();
 
     createContainer(match.params.fqon, match.params.environmentId, payload, onSuccess);
@@ -73,8 +87,6 @@ class ContainerCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const variables = map(Object.assign({}, state.metaResource.env.env), (value, name) => ({ name, value }));
-
   return {
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
@@ -86,8 +98,8 @@ function mapStateToProps(state) {
       name: '',
       properties: {
         container_type: 'DOCKER',
-        env: {},
-        labels: {},
+        env: [],
+        labels: [],
         accepted_resource_roles: [],
         constraints: [],
         health_checks: [],
@@ -102,7 +114,6 @@ function mapStateToProps(state) {
         memory: 128,
         num_instances: 1,
       },
-      variables,
     },
     enableReinitialize: true,
   };
