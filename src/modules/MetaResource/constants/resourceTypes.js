@@ -2,7 +2,7 @@
 
 export const KONG = '25acb32c-6635-49d1-ba19-4cf317003ff6';
 export const GATEWAYMANAGER = 'a695c8ca-b429-4127-80bb-688583880257';
-export const KUBERNETES = '79075694-6510-49d3-8bd5-a8dce581bd48';
+export const KUBERNETES = '9c59ed05-4e2f-4875-97ba-7e1fb175ddd9';
 export const DCOS = '26a2694e-ddc7-4a34-a910-f794cc2417e4';
 export const SECURITY = '152cbb67-444e-4787-9c13-d3a9cc385e3e';
 export const DATA_POSTGRESQL = '5cdb00e9-2861-4a02-a4ab-c926d7200490';
@@ -18,7 +18,7 @@ export const MESSAGING = '80d48917-7e05-47c6-a5b6-613a2d55b58a';
 export const RABBITMQ = '39cb96f1-0dc8-4ce6-9d88-863988fa1e16';
 export const POLICY = '9b6f7ec6-2e75-4b95-90dc-0e17935f8d4b';
 export const LOGGING = 'e1782fef-4b7c-4f75-b8b8-6e6e2ecd82b2';
-export const DOCKER = 'e1782fef-4b7c-4f75-b8b8-6e6e2ecd82b2';
+export const DOCKER = '0c4de01c-a812-415b-8c19-bc6a5f4701d8';
 
 export default {
   KONG,
