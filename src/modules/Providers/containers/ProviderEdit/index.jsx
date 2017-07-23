@@ -5,14 +5,13 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import { containerActionCreators } from 'modules/Containers';
-import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import ActivityContainer from 'components/ActivityContainer';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
 import actions from '../../actions';
-import { generateProviderPayload } from '../../payloadTransformer';
+import { generateProviderPatches } from '../../payloadTransformer';
 
 class ProviderEdit extends PureComponent {
   static propTypes = {
@@ -38,40 +37,9 @@ class ProviderEdit extends PureComponent {
     fetchProviderContainer(match.params.fqon, match.params.providerId);
   }
 
-  originalModel(originalOrg) {
-    const { name, description, properties } = originalOrg;
-    const { config, locations, linked_providers } = properties;
-    const model = {
-      name,
-      description,
-      properties: {
-        config,
-        linked_providers,
-        locations,
-      }
-    };
-
-    return model;
-  }
-
   update(formValues) {
-    const { match, history, provider, updateProvider } = this.props;
-    const originalModel = this.originalModel(this.props.provider);
-    const updatedModel = generateProviderPayload(formValues, [], {}, true);
-
-    // Hack Alert: Since we dont want to treat networks as a patch array index
-    // We can appease by always forcing an op add; by deleting the networks key on the original model
-    if (formValues.properties.config.networks) {
-      delete originalModel.properties.config.networks;
-    }
-
-    // Hack Alert: Since we dont want to treat linked_providers as a patch array index
-    // We can appease by always forcing an op add; by deleting the linked_providers key on the original model
-    if (formValues.properties.linked_providers) {
-      delete originalModel.properties.linked_providers;
-    }
-
-    const patches = jsonPatch.compare(originalModel, updatedModel);
+    const { match, history, confirmUpdate, provider, updateProvider } = this.props;
+    const patches = generateProviderPatches(provider, formValues);
 
     let onSuccess;
     if (match.params.workspaceId && !match.params.environmentId) {
@@ -84,7 +52,7 @@ class ProviderEdit extends PureComponent {
 
     // If the provider has a container defined then warn the user of an impending container restart
     if (provider.properties.services && provider.properties.services.length) {
-      this.props.confirmUpdate(() => updateProvider(match.params.fqon, provider.id, patches, onSuccess), provider.name);
+      confirmUpdate(() => updateProvider(match.params.fqon, provider.id, patches, onSuccess), provider.name);
     } else {
       updateProvider(match.params.fqon, provider.id, patches, onSuccess);
     }
@@ -119,6 +87,8 @@ function mapStateToProps(state) {
           public: mapTo2DArray(provider.properties.config.env.public),
           private: mapTo2DArray(provider.properties.config.env.private),
         },
+        networks: JSON.stringify(provider.properties.config.networks),
+        extra: JSON.stringify(provider.properties.config.extra),
       },
       linked_providers: provider.properties.linked_providers,
       data: provider.properties.data ? base64.decode(provider.properties.data) : '',

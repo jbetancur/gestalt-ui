@@ -1,10 +1,10 @@
 import { cloneDeep, compact } from 'lodash';
+import jsonPatch from 'fast-json-patch';
 
 /**
  * generateAPIEndpointPayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
- * @param {Boolean} updateMode
  */
 export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
   const payload = cloneDeep(sourcePayload);
@@ -24,6 +24,23 @@ export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
   return payload;
 }
 
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ */
+export function generateAPIEndpointPatches(originalPayload, updatedPayload) {
+  const { name, description, properties } = cloneDeep(originalPayload);
+  const model = cloneDeep({
+    name,
+    description,
+    properties,
+  });
+
+  return jsonPatch.compare(model, generateAPIEndpointPayload(updatedPayload, true));
+}
+
 export default {
   generateAPIEndpointPayload,
+  generateAPIEndpointPatches,
 };

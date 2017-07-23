@@ -5,11 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import jsonPatch from 'fast-json-patch';
 import PolicyForm from '../../components/PolicyForm';
 import validate from '../../validations';
 import actions from '../../actions';
-import { generatePolicyPayload } from '../../payloadTransformer';
+import { generatePolicyPatches } from '../../payloadTransformer';
 
 class PolicyEdit extends Component {
   static propTypes = {
@@ -18,6 +17,7 @@ class PolicyEdit extends Component {
     fetchPolicy: PropTypes.func.isRequired,
     updatePolicy: PropTypes.func.isRequired,
     policyPending: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -26,16 +26,10 @@ class PolicyEdit extends Component {
   }
 
   updatePolicy(values) {
-    const { id, name, description } = this.props.policy;
-    const { match } = this.props;
-    const payload = generatePolicyPayload(values, true);
-    const originalModel = {
-      name,
-      description,
-    };
+    const { match, policy, updatePolicy } = this.props;
+    const patches = generatePolicyPatches(policy, values);
 
-    const patches = jsonPatch.compare(originalModel, payload);
-    this.props.updatePolicy(match.params.fqon, id, patches);
+    updatePolicy(match.params.fqon, policy.id, patches);
   }
 
   render() {
@@ -46,7 +40,7 @@ class PolicyEdit extends Component {
         editMode
         title={policy.name}
         submitLabel="Update"
-        cancelLabel="Done"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.updatePolicy(values)}
         {...this.props}
       />;

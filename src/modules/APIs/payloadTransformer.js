@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import jsonPatch from 'fast-json-patch';
 
 /**
  * generateAPIPayload
@@ -12,8 +13,8 @@ export function generateAPIPayload(sourcePayload, providersKongByGateway = {}, u
 
   if (updateMode) {
     return {
-      name: sourcePayload.name,
-      description: sourcePayload.description,
+      name: payload.name,
+      description: payload.description,
     };
   }
 
@@ -24,10 +25,24 @@ export function generateAPIPayload(sourcePayload, providersKongByGateway = {}, u
   // locations is an array, but we only need the first value to be the kong id
   payload.properties.provider.locations = [payload.properties.provider.locations]; // this is really the kong provider id
 
-
   return payload;
+}
+
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ */
+export function generateAPIPatches(originalPayload, updatedPayload) {
+  const model = cloneDeep({
+    name: originalPayload.name,
+    description: originalPayload.description,
+  });
+
+  return jsonPatch.compare(model, generateAPIPayload(updatedPayload, null, true));
 }
 
 export default {
   generateAPIPayload,
+  generateAPIPatches,
 };

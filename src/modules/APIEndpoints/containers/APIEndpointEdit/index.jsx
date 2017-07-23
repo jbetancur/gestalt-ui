@@ -5,12 +5,11 @@ import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'modules/MetaResource';
 import { withContext } from 'modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
-import jsonPatch from 'fast-json-patch';
 import { parse } from 'query-string';
 import APIEndpointForm from '../../components/APIEndpointForm';
 import validate from '../../components/APIEndpointForm/validations';
 import actions from '../../actions';
-import { generateAPIEndpointPayload } from '../../payloadTransformer';
+import { generateAPIEndpointPatches } from '../../payloadTransformer';
 
 class APIEndpointEdit extends Component {
   static propTypes = {
@@ -42,20 +41,12 @@ class APIEndpointEdit extends Component {
   }
 
   updateAPIEndpoint(values) {
-    const { id, name, description, properties } = this.props.apiEndpoint;
-    const { match, history } = this.props;
-    const originalModel = {
-      name,
-      description,
-      properties,
-    };
-
-    const payload = generateAPIEndpointPayload(values, true);
-    const patches = jsonPatch.compare(originalModel, payload);
+    const { match, history, apiEndpoint, updateAPIEndpoint } = this.props;
+    const patches = generateAPIEndpointPatches(apiEndpoint, values);
 
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/APIS/${match.params.apiId}/edit`);
-      this.props.updateAPIEndpoint(match.params.fqon, match.params.apiId, id, patches, onSuccess);
+      updateAPIEndpoint(match.params.fqon, match.params.apiId, apiEndpoint.id, patches, onSuccess);
     }
   }
 

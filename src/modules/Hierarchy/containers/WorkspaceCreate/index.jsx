@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { arrayToMap } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
+import { generateWorkspacePayload } from '../../payloadTransformer';
 
 class OrgCreate extends Component {
   static propTypes = {
@@ -18,19 +18,12 @@ class OrgCreate extends Component {
     pristine: PropTypes.bool.isRequired,
   };
 
-  createWorkspace(values) {
-    const { match, history } = this.props;
-
-    const payload = {
-      name: values.name,
-      description: values.description,
-      properties: {
-        env: arrayToMap(values.properties.env, 'name', 'value'),
-      },
-    };
-
+  create(values) {
+    const { match, history, createWorkspace } = this.props;
+    const payload = generateWorkspacePayload(values);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.id}`);
-    this.props.createWorkspace(match.params.fqon, payload, onSuccess);
+
+    createWorkspace(match.params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -39,7 +32,7 @@ class OrgCreate extends Component {
         title="Create Workspace"
         submitLabel="Create"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.createWorkspace(values)}
+        onSubmit={values => this.create(values)}
         pending={this.props.workspacePending}
         {...this.props}
       />

@@ -5,13 +5,12 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import jsonPatch from 'fast-json-patch';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import base64 from 'base-64';
 import LambdaForm from '../../components/LambdaForm';
 import validate from '../../validations';
 import actions from '../../actions';
-import { generateLambdaPayload } from '../../payloadTransformer';
+import { generateLambdaPatches } from '../../payloadTransformer';
 
 class LambdaEdit extends Component {
   static propTypes = {
@@ -34,48 +33,12 @@ class LambdaEdit extends Component {
     fetchLambda(match.params.fqon, match.params.lambdaId, match.params.environmentId);
   }
 
-  originalModel(originalOrg) {
-    const { name, description, properties } = originalOrg;
-    const model = {
-      name,
-      description,
-      properties: {
-        env: properties.env,
-        headers: properties.headers,
-        code: properties.code,
-        code_type: properties.code_type,
-        compressed: properties.compressed,
-        cpus: properties.cpus,
-        memory: properties.memory,
-        timeout: properties.timeout,
-        handler: properties.handler,
-        package_url: properties.package_url,
-        public: properties.public,
-        runtime: properties.runtime,
-        provider: properties.provider,
-        periodic_info: properties.periodic_info,
-      }
-    };
-
-    if (!properties.code) {
-      delete model.properties.code;
-    } else {
-      delete model.properties.package_url;
-      delete model.properties.compressed;
-    }
-
-    return model;
-  }
-
   updateLambda(values) {
-    const { id } = this.props.lambda;
-    const { lambda, match, history } = this.props;
-    const updatedModel = generateLambdaPayload(values, true);
-    const originalModel = this.originalModel(lambda);
-    const patches = jsonPatch.compare(originalModel, updatedModel);
+    const { lambda, match, history, updateLambda } = this.props;
+    const patches = generateLambdaPatches(lambda, values);
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
 
-    this.props.updateLambda(match.params.fqon, id, patches, onSuccess);
+    updateLambda(match.params.fqon, lambda.id, patches, onSuccess);
   }
 
   render() {

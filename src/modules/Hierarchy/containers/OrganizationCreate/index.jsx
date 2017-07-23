@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { arrayToMap } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
+import { generateOrganizationPayload } from '../../payloadTransformer';
 
 class OrgCreate extends Component {
   static propTypes = {
@@ -20,17 +20,12 @@ class OrgCreate extends Component {
     pristine: PropTypes.bool.isRequired,
   };
 
-  createOrg(values) {
-    const payload = {
-      name: values.name,
-      description: values.description,
-      properties: {
-        env: arrayToMap(values.properties.env, 'name', 'value'),
-      }
-    };
+  create(values) {
+    const { match, history, createOrg } = this.props;
+    const payload = generateOrganizationPayload(values);
+    const onSuccess = response => history.replace(`/${response.properties.fqon}/hierarchy`);
 
-    const onSuccess = response => this.props.history.replace(`/${response.properties.fqon}/hierarchy`);
-    this.props.createOrg(this.props.match.params.fqon, payload, onSuccess);
+    createOrg(match.params.fqon, payload, onSuccess);
   }
 
   render() {
@@ -40,7 +35,7 @@ class OrgCreate extends Component {
         title={t('organizations.actions.create')}
         submitLabel={t('general.verbs.create')}
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.createOrg(values)}
+        onSubmit={values => this.create(values)}
         pending={this.props.organizationPending}
         {...this.props}
       />

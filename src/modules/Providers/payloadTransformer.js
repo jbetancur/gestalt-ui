@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
-import { arrayToMap } from 'util/helpers/transformations';
+import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
+import { arrayToMap } from 'util/helpers/transformations';
 import { payloadTransformer } from 'modules/Containers';
 
 // import { mapTo2DArray } from 'util/helpers/transformations';
@@ -9,9 +10,10 @@ import { payloadTransformer } from 'modules/Containers';
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
  * @param {Array} mergeContainerProps
+ * @param {Object} containerValues
  * @param {Boolean} updateMode
  */
-export function generateProviderPayload(sourcePayload, mergeContainerProps = [], containerValues, updateMode = false) {
+export function generateProviderPayload(sourcePayload, mergeContainerProps = [], containerValues = {}, updateMode = false) {
   const {
     name,
     description,
@@ -29,11 +31,13 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
           public: arrayToMap(properties.config.env.public, 'name', 'value'),
           private: arrayToMap(properties.config.env.private, 'name', 'value'),
         },
+        extra: properties.config.extra,
+        networks: properties.config.networks,
       },
       services: [],
       linked_providers: properties.linked_providers,
       locations: properties.locations,
-    }
+    },
   };
 
   if (properties.config.url) {
@@ -84,6 +88,37 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
   return payload;
 }
 
+/**
+ * Generates an array of patch operations
+ * @param {Object} originalPayload
+ * @param {Object} updatedPayload
+ */
+export function generateProviderPatches(originalPayload, updatedPayload) {
+  const { name, description, properties: { config, locations, linked_providers } } = cloneDeep(originalPayload);
+  const model = {
+    name,
+    description,
+    properties: {
+      config,
+      linked_providers,
+      locations,
+    },
+  };
+
+  // Hack Alert: Since we dont want to treat networks JSON as a patch array index
+  if (updatedPayload.properties.config.networks) {
+    delete model.properties.config.networks;
+  }
+
+  // Hack Alert: Since we dont want to treat extra JSON as a patch array index
+  if (updatedPayload.properties.config.extra) {
+    delete model.properties.config.extra;
+  }
+
+  return jsonPatch.compare(model, generateProviderPayload(updatedPayload, [], {}, true));
+}
+
 export default {
   generateProviderPayload,
+  generateProviderPatches,
 };

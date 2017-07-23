@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { arrayToMap } from 'util/helpers/transformations';
 import HierarchyForm from '../../components/HierarchyForm';
 import validate from '../../components/HierarchyForm/validations';
 import actions from '../../actions';
+import { generateEnvironmentPayload } from '../../payloadTransformer';
 
 class OrgCreate extends Component {
   static propTypes = {
@@ -18,19 +18,12 @@ class OrgCreate extends Component {
     pristine: PropTypes.bool.isRequired,
   };
 
-  createEnvironment(values) {
-    const { match, history } = this.props;
-    const payload = {
-      name: values.name,
-      description: values.description,
-      properties: {
-        environment_type: values.properties.environment_type,
-        env: arrayToMap(values.properties.env, 'name', 'value'),
-      }
-    };
-
+  create(values) {
+    const { match, history, createEnvironment } = this.props;
+    const payload = generateEnvironmentPayload(values);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments/${response.id}`);
-    this.props.createEnvironment(this.props.match.params.fqon, this.props.match.params.workspaceId, payload, onSuccess);
+
+    createEnvironment(match.params.fqon, this.props.match.params.workspaceId, payload, onSuccess);
   }
 
   render() {
@@ -39,7 +32,7 @@ class OrgCreate extends Component {
         title="Create Environment"
         submitLabel="Create"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.createEnvironment(values)}
+        onSubmit={values => this.create(values)}
         isEnvironment
         pending={this.props.environmentPending}
         {...this.props}
