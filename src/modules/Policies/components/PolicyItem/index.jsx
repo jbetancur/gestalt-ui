@@ -57,7 +57,7 @@ class PolicyItem extends PureComponent {
         <TableColumn>{policy.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={policy.created.timestamp} /> <FormattedTime value={policy.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div className="flex-row">

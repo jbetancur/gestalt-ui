@@ -73,7 +73,7 @@ class apiEndpointItem extends PureComponent {
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <Card tableCard>

@@ -87,7 +87,7 @@ class LambdaItem extends PureComponent {
         <TableColumn>{lambda.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={lambda.created.timestamp} /> <FormattedTime value={lambda.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div className="flex-row">

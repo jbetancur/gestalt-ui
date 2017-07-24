@@ -56,7 +56,7 @@ const PortMapForm = (props) => {
             className="flex-3 flex-xs-6"
             component={TextField}
             required
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
           /> : null}
         {props.networkType !== 'HOST' ?
           <Field
@@ -68,7 +68,7 @@ const PortMapForm = (props) => {
             className="flex-3 flex-xs-6"
             component={TextField}
             required
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
           /> : null}
         {values.expose_endpoint ? <Field
           name="virtual_hosts"

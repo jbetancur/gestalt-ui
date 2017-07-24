@@ -84,26 +84,27 @@ class PromoteModal extends PureComponent {
             disabled: !this.state.environment,
           }]}
       >
-        {this.props.environmentsPending ? <DotActivity size={1} primary /> :
-        <div>
-          {environments.length ?
-            <div className="flex-row">
-              <div className="flex-row center-center">
-                <SelectField
-                  id="container-promoteto"
-                  className="flex-12"
-                  label="Promote to Environment"
-                  lineDirection="center"
-                  menuItems={environments}
-                  itemLabel="name"
-                  itemValue="id"
-                  value={this.state.environment}
-                  onChange={value => this.environmentChanged(value)}
-                  required
-                />
-              </div>
-            </div> : <span>There are no available environments to promote to</span>}
-        </div>}
+        {this.props.environmentsPending ?
+          <DotActivity size={1} primary /> :
+          <div>
+            {environments.length > 0 ?
+              <div className="flex-row">
+                <div className="flex-row center-center">
+                  <SelectField
+                    id="container-promoteto"
+                    className="flex-12"
+                    label="Promote to Environment"
+                    lineDirection="center"
+                    menuItems={environments}
+                    itemLabel="name"
+                    itemValue="id"
+                    value={this.state.environment}
+                    onChange={value => this.environmentChanged(value)}
+                    required
+                  />
+                </div>
+              </div> : <span>There are no available environments to promote to</span>}
+          </div>}
       </EnhancedDialog>
     );
   }

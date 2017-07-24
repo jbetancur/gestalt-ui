@@ -96,15 +96,16 @@ class ContainerEdit extends Component {
 
   render() {
     const { container, containerPending } = this.props;
-    return containerPending ? <ActivityContainer id="container-load" /> :
-    <ContainerForm
-      editMode
-      title={container.name}
-      submitLabel="Redeploy"
-      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-      onSubmit={values => this.redeployContainer(values)}
-      {...this.props}
-    />;
+    return containerPending ?
+      <ActivityContainer id="container-load" /> :
+      <ContainerForm
+        editMode
+        title={container.name}
+        submitLabel="Redeploy"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.redeployContainer(values)}
+        {...this.props}
+      />;
   }
 }
 

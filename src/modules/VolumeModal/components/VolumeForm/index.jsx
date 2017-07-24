@@ -23,7 +23,7 @@ const VolumeForm = (props) => {
       <div className="flex-row">
         <Field
           name="type"
-          className="flex-2 flex-xs-6 flex-sm-6"
+          className="flex-2 flex-xs-12 flex-sm-6"
           component={SelectField}
           label="Type"
           itemLabel="type"
@@ -34,7 +34,7 @@ const VolumeForm = (props) => {
         />
         {!selectedVolumeType ? null : <Field
           name="mode"
-          className="flex-2 flex-xs-6 flex-sm-6"
+          className="flex-3 flex-xs-12 flex-sm-6"
           component={SelectField}
           label="Mode"
           itemLabel="displayName"
@@ -50,7 +50,7 @@ const VolumeForm = (props) => {
             label="Size (MiB)"
             className="flex-2 flex-xs-12"
             component={TextField}
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
             required
           /> :
           <Field

@@ -77,7 +77,7 @@ class ContainerItem extends PureComponent {
         <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
         <TableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div className="flex-row">

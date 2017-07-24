@@ -165,7 +165,7 @@ const ProviderForm = (props) => {
           id="imageInput1"
           label="Upload YAML"
           onChange={(file, e) => onFile(file, e)}
-          accept="application/x-yaml"  // The IANA MIME types registry doesn't list YAML yet, so there isn't a correct one, per se.
+          accept="application/x-yaml" // The IANA MIME types registry doesn't list YAML yet, so there isn't a correct one, per se.
           primary
         />}
       {selectedProviderType.uploadConfig &&

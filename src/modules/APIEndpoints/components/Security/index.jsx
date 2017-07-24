@@ -97,7 +97,7 @@ export default class APIEndpointSecurity extends PureComponent {
                   ))}
                 </List>
               </div>
-            </div>}*/}
+            </div>} */}
           </div>
         </fieldset>
       </div>

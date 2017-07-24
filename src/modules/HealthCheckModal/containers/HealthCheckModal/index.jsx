@@ -15,6 +15,7 @@ const EnhancedDialog = styled(Dialog)`
     max-width: 45em;
     .md-dialog-content {
       min-height: 10em;
+      overflow: visible;
     }
   }
 `;

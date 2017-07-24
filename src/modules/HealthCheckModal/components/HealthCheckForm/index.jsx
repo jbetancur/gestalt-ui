@@ -52,7 +52,7 @@ const HealthCheckForm = (props) => {
             label="Grace Period"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
             required
             helpText="seconds"
           />
@@ -63,7 +63,7 @@ const HealthCheckForm = (props) => {
             label="Interval"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
             required
             helpText="seconds"
           />
@@ -74,7 +74,7 @@ const HealthCheckForm = (props) => {
             label="Timeout"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
             required
             helpText="seconds"
           />
@@ -85,7 +85,7 @@ const HealthCheckForm = (props) => {
             label="Max Consecutive Failures"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
             required
           />
         </div>
@@ -110,7 +110,7 @@ const HealthCheckForm = (props) => {
               label="Port Number"
               className="flex-2 flex-xs-6 flex-sm-6"
               component={TextField}
-              parse={value => Number(value)}  // redux form formats everything as string, so force number
+              parse={value => Number(value)} // redux form formats everything as string, so force number
               required
             /> : null}
           {values.port_type === 'index' && selectedHCProtocol && selectedHCProtocol.supportsPortType ?
@@ -122,7 +122,7 @@ const HealthCheckForm = (props) => {
               label="Port Index"
               className="flex-2 flex-xs-6 flex-sm-6"
               component={TextField}
-              parse={value => Number(value)}  // redux form formats everything as string, so force number
+              parse={value => Number(value)} // redux form formats everything as string, so force number
               required
             /> : null}
           {selectedHCProtocol && selectedHCProtocol.supportsURL ?

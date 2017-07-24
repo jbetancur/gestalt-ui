@@ -73,16 +73,17 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    return this.props.envPending ? <ActivityContainer id="container-load" /> :
-    <ContainerForm
-      inlineMode={this.props.inlineMode}
-      title="Deploy Container"
-      submitLabel="Deploy"
-      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-      onSubmit={values =>
-      this.create(values)}
-      {...this.props}
-    />;
+    return this.props.envPending ?
+      <ActivityContainer id="container-load" /> :
+      <ContainerForm
+        inlineMode={this.props.inlineMode}
+        title="Deploy Container"
+        submitLabel="Deploy"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values =>
+        this.create(values)}
+        {...this.props}
+      />;
   }
 }
 

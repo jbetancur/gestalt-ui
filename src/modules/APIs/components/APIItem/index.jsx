@@ -57,7 +57,7 @@ class APIItem extends PureComponent {
         <TableColumn>{api.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={api.created.timestamp} /> <FormattedTime value={api.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div className="flex-row">

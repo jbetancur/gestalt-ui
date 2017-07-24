@@ -30,7 +30,7 @@ class IntegrationItem extends Component {
         <TableColumn>{integration.description}</TableColumn>
         <TableColumn><FontIcon>more_vert</FontIcon></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div className="flex-row">
