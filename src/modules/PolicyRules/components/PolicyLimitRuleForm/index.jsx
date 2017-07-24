@@ -133,7 +133,7 @@ const PolicyLimitRuleForm = (props) => {
                     name="properties.eval_logic.value"
                     label="Value"
                     type={valueType}
-                    parse={valueType === 'number' ? (value => Number(value)) : null}  // redux form formats everything as string, so force number
+                    parse={valueType === 'number' ? (value => Number(value)) : null} // redux form formats everything as string, so force number
                     required
                   /> : null}
                 <Field

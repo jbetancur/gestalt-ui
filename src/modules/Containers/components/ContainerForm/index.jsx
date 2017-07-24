@@ -21,6 +21,7 @@ import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
 import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, CopyUUIDButton } from 'components/Buttons';
+// import { parseChildClass } from 'util/helpers/strings';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
@@ -155,7 +156,7 @@ const ContainerForm = (props) => {
                     label="Instances"
                     type="number"
                     required
-                    parse={value => Number(value)}  // redux form formats everything as string, so force number
+                    parse={value => Number(value)} // redux form formats everything as string, so force number
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -167,7 +168,7 @@ const ContainerForm = (props) => {
                     label="CPU"
                     type="number"
                     required
-                    parse={value => Number(value)}  // redux form formats everything as string, so force number
+                    parse={value => Number(value)} // redux form formats everything as string, so force number
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -179,7 +180,7 @@ const ContainerForm = (props) => {
                     label="Memory"
                     type="number"
                     required
-                    parse={value => Number(value)}  // redux form formats everything as string, so force number
+                    parse={value => Number(value)} // redux form formats everything as string, so force number
                   />
                   <Field
                     className="flex-5 flex-xs-12"
@@ -233,25 +234,26 @@ const ContainerForm = (props) => {
             </Card>}
 
             <ExpansionList className={props.inlineMode ? 'flex-12' : 'flex-10 flex-xs-12 flex-sm-12'}>
-              {!values.properties.network ? <div /> :
-              <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0}>
-                <div className="flex-row no-gutter">
-                  <div className="flex">
-                    <PortMapModal networkType={values.properties.network} />
-                    <ListButton
-                      id="port-mappings"
-                      flat
-                      iconBefore
-                      primary
-                      label="Port Mapping"
-                      onClick={() => props.showPortmapModal()}
-                    >
-                      add
-                    </ListButton>
-                    <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} {...props} />
+              {!values.properties.network ?
+                <div /> :
+                <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0}>
+                  <div className="flex-row no-gutter">
+                    <div className="flex">
+                      <PortMapModal networkType={values.properties.network} />
+                      <ListButton
+                        id="port-mappings"
+                        flat
+                        iconBefore
+                        primary
+                        label="Port Mapping"
+                        onClick={() => props.showPortmapModal()}
+                      >
+                        add
+                      </ListButton>
+                      <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} {...props} />
+                    </div>
                   </div>
-                </div>
-              </ExpansionPanelNoPadding>}
+                </ExpansionPanelNoPadding>}
 
               <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0}>
                 <div className="flex-row no-gutter">

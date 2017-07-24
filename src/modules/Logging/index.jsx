@@ -283,33 +283,34 @@ class Logging extends PureComponent {
           </div>
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>
-          {(logProviderPending || logPending) ? <ActivityContainer id="log-loading" primary /> :
-          <div>
-            <ScrollButtons>
-              <TopScrollButton
-                icon
-                primary
-                tooltipLabel="Scroll to Top"
-                tooltipPosition="left"
-                onClick={() => this.scrollToTop()}
-              >arrow_upward
-              </TopScrollButton>
-              <BottomScrollButton
-                icon
-                primary
-                tooltipLabel="Scroll to Bottom"
-                tooltipPosition="left"
-                onClick={() => this.scrollToBottom()}
-              >arrow_downward
-            </BottomScrollButton>
-            </ScrollButtons>
-            <Pre>
-              <Code>
-                {this.state.logs.map((log, i) =>
-                  <LogItem key={i}>{log}</LogItem>)}
-              </Code>
-            </Pre>
-          </div>}
+          {(logProviderPending || logPending) ?
+            <ActivityContainer id="log-loading" primary /> :
+            <div>
+              <ScrollButtons>
+                <TopScrollButton
+                  icon
+                  primary
+                  tooltipLabel="Scroll to Top"
+                  tooltipPosition="left"
+                  onClick={() => this.scrollToTop()}
+                >arrow_upward
+                </TopScrollButton>
+                <BottomScrollButton
+                  icon
+                  primary
+                  tooltipLabel="Scroll to Bottom"
+                  tooltipPosition="left"
+                  onClick={() => this.scrollToBottom()}
+                >arrow_downward
+              </BottomScrollButton>
+              </ScrollButtons>
+              <Pre>
+                <Code>
+                  {this.state.logs.map((log, i) =>
+                    <LogItem key={i}>{log}</LogItem>)}
+                </Code>
+              </Pre>
+            </div>}
         </CodeWrapper>
       </PageWrapper>
     );

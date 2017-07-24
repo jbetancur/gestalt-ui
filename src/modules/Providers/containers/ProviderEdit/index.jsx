@@ -60,15 +60,16 @@ class ProviderEdit extends PureComponent {
 
   render() {
     const { provider, providerPending } = this.props;
-    return providerPending ? <ActivityContainer id="provider-load" /> :
-    <ProviderForm
-      editMode
-      title={provider.name}
-      submitLabel="Update"
-      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-      onSubmit={values => this.update(values)}
-      {...this.props}
-    />;
+    return providerPending ?
+      <ActivityContainer id="provider-load" /> :
+      <ProviderForm
+        editMode
+        title={provider.name}
+        submitLabel="Update"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.update(values)}
+        {...this.props}
+      />;
   }
 }
 

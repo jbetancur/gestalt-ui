@@ -41,7 +41,7 @@ class APIEndpointCreate extends Component {
 function mapStateToProps() {
   const model = {
     properties: {
-      methods: 'GET',  // converts to array
+      methods: 'GET', // converts to array
       plugins: {
         rateLimit: {
           enabled: false,

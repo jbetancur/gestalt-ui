@@ -85,7 +85,7 @@ class ProviderItem extends PureComponent {
         <TableColumn>{provider.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={provider.created.timestamp} /> <FormattedTime value={provider.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <div>

@@ -72,7 +72,7 @@ class PolicyRuleItem extends PureComponent {
         <TableColumn>{policyRule.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={policyRule.created.timestamp} /> <FormattedTime value={policyRule.created.timestamp} /></TableColumn>
       </TableRow>
-      ));
+    ));
 
     return (
       <Card tableCard>

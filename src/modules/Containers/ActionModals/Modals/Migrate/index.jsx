@@ -85,26 +85,27 @@ class MigrateModal extends PureComponent {
             disabled: !this.state.provider,
           }]}
       >
-        {this.props.providersByTypePending ? <DotActivity size={1} primary /> :
-        <div>
-          {providers.length ?
-            <div className="flex-row">
-              <div className="flex-row center-center">
-                <SelectField
-                  id="container-scaleto"
-                  className="flex-12"
-                  label="Migrate to Provider"
-                  lineDirection="center"
-                  menuItems={providers}
-                  itemLabel="name"
-                  itemValue="id"
-                  value={this.state.provider}
-                  onChange={value => this.providerChanged(value)}
-                  required
-                />
-              </div>
-            </div> : <span>There are no available providers to migrate to</span>}
-        </div>}
+        {this.props.providersByTypePending ?
+          <DotActivity size={1} primary /> :
+          <div>
+            {providers.length ?
+              <div className="flex-row">
+                <div className="flex-row center-center">
+                  <SelectField
+                    id="container-scaleto"
+                    className="flex-12"
+                    label="Migrate to Provider"
+                    lineDirection="center"
+                    menuItems={providers}
+                    itemLabel="name"
+                    itemValue="id"
+                    value={this.state.provider}
+                    onChange={value => this.providerChanged(value)}
+                    required
+                  />
+                </div>
+              </div> : <span>There are no available providers to migrate to</span>}
+          </div>}
       </EnhancedDialog>
     );
   }

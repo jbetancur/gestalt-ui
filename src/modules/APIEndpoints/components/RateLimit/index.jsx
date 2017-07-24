@@ -44,7 +44,7 @@ export default class RateLimit extends PureComponent {
             label="Per Minute"
             type="number"
             required
-            parse={value => Number(value)}  // redux form formats everything as string, so force number
+            parse={value => Number(value)} // redux form formats everything as string, so force number
             helpText="Accesses per minute allowed for this endpoint"
             className="flex-3 flex-xs-12"
           />}

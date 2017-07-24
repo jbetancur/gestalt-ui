@@ -161,7 +161,7 @@ const LambdaForm = (props) => {
                   label="CPU"
                   type="number"
                   required
-                  parse={value => Number(value)}  // redux form formats everything as string, so force number
+                  parse={value => Number(value)} // redux form formats everything as string, so force number
                 />
                 <Field
                   className="flex-1 flex-xs-4 flex-sm-4 flex-md-4"
@@ -173,7 +173,7 @@ const LambdaForm = (props) => {
                   label="Memory"
                   type="number"
                   required
-                  parse={value => Number(value)}  // redux form formats everything as string, so force number
+                  parse={value => Number(value)} // redux form formats everything as string, so force number
                 />
                 <Field
                   className="flex-1 flex-xs-4 flex-sm-4 flex-md-4"
@@ -184,7 +184,7 @@ const LambdaForm = (props) => {
                   label="Timeout"
                   type="number"
                   required
-                  parse={value => Number(value)}  // redux form formats everything as string, so force number
+                  parse={value => Number(value)} // redux form formats everything as string, so force number
                 />
                 <Field
                   className="flex-6 flex-xs-12"

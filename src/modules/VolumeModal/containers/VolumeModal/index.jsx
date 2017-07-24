@@ -12,9 +12,10 @@ import validate from '../../components/VolumeForm/validations';
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
     width: 100%;
-    max-width: 45em;
+    max-width: 48em;
     .md-dialog-content {
       min-height: 10em;
+      overflow: visible;
     }
   }
 `;
