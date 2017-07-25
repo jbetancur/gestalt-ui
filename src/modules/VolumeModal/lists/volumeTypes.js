@@ -63,10 +63,6 @@ export default {
           mode: 'RW',
           displayName: 'Read/Write',
         },
-        {
-          mode: 'RW-MANY',
-          displayName: 'Read/Write Many',
-        },
       ],
     },
   ],
