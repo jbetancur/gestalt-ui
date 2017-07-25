@@ -9,10 +9,8 @@ import { ModalFooter } from 'components/Modal';
 import volumeTypes from '../../lists/volumeTypes';
 
 const VolumeForm = (props) => {
-  const { values, reset } = props;
-
-  const selectedVolumeType = volumeTypes.find(type => values.type === type.type);
-
+  const { providerType, values, reset } = props;
+  const selectedVolumeType = volumeTypes[providerType].find(type => values.type === type.type);
   const close = () => {
     props.reset();
     props.hideVolumeModal();
@@ -28,20 +26,21 @@ const VolumeForm = (props) => {
           label="Type"
           itemLabel="type"
           itemValue="type"
-          menuItems={volumeTypes}
+          menuItems={volumeTypes[providerType]}
           onChange={() => reset()}
           required
         />
-        {!selectedVolumeType ? null : <Field
-          name="mode"
-          className="flex-3 flex-xs-12 flex-sm-6"
-          component={SelectField}
-          label="Mode"
-          itemLabel="displayName"
-          itemValue="mode"
-          menuItems={selectedVolumeType.modes}
-          required
-        />}
+        {selectedVolumeType &&
+          <Field
+            name="mode"
+            className="flex-3 flex-xs-12 flex-sm-6"
+            component={SelectField}
+            label="Mode"
+            itemLabel="displayName"
+            itemValue="mode"
+            menuItems={selectedVolumeType.modes}
+            required
+          />}
         {values.type === 'Persistent' ?
           <Field
             name="persistent.size"
@@ -65,13 +64,26 @@ const VolumeForm = (props) => {
         <Field
           name="container_path"
           type="text"
-          label="Container Path"
+          label="Relative Container Path"
           className="flex flex-sm-12"
           component={TextField}
           helpText="relative path (dir)"
           required
         />
       </div>
+
+      {providerType === 'Kubernetes' &&
+        <div className="flex-row">
+          <Field
+            name="name"
+            type="text"
+            label="Volume Name"
+            className="flex-6 flex-xs-12 flex-sm-12"
+            component={TextField}
+            helpText="The name is used to identify the volume to attach to the container"
+            required
+          />
+        </div>}
       <ModalFooter>
         <Button
           flat
@@ -99,6 +111,11 @@ VolumeForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  providerType: PropTypes.string,
+};
+
+VolumeForm.defaultProps = {
+  providerType: 'default',
 };
 
 // Connect to this forms state in the store so we can enum the values

@@ -64,6 +64,12 @@ export function isCommaDelimitedConstraints(string) {
   return /^(([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)(,[ ]*([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)*$/.test(trimmedString);
 }
 
+export function isKubernetesVolumeName(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+  return /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/.test(string);
+}
 
 export default {
   isFQON,
@@ -74,4 +80,5 @@ export default {
   isLambdaName,
   isContainerName,
   isCommaDelimited,
+  isKubernetesVolumeName,
 };

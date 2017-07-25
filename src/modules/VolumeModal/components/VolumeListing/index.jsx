@@ -29,13 +29,14 @@ class VolumeListing extends Component {
     }
   }
 
-  renderRows() {
-    return this.props.volumes.map((item, i) => (
+  renderRows(volumes) {
+    return volumes.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>{item.type || item.plugin}</TableColumn>
         <TableColumn>{item.mode}</TableColumn>
         <TableColumn>{item.host_path}</TableColumn>
         <TableColumn>{item.container_path}</TableColumn>
+        <TableColumn>{item.name}</TableColumn>
         <TableColumn>{item.persistent && item.persistent.size}</TableColumn>
         <TableColumn containsButtons><FieldRemoveButton onClick={() => this.props.removeVolume(item)} inTable /></TableColumn>
       </TableRow>
@@ -43,21 +44,24 @@ class VolumeListing extends Component {
   }
 
   render() {
+    const volumes = this.props.volumes;
+
     return (
       <DataTable plain>
-        {this.props.volumes.length ?
+        {volumes.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn>Type</TableColumn>
               <TableColumn>Mode</TableColumn>
-              <TableColumn>Host Path</TableColumn>
-              <TableColumn>Container Path</TableColumn>
-              <TableColumn>Size</TableColumn>
+              <TableColumn>Host Path (Host Only)</TableColumn>
+              <TableColumn>Relative Container Path</TableColumn>
+              <TableColumn>Volume Name (Kubernetes Only)</TableColumn>
+              <TableColumn>Size (MiB)</TableColumn>
               <TableColumn />
             </TableRow>
-          </TableHeader> : null}
+          </TableHeader>}
         <TableBody>
-          {this.renderRows()}
+          {this.renderRows(volumes)}
         </TableBody>
       </DataTable>
     );

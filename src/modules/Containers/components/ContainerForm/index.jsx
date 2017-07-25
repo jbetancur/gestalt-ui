@@ -21,10 +21,11 @@ import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
 import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, CopyUUIDButton } from 'components/Buttons';
-// import { parseChildClass } from 'util/helpers/strings';
+import { parseChildClass } from 'util/helpers/strings';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
+import ContainerIcon from '../ContainerIcon';
 
 const ListButton = styled(Button)`
   margin-left: 1.7em;
@@ -60,7 +61,7 @@ const ContainerForm = (props) => {
               expander={container.id}
               title={
                 <div>
-                  <span>{props.title}</span>
+                  <div>{props.title}</div>
                   {props.editMode &&
                     <ContainerActions
                       inContainerView
@@ -68,6 +69,7 @@ const ContainerForm = (props) => {
                       {...props}
                     />}
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
+                  {selectedProvider && <div className="gf-headline-1"><ContainerIcon resourceType={selectedProvider.resource_type} /> {selectedProvider.name}</div>}
                 </div>
               }
               subtitle={container.id &&
@@ -92,20 +94,20 @@ const ContainerForm = (props) => {
             />}
             <CardText expandable={container.id}>
               <div className="flex-row">
-                <Field
-                  id="select-provider"
-                  className="flex-5 flex-xs-12"
-                  component={SelectField}
-                  name="properties.provider.id"
-                  required
-                  label="Provider"
-                  itemLabel="name"
-                  itemValue="id"
-                  menuItems={props.providersByType}
-                  onFocus={() => fetchProviders()}
-                  async
-                  disabled={container.id}
-                />
+                {!values.properties.provider.id &&
+                  <Field
+                    id="select-provider"
+                    className="flex-12 flex-xs-12"
+                    component={SelectField}
+                    name="properties.provider.id"
+                    required
+                    label="Provider"
+                    itemLabel="name"
+                    itemValue="id"
+                    menuItems={props.providersByType}
+                    onFocus={() => fetchProviders()}
+                    async
+                  />}
                 {values.properties.provider.id &&
                 <div className="flex-row">
                   <Field
@@ -258,7 +260,7 @@ const ContainerForm = (props) => {
               <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex">
-                    <VolumeModal />
+                    <VolumeModal providerType={parseChildClass(selectedProvider.resource_type)} />
                     <ListButton
                       id="volume-modes"
                       flat

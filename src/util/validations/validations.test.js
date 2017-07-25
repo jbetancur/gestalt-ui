@@ -6,6 +6,7 @@ import {
   isContainerName,
   isCommaDelimited,
   isCommaDelimitedConstraints,
+  isKubernetesVolumeName,
 } from './index';
 
 // TODO: pass arrays of validations for more thurough tests
@@ -125,6 +126,28 @@ describe('Validations', () => {
 
     it('should return the original value if arg is not a string', () => {
       expect(isCommaDelimitedConstraints({})).to.deep.equal({});
+    });
+  });
+
+  describe('isKubernetesVolumeName', () => {
+    it('should validate if not a volume name (has spaces)', () => {
+      expect(isKubernetesVolumeName('Not a volume ahahaha')).to.equal(false);
+    });
+
+    it('should validate if not volume name (invalid chars)', () => {
+      expect(isKubernetesVolumeName('i_love_volumes')).to.equal(false);
+    });
+
+    it('should validate if is volume name with -', () => {
+      expect(isKubernetesVolumeName('i-love-volumes')).to.equal(true);
+    });
+
+    it('should validate if is volume name with .', () => {
+      expect(isKubernetesVolumeName('i.love.volumes')).to.equal(true);
+    });
+
+    it('should return the original value if arg is not a string', () => {
+      expect(isKubernetesVolumeName({})).to.deep.equal({});
     });
   });
 });
