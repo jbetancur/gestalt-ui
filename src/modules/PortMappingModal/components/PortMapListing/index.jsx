@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import FontIcon from 'react-md/lib/FontIcons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FieldRemoveButton } from 'components/Buttons';
 import A from 'components/A';
 
@@ -21,7 +21,7 @@ class PortMapListing extends Component {
   };
 
   componentDidMount() {
-    this.props.mergePortMappings.forEach(port => this.props.addPortmapping(port));
+    this.props.mergePortMappings.forEach(m => this.props.addPortmapping(m));
   }
 
   componentWillUnmount() {
@@ -31,12 +31,12 @@ class PortMapListing extends Component {
     }
   }
 
-  renderRows() {
-    return this.props.portMappings.map((item, i) => (
+  renderRows(portMappings) {
+    return portMappings.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>{item.name}</TableColumn>
         <TableColumn>{item.protocol}</TableColumn>
-        <TableColumn containsButtons><Checkbox defaultChecked={item.expose_endpoint} disabled /></TableColumn>
+        <TableColumn>{item.expose_endpoint && <FontIcon>checked</FontIcon>}</TableColumn>
         <TableColumn>{item.service_port}</TableColumn>
         <TableColumn>{item.container_port}</TableColumn>
         <TableColumn >{item.virtual_hosts && item.virtual_hosts.map(host => <div><A href={`https://${host}`} target="_blank" rel="noopener noreferrer">{`https://${host}`}</A></div>)}</TableColumn>
@@ -46,9 +46,11 @@ class PortMapListing extends Component {
   }
 
   render() {
+    const portMappings = this.props.portMappings;
+
     return (
       <DataTable plain>
-        {this.props.portMappings.length > 0 &&
+        {portMappings.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn>Name</TableColumn>
@@ -61,7 +63,7 @@ class PortMapListing extends Component {
             </TableRow>
           </TableHeader>}
         <TableBody>
-          {this.renderRows()}
+          {this.renderRows(portMappings)}
         </TableBody>
       </DataTable>
     );

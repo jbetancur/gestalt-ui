@@ -259,7 +259,7 @@
         "redux-localstorage": "^0.4.1",
         "redux-logger": "^3.0.6",
         "redux-responsive": "^4.3.2",
-        "redux-saga": "^0.15.5",
+        "redux-saga": "^0.15.6",
         "redux-thunk": "^2.2.0",
         "reselect": "^3.0.1",
         "sanitize.css": "^5.0.0",

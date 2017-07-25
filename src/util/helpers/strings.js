@@ -16,11 +16,15 @@ export function getParentFQON(organization) {
 
 /**
  * Parses and returns the last item in a structure like GrandPareng::Parent::Child
- * @param {string} state
+ * @param {string} string
  */
-export function parseChildClass(state) {
-  const split = state.split('::');
-  return split[split.length - 1];
+export function parseChildClass(string) {
+  if (string) {
+    const split = string.split('::');
+    return split[split.length - 1];
+  }
+
+  return string;
 }
 
 export default {

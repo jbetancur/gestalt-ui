@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
+import FontIcon from 'react-md/lib/FontIcons';
 import { FieldRemoveButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
 
@@ -34,8 +34,8 @@ class HealthCheckListing extends Component {
     this.props.removeHealthCheck(volume);
   }
 
-  renderRows() {
-    return this.props.healthChecks.map((item, i) => (
+  renderRows(healthChecks) {
+    return healthChecks.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>{item.protocol}</TableColumn>
         <TableColumn>{item.grace_period_seconds}</TableColumn>
@@ -46,16 +46,18 @@ class HealthCheckListing extends Component {
         <TableColumn>{item.command}</TableColumn>
         <TableColumn>{item.port}</TableColumn>
         <TableColumn>{item.port_index}</TableColumn>
-        <TableColumn containsButtons><Checkbox defaultChecked={item.ignore_http_1xx} disabled /></TableColumn>
+        <TableColumn>{item.ignore_http_1xx && <FontIcon>checked</FontIcon>}</TableColumn>
         <TableColumn containsButtons><FieldRemoveButton onClick={() => this.remove(item)} inTable /></TableColumn>
       </TableRow>
     ));
   }
 
   render() {
+    const healthChecks = this.props.healthChecks;
+
     return (
       <DataTable plain>
-        {this.props.healthChecks.length ?
+        {healthChecks.length > 0 &&
           <TableHeader>
             <TableRow>
               <TableColumn>Protocol</TableColumn>
@@ -70,9 +72,9 @@ class HealthCheckListing extends Component {
               <TableColumn>Ignore 100-199</TableColumn>
               <TableColumn />
             </TableRow>
-          </TableHeader> : null}
+          </TableHeader>}
         <TableBody>
-          {this.renderRows()}
+          {this.renderRows(healthChecks)}
         </TableBody>
       </DataTable>
     );

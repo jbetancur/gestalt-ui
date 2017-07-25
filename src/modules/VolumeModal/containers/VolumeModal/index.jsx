@@ -26,7 +26,12 @@ class VolumeModal extends PureComponent {
     hideVolumeModal: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     volumeModal: PropTypes.object.isRequired,
-  }
+    providerType: PropTypes.string,
+  };
+
+  static defaultProps = {
+    providerType: '',
+  };
 
   constructor(props) {
     super(props);
@@ -49,7 +54,11 @@ class VolumeModal extends PureComponent {
         closeOnEsc
         onHide={() => this.props.hideVolumeModal()}
       >
-        <VolumeForm onSubmit={values => this.addVolume(values)} {...this.props} />
+        <VolumeForm
+          onSubmit={values => this.addVolume(values)}
+          providerType={this.props.providerType}
+          {...this.props}
+        />
       </EnhancedDialog>
     );
   }
@@ -59,7 +68,7 @@ function mapStateToProps(state) {
   return {
     volumeModal: state.volumeModal.volumeModal,
     initialValues: {
-      type: 'Host'
+      type: 'Persistent',
     }
   };
 }
