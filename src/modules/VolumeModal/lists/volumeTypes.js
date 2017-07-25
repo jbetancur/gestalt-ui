@@ -28,12 +28,16 @@ export default {
       type: 'Persistent',
       modes: [
         {
-          mode: 'RW',
+          mode: 'ReadOnlyMany',
+          displayName: 'Read-Only',
+        },
+        {
+          mode: 'ReadWriteOnce',
           displayName: 'Read/Write',
         },
         {
-          mode: 'RW-MANY',
-          displayName: 'Read/Write Non-Exclusive',
+          mode: 'ReadWriteMany',
+          displayName: 'Read/Write (many)',
         },
       ],
     },
@@ -61,7 +65,7 @@ export default {
         },
         {
           mode: 'RW-MANY',
-          displayName: 'Read/Write Non-Exclusive',
+          displayName: 'Read/Write Many',
         },
       ],
     },
