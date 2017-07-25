@@ -25,7 +25,6 @@ import implementationTypes from '../../lists/implementationTypes';
 const APIEndpointForm = (props) => {
   const {
     form,
-    reset,
     values,
     dispatch,
     match,
@@ -39,7 +38,6 @@ const APIEndpointForm = (props) => {
     cancelLabel,
     submitLabel,
     title,
-    editMode,
     apiEndpoint,
     fetchLambdasDropDown,
     fetchContainersDropDown,
@@ -58,12 +56,16 @@ const APIEndpointForm = (props) => {
   };
 
   const fetchContainers = () => {
-    props.dispatch(change(props.form, 'properties.container_port_name', ''));
+    dispatch(change(form, 'properties.container_port_name', ''));
     fetchContainersDropDown(match.params.fqon, match.params.environmentId);
   };
 
   const handleAutoComplete = (value) => {
-    dispatch(change(props.form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
+    dispatch(change(form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
+  };
+
+  const resetForm = () => {
+    dispatch(change(form, 'properties.implementation_id', ''));
   };
 
   return (
@@ -86,7 +88,7 @@ const APIEndpointForm = (props) => {
                   </Link><span> / Endpoint</span></div>
               </div>
             }
-            subtitle={apiEndpoint.id ? apiEndpoint.id : null}
+            subtitle={apiEndpoint.id && apiEndpoint.id}
           />
           <CardText>
             <div className="flex-row">
@@ -98,10 +100,9 @@ const APIEndpointForm = (props) => {
                 menuItems={implementationTypes}
                 itemLabel="name"
                 itemValue="value"
-                required
                 label="Type"
-                disabled={editMode}
-                onChange={() => reset()}
+                onChange={() => resetForm()}
+                required
               />
               {/* <Field
                 id="auth-type"
@@ -246,7 +247,6 @@ const APIEndpointForm = (props) => {
 APIEndpointForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   form: PropTypes.string.isRequired,
-  reset: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   apiEndpoint: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -266,7 +266,6 @@ APIEndpointForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  editMode: PropTypes.bool,
 };
 
 APIEndpointForm.defaultProps = {
@@ -276,7 +275,6 @@ APIEndpointForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
-  editMode: false,
 };
 
 export default connect(

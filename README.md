@@ -11,7 +11,7 @@ nvm install 8
 cd gestalt-ui-react
 nvm use 8
 ```
-*Ensure that you `nvm use 8` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 78*
+*Ensure that you `nvm use 8` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 8*
 
 ### Install Binaries
 ```

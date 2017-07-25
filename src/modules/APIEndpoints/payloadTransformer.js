@@ -14,6 +14,12 @@ export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
   if (updateMode) {
     // meta patch cannot currently handle array patching - so force a replace on /properties/methods
     delete payload.properties.methods;
+
+    if (payload.properties.implementation_type === 'lambda') {
+      delete payload.properties.container_port_name;
+    } else {
+      delete payload.properties.synchronous;
+    }
   }
 
   // convert comma delimited string to an array and remove blank entries
