@@ -68,7 +68,7 @@ function mapStateToProps(state) {
   return {
     volumeModal: state.volumeModal.volumeModal,
     initialValues: {
-      type: 'Persistent',
+      type: 'persistent',
     }
   };
 }

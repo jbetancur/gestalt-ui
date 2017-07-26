@@ -1,6 +1,7 @@
 import { isKubernetesVolumeName } from 'util/validations';
+import { isURL } from 'validator';
 
-export default (values) => {
+export default (values, props) => {
   const errors = {
     persistent: {},
   };
@@ -21,8 +22,13 @@ export default (values) => {
     errors.container_path = ' ';
   }
 
-  if (values.container_path && values.container_path.charAt(0) === '/') {
-    errors.container_path = 'a leading slash is not allowed';
+  if (props.providerType !== 'DCOS' &&
+    values.container_path &&
+    !isURL(values.container_path, { require_protocol: false, require_host: false, require_valid_protocol: false })) {
+    errors.container_path = 'the directory path must be absolute';
+  } else if (props.providerType === 'DCOS' &&
+    (values.container_path && values.container_path.charAt(0) === '/')) {
+    errors.container_path = 'the directory path must be relative';
   }
 
   if (!values.name) {

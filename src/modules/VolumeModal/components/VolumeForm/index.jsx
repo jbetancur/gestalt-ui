@@ -24,7 +24,7 @@ const VolumeForm = (props) => {
           className="flex-2 flex-xs-12 flex-sm-6"
           component={SelectField}
           label="Type"
-          itemLabel="type"
+          itemLabel="displayName"
           itemValue="type"
           menuItems={volumeTypes[providerType]}
           onChange={() => reset()}
@@ -41,7 +41,7 @@ const VolumeForm = (props) => {
             menuItems={selectedVolumeType.modes}
             required
           />}
-        {values.type === 'Persistent' ?
+        {values.type === 'persistent' ?
           <Field
             name="persistent.size"
             type="number"
@@ -58,16 +58,16 @@ const VolumeForm = (props) => {
             label="Host Path"
             className="flex-4 flex-xs-12 flex-sm-12"
             component={TextField}
-            helpText="absolute path (/dir)"
+            helpText="absolute directory path"
             required
           />}
         <Field
           name="container_path"
           type="text"
-          label="Relative Container Path"
+          label="Container Path"
           className="flex flex-sm-12"
           component={TextField}
-          helpText="relative path (dir)"
+          helpText="directory path"
           required
         />
       </div>
