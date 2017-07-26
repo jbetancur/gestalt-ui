@@ -1,7 +1,8 @@
 export default {
   DCOS: [
     {
-      type: 'Host',
+      type: 'host',
+      displayName: 'Host',
       modes: [
         {
           mode: 'RO',
@@ -14,7 +15,8 @@ export default {
       ],
     },
     {
-      type: 'Persistent',
+      type: 'persistent',
+      displayName: 'Persistent',
       modes: [
         {
           mode: 'RW',
@@ -25,7 +27,8 @@ export default {
   ],
   Kubernetes: [
     {
-      type: 'Persistent',
+      type: 'persistent',
+      displayName: 'Persistent',
       modes: [
         {
           mode: 'ReadOnlyMany',
@@ -44,7 +47,8 @@ export default {
   ],
   Docker: [
     {
-      type: 'Host',
+      type: 'host',
+      displayName: 'Host',
       modes: [
         {
           mode: 'RO',
@@ -57,7 +61,8 @@ export default {
       ],
     },
     {
-      type: 'Persistent',
+      type: 'persistent',
+      displayName: 'Persistent',
       modes: [
         {
           mode: 'RW',
@@ -68,7 +73,8 @@ export default {
   ],
   default: [
     {
-      type: 'Host',
+      type: 'host',
+      displayName: 'Host',
       modes: [
         {
           mode: 'RO',
@@ -80,5 +86,5 @@ export default {
         }
       ],
     },
-  ]
+  ],
 };
