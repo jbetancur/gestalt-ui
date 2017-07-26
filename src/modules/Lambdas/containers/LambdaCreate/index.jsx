@@ -38,14 +38,15 @@ class LambdaCreate extends Component {
   }
 
   render() {
-    return this.props.envPending ? <ActivityContainer id="container-load" /> :
-    <LambdaForm
-      title="Create Lambda"
-      submitLabel="Create"
-      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-      onSubmit={values => this.create(values)}
-      {...this.props}
-    />;
+    return this.props.envPending ?
+      <ActivityContainer id="container-load" /> :
+      <LambdaForm
+        title="Create Lambda"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />;
   }
 }
 

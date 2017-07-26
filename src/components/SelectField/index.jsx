@@ -23,12 +23,12 @@ const ActivityIndicator = () => (
 export default ({ input, required, meta: { touched, error }, menuItems, async, ...others }) => {
   const compileMenuItems = () => (
     menuItems.length ?
-    menuItems :
-    [{
-      id: `${input.name}--pending`,
-      component: ActivityIndicator,
-      centered: true,
-    }]
+      menuItems :
+      [{
+        id: `${input.name}--pending`,
+        component: ActivityIndicator,
+        centered: true,
+      }]
   );
 
   return (

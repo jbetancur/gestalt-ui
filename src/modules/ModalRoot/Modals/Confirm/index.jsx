@@ -45,7 +45,7 @@ class ConfirmModal extends PureComponent {
   render() {
     const items = this.props.multipleItems.map((item, i) => (
       <ListItem key={i} inkDisabled primaryText={item} />
-      ));
+    ));
 
     return (
       <EnhancedDialog
