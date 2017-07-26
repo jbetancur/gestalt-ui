@@ -41,8 +41,7 @@ class GroupCreate extends Component {
         title="Create Team"
         submitLabel="Create"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values =>
-        this.create(values)}
+        onSubmit={values => this.create(values)}
         {...this.props}
       />
     );

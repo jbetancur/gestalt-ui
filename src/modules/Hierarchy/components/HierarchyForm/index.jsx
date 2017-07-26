@@ -101,7 +101,7 @@ const HierarchyForm = (props) => {
                     onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
                   >
                   security
-                </Button>}
+                  </Button>}
               </ActionIconSection>
             </CardActions>
           </Card>

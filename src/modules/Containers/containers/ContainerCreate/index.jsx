@@ -80,8 +80,7 @@ class ContainerCreate extends Component {
         title="Deploy Container"
         submitLabel="Deploy"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values =>
-        this.create(values)}
+        onSubmit={values => this.create(values)}
         {...this.props}
       />;
   }
@@ -121,8 +120,8 @@ function mapStateToProps(state) {
 }
 
 export default withMetaResource(connect(mapStateToProps,
-Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerCreate',
-  validate
+  validate,
 })(withContext(ContainerCreate))));
 

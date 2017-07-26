@@ -46,15 +46,16 @@ class GroupEdit extends Component {
 
   render() {
     const { group, groupPending } = this.props;
-    return groupPending ? <ActivityContainer id="group-loading" /> :
-    <GroupForm
-      editMode
-      title={group.name}
-      submitLabel="Update"
-      cancelLabel="Done"
-      onSubmit={values => this.update(values)}
-      {...this.props}
-    />;
+    return groupPending ?
+      <ActivityContainer id="group-loading" /> :
+      <GroupForm
+        editMode
+        title={group.name}
+        submitLabel="Update"
+        cancelLabel="Done"
+        onSubmit={values => this.update(values)}
+        {...this.props}
+      />;
   }
 }
 

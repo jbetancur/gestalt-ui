@@ -18,7 +18,7 @@ const NavUpArrowButton = props =>
     {...props}
   >
     arrow_upward
-    </EnhancedButton>;
+  </EnhancedButton>;
 
 NavUpArrowButton.propTypes = {
   visible: PropTypes.bool,

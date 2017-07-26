@@ -150,7 +150,7 @@ function mapStateToProps(state) {
 }
 
 export default withMetaResource(connect(mapStateToProps,
-Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
   form: 'containerEdit',
   validate
 })(withContext(ContainerEdit))));

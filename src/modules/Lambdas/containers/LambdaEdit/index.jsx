@@ -43,15 +43,16 @@ class LambdaEdit extends Component {
 
   render() {
     const { lambda, lambdaPending } = this.props;
-    return lambdaPending ? <ActivityContainer id="lambda-load" /> :
-    <LambdaForm
-      editMode
-      title={lambda.name}
-      submitLabel="Update"
-      cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-      onSubmit={values => this.updateLambda(values)}
-      {...this.props}
-    />;
+    return lambdaPending ?
+      <ActivityContainer id="lambda-load" /> :
+      <LambdaForm
+        editMode
+        title={lambda.name}
+        submitLabel="Update"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.updateLambda(values)}
+        {...this.props}
+      />;
   }
 }
 

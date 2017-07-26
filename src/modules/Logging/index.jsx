@@ -302,7 +302,7 @@ class Logging extends PureComponent {
                   tooltipPosition="left"
                   onClick={() => this.scrollToBottom()}
                 >arrow_downward
-              </BottomScrollButton>
+                </BottomScrollButton>
               </ScrollButtons>
               <Pre>
                 <Code>
