@@ -68,32 +68,36 @@ describe('Validations', () => {
   });
 
   describe('isContainerName', () => {
-    it('should fail if there are spaces in a container name', () => {
+    it('should not validate if there are spaces in a container name', () => {
       expect(isContainerName('This Container')).to.equal(false);
     });
 
-    it('should validate if container name is only a number ', () => {
-      expect(isContainerName('80')).to.equal(false);
+    it('should not validate if container name ends with -', () => {
+      expect(isContainerName('this-container-')).to.equal(false);
+    });
+
+    it('should not validate if container name starts with -', () => {
+      expect(isContainerName('-this-container')).to.equal(false);
+    });
+
+    it('should not validate if lambda name contains --', () => {
+      expect(isContainerName('this--container')).to.equal(false);
+    });
+
+    it('should return the original value if arg is not a string', () => {
+      expect(isContainerName({})).to.deep.equal({});
+    });
+
+    it('should validate if is a valid container where it contains a number in the name', () => {
+      expect(isContainerName('this4-container')).to.equal(true);
     });
 
     it('should validate if is a valid container name', () => {
       expect(isContainerName('this-container')).to.equal(true);
     });
 
-    it('should validate if container name ends with -', () => {
-      expect(isContainerName('this-container-')).to.equal(false);
-    });
-
-    it('should validate if container name starts with -', () => {
-      expect(isContainerName('-this-container')).to.equal(false);
-    });
-
-    it('should validate if lambda name contains --', () => {
-      expect(isContainerName('this--container')).to.equal(false);
-    });
-
-    it('should return the original value if arg is not a string', () => {
-      expect(isContainerName({})).to.deep.equal({});
+    it('should validate if container name is only a number ', () => {
+      expect(isContainerName('8080')).to.equal(true);
     });
   });
 

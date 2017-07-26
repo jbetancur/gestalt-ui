@@ -54,8 +54,8 @@ class VolumeListing extends Component {
               <TableColumn>Type</TableColumn>
               <TableColumn>Mode</TableColumn>
               <TableColumn>Host Path (Host Only)</TableColumn>
-              <TableColumn>Relative Container Path</TableColumn>
-              <TableColumn>Volume Name (Kubernetes Only)</TableColumn>
+              <TableColumn>Container Path</TableColumn>
+              <TableColumn>Volume Name</TableColumn>
               <TableColumn>Size (MiB)</TableColumn>
               <TableColumn />
             </TableRow>
