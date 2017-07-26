@@ -5,9 +5,9 @@ import Card from 'react-md/lib/Cards/Card';
 
 const EnhancedCard = styled(Card)`
   position: relative;
-  min-width: 23.5em !important;
+  min-width: 19.5em !important;
   max-width: 33em;
-  height: 10.5em;
+  height: 10em;
   cursor: pointer;
   border-radius: 4px;
   border-top: 4px solid ${props => props.typeColor};
