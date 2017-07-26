@@ -30,14 +30,14 @@ export default {
       type: 'persistent',
       displayName: 'Persistent',
       modes: [
-        {
-          mode: 'ReadOnlyMany',
-          displayName: 'Read-Only',
-        },
-        {
-          mode: 'ReadWriteOnce',
-          displayName: 'Read/Write',
-        },
+        // {
+        //   mode: 'ReadOnlyMany',
+        //   displayName: 'Read-Only',
+        // },
+        // {
+        //   mode: 'ReadWriteOnce',
+        //   displayName: 'Read/Write',
+        // },
         {
           mode: 'ReadWriteMany',
           displayName: 'Read/Write (many)',
