@@ -43,10 +43,6 @@ export default (values, props) => {
     errors.properties.email = 'email format is invalid';
   }
 
-  if (!values.properties.phoneNumber) {
-    errors.properties.phoneNumber = 'phone number is required';
-  }
-
   if (values.properties.phoneNumber && !isPhoneNumber(values.properties.phoneNumber)) {
     errors.properties.phoneNumber = 'invalid phone number format';
   }

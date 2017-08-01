@@ -83,7 +83,6 @@ const UserForm = (props) => {
                   name="properties.phoneNumber"
                   label="Phone Number"
                   type="text"
-                  required
                 />
                 <Field
                   id="select-gestalt-home"
