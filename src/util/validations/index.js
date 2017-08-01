@@ -27,7 +27,7 @@ export function isUsername(string) {
     return string;
   }
 
-  return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
+  return /^[a-z0-9]+([-._][a-z0-9]+)*[a-z0-9]*$/.test(string);
 }
 
 export function isLambdaName(string) {
