@@ -83,7 +83,7 @@ module.exports = function test(env) {
       common,
       parts.scssConfig({
         options: {
-          sourceMap: 'inline',
+          sourceMap: false,
           outputStyle: 'expanded',
         }
       }),
@@ -100,7 +100,7 @@ module.exports = function test(env) {
           }),
           new webpack.optimize.UglifyJsPlugin({
             compress: {
-              unused: true,    // Enables tree shaking
+              unused: true, // Enables tree shaking
               dead_code: true, // Enables tree shaking
               pure_getters: true,
               warnings: false,

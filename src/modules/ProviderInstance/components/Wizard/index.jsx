@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Stepper from 'components/Stepper';
-import { ConfigureProvider, ConfigureActions } from 'modules/ProviderInstance';
+import ConfigureProvider from '../../components/ConfigureProvider';
+import ConfigureActions from '../../components/ConfigureActions';
 
 const steps = [
   {

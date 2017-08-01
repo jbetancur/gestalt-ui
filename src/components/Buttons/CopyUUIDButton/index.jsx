@@ -17,7 +17,7 @@ class CopyUUIDButton extends PureComponent {
   }
 
   static defaultProps = {
-    tooltipPosition: 'right',
+    tooltipPosition: 'bottom',
     showUUID: true,
   }
 
@@ -25,7 +25,7 @@ class CopyUUIDButton extends PureComponent {
     return (
       <CopyToClipboard text={this.props.model.id}>
         <EnhancedButton
-          label={this.props.showUUID ? this.props.model.id : null}
+          label={this.props.showUUID && this.props.model.id}
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel="Copy UUID"
           flat={this.props.showUUID}

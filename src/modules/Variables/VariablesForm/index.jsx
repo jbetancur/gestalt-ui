@@ -4,10 +4,10 @@ import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
-const renderField = ({ input, label, type }) => (
+const renderField = ({ input, label, type, className }) => (
   <Field
     {...input}
-    className="flex-5"
+    className={className}
     label={label}
     component={TextField}
     type={type}
@@ -20,9 +20,10 @@ renderField.propTypes = {
   input: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
-const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue }) => (
+const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue, className }) => (
   <div>
     <Button
       flat
@@ -34,20 +35,24 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
     </Button>
     {touched && error}
     {fields.map((member, index) => (
-      <div key={index} className="flex-row no-gutter">
+      <div key={index} className={className}>
         <Field
           name={`${member}.${keyFieldValue}`}
           type="text"
           component={renderField}
           label={keyFieldName}
+          className="flex-5"
         />
         <Field
           name={`${member}.${valueFieldValue}`}
           type="text"
           component={renderField}
           label={valueFieldName}
+          className="flex-6"
         />
-        <FieldRemoveButton onClick={() => fields.remove(index)} />
+        <FieldRemoveButton
+          onClick={() => fields.remove(index)}
+        />
       </div>
     ))}
   </div>
@@ -63,11 +68,13 @@ rendervariables.propTypes = {
   keyFieldValue: PropTypes.string.isRequired,
   valueFieldName: PropTypes.string.isRequired,
   valueFieldValue: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 rendervariables.defaultProps = {
   touched: false,
   error: false,
+  className: 'flex-row no-gutter',
 };
 
 const FieldArraysForm = props => (

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import { volumeModalActions } from 'modules/VolumeModal';
@@ -98,7 +99,7 @@ function mapStateToProps(state) {
       name: '',
       properties: {
         container_type: 'DOCKER',
-        env: [],
+        env: mapTo2DArray(state.metaResource.env.env),
         labels: [],
         accepted_resource_roles: [],
         constraints: [],

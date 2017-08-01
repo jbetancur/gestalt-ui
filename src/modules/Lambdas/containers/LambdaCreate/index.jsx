@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
@@ -56,7 +57,7 @@ function mapStateToProps(state) {
     initialValues: {
       name: '',
       properties: {
-        env: [],
+        env: mapTo2DArray(state.metaResource.env.env),
         headers: {
           Accept: 'text/plain'
         },

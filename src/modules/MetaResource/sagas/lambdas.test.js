@@ -247,21 +247,28 @@ describe('Lambda Sagas', () => {
   });
 
   describe('updateLambda Sequence', () => {
-    const action = { fqon: 'iamfqon', lambdaId: '1', payload: [] };
+    const action = { fqon: 'iamfqon', lambdaId: '1', environmentId: '2', payload: [] };
     const saga = updateLambda(action);
     let result;
 
-    it('should make an api call', () => {
+    it('should make an api call to PATCH the lambda', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
         call(axios.patch, 'iamfqon/lambdas/1', action.payload)
       );
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+    it('should make an api call for the env variables', () => {
+      result = saga.next({ data: { id: 1, properties: { env: {} } } });
       expect(result.value).to.deep.equal(
-        put({ type: types.UPDATE_LAMBDA_FULFILLED, payload: { id: 1 } })
+        call(axios.get, `${action.fqon}/environments/${action.environmentId}/env`)
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { rick: 'morty' } });
+      expect(result.value).to.deep.equal(
+        put({ type: types.UPDATE_LAMBDA_FULFILLED, payload: { id: 1, properties: { env: { rick: 'morty' } } } })
       );
 
       // Finish the iteration
@@ -269,12 +276,13 @@ describe('Lambda Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { fqon: 'iamfqon', environmentId: '1', payload: [], onSuccess: sinon.stub() };
+      const onSuccessAction = { fqon: 'iamfqon', lambdaId: '1', environmentId: '2', payload: [], onSuccess: sinon.stub() };
       const sagaSuccess = updateLambda(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next({ data: { id: 1, properties: { env: {} } } });
+      sagaSuccess.next({ data: {} });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1, properties: { env: {} } });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
