@@ -16,6 +16,7 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
+import PreventAutoFill from 'components/PreventAutoFill';
 import { VariablesForm } from 'modules/Variables';
 import { ContainerCreate, ContainerDetails, ContainerActions } from 'modules/Containers';
 import LinkedProviders from '../LinkedProviders';
@@ -107,6 +108,7 @@ const ProviderForm = (props) => {
             type="text"
             required
           />
+          <PreventAutoFill />
           <Field
             className="flex-4 flex-xs-12 flex-sm-4"
             component={TextField}
