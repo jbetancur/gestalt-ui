@@ -40,12 +40,36 @@ describe('Validations', () => {
   });
 
   describe('isUsername', () => {
-    it('should validate if not a user', () => {
+    it('should not validate if not a user', () => {
       expect(isUsername('This is Not a User')).to.equal(false);
+    });
+
+    it('should not validate of special chars before ', () => {
+      expect(isUsername('.iamauser')).to.equal(false);
+    });
+
+    it('should not validate of special chars before after ', () => {
+      expect(isUsername('iamauser.')).to.equal(false);
     });
 
     it('should validate if is a user', () => {
       expect(isUsername('iamauser')).to.equal(true);
+    });
+
+    it('should validate if is a user with .', () => {
+      expect(isUsername('iamauser.useriam')).to.equal(true);
+    });
+
+    it('should validate if is a user with _', () => {
+      expect(isUsername('iamauser_useriam')).to.equal(true);
+    });
+
+    it('should validate if is a user with -', () => {
+      expect(isUsername('iamauser-seriam')).to.equal(true);
+    });
+
+    it('should validate if is a user with mixed allowd chars', () => {
+      expect(isUsername('iamauser-seriam.hehehe_hohoho')).to.equal(true);
     });
 
     it('should return the original value if arg is not a string', () => {
