@@ -1,7 +1,7 @@
 import { isEmail } from 'validator';
 import { isPhoneNumber, isUsername } from 'util/validations';
 
-export const usernameMaxLen = 20;
+export const usernameMaxLen = 60;
 
 export default (values, props) => {
   const errors = {
@@ -19,7 +19,7 @@ export default (values, props) => {
     errors.name = 'username is required';
   }
 
-  if (values.name && !isUsername(values.name)) {
+  if (values.name && !(isUsername(values.name) || isEmail(values.name))) {
     errors.name = 'invalid username format';
   }
 

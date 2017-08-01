@@ -9,6 +9,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
+import PreventAutoFill from 'components/PreventAutoFill';
 import { Breadcrumbs } from 'modules/ContextManagement';
 import { usernameMaxLen } from '../../validations';
 
@@ -41,8 +42,8 @@ const UserForm = (props) => {
                   type="text"
                   required
                   maxLength={usernameMaxLen}
-                  autoComplete="none"
                 />
+                <PreventAutoFill />
                 <Field
                   className="flex-6 flex-xs-12"
                   component={TextField}
