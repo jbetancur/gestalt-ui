@@ -49,7 +49,7 @@ const UserForm = (props) => {
                   name="properties.password"
                   placeholder={props.user.id && 'Reset Password'}
                   label={props.user.id ? 'Reset Password' : 'New Password'}
-                  type="text"
+                  type="password"
                   required={!props.user.id}
                 />
                 <Field
