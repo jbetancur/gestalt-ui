@@ -85,7 +85,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       lambdasPending: metaResource.lambdas.pending,
       lambda: metaResource.lambda.lambda,
       lambdaPending: metaResource.lambda.pending,
-      lambdaUpdatePending: metaResource.lambdaUpdate.pending,
       lambdaProvider: metaResource.lambdaProvider.provider,
 
       // Subscriptions for apis

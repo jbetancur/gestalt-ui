@@ -20,7 +20,7 @@ import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
 import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
 import { Breadcrumbs } from 'modules/ContextManagement';
-import { Button, CopyUUIDButton } from 'components/Buttons';
+import { Button } from 'components/Buttons';
 import { parseChildClass } from 'util/helpers/strings';
 import ContainerDetails from '../ContainerDetails';
 import { nameMaxLen } from '../../validations';
@@ -70,25 +70,6 @@ const ContainerForm = (props) => {
                     />}
                   <div className="md-caption"><Breadcrumbs /> / Container</div>
                   {selectedProvider && <div className="gf-headline-1"><ContainerIcon resourceType={selectedProvider.resource_type} /> {selectedProvider.name}</div>}
-                </div>
-              }
-              subtitle={container.id &&
-                <div className="flex-row no-gutter">
-                  <div className="flex-12">
-                    <CopyUUIDButton
-                      showUUID
-                      model={container}
-                    />
-                  </div>
-                  {/* <div className="flex-12">
-                    <Button
-                      label="Entitlements"
-                      flat
-                      onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                    >
-                      security
-                    </Button>
-                  </div> */}
                 </div>
               }
             />}

@@ -95,15 +95,19 @@ export function* createLambda(action) {
 
 /**
  * updateLambda
- * @param {*} action - { fqon, lambdaId, payload, onSuccess {returns response.data}  }
+ * @param {*} action - { fqon, lambdaId, environmentId, payload, onSuccess {returns response.data}  }
  */
 export function* updateLambda(action) {
   try {
     const response = yield call(axios.patch, `${action.fqon}/lambdas/${action.lambdaId}`, action.payload);
-    yield put({ type: types.UPDATE_LAMBDA_FULFILLED, payload: response.data });
+    const envResponse = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/env`);
+    const payload = { ...response.data };
+    payload.properties.env = Object.assign(envResponse.data, payload.properties.env);
+
+    yield put({ type: types.UPDATE_LAMBDA_FULFILLED, payload });
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(response.data);
+      action.onSuccess(payload);
     }
   } catch (e) {
     yield put({ type: types.UPDATE_LAMBDA_REJECTED, payload: e.message });

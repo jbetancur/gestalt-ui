@@ -14,7 +14,8 @@ import { generateLambdaPatches } from '../../payloadTransformer';
 
 class LambdaEdit extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
     fetchLambda: PropTypes.func.isRequired,
@@ -34,22 +35,22 @@ class LambdaEdit extends Component {
   }
 
   updateLambda(values) {
-    const { lambda, match, history, updateLambda } = this.props;
+    const { lambda, match, dispatch, reset, updateLambda } = this.props;
     const patches = generateLambdaPatches(lambda, values);
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
+    const onSuccess = () => dispatch(reset());
 
-    updateLambda(match.params.fqon, lambda.id, patches, onSuccess);
+    updateLambda(match.params.fqon, lambda.id, lambda.properties.parent.id, patches, onSuccess);
   }
 
   render() {
-    const { lambda, lambdaPending } = this.props;
-    return lambdaPending ?
+    const { lambda, lambdaPending, pristine } = this.props;
+    return lambdaPending && !lambda.id ?
       <ActivityContainer id="lambda-load" /> :
       <LambdaForm
         editMode
         title={lambda.name}
         submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel={pristine ? 'Back' : 'Cancel'}
         onSubmit={values => this.updateLambda(values)}
         {...this.props}
       />;
