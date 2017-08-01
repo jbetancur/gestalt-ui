@@ -26,7 +26,7 @@ containment:
       errorText:
         pattern: not a valid short-name pattern
         length: short-name is is too long
-      helpText: allowed characters (a-z A-Z 0-9  - )
+      helpText: allowed characters (a-z 0-9  - )
     description:
       label: Name
       errorText:

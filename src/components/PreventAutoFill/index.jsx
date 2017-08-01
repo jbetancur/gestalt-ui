@@ -12,4 +12,4 @@ const style = {
   left: '-9999999999em',
 };
 
-export default () => <input style={style} type="text" value="poof" />;
+export default () => <input style={style} type="text" />;

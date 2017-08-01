@@ -31,6 +31,7 @@ i18n
 
     cache: {
       enabled: !DEBUG,
+      expirationTime: 86400000, // 24 hours
     },
 
     backend: {
