@@ -53,7 +53,6 @@ export default function configureInterceptors(store, history) {
       ];
 
       const response = error.response.data;
-
       // TODO: Until we have a permissions prefetch API - for now Handle routing when context view permissions are thrown
       if (response.message) {
         // eslint-disable-next-line no-lonely-if
@@ -90,6 +89,11 @@ export default function configureInterceptors(store, history) {
         if (response.code === 404) {
           history.replace('/');
         }
+      }
+
+      // The API kicks inconsistet errors - in this case response handle string errors
+      if (response === 'code 403: Forbidden') {
+        store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
       }
     }
 
