@@ -29,7 +29,7 @@ class EnvironmentActions extends PureComponent {
     const name = environment.description || environment.name;
 
     return (
-      <div>
+      <div style={{ display: 'inline' }}>
         <Button
           flat
           label="Edit"
