@@ -40,7 +40,7 @@ const IconSeperator = styled(FontIcon)`
 `;
 
 const Wrapper = styled.div`
-  display: inline-block;
+  display: inline;
   font-size: ${props => `${props.size}px`};
   color: ${props => props.theme.colors['$md-grey-500']};
   line-height: 32px;
