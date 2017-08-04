@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import APIForm from '../../components/APIForm';
 import validate from '../../validations';
@@ -32,7 +32,20 @@ class APICreate extends Component {
   }
 
   render() {
-    return <APIForm title="Create API" submitLabel="Create" cancelLabel={this.props.pristine ? 'Back' : 'Cancel'} onSubmit={values => this.create(values)} {...this.props} />;
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        <APIForm
+          title="Create API"
+          submitLabel="Create"
+          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+          onSubmit={values => this.create(values)}
+          {...this.props}
+        />
+      </div>
+    );
   }
 }
 

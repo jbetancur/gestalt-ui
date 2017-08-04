@@ -10,7 +10,6 @@ import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import PreventAutoFill from 'components/PreventAutoFill';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { usernameMaxLen } from '../../validations';
 
 const UserForm = (props) => {
@@ -24,12 +23,7 @@ const UserForm = (props) => {
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
             <CardTitle
-              title={
-                <div>
-                  <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /> / User</div>
-                </div>
-              }
+              title={props.title}
               subtitle={props.user.id}
             />
             <CardText>

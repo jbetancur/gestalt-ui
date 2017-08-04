@@ -4,7 +4,7 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
-import { Breadcrumbs } from 'modules/ContextManagement';
+import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
@@ -66,14 +66,12 @@ class UserItem extends PureComponent {
 
     return (
       <div className="flex-row">
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={
-              <div>
-                <div className="gf-headline">Users</div>
-                <div className="md-caption"><Breadcrumbs /></div>
-              </div>
-            }
+            title={<div className="gf-headline">Users</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}

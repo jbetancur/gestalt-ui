@@ -1,18 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
-import Divider from 'react-md/lib/Dividers';
 import { getParentFQON } from 'util/helpers/strings';
 import { DeleteIcon } from 'components/Icons';
+import { Button } from 'components/Buttons';
 
 class HierarchyAction extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
-    orangizationSetPending: PropTypes.bool.isRequired,
+    pending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     deleteOrg: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -33,60 +32,59 @@ class HierarchyAction extends PureComponent {
   }
 
   render() {
-    const { organizationSet, match, orangizationSetPending, self, t } = this.props;
+    const { organizationSet, match, pending, self, t } = this.props;
     const name = organizationSet.description || organizationSet.name;
+    const deleteDisabled = pending || (match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root');
 
     return (
       <div>
         <MenuButton
           id="orgs-settings-menu"
-          icon
-          position="tl"
-          disabled={orangizationSetPending}
-          buttonChildren="more_vert"
-          onClick={e => e.stopPropagation()}
-          tooltipLabel="Actions"
-          tooltipPosition="bottom"
+          position="below"
+          disabled={pending}
+          buttonChildren="add"
+          flat
+          label="Create"
         >
           <ListItem
             id="orgs-settings-menu--create"
             primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
-            leftIcon={<FontIcon>add</FontIcon>}
             component={Link}
-            onClick={e => e.stopPropagation()}
             to={`/${organizationSet.properties.fqon}/hierarchy/createOrganization`}
           />
           <ListItem
             id="orgs-settings-menu--workspace-create"
             primaryText={<span>{t('workspaces.actions.create')}</span>}
-            leftIcon={<FontIcon>add</FontIcon>}
             component={Link}
-            onClick={e => e.stopPropagation()}
             to={`/${organizationSet.properties.fqon}/hierarchy/createWorkspace`}
           />
-          <ListItem
-            id="orgs-settings-menu--edit"
-            primaryText={<span>{t('general.verbs.edit')} {name}</span>}
-            leftIcon={<FontIcon>edit</FontIcon>}
-            component={Link}
-            onClick={e => e.stopPropagation()}
-            to={`/${organizationSet.properties.fqon}/hierarchy/editOrganization`}
-          />
-          <ListItem
-            id="orgs-settings-menu--entitlements"
-            primaryText={<span>Entitlements {name}</span>}
-            leftIcon={<FontIcon>security</FontIcon>}
-            onClick={() => this.props.showEntitlementsModal(name, match.params, 'Organization')}
-          />
-          <Divider />
-          <ListItem
-            id="orgs-settings-menu--delete"
-            primaryText={<span>{t('general.verbs.delete')} {name}</span>}
-            leftIcon={<DeleteIcon />}
-            disabled={match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root'}
-            onClick={e => this.delete(e, organizationSet)}
-          />
+
         </MenuButton>
+        <Button
+          disabled={pending}
+          flat
+          label="Edit"
+          component={Link}
+          to={`/${organizationSet.properties.fqon}/hierarchy/editOrganization`}
+        >
+        edit
+        </Button>
+        <Button
+          disabled={pending}
+          flat
+          label="Entitlements"
+          onClick={() => this.props.showEntitlementsModal(name, match.params, 'Organization')}
+        >
+          security
+        </Button>
+        <Button
+          disabled={deleteDisabled}
+          flat
+          label="Delete"
+          onClick={e => this.delete(e, organizationSet)}
+        >
+          <DeleteIcon />
+        </Button>
       </div>
     );
   }

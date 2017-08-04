@@ -16,7 +16,7 @@ export function getParentFQON(organization) {
 
 /**
  * Parses and returns the last item in a structure like GrandPareng::Parent::Child
- * @param {string} string
+ * @param {String} string
  */
 export function parseChildClass(string) {
   if (string) {
@@ -27,7 +27,22 @@ export function parseChildClass(string) {
   return string;
 }
 
+/**
+ *
+ * @param {String} string
+ * @param {Number} at
+ * @param {String} trailing
+ */
+export function truncate(string, at, trailing = '...') {
+  if (string && string.length > at) {
+    return `${string.substring(0, at)}${trailing}`;
+  }
+
+  return string;
+}
+
 export default {
   getParentFQON,
   parseChildClass,
+  truncate,
 };

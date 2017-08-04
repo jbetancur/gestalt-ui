@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
@@ -57,15 +57,22 @@ class GroupEdit extends Component {
 
   render() {
     const { user, userPending } = this.props;
-    return userPending ?
-      <ActivityContainer id="user-load" /> :
-      <UserForm
-        title={user.name}
-        submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.update(values)}
-        {...this.props}
-      />;
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {userPending ?
+          <ActivityContainer id="user-load" /> :
+          <UserForm
+            title={user.name}
+            submitLabel="Update"
+            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.update(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

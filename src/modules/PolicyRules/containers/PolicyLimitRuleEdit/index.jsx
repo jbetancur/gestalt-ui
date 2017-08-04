@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
@@ -55,15 +55,23 @@ class PolicyLimitRuleEdit extends Component {
 
   render() {
     const { policyRule, policyRulePending } = this.props;
-    return policyRulePending ?
-      <ActivityContainer id="policyRule-load" /> :
-      <PolicyLimitRuleForm
-        title={policyRule.name}
-        submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.updatePolicyRule(values)}
-        {...this.props}
-      />;
+
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {policyRulePending ?
+          <ActivityContainer id="policyRule-load" /> :
+          <PolicyLimitRuleForm
+            title={policyRule.name}
+            submitLabel="Update"
+            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.updatePolicyRule(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

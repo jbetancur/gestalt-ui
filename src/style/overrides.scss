@@ -127,6 +127,8 @@
 }
 
 .md-tooltip-container {
+  z-index: 999;
+
   span {
     border-radius: 4px;
   }

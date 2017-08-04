@@ -13,7 +13,6 @@ import Checkbox from 'components/Checkbox';
 import SelectField from 'components/SelectField';
 import SelectionControlGroup from 'components/SelectionControlGroup';
 import TextField from 'components/TextField';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import HelpText from 'components/HelpText';
 // import authTypes from '../../lists/authTypes';
@@ -75,20 +74,16 @@ const APIEndpointForm = (props) => {
           <CardTitle
             title={
               <div>
-                <div>{title}</div>
-                <div className="md-caption"><Breadcrumbs />&nbsp;/&nbsp;
-                  <Link
-                    className="md-caption"
-                    style={{ textDecoration: 'none' }}
-                    to={{
-                      pathname: backLink
-                    }}
-                  >
-                    APIS
-                  </Link><span> / Endpoint</span></div>
+                <Link
+                  style={{ color: 'inherit' }}
+                  to={backLink}
+                >
+                  APIS
+                </Link>
+                <span> - {title}</span>
               </div>
             }
-            subtitle={apiEndpoint.id && apiEndpoint.id}
+            subtitle={apiEndpoint.id}
           />
           <CardText>
             <div className="flex-row">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import PolicyForm from '../../components/PolicyForm';
@@ -12,6 +12,8 @@ import { generatePolicyPatches } from '../../payloadTransformer';
 
 class PolicyEdit extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     policy: PropTypes.object.isRequired,
     fetchPolicy: PropTypes.func.isRequired,
@@ -26,24 +28,33 @@ class PolicyEdit extends Component {
   }
 
   updatePolicy(values) {
-    const { match, policy, updatePolicy } = this.props;
+    const { dispatch, reset, match, policy, updatePolicy } = this.props;
     const patches = generatePolicyPatches(policy, values);
+    const onSuccess = () => dispatch(reset());
 
-    updatePolicy(match.params.fqon, policy.id, patches);
+    updatePolicy(match.params.fqon, policy.id, patches, onSuccess);
   }
 
   render() {
     const { policy, policyPending } = this.props;
-    return policyPending ?
-      <ActivityContainer id="policy-load" /> :
-      <PolicyForm
-        editMode
-        title={policy.name}
-        submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.updatePolicy(values)}
-        {...this.props}
-      />;
+
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {policyPending ?
+          <ActivityContainer id="policy-load" /> :
+          <PolicyForm
+            editMode
+            title={policy.name}
+            submitLabel="Update"
+            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.updatePolicy(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

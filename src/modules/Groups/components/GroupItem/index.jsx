@@ -4,7 +4,7 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Breadcrumbs } from 'modules/ContextManagement';
+import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
@@ -61,21 +61,19 @@ class GroupItem extends PureComponent {
 
     return (
       <div className="flex-row">
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={
-              <div>
-                <div className="gf-headline">Groups</div>
-                <div className="md-caption"><Breadcrumbs /></div>
-              </div>
-            }
+            title={<div className="gf-headline">Groups</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} group${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
-          {this.props.pending ? <LinearProgress id="groups-listing" /> : null}
+          {this.props.pending && <LinearProgress id="groups-listing" />}
           <DataTable baseId="Groups" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&
             <TableHeader>
