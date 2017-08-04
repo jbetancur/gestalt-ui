@@ -24,6 +24,7 @@ const DetailsPanel = styled.div`
 `;
 
 const ActionsPanel = styled.div`
+  display: inline;
   text-align: right;
   overflow: visible;
 
@@ -83,20 +84,21 @@ class ContextNavigation extends PureComponent {
         <div className="flex-row start-center no-gutter">
           <div className="flex-6 flex-xs-12 flex-sm-12 flex-md-7">
             {breadcrumbComponent}
-
-            {detailsComponent && !pending &&
-            <Button
-              icon
-              onClick={this.toggle}
-              tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
-            >
-              {this.state.expanded ? 'expand_more' : 'expand_less'}
-            </Button>}
           </div>
 
           {actionsComponent &&
             <ActionsPanel className="flex">
-              <div>{actionsComponent}</div>
+              {detailsComponent &&
+              <Button
+                flat
+                label="Details"
+                onClick={this.toggle}
+                tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
+                disabled={pending}
+              >
+                {this.state.expanded ? 'expand_more' : 'expand_less'}
+              </Button>}
+              {actionsComponent}
             </ActionsPanel>}
 
           {actionsComponent &&

@@ -29,7 +29,7 @@ class WorkspaceActions extends PureComponent {
     const name = workspace.description || workspace.name;
 
     return (
-      <div>
+      <div style={{ display: 'inline' }}>
         <Button
           flat
           label="Create"

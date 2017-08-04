@@ -37,7 +37,7 @@ class HierarchyAction extends PureComponent {
     const deleteDisabled = pending || (match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root');
 
     return (
-      <div>
+      <div style={{ display: 'inline' }}>
         <MenuButton
           id="orgs-settings-menu"
           position="below"
