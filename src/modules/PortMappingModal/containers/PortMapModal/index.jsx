@@ -12,9 +12,9 @@ import validate from '../../components/PortMapForm/validations';
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
     width: 100%;
-    max-width: 30em;
+    max-width: 34em;
     .md-dialog-content {
-      min-height: 15em;
+      min-height: 18em;
       overflow: visible;
     }
   }

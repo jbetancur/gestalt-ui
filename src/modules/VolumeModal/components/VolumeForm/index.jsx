@@ -8,6 +8,7 @@ import SelectField from 'components/SelectField';
 import { ModalFooter } from 'components/Modal';
 import volumeTypes from '../../lists/volumeTypes';
 
+// const fixInputNumber = value => value && parseInt(value, 10);
 const VolumeForm = (props) => {
   const { providerType, values, reset } = props;
   const selectedVolumeType = volumeTypes[providerType].find(type => values.type === type.type);
