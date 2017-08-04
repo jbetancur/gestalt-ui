@@ -29,6 +29,10 @@ export default (values) => {
     errors.command = ' ';
   }
 
+  if (!values.port) {
+    errors.port = ' ';
+  }
+
   if (values.port > 65536) {
     errors.port = 'Invalid Port';
   }

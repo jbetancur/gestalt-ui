@@ -26,6 +26,7 @@ import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
 import ContainerIcon from '../ContainerIcon';
 
+const fixInputNumber = value => value && parseInt(value, 10);
 const ListButton = styled(Button)`
   margin-left: 1.7em;
   margin-bottom: .5em;
@@ -43,6 +44,11 @@ const ContainerForm = (props) => {
 
     props.fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
   };
+
+  // TODO: Remove when ubernetes/Docker when api is ready
+  const isHealthChecksEnabled =
+    parseChildClass(selectedProvider.resource_type) === 'Kubernetes' ||
+    parseChildClass(selectedProvider.resource_type) === 'Docker';
 
   return (
     <div>
@@ -67,7 +73,10 @@ const ContainerForm = (props) => {
                       containerModel={container}
                       {...props}
                     />}
-                  {selectedProvider && <div className="gf-headline-1"><ContainerIcon resourceType={selectedProvider.resource_type} /> {selectedProvider.name}</div>}
+                  {selectedProvider &&
+                    <div className="gf-headline-1">
+                      <ContainerIcon resourceType={selectedProvider.resource_type} /> {selectedProvider.name}
+                    </div>}
                 </div>
               }
             />}
@@ -137,7 +146,7 @@ const ContainerForm = (props) => {
                     label="Instances"
                     type="number"
                     required
-                    parse={value => Number(value)} // redux form formats everything as string, so force number
+                    normalize={fixInputNumber}
                   />
                   <Field
                     className="flex-1 flex-xs-12"
@@ -161,7 +170,7 @@ const ContainerForm = (props) => {
                     label="Memory"
                     type="number"
                     required
-                    parse={value => Number(value)} // redux form formats everything as string, so force number
+                    normalize={fixInputNumber}
                   />
                   <Field
                     className="flex-5 flex-xs-12"
@@ -271,24 +280,27 @@ const ContainerForm = (props) => {
                 </div>
               </ExpansionPanel>
 
-              <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0}>
-                <div className="flex-row no-gutter">
-                  <div className="flex">
-                    <HealthCheckModal />
-                    <ListButton
-                      id="health-checks"
-                      flat
-                      iconBefore
-                      primary
-                      label="Health Check"
-                      onClick={() => props.showHealthCheckModal()}
-                    >
-                      add
-                    </ListButton>
-                    <HealthCheckListing editMode={props.editMode} mergeHealthChecks={values.properties.health_checks} />
+              {/* TODO: Implement for Kubernetes/Docker when api is ready */}
+              {isHealthChecksEnabled ?
+                <div /> :
+                <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0}>
+                  <div className="flex-row no-gutter">
+                    <div className="flex">
+                      <HealthCheckModal />
+                      <ListButton
+                        id="health-checks"
+                        flat
+                        iconBefore
+                        primary
+                        label="Health Check"
+                        onClick={() => props.showHealthCheckModal()}
+                      >
+                        add
+                      </ListButton>
+                      <HealthCheckListing editMode={props.editMode} mergeHealthChecks={values.properties.health_checks} />
+                    </div>
                   </div>
-                </div>
-              </ExpansionPanelNoPadding>
+                </ExpansionPanelNoPadding>}
 
               <ExpansionPanel label={<h3>Optional</h3>}saveLabel="Collapse">
                 <Field

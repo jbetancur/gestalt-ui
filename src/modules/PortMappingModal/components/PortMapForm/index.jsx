@@ -7,8 +7,10 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
 import { ModalFooter } from 'components/Modal';
+import { serviceNameMaxLen } from './validations';
 import networkProtocols from '../../lists/networkProtocols';
 
+const fixInputNumber = value => value && parseInt(value, 10);
 const PortMapForm = (props) => {
   const { values } = props;
 
@@ -31,12 +33,15 @@ const PortMapForm = (props) => {
         <Field
           name="name"
           type="text"
-          label="Name"
+          label="Service Name"
           className="flex-6 flex-xs-6"
           component={TextField}
           required
+          maxLength={serviceNameMaxLen}
+          helpText="e.g. web"
         />
         <Field
+          id="port-mapping-protocol"
           name="protocol"
           className="flex-3 flex-xs-6"
           component={SelectField}
@@ -46,7 +51,7 @@ const PortMapForm = (props) => {
           menuItems={networkProtocols}
           required
         />
-        {values.expose_endpoint && props.networkType === 'HOST' ?
+        {(values.expose_endpoint && props.networkType === 'HOST') &&
           <Field
             name="service_port"
             type="number"
@@ -56,9 +61,9 @@ const PortMapForm = (props) => {
             className="flex-3 flex-xs-6"
             component={TextField}
             required
-            parse={value => Number(value)} // redux form formats everything as string, so force number
-          /> : null}
-        {props.networkType !== 'HOST' ?
+            normalize={fixInputNumber}
+          />}
+        {(props.networkType !== 'HOST') &&
           <Field
             name="container_port"
             type="number"
@@ -68,15 +73,16 @@ const PortMapForm = (props) => {
             className="flex-3 flex-xs-6"
             component={TextField}
             required
-            parse={value => Number(value)} // redux form formats everything as string, so force number
-          /> : null}
-        {values.expose_endpoint ? <Field
+            normalize={fixInputNumber}
+          />}
+        {values.expose_endpoint &&
+        <Field
           name="virtual_hosts"
           className="flex-12"
           component={TextField}
           label="Virtual Hosts"
           helpText="Comma delimited set of virtual host names or addresses"
-        /> : null}
+        />}
       </div>
       <ModalFooter>
         <Button

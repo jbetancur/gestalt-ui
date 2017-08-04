@@ -46,6 +46,14 @@ export function isContainerName(string) {
   return /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/.test(string);
 }
 
+export function isContainerServicePortName(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+
+  return /^[a-z0-9]([a-z0-9-]*[a-z0-9])*$/.test(string);
+}
+
 export function isCommaDelimited(string) {
   if (typeof string !== 'string') {
     return string;
@@ -79,6 +87,7 @@ export default {
   isUsername,
   isLambdaName,
   isContainerName,
+  isContainerServicePortName,
   isCommaDelimited,
   isKubernetesVolumeName,
 };

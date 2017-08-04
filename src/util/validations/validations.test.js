@@ -4,6 +4,7 @@ import {
   isUsername,
   isLambdaName,
   isContainerName,
+  isContainerServicePortName,
   isCommaDelimited,
   isCommaDelimitedConstraints,
   isKubernetesVolumeName,
@@ -122,6 +123,40 @@ describe('Validations', () => {
 
     it('should validate if container name is only a number ', () => {
       expect(isContainerName('8080')).to.equal(true);
+    });
+  });
+
+  describe('isContainerServicePortName', () => {
+    it('should not validate if there are spaces in a service port name', () => {
+      expect(isContainerServicePortName('This Container')).to.equal(false);
+    });
+
+    it('should not validate if service port name ends with -', () => {
+      expect(isContainerServicePortName('this-container-')).to.equal(false);
+    });
+
+    it('should not validate if service port name starts with -', () => {
+      expect(isContainerServicePortName('-this-container')).to.equal(false);
+    });
+
+    it('should return the original value if arg is not a string', () => {
+      expect(isContainerServicePortName({})).to.deep.equal({});
+    });
+
+    it('should validate if lambda name contains --', () => {
+      expect(isContainerServicePortName('this--container')).to.equal(true);
+    });
+
+    it('should validate if is a valid container where it contains a number in the name', () => {
+      expect(isContainerServicePortName('this4-container')).to.equal(true);
+    });
+
+    it('should validate if is a valid service port name', () => {
+      expect(isContainerServicePortName('this-container')).to.equal(true);
+    });
+
+    it('should validate if service port name is only a number ', () => {
+      expect(isContainerServicePortName('8080')).to.equal(true);
     });
   });
 
