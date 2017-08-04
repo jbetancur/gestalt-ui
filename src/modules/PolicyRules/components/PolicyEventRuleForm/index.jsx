@@ -12,7 +12,6 @@ import Autocomplete from 'react-md/lib/Autocompletes';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 
@@ -59,16 +58,13 @@ const PolicyEventRuleForm = (props) => {
           <CardTitle
             title={
               <div>
-                <div>{title}</div>
-                <div className="md-caption"><Breadcrumbs />&nbsp;/&nbsp;
-                  <Link
-                    className="md-caption"
-                    style={{ textDecoration: 'none' }}
-                    to={backLink}
-                  >
-                    Policy
-                  </Link><span> / Event Policy</span>
-                </div>
+                <Link
+                  style={{ color: 'inherit' }}
+                  to={backLink}
+                >
+                  Policies
+                </Link>
+                <span> - {title}</span>
               </div>
             }
             subtitle={policyRule.id}

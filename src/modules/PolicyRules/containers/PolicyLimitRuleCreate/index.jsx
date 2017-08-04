@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
 import validate from '../../components/PolicyLimitRuleForm/validations';
@@ -33,13 +33,18 @@ class PolicyLimitRuleCreate extends Component {
 
   render() {
     return (
-      <PolicyLimitRuleForm
-        title="Create Limit Rule"
-        submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.create(values)}
-        {...this.props}
-      />
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        <PolicyLimitRuleForm
+          title="Create Limit Rule"
+          submitLabel="Create"
+          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+          onSubmit={values => this.create(values)}
+          {...this.props}
+        />
+      </div>
     );
   }
 }

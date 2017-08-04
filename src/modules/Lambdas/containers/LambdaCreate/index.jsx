@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../../components/LambdaForm';
@@ -39,15 +39,22 @@ class LambdaCreate extends Component {
   }
 
   render() {
-    return this.props.envPending ?
-      <ActivityContainer id="container-load" /> :
-      <LambdaForm
-        title="Create Lambda"
-        submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.create(values)}
-        {...this.props}
-      />;
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {this.props.envPending ?
+          <ActivityContainer id="container-load" /> :
+          <LambdaForm
+            title="Create Lambda"
+            submitLabel="Create"
+            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.create(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

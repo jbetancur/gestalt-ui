@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
@@ -74,16 +74,23 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    return this.props.envPending ?
-      <ActivityContainer id="container-load" /> :
-      <ContainerForm
-        inlineMode={this.props.inlineMode}
-        title="Deploy Container"
-        submitLabel="Deploy"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.create(values)}
-        {...this.props}
-      />;
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {this.props.envPending ?
+          <ActivityContainer id="container-load" /> :
+          <ContainerForm
+            inlineMode={this.props.inlineMode}
+            title="Deploy Container"
+            submitLabel="Deploy"
+            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.create(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

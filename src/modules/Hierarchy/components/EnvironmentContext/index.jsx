@@ -1,38 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { getParentFQON } from 'util/helpers/strings';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import Divider from 'react-md/lib/Dividers';
 import FontIcon from 'react-md/lib/FontIcons';
 import { TabsContainer, Tabs, Tab } from 'react-md/lib/Tabs';
-import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import { LambdaIcon, DeleteIcon, ProviderIcon } from 'components/Icons';
+import { LambdaIcon, ProviderIcon } from 'components/Icons';
 import { Providers } from 'modules/Providers';
 import { Lambdas } from 'modules/Lambdas';
 import { Containers } from 'modules/Containers';
 import { Policies } from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import { APIs } from 'modules/APIs';
-import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
-import { VariablesListing } from 'modules/Variables';
-import { Breadcrumbs } from 'modules/ContextManagement';
-import DotActivity from 'components/DotActivity';
-import { NavUpArrowButton } from 'components/Buttons';
+import { DetailCard } from 'components/DetailCard';
+import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
+import EnvironmentActions from '../../components/EnvironmentActions';
+import EnvironmentDetails from '../../components/EnvironmentDetails';
 
 class EnvironmentContext extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
     handleEnvironmentNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
-    deleteEnvironment: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
     environmentPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    showEntitlementsModal: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -48,55 +37,6 @@ class EnvironmentContext extends Component {
     const { handleEnvironmentNavigation } = this.props;
 
     handleEnvironmentNavigation(view, index);
-  }
-
-  delete() {
-    const { match, history, environment, deleteEnvironment } = this.props;
-
-    const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
-    this.props.confirmDelete(() => {
-      deleteEnvironment(match.params.fqon, environment.id, onSuccess);
-    }, environment.description || environment.name, 'Environment');
-  }
-
-  renderActionsMenu() {
-    const { match, environmentPending, environment } = this.props;
-    const name = environment.description || environment.name;
-
-    return (
-      <div>
-        <MenuButton
-          id="environments-settings-menu"
-          icon
-          position={MenuButton.Positions.TOP_LEFT}
-          disabled={environmentPending}
-          buttonChildren="more_vert"
-          tooltipLabel="Actions"
-          tooltipPosition="bottom"
-        >
-          <ListItem
-            id="environments-settings-menu--edit"
-            primaryText={<span>Edit {name}</span>}
-            leftIcon={<FontIcon>edit</FontIcon>}
-            component={Link}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/edit`}
-          />
-          <ListItem
-            id="orgs-settings-menu--entitlements"
-            primaryText={<span>Entitlements {name}</span>}
-            leftIcon={<FontIcon>security</FontIcon>}
-            onClick={() => this.props.showEntitlementsModal(name, match.params, 'Environment')}
-          />
-          <Divider />
-          <ListItem
-            id="environments-settings-menu--delete"
-            primaryText={<span>Delete {name}</span>}
-            leftIcon={<DeleteIcon />}
-            onClick={e => this.delete(e)}
-          />
-        </MenuButton>
-      </div>
-    );
   }
 
   renderThings(state) {
@@ -131,41 +71,17 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { match, history, environmentPending, environment, navigation } = this.props;
-    const parentFQON = getParentFQON(environment);
-    const name = environment.description || environment.name;
+    const { environmentPending, environment, navigation } = this.props;
 
     return (
       <div>
+        <ContextNavigation
+          pending={environmentPending}
+          breadcrumbComponent={<Breadcrumbs />}
+          actionsComponent={<EnvironmentActions environment={environment} pending={environmentPending} {...this.props} />}
+          detailsComponent={<EnvironmentDetails workspace={environment} pending={environmentPending} {...this.props} />}
+        />
         <DetailCard expanderTooltipLabel="Details">
-          <DetailCardTitle expander={!environmentPending}>
-            <NavUpArrowButton disabled={environmentPending} onClick={() => history.push(`/${parentFQON}/hierarchy/${match.params.workspaceId}`)} />
-            {this.renderActionsMenu()}
-            <div>
-              <div className="gf-headline">{!environmentPending ? name : <DotActivity />}</div>
-              <div className="md-caption"><Breadcrumbs /></div>
-            </div>
-          </DetailCardTitle>
-          <DetailCardText expandable>
-            <div className="flex-row">
-              <div className="flex-6 flex-xs-12">
-                <div><span className="gf-label">Name: </span><span className="gf-subtitle">{name}</span></div>
-                <div><span className="gf-label">short-name: </span><span className="gf-subtitle">{environment.name}</span></div>
-                <div><span className="gf-label">Created: </span><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
-                <div><span className="gf-label">Modified: </span><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
-                <div><span className="gf-label">Environment Type: </span><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
-                <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{environment.owner.name}</span></div>
-                <div><span className="gf-label">uuid: </span><span className="gf-subtitle">{environment.id}</span></div>
-              </div>
-              <div className="flex-6 flex-xs-12">
-                <fieldset>
-                  <legend>Environment Variables</legend>
-                  <VariablesListing envMap={environment.properties.env} />
-                </fieldset>
-              </div>
-            </div>
-          </DetailCardText>
-          {/* make sure you edit the navigation reducer initial state index to match # of tabs + 1! */}
           <TabsContainer themed defaultTabIndex={navigation.index}>
             <Tabs tabId="environment-app-tabs">
               <Tab label="Containers" id="containers" icon={<FontIcon>developer_board</FontIcon>} onClick={() => this.handleViewState('containers', 0)} />

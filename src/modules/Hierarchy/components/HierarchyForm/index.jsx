@@ -11,7 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
-import { Breadcrumbs } from 'modules/ContextManagement';
+import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
@@ -24,6 +24,9 @@ const HierarchyForm = (props) => {
 
   return (
     <div>
+      <ContextNavigation
+        breadcrumbComponent={<Breadcrumbs />}
+      />
       <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card className="flex-8 flex-xs-12 flex-sm-12">
@@ -31,7 +34,6 @@ const HierarchyForm = (props) => {
               title={
                 <div>
                   <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /></div>
                 </div>
               }
             />
@@ -75,7 +77,7 @@ const HierarchyForm = (props) => {
                 <VariablesForm icon="add" fieldName="properties.env" />
               </fieldset>
             </CardText>
-            {props.pending ? <LinearProgress id="containment-form" /> : null}
+            {props.pending && <LinearProgress id="containment-form" />}
             <CardActions className="flex-row no-gutter">
               <div className="flex-10 flex-xs-12">
                 <Button

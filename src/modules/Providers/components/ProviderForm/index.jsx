@@ -14,7 +14,6 @@ import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
 import { VariablesForm } from 'modules/Variables';
@@ -263,7 +262,6 @@ const ProviderForm = (props) => {
                 <div>
                   <div>{props.title}</div>
                   {renderContainerActions()}
-                  <div className="md-caption"><Breadcrumbs /> / Provider</div>
                 </div>
               }
               subtitle={provider.id}

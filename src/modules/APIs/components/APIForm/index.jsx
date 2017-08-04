@@ -11,7 +11,6 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { APIEndpoints } from 'modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import { nameMaxLen } from '../../validations';
@@ -40,13 +39,8 @@ const APIForm = (props) => {
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
             <CardTitle
-              title={
-                <div>
-                  <div>{title}</div>
-                  <div className="md-caption"><Breadcrumbs /> / APIS</div>
-                </div>
-              }
-              subtitle={api.id ? api.id : null}
+              title={title}
+              subtitle={api.id}
             />
             <CardText>
               <div className="flex-row">

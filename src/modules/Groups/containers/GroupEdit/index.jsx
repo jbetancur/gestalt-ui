@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
@@ -12,6 +12,9 @@ import actions from '../../actions';
 
 class GroupEdit extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
     fetchGroup: PropTypes.func.isRequired,
@@ -27,9 +30,9 @@ class GroupEdit extends Component {
   }
 
   update(values) {
-    const { match, group, updateGroup } = this.props;
+    const { match, dispatch, reset, group, updateGroup } = this.props;
     const { name, description } = group;
-
+    const onSuccess = () => dispatch(reset());
     const originalModel = {
       name,
       description
@@ -41,21 +44,28 @@ class GroupEdit extends Component {
     };
 
     const patches = jsonPatch.compare(originalModel, model);
-    updateGroup(match.params.fqon, group.id, patches);
+    updateGroup(match.params.fqon, group.id, patches, onSuccess);
   }
 
   render() {
-    const { group, groupPending } = this.props;
-    return groupPending ?
-      <ActivityContainer id="group-loading" /> :
-      <GroupForm
-        editMode
-        title={group.name}
-        submitLabel="Update"
-        cancelLabel="Done"
-        onSubmit={values => this.update(values)}
-        {...this.props}
-      />;
+    const { group, groupPending, pristine } = this.props;
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {groupPending ?
+          <ActivityContainer id="group-loading" /> :
+          <GroupForm
+            editMode
+            title={group.name}
+            submitLabel="Update"
+            cancelLabel={pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.update(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import ProviderForm from '../../components/ProviderForm';
 import validate from '../../components/ProviderForm/validations';
@@ -66,13 +66,18 @@ class ProviderCreate extends PureComponent {
 
   render() {
     return (
-      <ProviderForm
-        title="Create Provider"
-        submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.create(values)}
-        {...this.props}
-      />
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        <ProviderForm
+          title="Create Provider"
+          submitLabel="Create"
+          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+          onSubmit={values => this.create(values)}
+          {...this.props}
+        />
+      </div>
     );
   }
 }

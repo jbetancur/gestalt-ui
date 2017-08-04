@@ -16,7 +16,6 @@ import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { VariablesForm } from 'modules/Variables';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { Button, CopyUUIDButton } from 'components/Buttons';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
@@ -48,12 +47,7 @@ const LambdaForm = (props) => {
         <div className="flex-row center-center">
           <Card className="flex-11 flex-xs-12 flex-sm-12">
             <CardTitle
-              title={
-                <div>
-                  <div>{props.title}</div>
-                  <div className="md-caption"><Breadcrumbs /> / Lambda</div>
-                </div>
-              }
+              title={props.title}
             />
             {lambda.id &&
               <ActionsToolbar>

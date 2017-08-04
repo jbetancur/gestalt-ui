@@ -10,7 +10,6 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import { PolicyRules } from 'modules/PolicyRules';
-import { Breadcrumbs } from 'modules/ContextManagement';
 import { nameMaxLen } from '../../validations';
 
 const PolicyForm = (props) => {
@@ -36,12 +35,7 @@ const PolicyForm = (props) => {
         <div className="flex-row center-center">
           <Card className="flex-10 flex-xs-12 flex-sm-12">
             <CardTitle
-              title={
-                <div>
-                  <div>{title}</div>
-                  <div className="md-caption"><Breadcrumbs /> / Policy</div>
-                </div>
-              }
+              title={title}
               subtitle={policy.id}
             />
             <CardText>

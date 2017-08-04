@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'modules/ContextManagement';
+import { withContext, Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import { containerActionCreators } from 'modules/Containers';
 import base64 from 'base-64';
@@ -60,16 +60,24 @@ class ProviderEdit extends PureComponent {
 
   render() {
     const { provider, providerPending } = this.props;
-    return providerPending ?
-      <ActivityContainer id="provider-load" /> :
-      <ProviderForm
-        editMode
-        title={provider.name}
-        submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.update(values)}
-        {...this.props}
-      />;
+
+    return (
+      <div>
+        <ContextNavigation
+          breadcrumbComponent={<Breadcrumbs />}
+        />
+        {providerPending ?
+          <ActivityContainer id="provider-load" /> :
+          <ProviderForm
+            editMode
+            title={provider.name}
+            submitLabel="Update"
+            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            onSubmit={values => this.update(values)}
+            {...this.props}
+          />}
+      </div>
+    );
   }
 }
 

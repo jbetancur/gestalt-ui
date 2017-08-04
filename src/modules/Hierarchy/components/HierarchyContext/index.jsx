@@ -1,22 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import { getParentFQON } from 'util/helpers/strings';
-import { VariablesListing } from 'modules/Variables';
-import { DetailCard, DetailCardTitle, DetailCardText } from 'components/DetailCard';
-import DotActivity from 'components/DotActivity';
-import { NavUpArrowButton } from 'components/Buttons';
-import { Breadcrumbs } from 'modules/ContextManagement';
+import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import HierarchyActions from '../../components/HierarchyActions';
+import HierarchyDetails from '../../components/HierarchyDetails';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
     orangizationSetPending: PropTypes.bool.isRequired,
-    self: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
-    t: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -26,46 +17,16 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { match, history, model, orangizationSetPending, self, t } = this.props;
-    const parentFQON = getParentFQON(model);
+    const { orangizationSetPending, model } = this.props;
 
     return (
       <div>
-        <DetailCard expanderTooltipLabel="Details">
-          <DetailCardTitle
-            expander={!orangizationSetPending}
-            title={
-              !(match.params.fqon === self.properties.gestalt_home.properties.fqon) &&
-              <NavUpArrowButton disabled={orangizationSetPending} onClick={() => history.push(`/${parentFQON}/hierarchy`)} />
-            }
-          >
-            <HierarchyActions organization={model} {...this.props} />
-            <div>
-              <div className="gf-headline">{!orangizationSetPending ? <div className="gf-headline">{model.description || model.name}</div> : <DotActivity />}</div>
-              <div className="md-caption"><Breadcrumbs /></div>
-            </div>
-          </DetailCardTitle>
-          <DetailCardText expandable>
-            <div className="flex-row">
-              <div className="flex-6 flex-xs-12">
-                <div><span className="gf-label">{t('general.nouns.name')}: </span><span className="gf-subtitle">{model.description || model.name}</span></div>
-                <div><span className="gf-label">{t('general.nouns.shortName')}: </span><span className="gf-subtitle">{model.name}</span></div>
-                <div><span className="gf-label">{t('general.nouns.fqon')}: </span><span className="gf-subtitle">{model.properties.fqon}</span></div>
-                <div><span className="gf-label">{t('general.verbs.created')}: </span><span className="gf-subtitle"><FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)</span></div>
-                <div><span className="gf-label">{t('general.verbs.modified')}: </span><span className="gf-subtitle"><FormattedRelative value={model.modified.timestamp} /> (<FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />)</span></div>
-                {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-                {model.owner.name && <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{model.owner.name}</span></div>}
-                <div><span className="gf-label">{t('general.nouns.uuid')}: </span><span className="gf-subtitle">{model.id}</span></div>
-              </div>
-              <div className="flex-6 flex-xs-12">
-                <fieldset>
-                  <legend>Environment Variables</legend>
-                  <VariablesListing envMap={model.properties.env} />
-                </fieldset>
-              </div>
-            </div>
-          </DetailCardText>
-        </DetailCard>
+        <ContextNavigation
+          pending={orangizationSetPending}
+          breadcrumbComponent={<Breadcrumbs />}
+          actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...this.props} />}
+          detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...this.props} />}
+        />
       </div>
     );
   }

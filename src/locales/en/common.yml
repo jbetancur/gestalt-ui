@@ -40,12 +40,12 @@ organizations:
   title: Hierarchy
   orgNav: Switch Organization
   actions:
-    create: Create Organization
-    createSubOrg: Create SubOrganization
+    create: Organization
+    createSubOrg: SubOrganization
 workspaces:
   title: Workspaces
   actions:
-    create: Create Workspace
+    create: Workspace
 environments:
   title: Environments
   actions:

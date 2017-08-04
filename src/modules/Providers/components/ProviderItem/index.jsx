@@ -4,7 +4,7 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Breadcrumbs } from 'modules/ContextManagement';
+import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import { parseChildClass } from 'util/helpers/strings';
@@ -88,42 +88,39 @@ class ProviderItem extends PureComponent {
     ));
 
     return (
-      <div>
-        <div className="flex-row">
-          <Card className="flex-12" tableCard>
-            <TableCardHeader
-              title={
-                <div>
-                  <div className="gf-headline">Providers</div>
-                  {!this.props.match.params.workspaceId && <div className="md-caption"><Breadcrumbs /></div>}
-                </div>
-              }
-              visible={selectedCount > 0}
-              contextualTitle={`${selectedCount} provider${selectedCount > 1 ? 's' : ''} selected`}
-              actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-            >
-              <div>{this.renderCreateButton()}</div>
-              <div>{this.renderCreateInstanceButton()}</div>
-            </TableCardHeader>
-            {this.props.providersPending && <LinearProgress id="providers-progress" />}
-            <DataTable baseId="providers" onRowToggle={this.handleRowToggle}>
-              {this.props.model.length > 0 &&
-              <TableHeader>
-                <TableRow>
-                  <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('properties.parent.name')} onClick={() => sortTable('properties.parent.name')}>Parent</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
-                </TableRow>
-              </TableHeader>}
-              <TableBody>
-                {providers}
-              </TableBody>
-            </DataTable>
-          </Card>
-        </div>
+      <div className="flex-row">
+        {!this.props.match.params.workspaceId &&
+          <ContextNavigation
+            breadcrumbComponent={<Breadcrumbs />}
+          />}
+        <Card className="flex-12" tableCard>
+          <TableCardHeader
+            title={<span className="gf-headline">Providers</span>}
+            visible={selectedCount > 0}
+            contextualTitle={`${selectedCount} provider${selectedCount > 1 ? 's' : ''} selected`}
+            actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
+          >
+            <div>{this.renderCreateButton()}</div>
+            <div>{this.renderCreateInstanceButton()}</div>
+          </TableCardHeader>
+          {this.props.providersPending && <LinearProgress id="providers-progress" />}
+          <DataTable baseId="providers" onRowToggle={this.handleRowToggle}>
+            {this.props.model.length > 0 &&
+            <TableHeader>
+              <TableRow>
+                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('properties.parent.name')} onClick={() => sortTable('properties.parent.name')}>Parent</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+              </TableRow>
+            </TableHeader>}
+            <TableBody>
+              {providers}
+            </TableBody>
+          </DataTable>
+        </Card>
       </div>
     );
   }
