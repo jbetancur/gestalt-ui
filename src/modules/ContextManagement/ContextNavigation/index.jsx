@@ -82,12 +82,12 @@ class ContextNavigation extends PureComponent {
     return (
       <ContextNavigationStyle>
         <div className="flex-row start-center no-gutter">
-          <div className="flex-6 flex-xs-12 flex-sm-12 flex-md-7">
+          <div className="flex-7 flex-xs-12 flex-sm-12">
             {breadcrumbComponent}
           </div>
 
           {actionsComponent &&
-            <ActionsPanel className="flex">
+            <ActionsPanel className="flex-5 flex-xs-12 flex-sm-12">
               {detailsComponent &&
               <Button
                 flat
