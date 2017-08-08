@@ -8,7 +8,7 @@ import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import Sort from 'components/Sort';
-import HierarchyContextComponent from '../../components/HierarchyContext';
+import HierarchyHeader from '../../components/HierarchyHeader';
 import OrganizationCard from '../../components/OrganizationCard';
 import WorkspaceCard from '../../components/WorkspaceCard';
 import actions from '../../actions';
@@ -91,7 +91,10 @@ class HierarchyContext extends PureComponent {
     const { organizationSet, orangizationSetPending } = this.props;
     return (
       <div>
-        <HierarchyContextComponent model={organizationSet} {...this.props} />
+        <HierarchyHeader
+          model={organizationSet}
+          {...this.props}
+        />
         {orangizationSetPending ? <ActivityContainer id="hierarchy-progress" /> : this.renderCardsContainer()}
       </div>
     );

@@ -35,7 +35,7 @@ const HierarchyRoot = () => (
       <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers'} component={ContainerRoot} />
       <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis'} component={APIRoot} />
       <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies'} component={PolicyRoot} />
-      <Route path={'/:fqon/hierarchy'} component={NotFound} />
+      <Route component={NotFound} />
     </Switch>
   </div>
 );
