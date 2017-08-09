@@ -73,23 +73,36 @@ export function fetchLicense(fqon) {
  * @param {*} payload
  * @param {*} cb - optional callback to trigger
  */
-export function updateLicense(fqon, payload, cb) {
+export function updateLicense(fqon, payload) {
   return (dispatch) => {
     dispatch({ type: UPDATE_LICENSE_PENDING });
-    axios.post(`${fqon}/licenses`, payload).then(() => {
-      dispatch(fetchLicense(fqon));
+    return axios.post(`${fqon}/licenses`, payload).then(() => {
       dispatch({ type: UPDATE_LICENSE_FULFILLED });
-      if (cb) {
-        dispatch(cb());
-      }
     }).catch((err) => {
       dispatch({ type: UPDATE_LICENSE_REJECTED, payload: err });
     });
   };
 }
 
+/**
+ * showLicenseModal
+ */
+export function showLicenseModal() {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'LicenseModal',
+  };
+}
+
+export function hideLicenseModal() {
+  return { type: 'HIDE_MODAL' };
+}
+
+
 export default {
   onUnloadLicense,
   fetchLicense,
   updateLicense,
+  showLicenseModal,
+  hideLicenseModal,
 };

@@ -11,7 +11,7 @@ import NotFound from 'components/NotFound';
 import ProviderRoot from 'modules/Providers';
 import UserRoot from 'modules/Users';
 import GroupRoot from 'modules/Groups';
-import Licensing, { licenseActions } from 'modules/Licensing';
+import { licenseActions } from 'modules/Licensing';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
@@ -46,6 +46,7 @@ class App extends Component {
     activityIndicator: PropTypes.bool.isRequired,
     browser: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    showLicenseModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -136,14 +137,6 @@ class App extends Component {
         visible={match.params.fqon === 'root'}
       />,
       <Divider key="navbar-section-divider-1" />,
-      // <ListItemStacked
-      //   key="licensing"
-      //   icon="vpn_key"
-      //   title="Licensing"
-      //   component={Link}
-      //   to={`/${this.getCurrentOrgContext().properties.fqon}/license`}
-      //   activeStyle={{ backgroundColor: 'lightgrey' }}
-      // />,
       <ListItemStacked
         key="docs"
         icon="library_books"
@@ -225,8 +218,7 @@ class App extends Component {
         <ListItem
           primaryText="Licensing"
           leftIcon={<FontIcon>vpn_key</FontIcon>}
-          component={Link}
-          to={`/${this.getCurrentOrgContext().properties.fqon}/license`}
+          onClick={() => this.props.showLicenseModal()}
         />
       </MenuButton>,
     ];
@@ -275,7 +267,6 @@ class App extends Component {
               <Route path={'/:fqon/providers'} component={ProviderRoot} />
               <Route path={'/:fqon/users'} component={UserRoot} />
               <Route path={'/:fqon/groups'} component={GroupRoot} />
-              <Route exact path={'/:fqon/license'} component={Licensing} />
               <Route path={'/undefined/hierarchy/*'} component={NotFound} />
               <Route component={NotFound} />
             </Switch>

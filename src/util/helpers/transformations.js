@@ -5,5 +5,5 @@ export function arrayToMap(array, keyName = 'name', valueName = 'value') {
 }
 
 export function mapTo2DArray(object, keyName = 'name', valueName = 'value') {
-  return sortBy(map(object, (value, key) => ({ [keyName]: key, [valueName]: value })), [`${keyName}`]);
+  return sortBy(map(object, (value, key) => ({ [keyName]: key, [valueName]: value })), [v => v[keyName].toLowerCase()]);
 }

@@ -18,7 +18,7 @@ class VariablesListing extends Component {
 
   renderRows() {
     const envVariables = map(this.props.envMap, (value, name) => ({ name, value }));
-    const sortedVariables = sortBy(envVariables, 'name');
+    const sortedVariables = sortBy(envVariables, [v => v.name.toLowerCase()]);
 
     return sortedVariables.map((item, i) => (
       <TableRow key={i}>

@@ -4,5 +4,5 @@ import licenseUpdate from './licenseUpdate';
 
 export default combineReducers({
   license,
-  licenseUpdate
+  licenseUpdate,
 });

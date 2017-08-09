@@ -14,7 +14,7 @@ const EnhancedCardTitle = styled(CardTitle)`
     word-break: break-word;
 
     &.md-card-title--large {
-      font-size: 18px;
+      font-size: 16.5px;
     }
   }
 `;
