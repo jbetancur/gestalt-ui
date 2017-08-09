@@ -78,6 +78,7 @@ class OrgNavMenu extends Component {
         <div style={{ padding: '1em', color: 'black' }}>
           {!allOrganizationsPending &&
             <div>
+              <span className="gf-headline-1">Jump to Organization</span>
               <TextField
                 id="search-orgs"
                 label={t('general.verbs.search')}
@@ -99,7 +100,7 @@ class OrgNavMenu extends Component {
       showMenu && <EnhancedMenuButton
         id="orgs-menu"
         label={this.props.currentOrgContext.description || currentOrgContext.name || ''}
-        position={MenuButton.Positions.TOP_RIGHT}
+        position={MenuButton.Positions.BELOW}
         buttonChildren="expand_more"
         flat
         iconBefore={false}
