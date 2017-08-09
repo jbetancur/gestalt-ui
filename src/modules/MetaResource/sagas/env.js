@@ -28,8 +28,8 @@ export function* fetchEnvSchema(action) {
     const response = yield call(axios.get, `root/resourcetypes/${constants[action.schemaType]}/schema?filter=config`);
 
     const payload = {
-      public: sortBy(response.data.filter(item => item.public === true), ['name']),
-      private: sortBy(response.data.filter(item => item.public === false), ['name']),
+      public: sortBy(response.data.filter(item => item.public === true), [v => v.name.toLowerCase()]),
+      private: sortBy(response.data.filter(item => item.public === false), [v => v.name.toLowerCase()]),
     };
 
     yield put({ type: types.FETCH_ENV_SCHEMA_FULFILLED, payload });

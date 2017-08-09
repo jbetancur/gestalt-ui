@@ -28,15 +28,14 @@ const EnhancedLink = styled(Link)`
 `;
 
 const Icon = styled(FontIcon)`
-  font-size: ${props => `${props.size + 2}px`};
+  font-size: ${props => `${props.size}px`};
   line-height: 32px;
-  margin-top: -1px;
   padding: 1px;
 `;
 
 const IconSeperator = styled(FontIcon)`
   font-size: ${props => `${props.size}px`};
-  line-height: 32px;
+  line-height: 34px;
 `;
 
 const Wrapper = styled.div`
@@ -45,8 +44,17 @@ const Wrapper = styled.div`
   color: ${props => props.theme.colors['$md-grey-500']};
   line-height: 32px;
 
+  span {
+    line-height: 35px;
+  }
+
   i {
     color: inherit;
+  }
+
+  a {
+    margin: 0;
+    height: 35px !important;
   }
 
   a:last-child {
@@ -74,7 +82,7 @@ class Breadcrumbs extends PureComponent {
   static defaultProps = {
     pending: false,
     className: '',
-    size: 17,
+    size: 16.5,
   }
 
   checkIfShouldNav(e, route) {

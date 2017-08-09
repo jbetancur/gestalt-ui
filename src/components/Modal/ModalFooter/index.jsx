@@ -24,11 +24,11 @@ const ModalFooter = props => (
 );
 
 ModalFooter.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array,
 };
 
 ModalFooter.defaultProps = {
-  children: {},
+  children: [],
 };
 
 export default ModalFooter;
