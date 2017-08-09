@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { sortBy } from 'lodash';
 import constants from '../constants/resourceTypes';
 import * as types from '../actionTypes';
 
@@ -27,8 +28,8 @@ export function* fetchEnvSchema(action) {
     const response = yield call(axios.get, `root/resourcetypes/${constants[action.schemaType]}/schema?filter=config`);
 
     const payload = {
-      public: response.data.filter(item => item.public === true),
-      private: response.data.filter(item => item.public === false),
+      public: sortBy(response.data.filter(item => item.public === true), ['name']),
+      private: sortBy(response.data.filter(item => item.public === false), ['name']),
     };
 
     yield put({ type: types.FETCH_ENV_SCHEMA_FULFILLED, payload });
