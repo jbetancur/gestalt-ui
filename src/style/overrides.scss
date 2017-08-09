@@ -2,19 +2,19 @@
 // Hack the react-md nav bar for stacked icons
 @media screen and (min-width: 768px) {
   #main-content {
-    margin-left: 80px;
+    margin-left: 70px;
   }
 
   .md-drawer--left {
     margin-top: 4em;
     transform: translate3d(0, 0, 0);
-    width: 80px;
+    width: 70px;
   }
 }
 
 @media screen and (max-width: 1024px) and (min-width: 320px) {
   .md-drawer--left {
-      width: 80px;
+      width: 70px;
   }
 }
 
@@ -25,7 +25,8 @@
 
 // Make bottom menu Button full width of text
 .md-list--menu-below {
-  width: auto;
+  min-width: 100%;
+  z-index: 99;
 }
 
 #orgs-menu {
@@ -104,6 +105,7 @@
 .md-cell--right.md-toolbar--action-right {
     position: absolute;
     right: 0;
+    top:0;
 }
 
 // Hide Cancel Button on expansion panels
@@ -127,7 +129,7 @@
 }
 
 .md-tooltip-container {
-  z-index: 999;
+  z-index: 18;
 
   span {
     border-radius: 4px;

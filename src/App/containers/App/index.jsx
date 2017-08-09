@@ -40,6 +40,8 @@ class App extends Component {
     selfPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
+    currentWorkspaceContext: PropTypes.object.isRequired,
+    currentEnvironmentContext: PropTypes.object.isRequired,
     setCurrentOrgContextfromState: PropTypes.func.isRequired,
     activityIndicator: PropTypes.bool.isRequired,
     browser: PropTypes.object.isRequired,
@@ -95,7 +97,7 @@ class App extends Component {
   }
 
   renderNavItems() {
-    const { match, t } = this.props;
+    const { match, t, currentWorkspaceContext, currentEnvironmentContext } = this.props;
 
     return [
       <ListItemStacked
@@ -113,6 +115,7 @@ class App extends Component {
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/providers`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
+        visible={!(currentWorkspaceContext.id || currentEnvironmentContext.id)}
       />,
       <ListItemStacked
         key="users"
@@ -133,14 +136,14 @@ class App extends Component {
         visible={match.params.fqon === 'root'}
       />,
       <Divider key="navbar-section-divider-1" />,
-      <ListItemStacked
-        key="licensing"
-        icon="vpn_key"
-        title="Licensing"
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/license`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-      />,
+      // <ListItemStacked
+      //   key="licensing"
+      //   icon="vpn_key"
+      //   title="Licensing"
+      //   component={Link}
+      //   to={`/${this.getCurrentOrgContext().properties.fqon}/license`}
+      //   activeStyle={{ backgroundColor: 'lightgrey' }}
+      // />,
       <ListItemStacked
         key="docs"
         icon="library_books"
@@ -199,17 +202,31 @@ class App extends Component {
             />,
           ]}
         />
-        <ListItem
-          className="gf-caption"
-          primaryText={`Ui v${UI_VERSION}`}
-          leftIcon={<FontIcon>info_outline</FontIcon>}
-        />
         <Divider />
         <ListItem
           id="main-menu--logout"
           primaryText={t('auth.logout')}
           leftIcon={<FontIcon>power_settings_new</FontIcon>}
           onClick={() => this.logout()}
+        />
+      </MenuButton>,
+      <MenuButton
+        id="info-menu"
+        icon
+        buttonChildren="info_outline"
+        position={MenuButton.Positions.TOP_RIGHT}
+        style={{ verticalAlign: 'middle' }}
+      >
+        <ListItem
+          primaryText={`Ui v${UI_VERSION}`}
+          leftIcon={<FontIcon>info_outline</FontIcon>}
+        />
+        <Divider />
+        <ListItem
+          primaryText="Licensing"
+          leftIcon={<FontIcon>vpn_key</FontIcon>}
+          component={Link}
+          to={`/${this.getCurrentOrgContext().properties.fqon}/license`}
         />
       </MenuButton>,
     ];
