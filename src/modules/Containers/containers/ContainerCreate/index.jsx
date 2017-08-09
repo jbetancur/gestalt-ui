@@ -76,9 +76,10 @@ class ContainerCreate extends Component {
   render() {
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
+        {!this.props.inlineMode &&
+          <ContextNavigation
+            breadcrumbComponent={<Breadcrumbs />}
+          />}
         {this.props.envPending ?
           <ActivityContainer id="container-load" /> :
           <ContainerForm
