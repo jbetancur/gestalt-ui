@@ -6,6 +6,9 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import { getParentFQON } from 'util/helpers/strings';
 import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
+import Div from 'components/Div';
+
+const listItemStyle = { textAlign: 'left' };
 
 class HierarchyAction extends PureComponent {
   static propTypes = {
@@ -37,13 +40,13 @@ class HierarchyAction extends PureComponent {
     const deleteDisabled = pending || (match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root');
 
     return (
-      <div style={{ display: 'inline' }}>
+      <Div display="inline" disabled={pending}>
         <MenuButton
           id="orgs-settings-menu"
           position="below"
-          disabled={pending}
           buttonChildren="add"
           flat
+          contained={false}
           label="Create"
         >
           <ListItem
@@ -51,17 +54,18 @@ class HierarchyAction extends PureComponent {
             primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
             component={Link}
             to={`/${organizationSet.properties.fqon}/hierarchy/createOrganization`}
+            style={listItemStyle}
           />
           <ListItem
             id="orgs-settings-menu--workspace-create"
             primaryText={<span>{t('workspaces.actions.create')}</span>}
             component={Link}
             to={`/${organizationSet.properties.fqon}/hierarchy/createWorkspace`}
+            style={listItemStyle}
           />
-
         </MenuButton>
+
         <Button
-          disabled={pending}
           flat
           label="Edit"
           component={Link}
@@ -70,7 +74,6 @@ class HierarchyAction extends PureComponent {
         edit
         </Button>
         <Button
-          disabled={pending}
           flat
           label="Entitlements"
           onClick={() => this.props.showEntitlementsModal(name, match.params, 'Organization')}
@@ -85,7 +88,7 @@ class HierarchyAction extends PureComponent {
         >
           <DeleteIcon />
         </Button>
-      </div>
+      </Div>
     );
   }
 }

@@ -9,7 +9,7 @@ import EnvironmentActions from '../../components/EnvironmentActions';
 import EnvironmentDetails from '../../components/EnvironmentDetails';
 
 const EnvironmentHeader = (props) => {
-  const { environment, environmentPending, navigation } = props;
+  const { environment, environmentPending, navigation, contextActions, contextActionsPending } = props;
 
   const handleViewState = (view, index) => {
     const { handleEnvironmentNavigation } = props;
@@ -20,10 +20,13 @@ const EnvironmentHeader = (props) => {
   return (
     <div>
       <ContextNavigation
+        model={environment}
         pending={environmentPending}
+        pendingContextActions={contextActionsPending}
         breadcrumbComponent={<Breadcrumbs />}
         actionsComponent={<EnvironmentActions environment={environment} pending={environmentPending} {...props} />}
         detailsComponent={<EnvironmentDetails workspace={environment} pending={environmentPending} {...props} />}
+        actionsList={contextActions}
       />
       <DetailCard expanderTooltipLabel="Details">
         <TabsContainer themed defaultTabIndex={navigation.index}>
@@ -49,6 +52,8 @@ EnvironmentHeader.propTypes = {
   environment: PropTypes.object.isRequired,
   environmentPending: PropTypes.bool.isRequired,
   handleEnvironmentNavigation: PropTypes.func.isRequired,
+  contextActions: PropTypes.array.isRequired,
+  contextActionsPending: PropTypes.bool.isRequired,
 };
 
 export default EnvironmentHeader;

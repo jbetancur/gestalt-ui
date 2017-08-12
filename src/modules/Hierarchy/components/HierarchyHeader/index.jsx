@@ -5,15 +5,18 @@ import HierarchyActions from '../../components/HierarchyActions';
 import HierarchyDetails from '../../components/HierarchyDetails';
 
 const HierarchyHeader = (props) => {
-  const { model, orangizationSetPending } = props;
+  const { model, orangizationSetPending, contextActions, contextActionsPending } = props;
 
   return (
     <div>
       <ContextNavigation
+        model={model}
         pending={orangizationSetPending}
+        pendingContextActions={contextActionsPending}
         breadcrumbComponent={<Breadcrumbs />}
         actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...props} />}
         detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...props} />}
+        actionsList={contextActions}
       />
     </div>
   );
@@ -22,6 +25,8 @@ const HierarchyHeader = (props) => {
 HierarchyHeader.propTypes = {
   orangizationSetPending: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
+  contextActions: PropTypes.array.isRequired,
+  contextActionsPending: PropTypes.bool.isRequired,
 };
 
 export default HierarchyHeader;

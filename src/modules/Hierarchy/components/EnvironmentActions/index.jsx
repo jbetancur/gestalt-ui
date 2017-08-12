@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
+import Div from 'components/Div';
 
 class EnvironmentActions extends PureComponent {
   static propTypes = {
@@ -29,13 +30,12 @@ class EnvironmentActions extends PureComponent {
     const name = environment.description || environment.name;
 
     return (
-      <div style={{ display: 'inline' }}>
+      <Div display="inline" disabled={pending}>
         <Button
           flat
           label="Edit"
           component={Link}
           to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/edit`}
-          disabled={pending}
         >
           edit
         </Button>
@@ -43,7 +43,6 @@ class EnvironmentActions extends PureComponent {
           flat
           label="Entitlements"
           onClick={() => this.props.showEntitlementsModal(name, match.params, 'Environment')}
-          disabled={pending}
         >
           security
         </Button>
@@ -51,11 +50,10 @@ class EnvironmentActions extends PureComponent {
           flat
           label="Delete"
           onClick={e => this.delete(e)}
-          disabled={pending}
         >
           <DeleteIcon />
         </Button>
-      </div>
+      </Div>
     );
   }
 }

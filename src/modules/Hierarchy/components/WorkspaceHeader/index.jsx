@@ -9,7 +9,7 @@ import WorkspaceActions from '../../components/WorkspaceActions';
 import WorkspaceDetails from '../../components/WorkspaceDetails';
 
 const WorkspaceHeader = (props) => {
-  const { workspace, workspacePending, navigation } = props;
+  const { workspace, workspacePending, navigation, contextActions, contextActionsPending } = props;
 
   const handleViewState = (view, index) => {
     const { handleWorkspaceNavigation } = props;
@@ -20,10 +20,13 @@ const WorkspaceHeader = (props) => {
   return (
     <div>
       <ContextNavigation
+        model={workspace}
         pending={workspacePending}
+        pendingContextActions={contextActionsPending}
         breadcrumbComponent={<Breadcrumbs />}
         actionsComponent={<WorkspaceActions workspace={workspace} pending={workspacePending} {...props} />}
         detailsComponent={<WorkspaceDetails workspace={workspace} pending={workspacePending} {...props} />}
+        actionsList={contextActions}
       />
       <DetailCard expanderTooltipLabel="Details">
         <TabsContainer defaultTabIndex={navigation.index}>
@@ -42,6 +45,8 @@ WorkspaceHeader.propTypes = {
   workspace: PropTypes.object.isRequired,
   workspacePending: PropTypes.bool.isRequired,
   handleWorkspaceNavigation: PropTypes.func.isRequired,
+  contextActions: PropTypes.array.isRequired,
+  contextActionsPending: PropTypes.bool.isRequired,
 };
 
 export default WorkspaceHeader;

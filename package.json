@@ -243,6 +243,7 @@
         "react-addons-test-utils": "^15.6.0",
         "react-copy-to-clipboard": "^5.0.0",
         "react-dom": "^15.6.1",
+        "react-frame-component": "^1.1.1",
         "react-ga": "^2.2.0",
         "react-i18next": "^4.8.0",
         "react-inlinesvg": "^0.6.2",

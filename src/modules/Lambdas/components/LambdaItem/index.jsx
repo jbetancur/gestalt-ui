@@ -1,13 +1,23 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
+import { ActionsMenu } from 'modules/Actions';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton, CopyUUIDButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import A from 'components/A';
+
+// TODO: Sad hack for overflow menus within tables - research fixed option
+const TableWrapper = styled.div`
+.md-data-table--responsive {
+  padding-bottom: 250px;
+  margin-bottom: -250px;
+}
+`;
 
 class LambdaItem extends PureComponent {
   static propTypes = {
@@ -21,6 +31,8 @@ class LambdaItem extends PureComponent {
     handleTableSortIcon: PropTypes.func.isRequired,
     handleTableSelected: PropTypes.func.isRequired,
     sortTable: PropTypes.func.isRequired,
+    actions: PropTypes.array.isRequired,
+    actionsPending: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -61,15 +73,21 @@ class LambdaItem extends PureComponent {
 
   render() {
     const { selectedCount } = this.props.selectedLambdas;
-    const { handleTableSortIcon, sortTable, match } = this.props;
+    const { handleTableSortIcon, sortTable, match, actions, actionsPending } = this.props;
 
     const lambdas = this.props.model.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.props.onEditToggle(lambda, e)}>
         <TableColumn containsButtons>
+          <ActionsMenu
+            icon
+            resourceUUID={lambda.id}
+            actionList={actions}
+            pending={actionsPending}
+          />
           <Button
             icon
             tooltipLabel="View Log"
-            tooltipPosition="right"
+            tooltipPosition="bottom"
             to={{
               pathname: '/logs',
               search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
@@ -102,24 +120,26 @@ class LambdaItem extends PureComponent {
             <div>{this.renderCreateButton()}</div>
           </TableCardHeader>
           {this.props.pending && <LinearProgress id="lambda-listing" />}
-          <DataTable baseId="Lambdas" onRowToggle={this.handleRowToggle}>
-            {this.props.model.length > 0 &&
-            <TableHeader>
-              <TableRow>
-                <TableColumn />
-                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                <TableColumn>UUID</TableColumn>
-                <TableColumn>Endpoints</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('properties.runtime')} onClick={() => sortTable('properties.runtime')}>Runtime</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
-              </TableRow>
-            </TableHeader>}
-            <TableBody>
-              {lambdas}
-            </TableBody>
-          </DataTable>
+          <TableWrapper>
+            <DataTable baseId="Lambdas" onRowToggle={this.handleRowToggle}>
+              {this.props.model.length > 0 &&
+              <TableHeader>
+                <TableRow>
+                  <TableColumn />
+                  <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
+                  <TableColumn>UUID</TableColumn>
+                  <TableColumn>Endpoints</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('properties.runtime')} onClick={() => sortTable('properties.runtime')}>Runtime</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+                </TableRow>
+              </TableHeader>}
+              <TableBody>
+                {lambdas}
+              </TableBody>
+            </DataTable>
+          </TableWrapper>
         </Card>
       </div>
     );

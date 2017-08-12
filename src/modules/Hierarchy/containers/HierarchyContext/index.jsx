@@ -25,6 +25,7 @@ class HierarchyContext extends PureComponent {
     unloadWorkspaces: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
+    fetchContextActions: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -39,8 +40,9 @@ class HierarchyContext extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchOrgSet(this.props.match.params.fqon);
-    // this.props.fetchWorkspaces(this.props.match.params.fqon);
+    const { match } = this.props;
+    this.props.fetchOrgSet(match.params.fqon);
+    this.props.fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();
   }
@@ -48,6 +50,7 @@ class HierarchyContext extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.fetchOrgSet(nextProps.match.params.fqon);
+      this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
     }
   }
 
