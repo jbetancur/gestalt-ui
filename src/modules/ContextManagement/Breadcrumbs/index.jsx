@@ -35,7 +35,7 @@ const Icon = styled(FontIcon)`
 
 const IconSeperator = styled(FontIcon)`
   font-size: ${props => `${props.size}px`};
-  line-height: 34px;
+  line-height: 35px;
 `;
 
 const Wrapper = styled.div`

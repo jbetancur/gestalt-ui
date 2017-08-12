@@ -22,6 +22,7 @@ export default function WithContext(BaseComponent) {
       setCurrentOrgContext: PropTypes.func.isRequired,
       setCurrentWorkspaceContext: PropTypes.func.isRequired,
       setCurrentEnvironmentContext: PropTypes.func.isRequired,
+      unloadContextActions: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -72,6 +73,10 @@ export default function WithContext(BaseComponent) {
       if (nextProps.environment !== this.props.environment) {
         this.props.setCurrentEnvironmentContext(nextProps.environment);
       }
+    }
+
+    componentWillUnmount() {
+      this.props.unloadContextActions();
     }
 
     render() {

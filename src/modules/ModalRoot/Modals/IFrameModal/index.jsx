@@ -3,34 +3,35 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
-import List from 'react-md/lib/Lists/List';
-import ListItem from 'react-md/lib/Lists/ListItem';
+import Frame from 'react-frame-component';
 
 const EnhancedDialog = styled(Dialog)`
-  .md-dialog {
-    width: 100%;
-    max-width: 26em;
+.md-dialog {
+  width: 100%;
+  max-width: 45em;
+
+  .md-dialog-content {
+    height: 18em;
+    overflow: visible;
   }
+}
 `;
 
-class ConfirmModal extends PureComponent {
+class ActionsModal extends PureComponent {
   static propTypes = {
     modal: PropTypes.object.isRequired,
     onProceed: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-    multipleItems: PropTypes.array,
+    title: PropTypes.string,
     body: PropTypes.string,
     proceedLabel: PropTypes.string,
-    cancelLabel: PropTypes.string,
   };
 
   static defaultProps = {
-    onProceed: () => {},
-    multipleItems: [],
+    onProceed: () => { },
+    title: '',
     body: '',
-    proceedLabel: 'Delete',
-    cancelLabel: 'Cancel',
+    proceedLabel: 'Close',
   };
 
   constructor(props) {
@@ -43,35 +44,27 @@ class ConfirmModal extends PureComponent {
   }
 
   render() {
-    const items = this.props.multipleItems.map((item, i) => (
-      <ListItem key={i} inkDisabled primaryText={item} />
-    ));
-
     return (
       <EnhancedDialog
         id="confirmation-modal"
-        contentStyle={{ maxHeight: '10em' }}
         visible={this.props.modal.visible}
-        title={this.props.title}
         modal={false}
+        title={this.props.title}
         closeOnEsc
         defaultVisibleTransitionable
         onHide={() => this.props.hideModal()}
         actions={[{
           onClick: () => this.doIt(),
-          style: { color: 'red' },
-          label: this.props.proceedLabel,
-        },
-        {
-          onClick: () => this.props.hideModal(),
           primary: true,
-          label: this.props.cancelLabel,
+          label: this.props.proceedLabel,
         }]}
       >
-        <div>
-          {this.props.body && <p id="confirmation-modal-content" className="md-color--secondary-text">{this.props.body}</p>}
-          {this.props.multipleItems.length > 0 && <List>{items}</List>}
-        </div>
+        <Frame
+          initialContent={this.props.body}
+          frameBorder="0"
+          mountTarget="#container-root"
+          style={{ width: '100%', height: '100%' }}
+        />
       </EnhancedDialog>
     );
   }
@@ -91,4 +84,4 @@ function actions(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, actions)(ConfirmModal);
+export default connect(mapStateToProps, actions)(ActionsModal);

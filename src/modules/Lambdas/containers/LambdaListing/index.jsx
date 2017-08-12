@@ -21,6 +21,7 @@ class LambdaListing extends PureComponent {
     clearTableSelected: PropTypes.func.isRequired,
     clearTableSort: PropTypes.func.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
+    fetchActions: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -32,9 +33,10 @@ class LambdaListing extends PureComponent {
   }
 
   componentDidMount() {
-    const { match, fetchLambdas } = this.props;
+    const { match, fetchLambdas, fetchActions } = this.props;
 
     fetchLambdas(match.params.fqon, match.params.environmentId);
+    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
   }
 
   componentWillUnmount() {

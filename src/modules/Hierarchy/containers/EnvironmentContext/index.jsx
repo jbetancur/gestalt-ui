@@ -18,6 +18,7 @@ class EnvironmentContext extends Component {
     match: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
+    fetchContextActions: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -25,8 +26,10 @@ class EnvironmentContext extends Component {
   }
 
   componentDidMount() {
-    const { match, fetchEnvironment } = this.props;
+    const { match, fetchEnvironment, fetchContextActions } = this.props;
+
     fetchEnvironment(match.params.fqon, match.params.environmentId);
+    fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
   }
 
   renderThings(state) {

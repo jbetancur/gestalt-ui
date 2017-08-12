@@ -4,7 +4,7 @@ import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
-const renderField = ({ input, label, type, className }) => (
+const renderField = ({ input, label, type, className, disabled, required }) => (
   <Field
     {...input}
     className={className}
@@ -12,7 +12,8 @@ const renderField = ({ input, label, type, className }) => (
     component={TextField}
     type={type}
     value=" " // fix for [object Object] on deselect
-    required
+    required={required}
+    disabled={disabled}
   />
 );
 
@@ -21,6 +22,8 @@ renderField.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  required: PropTypes.bool.isRequired,
 };
 
 const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue, className }) => (
@@ -34,27 +37,36 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
       {icon}
     </Button>
     {touched && error}
-    {fields.map((member, index) => (
-      <div key={index} className={className}>
-        <Field
-          name={`${member}.${keyFieldValue}`}
-          type="text"
-          component={renderField}
-          label={keyFieldName}
-          className="flex-5"
-        />
-        <Field
-          name={`${member}.${valueFieldValue}`}
-          type="text"
-          component={renderField}
-          label={valueFieldName}
-          className="flex-6"
-        />
-        <FieldRemoveButton
-          onClick={() => fields.remove(index)}
-        />
-      </div>
-    ))}
+    {fields.map((member, index) => {
+      const isRequired = fields.get(index).required;
+      const isInherited = fields.get(index).inherited;
+      const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
+
+      return (
+        <div key={index} className={className}>
+          <Field
+            name={`${member}.${keyFieldValue}`}
+            type="text"
+            component={renderField}
+            label={fieldNameStr}
+            className="flex-5"
+            disabled={isRequired || isInherited}
+          />
+          <Field
+            name={`${member}.${valueFieldValue}`}
+            type="text"
+            component={renderField}
+            label={valueFieldName}
+            className="flex-6"
+            required={isRequired}
+          />
+          {!(isRequired || isInherited) &&
+            <FieldRemoveButton
+              onClick={() => fields.remove(index)}
+            />}
+        </div>
+      );
+    })}
   </div>
 );
 

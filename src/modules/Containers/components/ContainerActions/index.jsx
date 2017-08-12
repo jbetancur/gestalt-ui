@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
+import { ActionsMenu } from 'modules/Actions';
 import ActionsModals from '../../ActionModals';
 
 const ActionsWrapper = styled.div`
@@ -94,6 +95,8 @@ class ContainerActions extends Component {
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
+    actions: PropTypes.array.isRequired,
+    actionsPending: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -221,7 +224,13 @@ class ContainerActions extends Component {
             {!this.props.disablePromote &&
               <ListItem primaryText="Promote" onClick={() => this.promoteContainer()} />}
             {!this.props.disableDestroy &&
-            <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
+              <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
+            <ActionsMenu
+              listItem
+              resourceUUID={this.props.containerModel.id}
+              actionList={this.props.actions}
+              pending={this.props.actionsPending}
+            />
           </ListWrapper>]}
         </MenuButton>
       </ActionsWrapper>

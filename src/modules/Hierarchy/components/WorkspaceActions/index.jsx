@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
+import Div from 'components/Div';
 
 class WorkspaceActions extends PureComponent {
   static propTypes = {
@@ -29,13 +30,12 @@ class WorkspaceActions extends PureComponent {
     const name = workspace.description || workspace.name;
 
     return (
-      <div style={{ display: 'inline' }}>
+      <Div display="inline" disabled={pending}>
         <Button
           flat
           label="Create"
           component={Link}
           to={`/${match.params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
-          disabled={pending}
         >
           create_new_folder
         </Button>
@@ -44,7 +44,6 @@ class WorkspaceActions extends PureComponent {
           label={<span>Edit</span>}
           component={Link}
           to={`/${match.params.fqon}/hierarchy/${workspace.id}/editWorkspace`}
-          disabled={pending}
         >
           edit
         </Button>
@@ -52,7 +51,6 @@ class WorkspaceActions extends PureComponent {
           flat
           label={<span>Entitlements</span>}
           onClick={() => this.props.showEntitlementsModal(name, match.params, 'Workspace')}
-          disabled={pending}
         >
           security
         </Button>
@@ -61,11 +59,10 @@ class WorkspaceActions extends PureComponent {
           label={<span>Delete</span>}
           leftIcon={<DeleteIcon />}
           onClick={e => this.delete(e)}
-          disabled={pending}
         >
           <DeleteIcon />
         </Button>
-      </div>
+      </Div>
     );
   }
 }

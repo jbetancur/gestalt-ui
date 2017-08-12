@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
+import { ActionsMenu } from 'modules/Actions';
 
 const ContextNavigationStyle = styled.div`
   background-color: ${props => props.theme.colors['$md-white']};
@@ -31,10 +32,14 @@ const ActionsPanel = styled.div`
   button, a {
     min-width: 44px;
     padding: 4px 8px;
-    font-size: 12px;
+    font-size: 11px;
+
+    span:last-child {
+      padding-left: 6px;
+    }
 
     i {
-      font-size: 20px;
+      font-size: 18px;
     }
   }
 `;
@@ -54,12 +59,18 @@ class ContextNavigation extends PureComponent {
     actionsComponent: PropTypes.object,
     // eslint-disable-next-line react/require-default-props
     detailsComponent: PropTypes.object,
-    pending: PropTypes.bool,
+    pending: PropTypes.bool.isRequired,
+    actionsList: PropTypes.array.isRequired,
+    actionsPending: PropTypes.bool.isRequired,
+    model: PropTypes.object,
   };
 
   static defaultProps = {
     children: [],
     pending: false,
+    actionsPending: false,
+    actions: [],
+    model: {},
   };
 
   constructor() {
@@ -77,17 +88,17 @@ class ContextNavigation extends PureComponent {
   }
 
   render() {
-    const { breadcrumbComponent, actionsComponent, detailsComponent, pending } = this.props;
+    const { breadcrumbComponent, actionsComponent, detailsComponent, pending, actionsList, actionsPending, model } = this.props;
 
     return (
       <ContextNavigationStyle>
         <div className="flex-row start-center no-gutter">
-          <div className="flex-7 flex-xs-12 flex-sm-12">
+          <div className="flex-7 flex-xs-12 flex-sm-12 flex-md-6 flex-lg-6">
             {breadcrumbComponent}
           </div>
 
           {actionsComponent &&
-            <ActionsPanel className="flex-5 flex-xs-12 flex-sm-12">
+            <ActionsPanel className="flex-5 flex-xs-12 flex-sm-12 flex-md-6 flex-lg-6">
               {detailsComponent &&
               <Button
                 flat
@@ -98,9 +109,15 @@ class ContextNavigation extends PureComponent {
               >
                 {this.state.expanded ? 'expand_more' : 'expand_less'}
               </Button>}
+
+              <ActionsMenu
+                actionList={actionsList}
+                pending={actionsPending}
+                resourceUUID={model.id}
+              />
+
               {actionsComponent}
             </ActionsPanel>}
-
           {actionsComponent &&
           <div className="flex-12">
             <ExpansionPanel expanded={this.state.expanded}>

@@ -6,11 +6,12 @@ import { connect } from 'react-redux';
 import { EntitlementModal } from 'modules/Entitlements';
 import { ProviderInstanceModal } from 'modules/ProviderInstance';
 import LicenseModal from 'modules/Licensing';
-
 import CONFIRM from './Modals/Confirm';
+import IFRAME from './Modals/IFrameModal';
 
 const MODAL_COMPONENTS = {
   CONFIRM,
+  IFRAME,
   EntitlementModal,
   ProviderInstanceModal,
   LicenseModal,
