@@ -35,7 +35,7 @@ const Icon = styled(FontIcon)`
 
 const IconSeperator = styled(FontIcon)`
   font-size: ${props => `${props.size}px`};
-  line-height: 34px;
+  line-height: 35px;
 `;
 
 const Wrapper = styled.div`
@@ -82,7 +82,7 @@ class Breadcrumbs extends PureComponent {
   static defaultProps = {
     pending: false,
     className: '',
-    size: 16.5,
+    size: 15,
   }
 
   checkIfShouldNav(e, route) {
