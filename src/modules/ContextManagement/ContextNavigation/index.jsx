@@ -4,39 +4,43 @@ import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 
 const ContextNavigationStyle = styled.div`
-  background-color: ${props => props.theme.colors['$md-white']};
-  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  padding: 8px;
-  text-align: left;
-  min-height: 48px;
-  width: 100%;
-  overflow: visible;
+background-color: ${props => props.theme.colors['$md-white']};
+border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
+padding: 8px;
+text-align: left;
+min-height: 48px;
+width: 100%;
+overflow: visible;
 
-  .md-btn--icon {
-    height: 32px;
-    padding: 0;
-    width: 32px;
-  }
+.md-btn--icon {
+  height: 32px;
+  padding: 0;
+  width: 32px;
+}
 `;
 
 const DetailsPanel = styled.div`
-  padding: 16px;
+padding: 16px;
 `;
 
 const ActionsPanel = styled.div`
-  display: inline;
-  text-align: right;
-  overflow: visible;
+display: inline;
+text-align: right;
+overflow: visible;
 
-  button, a {
-    min-width: 44px;
-    padding: 4px 8px;
-    font-size: 12px;
+button, a {
+  min-width: 44px;
+  padding: 4px 8px;
+  font-size: 11px;
 
-    i {
-      font-size: 20px;
-    }
+  span:last-child {
+    padding-left: 6px;
   }
+
+  i {
+    font-size: 18px;
+  }
+}
 `;
 
 const ExpansionPanel = styled.div`

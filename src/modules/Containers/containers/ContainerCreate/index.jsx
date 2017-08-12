@@ -33,6 +33,7 @@ class ContainerCreate extends Component {
 
   static defaultProps = {
     inlineMode: false,
+    history: {},
   };
 
   componentDidMount() {
@@ -107,7 +108,7 @@ function mapStateToProps(state) {
       name: '',
       properties: {
         container_type: 'DOCKER',
-        env: mapTo2DArray(state.metaResource.env.env),
+        env: mapTo2DArray(state.metaResource.env.env, 'name', 'value', { inherited: true }),
         labels: [],
         accepted_resource_roles: [],
         constraints: [],
