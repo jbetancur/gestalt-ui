@@ -22,11 +22,11 @@ const WorkspaceHeader = (props) => {
       <ContextNavigation
         model={workspace}
         pending={workspacePending}
+        pendingContextActions={contextActionsPending}
         breadcrumbComponent={<Breadcrumbs />}
         actionsComponent={<WorkspaceActions workspace={workspace} pending={workspacePending} {...props} />}
         detailsComponent={<WorkspaceDetails workspace={workspace} pending={workspacePending} {...props} />}
         actionsList={contextActions}
-        actionsPending={contextActionsPending}
       />
       <DetailCard expanderTooltipLabel="Details">
         <TabsContainer defaultTabIndex={navigation.index}>

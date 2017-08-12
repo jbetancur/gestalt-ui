@@ -14,7 +14,7 @@ const cookies = new Cookies();
 class ActionsMenu extends PureComponent {
   static propTypes = {
     actionList: PropTypes.array,
-    actionsPending: PropTypes.bool,
+    pending: PropTypes.bool,
     // unloadActions: PropTypes.func.isRequired,
     style: PropTypes.object,
     toggleActionsModal: PropTypes.func.isRequired,
@@ -25,7 +25,7 @@ class ActionsMenu extends PureComponent {
 
   static defaultProps = {
     actionList: [],
-    actionsPending: false,
+    pending: false,
     style: { textAlign: 'left' },
     listItem: false,
     resourceUUID: '',
@@ -74,7 +74,7 @@ class ActionsMenu extends PureComponent {
   }
 
   render() {
-    const { actionsPending, actionList, listItem, icon } = this.props;
+    const { pending, actionList, listItem, icon } = this.props;
 
     return (
       actionList && actionList.length > 0 &&
@@ -82,7 +82,7 @@ class ActionsMenu extends PureComponent {
         {!listItem ?
           <MenuButton
             id="orgs-actions-menu"
-            disabled={actionsPending}
+            disabled={pending}
             buttonChildren="more_vert"
             flat={!icon}
             label={!icon && 'Actions'}

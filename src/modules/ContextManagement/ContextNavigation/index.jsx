@@ -59,16 +59,16 @@ class ContextNavigation extends PureComponent {
     actionsComponent: PropTypes.object,
     // eslint-disable-next-line react/require-default-props
     detailsComponent: PropTypes.object,
-    pending: PropTypes.bool.isRequired,
+    pending: PropTypes.bool,
+    pendingContextActions: PropTypes.bool,
     actionsList: PropTypes.array.isRequired,
-    actionsPending: PropTypes.bool.isRequired,
     model: PropTypes.object,
   };
 
   static defaultProps = {
     children: [],
     pending: false,
-    actionsPending: false,
+    pendingContextActions: false,
     actions: [],
     model: {},
   };
@@ -88,7 +88,7 @@ class ContextNavigation extends PureComponent {
   }
 
   render() {
-    const { breadcrumbComponent, actionsComponent, detailsComponent, pending, actionsList, actionsPending, model } = this.props;
+    const { breadcrumbComponent, actionsComponent, detailsComponent, pending, pendingContextActions, actionsList, model } = this.props;
 
     return (
       <ContextNavigationStyle>
@@ -112,7 +112,7 @@ class ContextNavigation extends PureComponent {
 
               <ActionsMenu
                 actionList={actionsList}
-                pending={actionsPending}
+                pending={pendingContextActions}
                 resourceUUID={model.id}
               />
 

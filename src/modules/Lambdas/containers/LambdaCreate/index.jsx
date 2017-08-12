@@ -64,7 +64,7 @@ function mapStateToProps(state) {
     initialValues: {
       name: '',
       properties: {
-        env: mapTo2DArray(state.metaResource.env.env),
+        env: mapTo2DArray(state.metaResource.env.env, 'name', 'value', { inherited: true }),
         headers: {
           Accept: 'text/plain'
         },

@@ -77,6 +77,6 @@ export default combineReducers({
   env: reducerFactory(['fetch'], 'env', 'env', {}),
   self: reducerFactory(['fetch'], 'self', 'self', selfModel),
   logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }, true),
-  actions: reducerFactory(['fetch'], 'actions', 'actions', []),
-  contextActions: reducerFactory(['fetch'], 'contextActions', 'context_actions', []),
+  actions: reducerFactory(['fetch'], 'actions', 'actions', [], true),
+  contextActions: reducerFactory(['fetch'], 'contextActions', 'context_actions', [], true),
 });

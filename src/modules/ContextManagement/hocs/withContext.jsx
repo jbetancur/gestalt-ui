@@ -61,22 +61,10 @@ export default function WithContext(BaseComponent) {
     }
 
     componentWillReceiveProps(nextProps) {
-      // TODO: This is a fallback for keeping contexts synced with store but we still need to move all the logic from Nav Cards to here
-      if (nextProps.organizationSet !== this.props.organizationSet) {
+      // keep the org context synced if it is changed
+      if (nextProps.organizationSet.id !== this.props.organizationSet.id) {
         this.props.setCurrentOrgContext(nextProps.organizationSet);
       }
-
-      if (nextProps.workspace !== this.props.workspace) {
-        this.props.setCurrentWorkspaceContext(nextProps.workspace);
-      }
-
-      if (nextProps.environment !== this.props.environment) {
-        this.props.setCurrentEnvironmentContext(nextProps.environment);
-      }
-    }
-
-    componentWillUnmount() {
-      this.props.unloadContextActions();
     }
 
     render() {

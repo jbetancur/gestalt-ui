@@ -82,7 +82,7 @@ class Breadcrumbs extends PureComponent {
   static defaultProps = {
     pending: false,
     className: '',
-    size: 16.5,
+    size: 15,
   }
 
   checkIfShouldNav(e, route) {

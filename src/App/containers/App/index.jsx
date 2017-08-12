@@ -98,7 +98,7 @@ class App extends Component {
   }
 
   renderNavItems() {
-    const { match, t, currentWorkspaceContext, currentEnvironmentContext } = this.props;
+    const { match, t, currentWorkspaceContext } = this.props;
 
     return [
       <ListItemStacked
@@ -116,7 +116,7 @@ class App extends Component {
         component={Link}
         to={`/${this.getCurrentOrgContext().properties.fqon}/providers`}
         activeStyle={{ backgroundColor: 'lightgrey' }}
-        visible={!(currentWorkspaceContext.id || currentEnvironmentContext.id)}
+        visible={!currentWorkspaceContext.id}
       />,
       <ListItemStacked
         key="users"

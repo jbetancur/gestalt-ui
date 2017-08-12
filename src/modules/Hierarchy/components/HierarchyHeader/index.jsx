@@ -12,11 +12,11 @@ const HierarchyHeader = (props) => {
       <ContextNavigation
         model={model}
         pending={orangizationSetPending}
+        pendingContextActions={contextActionsPending}
         breadcrumbComponent={<Breadcrumbs />}
         actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...props} />}
         detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...props} />}
         actionsList={contextActions}
-        actionsPending={contextActionsPending}
       />
     </div>
   );

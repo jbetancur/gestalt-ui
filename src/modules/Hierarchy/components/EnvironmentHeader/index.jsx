@@ -22,11 +22,11 @@ const EnvironmentHeader = (props) => {
       <ContextNavigation
         model={environment}
         pending={environmentPending}
+        pendingContextActions={contextActionsPending}
         breadcrumbComponent={<Breadcrumbs />}
         actionsComponent={<EnvironmentActions environment={environment} pending={environmentPending} {...props} />}
         detailsComponent={<EnvironmentDetails workspace={environment} pending={environmentPending} {...props} />}
         actionsList={contextActions}
-        actionsPending={contextActionsPending}
       />
       <DetailCard expanderTooltipLabel="Details">
         <TabsContainer themed defaultTabIndex={navigation.index}>
