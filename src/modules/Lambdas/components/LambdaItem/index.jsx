@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FontIcon from 'react-md/lib/FontIcons';
 import { ActionsMenu } from 'modules/Actions';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton, CopyUUIDButton } from 'components/Buttons';
@@ -22,7 +21,6 @@ const TableWrapper = styled.div`
 class LambdaItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     selectedLambdas: PropTypes.object.isRequired,
@@ -47,20 +45,6 @@ class LambdaItem extends PureComponent {
     handleTableSelected(row, toggled, count, model, selectedLambdas.selectedItems);
   }
 
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-lambda"
-        label="Create Lambda"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-      >
-        <FontIcon>add</FontIcon>
-      </Button>
-    );
-  }
-
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
       <div key={endpoint.id} >
@@ -80,7 +64,7 @@ class LambdaItem extends PureComponent {
         <TableColumn containsButtons>
           <ActionsMenu
             icon
-            resourceUUID={lambda.id}
+            model={lambda}
             actionList={actions}
             pending={actionsPending}
           />
@@ -115,10 +99,7 @@ class LambdaItem extends PureComponent {
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} lambda${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-          >
-            {/* <div><Button flat label="Promote" /></div> */}
-            <div>{this.renderCreateButton()}</div>
-          </TableCardHeader>
+          />
           {this.props.pending && <LinearProgress id="lambda-listing" />}
           <TableWrapper>
             <DataTable baseId="Lambdas" onRowToggle={this.handleRowToggle}>

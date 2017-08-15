@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Button, DeleteIconButton } from 'components/Buttons';
+import { DeleteIconButton } from 'components/Buttons';
 
 class PolicyItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     selectedPolicies: PropTypes.object.isRequired,
@@ -30,20 +28,6 @@ class PolicyItem extends PureComponent {
     const { model, handleTableSelected, selectedPolicies } = this.props;
 
     handleTableSelected(row, toggled, count, model, selectedPolicies.selectedItems);
-  }
-
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-policy"
-        label="Create Policy"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-      >
-        <FontIcon>add</FontIcon>
-      </Button>
-    );
   }
 
   render() {
@@ -67,9 +51,7 @@ class PolicyItem extends PureComponent {
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} polic${selectedCount > 1 ? 'ies' : 'y'} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-          >
-            <div>{this.renderCreateButton()}</div>
-          </TableCardHeader>
+          />
           {this.props.policiesPending && <LinearProgress id="policy-listing" />}
           <DataTable baseId="policies" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&

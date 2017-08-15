@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: .4em;
+  font-size: .6em;
   text-transform: uppercase;
 `;
 

@@ -27,7 +27,6 @@ class ProviderListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -47,20 +46,6 @@ class ProviderListing extends PureComponent {
     clearTableSort();
   }
 
-  create() {
-    const { history, match } = this.props;
-
-    // note the workspaceId and environmentId here are passed into the component
-    // via the EnvironmentDetail Component they are not props.match
-    if (match.params.workspaceId && !match.params.environmentId) {
-      history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/create` });
-    } else if (match.params.environmentId) {
-      history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/providers/create` });
-    } else {
-      history.push({ pathname: `/${match.params.fqon}/providers/create` });
-    }
-  }
-
   edit(provider, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
@@ -71,7 +56,7 @@ class ProviderListing extends PureComponent {
       } else if (match.params.environmentId) {
         history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/providers/${provider.id}/edit` });
       } else {
-        history.push({ pathname: `/${match.params.fqon}/providers/${provider.id}/edit` });
+        history.push({ pathname: `/${match.params.fqon}/hierarchy/providers/${provider.id}/edit` });
       }
     }
   }
@@ -121,7 +106,6 @@ class ProviderListing extends PureComponent {
       <ProviderItem
         model={this.props.providers}
         pending={this.props.providersPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         onToggleInstanceModal={() => this.handleInstanceModalFinish()}

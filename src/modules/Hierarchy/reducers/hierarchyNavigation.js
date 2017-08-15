@@ -1,19 +1,19 @@
 // import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-  WORKSPACES_NAVIGATION,
-  UNLOAD_WORKSPACES_NAVIGATION,
+  HIERARCHY_NAVIGATION,
+  UNLOAD_HIERARCHY_NAVIGATION,
 } from '../actionTypes';
 
 const initialState = {
-  view: 'environments',
+  view: 'hierarchy',
   index: 0,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case UNLOAD_WORKSPACES_NAVIGATION:
+    case UNLOAD_HIERARCHY_NAVIGATION:
       return initialState;
-    case WORKSPACES_NAVIGATION:
+    case HIERARCHY_NAVIGATION:
       return {
         ...state,
         view: action.payload.view,

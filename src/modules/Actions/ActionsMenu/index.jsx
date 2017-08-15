@@ -7,7 +7,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { withMetaResource } from 'modules/MetaResource';
 import Div from 'components/Div';
-import { API_TIMEOUT } from '../../../constants';
+import { API_URL, API_TIMEOUT } from '../../../constants';
 
 const cookies = new Cookies();
 
@@ -19,8 +19,9 @@ class ActionsMenu extends PureComponent {
     style: PropTypes.object,
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
-    resourceUUID: PropTypes.string,
+    model: PropTypes.string.isRequired,
     icon: PropTypes.bool,
+
   };
 
   static defaultProps = {
@@ -28,7 +29,6 @@ class ActionsMenu extends PureComponent {
     pending: false,
     style: { textAlign: 'left' },
     listItem: false,
-    resourceUUID: '',
     icon: false,
   };
 
@@ -44,7 +44,7 @@ class ActionsMenu extends PureComponent {
     const tokenId = cookies.get('auth_token');
 
     const contentAPI = axios.create({
-      baseURL: `${action.org.href}/actions/${action.id}/ui?resource=${this.props.resourceUUID}`,
+      baseURL: `${API_URL}/${this.props.model.org.properties.fqon}/actions/${action.id}/ui?resource=${this.props.model.id}`,
       timeout: API_TIMEOUT,
       headers: {
         Authorization: `Bearer ${tokenId}`,
@@ -55,7 +55,7 @@ class ActionsMenu extends PureComponent {
 
     contentAPI.get().then((response) => {
       this.setState({ actionContentPending: false });
-      this.props.toggleActionsModal(action.name, response.data);
+      this.props.toggleActionsModal(response.data, action.full_screen);
     }).catch(() => this.setState({ actionContentPending: false }));
   }
 
@@ -87,7 +87,7 @@ class ActionsMenu extends PureComponent {
             flat={!icon}
             label={!icon && 'Actions'}
             icon={icon}
-            position={icon ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
+            position={icon ? MenuButton.Positions.BOTTOM_LEFT : MenuButton.Positions.BELOW}
             tooltipLabel={icon && 'Actions'}
           >
             {this.renderActions()}
@@ -100,8 +100,8 @@ class ActionsMenu extends PureComponent {
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleActionsModal: (title, body) => {
-      dispatch({ type: 'SHOW_MODAL', modalType: 'IFRAME', modalProps: { title, body } });
+    toggleActionsModal: (body, isFullScreen) => {
+      dispatch({ type: 'SHOW_MODAL', modalType: 'IFRAME', modalProps: { body, isFullScreen } });
     }
   };
 }

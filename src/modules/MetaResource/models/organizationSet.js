@@ -1,5 +1,7 @@
 export default {
-  org: {},
+  org: {
+    properties: {},
+  },
   created: {},
   modified: {},
   owner: {},

@@ -38,7 +38,7 @@ const ProviderForm = (props) => {
     } else if (match.params.environmentId) {
       history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     } else {
-      history.push(`/${match.params.fqon}/providers`);
+      history.push(`/${match.params.fqon}/hierarchy`);
     }
   };
 

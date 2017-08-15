@@ -27,6 +27,7 @@ HierarchyHeader.propTypes = {
   model: PropTypes.object.isRequired,
   contextActions: PropTypes.array.isRequired,
   contextActionsPending: PropTypes.bool.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default HierarchyHeader;

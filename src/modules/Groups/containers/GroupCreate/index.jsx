@@ -42,7 +42,7 @@ class GroupCreate extends Component {
           breadcrumbComponent={<Breadcrumbs />}
         />
         <GroupForm
-          title="Create Team"
+          title="Create Group"
           submitLabel="Create"
           cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
           onSubmit={values => this.create(values)}

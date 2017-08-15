@@ -36,9 +36,9 @@ body {
     main {
         height: 100%;
         margin-top: 0;
-        padding-top: 2em;
+        padding-top: 4em;
         @media (min-width: 0) and (max-width: 768px) {
-             padding-top: 1.8em;
+             padding-top: 3em;
         }
     }
 }
@@ -63,4 +63,8 @@ body {
         @extend .pulse;
         animation-delay: 1s; // prevent from happening on "normal" latency requests
     }
+}
+
+.active-link * {
+  color: $md-blue-500;
 }

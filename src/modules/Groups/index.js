@@ -7,9 +7,9 @@ import GroupEdit from './containers/GroupEdit';
 const GroupRoot = () => (
   <div>
     <Switch>
-      <Route exact path={'/:fqon/groups'} component={Groups} />
-      <Route exact path={'/:fqon/groups/create'} component={GroupCreate} />
-      <Route exact path={'/:fqon/groups/:groupId/edit'} component={GroupEdit} />
+      <Route exact path={'/:fqon/hierarchy/groups'} component={Groups} />
+      <Route exact path={'/:fqon/hierarchy/groups/create'} component={GroupCreate} />
+      <Route exact path={'/:fqon/hierarchy/groups/:groupId/edit'} component={GroupEdit} />
     </Switch>
   </div>
 );

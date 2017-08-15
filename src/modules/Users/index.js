@@ -7,9 +7,9 @@ import UserEdit from './containers/UserEdit';
 const UserRoot = () => (
   <div>
     <Switch>
-      <Route exact path={'/:fqon/users'} component={UserListing} />
-      <Route exact path={'/:fqon/users/create'} component={UserCreate} />
-      <Route exact path={'/:fqon/users/:userId/edit'} component={UserEdit} />
+      <Route exact path={'/:fqon/hierarchy/users'} component={UserListing} />
+      <Route exact path={'/:fqon/hierarchy/users/create'} component={UserCreate} />
+      <Route exact path={'/:fqon/hierarchy/users/:userId/edit'} component={UserEdit} />
     </Switch>
   </div>
 );

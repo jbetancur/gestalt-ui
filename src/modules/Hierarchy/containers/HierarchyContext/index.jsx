@@ -2,15 +2,18 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
-import ActivityContainer from 'components/ActivityContainer';
-import Sort from 'components/Sort';
+import { Providers } from 'modules/Providers';
+import { Users } from 'modules/Users';
+import { Groups } from 'modules/Groups';
+import ListItemStacked from 'components/ListItemStacked';
+import { ProviderIcon, HierarchyIcon } from 'components/Icons';
+import Div from 'components/Div';
+import Navbar from 'components/Navbar';
+import HierarchyListing from '../HierarchyListing';
 import HierarchyHeader from '../../components/HierarchyHeader';
-import OrganizationCard from '../../components/OrganizationCard';
-import WorkspaceCard from '../../components/WorkspaceCard';
 import actions from '../../actions';
 
 class HierarchyContext extends PureComponent {
@@ -26,6 +29,9 @@ class HierarchyContext extends PureComponent {
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
+    handleNavigation: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -35,8 +41,6 @@ class HierarchyContext extends PureComponent {
 
   constructor(props) {
     super(props);
-
-    this.state = { sortKey: 'description', order: 'asc' };
   }
 
   componentDidMount() {
@@ -63,50 +67,95 @@ class HierarchyContext extends PureComponent {
     this.props.unloadWorkspaces();
   }
 
-  renderCardsContainer() {
-    const cardItems = this.props.organizationsSet.concat(this.props.workspacesSet);
-    const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
-    const cardTypes = {
-      'Gestalt::Resource::Organization': 'organization',
-      'Gestalt::Resource::Workspace': 'workspace',
-      'Gestalt::Resource::Environment': 'environment',
-    };
 
-    return (
-      <div className="flex-row">
-        <Sort
-          visible={sortedOrgs.length > 0}
-          sortKey={this.state.sortKey}
-          order={this.state.order}
-          setKey={value => this.setState({ sortKey: value })}
-          setOrder={value => this.setState({ order: value })}
-        />
-        {sortedOrgs.map(item => (
-          cardTypes[item.resource_type] === 'organization' ?
-            <OrganizationCard key={item.id} model={item} {...this.props} /> :
-            <WorkspaceCard key={item.id} model={item} {...this.props} />
-        ))}
-      </div>
-    );
+  handleViewState(view, index) {
+    const { handleNavigation } = this.props;
+
+    handleNavigation('hierarchy', view, index);
+  }
+
+  renderNavItems() {
+    const { match, t, navigation } = this.props;
+
+    return [
+      <ListItemStacked
+        title={t('organizations.title')}
+        icon={<HierarchyIcon />}
+        onClick={() => this.handleViewState('hierarchy', 0)}
+        className={navigation.index === 0 && 'active-link'}
+      />,
+      <ListItemStacked
+        title={t('providers.title')}
+        icon={<ProviderIcon />}
+        onClick={() => this.handleViewState('providers', 1)}
+        className={navigation.index === 1 && 'active-link'}
+      />,
+      <ListItemStacked
+        title={t('users.title')}
+        icon="person"
+        onClick={() => this.handleViewState('users', 2)}
+        className={navigation.index === 2 && 'active-link'}
+        visible={match.params.fqon === 'root'}
+      />,
+      <ListItemStacked
+        title={t('groups.title')}
+        icon="group"
+        onClick={() => this.handleViewState('groups', 3)}
+        className={navigation.index === 3 && 'active-link'}
+        visible={match.params.fqon === 'root'}
+      />,
+    ];
+  }
+
+  renderThings(state) {
+    switch (state) {
+      case 'hierarchy':
+        return (
+          <HierarchyListing {...this.props} />
+        );
+      case 'providers':
+        return (
+          <Providers {...this.props} />
+        );
+      case 'users':
+        return (
+          <Users {...this.props} />
+        );
+      case 'groups':
+        return (
+          <Groups {...this.props} />
+        );
+      default:
+        return <div />;
+    }
   }
 
   render() {
-    const { organizationSet, orangizationSetPending } = this.props;
+    const { organizationSet, navigation } = this.props;
     return (
       <div>
         <HierarchyHeader
           model={organizationSet}
           {...this.props}
         />
-        {orangizationSetPending ? <ActivityContainer id="hierarchy-progress" /> : this.renderCardsContainer()}
+        <Div position="relative">
+          <Navbar
+            vertical
+            items={this.renderNavItems()}
+          />
+          <Div style={{ paddingLeft: '4.2em' }}>
+            {this.renderThings(navigation.view)}
+          </Div>
+        </Div>
       </div>
     );
   }
 }
 
-
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    navigation: state.hierarchy.hierarchyContextNavigation,
+  };
 }
 
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(withContext(HierarchyContext))));

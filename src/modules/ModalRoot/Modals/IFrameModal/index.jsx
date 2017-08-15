@@ -5,14 +5,25 @@ import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import Frame from 'react-frame-component';
 
+const iframeStyle = {
+  width: '100%',
+  height: 'calc(100vh - 300px)',
+  boxSizing: 'border-box',
+};
+
 const EnhancedDialog = styled(Dialog)`
 .md-dialog {
-  width: 100%;
-  max-width: 45em;
+  ${props => !props.fullPage && 'position: relative'};
+  ${props => !props.fullPage && 'min-width: 45em'};
+
+  @media (min-width: 0) and (max-width: 768px) {
+    ${props => !props.fullPage && 'min-width: 25em'};
+  }
 
   .md-dialog-content {
-    height: 18em;
-    overflow: visible;
+    width: 100%;
+    overflow: scroll;
+    padding: 0;
   }
 }
 `;
@@ -22,16 +33,15 @@ class ActionsModal extends PureComponent {
     modal: PropTypes.object.isRequired,
     onProceed: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
-    title: PropTypes.string,
     body: PropTypes.string,
-    proceedLabel: PropTypes.string,
+    isFullScreen: PropTypes.bool,
   };
 
   static defaultProps = {
     onProceed: () => { },
     title: '',
     body: '',
-    proceedLabel: 'Close',
+    isFullScreen: false,
   };
 
   constructor(props) {
@@ -49,21 +59,22 @@ class ActionsModal extends PureComponent {
         id="confirmation-modal"
         visible={this.props.modal.visible}
         modal={false}
-        title={this.props.title}
         closeOnEsc
         defaultVisibleTransitionable
         onHide={() => this.props.hideModal()}
-        actions={[{
-          onClick: () => this.doIt(),
-          primary: true,
-          label: this.props.proceedLabel,
-        }]}
+        fullPage={this.props.isFullScreen}
       >
         <Frame
           initialContent={this.props.body}
           frameBorder="0"
           mountTarget="#container-root"
-          style={{ width: '100%', height: '100%' }}
+          style={iframeStyle}
+          scrolling="yes"
+        />
+        <button
+          id="close-parent-modal"
+          style={{ visibility: 'hidden', position: 'absolute' }}
+          onClick={() => this.props.hideModal()}
         />
       </EnhancedDialog>
     );
