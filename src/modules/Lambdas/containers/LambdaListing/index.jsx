@@ -27,7 +27,6 @@ class LambdaListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -44,11 +43,6 @@ class LambdaListing extends PureComponent {
     unloadLambdas();
     clearTableSelected();
     clearTableSort();
-  }
-
-  create() {
-    const { match, history } = this.props;
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/lambdas/create`);
   }
 
   edit(lambda, e) {
@@ -81,7 +75,6 @@ class LambdaListing extends PureComponent {
       <LambdaItem
         model={this.props.lambdas}
         pending={this.props.lambdasPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

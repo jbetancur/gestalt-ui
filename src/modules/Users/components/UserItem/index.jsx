@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FontIcon from 'react-md/lib/FontIcons';
-import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
-import { Button, DeleteIconButton } from 'components/Buttons';
+import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class UserItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     selectedUsers: PropTypes.object.isRequired,
     model: PropTypes.array.isRequired,
@@ -33,20 +30,6 @@ class UserItem extends PureComponent {
     handleTableSelected(row, toggled, count, model, selectedUsers.selectedItems);
   }
 
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-user"
-        label="Create User"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-      >
-        <FontIcon>add</FontIcon>
-      </Button>
-    );
-  }
-
   render() {
     const { selectedCount } = this.props.selectedUsers;
     const { handleTableSortIcon, sortTable } = this.props;
@@ -66,18 +49,13 @@ class UserItem extends PureComponent {
 
     return (
       <div className="flex-row">
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         <Card className="flex-12" tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Users</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-          >
-            <div>{this.renderCreateButton()}</div>
-          </TableCardHeader>
+          />
           {this.props.usersPending && <LinearProgress id="users-progress" />}
           <DataTable baseId="Users" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&

@@ -2,15 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Button, DeleteIconButton } from 'components/Buttons';
+import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class APIItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     selectedAPIs: PropTypes.object.isRequired,
@@ -32,20 +30,6 @@ class APIItem extends PureComponent {
     handleTableSelected(row, toggled, count, model, selectedAPIs.selectedItems);
   }
 
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-api"
-        label="Create API"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-      >
-        <FontIcon>add</FontIcon>
-      </Button>
-    );
-  }
-
   render() {
     const { selectedCount } = this.props.selectedAPIs;
     const { handleTableSortIcon, sortTable } = this.props;
@@ -63,13 +47,11 @@ class APIItem extends PureComponent {
       <div className="flex-row">
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={<div className="gf-headline">API</div>}
+            title={<div className="gf-headline">APIs</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} API${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-          >
-            <div>{this.renderCreateButton()}</div>
-          </TableCardHeader>
+          />
           {this.props.pending && <LinearProgress id="api-listing" />}
           <DataTable baseId="apis" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&

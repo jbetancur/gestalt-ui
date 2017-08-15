@@ -9,7 +9,7 @@ const EnhancedCard = styled(Card)`
   max-width: 30em;
   height: 9.5em;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 2px;
   border-top: 4px solid ${props => props.typeColor};
 `;
 

@@ -14,7 +14,7 @@ import { usernameMaxLen } from '../../validations';
 
 const UserForm = (props) => {
   const goBack = () => {
-    props.history.push(`/${props.match.params.fqon}/users`);
+    props.history.push(`/${props.match.params.fqon}/hierarchy`);
   };
 
   return (

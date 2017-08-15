@@ -1,7 +1,9 @@
 export default {
   properties: {
     gestalt_home: {
-      org: {},
+      org: {
+        properties: {},
+      },
       created: {},
       modified: {},
       properties: {

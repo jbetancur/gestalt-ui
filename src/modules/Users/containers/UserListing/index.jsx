@@ -26,7 +26,6 @@ class UserListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -43,15 +42,10 @@ class UserListing extends PureComponent {
     clearTableSort();
   }
 
-  create() {
-    const { match, history } = this.props;
-    history.push(`/${match.params.fqon}/users/create`);
-  }
-
   edit(user, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      this.props.history.push(`/${this.props.match.params.fqon}/users/${user.id}/edit`);
+      this.props.history.push(`/${this.props.match.params.fqon}/hierarchy/users/${user.id}/edit`);
     }
   }
 
@@ -77,7 +71,6 @@ class UserListing extends PureComponent {
       <UserItem
         model={this.props.users}
         pending={this.props.usersPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

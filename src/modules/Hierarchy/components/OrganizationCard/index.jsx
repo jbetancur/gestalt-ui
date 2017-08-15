@@ -11,14 +11,16 @@ class OrganizationCard extends PureComponent {
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    unloadNavigation: PropTypes.func.isRequired,
   }
 
   navTo(e, organization, route) {
     e.stopPropagation();
 
-    const { history } = this.props;
+    const { history, unloadNavigation } = this.props;
     const path = route ? `/${organization.properties.fqon}/${route}` : `/${organization.properties.fqon}`;
     history.push(path);
+    unloadNavigation('hierarchy');
   }
 
   edit(e, organization) {

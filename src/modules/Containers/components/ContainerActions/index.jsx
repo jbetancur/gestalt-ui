@@ -227,7 +227,7 @@ class ContainerActions extends Component {
               <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
             <ActionsMenu
               listItem
-              resourceUUID={this.props.containerModel.id}
+              model={this.props.containerModel}
               actionList={this.props.actions}
               pending={this.props.actionsPending}
             />

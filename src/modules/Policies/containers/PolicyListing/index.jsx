@@ -26,7 +26,6 @@ class PolicyListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -41,11 +40,6 @@ class PolicyListing extends PureComponent {
     unloadPolicies();
     clearTableSelected();
     clearTableSort();
-  }
-
-  create() {
-    const { match, history } = this.props;
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/create`);
   }
 
   edit(policy, e) {
@@ -77,7 +71,6 @@ class PolicyListing extends PureComponent {
       <PolicyItem
         model={this.props.policies}
         pending={this.props.policiesPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

@@ -26,7 +26,6 @@ class GroupListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -43,16 +42,10 @@ class GroupListing extends PureComponent {
     clearTableSort();
   }
 
-  create() {
-    const { history, match } = this.props;
-
-    history.push(`/${match.params.fqon}/groups/create`);
-  }
-
   edit(group, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      this.props.history.push(`/${this.props.match.params.fqon}/groups/${group.id}/edit`);
+      this.props.history.push(`/${this.props.match.params.fqon}/hierarchy/groups/${group.id}/edit`);
     }
   }
 
@@ -77,7 +70,6 @@ class GroupListing extends PureComponent {
       <GroupItem
         model={this.props.groups}
         pending={this.props.groupsPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

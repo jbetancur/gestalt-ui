@@ -113,7 +113,7 @@ class ContextNavigation extends PureComponent {
               <ActionsMenu
                 actionList={actionsList}
                 pending={pendingContextActions}
-                resourceUUID={model.id}
+                model={model}
               />
 
               {actionsComponent}

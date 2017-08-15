@@ -131,7 +131,7 @@ const GroupForm = (props) => {
                 label={cancelLabel}
                 disabled={groupUpdatePending || groupPending || submitting}
                 component={Link}
-                to={`/${match.params.fqon}/groups`}
+                to={`/${match.params.fqon}/hierarchy`}
               />
               <Button
                 raised

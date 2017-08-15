@@ -4,7 +4,6 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import { parseChildClass } from 'util/helpers/strings';
@@ -12,10 +11,8 @@ import { parseChildClass } from 'util/helpers/strings';
 class ProviderItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     onToggleInstanceModal: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
     model: PropTypes.array.isRequired,
     providersPending: PropTypes.bool.isRequired,
     selectedProviders: PropTypes.object.isRequired,
@@ -41,20 +38,6 @@ class ProviderItem extends PureComponent {
     const { model, handleTableSelected, selectedProviders } = this.props;
 
     handleTableSelected(row, toggled, count, model, selectedProviders.selectedItems);
-  }
-
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-provider"
-        label="Create Provider"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-      >
-        <FontIcon>add</FontIcon>
-      </Button>
-    );
   }
 
   renderCreateInstanceButton() {
@@ -89,18 +72,13 @@ class ProviderItem extends PureComponent {
 
     return (
       <div className="flex-row">
-        {!this.props.match.params.workspaceId &&
-          <ContextNavigation
-            breadcrumbComponent={<Breadcrumbs />}
-          />}
         <Card className="flex-12" tableCard>
           <TableCardHeader
-            title={<span className="gf-headline">Providers</span>}
+            title={<div className="gf-headline">Providers</div>}
             visible={selectedCount > 0}
             contextualTitle={`${selectedCount} provider${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           >
-            <div>{this.renderCreateButton()}</div>
             <div>{this.renderCreateInstanceButton()}</div>
           </TableCardHeader>
           {this.props.providersPending && <LinearProgress id="providers-progress" />}

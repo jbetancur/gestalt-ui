@@ -9,27 +9,17 @@ import { Button } from 'components/Buttons';
 
 const EnhancedLink = styled(Link)`
   color: inherit;
-
-  &:link {
-      text-decoration: none;
-  }
-
-  &:visited {
-      text-decoration: none;
-  }
+  text-decoration: none;
 
   &:hover {
       text-decoration: none;
-  }
-
-  &:active {
-      text-decoration: none;
+      color: ${props => props.theme.colors['$md-blue-300']};
   }
 `;
 
 const Icon = styled(FontIcon)`
   font-size: ${props => `${props.size}px`};
-  line-height: 32px;
+  line-height: 33px;
   padding: 1px;
 `;
 
@@ -59,6 +49,10 @@ const Wrapper = styled.div`
 
   a:last-child {
     color: ${props => props.theme.colors['$md-grey-800']};
+
+    &:hover {
+      color: ${props => props.theme.colors['$md-blue-500']};
+  }
 
     i.seperator {
       color: ${props => props.theme.colors['$md-grey-500']};
@@ -125,6 +119,7 @@ class Breadcrumbs extends PureComponent {
           component={Link}
           to={parentOrgRoute}
           tooltipLabel={`${parentFQON}`}
+          tooltipPosition="right"
         >
           <Icon size={size}>arrow_upward</Icon>
         </Button>}

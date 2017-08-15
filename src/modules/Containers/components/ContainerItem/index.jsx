@@ -4,8 +4,6 @@ import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FontIcon from 'react-md/lib/FontIcons';
-import { Button } from 'components/Buttons';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import ContainerActions from '../ContainerActions';
@@ -22,7 +20,6 @@ const TableWrapper = styled.div`
 class ContainerItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     handleTableSortIcon: PropTypes.func.isRequired,
@@ -31,20 +28,6 @@ class ContainerItem extends PureComponent {
 
   constructor(props) {
     super(props);
-  }
-
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-container"
-        label="Deploy Container"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-      >
-        <FontIcon>add</FontIcon>
-      </Button>
-    );
   }
 
   renderAPIEndpoints(container) {
@@ -85,11 +68,7 @@ class ContainerItem extends PureComponent {
           <TableCardHeader
             title={<div className="gf-headline">Containers</div>}
             visible={false} // TODO: React-md propTypes bug
-          >
-            <div>
-              {this.renderCreateButton()}
-            </div>
-          </TableCardHeader>
+          />
           {this.props.pending && <LinearProgress id="containers-listing" />}
           {this.props.model.length > 0 &&
           <TableWrapper>

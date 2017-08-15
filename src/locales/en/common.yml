@@ -41,7 +41,7 @@ organizations:
   orgNav: Switch Organization
   actions:
     create: Organization
-    createSubOrg: SubOrganization
+    createSubOrg: Organization
 workspaces:
   title: Workspaces
   actions:
@@ -49,19 +49,19 @@ workspaces:
 environments:
   title: Environments
   actions:
-    create: Create Environment
+    create: Environment
 providers:
   title: Providers
   actions:
-    create: Create Provider
+    create: Provider
 users:
   title: Users
   actions:
-    create: Create User
+    create: User
 groups:
   title: Groups
   actions:
-    create: Create Group
+    create: Group
 entitlements:
   title: Entitlements
 license:

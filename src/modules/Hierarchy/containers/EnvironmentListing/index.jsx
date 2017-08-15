@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { connect } from 'react-redux';
@@ -7,11 +7,11 @@ import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import { translate } from 'react-i18next';
 import ActivityContainer from 'components/ActivityContainer';
-import Sort from 'components/Sort';
+import Sort from '../../components/Sort';
 import EnvironmentCard from '../../components/EnvironmentCard';
 import actions from '../../actions';
 
-class EnvironmentListing extends PureComponent {
+class EnvironmentListing extends Component {
   static propTypes = {
     environments: PropTypes.array.isRequired,
     match: PropTypes.object.isRequired,
@@ -21,6 +21,7 @@ class EnvironmentListing extends PureComponent {
     environmentsPending: PropTypes.bool.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
+    unloadNavigation: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -30,6 +31,8 @@ class EnvironmentListing extends PureComponent {
 
     this.navEnvironmentDetails = this.navEnvironmentDetails.bind(this);
     this.edit = this.edit.bind(this);
+    this.setSortKey = this.setSortKey.bind(this);
+    this.setSortOrder = this.setSortOrder.bind(this);
   }
 
   componentDidMount() {
@@ -48,15 +51,24 @@ class EnvironmentListing extends PureComponent {
     this.props.unloadEnvironments();
   }
 
+  setSortKey(sortKey) {
+    this.setState({ sortKey });
+  }
+
+  setSortOrder(order) {
+    this.setState({ order });
+  }
+
   init(fqon, workspaceId) {
     this.props.fetchEnvironments(fqon, workspaceId);
   }
 
   navEnvironmentDetails(item) {
-    const { match, history, setCurrentEnvironmentContext } = this.props;
+    const { match, history, setCurrentEnvironmentContext, unloadNavigation } = this.props;
 
     history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${item.id}`);
     setCurrentEnvironmentContext(item);
+    unloadNavigation('environment');
   }
 
   edit(e, environment) {
@@ -75,8 +87,8 @@ class EnvironmentListing extends PureComponent {
           visible={sortedEnvironments.length > 0}
           sortKey={this.state.sortKey}
           order={this.state.order}
-          setKey={value => this.setState({ sortKey: value })}
-          setOrder={value => this.setState({ order: value })}
+          setKey={this.setSortKey}
+          setOrder={this.setSortOrder}
         />
         {sortedEnvironments.map(item => (
           <EnvironmentCard

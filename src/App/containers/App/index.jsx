@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
 import styled from 'styled-components';
 import cn from 'classnames';
 import HierarchyRoot from 'modules/Hierarchy';
-import NotFound from 'components/NotFound';
-import ProviderRoot from 'modules/Providers';
-import UserRoot from 'modules/Users';
-import GroupRoot from 'modules/Groups';
 import { licenseActions } from 'modules/Licensing';
-import NavigationDrawer from 'react-md/lib/NavigationDrawers';
+import Toolbar from 'react-md/lib/Toolbars';
 import FontIcon from 'react-md/lib/FontIcons';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -22,10 +18,9 @@ import ActivityContainer from 'components/ActivityContainer';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
 import LoginModal from 'modules/Auth/components/LoginModal';
-import { GestaltIcon, USEnglishLangIcon, HierarchyIcon, ProviderIcon } from 'components/Icons';
+import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
 import { loginActions } from 'modules/Auth';
 import { withMetaResource } from 'modules/MetaResource';
-import ListItemStacked from 'components/ListItemStacked';
 import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import actions from '../../actions';
@@ -97,67 +92,6 @@ class App extends Component {
     this.setState({ drawerVisible: visible });
   }
 
-  renderNavItems() {
-    const { match, t, currentWorkspaceContext } = this.props;
-
-    return [
-      <ListItemStacked
-        key="hierarchy"
-        icon={<HierarchyIcon />}
-        title={t('organizations.title')}
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/hierarchy`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-      />,
-      <ListItemStacked
-        key="providers"
-        icon={<ProviderIcon />}
-        title={t('providers.title')}
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/providers`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-        visible={!currentWorkspaceContext.id}
-      />,
-      <ListItemStacked
-        key="users"
-        icon="person"
-        title={t('users.title')}
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/users`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-        visible={match.params.fqon === 'root'}
-      />,
-      <ListItemStacked
-        key="groups"
-        icon="group"
-        title={t('groups.title')}
-        component={Link}
-        to={`/${this.getCurrentOrgContext().properties.fqon}/groups`}
-        activeStyle={{ backgroundColor: 'lightgrey' }}
-        visible={match.params.fqon === 'root'}
-      />,
-      <Divider key="navbar-section-divider-1" />,
-      <ListItemStacked
-        key="docs"
-        icon="library_books"
-        title={t('documentation.title')}
-        component={styled.a`text-decoration: none;`}
-        href={DOCUMENTATION_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        inkDisabled
-      />,
-      <ListItemStacked
-        key="logout"
-        icon="power_settings_new"
-        title={t('auth.logout')}
-        style={{ position: 'absolute', bottom: '1em', width: '100%' }}
-        inkDisabled
-        onClick={() => this.logout()}
-      />,
-    ];
-  }
-
   renderActionsMenu() {
     const { self, browser, t } = this.props;
 
@@ -216,6 +150,15 @@ class App extends Component {
         />
         <Divider />
         <ListItem
+          primaryText={t('documentation.title')}
+          leftIcon={<FontIcon>library_books</FontIcon>}
+          component={styled.a`text-decoration: none;`}
+          href={DOCUMENTATION_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          inkDisabled
+        />
+        <ListItem
           primaryText="Licensing"
           leftIcon={<FontIcon>vpn_key</FontIcon>}
           onClick={() => this.props.showLicenseModal()}
@@ -248,29 +191,15 @@ class App extends Component {
     return (
       this.props.self.id ?
         <main>
-          <NavigationDrawer
-            // drawerTitle={this.renderAppLogo()}
-            toolbarTitle={this.renderAppLogo()}
-            autoclose
-            navItems={this.renderNavItems()}
-            mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
-            tabletDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
-            desktopDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
-            toolbarActions={this.renderActionsMenu()}
-            onVisibilityToggle={visible => this.handleVisibleState(visible)}
-            includeDrawerHeader={false}
-          >
-            <LoginModal />
-            <ModalRoot />
-            <Switch>
-              <Route path={'/:fqon/hierarchy'} component={HierarchyRoot} />
-              <Route path={'/:fqon/providers'} component={ProviderRoot} />
-              <Route path={'/:fqon/users'} component={UserRoot} />
-              <Route path={'/:fqon/groups'} component={GroupRoot} />
-              <Route path={'/undefined/hierarchy/*'} component={NotFound} />
-              <Route component={NotFound} />
-            </Switch>
-          </NavigationDrawer>
+          <Toolbar
+            colored
+            fixed
+            title={this.renderAppLogo()}
+            actions={this.renderActionsMenu()}
+          />
+          <LoginModal />
+          <ModalRoot />
+          <HierarchyRoot />
         </main> : <AppError {...this.props} />
     );
   }

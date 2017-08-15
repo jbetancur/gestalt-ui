@@ -26,7 +26,6 @@ class APIListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -41,12 +40,6 @@ class APIListing extends PureComponent {
     unloadAPIs();
     clearTableSelected();
     clearTableSort();
-  }
-
-  create() {
-    const { history, match } = this.props;
-
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/create`);
   }
 
   edit(api, e) {
@@ -78,7 +71,6 @@ class APIListing extends PureComponent {
       <APIItem
         model={this.props.apis}
         pending={this.props.apisPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

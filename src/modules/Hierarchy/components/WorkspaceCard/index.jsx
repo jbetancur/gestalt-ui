@@ -13,13 +13,15 @@ class WorkspaceCard extends PureComponent {
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    unloadNavigation: PropTypes.func.isRequired,
   };
 
   navWorkspaceDetails(item) {
-    const { history, match, setCurrentWorkspaceContext } = this.props;
+    const { history, match, setCurrentWorkspaceContext, unloadNavigation } = this.props;
 
     history.push(`/${match.params.fqon}/hierarchy/${item.id}`);
     setCurrentWorkspaceContext(item);
+    unloadNavigation('workspace');
   }
 
   edit(e, workspace) {

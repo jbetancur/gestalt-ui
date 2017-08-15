@@ -23,7 +23,6 @@ class ContainerListing extends PureComponent {
   constructor() {
     super();
 
-    this.create = this.create.bind(this);
     this.edit = this.edit.bind(this);
   }
 
@@ -59,12 +58,6 @@ class ContainerListing extends PureComponent {
     fetchContainers(match.params.fqon, match.params.environmentId, isPolling);
   }
 
-  create() {
-    const { history, match } = this.props;
-
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`);
-  }
-
   edit(container, e) {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
@@ -80,7 +73,6 @@ class ContainerListing extends PureComponent {
       <ContainerItem
         model={this.props.containers}
         pending={this.props.containersPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         {...this.props}
       />
