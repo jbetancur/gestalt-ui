@@ -5,8 +5,8 @@ import {
 } from '../actionTypes';
 
 const initialState = {
-  view: '',
-  index: -1, // should be plus 1 the total tabs
+  view: 'containers',
+  index: 0,
 };
 
 export default (state = initialState, action) => {
