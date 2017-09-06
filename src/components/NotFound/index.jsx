@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
@@ -63,28 +64,29 @@ const lyrics = [
 ];
 
 const NotFound = props => (
-  <div className="flex-row center-center">
-    <div className="flex-row center-center flex-12" style={{ padding: '2em' }}>
-      <div className="flex-row center-center">
-        <h1 style={{ fontFamily: 'lovelo' }}>No Disassemble!</h1>
-      </div>
-      <div className="flex-row center-center">
-        <P fontSize={14}>The resource you are looking for was not found!</P>
-        <div className="flex-row center-center">
-          <P fontSize={14}>{lyrics[Math.floor(Math.random() * lyrics.length)]}</P>
-        </div>
-        <div className="flex-row center-center">
-          <Button
-            primary
-            raised
-            label={`Navigate back to ${props.match.params.fqon}`}
-            onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
-          />
-        </div>
-      </div>
+  <Row center padding="1em">
+    <Row justifyContent="center">
+      <h1 style={{ fontFamily: 'lovelo' }}>No Disassemble!</h1>
+    </Row>
+    <Row justifyContent="center">
+      <P fontSize={14}>The resource you are looking for was not found!</P>
+      <Row justifyContent="center">
+        <P fontSize={14}>{lyrics[Math.floor(Math.random() * lyrics.length)]}</P>
+      </Row>
+      <Row justifyContent="center">
+        <Button
+          primary
+          raised
+          label={`Navigate back to ${props.match.params.fqon}`}
+          onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
+        />
+      </Row>
+    </Row>
+    <Row justifyContent="center">
       <RobotUprisingIcon />
-    </div>
-  </div>);
+    </Row>
+  </Row>
+);
 
 NotFound.propTypes = {
   history: PropTypes.func.isRequired,

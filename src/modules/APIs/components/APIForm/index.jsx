@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
-// import { metaConstants } from 'modules/MetaResource';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -17,7 +17,6 @@ import { nameMaxLen } from '../../validations';
 
 const APIForm = (props) => {
   const {
-    // values,
     match,
     apiPending,
     apiUpdatePending,
@@ -35,9 +34,9 @@ const APIForm = (props) => {
 
   return (
     <div>
-      <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <Row gutter={5} center>
+          <Col component={Card} flex={10} xs={12} sm={12}>
             <CardTitle
               title={title}
               subtitle={api.id}
@@ -109,16 +108,15 @@ const APIForm = (props) => {
                 primary
               />
             </CardActions>
-          </Card>
+          </Col>
 
-          {api.id ?
-            <div className="flex-row center-center">
-              <div className="flex-10 flex-xs-12 flex-sm-12">
+          {api.id &&
+            <Row gutter={5} center>
+              <Col flex={10} xs={12} sm={12}>
                 <APIEndpoints {...props} />
-              </div>
-            </div>
-            : null}
-        </div>
+              </Col>
+            </Row>}
+        </Row>
       </form>
     </div>
   );

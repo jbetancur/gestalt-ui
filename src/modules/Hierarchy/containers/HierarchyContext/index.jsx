@@ -133,21 +133,19 @@ class HierarchyContext extends PureComponent {
   render() {
     const { organizationSet, navigation } = this.props;
     return (
-      <div>
-        <HierarchyHeader
-          model={organizationSet}
-          {...this.props}
+      <Div>
+        <Navbar
+          vertical
+          items={this.renderNavItems()}
         />
-        <Div position="relative">
-          <Navbar
-            vertical
-            items={this.renderNavItems()}
+        <Div position="relative" style={{ paddingLeft: '4.2em' }}>
+          <HierarchyHeader
+            model={organizationSet}
+            {...this.props}
           />
-          <Div style={{ paddingLeft: '4.2em' }}>
-            {this.renderThings(navigation.view)}
-          </Div>
+          {this.renderThings(navigation.view)}
         </Div>
-      </div>
+      </Div>
     );
   }
 }

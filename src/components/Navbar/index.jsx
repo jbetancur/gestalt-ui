@@ -2,20 +2,26 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 
-const NavbarContainer = styled.div`
+const NavbarContainer = styled.nav`
   position: absolute;
   left: 0;
-  top: 0;
   background-color: white;
   ${props => (props.vertical && 'bottom: 0')};
   width: ${props => (props.vertical ? '68px' : '100%')};
-  ${props => props.vertical && 'height: calc(100vh - 7.3em)'};
+  // ${props => props.vertical && 'height: calc(100vh - 7.3em)'};
   border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
   padding-left: 0;
   display: flex;
   flex-direction: ${props => (props.vertical ? 'column' : 'row')};
   justify-content: start;
   align-items: start;
+  padding-top: 16px;
+  z-index: 14;
+  top: 4em;
+
+  @media (min-width: 0) and (max-width: 768px) {
+    top: 3em;
+  }
 `;
 
 const List = styled.ul`
@@ -58,10 +64,6 @@ class Navbar extends PureComponent {
 
     this.state = { selectedIndex: 0 };
   }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   this.props.onSelected(nextState.selectedIndex);
-  // }
 
   setSelected(selectedIndex) {
     this.setState({ selectedIndex });

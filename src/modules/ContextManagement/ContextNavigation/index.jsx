@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import { ActionsMenu } from 'modules/Actions';
@@ -92,13 +93,13 @@ class ContextNavigation extends PureComponent {
 
     return (
       <ContextNavigationStyle>
-        <div className="flex-row start-center no-gutter">
-          <div className="flex-7 flex-xs-12 flex-sm-12 flex-md-6 flex-lg-6">
+        <Row alignItems="center">
+          <Col xs={12} sm={12} md={6} lg={6}>
             {breadcrumbComponent}
-          </div>
+          </Col>
 
           {actionsComponent &&
-            <ActionsPanel className="flex-5 flex-xs-12 flex-sm-12 flex-md-6 flex-lg-6">
+            <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
               {detailsComponent &&
               <Button
                 flat
@@ -117,14 +118,14 @@ class ContextNavigation extends PureComponent {
               />
 
               {actionsComponent}
-            </ActionsPanel>}
+            </Col>}
           {actionsComponent &&
-          <div className="flex-12">
+          <Col flex={12}>
             <ExpansionPanel expanded={this.state.expanded}>
               <DetailsPanel>{detailsComponent}</DetailsPanel>
             </ExpansionPanel>
-          </div>}
-        </div>
+          </Col>}
+        </Row>
         {this.props.children}
       </ContextNavigationStyle>
     );

@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Col, Row } from 'react-flexybox';
 import SelectField from 'react-md/lib/SelectFields';
 import FontIcon from 'react-md/lib/FontIcons';
 import { Button } from 'components/Buttons';
-
-const OuterDiv = styled.div`
-  padding-left: 2em;
-`;
 
 const IconDiv = styled.div`
   margin-top: 1em;
@@ -33,18 +30,21 @@ const Sort = (props) => {
   };
 
   return !!props.visible &&
-    <OuterDiv className="flex-row">
+    <Row gutter={5} paddingLeft="1em">
       <IconDiv>
         <FontIcon>sort</FontIcon>
       </IconDiv>
-      <SelectField
+      <Col
+        component={SelectField}
         id="sort--key"
-        className="flex-1 flex-xs-9 flex-sm-3"
         menuItems={sortItems}
         itemLabel="name"
         itemValue="value"
         defaultValue={props.sortKey}
         onChange={value => props.setKey(value)}
+        flex={1}
+        xs={9}
+        sm={3}
       />
       <SortOrderButton
         icon
@@ -54,7 +54,7 @@ const Sort = (props) => {
       >
         {props.order === 'asc' ? 'arrow_upward' : 'arrow_downward'}
       </SortOrderButton>
-    </OuterDiv>;
+    </Row>;
 };
 
 Sort.propTypes = {

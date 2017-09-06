@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
+import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { withTheme } from 'styled-components';
 import { appActions } from 'App';
@@ -82,7 +83,7 @@ class EnvironmentListing extends Component {
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
     return (
-      <div className="flex-row">
+      <Row gutter={5} minColWidths={315}>
         <Sort
           visible={sortedEnvironments.length > 0}
           sortKey={this.state.sortKey}
@@ -91,15 +92,16 @@ class EnvironmentListing extends Component {
           setOrder={this.setSortOrder}
         />
         {sortedEnvironments.map(item => (
-          <EnvironmentCard
-            key={item.id}
-            model={item}
-            onEditToggle={this.edit}
-            onNavigationToggle={this.navEnvironmentDetails}
-            {...this.props}
-          />)
+          <Col key={item.id} flex={3} xs={12}>
+            <EnvironmentCard
+              model={item}
+              onEditToggle={this.edit}
+              onNavigationToggle={this.navEnvironmentDetails}
+              {...this.props}
+            />
+          </Col>)
         )}
-      </div>
+      </Row>
     );
   }
 
