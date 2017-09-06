@@ -28,6 +28,7 @@ class HierarchyAction extends PureComponent {
   delete(e, organization) {
     e.stopPropagation();
     const { history, deleteOrg } = this.props;
+    const name = organization.description || organization.name;
     const parentFQON = getParentFQON(organization);
     const onSuccess = () => history.replace(`/${parentFQON}/hierarchy`);
 

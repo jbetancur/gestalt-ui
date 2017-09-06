@@ -21,7 +21,7 @@ class OrgCreate extends Component {
   create(values) {
     const { match, history, createWorkspace } = this.props;
     const payload = generateWorkspacePayload(values);
-    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.id}`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
     createWorkspace(match.params.fqon, payload, onSuccess);
   }
