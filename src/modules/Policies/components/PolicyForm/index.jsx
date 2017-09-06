@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import Card from 'react-md/lib/Cards/Card';
@@ -79,11 +80,11 @@ const PolicyForm = (props) => {
           </Card>
 
           {(editMode && policy.id) &&
-            <div className="flex-row center-center">
-              <div className="flex-10 flex-xs-12 flex-sm-12">
+            <Row gutter={5} center>
+              <Col flex={10} xs={12} sm={12}>
                 <PolicyRules {...props} />
-              </div>
-            </div>}
+              </Col>
+            </Row>}
         </div>
       </form>
     </div>

@@ -33,6 +33,7 @@ const Wrapper = styled.div`
   font-size: ${props => `${props.size}px`};
   color: ${props => props.theme.colors['$md-grey-500']};
   line-height: 32px;
+  padding-left: 3px;
 
   span {
     line-height: 35px;

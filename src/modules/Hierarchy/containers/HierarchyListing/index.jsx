@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
+import { Row, Col } from 'react-flexybox';
 import ActivityContainer from 'components/ActivityContainer';
 import Sort from '../../components/Sort';
 import OrganizationCard from '../../components/OrganizationCard';
@@ -50,7 +51,7 @@ class HierarchyListing extends PureComponent {
     return (
       orangizationSetPending ?
         <ActivityContainer id="hierarchy-progress" /> :
-        <div className="flex-row">
+        <Row gutter={5} minColWidths={315}>
           <Sort
             visible={sortedOrgs.length > 0}
             sortKey={this.state.sortKey}
@@ -59,11 +60,14 @@ class HierarchyListing extends PureComponent {
             setOrder={this.setSortOrder}
           />
           {sortedOrgs.map(item => (
-            cardTypes[item.resource_type] === 'organization' ?
-              <OrganizationCard key={item.id} model={item} {...this.props} /> :
-              <WorkspaceCard key={item.id} model={item} {...this.props} />
+            <Col key={item.id} flex={3} xs={12}>
+              {cardTypes[item.resource_type] === 'organization' ?
+                <OrganizationCard model={item} {...this.props} /> :
+                <WorkspaceCard model={item} {...this.props} />
+              }
+            </Col>
           ))}
-        </div>
+        </Row>
     );
   }
 }

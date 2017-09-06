@@ -1,13 +1,15 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { Container, Col, Row } from 'react-flexybox';
 import LoginForm from '../LoginForm';
 import LoginFooter from '../LoginFooter';
 import lightTheme from '../../../../style/themes/light';
 
-const Wrapper = styled.div`
+const Wrapper = styled(Container)`
   padding-bottom: 4em;
   background-color: ${props => props.theme.colors['$gf-bright-blue']};
   height: 100%;
+
   form {
       height: 100%;
   }
@@ -20,12 +22,14 @@ const CardWrapper = styled.div`
 
 const LoginPage = props => (
   <ThemeProvider theme={lightTheme}>
-    <Wrapper className="flex-row">
-      <div className="flex-12 flex-row center-center">
-        <CardWrapper className="flex-4 flex-xs-12 flex-sm-6">
-          <LoginForm {...props} />
-        </CardWrapper>
-      </div>
+    <Wrapper fluid>
+      <Row center fill>
+        <Col flex={4} xs={12} sm={6}>
+          <CardWrapper>
+            <LoginForm {...props} />
+          </CardWrapper>
+        </Col>
+      </Row>
       <LoginFooter />
     </Wrapper>
   </ThemeProvider>

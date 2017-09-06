@@ -18,7 +18,6 @@ class EnvironmentCard extends PureComponent {
 
     return (
       <Card
-        className="flex-3 flex-xs-12"
         onClick={e => this.props.onNavigationToggle(model, e)}
         raise
         typeColor={theme.environmentCard}

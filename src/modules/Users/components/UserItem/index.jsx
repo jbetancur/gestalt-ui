@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'react-flexybox';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
@@ -48,8 +49,8 @@ class UserItem extends PureComponent {
     ));
 
     return (
-      <div className="flex-row">
-        <Card className="flex-12" tableCard>
+      <Row gutter={5}>
+        <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Users</div>}
             visible={selectedCount > 0}
@@ -75,8 +76,8 @@ class UserItem extends PureComponent {
               {users}
             </TableBody>
           </DataTable>
-        </Card>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

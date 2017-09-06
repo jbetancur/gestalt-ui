@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import i18next from 'i18next';
 import styled from 'styled-components';
+import { Row, Col } from 'react-flexybox';
 import cn from 'classnames';
 import HierarchyRoot from 'modules/Hierarchy';
 import { licenseActions } from 'modules/Licensing';
@@ -179,11 +180,9 @@ class App extends Component {
 
     return (
       this.props.browser.greaterThan.sm &&
-        <div className="flex-row center-center no-gutter logo-container">
-          <div className="flex-row center-center no-gutter flex-12 logo-container">
-            <div className={logoClass}><GestaltIcon /></div>
-          </div>
-        </div>
+        <Row justifyContent="center" alignItems="center" className="logo-container">
+          <Col flex className={logoClass}><GestaltIcon /></Col>
+        </Row>
     );
   }
 

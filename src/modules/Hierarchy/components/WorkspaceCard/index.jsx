@@ -36,7 +36,7 @@ class WorkspaceCard extends PureComponent {
     const { t, model, theme } = this.props;
 
     return (
-      <Card key={model.id} className="flex-3 flex-xs-12" onClick={e => this.navWorkspaceDetails(model, e)} raise typeSymbol="W" typeColor={theme.workspaceCard}>
+      <Card key={model.id} onClick={e => this.navWorkspaceDetails(model, e)} raise typeSymbol="W" typeColor={theme.workspaceCard}>
         <CardTitle
           title={model.description || model.name}
           subtitle={

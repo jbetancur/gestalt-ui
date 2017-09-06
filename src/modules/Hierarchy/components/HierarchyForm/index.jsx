@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
+import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -16,7 +17,7 @@ import { Button } from 'components/Buttons';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ActionIconSection = styled.div`
-    text-align: right;
+  text-align: right;
 `;
 
 const HierarchyForm = (props) => {
@@ -27,15 +28,16 @@ const HierarchyForm = (props) => {
       <ContextNavigation
         breadcrumbComponent={<Breadcrumbs />}
       />
-      <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <div className="flex-row center-center">
-          <Card className="flex-8 flex-xs-12 flex-sm-12">
+      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+        <Row gutter={5} center>
+          <Col
+            component={Card}
+            flex={8}
+            xs={12}
+            sm={12}
+          >
             <CardTitle
-              title={
-                <div>
-                  <div>{props.title}</div>
-                </div>
-              }
+              title={props.title}
             />
             <CardText>
               <div className="flex-row">
@@ -78,8 +80,8 @@ const HierarchyForm = (props) => {
               </fieldset>
             </CardText>
             {props.pending && <LinearProgress id="containment-form" />}
-            <CardActions className="flex-row no-gutter">
-              <div className="flex-10 flex-xs-12">
+            <Row component={CardActions}>
+              <Col flex={10} xs={12}>
                 <Button
                   flat
                   label={props.cancelLabel}
@@ -93,8 +95,8 @@ const HierarchyForm = (props) => {
                   disabled={props.pristine || props.pending || props.invalid || props.submitting}
                   primary
                 />
-              </div>
-              <ActionIconSection className="flex-2 flex-xs-12">
+              </Col>
+              <Col component={ActionIconSection} flex={2} xs={12}>
                 {editMode &&
                   <Button
                     tooltipLabel="Entitlements"
@@ -104,10 +106,10 @@ const HierarchyForm = (props) => {
                   >
                   security
                   </Button>}
-              </ActionIconSection>
-            </CardActions>
-          </Card>
-        </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </form>
     </div>
   );

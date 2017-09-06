@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Col, Row } from 'react-flexybox';
 import { GalacticFogIcon } from 'components/Icons';
 import { COMPANY_URL, COMPANY_TITLE } from '../../../../constants';
 
@@ -38,11 +39,18 @@ const CompanyName = styled.span`
 
 const LoginFooter = () => (
   <Wrapper>
-    <div className="flex-row no-gutter center-center">
-      <div className="flex-row center-center flex-12">
-        <A className="logo" href={COMPANY_URL} target="_blank" rel="noopener noreferrer"><GalacticFogIcon /><CompanyName>{COMPANY_TITLE}</CompanyName></A>
-      </div>
-    </div>
+    <Row center>
+      <Col
+        component={A}
+        className="logo"
+        href={COMPANY_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        flex={12}
+      >
+        <GalacticFogIcon /><CompanyName>{COMPANY_TITLE}</CompanyName>
+      </Col>
+    </Row>
   </Wrapper>
 );
 

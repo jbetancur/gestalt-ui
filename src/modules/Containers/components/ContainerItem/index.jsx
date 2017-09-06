@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
+import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import A from 'components/A';
@@ -63,8 +64,8 @@ class ContainerItem extends PureComponent {
     ));
 
     return (
-      <div className="flex-row">
-        <Card className="flex-12" tableCard>
+      <Row gutter={5}>
+        <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Containers</div>}
             visible={false} // TODO: React-md propTypes bug
@@ -91,8 +92,8 @@ class ContainerItem extends PureComponent {
               </TableBody>
             </DataTable>
           </TableWrapper>}
-        </Card>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

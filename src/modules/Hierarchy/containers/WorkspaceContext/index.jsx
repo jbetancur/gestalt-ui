@@ -21,6 +21,7 @@ class WorkspaceContext extends PureComponent {
     fetchContextActions: PropTypes.func.isRequired,
     unloadActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
+    workspace: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -74,19 +75,20 @@ class WorkspaceContext extends PureComponent {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, workspace } = this.props;
 
     return (
       <Div>
-        <WorkspaceHeader {...this.props} />
-        <Div position="relative">
-          <Navbar
-            vertical
-            items={this.renderNavItems()}
+        <Navbar
+          vertical
+          items={this.renderNavItems()}
+        />
+        <Div position="relative" style={{ paddingLeft: '4.2em' }}>
+          <WorkspaceHeader
+            model={workspace}
+            {...this.props}
           />
-          <Div style={{ paddingLeft: '4.2em' }}>
-            {this.renderThings(navigation.view)}
-          </Div>
+          {this.renderThings(navigation.view)}
         </Div>
       </Div>
     );

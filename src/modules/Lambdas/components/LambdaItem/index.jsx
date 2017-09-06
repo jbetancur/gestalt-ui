@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { ActionsMenu } from 'modules/Actions';
@@ -92,8 +93,8 @@ class LambdaItem extends PureComponent {
     ));
 
     return (
-      <div className="flex-row">
-        <Card className="flex-12" tableCard>
+      <Row gutter={5}>
+        <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Lambdas</div>}
             visible={selectedCount > 0}
@@ -121,8 +122,8 @@ class LambdaItem extends PureComponent {
               </TableBody>
             </DataTable>
           </TableWrapper>
-        </Card>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

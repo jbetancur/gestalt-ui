@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
+import { Col, Row } from 'react-flexybox';
 import i18next from 'i18next';
 import styled from 'styled-components';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import Paper from 'react-md/lib/Papers';
@@ -18,13 +18,24 @@ const LoginCard = styled(Paper)`
   border-radius: 2px;
 `;
 
-const LoginCardHeader = styled(CardTitle)`
-  color: ${props => props.theme.fontColorInverse};
-  font-family: lovelo, Ubuntu;
+const LoginCardHeader = styled.div`
   background-color: ${props => props.theme.mainNavBackgroundColor};
   border-top-right-radius: 2px;
   border-top-left-radius: 2px;
+  text-align: center;
+  height: 4em;
+  line-height: 4em;
+
+  * {
+    color: ${props => props.theme.fontColorInverse};
+    font-family: lovelo, Ubuntu;
+  }
 `;
+
+const LoginButton = styled(Button)`
+  width: 100%;
+`;
+
 
 const LoginError = styled.div`
   padding: 1em;
@@ -48,7 +59,7 @@ const validate = (values) => {
 };
 
 const LoginForm = (props) => {
-  const { login, loginModal, handleSubmit, pristine, invalid, submitting, t } = props;
+  const { login, loginModal, handleSubmit, pristine, invalid, submitting, isAuthenticating, t } = props;
   const submit = (values) => {
     // TODO: disabled for now since we need to refactor routing - but this allows us to redirect to a pasted path
     // const path = (props.router.location.state && props.router.location.state.nextPathname) || '/';
@@ -64,8 +75,8 @@ const LoginForm = (props) => {
   return (
     <LoginCard>
       <form onSubmit={handleSubmit(submit)}>
-        <LoginCardHeader className="flex-row center-center">
-          {APP_TITLE}
+        <LoginCardHeader>
+          <span>{APP_TITLE}</span>
         </LoginCardHeader>
         <CardText>
           <Field
@@ -82,16 +93,19 @@ const LoginForm = (props) => {
           />
           <LoginError>{props.statusText}</LoginError>
         </CardText>
-        {props.isAuthenticating && <LinearProgress id="login-form" />}
-        <CardActions className="flex-row">
-          <Button
-            className="flex-12"
-            flat
-            primary
-            type="submit"
-            label={t('auth.login')}
-            disabled={pristine || submitting || invalid}
-          />
+        {isAuthenticating && <LinearProgress id="login-form" />}
+        <CardActions>
+          <Row justifyContent="center">
+            <Col flex={12}>
+              <LoginButton
+                flat
+                primary
+                type="submit"
+                label={t('auth.login')}
+                disabled={isAuthenticating || pristine || submitting || invalid}
+              />
+            </Col>
+          </Row>
         </CardActions>
       </form>
     </LoginCard>

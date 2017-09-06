@@ -52,7 +52,7 @@ const ContainerForm = (props) => {
 
   return (
     <div>
-      <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      <form className="row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <div className="flex-row center-center">
           <Card
             className={props.inlineMode ? 'flex-12 md-no-paper' : 'flex-10 flex-xs-12 flex-sm-12'}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -33,8 +34,8 @@ class IntegrationItem extends Component {
     ));
 
     return (
-      <div className="flex-row">
-        <Card className="flex-12" tableCard>
+      <Row gutter={5}>
+        <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title="Integrations"
           />
@@ -50,8 +51,8 @@ class IntegrationItem extends Component {
               {integrations}
             </TableBody>
           </DataTable>}
-        </Card>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

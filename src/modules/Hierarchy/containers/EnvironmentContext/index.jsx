@@ -24,6 +24,7 @@ class EnvironmentContext extends Component {
     fetchEnvironment: PropTypes.func.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
+    environment: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -112,19 +113,20 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, environment } = this.props;
 
     return (
       <Div>
-        <EnvironmentHeader {...this.props} />
-        <Div position="relative">
-          <Navbar
-            vertical
-            items={this.renderNavItems()}
+        <Navbar
+          vertical
+          items={this.renderNavItems()}
+        />
+        <Div position="relative" style={{ paddingLeft: '4.2em' }}>
+          <EnvironmentHeader
+            model={environment}
+            {...this.props}
           />
-          <Div style={{ paddingLeft: '4.2em' }}>
-            {this.renderThings(navigation.view)}
-          </Div>
+          {this.renderThings(navigation.view)}
         </Div>
       </Div>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import { Field, getFormValues } from 'redux-form';
@@ -40,12 +41,11 @@ const LambdaForm = (props) => {
   return (
     <div>
       <form
-        className="flex-row"
         onSubmit={props.handleSubmit(props.onSubmit)}
         autoComplete="off"
       >
-        <div className="flex-row center-center">
-          <Card className="flex-11 flex-xs-12 flex-sm-12">
+        <Row gutter={5} center>
+          <Col component={Card} flex={11} xs={12} sm={12}>
             <CardTitle
               title={props.title}
             />
@@ -329,8 +329,8 @@ const LambdaForm = (props) => {
                 primary
               />
             </CardActions>
-          </Card>
-        </div>
+          </Col>
+        </Row>
       </form>
     </div>
   );

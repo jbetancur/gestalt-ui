@@ -65,7 +65,7 @@ class ActionsMenu extends PureComponent {
     return (
       actionList.map(action => (
         <ListItem
-          id={action.id}
+          key={action.id}
           primaryText={action.name}
           style={style}
           onClick={() => this.fetchContent(action)}
