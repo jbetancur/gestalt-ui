@@ -23,7 +23,7 @@ class OrgCreate extends Component {
   create(values) {
     const { match, history, createOrg } = this.props;
     const payload = generateOrganizationPayload(values);
-    const onSuccess = response => history.replace(`/${response.properties.fqon}/hierarchy`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
     createOrg(match.params.fqon, payload, onSuccess);
   }

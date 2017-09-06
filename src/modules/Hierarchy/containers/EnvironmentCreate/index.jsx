@@ -21,9 +21,9 @@ class OrgCreate extends Component {
   create(values) {
     const { match, history, createEnvironment } = this.props;
     const payload = generateEnvironmentPayload(values);
-    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments/${response.id}`);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}`);
 
-    createEnvironment(match.params.fqon, this.props.match.params.workspaceId, payload, onSuccess);
+    createEnvironment(match.params.fqon, match.params.workspaceId, payload, onSuccess);
   }
 
   render() {

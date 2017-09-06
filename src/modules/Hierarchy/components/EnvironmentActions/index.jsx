@@ -24,11 +24,12 @@ class EnvironmentActions extends PureComponent {
 
   delete() {
     const { match, history, environment, deleteEnvironment } = this.props;
+    const name = environment.description || environment.name;
     const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
 
     this.props.confirmDelete(() => {
       deleteEnvironment(match.params.fqon, environment.id, onSuccess);
-    }, environment.description || environment.name, 'Environment');
+    }, name, 'Environment');
   }
 
   render() {
