@@ -267,7 +267,12 @@ const ContainerForm = (props) => {
               <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.properties.env.length > 0}>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
-                    <VariablesForm icon="add" fieldName="properties.env" {...props} />
+                    <VariablesForm
+                      icon="add"
+                      fieldName="properties.env"
+                      unixVariableName
+                      {...props}
+                    />
                   </div>
                 </div>
               </ExpansionPanel>

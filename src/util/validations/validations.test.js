@@ -8,6 +8,7 @@ import {
   isCommaDelimited,
   isCommaDelimitedConstraints,
   isKubernetesVolumeName,
+  isUnixVariable,
 } from './index';
 
 // TODO: pass arrays of validations for more thurough tests
@@ -211,6 +212,36 @@ describe('Validations', () => {
 
     it('should return the original value if arg is not a string', () => {
       expect(isKubernetesVolumeName({})).to.deep.equal({});
+    });
+  });
+
+  describe('isUnixVariable', () => {
+    it('should not validate if not a variable name has spaces', () => {
+      expect(isUnixVariable('Not a variable ahahaha')).to.equal(false);
+    });
+
+    it('should not validate if variable name has invalid chars', () => {
+      expect(isUnixVariable('$%^i_love_variables')).to.equal(false);
+    });
+
+    it('should not validate if is variable name with .', () => {
+      expect(isUnixVariable('i.love.variables')).to.equal(false);
+    });
+
+    it('should not validate if is variable name with -', () => {
+      expect(isUnixVariable('i-love-variables')).to.equal(false);
+    });
+
+    it('should validate if is variable name seperated by _', () => {
+      expect(isUnixVariable('i_love_variables')).to.equal(true);
+    });
+
+    it('should validate if is variable name', () => {
+      expect(isUnixVariable('ilovevariables')).to.equal(true);
+    });
+
+    it('should return the original value if arg is not a string', () => {
+      expect(isUnixVariable({})).to.deep.equal({});
     });
   });
 });

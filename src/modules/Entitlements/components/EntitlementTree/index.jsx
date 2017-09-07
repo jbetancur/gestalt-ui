@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import styled from 'styled-components';
+import Fieldset from 'components/Fieldset';
 
 const UL = styled.ul`
     list-style-type: none;
@@ -58,8 +59,7 @@ class EntitlementTreeItems extends PureComponent {
     return (
       <div className="flex-row">
         {(this.props.entitlements.length && this.props.selectedIdentity.name) ?
-          <fieldset style={{ height: '100%' }}>
-            <legend>{this.props.selectedIdentity.name}</legend>
+          <Fieldset legend={this.props.selectedIdentity.name} style={{ height: '100%' }}>
             <EntitlementDiv className="flex-row">
               {this.props.entitlements.map(entitlement => (
                 <UL key={entitlement.type}>
@@ -87,7 +87,7 @@ class EntitlementTreeItems extends PureComponent {
                   </UL>
                 </UL>))}
             </EntitlementDiv>
-          </fieldset> : null}
+          </Fieldset> : null}
       </div>
     );
   }

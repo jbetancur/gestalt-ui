@@ -61,17 +61,3 @@
       text-decoration: underline;
   }
 }
-
-fieldset {
-  border: .2em solid $md-grey-100 !important;
-  width: 100% !important;
-}
-
-legend {
-  height: 1.3em;
-  color: $md-grey-700 !important;
-}
-
-legend code {
-  color: $md-grey-100 !important;
-}

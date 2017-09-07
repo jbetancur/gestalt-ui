@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { VariablesListing } from 'modules/Variables';
+import Fieldset from 'components/Fieldset';
+import Label from 'components/Label';
 
 const HierarchyDetails = (props) => {
   const { model, t } = props;
@@ -10,22 +12,23 @@ const HierarchyDetails = (props) => {
   return (
     <Row>
       <Col flex={6} xs={12}>
-        <div><span className="gf-label">{t('general.nouns.name')}: </span><span className="gf-subtitle">{model.description || model.name}</span></div>
-        <div><span className="gf-label">{t('general.nouns.shortName')}: </span><span className="gf-subtitle">{model.name}</span></div>
-        <div><span className="gf-label">{t('general.nouns.fqon')}: </span><span className="gf-subtitle">{model.properties.fqon}</span></div>
-        <div><span className="gf-label">{t('general.verbs.created')}: </span><span className="gf-subtitle"><FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)</span></div>
-        <div><span className="gf-label">{t('general.verbs.modified')}: </span><span className="gf-subtitle"><FormattedRelative value={model.modified.timestamp} /> (<FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />)</span></div>
+        <div><Label>{t('general.nouns.name')}: </Label><span className="gf-subtitle">{model.description || model.name}</span></div>
+        <div><Label>{t('general.nouns.shortName')}: </Label><span className="gf-subtitle">{model.name}</span></div>
+        <div><Label>{t('general.nouns.fqon')}: </Label><span className="gf-subtitle">{model.properties.fqon}</span></div>
+        <div><Label>{t('general.verbs.created')}: </Label><span className="gf-subtitle"><FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)</span></div>
+        <div><Label>{t('general.verbs.modified')}: </Label><span className="gf-subtitle"><FormattedRelative value={model.modified.timestamp} /> (<FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />)</span></div>
         {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-        {model.owner.name && <div><span className="gf-label">Owner: </span><span className="gf-subtitle">{model.owner.name}</span></div>}
-        <div><span className="gf-label">{t('general.nouns.uuid')}: </span><span className="gf-subtitle">{model.id}</span></div>
+        {model.owner.name && <div><Label>Owner: </Label><span className="gf-subtitle">{model.owner.name}</span></div>}
+        <div><Label>{t('general.nouns.uuid')}: </Label><span className="gf-subtitle">{model.id}</span></div>
       </Col>
       <Col flex={6} xs={12}>
-        <fieldset>
-          <legend>Environment Variables</legend>
-          <div style={{ maxHeight: '16em', overflow: 'scroll' }}>
-            <VariablesListing envMap={model.properties.env} />
-          </div>
-        </fieldset>
+        <Fieldset
+          legend="Environment Variables"
+          overflowScroll
+          maxHeight="12em"
+        >
+          <VariablesListing envMap={model.properties.env} />
+        </Fieldset>
       </Col>
     </Row>
   );

@@ -3,36 +3,49 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
+import { isUnixVariable } from 'util/validations';
 
-const renderField = ({ input, label, type, className, disabled, required }) => (
+const validateUnixName = value => ((value && !isUnixVariable(value)) && 'invalid variable');
+
+// eslint-disable-next-line react/prop-types
+const renderNameField = ({ input, label, type, className, disabled, required, unixVariableName }) => (
   <Field
     {...input}
     className={className}
-    label={label}
+    placeholder={label}
     component={TextField}
     type={type}
     value=" " // fix for [object Object] on deselect
     required={required}
     disabled={disabled}
+    rows={1}
+    validate={unixVariableName ? [validateUnixName] : []}
   />
 );
 
-renderField.propTypes = {
-  input: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  required: PropTypes.bool.isRequired,
-};
+// eslint-disable-next-line react/prop-types
+const renderValueField = ({ input, label, type, className, disabled, required }) => (
+  <Field
+    {...input}
+    className={className}
+    placeholder={label}
+    component={TextField}
+    type={type}
+    value=" " // fix for [object Object] on deselect
+    required={required}
+    disabled={disabled}
+    rows={1}
+    validate={[]}
+  />
+);
 
-const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue, className }) => (
+const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue, className, unixVariableName }) => (
   <div>
     <Button
       flat
       primary
       label={addButtonLabel}
-      onClick={() => fields.push({})}
+      onClick={() => fields.unshift({})}
     >
       {icon}
     </Button>
@@ -47,21 +60,23 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
           <Field
             name={`${member}.${keyFieldValue}`}
             type="text"
-            component={renderField}
+            component={renderNameField}
             label={fieldNameStr}
-            className="flex-5"
+            className="flex-4"
             disabled={isRequired || isInherited}
+            unixVariableName={unixVariableName}
           />
           <Field
             name={`${member}.${valueFieldValue}`}
             type="text"
-            component={renderField}
+            component={renderValueField}
             label={valueFieldName}
-            className="flex-6"
+            className="flex-7"
             required={isRequired}
           />
           {!(isRequired || isInherited) &&
             <FieldRemoveButton
+              marginTop="1em"
               onClick={() => fields.remove(index)}
             />}
         </div>
@@ -80,6 +95,7 @@ rendervariables.propTypes = {
   keyFieldValue: PropTypes.string.isRequired,
   valueFieldName: PropTypes.string.isRequired,
   valueFieldValue: PropTypes.string.isRequired,
+  unixVariableName: PropTypes.bool.isRequired,
   className: PropTypes.string,
 };
 
@@ -99,6 +115,7 @@ const FieldArraysForm = props => (
     keyFieldValue={props.keyFieldValue}
     valueFieldName={props.valueFieldName}
     valueFieldValue={props.valueFieldValue}
+    unixVariableName={props.unixVariableName}
   />
 );
 
@@ -110,16 +127,18 @@ FieldArraysForm.propTypes = {
   keyFieldValue: PropTypes.string,
   valueFieldName: PropTypes.string,
   valueFieldValue: PropTypes.string,
+  unixVariableName: PropTypes.bool,
 };
 
 FieldArraysForm.defaultProps = {
   fieldName: 'variables',
   addButtonLabel: 'Variable',
-  icon: 'add',
+  icon: 'add_circle_outline',
   keyFieldName: 'Name',
   keyFieldValue: 'name',
   valueFieldName: 'Value',
   valueFieldValue: 'value',
+  unixVariableName: false,
 };
 
 export default FieldArraysForm;

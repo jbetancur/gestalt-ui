@@ -12,6 +12,7 @@ import Autocomplete from 'react-md/lib/Autocompletes';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
+import Fieldset from 'components/Fieldset';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 
@@ -89,8 +90,7 @@ const PolicyEventRuleForm = (props) => {
               />
               <div className="flex-row">
                 <div className="flex-4 flex-sm-6 flex-xs-12">
-                  <fieldset>
-                    <legend>Lambda</legend>
+                  <Fieldset legend="Lambda">
                     <Autocomplete
                       id="lambdas-dropdown"
                       data={lambdasDropDown}
@@ -108,11 +108,10 @@ const PolicyEventRuleForm = (props) => {
                       name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
                       label="Lambda UUID"
                     />
-                  </fieldset>
+                  </Fieldset>
                 </div>
                 <div className="flex-8 flex-xs-12 flex-sm-12">
-                  <fieldset>
-                    <legend>Actions</legend>
+                  <Fieldset legend="Actions">
                     <div className="flex-row">
                       {policyTriggers.map(action => (
                         <Field
@@ -126,7 +125,7 @@ const PolicyEventRuleForm = (props) => {
                           onChange={() => onActionChecked(action.name)}
                         />))}
                     </div>
-                  </fieldset>
+                  </Fieldset>
                 </div>
               </div>
             </div>

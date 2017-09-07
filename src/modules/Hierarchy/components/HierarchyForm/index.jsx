@@ -14,6 +14,7 @@ import SelectField from 'components/SelectField';
 import { VariablesForm } from 'modules/Variables';
 import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
+import Fieldset from 'components/Fieldset';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ActionIconSection = styled.div`
@@ -74,10 +75,13 @@ const HierarchyForm = (props) => {
                   disabled={props.pending}
                 />}
               </div>
-              <fieldset>
-                <legend>Environment Variables</legend>
-                <VariablesForm icon="add" fieldName="properties.env" />
-              </fieldset>
+              <Fieldset legend="Environment Variables">
+                <VariablesForm
+                  icon="add"
+                  fieldName="properties.env"
+                  unixVariableName
+                />
+              </Fieldset>
             </CardText>
             {props.pending && <LinearProgress id="containment-form" />}
             <Row component={CardActions}>
