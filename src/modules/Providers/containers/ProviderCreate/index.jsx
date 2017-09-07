@@ -51,7 +51,7 @@ class ProviderCreate extends PureComponent {
     } else if (match.params.environmentId) {
       onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     } else {
-      onSuccess = () => history.replace(`/${match.params.fqon}/providers`);
+      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
     }
 
     // Create it

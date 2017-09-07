@@ -32,6 +32,7 @@ class HierarchyContext extends PureComponent {
     handleNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    unloadNavigation: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -55,6 +56,7 @@ class HierarchyContext extends PureComponent {
     if (nextProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.fetchOrgSet(nextProps.match.params.fqon);
       this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
+      this.props.unloadNavigation('hierarchy');
     }
   }
 
