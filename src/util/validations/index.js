@@ -79,6 +79,13 @@ export function isKubernetesVolumeName(string) {
   return /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/.test(string);
 }
 
+export function isUnixVariable(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+  return /^[a-zA-Z_]+[a-zA-Z0-9_]*$/.test(string);
+}
+
 export default {
   isFQON,
   // isWorkspaceName,
@@ -90,4 +97,5 @@ export default {
   isContainerServicePortName,
   isCommaDelimited,
   isKubernetesVolumeName,
+  isUnixVariable,
 };

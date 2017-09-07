@@ -8,6 +8,7 @@ import DotActivity from 'components/DotActivity';
 import TextField from 'react-md/lib/TextFields';
 import CardSubHeader from 'components/CardSubHeader';
 import { Button } from 'components/Buttons';
+import Fieldset from 'components/Fieldset';
 import EntitlementTree from '../EntitlementTree';
 import { USER } from '../../constants';
 
@@ -113,8 +114,7 @@ class EntitlementItem extends Component {
       <div className="flex-row">
         <div className="flex-row">
           <div className="flex-5 flex-xs-12">
-            <fieldset style={{ height: '100%' }}>
-              <legend>Users & Groups</legend>
+            <Fieldset legend="Users & Groups" style={{ height: '100%' }}>
               <MembersList>
                 <CardSubHeader
                   primaryText={<TextField
@@ -131,7 +131,7 @@ class EntitlementItem extends Component {
                 {this.props.identitiesPending ?
                   <DotActivity primary size={1.5} id="identities-loading" centered /> : identities}
               </MembersList>
-            </fieldset>
+            </Fieldset>
           </div>
 
           <div className="flex-7 flex-xs-12">

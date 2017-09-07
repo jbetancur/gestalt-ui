@@ -1,51 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
+import { Col, Row } from 'react-flexybox';
 import { map, sortBy } from 'lodash';
+import Label from 'components/Label';
 
 class VariablesListing extends Component {
   static propTypes = {
-    envMap: PropTypes.object.isRequired
+    envMap: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
-    envMap: {}
+    envMap: {},
   };
 
-  renderRows() {
+  render() {
     const envVariables = map(this.props.envMap, (value, name) => ({ name, value }));
     const sortedVariables = sortBy(envVariables, [v => v.name.toLowerCase()]);
 
-    return sortedVariables.map((item, i) => (
-      <TableRow key={i}>
-        <TableColumn>{item.name}</TableColumn>
-        <TableColumn>{item.value}</TableColumn>
-      </TableRow>
-    ));
-  }
-
-  renderTable() {
     return (
-      <DataTable plain>
-        <TableHeader>
-          <TableRow>
-            <TableColumn>Name</TableColumn>
-            <TableColumn>Value</TableColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {this.renderRows()}
-        </TableBody>
-      </DataTable>
+      <Row columnDivisions={24}>
+        <Col flex={5}>
+          <Label>Environment Variables:</Label>
+        </Col>
+        <Col flex={19} style={{ overflow: 'scroll', maxHeight: '18em' }}>
+          {sortedVariables.map((item, i) => (
+            <div key={i}>
+              <Label>{item.name}: </Label><span className="gf-subtitle">{item.value}</span>
+            </div>
+          ))}
+        </Col>
+      </Row>
     );
-  }
-
-  render() {
-    return (this.props.envMap && Object.keys(this.props.envMap).length) ? this.renderTable() : null;
   }
 }
 

@@ -12,6 +12,7 @@ import { Button } from 'components/Buttons';
 import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
+import Fieldset from 'components/Fieldset';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 import policyOperators from '../../lists/policyOperators';
@@ -142,8 +143,7 @@ const PolicyLimitRuleForm = (props) => {
                   label="Strict"
                 />
               </div>
-              <fieldset>
-                <legend>Actions</legend>
+              <Fieldset legend="Actions">
                 <div className="flex-row">
                   {policyActions.map(action => (
                     <Field
@@ -157,7 +157,7 @@ const PolicyLimitRuleForm = (props) => {
                       onChange={() => onActionChecked(action.name)}
                     />))}
                 </div>
-              </fieldset>
+              </Fieldset>
             </div>
           </CardText>
           {policyRuleUpdatePending || policyRulePending ? <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} /> : null}

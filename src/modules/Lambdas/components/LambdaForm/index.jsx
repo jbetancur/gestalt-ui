@@ -18,6 +18,7 @@ import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { VariablesForm } from 'modules/Variables';
 import { Button, CopyUUIDButton } from 'components/Buttons';
+import Fieldset from 'components/Fieldset';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
@@ -198,8 +199,7 @@ const LambdaForm = (props) => {
                         label="Make Public"
                       />
 
-                      <fieldset>
-                        <legend>Lambda Function Code</legend>
+                      <Fieldset legend="Lambda Function">
                         <div className="flex-row">
                           <Field
                             id="select-code-type"
@@ -256,23 +256,22 @@ const LambdaForm = (props) => {
                               checked={values.properties.compressed}
                             />}
                         </div>
-                      </fieldset>
+                      </Fieldset>
                     </div>}
 
                   <div className="flex-row flex-6 flex-xs-12 flex-sm-12">
-                    <fieldset style={{ minHeight: '16em' }}>
-                      <legend>Environment Variables</legend>
+                    <Fieldset legend="Environment Variables" style={{ minHeight: '16em' }}>
                       <VariablesForm
                         className="flex-row"
                         icon="add"
                         fieldName="properties.env"
+                        unixVariableName
                         {...props}
                       />
-                    </fieldset>
+                    </Fieldset>
                   </div>
                   <div className="flex-row flex-6 flex-xs-12 flex-sm-12">
-                    <fieldset style={{ minHeight: '16em' }}>
-                      <legend>Periodic Configuration</legend>
+                    <Fieldset legend="Periodic Configuration" style={{ minHeight: '16em' }}>
                       <div className="flex-row">
                         <Field
                           className="flex-4 flex-xs-12 flex-sm-12 flex-md-6"
@@ -308,7 +307,7 @@ const LambdaForm = (props) => {
                           />
                         </div>
                       </div>
-                    </fieldset>
+                    </Fieldset>
                   </div>
                 </div>
               </div>

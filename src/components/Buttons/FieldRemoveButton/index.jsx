@@ -6,7 +6,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 
 const EnhancedButton = styled(Button)`
-    margin-top: 2em;
+    margin-top: ${prop => prop.marginTop};
 
     &.in-table {
         margin-top: 0;
@@ -17,16 +17,26 @@ const StyledIcon = styled.i`
     color: ${props => props.theme.removeIconColor};
 `;
 
-const FieldRemoveButton = props =>
-  <EnhancedButton icon {...props} className={cn({ 'in-table': props.inTable })} ><StyledIcon><FontIcon>remove_circle_outline</FontIcon></StyledIcon></EnhancedButton>;
+const FieldRemoveButton = props => (
+  <EnhancedButton
+    className={cn({ 'in-table': props.inTable })}
+    icon
+    marginTop={props.marginTop}
+    {...props}
+  >
+    <StyledIcon><FontIcon>remove_circle_outline</FontIcon></StyledIcon>
+  </EnhancedButton>
+);
 
 
 FieldRemoveButton.propTypes = {
   inTable: PropTypes.bool,
+  marginTop: PropTypes.string,
 };
 
 FieldRemoveButton.defaultProps = {
   inTable: false,
+  marginTop: '2em',
 };
 
 export default FieldRemoveButton;

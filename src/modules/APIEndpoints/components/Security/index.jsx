@@ -7,6 +7,7 @@ import Checkbox from 'components/Checkbox';
 // import Autocomplete from 'react-md/lib/Autocompletes';
 // import List from 'react-md/lib/Lists/List';
 // import ListItem from 'react-md/lib/Lists/ListItem';
+import Fieldset from 'components/Fieldset';
 
 export default class APIEndpointSecurity extends PureComponent {
   static propTypes = {
@@ -53,8 +54,7 @@ export default class APIEndpointSecurity extends PureComponent {
 
     return (
       <div className={this.props.className}>
-        <fieldset>
-          <legend>Authorization</legend>
+        <Fieldset legend="Authorization">
           <div className="flex-row">
             <Field
               id="show-api-endpoints-security"
@@ -99,7 +99,7 @@ export default class APIEndpointSecurity extends PureComponent {
               </div>
             </div>} */}
           </div>
-        </fieldset>
+        </Fieldset>
       </div>
     );
   }
