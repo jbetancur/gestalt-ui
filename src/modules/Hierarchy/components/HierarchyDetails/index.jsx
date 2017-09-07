@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { VariablesListing } from 'modules/Variables';
-import Fieldset from 'components/Fieldset';
 import Label from 'components/Label';
 
 const HierarchyDetails = (props) => {
@@ -22,13 +21,7 @@ const HierarchyDetails = (props) => {
         <div><Label>{t('general.nouns.uuid')}: </Label><span className="gf-subtitle">{model.id}</span></div>
       </Col>
       <Col flex={6} xs={12}>
-        <Fieldset
-          legend="Environment Variables"
-          overflowScroll
-          maxHeight="12em"
-        >
-          <VariablesListing envMap={model.properties.env} />
-        </Fieldset>
+        <VariablesListing envMap={model.properties.env} />
       </Col>
     </Row>
   );
