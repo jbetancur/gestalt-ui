@@ -47,7 +47,7 @@ class ProviderEdit extends PureComponent {
     } else if (match.params.environmentId) {
       onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
     } else {
-      onSuccess = () => history.replace(`/${match.params.fqon}/providers`);
+      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
     }
 
     // If the provider has a container defined then warn the user of an impending container restart
