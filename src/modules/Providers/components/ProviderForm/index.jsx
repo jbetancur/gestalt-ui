@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues, isInvalid } from 'redux-form';
+import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -9,7 +10,7 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FileInput from 'react-md/lib/FileInputs';
 import { ExpansionList } from 'react-md/lib/ExpansionPanels';
-import { ExpansionPanelNoPadding } from 'components/ExpansionList';
+import { ExpansionPanel } from 'components/ExpansionList';
 import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
@@ -122,45 +123,45 @@ const ProviderForm = (props) => {
 
   const renderJSONSection = () => (
     !props.envSchemaPending &&
-    <div className="flex-row">
+    <Row gutter={5}>
       {selectedProviderType.networking &&
-      <div className="flex-6 flex-xs-12">
+      <Col flex={6} xs={12}>
         <JSONTree
           data={props.provider.properties.config.networks || []}
         />
-      </div>}
+      </Col>}
       {selectedProviderType.extraConfig &&
-      <div className="flex-6 flex-xs-12">
+      <Col flex={6} xs={12}>
         <JSONTree
           data={props.provider.properties.config.extra || {}}
         />
-      </div>}
-    </div>
+      </Col>}
+    </Row>
   );
 
   const renderVariablesSection = () => (
     props.envSchemaPending || (selectedProviderType.type && selectedProviderType.allowEnvVariables &&
-    <div className="flex-row">
-      <div className="flex-6 flex-xs-12 flex-sm-12">
+    <Row>
+      <Col flex={6} xs={12} sm={12}>
         <VariablesForm
           icon="public"
           addButtonLabel="Add Public Variable"
           fieldName="properties.config.env.public"
         />
-      </div>
-      <div className="flex-6 flex-xs-12 flex-sm-12">
+      </Col>
+      <Col flex={6} xs={12} sm={12}>
         <VariablesForm
           icon="vpn_key"
           addButtonLabel="Add Private Variable"
           fieldName="properties.config.env.private"
         />
-      </div>
-    </div>)
+      </Col>
+    </Row>)
   );
 
   const renderEditorSection = () => (
     !props.envSchemaPending &&
-    <div className="flex-row">
+    <Row>
       {selectedProviderType.uploadConfig &&
         <FileInput
           id="imageInput1"
@@ -182,7 +183,7 @@ const ProviderForm = (props) => {
             fontSize={12}
           />
         </div>}
-    </div>
+    </Row>
   );
 
   const renderOtherConfigSection = () => (
@@ -211,28 +212,20 @@ const ProviderForm = (props) => {
 
   const renderContainerSection = () => (
     selectedProviderType.allowContainer &&
-      <div className="flex-row center-center">
-        <Card title="Container" className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
-          <CardTitle
-            title="Container"
-            subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
-          />
-          <ContainerCreate match={props.match} inlineMode />
-        </Card>
-      </div>
+      <Card title="Container">
+        <CardTitle
+          title="Container"
+          subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
+        />
+        <ContainerCreate match={props.match} inlineMode />
+      </Card>
   );
 
   const renderContainerDetailsPanel = () => (
     selectedProviderType.allowContainer && container.id &&
-      <div className="flex-row center-center no-gutter">
-        <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
-          <div className="flex-row">
-            <div className="flex">
-              <ContainerDetails containerModel={props.container} match={props.match} />
-            </div>
-          </div>
-        </Card>
-      </div>
+      <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
+        <ContainerDetails containerModel={props.container} match={props.match} />
+      </Card>
   );
 
   const renderContainerActions = () => (
@@ -248,10 +241,14 @@ const ProviderForm = (props) => {
 
   return (
     <div>
-      <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <div className="flex-row center-center">
-          <Card
-            className="flex-10 flex-xs-12 flex-sm-12 flex-md-12"
+      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+        <Row gutter={5} center>
+          <Col
+            component={Card}
+            flex={10}
+            xs={12}
+            sm={12}
+            md={12}
             // expanderIconChildren="edit"
             // expanderTooltipLabel="Edit"
             // expanderIconClassName="material-icons--primary"
@@ -325,24 +322,24 @@ const ProviderForm = (props) => {
                 primary
               />
             </CardActions>
-          </Card>
-        </div>
+          </Col>
+        </Row>
 
         {!props.editMode ? <div /> : renderContainerDetailsPanel()}
 
-        {selectedProviderType.type &&
-        <div className="flex-row center-center">
-          <ExpansionList className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
-            <ExpansionPanelNoPadding label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded>
-              <div className="flex-row">
-                <div className="flex-12">
-                  <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
-                </div>
-              </div>
-            </ExpansionPanelNoPadding>
-          </ExpansionList>
-          {!props.editMode && renderContainerSection()}
-        </div>}
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12} md={12}>
+            <ExpansionList>
+              <ExpansionPanel label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded>
+                <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
+              </ExpansionPanel>
+            </ExpansionList>
+          </Col>
+
+          <Col flex={10} xs={12} sm={12} md={12}>
+            {!props.editMode && renderContainerSection()}
+          </Col>
+        </Row>
       </form>
     </div>
   );

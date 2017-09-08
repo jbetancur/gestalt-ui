@@ -17,7 +17,7 @@ import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { VariablesForm } from 'modules/Variables';
-import { Button, CopyUUIDButton } from 'components/Buttons';
+import { Button, ClipboardButton } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
@@ -54,9 +54,10 @@ const LambdaForm = (props) => {
               <ActionsToolbar>
                 <div className="flex-row no-gutter">
                   <div className="flex-12">
-                    <CopyUUIDButton
+                    <ClipboardButton
                       showUUID={false}
-                      model={lambda}
+                      text={lambda.id}
+                      tooltipLabel="Copy uuid to clipboard"
                     />
                     <Button
                       icon

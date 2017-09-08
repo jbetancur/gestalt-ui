@@ -119,6 +119,18 @@
   }
 }
 
+.md-expansion-panel--expanded:not(:first-child) {
+  margin-top: 5px;
+}
+
+.md-expansion-panel--expanded:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.md-panel-header--expanded {
+  height: 48px;
+}
+
 .md-no-paper {
   box-shadow: none;
 }
@@ -142,4 +154,8 @@
 
 .md-tile-content--left-icon {
   padding-left: 16px;
+}
+
+.md-table-column--data {
+  vertical-align: middle !important;
 }

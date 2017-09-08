@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { DockerIcon, MesosIcon, KubernetesIcon } from 'components/Icons';
 
 const iconTypes = {
-  'Gestalt::Configuration::Provider::CaaS::DCOS': <MesosIcon />,
-  'Gestalt::Configuration::Provider::CaaS::Kubernetes': <KubernetesIcon />,
-  'Gestalt::Configuration::Provider::CaaS::Docker': <DockerIcon />,
+  DCOS: <MesosIcon />,
+  Kubernetes: <KubernetesIcon />,
+  Docker: <DockerIcon />,
   Default: <div />,
 };
 

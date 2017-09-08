@@ -59,7 +59,7 @@ class HealthCheckListing extends Component {
       <DataTable plain>
         {healthChecks.length > 0 &&
           <TableHeader>
-            <TableRow>
+            <TableRow autoAdjust={false}>
               <TableColumn>Protocol</TableColumn>
               <TableColumn>Grace Period</TableColumn>
               <TableColumn>Interval</TableColumn>

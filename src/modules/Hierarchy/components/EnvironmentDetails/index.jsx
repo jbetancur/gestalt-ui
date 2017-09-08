@@ -7,6 +7,7 @@ import Label from 'components/Label';
 
 const EnvironmentDetails = (props) => {
   const { environment } = props;
+  const name = environment.description || environment.name;
 
   return (
     <Row>

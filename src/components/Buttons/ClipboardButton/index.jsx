@@ -6,28 +6,30 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 const EnhancedButton = styled(Button)`
   text-transform: none;
-  // padding: .3em;
+  vertical-align: middle;
 `;
 
-class CopyUUIDButton extends PureComponent {
+class ClipboardButton extends PureComponent {
   static propTypes = {
-    model: PropTypes.object.isRequired,
+    text: PropTypes.object.isRequired,
+    tooltipLabel: PropTypes.string,
     tooltipPosition: PropTypes.string,
     showUUID: PropTypes.bool,
   }
 
   static defaultProps = {
+    tooltipLabel: '',
     tooltipPosition: 'bottom',
     showUUID: true,
   }
 
   render() {
     return (
-      <CopyToClipboard text={this.props.model.id}>
+      <CopyToClipboard text={this.props.text}>
         <EnhancedButton
-          label={this.props.showUUID && this.props.model.id}
+          label={this.props.showUUID && this.props.text}
           tooltipPosition={this.props.tooltipPosition}
-          tooltipLabel="Copy UUID"
+          tooltipLabel={this.props.tooltipLabel}
           flat={this.props.showUUID}
           icon={!this.props.showUUID}
         >
@@ -38,4 +40,4 @@ class CopyUUIDButton extends PureComponent {
   }
 }
 
-export default CopyUUIDButton;
+export default ClipboardButton;

@@ -7,7 +7,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
-import { parseChildClass } from 'util/helpers/strings';
+import { parseChildClass, truncate } from 'util/helpers/strings';
 
 class ProviderItem extends PureComponent {
   static propTypes = {
@@ -63,7 +63,7 @@ class ProviderItem extends PureComponent {
     const providers = this.props.model.map(provider => (
       <TableRow key={provider.id} onClick={e => this.props.onEditToggle(provider, e)}>
         <TableColumn>{provider.name}</TableColumn>
-        <TableColumn>{provider.description}</TableColumn>
+        <TableColumn>{truncate(provider.description, 100)}</TableColumn>
         <TableColumn>{provider.resource_type && parseChildClass(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
         <TableColumn>{provider.owner.name}</TableColumn>
@@ -86,7 +86,7 @@ class ProviderItem extends PureComponent {
           <DataTable baseId="providers" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&
             <TableHeader>
-              <TableRow>
+              <TableRow autoAdjust={false}>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                 <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
                 <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>
