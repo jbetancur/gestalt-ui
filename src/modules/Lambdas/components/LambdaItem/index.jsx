@@ -7,7 +7,7 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { ActionsMenu } from 'modules/Actions';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Button, DeleteIconButton, CopyUUIDButton } from 'components/Buttons';
+import { Button, DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import A from 'components/A';
 
@@ -63,6 +63,11 @@ class LambdaItem extends PureComponent {
     const lambdas = this.props.model.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.props.onEditToggle(lambda, e)}>
         <TableColumn containsButtons>
+          <ClipboardButton
+            text={lambda.id}
+            showUUID={false}
+            tooltipLabel="Copy uuid to clipboard"
+          />
           <ActionsMenu
             icon
             model={lambda}
@@ -84,7 +89,6 @@ class LambdaItem extends PureComponent {
         </TableColumn>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>
-        <TableColumn><CopyUUIDButton model={lambda} showUUID={false} /></TableColumn>
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
@@ -110,7 +114,6 @@ class LambdaItem extends PureComponent {
                   <TableColumn />
                   <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                  <TableColumn>UUID</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('properties.runtime')} onClick={() => sortTable('properties.runtime')}>Runtime</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>

@@ -13,8 +13,8 @@ const ActionsWrapper = styled.div`
     &.action--title {
       padding-left: .3em;
       position: absolute;
-      right: 2em;
-      top: .7em;
+      right: 2.5em;
+      top: 1.6em;
     }
 
     .container--RUNNING {

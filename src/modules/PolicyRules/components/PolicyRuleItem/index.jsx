@@ -7,6 +7,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
+import { truncate } from 'util/helpers/strings';
 import policyTypes from '../../lists/policyTypes';
 
 class PolicyRuleItem extends PureComponent {
@@ -67,7 +68,7 @@ class PolicyRuleItem extends PureComponent {
     const policyRules = this.props.model.map(policyRule => (
       <TableRow key={policyRule.id} onClick={e => this.props.onEditToggle(policyRule, e)}>
         <TableColumn>{policyRule.name}</TableColumn>
-        <TableColumn>{policyRule.description}</TableColumn>
+        <TableColumn>{truncate(policyRule.description, 100)}</TableColumn>
         <TableColumn>{policyRule.resource_type.split('::')[policyRule.resource_type.split('::').length - 1]}</TableColumn>
         <TableColumn>{policyRule.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={policyRule.created.timestamp} /> <FormattedTime value={policyRule.created.timestamp} /></TableColumn>

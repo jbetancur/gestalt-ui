@@ -62,7 +62,7 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
             type="text"
             component={renderNameField}
             label={fieldNameStr}
-            className="flex-4"
+            className="flex-4 flex-xs-12"
             disabled={isRequired || isInherited}
             unixVariableName={unixVariableName}
           />
@@ -71,7 +71,7 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
             type="text"
             component={renderValueField}
             label={valueFieldName}
-            className="flex-7"
+            className="flex-7 flex-xs-12"
             required={isRequired}
           />
           {!(isRequired || isInherited) &&

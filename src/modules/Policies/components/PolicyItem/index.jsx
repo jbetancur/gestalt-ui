@@ -6,6 +6,7 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
+import { truncate } from 'util/helpers/strings';
 
 class PolicyItem extends PureComponent {
   static propTypes = {
@@ -38,7 +39,7 @@ class PolicyItem extends PureComponent {
     const policies = this.props.model.map(policy => (
       <TableRow key={policy.id} onClick={e => this.props.onEditToggle(policy, e)}>
         <TableColumn>{policy.name}</TableColumn>
-        <TableColumn>{policy.description}</TableColumn>
+        <TableColumn>{truncate(policy.description, 100)}</TableColumn>
         <TableColumn>{policy.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={policy.created.timestamp} /> <FormattedTime value={policy.created.timestamp} /></TableColumn>
       </TableRow>

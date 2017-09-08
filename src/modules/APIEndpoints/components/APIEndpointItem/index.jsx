@@ -89,7 +89,7 @@ class apiEndpointItem extends PureComponent {
         <DataTable baseId="apiEndpoints" onRowToggle={this.handleRowToggle}>
           {this.props.model.length > 0 &&
           <TableHeader>
-            <TableRow>
+            <TableRow autoAdjust={false}>
               <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>
               <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
               <TableColumn>Methods</TableColumn>

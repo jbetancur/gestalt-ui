@@ -7,11 +7,12 @@ import Label from 'components/Label';
 
 const HierarchyDetails = (props) => {
   const { model, t } = props;
+  const name = model.description || model.name;
 
   return (
     <Row>
       <Col flex={6} xs={12}>
-        <div><Label>{t('general.nouns.name')}: </Label><span className="gf-subtitle">{model.description || model.name}</span></div>
+        <div><Label>{t('general.nouns.name')}: </Label><span className="gf-subtitle">{name}</span></div>
         <div><Label>{t('general.nouns.shortName')}: </Label><span className="gf-subtitle">{model.name}</span></div>
         <div><Label>{t('general.nouns.fqon')}: </Label><span className="gf-subtitle">{model.properties.fqon}</span></div>
         <div><Label>{t('general.verbs.created')}: </Label><span className="gf-subtitle"><FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)</span></div>

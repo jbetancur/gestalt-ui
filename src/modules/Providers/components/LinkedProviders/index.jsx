@@ -12,7 +12,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
       flat
       primary
       label="Linked Provider"
-      onClick={() => fields.push({})}
+      onClick={() => fields.unshift({})}
     >
       add
     </Button>
@@ -32,7 +32,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           name={`${member}.id`}
           component={SelectField}
           label="Provider"
-          className="flex-5"
+          className="flex-6"
           itemLabel="name"
           itemValue="id"
           required

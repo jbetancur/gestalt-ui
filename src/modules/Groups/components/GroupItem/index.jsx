@@ -6,6 +6,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { truncate } from 'util/helpers/strings';
 
 class GroupItem extends PureComponent {
   static propTypes = {
@@ -38,7 +39,7 @@ class GroupItem extends PureComponent {
     const groups = this.props.model.map(group => (
       <TableRow key={group.id} onClick={e => this.props.onEditToggle(group, e)}>
         <TableColumn>{group.name}</TableColumn>
-        <TableColumn>{group.description}</TableColumn>
+        <TableColumn>{truncate(group.description, 100)}</TableColumn>
         <TableColumn><FormattedDate value={group.created.timestamp} /> <FormattedTime value={group.created.timestamp} /></TableColumn>
       </TableRow>
     ));

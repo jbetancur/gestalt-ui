@@ -7,6 +7,7 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { parseChildClass } from 'util/helpers/strings';
 import ContainerActions from '../ContainerActions';
 import ContainerIcon from '../ContainerIcon';
 
@@ -43,25 +44,28 @@ class ContainerItem extends PureComponent {
 
   render() {
     const { handleTableSortIcon, sortTable } = this.props;
-
-    const containers = this.props.model.map(container => (
-      <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
-        <TableColumn containsButtons>
-          <ContainerActions
-            containerModel={container}
-            {...this.props}
-          />
-        </TableColumn>
-        <TableColumn>{container.name}</TableColumn>
-        <TableColumn>{container.properties.status}</TableColumn>
-        <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
-        <TableColumn containsButtons><ContainerIcon resourceType={container.properties.provider.resource_type} /></TableColumn>
-        <TableColumn>{container.properties.provider.name}</TableColumn>
-        <TableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
-        <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
-        <TableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</TableColumn>
-      </TableRow>
-    ));
+    const containers = this.props.model.map((container) => {
+      const providerType = parseChildClass(container.properties.provider.resource_type);
+      return (
+        <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
+          <TableColumn containsButtons>
+            <ContainerActions
+              containerModel={container}
+              {...this.props}
+            />
+          </TableColumn>
+          <TableColumn>{container.name}</TableColumn>
+          <TableColumn>{container.properties.status}</TableColumn>
+          <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
+          <TableColumn containsButtons><ContainerIcon resourceType={providerType} /></TableColumn>
+          <TableColumn>{container.properties.provider.name}</TableColumn>
+          <TableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
+          <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
+          <TableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</TableColumn>
+        </TableRow>
+      );
+    }
+    );
 
     return (
       <Row gutter={5}>
@@ -75,7 +79,7 @@ class ContainerItem extends PureComponent {
           <TableWrapper>
             <DataTable baseId="containers" plain>
               <TableHeader>
-                <TableRow>
+                <TableRow autoAdjust={false}>
                   <TableColumn />
                   <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Health</TableColumn>

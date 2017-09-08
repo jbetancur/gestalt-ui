@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button } from 'components/Buttons';
+import { Button, ClipboardButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
 class ContainerDetails extends PureComponent {
   static propTypes = {
     containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    providerType: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -15,11 +16,17 @@ class ContainerDetails extends PureComponent {
   }
 
   renderInstancesRows() {
-    const { match, containerModel } = this.props;
+    const { match, containerModel, providerType } = this.props;
 
     return containerModel.properties.instances.map((item, i) => (
       <TableRow key={i}>
         <TableColumn containsButtons>
+          {providerType === 'Kubernetes' && <ClipboardButton
+            showUUID={false}
+            text={`kubectl exec --namespace ${match.params.environmentId} -ti ${item.id} -- /bin/bash`}
+            tooltipLabel="Copy console access cmd"
+            tooltipPosition="right"
+          />}
           <Button
             icon
             tooltipLabel="View Log"
@@ -51,7 +58,7 @@ class ContainerDetails extends PureComponent {
         <TableCardHeader title={<span className="gf-headline">{`Instances (${this.props.containerModel.properties.instances.length}/${this.props.containerModel.properties.num_instances})`}</span>} />
         <DataTable plain>
           <TableHeader>
-            <TableRow>
+            <TableRow autoAdjust={false}>
               <TableColumn />
               <TableColumn>Host Address</TableColumn>
               <TableColumn>Container Addresses</TableColumn>
@@ -66,41 +73,10 @@ class ContainerDetails extends PureComponent {
     );
   }
 
-  renderServiceAddressesRows() {
-    return this.props.containerModel.properties.port_mappings.map((port, i) => (
-      <TableRow key={i}>
-        <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
-        <TableColumn>{port.service_address && port.service_address.port}</TableColumn>
-        <TableColumn>{port.service_address && port.service_address.protocol}</TableColumn>
-      </TableRow>
-    ));
-  }
-
-  renderServiceAddressesTable() {
-    return (
-      <div>
-        <TableCardHeader title={<span className="gf-headline">Service Instances</span>} />
-        <DataTable plain>
-          <TableHeader>
-            <TableRow>
-              <TableColumn>Host</TableColumn>
-              <TableColumn>Port</TableColumn>
-              <TableColumn>Protocol</TableColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {this.renderServiceAddressesRows()}
-          </TableBody>
-        </DataTable>
-      </div>
-    );
-  }
-
   render() {
     return (
       <div>
         {(this.props.containerModel.properties.instances && Object.keys(this.props.containerModel.properties.instances).length) ? this.renderInstancesTable() : null}
-        {this.props.containerModel.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
       </div>
     );
   }

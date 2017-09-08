@@ -50,7 +50,7 @@ class VolumeListing extends Component {
       <DataTable plain>
         {volumes.length > 0 &&
           <TableHeader>
-            <TableRow>
+            <TableRow autoAdjust={false}>
               <TableColumn>Type</TableColumn>
               <TableColumn>Mode</TableColumn>
               <TableColumn>Host Path (Host Only)</TableColumn>
