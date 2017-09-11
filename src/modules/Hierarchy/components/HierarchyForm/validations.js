@@ -57,4 +57,6 @@ export default (values, props) => {
   if (values.description && values.description.length > nameMaxLen) {
     errors.description = i18next.t('containment.fields.description.errorText.length');
   }
+
+  return errors;
 };
