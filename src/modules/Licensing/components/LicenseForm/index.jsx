@@ -85,17 +85,19 @@ const LicenseForm = (props) => {
       <ModalFooter>
         <Button
           flat
-          label="Cancel"
           disabled={submitting}
           onClick={() => close()}
-        />
+        >
+          Cancel
+        </Button>
         <Button
           raised
-          label={submitLabel}
           type="submit"
           disabled={pristine || invalid || submitting}
           primary
-        />
+        >
+          {submitLabel}
+        </Button>
       </ModalFooter>
     </form>
   );

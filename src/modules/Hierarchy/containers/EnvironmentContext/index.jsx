@@ -11,7 +11,7 @@ import { Policies } from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import { APIs } from 'modules/APIs';
 import ListItemStacked from 'components/ListItemStacked';
-import { ProviderIcon, LambdaIcon } from 'components/Icons';
+import { LambdaIcon } from 'components/Icons';
 import Div from 'components/Div';
 import Navbar from 'components/Navbar';
 import EnvironmentHeader from '../../components/EnvironmentHeader';
@@ -49,7 +49,7 @@ class EnvironmentContext extends Component {
 
     return [
       <ListItemStacked
-        icon="developer_board"
+        icon="memory"
         title="Containers"
         onClick={() => this.handleViewState('containers', 0)}
         className={navigation.index === 0 && 'active-link'}
@@ -73,11 +73,17 @@ class EnvironmentContext extends Component {
         className={navigation.index === 3 && 'active-link'}
       />,
       <ListItemStacked
-        icon={<ProviderIcon />}
+        icon="settings_applications"
         title="Providers"
         onClick={() => this.handleViewState('providers', 4)}
         className={navigation.index === 4 && 'active-link'}
       />,
+      // <ListItemStacked
+      //   icon="lock"
+      //   title="Secrets"
+      //   onClick={() => this.handleViewState('secrets', 5)}
+      //   className={navigation.index === 5 && 'active-link'}
+      // />,
     ];
   }
 
@@ -121,7 +127,7 @@ class EnvironmentContext extends Component {
           vertical
           items={this.renderNavItems()}
         />
-        <Div position="relative" style={{ paddingLeft: '4.2em' }}>
+        <Div paddingLeft="5em">
           <EnvironmentHeader
             model={environment}
             {...this.props}

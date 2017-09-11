@@ -64,14 +64,9 @@ const ContainerForm = (props) => {
           >
             <Card
               className={props.inlineMode ? 'md-no-paper' : ''}
-              expanderTooltipLabel="Configure for Redeploy"
-              expanderIconChildren="edit"
-              primary
-              expanderIconClassName="material-icons--primary"
             >
               {!props.inlineMode &&
               <CardTitle
-                expander={container.id}
                 title={
                   <div>
                     <div>{props.title}</div>
@@ -88,7 +83,7 @@ const ContainerForm = (props) => {
                   </div>
                 }
               />}
-              <CardText expandable={container.id}>
+              <CardText>
                 <div className="flex-row">
                   {!values.properties.provider.id &&
                     <Field
@@ -205,18 +200,20 @@ const ContainerForm = (props) => {
               <CardActions>
                 <Button
                   flat
-                  label={props.cancelLabel}
                   disabled={props.containerPending || props.submitting}
                   component={Link}
                   to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environments/${props.match.params.environmentId}`}
-                />
+                >
+                  {props.cancelLabel}
+                </Button>
                 <Button
                   raised
-                  label={props.submitLabel}
                   type="submit"
                   disabled={container.id ? props.containerPending || props.containerUpdatePending || props.invalid || props.submitting : props.pristine || props.containerPending || props.containerUpdatePending || props.invalid || props.submitting}
                   primary
-                />
+                >
+                  {props.submitLabel}
+                </Button>
               </CardActions>}
             </Card>
           </Col>
@@ -260,7 +257,7 @@ const ContainerForm = (props) => {
               <ExpansionList>
                 {!values.properties.network ?
                   <div /> :
-                  <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0}>
+                  <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0} footer={null}>
                     <Row>
                       <Col flex>
                         <PortMapModal networkType={values.properties.network} />
@@ -279,7 +276,7 @@ const ContainerForm = (props) => {
                     </Row>
                   </ExpansionPanelNoPadding>}
 
-                <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0}>
+                <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0} footer={null}>
                   <Row>
                     <Col flex>
                       <VolumeModal providerType={parseChildClass(providerType)} />
@@ -298,7 +295,7 @@ const ContainerForm = (props) => {
                   </Row>
                 </ExpansionPanelNoPadding>
 
-                <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.properties.env.length > 0}>
+                <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.properties.env.length > 0} footer={null}>
                   <Row>
                     <Col flex={12}>
                       <VariablesForm
@@ -311,7 +308,7 @@ const ContainerForm = (props) => {
                   </Row>
                 </ExpansionPanel>
 
-                <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse" defaultExpanded={values.properties.labels.length > 0}>
+                <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse" defaultExpanded={values.properties.labels.length > 0} footer={null}>
                   <Row>
                     <Col flex={12}>
                       <VariablesForm addButtonLabel="Label" icon="add" fieldName="properties.labels" {...props} />
@@ -322,7 +319,7 @@ const ContainerForm = (props) => {
                 {/* TODO: Implement for Kubernetes/Docker when api is ready */}
                 {isHealthChecksEnabled ?
                   <div /> :
-                  <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0}>
+                  <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0} footer={null}>
                     <Row>
                       <Col flex>
                         <HealthCheckModal />
@@ -341,7 +338,7 @@ const ContainerForm = (props) => {
                     </Row>
                   </ExpansionPanelNoPadding>}
 
-                <ExpansionPanel label={<h3>Optional</h3>} saveLabel="Collapse">
+                <ExpansionPanel label={<h3>Optional</h3>} saveLabel="Collapse" footer={null}>
                   <Field
                     className="flex-5 flex-xs-12"
                     component={TextField}

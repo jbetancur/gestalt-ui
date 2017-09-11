@@ -61,6 +61,7 @@ const LambdaForm = (props) => {
                     />
                     <Button
                       icon
+                      iconChildren="subject"
                       tooltipPosition="bottom"
                       tooltipLabel="View Log"
                       to={{
@@ -70,16 +71,14 @@ const LambdaForm = (props) => {
                       target="_blank"
                       component={Link}
                       showUUID
-                    >subject
-                    </Button>
+                    />
                     <Button
                       icon
+                      iconChildren="security"
                       tooltipPosition="bottom"
                       tooltipLabel="Entitlements"
                       onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                    >
-                      security
-                    </Button>
+                    />
                   </div>
                 </div>
               </ActionsToolbar>}
@@ -317,17 +316,19 @@ const LambdaForm = (props) => {
             <CardActions className="flex-row no-gutter">
               <Button
                 flat
-                label={props.cancelLabel}
                 disabled={props.lambdaPending || props.submitting}
                 onClick={() => props.history.goBack()}
-              />
+              >
+                {props.cancelLabel}
+              </Button>
               <Button
                 raised
-                label={props.submitLabel}
                 type="submit"
                 disabled={props.pristine || props.lambdaPending || props.invalid || props.submitting}
                 primary
-              />
+              >
+                {props.submitLabel}
+              </Button>
             </CardActions>
           </Col>
         </Row>

@@ -158,16 +158,19 @@ const HealthCheckForm = (props) => {
       <ModalFooter>
         <Button
           flat
-          label="Cancel"
           onClick={() => close()}
-        />
+          Cancel
+        >
+          Cancel
+        </Button>
         <Button
           flat
-          label="Add Health Check"
           type="submit"
           disabled={props.pristine || props.invalid || props.submitting}
           primary
-        />
+        >
+          Add Health Check
+        </Button>
       </ModalFooter>
     </form>
   );

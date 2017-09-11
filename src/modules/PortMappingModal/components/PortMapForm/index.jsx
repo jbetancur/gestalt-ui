@@ -87,16 +87,18 @@ const PortMapForm = (props) => {
       <ModalFooter>
         <Button
           flat
-          label="Cancel"
           onClick={() => close()}
-        />
+        >
+          Cancel
+        </Button>
         <Button
           flat
-          label="Add Port Mapping"
           type="submit"
           disabled={props.pristine || props.invalid || props.submitting}
           primary
-        />
+        >
+          Add Port Mapping
+        </Button>
       </ModalFooter>
     </form>
   );

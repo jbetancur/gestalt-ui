@@ -54,7 +54,7 @@ class PolicyRuleItem extends PureComponent {
         primary
         fullWidth
         position="below"
-        buttonChildren="add"
+        iconChildren="add"
       >
         {this.renderCreateMenuItems()}
       </MenuButton>

@@ -138,11 +138,11 @@ export default class ConfigureProvider extends Component {
             <Button
               floating
               primary
-              label="Add Environment Variable"
+              iconChildren="add"
               type="submit"
               onClick={this.addSchemaItem}
             >
-            add
+              Add Environment Variable
             </Button>
 
             <div className="flex-row center-center">

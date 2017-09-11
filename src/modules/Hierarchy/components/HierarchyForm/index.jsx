@@ -88,17 +88,19 @@ const HierarchyForm = (props) => {
               <Col flex={10} xs={12}>
                 <Button
                   flat
-                  label={props.cancelLabel}
                   disabled={props.submitting}
                   onClick={() => props.history.goBack()}
-                />
+                >
+                  {props.cancelLabel}
+                </Button>
                 <Button
                   raised
-                  label={props.submitLabel}
                   type="submit"
                   disabled={props.pristine || props.pending || props.invalid || props.submitting}
                   primary
-                />
+                >
+                  {props.submitLabel}
+                </Button>
               </Col>
               <Col component={ActionIconSection} flex={2} xs={12}>
                 {editMode &&
@@ -106,10 +108,9 @@ const HierarchyForm = (props) => {
                     tooltipLabel="Entitlements"
                     tooltipPosition="top"
                     icon
+                    iconChildren="security"
                     onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                  >
-                  security
-                  </Button>}
+                  />}
               </Col>
             </Row>
           </Col>

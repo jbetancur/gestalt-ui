@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
 
-const EnhancedListItem = styled(ListItem)`
-  display: ${props => (props.visible ? 'visible' : 'none')};
+const EnhancedListItem = styled.div`
+  height: 56px;
+  text-decoration: none;
+  display: ${props => (props.visible ? 'flex' : 'none')};
+  align-items: center;
 
   @media screen and (min-width: 1025px) {
     .md-list-tile {
-      height: 48px;
+      height: 56px;
     }
   }
 
@@ -24,14 +26,27 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: .6em;
+  font-size: .7em;
+  margin-top: 6px;
+  padding-bottom: 1em;
+  text-align: center;
+  white-space: normal;
   text-transform: uppercase;
+`;
+
+const Icon = styled(FontIcon)`
+  font-size: 28px!important;
+
+  svg {
+    height: 28px;
+    width: 28px;
+  }
 `;
 
 const ListItemStacked = props => (
   <EnhancedListItem visible={props.visible} {...props}>
     <Wrapper>
-      <FontIcon>{props.icon}</FontIcon>
+      <Icon>{props.icon}</Icon>
       <Text>{props.title}</Text>
     </Wrapper>
   </EnhancedListItem>

@@ -37,10 +37,9 @@ class EnvironmentCard extends PureComponent {
           <Button
             tooltipLabel={t('general.verbs.edit')}
             icon
+            iconChildren="edit"
             onClick={e => this.props.onEditToggle(e, model)}
-          >
-            edit
-          </Button>
+          />
         </CardActions>
       </Card>
     );

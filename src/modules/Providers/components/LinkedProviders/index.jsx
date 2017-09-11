@@ -10,11 +10,11 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
   <div>
     <Button
       flat
+      iconChildren="add"
       primary
-      label="Linked Provider"
       onClick={() => fields.unshift({})}
     >
-      add
+      Linked Provider
     </Button>
     {touched && error}
     {fields.map((member, index) => (

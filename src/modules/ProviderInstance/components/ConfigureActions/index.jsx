@@ -215,10 +215,11 @@ export default class ConfigureActions extends PureComponent {
             <Button
               raised
               primary
-              label="Add Action"
               type="submit"
               onClick={this.handleSubmit}
-            />
+            >
+              Add Action
+            </Button>
           </div>
 
           <div className="flex-row center-center">

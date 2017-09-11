@@ -11,17 +11,14 @@ const UL = styled.ul`
     padding-left: 1em;
 
     .md-selection-control-container {
-      height: 1.3em;
+      height: 1.5em;
     }
 
     .md-btn--icon {
       height: 1.3em;
       padding: 0;
+      padding-right: 1.6em;
       width: 1.3em;
-    }
-
-    i {
-      font-size: 1.3em;
     }
 `;
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
-import { DeleteIcon, ProviderIcon } from 'components/Icons';
+import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -41,9 +41,9 @@ class WorkspaceActions extends PureComponent {
         <MenuButton
           id="workspace-settings-menu"
           position="below"
-          buttonChildren="add"
+          iconChildren="add"
           flat
-          contained={false}
+          sameWidth={false}
           label="Create"
         >
           <ListItem
@@ -58,7 +58,7 @@ class WorkspaceActions extends PureComponent {
             id="workspace-settings-menu--provider-create"
             primaryText="Provider"
             component={Link}
-            leftIcon={<ProviderIcon />}
+            leftIcon={<FontIcon>settings_applications</FontIcon>}
             to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/create`}
             onClick={() => handleNavigation('workspace', 'providers', 1)}
             style={listItemStyle}
@@ -66,26 +66,25 @@ class WorkspaceActions extends PureComponent {
         </MenuButton>
         <Button
           flat
-          label={<span>Edit</span>}
+          iconChildren="edit"
           component={Link}
           to={`/${match.params.fqon}/hierarchy/${workspace.id}/editWorkspace`}
         >
-          edit
+        Edit
         </Button>
         <Button
           flat
-          label={<span>Entitlements</span>}
+          iconChildren="security"
           onClick={() => this.props.showEntitlementsModal(name, match.params, 'Workspace')}
         >
-          security
+        Entitlements
         </Button>
         <Button
           flat
-          label={<span>Delete</span>}
-          leftIcon={<DeleteIcon />}
+          iconChildren={<DeleteIcon />}
           onClick={e => this.delete(e)}
         >
-          <DeleteIcon />
+          Delete
         </Button>
       </Div>
     );

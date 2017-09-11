@@ -153,10 +153,10 @@ export default class Stepper extends Component {
           {steps[activeStep].component}
         </Steps>
         <Actions>
-          {activeStep > 0 && <Button flat label="Previous" onClick={() => this.previousStep()} />}
+          {activeStep > 0 && <Button flat onClick={() => this.previousStep()}>Previous</Button>}
           {activeStep === steps.length - 1 ?
-            <Button label="Finish" primary raised disabled={!!steps[activeStep].exitValidation} onClick={onFinish} /> :
-            <Button label="Next" primary raised disabled={!!steps[activeStep].exitValidation} onClick={() => this.nextStep()} />}
+            <Button primary raised disabled={!!steps[activeStep].exitValidation} onClick={onFinish}>Finish</Button> :
+            <Button primary raised disabled={!!steps[activeStep].exitValidation} onClick={() => this.nextStep()}>Next</Button>}
         </Actions>
       </StepperContainer>
     );

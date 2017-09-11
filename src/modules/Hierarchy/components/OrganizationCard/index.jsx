@@ -52,10 +52,9 @@ class OrganizationCard extends PureComponent {
           <Button
             tooltipLabel={t('general.verbs.edit')}
             icon
+            iconChildren="edit"
             onClick={e => this.edit(e, model)}
-          >
-            edit
-          </Button>
+          />
         </CardActions>
       </Card>
     );

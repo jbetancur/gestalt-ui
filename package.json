@@ -250,7 +250,7 @@
         "react-inlinesvg": "^0.6.2",
         "react-intl": "^2.3.0",
         "react-json-tree": "^0.10.9",
-        "react-md": "^1.0.19",
+        "react-md": "^1.1.0",
         "react-redux": "^5.0.6",
         "react-router-dom": "^4.2.2",
         "react-router-redux": "next",
@@ -265,8 +265,9 @@
         "redux-thunk": "^2.2.0",
         "reselect": "^3.0.1",
         "sanitize.css": "^5.0.0",
+        "sinon-chai": "^2.13.0",
         "styled-components": "^2.1.2",
         "universal-cookie": "^2.0.8",
-        "validator": "^8.1.0"
+        "validator": "^8.2.0"
     }
 }

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FontIcon from 'react-md/lib/FontIcons';
+import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
@@ -38,12 +38,12 @@ class apiEndpointItem extends PureComponent {
     return (
       <Button
         id="create-endpoint"
-        label="Create Endpoint"
         flat
         primary
         onClick={this.props.onCreateToggle}
+        iconChildren="add"
       >
-        <FontIcon>add</FontIcon>
+        Create Endpoint
       </Button>
     );
   }
@@ -89,7 +89,7 @@ class apiEndpointItem extends PureComponent {
         <DataTable baseId="apiEndpoints" onRowToggle={this.handleRowToggle}>
           {this.props.model.length > 0 &&
           <TableHeader>
-            <TableRow autoAdjust={false}>
+            <TableRow>
               <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>
               <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
               <TableColumn>Methods</TableColumn>

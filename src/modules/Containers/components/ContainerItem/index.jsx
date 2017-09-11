@@ -14,8 +14,8 @@ import ContainerIcon from '../ContainerIcon';
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
   .md-data-table--responsive {
-    padding-bottom: 250px;
-    margin-bottom: -250px;
+    padding-bottom: 350px;
+    margin-bottom: -350px;
   }
 `;
 
@@ -48,7 +48,7 @@ class ContainerItem extends PureComponent {
       const providerType = parseChildClass(container.properties.provider.resource_type);
       return (
         <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
-          <TableColumn containsButtons>
+          <TableColumn>
             <ContainerActions
               containerModel={container}
               {...this.props}
@@ -57,7 +57,7 @@ class ContainerItem extends PureComponent {
           <TableColumn>{container.name}</TableColumn>
           <TableColumn>{container.properties.status}</TableColumn>
           <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
-          <TableColumn containsButtons><ContainerIcon resourceType={providerType} /></TableColumn>
+          <TableColumn><ContainerIcon resourceType={providerType} /></TableColumn>
           <TableColumn>{container.properties.provider.name}</TableColumn>
           <TableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
           <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
@@ -79,7 +79,7 @@ class ContainerItem extends PureComponent {
           <TableWrapper>
             <DataTable baseId="containers" plain>
               <TableHeader>
-                <TableRow autoAdjust={false}>
+                <TableRow>
                   <TableColumn />
                   <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Health</TableColumn>

@@ -106,8 +106,8 @@ class App extends Component {
         flat={browser.greaterThan.xs}
         icon={browser.lessThan.sm}
         label={browser.greaterThan.xs && self.name}
-        buttonChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
-        position={MenuButton.Positions.TOP_RIGHT}
+        iconChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
+        position={browser.lessThan.sm ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
         iconBefore={false}
       >
         <ListItem
@@ -141,7 +141,7 @@ class App extends Component {
       <MenuButton
         id="info-menu"
         icon
-        buttonChildren="info_outline"
+        iconChildren="info_outline"
         position={MenuButton.Positions.TOP_RIGHT}
         style={{ verticalAlign: 'middle' }}
       >

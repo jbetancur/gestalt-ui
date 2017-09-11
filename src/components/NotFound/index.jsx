@@ -74,12 +74,14 @@ const NotFound = props => (
         <P fontSize={14}>{lyrics[Math.floor(Math.random() * lyrics.length)]}</P>
       </Row>
       <Row justifyContent="center">
-        <Button
-          primary
-          raised
-          label={`Navigate back to ${props.match.params.fqon}`}
-          onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
-        />
+        {props.match.params.fqon &&
+          <Button
+            primary
+            raised
+            onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
+          >
+            {`Navigate back to ${props.match.params.fqon}`}
+          </Button>}
       </Row>
     </Row>
     <Row justifyContent="center">

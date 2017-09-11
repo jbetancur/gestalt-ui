@@ -249,7 +249,7 @@ const ProviderForm = (props) => {
             xs={12}
             sm={12}
             md={12}
-            // expanderIconChildren="edit"
+            // expanderIcon="edit"
             // expanderTooltipLabel="Edit"
             // expanderIconClassName="material-icons--primary"
           >
@@ -310,17 +310,19 @@ const ProviderForm = (props) => {
             <CardActions>
               <Button
                 flat
-                label={props.cancelLabel}
                 disabled={props.providerUpdatePending || props.providerPending || props.submitting}
                 onClick={() => goBack()}
-              />
+              >
+                {props.cancelLabel}
+              </Button>
               <Button
                 raised
-                label={props.submitLabel}
                 type="submit"
                 disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
                 primary
-              />
+              >
+                {props.submitLabel}
+              </Button>
             </CardActions>
           </Col>
         </Row>
@@ -330,7 +332,7 @@ const ProviderForm = (props) => {
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12} md={12}>
             <ExpansionList>
-              <ExpansionPanel label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded>
+              <ExpansionPanel label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded footer={null}>
                 <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
               </ExpansionPanel>
             </ExpansionList>

@@ -47,7 +47,7 @@ class HealthCheckListing extends Component {
         <TableColumn>{item.port}</TableColumn>
         <TableColumn>{item.port_index}</TableColumn>
         <TableColumn>{item.ignore_http_1xx && <FontIcon>checked</FontIcon>}</TableColumn>
-        <TableColumn containsButtons><FieldRemoveButton onClick={() => this.remove(item)} inTable /></TableColumn>
+        <TableColumn><FieldRemoveButton onClick={() => this.remove(item)} inTable /></TableColumn>
       </TableRow>
     ));
   }
@@ -59,7 +59,7 @@ class HealthCheckListing extends Component {
       <DataTable plain>
         {healthChecks.length > 0 &&
           <TableHeader>
-            <TableRow autoAdjust={false}>
+            <TableRow>
               <TableColumn>Protocol</TableColumn>
               <TableColumn>Grace Period</TableColumn>
               <TableColumn>Interval</TableColumn>

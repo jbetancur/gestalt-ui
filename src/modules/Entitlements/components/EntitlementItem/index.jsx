@@ -101,8 +101,16 @@ class EntitlementItem extends Component {
       <ListItem
         key={ident.id}
         primaryText={ident.name}
-        rightIcon={this.props.selectedIdentity.id === ident.id ?
-          <Button flat primary label="Save" style={{ marginTop: '-.3em' }} onClick={e => this.update(e)} disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending} /> : null}
+        rightIcon={this.props.selectedIdentity.id === ident.id &&
+          <Button
+            flat
+            primary
+            style={{ marginTop: '-.3em' }}
+            onClick={e => this.update(e)}
+            disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending}
+          >
+            Save
+          </Button>}
         leftIcon={<FontIcon>{ident.typeId === USER ? 'person' : 'group'}</FontIcon>}
         active={this.props.selectedIdentity.id === ident.id}
         onClick={() => this.handleSelectedIdentity(ident)}
@@ -121,7 +129,7 @@ class EntitlementItem extends Component {
                     id="filter-identities-remove"
                     label="filter identities"
                     leftIcon={<FontIcon>filter_list</FontIcon>}
-                    rightIcon={<Button icon onClick={() => this.props.clearIdentitiesFilter()}><FontIcon>clear</FontIcon></Button>}
+                    rightIcon={<Button icon iconChildren="clear" onClick={() => this.props.clearIdentitiesFilter()} />}
                     lineDirection="center"
                     value={this.props.identitiesFilter.filterText}
                     disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending}
