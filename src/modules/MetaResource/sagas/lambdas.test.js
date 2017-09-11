@@ -100,7 +100,7 @@ describe('Lambda Sagas', () => {
   });
 
   describe('fetchLambdasDropDown Sequence', () => {
-    describe('fetchProvidersByType when there are providers', () => {
+    describe('fetchLambdasDropDown when there are lambdas', () => {
       const saga = fetchLambdasDropDown({ fqon: 'iamfqon', environmentId: '1' });
       let result;
 

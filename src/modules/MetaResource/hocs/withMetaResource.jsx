@@ -145,6 +145,7 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       executorsDropDown: metaResource.executors.executors,
       lambdasDropDown: metaResource.lambdasDropDown.lambdas,
       containersDropDown: metaResource.containersDropDown.containers,
+      secretsDropDown: metaResource.secretsDropDown.secrets,
 
       // Subscriptions for Logging
       logProviderPending: metaResource.logProvider.pending,
@@ -155,6 +156,13 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       actionsPending: metaResource.actions.pending,
       contextActions: metaResource.contextActions.contextActions,
       contextActionsPending: metaResource.contextActions.pending,
+
+
+      // Subscriptions for Secrets
+      secrets: metaResource.secrets.secrets,
+      secretsPending: metaResource.secrets.pending,
+      secret: metaResource.secret.secret,
+      secretPending: metaResource.secret.pending,
     };
   }
 
