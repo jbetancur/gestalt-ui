@@ -15,6 +15,7 @@ import apiEndpointModel from '../models/apiEndpoint';
 import providerModel from '../models/provider';
 import containerModel from '../models/container';
 import envSchemaModel from '../models/envSchema';
+import secretModel from '../models/secret';
 
 // Bespoke Reducers
 import currentOrgContext from './currentOrgContext';
@@ -79,4 +80,7 @@ export default combineReducers({
   logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }, true),
   actions: reducerFactory(['fetch'], 'actions', 'actions', [], true),
   contextActions: reducerFactory(['fetch'], 'contextActions', 'context_actions', [], true),
+  secrets: reducerFactory(['fetch', 'delete'], 'secrets', 'secrets', []),
+  secret: reducerFactory(['fetch', 'create', 'update'], 'usesecretr', 'secret', secretModel, true),
+  secretsDropDown: reducerFactory(['fetch'], 'secrets', 'secrets_dropdown', [], true, []),
 });
