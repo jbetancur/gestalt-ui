@@ -22,6 +22,7 @@ import LoginModal from 'modules/Auth/components/LoginModal';
 import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
 import { loginActions } from 'modules/Auth';
 import { withMetaResource } from 'modules/MetaResource';
+import Main from '../../components/Main';
 import AppError from '../../components/AppError';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
 import actions from '../../actions';
@@ -189,7 +190,7 @@ class App extends Component {
   renderMain() {
     return (
       this.props.self.id ?
-        <main>
+        <Main>
           <Toolbar
             colored
             fixed
@@ -199,7 +200,7 @@ class App extends Component {
           <LoginModal />
           <ModalRoot />
           <HierarchyRoot />
-        </main> : <AppError {...this.props} />
+        </Main> : <AppError {...this.props} />
     );
   }
 
