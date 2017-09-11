@@ -207,7 +207,7 @@ class ContainerActions extends Component {
           icon={!this.props.inContainerView}
           flat={this.props.inContainerView}
           label={this.props.inContainerView && this.props.containerModel.properties.status}
-          buttonChildren="more_vert"
+          iconChildren="more_vert"
           position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
           tooltipLabel={!this.props.inContainerView && 'Actions'}
         >

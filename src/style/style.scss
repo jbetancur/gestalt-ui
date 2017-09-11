@@ -23,7 +23,6 @@ body {
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    font-size: 16px;
 }
 
 #app-root {
@@ -36,9 +35,9 @@ body {
     main {
         height: 100%;
         margin-top: 0;
-        padding-top: 4em;
+        padding-top: 4.6em;
         @media (min-width: 0) and (max-width: 768px) {
-             padding-top: 3.2em;
+             padding-top: 3.8em;
         }
     }
 }

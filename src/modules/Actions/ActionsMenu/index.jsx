@@ -19,7 +19,7 @@ class ActionsMenu extends PureComponent {
     style: PropTypes.object,
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
-    model: PropTypes.string.isRequired,
+    model: PropTypes.object.isRequired,
     icon: PropTypes.bool,
 
   };
@@ -83,7 +83,7 @@ class ActionsMenu extends PureComponent {
           <MenuButton
             id="orgs-actions-menu"
             disabled={pending}
-            buttonChildren="more_vert"
+            iconChildren="more_vert"
             flat={!icon}
             label={!icon && 'Actions'}
             icon={icon}

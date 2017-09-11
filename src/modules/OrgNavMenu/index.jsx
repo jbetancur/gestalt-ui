@@ -101,7 +101,7 @@ class OrgNavMenu extends Component {
         id="orgs-menu"
         label={this.props.currentOrgContext.description || currentOrgContext.name || ''}
         position={MenuButton.Positions.BELOW}
-        buttonChildren="expand_more"
+        iconChildren="expand_more"
         flat
         iconBefore={false}
         onClick={e => this.fetchOrgList(e)}

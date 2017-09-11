@@ -254,18 +254,18 @@ class Logging extends PureComponent {
               </ToolbarControls>
               <Button
                 icon
+                iconChildren="refresh"
                 tooltipLabel="Refresh Log"
                 onClick={() => this.fetchLogs(this.props, this.state)}
                 disabled={logProviderPending || logPending || !logProviderURL}
-              >refresh
-              </Button>
+              />
               <FontSizeButton
                 flipState={fontSize === fontSizes.lg ? 1 : -1}
                 icon
+                iconChildren="text_fields"
                 tooltipLabel="Toggle Font Size"
                 onClick={() => this.changeFontSize()}
-              >text_fields
-              </FontSizeButton>
+              />
               <FileDownloadButton
                 icon
                 data={logs.length && logs.join('\n')}
@@ -275,10 +275,10 @@ class Logging extends PureComponent {
               />
               <Button
                 icon
+                iconChildren="close"
                 tooltipLabel="Close"
                 onClick={() => window.close()}
-              >close
-              </Button>
+              />
             </ToolbarActions>
           </div>
         </Toolbar>
@@ -289,20 +289,20 @@ class Logging extends PureComponent {
               <ScrollButtons>
                 <TopScrollButton
                   icon
+                  iconChildren="arrow_upward"
                   primary
                   tooltipLabel="Scroll to Top"
                   tooltipPosition="left"
                   onClick={() => this.scrollToTop()}
-                >arrow_upward
-                </TopScrollButton>
+                />
                 <BottomScrollButton
                   icon
+                  iconChildren="arrow_downward"
                   primary
                   tooltipLabel="Scroll to Bottom"
                   tooltipPosition="left"
                   onClick={() => this.scrollToBottom()}
-                >arrow_downward
-                </BottomScrollButton>
+                />
               </ScrollButtons>
               <Pre>
                 <Code>

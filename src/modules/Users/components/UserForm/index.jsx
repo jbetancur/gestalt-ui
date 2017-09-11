@@ -104,17 +104,19 @@ const UserForm = (props) => {
             <CardActions>
               <Button
                 flat
-                label={props.cancelLabel}
                 disabled={props.userPending || props.submitting}
                 onClick={() => goBack()}
-              />
+              >
+                {props.cancelLabel}
+              </Button>
               <Button
                 raised
-                label={props.submitLabel}
                 type="submit"
                 disabled={props.pristine || props.userPending || props.userUpdatePending || props.invalid || props.submitting}
                 primary
-              />
+              >
+                {props.submitLabel}
+              </Button>
             </CardActions>
           </Card>
         </div>

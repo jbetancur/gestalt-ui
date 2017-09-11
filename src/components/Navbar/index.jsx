@@ -7,7 +7,7 @@ const NavbarContainer = styled.nav`
   left: 0;
   background-color: white;
   ${props => (props.vertical && 'bottom: 0')};
-  width: ${props => (props.vertical ? '68px' : '100%')};
+  width: ${props => (props.vertical ? '72px' : '100%')};
   // ${props => props.vertical && 'height: calc(100vh - 7.3em)'};
   border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
   padding-left: 0;
@@ -24,28 +24,21 @@ const NavbarContainer = styled.nav`
   }
 `;
 
-const List = styled.ul`
+const List = styled.div`
   list-style-type: none;
   margin: 0;
   padding: 0;
   align-self: center;
 `;
 
-const ListItem = styled.li`
+const ListItem = styled.div`
   color: inherit;
   display: inline-block;
-  height: 67px;
-  width: 67px;
+  width: 100%;
   font-size: 12px;
   cursor: pointer;
   align-self: center;
   text-align: center;
-  line-height: 40px;
-
-  * {
-    padding: 0;
-    // vertical-align: middle;
-  }
 `;
 
 class Navbar extends PureComponent {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FontIcon from 'react-md/lib/FontIcons';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
@@ -46,12 +45,12 @@ class ProviderItem extends PureComponent {
       this.props.self.name === 'gfdemo' &&
         <Button
           id="create-provider-instance"
-          label="Create Provider Instance"
           flat
+          iconChildren="add"
           primary
           onClick={this.props.onToggleInstanceModal}
         >
-          <FontIcon>add</FontIcon>
+          Create Provider Instance
         </Button>
     );
   }
@@ -86,7 +85,7 @@ class ProviderItem extends PureComponent {
           <DataTable baseId="providers" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&
             <TableHeader>
-              <TableRow autoAdjust={false}>
+              <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                 <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
                 <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>

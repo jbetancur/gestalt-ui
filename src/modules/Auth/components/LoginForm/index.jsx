@@ -25,6 +25,7 @@ const LoginCardHeader = styled.div`
   text-align: center;
   height: 4em;
   line-height: 4em;
+  font-size: 1.2em;
 
   * {
     color: ${props => props.theme.fontColorInverse};

@@ -62,7 +62,7 @@ class LambdaItem extends PureComponent {
 
     const lambdas = this.props.model.map(lambda => (
       <TableRow key={lambda.id} onClick={e => this.props.onEditToggle(lambda, e)}>
-        <TableColumn containsButtons>
+        <TableColumn>
           <ClipboardButton
             text={lambda.id}
             showUUID={false}
@@ -76,6 +76,7 @@ class LambdaItem extends PureComponent {
           />
           <Button
             icon
+            iconChildren="subject"
             tooltipLabel="View Log"
             tooltipPosition="bottom"
             to={{
@@ -84,8 +85,7 @@ class LambdaItem extends PureComponent {
             }}
             target="_blank"
             component={Link}
-          >subject
-          </Button>
+          />
         </TableColumn>
         <TableColumn>{lambda.name}</TableColumn>
         <TableColumn>{lambda.description}</TableColumn>

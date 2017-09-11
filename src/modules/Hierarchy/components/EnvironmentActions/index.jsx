@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
-import { DeleteIcon, ProviderIcon, LambdaIcon } from 'components/Icons';
+import { DeleteIcon, LambdaIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -41,16 +41,16 @@ class EnvironmentActions extends PureComponent {
         <MenuButton
           id="workspace-settings-menu"
           position="below"
-          buttonChildren="add"
+          iconChildren="add"
           flat
-          contained={false}
+          sameWidth={false}
           label="Create"
         >
           <ListItem
             id="workspace-settings-menu--container-create"
             primaryText="Container"
             component={Link}
-            leftIcon={<FontIcon>developer_board</FontIcon>}
+            leftIcon={<FontIcon>memory</FontIcon>}
             to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`}
             onClick={() => handleNavigation('environment', 'containers', 0)}
             style={listItemStyle}
@@ -86,7 +86,7 @@ class EnvironmentActions extends PureComponent {
             id="environment-settings-menu--provider-create"
             primaryText="Provider"
             component={Link}
-            leftIcon={<ProviderIcon />}
+            leftIcon={<FontIcon>settings_applications</FontIcon>}
             to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/providers/create`}
             onClick={() => handleNavigation('environment', 'providers', 4)}
             style={listItemStyle}
@@ -94,25 +94,25 @@ class EnvironmentActions extends PureComponent {
         </MenuButton>
         <Button
           flat
-          label="Edit"
+          iconChildren="edit"
           component={Link}
           to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/edit`}
         >
-          edit
+          Edit
         </Button>
         <Button
           flat
-          label="Entitlements"
+          iconChildren="security"
           onClick={() => this.props.showEntitlementsModal(name, match.params, 'Environment')}
         >
-          security
+          Entitlements
         </Button>
         <Button
           flat
-          label="Delete"
+          iconChildren={<DeleteIcon />}
           onClick={e => this.delete(e)}
         >
-          <DeleteIcon />
+          Delete
         </Button>
       </Div>
     );

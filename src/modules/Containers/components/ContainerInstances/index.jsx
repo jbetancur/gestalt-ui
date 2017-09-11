@@ -20,7 +20,7 @@ class ContainerDetails extends PureComponent {
 
     return containerModel.properties.instances.map((item, i) => (
       <TableRow key={i}>
-        <TableColumn containsButtons>
+        <TableColumn>
           {providerType === 'Kubernetes' && <ClipboardButton
             showUUID={false}
             text={`kubectl exec --namespace ${match.params.environmentId} -ti ${item.id} -- /bin/bash`}
@@ -29,6 +29,7 @@ class ContainerDetails extends PureComponent {
           />}
           <Button
             icon
+            iconChildren="subject"
             tooltipLabel="View Log"
             tooltipPosition="right"
             to={{
@@ -37,7 +38,8 @@ class ContainerDetails extends PureComponent {
             }}
             target="_blank"
             component={Link}
-          >subject
+          >
+            View Log
           </Button>
         </TableColumn>
         <TableColumn>{item.host}</TableColumn>
@@ -58,7 +60,7 @@ class ContainerDetails extends PureComponent {
         <TableCardHeader title={<span className="gf-headline">{`Instances (${this.props.containerModel.properties.instances.length}/${this.props.containerModel.properties.num_instances})`}</span>} />
         <DataTable plain>
           <TableHeader>
-            <TableRow autoAdjust={false}>
+            <TableRow>
               <TableColumn />
               <TableColumn>Host Address</TableColumn>
               <TableColumn>Container Addresses</TableColumn>

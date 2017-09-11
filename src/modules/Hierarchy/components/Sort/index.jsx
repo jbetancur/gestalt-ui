@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Col, Row } from 'react-flexybox';
 import SelectField from 'react-md/lib/SelectFields';
-import FontIcon from 'react-md/lib/FontIcons';
 import { Button } from 'components/Buttons';
-
-const IconDiv = styled.div`
-  margin-top: 1em;
-`;
 
 const SortOrderButton = styled(Button)`
   margin: 0;
@@ -31,9 +26,6 @@ const Sort = (props) => {
 
   return !!props.visible &&
     <Row gutter={5} paddingLeft="1em">
-      <IconDiv>
-        <FontIcon>sort</FontIcon>
-      </IconDiv>
       <Col
         component={SelectField}
         id="sort--key"
@@ -48,12 +40,11 @@ const Sort = (props) => {
       />
       <SortOrderButton
         icon
+        iconChildren={props.order === 'asc' ? 'arrow_upward' : 'arrow_downward'}
         tooltipLabel={props.order === 'asc' ? 'ascending' : 'descending'}
         tooltipPosition="right"
         onClick={() => handleSort(props.order)}
-      >
-        {props.order === 'asc' ? 'arrow_upward' : 'arrow_downward'}
-      </SortOrderButton>
+      />
     </Row>;
 };
 

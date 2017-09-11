@@ -128,18 +128,20 @@ const GroupForm = (props) => {
             <CardActions>
               <Button
                 flat
-                label={cancelLabel}
                 disabled={groupUpdatePending || groupPending || submitting}
                 component={Link}
                 to={`/${match.params.fqon}/hierarchy`}
-              />
+              >
+                {cancelLabel}
+              </Button>
               <Button
                 raised
-                label={submitLabel}
                 type="submit"
                 disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
                 primary
-              />
+              >
+                {submitLabel}
+              </Button>
             </CardActions>
           </Card>
         </div>
@@ -159,7 +161,7 @@ const GroupForm = (props) => {
                       id="filter-users-remove"
                       label="filter available users"
                       leftIcon={<FontIcon>filter_list</FontIcon>}
-                      rightIcon={<Button icon onClick={() => clearAvailableUsersFilter()}><FontIcon>clear</FontIcon></Button>}
+                      rightIcon={<Button icon iconChildren="clear" onClick={() => clearAvailableUsersFilter()} />}
 
                       value={availableUsersFilter.filterText}
                       onChange={value => filterAvailableUsers(value)}
@@ -176,7 +178,7 @@ const GroupForm = (props) => {
                       id="filter-users-remove"
                       label="filter members"
                       leftIcon={<FontIcon>filter_list</FontIcon>}
-                      rightIcon={<Button icon onClick={() => clearMemberUsersFilter()}><FontIcon>clear</FontIcon></Button>}
+                      rightIcon={<Button icon iconChildren="clear" onClick={() => clearMemberUsersFilter()} />}
 
                       value={props.memberUsersFilter.filterText}
                       onChange={value => filterMemberUsers(value)}

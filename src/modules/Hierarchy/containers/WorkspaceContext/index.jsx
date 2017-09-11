@@ -8,7 +8,6 @@ import { Providers } from 'modules/Providers';
 import ListItemStacked from 'components/ListItemStacked';
 import Div from 'components/Div';
 import Navbar from 'components/Navbar';
-import { ProviderIcon } from 'components/Icons';
 import WorkspaceHeader from '../../components/WorkspaceHeader';
 import Environments from '../../containers/EnvironmentListing';
 import actions from '../../actions';
@@ -52,7 +51,7 @@ class WorkspaceContext extends PureComponent {
       />,
       <ListItemStacked
         title="Providers"
-        icon={<ProviderIcon />}
+        icon="settings_applications"
         onClick={() => this.handleViewState('providers', 1)}
         className={navigation.index === 1 && 'active-link'}
       />,
@@ -83,7 +82,7 @@ class WorkspaceContext extends PureComponent {
           vertical
           items={this.renderNavItems()}
         />
-        <Div position="relative" style={{ paddingLeft: '4.2em' }}>
+        <Div paddingLeft="5em">
           <WorkspaceHeader
             model={workspace}
             {...this.props}

@@ -9,7 +9,7 @@ import { Providers } from 'modules/Providers';
 import { Users } from 'modules/Users';
 import { Groups } from 'modules/Groups';
 import ListItemStacked from 'components/ListItemStacked';
-import { ProviderIcon, HierarchyIcon } from 'components/Icons';
+import { HierarchyIcon } from 'components/Icons';
 import Div from 'components/Div';
 import Navbar from 'components/Navbar';
 import HierarchyListing from '../HierarchyListing';
@@ -81,18 +81,21 @@ class HierarchyContext extends PureComponent {
 
     return [
       <ListItemStacked
+        key="organizations"
         title={t('organizations.title')}
         icon={<HierarchyIcon />}
         onClick={() => this.handleViewState('hierarchy', 0)}
         className={navigation.index === 0 && 'active-link'}
       />,
       <ListItemStacked
+        key="providers"
         title={t('providers.title')}
-        icon={<ProviderIcon />}
+        icon="settings_applications"
         onClick={() => this.handleViewState('providers', 1)}
         className={navigation.index === 1 && 'active-link'}
       />,
       <ListItemStacked
+        key="users"
         title={t('users.title')}
         icon="person"
         onClick={() => this.handleViewState('users', 2)}
@@ -100,6 +103,7 @@ class HierarchyContext extends PureComponent {
         visible={match.params.fqon === 'root'}
       />,
       <ListItemStacked
+        key="users"
         title={t('groups.title')}
         icon="group"
         onClick={() => this.handleViewState('groups', 3)}
@@ -140,7 +144,7 @@ class HierarchyContext extends PureComponent {
           vertical
           items={this.renderNavItems()}
         />
-        <Div position="relative" style={{ paddingLeft: '4.2em' }}>
+        <Div paddingLeft="5em">
           <HierarchyHeader
             model={organizationSet}
             {...this.props}

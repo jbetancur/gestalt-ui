@@ -95,18 +95,20 @@ const APIForm = (props) => {
             <CardActions>
               <Button
                 flat
-                label={cancelLabel}
                 disabled={apiPending || submitting}
                 component={Link}
                 to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
-              />
+              >
+                {cancelLabel}
+              </Button>
               <Button
                 raised
-                label={submitLabel}
                 type="submit"
                 disabled={pristine || apiPending || apiUpdatePending || invalid || submitting}
                 primary
-              />
+              >
+                {submitLabel}
+              </Button>
             </CardActions>
           </Col>
 

@@ -5,6 +5,7 @@ const EnhancedButton = styled(Button)`
   margin-left: .1em;
   margin-right: .1em;
   text-align: center;
+  font-weight: normal;
 `;
 
 export default EnhancedButton;

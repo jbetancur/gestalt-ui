@@ -134,18 +134,20 @@ const PolicyEventRuleForm = (props) => {
           <CardActions>
             <Button
               flat
-              label={cancelLabel}
               disabled={policyRulePending || submitting}
               component={Link}
               to={backLink}
-            />
+            >
+              {cancelLabel}
+            </Button>
             <Button
               raised
-              label={submitLabel}
               type="submit"
               disabled={pristine || lambdasDropDownPending || policyRulePending || invalid || submitting}
               primary
-            />
+            >
+              {submitLabel}
+            </Button>
           </CardActions>
         </Card>
       </div>

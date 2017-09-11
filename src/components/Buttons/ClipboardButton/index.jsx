@@ -27,13 +27,13 @@ class ClipboardButton extends PureComponent {
     return (
       <CopyToClipboard text={this.props.text}>
         <EnhancedButton
-          label={this.props.showUUID && this.props.text}
+          iconChildren="content_copy"
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel={this.props.tooltipLabel}
           flat={this.props.showUUID}
           icon={!this.props.showUUID}
         >
-        content_copy
+          {this.props.showUUID && this.props.text}
         </EnhancedButton>
       </CopyToClipboard>
     );

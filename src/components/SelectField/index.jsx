@@ -41,6 +41,7 @@ export default ({ input, required, meta: { touched, error }, menuItems, async, .
         errorText={error}
         menuItems={async ? compileMenuItems() : menuItems}
         lineDirection="center"
+        sameWidth
       /> :
       <SelectField
         id={input.name}
@@ -49,6 +50,7 @@ export default ({ input, required, meta: { touched, error }, menuItems, async, .
         error={touched && !!error}
         errorText={error}
         lineDirection="center"
+        sameWidth
       />
   );
 };

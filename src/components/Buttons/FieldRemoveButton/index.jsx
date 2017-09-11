@@ -21,11 +21,14 @@ const FieldRemoveButton = props => (
   <EnhancedButton
     className={cn({ 'in-table': props.inTable })}
     icon
+    iconChildren={
+      <StyledIcon>
+        <FontIcon inherit>remove_circle_outline</FontIcon>
+      </StyledIcon>
+    }
     marginTop={props.marginTop}
     {...props}
-  >
-    <StyledIcon><FontIcon>remove_circle_outline</FontIcon></StyledIcon>
-  </EnhancedButton>
+  />
 );
 
 

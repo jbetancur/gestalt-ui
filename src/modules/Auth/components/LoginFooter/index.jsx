@@ -10,10 +10,10 @@ const Wrapper = styled.div`
     z-index: 0;
     left: 0;
     bottom: 0;
-    height: 3em;
+    height: 4em;
     width: 100%;
     text-align: center;
-    padding: .3em;
+    padding: .9em;
 `;
 
 const A = styled.a`

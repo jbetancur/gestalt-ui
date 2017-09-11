@@ -5,7 +5,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
 import { getParentFQON } from 'util/helpers/strings';
-import { DeleteIcon, ProviderIcon } from 'components/Icons';
+import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -47,9 +47,9 @@ class HierarchyAction extends PureComponent {
         <MenuButton
           id="orgs-settings-menu"
           position="below"
-          buttonChildren="add"
+          iconChildren="add"
           flat
-          contained={false}
+          sameWidth={false}
           label="Create"
         >
           <ListItem
@@ -72,55 +72,55 @@ class HierarchyAction extends PureComponent {
             id="orgs-settings-menu--provider-create"
             primaryText={<span>{t('providers.actions.create')}</span>}
             component={Link}
-            leftIcon={<ProviderIcon />}
+            leftIcon={<FontIcon>settings_applications</FontIcon>}
             to={`/${organizationSet.properties.fqon}/hierarchy/providers/create`}
             onClick={() => handleNavigation('hierarchy', 'providers', 1)}
             style={listItemStyle}
           />
-          {organizationSet.properties.fqon === 'root' &&
-          <ListItem
-            id="orgs-settings-menu--users-create"
-            primaryText={<span>{t('users.actions.create')}</span>}
-            component={Link}
-            leftIcon={<FontIcon>person</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/hierarchy/users/create`}
-            onClick={() => handleNavigation('hierarchy', 'users', 2)}
-            style={listItemStyle}
-          />}
-          {organizationSet.properties.fqon === 'root' &&
-          <ListItem
-            id="orgs-settings-menu--groups-create"
-            primaryText={<span>{t('groups.actions.create')}</span>}
-            component={Link}
-            leftIcon={<FontIcon>group</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/hierarchy/groups/create`}
-            onClick={() => handleNavigation('hierarchy', 'groups', 3)}
-            style={listItemStyle}
-          />}
+          {organizationSet.properties.fqon === 'root' ?
+            <ListItem
+              id="orgs-settings-menu--users-create"
+              primaryText={<span>{t('users.actions.create')}</span>}
+              component={Link}
+              leftIcon={<FontIcon>person</FontIcon>}
+              to={`/${organizationSet.properties.fqon}/hierarchy/users/create`}
+              onClick={() => handleNavigation('hierarchy', 'users', 2)}
+              style={listItemStyle}
+            /> : <div />}
+          {organizationSet.properties.fqon === 'root' ?
+            <ListItem
+              id="orgs-settings-menu--groups-create"
+              primaryText={<span>{t('groups.actions.create')}</span>}
+              component={Link}
+              leftIcon={<FontIcon>group</FontIcon>}
+              to={`/${organizationSet.properties.fqon}/hierarchy/groups/create`}
+              onClick={() => handleNavigation('hierarchy', 'groups', 3)}
+              style={listItemStyle}
+            /> : <div />}
         </MenuButton>
 
         <Button
           flat
-          label="Edit"
+          iconChildren="edit"
           component={Link}
           to={`/${organizationSet.properties.fqon}/hierarchy/editOrganization`}
         >
-        edit
+          Edit
         </Button>
         <Button
           flat
-          label="Entitlements"
+          iconChildren="security"
           onClick={() => this.props.showEntitlementsModal(name, match.params, 'Organization')}
         >
-          security
+        Entitlements
         </Button>
         <Button
           disabled={deleteDisabled}
           flat
-          label="Delete"
+          iconChildren={<DeleteIcon />}
           onClick={e => this.delete(e, organizationSet)}
         >
-          <DeleteIcon />
+          Delete
         </Button>
       </Div>
     );

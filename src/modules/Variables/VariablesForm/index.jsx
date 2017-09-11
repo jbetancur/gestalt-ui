@@ -43,11 +43,11 @@ const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFiel
   <div>
     <Button
       flat
+      iconChildren={icon}
       primary
-      label={addButtonLabel}
       onClick={() => fields.unshift({})}
     >
-      {icon}
+      {addButtonLabel}
     </Button>
     {touched && error}
     {fields.map((member, index) => {

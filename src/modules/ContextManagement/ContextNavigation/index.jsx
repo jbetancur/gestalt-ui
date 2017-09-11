@@ -103,12 +103,12 @@ class ContextNavigation extends PureComponent {
               {detailsComponent &&
               <Button
                 flat
-                label="Details"
+                iconChildren={this.state.expanded ? 'expand_more' : 'expand_less'}
                 onClick={this.toggle}
                 tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
                 disabled={pending}
               >
-                {this.state.expanded ? 'expand_more' : 'expand_less'}
+                Details
               </Button>}
 
               <ActionsMenu
@@ -121,7 +121,7 @@ class ContextNavigation extends PureComponent {
             </Col>}
           {actionsComponent &&
           <Col flex={12}>
-            <ExpansionPanel expanded={this.state.expanded}>
+            <ExpansionPanel expanded={this.state.expanded} footer={null}>
               <DetailsPanel>{detailsComponent}</DetailsPanel>
             </ExpansionPanel>
           </Col>}

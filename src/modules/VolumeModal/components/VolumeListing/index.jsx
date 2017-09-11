@@ -38,7 +38,7 @@ class VolumeListing extends Component {
         <TableColumn>{item.container_path}</TableColumn>
         <TableColumn>{item.name}</TableColumn>
         <TableColumn>{item.persistent && item.persistent.size}</TableColumn>
-        <TableColumn containsButtons><FieldRemoveButton onClick={() => this.props.removeVolume(item)} inTable /></TableColumn>
+        <TableColumn><FieldRemoveButton onClick={() => this.props.removeVolume(item)} inTable /></TableColumn>
       </TableRow>
     ));
   }
@@ -50,7 +50,7 @@ class VolumeListing extends Component {
       <DataTable plain>
         {volumes.length > 0 &&
           <TableHeader>
-            <TableRow autoAdjust={false}>
+            <TableRow>
               <TableColumn>Type</TableColumn>
               <TableColumn>Mode</TableColumn>
               <TableColumn>Host Path (Host Only)</TableColumn>

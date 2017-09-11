@@ -12,13 +12,13 @@ const EnhancedLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
-      text-decoration: none;
-      color: ${props => props.theme.colors['$md-blue-300']};
+    text-decoration: none;
+    color: ${props => props.theme.colors['$md-blue-300']};
   }
 `;
 
 const Icon = styled(FontIcon)`
-  font-size: ${props => `${props.size}px`};
+  font-size: ${props => `${props.size}px !important`};
   line-height: 33px;
   padding: 1px;
 `;
@@ -77,7 +77,7 @@ class Breadcrumbs extends PureComponent {
   static defaultProps = {
     pending: false,
     className: '',
-    size: 15,
+    size: 16,
   }
 
   checkIfShouldNav(e, route) {
@@ -116,14 +116,13 @@ class Breadcrumbs extends PureComponent {
         {!isGestaltHome &&
         <Button
           icon
+          iconChildren={<Icon size={size}>arrow_upward</Icon>}
           disabled={pending}
           component={Link}
           to={parentOrgRoute}
           tooltipLabel={`${parentFQON}`}
           tooltipPosition="right"
-        >
-          <Icon size={size}>arrow_upward</Icon>
-        </Button>}
+        />}
 
         {orgName &&
         <EnhancedLink

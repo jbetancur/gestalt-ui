@@ -29,8 +29,8 @@ class ProvidererInstanceModal extends PureComponent {
   }
 
   render() {
-    const nav = <Button icon onClick={() => this.props.hideProviderInstanceModal()}>close</Button>;
-    const action = <Button flat label="Close" onClick={() => this.props.hideProviderInstanceModal()} />;
+    const nav = <Button icon iconChildren="close" onClick={() => this.props.hideProviderInstanceModal()} />;
+    const action = <Button flat onClick={() => this.props.hideProviderInstanceModal()}>Close</Button>;
 
     return (
       <EnhancedDialog

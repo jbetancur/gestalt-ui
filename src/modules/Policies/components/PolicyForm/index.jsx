@@ -64,18 +64,20 @@ const PolicyForm = (props) => {
             <CardActions>
               <Button
                 flat
-                label={cancelLabel}
                 disabled={policyPending || submitting}
                 component={Link}
                 to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
-              />
+              >
+                {cancelLabel}
+              </Button>
               <Button
                 raised
-                label={submitLabel}
                 type="submit"
                 disabled={pristine || policyPending || policyUpdatePending || invalid || submitting}
                 primary
-              />
+              >
+                {submitLabel}
+              </Button>
             </CardActions>
           </Card>
 

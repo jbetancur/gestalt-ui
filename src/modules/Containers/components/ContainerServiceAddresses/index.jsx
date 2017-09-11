@@ -27,7 +27,7 @@ class ContainerDetails extends PureComponent {
         <TableCardHeader title={<span className="gf-headline">Service Instances</span>} />
         <DataTable plain>
           <TableHeader>
-            <TableRow autoAdjust={false}>
+            <TableRow>
               <TableColumn>Host</TableColumn>
               <TableColumn>Port</TableColumn>
               <TableColumn>Protocol</TableColumn>

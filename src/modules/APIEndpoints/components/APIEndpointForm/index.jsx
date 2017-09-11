@@ -221,18 +221,20 @@ const APIEndpointForm = (props) => {
           <CardActions>
             <Button
               flat
-              label={cancelLabel}
               disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
               component={Link}
               to={backLink}
-            />
+            >
+              {cancelLabel}
+            </Button>
             <Button
               raised
-              label={submitLabel}
               type="submit"
               disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
               primary
-            />
+            >
+              {submitLabel}
+            </Button>
           </CardActions>
         </Col>
       </Row>

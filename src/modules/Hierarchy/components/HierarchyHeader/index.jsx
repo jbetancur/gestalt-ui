@@ -8,17 +8,15 @@ const HierarchyHeader = (props) => {
   const { model, orangizationSetPending, contextActions, contextActionsPending } = props;
 
   return (
-    <div>
-      <ContextNavigation
-        model={model}
-        pending={orangizationSetPending}
-        pendingContextActions={contextActionsPending}
-        breadcrumbComponent={<Breadcrumbs />}
-        actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...props} />}
-        detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...props} />}
-        actionsList={contextActions}
-      />
-    </div>
+    <ContextNavigation
+      model={model}
+      pending={orangizationSetPending}
+      pendingContextActions={contextActionsPending}
+      breadcrumbComponent={<Breadcrumbs />}
+      actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...props} />}
+      detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...props} />}
+      actionsList={contextActions}
+    />
   );
 };
 
