@@ -35,11 +35,11 @@ const Text = styled.div`
 `;
 
 const Icon = styled(FontIcon)`
-  font-size: 28px!important;
+  font-size: 24px!important;
 
   svg {
-    height: 28px;
-    width: 28px;
+    height: 24px;
+    width: 24px;
   }
 `;
 

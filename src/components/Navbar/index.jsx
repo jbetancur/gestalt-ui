@@ -17,10 +17,10 @@ const NavbarContainer = styled.nav`
   align-items: start;
   padding-top: 16px;
   z-index: 14;
-  top: 4em;
+  top: 4.6em;
 
   @media (min-width: 0) and (max-width: 768px) {
-    top: 3em;
+    top: 3.8em;
   }
 `;
 
