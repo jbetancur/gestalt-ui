@@ -45,7 +45,7 @@ class APIEdit extends Component {
         <ContextNavigation
           breadcrumbComponent={<Breadcrumbs />}
         />
-        {apiPending ?
+        {apiPending && !api.id ?
           <ActivityContainer id="api-loading" /> :
           <APIForm
             editMode

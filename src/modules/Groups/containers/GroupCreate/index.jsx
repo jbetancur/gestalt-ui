@@ -30,7 +30,7 @@ class GroupCreate extends Component {
       properties: {},
     };
 
-    const onSuccess = response => history.replace(`/${match.params.fqon}/groups/${response.id}/edit`);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/groups/${response.id}/edit`);
 
     createGroup(match.params.fqon, payload, onSuccess);
   }

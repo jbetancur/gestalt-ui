@@ -84,7 +84,7 @@ class ContainerItem extends PureComponent {
                   <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Health</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Platform</TableColumn>
+                  <TableColumn sorted={handleTableSortIcon('properties.provider.resource_type')} onClick={() => sortTable('properties.provider.resource_type')}>Platform</TableColumn>
                   <TableColumn sorted={handleTableSortIcon('properties.provider.name')} onClick={() => sortTable('properties.provider.name')}>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>
                   <TableColumn>CPU / Memory</TableColumn>

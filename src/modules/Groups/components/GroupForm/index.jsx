@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
+import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -97,9 +98,9 @@ const GroupForm = (props) => {
 
   return (
     <div>
-      <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+        <Row gutter={5} center>
+          <Col component={Card} flex={10} xs={12} sm={12}>
             <CardTitle
               title={props.title}
               subtitle={group.id}
@@ -143,8 +144,8 @@ const GroupForm = (props) => {
                 {submitLabel}
               </Button>
             </CardActions>
-          </Card>
-        </div>
+          </Col>
+        </Row>
       </form>
 
       {editMode &&

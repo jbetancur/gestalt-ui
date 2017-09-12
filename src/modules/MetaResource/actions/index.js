@@ -16,6 +16,7 @@ import env from './env';
 import self from './self';
 import logging from './logging';
 import actions from './actions';
+import secrets from './secrets';
 
 export default Object.assign({},
   context,
@@ -36,4 +37,5 @@ export default Object.assign({},
   self,
   logging,
   actions,
+  secrets,
 );

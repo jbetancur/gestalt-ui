@@ -1,6 +1,6 @@
 {
     "name": "gestalt-ui",
-    "version": "1.0.0",
+    "version": "1.4.0",
     "title": "Galactic Fog",
     "description": "gestalt ui",
     "engines": {
@@ -155,7 +155,7 @@
     "devDependencies": {
         "autoprefixer": "^7.1.4",
         "babel-core": "^6.26.0",
-        "babel-eslint": "^7.2.3",
+        "babel-eslint": "^8.0.0",
         "babel-loader": "^7.1.2",
         "babel-plugin-istanbul": "^4.1.4",
         "babel-plugin-react-intl": "^2.3.1",
@@ -248,9 +248,9 @@
         "react-ga": "^2.2.0",
         "react-i18next": "^4.8.0",
         "react-inlinesvg": "^0.6.2",
-        "react-intl": "^2.3.0",
+        "react-intl": "^2.4.0",
         "react-json-tree": "^0.10.9",
-        "react-md": "^1.1.0",
+        "react-md": "^1.1.1",
         "react-redux": "^5.0.6",
         "react-router-dom": "^4.2.2",
         "react-router-redux": "next",
@@ -267,7 +267,7 @@
         "sanitize.css": "^5.0.0",
         "sinon-chai": "^2.13.0",
         "styled-components": "^2.1.2",
-        "universal-cookie": "^2.0.8",
+        "universal-cookie": "^2.1.0",
         "validator": "^8.2.0"
     }
 }

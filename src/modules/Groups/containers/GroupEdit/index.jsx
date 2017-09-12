@@ -54,7 +54,7 @@ class GroupEdit extends Component {
         <ContextNavigation
           breadcrumbComponent={<Breadcrumbs />}
         />
-        {groupPending ?
+        {groupPending && !group.id ?
           <ActivityContainer id="group-loading" /> :
           <GroupForm
             editMode

@@ -49,7 +49,9 @@ const PolicyEventRuleForm = (props) => {
   };
 
   const handleAutoComplete = (value) => {
-    dispatch(change(form, editMode ? 'properties.lambda.id' : 'properties.lambda', lambdasDropDown.find(l => l.name === value).id));
+    const field = editMode ? 'properties.lambda.id' : 'properties.lambda';
+
+    dispatch(change(form, field, value));
   };
 
   return (

@@ -53,7 +53,6 @@ class UserListing extends PureComponent {
     const { match, fetchUsers, deleteUsers, clearTableSelected } = this.props;
     const { selectedItems } = this.props.selectedUsers;
     const userIds = selectedItems.map(item => (item.id));
-
     const userNames = selectedItems.map(item => (item.name));
 
     const onSuccess = () => {

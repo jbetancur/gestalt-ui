@@ -43,7 +43,7 @@ class PolicyEdit extends Component {
         <ContextNavigation
           breadcrumbComponent={<Breadcrumbs />}
         />
-        {policyPending ?
+        {policyPending && !policy.id ?
           <ActivityContainer id="policy-load" /> :
           <PolicyForm
             editMode
@@ -63,7 +63,7 @@ function mapStateToProps(state) {
 
   const model = {
     name: policy.name,
-    description: policy.description
+    description: policy.description,
   };
 
   return {
