@@ -6139,9 +6139,9 @@ react-event-listener@^0.5.0:
     prop-types "^15.5.10"
     warning "^3.0.0"
 
-react-flexybox@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-0.4.4.tgz#7eee849c387f21ee5422f1da0227b72a0cd5d4f8"
+react-flexybox@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-0.4.5.tgz#a76cc6f979150b6a966e85c192259bec8d43147e"
   dependencies:
     lodash.omit "^4.5.0"
     prop-types "^15.5.10"

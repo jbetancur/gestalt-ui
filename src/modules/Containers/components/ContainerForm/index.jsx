@@ -55,6 +55,9 @@ const ContainerForm = (props) => {
 
   return (
     <div>
+      <PortMapModal networkType={values.properties.network} />
+      <VolumeModal providerType={parseChildClass(providerType)} />
+      <HealthCheckModal />
       <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <Row gutter={5} center>
           <Col
@@ -260,7 +263,6 @@ const ContainerForm = (props) => {
                   <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0} footer={null}>
                     <Row>
                       <Col flex>
-                        <PortMapModal networkType={values.properties.network} />
                         <ListButton
                           id="port-mappings"
                           flat
@@ -279,7 +281,6 @@ const ContainerForm = (props) => {
                 <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0} footer={null}>
                   <Row>
                     <Col flex>
-                      <VolumeModal providerType={parseChildClass(providerType)} />
                       <ListButton
                         id="volume-modes"
                         flat
@@ -322,7 +323,6 @@ const ContainerForm = (props) => {
                   <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0} footer={null}>
                     <Row>
                       <Col flex>
-                        <HealthCheckModal />
                         <ListButton
                           id="health-checks"
                           flat
