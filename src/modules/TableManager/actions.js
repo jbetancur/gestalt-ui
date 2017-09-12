@@ -33,10 +33,12 @@ export function sortTable(key) {
  * @param {*} selectedItems
  */
 export function handleTableSelected(row, toggled, selectedCount, list, selectedItems) {
+  // TODO: row indexes are off buy 1 in react-md DataTable https://github.com/mlaursen/react-md/issues/243
+  const rowIndex = row - 1;
   const payload = {
     selectedCount,
     showTitle: selectedCount <= 0,
-    selectedItems: toggleHandler(row, toggled, selectedCount, selectedItems, list)
+    selectedItems: toggleHandler(rowIndex, toggled, selectedCount, selectedItems, list)
   };
 
   return { type: 'tableManager/SELECTED_ROWS', payload };

@@ -94,8 +94,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       apis: metaResource.apis.apis,
       apisPending: metaResource.apis.pending,
       apiPending: metaResource.api.pending,
-      apiUpdated: metaResource.apiUpdate.api,
-      apiUpdatePending: metaResource.apiUpdate.pending,
 
       // Subscriptions for apiEndpoints
       apiEndpoint: metaResource.apiEndpoint.apiEndpoint,
@@ -125,16 +123,12 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       policiesPending: metaResource.policies.pending,
       policy: metaResource.policy.policy,
       policyPending: metaResource.policy.pending,
-      policyUpdated: metaResource.policyUpdate.policy,
-      policyUpdatePending: metaResource.policyUpdate.pending,
 
       // Subscriptions for Policy Rules
       policyRules: metaResource.policyRules.policyRules,
       policyRulesPending: metaResource.policyRules.pending,
       policyRule: metaResource.policyRule.policyRule,
       policyRulePending: metaResource.policyRule.pending,
-      policyRuleUpdated: metaResource.policyRuleUpdate.policyRule,
-      policyRuleUpdatePending: metaResource.policyRuleUpdate.pending,
 
       // Subscriptions for Schema
       envSchema: metaResource.envSchema.schema,
@@ -156,7 +150,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       actionsPending: metaResource.actions.pending,
       contextActions: metaResource.contextActions.contextActions,
       contextActionsPending: metaResource.contextActions.pending,
-
 
       // Subscriptions for Secrets
       secrets: metaResource.secrets.secrets,

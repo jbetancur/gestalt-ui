@@ -33,7 +33,7 @@ class UserItem extends PureComponent {
 
   render() {
     const { selectedCount } = this.props.selectedUsers;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { model, usersPending, handleTableSortIcon, sortTable } = this.props;
 
     const users = this.props.model.map(user => (
       <TableRow key={user.id} onClick={e => this.props.onEditToggle(user, e)}>
@@ -57,9 +57,9 @@ class UserItem extends PureComponent {
             contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           />
-          {this.props.usersPending && <LinearProgress id="users-progress" />}
+          {usersPending && <LinearProgress id="users-progress" />}
           <DataTable baseId="Users" onRowToggle={this.handleRowToggle}>
-            {this.props.model.length > 0 &&
+            {model.length > 0 &&
             <TableHeader>
               <TableRow>
                 <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>

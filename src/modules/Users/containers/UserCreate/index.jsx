@@ -18,7 +18,7 @@ class UserCreate extends Component {
 
   create(values) {
     const { history, match, createUser } = this.props;
-    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
     createUser(match.params.fqon, values, onSuccess);
   }

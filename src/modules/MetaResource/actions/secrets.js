@@ -71,6 +71,7 @@ export function deleteSecrets(secretIds, fqon, onSuccess) {
 
 export default {
   fetchSecrets,
+  fetchSecretsDropDown,
   fetchSecret,
   createSecret,
   updateSecret,

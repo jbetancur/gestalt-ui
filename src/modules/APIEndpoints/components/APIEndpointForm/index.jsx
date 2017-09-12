@@ -61,7 +61,7 @@ const APIEndpointForm = (props) => {
   };
 
   const handleAutoComplete = (value) => {
-    dispatch(change(form, 'properties.implementation_id', lambdasDropDown.find(l => l.name === value).id));
+    dispatch(change(form, 'properties.implementation_id', value));
   };
 
   const resetForm = () => {
