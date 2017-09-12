@@ -18,7 +18,8 @@ import SelectField from 'components/SelectField';
 import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
 import { VariablesForm } from 'modules/Variables';
-import { ContainerCreate, ContainerDetails, ContainerActions } from 'modules/Containers';
+import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions } from 'modules/Containers';
+import { parseChildClass } from 'util/helpers/strings';
 import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
@@ -65,7 +66,8 @@ const ProviderForm = (props) => {
   };
 
   const renderExternalProtocolSection = () => (
-    selectedProviderType.externalProtocol && <Field
+    selectedProviderType.externalProtocol &&
+    <Field
       id="select-return-type"
       className="flex-2 flex-xs-12 flex-sm-4"
       component={SelectField}
@@ -211,7 +213,8 @@ const ProviderForm = (props) => {
   );
 
   const renderContainerSection = () => (
-    selectedProviderType.allowContainer &&
+    (selectedProviderType.allowContainer && !container.id) &&
+    <Col flex={10} xs={12} sm={12} md={12}>
       <Card title="Container">
         <CardTitle
           title="Container"
@@ -219,14 +222,43 @@ const ProviderForm = (props) => {
         />
         <ContainerCreate match={props.match} inlineMode />
       </Card>
+    </Col>
   );
 
-  const renderContainerDetailsPanel = () => (
-    selectedProviderType.allowContainer && container.id &&
-      <Card className="flex-10 flex-xs-12 flex-sm-12 flex-md-12">
-        <ContainerDetails containerModel={props.container} match={props.match} />
-      </Card>
+  const renderContainerInstancesPanel = () => (
+    (provider.id && selectedProviderType.allowContainer && container.id) &&
+    <Row gutter={5} center>
+      <Col
+        flex={10}
+        xs={12}
+        sm={12}
+        md={12}
+      >
+        <Card>
+          <ContainerInstances
+            containerModel={props.container}
+            match={props.match}
+            providerType={parseChildClass(provider.resource_type)}
+          />
+        </Card>
+      </Col>
+
+      <Col
+        flex={10}
+        xs={12}
+        sm={12}
+        md={12}
+      >
+        <Card>
+          <ContainerServiceAddresses
+            containerModel={props.container}
+            match={props.match}
+          />
+        </Card>
+      </Col>
+    </Row>
   );
+
 
   const renderContainerActions = () => (
     (selectedProviderType.allowContainer && container.id) &&
@@ -240,110 +272,106 @@ const ProviderForm = (props) => {
   );
 
   return (
-    <div>
-      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <Row gutter={5} center>
-          <Col
-            component={Card}
-            flex={10}
-            xs={12}
-            sm={12}
-            md={12}
-            // expanderIcon="edit"
-            // expanderTooltipLabel="Edit"
-            // expanderIconClassName="material-icons--primary"
-          >
-            <CardTitle
-              // expander
-              title={
-                <div>
-                  <div>{props.title}</div>
-                  {renderContainerActions()}
-                </div>
-              }
-              subtitle={provider.id}
-            />
-            <CardText>
-              <div className="flex-row">
-                <div className="flex-row">
-                  <Field
-                    id="select-provider"
-                    className="flex-3 flex-xs-12 flex-sm-6"
-                    component={SelectField}
-                    name="resource_type"
-                    menuItems={providerTypes}
-                    itemLabel="name"
-                    itemValue="value"
-                    required
-                    label="Provider Type"
-                    disabled={provider.id}
-                    async
-                    onChange={(a, value) => handleProviderChange(value)} // TODO: there is a bug with the first parram which should be the value
-                  />
-                  <Field
-                    className="flex-3 flex-xs-12 flex-sm-6"
-                    component={TextField}
-                    name="name"
-                    label="Name"
-                    type="text"
-                    required
-                    maxLength={nameMaxLen}
-                    disabled={provider.id}
-                  />
-                  <Field
-                    className="flex-6 flex-xs-12 flex-sm-12"
-                    component={TextField}
-                    name="description"
-                    label="Description"
-                    type="text"
-                  />
-                </div>
-                {renderConfigAndSecuritySections()}
-                {renderExternalProtocolSection()}
-                {renderEditorSection()}
-                {renderVariablesSection()}
-                {renderOtherConfigSection()}
-                {provider.id && renderJSONSection()}
+    <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      <Row gutter={5} center>
+        <Col
+          component={Card}
+          flex={10}
+          xs={12}
+          sm={12}
+          md={12}
+          // expanderIcon="edit"
+          // expanderTooltipLabel="Edit"
+          // expanderIconClassName="material-icons--primary"
+        >
+          <CardTitle
+            // expander
+            title={
+              <div>
+                <div>{props.title}</div>
+                {renderContainerActions()}
               </div>
-            </CardText>
-            {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
-            <CardActions>
-              <Button
-                flat
-                disabled={props.providerUpdatePending || props.providerPending || props.submitting}
-                onClick={() => goBack()}
-              >
-                {props.cancelLabel}
-              </Button>
-              <Button
-                raised
-                type="submit"
-                disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
-                primary
-              >
-                {props.submitLabel}
-              </Button>
-            </CardActions>
-          </Col>
-        </Row>
+            }
+            subtitle={provider.id}
+          />
+          <CardText>
+            <div className="flex-row">
+              <div className="flex-row">
+                <Field
+                  id="select-provider"
+                  className="flex-3 flex-xs-12 flex-sm-6"
+                  component={SelectField}
+                  name="resource_type"
+                  menuItems={providerTypes}
+                  itemLabel="name"
+                  itemValue="value"
+                  required
+                  label="Provider Type"
+                  disabled={provider.id}
+                  async
+                  onChange={(a, value) => handleProviderChange(value)} // TODO: there is a bug with the first parram which should be the value
+                />
+                <Field
+                  className="flex-3 flex-xs-12 flex-sm-6"
+                  component={TextField}
+                  name="name"
+                  label="Name"
+                  type="text"
+                  required
+                  maxLength={nameMaxLen}
+                  disabled={provider.id}
+                />
+                <Field
+                  className="flex-6 flex-xs-12 flex-sm-12"
+                  component={TextField}
+                  name="description"
+                  label="Description"
+                  type="text"
+                />
+              </div>
+              {renderConfigAndSecuritySections()}
+              {renderExternalProtocolSection()}
+              {renderEditorSection()}
+              {renderVariablesSection()}
+              {renderOtherConfigSection()}
+              {provider.id && renderJSONSection()}
+            </div>
+          </CardText>
+          {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
+          <CardActions>
+            <Button
+              flat
+              disabled={props.providerUpdatePending || props.providerPending || props.submitting}
+              onClick={() => goBack()}
+            >
+              {props.cancelLabel}
+            </Button>
+            <Button
+              raised
+              type="submit"
+              disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
+              primary
+            >
+              {props.submitLabel}
+            </Button>
+          </CardActions>
+        </Col>
+      </Row>
 
-        {!props.editMode ? <div /> : renderContainerDetailsPanel()}
+      {renderContainerInstancesPanel()}
 
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <ExpansionList>
-              <ExpansionPanel label={<h2>Linked Providers</h2>} saveLabel="Collapse" defaultExpanded footer={null}>
-                <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
-              </ExpansionPanel>
-            </ExpansionList>
-          </Col>
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ExpansionList>
+            <ExpansionPanel label={<h2>Linked Providers</h2>} defaultExpanded footer={null}>
+              <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
+            </ExpansionPanel>
+          </ExpansionList>
+        </Col>
 
-          <Col flex={10} xs={12} sm={12} md={12}>
-            {!props.editMode && renderContainerSection()}
-          </Col>
-        </Row>
-      </form>
-    </div>
+        {renderContainerSection()}
+      </Row>
+    </form>
   );
 };
 
@@ -370,7 +398,6 @@ ProviderForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   containerCreateInvalid: PropTypes.bool.isRequired,
-  editMode: PropTypes.bool,
   container: PropTypes.object,
 };
 
@@ -380,7 +407,6 @@ ProviderForm.defaultProps = {
   cancelLabel: 'Cancel',
   provider: {},
   providerUpdatePending: false,
-  editMode: false,
   container: {},
 };
 

@@ -69,7 +69,6 @@ class ProviderEdit extends PureComponent {
         {providerPending ?
           <ActivityContainer id="provider-load" /> :
           <ProviderForm
-            editMode
             title={provider.name}
             submitLabel="Update"
             cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}

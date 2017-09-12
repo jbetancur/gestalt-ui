@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, ClipboardButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
-class ContainerDetails extends PureComponent {
+class ContainerInstances extends PureComponent {
   static propTypes = {
     containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -85,4 +85,4 @@ class ContainerDetails extends PureComponent {
   }
 }
 
-export default ContainerDetails;
+export default ContainerInstances;

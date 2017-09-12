@@ -23,6 +23,12 @@ const Icon = styled(FontIcon)`
   padding: 1px;
 `;
 
+const BreadIcon = Icon.extend`
+  @media (min-width: 0) and (max-width: 659px) {
+    display: none;
+  }
+`;
+
 const IconSeperator = styled(FontIcon)`
   font-size: ${props => `${props.size}px`};
   line-height: 35px;
@@ -34,6 +40,10 @@ const Wrapper = styled.div`
   color: ${props => props.theme.colors['$md-grey-500']};
   line-height: 32px;
   padding-left: 3px;
+
+  @media (min-width: 0) and (max-width: 659px) {
+    font-size: ${props => `${props.size - 2}px`};
+  }
 
   span {
     line-height: 35px;
@@ -129,7 +139,7 @@ class Breadcrumbs extends PureComponent {
           onClick={e => this.checkIfShouldNav(e, orgsRoute)}
           to={orgsRoute}
         >
-          <span><Icon size={size}>domain</Icon>{orgName}</span>
+          <span><BreadIcon size={size}>domain</BreadIcon>{orgName}</span>
         </EnhancedLink>}
 
         {isWorkspaceCtx &&
@@ -138,7 +148,7 @@ class Breadcrumbs extends PureComponent {
             to={workspaceRoute}
           >
             <IconSeperator className="seperator" size={size}>chevron_right</IconSeperator>
-            <span><Icon size={size}>work</Icon>{workspaceName}</span>
+            <span><BreadIcon size={size}>work</BreadIcon>{workspaceName}</span>
           </EnhancedLink>}
 
         {isEnvironmentCtx &&
@@ -147,7 +157,7 @@ class Breadcrumbs extends PureComponent {
             to={environmentRoute}
           >
             <IconSeperator className="seperator" size={size}>chevron_right</IconSeperator>
-            <span><Icon size={size}>folder</Icon>{environmentName}</span>
+            <span><BreadIcon size={size}>folder</BreadIcon>{environmentName}</span>
           </EnhancedLink>}
       </Wrapper>
     );

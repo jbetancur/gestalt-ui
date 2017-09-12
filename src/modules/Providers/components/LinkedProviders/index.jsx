@@ -29,6 +29,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           required
         />
         <Field
+          id={`${member}.id`}
           name={`${member}.id`}
           component={SelectField}
           label="Provider"
