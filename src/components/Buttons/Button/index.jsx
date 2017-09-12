@@ -5,7 +5,11 @@ const EnhancedButton = styled(Button)`
   margin-left: .1em;
   margin-right: .1em;
   text-align: center;
-  font-weight: normal;
+
+  // fixes font when using React-Router-Link
+  .md-icon-text {
+    font-weight: normal;
+  }
 `;
 
 export default EnhancedButton;
