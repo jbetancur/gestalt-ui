@@ -21,7 +21,8 @@ class ContainerDetails extends PureComponent {
     return containerModel.properties.instances.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>
-          {providerType === 'Kubernetes' && <ClipboardButton
+          {providerType === 'Kubernetes' &&
+          <ClipboardButton
             showUUID={false}
             text={`kubectl exec --namespace ${match.params.environmentId} -ti ${item.id} -- /bin/bash`}
             tooltipLabel="Copy console access cmd"
