@@ -260,7 +260,7 @@ const ContainerForm = (props) => {
               <ExpansionList>
                 {!values.properties.network ?
                   <div /> :
-                  <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} saveLabel="Collapse" defaultExpanded={values.properties.port_mappings.length > 0} footer={null}>
+                  <ExpansionPanelNoPadding label={<h3>Port Mappings</h3>} defaultExpanded={values.properties.port_mappings.length > 0} footer={null}>
                     <Row>
                       <Col flex>
                         <ListButton
@@ -278,7 +278,7 @@ const ContainerForm = (props) => {
                     </Row>
                   </ExpansionPanelNoPadding>}
 
-                <ExpansionPanelNoPadding label={<h3>Volumes</h3>} saveLabel="Collapse" defaultExpanded={values.properties.volumes.length > 0} footer={null}>
+                <ExpansionPanelNoPadding label={<h3>Volumes</h3>} defaultExpanded={values.properties.volumes.length > 0} footer={null}>
                   <Row>
                     <Col flex>
                       <ListButton
@@ -296,7 +296,7 @@ const ContainerForm = (props) => {
                   </Row>
                 </ExpansionPanelNoPadding>
 
-                <ExpansionPanel label={<h3>Environment Variables</h3>} saveLabel="Collapse" defaultExpanded={values.properties.env.length > 0} footer={null}>
+                <ExpansionPanel label={<h3>Environment Variables</h3>} defaultExpanded={values.properties.env.length > 0} footer={null}>
                   <Row>
                     <Col flex={12}>
                       <VariablesForm
@@ -309,7 +309,7 @@ const ContainerForm = (props) => {
                   </Row>
                 </ExpansionPanel>
 
-                <ExpansionPanel label={<h3>Labels</h3>} saveLabel="Collapse" defaultExpanded={values.properties.labels.length > 0} footer={null}>
+                <ExpansionPanel label={<h3>Labels</h3>} defaultExpanded={values.properties.labels.length > 0} footer={null}>
                   <Row>
                     <Col flex={12}>
                       <VariablesForm addButtonLabel="Label" icon="add" fieldName="properties.labels" {...props} />
@@ -320,7 +320,7 @@ const ContainerForm = (props) => {
                 {/* TODO: Implement for Kubernetes/Docker when api is ready */}
                 {isHealthChecksEnabled ?
                   <div /> :
-                  <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} saveLabel="Collapse" defaultExpanded={values.properties.health_checks.length > 0} footer={null}>
+                  <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} defaultExpanded={values.properties.health_checks.length > 0} footer={null}>
                     <Row>
                       <Col flex>
                         <ListButton
@@ -338,7 +338,7 @@ const ContainerForm = (props) => {
                     </Row>
                   </ExpansionPanelNoPadding>}
 
-                <ExpansionPanel label={<h3>Optional</h3>} saveLabel="Collapse" footer={null}>
+                <ExpansionPanel label={<h3>Optional</h3>} footer={null}>
                   <Field
                     className="flex-5 flex-xs-12"
                     component={TextField}

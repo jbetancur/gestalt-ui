@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 
-class ContainerDetails extends PureComponent {
+class ContainerServiceAddresses extends PureComponent {
   static propTypes = {
     containerModel: PropTypes.object.isRequired,
   };
@@ -50,4 +50,4 @@ class ContainerDetails extends PureComponent {
   }
 }
 
-export default ContainerDetails;
+export default ContainerServiceAddresses;
