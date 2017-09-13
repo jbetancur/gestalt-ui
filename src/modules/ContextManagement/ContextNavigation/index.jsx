@@ -8,9 +8,9 @@ import { ActionsMenu } from 'modules/Actions';
 const ContextNavigationStyle = styled.div`
   background-color: ${props => props.theme.colors['$md-white']};
   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  padding: 8px;
+  padding: 10px 8px 10px 8px;
   text-align: left;
-  min-height: 48px;
+  min-height: 52px;
   width: 100%;
   overflow: visible;
 
@@ -121,7 +121,7 @@ class ContextNavigation extends PureComponent {
             </Col>}
           {actionsComponent &&
           <Col flex={12}>
-            <ExpansionPanel expanded={this.state.expanded} footer={null}>
+            <ExpansionPanel expanded={this.state.expanded}>
               <DetailsPanel>{detailsComponent}</DetailsPanel>
             </ExpansionPanel>
           </Col>}

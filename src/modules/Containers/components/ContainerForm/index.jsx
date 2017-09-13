@@ -222,7 +222,7 @@ const ContainerForm = (props) => {
           </Col>
         </Row>
 
-        {props.editMode &&
+        {(props.editMode && container.properties.instances.length > 0) &&
           <Row gutter={5} center>
             <Col
               flex={props.inlineMode ? 12 : 10}
