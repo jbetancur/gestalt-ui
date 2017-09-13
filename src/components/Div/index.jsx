@@ -10,6 +10,7 @@ const Div = styled.div`
   ${props => props.paddingLeft && `padding-left: ${props.paddingLeft}`};
   ${props => props.paddingBottom && `padding-bottom: ${props.paddingBottom}`};
   ${props => props.paddingRight && `padding-right: ${props.paddingRight}`};
+  ${props => props.height && `height: ${props.height}`};
 `;
 
 export default withTheme(Div);

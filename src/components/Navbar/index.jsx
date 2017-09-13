@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 
 const NavbarContainer = styled.nav`
-  position: absolute;
+  position: fixed;
+  top: 4.6em;
   left: 0;
+  bottom: 0;
   background-color: white;
   ${props => (props.vertical && 'bottom: 0')};
   width: ${props => (props.vertical ? '72px' : '100%')};
-  // ${props => props.vertical && 'height: calc(100vh - 7.3em)'};
   border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
   padding-left: 0;
   display: flex;
@@ -17,7 +18,8 @@ const NavbarContainer = styled.nav`
   align-items: start;
   padding-top: 16px;
   z-index: 14;
-  top: 4.6em;
+  height: 100%;
+  overflow: visible;
 
   @media (min-width: 0) and (max-width: 768px) {
     top: 3.8em;
