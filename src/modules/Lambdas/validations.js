@@ -1,4 +1,4 @@
-import { isLambdaName } from 'util/validations';
+import { isLambdaName, lambdaNamePattern } from 'util/validations';
 import { isJSON } from 'validator';
 
 export const nameMaxLen = 45;
@@ -25,7 +25,7 @@ export default (values) => {
   }
 
   if (values.name && !isLambdaName(values.name)) {
-    errors.name = 'invalid lambda name format';
+    errors.name = `invalid lambda name ${lambdaNamePattern}`;
   }
 
   if (values.name && values.name.length > nameMaxLen) {

@@ -1,5 +1,5 @@
 import { isEmail } from 'validator';
-import { isPhoneNumber, isUsername } from 'util/validations';
+import { isPhoneNumber, isUsername, usernamePattern, phoneNumberPattern } from 'util/validations';
 
 export const usernameMaxLen = 60;
 
@@ -20,7 +20,7 @@ export default (values, props) => {
   }
 
   if (values.name && !(isUsername(values.name) || isEmail(values.name))) {
-    errors.name = 'invalid username format';
+    errors.name = `format should be ${usernamePattern}`;
   }
 
   if (!values.properties.password && !props.user.id) {
@@ -44,11 +44,11 @@ export default (values, props) => {
   }
 
   if (values.properties.phoneNumber && !isPhoneNumber(values.properties.phoneNumber)) {
-    errors.properties.phoneNumber = 'invalid phone number format';
+    errors.properties.phoneNumber = `format should be ${phoneNumberPattern}`;
   }
 
   if (!values.properties.gestalt_home) {
-    errors.properties.gestalt_home = 'gestalthome is required';
+    errors.properties.gestalt_home = 'gestalt home is required';
   }
 
   if (values.name && values.name.length > usernameMaxLen) {
