@@ -1,4 +1,4 @@
-import { isContainerName, isCommaDelimited, isCommaDelimitedConstraints } from 'util/validations';
+import { isContainerName, isCommaDelimited, isCommaDelimitedConstraints, containerNamePattern } from 'util/validations';
 
 export const nameMaxLen = 60;
 
@@ -20,7 +20,7 @@ export default (values) => {
   }
 
   if (values.name && !isContainerName(values.name)) {
-    errors.name = 'invalid container name format';
+    errors.name = `invalid container name ${containerNamePattern}`;
   }
 
   if (!values.properties.network) {
@@ -71,30 +71,6 @@ export default (values) => {
 
     if (variablesArrayErrors.length) {
       errors.variables = variablesArrayErrors;
-    }
-  }
-
-
-  if (values.labels && values.labels.length) {
-    const labelsArrayErrors = [];
-    values.labels.forEach((label, labelIndex) => {
-      const labelErrors = {};
-
-      if (!label || !label.key) {
-        labelErrors.key = 'label name is required';
-        labelsArrayErrors[labelIndex] = labelErrors;
-      }
-
-      if (!label || !label.value) {
-        labelErrors.value = 'label value is required';
-        labelsArrayErrors[labelIndex] = labelErrors;
-      }
-
-      return labelErrors;
-    });
-
-    if (labelsArrayErrors.length) {
-      errors.labels = labelsArrayErrors;
     }
   }
 

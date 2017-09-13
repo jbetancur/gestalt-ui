@@ -1,4 +1,4 @@
-import { isKubernetesVolumeName } from 'util/validations';
+import { isKubernetesVolumeName, kubernetesVolumeNamePattern } from 'util/validations';
 import { isURL } from 'validator';
 
 export default (values, props) => {
@@ -36,7 +36,7 @@ export default (values, props) => {
   }
 
   if (values.name && !isKubernetesVolumeName(values.name)) {
-    errors.name = 'a DNS-1123 subdomain must consist of lower case alphanumeric characters, \'-\' or \'.\', and must start and end with an alphanumeric character';
+    errors.name = `a DNS-1123 subdomain must consist of lower case alphanumeric characters, \\'-\\' or \\'.\\', and must start and end with an alphanumeric character ${kubernetesVolumeNamePattern}`;
   }
 
   return errors;

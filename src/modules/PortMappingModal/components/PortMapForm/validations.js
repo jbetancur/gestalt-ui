@@ -1,4 +1,4 @@
-import { isCommaDelimited, isContainerServicePortName } from 'util/validations';
+import { isCommaDelimited, isContainerServicePortName, containerServicePortNamePattern } from 'util/validations';
 
 export const serviceNameMaxLen = 15;
 
@@ -12,11 +12,11 @@ export default (values) => {
   }
 
   if (values.name && values.name.length > serviceNameMaxLen) {
-    errors.name = 'service name is too long';
+    errors.name = `service name cannot exceed ${serviceNameMaxLen} characters`;
   }
 
   if (!isContainerServicePortName(values.name)) {
-    errors.name = 'Service Name must be at most 15 characters, matching regex [a-z0-9]([a-z0-9-]*[a-z0-9])*';
+    errors.name = `invalid service name format ${containerServicePortNamePattern}`;
   }
 
   if (!values.protocol) {

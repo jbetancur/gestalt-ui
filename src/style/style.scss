@@ -11,7 +11,6 @@
 @import 'overrides';
 
 html, body {
-  min-height: 100%;
   height: 100%;
   width: 100%;
   -webkit-font-smoothing: antialiased;
@@ -19,9 +18,9 @@ html, body {
 
 body {
   font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
-  position:relative;
   margin: 0;
   padding: 0;
+  min-height: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
@@ -29,7 +28,7 @@ body {
   height: 100%;
 
   #app-wrapper {
-      height: 100%;
+    height: 100vh;
   }
 }
 
