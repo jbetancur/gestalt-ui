@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { merge } from 'lodash';
 import * as types from '../actionTypes';
 import { LOGGING } from '../constants/resourceTypes';
 
@@ -9,9 +10,19 @@ import { LOGGING } from '../constants/resourceTypes';
  */
 export function* fetchLogProvider(action) {
   try {
-    let logProviderRes = {};
     let caasProviderRes = {};
     let linkedLoggingProvider = {};
+    const logProviderRes = {
+      data: {
+        properties: {
+          config: {
+            env: {
+              public: {}
+            }
+          }
+        }
+      }
+    };
 
     if (action.logType === 'container') {
       // container -> caas_provider -> log_provider -> [SERVICE_HOST,SERVICE_PORT]
@@ -28,14 +39,12 @@ export function* fetchLogProvider(action) {
     }
 
     if (linkedLoggingProvider && linkedLoggingProvider.id) {
-      logProviderRes = yield call(axios.get, `${action.fqon}/providers/${linkedLoggingProvider.id}`);
-
+      merge(logProviderRes, yield call(axios.get, `${action.fqon}/providers/${linkedLoggingProvider.id}`));
+      const vHOSTUrl = logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0;
+      const vHOSTProtocol = logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0_PROTOCOL || 'https';
       const payload = {
         provider: logProviderRes.data,
-        url: logProviderRes.data
-          && logProviderRes.data.properties.config
-          && logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0
-          ? `https://${logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0}/${action.logType}` : '',
+        url: vHOSTUrl ? `${vHOSTProtocol}://${vHOSTUrl}/${action.logType}` : '',
       };
 
       yield put({ type: types.FETCH_LOGPROVIDER_FULFILLED, payload });
