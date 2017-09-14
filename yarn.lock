@@ -6113,9 +6113,9 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-ace@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-5.2.0.tgz#94b6fbf71d5af68ca0a18228858cdb156a1c7dd5"
+react-ace@5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-5.1.2.tgz#cbaa0b20ce6dcb5f9b9151633ddce313c38d7905"
   dependencies:
     brace "^0.10.0"
     lodash.get "^4.4.2"
