@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
@@ -11,7 +11,7 @@ import validate from '../../validations';
 import actions from '../../actions';
 import { generateLambdaPayload } from '../../payloadTransformer';
 
-class LambdaCreate extends Component {
+class LambdaCreate extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
