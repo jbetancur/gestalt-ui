@@ -5,8 +5,6 @@ import jsonPatch from 'fast-json-patch';
  * generatePolicyPayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
- * @param {Array} mergeSet
- * @param {Object} providersKongByGateway
  * @param {Boolean} updateMode
  */
 export function generatePolicyPayload(sourcePayload, updateMode = false) {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { withContext } from 'modules/ContextManagement';
-import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import { Providers } from 'modules/Providers';
 import { Users } from 'modules/Users';
@@ -28,7 +27,7 @@ class HierarchyContext extends PureComponent {
     unloadWorkspaces: PropTypes.func.isRequired,
     unloadWorkspaceContext: PropTypes.func.isRequired,
     unloadEnvironmentContext: PropTypes.func.isRequired,
-    fetchContextActions: PropTypes.func.isRequired,
+    // fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -47,7 +46,7 @@ class HierarchyContext extends PureComponent {
   componentDidMount() {
     const { match } = this.props;
     this.props.fetchOrgSet(match.params.fqon);
-    this.props.fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
+    // this.props.fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
     this.props.unloadWorkspaceContext();
     this.props.unloadEnvironmentContext();
   }
@@ -55,7 +54,7 @@ class HierarchyContext extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.fetchOrgSet(nextProps.match.params.fqon);
-      this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
+      // this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
       this.props.unloadNavigation('hierarchy');
     }
   }
@@ -69,44 +68,37 @@ class HierarchyContext extends PureComponent {
     this.props.unloadWorkspaces();
   }
 
-
-  handleViewState(view, index) {
-    const { handleNavigation } = this.props;
-
-    handleNavigation('hierarchy', view, index);
-  }
-
   renderNavItems() {
-    const { match, t, navigation } = this.props;
+    const { match, t, navigation, handleNavigation } = this.props;
 
     return [
       <ListItemStacked
-        key="organizations"
+        key="hierarchy--organizations"
         title={t('organizations.title')}
         icon={<HierarchyIcon />}
-        onClick={() => this.handleViewState('hierarchy', 0)}
+        onClick={() => handleNavigation('hierarchy', 'hierarchy', 0)}
         className={navigation.index === 0 && 'active-link'}
       />,
       <ListItemStacked
-        key="providers"
+        key="hierarchy--providers"
         title={t('providers.title')}
         icon="settings_applications"
-        onClick={() => this.handleViewState('providers', 1)}
+        onClick={() => handleNavigation('hierarchy', 'providers', 1)}
         className={navigation.index === 1 && 'active-link'}
       />,
       <ListItemStacked
-        key="users"
+        key="hierarchy--users"
         title={t('users.title')}
         icon="person"
-        onClick={() => this.handleViewState('users', 2)}
+        onClick={() => handleNavigation('hierarchy', 'users', 2)}
         className={navigation.index === 2 && 'active-link'}
         visible={match.params.fqon === 'root'}
       />,
       <ListItemStacked
-        key="users"
+        key="hierarchy--users"
         title={t('groups.title')}
         icon="group"
-        onClick={() => this.handleViewState('groups', 3)}
+        onClick={() => handleNavigation('hierarchy', 'groups', 3)}
         className={navigation.index === 3 && 'active-link'}
         visible={match.params.fqon === 'root'}
       />,
@@ -162,4 +154,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(translate()(withContext(HierarchyContext))));
+const bindActions = Object.assign({}, actions);
+
+export default withMetaResource(connect(mapStateToProps, bindActions)(translate()(withContext(HierarchyContext))));

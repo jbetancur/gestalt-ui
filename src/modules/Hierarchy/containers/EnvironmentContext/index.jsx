@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import { withContext } from 'modules/ContextManagement';
 import { Providers } from 'modules/Providers';
@@ -22,7 +21,7 @@ class EnvironmentContext extends Component {
     match: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
-    fetchContextActions: PropTypes.func.isRequired,
+    // fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
   };
@@ -32,58 +31,51 @@ class EnvironmentContext extends Component {
   }
 
   componentDidMount() {
-    const { match, fetchEnvironment, fetchContextActions } = this.props;
+    const { match, fetchEnvironment } = this.props;
 
     fetchEnvironment(match.params.fqon, match.params.environmentId);
-    fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
-  }
-
-  handleViewState(view, index) {
-    const { handleNavigation } = this.props;
-
-    handleNavigation('environment', view, index);
+    // fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
   }
 
   renderNavItems() {
-    const { navigation } = this.props;
+    const { navigation, handleNavigation } = this.props;
 
     return [
       <ListItemStacked
+        key="environment--containers"
         icon="memory"
         title="Containers"
-        onClick={() => this.handleViewState('containers', 0)}
+        onClick={() => handleNavigation('environment', 'containers', 0)}
         className={navigation.index === 0 && 'active-link'}
       />,
       <ListItemStacked
+        key="environment--lambdas"
         icon={<LambdaIcon />}
         title="Lambdas"
-        onClick={() => this.handleViewState('lambdas', 1)}
+        onClick={() => handleNavigation('environment', 'lambdas', 1)}
         className={navigation.index === 1 && 'active-link'}
       />,
       <ListItemStacked
+        key="environment--apis"
         icon="device_hub"
         title="APIs"
-        onClick={() => this.handleViewState('apis', 2)}
+        onClick={() => handleNavigation('environment', 'apis', 2)}
         className={navigation.index === 2 && 'active-link'}
       />,
       <ListItemStacked
+        key="environment--policies"
         icon="verified_user"
         title="Policies"
-        onClick={() => this.handleViewState('policies', 3)}
+        onClick={() => handleNavigation('environment', 'policies', 3)}
         className={navigation.index === 3 && 'active-link'}
       />,
       <ListItemStacked
+        key="environment--providers"
         icon="settings_applications"
         title="Providers"
-        onClick={() => this.handleViewState('providers', 4)}
+        onClick={() => handleNavigation('environment', 'providers', 4)}
         className={navigation.index === 4 && 'active-link'}
       />,
-      // <ListItemStacked
-      //   icon="lock"
-      //   title="Secrets"
-      //   onClick={() => this.handleViewState('secrets', 5)}
-      //   className={navigation.index === 5 && 'active-link'}
-      // />,
     ];
   }
 
@@ -145,4 +137,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(withContext(EnvironmentContext)));
+const bindActions = Object.assign({}, actions);
+
+export default withMetaResource(connect(mapStateToProps, bindActions)(withContext(EnvironmentContext)));
