@@ -19,6 +19,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { VariablesForm } from 'modules/Variables';
 import { Button, ClipboardButton } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
+import { isUnixVariable } from 'util/validations';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../../validations';
@@ -265,7 +266,8 @@ const LambdaForm = (props) => {
                         className="flex-row"
                         icon="add"
                         fieldName="properties.env"
-                        unixVariableName
+                        keyFieldValidationFunction={isUnixVariable}
+                        keyFieldValidationMessage="must be a unix variable name"
                         {...props}
                       />
                     </Fieldset>

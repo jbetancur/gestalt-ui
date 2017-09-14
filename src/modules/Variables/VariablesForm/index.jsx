@@ -3,87 +3,120 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
-import { isUnixVariable } from 'util/validations';
 
-const validateUnixName = value => ((value && !isUnixVariable(value)) && 'invalid variable');
+const renderNameField = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const { input, label, type, className, disabled, required, keyFieldValidationMessage, keyFieldValidationFunction, onChange } = props;
+  const doValidate =
+    (keyFieldValidationMessage && keyFieldValidationFunction && typeof keyFieldValidationFunction === 'function');
+  const validateKey = value => (value && !keyFieldValidationFunction(value)) && keyFieldValidationMessage;
 
-// eslint-disable-next-line react/prop-types
-const renderNameField = ({ input, label, type, className, disabled, required, unixVariableName }) => (
-  <Field
-    {...input}
-    className={className}
-    placeholder={label}
-    component={TextField}
-    type={type}
-    value=" " // fix for [object Object] on deselect
-    required={required}
-    disabled={disabled}
-    rows={1}
-    validate={unixVariableName ? [validateUnixName] : []}
-  />
-);
+  return (
+    <Field
+      {...input}
+      className={className}
+      label={label}
+      component={TextField}
+      type={type}
+      value=" " // fix for [object Object] on deselect
+      required={required}
+      disabled={disabled}
+      rows={1}
+      validate={doValidate && validateKey}
+      onChange={onChange}
+    />
+  );
+};
 
-// eslint-disable-next-line react/prop-types
-const renderValueField = ({ input, label, type, className, disabled, required }) => (
-  <Field
-    {...input}
-    className={className}
-    placeholder={label}
-    component={TextField}
-    type={type}
-    value=" " // fix for [object Object] on deselect
-    required={required}
-    disabled={disabled}
-    rows={1}
-    validate={[]}
-  />
-);
+const renderValueField = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const { input, label, type, className, disabled, required, valueFieldValidationMessage, valueFieldValidationFunction } = props;
+  const doValidate =
+    (valueFieldValidationMessage && valueFieldValidationFunction && typeof valueFieldValidationFunction === 'function');
+  const validateValue = value => (value && !valueFieldValidationFunction(value)) && valueFieldValidationMessage;
 
-const rendervariables = ({ fields, touched, error, addButtonLabel, icon, keyFieldName, keyFieldValue, valueFieldName, valueFieldValue, className, unixVariableName }) => (
-  <div>
-    <Button
-      flat
-      iconChildren={icon}
-      primary
-      onClick={() => fields.unshift({})}
-    >
-      {addButtonLabel}
-    </Button>
-    {touched && error}
-    {fields.map((member, index) => {
-      const isRequired = fields.get(index).required;
-      const isInherited = fields.get(index).inherited;
-      const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
+  return (
+    <Field
+      {...input}
+      className={className}
+      label={label}
+      component={TextField}
+      type={type}
+      value=" " // fix for [object Object] on deselect
+      required={required}
+      disabled={disabled}
+      rows={1}
+      validate={doValidate && validateValue}
+    />
+  );
+};
 
-      return (
-        <div key={index} className={className}>
-          <Field
-            name={`${member}.${keyFieldValue}`}
-            type="text"
-            component={renderNameField}
-            label={fieldNameStr}
-            className="flex-4 flex-xs-12"
-            disabled={isRequired || isInherited}
-            unixVariableName={unixVariableName}
-          />
-          <Field
-            name={`${member}.${valueFieldValue}`}
-            type="text"
-            component={renderValueField}
-            label={valueFieldName}
-            className="flex-7 flex-xs-12"
-            required={isRequired}
-          />
-          {!(isRequired || isInherited) &&
-            <FieldRemoveButton
-              marginTop="1em"
-              onClick={() => fields.remove(index)}
-            />}
-        </div>
-      );
-    })}
-  </div>
-);
+const rendervariables = (props) => {
+  const {
+    fields,
+    touched,
+    error,
+    addButtonLabel,
+    icon,
+    keyFieldName,
+    keyFieldValue,
+    valueFieldName,
+    valueFieldValue,
+    className,
+    keyFieldValidationMessage,
+    keyFieldValidationFunction,
+    valueFieldValidationMessage,
+    valueFieldValidationFunction,
+  } = props;
+  return (
+    <div>
+      <Button
+        flat
+        iconChildren={icon}
+        primary
+        onClick={() => fields.unshift({})}
+      >
+        {addButtonLabel}
+      </Button>
+      {touched && error}
+      {fields.map((member, index) => {
+        const isRequired = fields.get(index).required;
+        const isInherited = fields.get(index).inherited;
+        const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
+
+        return (
+          <div key={index} className={className}>
+            <Field
+              name={`${member}.${keyFieldValue}`}
+              type="text"
+              component={renderNameField}
+              label={fieldNameStr}
+              className="flex-4 flex-xs-12"
+              disabled={isRequired || isInherited}
+              keyFieldValidationMessage={keyFieldValidationMessage}
+              keyFieldValidationFunction={keyFieldValidationFunction}
+            />
+            <Field
+              name={`${member}.${valueFieldValue}`}
+              type="text"
+              component={renderValueField}
+              label={valueFieldName}
+              className="flex-7 flex-xs-12"
+              required={isRequired}
+              valueFieldValidationMessage={valueFieldValidationMessage}
+              valueFieldValidationFunction={valueFieldValidationFunction}
+            />
+            {!(isRequired || isInherited) &&
+              <FieldRemoveButton
+                marginTop="1em"
+                onClick={() => fields.remove(index)}
+              />}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 rendervariables.propTypes = {
   fields: PropTypes.object.isRequired,
@@ -95,7 +128,10 @@ rendervariables.propTypes = {
   keyFieldValue: PropTypes.string.isRequired,
   valueFieldName: PropTypes.string.isRequired,
   valueFieldValue: PropTypes.string.isRequired,
-  unixVariableName: PropTypes.bool.isRequired,
+  keyFieldValidationMessage: PropTypes.string.isRequired,
+  keyFieldValidationFunction: PropTypes.func.isRequired,
+  valueFieldValidationMessage: PropTypes.string.isRequired,
+  valueFieldValidationFunction: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 
@@ -115,7 +151,10 @@ const FieldArraysForm = props => (
     keyFieldValue={props.keyFieldValue}
     valueFieldName={props.valueFieldName}
     valueFieldValue={props.valueFieldValue}
-    unixVariableName={props.unixVariableName}
+    keyFieldValidationMessage={props.keyFieldValidationMessage}
+    keyFieldValidationFunction={props.keyFieldValidationFunction}
+    valueFieldValidationMessage={props.valueFieldValidationMessage}
+    valueFieldValidationFunction={props.valueFieldValidationFunction}
   />
 );
 
@@ -127,7 +166,10 @@ FieldArraysForm.propTypes = {
   keyFieldValue: PropTypes.string,
   valueFieldName: PropTypes.string,
   valueFieldValue: PropTypes.string,
-  unixVariableName: PropTypes.bool,
+  keyFieldValidationMessage: PropTypes.string,
+  keyFieldValidationFunction: PropTypes.func,
+  valueFieldValidationMessage: PropTypes.string,
+  valueFieldValidationFunction: PropTypes.func,
 };
 
 FieldArraysForm.defaultProps = {
@@ -138,7 +180,11 @@ FieldArraysForm.defaultProps = {
   keyFieldValue: 'name',
   valueFieldName: 'Value',
   valueFieldValue: 'value',
-  unixVariableName: false,
+  // unixVariableName: false,
+  keyFieldValidationMessage: '',
+  keyFieldValidationFunction: null,
+  valueFieldValidationMessage: '',
+  valueFieldValidationFunction: null,
 };
 
 export default FieldArraysForm;

@@ -22,6 +22,7 @@ import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
 import { Button } from 'components/Buttons';
 import { parseChildClass } from 'util/helpers/strings';
+import { isUnixVariable } from 'util/validations';
 import ContainerInstances from '../ContainerInstances';
 import ContainerServiceAddresses from '../ContainerServiceAddresses';
 import { nameMaxLen } from '../../validations';
@@ -302,7 +303,8 @@ const ContainerForm = (props) => {
                       <VariablesForm
                         icon="add"
                         fieldName="properties.env"
-                        unixVariableName
+                        keyFieldValidationFunction={isUnixVariable}
+                        keyFieldValidationMessage="must be a unix variable name"
                         {...props}
                       />
                     </Col>

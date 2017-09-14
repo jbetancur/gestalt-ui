@@ -15,6 +15,7 @@ import { VariablesForm } from 'modules/Variables';
 import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
+import { isUnixVariable } from 'util/validations';
 import { nameMaxLen, shortNameMaxLen } from './validations';
 
 const ActionIconSection = styled.div`
@@ -79,7 +80,8 @@ const HierarchyForm = (props) => {
                 <VariablesForm
                   icon="add"
                   fieldName="properties.env"
-                  unixVariableName
+                  keyFieldValidationFunction={isUnixVariable}
+                  keyFieldValidationMessage="must be a unix variable name"
                 />
               </Fieldset>
             </CardText>

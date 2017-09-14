@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
@@ -12,7 +12,7 @@ import validate from '../../validations';
 import actions from '../../actions';
 import { generateLambdaPatches } from '../../payloadTransformer';
 
-class LambdaEdit extends Component {
+class LambdaEdit extends PureComponent {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,

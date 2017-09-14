@@ -20,6 +20,7 @@ import PreventAutoFill from 'components/PreventAutoFill';
 import { VariablesForm } from 'modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions } from 'modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
+import { isUnixVariable } from 'util/validations';
 import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
@@ -149,6 +150,8 @@ const ProviderForm = (props) => {
           icon="public"
           addButtonLabel="Add Public Variable"
           fieldName="properties.config.env.public"
+          keyFieldValidationFunction={isUnixVariable}
+          keyFieldValidationMessage="must be a unix variable name"
         />
       </Col>
       <Col flex={6} xs={12} sm={12}>
@@ -156,6 +159,8 @@ const ProviderForm = (props) => {
           icon="vpn_key"
           addButtonLabel="Add Private Variable"
           fieldName="properties.config.env.private"
+          keyFieldValidationFunction={isUnixVariable}
+          keyFieldValidationMessage="must be a unix variable name"
         />
       </Col>
     </Row>)
