@@ -12,7 +12,7 @@ describe('Logging Sagas', () => {
   describe('fetchLogProvider Sequence', () => {
     let result;
 
-    describe('fetchLogProvider with a a logType of "container"', () => {
+    describe('fetchLogProvider with a logType of "container"', () => {
       const saga = fetchLogProvider({ fqon: 'iamfqon', providerId: '1', logType: 'container' });
       it('should make an api call for the "CAAS" provider', () => {
         result = saga.next();
@@ -36,6 +36,26 @@ describe('Logging Sagas', () => {
         const payload = {
           provider: logProviderResponse.data,
           url: 'https://whatever/container',
+        };
+
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_LOGPROVIDER_FULFILLED, payload })
+        );
+      });
+    });
+
+    describe('fetchLogProvider with a logType of "container" when there is the optional SERVICE_VHOST_0_PROTOCOL', () => {
+      const saga = fetchLogProvider({ fqon: 'iamfqon', providerId: '1', logType: 'container' });
+
+      it('should return a payload and dispatch a success status', () => {
+        const logProviderResponse = { data: { id: '1', properties: { config: { env: { public: { SERVICE_VHOST_0: 'whatever', SERVICE_VHOST_0_PROTOCOL: 'poopy' } } } } } };
+        result = saga.next();
+        result = saga.next({ data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } });
+        result = saga.next(logProviderResponse);
+
+        const payload = {
+          provider: logProviderResponse.data,
+          url: 'poopy://whatever/container',
         };
 
         expect(result.value).to.deep.equal(
