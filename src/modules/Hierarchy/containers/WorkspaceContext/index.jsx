@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { appActions } from 'App';
 import { withMetaResource } from 'modules/MetaResource';
 import { withContext } from 'modules/ContextManagement';
 import { Providers } from 'modules/Providers';
@@ -17,7 +16,7 @@ class WorkspaceContext extends PureComponent {
     match: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
-    fetchContextActions: PropTypes.func.isRequired,
+    // fetchContextActions: PropTypes.func.isRequired,
     unloadActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
@@ -28,31 +27,27 @@ class WorkspaceContext extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchWorkspace, fetchContextActions, match } = this.props;
+    const { fetchWorkspace, match } = this.props;
     fetchWorkspace(match.params.fqon, match.params.workspaceId);
-    fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
-  }
-
-  handleViewState(view, index) {
-    const { handleNavigation } = this.props;
-
-    handleNavigation('workspace', view, index);
+    // fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
   }
 
   renderNavItems() {
-    const { navigation } = this.props;
+    const { navigation, handleNavigation } = this.props;
 
     return [
       <ListItemStacked
+        key="workspace--environments"
         title="Environments"
         icon="folder"
-        onClick={() => this.handleViewState('environments', 0)}
+        onClick={() => handleNavigation('workspace', 'environments', 0)}
         className={navigation.index === 0 && 'active-link'}
       />,
       <ListItemStacked
+        key="workspace--providers"
         title="Providers"
         icon="settings_applications"
-        onClick={() => this.handleViewState('providers', 1)}
+        onClick={() => handleNavigation('workspace', 'providers', 1)}
         className={navigation.index === 1 && 'active-link'}
       />,
     ];
@@ -100,4 +95,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, appActions))(withContext(WorkspaceContext)));
+const bindActions = Object.assign({}, actions);
+
+export default withMetaResource(connect(mapStateToProps, bindActions)(withContext(WorkspaceContext)));
