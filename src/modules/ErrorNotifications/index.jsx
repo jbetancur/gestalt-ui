@@ -32,14 +32,19 @@ class ErrorNotifications extends PureComponent {
       // slice to maintain immutability
       const toasts = this.state.toasts.slice();
       const { friendlyMessage, error } = nextProps.error;
+      const statusCode = error.status || error;
+      const message = (error.data && error.data.message) ? error.data.message : '';
 
-      const errorPayload = {
-        text: `${friendlyMessage} ${error.status || error} ${error.data && error.data.message ? error.data.message : ''}`,
-        action: 'Close'
-      };
+      // deal with phantom empty error.data {}
+      if (Object.keys(error.data).length > 0 || typeof error === 'string') {
+        const errorPayload = {
+          text: `${friendlyMessage} ${statusCode} ${message}`,
+          action: 'Close'
+        };
 
-      toasts.push(errorPayload);
-      this.setState({ toasts });
+        toasts.push(errorPayload);
+        this.setState({ toasts });
+      }
     }
   }
 
