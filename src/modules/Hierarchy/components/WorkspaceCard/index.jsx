@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
@@ -61,4 +62,4 @@ class WorkspaceCard extends PureComponent {
   }
 }
 
-export default withTheme(WorkspaceCard);
+export default withTheme(translate()(WorkspaceCard));

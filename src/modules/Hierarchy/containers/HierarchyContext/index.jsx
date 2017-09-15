@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
 import { Providers } from 'modules/Providers';
 import { Users } from 'modules/Users';
 import { Groups } from 'modules/Groups';
-import ListItemStacked from 'components/ListItemStacked';
-import { HierarchyIcon } from 'components/Icons';
 import Div from 'components/Div';
-import Navbar from 'components/Navbar';
+import HierarchyNav from '../../components/HierarchyNav';
 import HierarchyListing from '../HierarchyListing';
 import HierarchyHeader from '../../components/HierarchyHeader';
 import actions from '../../actions';
@@ -30,7 +27,6 @@ class HierarchyContext extends PureComponent {
     // fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
-    t: PropTypes.func.isRequired,
     unloadNavigation: PropTypes.func.isRequired,
   };
 
@@ -68,43 +64,6 @@ class HierarchyContext extends PureComponent {
     this.props.unloadWorkspaces();
   }
 
-  renderNavItems() {
-    const { match, t, navigation, handleNavigation } = this.props;
-
-    return [
-      <ListItemStacked
-        key="hierarchy--organizations"
-        title={t('organizations.title')}
-        icon={<HierarchyIcon />}
-        onClick={() => handleNavigation('hierarchy', 'hierarchy', 0)}
-        className={navigation.index === 0 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="hierarchy--providers"
-        title={t('providers.title')}
-        icon="settings_applications"
-        onClick={() => handleNavigation('hierarchy', 'providers', 1)}
-        className={navigation.index === 1 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="hierarchy--users"
-        title={t('users.title')}
-        icon="person"
-        onClick={() => handleNavigation('hierarchy', 'users', 2)}
-        className={navigation.index === 2 && 'active-link'}
-        visible={match.params.fqon === 'root'}
-      />,
-      <ListItemStacked
-        key="hierarchy--users"
-        title={t('groups.title')}
-        icon="group"
-        onClick={() => handleNavigation('hierarchy', 'groups', 3)}
-        className={navigation.index === 3 && 'active-link'}
-        visible={match.params.fqon === 'root'}
-      />,
-    ];
-  }
-
   renderThings(state) {
     switch (state) {
       case 'hierarchy':
@@ -129,12 +88,13 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { organizationSet, navigation } = this.props;
+    const { organizationSet, navigation, handleNavigation, match } = this.props;
     return (
       <Div>
-        <Navbar
-          vertical
-          items={this.renderNavItems()}
+        <HierarchyNav
+          navigation={navigation}
+          handleNavigation={handleNavigation}
+          showUsersGroups={match.params.fqon === 'root'}
         />
         <Div paddingLeft="5em">
           <HierarchyHeader
@@ -156,4 +116,4 @@ function mapStateToProps(state) {
 
 const bindActions = Object.assign({}, actions);
 
-export default withMetaResource(connect(mapStateToProps, bindActions)(translate()(withContext(HierarchyContext))));
+export default withMetaResource(connect(mapStateToProps, bindActions)(withContext(HierarchyContext)));
