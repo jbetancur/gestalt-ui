@@ -91,7 +91,7 @@ const NotFound = props => (
 );
 
 NotFound.propTypes = {
-  history: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
