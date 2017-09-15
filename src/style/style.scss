@@ -33,6 +33,8 @@ body {
 }
 
 .logo-container {
+  position: absolute;
+  line-height: 4.4em;
   text-align: center;
   margin: 0;
 
@@ -43,11 +45,11 @@ body {
     }
   }
 
-  .logo-loading {
-    animation: pulse 1s infinite forwards;
-    @extend .pulse;
-    animation-delay: 1s; // prevent from happening on "normal" latency requests
-  }
+  // .logo-loading {
+  //   animation: pulse 1s infinite forwards;
+  //   @extend .pulse;
+  //   animation-delay: 1s; // prevent from happening on "normal" latency requests
+  // }
 }
 
 .active-link * {
