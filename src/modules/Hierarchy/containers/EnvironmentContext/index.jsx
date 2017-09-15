@@ -9,10 +9,8 @@ import { Containers } from 'modules/Containers';
 import { Policies } from 'modules/Policies';
 import Integrations from 'modules/Integrations';
 import { APIs } from 'modules/APIs';
-import ListItemStacked from 'components/ListItemStacked';
-import { LambdaIcon } from 'components/Icons';
 import Div from 'components/Div';
-import Navbar from 'components/Navbar';
+import EnvironmentNav from '../../components/EnvironmentNav';
 import EnvironmentHeader from '../../components/EnvironmentHeader';
 import actions from '../../actions';
 
@@ -35,48 +33,6 @@ class EnvironmentContext extends Component {
 
     fetchEnvironment(match.params.fqon, match.params.environmentId);
     // fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
-  }
-
-  renderNavItems() {
-    const { navigation, handleNavigation } = this.props;
-
-    return [
-      <ListItemStacked
-        key="environment--containers"
-        icon="memory"
-        title="Containers"
-        onClick={() => handleNavigation('environment', 'containers', 0)}
-        className={navigation.index === 0 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="environment--lambdas"
-        icon={<LambdaIcon />}
-        title="Lambdas"
-        onClick={() => handleNavigation('environment', 'lambdas', 1)}
-        className={navigation.index === 1 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="environment--apis"
-        icon="device_hub"
-        title="APIs"
-        onClick={() => handleNavigation('environment', 'apis', 2)}
-        className={navigation.index === 2 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="environment--policies"
-        icon="verified_user"
-        title="Policies"
-        onClick={() => handleNavigation('environment', 'policies', 3)}
-        className={navigation.index === 3 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="environment--providers"
-        icon="settings_applications"
-        title="Providers"
-        onClick={() => handleNavigation('environment', 'providers', 4)}
-        className={navigation.index === 4 && 'active-link'}
-      />,
-    ];
   }
 
   renderThings(state) {
@@ -111,13 +67,13 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { navigation, environment } = this.props;
+    const { navigation, handleNavigation, environment } = this.props;
 
     return (
       <Div>
-        <Navbar
-          vertical
-          items={this.renderNavItems()}
+        <EnvironmentNav
+          navigation={navigation}
+          handleNavigation={handleNavigation}
         />
         <Div paddingLeft="5em">
           <EnvironmentHeader

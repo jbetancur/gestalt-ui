@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { translate } from 'react-i18next';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -11,7 +12,7 @@ import Div from 'components/Div';
 
 const listItemStyle = { textAlign: 'left' };
 
-class HierarchyAction extends PureComponent {
+class HierarchyActions extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
@@ -127,4 +128,4 @@ class HierarchyAction extends PureComponent {
   }
 }
 
-export default HierarchyAction;
+export default translate()(HierarchyActions);

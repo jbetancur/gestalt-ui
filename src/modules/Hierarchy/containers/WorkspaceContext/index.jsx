@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { withMetaResource } from 'modules/MetaResource';
 import { withContext } from 'modules/ContextManagement';
 import { Providers } from 'modules/Providers';
-import ListItemStacked from 'components/ListItemStacked';
 import Div from 'components/Div';
-import Navbar from 'components/Navbar';
+import WorkspaceNav from '../../components/WorkspaceNav';
 import WorkspaceHeader from '../../components/WorkspaceHeader';
 import Environments from '../../containers/EnvironmentListing';
 import actions from '../../actions';
@@ -32,27 +31,6 @@ class WorkspaceContext extends PureComponent {
     // fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
   }
 
-  renderNavItems() {
-    const { navigation, handleNavigation } = this.props;
-
-    return [
-      <ListItemStacked
-        key="workspace--environments"
-        title="Environments"
-        icon="folder"
-        onClick={() => handleNavigation('workspace', 'environments', 0)}
-        className={navigation.index === 0 && 'active-link'}
-      />,
-      <ListItemStacked
-        key="workspace--providers"
-        title="Providers"
-        icon="settings_applications"
-        onClick={() => handleNavigation('workspace', 'providers', 1)}
-        className={navigation.index === 1 && 'active-link'}
-      />,
-    ];
-  }
-
   renderThings(state) {
     switch (state) {
       case 'environments':
@@ -69,13 +47,13 @@ class WorkspaceContext extends PureComponent {
   }
 
   render() {
-    const { navigation, workspace } = this.props;
+    const { navigation, handleNavigation, workspace } = this.props;
 
     return (
       <Div>
-        <Navbar
-          vertical
-          items={this.renderNavItems()}
+        <WorkspaceNav
+          navigation={navigation}
+          handleNavigation={handleNavigation}
         />
         <Div paddingLeft="5em">
           <WorkspaceHeader
