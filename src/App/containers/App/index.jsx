@@ -47,7 +47,7 @@ class App extends Component {
   };
 
   static defaultProps = {
-    children: {},
+    children: null,
   }
 
   constructor(props) {
@@ -101,7 +101,6 @@ class App extends Component {
       <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
 
     return [
-      <OrgNavMenu {...this.props} />,
       <MenuButton
         id="main-menu"
         flat={browser.greaterThan.xs}
@@ -194,9 +193,11 @@ class App extends Component {
           <Toolbar
             colored
             fixed
-            title={this.renderAppLogo()}
+            title={<OrgNavMenu />}
             actions={this.renderActionsMenu()}
-          />
+          >
+            {this.renderAppLogo()}
+          </Toolbar>
           <LoginModal />
           <ModalRoot />
           <HierarchyRoot />
