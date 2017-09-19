@@ -2,6 +2,14 @@ import * as types from '../actionTypes';
 import * as actions from './secrets';
 
 describe('Secrets Actions', () => {
+  it('should request UNLOAD_SECRETS', () => {
+    const expectedAction = {
+      type: types.UNLOAD_SECRETS,
+    };
+
+    expect(actions.unloadSecrets()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_SECRETS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_SECRETS_REQUEST,

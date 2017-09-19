@@ -80,6 +80,7 @@ export default combineReducers({
   actions: reducerFactory(['fetch'], 'actions', 'actions', [], true),
   contextActions: reducerFactory(['fetch'], 'contextActions', 'context_actions', [], true),
   secrets: reducerFactory(['fetch', 'delete'], 'secrets', 'secrets', []),
-  secret: reducerFactory(['fetch', 'create', 'update'], 'usesecretr', 'secret', secretModel, true),
+  secret: reducerFactory(['fetch', 'create', 'update'], 'secret', 'secret', secretModel, true),
   secretsDropDown: reducerFactory(['fetch'], 'secrets', 'secrets_dropdown', [], true, []),
+  search: reducerFactory(['fetch'], 'search', 'search', [], true),
 });

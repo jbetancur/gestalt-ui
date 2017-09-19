@@ -17,6 +17,7 @@ import self from './self';
 import logging from './logging';
 import actions from './actions';
 import secrets from './secrets';
+import search from './search';
 
 export default Object.assign({},
   context,
@@ -38,4 +39,5 @@ export default Object.assign({},
   logging,
   actions,
   secrets,
+  search,
 );

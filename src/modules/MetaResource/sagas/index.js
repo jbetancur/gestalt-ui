@@ -17,6 +17,7 @@ import contextSagas from './contextMgmt';
 import loggingSagas from './logging';
 import actionSagas from './actions';
 import secretSagas from './secrets';
+import searchSagas from './search';
 
 export default function* metaSagas() {
   yield [
@@ -39,5 +40,6 @@ export default function* metaSagas() {
     loggingSagas(),
     actionSagas(),
     secretSagas(),
+    searchSagas(),
   ];
 }
