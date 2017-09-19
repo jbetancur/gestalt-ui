@@ -12,7 +12,7 @@ const HierarchyHeader = (props) => {
       model={model}
       pending={orangizationSetPending}
       pendingContextActions={contextActionsPending}
-      breadcrumbComponent={<Breadcrumbs />}
+      breadcrumbComponent={<Breadcrumbs lastIsActive />}
       actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...props} />}
       detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...props} />}
       actionsList={contextActions}

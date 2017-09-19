@@ -87,7 +87,7 @@ const APIEndpointForm = (props) => {
             subtitle={apiEndpoint.id}
           />
           <CardText>
-            <div className="flex-row">
+            <Row gutter={5}>
               <Field
                 id="endpoint-type"
                 className="flex-2 flex-xs-6"
@@ -100,17 +100,6 @@ const APIEndpointForm = (props) => {
                 onChange={() => resetForm()}
                 required
               />
-              {/* <Field
-                id="auth-type"
-                className="flex-2 flex-xs-6"
-                component={SelectField}
-                name="properties.auth_type.type"
-                menuItems={authTypes}
-                itemLabel="name"
-                itemValue="value"
-                required
-                label="Auth Type"
-              /> */}
               <Field
                 className="flex-5 flex-xs-12"
                 component={TextField}
@@ -178,8 +167,8 @@ const APIEndpointForm = (props) => {
                   required
                   label="Container Port Name"
                 />}
-              <div className="flex-row">
-                <div className="flex-6 flex-xs-12">
+              <Row gutter={5}>
+                <Col flex={6} xs={12}>
                   <Field
                     inline
                     controlStyle={{ minWidth: '7em' }}
@@ -191,7 +180,7 @@ const APIEndpointForm = (props) => {
                     controls={httpMethods}
                   />
                   <HelpText message="* at least one http method is required" />
-                </div>
+                </Col>
 
                 <RateLimit
                   className="flex-6 flex-xs-12"
@@ -201,21 +190,12 @@ const APIEndpointForm = (props) => {
                 />
 
                 <Security
-                  className="flex-3"
+                  className="flex-4"
                   enabledName="properties.plugins.gestaltSecurity.enabled"
                   {...props}
                 />
-              </div>
-
-              {/* <Field
-                className="flex-6 flex-xs-12"
-                component={TextField}
-                name="properties.implementation.function"
-                label="Function"
-                type="text"
-                required
-              /> */}
-            </div>
+              </Row>
+            </Row>
           </CardText>
           {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
           <CardActions>

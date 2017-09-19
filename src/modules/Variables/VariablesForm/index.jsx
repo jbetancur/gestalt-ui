@@ -83,6 +83,7 @@ const rendervariables = (props) => {
         const isRequired = fields.get(index).required;
         const isInherited = fields.get(index).inherited;
         const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
+        const fieldValueStr = isInherited ? `${valueFieldName} (overridable)` : valueFieldValue;
 
         return (
           <div key={index} className={className}>
@@ -100,7 +101,7 @@ const rendervariables = (props) => {
               name={`${member}.${valueFieldValue}`}
               type="text"
               component={renderValueField}
-              label={valueFieldName}
+              label={fieldValueStr}
               className="flex-7 flex-xs-12"
               required={isRequired}
               valueFieldValidationMessage={valueFieldValidationMessage}

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import FontIcon from 'react-md/lib/FontIcons';
@@ -58,17 +58,19 @@ const Wrapper = styled.div`
     height: 35px !important;
   }
 
-  a:last-child {
-    color: ${props => props.theme.colors['$md-grey-800']};
-
-    &:hover {
-      color: ${props => props.theme.colors['$md-blue-500']};
+  i.seperator {
+    color: ${props => props.theme.colors['$md-grey-500']};
   }
 
-    i.seperator {
-      color: ${props => props.theme.colors['$md-grey-500']};
+  ${props => props.lastIsActive && css`
+    a:last-child {
+      color: ${props.theme.colors['$md-grey-800']};
+
+      &:hover {
+        color: ${props.theme.colors['$md-blue-500']};
+      }
     }
-  }
+  `};
 `;
 
 class Breadcrumbs extends PureComponent {
@@ -81,6 +83,7 @@ class Breadcrumbs extends PureComponent {
     currentEnvironmentContext: PropTypes.object.isRequired,
     className: PropTypes.string,
     size: PropTypes.number,
+    lastIsActive: PropTypes.bool,
     pending: PropTypes.bool.isRequired,
   };
 
@@ -88,6 +91,7 @@ class Breadcrumbs extends PureComponent {
     pending: false,
     className: '',
     size: 16,
+    lastIsActive: false,
   }
 
   checkIfShouldNav(e, route) {
@@ -106,6 +110,7 @@ class Breadcrumbs extends PureComponent {
       match,
       className,
       size,
+      lastIsActive,
       pending,
     } = this.props;
 
@@ -122,7 +127,7 @@ class Breadcrumbs extends PureComponent {
     const isGestaltHome = match.params.fqon === self.properties.gestalt_home.properties.fqon;
 
     return (
-      <Wrapper className={className} size={size}>
+      <Wrapper className={className} size={size} lastIsActive={lastIsActive}>
         {!isGestaltHome &&
         <Button
           icon
