@@ -12,7 +12,7 @@ const WorkspaceHeader = (props) => {
       model={workspace}
       pending={workspacePending}
       pendingContextActions={contextActionsPending}
-      breadcrumbComponent={<Breadcrumbs />}
+      breadcrumbComponent={<Breadcrumbs lastIsActive />}
       actionsComponent={<WorkspaceActions workspace={workspace} pending={workspacePending} {...props} />}
       detailsComponent={<WorkspaceDetails workspace={workspace} pending={workspacePending} {...props} />}
       actionsList={contextActions}

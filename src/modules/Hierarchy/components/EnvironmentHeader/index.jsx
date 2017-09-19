@@ -12,7 +12,7 @@ const EnvironmentHeader = (props) => {
       model={environment}
       pending={environmentPending}
       pendingContextActions={contextActionsPending}
-      breadcrumbComponent={<Breadcrumbs />}
+      breadcrumbComponent={<Breadcrumbs lastIsActive />}
       actionsComponent={<EnvironmentActions environment={environment} pending={environmentPending} {...props} />}
       detailsComponent={<EnvironmentDetails workspace={environment} pending={environmentPending} {...props} />}
       actionsList={contextActions}

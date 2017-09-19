@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Row, Col } from 'react-flexybox';
 import FontIcon from 'react-md/lib/FontIcons';
 import List from 'react-md/lib/Lists/List';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -10,7 +11,7 @@ import CardSubHeader from 'components/CardSubHeader';
 import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
 import EntitlementTree from '../EntitlementTree';
-import { USER } from '../../constants';
+import { USER } from '../../../../constants';
 
 function generateEntityState(params) {
   const entity = {
@@ -119,37 +120,34 @@ class EntitlementItem extends Component {
       />));
 
     return (
-      <div className="flex-row">
-        <div className="flex-row">
-          <div className="flex-5 flex-xs-12">
-            <Fieldset legend="Users & Groups" style={{ height: '100%' }}>
-              <MembersList>
-                <CardSubHeader
-                  primaryText={<TextField
-                    id="filter-identities-remove"
-                    label="filter identities"
-                    leftIcon={<FontIcon>filter_list</FontIcon>}
-                    rightIcon={<Button icon iconChildren="clear" onClick={() => this.props.clearIdentitiesFilter()} />}
-                    lineDirection="center"
-                    value={this.props.identitiesFilter.filterText}
-                    disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending}
-                    onChange={value => this.props.filterIdentities(value)}
-                  />}
-                />
-                {this.props.identitiesPending ?
-                  <DotActivity primary size={1.5} id="identities-loading" centered /> : identities}
-              </MembersList>
-            </Fieldset>
-          </div>
+      <Row gutter={5}>
+        <Col flex={5} xs={12}>
+          <Fieldset legend="Users & Groups" style={{ height: '100%' }}>
+            <MembersList>
+              <CardSubHeader
+                primaryText={<TextField
+                  id="filter-identities-remove"
+                  label="filter identities"
+                  leftIcon={<FontIcon>filter_list</FontIcon>}
+                  rightIcon={<Button icon iconChildren="clear" onClick={() => this.props.clearIdentitiesFilter()} />}
+                  lineDirection="center"
+                  value={this.props.identitiesFilter.filterText}
+                  disabled={this.props.entitlementsPending || this.props.entitlementsUpdatePending}
+                  onChange={value => this.props.filterIdentities(value)}
+                />}
+              />
+              {this.props.identitiesPending ?
+                <DotActivity primary size={1.5} id="identities-loading" centered /> : identities}
+            </MembersList>
+          </Fieldset>
+        </Col>
 
-          <div className="flex-7 flex-xs-12">
-            {this.props.entitlementsPending || this.props.entitlementsUpdatePending ?
-              <DotActivity primary size={1.5} id="entitlements-loading" centered /> :
-              <EntitlementTree {...this.props} />}
-          </div>
-
-        </div>
-      </div>
+        <Col flex={7} xs={12}>
+          {this.props.entitlementsPending || this.props.entitlementsUpdatePending ?
+            <DotActivity primary size={1.5} id="entitlements-loading" centered /> :
+            <EntitlementTree {...this.props} />}
+        </Col>
+      </Row>
     );
   }
 }

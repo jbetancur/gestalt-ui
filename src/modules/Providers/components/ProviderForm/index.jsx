@@ -300,7 +300,7 @@ const ProviderForm = (props) => {
             subtitle={provider.id}
           />
           <CardText>
-            <div className="flex-row">
+            <Row>
               <div className="flex-row">
                 <Field
                   id="select-provider"
@@ -340,7 +340,7 @@ const ProviderForm = (props) => {
               {renderVariablesSection()}
               {renderOtherConfigSection()}
               {provider.id && renderJSONSection()}
-            </div>
+            </Row>
           </CardText>
           {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
           <CardActions>
