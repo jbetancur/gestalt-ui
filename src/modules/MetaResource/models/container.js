@@ -10,6 +10,7 @@ export default {
     constraints: [],
     health_checks: [],
     instances: [],
+    secrets: [],
     port_mappings: [],
     service_addresses: [],
     volumes: [],

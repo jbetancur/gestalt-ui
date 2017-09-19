@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadSecrets
+ */
+export function unloadSecrets() {
+  return { type: types.UNLOAD_SECRETS };
+}
+
+/**
  * fetchSecrets
  * @param {string} fqon
   * @param {string} environmentId
@@ -70,6 +77,7 @@ export function deleteSecrets(secretIds, fqon, onSuccess) {
 }
 
 export default {
+  unloadSecrets,
   fetchSecrets,
   fetchSecretsDropDown,
   fetchSecret,
