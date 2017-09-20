@@ -15,10 +15,10 @@ export function unloadEntitlements() {
  * @param {string} fqon
  * @param {string} entityId
  * @param {string} entityKey
- * @param {Object} selectedIdentity
+ * @param {string} selectedIdentityId
  */
-export function fetchEntitlements(fqon, entityId, entityKey, selectedIdentity) {
-  return { type: types.FETCH_ENTITLEMENTS_REQUEST, fqon, entityId, entityKey, selectedIdentity };
+export function fetchEntitlements(fqon, entityId, entityKey, selectedIdentityId) {
+  return { type: types.FETCH_ENTITLEMENTS_REQUEST, fqon, entityId, entityKey, selectedIdentityId };
 }
 
 /**
@@ -33,14 +33,14 @@ export function fetchIdentities(fqon) {
 /**
  * Update Entitlements
  * @param {string} fqon
- * @param {string} newIdentity
+ * @param {string} newIdentityId
  * @param {Array} actions
  * @param {string} entityId
  * @param {string} entityKey
  * @callback {*} onSuccess
  */
-export function updateEntitlements(fqon, newIdentity, actions, entityId, entityKey, onSuccess) {
-  return { type: types.UPDATE_ENTITLEMENT_REQUEST, fqon, newIdentity, actions, entityId, entityKey, onSuccess };
+export function updateEntitlements(fqon, newIdentityId, actions, entityId, entityKey, onSuccess) {
+  return { type: types.UPDATE_ENTITLEMENT_REQUEST, fqon, newIdentityId, actions, entityId, entityKey, onSuccess };
 }
 
 export default {

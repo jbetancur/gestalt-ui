@@ -21,8 +21,6 @@ import secretModel from '../models/secret';
 import currentOrgContext from './currentOrgContext';
 import currentWorkspaceContext from './currentWorkspaceContext';
 import currentEnvironmentContext from './currentEnvironmentContext';
-import entitlements from './entitlements';
-import entitlementSelectedIdentity from './entitlementSelectedIdentity';
 
 export default combineReducers({
   currentOrgContext,
@@ -61,10 +59,9 @@ export default combineReducers({
   policy: reducerFactory(['fetch', 'create', 'update'], 'policy', 'policy', policyModel, true),
   policyRules: reducerFactory(['fetch', 'delete'], 'policyRules', 'policyRules', [], true),
   policyRule: reducerFactory(['fetch', 'create', 'update'], 'policyRule', 'policyRule', policyRuleModel, true),
-  entitlements, // TODO: when entitlements is a sensible model
+  entitlements: reducerFactory(['fetch'], 'entitlements', 'entitlements', [], true),
   entitlementUpdate: reducerFactory(['update'], 'entitlement', 'entitlement', {}, true),
   entitlementIdentities: reducerFactory(['fetch'], 'identities', 'identities', []),
-  entitlementSelectedIdentity,
   users: reducerFactory(['fetch', 'delete'], 'users', 'users', []),
   user: reducerFactory(['fetch', 'create'], 'user', 'user', userModel, true),
   userUpdate: reducerFactory(['update'], 'user', 'user', userModel, true),

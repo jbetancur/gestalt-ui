@@ -1553,9 +1553,9 @@ cipher-base@^1.0.0, cipher-base@^1.0.1:
   dependencies:
     inherits "^2.0.1"
 
-circular-dependency-plugin@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/circular-dependency-plugin/-/circular-dependency-plugin-4.2.0.tgz#913e884d9a0e8ac1ddabdac4c2c91bde52c784cc"
+circular-dependency-plugin@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/circular-dependency-plugin/-/circular-dependency-plugin-4.2.1.tgz#d3af66e04b3bb3f47300824740b817cea74e38f1"
 
 circular-json@^0.3.1:
   version "0.3.1"
@@ -6293,9 +6293,9 @@ react-json-tree@^0.10.9:
     prop-types "^15.5.8"
     react-base16-styling "^0.5.1"
 
-react-md@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.1.3.tgz#446fdba8e60e6b789255b20f5bba4a504e3250ee"
+react-md@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.1.4.tgz#28b78a80eb450de7f6e5a4872a74eee7d8c56e80"
   dependencies:
     classnames "^2.2.5"
     invariant "^2.2.1"

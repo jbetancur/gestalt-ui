@@ -10,7 +10,7 @@ import * as types from '../actionTypes';
 
 /**
  * fetchEntitlements
- * @param {*} action { fqon, entityId, entityKey, selectedIdentity }
+ * @param {*} action { fqon, entityId, entityKey, selectedIdentityId }
  */
 export function* fetchEntitlements(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/entitlements` : `${action.fqon}/entitlements`;
@@ -34,7 +34,7 @@ export function* fetchEntitlements(action) {
           action: a.action.split('.')[1],
           entitlement: a.entitlement,
           identities: a.identities,
-          toggled: a.identities.some(item => item.id === action.selectedIdentity.id),
+          toggled: a.identities.some(item => item.id === action.selectedIdentityId),
         })
       );
       groupedActions[key] = sortBy(prettyActions, 'action');
@@ -44,7 +44,6 @@ export function* fetchEntitlements(action) {
     const entitlements = map(groupedActions, (actions, type) => ({ type, actions, toggled: actions.every(a => a.toggled) }));
 
     yield put({ type: types.FETCH_ENTITLEMENTS_FULFILLED, payload: sortBy(entitlements, 'type') });
-    yield put({ type: types.SELECTED_IDENTITY, payload: action.selectedIdentity });
   } catch (e) {
     yield put({ type: types.FETCH_ENTITLEMENTS_REJECTED, payload: e.message });
   }
@@ -85,16 +84,16 @@ export function* updateEntitlements(action) {
     const all = actionParam.map((actionItem) => {
       const originalIdentifies = [...actionItem.identities.map(ident => ident.id)];
       let clonedIdenities = [...actionItem.identities.map(ident => ident.id)];
-      const hasIdentity = actionItem.identities.some(ident => ident.id === action.newIdentity.id);
+      const hasIdentity = actionItem.identities.some(ident => ident.id === action.newIdentityId);
 
       if (actionItem.toggled) {
         if (hasIdentity) {
           clonedIdenities = uniq(clonedIdenities);
         } else {
-          clonedIdenities.push(action.newIdentity.id);
+          clonedIdenities.push(action.newIdentityId);
         }
-      } else if (clonedIdenities.indexOf(action.newIdentity.id) > -1) {
-        clonedIdenities.splice(clonedIdenities.indexOf(action.newIdentity.id), 1);
+      } else if (clonedIdenities.indexOf(action.newIdentityId) > -1) {
+        clonedIdenities.splice(clonedIdenities.indexOf(action.newIdentityId), 1);
       }
 
       // check if identities have changed to prevent unnecessary PUTS

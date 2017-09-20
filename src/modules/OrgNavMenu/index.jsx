@@ -68,10 +68,9 @@ class OrgNavMenu extends PureComponent {
 
   renderOrgMenuItems(item) {
     return (
-      <div>
+      <div key={item.id}>
         <DividerStyled />
         <ListItem
-          key={item.id}
           value={item.properties.fqon}
           component={Link}
           primaryText={item.description || item.name}
