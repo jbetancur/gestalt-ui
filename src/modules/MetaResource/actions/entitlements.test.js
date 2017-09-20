@@ -16,10 +16,10 @@ describe('Entitlements Actions', () => {
       fqon: 'iamfqon',
       entityId: '1',
       entityKey: 'workspaces',
-      selectedIdentity: { id: 1 },
+      selectedIdentityId: '2',
     };
 
-    expect(actions.fetchEntitlements('iamfqon', '1', 'workspaces', { id: 1 })).to.deep.equal(expectedAction);
+    expect(actions.fetchEntitlements('iamfqon', '1', 'workspaces', '2')).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_IDENTITIES_REQUEST', () => {
@@ -36,7 +36,7 @@ describe('Entitlements Actions', () => {
     const expectedAction = {
       type: types.UPDATE_ENTITLEMENT_REQUEST,
       fqon: 'iamfqon',
-      newIdentity: '2',
+      newIdentityId: '2',
       actions: [{ id: 1 }],
       entityId: '1',
       entityKey: 'workspaces',

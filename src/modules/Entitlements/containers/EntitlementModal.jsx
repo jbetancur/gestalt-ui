@@ -3,49 +3,52 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import Dialog from 'react-md/lib/Dialogs';
+import DialogContainer from 'react-md/lib/Dialogs';
 import { ModalTitle } from 'components/Modal';
-import EntitlementListing from '../EntitlementListing';
-import actions from '../../actions';
+import EntitlementListing from './EntitlementListing';
+import actions from '../actions';
 
-const EnhancedDialog = styled(Dialog)`
+const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {
-    width: 60em;
+    width: 50em;
     max-height: 100%;
 
     .md-dialog-content {
-      height: 445px;
-      overflow: scroll;
+      max-height: 560px;
+      overflow: visible;
     }
   }
 `;
 
 class EntitlementModal extends PureComponent {
   static propTypes = {
-    modal: PropTypes.bool.isRequired,
+    modal: PropTypes.object.isRequired,
     hideEntitlementsModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    params: PropTypes.string.isRequired,
+    params: PropTypes.object.isRequired,
   };
 
   constructor(props) {
     super(props);
   }
 
+  handleHideModal = () => {
+    this.props.hideEntitlementsModal();
+  }
+
   render() {
     return (
       <EnhancedDialog
         id="entitlement-modal"
-        position="below"
+        autosizeContent={false}
         visible={this.props.modal.visible}
-        title={<ModalTitle title={<span>{this.props.title}</span>} icon="security" />}
-        modal={false}
-        closeOnEsc
+        title={<ModalTitle title={this.props.title} icon="security" />}
         defaultVisibleTransitionable
-        onHide={() => this.props.hideEntitlementsModal()}
+        closeOnEsc
+        onHide={this.handleHideModal}
         actions={[
           {
-            onClick: () => this.props.hideEntitlementsModal(),
+            onClick: this.handleHideModal,
             primary: true,
             label: 'Close',
           }]}

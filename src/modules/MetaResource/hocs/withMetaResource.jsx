@@ -53,7 +53,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       identitiesPending: metaResource.entitlementIdentities.pending,
       entitlements: metaResource.entitlements.entitlements,
       entitlementsPending: metaResource.entitlements.pending,
-      selectedIdentity: metaResource.entitlementSelectedIdentity.identity,
       entitlementsUpdatePending: metaResource.entitlementUpdate.pending,
 
       // integrations: state.integrations.fetchAll.integrations,
@@ -156,6 +155,10 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       secretsPending: metaResource.secrets.pending,
       secret: metaResource.secret.secret,
       secretPending: metaResource.secret.pending,
+
+      // Subscriptions for Search
+      searchResults: metaResource.search.search,
+      searchResultsPending: metaResource.search.pending,
     };
   }
 

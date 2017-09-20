@@ -12,7 +12,7 @@ import oranizationNavMenu from './modules/OrgNavMenu/reducers';
 import hierarchyReducer from './modules/Hierarchy/reducers';
 // import providersReducer from './modules/Providers/reducers';
 import lambdasReducer from './modules/Lambdas/reducers';
-import entitlementsReducer from './modules/Entitlements/reducers';
+// import entitlementsReducer from './modules/Entitlements/reducers';
 // import apisReducer from './modules/APIs/reducers';
 // import apiEndpointsReducer from './modules/APIEndpoints/reducers';
 // import usersReducer from './modules/Users/reducers';
@@ -47,7 +47,7 @@ export default combineReducers({
   hierarchy: hierarchyReducer,
   // providers: providersReducer,
   lambdas: lambdasReducer,
-  entitlements: entitlementsReducer,
+  // entitlements: entitlementsReducer,
   // users: usersReducer,
   groups: groupsReducer,
   containers: containersReducer,
