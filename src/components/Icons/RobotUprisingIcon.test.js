@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import RobotUprisingIcon from './index';
+import RobotUprisingIcon from './RobotUprisingIcon';
 
 const wrapper = shallow(<RobotUprisingIcon />);
 

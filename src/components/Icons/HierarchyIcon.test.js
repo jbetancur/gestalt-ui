@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import HierarchyIcon from './index';
+import HierarchyIcon from './HierarchyIcon';
 
 const wrapper = shallow(<HierarchyIcon />);
 

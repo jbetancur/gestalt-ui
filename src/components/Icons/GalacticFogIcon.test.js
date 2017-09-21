@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import GalacticFogIcon from './index';
+import GalacticFogIcon from './GalacticFogIcon';
 
 const wrapper = shallow(<GalacticFogIcon />);
 

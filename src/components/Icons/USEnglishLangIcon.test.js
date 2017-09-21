@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import USEnglishLangIcon from './index';
+import USEnglishLangIcon from './USEnglishLangIcon';
 
 const wrapper = shallow(<USEnglishLangIcon />);
 
