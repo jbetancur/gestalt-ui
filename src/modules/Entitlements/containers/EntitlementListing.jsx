@@ -77,7 +77,9 @@ class EntitlementListing extends Component {
   }
 
   render() {
-    const showEntitlementTree = this.props.entitlements.length > 0 && !(this.props.entitlementsPending || this.props.entitlementsUpdatePending);
+    const { entitlements, entitlementsPending, entitlementsUpdatePending } = this.props;
+    const showEntitlementTree = entitlements.length > 0;
+    const isPending = entitlementsPending || entitlementsUpdatePending;
     const allowEmail = this.state.selectedSearchFieldValue === 'users';
     const searchLabel = allowEmail ? 'Search user name or email' : 'Search group name';
     const identityTypeIcon =
@@ -112,7 +114,7 @@ class EntitlementListing extends Component {
               legendFontSize="1.3em"
               height="28em"
             >
-              {showEntitlementTree ?
+              {showEntitlementTree &&
                 <Row>
                   <EntitlementTree
                     selectedIdentityId={this.state.selectedIdentityId}
@@ -129,17 +131,26 @@ class EntitlementListing extends Component {
                       Apply Entitlements
                     </Button>
                   </Row>
-                </Row> :
-                <Row center fill>
-                  <Col flex>
-                    <DotActivity
-                      primary
-                      size={2.5}
-                      id="entitlements-loading"
-                      centered
-                    />
-                  </Col>
                 </Row>}
+
+              {isPending &&
+              <Row center fill>
+                <Col flex>
+                  <DotActivity
+                    primary
+                    size={2.5}
+                    id="entitlements-loading"
+                    centered
+                  />
+                </Col>
+              </Row>}
+
+              {!showEntitlementTree && !isPending &&
+              <Row center fill>
+                <Col flex style={{ textAlign: 'center' }}>
+                  <h4>You do not have permissions to view these Entitlements</h4>
+                </Col>
+              </Row>}
             </Fieldset>}
         </Col>
       </Row>
