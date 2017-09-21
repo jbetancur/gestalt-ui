@@ -2776,9 +2776,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.7.1:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.7.1.tgz#849804136953ebe366782f9f8611e2cbd1b54681"
+eslint@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.7.2.tgz#ff6f5f5193848a27ee9b627be3e73fb9cb5e662e"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
@@ -6231,9 +6231,9 @@ react-event-listener@^0.5.0:
     prop-types "^15.5.10"
     warning "^3.0.0"
 
-react-flexybox@^0.4.6:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-0.4.6.tgz#c64f7f5a8cadd840faad82f789ce9cc7bd7245a0"
+react-flexybox@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-0.4.7.tgz#53ac28cf69d2629662700e868701fc700b308b8b"
   dependencies:
     lodash.omit "^4.5.0"
     prop-types "^15.5.10"

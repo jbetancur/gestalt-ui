@@ -90,6 +90,7 @@ class EnvironmentListing extends Component {
           order={this.state.order}
           setKey={this.setSortKey}
           setOrder={this.setSortOrder}
+          isEnvironment
         />
         {sortedEnvironments.map(item => (
           <Col key={item.id} flex={3} xs={12}>
