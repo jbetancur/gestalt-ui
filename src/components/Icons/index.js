@@ -9,3 +9,5 @@ export { default as HierarchyIcon } from './HierarchyIcon';
 export { default as DockerIcon } from './DockerIcon';
 export { default as MesosIcon } from './MesosIcon';
 export { default as KubernetesIcon } from './KubernetesIcon';
+export { default as ContainerIcon } from './ContainerIcon';
+export { default as MetamodelIcon } from './MetamodelIcon';

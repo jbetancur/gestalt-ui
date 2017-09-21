@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
-import { DeleteIcon, LambdaIcon } from 'components/Icons';
+import { DeleteIcon, LambdaIcon, ContainerIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -41,7 +41,7 @@ class EnvironmentActions extends PureComponent {
         <MenuButton
           id="workspace-settings-menu"
           position="below"
-          iconChildren="add"
+          iconChildren="add_box"
           flat
           sameWidth={false}
           label="Create"
@@ -50,7 +50,7 @@ class EnvironmentActions extends PureComponent {
             id="workspace-settings-menu--container-create"
             primaryText="Container"
             component={Link}
-            leftIcon={<FontIcon>memory</FontIcon>}
+            leftIcon={<ContainerIcon />}
             to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`}
             onClick={() => handleNavigation('environment', 'containers', 0)}
             style={listItemStyle}
@@ -91,6 +91,15 @@ class EnvironmentActions extends PureComponent {
             onClick={() => handleNavigation('environment', 'providers', 4)}
             style={listItemStyle}
           />
+          {/* <ListItem
+            id="environment-settings-menu--secret-create"
+            primaryText="Secret"
+            component={Link}
+            leftIcon={<FontIcon>lock</FontIcon>}
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/secrets/create`}
+            onClick={() => handleNavigation('environment', 'secrets', 5)}
+            style={listItemStyle}
+          /> */}
         </MenuButton>
         <Button
           flat

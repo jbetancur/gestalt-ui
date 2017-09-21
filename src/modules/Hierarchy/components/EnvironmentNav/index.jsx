@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Navbar from 'components/Navbar';
 import ListItemStacked from 'components/ListItemStacked';
-import { LambdaIcon } from 'components/Icons';
+import { LambdaIcon, ContainerIcon } from 'components/Icons';
 
 const renderNavItems = (navigation, handleNavigation) => (
   [
     <ListItemStacked
       key="environment--containers"
-      icon="memory"
+      icon={<ContainerIcon />}
       title="Containers"
       onClick={() => handleNavigation('environment', 'containers', 0)}
       className={navigation.index === 0 && 'active-link'}
@@ -41,6 +41,13 @@ const renderNavItems = (navigation, handleNavigation) => (
       onClick={() => handleNavigation('environment', 'providers', 4)}
       className={navigation.index === 4 && 'active-link'}
     />,
+    // <ListItemStacked
+    //   key="environment--secrets"
+    //   icon="lock"
+    //   title="Secrets"
+    //   onClick={() => handleNavigation('environment', 'secrets', 5)}
+    //   className={navigation.index === 5 && 'active-link'}
+    // />,
   ]
 );
 
