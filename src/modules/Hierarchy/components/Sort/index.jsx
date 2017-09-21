@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Col, Row } from 'react-flexybox';
 import SelectField from 'react-md/lib/SelectFields';
+import FontIcon from 'react-md/lib/FontIcons';
 import { Button } from 'components/Buttons';
 
 const SortOrderButton = styled(Button)`
@@ -10,13 +11,26 @@ const SortOrderButton = styled(Button)`
   margin-top: .2em;
 `;
 
-const sortItems = [
+const SortOrderIcon = styled(FontIcon)`
+  transform: ${props => (props.order === 'asc' ? 'scaleY(1)' : 'scaleY(-1)')};
+`;
+
+const sortItems = Object.freeze([
   { name: 'name', value: 'description' },
   { name: 'short-name', value: 'name' },
   { name: 'owner', value: 'owner.name' },
   { name: 'created', value: 'created.timestamp' },
   { name: 'modified', value: 'modified.timestamp' }
-];
+]);
+
+const generateSortList = (isEnvironment) => {
+  const ofSorts = sortItems.slice();
+  if (isEnvironment) {
+    ofSorts.push({ name: 'environment type', value: 'properties.environment_type' });
+  }
+
+  return ofSorts;
+};
 
 const Sort = (props) => {
   const handleSort = (value) => {
@@ -29,7 +43,7 @@ const Sort = (props) => {
       <Col
         component={SelectField}
         id="sort--key"
-        menuItems={sortItems}
+        menuItems={generateSortList(props.isEnvironment)}
         itemLabel="name"
         itemValue="value"
         defaultValue={props.sortKey}
@@ -40,7 +54,7 @@ const Sort = (props) => {
       />
       <SortOrderButton
         icon
-        iconChildren={props.order === 'asc' ? 'arrow_upward' : 'arrow_downward'}
+        iconChildren={<SortOrderIcon order={props.order}>arrow_upward</SortOrderIcon>}
         tooltipLabel={props.order === 'asc' ? 'ascending' : 'descending'}
         tooltipPosition="right"
         onClick={() => handleSort(props.order)}
@@ -54,10 +68,12 @@ Sort.propTypes = {
   order: PropTypes.string.isRequired,
   setKey: PropTypes.func.isRequired,
   setOrder: PropTypes.func.isRequired,
+  isEnvironment: PropTypes.bool,
 };
 
 Sort.defaultProps = {
   visible: true,
+  isEnvironment: false,
 };
 
 export default Sort;
