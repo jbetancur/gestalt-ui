@@ -51,7 +51,7 @@ class Search extends PureComponent {
   }
 
   render() {
-    const { searchResults, clearOnAutocomplete, searchLabel, helpText, allowEmail } = this.props;
+    const { searchResults, clearOnAutocomplete, searchLabel, helpText } = this.props;
 
     return (
       <Autocomplete
@@ -65,7 +65,6 @@ class Search extends PureComponent {
         onAutocomplete={this.handleOnResult}
         filter={null}
         helpText={helpText}
-        allowEmail={allowEmail}
       />
     );
   }

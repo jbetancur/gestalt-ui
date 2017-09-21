@@ -126,7 +126,7 @@ class EntitlementListing extends Component {
                       raised
                       onClick={this.update}
                     >
-                      Apply Entitlement
+                      Apply Entitlements
                     </Button>
                   </Row>
                 </Row> :
