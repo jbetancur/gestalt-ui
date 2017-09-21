@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import DeleteIcon from './index';
+import DeleteIcon from './DeleteIcon';
 
 const wrapper = mount(<DeleteIcon />);
 

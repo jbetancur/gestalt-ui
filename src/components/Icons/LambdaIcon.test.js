@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import LambdaIcon from './index';
+import LambdaIcon from './LambdaIcon';
 
 const wrapper = shallow(<LambdaIcon />);
 

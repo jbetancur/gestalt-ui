@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import GestaltIconText from './index';
+import GestaltIconText from './GestaltIconText';
 
 const wrapper = shallow(<GestaltIconText />);
 
