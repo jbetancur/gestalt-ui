@@ -18,6 +18,7 @@ import logging from './logging';
 import actions from './actions';
 import secrets from './secrets';
 import search from './search';
+import resourceTypes from './resourceTypes';
 
 export default Object.assign({},
   context,
@@ -40,4 +41,5 @@ export default Object.assign({},
   actions,
   secrets,
   search,
+  resourceTypes,
 );

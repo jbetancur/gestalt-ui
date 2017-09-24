@@ -159,6 +159,12 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       // Subscriptions for Search
       searchResults: metaResource.search.search,
       searchResultsPending: metaResource.search.pending,
+
+      // Subscriptions for resourceTypes
+      resourceTypes: metaResource.resourceTypes.resourceTypes,
+      resourceTypesPending: metaResource.resourceTypes.pending,
+      resourceType: metaResource.resourceType.resourceType,
+      resourceTypePending: metaResource.resourceType.pending,
     };
   }
 
