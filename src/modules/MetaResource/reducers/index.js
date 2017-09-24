@@ -16,6 +16,7 @@ import providerModel from '../models/provider';
 import containerModel from '../models/container';
 import envSchemaModel from '../models/envSchema';
 import secretModel from '../models/secret';
+import resourceTypeModel from '../models/resourceType';
 
 // Bespoke Reducers
 import currentOrgContext from './currentOrgContext';
@@ -80,4 +81,6 @@ export default combineReducers({
   secret: reducerFactory(['fetch', 'create', 'update'], 'secret', 'secret', secretModel, true),
   secretsDropDown: reducerFactory(['fetch'], 'secrets', 'secrets_dropdown', [], true, []),
   search: reducerFactory(['fetch'], 'search', 'search', [], true),
+  resourceTypes: reducerFactory(['fetch', 'delete'], 'resourceTypes', 'resourceTypes', []),
+  resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel, true),
 });
