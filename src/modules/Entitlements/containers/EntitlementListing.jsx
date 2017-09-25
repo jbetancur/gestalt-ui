@@ -80,8 +80,9 @@ class EntitlementListing extends Component {
     const { entitlements, entitlementsPending, entitlementsUpdatePending } = this.props;
     const showEntitlementTree = entitlements.length > 0;
     const isPending = entitlementsPending || entitlementsUpdatePending;
-    const allowEmail = this.state.selectedSearchFieldValue === 'users';
-    const searchLabel = allowEmail ? 'Search user name or email' : 'Search group name';
+    const isUserQuery = this.state.selectedSearchFieldValue === 'users';
+    const searchLabel = isUserQuery ? 'Search username' : 'Search group name';
+    const searchField = isUserQuery ? 'username' : 'name';
     const identityTypeIcon =
       <FontIcon style={{ fontSize: '24px' }}>{this.state.selectedIdentityType === USER ? 'person' : 'group'}</FontIcon>;
 
@@ -95,8 +96,8 @@ class EntitlementListing extends Component {
                   fqon="root"
                   entity={this.state.selectedSearchFieldValue}
                   searchLabel={searchLabel}
+                  searchField={searchField}
                   onResult={this.handleSelectedIdentity}
-                  allowEmail={allowEmail}
                   helpText="search is case sensitive"
                 />
               </Col>

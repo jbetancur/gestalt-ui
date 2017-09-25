@@ -1872,7 +1872,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
     create-hash "^1.1.0"
     inherits "^2.0.1"
 
-create-react-class@^15.5.2, create-react-class@^15.6.0:
+create-react-class@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
@@ -2756,9 +2756,9 @@ eslint-plugin-jsx-a11y@^5.1.1:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
 
-eslint-plugin-react@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.3.0.tgz#ca9368da36f733fbdc05718ae4e91f778f38e344"
+eslint-plugin-react@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.4.0.tgz#300a95861b9729c087d362dd64abcc351a74364a"
   dependencies:
     doctrine "^2.0.0"
     has "^1.0.1"
@@ -6231,9 +6231,9 @@ react-event-listener@^0.5.0:
     prop-types "^15.5.10"
     warning "^3.0.0"
 
-react-flexybox@^0.4.7:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-0.4.7.tgz#53ac28cf69d2629662700e868701fc700b308b8b"
+react-flexybox@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-0.4.9.tgz#a8ec82fba91e1389f4827bca1aeb7a9dc0a474b6"
   dependencies:
     lodash.omit "^4.5.0"
     prop-types "^15.5.10"
@@ -6244,13 +6244,11 @@ react-frame-component@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-1.1.1.tgz#05b7f5689a2d373f25baf0c9adb0e59d78103388"
 
-react-ga@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.2.0.tgz#45235de1356e4d988d9b82214d615a08489c9291"
+react-ga@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.3.1.tgz#4ffc43e783d7c52632e1bd345404d05fb0233e04"
   dependencies:
-    create-react-class "^15.5.2"
-    object-assign "^4.0.1"
-    prop-types "^15.5.6"
+    object-assign "^4.1.1"
 
 react-hot-loader@next:
   version "3.0.0-beta.6"
