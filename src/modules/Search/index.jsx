@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withMetaResource } from 'modules/MetaResource';
 import { debounce } from 'lodash';
-import { isEmail } from 'validator';
 import Autocomplete from 'react-md/lib/Autocompletes';
 
 class Search extends PureComponent {
@@ -16,14 +15,14 @@ class Search extends PureComponent {
     searchLabel: PropTypes.string,
     clearOnAutocomplete: PropTypes.bool,
     helpText: PropTypes.string,
-    allowEmail: PropTypes.bool,
+    searchField: PropTypes.string,
   };
 
   static defaultProps = {
     clearOnAutocomplete: true,
     searchLabel: 'Search',
     helpText: '',
-    allowEmail: false,
+    searchField: 'username',
   };
 
   componentWillMount() {
@@ -35,12 +34,12 @@ class Search extends PureComponent {
   }
 
   handleSearch = (value) => {
-    const { fqon, entity, doSearch, allowEmail } = this.props;
+    const { fqon, entity, doSearch, searchField } = this.props;
 
     if (value) {
-      const field = (allowEmail && isEmail(value)) ? 'email' : 'name';
+      const searchValue = `*${value}*`;
 
-      doSearch(fqon, entity, value, field);
+      doSearch(fqon, entity, searchValue, searchField);
     }
   }
 
