@@ -37,7 +37,7 @@ test:
     - yarn build
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - echo building   $DOCKER_IMG:$DOCKER_TAG
-    - docker build -t $DOCKER_IMG:$DOCKER_TAG .
+    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push     $DOCKER_IMG:$DOCKER_TAG
     - |
       if [ ${CI_COMMIT_REF_NAME} == "develop" ]; then
