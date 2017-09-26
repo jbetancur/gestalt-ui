@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 <nginx_proxy.conf.template \
       sed "s|META_API_URL|$META_API_URL|" \
@@ -6,5 +6,4 @@
     > default.conf 
 echo "default.conf"
 cat default.conf
-# nginx -g 'daemon off;'
 exec nginx '-g' 'daemon off;'
