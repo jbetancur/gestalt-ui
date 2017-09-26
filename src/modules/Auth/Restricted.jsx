@@ -16,7 +16,7 @@ export default function AuthWrapper(BaseComponent) {
 
     checkAuthentication() {
       const { history, location } = this.props;
-      const validCookie = !!cookies.get('auth_token') || false;
+      const validCookie = cookies.get('auth_token') || false;
 
       if (!validCookie) {
         history.replace({

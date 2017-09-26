@@ -22,10 +22,10 @@ import LoginModal from 'modules/Auth/components/LoginModal';
 import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
 import { loginActions } from 'modules/Auth';
 import { withMetaResource } from 'modules/MetaResource';
-import Main from '../../components/Main';
-import AppError from '../../components/AppError';
-import { UI_VERSION, DOCUMENTATION_URL } from '../../../constants';
-import actions from '../../actions';
+import Main from './components/Main';
+import AppError from './components/AppError';
+import { UI_VERSION, DOCUMENTATION_URL } from '../constants';
+import actions from './actions';
 
 class App extends Component {
   static propTypes = {
@@ -48,39 +48,20 @@ class App extends Component {
 
   static defaultProps = {
     children: null,
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = { drawerVisible: false };
-  }
+  };
 
   componentDidMount() {
-    const {
-      // match,
-      fetchSelf,
-      // setCurrentOrgContextfromState,
-      fetchLicense,
-    } = this.props;
+    const { fetchSelf } = this.props;
     // sets our current logged in users home org
     fetchSelf();
-    // Check License Status
-    fetchLicense('root');
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.self !== this.props.self && !this.props.match.params.fqon) {
+    if (nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
       this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
+      this.props.fetchLicense('root');
     }
-  }
-
-  getCurrentOrgContext() {
-    const { currentOrgContext, self } = this.props;
-    // if we don't have an org context then get it from the user self
-    // in the future we can map this to a favorite org
-    return currentOrgContext.id ? currentOrgContext : self.properties.gestalt_home;
   }
 
   logout() {
@@ -88,10 +69,6 @@ class App extends Component {
 
     logout();
     history.replace('/login');
-  }
-
-  handleVisibleState(visible) {
-    this.setState({ drawerVisible: visible });
   }
 
   renderActionsMenu() {
@@ -219,4 +196,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, licenseActions, loginActions))(translate()(App)));
+const bindActions = { ...actions, ...licenseActions, ...loginActions };
+
+export default withMetaResource(connect(mapStateToProps, bindActions)(translate()(App)));

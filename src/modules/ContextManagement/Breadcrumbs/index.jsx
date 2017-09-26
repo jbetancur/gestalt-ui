@@ -29,7 +29,7 @@ const BreadIcon = Icon.extend`
   }
 `;
 
-const IconSeperator = styled(FontIcon)`
+const IconSeparator = styled(FontIcon)`
   font-size: ${props => `${props.size}px`};
   line-height: 35px;
 `;
@@ -152,7 +152,7 @@ class Breadcrumbs extends PureComponent {
             onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
             to={workspaceRoute}
           >
-            <IconSeperator className="seperator" size={size}>chevron_right</IconSeperator>
+            <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
             <span><BreadIcon size={size}>work</BreadIcon>{workspaceName}</span>
           </EnhancedLink>}
 
@@ -161,7 +161,7 @@ class Breadcrumbs extends PureComponent {
             onClick={e => this.checkIfShouldNav(e, environmentRoute)}
             to={environmentRoute}
           >
-            <IconSeperator className="seperator" size={size}>chevron_right</IconSeperator>
+            <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
             <span><BreadIcon size={size}>folder</BreadIcon>{environmentName}</span>
           </EnhancedLink>}
       </Wrapper>

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { withMetaResource } from 'modules/MetaResource';
 
 /**
  * Higher-order component (HOC) to handle keeping our navigation context updated
@@ -44,7 +45,7 @@ export default function WithContext(BaseComponent) {
 
       // These methods are to mainly to appease browser refresh or copy paste URL nav where we lose the hierarchy context
 
-      // match of the params exist, but only make a GET from meta if the contexct is missing
+      // match of the params exist, but only make a GET from meta if the context is missing
       if (match.params.fqon && !currentOrgContext.id) {
         setCurrentOrgContextfromState(match.params.fqon);
       }
@@ -63,6 +64,7 @@ export default function WithContext(BaseComponent) {
     componentWillReceiveProps(nextProps) {
       // keep the org context synced if it is changed
       if (nextProps.organizationSet.id !== this.props.organizationSet.id) {
+        // console.log('test', nextProps.organizationSet, this.props.organizationSet);
         this.props.setCurrentOrgContext(nextProps.organizationSet);
       }
     }
@@ -72,15 +74,5 @@ export default function WithContext(BaseComponent) {
     }
   }
 
-  function mapStateToProps(state) {
-    const { metaResource } = state;
-
-    return {
-      currentOrgContext: metaResource.currentOrgContext.organization,
-      currentWorkspaceContext: metaResource.currentWorkspaceContext.workspace,
-      currentEnvironmentContext: metaResource.currentEnvironmentContext.environment,
-    };
-  }
-
-  return connect(mapStateToProps, Object.assign({}, null))((Context));
+  return withRouter(withMetaResource(Context));
 }
