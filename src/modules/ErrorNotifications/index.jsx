@@ -35,8 +35,19 @@ class ErrorNotifications extends PureComponent {
       const statusCode = error.status || error;
       const message = (error.data && error.data.message) ? error.data.message : '';
 
-      // deal with phantom empty error.data {}
-      if (Object.keys(error.data).length > 0 || typeof error === 'string') {
+      // deal with errors when a string
+      if (typeof error === 'string') {
+        const errorPayload = {
+          text: error,
+          action: 'Close'
+        };
+
+        toasts.push(errorPayload);
+        this.setState({ toasts });
+      }
+
+      // deal with errors when an object as well as phantom data: {}
+      if (error.data && Object.keys(error.data).length > 0) {
         const errorPayload = {
           text: `${friendlyMessage} ${statusCode} ${message}`,
           action: 'Close'
