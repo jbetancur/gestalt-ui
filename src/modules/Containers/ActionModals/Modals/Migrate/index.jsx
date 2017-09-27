@@ -72,6 +72,7 @@ class MigrateModal extends PureComponent {
         title={this.props.title}
         modal={false}
         closeOnEsc
+        autosizeContent={false}
         onHide={() => this.props.hideModal()}
         actions={[
           {
