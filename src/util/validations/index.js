@@ -8,6 +8,10 @@ export const commaDelimitedPattern = /^((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.
 export const commaDelimitedConstraintsPattern = /^(([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)(,[ ]*([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)*$/;
 export const kubernetesVolumeNamePattern = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
 export const unixVariablePattern = /^[a-zA-Z_]+[a-zA-Z0-9_]*$/;
+export const secretKeyValidationPattern = /^[-._a-zA-Z0-9]+$/;
+export const secretNameValidationPattern = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+// eslint-disable-next-line no-useless-escape
+export const base64Pattern = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 
 /**
  * doValidation
@@ -39,6 +43,9 @@ export const isCommaDelimited = string => doValidation(string, commaDelimitedPat
 export const isCommaDelimitedConstraints = string => doValidation(string, commaDelimitedConstraintsPattern, true);
 export const isKubernetesVolumeName = string => doValidation(string, kubernetesVolumeNamePattern);
 export const isUnixVariable = string => doValidation(string, unixVariablePattern);
+export const isSecretKeyValidation = string => doValidation(string, secretKeyValidationPattern);
+export const isSecretNameValidation = string => doValidation(string, secretNameValidationPattern);
+export const isBase64 = string => doValidation(string, base64Pattern);
 
 export default {
   isFQON,
@@ -50,6 +57,8 @@ export default {
   isCommaDelimited,
   isKubernetesVolumeName,
   isUnixVariable,
+  isSecretKeyValidation,
+  isSecretNameValidation,
   fqonPattern,
   phoneNumberPattern,
   usernamePattern,
@@ -60,4 +69,7 @@ export default {
   commaDelimitedConstraintsPattern,
   kubernetesVolumeNamePattern,
   unixVariablePattern,
+  secretKeyValidationPattern,
+  secretNameValidationPattern,
+  isBase64,
 };
