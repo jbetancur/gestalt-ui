@@ -27,7 +27,7 @@ const ContentStyle = styled.div`
 `;
 
 const Fieldset = props => (
-  <FieldsetStyle>
+  <FieldsetStyle className={props.className} style={props.style}>
     {props.legend &&
       <LegendStyle legendFontSize={props.legendFontSize}>
         {props.legend}
@@ -52,6 +52,8 @@ Fieldset.propTypes = {
   maxHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   overflow: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  style: PropTypes.object,
+  className: PropTypes.string,
 };
 
 Fieldset.defaultProps = {
@@ -61,6 +63,8 @@ Fieldset.defaultProps = {
   maxHeight: false,
   height: false,
   overflow: false,
+  style: {},
+  className: '',
 };
 
 export default withTheme(Fieldset);

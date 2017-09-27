@@ -97,6 +97,7 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       // Subscriptions for apiEndpoints
       apiEndpoint: metaResource.apiEndpoint.apiEndpoint,
       apiEndpointPending: metaResource.apiEndpoint.pending,
+      apiEndpoints: metaResource.apiEndpoints.apiEndpoints,
       apiEndpointsPending: metaResource.apiEndpoints.pending,
       apiEndpointUpdatePending: metaResource.apiEndpointUpdate.pending,
       apiEndpointUpdated: metaResource.apiEndpointUpdate.apiEndpoint,

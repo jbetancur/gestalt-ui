@@ -1,1 +1,1 @@
-export { default as tableActions } from './actions';
+export { default as withTableManager } from './withTableManager';

@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import LambdaItem from '../../components/LambdaItem';
 import actions from '../../actions';
 
@@ -12,24 +11,16 @@ class LambdaListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
-    selectedLambdas: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchLambdas: PropTypes.func.isRequired,
     unloadLambdas: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
     // fetchActions: PropTypes.func.isRequired,
   };
-
-  constructor() {
-    super();
-
-    this.edit = this.edit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
 
   componentDidMount() {
     const { match, fetchLambdas } = this.props;
@@ -39,13 +30,12 @@ class LambdaListing extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadLambdas, clearTableSelected, clearTableSort } = this.props;
+    const { unloadLambdas } = this.props;
+
     unloadLambdas();
-    clearTableSelected();
-    clearTableSort();
   }
 
-  edit(lambda, e) {
+  edit = (lambda, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
@@ -54,14 +44,14 @@ class LambdaListing extends PureComponent {
     }
   }
 
-  delete() {
-    const { match, deleteLambdas, clearTableSelected, fetchLambdas } = this.props;
-    const { selectedItems } = this.props.selectedLambdas;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
+  delete = () => {
+    const { match, deleteLambdas, tableActions, fetchLambdas } = this.props;
+    const { items } = this.props.tableManager;
+    const IDs = items.map(item => (item.id));
+    const names = items.map(item => (item.name));
 
     const onSuccess = () => {
-      clearTableSelected();
+      tableActions.clearTableSelected();
       fetchLambdas(match.params.fqon, match.params.environmentId);
     };
 
@@ -83,11 +73,4 @@ class LambdaListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    lambdas: orderBy(state.metaResource.lambdas.lambdas, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-    selectedLambdas: state.tableManager.tableSelected,
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(LambdaListing)));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(LambdaListing))));

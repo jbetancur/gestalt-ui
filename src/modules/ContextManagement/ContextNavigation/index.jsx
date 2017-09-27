@@ -62,7 +62,7 @@ class ContextNavigation extends PureComponent {
     detailsComponent: PropTypes.object,
     pending: PropTypes.bool,
     pendingContextActions: PropTypes.bool,
-    actionsList: PropTypes.array.isRequired,
+    actionsList: PropTypes.array,
     model: PropTypes.object,
   };
 
@@ -71,6 +71,7 @@ class ContextNavigation extends PureComponent {
     pending: false,
     pendingContextActions: false,
     actions: [],
+    actionsList: [],
     model: {},
   };
 

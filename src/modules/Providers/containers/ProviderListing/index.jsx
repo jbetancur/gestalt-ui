@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import ProviderItem from '../../components/ProviderItem';
 import actions from '../../actions';
 
@@ -12,14 +11,13 @@ class ProviderListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
-    selectedProviders: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     deleteProviders: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     providersPending: PropTypes.bool.isRequired,
     showProviderInstanceModal: PropTypes.func.isRequired,
   };
@@ -40,10 +38,8 @@ class ProviderListing extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadProviders, clearTableSelected, clearTableSort } = this.props;
+    const { unloadProviders } = this.props;
     unloadProviders();
-    clearTableSelected();
-    clearTableSort();
   }
 
   edit(provider, e) {
@@ -62,14 +58,14 @@ class ProviderListing extends PureComponent {
   }
 
   delete() {
-    const { match, fetchProviders, deleteProviders, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedProviders;
-    const providerIds = selectedItems.map(item => (item.id));
-    const providerNames = selectedItems.map(item => (item.name));
+    const { match, fetchProviders, deleteProviders, tableActions } = this.props;
+    const { items } = this.props.tableManager;
+    const providerIds = items.map(item => (item.id));
+    const providerNames = items.map(item => (item.name));
 
     if (match.params.workspaceId && !match.params.environmentId) {
       const onSuccess = () => {
-        clearTableSelected();
+        tableActions.clearTableSelected();
         fetchProviders(match.params.fqon, match.params.workspaceId, 'workspaces');
       };
 
@@ -78,7 +74,7 @@ class ProviderListing extends PureComponent {
       }, providerNames);
     } else if (match.params.environmentId) {
       const onSuccess = () => {
-        clearTableSelected();
+        tableActions.clearTableSelected();
         fetchProviders(match.params.fqon, match.params.environmentId, 'environments');
       };
 
@@ -87,7 +83,7 @@ class ProviderListing extends PureComponent {
       }, providerNames);
     } else {
       const onSuccess = () => {
-        clearTableSelected();
+        tableActions.clearTableSelected();
         fetchProviders(match.params.fqon);
       };
 
@@ -115,11 +111,4 @@ class ProviderListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    providers: orderBy(state.metaResource.providers.providers, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-    selectedProviders: state.tableManager.tableSelected,
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(ProviderListing)));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(ProviderListing))));

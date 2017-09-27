@@ -22,11 +22,11 @@ class APICreate extends Component {
   create(values) {
     const { match, history, createAPI, providersKongByGateway } = this.props;
     const payload = generateAPIPayload(values, providersKongByGateway);
-    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${response.id}/edit`);
 
     if (!payload.properties.provider.id) {
       this.props.dispatch({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create API. You must create and link a gateway manager provider type first' });
     } else {
+      const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${response.id}/edit`);
       createAPI(match.params.fqon, match.params.environmentId, payload, onSuccess);
     }
   }

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import APIEndpointItem from '../../components/APIEndpointItem';
 import actions from '../../actions';
 
@@ -12,45 +11,35 @@ class APIEndpointList extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
-    selectedEndpoints: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     deleteAPIEndpoints: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
   };
 
-  constructor() {
-    super();
-
-    this.create = this.create.bind(this);
-    this.edit = this.edit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
-
   componentDidMount() {
     const { match, fetchAPIEndpoints } = this.props;
+
     fetchAPIEndpoints(match.params.fqon, match.params.apiId);
   }
 
   componentWillUnmount() {
-    const { unloadAPIEndpoints, clearTableSelected, clearTableSort } = this.props;
+    const { unloadAPIEndpoints } = this.props;
     unloadAPIEndpoints();
-    clearTableSelected();
-    clearTableSort();
   }
 
-  delete() {
-    const { match, fetchAPIEndpoints, deleteAPIEndpoints, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedEndpoints;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.properties.resource));
+  delete = () => {
+    const { match, fetchAPIEndpoints, deleteAPIEndpoints, tableActions } = this.props;
+    const { items } = this.props.tableManager;
+    const IDs = items.map(item => (item.id));
+    const names = items.map(item => (item.properties.resource));
 
     const onSuccess = () => {
-      clearTableSelected();
+      tableActions.clearTableSelected();
       fetchAPIEndpoints(match.params.fqon, match.params.apiId);
     };
 
@@ -59,12 +48,13 @@ class APIEndpointList extends Component {
     }, names);
   }
 
-  create() {
+  create = () => {
     const { match, history } = this.props;
+
     history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/createEndpoint`);
   }
 
-  edit(apiEndpoint, e) {
+  edit = (apiEndpoint, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match, } = this.props;
@@ -89,11 +79,4 @@ class APIEndpointList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    apiEndpoints: orderBy(state.metaResource.apiEndpoints.apiEndpoints, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-    selectedEndpoints: state.tableManager.tableSelected,
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(APIEndpointList)));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(APIEndpointList))));

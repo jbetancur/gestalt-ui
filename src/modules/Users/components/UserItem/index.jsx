@@ -11,31 +11,28 @@ class UserItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
-    selectedUsers: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
     model: PropTypes.array.isRequired,
     usersPending: PropTypes.bool.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    handleTableSelected: PropTypes.func.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    tableActions: PropTypes.object.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
-  handleRowToggle(row, toggled, count) {
-    const { model, handleTableSelected, selectedUsers } = this.props;
+  handleRowToggle = (row, toggled, count) => {
+    const { model, tableActions, tableManager } = this.props;
 
-    handleTableSelected(row, toggled, count, model, selectedUsers.selectedItems);
+    tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
   render() {
-    const { selectedCount } = this.props.selectedUsers;
-    const { model, usersPending, handleTableSortIcon, sortTable } = this.props;
+    const { count } = this.props.tableManager.tableSelected;
+    const { model, usersPending, tableActions, getTableSortedItems } = this.props;
 
-    const users = this.props.model.map(user => (
+    const users = getTableSortedItems(model, 'name').map(user => (
       <TableRow key={user.id} onClick={e => this.props.onEditToggle(user, e)}>
         <TableColumn>{user.name}</TableColumn>
         <TableColumn>{user.description}</TableColumn>
@@ -53,8 +50,8 @@ class UserItem extends PureComponent {
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Users</div>}
-            visible={selectedCount > 0}
-            contextualTitle={`${selectedCount} user${selectedCount > 1 ? 's' : ''} selected`}
+            visible={count > 0}
+            contextualTitle={`${count} user${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           />
           {usersPending && <LinearProgress id="users-progress" />}
@@ -62,14 +59,14 @@ class UserItem extends PureComponent {
             {model.length > 0 &&
             <TableHeader>
               <TableRow>
-                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('properties.firstName')} onClick={() => sortTable('properties.firstName')}>First Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('properties.lastName')} onClick={() => sortTable('properties.lastName')}>Last Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('properties.phoneNumber')} onClick={() => sortTable('properties.phoneNumber')}>Phone Number</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('properties.email')} onClick={() => sortTable('properties.email')}>Email</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('properties.gestalt_home')} onClick={() => sortTable('properties.gestalt_home')}>Home</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('properties.firstName')} onClick={() => tableActions.sortTable('properties.firstName')}>First Name</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('properties.lastName')} onClick={() => tableActions.sortTable('properties.lastName')}>Last Name</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('properties.phoneNumber')} onClick={() => tableActions.sortTable('properties.phoneNumber')}>Phone Number</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('properties.email')} onClick={() => tableActions.sortTable('properties.email')}>Email</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp')} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('properties.gestalt_home')} onClick={() => tableActions.sortTable('properties.gestalt_home')}>Home</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>
