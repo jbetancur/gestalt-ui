@@ -24,18 +24,27 @@ class EntitlementListing extends Component {
     entitlementsUpdatePending: PropTypes.bool.isRequired,
     updateEntitlements: PropTypes.func.isRequired,
     unloadSearch: PropTypes.func.isRequired,
+    self: PropTypes.object.isRequired,
   };
 
   constructor(props) {
     super(props);
 
+    // make self the default identity
     this.state = {
-      selectedIdentityId: '',
-      selectedIdentityName: '',
-      selectedIdentityType: '',
+      selectedIdentityId: props.self.id,
+      selectedIdentityName: props.self.name,
+      selectedIdentityType: USER,
       selectedSearchFieldName: 'User',
       selectedSearchFieldValue: 'users',
     };
+  }
+
+  componentDidMount() {
+    const { params, fetchEntitlements } = this.props;
+    const entity = generateEntityState(params);
+
+    fetchEntitlements(params.fqon, entity.id, entity.key, this.state.selectedIdentityId);
   }
 
   componentWillUnmount() {
