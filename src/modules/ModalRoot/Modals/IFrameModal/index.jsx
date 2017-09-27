@@ -61,6 +61,7 @@ class ActionsModal extends PureComponent {
         modal={false}
         closeOnEsc
         defaultVisibleTransitionable
+        autosizeContent={false}
         onHide={() => this.props.hideModal()}
         fullPage={this.props.isFullScreen}
       >

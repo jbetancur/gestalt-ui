@@ -56,6 +56,7 @@ class ConfirmModal extends PureComponent {
         modal={false}
         closeOnEsc
         defaultVisibleTransitionable
+        autosizeContent={false}
         onHide={() => this.props.hideModal()}
         actions={[{
           onClick: () => this.doIt(),

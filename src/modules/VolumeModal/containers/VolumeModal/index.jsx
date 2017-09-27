@@ -52,6 +52,7 @@ class VolumeModal extends PureComponent {
         title={<ModalTitle title="Add Volume" icon="storage" />}
         modal={false}
         closeOnEsc
+        autosizeContent={false}
         onHide={() => this.props.hideVolumeModal()}
       >
         <VolumeForm

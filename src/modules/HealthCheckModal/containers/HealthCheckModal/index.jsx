@@ -47,6 +47,7 @@ class HealthCheckModal extends PureComponent {
         title={<ModalTitle title="Add Health Check" icon="mood" />}
         modal={false}
         closeOnEsc
+        autosizeContent={false}
         onHide={() => this.props.hideHealthCheckModal()}
       >
         <HealthCheckForm onSubmit={values => this.addHealthCheck(values)} {...this.props} />

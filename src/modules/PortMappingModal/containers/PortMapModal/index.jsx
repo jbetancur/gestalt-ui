@@ -63,6 +63,7 @@ class PortMapModel extends PureComponent {
         title={<ModalTitle title="Add Port Mapping" icon="settings_ethernet" />}
         modal={false}
         closeOnEsc
+        autosizeContent={false}
         onHide={() => this.props.hidePortmapModal()}
       >
         <PortMapForm networkType={this.props.networkType} onSubmit={values => this.addPortmapping(values)} {...this.props} />
