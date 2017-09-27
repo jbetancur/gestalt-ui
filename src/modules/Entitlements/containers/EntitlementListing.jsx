@@ -78,8 +78,8 @@ class EntitlementListing extends Component {
 
   render() {
     const { entitlements, entitlementsPending, entitlementsUpdatePending } = this.props;
-    const showEntitlementTree = entitlements.length > 0;
     const isPending = entitlementsPending || entitlementsUpdatePending;
+    const showEntitlementTree = entitlements.length > 0 && !isPending;
     const isUserQuery = this.state.selectedSearchFieldValue === 'users';
     const searchLabel = isUserQuery ? 'Search username' : 'Search group name';
     const searchField = isUserQuery ? 'username' : 'name';
