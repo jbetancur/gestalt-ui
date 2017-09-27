@@ -60,7 +60,7 @@ export default (state = initialState, action) => {
     case 'APP_HTTP_ERROR_409':
       return {
         ...state,
-        friendlyMessage: 'Conflict',
+        friendlyMessage: '',
         error: action.payload
       };
     case 'APP_HTTP_ERROR_406':
