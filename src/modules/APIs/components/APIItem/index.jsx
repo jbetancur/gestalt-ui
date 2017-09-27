@@ -12,30 +12,27 @@ class APIItem extends PureComponent {
     onEditToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
-    selectedAPIs: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    handleTableSelected: PropTypes.func.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
-  handleRowToggle(row, toggled, count) {
-    const { model, handleTableSelected, selectedAPIs } = this.props;
+  handleRowToggle = (row, toggled, count) => {
+    const { model, tableActions, tableManager } = this.props;
 
-    handleTableSelected(row, toggled, count, model, selectedAPIs.selectedItems);
+    tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
   render() {
-    const { selectedCount } = this.props.selectedAPIs;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { count } = this.props.tableManager.tableSelected;
+    const { model, tableActions, getTableSortedItems } = this.props;
 
-    const apis = this.props.model.map(api => (
+    const apis = getTableSortedItems(model, 'name').map(api => (
       <TableRow key={api.id} onClick={e => this.props.onEditToggle(api, e)}>
         <TableColumn>{api.name}</TableColumn>
         <TableColumn>{api.description}</TableColumn>
@@ -49,8 +46,8 @@ class APIItem extends PureComponent {
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">APIs</div>}
-            visible={selectedCount > 0}
-            contextualTitle={`${selectedCount} API${selectedCount > 1 ? 's' : ''} selected`}
+            visible={count > 0}
+            contextualTitle={`${count} API${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           />
           {this.props.pending && <LinearProgress id="api-listing" />}
@@ -58,10 +55,10 @@ class APIItem extends PureComponent {
             {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
-                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('owner.name')} onClick={() => tableActions.sortTable('owner.name')}>Owner</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp')} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

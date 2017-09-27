@@ -112,7 +112,7 @@ const APIForm = (props) => {
             </CardActions>
           </Col>
 
-          {api.id &&
+          {editMode && api.id &&
             <Row gutter={5} center>
               <Col flex={10} xs={12} sm={12}>
                 <APIEndpoints {...props} />
@@ -131,7 +131,7 @@ APIForm.propTypes = {
   match: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   apiPending: PropTypes.bool.isRequired,
-  apiUpdatePending: PropTypes.bool.isRequired,
+  apiUpdatePending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -148,6 +148,7 @@ APIForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  apiUpdatePending: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

@@ -34,7 +34,6 @@ const DividerStyled = styled(Divider)`
 
 class OrgNavMenu extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     fetchAllOrgs: PropTypes.func.isRequired,
     filterOrgs: PropTypes.func.isRequired,
     allOrganizations: PropTypes.array.isRequired,
@@ -104,8 +103,7 @@ class OrgNavMenu extends PureComponent {
   }
 
   render() {
-    const { match, currentOrgContext, allOrganizationsPending } = this.props;
-    const showMenu = currentOrgContext.properties.fqon === match.params.fqon;
+    const { currentOrgContext, allOrganizationsPending } = this.props;
 
     return (
       <EnhancedMenuButton
@@ -116,7 +114,6 @@ class OrgNavMenu extends PureComponent {
         flat
         iconBefore={false}
         onClick={this.fetchOrgList}
-        disabled={!showMenu}
       >
         {/* https://github.com/mlaursen/react-md/issues/259 */}
         {[<div key="orgs-nav-menu">

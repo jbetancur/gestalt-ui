@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import GroupItem from '../../components/GroupItem';
 import actions from '../../actions';
 
@@ -12,23 +11,15 @@ class GroupListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     groups: PropTypes.array.isRequired,
-    selectedGroups: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     deleteGroups: PropTypes.func.isRequired,
     groupsPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchGroups: PropTypes.func.isRequired,
     unloadGroups: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
   };
-
-  constructor() {
-    super();
-
-    this.edit = this.edit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
 
   componentDidMount() {
     const { fetchGroups, match } = this.props;
@@ -36,27 +27,25 @@ class GroupListing extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadGroups, clearTableSelected, clearTableSort } = this.props;
+    const { unloadGroups } = this.props;
     unloadGroups();
-    clearTableSelected();
-    clearTableSort();
   }
 
-  edit(group, e) {
+  edit = (group, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       this.props.history.push(`/${this.props.match.params.fqon}/hierarchy/groups/${group.id}/edit`);
     }
   }
 
-  delete() {
-    const { match, fetchGroups, deleteGroups, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedGroups;
-    const groupIds = selectedItems.map(item => (item.id));
-    const groupsNames = selectedItems.map(item => (item.name));
+  delete = () => {
+    const { match, fetchGroups, deleteGroups, tableActions } = this.props;
+    const { items } = this.props.tableManager;
+    const groupIds = items.map(item => (item.id));
+    const groupsNames = items.map(item => (item.name));
 
     const onSuccess = () => {
-      clearTableSelected();
+      tableActions.clearTableSelected();
       fetchGroups(match.params.fqon);
     };
 
@@ -78,11 +67,4 @@ class GroupListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    selectedGroups: state.tableManager.tableSelected,
-    groups: orderBy(state.metaResource.groups.groups, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(GroupListing)));
+export default withMetaResource(connect(null, { ...actions })(withContext(withTableManager(GroupListing))));

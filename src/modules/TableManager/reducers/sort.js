@@ -1,5 +1,5 @@
 const initialState = {
-  key: null,
+  key: '',
   order: 'asc',
 };
 

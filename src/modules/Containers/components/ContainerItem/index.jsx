@@ -24,8 +24,9 @@ class ContainerItem extends PureComponent {
     onEditToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.func.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -43,8 +44,8 @@ class ContainerItem extends PureComponent {
   }
 
   render() {
-    const { handleTableSortIcon, sortTable } = this.props;
-    const containers = this.props.model.map((container) => {
+    const { model, tableActions, getTableSortedItems } = this.props;
+    const containers = getTableSortedItems(model, 'name').map((container) => {
       const providerType = parseChildClass(container.properties.provider.resource_type);
       return (
         <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
@@ -81,14 +82,14 @@ class ContainerItem extends PureComponent {
               <TableHeader>
                 <TableRow>
                   <TableColumn />
-                  <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('properties.status')} onClick={() => sortTable('properties.status')}>Health</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Health</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('properties.provider.resource_type')} onClick={() => sortTable('properties.provider.resource_type')}>Platform</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('properties.provider.name')} onClick={() => sortTable('properties.provider.name')}>Provider</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
                   <TableColumn>Instances</TableColumn>
                   <TableColumn>CPU / Memory</TableColumn>
-                  <TableColumn sorted={handleTableSortIcon('properties.age')} onClick={() => sortTable('properties.age')}>Age</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.age')} onClick={() => tableActions.sortTable('properties.age')}>Age</TableColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>

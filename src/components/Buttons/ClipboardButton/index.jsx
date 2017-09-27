@@ -11,7 +11,7 @@ const EnhancedButton = styled(Button)`
 
 class ClipboardButton extends PureComponent {
   static propTypes = {
-    text: PropTypes.object.isRequired,
+    text: PropTypes.string.isRequired,
     tooltipLabel: PropTypes.string,
     tooltipPosition: PropTypes.string,
     showUUID: PropTypes.bool,

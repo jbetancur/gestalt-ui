@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import ContainerItem from '../../components/ContainerItem';
 import actions from '../../actions';
 
@@ -16,7 +15,6 @@ class ContainerListing extends PureComponent {
     history: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     // fetchActions: PropTypes.func.isRequired,
   };
 
@@ -45,7 +43,6 @@ class ContainerListing extends PureComponent {
 
   componentWillUnmount() {
     this.props.unloadContainers();
-    this.props.clearTableSort();
     clearTimeout(this.timeout);
   }
 
@@ -80,10 +77,4 @@ class ContainerListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    containers: orderBy(state.metaResource.containers.containers, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(ContainerListing)));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(ContainerListing))));

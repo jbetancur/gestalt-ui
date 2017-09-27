@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withContext } from 'modules/ContextManagement';
 import { withMetaResource } from 'modules/MetaResource';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import PolicyItem from '../../components/PolicyItem';
 import actions from '../../actions';
 
@@ -12,23 +11,15 @@ class PolicyListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     policies: PropTypes.array.isRequired,
-    selectedPolicies: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     deletePolicies: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchPolicies: PropTypes.func.isRequired,
     unloadPolicies: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
     policiesPending: PropTypes.bool.isRequired,
   };
-
-  constructor() {
-    super();
-
-    this.edit = this.edit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
 
   componentDidMount() {
     const { match, fetchPolicies } = this.props;
@@ -36,13 +27,12 @@ class PolicyListing extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadPolicies, clearTableSelected, clearTableSort } = this.props;
+    const { unloadPolicies } = this.props;
+
     unloadPolicies();
-    clearTableSelected();
-    clearTableSort();
   }
 
-  edit(policy, e) {
+  edit = (policy, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
@@ -50,14 +40,14 @@ class PolicyListing extends PureComponent {
     }
   }
 
-  delete() {
-    const { match, fetchPolicies, deletePolicies, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedPolicies;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
+  delete = () => {
+    const { match, fetchPolicies, deletePolicies, tableActions } = this.props;
+    const { items } = this.props.tableManager;
+    const IDs = items.map(item => (item.id));
+    const names = items.map(item => (item.name));
 
     const onSuccess = () => {
-      clearTableSelected();
+      tableActions.clearTableSelected();
       fetchPolicies(match.params.fqon, match.params.environmentId);
     };
 
@@ -79,11 +69,4 @@ class PolicyListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    policies: orderBy(state.metaResource.policies.policies, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-    selectedPolicies: state.tableManager.tableSelected,
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(PolicyListing)));
+export default withMetaResource(connect(null, { ...actions })(withContext(withTableManager(PolicyListing))));

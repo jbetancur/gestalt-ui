@@ -16,23 +16,20 @@ class PolicyRuleItem extends PureComponent {
     onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
-    selectedPolicyRules: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     policyRulesPending: PropTypes.bool.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    handleTableSelected: PropTypes.func.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
-  handleRowToggle(row, toggled, count) {
-    const { model, handleTableSelected, selectedPolicyRules } = this.props;
+  handleRowToggle = (row, toggled, count) => {
+    const { model, tableActions, tableManager } = this.props;
 
-    handleTableSelected(row, toggled, count, model, selectedPolicyRules.selectedItems);
+    tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
   renderCreateMenuItems() {
@@ -62,10 +59,10 @@ class PolicyRuleItem extends PureComponent {
   }
 
   render() {
-    const { selectedCount } = this.props.selectedPolicyRules;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { count } = this.props.tableManager.tableSelected;
+    const { model, tableActions, getTableSortedItems } = this.props;
 
-    const policyRules = this.props.model.map(policyRule => (
+    const policyRules = getTableSortedItems(model, 'name').map(policyRule => (
       <TableRow key={policyRule.id} onClick={e => this.props.onEditToggle(policyRule, e)}>
         <TableColumn>{policyRule.name}</TableColumn>
         <TableColumn>{truncate(policyRule.description, 100)}</TableColumn>
@@ -79,8 +76,8 @@ class PolicyRuleItem extends PureComponent {
       <Card tableCard>
         <TableCardHeader
           title={<div className="gf-headline">Policy Rules</div>}
-          visible={selectedCount > 0}
-          contextualTitle={`${selectedCount} policy rule${selectedCount > 1 ? 's' : ''} selected`}
+          visible={count > 0}
+          contextualTitle={`${count} policy rule${count > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
         >
           <div>{this.renderCreateButton()}</div>
@@ -90,11 +87,11 @@ class PolicyRuleItem extends PureComponent {
           {this.props.model.length > 0 &&
           <TableHeader>
             <TableRow>
-              <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('resource_type')} onClick={() => sortTable('resource_type')}>Type</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('resource_type')} onClick={() => tableActions.sortTable('resource_type')}>Type</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('owner.name')} onClick={() => tableActions.sortTable('owner.name')}>Owner</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp')} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
             </TableRow>
           </TableHeader>}
           <TableBody>

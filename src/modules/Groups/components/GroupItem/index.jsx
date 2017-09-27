@@ -14,29 +14,26 @@ class GroupItem extends PureComponent {
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
-    handleTableSelected: PropTypes.func.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    selectedGroups: PropTypes.object.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    tableActions: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
-  handleRowToggle(row, toggled, count) {
-    const { model, handleTableSelected, selectedGroups } = this.props;
+  handleRowToggle = (row, toggled, count) => {
+    const { model, tableActions, tableManager } = this.props;
 
-    handleTableSelected(row, toggled, count, model, selectedGroups.selectedItems);
+    tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
   render() {
-    const { selectedCount } = this.props.selectedGroups;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { count } = this.props.tableManager.tableSelected;
+    const { model, tableActions, getTableSortedItems } = this.props;
 
-    const groups = this.props.model.map(group => (
+    const groups = getTableSortedItems(model, 'name').map(group => (
       <TableRow key={group.id} onClick={e => this.props.onEditToggle(group, e)}>
         <TableColumn>{group.name}</TableColumn>
         <TableColumn>{truncate(group.description, 100)}</TableColumn>
@@ -49,8 +46,8 @@ class GroupItem extends PureComponent {
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Groups</div>}
-            visible={selectedCount > 0}
-            contextualTitle={`${selectedCount} group${selectedCount > 1 ? 's' : ''} selected`}
+            visible={count > 0}
+            contextualTitle={`${count} group${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           />
           {this.props.pending && <LinearProgress id="groups-listing" />}
@@ -58,9 +55,9 @@ class GroupItem extends PureComponent {
             {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
-                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp')} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

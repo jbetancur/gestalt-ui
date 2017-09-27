@@ -28,24 +28,24 @@ export function sortTable(key) {
  * handleTableSelected
  * @param {*} row
  * @param {*} toggled
- * @param {*} selectedCount
+ * @param {*} count
  * @param {*} list
- * @param {*} selectedItems
+ * @param {*} items
  */
-export function handleTableSelected(row, toggled, selectedCount, list, selectedItems) {
+export function handleTableSelected(row, toggled, count, list, items) {
   // TODO: row indexes are off buy 1 in react-md DataTable https://github.com/mlaursen/react-md/issues/243
   const rowIndex = row - 1;
   const payload = {
-    selectedCount,
-    showTitle: selectedCount <= 0,
-    selectedItems: toggleHandler(rowIndex, toggled, selectedCount, selectedItems, list)
+    count,
+    showTitle: count <= 0,
+    items: toggleHandler(rowIndex, toggled, count, items, list)
   };
 
   return { type: 'tableManager/SELECTED_ROWS', payload };
 }
 
 /**
- * handleTableSortIcon
+ * tableActions.handleTableSortIcon
  * handle sort icon for React-md DataTabless
  * @param {string} compareKey
  * @param {bool} isDefaultKey

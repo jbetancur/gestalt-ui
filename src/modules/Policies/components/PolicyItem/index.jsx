@@ -13,30 +13,27 @@ class PolicyItem extends PureComponent {
     onEditToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
-    selectedPolicies: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     policiesPending: PropTypes.bool.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    handleTableSelected: PropTypes.func.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
-  handleRowToggle(row, toggled, count) {
-    const { model, handleTableSelected, selectedPolicies } = this.props;
+  handleRowToggle = (row, toggled, count) => {
+    const { model, tableActions, tableManager } = this.props;
 
-    handleTableSelected(row, toggled, count, model, selectedPolicies.selectedItems);
+    tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
   render() {
-    const { selectedCount } = this.props.selectedPolicies;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { count } = this.props.tableManager.tableSelected;
+    const { model, tableActions, getTableSortedItems } = this.props;
 
-    const policies = this.props.model.map(policy => (
+    const policies = getTableSortedItems(model, 'name').map(policy => (
       <TableRow key={policy.id} onClick={e => this.props.onEditToggle(policy, e)}>
         <TableColumn>{policy.name}</TableColumn>
         <TableColumn>{truncate(policy.description, 100)}</TableColumn>
@@ -50,8 +47,8 @@ class PolicyItem extends PureComponent {
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
             title={<div className="gf-headline">Policies</div>}
-            visible={selectedCount > 0}
-            contextualTitle={`${selectedCount} polic${selectedCount > 1 ? 'ies' : 'y'} selected`}
+            visible={count > 0}
+            contextualTitle={`${count} polic${count > 1 ? 'ies' : 'y'} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
           />
           {this.props.policiesPending && <LinearProgress id="policy-listing" />}
@@ -59,10 +56,10 @@ class PolicyItem extends PureComponent {
             {this.props.model.length > 0 &&
             <TableHeader>
               <TableRow>
-                <TableColumn sorted={handleTableSortIcon('name', true)} onClick={() => sortTable('name')}>Name</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('description')} onClick={() => sortTable('description')}>Description</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-                <TableColumn sorted={handleTableSortIcon('created.timestamp')} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('owner.name')} onClick={() => tableActions.sortTable('owner.name')}>Owner</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp')} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>
             </TableHeader>}
             <TableBody>

@@ -34,7 +34,7 @@ class APIEndpointEdit extends Component {
       fetchLambdasDropDown(match.params.fqon);
     } else {
       // if the search params are missing then go back to the API parent
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/APIS/${match.params.apiId}/edit`);
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
     }
 
     fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
@@ -45,7 +45,7 @@ class APIEndpointEdit extends Component {
     const patches = generateAPIEndpointPatches(apiEndpoint, values);
 
     if (patches.length) {
-      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/APIS/${match.params.apiId}/edit`);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
       updateAPIEndpoint(match.params.fqon, match.params.apiId, apiEndpoint.id, patches, onSuccess);
     }
   }

@@ -15,23 +15,20 @@ class apiEndpointItem extends PureComponent {
     onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
-    selectedEndpoints: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    handleTableSortIcon: PropTypes.func.isRequired,
-    handleTableSelected: PropTypes.func.isRequired,
-    sortTable: PropTypes.func.isRequired,
+    getTableSortedItems: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    this.handleRowToggle = this.handleRowToggle.bind(this);
   }
 
-  handleRowToggle(row, toggled, count) {
-    const { model, handleTableSelected, selectedEndpoints } = this.props;
+  handleRowToggle = (row, toggled, count) => {
+    const { model, tableActions, tableManager } = this.props;
 
-    handleTableSelected(row, toggled, count, model, selectedEndpoints.selectedItems);
+    tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
   renderCreateButton() {
@@ -49,10 +46,10 @@ class apiEndpointItem extends PureComponent {
   }
 
   render() {
-    const { selectedCount } = this.props.selectedEndpoints;
-    const { handleTableSortIcon, sortTable } = this.props;
+    const { count } = this.props.tableManager.tableSelected;
+    const { model, tableActions, getTableSortedItems } = this.props;
 
-    const endpoints = this.props.model.map(apiEndpoint => (
+    const endpoints = getTableSortedItems(model, 'created.timestamp').map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.props.onEditToggle(apiEndpoint, e)}>
         <TableColumn style={{ color: parseChildClass(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
           {parseChildClass(apiEndpoint.resource_state)}
@@ -79,8 +76,8 @@ class apiEndpointItem extends PureComponent {
       <Card tableCard>
         <TableCardHeader
           title={<div className="gf-headline">Endpoints</div>}
-          visible={selectedCount > 0}
-          contextualTitle={`${selectedCount} endpoint${selectedCount > 1 ? 's' : ''} selected`}
+          visible={count > 0}
+          contextualTitle={`${count} endpoint${count > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={() => this.props.onDeleteToggle()} />]}
         >
           <div>{this.renderCreateButton()}</div>
@@ -90,14 +87,14 @@ class apiEndpointItem extends PureComponent {
           {this.props.model.length > 0 &&
           <TableHeader>
             <TableRow>
-              <TableColumn sorted={handleTableSortIcon('resource_state')} onClick={() => sortTable('resource_state')}>State</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('properties.public_url')} onClick={() => sortTable('properties.public_url')}>Public URL</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('resource_state')} onClick={() => tableActions.sortTable('resource_state')}>State</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('properties.public_url')} onClick={() => tableActions.sortTable('properties.public_url')}>Public URL</TableColumn>
               <TableColumn>Methods</TableColumn>
               <TableColumn numeric>Rate Limit</TableColumn>
               <TableColumn style={{ padding: 0 }}>Authentication</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('properties.implementation_type')} onClick={() => sortTable('properties.implementation_type')}>Type</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('owner.name')} onClick={() => sortTable('owner.name')}>Owner</TableColumn>
-              <TableColumn sorted={handleTableSortIcon('created.timestamp', true)} onClick={() => sortTable('created.timestamp')}>Created</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('properties.implementation_type')} onClick={() => tableActions.sortTable('properties.implementation_type')}>Type</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('owner.name')} onClick={() => tableActions.sortTable('owner.name')}>Owner</TableColumn>
+              <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp', true)} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
             </TableRow>
           </TableHeader>}
           <TableBody>

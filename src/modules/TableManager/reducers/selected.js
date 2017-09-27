@@ -1,7 +1,7 @@
 const initialState = {
-  selectedCount: 0,
+  count: 0,
   showTitle: true,
-  selectedItems: [],
+  items: [],
 };
 
 export default (state = initialState, action) => {
@@ -11,9 +11,9 @@ export default (state = initialState, action) => {
     case 'tableManager/SELECTED_ROWS':
       return {
         ...state,
-        selectedCount: action.payload.selectedCount,
+        count: action.payload.count,
         showTitle: action.payload.showTitle,
-        selectedItems: action.payload.selectedItems,
+        items: action.payload.items,
       };
     default:
       return state;

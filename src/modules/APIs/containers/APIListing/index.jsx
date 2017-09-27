@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
 import { withMetaResource } from 'modules/MetaResource';
 import { withContext } from 'modules/ContextManagement';
-import { tableActions } from 'modules/TableManager';
+import { withTableManager } from 'modules/TableManager';
 import APIItem from '../../components/APIItem';
 import actions from '../../actions';
 
@@ -12,23 +11,16 @@ class APIListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     apis: PropTypes.array.isRequired,
-    selectedAPIs: PropTypes.object.isRequired,
+    tableManager: PropTypes.object.isRequired,
+    tableActions: PropTypes.object.isRequired,
     deleteAPIs: PropTypes.func.isRequired,
     apisPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
     unloadAPIs: PropTypes.func.isRequired,
-    clearTableSelected: PropTypes.func.isRequired,
-    clearTableSort: PropTypes.func.isRequired,
+
   };
-
-  constructor() {
-    super();
-
-    this.edit = this.edit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
 
   componentDidMount() {
     const { match, fetchAPIs } = this.props;
@@ -36,13 +28,11 @@ class APIListing extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadAPIs, clearTableSelected, clearTableSort } = this.props;
+    const { unloadAPIs } = this.props;
     unloadAPIs();
-    clearTableSelected();
-    clearTableSort();
   }
 
-  edit(api, e) {
+  edit = (api, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
@@ -50,14 +40,14 @@ class APIListing extends PureComponent {
     }
   }
 
-  delete() {
-    const { match, fetchAPIs, deleteAPIs, clearTableSelected } = this.props;
-    const { selectedItems } = this.props.selectedAPIs;
-    const IDs = selectedItems.map(item => (item.id));
-    const names = selectedItems.map(item => (item.name));
+  delete = () => {
+    const { match, fetchAPIs, deleteAPIs, tableActions } = this.props;
+    const { items } = this.props.tableManager;
+    const IDs = items.map(item => (item.id));
+    const names = items.map(item => (item.name));
 
     const onSuccess = () => {
-      clearTableSelected();
+      tableActions.clearTableSelected();
       fetchAPIs(match.params.fqon, match.params.environmentId);
     };
 
@@ -79,11 +69,4 @@ class APIListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    apis: orderBy(state.metaResource.apis.apis, state.tableManager.tableSort.key || 'name', state.tableManager.tableSort.order),
-    selectedAPIs: state.tableManager.tableSelected,
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, tableActions))(withContext(APIListing)));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(APIListing))));
