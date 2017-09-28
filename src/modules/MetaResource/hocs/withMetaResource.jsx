@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actions from '../actions';
 
@@ -6,7 +6,7 @@ import actions from '../actions';
  * Higher-order component (HOC)
  */
 export default function WithMetaResource(WrapperMetaResourceComponent) {
-  class Resource extends PureComponent {
+  class Resource extends Component {
     render() {
       return <WrapperMetaResourceComponent {...this.props} />;
     }

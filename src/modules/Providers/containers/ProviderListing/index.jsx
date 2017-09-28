@@ -59,7 +59,7 @@ class ProviderListing extends PureComponent {
 
   delete() {
     const { match, fetchProviders, deleteProviders, tableActions } = this.props;
-    const { items } = this.props.tableManager;
+    const { items } = this.props.tableManager.tableSelected;
     const providerIds = items.map(item => (item.id));
     const providerNames = items.map(item => (item.name));
 

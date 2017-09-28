@@ -8,8 +8,8 @@ export default {
     config: {
       auth: {},
       env: {
-        private: {},
-        public: {},
+        private: [],
+        public: [],
       },
       networks: [],
     },

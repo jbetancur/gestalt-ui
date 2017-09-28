@@ -34,7 +34,7 @@ class APIEndpointList extends Component {
 
   delete = () => {
     const { match, fetchAPIEndpoints, deleteAPIEndpoints, tableActions } = this.props;
-    const { items } = this.props.tableManager;
+    const { items } = this.props.tableManager.tableSelected;
     const IDs = items.map(item => (item.id));
     const names = items.map(item => (item.properties.resource));
 
