@@ -26,7 +26,7 @@ test:
     paths:
     - coverage/
 
-.publish_template: &publish
+publish:
   services:
     - docker:dind
   stage: publish
@@ -51,16 +51,6 @@ test:
     paths:
     - DOCKER_TAG
 
-publish-develop-and-tags:
-  <<: *publish
-  only:
-    - develop
-    - tags
-
-manual-publish-branches:
-  <<: *publish
-  when: manual
-
 .deploy_template: &deploy_to_test
   image: galacticfog/gitlab-updater
   stage: deploy
@@ -83,13 +73,13 @@ auto-deploy-develop-to-test:
   only:
     - develop
   dependencies:
-    - publish-develop-and-tags
+    - publish
 
 manual-deploy-to-test:
   <<: *deploy_to_test
   when: manual
   dependencies:
-    - manual-publish-branches
+    - publish
 
 pages:
   stage: publish
@@ -115,7 +105,7 @@ review:
     - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
     - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN\" | .labels.CI_COMMIT_SHA = \"$CI_COMMIT_SHA\"" | http PUT $MARURL
   dependencies:
-    - publish-develop-and-tags
+    - publish
   environment:
     name: review/$CI_BUILD_REF_NAME
     url: https://ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN
