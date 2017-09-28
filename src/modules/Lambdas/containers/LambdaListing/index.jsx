@@ -46,7 +46,7 @@ class LambdaListing extends PureComponent {
 
   delete = () => {
     const { match, deleteLambdas, tableActions, fetchLambdas } = this.props;
-    const { items } = this.props.tableManager;
+    const { items } = this.props.tableManager.tableSelected;
     const IDs = items.map(item => (item.id));
     const names = items.map(item => (item.name));
 

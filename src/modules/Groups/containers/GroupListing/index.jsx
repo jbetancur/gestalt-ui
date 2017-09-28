@@ -40,7 +40,7 @@ class GroupListing extends PureComponent {
 
   delete = () => {
     const { match, fetchGroups, deleteGroups, tableActions } = this.props;
-    const { items } = this.props.tableManager;
+    const { items } = this.props.tableManager.tableSelected;
     const groupIds = items.map(item => (item.id));
     const groupsNames = items.map(item => (item.name));
 

@@ -132,7 +132,7 @@ rendervariables.propTypes = {
   keyFieldValidationMessage: PropTypes.string.isRequired,
   keyFieldValidationFunction: PropTypes.func.isRequired,
   valueFieldValidationMessage: PropTypes.string.isRequired,
-  valueFieldValidationFunction: PropTypes.func.isRequired,
+  valueFieldValidationFunction: PropTypes.func,
   className: PropTypes.string,
 };
 
@@ -140,6 +140,7 @@ rendervariables.defaultProps = {
   touched: false,
   error: false,
   className: 'flex-row no-gutter',
+  valueFieldValidationFunction: null,
 };
 
 const FieldArraysForm = props => (

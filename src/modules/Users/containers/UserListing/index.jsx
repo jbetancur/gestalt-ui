@@ -42,7 +42,7 @@ class UserListing extends PureComponent {
 
   delete = () => {
     const { match, fetchUsers, deleteUsers, tableActions } = this.props;
-    const { items } = this.props.tableManager;
+    const { items } = this.props.tableManager.tableSelected;
     const userIds = items.map(item => (item.id));
     const userNames = items.map(item => (item.name));
 

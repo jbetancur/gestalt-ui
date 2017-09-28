@@ -182,6 +182,8 @@ class Logging extends PureComponent {
     }
   }
 
+  setLogTimespan = value => this.setState({ logTimespan: value });
+
   scrollToBottom() {
     window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
   }
@@ -249,7 +251,7 @@ class Logging extends PureComponent {
                   lineDirection="center"
                   position="below"
                   disabled={logProviderPending || logPending || !logProviderURL}
-                  onChange={value => this.setState({ logTimespan: value })}
+                  onChange={this.setLogTimespan}
                 />
               </ToolbarControls>
               <Button
