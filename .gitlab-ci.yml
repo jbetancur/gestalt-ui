@@ -15,6 +15,7 @@ cache:
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
   TEST_DOMAIN: test.galacticfog.com
+  CLUSTER_URL: marathon.mesos:8080
 
 test:
   stage: test
@@ -26,34 +27,10 @@ test:
     paths:
     - coverage/
 
-publish:
+.deploy_template: &deploy_to_test
+  stage: deploy
   services:
     - docker:dind
-  stage: publish
-  script:
-    - VERSION=$(<package.json jq -r '.version')
-    - yarn install --pure-lockfile --cache-folder .yarn-cache
-    - yarn build
-    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - echo building   $DOCKER_IMG:$DOCKER_TAG
-    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push     $DOCKER_IMG:$DOCKER_TAG
-    - |
-      if [ ${CI_COMMIT_REF_NAME} == "develop" ]; then
-         docker tag $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
-         docker push $DOCKER_IMG:latest
-      fi
-    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
-    - echo $DOCKER_TAG > DOCKER_TAG
-  dependencies:
-    - test
-  artifacts:
-    paths:
-    - DOCKER_TAG
-
-.deploy_template: &deploy_to_test
-  image: galacticfog/gitlab-updater
-  stage: deploy
   environment:
     name: test
     url: https://ui-react.$TEST_DOMAIN
@@ -63,23 +40,33 @@ publish:
     GIT_STRATEGY: none
   allow_failure: true
   script:
-    - (if [ ! -e DOCKER_TAG ]; then echo "DOCKER_TAG is missing, you probably need to (re)run the publish step"; exit 1; fi);
-    - DOCKER_TAG=$(cat DOCKER_TAG)
-    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG"
-    - /usr/local/bin/update-deployed-app.sh  marathon.mesos:8080 gestalt-test-tasks/ui-react  $DOCKER_IMG:$DOCKER_TAG
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn install --pure-lockfile --cache-folder .yarn-cache
+    - yarn build
+    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+    - docker push                $DOCKER_IMG:$DOCKER_TAG
+    - |
+      if [ ${CI_COMMIT_REF_NAME} == "develop" ]; then
+         docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
+         docker push $DOCKER_IMG:latest
+      fi
+    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test"
+    - /usr/local/bin/update-deployed-app.sh  $CLUSTER_URL gestalt-test-tasks/ui-react  $DOCKER_IMG:$DOCKER_TAG
 
 auto-deploy-develop-to-test:
   <<: *deploy_to_test
   only:
     - develop
   dependencies:
-    - publish
+    - test
 
-manual-deploy-to-test:
-  <<: *deploy_to_test
-  when: manual
-  dependencies:
-    - publish
+# manual-deploy-to-test:
+#   <<: *deploy_to_test
+#   when: manual
+#   dependencies:
+#     - test
 
 pages:
   stage: publish
@@ -96,16 +83,22 @@ pages:
     - develop
 
 review:
-  image: galacticfog/gitlab-updater
   stage: review
+  services:
+    - docker:dind
   script:
-    - (if [ ! -e DOCKER_TAG ]; then echo "DOCKER_TAG is missing, you probably need to (re)run the publish step"; exit 1; fi);
-    - DOCKER_TAG=$(cat DOCKER_TAG)
-    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG"
-    - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn install --pure-lockfile --cache-folder .yarn-cache
+    - yarn build
+    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+    - docker push                $DOCKER_IMG:$DOCKER_TAG
+    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
+    - MARURL=$CLUSTER_URL/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
     - <review-app.json jq ".container.docker.image = \"$DOCKER_IMG:$DOCKER_TAG\" | .labels.HAPROXY_0_VHOST = \"ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN\" | .labels.CI_COMMIT_SHA = \"$CI_COMMIT_SHA\"" | http PUT $MARURL
   dependencies:
-    - publish
+    - test
   environment:
     name: review/$CI_BUILD_REF_NAME
     url: https://ui-react-$CI_BUILD_REF_SLUG.$TEST_DOMAIN
@@ -113,10 +106,9 @@ review:
   when: manual
 
 stop_review:
-  image: galacticfog/gitlab-updater
   stage: review
   script:
-    - MARURL=marathon.mesos:8080/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
+    - MARURL=$CLUSTER_URL/v2/apps/gestalt-test-tasks/ui-react-${CI_BUILD_REF_SLUG}
     - http DELETE $MARURL
   variables:
     GIT_STRATEGY: none
