@@ -116,4 +116,6 @@ stop_review:
     name: review/$CI_BUILD_REF_NAME
     action: stop
   when: manual
+  except: 
+    - develop
 
