@@ -41,7 +41,7 @@ class EnvironmentActions extends PureComponent {
         <MenuButton
           id="workspace-settings-menu"
           position="below"
-          iconChildren="add_box"
+          iconChildren="add"
           flat
           sameWidth={false}
           label="Create"
@@ -91,7 +91,7 @@ class EnvironmentActions extends PureComponent {
             onClick={() => handleNavigation('environment', 'providers', 4)}
             style={listItemStyle}
           />
-          {/* <ListItem
+          <ListItem
             id="environment-settings-menu--secret-create"
             primaryText="Secret"
             component={Link}
@@ -99,7 +99,7 @@ class EnvironmentActions extends PureComponent {
             to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/secrets/create`}
             onClick={() => handleNavigation('environment', 'secrets', 5)}
             style={listItemStyle}
-          /> */}
+          />
         </MenuButton>
         <Button
           flat

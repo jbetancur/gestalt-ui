@@ -41,13 +41,13 @@ const renderNavItems = (navigation, handleNavigation) => (
       onClick={() => handleNavigation('environment', 'providers', 4)}
       className={navigation.index === 4 && 'active-link'}
     />,
-    // <ListItemStacked
-    //   key="environment--secrets"
-    //   icon="lock"
-    //   title="Secrets"
-    //   onClick={() => handleNavigation('environment', 'secrets', 5)}
-    //   className={navigation.index === 5 && 'active-link'}
-    // />,
+    <ListItemStacked
+      key="environment--secrets"
+      icon="lock"
+      title="Secrets"
+      onClick={() => handleNavigation('environment', 'secrets', 5)}
+      className={navigation.index === 5 && 'active-link'}
+    />,
   ]
 );
 

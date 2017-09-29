@@ -7,6 +7,7 @@ import { Providers } from 'modules/Providers';
 import { Lambdas } from 'modules/Lambdas';
 import { Containers } from 'modules/Containers';
 import { Policies } from 'modules/Policies';
+import { Secrets } from 'modules/Secrets';
 import Integrations from 'modules/Integrations';
 import { APIs } from 'modules/APIs';
 import Div from 'components/Div';
@@ -56,6 +57,10 @@ class EnvironmentContext extends Component {
       case 'policies':
         return (
           <Policies {...this.props} />
+        );
+      case 'secrets':
+        return (
+          <Secrets {...this.props} />
         );
       case 'integrations':
         return (
