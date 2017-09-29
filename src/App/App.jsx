@@ -31,10 +31,12 @@ class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     fetchSelf: PropTypes.func.isRequired,
+    selfPending: PropTypes.bool.isRequired,
     fetchLicense: PropTypes.func.isRequired,
+    sync: PropTypes.func.isRequired,
+    syncPending: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
-    selfPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     currentOrgContext: PropTypes.object.isRequired,
     currentWorkspaceContext: PropTypes.object.isRequired,
@@ -60,11 +62,12 @@ class App extends Component {
     if (nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
       this.props.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
+      this.props.sync();
       this.props.fetchLicense('root');
     }
   }
 
-  logout() {
+  logout = () => {
     const { history, logout } = this.props;
 
     logout();
@@ -112,7 +115,7 @@ class App extends Component {
           id="main-menu--logout"
           primaryText={t('auth.logout')}
           leftIcon={<FontIcon>power_settings_new</FontIcon>}
-          onClick={() => this.logout()}
+          onClick={this.logout}
         />
       </MenuButton>,
       <MenuButton
@@ -178,12 +181,12 @@ class App extends Component {
           <LoginModal />
           <ModalRoot />
           <HierarchyRoot />
-        </Main> : <AppError {...this.props} />
+        </Main> : <AppError onLogout={this.logout} {...this.props} />
     );
   }
 
   render() {
-    return this.props.selfPending ? this.renderProgress() : this.renderMain();
+    return this.props.selfPending || this.props.syncPending ? this.renderProgress() : this.renderMain();
   }
 }
 

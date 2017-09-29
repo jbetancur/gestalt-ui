@@ -18,7 +18,8 @@ import loggingSagas from './logging';
 import actionSagas from './actions';
 import secretSagas from './secrets';
 import searchSagas from './search';
-import resourceTypes from './resourceTypes';
+import resourceTypeSagas from './resourceTypes';
+import syncSagas from './sync';
 
 export default function* metaSagas() {
   yield [
@@ -42,6 +43,7 @@ export default function* metaSagas() {
     actionSagas(),
     secretSagas(),
     searchSagas(),
-    resourceTypes(),
+    resourceTypeSagas(),
+    syncSagas(),
   ];
 }
