@@ -8,6 +8,7 @@ import PolicyRoot from 'modules/Policies';
 import ContainerRoot from 'modules/Containers';
 import UserRoot from 'modules/Users';
 import GroupRoot from 'modules/Groups';
+import SecretRoot from 'modules/Secrets';
 import HierarchyContext from './containers/HierarchyContext';
 import OrganizationCreate from './containers/OrganizationCreate';
 import OrganizationEdit from './containers/OrganizationEdit';
@@ -39,6 +40,7 @@ const HierarchyRoot = () => (
     <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers'} component={ContainerRoot} />
     <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis'} component={APIRoot} />
     <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies'} component={PolicyRoot} />
+    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets'} component={SecretRoot} />
     <Route component={NotFound} />
   </Switch>
 );
@@ -54,3 +56,7 @@ export { default as EnvironmentCreate } from './containers/EnvironmentCreate';
 export { default as EnvironmentEdit } from './containers/EnvironmentEdit';
 export { default as EnvironmentContext } from './containers/EnvironmentContext';
 export { default as EnvironmentListing } from './containers/EnvironmentListing';
+export { default as HierarchyNav } from './components/HierarchyNav';
+export { default as WorkspaceNav } from './components/WorkspaceNav';
+export { default as EnvironmentNav } from './components/EnvironmentNav';
+export { default as hierarchyActions } from './actions';
