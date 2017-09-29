@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
-import { merge } from 'lodash';
+import { merge, orderBy } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -26,7 +26,8 @@ export function* fetchContainers(action) {
       containers.push(merge(container, { properties: { apiEndpoints } }));
     }
 
-    yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload: containers });
+    const payload = orderBy(containers, 'name', 'asc');
+    yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINERS_REJECTED, payload: e.message });
   }

@@ -169,6 +169,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
     };
   }
 
-  return connect(mapStateToProps, Object.assign({}, actions))((Resource));
+  return connect(mapStateToProps, actions)((Resource));
 }
 

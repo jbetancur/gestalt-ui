@@ -17,6 +17,7 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
+import Div from 'components/Div';
 import { VariablesForm } from 'modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions } from 'modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
@@ -25,10 +26,11 @@ import LinkedProviders from '../LinkedProviders';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
 
+const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
+
 const ProviderForm = (props) => {
   const { provider, change, reset, values, match, history, container, fetchEnvSchema, fetchProvidersByType } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
-
   const getProviders = () => {
     const entityId = match.params.environmentId || match.params.workspaceId || null;
     const entityKey = match.params.workspaceId && match.params.enviromentId ? 'environments' : 'workspaces';
@@ -55,7 +57,8 @@ const ProviderForm = (props) => {
     reader.readAsText(file);
   };
 
-  const handleProviderChange = (value) => {
+  // TODO: there is a bug with the first param which should be the value
+  const handleProviderChange = (a, value) => {
     const providerType = providerTypes.find(type => type.value === value);
 
     // no need to fetch the env schema if a container is not being required
@@ -73,7 +76,7 @@ const ProviderForm = (props) => {
       className="flex-2 flex-xs-12 flex-sm-4"
       component={SelectField}
       name="properties.config.external_protocol"
-      menuItems={[{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }]}
+      menuItems={httpProtocols}
       itemLabel="name"
       itemValue="value"
       label="External Protocol"
@@ -143,8 +146,8 @@ const ProviderForm = (props) => {
   );
 
   const renderVariablesSection = () => (
-    props.envSchemaPending || (selectedProviderType.type && selectedProviderType.allowEnvVariables &&
-    <Row>
+    selectedProviderType.allowEnvVariables && selectedProviderType.type &&
+    <Row component={Div} disabled={props.envSchemaPending}>
       <Col flex={6} xs={12} sm={12}>
         <VariablesForm
           icon="public"
@@ -163,17 +166,19 @@ const ProviderForm = (props) => {
           keyFieldValidationMessage="must be a unix variable name"
         />
       </Col>
-    </Row>)
+    </Row>
   );
 
   const renderEditorSection = () => (
-    !props.envSchemaPending &&
+    // Security: disable editing the yaml in edit mode
+    // TODO: This will need to be solved in the future to block sensitive info
+    !props.envSchemaPending && !provider.id &&
     <Row>
       {selectedProviderType.uploadConfig &&
         <FileInput
           id="imageInput1"
           label="Upload YAML"
-          onChange={(file, e) => onFile(file, e)}
+          onChange={onFile}
           accept="application/x-yaml" // The IANA MIME types registry doesn't list YAML yet, so there isn't a correct one, per se.
           primary
         />}
@@ -285,15 +290,12 @@ const ProviderForm = (props) => {
           xs={12}
           sm={12}
           md={12}
-          // expanderIcon="edit"
-          // expanderTooltipLabel="Edit"
-          // expanderIconClassName="material-icons--primary"
         >
           <CardTitle
-            // expander
             title={
               <div>
-                <div>{props.title}</div>
+                {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.name}` : props.title}
+                {provider.id && `::${selectedProviderType.name}`}
                 {renderContainerActions()}
               </div>
             }
@@ -302,37 +304,41 @@ const ProviderForm = (props) => {
           <CardText>
             <Row>
               <div className="flex-row">
-                <Field
-                  id="select-provider"
-                  className="flex-3 flex-xs-12 flex-sm-6"
-                  component={SelectField}
-                  name="resource_type"
-                  menuItems={providerTypes}
-                  itemLabel="name"
-                  itemValue="value"
-                  required
-                  label="Provider Type"
-                  disabled={provider.id}
-                  async
-                  onChange={(a, value) => handleProviderChange(value)} // TODO: there is a bug with the first parram which should be the value
-                />
-                <Field
-                  className="flex-3 flex-xs-12 flex-sm-6"
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  maxLength={nameMaxLen}
-                  disabled={provider.id}
-                />
-                <Field
-                  className="flex-6 flex-xs-12 flex-sm-12"
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                />
+                {/* only allow the provider type to be selected once - this prevents redux-form errors */}
+                {!selectedProviderType.name &&
+                  <Field
+                    id="select-provider"
+                    className="flex-12"
+                    component={SelectField}
+                    name="resource_type"
+                    menuItems={providerTypes}
+                    itemLabel="name"
+                    itemValue="value"
+                    required
+                    label="Provider Type"
+                    disabled={provider.id}
+                    onChange={handleProviderChange}
+                  />}
+                {selectedProviderType.name &&
+                  <Row>
+                    <Field
+                      className="flex-6 flex-xs-12"
+                      component={TextField}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      required
+                      maxLength={nameMaxLen}
+                      disabled={provider.id}
+                    />
+                    <Field
+                      className="flex-6 flex-xs-12"
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                    />
+                  </Row>}
               </div>
               {renderConfigAndSecuritySections()}
               {renderExternalProtocolSection()}
@@ -347,35 +353,37 @@ const ProviderForm = (props) => {
             <Button
               flat
               disabled={props.providerUpdatePending || props.providerPending || props.submitting}
-              onClick={() => goBack()}
+              onClick={goBack}
             >
               {props.cancelLabel}
             </Button>
-            <Button
-              raised
-              type="submit"
-              disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
-              primary
-            >
-              {props.submitLabel}
-            </Button>
+            {selectedProviderType.name &&
+              <Button
+                raised
+                type="submit"
+                disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
+                primary
+              >
+                {props.submitLabel}
+              </Button>}
           </CardActions>
         </Col>
       </Row>
 
       {renderContainerInstancesPanel()}
 
-      <Row gutter={5} center>
-        <Col flex={10} xs={12} sm={12} md={12}>
-          <ExpansionList>
-            <ExpansionPanel label={<h2>Linked Providers</h2>} defaultExpanded footer={null}>
-              <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
-            </ExpansionPanel>
-          </ExpansionList>
-        </Col>
+      {selectedProviderType.name &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12} md={12}>
+            <ExpansionList>
+              <ExpansionPanel label={<h2>Linked Providers</h2>} defaultExpanded footer={null}>
+                <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
+              </ExpansionPanel>
+            </ExpansionList>
+          </Col>
 
-        {renderContainerSection()}
-      </Row>
+          {renderContainerSection()}
+        </Row>}
     </form>
   );
 };

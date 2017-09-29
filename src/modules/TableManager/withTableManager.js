@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
+// import { orderBy } from 'lodash';
 import actions from './actions';
 
 /**
@@ -21,8 +21,10 @@ export default function WithTableManager(WrappedTableManager) {
       tableActions.clearTableSort();
     }
 
-    getTableSortedItems = (model, defaultKey) =>
-      orderBy(model, this.props.tableManager.tableSortKey || defaultKey, this.props.tableManager.tableSortOrder);
+    // TODO: DISABLED due to https://github.com/mlaursen/react-md/issues/554
+    // eslint-disable-next-line
+    getTableSortedItems = (model, defaultKey) => model;
+    // orderBy(model, this.props.tableManager.tableSortKey || defaultKey, this.props.tableManager.tableSortOrder);
 
     render() {
       return <WrappedTableManager {...this.props} getTableSortedItems={this.getTableSortedItems} />;

@@ -18,9 +18,12 @@ export function clearTableSelected() {
  * sortTable
  * @param {string} key - the property key to sort
  */
+// TODO: DISABLED due to https://github.com/mlaursen/react-md/issues/554
+// eslint-disable-next-line
 export function sortTable(key) {
+  // eslint-disable-next-line
   return (dispatch) => {
-    dispatch({ type: 'tableManager/SORT_COLUMN', key });
+    // dispatch({ type: 'tableManager/SORT_COLUMN', key });
   };
 }
 
@@ -44,25 +47,32 @@ export function handleTableSelected(row, toggled, count, list, items) {
   return { type: 'tableManager/SELECTED_ROWS', payload };
 }
 
+
 /**
  * tableActions.handleTableSortIcon
  * handle sort icon for React-md DataTabless
  * @param {string} compareKey
  * @param {bool} isDefaultKey
  */
+
+// TODO: DISABLED due to https://github.com/mlaursen/react-md/issues/554
+// eslint-disable-next-line
 export function handleTableSortIcon(compareKey, isDefaultKey) {
+  // eslint-disable-next-line
   return (dispatch, getState) => {
-    const { key, order } = getState().tableManager.tableSort;
-
-    if (isDefaultKey && !key) {
-      return order === 'asc';
-    }
-
-    if (compareKey === key) {
-      return order === 'asc';
-    }
+    // const { key, order } = getState().tableManager.tableSort;
 
     return undefined;
+
+    // if (isDefaultKey && !key) {
+    //   return order === 'asc';
+    // }
+
+    // if (compareKey === key) {
+    //   return order === 'asc';
+    // }
+
+    // return undefined;
   };
 }
 
