@@ -19,6 +19,7 @@ import actions from './actions';
 import secrets from './secrets';
 import search from './search';
 import resourceTypes from './resourceTypes';
+import syncMeta from './sync';
 
 export default Object.assign({},
   context,
@@ -42,4 +43,5 @@ export default Object.assign({},
   secrets,
   search,
   resourceTypes,
+  syncMeta,
 );
