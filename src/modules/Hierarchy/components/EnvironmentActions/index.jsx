@@ -41,7 +41,7 @@ class EnvironmentActions extends PureComponent {
         <MenuButton
           id="workspace-settings-menu"
           position="below"
-          iconChildren="add_box"
+          iconChildren="add"
           flat
           sameWidth={false}
           label="Create"
