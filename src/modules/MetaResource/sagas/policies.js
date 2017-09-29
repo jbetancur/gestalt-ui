@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { orderBy } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -9,8 +10,9 @@ import * as types from '../actionTypes';
 export function* fetchPolicies(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/policies?expand=true`);
+    const payload = orderBy(response.data, 'name', 'asc');
 
-    yield put({ type: types.FETCH_POLICIES_FULFILLED, payload: response.data });
+    yield put({ type: types.FETCH_POLICIES_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_POLICIES_REJECTED, payload: e.message });
   }

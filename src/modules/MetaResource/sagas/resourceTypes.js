@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { orderBy } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -23,8 +24,9 @@ export function* fetchResourceType(action) {
 export function* fetchResourceTypes(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/resourcetypes`);
+    const payload = orderBy(response.data, 'name', 'asc');
 
-    yield put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload: response.data });
+    yield put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_RESOURCETYPES_REJECTED, payload: e.message });
   }

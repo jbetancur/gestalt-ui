@@ -60,12 +60,6 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
     payload.properties.config.networks = JSON.parse(properties.config.networks);
   }
 
-  if (properties.data) {
-    payload.properties.data = base64.encode(properties.data);
-    delete payload.properties.config.auth;
-    delete payload.properties.config.url;
-  }
-
   // Handle our container Form and map to the provider payload
   if (Object.keys(containerValues).length) {
     const containerServicepayload = {
@@ -83,6 +77,13 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
   if (updateMode) {
     delete payload.resource_type;
     delete payload.properties.services;
+  } else {
+    // eslint-disable-next-line no-lonely-if
+    if (properties.data) {
+      payload.properties.data = base64.encode(properties.data);
+      delete payload.properties.config.auth;
+      delete payload.properties.config.url;
+    }
   }
 
   return payload;

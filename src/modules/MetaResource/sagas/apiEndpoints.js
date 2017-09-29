@@ -1,5 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
+import { orderBy } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -25,8 +26,8 @@ export function* fetchAPIEndpoints(action) {
         }
       );
     }
-
-    yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: endpoints });
+    const payload = orderBy(endpoints, 'created.timestamp', 'asc');
+    yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_APIENDPOINTS_REJECTED, payload: e.message });
   }

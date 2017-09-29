@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
@@ -9,7 +9,7 @@ import validate from '../../components/ProviderForm/validations';
 import actions from '../../actions';
 import { generateProviderPayload } from '../../payloadTransformer';
 
-class ProviderCreate extends PureComponent {
+class ProviderCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -25,6 +25,12 @@ class ProviderCreate extends PureComponent {
   static defaultProps = {
     containerValues: {},
   };
+
+  // TODO: Add this when we can upgrade to React 16
+  // componentDidCatch(error, info) {
+  //   // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
+  //   this.setState({ hasError: true, error, info });
+  // }
 
   create(values) {
     const { match, history, createProvider, containerValues, volumes, portMappings, healthChecks } = this.props;
@@ -90,10 +96,7 @@ function mapStateToProps(state) {
       config: {
         auth: {},
         external_protocol: 'https',
-        env: {
-          public: state.metaResource.envSchema.schema.public,
-          private: state.metaResource.envSchema.schema.private,
-        },
+        env: state.metaResource.envSchema.schema,
       },
       linked_providers: [],
       services: [],
@@ -113,7 +116,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
+export default withMetaResource(connect(mapStateToProps, { ...actions })(reduxForm({
   form: 'providerCreate',
   validate,
 })(withContext(ProviderCreate))));

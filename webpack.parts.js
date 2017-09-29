@@ -8,7 +8,7 @@ const config = require('./config.json');
 exports.appEntryDevelopment = ({ srcPath }) => (
   [
     'babel-polyfill',
-    'react-hot-loader/patch',
+    // 'react-hot-loader/patch',
     // The main app entry point
     `${srcPath}/index.jsx`
   ]

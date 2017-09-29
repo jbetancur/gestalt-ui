@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
-import { merge } from 'lodash';
+import { merge, orderBy } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -25,8 +25,9 @@ export function* fetchLambdas(action) {
       }
       lambdas.push(merge(lambda, { properties: { apiEndpoints } }));
     }
+    const payload = orderBy(lambdas, 'name', 'asc');
 
-    yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: lambdas });
+    yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_LAMBDAS_REJECTED, payload: e.message });
   }
