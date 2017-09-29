@@ -34,13 +34,11 @@ test:
   environment:
     name: test
     url: https://ui-react.$TEST_DOMAIN
-  tags:
-    - test-cluster
   allow_failure: false
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn install --pure-lockfile --cache-folder .yarn-cache
+    - yarn install --verbose --cache-folder .yarn-cache
     - yarn build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
@@ -59,6 +57,22 @@ auto-deploy-develop-to-test:
     - develop
   dependencies:
     - test
+
+publish-docker-image: 
+  stage: publish
+  services:
+    - docker:dind
+  allow_failure: false
+  script:
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn install --verbose --cache-folder .yarn-cache
+    - yarn build
+    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+    - docker push                $DOCKER_IMG:$DOCKER_TAG
+    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+  only:
+    - tags
 
 # manual-deploy-to-test:
 #   <<: *deploy_to_test
@@ -87,7 +101,7 @@ review:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn install --pure-lockfile --cache-folder .yarn-cache
+    - yarn install --verbose --cache-folder .yarn-cache
     - yarn build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
