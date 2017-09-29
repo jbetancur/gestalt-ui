@@ -50,6 +50,7 @@ export default function configureInterceptors(store, history) {
         'integration.view',
         'user.view',
         'group.view',
+        'secrets.view',
       ];
 
       const response = error.response.data;

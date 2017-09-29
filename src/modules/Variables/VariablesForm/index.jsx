@@ -30,12 +30,13 @@ const renderNameField = (props) => {
 
 const renderValueField = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { input, label, type, className, disabled, required, valueFieldValidationMessage, valueFieldValidationFunction } = props;
+  const { input, label, type, className, disabled, required, valueFieldValidationMessage, valueFieldValidationFunction, hideValueField } = props;
   const doValidate =
     (valueFieldValidationMessage && valueFieldValidationFunction && typeof valueFieldValidationFunction === 'function');
   const validateValue = value => (value && !valueFieldValidationFunction(value)) && valueFieldValidationMessage;
 
   return (
+    !hideValueField &&
     <Field
       {...input}
       className={className}
@@ -67,6 +68,8 @@ const rendervariables = (props) => {
     keyFieldValidationFunction,
     valueFieldValidationMessage,
     valueFieldValidationFunction,
+    hideValueField,
+    disabled
   } = props;
   return (
     <div>
@@ -75,6 +78,7 @@ const rendervariables = (props) => {
         iconChildren={icon}
         primary
         onClick={() => fields.unshift({})}
+        disabled={disabled}
       >
         {addButtonLabel}
       </Button>
@@ -93,7 +97,7 @@ const rendervariables = (props) => {
               component={renderNameField}
               label={fieldNameStr}
               className="flex-4 flex-xs-12"
-              disabled={isRequired || isInherited}
+              disabled={isRequired || isInherited || disabled}
               keyFieldValidationMessage={keyFieldValidationMessage}
               keyFieldValidationFunction={keyFieldValidationFunction}
             />
@@ -106,8 +110,10 @@ const rendervariables = (props) => {
               required={isRequired}
               valueFieldValidationMessage={valueFieldValidationMessage}
               valueFieldValidationFunction={valueFieldValidationFunction}
+              hideValueField={hideValueField}
+              disabled={props.disabled}
             />
-            {!(isRequired || isInherited) &&
+            {!(isRequired || isInherited || disabled) &&
               <FieldRemoveButton
                 marginTop="1em"
                 onClick={() => fields.remove(index)}
@@ -129,11 +135,13 @@ rendervariables.propTypes = {
   keyFieldValue: PropTypes.string.isRequired,
   valueFieldName: PropTypes.string.isRequired,
   valueFieldValue: PropTypes.string.isRequired,
+  hideValueField: PropTypes.bool.isRequired,
   keyFieldValidationMessage: PropTypes.string.isRequired,
   keyFieldValidationFunction: PropTypes.func.isRequired,
   valueFieldValidationMessage: PropTypes.string.isRequired,
   valueFieldValidationFunction: PropTypes.func,
   className: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
 };
 
 rendervariables.defaultProps = {
@@ -153,10 +161,12 @@ const FieldArraysForm = props => (
     keyFieldValue={props.keyFieldValue}
     valueFieldName={props.valueFieldName}
     valueFieldValue={props.valueFieldValue}
+    hideValueField={props.hideValueField}
     keyFieldValidationMessage={props.keyFieldValidationMessage}
     keyFieldValidationFunction={props.keyFieldValidationFunction}
     valueFieldValidationMessage={props.valueFieldValidationMessage}
     valueFieldValidationFunction={props.valueFieldValidationFunction}
+    disabled={props.disabled}
   />
 );
 
@@ -168,10 +178,12 @@ FieldArraysForm.propTypes = {
   keyFieldValue: PropTypes.string,
   valueFieldName: PropTypes.string,
   valueFieldValue: PropTypes.string,
+  hideValueField: PropTypes.bool,
   keyFieldValidationMessage: PropTypes.string,
   keyFieldValidationFunction: PropTypes.func,
   valueFieldValidationMessage: PropTypes.string,
   valueFieldValidationFunction: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 FieldArraysForm.defaultProps = {
@@ -182,11 +194,12 @@ FieldArraysForm.defaultProps = {
   keyFieldValue: 'name',
   valueFieldName: 'Value',
   valueFieldValue: 'value',
-  // unixVariableName: false,
+  hideValueField: false,
   keyFieldValidationMessage: '',
   keyFieldValidationFunction: null,
   valueFieldValidationMessage: '',
   valueFieldValidationFunction: null,
+  disabled: false,
 };
 
 export default FieldArraysForm;
