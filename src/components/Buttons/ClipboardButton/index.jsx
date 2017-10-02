@@ -15,13 +15,13 @@ class ClipboardButton extends PureComponent {
     tooltipLabel: PropTypes.string,
     tooltipPosition: PropTypes.string,
     showUUID: PropTypes.bool,
-  }
+  };
 
   static defaultProps = {
     tooltipLabel: '',
     tooltipPosition: 'bottom',
     showUUID: true,
-  }
+  };
 
   render() {
     return (

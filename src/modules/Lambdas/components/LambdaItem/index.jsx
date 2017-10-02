@@ -10,6 +10,7 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import A from 'components/A';
+import { truncate } from 'util/helpers/strings';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
@@ -84,7 +85,7 @@ class LambdaItem extends PureComponent {
           />
         </TableColumn>
         <TableColumn>{lambda.name}</TableColumn>
-        <TableColumn>{lambda.description}</TableColumn>
+        <TableColumn>{truncate(lambda.description, 45)}</TableColumn>
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>

@@ -17,8 +17,9 @@ import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { VariablesForm } from 'modules/Variables';
-import { Button, ClipboardButton } from 'components/Buttons';
+import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
+import DetailsPane from 'components/DetailsPane';
 import { isUnixVariable } from 'util/validations';
 import runTimes from '../../lists/runTimes';
 import acceptHeaders from '../../lists/acceptHeaders';
@@ -42,29 +43,28 @@ const LambdaForm = (props) => {
 
   return (
     <div>
+      {lambda.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={lambda} />
+          </Col>
+        </Row>}
       <form
         onSubmit={props.handleSubmit(props.onSubmit)}
         autoComplete="off"
       >
         <Row gutter={5} center>
-          <Col component={Card} flex={11} xs={12} sm={12}>
+          <Col component={Card} flex={10} xs={12} sm={12}>
             <CardTitle
               title={props.title}
             />
             {lambda.id &&
               <ActionsToolbar>
-                <div className="flex-row no-gutter">
-                  <div className="flex-12">
-                    <ClipboardButton
-                      showUUID={false}
-                      text={lambda.id}
-                      tooltipLabel="Copy uuid to clipboard"
-                    />
+                <Row>
+                  <Col flex={12}>
                     <Button
-                      icon
+                      flat
                       iconChildren="subject"
-                      tooltipPosition="bottom"
-                      tooltipLabel="View Log"
                       to={{
                         pathname: '/logs',
                         search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
@@ -72,19 +72,21 @@ const LambdaForm = (props) => {
                       target="_blank"
                       component={Link}
                       showUUID
-                    />
+                    >
+                      View Log
+                    </Button>
                     <Button
-                      icon
+                      flat
                       iconChildren="security"
-                      tooltipPosition="bottom"
-                      tooltipLabel="Entitlements"
                       onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                    />
-                  </div>
-                </div>
+                    >
+                      Entitlements
+                    </Button>
+                  </Col>
+                </Row>
               </ActionsToolbar>}
             <CardText>
-              <div className="flex-row">
+              <Row gutter={5}>
                 <div className="flex-12 flex-xs-12 flex-sm-12 flex-md-12 flex-row start-start">
                   <Field
                     id="select-provider"
@@ -130,6 +132,7 @@ const LambdaForm = (props) => {
                     name="description"
                     label="Description"
                     type="text"
+                    rows={1}
                     maxLength={descriptionMaxLen}
                   />
 
@@ -312,10 +315,10 @@ const LambdaForm = (props) => {
                     </Fieldset>
                   </div>
                 </div>
-              </div>
+              </Row>
             </CardText>
             {props.lambdaPending && <LinearProgress id="lambda-form" />}
-            <CardActions className="flex-row no-gutter">
+            <CardActions>
               <Button
                 flat
                 disabled={props.lambdaPending || props.submitting}

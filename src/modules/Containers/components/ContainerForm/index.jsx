@@ -20,7 +20,9 @@ import { VariablesForm } from 'modules/Variables';
 import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
 import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
+import { SecretsPanel } from 'modules/Secrets';
 import { Button } from 'components/Buttons';
+import DetailsPane from 'components/DetailsPane';
 import { parseChildClass } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
 import ContainerInstances from '../ContainerInstances';
@@ -50,15 +52,20 @@ const ContainerForm = (props) => {
 
   // TODO: Remove when Kubernetes/Docker when api is ready
   const providerType = parseChildClass(selectedProvider.resource_type);
-  const isHealthChecksEnabled =
-    parseChildClass(providerType) === 'Kubernetes' ||
-    parseChildClass(providerType) === 'Docker';
+  const isHealthChecksEnabled = parseChildClass(providerType) === 'DCOS';
+  const isSecretsEnabled = false; // parseChildClass(providerType) === 'Kubernetes';
 
   return (
     <div>
       <PortMapModal networkType={values.properties.network} />
       <VolumeModal providerType={parseChildClass(providerType)} />
       <HealthCheckModal />
+      {container.id && props.editMode &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={container} />
+          </Col>
+        </Row>}
       <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <Row gutter={5} center>
           <Col
@@ -88,7 +95,7 @@ const ContainerForm = (props) => {
                 }
               />}
               <CardText>
-                <div className="flex-row">
+                <Row gutter={5}>
                   {!values.properties.provider.id &&
                     <Field
                       id="select-provider"
@@ -121,6 +128,7 @@ const ContainerForm = (props) => {
                       name="description"
                       label="Description"
                       type="text"
+                      rows={1}
                     />
                     <Field
                       className="flex-5 flex-xs-12"
@@ -196,7 +204,7 @@ const ContainerForm = (props) => {
                       label="Force Pull Image on Every Launch"
                     />
                   </div>}
-                </div>
+                </Row>
 
               </CardText>
               {(props.containerUpdatePending || props.containerPending) && <LinearProgress id="container-form-loading" />}
@@ -297,6 +305,15 @@ const ContainerForm = (props) => {
                   </Row>
                 </ExpansionPanelNoPadding>
 
+                {isSecretsEnabled ?
+                  <ExpansionPanel label={<h3>Secrets</h3>} defaultExpanded={values.properties.secrets.length > 0} footer={null}>
+                    <Row>
+                      <Col flex={12}>
+                        <SecretsPanel fieldName="properties.secrets" {...props} />
+                      </Col>
+                    </Row>
+                  </ExpansionPanel> : <div />}
+
                 <ExpansionPanel label={<h3>Environment Variables</h3>} defaultExpanded={values.properties.env.length > 0} footer={null}>
                   <Row>
                     <Col flex={12}>
@@ -321,7 +338,6 @@ const ContainerForm = (props) => {
 
                 {/* TODO: Implement for Kubernetes/Docker when api is ready */}
                 {isHealthChecksEnabled ?
-                  <div /> :
                   <ExpansionPanelNoPadding label={<h3>Health Checks</h3>} defaultExpanded={values.properties.health_checks.length > 0} footer={null}>
                     <Row>
                       <Col flex>
@@ -338,7 +354,7 @@ const ContainerForm = (props) => {
                         <HealthCheckListing editMode={props.editMode} mergeHealthChecks={values.properties.health_checks} />
                       </Col>
                     </Row>
-                  </ExpansionPanelNoPadding>}
+                  </ExpansionPanelNoPadding> : <div />}
 
                 <ExpansionPanel label={<h3>Optional</h3>} footer={null}>
                   <Field

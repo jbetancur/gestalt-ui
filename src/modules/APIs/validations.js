@@ -25,5 +25,9 @@ export default (values) => {
     errors.name = 'invalid api name format';
   }
 
+  if (values.name && values.name.length > nameMaxLen) {
+    errors.name = `api name cannot be longer than ${nameMaxLen} characters`;
+  }
+
   return errors;
 };

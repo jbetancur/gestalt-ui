@@ -104,6 +104,7 @@ function mapStateToProps(state) {
     portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
+    secrets: state.metaResource.secrets.secrets,
     initialValues: {
       name: '',
       properties: {
@@ -116,6 +117,7 @@ function mapStateToProps(state) {
         instances: [],
         port_mappings: [],
         volumes: [],
+        secrets: [],
         provider: {
           locations: [],
         },

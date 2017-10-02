@@ -6,7 +6,7 @@ import { FormattedDate } from 'react-intl';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import Label from 'components/Label';
-import P from 'components/P';
+import { P } from 'components/Typography';
 import { ModalFooter } from 'components/Modal';
 
 const LicenseForm = (props) => {

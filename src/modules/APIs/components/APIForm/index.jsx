@@ -13,6 +13,7 @@ import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { APIEndpoints } from 'modules/APIEndpoints';
 import { Button } from 'components/Buttons';
+import DetailsPane from 'components/DetailsPane';
 import { nameMaxLen } from '../../validations';
 
 const APIForm = (props) => {
@@ -34,15 +35,18 @@ const APIForm = (props) => {
 
   return (
     <div>
+      {api.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={api} />
+          </Col>
+        </Row>}
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12}>
-            <CardTitle
-              title={title}
-              subtitle={api.id}
-            />
+            <CardTitle title={title} />
             <CardText>
-              <div className="flex-row">
+              <Row gutter={5}>
                 <Field
                   id="select-provider"
                   className="flex-4 flex-xs-12"
@@ -70,7 +74,7 @@ const APIForm = (props) => {
 
                     menuItems={selectedProviderLocations()}
                   /> : null} */}
-                <div className="flex-row">
+                <Row gutter={5}>
                   <Field
                     className="flex-4 flex-xs-12"
                     component={TextField}
@@ -87,9 +91,10 @@ const APIForm = (props) => {
                     name="description"
                     label="Description"
                     type="text"
+                    rows={1}
                   />
-                </div>
-              </div>
+                </Row>
+              </Row>
             </CardText>
             {(apiPending || apiUpdatePending) && <LinearProgress id="api-form" />}
             <CardActions>

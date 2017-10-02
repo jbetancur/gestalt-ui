@@ -18,6 +18,7 @@ import SelectField from 'components/SelectField';
 import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
 import Div from 'components/Div';
+import DetailsPane from 'components/DetailsPane';
 import { VariablesForm } from 'modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions } from 'modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
@@ -85,7 +86,7 @@ const ProviderForm = (props) => {
   );
 
   const renderConfigAndSecuritySections = () => (
-    <div className="flex-row no-gutter">
+    <Row>
       {selectedProviderType.config &&
         <Field
           className="flex-6 flex-xs-12 flex-sm-12"
@@ -124,7 +125,7 @@ const ProviderForm = (props) => {
             required
           />
         </div>}
-    </div>
+    </Row>
   );
 
   const renderJSONSection = () => (
@@ -283,6 +284,12 @@ const ProviderForm = (props) => {
 
   return (
     <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      {provider.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={provider} />
+          </Col>
+        </Row>}
       <Row gutter={5} center>
         <Col
           component={Card}
@@ -303,43 +310,42 @@ const ProviderForm = (props) => {
           />
           <CardText>
             <Row>
-              <div className="flex-row">
-                {/* only allow the provider type to be selected once - this prevents redux-form errors */}
-                {!selectedProviderType.name &&
+              {/* only allow the provider type to be selected once - this prevents redux-form errors */}
+              {!selectedProviderType.name &&
+                <Field
+                  id="select-provider"
+                  className="flex-12"
+                  component={SelectField}
+                  name="resource_type"
+                  menuItems={providerTypes}
+                  itemLabel="name"
+                  itemValue="value"
+                  required
+                  label="Provider Type"
+                  disabled={provider.id}
+                  onChange={handleProviderChange}
+                />}
+              {selectedProviderType.name &&
+                <Row>
                   <Field
-                    id="select-provider"
-                    className="flex-12"
-                    component={SelectField}
-                    name="resource_type"
-                    menuItems={providerTypes}
-                    itemLabel="name"
-                    itemValue="value"
+                    className="flex-6 flex-xs-12"
+                    component={TextField}
+                    name="name"
+                    label="Name"
+                    type="text"
                     required
-                    label="Provider Type"
+                    maxLength={nameMaxLen}
                     disabled={provider.id}
-                    onChange={handleProviderChange}
-                  />}
-                {selectedProviderType.name &&
-                  <Row>
-                    <Field
-                      className="flex-6 flex-xs-12"
-                      component={TextField}
-                      name="name"
-                      label="Name"
-                      type="text"
-                      required
-                      maxLength={nameMaxLen}
-                      disabled={provider.id}
-                    />
-                    <Field
-                      className="flex-6 flex-xs-12"
-                      component={TextField}
-                      name="description"
-                      label="Description"
-                      type="text"
-                    />
-                  </Row>}
-              </div>
+                  />
+                  <Field
+                    className="flex-6 flex-xs-12"
+                    component={TextField}
+                    name="description"
+                    label="Description"
+                    type="text"
+                    rows={1}
+                  />
+                </Row>}
               {renderConfigAndSecuritySections()}
               {renderExternalProtocolSection()}
               {renderEditorSection()}
