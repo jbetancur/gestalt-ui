@@ -10,6 +10,7 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
+import DetailsPane from 'components/DetailsPane';
 import { PolicyRules } from 'modules/PolicyRules';
 import { nameMaxLen } from '../../validations';
 
@@ -31,11 +32,16 @@ const PolicyForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      {policy.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={policy} />
+          </Col>
+        </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12}>
           <CardTitle
             title={title}
-            subtitle={policy.id}
           />
           <CardText>
             <div className="flex-row">
@@ -55,6 +61,7 @@ const PolicyForm = (props) => {
                 name="description"
                 label="Description"
                 type="text"
+                rows={1}
               />
             </div>
           </CardText>

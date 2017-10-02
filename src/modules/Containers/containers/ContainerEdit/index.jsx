@@ -30,6 +30,7 @@ class ContainerEdit extends Component {
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     pristine: PropTypes.bool.isRequired,
+    // fetchSecrets: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -39,6 +40,7 @@ class ContainerEdit extends Component {
 
     fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
     fetchEnv(match.params.fqon, entityId, entityKey);
+    // fetchSecrets(match.params.fqon, match.params.environmentId);
     this.populateContainer();
   }
 
@@ -132,6 +134,7 @@ function mapStateToProps(state) {
       instances: container.properties.instances,
       port_mappings: container.properties.port_mappings,
       volumes: container.properties.volumes,
+      secrets: container.properties.secrets,
       provider: container.properties.provider,
       force_pull: container.properties.force_pull,
       cpus: container.properties.cpus,
@@ -152,6 +155,7 @@ function mapStateToProps(state) {
     portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
+    secrets: state.metaResource.secrets.secrets,
     initialValues: model,
     enableReinitialize: true,
   };

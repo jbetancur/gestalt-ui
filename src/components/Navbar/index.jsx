@@ -10,7 +10,7 @@ const NavbarContainer = styled.nav`
   background-color: white;
   ${props => (props.vertical && 'bottom: 0')};
   width: ${props => (props.vertical ? '72px' : '100%')};
-  border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-right: 1px solid ${props => props.theme.colors['$md-grey-300']};
   padding-left: 0;
   display: flex;
   flex-direction: ${props => (props.vertical ? 'column' : 'row')};

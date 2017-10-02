@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues, change } from 'redux-form';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -13,6 +14,7 @@ import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import CheckboxForm from 'components/Checkbox';
 import Fieldset from 'components/Fieldset';
+import DetailsPane from 'components/DetailsPane';
 import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 
@@ -55,8 +57,14 @@ const PolicyEventRuleForm = (props) => {
   };
 
   return (
-    <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-      <div className="flex-row center-center">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      {policyRule.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={policyRule} />
+          </Col>
+        </Row>}
+      <Row gutter={5} center>
         <Card className="flex-10 flex-xs-12 flex-sm-12">
           <CardTitle
             title={
@@ -73,7 +81,7 @@ const PolicyEventRuleForm = (props) => {
             subtitle={policyRule.id}
           />
           <CardText>
-            <div className="flex-row">
+            <Row gutter={5}>
               <Field
                 className="flex-4 flex-xs-12 flex-sm-6"
                 component={TextField}
@@ -89,8 +97,9 @@ const PolicyEventRuleForm = (props) => {
                 name="description"
                 label="Description"
                 type="text"
+                rows={1}
               />
-              <div className="flex-row">
+              <Row gutter={5}>
                 <div className="flex-4 flex-sm-6 flex-xs-12">
                   <Fieldset legend="Lambda">
                     <Autocomplete
@@ -114,7 +123,7 @@ const PolicyEventRuleForm = (props) => {
                 </div>
                 <div className="flex-8 flex-xs-12 flex-sm-12">
                   <Fieldset legend="Actions">
-                    <div className="flex-row">
+                    <Row gutter={5}>
                       {policyTriggers.map(action => (
                         <Field
                           key={action.name}
@@ -126,11 +135,11 @@ const PolicyEventRuleForm = (props) => {
                           name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
                           onChange={() => onActionChecked(action.name)}
                         />))}
-                    </div>
+                    </Row>
                   </Fieldset>
                 </div>
-              </div>
-            </div>
+              </Row>
+            </Row>
           </CardText>
           {(policyRuleUpdatePending || policyRulePending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
           <CardActions>
@@ -152,7 +161,7 @@ const PolicyEventRuleForm = (props) => {
             </Button>
           </CardActions>
         </Card>
-      </div>
+      </Row>
     </form>
   );
 };

@@ -12,6 +12,7 @@ import SelectField from 'components/SelectField';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import Fieldset from 'components/Fieldset';
+import DetailsPane from 'components/DetailsPane';
 import { VariablesForm } from 'modules/Variables';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
 import { nameMaxLen } from '../validations';
@@ -35,11 +36,16 @@ const SecretForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      {secret.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={secret} />
+          </Col>
+        </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12}>
           <CardTitle
             title={title}
-            subtitle={secret.id}
           />
           <CardText>
             <Row gutter={5}>
@@ -76,6 +82,7 @@ const SecretForm = (props) => {
                   name="description"
                   label="Description"
                   type="text"
+                  rows={1}
                 />
               </Col>
 

@@ -16,6 +16,7 @@ import SelectionControlGroup from 'components/SelectionControlGroup';
 import TextField from 'components/TextField';
 import { Button } from 'components/Buttons';
 import HelpText from 'components/HelpText';
+import DetailsPane from 'components/DetailsPane';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../RateLimit';
 import Security from '../Security';
@@ -70,6 +71,12 @@ const APIEndpointForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      {apiEndpoint.id &&
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12}>
+            <DetailsPane model={apiEndpoint} />
+          </Col>
+        </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12}>
           <CardTitle

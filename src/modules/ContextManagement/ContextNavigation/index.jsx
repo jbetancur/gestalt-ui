@@ -7,7 +7,7 @@ import { ActionsMenu } from 'modules/Actions';
 
 const ContextNavigationStyle = styled.div`
   background-color: ${props => props.theme.colors['$md-white']};
-  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-300']};
   padding: 13px 8px 13px 8px;
   text-align: left;
   min-height: 64px;

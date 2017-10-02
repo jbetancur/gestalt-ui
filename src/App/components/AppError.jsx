@@ -9,7 +9,6 @@ const AppError = props => (
       <h1>
         There was an issue connecting to the Gestalt API. If a page refresh does not solve the issue please contact your Gestalt admin.
       </h1>
-
       <Button primary raised onClick={props.onLogout}>Logout</Button>
     </Col>
   </Row>

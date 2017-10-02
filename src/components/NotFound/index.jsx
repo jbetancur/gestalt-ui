@@ -4,7 +4,7 @@ import { Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
-import P from 'components/P';
+import { P } from 'components/Typography';
 
 const lyrics = [
   'Hey, laser lips, your mama was a snow blower.',

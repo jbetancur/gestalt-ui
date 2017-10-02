@@ -2,6 +2,7 @@ import colors from '../colors.json';
 
 export default {
   colors,
+  mainBackgroundColor: colors['$md-grey-100'],
   mainNavBackgroundColor: colors['$gf-deep-blue'],
   cardBackgroundColor: colors['$md-white'],
   fontColor: colors['$md-black'],
