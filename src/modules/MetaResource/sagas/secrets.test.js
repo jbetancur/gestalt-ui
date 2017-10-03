@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import secretsModel from '../models/secret';
 import secretSagas, {
   fetchSecrets,
   fetchSecretsDropDown,
@@ -13,7 +14,7 @@ import * as types from '../actionTypes';
 
 describe('Secret Sagas', () => {
   const error = 'an error has occured';
-  const secretMock = { id: 1, properties: { provider: {}, items: [] } };
+  const secretMock = { ...secretsModel, ...{ id: 1, properties: { provider: {}, items: [] } } };
 
   describe('fetchSecrets Sequence', () => {
     const saga = fetchSecrets({ fqon: 'iamfqon', environmentId: '1' });
@@ -132,7 +133,8 @@ describe('Secret Sagas', () => {
 
 
   describe('createSecret Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewsecret' } };
+    const createMock = { ...secretsModel, ...{ name: 'iamnewsecret' } };
+    const action = { fqon: 'iamfqon', environmentId: '1', payload: createMock };
     const saga = createSecret(action);
     let result;
 
@@ -144,9 +146,9 @@ describe('Secret Sagas', () => {
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+      result = saga.next({ data: createMock });
       expect(result.value).to.deep.equal(
-        put({ type: types.CREATE_SECRET_FULFILLED, payload: { id: 1 } })
+        put({ type: types.CREATE_SECRET_FULFILLED, payload: createMock })
       );
       // Finish the iteration
       result = saga.next();
