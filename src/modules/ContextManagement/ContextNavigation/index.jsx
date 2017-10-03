@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
+import ExpansionPanel from 'components/ExpansionPanel';
 import { ActionsMenu } from 'modules/Actions';
 
 const ContextNavigationStyle = styled.div`
@@ -43,13 +44,6 @@ const ActionsPanel = styled.div`
       font-size: 18px;
     }
   }
-`;
-
-const ExpansionPanel = styled.div`
-  width: 100%;
-  max-height: ${props => (props.expanded ? '400px' : 0)};
-  overflow: hidden;
-  transition: max-height 400ms ${props => (props.expanded ? 'ease-in-out' : 'cubic-bezier(0, 1, 0, 1)')};
 `;
 
 class ContextNavigation extends PureComponent {
