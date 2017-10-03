@@ -9,6 +9,8 @@ import { mapTo2DArray } from 'util/helpers/transformations';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
+import { secretModalActions } from 'modules/Secrets';
+import { parseChildClass } from 'util/helpers/strings';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
 import actions from '../../actions';
@@ -29,8 +31,9 @@ class ContainerEdit extends Component {
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
+    secrets: PropTypes.array.isRequired,
     pristine: PropTypes.bool.isRequired,
-    // fetchSecrets: PropTypes.func.isRequired,
+    fetchSecretsDropDown: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -40,7 +43,7 @@ class ContainerEdit extends Component {
 
     fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
     fetchEnv(match.params.fqon, entityId, entityKey);
-    // fetchSecrets(match.params.fqon, match.params.environmentId);
+
     this.populateContainer();
   }
 
@@ -51,6 +54,12 @@ class ContainerEdit extends Component {
       if (!nextProps.containerPending) {
         this.isPolling = false;
         this.startPoll();
+      }
+
+      // TODO: temporary until we support all providers
+      if (!this.secretsPolled && parseChildClass(nextProps.container.properties.provider.resource_type) === 'Kubernetes') {
+        this.secretsPolled = true;
+        this.props.fetchSecretsDropDown(nextProps.match.params.fqon, nextProps.match.params.environmentId, nextProps.container.properties.provider.id);
       }
     }
   }
@@ -109,7 +118,7 @@ class ContainerEdit extends Component {
           <ContainerForm
             editMode
             title={container.name}
-            submitLabel="Redeploy"
+            submitLabel="Update"
             cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
             onSubmit={values => this.redeployContainer(values)}
             {...this.props}
@@ -134,7 +143,7 @@ function mapStateToProps(state) {
       instances: container.properties.instances,
       port_mappings: container.properties.port_mappings,
       volumes: container.properties.volumes,
-      secrets: container.properties.secrets,
+      secrets: container.properties.secrets || [],
       provider: container.properties.provider,
       force_pull: container.properties.force_pull,
       cpus: container.properties.cpus,
@@ -155,14 +164,15 @@ function mapStateToProps(state) {
     portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
-    secrets: state.metaResource.secrets.secrets,
+    secrets: state.secrets.secrets.secrets,
+    secretPanelModal: state.secrets.secretPanelModal,
     initialValues: model,
     enableReinitialize: true,
   };
 }
 
 export default withMetaResource(connect(mapStateToProps,
-  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions))(reduxForm({
   form: 'containerEdit',
   validate
 })(withContext(ContainerEdit))));

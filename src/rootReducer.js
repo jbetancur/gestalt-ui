@@ -25,6 +25,7 @@ import licensingReducer from './modules/Licensing/reducers';
 import volumeModalReducer from './modules/VolumeModal/reducers';
 import portmapModalReducer from './modules/PortMappingModal/reducers';
 import healthCheckModalReducer from './modules/HealthCheckModal/reducers';
+import secretReducers from './modules/Secrets/reducers';
 import tableManagerReducer from './modules/TableManager/reducers';
 
 const mediaQuery = {
@@ -60,5 +61,6 @@ export default combineReducers({
   volumeModal: volumeModalReducer,
   portmapModal: portmapModalReducer,
   healthCheckModal: healthCheckModalReducer,
+  secrets: secretReducers,
   tableManager: tableManagerReducer,
 });

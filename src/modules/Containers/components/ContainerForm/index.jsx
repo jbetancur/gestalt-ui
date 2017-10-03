@@ -20,7 +20,7 @@ import { VariablesForm } from 'modules/Variables';
 import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
 import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
-import { SecretsPanel } from 'modules/Secrets';
+import { SecretsPanelModal, SecretsPanelList } from 'modules/Secrets';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { parseChildClass } from 'util/helpers/strings';
@@ -39,27 +39,28 @@ const ListButton = styled(Button)`
 
 const ContainerForm = (props) => {
   const { values, match, container } = props;
+  const entityId = match.params.environmentId || match.params.workspaceId || null;
+  const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
   const selectedProvider = merge({ properties: { config: { networks: [] } } },
     props.providersByType.find(provider => values.properties.provider.id === provider.id));
 
-  const fetchProviders = () => {
-    const entityId = match.params.environmentId || match.params.workspaceId || null;
-    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
-
+  const populateProviders = () => {
     props.fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
   };
 
   // TODO: Remove when Kubernetes/Docker when api is ready
   const providerType = parseChildClass(selectedProvider.resource_type);
   const isHealthChecksEnabled = parseChildClass(providerType) === 'DCOS';
-  const isSecretsEnabled = false; // parseChildClass(providerType) === 'Kubernetes';
+  const isSecretsEnabled = parseChildClass(providerType) === 'Kubernetes';
+  // const populateSecrets = () => fetchSecretsDropDown(match.params.fqon, match.params.environmentId, selectedProvider.id);
 
   return (
     <div>
       <PortMapModal networkType={values.properties.network} />
       <VolumeModal providerType={parseChildClass(providerType)} />
       <HealthCheckModal />
+      <SecretsPanelModal providerId={selectedProvider.id} />
       {container.id && props.editMode &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12}>
@@ -107,7 +108,7 @@ const ContainerForm = (props) => {
                       itemLabel="name"
                       itemValue="id"
                       menuItems={props.providersByType}
-                      onFocus={() => fetchProviders()}
+                      onFocus={populateProviders}
                       async
                     />}
                   {values.properties.provider.id &&
@@ -306,13 +307,23 @@ const ContainerForm = (props) => {
                 </ExpansionPanelNoPadding>
 
                 {isSecretsEnabled ?
-                  <ExpansionPanel label={<h3>Secrets</h3>} defaultExpanded={values.properties.secrets.length > 0} footer={null}>
+                  <ExpansionPanelNoPadding label={<h3>Secrets</h3>} defaultExpanded={values.properties.secrets.length > 0} footer={null}>
                     <Row>
-                      <Col flex={12}>
-                        <SecretsPanel fieldName="properties.secrets" {...props} />
+                      <Col flex>
+                        <ListButton
+                          id="secret-modal"
+                          flat
+                          iconBefore
+                          primary
+                          label="Secret"
+                          onClick={() => props.showSecretModal()}
+                        >
+                          add
+                        </ListButton>
+                        <SecretsPanelList editMode={props.editMode} mergeSecrets={values.properties.secrets} />
                       </Col>
                     </Row>
-                  </ExpansionPanel> : <div />}
+                  </ExpansionPanelNoPadding> : <div />}
 
                 <ExpansionPanel label={<h3>Environment Variables</h3>} defaultExpanded={values.properties.env.length > 0} footer={null}>
                   <Row>
@@ -392,8 +403,10 @@ const ContainerForm = (props) => {
 
 ContainerForm.propTypes = {
   fetchProvidersByType: PropTypes.func.isRequired,
+  showSecretModal: PropTypes.func.isRequired,
   showVolumeModal: PropTypes.func.isRequired,
   showPortmapModal: PropTypes.func.isRequired,
+  showSecretsModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,

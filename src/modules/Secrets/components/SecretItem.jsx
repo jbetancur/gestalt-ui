@@ -36,6 +36,7 @@ class SecretItem extends PureComponent {
       <TableRow key={secret.id} onClick={e => this.props.onEditToggle(secret, e)}>
         <TableColumn>{secret.name}</TableColumn>
         <TableColumn>{secret.description}</TableColumn>
+        <TableColumn>{secret.properties.provider && secret.properties.provider.name}</TableColumn>
         <TableColumn>{secret.owner.name}</TableColumn>
         <TableColumn><FormattedDate value={secret.created.timestamp} /> <FormattedTime value={secret.created.timestamp} /></TableColumn>
       </TableRow>
@@ -57,6 +58,7 @@ class SecretItem extends PureComponent {
               <TableRow>
                 <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
                 <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
+                <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
                 <TableColumn sorted={tableActions.handleTableSortIcon('owner.name')} onClick={() => tableActions.sortTable('owner.name')}>Owner</TableColumn>
                 <TableColumn sorted={tableActions.handleTableSortIcon('created.timestamp')} onClick={() => tableActions.sortTable('created.timestamp')}>Created</TableColumn>
               </TableRow>

@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
+const PasswordTextField = styled(TextField) `
+  button {
+    pointer-events: none;
+  }
+`;
 const renderNameField = (props) => {
   // eslint-disable-next-line react/prop-types
   const { input, label, type, className, disabled, required, keyFieldValidationMessage, keyFieldValidationFunction, onChange } = props;
@@ -65,13 +71,14 @@ const renderPasswordField = (props) => {
       {...input}
       className={className}
       label={label}
-      component={TextField}
+      component={PasswordTextField}
       style={{ marginTop: '14px' }}
       type="password"
       value=" " // fix for [object Object] on deselect
       required={required}
       disabled={disabled}
       validate={doValidate && validateValue}
+      passwordIcon={null}
     />
   );
 };

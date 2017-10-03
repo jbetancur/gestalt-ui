@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { orderBy } from 'lodash';
+import secretModel from '../models/secret';
 import * as types from '../actionTypes';
 
 /**
@@ -20,11 +21,11 @@ export function* fetchSecrets(action) {
 
 /**
  * fetchSecretsDropDown
- * @param {Object} action { fqon, environmentId }
+ * @param {Object} action { fqon, environmentId, providerId }
  */
 export function* fetchSecretsDropDown(action) {
   try {
-    const response = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/secrets`);
+    const response = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/secrets?expand=true&providerId=${action.providerId}`);
 
     if (!response.data.length) {
       yield put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Secrets' }] });
@@ -43,8 +44,7 @@ export function* fetchSecretsDropDown(action) {
 export function* fetchSecret(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/secrets/${action.secretId}`);
-
-    yield put({ type: types.FETCH_SECRET_FULFILLED, payload: response.data });
+    yield put({ type: types.FETCH_SECRET_FULFILLED, payload: { ...secretModel, ...response.data } });
   } catch (e) {
     yield put({ type: types.FETCH_SECRET_REJECTED, payload: e.message });
   }
@@ -57,7 +57,7 @@ export function* fetchSecret(action) {
 export function* createSecret(action) {
   try {
     const response = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/secrets`, action.payload);
-    yield put({ type: types.CREATE_SECRET_FULFILLED, payload: response.data });
+    yield put({ type: types.CREATE_SECRET_FULFILLED, payload: { ...secretModel, ...response.data } });
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess(response.data);
@@ -74,7 +74,7 @@ export function* createSecret(action) {
 export function* updateSecret(action) {
   try {
     const response = yield call(axios.patch, `${action.fqon}/secrets/${action.secretId}`, action.payload);
-    yield put({ type: types.UPDATE_SECRET_FULFILLED, payload: response.data });
+    yield put({ type: types.UPDATE_SECRET_FULFILLED, payload: { ...secretModel, ...response.data } });
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess(response.data);

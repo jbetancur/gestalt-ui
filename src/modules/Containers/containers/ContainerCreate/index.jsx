@@ -8,6 +8,7 @@ import { withMetaResource } from 'modules/MetaResource';
 import { volumeModalActions } from 'modules/VolumeModal';
 import { portmapModalActions } from 'modules/PortMappingModal';
 import { healthCheckModalActions } from 'modules/HealthCheckModal';
+import { secretModalActions } from 'modules/Secrets';
 import ActivityContainer from 'components/ActivityContainer';
 import ContainerForm from '../../components/ContainerForm';
 import validate from '../../validations';
@@ -21,11 +22,13 @@ class ContainerCreate extends Component {
     createContainer: PropTypes.func.isRequired,
     fetchEnv: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
+    unloadSecretsModal: PropTypes.func.isRequired,
     unloadPortmappings: PropTypes.func.isRequired,
     unloadHealthChecks: PropTypes.func.isRequired,
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
+    secretsFromModal: PropTypes.array.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -45,14 +48,15 @@ class ContainerCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadVolumes, unloadPortmappings, unloadHealthChecks } = this.props;
+    const { unloadVolumes, unloadPortmappings, unloadHealthChecks, unloadSecretsModal } = this.props;
     unloadVolumes();
+    unloadSecretsModal();
     unloadPortmappings();
     unloadHealthChecks();
   }
 
   create(values) {
-    const { match, history, createContainer, volumes, portMappings, healthChecks } = this.props;
+    const { match, history, createContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
@@ -65,6 +69,10 @@ class ContainerCreate extends Component {
       {
         key: 'health_checks',
         value: healthChecks,
+      },
+      {
+        key: 'secrets',
+        value: secretsFromModal,
       }
     ];
 
@@ -104,7 +112,8 @@ function mapStateToProps(state) {
     portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
-    secrets: state.metaResource.secrets.secrets,
+    secretsFromModal: state.secrets.secrets.secrets,
+    secretPanelModal: state.secrets.secretPanelModal,
     initialValues: {
       name: '',
       properties: {
@@ -132,7 +141,7 @@ function mapStateToProps(state) {
 }
 
 export default withMetaResource(connect(mapStateToProps,
-  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions))(reduxForm({
+  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions))(reduxForm({
   form: 'containerCreate',
   validate,
 })(withContext(ContainerCreate))));

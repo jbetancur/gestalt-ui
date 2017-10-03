@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import ContainerCreate from './containers/ContainerCreate';
 import ContainerEdit from './containers/ContainerEdit';
 
-const LambdaRoot = () => (
+const ContainerRoot = () => (
   <div>
     <Switch>
       <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/create'} component={ContainerCreate} />
@@ -12,7 +12,7 @@ const LambdaRoot = () => (
   </div>
 );
 
-export default LambdaRoot;
+export default ContainerRoot;
 export { default as Containers } from './containers/ContainerListing';
 export { default as ContainerCreate } from './containers/ContainerCreate';
 export { default as ContainerEdit } from './containers/ContainerEdit';
