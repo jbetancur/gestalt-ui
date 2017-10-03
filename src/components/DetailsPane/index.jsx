@@ -7,6 +7,7 @@ import Card from 'react-md/lib/Cards/Card';
 import CardText from 'react-md/lib/Cards/CardText';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
+import StatusBubble from 'components/StatusBubble';
 import { ClipboardButton } from 'components/Buttons';
 import { parseChildClass } from 'util/helpers/strings';
 
@@ -75,7 +76,7 @@ const DetailPane = (props) => {
             </div>
             <div>
               <Label>Resource State</Label>
-              <H4>{parseChildClass(model.resource_state)}</H4>
+              <StatusBubble status={parseChildClass(model.resource_state)} />
             </div>
           </Col>
         </Row>

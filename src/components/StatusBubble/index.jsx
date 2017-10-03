@@ -5,7 +5,8 @@ import FontIcon from 'react-md/lib/FontIcons';
 
 const ContainerStatusStyle = styled.div`
   text-align: left;
-  width: 116px;
+  min-width: 110px;
+  max-width: 130px;
   border-radius: 20px;
   padding: 2px;
   color: white;
@@ -19,6 +20,8 @@ const ContainerStatusStyle = styled.div`
   ${props => props.status === 'SUSPENDED' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
   ${props => props.status === 'LOST' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'ERROR' && `background-color: ${props.theme.colors['$md-red-a400']}`};
+  ${props => props.status === 'Active' && `background-color: ${props.theme.colors['$md-green-a700']}`};
+  ${props => props.status === 'Failed' && `background-color: ${props.theme.colors['$md-red-a400']}`};
 
   i {
     color: white;
@@ -49,6 +52,10 @@ const ContainerStatus = (props) => {
       case 'LOST':
         return 'new_releases';
       case 'ERROR':
+        return 'new_releases';
+      case 'Active':
+        return 'check_circle';
+      case 'Failed':
         return 'new_releases';
       default:
         return 'info';

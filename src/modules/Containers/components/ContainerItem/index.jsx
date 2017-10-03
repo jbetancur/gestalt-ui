@@ -7,10 +7,10 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import StatusBubble from 'components/StatusBubble';
 import { parseChildClass } from 'util/helpers/strings';
 import ContainerActions from '../ContainerActions';
 import ContainerIcon from '../ContainerIcon';
-import ContainerStatus from '../ContainerStatus';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
@@ -37,7 +37,7 @@ class ContainerItem extends PureComponent {
   renderAPIEndpoints(container) {
     return container.properties.apiEndpoints.map(endpoint => (
       <div key={endpoint.id} >
-        <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+        <A href={endpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
         </A>
       </div>
@@ -50,19 +50,19 @@ class ContainerItem extends PureComponent {
       const providerType = parseChildClass(container.properties.provider.resource_type);
       return (
         <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
-          <TableColumn>
+          <TableColumn style={{ width: '16px' }}>
             <ContainerActions
               containerModel={container}
               {...this.props}
             />
           </TableColumn>
-          <TableColumn><ContainerStatus status={container.properties.status} /></TableColumn>
+          <TableColumn><StatusBubble status={container.properties.status} /></TableColumn>
           <TableColumn>{container.name}</TableColumn>
           <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
           <TableColumn><ContainerIcon resourceType={providerType} /></TableColumn>
           <TableColumn>{container.properties.provider.name}</TableColumn>
-          <TableColumn numeric>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
-          <TableColumn numeric>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
+          <TableColumn>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
+          <TableColumn>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
           <TableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</TableColumn>
         </TableRow>
       );
