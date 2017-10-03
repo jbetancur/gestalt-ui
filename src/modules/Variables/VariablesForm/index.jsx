@@ -52,6 +52,31 @@ const renderValueField = (props) => {
   );
 };
 
+const renderPasswordField = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const { input, label, className, disabled, required, valueFieldValidationMessage, valueFieldValidationFunction, hideValueField } = props;
+  const doValidate =
+    (valueFieldValidationMessage && valueFieldValidationFunction && typeof valueFieldValidationFunction === 'function');
+  const validateValue = value => (value && !valueFieldValidationFunction(value)) && valueFieldValidationMessage;
+
+  return (
+    !hideValueField &&
+    <Field
+      {...input}
+      className={className}
+      label={label}
+      component={TextField}
+      style={{ marginTop: '14px' }}
+      type="password"
+      value=" " // fix for [object Object] on deselect
+      required={required}
+      disabled={disabled}
+      validate={doValidate && validateValue}
+    />
+  );
+};
+
+
 const rendervariables = (props) => {
   const {
     fields,
@@ -84,8 +109,10 @@ const rendervariables = (props) => {
       </Button>
       {touched && error}
       {fields.map((member, index) => {
-        const isRequired = fields.get(index).required;
-        const isInherited = fields.get(index).inherited;
+        const field = fields.get(index);
+        const isRequired = field.required;
+        const isInherited = field.inherited;
+        const isPassword = fields.get(index).name.toUpperCase().includes('PASSWORD') || fields.get(index).name.toUpperCase().includes('SECRET') || fields.get(index).name.toUpperCase().includes('KEY');
         const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
         const fieldValueStr = isInherited ? `${valueFieldName} (overridable)` : valueFieldValue;
 
@@ -104,7 +131,7 @@ const rendervariables = (props) => {
             <Field
               name={`${member}.${valueFieldValue}`}
               type="text"
-              component={renderValueField}
+              component={isPassword ? renderPasswordField : renderValueField}
               label={fieldValueStr}
               className="flex-7 flex-xs-12"
               required={isRequired}

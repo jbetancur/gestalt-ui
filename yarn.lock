@@ -2939,9 +2939,9 @@ extglob@^0.3.1:
   dependencies:
     is-extglob "^1.0.0"
 
-extract-text-webpack-plugin@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/extract-text-webpack-plugin/-/extract-text-webpack-plugin-3.0.0.tgz#90caa7907bc449f335005e3ac7532b41b00de612"
+extract-text-webpack-plugin@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/extract-text-webpack-plugin/-/extract-text-webpack-plugin-3.0.1.tgz#605a8893faca1dd49bb0d2ca87493f33fd43d102"
   dependencies:
     async "^2.4.1"
     loader-utils "^1.1.0"
@@ -6153,9 +6153,9 @@ react-frame-component@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-1.1.1.tgz#05b7f5689a2d373f25baf0c9adb0e59d78103388"
 
-react-ga@^2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.3.4.tgz#2011c2bbcd99f19850816405a91e3ed6fba5da98"
+react-ga@^2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.3.5.tgz#7c3d0c530b2bbe64ceb1faa79be340685aa84a9a"
   dependencies:
     object-assign "^4.1.1"
 
@@ -6452,9 +6452,9 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-responsive@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.2.tgz#b43aa9ec5e8be683237d4be5127792422641a1c7"
+redux-responsive@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.3.tgz#0a88eff4f9a12490b7b7b7ef9f31bf1edf47542a"
   dependencies:
     mediaquery "0.0.3"
 
@@ -7230,9 +7230,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-style-loader@^0.18.2:
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.18.2.tgz#cc31459afbcd6d80b7220ee54b291a9fd66ff5eb"
+style-loader@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.19.0.tgz#7258e788f0fee6a42d710eaf7d6c2412a4c50759"
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^0.3.0"
