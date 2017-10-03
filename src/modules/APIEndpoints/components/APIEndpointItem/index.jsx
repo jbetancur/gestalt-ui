@@ -6,6 +6,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
+import StatusBubble from 'components/StatusBubble';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import { parseChildClass } from 'util/helpers/strings';
 
@@ -51,11 +52,11 @@ class apiEndpointItem extends PureComponent {
 
     const endpoints = getTableSortedItems(model, 'created.timestamp').map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.props.onEditToggle(apiEndpoint, e)}>
-        <TableColumn style={{ color: parseChildClass(apiEndpoint.resource_state) === 'Failed' && 'red' }}>
-          {parseChildClass(apiEndpoint.resource_state)}
+        <TableColumn>
+          <StatusBubble status={parseChildClass(apiEndpoint.resource_state)} />
         </TableColumn>
         <TableColumn>
-          <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
+          <A href={apiEndpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
         <TableColumn>
           <span className="gf-caption-sm"><span>{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(',')}</span></span>

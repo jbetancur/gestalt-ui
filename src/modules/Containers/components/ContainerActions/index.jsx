@@ -5,6 +5,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { ActionsMenu } from 'modules/Actions';
+import StatusBubble from 'components/StatusBubble';
 import ActionsModals from '../../ActionModals';
 
 const ActionsWrapper = styled.div`
@@ -173,10 +174,11 @@ class ContainerActions extends Component {
           id="container-actions-menu"
           icon={!this.props.inContainerView}
           flat={this.props.inContainerView}
-          label={this.props.inContainerView && this.props.containerModel.properties.status}
+          label={this.props.inContainerView && <StatusBubble status={this.props.containerModel.properties.status} />}
           iconChildren="more_vert"
           position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
           tooltipLabel={!this.props.inContainerView && 'Actions'}
+          inkDisabled={this.props.inContainerView}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[<ListWrapper key="container-actions-menu">

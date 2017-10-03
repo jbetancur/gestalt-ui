@@ -47,7 +47,7 @@ class LambdaItem extends PureComponent {
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
       <div key={endpoint.id} >
-        <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+        <A href={endpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
         </A>
       </div>
@@ -108,7 +108,7 @@ class LambdaItem extends PureComponent {
               {this.props.model.length > 0 &&
               <TableHeader>
                 <TableRow>
-                  <TableColumn />
+                  <TableColumn style={{ width: '16px' }} />
                   <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
