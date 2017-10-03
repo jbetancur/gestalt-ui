@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Navbar from 'components/Navbar';
-import { HierarchyIcon, MetamodelIcon } from 'components/Icons';
+import { HierarchyIcon } from 'components/Icons';
 import ListItemStacked from 'components/ListItemStacked';
 
 const renderNavItems = (navigation, handleNavigation, showUsersGroups, t) => (
@@ -21,13 +21,13 @@ const renderNavItems = (navigation, handleNavigation, showUsersGroups, t) => (
       onClick={() => handleNavigation('hierarchy', 'providers', 1)}
       className={navigation.index === 1 && 'active-link'}
     />,
-    <ListItemStacked
-      key="hierarchy--metamodeler"
-      icon={<MetamodelIcon />}
-      title={<div><div>Micro</div><div>Modeler</div></div>}
-      onClick={() => handleNavigation('hierarchy', 'micro-modeler', 2)}
-      className={navigation.index === 2 && 'active-link'}
-    />,
+    // <ListItemStacked
+    //   key="hierarchy--metamodeler"
+    //   icon={<MetamodelIcon />}
+    //   title={<div><div>Micro</div><div>Modeler</div></div>}
+    //   onClick={() => handleNavigation('hierarchy', 'micro-modeler', 2)}
+    //   className={navigation.index === 2 && 'active-link'}
+    // />,
     <ListItemStacked
       key="hierarchy--users"
       title={t('users.title')}
