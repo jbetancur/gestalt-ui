@@ -17,38 +17,6 @@ const ActionsWrapper = styled.div`
       top: .7em;
     }
 
-    .container--RUNNING {
-      color: #4CAF50;
-    }
-
-    .container--LAUNCHED {
-      color: #4CAF50;
-    }
-
-    .container--HEALTHY {
-      color: #607D8B;
-    }
-
-    .container--UNHEALTHY {
-      color: #795548;
-    }
-
-    .container--SCALING {
-      color: #2196F3
-    }
-
-    .container--SUSPENDED {
-      color: #FFC107;
-    }
-
-    .container--LOST {
-      color: #F44336;
-    }
-
-    .container--ERROR {
-      color: #F44336;
-    }
-
     .button--suspend * {
       color: #FFC107;
     }
@@ -89,7 +57,7 @@ class ContainerActions extends Component {
     migrateContainerModal: PropTypes.func.isRequired,
     promoteContainer: PropTypes.func.isRequired,
     promoteContainerModal: PropTypes.func.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
+    confirmContainerDelete: PropTypes.func.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     setCurrentEnvironmentContext: PropTypes.func.isRequired,
     inContainerView: PropTypes.bool,
@@ -110,7 +78,7 @@ class ContainerActions extends Component {
   }
 
   destroyContainer() {
-    const { match, history, confirmDelete, fetchContainers, deleteContainer, containerModel, inContainerView } = this.props;
+    const { match, history, confirmContainerDelete, fetchContainers, deleteContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -120,7 +88,7 @@ class ContainerActions extends Component {
       }
     };
 
-    confirmDelete(() => {
+    confirmContainerDelete(() => {
       deleteContainer(match.params.fqon, containerModel.id, onSuccess);
     }, containerModel.name);
   }
@@ -202,7 +170,6 @@ class ContainerActions extends Component {
       <ActionsWrapper className={this.props.inContainerView && 'action--title'}>
         <ActionsModals />
         <MenuButton
-          className={`container--${this.props.containerModel.properties.status}`}
           id="container-actions-menu"
           icon={!this.props.inContainerView}
           flat={this.props.inContainerView}

@@ -34,6 +34,8 @@ class ContainerEdit extends Component {
     secrets: PropTypes.array.isRequired,
     pristine: PropTypes.bool.isRequired,
     fetchSecretsDropDown: PropTypes.func.isRequired,
+    unloadSecretsModal: PropTypes.func.isRequired,
+    secretsFromModal: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -65,9 +67,10 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadVolumes, unloadPortmappings } = this.props;
+    const { unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
     unloadVolumes();
     unloadPortmappings();
+    unloadSecretsModal();
     clearTimeout(this.timeout);
   }
 
@@ -82,7 +85,7 @@ class ContainerEdit extends Component {
   }
 
   redeployContainer(values) {
-    const { match, history, container, updateContainer, volumes, portMappings, healthChecks } = this.props;
+    const { match, history, container, updateContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
@@ -95,6 +98,10 @@ class ContainerEdit extends Component {
       {
         key: 'health_checks',
         value: healthChecks,
+      },
+      {
+        key: 'secrets',
+        value: secretsFromModal,
       }
     ];
 
@@ -164,7 +171,7 @@ function mapStateToProps(state) {
     portMappings: state.portmapModal.portMappings.portMappings,
     healthCheckModal: state.healthCheckModal.healthCheckModal,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
-    secrets: state.secrets.secrets.secrets,
+    secretsFromModal: state.secrets.secrets.secrets,
     secretPanelModal: state.secrets.secretPanelModal,
     initialValues: model,
     enableReinitialize: true,

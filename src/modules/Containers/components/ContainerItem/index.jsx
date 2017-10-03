@@ -10,6 +10,7 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHead
 import { parseChildClass } from 'util/helpers/strings';
 import ContainerActions from '../ContainerActions';
 import ContainerIcon from '../ContainerIcon';
+import ContainerStatus from '../ContainerStatus';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
@@ -55,8 +56,8 @@ class ContainerItem extends PureComponent {
               {...this.props}
             />
           </TableColumn>
+          <TableColumn><ContainerStatus status={container.properties.status} /></TableColumn>
           <TableColumn>{container.name}</TableColumn>
-          <TableColumn>{container.properties.status}</TableColumn>
           <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
           <TableColumn><ContainerIcon resourceType={providerType} /></TableColumn>
           <TableColumn>{container.properties.provider.name}</TableColumn>
@@ -81,9 +82,9 @@ class ContainerItem extends PureComponent {
             <DataTable baseId="containers" plain>
               <TableHeader>
                 <TableRow>
-                  <TableColumn />
-                  <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                  <TableColumn>Actions</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Health</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
