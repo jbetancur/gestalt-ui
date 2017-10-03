@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import FontIcon from 'react-md/lib/FontIcons';
 
 const ContainerStatusStyle = styled.div`
-  text-align: center;
+  text-align: left;
+  width: 116px;
   border-radius: 20px;
   padding: 2px;
   color: white;
@@ -20,13 +21,13 @@ const ContainerStatusStyle = styled.div`
   ${props => props.status === 'ERROR' && `background-color: ${props.theme.colors['$md-red-a400']}`};
 
   i {
-    margin-left: -27px;
     color: white;
   }
 
   span {
-    line-height: 19px;
-    margin-left: 16px;
+    text-align: center;
+    line-height: 20px;
+    margin-left: 8px;
   }
 `;
 
