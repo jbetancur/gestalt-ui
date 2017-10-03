@@ -112,7 +112,7 @@ const rendervariables = (props) => {
         const field = fields.get(index);
         const isRequired = field.required;
         const isInherited = field.inherited;
-        const isPassword = fields.get(index).name.toUpperCase().includes('PASSWORD') || fields.get(index).name.toUpperCase().includes('SECRET') || fields.get(index).name.toUpperCase().includes('KEY');
+        const isPassword = fields.get(index).name && (fields.get(index).name.toUpperCase().includes('PASSWORD') || fields.get(index).name.toUpperCase().includes('SECRET') || fields.get(index).name.toUpperCase().includes('KEY'));
         const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
         const fieldValueStr = isInherited ? `${valueFieldName} (overridable)` : valueFieldValue;
 
