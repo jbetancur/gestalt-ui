@@ -1,4 +1,4 @@
-export function confirmDelete(action, item) {
+export function confirmContainerDelete(action, item) {
   return {
     type: 'SHOW_MODAL',
     modalType: 'CONFIRM',
@@ -60,7 +60,7 @@ export function showEntitlementsModal(item, params) {
 
 
 export default {
-  confirmDelete,
+  confirmContainerDelete,
   scaleContainerModal,
   migrateContainerModal,
   promoteContainerModal,
