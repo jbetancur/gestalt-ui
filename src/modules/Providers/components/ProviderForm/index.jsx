@@ -306,7 +306,6 @@ const ProviderForm = (props) => {
                 {renderContainerActions()}
               </div>
             }
-            subtitle={provider.id}
           />
           <CardText>
             <Row>

@@ -50,13 +50,13 @@ describe('Secret Sagas', () => {
 
   describe('fetchSecretsDropDown Sequence', () => {
     describe('fetchSecretsDropDown when there are secrets', () => {
-      const saga = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1' });
+      const saga = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1', providerId: '2' });
       let result;
 
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).to.deep.equal(
-          call(axios.get, 'iamfqon/environments/1/secrets')
+          call(axios.get, 'iamfqon/environments/1/secrets?expand=true&providerId=2')
         );
       });
 
@@ -68,7 +68,7 @@ describe('Secret Sagas', () => {
       });
 
       it('should return a payload and dispatch a reject status when there is an error', () => {
-        const sagaError = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: 1 });
+        const sagaError = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1' });
         let resultError = sagaError.next();
 
         resultError = sagaError.throw({ message: error });
@@ -80,13 +80,13 @@ describe('Secret Sagas', () => {
     });
 
     describe('fetchSecretsDropDown when there are NO providers', () => {
-      const saga = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: 1 });
+      const saga = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1', providerId: '2' });
       let result;
 
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).to.deep.equal(
-          call(axios.get, 'iamfqon/environments/1/secrets')
+          call(axios.get, 'iamfqon/environments/1/secrets?expand=true&providerId=2')
         );
       });
 

@@ -51,28 +51,5 @@ export default (values) => {
     errors.properties.constraints = 'Must be a comma delimited list';
   }
 
-  if (values.variables && values.variables.length) {
-    const variablesArrayErrors = [];
-    values.variables.forEach((variable, variableIndex) => {
-      const variableErrors = {};
-
-      if (!variable || !variable.key) {
-        variableErrors.key = 'variable name is required';
-        variablesArrayErrors[variableIndex] = variableErrors;
-      }
-
-      if (!variable || !variable.value) {
-        variableErrors.value = 'variable value is required';
-        variablesArrayErrors[variableIndex] = variableErrors;
-      }
-
-      return variableErrors;
-    });
-
-    if (variablesArrayErrors.length) {
-      errors.variables = variablesArrayErrors;
-    }
-  }
-
   return errors;
 };

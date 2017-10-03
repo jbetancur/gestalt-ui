@@ -1,4 +1,4 @@
-export default {
+export default Object.freeze({
   org: {
     properties: {},
   },
@@ -6,4 +6,4 @@ export default {
   modified: {},
   properties: {},
   property_defs: {},
-};
+});

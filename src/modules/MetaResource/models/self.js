@@ -1,4 +1,4 @@
-export default {
+export default Object.freeze({
   properties: {
     gestalt_home: {
       org: {
@@ -11,4 +11,4 @@ export default {
       },
     }
   }
-};
+});

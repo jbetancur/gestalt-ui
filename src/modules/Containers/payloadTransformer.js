@@ -22,6 +22,7 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
       env: arrayToMap(source.properties.env, 'name', 'value'),
       labels: arrayToMap(source.properties.labels, 'name', 'value'),
       volumes: [],
+      secrets: [],
       port_mappings: [],
       health_checks: [],
       accepted_resource_roles: [],
