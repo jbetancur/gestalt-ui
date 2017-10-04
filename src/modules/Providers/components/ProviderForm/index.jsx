@@ -148,6 +148,7 @@ const ProviderForm = (props) => {
   const renderVariablesSection = () => (
     selectedProviderType.allowEnvVariables && selectedProviderType.type &&
     <Row component={Div} disabled={props.envSchemaPending}>
+      <PreventAutoFill />
       <Col flex={6} xs={12} sm={12}>
         <VariablesForm
           icon="public"

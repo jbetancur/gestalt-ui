@@ -5,24 +5,25 @@ import FontIcon from 'react-md/lib/FontIcons';
 
 const ContainerStatusStyle = styled.div`
   text-align: left;
-  min-width: 110px;
+  min-width: 115px;
   max-width: 130px;
   border-radius: 20px;
   padding: 2px;
   color: white;
   font-weight: 600;
   font-size: 12px;
-  ${props => props.status === 'RUNNING' && `background-color: ${props.theme.colors['$md-green-a700']}`};
-  ${props => props.status === 'LAUNCHED' && `background-color: ${props.theme.colors['$md-blue-500']}`};
+  ${props => props.status === 'RUNNING' && `background-color: ${props.theme.colors['$md-blue-grey-400']}`};
   ${props => props.status === 'HEALTHY' && `background-color: ${props.theme.colors['$md-green-a700']}`};
-  ${props => props.status === 'UNHEALTHY' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
+  ${props => props.status === 'UNHEALTHY' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'SCALING' && `background-color: ${props.theme.colors['$md-blue-500']}`};
   ${props => props.status === 'SUSPENDED' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
   ${props => props.status === 'LOST' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'ERROR' && `background-color: ${props.theme.colors['$md-red-a400']}`};
-  ${props => props.status === 'Active' && `background-color: ${props.theme.colors['$md-green-a700']}`};
-  ${props => props.status === 'Failed' && `background-color: ${props.theme.colors['$md-red-a400']}`};
-  ${props => props.status === 'Pending' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
+  ${props => props.status === 'ACTIVE' && `background-color: ${props.theme.colors['$md-blue-grey-400']}`};
+  ${props => props.status === 'FAILED' && `background-color: ${props.theme.colors['$md-red-a400']}`};
+  ${props => props.status === 'PENDING' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
+  ${props => props.status === 'DELETED' && `background-color: ${props.theme.colors['$md-grey-900']}`};
+  ${props => props.status === 'DISABLED' && `background-color: ${props.theme.colors['$md-grey-500']}`};
 
   i {
     color: white;
@@ -38,15 +39,13 @@ const ContainerStatusStyle = styled.div`
 
 const ContainerStatus = (props) => {
   const setIcon = () => {
-    switch (props.status) {
+    switch (props.status.toUpperCase()) {
       case 'RUNNING':
         return 'check_circle';
-      case 'LAUNCHED':
-        return 'info';
       case 'HEALTHY':
         return 'check_circle';
       case 'UNHEALTHY':
-        return 'error_outline';
+        return 'new_releases';
       case 'SCALING':
         return 'access_time';
       case 'SUSPENDED':
@@ -55,19 +54,23 @@ const ContainerStatus = (props) => {
         return 'new_releases';
       case 'ERROR':
         return 'new_releases';
-      case 'Active':
+      case 'ACTIVE':
         return 'check_circle';
-      case 'Failed':
+      case 'FAILED':
         return 'new_releases';
-      case 'Pending':
+      case 'PENDING':
         return 'access_time';
+      case 'DELETED':
+        return 'clear';
+      case 'DISABLED':
+        return 'remove_circle';
       default:
         return 'info';
     }
   };
 
   return (
-    <ContainerStatusStyle status={props.status}>
+    <ContainerStatusStyle status={props.status.toUpperCase()}>
       <FontIcon>{setIcon()}</FontIcon><span>{props.status}</span>
     </ContainerStatusStyle>
   );
