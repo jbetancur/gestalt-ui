@@ -78,7 +78,6 @@ const PolicyEventRuleForm = (props) => {
                 <span> - {title}</span>
               </div>
             }
-            subtitle={policyRule.id}
           />
           <CardText>
             <Row gutter={5}>

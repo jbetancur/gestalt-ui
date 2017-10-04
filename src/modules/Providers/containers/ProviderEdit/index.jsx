@@ -87,6 +87,7 @@ function mapStateToProps(state) {
     description: provider.description,
     resource_type: provider.resource_type,
     properties: {
+      environment_types: provider.properties.environment_types || [],
       config: {
         auth: provider.properties.config.auth,
         url: provider.properties.config.url,
@@ -104,6 +105,11 @@ function mapStateToProps(state) {
       services: provider.properties.services,
     },
   };
+
+  // TODO: move this logic to reselect
+  if (model.properties.environment_types && Array.isArray(model.properties.environment_types)) {
+    model.properties.environment_types = model.properties.environment_types.join(',');
+  }
 
   return {
     initialValues: model,

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { Row, Col } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -19,15 +20,14 @@ const UserForm = (props) => {
 
   return (
     <div>
-      <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+        <Row gutter={5} center>
+          <Col component={Card} flex={10} xs={12} sm={12}>
             <CardTitle
               title={props.title}
-              subtitle={props.user.id}
             />
             <CardText>
-              <div className="flex-row">
+              <Row gutter={5}>
                 <Field
                   className="flex-6 flex-xs-12"
                   component={TextField}
@@ -98,7 +98,7 @@ const UserForm = (props) => {
                   label="Description"
                   type="text"
                 />
-              </div>
+              </Row>
             </CardText>
             {(props.userUpdatePending || props.userPending) && <LinearProgress id="user-form" />}
             <CardActions>
@@ -118,8 +118,8 @@ const UserForm = (props) => {
                 {props.submitLabel}
               </Button>
             </CardActions>
-          </Card>
-        </div>
+          </Col>
+        </Row>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import { map, sortBy } from 'lodash';
+import { map, sortBy, compact } from 'lodash';
 
 export function arrayToMap(array, keyName = 'name', valueName = 'value') {
   return Object.assign({}, ...array.map(v => ({ [v[keyName]]: v[valueName] })));
@@ -24,4 +24,9 @@ export function generateEntityState(params) {
   }
 
   return entity;
+}
+
+// convert comma delimited string to an array and remove blank entries
+export function stringDemiltedToArray(string) {
+  return compact(string.split(','));
 }

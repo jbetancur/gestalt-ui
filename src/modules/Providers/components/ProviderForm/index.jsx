@@ -9,8 +9,6 @@ import CardActions from 'react-md/lib/Cards/CardActions';
 import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import FileInput from 'react-md/lib/FileInputs';
-import { ExpansionList } from 'react-md/lib/ExpansionPanels';
-import { ExpansionPanel } from 'components/ExpansionList';
 import AceEditor from 'components/AceEditor';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
@@ -24,6 +22,7 @@ import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, Contain
 import { parseChildClass } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
 import LinkedProviders from '../LinkedProviders';
+import EnvironmentTypes from '../EnvironmentTypes';
 import { nameMaxLen } from './validations';
 import providerTypes from '../../lists/providerTypes';
 
@@ -184,7 +183,7 @@ const ProviderForm = (props) => {
           primary
         />}
       {selectedProviderType.uploadConfig &&
-        <div className="flex-row">
+        <Row gutter={5}>
           <Field
             className="flex-12"
             component={AceEditor}
@@ -195,13 +194,13 @@ const ProviderForm = (props) => {
             minLines={15}
             fontSize={12}
           />
-        </div>}
+        </Row>}
     </Row>
   );
 
   const renderOtherConfigSection = () => (
     !props.envSchemaPending &&
-    <div className="flex-row">
+    <Row gutter={5}>
       {selectedProviderType.networking &&
         <Field
           className="flex-6 flex-xs-12"
@@ -220,27 +219,29 @@ const ProviderForm = (props) => {
           type="text"
           rows={2}
         />}
-    </div>
+    </Row>
   );
 
   const renderContainerSection = () => (
     (selectedProviderType.allowContainer && !container.id) &&
-    <Col flex={10} xs={12} sm={12} md={12}>
-      <Card title="Container">
-        <CardTitle
-          title="Container"
-          subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
-        />
-        <ContainerCreate match={props.match} inlineMode />
-      </Card>
-    </Col>
+    <Row gutter={5}>
+      <Col flex={12}>
+        <Card title="Container">
+          <CardTitle
+            title="Container"
+            subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
+          />
+          <ContainerCreate match={props.match} inlineMode />
+        </Card>
+      </Col>
+    </Row>
   );
 
   const renderContainerInstancesPanel = () => (
     (provider.id && selectedProviderType.allowContainer && container.id) &&
     <Row gutter={5} center>
       <Col
-        flex={10}
+        flex={12}
         xs={12}
         sm={12}
         md={12}
@@ -255,7 +256,7 @@ const ProviderForm = (props) => {
       </Col>
 
       <Col
-        flex={10}
+        flex={12}
         xs={12}
         sm={12}
         md={12}
@@ -283,113 +284,139 @@ const ProviderForm = (props) => {
   );
 
   return (
-    <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-      {provider.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12}>
-            <DetailsPane model={provider} />
-          </Col>
-        </Row>}
-      <Row gutter={5} center>
-        <Col
-          component={Card}
-          flex={10}
-          xs={12}
-          sm={12}
-          md={12}
-        >
-          <CardTitle
-            title={
-              <div>
-                {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.name}` : props.title}
-                {provider.id && `::${selectedProviderType.name}`}
-                {renderContainerActions()}
-              </div>
-            }
-          />
-          <CardText>
-            <Row>
-              {/* only allow the provider type to be selected once - this prevents redux-form errors */}
-              {!selectedProviderType.name &&
-                <Field
-                  id="select-provider"
-                  className="flex-12"
-                  component={SelectField}
-                  name="resource_type"
-                  menuItems={providerTypes}
-                  itemLabel="name"
-                  itemValue="value"
-                  required
-                  label="Provider Type"
-                  disabled={provider.id}
-                  onChange={handleProviderChange}
-                />}
-              {selectedProviderType.name &&
-                <Row>
-                  <Field
-                    className="flex-6 flex-xs-12"
-                    component={TextField}
-                    name="name"
-                    label="Name"
-                    type="text"
-                    required
-                    maxLength={nameMaxLen}
-                    disabled={provider.id}
-                  />
-                  <Field
-                    className="flex-6 flex-xs-12"
-                    component={TextField}
-                    name="description"
-                    label="Description"
-                    type="text"
-                    rows={1}
-                  />
-                </Row>}
-              {renderConfigAndSecuritySections()}
-              {renderExternalProtocolSection()}
-              {renderEditorSection()}
-              {renderVariablesSection()}
-              {renderOtherConfigSection()}
-              {provider.id && renderJSONSection()}
-            </Row>
-          </CardText>
-          {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
-          <CardActions>
-            <Button
-              flat
-              disabled={props.providerUpdatePending || props.providerPending || props.submitting}
-              onClick={goBack}
+    <Row center>
+      <Col
+        flex={10}
+        xs={12}
+        sm={12}
+        md={12}
+      >
+        <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+          {provider.id &&
+            <Row gutter={5} center>
+              <Col flex={12}>
+                <DetailsPane model={provider} />
+              </Col>
+            </Row>}
+          <Row gutter={5} center>
+            <Col
+              component={Card}
+              flex={12}
+              xs={12}
+              sm={12}
+              md={12}
             >
-              {props.cancelLabel}
-            </Button>
-            {selectedProviderType.name &&
-              <Button
-                raised
-                type="submit"
-                disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
-                primary
-              >
-                {props.submitLabel}
-              </Button>}
-          </CardActions>
-        </Col>
-      </Row>
+              <CardTitle
+                title={
+                  <div>
+                    {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.name}` : props.title}
+                    {provider.id && `::${selectedProviderType.name}`}
+                    {renderContainerActions()}
+                  </div>
+                }
+              />
+              <CardText>
+                <Row>
+                  {/* only allow the provider type to be selected once - this prevents redux-form errors */}
+                  {!selectedProviderType.name &&
+                    <Field
+                      id="select-provider"
+                      className="flex-12"
+                      component={SelectField}
+                      name="resource_type"
+                      menuItems={providerTypes}
+                      itemLabel="name"
+                      itemValue="value"
+                      required
+                      label="Provider Type"
+                      disabled={provider.id}
+                      onChange={handleProviderChange}
+                    />}
+                  {selectedProviderType.name &&
+                    <Row>
+                      <Field
+                        className="flex-6 flex-xs-12"
+                        component={TextField}
+                        name="name"
+                        label="Name"
+                        type="text"
+                        required
+                        maxLength={nameMaxLen}
+                        disabled={provider.id}
+                      />
+                      <Field
+                        className="flex-6 flex-xs-12"
+                        component={TextField}
+                        name="description"
+                        label="Description"
+                        type="text"
+                        rows={1}
+                      />
+                    </Row>}
+                  {renderConfigAndSecuritySections()}
+                  {renderExternalProtocolSection()}
+                  {renderEditorSection()}
+                  {renderVariablesSection()}
+                  {renderOtherConfigSection()}
+                  {provider.id && renderJSONSection()}
+                </Row>
+              </CardText>
+              {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
+              <CardActions>
+                <Button
+                  flat
+                  disabled={props.providerUpdatePending || props.providerPending || props.submitting}
+                  onClick={goBack}
+                >
+                  {props.cancelLabel}
+                </Button>
+                {selectedProviderType.name &&
+                  <Button
+                    raised
+                    type="submit"
+                    disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
+                    primary
+                  >
+                    {props.submitLabel}
+                  </Button>}
+              </CardActions>
+            </Col>
+          </Row>
 
-      {renderContainerInstancesPanel()}
+          {renderContainerInstancesPanel()}
 
-      {selectedProviderType.name &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <ExpansionList>
-              <ExpansionPanel label={<h2>Linked Providers</h2>} defaultExpanded footer={null}>
-                <LinkedProviders fetchProviders={getProviders} providersModel={props.providersByType} pending={props.providersByTypePending} />
-              </ExpansionPanel>
-            </ExpansionList>
-          </Col>
+          {selectedProviderType.name &&
+            <Row gutter={5} center>
+              <Col flex={12} xs={12} sm={12} md={12}>
+                <Card>
+                  <CardTitle title={<h2>Linked Providers</h2>} />
+                  <CardText>
+                    <LinkedProviders
+                      fetchProviders={getProviders}
+                      providersModel={props.providersByType}
+                      pending={props.providersByTypePending}
+                    />
+                  </CardText>
+                </Card>
+              </Col>
 
-          {renderContainerSection()}
-        </Row>}
-    </form>
+              <Row gutter={5} center>
+                <Col flex={12} xs={12} sm={12} md={12}>
+                  <Card>
+                    <CardTitle
+                      title={<h2>Restrict by Environment Type</h2>}
+                    />
+                    <CardText>
+                      <EnvironmentTypes />
+                    </CardText>
+                  </Card>
+                </Col>
+              </Row>
+            </Row>}
+        </form>
+        {renderContainerSection()}
+      </Col>
+    </Row>
   );
 };
 

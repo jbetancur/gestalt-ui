@@ -50,20 +50,20 @@ class ContainerItem extends PureComponent {
       const providerType = parseChildClass(container.properties.provider.resource_type);
       return (
         <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
-          <TableColumn style={{ width: '16px' }}>
+          <TableColumn style={{ width: '100px' }}>
             <ContainerActions
               containerModel={container}
               {...this.props}
             />
           </TableColumn>
-          <TableColumn><StatusBubble status={container.properties.status} /></TableColumn>
+          <TableColumn style={{ width: '175px' }}><StatusBubble status={container.properties.status} /></TableColumn>
           <TableColumn>{container.name}</TableColumn>
           <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
-          <TableColumn><ContainerIcon resourceType={providerType} /></TableColumn>
+          <TableColumn style={{ width: '100px' }}><ContainerIcon resourceType={providerType} /></TableColumn>
           <TableColumn>{container.properties.provider.name}</TableColumn>
-          <TableColumn>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
-          <TableColumn>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
-          <TableColumn>{!container.properties.age ? null : <FormattedRelative value={container.properties.age} />}</TableColumn>
+          <TableColumn style={{ width: '100px' }}>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
+          <TableColumn style={{ width: '100px' }}>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
+          <TableColumn>{container.properties.age && <FormattedRelative value={container.properties.age} />}</TableColumn>
         </TableRow>
       );
     }
@@ -83,7 +83,7 @@ class ContainerItem extends PureComponent {
               <TableHeader>
                 <TableRow>
                   <TableColumn>Actions</TableColumn>
-                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Health</TableColumn>
+                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Status</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
                   <TableColumn>Endpoints</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>

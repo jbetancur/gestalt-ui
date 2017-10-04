@@ -42,7 +42,7 @@ const HierarchyForm = (props) => {
               title={props.title}
             />
             <CardText>
-              <div className="flex-row">
+              <Row gutter={5}>
                 <Field
                   className="flex-6 flex-xs-12"
                   component={TextField}
@@ -75,7 +75,7 @@ const HierarchyForm = (props) => {
                   label={t('containment.fields.environmentType.label')}
                   disabled={props.pending}
                 />}
-              </div>
+              </Row>
               <Fieldset legend="Environment Variables">
                 <VariablesForm
                   icon="add"
@@ -109,10 +109,12 @@ const HierarchyForm = (props) => {
                   <Button
                     tooltipLabel="Entitlements"
                     tooltipPosition="top"
-                    icon
+                    flat
                     iconChildren="security"
                     onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                  />}
+                  >
+                    Entitlements
+                  </Button>}
               </Col>
             </Row>
           </Col>
