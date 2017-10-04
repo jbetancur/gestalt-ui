@@ -93,7 +93,7 @@ function mapStateToProps(state) {
     name: '',
     description: '',
     properties: {
-      environment_types: [],
+      environment_types: '', // converted to Array on Create
       config: {
         auth: {},
         external_protocol: 'https',
