@@ -9,6 +9,7 @@ import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import StatusBubble from 'components/StatusBubble';
 import { parseChildClass } from 'util/helpers/strings';
+import ActionsModals from '../../ActionModals';
 import ContainerActions from '../ContainerActions';
 import ContainerIcon from '../ContainerIcon';
 
@@ -70,36 +71,39 @@ class ContainerItem extends PureComponent {
     );
 
     return (
-      <Row gutter={5}>
-        <Col component={Card} flex={12} tableCard>
-          <TableCardHeader
-            title={<div className="gf-headline">Containers</div>}
-            visible={false} // TODO: React-md propTypes bug
-          />
-          {this.props.pending && <LinearProgress id="containers-listing" />}
-          {this.props.model.length > 0 &&
-          <TableWrapper>
-            <DataTable baseId="containers" plain>
-              <TableHeader>
-                <TableRow>
-                  <TableColumn>Actions</TableColumn>
-                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Status</TableColumn>
-                  <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
-                  <TableColumn>Endpoints</TableColumn>
-                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
-                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
-                  <TableColumn>Instances</TableColumn>
-                  <TableColumn>CPU / Memory</TableColumn>
-                  <TableColumn sorted={tableActions.handleTableSortIcon('properties.age')} onClick={() => tableActions.sortTable('properties.age')}>Age</TableColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {containers}
-              </TableBody>
-            </DataTable>
-          </TableWrapper>}
-        </Col>
-      </Row>
+      <div>
+        <ActionsModals />
+        <Row gutter={5}>
+          <Col component={Card} flex={12} tableCard>
+            <TableCardHeader
+              title={<div className="gf-headline">Containers</div>}
+              visible={false} // TODO: React-md propTypes bug
+            />
+            {this.props.pending && <LinearProgress id="containers-listing" />}
+            {this.props.model.length > 0 &&
+            <TableWrapper>
+              <DataTable baseId="containers" plain>
+                <TableHeader>
+                  <TableRow>
+                    <TableColumn>Actions</TableColumn>
+                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Status</TableColumn>
+                    <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
+                    <TableColumn>Endpoints</TableColumn>
+                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
+                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
+                    <TableColumn>Instances</TableColumn>
+                    <TableColumn>CPU / Memory</TableColumn>
+                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.age')} onClick={() => tableActions.sortTable('properties.age')}>Age</TableColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {containers}
+                </TableBody>
+              </DataTable>
+            </TableWrapper>}
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

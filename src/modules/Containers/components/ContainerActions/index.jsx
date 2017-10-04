@@ -6,7 +6,6 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { ActionsMenu } from 'modules/Actions';
 import StatusBubble from 'components/StatusBubble';
-import ActionsModals from '../../ActionModals';
 
 const ActionsWrapper = styled.div`
     display: inline-block;
@@ -169,7 +168,6 @@ class ContainerActions extends Component {
   render() {
     return (
       <ActionsWrapper className={this.props.inContainerView && 'action--title'}>
-        <ActionsModals />
         <MenuButton
           id="container-actions-menu"
           icon={!this.props.inContainerView}
