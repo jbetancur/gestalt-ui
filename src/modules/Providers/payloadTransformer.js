@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
-import { arrayToMap } from 'util/helpers/transformations';
+import { arrayToMap, stringDemiltedToArray } from 'util/helpers/transformations';
 import { payloadTransformer } from 'modules/Containers';
 
 // import { mapTo2DArray } from 'util/helpers/transformations';
@@ -58,6 +58,15 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
 
   if (properties.config.networks) {
     payload.properties.config.networks = JSON.parse(properties.config.networks);
+  }
+
+  if (properties.environment_types) {
+    payload.properties.environment_types = stringDemiltedToArray(sourcePayload.properties.environment_types);
+  }
+
+  // when the string is blank then convert to an empty array
+  if (properties.environment_types === '') {
+    payload.properties.environment_types = [];
   }
 
   // Handle our container Form and map to the provider payload

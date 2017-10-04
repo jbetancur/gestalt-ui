@@ -4,7 +4,7 @@ const AStyle = styled.a`
   font-size: 12px;
   text-decoration: none;
   ${props => props.bubble && css`
-    background-color: ${props.theme.colors['$md-grey-300']};
+    background-color: ${props.theme.colors['$md-grey-200']};
     border-radius: 15px;
     padding-left: 4px;
     padding-right: 4px;

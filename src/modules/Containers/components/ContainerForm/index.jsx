@@ -53,7 +53,6 @@ const ContainerForm = (props) => {
   const providerType = parseChildClass(selectedProvider.resource_type);
   const isHealthChecksEnabled = parseChildClass(providerType) === 'DCOS';
   const isSecretsEnabled = parseChildClass(providerType) === 'Kubernetes';
-  // const populateSecrets = () => fetchSecretsDropDown(match.params.fqon, match.params.environmentId, selectedProvider.id);
 
   return (
     <div>

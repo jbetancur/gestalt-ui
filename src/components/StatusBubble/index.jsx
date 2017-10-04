@@ -22,9 +22,11 @@ const ContainerStatusStyle = styled.div`
   ${props => props.status === 'ERROR' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'Active' && `background-color: ${props.theme.colors['$md-green-a700']}`};
   ${props => props.status === 'Failed' && `background-color: ${props.theme.colors['$md-red-a400']}`};
+  ${props => props.status === 'Pending' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
 
   i {
     color: white;
+    margin-left: 1px;
   }
 
   span {
@@ -57,6 +59,8 @@ const ContainerStatus = (props) => {
         return 'check_circle';
       case 'Failed':
         return 'new_releases';
+      case 'Pending':
+        return 'access_time';
       default:
         return 'info';
     }

@@ -91,7 +91,6 @@ const APIEndpointForm = (props) => {
                 <span> - {title}</span>
               </div>
             }
-            subtitle={apiEndpoint.id}
           />
           <CardText>
             <Row gutter={5}>

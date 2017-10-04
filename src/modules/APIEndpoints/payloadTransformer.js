@@ -1,5 +1,6 @@
-import { cloneDeep, compact } from 'lodash';
+import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
+import { stringDemiltedToArray } from 'util/helpers/transformations';
 
 /**
  * generateAPIEndpointPayload
@@ -22,9 +23,8 @@ export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
     }
   }
 
-  // convert comma delimited string to an array and remove blank entries
   if (sourcePayload.properties.methods) {
-    payload.properties.methods = compact(sourcePayload.properties.methods.split(','));
+    payload.properties.methods = stringDemiltedToArray(sourcePayload.properties.methods);
   }
 
   return payload;

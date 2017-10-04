@@ -179,6 +179,7 @@ class ContainerActions extends Component {
           position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
           tooltipLabel={!this.props.inContainerView && 'Actions'}
           inkDisabled={this.props.inContainerView}
+          listHeightRestricted={false}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[<ListWrapper key="container-actions-menu">

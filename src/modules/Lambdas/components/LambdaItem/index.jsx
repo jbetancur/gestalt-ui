@@ -108,7 +108,7 @@ class LambdaItem extends PureComponent {
               {this.props.model.length > 0 &&
               <TableHeader>
                 <TableRow>
-                  <TableColumn style={{ width: '16px' }} />
+                  <TableColumn style={{ width: '100px' }} />
                   <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
                   <TableColumn sorted={tableActions.handleTableSortIcon('description')} onClick={() => tableActions.sortTable('description')}>Description</TableColumn>
                   <TableColumn>Endpoints</TableColumn>

@@ -103,10 +103,9 @@ const GroupForm = (props) => {
           <Col component={Card} flex={10} xs={12} sm={12}>
             <CardTitle
               title={props.title}
-              subtitle={group.id}
             />
             <CardText>
-              <div className="flex-row">
+              <Row gutter={5}>
                 <Field
                   className="flex-4 flex-xs-12"
                   component={TextField}
@@ -123,7 +122,7 @@ const GroupForm = (props) => {
                   label="Description"
                   type="text"
                 />
-              </div>
+              </Row>
             </CardText>
             {(groupUpdatePending || groupPending) && <LinearProgress id="group-form" />}
             <CardActions>
@@ -149,12 +148,11 @@ const GroupForm = (props) => {
       </form>
 
       {editMode &&
-      <div className="flex-row">
-        <div className="flex-row center-center">
-          <Card className="flex-10 flex-xs-12 flex-sm-12">
+        <Row gutter={5} center>
+          <Col component={Card} flex={10} xs={12} sm={12}>
             {props.groupMembersPending && <LinearProgress id="group-members" />}
-            <div className="flex-row">
-              <div className="flex-6 flex-xs-12">
+            <Row gutter={5}>
+              <Col flex={6} xs={12}>
                 <h3>Available Users</h3>
                 <MembersList>
                   <CardSubHeader
@@ -170,8 +168,8 @@ const GroupForm = (props) => {
                   />
                   {generateAvailableUsers()}
                 </MembersList>
-              </div>
-              <div className="flex-6 flex-xs-12">
+              </Col>
+              <Col flex={6} xs={12}>
                 <h3>Members</h3>
                 <MembersList>
                   <CardSubHeader
@@ -187,11 +185,10 @@ const GroupForm = (props) => {
                   />
                   {generateMemberUsers()}
                 </MembersList>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </div>}
+              </Col>
+            </Row>
+          </Col>
+        </Row>}
     </div>
   );
 };

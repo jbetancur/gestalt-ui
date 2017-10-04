@@ -5,6 +5,7 @@ export default Object.freeze({
   created: {},
   modified: {},
   properties: {
+    environment_types: [],
     config: {
       auth: {},
       env: {
