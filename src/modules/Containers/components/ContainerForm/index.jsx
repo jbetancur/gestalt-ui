@@ -30,6 +30,7 @@ import ContainerServiceAddresses from '../ContainerServiceAddresses';
 import { nameMaxLen } from '../../validations';
 import ContainerActions from '../ContainerActions';
 import ContainerIcon from '../ContainerIcon';
+import ActionsModals from '../../ActionModals';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 const ListButton = styled(Button)`
@@ -56,6 +57,7 @@ const ContainerForm = (props) => {
 
   return (
     <div>
+      <ActionsModals />
       <PortMapModal networkType={values.properties.network} />
       <VolumeModal providerType={parseChildClass(providerType)} />
       <HealthCheckModal />
@@ -111,7 +113,7 @@ const ContainerForm = (props) => {
                       async
                     />}
                   {values.properties.provider.id &&
-                  <div className="flex-row">
+                  <Row gutter={5}>
                     <Field
                       className="flex-5 flex-xs-12"
                       component={TextField}
@@ -203,7 +205,7 @@ const ContainerForm = (props) => {
                       checked={values.properties.force_pull}
                       label="Force Pull Image on Every Launch"
                     />
-                  </div>}
+                  </Row>}
                 </Row>
 
               </CardText>

@@ -71,6 +71,7 @@ class PromoteModal extends PureComponent {
         title={this.props.title}
         modal={false}
         closeOnEsc
+        defaultVisibleTransitionable
         autosizeContent={false}
         onHide={() => this.props.hideModal()}
         actions={[

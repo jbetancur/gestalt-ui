@@ -18,7 +18,7 @@ import PreventAutoFill from 'components/PreventAutoFill';
 import Div from 'components/Div';
 import DetailsPane from 'components/DetailsPane';
 import { VariablesForm } from 'modules/Variables';
-import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions } from 'modules/Containers';
+import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions, ContainerActionsModal } from 'modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
 import LinkedProviders from '../LinkedProviders';
@@ -275,13 +275,16 @@ const ProviderForm = (props) => {
 
   const renderContainerActions = () => (
     (selectedProviderType.allowContainer && container.id) &&
-      <ContainerActions
-        containerModel={container}
-        inContainerView
-        disableDestroy
-        disablePromote
-        {...props}
-      />
+      <div>
+        <ContainerActionsModal />
+        <ContainerActions
+          containerModel={container}
+          inContainerView
+          disableDestroy
+          disablePromote
+          {...props}
+        />
+      </div>
   );
 
   return (
