@@ -2,6 +2,7 @@ import {
   REQUEST_TOKEN_PENDING,
   REQUEST_TOKEN_FULFILLED,
   REQUEST_TOKEN_REJECTED,
+  LOGOUT,
 } from '../actionTypes';
 
 const initialState = {
@@ -32,6 +33,8 @@ export default (state = initialState, action) => {
           action.payload.response.data && action.payload.response.data.error === 'invalid_grant' && action.payload.response.data.code === 400
         ) ? 'Invalid username or password' : `Authentication Error: ${action.payload}`
       };
+    case LOGOUT:
+      return undefined;
     default:
       return state;
   }
