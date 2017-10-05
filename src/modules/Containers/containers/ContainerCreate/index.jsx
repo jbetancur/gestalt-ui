@@ -32,6 +32,7 @@ class ContainerCreate extends Component {
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    fetchActions: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,11 +41,12 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchEnv } = this.props;
+    const { match, fetchEnv, fetchActions } = this.props;
     const entityId = match.params.environmentId || match.params.workspaceId || null;
     const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
     fetchEnv(match.params.fqon, entityId, entityKey);
+    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 
   componentWillUnmount() {

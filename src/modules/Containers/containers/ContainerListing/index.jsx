@@ -15,7 +15,7 @@ class ContainerListing extends PureComponent {
     history: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
-    // fetchActions: PropTypes.func.isRequired,
+    fetchActions: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -25,10 +25,10 @@ class ContainerListing extends PureComponent {
   }
 
   componentDidMount() {
-    // const { fetchActions, match } = this.props;
+    const { fetchActions, match } = this.props;
 
     this.init();
-    // fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
+    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 
   componentWillReceiveProps(nextProps) {

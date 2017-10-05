@@ -36,10 +36,11 @@ class ContainerEdit extends Component {
     fetchSecretsDropDown: PropTypes.func.isRequired,
     unloadSecretsModal: PropTypes.func.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
+    fetchActions: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchEnv } = this.props;
+    const { match, fetchProvidersByType, fetchEnv, fetchActions } = this.props;
     const entityId = match.params.environmentId || match.params.workspaceId || null;
     const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
 
@@ -47,6 +48,7 @@ class ContainerEdit extends Component {
     fetchEnv(match.params.fqon, entityId, entityKey);
 
     this.populateContainer();
+    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 
   componentWillReceiveProps(nextProps) {
