@@ -35,8 +35,8 @@ class EntitlementListing extends Component {
       selectedIdentityId: props.self.id,
       selectedIdentityName: props.self.name,
       selectedIdentityType: USER,
-      selectedSearchFieldName: 'User',
-      selectedSearchFieldValue: 'users',
+      selectedSearchFieldName: 'Group',
+      selectedSearchFieldValue: 'groups',
     };
   }
 

@@ -24,7 +24,7 @@ class ContainerInstances extends PureComponent {
           {providerType === 'Kubernetes' &&
           <ClipboardButton
             showUUID={false}
-            text={`kubectl exec --namespace ${match.params.environmentId} -ti ${item.id} -- /bin/bash`}
+            text={`fog console ${match.params.environmentId} ${item.id}`}
             tooltipLabel="Copy console access cmd"
             tooltipPosition="right"
           />}
