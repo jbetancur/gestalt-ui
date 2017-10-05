@@ -9,13 +9,14 @@ const SearchFields = props => (
     type="radio"
     inline
     onChange={props.onChange}
-    defaultValue="users"
+    defaultValue="groups"
     controls={[{
-      label: 'User',
-      value: 'users',
-    }, {
       label: 'Group',
       value: 'groups',
+    },
+    {
+      label: 'User',
+      value: 'users',
     }]}
   />
 );
