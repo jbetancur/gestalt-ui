@@ -18,7 +18,6 @@ import Divider from 'react-md/lib/Dividers';
 import ActivityContainer from 'components/ActivityContainer';
 import OrgNavMenu from 'modules/OrgNavMenu';
 import ModalRoot from 'modules/ModalRoot';
-import LoginModal from 'modules/Auth/components/LoginModal';
 import { GestaltIcon, USEnglishLangIcon } from 'components/Icons';
 import { loginActions } from 'modules/Auth';
 import { withMetaResource } from 'modules/MetaResource';
@@ -178,7 +177,6 @@ class App extends Component {
           >
             {this.renderAppLogo()}
           </Toolbar>
-          <LoginModal />
           <ModalRoot />
           <HierarchyRoot />
         </Main> : <AppError onLogout={this.logout} {...this.props} />
