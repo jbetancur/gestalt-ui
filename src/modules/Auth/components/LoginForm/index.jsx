@@ -61,6 +61,7 @@ const validate = (values) => {
 
 const LoginForm = (props) => {
   const { login, loginModal, handleSubmit, pristine, invalid, submitting, isAuthenticating, t } = props;
+  const isDisabled = isAuthenticating || pristine || submitting || invalid;
   const submit = (values) => {
     // TODO: disabled for now since we need to refactor routing - but this allows us to redirect to a pasted path
     // const path = (props.router.location.state && props.router.location.state.nextPathname) || '/';
@@ -102,9 +103,10 @@ const LoginForm = (props) => {
                 flat
                 primary
                 type="submit"
-                label={t('auth.login')}
-                disabled={isAuthenticating || pristine || submitting || invalid}
-              />
+                disabled={isDisabled}
+              >
+                {t('auth.login')}
+              </LoginButton>
             </Col>
           </Row>
         </CardActions>

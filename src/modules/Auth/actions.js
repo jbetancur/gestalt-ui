@@ -103,8 +103,13 @@ export function logout() {
   };
 }
 
+export function logoutOnTokenExpiration() {
+  return { type: LOG_OUT };
+}
+
 export default {
   hideLoginModal,
   login,
   logout,
+  logoutOnTokenExpiration,
 };
