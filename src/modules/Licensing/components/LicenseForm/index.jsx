@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'react-flexybox';
 import { Field } from 'redux-form';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FormattedDate } from 'react-intl';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import Label from 'components/Label';
-import { P } from 'components/Typography';
+import { H4 } from 'components/Typography';
 import { ModalFooter } from 'components/Modal';
 
 const LicenseForm = (props) => {
@@ -32,7 +33,7 @@ const LicenseForm = (props) => {
           return (
             <div key={detailItem}>
               <Label>{detailItem}</Label>
-              <P><FormattedDate value={licenseInfo[detailItem]} /></P>
+              <H4><FormattedDate value={licenseInfo[detailItem]} /></H4>
             </div>
           );
         }
@@ -40,7 +41,7 @@ const LicenseForm = (props) => {
         return (
           <div key={detailItem}>
             <Label>{detailItem}</Label>
-            <P>{licenseInfo[detailItem]}</P>
+            <H4>{licenseInfo[detailItem]}</H4>
           </div>
         );
       }
@@ -50,11 +51,10 @@ const LicenseForm = (props) => {
   );
 
   return (
-    <form className="flex-row" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-      <div className="flex-row">
-        <div className="flex-row flex-5 flex-xs-12">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Row gutter={5}>
+        <Col flex={5} xs={12}>
           <Field
-            className="flex-12"
             component={TextField}
             name="properties.data"
             label="License Key"
@@ -62,26 +62,28 @@ const LicenseForm = (props) => {
             rows={4}
             required
           />
-        </div>
+        </Col>
         {licenseInfo.consumerType &&
-        <div className="flex-row flex-7 flex-xs-12">
-          <div className="flex-6 flex-xs-12">
-            {generateDetailItems()}
-          </div>
-          <div className="flex-6 flex-xs-12">
-            {Object.keys(licenseInfo.features).map(feature => (
-              <Checkbox
-                id={feature}
-                name={feature}
-                key={feature}
-                label={feature}
-                defaultChecked={licenseInfo.features[feature]}
-                disabled
-              />
-            ))}
-          </div>
-        </div>}
-      </div>
+        <Col flex={7} xs={12}>
+          <Row gutter={5}>
+            <Col flex={6} xs={12}>
+              {generateDetailItems()}
+            </Col>
+            <Col flex={6} xs={12}>
+              {Object.keys(licenseInfo.features).map(feature => (
+                <Checkbox
+                  id={feature}
+                  name={feature}
+                  key={feature}
+                  label={feature}
+                  defaultChecked={licenseInfo.features[feature]}
+                  disabled
+                />
+              ))}
+            </Col>
+          </Row>
+        </Col>}
+      </Row>
       <ModalFooter>
         <Button
           flat

@@ -12,11 +12,11 @@ import actions from '../../actions';
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
     width: 100%;
-    max-width: 50em;
+    max-width: 55em;
     min-height: 32em;
 
     .md-dialog-content {
-      max-height: 32em;
+      max-height: 40em;
       overflow: scroll;
     }
   }
@@ -69,8 +69,8 @@ class License extends Component {
         position="below"
         visible={this.props.modal.visible}
         title="License"
-        modal={false}
         closeOnEsc
+        autosizeContent={false}
         onHide={() => this.props.hideLicenseModal()}
       >
         {isPending ?
