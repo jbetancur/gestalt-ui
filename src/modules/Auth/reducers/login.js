@@ -1,9 +1,4 @@
-import {
-  REQUEST_TOKEN_PENDING,
-  REQUEST_TOKEN_FULFILLED,
-  REQUEST_TOKEN_REJECTED,
-  LOGOUT,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 const initialState = {
   isAuthenticating: false,
@@ -13,19 +8,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case REQUEST_TOKEN_PENDING:
+    case types.REQUEST_TOKEN_PENDING:
       return {
         ...state,
         isAuthenticating: true,
         statusText: null
       };
-    case REQUEST_TOKEN_FULFILLED:
+    case types.REQUEST_TOKEN_FULFILLED:
       return {
         ...state,
         isAuthenticating: false,
         token: action.payload,
       };
-    case REQUEST_TOKEN_REJECTED:
+    case types.REQUEST_TOKEN_REJECTED:
       return {
         ...state,
         isAuthenticating: false,
@@ -33,8 +28,8 @@ export default (state = initialState, action) => {
           action.payload.response.data && action.payload.response.data.error === 'invalid_grant' && action.payload.response.data.code === 400
         ) ? 'Invalid username or password' : `Authentication Error: ${action.payload}`
       };
-    case LOGOUT:
-      return undefined;
+    case types.LOG_OUT:
+      return {};
     default:
       return state;
   }
