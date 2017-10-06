@@ -107,7 +107,7 @@ export function* deleteSecret(action) {
  */
 export function* deleteSecrets(action) {
   try {
-    const all = action.secretIds.map(id => axios.delete(`${action.fqon}/secrets/${id}?force=true`));
+    const all = action.secretIds.map(id => axios.delete(`${action.fqon}/secrets/${id}`));
 
     yield call(axios.all, all);
     yield put({ type: types.DELETE_SECRET_FULFILLED });
