@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Row } from 'react-flexybox';
 import { Field, getFormValues } from 'redux-form';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
@@ -33,132 +34,130 @@ const HealthCheckForm = (props) => {
 
   return (
     <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-      <div className="flex-row">
-        <div className="flex-row">
+      <Row gutter={5}>
+        <Field
+          name="protocol"
+          className="flex-2 flex-xs-6 flex-sm-6"
+          component={SelectField}
+          label="Protocol"
+          itemLabel="displayName"
+          itemValue="value"
+          menuItems={healthCheckProtocols}
+          onChange={() => reset()}
+          required
+        />
+        <Field
+          name="grace_period_seconds"
+          type="number"
+          min={1}
+          label="Grace Period"
+          className="flex-2 flex-xs-6 flex-sm-6"
+          component={TextField}
+          normalize={fixInputNumber}
+          required
+          helpText="seconds"
+        />
+        <Field
+          name="interval_seconds"
+          type="number"
+          min={1}
+          label="Interval"
+          className="flex-2 flex-xs-6 flex-sm-6"
+          component={TextField}
+          normalize={fixInputNumber}
+          required
+          helpText="seconds"
+        />
+        <Field
+          name="timeout_seconds"
+          type="number"
+          min={1}
+          label="Timeout"
+          className="flex-2 flex-xs-6 flex-sm-6"
+          component={TextField}
+          normalize={fixInputNumber}
+          required
+          helpText="seconds"
+        />
+        <Field
+          name="max_consecutive_failures"
+          type="number"
+          min={1}
+          label="Max Consecutive Failures"
+          className="flex-2 flex-xs-6 flex-sm-6"
+          component={TextField}
+          normalize={fixInputNumber}
+          required
+        />
+      </Row>
+      <Row gutter={5}>
+        {selectedHCProtocol && selectedHCProtocol.supportsPortType &&
           <Field
-            name="protocol"
-            className="flex-2 flex-xs-6 flex-sm-6"
+            name="port_type"
+            className="flex-3 flex-xs-6 flex-sm-6"
             component={SelectField}
-            label="Protocol"
+            label="Port Type"
             itemLabel="displayName"
             itemValue="value"
-            menuItems={healthCheckProtocols}
-            onChange={() => reset()}
-            required
-          />
+            menuItems={healthCheckPortTypes}
+            onChange={clearPorts}
+          />}
+        {values.port_type === 'number' && selectedHCProtocol && selectedHCProtocol.supportsPortType &&
           <Field
-            name="grace_period_seconds"
+            name="port"
             type="number"
-            min={1}
-            label="Grace Period"
+            min={0}
+            max={65535}
+            label="Port Number"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
             normalize={fixInputNumber}
             required
-            helpText="seconds"
-          />
+          />}
+        {values.port_type === 'index' && selectedHCProtocol && selectedHCProtocol.supportsPortType &&
           <Field
-            name="interval_seconds"
+            name="port_index"
             type="number"
-            min={1}
-            label="Interval"
+            min={0}
+            max={65535}
+            label="Port Index"
             className="flex-2 flex-xs-6 flex-sm-6"
             component={TextField}
-            normalize={fixInputNumber}
+            parse={value => Number(value)}
             required
-            helpText="seconds"
-          />
+          />}
+        {selectedHCProtocol && selectedHCProtocol.supportsURL &&
           <Field
-            name="timeout_seconds"
-            type="number"
-            min={1}
-            label="Timeout"
-            className="flex-2 flex-xs-6 flex-sm-6"
+            name="path"
+            type="text"
+            label="Path"
+            className="flex"
             component={TextField}
-            normalize={fixInputNumber}
             required
-            helpText="seconds"
-          />
+          />}
+        {selectedHCProtocol && selectedHCProtocol.supportsCMD &&
           <Field
-            name="max_consecutive_failures"
-            type="number"
-            min={1}
-            label="Max Consecutive Failures"
-            className="flex-2 flex-xs-6 flex-sm-6"
+            name="command"
+            type="text"
+            label="Command"
+            className="flex"
             component={TextField}
-            normalize={fixInputNumber}
             required
-          />
-        </div>
-        <div className="flex-row">
-          {selectedHCProtocol && selectedHCProtocol.supportsPortType ?
-            <Field
-              name="port_type"
-              className="flex-3 flex-xs-6 flex-sm-6"
-              component={SelectField}
-              label="Port Type"
-              itemLabel="displayName"
-              itemValue="value"
-              menuItems={healthCheckPortTypes}
-              onChange={() => clearPorts()}
-            /> : null}
-          {values.port_type === 'number' && selectedHCProtocol && selectedHCProtocol.supportsPortType ?
-            <Field
-              name="port"
-              type="number"
-              min={0}
-              max={65535}
-              label="Port Number"
-              className="flex-2 flex-xs-6 flex-sm-6"
-              component={TextField}
-              normalize={fixInputNumber}
-              required
-            /> : null}
-          {values.port_type === 'index' && selectedHCProtocol && selectedHCProtocol.supportsPortType ?
-            <Field
-              name="port_index"
-              type="number"
-              min={0}
-              max={65535}
-              label="Port Index"
-              className="flex-2 flex-xs-6 flex-sm-6"
-              component={TextField}
-              parse={value => Number(value)}
-              required
-            /> : null}
-          {selectedHCProtocol && selectedHCProtocol.supportsURL ?
-            <Field
-              name="path"
-              type="text"
-              label="Path"
-              className="flex"
-              component={TextField}
-              required
-            /> : null}
-          {selectedHCProtocol && selectedHCProtocol.supportsCMD ?
-            <Field
-              name="command"
-              type="text"
-              label="Command"
-              className="flex"
-              component={TextField}
-              required
-            /> : null}
-          {selectedHCProtocol && selectedHCProtocol.supportsURL ?
-            <Field
-              id="ignore-http-codes"
-              component={Checkbox}
-              name="ignore_http_1xx"
-              // TODO: Find out why redux-form state for bool doesn't apply
-              checked={values.ignore_http_1xx}
-              label="Ignore Codes 100-199"
-            /> : null}
-        </div>
-      </div>
+          />}
+        {selectedHCProtocol && selectedHCProtocol.supportsURL &&
+          <Field
+            id="ignore-http-codes"
+            component={Checkbox}
+            name="ignore_http_1xx"
+            // TODO: Find out why redux-form state for bool doesn't apply
+            checked={values.ignore_http_1xx}
+            label="Ignore Codes 100-199"
+          />}
+      </Row>
       <ModalFooter>
         <Button
           flat
-          onClick={() => close()}
+          onClick={close}
           Cancel
         >
           Cancel

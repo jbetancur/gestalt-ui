@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import { API_URL, API_TIMEOUT } from '../../../constants';
 

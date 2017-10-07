@@ -2,15 +2,14 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const execSync = require('child_process').execSync;
-const pkg = require('./package.json');
-const config = require('./config.json');
+const pkg = require('../package.json');
+const config = require('../config.json');
 
 exports.appEntryDevelopment = ({ srcPath }) => (
   [
     'babel-polyfill',
-    // 'react-hot-loader/patch',
     // The main app entry point
-    `${srcPath}/index.jsx`
+    `${srcPath}/Root.jsx`
   ]
 );
 
@@ -19,7 +18,7 @@ exports.appEntryProduction = ({ srcPath }) => (
     'babel-polyfill',
 
     // The main app entry point
-    `${srcPath}/index.jsx`
+    `${srcPath}/Root.jsx`
   ]
 );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PolicyRuleRoot from 'modules/PolicyRules';
+import PolicyRuleRoot from 'Modules/PolicyRules';
 import PolicyListing from './containers/PolicyListing';
 import PolicyCreate from './containers/PolicyCreate';
 import PolicyEdit from './containers/PolicyEdit';

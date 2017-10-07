@@ -2,12 +2,12 @@ import i18n from 'i18next';
 import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Cache from 'i18next-localstorage-cache';
-import { DEBUG } from './constants';
+import { DEBUG } from '../constants';
 
 function loadLocales(url, options, callback) {
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    const waitForLocale = require(`bundle-loader!json-loader!./locales/${url}/common.yml`);
+    const waitForLocale = require(`bundle-loader!json-loader!../locales/${url}/common.yml`);
     waitForLocale((locale) => {
       callback(locale, { status: '200' });
     });

@@ -4,7 +4,7 @@ import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import ExpansionPanel from 'components/ExpansionPanel';
-import { ActionsMenu } from 'modules/Actions';
+import { ActionsMenu } from 'Modules/Actions';
 
 const ContextNavigationStyle = styled.div`
   background-color: ${props => props.theme.colors['$md-white']};

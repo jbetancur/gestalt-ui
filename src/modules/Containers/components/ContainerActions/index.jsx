@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
-import { ActionsMenu } from 'modules/Actions';
+import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
 
 const ActionsWrapper = styled.div`

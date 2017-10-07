@@ -106,7 +106,7 @@ const PolicyLimitRuleForm = (props) => {
                 type="text"
                 rows={1}
               />
-              <div className="flex-row">
+              <Row gutter={5}>
                 <Field
                   id="rule-eval-property"
                   className="flex-3 flex-xs-12"
@@ -150,7 +150,7 @@ const PolicyLimitRuleForm = (props) => {
                   checked={values.properties.strict}
                   label="Strict"
                 />
-              </div>
+              </Row>
               <Fieldset legend="Actions">
                 <Row gutter={5}>
                   {policyActions.map(action => (

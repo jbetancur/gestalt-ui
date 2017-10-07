@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
 import { arrayToMap, stringDemiltedToArray } from 'util/helpers/transformations';
-import { payloadTransformer } from 'modules/Containers';
+import { payloadTransformer } from 'Modules/Containers';
 
 // import { mapTo2DArray } from 'util/helpers/transformations';
 /**

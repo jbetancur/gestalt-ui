@@ -1,5 +1,5 @@
 const path = require('path');
-const pkg = require('./package.json');
+const pkg = require('../package.json');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
@@ -10,9 +10,9 @@ const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 
 const PATHS = {
-  rootPath: path.join(__dirname, './'),
-  buildPath: path.join(__dirname, './build'),
-  srcPath: path.join(__dirname, './src')
+  rootPath: path.join(__dirname, '../'),
+  buildPath: path.join(__dirname, '../build'),
+  srcPath: path.join(__dirname, '../src')
 };
 
 const common = merge([
@@ -26,9 +26,9 @@ const common = merge([
       ],
       alias: {
         components: path.resolve(PATHS.srcPath, 'components'),
-        modules: path.resolve(PATHS.srcPath, 'modules'),
+        Modules: path.resolve(PATHS.srcPath, 'Modules'),
         util: path.resolve(PATHS.srcPath, 'util'),
-        style: path.resolve(PATHS.srcPath, 'style'),
+        scss: path.resolve(PATHS.srcPath, 'scss'),
       },
     },
     output: {
@@ -65,7 +65,7 @@ const common = merge([
         test: /\.(js|css|html|ico|svg)$/,
         threshold: 10240,
         minRatio: 0.8,
-      })
+      }),
     ],
   },
   parts.babelConfig(PATHS),
@@ -128,6 +128,7 @@ module.exports = function test(env) {
             disable: false,
           }),
           new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don't need them at this time
+          // new webpack.optimize.ModuleConcatenationPlugin(), // TODO: enable this once heap errors are resolved
           parts.generateConstants('production'),
         ],
       },

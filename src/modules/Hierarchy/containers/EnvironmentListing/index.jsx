@@ -4,8 +4,7 @@ import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { withTheme } from 'styled-components';
-import { appActions } from 'App';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import { translate } from 'react-i18next';
 import ActivityContainer from 'components/ActivityContainer';
 import Sort from '../../components/Sort';
@@ -116,5 +115,5 @@ class EnvironmentListing extends Component {
 }
 
 export default withMetaResource(
-  connect(null, Object.assign({}, actions, appActions))(translate()(withTheme(EnvironmentListing)))
+  connect(null, actions)(translate()(withTheme(EnvironmentListing)))
 );

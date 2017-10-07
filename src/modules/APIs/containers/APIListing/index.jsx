@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'modules/MetaResource';
-import { withContext } from 'modules/ContextManagement';
-import { withTableManager } from 'modules/TableManager';
+import { withMetaResource } from 'Modules/MetaResource';
+import { withContext } from 'Modules/ContextManagement';
+import { withTableManager } from 'Modules/TableManager';
 import APIItem from '../../components/APIItem';
 import actions from '../../actions';
 

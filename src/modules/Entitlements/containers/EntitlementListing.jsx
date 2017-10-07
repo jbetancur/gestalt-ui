@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import FontIcon from 'react-md/lib/FontIcons';
-import Search from 'modules/Search';
+import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
 import DotActivity from 'components/DotActivity';
@@ -168,7 +168,11 @@ class EntitlementListing extends Component {
   }
 }
 
-const bindActions = Object.assign({}, actions);
+function mapStateToProps(state) {
+  return {
+    self: state.metaResource.self.self,
+  };
+}
 
-export default withMetaResource(connect(null, bindActions)(EntitlementListing));
+export default withMetaResource(connect(mapStateToProps, actions)(EntitlementListing));
 

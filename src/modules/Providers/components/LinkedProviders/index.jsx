@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row } from 'react-flexybox';
 import { Field, FieldArray } from 'redux-form';
 import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
 import { Button } from 'components/Buttons';
@@ -18,7 +19,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
     </Button>
     {touched && error}
     {fields.map((member, index) => (
-      <div key={index} className="flex-row">
+      <Row key={index} gutter={5}>
         <Field
           name={`${member}.name`}
           type="text"
@@ -42,7 +43,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
           onFocus={() => fetchProviders()}
         />
         <FieldRemoveButton onClick={() => fields.remove(index)} />
-      </div>
+      </Row>
     ))}
   </div>
 );

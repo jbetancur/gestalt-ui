@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
 import DotActivity from 'components/DotActivity';
@@ -46,12 +47,12 @@ class MigrateModal extends PureComponent {
     this.props.fetchProvidersByType(this.props.params.fqon, this.props.params.environmentId, 'environments', 'CaaS');
   }
 
-  doIt() {
+  doIt = () => {
     this.props.onProceed(this.state.provider);
     this.props.hideModal();
   }
 
-  providerChanged(value) {
+  providerChanged = (value) => {
     this.setState({ provider: value });
   }
 
@@ -81,7 +82,7 @@ class MigrateModal extends PureComponent {
             label: 'Cancel',
           },
           {
-            onClick: () => this.doIt(),
+            onClick: this.doIt,
             primary: true,
             label: 'Migrate',
             disabled: !this.state.provider,
@@ -91,22 +92,22 @@ class MigrateModal extends PureComponent {
           <DotActivity size={1} primary /> :
           <div>
             {providers.length ?
-              <div className="flex-row">
-                <div className="flex-row center-center">
+              <Row center>
+                <Col flex={12}>
                   <SelectField
                     id="container-scaleto"
-                    className="flex-12"
                     label="Migrate to Provider"
                     lineDirection="center"
                     menuItems={providers}
                     itemLabel="name"
                     itemValue="id"
                     value={this.state.provider}
-                    onChange={value => this.providerChanged(value)}
+                    onChange={this.providerChanged}
                     required
+                    fullWidth
                   />
-                </div>
-              </div> : <span>There are no available providers to migrate to</span>}
+                </Col>
+              </Row> : <span>There are no available providers to migrate to</span>}
           </div>}
       </EnhancedDialog>
     );

@@ -1,4 +1,4 @@
-import { metaSagas } from 'modules/MetaResource';
+import { metaSagas } from 'Modules/MetaResource';
 
 export default function* rootSaga() {
   yield [

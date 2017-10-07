@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Row } from 'react-flexybox';
 import Stepper from 'components/Stepper';
 import ConfigureProvider from '../../components/ConfigureProvider';
 import ConfigureActions from '../../components/ConfigureActions';
@@ -22,9 +23,9 @@ export default class ProviderInstanceWizard extends PureComponent {
 
   render() {
     return (
-      <div className="flex-row">
+      <Row gutter={5}>
         <Stepper className="flex-12" steps={steps} onFinish={() => this.props.hideProviderInstanceModal()} />
-      </div>
+      </Row>
     );
   }
 }

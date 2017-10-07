@@ -2,7 +2,7 @@ import { isContainerName, isCommaDelimited, isCommaDelimitedConstraints, contain
 
 export const nameMaxLen = 60;
 
-export default (values) => {
+export default (values, props) => {
   const errors = {
     properties: {
       accepted_resource_roles: '',
@@ -39,7 +39,7 @@ export default (values) => {
     errors.properties.memory = 'memory is required';
   }
 
-  if (!values.properties.num_instances) {
+  if (!values.properties.num_instances && !props.container.properties.num_instances > 0) {
     errors.properties.num_instances = 'number of instances is required';
   }
 

@@ -7,7 +7,7 @@ import * as types from '../actionTypes';
 function fixProperties(data) {
   const payload = { ...data };
   // TODO: providers such as kubernetes do not have this field
-  // May split out providers types into their own respective modules/forms
+  // May split out providers types into their own respective Modules/forms
   if (!payload.properties.config) {
     payload.properties.config = {};
   }

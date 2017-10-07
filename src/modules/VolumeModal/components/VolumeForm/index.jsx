@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Row } from 'react-flexybox';
 import { Field, getFormValues } from 'redux-form';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
@@ -19,7 +20,7 @@ const VolumeForm = (props) => {
 
   return (
     <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-      <div className="flex-row">
+      <Row gutter={5}>
         <Field
           name="type"
           className="flex-2 flex-xs-12 flex-sm-6"
@@ -71,10 +72,10 @@ const VolumeForm = (props) => {
           helpText="directory path"
           required
         />
-      </div>
+      </Row>
 
       {providerType === 'Kubernetes' &&
-        <div className="flex-row">
+        <Row gutter={5}>
           <Field
             name="name"
             type="text"
@@ -84,11 +85,11 @@ const VolumeForm = (props) => {
             helpText="The name is used to identify the volume to attach to the container"
             required
           />
-        </div>}
+        </Row>}
       <ModalFooter>
         <Button
           flat
-          onClick={() => close()}
+          onClick={close}
         >
           Cancel
         </Button>

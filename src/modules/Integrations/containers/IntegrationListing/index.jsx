@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { withContext } from 'modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import IntegrationsItem from '../../components/IntegrationItem';
 import actions from '../../actions';
 

@@ -11,7 +11,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import DetailsPane from 'components/DetailsPane';
-import { PolicyRules } from 'modules/PolicyRules';
+import { PolicyRules } from 'Modules/PolicyRules';
 import { nameMaxLen } from '../../validations';
 
 const PolicyForm = (props) => {
@@ -44,7 +44,7 @@ const PolicyForm = (props) => {
             title={title}
           />
           <CardText>
-            <div className="flex-row">
+            <Row gutter={5}>
               <Field
                 className="flex-5 flex-xs-12"
                 component={TextField}
@@ -63,7 +63,7 @@ const PolicyForm = (props) => {
                 type="text"
                 rows={1}
               />
-            </div>
+            </Row>
           </CardText>
           {policyPending && <LinearProgress id="policy-form" />}
           <CardActions>

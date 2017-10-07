@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Container, Col, Row } from 'react-flexybox';
 import LoginForm from '../LoginForm';
 import LoginFooter from '../LoginFooter';
-import lightTheme from '../../../../style/themes/light';
+import lightTheme from '../../../../scss/themes/light';
 
 const Wrapper = styled(Container)`
   padding-bottom: 4em;

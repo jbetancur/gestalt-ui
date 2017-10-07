@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-flexybox';
 import Dialog from 'react-md/lib/Dialogs';
 import TextField from 'react-md/lib/TextFields';
 import actions from '../../actions';
@@ -24,12 +25,12 @@ class ConfirmModal extends PureComponent {
     this.state = { numInstances: props.numInstances, maxInstances: 999 };
   }
 
-  doIt() {
+  doIt = () => {
     this.props.onProceed(this.state.numInstances);
     this.props.hideModal();
   }
 
-  scaleChanged(value) {
+  scaleChanged = (value) => {
     this.setState({ numInstances: value });
   }
 
@@ -50,28 +51,28 @@ class ConfirmModal extends PureComponent {
             label: 'Cancel',
           },
           {
-            onClick: () => this.doIt(),
+            onClick: this.doIt,
             primary: true,
             label: 'Scale',
             disabled: !this.state.numInstances || this.state.numInstances > this.state.maxInstances,
           }]}
       >
-        <div className="flex-row">
-          <div className="flex-row center-center">
+        <Row center>
+          <Col flex={6}>
             <TextField
               id="container-scaleto"
-              className="flex-6"
               label="Scale to"
               lineDirection="center"
               type="number"
               value={this.state.numInstances}
               min={0}
               max={this.state.maxInstances}
-              onChange={value => this.scaleChanged(value)}
+              onChange={this.scaleChanged}
               required
+              fullWidth
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
       </Dialog>
     );
   }

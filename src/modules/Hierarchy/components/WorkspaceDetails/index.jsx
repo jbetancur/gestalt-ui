@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import { VariablesListing } from 'modules/Variables';
+import { VariablesListing } from 'Modules/Variables';
 import Label from 'components/Label';
 
 const WorkspaceDetails = (props) => {
