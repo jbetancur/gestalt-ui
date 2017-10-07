@@ -32,26 +32,6 @@ body {
   }
 }
 
-.logo-container {
-  position: absolute;
-  line-height: 4.4em;
-  text-align: center;
-  margin: 0;
-
-  .logo {
-    svg {
-      height: 1.8em;
-      width: 1.8em;
-    }
-  }
-
-  // .logo-loading {
-  //   animation: pulse 1s infinite forwards;
-  //   @extend .pulse;
-  //   animation-delay: 1s; // prevent from happening on "normal" latency requests
-  // }
-}
-
 .active-link * {
   color: $md-blue-500;
 }

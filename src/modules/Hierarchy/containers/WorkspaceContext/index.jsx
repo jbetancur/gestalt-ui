@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'modules/MetaResource';
-import { withContext } from 'modules/ContextManagement';
-import { Providers } from 'modules/Providers';
+import { withMetaResource } from 'Modules/MetaResource';
+import { withContext } from 'Modules/ContextManagement';
+import { Providers } from 'Modules/Providers';
 import Div from 'components/Div';
 import WorkspaceNav from '../../components/WorkspaceNav';
 import WorkspaceHeader from '../../components/WorkspaceHeader';

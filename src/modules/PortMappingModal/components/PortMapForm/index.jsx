@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Row } from 'react-flexybox';
 import { Field, getFormValues } from 'redux-form';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
@@ -20,86 +21,88 @@ const PortMapForm = (props) => {
   };
 
   return (
-    <form className="flex-row" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" style={{ marginTop: '-.5em' }}>
-      <Field
-        id="expose-service"
-        component={Checkbox}
-        name="expose_endpoint"
-        // TODO: Find out why redux-form state for bool doesn't apply
-        checked={values.expose_endpoint}
-        label="Expose Service"
-      />
-      <div className="flex-row" style={{ marginTop: '-1.4em' }}>
+    <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" style={{ marginTop: '-.5em' }}>
+      <Row gutter={5}>
         <Field
-          name="name"
-          type="text"
-          label="Service Name"
-          className="flex-6 flex-xs-6"
-          component={TextField}
-          required
-          maxLength={serviceNameMaxLen}
-          helpText="e.g. web"
+          id="expose-service"
+          component={Checkbox}
+          name="expose_endpoint"
+          // TODO: Find out why redux-form state for bool doesn't apply
+          checked={values.expose_endpoint}
+          label="Expose Service"
         />
-        <Field
-          id="port-mapping-protocol"
-          name="protocol"
-          className="flex-3 flex-xs-6"
-          component={SelectField}
-          label="Protocol"
-          itemLabel="displayName"
-          itemValue="value"
-          menuItems={networkProtocols}
-          required
-        />
-        {(values.expose_endpoint && props.networkType === 'HOST') &&
+        <Row gutter={5} style={{ marginTop: '-1.4em' }}>
           <Field
-            name="service_port"
-            type="number"
-            min={0}
-            max={65535}
-            label="Service Port"
-            className="flex-3 flex-xs-6"
+            name="name"
+            type="text"
+            label="Service Name"
+            className="flex-6 flex-xs-6"
             component={TextField}
             required
-            normalize={fixInputNumber}
-          />}
-        {(props.networkType !== 'HOST') &&
+            maxLength={serviceNameMaxLen}
+            helpText="e.g. web"
+          />
           <Field
-            name="container_port"
-            type="number"
-            min={0}
-            max={65535}
-            label="Container Port"
+            id="port-mapping-protocol"
+            name="protocol"
             className="flex-3 flex-xs-6"
-            component={TextField}
+            component={SelectField}
+            label="Protocol"
+            itemLabel="displayName"
+            itemValue="value"
+            menuItems={networkProtocols}
             required
-            normalize={fixInputNumber}
+          />
+          {(values.expose_endpoint && props.networkType === 'HOST') &&
+            <Field
+              name="service_port"
+              type="number"
+              min={0}
+              max={65535}
+              label="Service Port"
+              className="flex-3 flex-xs-6"
+              component={TextField}
+              required
+              normalize={fixInputNumber}
+            />}
+          {(props.networkType !== 'HOST') &&
+            <Field
+              name="container_port"
+              type="number"
+              min={0}
+              max={65535}
+              label="Container Port"
+              className="flex-3 flex-xs-6"
+              component={TextField}
+              required
+              normalize={fixInputNumber}
+            />}
+          {values.expose_endpoint &&
+          <Field
+            name="virtual_hosts"
+            className="flex-12"
+            component={TextField}
+            label="Virtual Hosts"
+            helpText="Comma delimited set of virtual host names or addresses"
           />}
-        {values.expose_endpoint &&
-        <Field
-          name="virtual_hosts"
-          className="flex-12"
-          component={TextField}
-          label="Virtual Hosts"
-          helpText="Comma delimited set of virtual host names or addresses"
-        />}
-      </div>
-      <ModalFooter>
-        <Button
-          flat
-          onClick={() => close()}
-        >
-          Cancel
-        </Button>
-        <Button
-          flat
-          type="submit"
-          disabled={props.pristine || props.invalid || props.submitting}
-          primary
-        >
-          Add Port Mapping
-        </Button>
-      </ModalFooter>
+        </Row>
+        <ModalFooter>
+          <Button
+            flat
+            onClick={() => close()}
+          >
+            Cancel
+          </Button>
+          <Button
+            flat
+            type="submit"
+            disabled={props.pristine || props.invalid || props.submitting}
+            primary
+          >
+            Add Port Mapping
+          </Button>
+        </ModalFooter>
+      </Row>
     </form>
   );
 };

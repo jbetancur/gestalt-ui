@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { API_URL, API_TIMEOUT } from './constants';
+import { API_URL, API_TIMEOUT } from '../constants';
 
 // Axios Defaults
 axios.defaults.baseURL = API_URL;

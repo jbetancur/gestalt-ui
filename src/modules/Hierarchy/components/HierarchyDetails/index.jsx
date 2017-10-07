@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import { VariablesListing } from 'modules/Variables';
+import { VariablesListing } from 'Modules/Variables';
 import Label from 'components/Label';
 
 const HierarchyDetails = (props) => {

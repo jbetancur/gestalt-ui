@@ -11,7 +11,7 @@ import CardText from 'react-md/lib/Cards/CardText';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import { APIEndpoints } from 'modules/APIEndpoints';
+import { APIEndpoints } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { nameMaxLen } from '../../validations';

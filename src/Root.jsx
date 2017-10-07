@@ -9,15 +9,15 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
-import ErrorNotifications from 'modules/ErrorNotifications';
-import configureStore from './configureStore';
-import i18n from './i18n';
-import App from './App';
-import { Login, restricted } from './modules/Auth';
-import Logging from './modules/Logging';
-import configureHTTP from './configureHTTP';
-import lightTheme from './style/themes/light';
-import './style/style.scss';
+import ErrorNotifications from 'Modules/ErrorNotifications';
+import configureStore from './config/configureStore';
+import i18n from './config/configureI18n';
+import configureHTTP from './config/configureHTTP';
+import AppContainer from './App/AppContainer';
+import { Login, restricted } from './Modules/Auth';
+import Logging from './Modules/Logging';
+import lightTheme from './scss/themes/light';
+import './scss/style.scss';
 
 // Create our store
 const store = configureStore();
@@ -49,8 +49,8 @@ const Root = () => (
               <Switch>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/logs" component={restricted(Logging)} />
-                <Route exact path="/" component={restricted(App)} />
-                <Route path="/:fqon" component={restricted(App)} />
+                <Route exact path="/" component={restricted(AppContainer)} />
+                <Route path="/:fqon" component={restricted(AppContainer)} />
               </Switch>
             </ConnectedRouter>
           </div>

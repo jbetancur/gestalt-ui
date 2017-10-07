@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Row, Col } from 'react-flexybox';
 import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
@@ -124,35 +125,39 @@ const rendervariables = (props) => {
         const fieldValueStr = isInherited ? `${valueFieldName} (overridable)` : valueFieldValue;
 
         return (
-          <div key={index} className={className}>
-            <Field
-              name={`${member}.${keyFieldValue}`}
-              type="text"
-              component={renderNameField}
-              label={fieldNameStr}
-              className="flex-4 flex-xs-12"
-              disabled={isRequired || isInherited || disabled}
-              keyFieldValidationMessage={keyFieldValidationMessage}
-              keyFieldValidationFunction={keyFieldValidationFunction}
-            />
-            <Field
-              name={`${member}.${valueFieldValue}`}
-              type="text"
-              component={isPassword ? renderPasswordField : renderValueField}
-              label={fieldValueStr}
-              className="flex-7 flex-xs-12"
-              required={isRequired}
-              valueFieldValidationMessage={valueFieldValidationMessage}
-              valueFieldValidationFunction={valueFieldValidationFunction}
-              hideValueField={hideValueField}
-              disabled={props.disabled}
-            />
+          <Row key={index} gutter={5} className={className}>
+            <Col flex={4} xs={12}>
+              <Field
+                name={`${member}.${keyFieldValue}`}
+                type="text"
+                component={renderNameField}
+                label={fieldNameStr}
+                className="flex-4 flex-xs-12"
+                disabled={isRequired || isInherited || disabled}
+                keyFieldValidationMessage={keyFieldValidationMessage}
+                keyFieldValidationFunction={keyFieldValidationFunction}
+              />
+            </Col>
+            <Col flex={7} xs={12}>
+              <Field
+                name={`${member}.${valueFieldValue}`}
+                type="text"
+                component={isPassword ? renderPasswordField : renderValueField}
+                label={fieldValueStr}
+                className="flex-7 flex-xs-12"
+                required={isRequired}
+                valueFieldValidationMessage={valueFieldValidationMessage}
+                valueFieldValidationFunction={valueFieldValidationFunction}
+                hideValueField={hideValueField}
+                disabled={props.disabled}
+              />
+            </Col>
             {!(isRequired || isInherited || disabled) &&
               <FieldRemoveButton
                 marginTop="1em"
                 onClick={() => fields.remove(index)}
               />}
-          </div>
+          </Row>
         );
       })}
     </div>
@@ -181,7 +186,7 @@ rendervariables.propTypes = {
 rendervariables.defaultProps = {
   touched: false,
   error: false,
-  className: 'flex-row no-gutter',
+  className: '',
   valueFieldValidationFunction: null,
 };
 

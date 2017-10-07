@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'modules/MetaResource';
+import { Row, Col } from 'react-flexybox';
+import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
 import DotActivity from 'components/DotActivity';
@@ -50,12 +51,12 @@ class PromoteModal extends PureComponent {
     this.props.unloadEnvironments();
   }
 
-  doIt() {
+  doIt = () => {
     this.props.onProceed(this.props.environments.find(env => env.id === this.state.environment));
     this.props.hideModal();
   }
 
-  environmentChanged(value) {
+  environmentChanged = (value) => {
     this.setState({ environment: value });
   }
 
@@ -80,7 +81,7 @@ class PromoteModal extends PureComponent {
             label: 'Cancel',
           },
           {
-            onClick: () => this.doIt(),
+            onClick: this.doIt,
             primary: true,
             label: 'Promote',
             disabled: !this.state.environment,
@@ -90,22 +91,22 @@ class PromoteModal extends PureComponent {
           <DotActivity size={1} primary /> :
           <div>
             {environments.length > 0 ?
-              <div className="flex-row">
-                <div className="flex-row center-center">
+              <Row center>
+                <Col flex={12}>
                   <SelectField
                     id="container-promoteto"
-                    className="flex-12"
                     label="Promote to Environment"
                     lineDirection="center"
                     menuItems={environments}
                     itemLabel="name"
                     itemValue="id"
                     value={this.state.environment}
-                    onChange={value => this.environmentChanged(value)}
+                    onChange={this.environmentChanged}
                     required
+                    fullWidth
                   />
-                </div>
-              </div> : <span>There are no available environments to promote to</span>}
+                </Col>
+              </Row> : <span>There are no available environments to promote to</span>}
           </div>}
       </EnhancedDialog>
     );

@@ -4,7 +4,7 @@ import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Button, DeleteIconButton } from 'components/Buttons';
+import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
 import { parseChildClass, truncate } from 'util/helpers/strings';
 
@@ -12,12 +12,10 @@ class ProviderItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
-    onToggleInstanceModal: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     providersPending: PropTypes.bool.isRequired,
     tableManager: PropTypes.object.isRequired,
     tableActions: PropTypes.object.isRequired,
-    self: PropTypes.object.isRequired,
     getTableSortedItems: PropTypes.func.isRequired,
   };
 
@@ -35,21 +33,6 @@ class ProviderItem extends PureComponent {
     const { model, tableActions, tableManager } = this.props;
 
     tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
-  }
-
-  renderCreateInstanceButton() {
-    return (
-      this.props.self.name === 'gfdemo' &&
-        <Button
-          id="create-provider-instance"
-          flat
-          iconChildren="add"
-          primary
-          onClick={this.props.onToggleInstanceModal}
-        >
-          Create Provider Instance
-        </Button>
-    );
   }
 
   render() {
@@ -75,9 +58,7 @@ class ProviderItem extends PureComponent {
             visible={count > 0}
             contextualTitle={`${count} provider${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-          >
-            <div>{this.renderCreateInstanceButton()}</div>
-          </TableCardHeader>
+          />
           {this.props.providersPending && <LinearProgress id="providers-progress" />}
           <DataTable baseId="providers" onRowToggle={this.handleRowToggle}>
             {this.props.model.length > 0 &&

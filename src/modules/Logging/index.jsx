@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { parse } from 'query-string';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import axios from 'axios';
 import SelectField from 'react-md/lib/SelectFields';
 import ActivityContainer from 'components/ActivityContainer';
@@ -236,7 +237,7 @@ class Logging extends PureComponent {
     return (
       <PageWrapper>
         <Toolbar>
-          <div className="flex-row start-center">
+          <Row gutter={5} alignItems="center">
             <ToolbarTitle className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-8">
               <div className="gf-headline-1">Logs for {query.name} ({query.logType})</div>
             </ToolbarTitle>
@@ -282,7 +283,7 @@ class Logging extends PureComponent {
                 onClick={() => window.close()}
               />
             </ToolbarActions>
-          </div>
+          </Row>
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>
           {(logProviderPending || logPending) ?

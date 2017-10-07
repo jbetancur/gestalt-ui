@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import APIEndpointsRoot from 'modules/APIEndpoints';
+import APIEndpointsRoot from 'Modules/APIEndpoints';
 import APIListing from './containers/APIListing';
 import APICreate from './containers/APICreate';
 import APIEdit from './containers/APIEdit';

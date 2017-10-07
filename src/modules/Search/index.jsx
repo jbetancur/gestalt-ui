@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import { debounce } from 'lodash';
 import Autocomplete from 'react-md/lib/Autocompletes';
 

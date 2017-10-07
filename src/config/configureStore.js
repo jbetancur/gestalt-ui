@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
-import { DEBUG } from './constants';
+import { DEBUG } from '../constants';
 
 const sagaMiddleware = createSagaMiddleware();
 

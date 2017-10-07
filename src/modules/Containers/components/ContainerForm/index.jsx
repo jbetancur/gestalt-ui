@@ -16,11 +16,11 @@ import { ExpansionPanelNoPadding, ExpansionPanel } from 'components/ExpansionLis
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import Checkbox from 'components/Checkbox';
-import { VariablesForm } from 'modules/Variables';
-import { VolumeModal, VolumeListing } from 'modules/VolumeModal';
-import { PortMapModal, PortMapListing } from 'modules/PortMappingModal';
-import { HealthCheckModal, HealthCheckListing } from 'modules/HealthCheckModal';
-import { SecretsPanelModal, SecretsPanelList } from 'modules/Secrets';
+import { VariablesForm } from 'Modules/Variables';
+import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
+import { PortMapModal, PortMapListing } from 'Modules/PortMappingModal';
+import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
+import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { parseChildClass } from 'util/helpers/strings';
@@ -54,6 +54,9 @@ const ContainerForm = (props) => {
   const providerType = parseChildClass(selectedProvider.resource_type);
   const isHealthChecksEnabled = parseChildClass(providerType) === 'DCOS';
   const isSecretsEnabled = parseChildClass(providerType) === 'Kubernetes';
+  const isSubmitDisabled =
+    container.id ? (props.containerPending || props.containerUpdatePending || props.invalid || props.submitting)
+      : (props.pristine || props.containerPending || props.containerUpdatePending || props.invalid || props.submitting);
 
   return (
     <div>
@@ -223,7 +226,7 @@ const ContainerForm = (props) => {
                 <Button
                   raised
                   type="submit"
-                  disabled={container.id ? props.containerPending || props.containerUpdatePending || props.invalid || props.submitting : props.pristine || props.containerPending || props.containerUpdatePending || props.invalid || props.submitting}
+                  disabled={isSubmitDisabled}
                   primary
                 >
                   {props.submitLabel}

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 // import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { Row, Col } from 'react-flexybox';
 // import FontIcon from 'react-md/lib/FontIcons';
 import Checkbox from 'components/Checkbox';
 // import Autocomplete from 'react-md/lib/Autocompletes';
@@ -55,21 +56,21 @@ export default class APIEndpointSecurity extends PureComponent {
     return (
       <div className={this.props.className}>
         <Fieldset legend="Authorization">
-          <div className="flex-row">
-            <Field
-              id="show-api-endpoints-security"
-              component={Checkbox}
-              name={this.props.enabledName}
-              checked={securityEnabled}
-              label="Require Authentication "
-              style={{ minWidth: '10em' }}
-              className="flex-12 flex-xs-12"
-              helpText="test"
-            />
-
+          <Row gutter={5}>
+            <Col flex={12} xs={12}>
+              <Field
+                id="show-api-endpoints-security"
+                component={Checkbox}
+                name={this.props.enabledName}
+                checked={securityEnabled}
+                label="Require Authentication "
+                style={{ minWidth: '10em' }}
+                helpText="test"
+              />
+            </Col>
             {/* {securityEnabled &&
-            <div>
-              <div className="flex-12 flex-sm-6 flex-xs-12">
+            <Col>
+              <Col flex={12} sm={6} xs={12}>
                 <Autocomplete
                   id="api-endpoints-security-dropdown"
                   data={this.props.identities}
@@ -83,8 +84,8 @@ export default class APIEndpointSecurity extends PureComponent {
                   ref={value => this.setInput(value)}
                   helpText="search for a user or group to whitelist"
                 />
-              </div>
-              <div className="flex-12 flex-sm-6 flex-xs-12">
+              </Col>
+              <Col flex={12} sm={6} xs={12}>
                 {this.state.items.length > 0 && <h4>Whitelisted Users/Groups</h4>}
                 <List>
                   {this.state.items.map(item => (
@@ -96,9 +97,9 @@ export default class APIEndpointSecurity extends PureComponent {
                     />
                   ))}
                 </List>
-              </div>
+              </Col>
             </div>} */}
-          </div>
+          </Row>
         </Fieldset>
       </div>
     );

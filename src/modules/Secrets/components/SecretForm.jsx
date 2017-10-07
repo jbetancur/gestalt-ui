@@ -13,7 +13,7 @@ import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
-import { VariablesForm } from 'modules/Variables';
+import { VariablesForm } from 'Modules/Variables';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
 import { nameMaxLen } from '../validations';
 

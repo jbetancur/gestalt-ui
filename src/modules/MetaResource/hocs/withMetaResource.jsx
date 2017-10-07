@@ -19,8 +19,8 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       currentOrgContext: metaResource.currentOrgContext.organization,
       currentWorkspaceContext: metaResource.currentWorkspaceContext.workspace,
       currentEnvironmentContext: metaResource.currentEnvironmentContext.environment,
-      self: metaResource.self.self,
-      selfPending: metaResource.self.pending,
+      // self: metaResource.self.self,
+      // selfPending: metaResource.self.pending,
 
       // Subscriptions for an organization and its workspaces and sub orgs
       organizationSet: metaResource.organizationSet.organization,
@@ -168,8 +168,8 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       resourceTypePending: metaResource.resourceType.pending,
 
       // Subscriptions for sync
-      sync: metaResource.sync.sync,
-      syncPending: metaResource.sync.pending,
+      // sync: metaResource.sync.sync,
+      // syncPending: metaResource.sync.pending,
     };
   }
 

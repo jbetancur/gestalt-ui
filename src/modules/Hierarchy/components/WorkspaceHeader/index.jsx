@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Breadcrumbs, ContextNavigation } from 'modules/ContextManagement';
+import { Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import WorkspaceActions from '../../components/WorkspaceActions';
 import WorkspaceDetails from '../../components/WorkspaceDetails';
 

@@ -10,7 +10,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { sortBy } from 'lodash';
 import DotActivity from 'components/DotActivity';
-import { withMetaResource } from 'modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'react-flexybox';
 import { Field } from 'redux-form';
 import Checkbox from 'components/Checkbox';
 import TextField from 'components/TextField';
@@ -24,31 +25,33 @@ export default class RateLimit extends PureComponent {
   render() {
     return (
       <div className={this.props.className}>
-        <div className="flex-row">
-          <Field
-            id="show-rate-limits"
-            component={Checkbox}
-            name={this.props.rateLimitToggledName}
-            checked={this.props.isToggled}
-            label="Rate Limit"
-            style={{ minWidth: '10em' }}
-            className="flex-3 flex-xs-12"
-          />
+        <Row gutter={5}>
+          <Col flex={3} xs={12}>
+            <Field
+              id="show-rate-limits"
+              component={Checkbox}
+              name={this.props.rateLimitToggledName}
+              checked={this.props.isToggled}
+              label="Rate Limit"
+              style={{ minWidth: '10em' }}
+            />
+          </Col>
           {this.props.isToggled &&
-          <Field
-            component={TextField}
-            name={this.props.perMinuteName}
-            min={1}
-            max={65536}
-            step={1}
-            label="Per Minute"
-            type="number"
-            required
-            parse={value => Number(value)} // redux form formats everything as string, so force number
-            helpText="Accesses per minute allowed for this endpoint"
-            className="flex-3 flex-xs-12"
-          />}
-        </div>
+          <Col flex={3} xs={12}>
+            <Field
+              component={TextField}
+              name={this.props.perMinuteName}
+              min={1}
+              max={65536}
+              step={1}
+              label="Per Minute"
+              type="number"
+              required
+              parse={value => Number(value)} // redux form formats everything as string, so force number
+              helpText="Accesses per minute allowed for this endpoint"
+            />
+          </Col>}
+        </Row>
       </div>
     );
   }

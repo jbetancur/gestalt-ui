@@ -16,7 +16,7 @@ import MDSelectField from 'react-md/lib/SelectFields';
 import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { VariablesForm } from 'modules/Variables';
+import { VariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
@@ -204,7 +204,7 @@ const LambdaForm = (props) => {
                       />
 
                       <Fieldset legend="Lambda Function">
-                        <div className="flex-row">
+                        <Row gutter={5}>
                           <Field
                             id="select-code-type"
                             className="flex-2 flex-xs-12 flex-sm-12"
@@ -259,7 +259,7 @@ const LambdaForm = (props) => {
                               // TODO: Find out why redux-form state for bool doesn't apply
                               checked={values.properties.compressed}
                             />}
-                        </div>
+                        </Row>
                       </Fieldset>
                     </div>}
 
@@ -277,7 +277,7 @@ const LambdaForm = (props) => {
                   </div>
                   <div className="flex-row flex-6 flex-xs-12 flex-sm-12">
                     <Fieldset legend="Periodic Configuration" style={{ minHeight: '16em' }}>
-                      <div className="flex-row">
+                      <Row gutter={5}>
                         <Field
                           className="flex-4 flex-xs-12 flex-sm-12 flex-md-6"
                           component={TextField}
@@ -301,7 +301,7 @@ const LambdaForm = (props) => {
                           label="Event Name"
                           type="text"
                         />
-                        <div className="flex-row">
+                        <Row gutter={5}>
                           <Field
                             className="flex-12 flex-xs-12 flex-sm-12 flex-md-12"
                             component={TextField}
@@ -310,8 +310,8 @@ const LambdaForm = (props) => {
                             type="text"
                             rows={2}
                           />
-                        </div>
-                      </div>
+                        </Row>
+                      </Row>
                     </Fieldset>
                   </div>
                 </div>

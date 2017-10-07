@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withContext } from 'modules/ContextManagement';
-import { withMetaResource } from 'modules/MetaResource';
-import { Providers } from 'modules/Providers';
-import { Users } from 'modules/Users';
-import { Groups } from 'modules/Groups';
+import { withContext } from 'Modules/ContextManagement';
+import { metaActions } from 'Modules/MetaResource';
+import { Providers } from 'Modules/Providers';
+import { Users } from 'Modules/Users';
+import { Groups } from 'Modules/Groups';
 import Div from 'components/Div';
 import HierarchyNav from '../../components/HierarchyNav';
 import HierarchyListing from '../HierarchyListing';
@@ -110,10 +110,11 @@ class HierarchyContext extends PureComponent {
 
 function mapStateToProps(state) {
   return {
+    self: state.metaResource.self.self,
     navigation: state.hierarchy.hierarchyContextNavigation,
   };
 }
 
-const bindActions = Object.assign({}, actions);
+const bindActions = Object.assign({}, actions, metaActions);
 
-export default withMetaResource(connect(mapStateToProps, bindActions)(withContext(HierarchyContext)));
+export default connect(mapStateToProps, bindActions)(withContext(HierarchyContext));
