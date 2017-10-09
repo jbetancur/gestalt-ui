@@ -5,10 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
-import APIForm from '../../components/APIForm';
-import validate from '../../validations';
-import actions from '../../actions';
-import { generateAPIPatches } from '../../payloadTransformer';
+import APIForm from '../components/APIForm';
+import validate from '../validations';
+import actions from '../actions';
+import { generateAPIPatches } from '../payloadTransformer';
 
 class APIEdit extends Component {
   static propTypes = {

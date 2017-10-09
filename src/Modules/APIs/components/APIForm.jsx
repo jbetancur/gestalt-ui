@@ -14,7 +14,7 @@ import SelectField from 'components/SelectField';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
-import { nameMaxLen } from '../../validations';
+import { nameMaxLen } from '../validations';
 
 const APIForm = (props) => {
   const {
@@ -47,20 +47,21 @@ const APIForm = (props) => {
             <CardTitle title={title} />
             <CardText>
               <Row gutter={5}>
-                <Field
-                  id="select-provider"
-                  className="flex-4 flex-xs-12"
-                  component={SelectField}
-                  name="properties.provider.locations"
-                  required
-                  label="Provider"
-                  itemLabel="name"
-                  itemValue="id"
-                  menuItems={props.providersKongByGateway}
-                  async
-                  onFocus={() => props.fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments')}
-                  disabled={editMode}
-                />
+                <Col flex={4} xs={12}>
+                  <Field
+                    id="select-provider"
+                    component={SelectField}
+                    name="properties.provider.locations"
+                    required
+                    label="Provider"
+                    itemLabel="name"
+                    itemValue="id"
+                    menuItems={props.providersKongByGateway}
+                    async
+                    onFocus={() => props.fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments')}
+                    disabled={editMode}
+                  />
+                </Col>
                 {/* {values.properties.provider.id ?
                   <Field
                     id="select-location"
@@ -75,24 +76,26 @@ const APIForm = (props) => {
                     menuItems={selectedProviderLocations()}
                   /> : null} */}
                 <Row gutter={5}>
-                  <Field
-                    className="flex-4 flex-xs-12"
-                    component={TextField}
-                    name="name"
-                    label="Name"
-                    type="text"
-                    required
-                    maxLength={nameMaxLen}
-                    disabled={editMode}
-                  />
-                  <Field
-                    className="flex-8 flex-xs-12"
-                    component={TextField}
-                    name="description"
-                    label="Description"
-                    type="text"
-                    rows={1}
-                  />
+                  <Col flex={4} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      required
+                      maxLength={nameMaxLen}
+                      disabled={editMode}
+                    />
+                  </Col>
+                  <Col flex={8} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                      rows={1}
+                    />
+                  </Col>
                 </Row>
               </Row>
             </CardText>

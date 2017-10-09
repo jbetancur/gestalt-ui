@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import APIEndpointForm from '../../components/APIEndpointForm';
-import validate from '../../components/APIEndpointForm/validations';
-import actions from '../../actions';
-import { generateAPIEndpointPayload } from '../../payloadTransformer';
+import APIEndpointForm from '../components/APIEndpointForm';
+import validate from '../components/APIEndpointForm/validations';
+import actions from '../actions';
+import { generateAPIEndpointPayload } from '../payloadTransformer';
 
 class APIEndpointCreate extends Component {
   static propTypes = {

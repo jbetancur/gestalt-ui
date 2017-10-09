@@ -43,7 +43,7 @@ const LambdaForm = (props) => {
   };
 
   return (
-    <Row>
+    <div>
       {lambda.id &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12}>
@@ -359,7 +359,7 @@ const LambdaForm = (props) => {
           </Col>
         </Row>
       </form>
-    </Row>
+    </div>
   );
 };
 

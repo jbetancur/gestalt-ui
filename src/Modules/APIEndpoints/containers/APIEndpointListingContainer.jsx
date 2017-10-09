@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import APIEndpointItem from '../../components/APIEndpointItem';
-import actions from '../../actions';
+import APIEndpointItem from '../components/APIEndpointItem';
+import actions from '../actions';
 
 class APIEndpointList extends Component {
   static propTypes = {

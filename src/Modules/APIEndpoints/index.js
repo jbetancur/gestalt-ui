@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import APICreate from './containers/APIEndpointCreate';
-import APIEdit from './containers/APIEndpointEdit';
+import APICreate from './containers/APIEndpointCreateContainer';
+import APIEdit from './containers/APIEndpointEditContainer';
 
 const APIRoot = () => (
   <Switch>
@@ -11,7 +11,7 @@ const APIRoot = () => (
 );
 
 export default APIRoot;
-export { default as APIEndpoints } from './containers/APIEndpointListing';
-export { default as APIEndpointCreate } from './containers/APIEndpointCreate';
-export { default as APIEndpointEdit } from './containers/APIEndpointEdit';
+export { default as APIEndpoints } from './containers/APIEndpointListingContainer';
+export { default as APIEndpointCreate } from './containers/APIEndpointCreateContainer';
+export { default as APIEndpointEdit } from './containers/APIEndpointEditContainer';
 export { default as payloadTransformer } from './payloadTransformer';

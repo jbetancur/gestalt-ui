@@ -94,31 +94,33 @@ const APIEndpointForm = (props) => {
           />
           <CardText>
             <Row gutter={5}>
-              <Field
-                id="endpoint-type"
-                className="flex-2 flex-xs-6"
-                component={SelectField}
-                name="properties.implementation_type"
-                menuItems={implementationTypes}
-                itemLabel="name"
-                itemValue="value"
-                label="Type"
-                onChange={() => resetForm()}
-                required
-              />
-              <Field
-                className="flex-5 flex-xs-12"
-                component={TextField}
-                name="properties.resource"
-                label="Resource Path"
-                type="text"
-                required
-                helpText="ex: /path or /path1/path2"
-              />
+              <Col flex={2} xs={12}>
+                <Field
+                  id="endpoint-type"
+                  component={SelectField}
+                  name="properties.implementation_type"
+                  menuItems={implementationTypes}
+                  itemLabel="name"
+                  itemValue="value"
+                  label="Type"
+                  onChange={() => resetForm()}
+                  required
+                />
+              </Col>
+              <Col flex={5} xs={12}>
+                <Field
+                  component={TextField}
+                  name="properties.resource"
+                  label="Resource Path"
+                  type="text"
+                  required
+                  helpText="ex: /path or /path1/path2"
+                />
+              </Col>
               {values.properties.implementation_type === 'container' &&
+              <Col flex={3} xs={12}>
                 <Field
                   id="containers-dropdown"
-                  className="flex-3 flex-xs-12"
                   component={SelectField}
                   name="properties.implementation_id"
                   menuItems={containersDropDown}
@@ -129,9 +131,10 @@ const APIEndpointForm = (props) => {
                   onFocus={() => fetchContainers()}
                   async
                   helpText="container from the current environment"
-                />}
+                />
+              </Col>}
               {values.properties.implementation_type === 'lambda' &&
-                <div className="flex-3 flex-sm-6 flex-xs-12">
+                <Col flex={3} sm={6} xs={12}>
                   <Autocomplete
                     id="lambdas-dropdown"
                     data={lambdasDropDown}
@@ -150,29 +153,31 @@ const APIEndpointForm = (props) => {
                       name="properties.implementation_id"
                       label="Lambda UUID"
                     />}
-                </div>}
+                </Col>}
               {values.properties.implementation_type === 'lambda' &&
-                <Field
-                  className="flex-2 flex-xs-6"
-                  id="synchronous"
-                  component={Checkbox}
-                  name="properties.synchronous"
-                  // TODO: Find out why redux-form state for bool doesn't apply
-                  checked={values.properties.synchronous}
-                  label="Synchronous"
-                />}
+                <Col flex={2} xs={6}>
+                  <Field
+                    id="synchronous"
+                    component={Checkbox}
+                    name="properties.synchronous"
+                    // TODO: Find out why redux-form state for bool doesn't apply
+                    checked={values.properties.synchronous}
+                    label="Synchronous"
+                  />
+                </Col>}
               {values.properties.implementation_type === 'container' &&
-                <Field
-                  id="container-ports-dropdown"
-                  className="flex-2 flex-xs-12"
-                  component={SelectField}
-                  name="properties.container_port_name"
-                  menuItems={containerPorts()}
-                  itemLabel="name"
-                  itemValue="name"
-                  required
-                  label="Container Port Name"
-                />}
+                <Col flex={2} xs={12}>
+                  <Field
+                    id="container-ports-dropdown"
+                    component={SelectField}
+                    name="properties.container_port_name"
+                    menuItems={containerPorts()}
+                    itemLabel="name"
+                    itemValue="name"
+                    required
+                    label="Container Port Name"
+                  />
+                </Col>}
               <Row gutter={5}>
                 <Col flex={6} xs={12}>
                   <Field
@@ -187,19 +192,19 @@ const APIEndpointForm = (props) => {
                   />
                   <HelpText message="* at least one http method is required" />
                 </Col>
-
-                <RateLimit
-                  className="flex-6 flex-xs-12"
-                  rateLimitToggledName="properties.plugins.rateLimit.enabled"
-                  perMinuteName="properties.plugins.rateLimit.perMinute"
-                  isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled}
-                />
-
-                <Security
-                  className="flex-4"
-                  enabledName="properties.plugins.gestaltSecurity.enabled"
-                  {...props}
-                />
+                <Col flex={6} xs={12}>
+                  <RateLimit
+                    rateLimitToggledName="properties.plugins.rateLimit.enabled"
+                    perMinuteName="properties.plugins.rateLimit.perMinute"
+                    isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled}
+                  />
+                </Col>
+                <Col flex={4} xs={12}>
+                  <Security
+                    enabledName="properties.plugins.gestaltSecurity.enabled"
+                    {...props}
+                  />
+                </Col>
               </Row>
             </Row>
           </CardText>

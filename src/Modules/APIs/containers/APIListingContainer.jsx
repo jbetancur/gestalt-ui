@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withContext } from 'Modules/ContextManagement';
 import { withTableManager } from 'Modules/TableManager';
-import APIItem from '../../components/APIItem';
-import actions from '../../actions';
+import APIItem from '../components/APIItem';
+import actions from '../actions';
 
 class APIListing extends PureComponent {
   static propTypes = {
