@@ -7,10 +7,10 @@ import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import base64 from 'base-64';
-import LambdaForm from '../../components/LambdaForm';
-import validate from '../../validations';
-import actions from '../../actions';
-import { generateLambdaPatches } from '../../payloadTransformer';
+import LambdaForm from '../components/LambdaForm';
+import validate from '../validations';
+import actions from '../actions';
+import { generateLambdaPatches } from '../payloadTransformer';
 
 class LambdaEdit extends PureComponent {
   static propTypes = {

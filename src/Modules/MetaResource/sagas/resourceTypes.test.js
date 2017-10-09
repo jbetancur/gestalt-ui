@@ -50,7 +50,7 @@ describe('Resource Type Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/resourcetypes')
+        call(axios.get, 'iamfqon/resourcetypes?expand=true')
       );
     });
 

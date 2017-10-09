@@ -20,10 +20,11 @@ import { VariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
+import { ActionsMenu } from 'Modules/Actions';
 import { isUnixVariable } from 'util/validations';
-import runTimes from '../../lists/runTimes';
-import acceptHeaders from '../../lists/acceptHeaders';
-import { nameMaxLen, descriptionMaxLen } from '../../validations';
+import runTimes from '../lists/runTimes';
+import acceptHeaders from '../lists/acceptHeaders';
+import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const timezones = moment.tz.names();
 
@@ -42,7 +43,7 @@ const LambdaForm = (props) => {
   };
 
   return (
-    <div>
+    <Row>
       {lambda.id &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12}>
@@ -75,6 +76,11 @@ const LambdaForm = (props) => {
                     >
                       View Log
                     </Button>
+                    <ActionsMenu
+                      model={props.lambda}
+                      actionList={props.actions}
+                      pending={props.actionsPending}
+                    />
                     <Button
                       flat
                       iconChildren="security"
@@ -87,10 +93,9 @@ const LambdaForm = (props) => {
               </ActionsToolbar>}
             <CardText>
               <Row gutter={5}>
-                <div className="flex-12 flex-xs-12 flex-sm-12 flex-md-12 flex-row start-start">
+                <Col flex={6} xs={12} sm={12}>
                   <Field
                     id="select-provider"
-                    className="flex-6 flex-xs-12 flex-sm-12"
                     component={SelectField}
                     name="properties.provider.id"
                     required
@@ -102,9 +107,10 @@ const LambdaForm = (props) => {
                     onFocus={() => props.fetchProvidersByType(props.match.params.fqon, match.params.environmentId, 'environments', 'Lambda')}
                     disabled={props.editMode}
                   />
+                </Col>
+                <Col flex={6} xs={12} sm={12}>
                   <Field
                     id="select-runtime"
-                    className="flex-6 flex-xs-12 flex-sm-12"
                     component={SelectField}
                     name="properties.runtime"
                     menuItems={props.executorsDropDown}
@@ -117,8 +123,9 @@ const LambdaForm = (props) => {
                     onChange={() => handleSupportsInline()}
                     disabled={props.editMode}
                   />
+                </Col>
+                <Col flex={6} xs={12} sm={12}>
                   <Field
-                    className="flex-6 flex-xs-12 flex-sm-12"
                     component={TextField}
                     name="name"
                     label="Lambda Name"
@@ -126,8 +133,9 @@ const LambdaForm = (props) => {
                     required
                     maxLength={nameMaxLen}
                   />
+                </Col>
+                <Col flex={6} xs={12} sm={12}>
                   <Field
-                    className="flex-6 flex-xs-12 flex-sm-12"
                     component={TextField}
                     name="description"
                     label="Description"
@@ -135,11 +143,11 @@ const LambdaForm = (props) => {
                     rows={1}
                     maxLength={descriptionMaxLen}
                   />
-
-                  {values.properties.runtime &&
-                    <div className="flex-12 flex-xs-12 flex-sm-12 flex-md-12 flex-row start-start no-gutter">
+                </Col>
+                {values.properties.runtime &&
+                  <Row gutter={5}>
+                    <Col flex={6} xs={12} sm={12}>
                       <Field
-                        className="flex-6 flex-xs-12 flex-sm-12"
                         component={TextField}
                         name="properties.handler"
                         label="Handler"
@@ -147,9 +155,10 @@ const LambdaForm = (props) => {
                         type="text"
                         required
                       />
+                    </Col>
+                    <Col flex={2} xs={12} sm={12}>
                       <Field
                         id="select-return-type"
-                        className="flex-2 flex-xs-12 flex-sm-12"
                         component={SelectField}
                         name="properties.headers.Accept"
                         menuItems={acceptHeaders}
@@ -158,8 +167,9 @@ const LambdaForm = (props) => {
                         required
                         label="Accept Header"
                       />
+                    </Col>
+                    <Col flex={1} xs={6} sm={6}>
                       <Field
-                        className="flex-1 flex-xs-6 flex-sm-6"
                         component={TextField}
                         name="properties.cpus"
                         min={0.1}
@@ -170,8 +180,9 @@ const LambdaForm = (props) => {
                         required
                         parse={value => Number(value)} // redux form formats everything as string, so force number
                       />
+                    </Col>
+                    <Col flex={1} xs={6} sm={6}>
                       <Field
-                        className="flex-1 flex-xs-6 flex-sm-6"
                         component={TextField}
                         name="properties.memory"
                         min={256}
@@ -182,8 +193,9 @@ const LambdaForm = (props) => {
                         required
                         parse={value => Number(value)} // redux form formats everything as string, so force number
                       />
+                    </Col>
+                    <Col flex={1} xs={6} sm={6}>
                       <Field
-                        className="flex-1 flex-xs-6 flex-sm-6"
                         component={TextField}
                         name="properties.timeout"
                         min={1}
@@ -193,8 +205,9 @@ const LambdaForm = (props) => {
                         required
                         parse={value => Number(value)} // redux form formats everything as string, so force number
                       />
+                    </Col>
+                    <Col flex={1} xs={6} sm={6}>
                       <Field
-                        className="flex-1 flex-xs-6 flex-sm-6"
                         id="public"
                         component={Checkbox}
                         name="properties.public"
@@ -202,12 +215,13 @@ const LambdaForm = (props) => {
                         checked={values.properties.public}
                         label="Make Public"
                       />
+                    </Col>
 
-                      <Fieldset legend="Lambda Function">
-                        <Row gutter={5}>
+                    <Fieldset legend="Lambda Function">
+                      <Row gutter={5}>
+                        <Col flex={2} xs={12} sm={12}>
                           <Field
                             id="select-code-type"
-                            className="flex-2 flex-xs-12 flex-sm-12"
                             component={SelectField}
                             name="properties.code_type"
                             menuItems={getRuntime().codeOptions}
@@ -217,56 +231,59 @@ const LambdaForm = (props) => {
                             label="Code Type"
                             disabled={props.editMode || !values.properties.runtime}
                           />
+                        </Col>
+                        {values.properties.code_type === 'code' &&
+                        <Col flex={2} xs={12} sm={6} md={6}>
+                          <MDSelectField
+                            id="select-code-theme"
+                            label="Editor Theme"
+                            menuItems={['monokai', 'chrome']}
+                            defaultValue={props.theme}
+                            onChange={value => props.handleTheme(value)}
+                          />
+                        </Col>}
+                        {values.properties.code_type === 'code' &&
+                        <Col flex={12}>
+                          <Field
+                            component={AceEditor}
+                            mode={getRuntime().codeFormat}
+                            theme={props.theme}
+                            name="properties.code"
+                            maxLines={75}
+                            minLines={25}
+                            fontSize={12}
+                          />
+                        </Col>}
 
-                          {values.properties.code_type === 'code' &&
-                            <MDSelectField
-                              id="select-code-theme"
-                              className="flex-2 flex-xs-12 flex-sm-6 flex-md-6"
-                              label="Editor Theme"
-                              menuItems={['monokai', 'chrome']}
-                              defaultValue={props.theme}
-                              onChange={value => props.handleTheme(value)}
-                            />}
-                          {values.properties.code_type === 'code' &&
+                        {values.properties.code_type === 'package' &&
+                        <Col flex={8} xs={12} sm={12}>
+                          <Field
+                            component={TextField}
+                            name="properties.package_url"
+                            label="Package URL"
+                            type="text"
+                            required
+                          />
+                        </Col>}
+                        {values.properties.code_type === 'package' &&
+                        <Col flex={2} xs={12} sm={12}>
+                          <Field
+                            id="compressed-packageurl"
+                            component={Checkbox}
+                            name="properties.compressed"
+                            label="Compressed Package"
+                            // TODO: Find out why redux-form state for bool doesn't apply
+                            checked={values.properties.compressed}
+                          />
+                        </Col>}
+                      </Row>
+                    </Fieldset>
+                  </Row>}
 
-                            <Field
-                              className="flex-12"
-                              component={AceEditor}
-                              mode={getRuntime().codeFormat}
-                              theme={props.theme}
-                              name="properties.code"
-                              maxLines={75}
-                              minLines={25}
-                              fontSize={12}
-                            />}
-
-                          {values.properties.code_type === 'package' &&
-                            <Field
-                              className="flex-8 flex-xs-12 flex-sm-12"
-                              component={TextField}
-                              name="properties.package_url"
-                              label="Package URL"
-                              type="text"
-                              required
-                            />}
-                          {values.properties.code_type === 'package' &&
-                            <Field
-                              className="flex-2 flex-xs-12 flex-sm-12"
-                              id="compressed-packageurl"
-                              component={Checkbox}
-                              name="properties.compressed"
-                              label="Compressed Package"
-                              // TODO: Find out why redux-form state for bool doesn't apply
-                              checked={values.properties.compressed}
-                            />}
-                        </Row>
-                      </Fieldset>
-                    </div>}
-
-                  <div className="flex-row flex-6 flex-xs-12 flex-sm-12">
-                    <Fieldset legend="Environment Variables" style={{ minHeight: '16em' }}>
+                <Row gutter={5}>
+                  <Col flex={6} xs={12} sm={12}>
+                    <Fieldset legend="Environment Variables" style={{ minHeight: '18em' }}>
                       <VariablesForm
-                        className="flex-row"
                         icon="add"
                         fieldName="properties.env"
                         keyFieldValidationFunction={isUnixVariable}
@@ -274,47 +291,51 @@ const LambdaForm = (props) => {
                         {...props}
                       />
                     </Fieldset>
-                  </div>
-                  <div className="flex-row flex-6 flex-xs-12 flex-sm-12">
-                    <Fieldset legend="Periodic Configuration" style={{ minHeight: '16em' }}>
+                  </Col>
+
+                  <Col flex={6} xs={12} sm={12}>
+                    <Fieldset legend="Periodic Configuration" style={{ minHeight: '18em' }}>
                       <Row gutter={5}>
-                        <Field
-                          className="flex-4 flex-xs-12 flex-sm-12 flex-md-6"
-                          component={TextField}
-                          name="properties.periodic_info.schedule"
-                          label="Schedule"
-                          helpText="Date and time format - ISO 8601"
-                          type="text"
-                        />
-                        <Field
-                          id="periodic-timezone"
-                          className="flex-4 flex-xs-12 flex-sm-12 flex-md-6"
-                          component={SelectField}
-                          name="properties.periodic_info.timezone"
-                          label="Timezone"
-                          menuItems={timezones}
-                        />
-                        <Field
-                          className="flex-4 flex-xs-12 flex-sm-12 flex-md-12"
-                          component={TextField}
-                          name="properties.periodic_info.payload.eventName"
-                          label="Event Name"
-                          type="text"
-                        />
-                        <Row gutter={5}>
+                        <Col flex={4} xs={12} sm={12} md={6}>
                           <Field
-                            className="flex-12 flex-xs-12 flex-sm-12 flex-md-12"
+                            component={TextField}
+                            name="properties.periodic_info.schedule"
+                            label="Schedule"
+                            helpText="Date and time format - ISO 8601"
+                            type="text"
+                          />
+                        </Col>
+                        <Col flex={4} xs={12} sm={12} md={6}>
+                          <Field
+                            id="periodic-timezone"
+                            component={SelectField}
+                            name="properties.periodic_info.timezone"
+                            label="Timezone"
+                            menuItems={timezones}
+                          />
+                        </Col>
+                        <Col flex={4} xs={12} sm={12} md={12}>
+                          <Field
+                            className="flex-4 flex-xs-12 flex-sm-12 flex-md-12"
+                            component={TextField}
+                            name="properties.periodic_info.payload.eventName"
+                            label="Event Name"
+                            type="text"
+                          />
+                        </Col>
+                        <Col flex={12} xs={12} sm={12} md={12}>
+                          <Field
                             component={TextField}
                             name="properties.periodic_info.payload.data"
                             label="json payload"
                             type="text"
                             rows={2}
                           />
-                        </Row>
+                        </Col>
                       </Row>
                     </Fieldset>
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </Row>
             </CardText>
             {props.lambdaPending && <LinearProgress id="lambda-form" />}
@@ -338,7 +359,7 @@ const LambdaForm = (props) => {
           </Col>
         </Row>
       </form>
-    </div>
+    </Row>
   );
 };
 
@@ -366,6 +387,8 @@ LambdaForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
+  actions: PropTypes.array.isRequired,
+  actionsPending: PropTypes.bool.isRequired,
 };
 
 LambdaForm.defaultProps = {
