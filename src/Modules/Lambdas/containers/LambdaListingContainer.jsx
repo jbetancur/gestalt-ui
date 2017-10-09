@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import LambdaItem from '../../components/LambdaItem';
-import actions from '../../actions';
+import LambdaItem from '../components/LambdaItem';
+import actions from '../actions';
 
 class LambdaListing extends PureComponent {
   static propTypes = {

@@ -7,7 +7,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
-import { API_URL, API_TIMEOUT } from '../../../constants';
+import { API_URL, API_TIMEOUT } from '../../constants';
 
 const cookies = new Cookies();
 

@@ -6,10 +6,10 @@ import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import LambdaForm from '../../components/LambdaForm';
-import validate from '../../validations';
-import actions from '../../actions';
-import { generateLambdaPayload } from '../../payloadTransformer';
+import LambdaForm from '../components/LambdaForm';
+import validate from '../validations';
+import actions from '../actions';
+import { generateLambdaPayload } from '../payloadTransformer';
 
 class LambdaCreate extends PureComponent {
   static propTypes = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import LambdaCreate from './containers/LambdaCreate';
-import LambdaEdit from './containers/LambdaEdit';
+import LambdaCreate from './containers/LambdaCreateContainer';
+import LambdaEdit from './containers/LambdaEditContainer';
 
 const LambdaRoot = () => (
   <div>
@@ -13,7 +13,7 @@ const LambdaRoot = () => (
 );
 
 export default LambdaRoot;
-export { default as Lambdas } from './containers/LambdaListing';
-export { default as LambdaCreate } from './containers/LambdaCreate';
-export { default as LambdaEdit } from './containers/LambdaEdit';
+export { default as Lambdas } from './containers/LambdaListingContainer';
+export { default as LambdaCreate } from './containers/LambdaCreateContainer';
+export { default as LambdaEdit } from './containers/LambdaEditContainer';
 export { default as payloadTransformer } from './payloadTransformer';
