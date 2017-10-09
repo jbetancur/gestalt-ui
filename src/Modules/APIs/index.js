@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import APIEndpointsRoot from 'Modules/APIEndpoints';
-import APIListing from './containers/APIListing';
-import APICreate from './containers/APICreate';
-import APIEdit from './containers/APIEdit';
+import APIListing from './containers/APIListingContainer';
+import APICreate from './containers/APICreateContainer';
+import APIEdit from './containers/APIEditContainer';
 
 const APIRoot = () => (
   <div>
@@ -17,7 +17,7 @@ const APIRoot = () => (
 );
 
 export default APIRoot;
-export { default as APIs } from './containers/APIListing';
-export { default as APICreate } from './containers/APICreate';
-export { default as APIEdit } from './containers/APIEdit';
+export { default as APIs } from './containers/APIListingContainer';
+export { default as APICreate } from './containers/APICreateContainer';
+export { default as APIEdit } from './containers/APIEditContainer';
 export { default as payloadTransformer } from './payloadTransformer';

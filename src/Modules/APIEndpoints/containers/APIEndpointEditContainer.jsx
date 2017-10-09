@@ -6,10 +6,10 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
 import { parse } from 'query-string';
-import APIEndpointForm from '../../components/APIEndpointForm';
-import validate from '../../components/APIEndpointForm/validations';
-import actions from '../../actions';
-import { generateAPIEndpointPatches } from '../../payloadTransformer';
+import APIEndpointForm from '../components/APIEndpointForm';
+import validate from '../components/APIEndpointForm/validations';
+import actions from '../actions';
+import { generateAPIEndpointPatches } from '../payloadTransformer';
 
 class APIEndpointEdit extends Component {
   static propTypes = {
