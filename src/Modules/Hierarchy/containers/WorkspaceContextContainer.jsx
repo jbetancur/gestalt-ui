@@ -5,10 +5,10 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { withContext } from 'Modules/ContextManagement';
 import { Providers } from 'Modules/Providers';
 import Div from 'components/Div';
-import WorkspaceNav from '../../components/WorkspaceNav';
-import WorkspaceHeader from '../../components/WorkspaceHeader';
-import Environments from '../../containers/EnvironmentListing';
-import actions from '../../actions';
+import WorkspaceNav from '../components/WorkspaceNav';
+import WorkspaceHeader from '../components/WorkspaceHeader';
+import Environments from './EnvironmentListingContainer';
+import actions from '../actions';
 
 class WorkspaceContext extends PureComponent {
   static propTypes = {

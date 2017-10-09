@@ -5,10 +5,10 @@ import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import HierarchyForm from '../../components/HierarchyForm';
-import validate from '../../components/HierarchyForm/validations';
-import actions from '../../actions';
-import { generateEnvironmentPatches } from '../../payloadTransformer';
+import HierarchyForm from '../components/HierarchyForm';
+import validate from '../components/HierarchyForm/validations';
+import actions from '../actions';
+import { generateEnvironmentPatches } from '../payloadTransformer';
 
 class EnvironmentEdit extends Component {
   static propTypes = {

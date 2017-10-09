@@ -9,15 +9,15 @@ import ContainerRoot from 'Modules/Containers';
 import UserRoot from 'Modules/Users';
 import GroupRoot from 'Modules/Groups';
 import SecretRoot from 'Modules/Secrets';
-import HierarchyContext from './containers/HierarchyContext';
-import OrganizationCreate from './containers/OrganizationCreate';
-import OrganizationEdit from './containers/OrganizationEdit';
-import WorkspaceCreate from './containers/WorkspaceCreate';
-import WorkspaceEdit from './containers/WorkspaceEdit';
-import WorkspaceContext from './containers/WorkspaceContext';
-import EnvironmentCreate from './containers/EnvironmentCreate';
-import EnvironmentEdit from './containers/EnvironmentEdit';
-import EnvironmentContext from './containers/EnvironmentContext';
+import HierarchyContext from './containers/HierarchyContextContainer';
+import OrganizationCreate from './containers/OrganizationCreateContainer';
+import OrganizationEdit from './containers/OrganizationEditContainer';
+import WorkspaceCreate from './containers/WorkspaceCreateContainer';
+import WorkspaceEdit from './containers/WorkspaceEditContainer';
+import WorkspaceContext from './containers/WorkspaceContextContainer';
+import EnvironmentCreate from './containers/EnvironmentCreateContainer';
+import EnvironmentEdit from './containers/EnvironmentEditContainer';
+import EnvironmentContext from './containers/EnvironmentContextContainer';
 
 // Routing Structure
 const HierarchyRoot = () => (
@@ -46,16 +46,16 @@ const HierarchyRoot = () => (
 );
 
 export default HierarchyRoot;
-export { default as HierarchyContext } from './containers/HierarchyContext';
-export { default as OrganizationCreate } from './containers/OrganizationCreate';
-export { default as OrganizationEdit } from './containers/OrganizationEdit';
-export { default as WorkspaceCreate } from './containers/WorkspaceCreate';
-export { default as WorkspaceEdit } from './containers/WorkspaceEdit';
-export { default as WorkspaceContext } from './containers/WorkspaceContext';
-export { default as EnvironmentCreate } from './containers/EnvironmentCreate';
-export { default as EnvironmentEdit } from './containers/EnvironmentEdit';
-export { default as EnvironmentContext } from './containers/EnvironmentContext';
-export { default as EnvironmentListing } from './containers/EnvironmentListing';
+export { default as HierarchyContext } from './containers/HierarchyContextContainer';
+export { default as OrganizationCreate } from './containers/OrganizationCreateContainer';
+export { default as OrganizationEdit } from './containers/OrganizationEditContainer';
+export { default as WorkspaceCreate } from './containers/WorkspaceCreateContainer';
+export { default as WorkspaceEdit } from './containers/WorkspaceEditContainer';
+export { default as WorkspaceContext } from './containers/WorkspaceContextContainer';
+export { default as EnvironmentCreate } from './containers/EnvironmentCreateContainer';
+export { default as EnvironmentEdit } from './containers/EnvironmentEditContainer';
+export { default as EnvironmentContext } from './containers/EnvironmentContextContainer';
+export { default as EnvironmentListing } from './containers/EnvironmentListingContainer';
 export { default as HierarchyNav } from './components/HierarchyNav';
 export { default as WorkspaceNav } from './components/WorkspaceNav';
 export { default as EnvironmentNav } from './components/EnvironmentNav';

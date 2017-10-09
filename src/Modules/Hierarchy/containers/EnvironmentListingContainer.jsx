@@ -7,9 +7,9 @@ import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
 import { translate } from 'react-i18next';
 import ActivityContainer from 'components/ActivityContainer';
-import Sort from '../../components/Sort';
-import EnvironmentCard from '../../components/EnvironmentCard';
-import actions from '../../actions';
+import Sort from '../components/Sort';
+import EnvironmentCard from '../components/EnvironmentCard';
+import actions from '../actions';
 
 class EnvironmentListing extends Component {
   static propTypes = {

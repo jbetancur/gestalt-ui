@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
-import HierarchyActions from '../../components/HierarchyActions';
-import HierarchyDetails from '../../components/HierarchyDetails';
+import HierarchyActions from '../components/HierarchyActions';
+import HierarchyDetails from '../components/HierarchyDetails';
 
 const HierarchyHeader = (props) => {
   const { model, orangizationSetPending, contextActions, contextActionsPending } = props;
