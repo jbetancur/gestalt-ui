@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SVGIcon from 'react-md/lib/SVGIcons';
 
@@ -8,7 +9,7 @@ const SVGLogoStyled = styled(SVGIcon)`
 
 /* eslint react/jsx-indent: 0 */
 const HierarchyIcon = props => (
-  <SVGLogoStyled viewBox="0 0 100.39 115.92" {...props}>
+  <SVGLogoStyled viewBox="0 0 100.39 115.92" {...props} size={props.size}>
     <g id="Layer_2" data-name="Layer 2">
       <g id="Layer_1-2" data-name="Layer 1">
         <polygon className="logo-trans-1" points="50.19 19.32 50.19 0 66.92 9.66 50.19 19.32" />
@@ -55,5 +56,13 @@ const HierarchyIcon = props => (
     </g>
   </SVGLogoStyled>
 );
+
+HierarchyIcon.propTypes = {
+  size: PropTypes.number,
+};
+
+HierarchyIcon.defaultProps = {
+  size: 12,
+};
 
 export default HierarchyIcon;

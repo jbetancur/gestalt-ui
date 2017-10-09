@@ -1,4 +1,3 @@
-import context from './context';
 import organizations from './organizations';
 import workspaces from './workspaces';
 import environments from './environments';
@@ -22,7 +21,6 @@ import resourceTypes from './resourceTypes';
 import syncMeta from './sync';
 
 export default Object.assign({},
-  context,
   organizations,
   workspaces,
   environments,

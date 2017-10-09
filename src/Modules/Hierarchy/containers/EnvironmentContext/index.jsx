@@ -98,6 +98,4 @@ function mapStateToProps(state) {
   };
 }
 
-const bindActions = Object.assign({}, actions);
-
-export default withMetaResource(connect(mapStateToProps, bindActions)(withContext(EnvironmentContext)));
+export default connect(mapStateToProps, actions)(withMetaResource(withContext(EnvironmentContext)));

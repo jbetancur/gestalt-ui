@@ -5,7 +5,6 @@ import { GalacticFogIcon } from 'components/Icons';
 import { COMPANY_URL, COMPANY_TITLE } from '../../../../constants';
 
 const Wrapper = styled.div`
-    background-color: ${props => props.theme.colors['$gf-dull-blue']};
     position: fixed;
     z-index: 0;
     left: 0;

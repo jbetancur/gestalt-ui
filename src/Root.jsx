@@ -14,7 +14,7 @@ import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
 import AppContainer from './App/AppContainer';
-import { Login, restricted } from './Modules/Auth';
+import { LoginContainer, restricted } from './Modules/Auth';
 import Logging from './Modules/Logging';
 import lightTheme from './scss/themes/light';
 import './scss/style.scss';
@@ -47,7 +47,7 @@ const Root = () => (
             <ErrorNotifications />
             <ConnectedRouter history={history}>
               <Switch>
-                <Route exact path="/login" component={Login} />
+                <Route exact path="/login" component={LoginContainer} />
                 <Route exact path="/logs" component={restricted(Logging)} />
                 <Route exact path="/" component={restricted(AppContainer)} />
                 <Route path="/:fqon" component={restricted(AppContainer)} />

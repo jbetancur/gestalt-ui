@@ -2,7 +2,9 @@ import * as types from '../actionTypes';
 
 const initialState = {
   organization: {
-    org: {},
+    org: {
+      properties: {},
+    },
     created: {},
     modified: {},
     properties: {

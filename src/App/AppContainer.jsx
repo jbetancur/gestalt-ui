@@ -10,6 +10,7 @@ import OrgNavMenu from 'Modules/OrgNavMenu';
 import ModalRoot from 'Modules/ModalRoot';
 import { loginActions } from 'Modules/Auth';
 import { metaActions } from 'Modules/MetaResource';
+import { withContext } from 'Modules/ContextManagement';
 import Main from './components/Main';
 import AppError from './components/AppError';
 import AppLogo from './components/AppLogo';
@@ -21,6 +22,7 @@ class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
+    contextManagerActions: PropTypes.object.isRequired,
     license: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -41,7 +43,7 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
-      this.props.meta.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
+      this.props.contextManagerActions.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
       // TODO: routeing here must be moved to auth once we refactor Auth/JWT
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
       this.props.meta.sync();
@@ -111,4 +113,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(withContext(App));

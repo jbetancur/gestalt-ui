@@ -91,6 +91,6 @@ auth:
       errorText: username is required
       helpText: ''
     password:
-      label: Password
-      errorText: password is required
+      label: ''
+      errorText: ''
       helpText: ''

@@ -126,12 +126,12 @@ class OrgNavMenu extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const { orgnavmenu, metaResource } = state;
+  const { orgnavmenu, metaResource, contextManager } = state;
   const orgMenuItems = metaResource.allOrganizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText)));
 
   return {
     allOrganizations: sortBy(orgMenuItems, 'name'),
-    currentOrgContext: metaResource.currentOrgContext.organization,
+    currentOrgContext: contextManager.currentOrgContext.organization,
   };
 };
 

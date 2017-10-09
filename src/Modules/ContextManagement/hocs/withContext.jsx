@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import contextActionCreators from '../actions';
 
 /**
  * Higher-order component (HOC) to handle keeping our navigation context updated
@@ -17,13 +19,7 @@ export default function WithContext(BaseComponent) {
       currentOrgContext: PropTypes.object.isRequired,
       currentWorkspaceContext: PropTypes.object.isRequired,
       currentEnvironmentContext: PropTypes.object.isRequired,
-      setCurrentOrgContextfromState: PropTypes.func.isRequired,
-      setCurrentWorkspaceContextfromState: PropTypes.func.isRequired,
-      setCurrentEnvironmentContextfromState: PropTypes.func.isRequired,
-      setCurrentOrgContext: PropTypes.func.isRequired,
-      setCurrentWorkspaceContext: PropTypes.func.isRequired,
-      setCurrentEnvironmentContext: PropTypes.func.isRequired,
-      unloadContextActions: PropTypes.func.isRequired,
+      contextManagerActions: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -38,33 +34,31 @@ export default function WithContext(BaseComponent) {
         currentOrgContext,
         currentWorkspaceContext,
         currentEnvironmentContext,
-        setCurrentOrgContextfromState,
-        setCurrentWorkspaceContextfromState,
-        setCurrentEnvironmentContextfromState,
+        contextManagerActions,
       } = this.props;
 
       // These methods are to mainly to appease browser refresh or copy paste URL nav where we lose the hierarchy context
 
       // match of the params exist, but only make a GET from meta if the context is missing
       if (match.params.fqon && !currentOrgContext.id) {
-        setCurrentOrgContextfromState(match.params.fqon);
+        contextManagerActions.setCurrentOrgContextfromState(match.params.fqon);
       }
 
       // do the same for workspaces
       if ((match.params.fqon && match.params.workspaceId) && !currentWorkspaceContext.id) {
-        setCurrentWorkspaceContextfromState(match.params.fqon, match.params.workspaceId);
+        contextManagerActions.setCurrentWorkspaceContextfromState(match.params.fqon, match.params.workspaceId);
       }
 
       // do the same for environments
       if ((match.params.fqon && match.params.workspaceId && match.params.environmentId) && !currentEnvironmentContext.id) {
-        setCurrentEnvironmentContextfromState(match.params.fqon, match.params.environmentId);
+        contextManagerActions.setCurrentEnvironmentContextfromState(match.params.fqon, match.params.environmentId);
       }
     }
 
     componentWillReceiveProps(nextProps) {
       // keep the org context synced if it is changed
       if (nextProps.organizationSet.id !== this.props.organizationSet.id) {
-        this.props.setCurrentOrgContext(nextProps.organizationSet);
+        this.props.contextManagerActions.setCurrentOrgContext(nextProps.organizationSet);
       }
     }
 
@@ -73,5 +67,21 @@ export default function WithContext(BaseComponent) {
     }
   }
 
-  return withRouter(withMetaResource(Context));
+  function mapStateToProps(state) {
+    const { contextManager } = state;
+
+    return {
+      currentOrgContext: contextManager.currentOrgContext.organization,
+      currentWorkspaceContext: contextManager.currentWorkspaceContext.workspace,
+      currentEnvironmentContext: contextManager.currentEnvironmentContext.environment,
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      contextManagerActions: bindActionCreators(contextActionCreators, dispatch),
+    };
+  }
+
+  return connect(mapStateToProps, mapDispatchToProps)(withRouter(Context));
 }
