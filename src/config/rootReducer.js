@@ -20,7 +20,6 @@ import groupsReducer from '../Modules/Groups/reducers';
 import containersReducer from '../Modules/Containers/reducers';
 // import policiesReducer from '../Modules/Policies/reducers';
 import policyRulesReducer from '../Modules/PolicyRules/reducers';
-import integrationsReducer from '../Modules/Integrations/reducers';
 import licensingReducer from '../Modules/Licensing/reducers';
 import volumeModalReducer from '../Modules/VolumeModal/reducers';
 import portmapModalReducer from '../Modules/PortMappingModal/reducers';
@@ -57,7 +56,6 @@ export default combineReducers({
   policyRules: policyRulesReducer,
   // apis: apisReducer,
   // apiEndpoints: apiEndpointsReducer,
-  integrations: integrationsReducer,
   licensing: licensingReducer,
   volumeModal: volumeModalReducer,
   portmapModal: portmapModalReducer,
