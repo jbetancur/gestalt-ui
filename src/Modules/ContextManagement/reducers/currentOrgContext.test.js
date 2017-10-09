@@ -3,7 +3,9 @@ import reducer from './currentOrgContext';
 
 const initialState = {
   organization: {
-    org: {},
+    org: {
+      properties: {},
+    },
     created: {},
     modified: {},
     properties: {
