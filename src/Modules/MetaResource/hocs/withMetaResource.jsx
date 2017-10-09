@@ -16,9 +16,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
     const { metaResource } = state;
 
     return {
-      currentOrgContext: metaResource.currentOrgContext.organization,
-      currentWorkspaceContext: metaResource.currentWorkspaceContext.workspace,
-      currentEnvironmentContext: metaResource.currentEnvironmentContext.environment,
       // self: metaResource.self.self,
       // selfPending: metaResource.self.pending,
 

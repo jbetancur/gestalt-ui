@@ -17,9 +17,8 @@ class EnvironmentListing extends Component {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
-    setCurrentEnvironmentContext: PropTypes.func.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
-    unloadEnvironmentContext: PropTypes.func.isRequired,
+    contextManagerActions: PropTypes.object.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
     unloadNavigation: PropTypes.func.isRequired,
   };
@@ -36,9 +35,9 @@ class EnvironmentListing extends Component {
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, contextManagerActions } = this.props;
     this.init(match.params.fqon, match.params.workspaceId);
-    this.props.unloadEnvironmentContext();
+    contextManagerActions.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,10 +63,10 @@ class EnvironmentListing extends Component {
   }
 
   navEnvironmentDetails(item) {
-    const { match, history, setCurrentEnvironmentContext, unloadNavigation } = this.props;
+    const { match, history, contextManagerActions, unloadNavigation } = this.props;
 
     history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${item.id}`);
-    setCurrentEnvironmentContext(item);
+    contextManagerActions.setCurrentEnvironmentContext(item);
     unloadNavigation('environment');
   }
 

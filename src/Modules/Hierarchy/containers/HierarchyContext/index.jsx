@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withContext } from 'Modules/ContextManagement';
-import { metaActions } from 'Modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import { Providers } from 'Modules/Providers';
 import { Users } from 'Modules/Users';
 import { Groups } from 'Modules/Groups';
@@ -22,8 +22,7 @@ class HierarchyContext extends PureComponent {
     orangizationSetPending: PropTypes.bool.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
-    unloadWorkspaceContext: PropTypes.func.isRequired,
-    unloadEnvironmentContext: PropTypes.func.isRequired,
+    contextManagerActions: PropTypes.object.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
@@ -40,11 +39,11 @@ class HierarchyContext extends PureComponent {
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, contextManagerActions } = this.props;
     this.props.fetchOrgSet(match.params.fqon);
     this.props.fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
-    this.props.unloadWorkspaceContext();
-    this.props.unloadEnvironmentContext();
+    contextManagerActions.unloadWorkspaceContext();
+    contextManagerActions.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -115,6 +114,4 @@ function mapStateToProps(state) {
   };
 }
 
-const bindActions = Object.assign({}, actions, metaActions);
-
-export default connect(mapStateToProps, bindActions)(withContext(HierarchyContext));
+export default connect(mapStateToProps, actions)(withMetaResource(withContext(HierarchyContext)));

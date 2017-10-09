@@ -170,11 +170,13 @@ class Breadcrumbs extends PureComponent {
 }
 
 function mapStateToProps(state) {
+  const { contextManager } = state;
+
   return {
     self: state.metaResource.self.self,
-    currentOrgContext: state.metaResource.currentOrgContext.organization,
-    currentWorkspaceContext: state.metaResource.currentWorkspaceContext.workspace,
-    currentEnvironmentContext: state.metaResource.currentEnvironmentContext.environment,
+    currentOrgContext: contextManager.currentOrgContext.organization,
+    currentWorkspaceContext: contextManager.currentWorkspaceContext.workspace,
+    currentEnvironmentContext: contextManager.currentEnvironmentContext.environment,
   };
 }
 

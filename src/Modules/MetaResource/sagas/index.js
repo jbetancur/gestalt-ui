@@ -13,7 +13,6 @@ import entitlementSagas from './entitlements';
 import userSagas from './users';
 import groupSagas from './groups';
 import env from './env';
-import contextSagas from './contextMgmt';
 import loggingSagas from './logging';
 import actionSagas from './actions';
 import secretSagas from './secrets';
@@ -38,7 +37,6 @@ export default function* metaSagas() {
     userSagas(),
     groupSagas(),
     env(),
-    contextSagas(),
     loggingSagas(),
     actionSagas(),
     secretSagas(),

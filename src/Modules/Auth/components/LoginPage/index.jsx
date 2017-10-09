@@ -24,7 +24,7 @@ const LoginPage = props => (
   <ThemeProvider theme={lightTheme}>
     <Wrapper fluid>
       <Row center fill>
-        <Col flex={4} xs={12} sm={6}>
+        <Col flex={4} xs={12} sm={7} md={5}>
           <CardWrapper>
             <LoginForm {...props} />
           </CardWrapper>

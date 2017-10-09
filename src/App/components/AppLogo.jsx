@@ -11,17 +11,10 @@ const LogoContainerStyle = styled(Row)`
   margin: 0;
 `;
 
-const Logo = styled(Col)`
-  svg {
-    height: 1.8em;
-    width: 1.8em;
-  }
-`;
-
 const AppLogo = props => (
   props.visible &&
     <LogoContainerStyle center>
-      <Logo flex ><GestaltIcon /></Logo>
+      <Col flex ><GestaltIcon size={38} /></Col>
     </LogoContainerStyle>
 );
 

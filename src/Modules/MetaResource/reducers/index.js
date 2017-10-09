@@ -18,15 +18,7 @@ import envSchemaModel from '../models/envSchema';
 import secretModel from '../models/secret';
 import resourceTypeModel from '../models/resourceType';
 
-// Bespoke Reducers
-import currentOrgContext from './currentOrgContext';
-import currentWorkspaceContext from './currentWorkspaceContext';
-import currentEnvironmentContext from './currentEnvironmentContext';
-
 export default combineReducers({
-  currentOrgContext,
-  currentWorkspaceContext,
-  currentEnvironmentContext,
   envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel, true),
   allOrganizations: reducerFactory(['fetch'], 'organizations', 'allorgs', []),
   allOrganizationsDropDown: reducerFactory(['fetch'], 'organizations', 'allorgs_dropdown', [], true, []),

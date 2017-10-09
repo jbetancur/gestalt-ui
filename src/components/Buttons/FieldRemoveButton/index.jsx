@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import cn from 'classnames';
 import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 
 const EnhancedButton = styled(Button)`
     margin-top: ${prop => prop.marginTop};
-
-    &.in-table {
-        margin-top: 0;
-    }
+    ${props => props.inTable && 'margin-top: 0'};
 `;
 
 const StyledIcon = styled.i`
@@ -19,7 +15,7 @@ const StyledIcon = styled.i`
 
 const FieldRemoveButton = props => (
   <EnhancedButton
-    className={cn({ 'in-table': props.inTable })}
+    inTable={props.inTable}
     icon
     iconChildren={
       <StyledIcon>
