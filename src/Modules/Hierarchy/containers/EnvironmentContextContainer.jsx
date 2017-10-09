@@ -8,7 +8,6 @@ import { Lambdas } from 'Modules/Lambdas';
 import { Containers } from 'Modules/Containers';
 import { Policies } from 'Modules/Policies';
 import { Secrets } from 'Modules/Secrets';
-import Integrations from 'Modules/Integrations';
 import { APIs } from 'Modules/APIs';
 import Div from 'components/Div';
 import EnvironmentNav from '../components/EnvironmentNav';
@@ -61,10 +60,6 @@ class EnvironmentContext extends Component {
       case 'secrets':
         return (
           <Secrets {...this.props} />
-        );
-      case 'integrations':
-        return (
-          <Integrations {...this.props} />
         );
       default:
         return <div />;
