@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import ActivityContainer from 'components/ActivityContainer';
-import Sort from '../../components/Sort';
-import OrganizationCard from '../../components/OrganizationCard';
-import WorkspaceCard from '../../components/WorkspaceCard';
+import Sort from '../components/Sort';
+import OrganizationCard from '../components/OrganizationCard';
+import WorkspaceCard from '../components/WorkspaceCard';
 
 class HierarchyListing extends PureComponent {
   static propTypes = {

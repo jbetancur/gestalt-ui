@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
-import WorkspaceActions from '../../components/WorkspaceActions';
-import WorkspaceDetails from '../../components/WorkspaceDetails';
+import WorkspaceActions from '../components/WorkspaceActions';
+import WorkspaceDetails from '../components/WorkspaceDetails';
 
 const WorkspaceHeader = (props) => {
   const { workspace, workspacePending, contextActions, contextActionsPending } = props;

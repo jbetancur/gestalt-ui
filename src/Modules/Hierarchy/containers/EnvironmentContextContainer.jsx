@@ -11,9 +11,9 @@ import { Secrets } from 'Modules/Secrets';
 import Integrations from 'Modules/Integrations';
 import { APIs } from 'Modules/APIs';
 import Div from 'components/Div';
-import EnvironmentNav from '../../components/EnvironmentNav';
-import EnvironmentHeader from '../../components/EnvironmentHeader';
-import actions from '../../actions';
+import EnvironmentNav from '../components/EnvironmentNav';
+import EnvironmentHeader from '../components/EnvironmentHeader';
+import actions from '../actions';
 
 class EnvironmentContext extends Component {
   static propTypes = {

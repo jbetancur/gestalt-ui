@@ -7,10 +7,10 @@ import { Providers } from 'Modules/Providers';
 import { Users } from 'Modules/Users';
 import { Groups } from 'Modules/Groups';
 import Div from 'components/Div';
-import HierarchyNav from '../../components/HierarchyNav';
-import HierarchyListing from '../HierarchyListing';
-import HierarchyHeader from '../../components/HierarchyHeader';
-import actions from '../../actions';
+import HierarchyNav from '../components/HierarchyNav';
+import HierarchyListing from './HierarchyListingContainer';
+import HierarchyHeader from '../components/HierarchyHeader';
+import actions from '../actions';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
