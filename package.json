@@ -1,6 +1,6 @@
 {
     "name": "gestalt-ui",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "title": "Galactic Fog",
     "description": "gestalt ui",
     "engines": {
@@ -22,10 +22,10 @@
         "analyze": "yarn stats && webpack-bundle-size-analyzer build-stats.json",
         "stats": "webpack --config ./webpack/webpack.config.js --profile --json > build-stats.json",
         "check-circular": "madge --format es6 --circular --warning --extensions js,jsx --webpack src/",
-        "node-purge": "rm -rf node_modules",
-        "node-reinstall": "yarn node-purge && yarn install",
-        "node-packages": "npm list --depth=0",
-        "node-killall": "killall node"
+        "purge": "rm -rf node_modules",
+        "reinstall": "yarn purge && yarn install",
+        "packages": "npm list --depth=0",
+        "killall": "killall node"
     },
     "babel": {
         "compact": "auto",
@@ -81,7 +81,12 @@
             "react/prefer-stateless-function": 0,
             "react/jsx-filename-extension": 0,
             "react/no-array-index-key": 0,
+            "react/no-unused-state": 0,
             "max-len": 0,
+            "object-curly-newline": 0,
+            "function-paren-newline": 0,
+            "jsx-a11y/anchor-is-valid": 0,
+            "jsx-a11y/no-marquee": 0,
             "new-cap": [
                 2,
                 {
@@ -90,8 +95,7 @@
                         "List"
                     ]
                 }
-            ],
-            "jsx-a11y/no-marquee": 0
+            ]
         },
         "extends": "airbnb",
         "plugins": [
@@ -231,7 +235,7 @@
         "i18next-xhr-backend": "^1.4.2",
         "lodash": "^4.17.4",
         "material-design-icons": "^3.0.1",
-        "moment": "^2.18.0",
+        "moment": "^2.19.0",
         "moment-timezone": "^0.5.13",
         "prop-types": "^15.6.0",
         "query-string": "^5.0.0",
@@ -241,19 +245,19 @@
         "react-copy-to-clipboard": "^5.0.1",
         "react-dom": "^15.6.2",
         "react-flexybox": "^1.0.0",
-        "react-frame-component": "^1.1.1",
+        "react-frame-component": "^2.0.0",
         "react-ga": "^2.3.5",
         "react-i18next": "^6.0.6",
         "react-inlinesvg": "^0.6.2",
         "react-intl": "^2.4.0",
         "react-json-tree": "^0.10.9",
-        "react-md": "^1.1.8",
+        "react-md": "^1.1.9",
         "react-redux": "^5.0.6",
         "react-router-dom": "^4.2.2",
         "react-router-redux": "next",
         "redux": "^3.7.2",
         "redux-devtools-extension": "^2.13.2",
-        "redux-form": "^7.1.0",
+        "redux-form": "^7.1.1",
         "redux-localstorage": "^0.4.1",
         "redux-logger": "^3.0.6",
         "redux-responsive": "^4.3.3",

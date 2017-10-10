@@ -19,12 +19,6 @@ class ProviderItem extends PureComponent {
     getTableSortedItems: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    organization: {},
-    workspace: {},
-    environment: {},
-  }
-
   constructor(props) {
     super(props);
   }

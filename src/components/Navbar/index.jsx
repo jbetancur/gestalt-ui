@@ -54,16 +54,6 @@ class Navbar extends PureComponent {
     vertical: false,
   };
 
-  constructor() {
-    super();
-
-    this.state = { selectedIndex: 0 };
-  }
-
-  setSelected(selectedIndex) {
-    this.setState({ selectedIndex });
-  }
-
   render() {
     const { items, vertical } = this.props;
 
@@ -73,7 +63,6 @@ class Navbar extends PureComponent {
           {items.map((item, i) => (
             <ListItem
               key={i}
-              onClick={() => this.setSelected(i)}
             >
               {item}
             </ListItem>

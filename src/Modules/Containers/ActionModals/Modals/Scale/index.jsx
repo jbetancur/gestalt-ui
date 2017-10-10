@@ -15,10 +15,6 @@ class ConfirmModal extends PureComponent {
     numInstances: PropTypes.number.isRequired,
   };
 
-  static defaultProps = {
-    body: '',
-  };
-
   constructor(props) {
     super(props);
 

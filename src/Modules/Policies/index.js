@@ -8,10 +8,10 @@ import PolicyEdit from './containers/PolicyEdit';
 const PolicyRoot = () => (
   <div>
     <Switch>
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies'} component={PolicyListing} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/create'} component={PolicyCreate} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit'} component={PolicyEdit} />
-      <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules'} component={PolicyRuleRoot} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies" component={PolicyListing} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/create" component={PolicyCreate} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit" component={PolicyEdit} />
+      <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules" component={PolicyRuleRoot} />
     </Switch>
   </div>
 );

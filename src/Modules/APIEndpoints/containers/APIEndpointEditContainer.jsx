@@ -26,7 +26,7 @@ class APIEndpointEdit extends Component {
 
   componentDidMount() {
     const { match, history, fetchAPIEndpoint, fetchContainersDropDown, fetchLambdasDropDown } = this.props;
-    const query = parse(location.search);
+    const query = parse(window.location.search);
 
     if (query.implementationType === 'container') {
       fetchContainersDropDown(match.params.fqon, match.params.environmentId);

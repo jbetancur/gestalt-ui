@@ -53,7 +53,7 @@ class HealthCheckListing extends Component {
   }
 
   render() {
-    const healthChecks = this.props.healthChecks;
+    const { healthChecks } = this.props;
 
     return (
       <DataTable plain>

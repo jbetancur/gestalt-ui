@@ -44,7 +44,7 @@ class SecretsPanelListing extends Component {
   }
 
   render() {
-    const secrets = this.props.secrets;
+    const { secrets } = this.props;
 
     return (
       <DataTable plain>

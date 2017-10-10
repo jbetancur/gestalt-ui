@@ -33,10 +33,6 @@ class PromoteModal extends PureComponent {
     unloadEnvironments: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    body: '',
-  };
-
   constructor(props) {
     super(props);
 
@@ -47,7 +43,7 @@ class PromoteModal extends PureComponent {
     this.props.fetchEnvironments(this.props.params.fqon, this.props.params.workspaceId);
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.props.unloadEnvironments();
   }
 

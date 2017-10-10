@@ -84,7 +84,7 @@ class Breadcrumbs extends PureComponent {
     className: PropTypes.string,
     size: PropTypes.number,
     lastIsActive: PropTypes.bool,
-    pending: PropTypes.bool.isRequired,
+    pending: PropTypes.bool,
   };
 
   static defaultProps = {

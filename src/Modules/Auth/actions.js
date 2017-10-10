@@ -17,9 +17,9 @@ function configureCookie(cookieOptions) {
   const cookieConfig = Object.assign({ path: '/' }, cookieOptions);
 
   // Allow sub domains
-  const hostname = window.location.hostname;
+  const { hostname } = window.location;
   if (hostname !== 'localhost' && !isIP(hostname)) {
-    Object.assign(cookieConfig, { domain: `.${window.location.hostname}` });
+    Object.assign(cookieConfig, { domain: `.${hostname}` });
   }
 
   return cookieConfig;

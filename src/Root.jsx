@@ -60,6 +60,7 @@ const Root = () => (
   </ThemeProvider>
 );
 
-ReactDOM.render(<Root />,
+ReactDOM.render(
+  <Root />,
   document.getElementById('app-root')
 );
