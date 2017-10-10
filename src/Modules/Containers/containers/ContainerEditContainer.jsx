@@ -11,10 +11,10 @@ import { portmapModalActions } from 'Modules/PortMappingModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
 import { secretModalActions } from 'Modules/Secrets';
 import { parseChildClass } from 'util/helpers/strings';
-import ContainerForm from '../../components/ContainerForm';
-import validate from '../../validations';
-import actions from '../../actions';
-import { generateContainerPayload } from '../../payloadTransformer';
+import ContainerForm from '../components/ContainerForm';
+import validate from '../validations';
+import actions from '../actions';
+import { generateContainerPayload } from '../payloadTransformer';
 
 class ContainerEdit extends Component {
   static propTypes = {

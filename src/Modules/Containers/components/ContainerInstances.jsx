@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button, ClipboardButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 
 class ContainerInstances extends PureComponent {
   static propTypes = {
@@ -51,6 +51,7 @@ class ContainerInstances extends PureComponent {
           {/* TODO: <a rel="noopener noreferrer" target="_blank" href={`http://${item.host}:${port}`}>{port}</a> */}
           {item.ports && item.ports.map((port, idx) => <div key={idx}>{port}</div>)}
         </TableColumn>
+        <TableColumnTimestamp timestamp={item.startedAt} />
       </TableRow>
     ));
   }
@@ -66,6 +67,7 @@ class ContainerInstances extends PureComponent {
               <TableColumn>Host Address</TableColumn>
               <TableColumn>Container Addresses</TableColumn>
               <TableColumn>Host Port</TableColumn>
+              <TableColumn>Started At</TableColumn>
             </TableRow>
           </TableHeader>
           <TableBody>

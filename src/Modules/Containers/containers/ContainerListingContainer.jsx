@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withTableManager } from 'Modules/TableManager';
-import ContainerItem from '../../components/ContainerItem';
-import actions from '../../actions';
+import ContainerItem from '../components/ContainerItem';
+import actions from '../actions';
 
 class ContainerListing extends PureComponent {
   static propTypes = {
@@ -77,4 +76,4 @@ class ContainerListing extends PureComponent {
   }
 }
 
-export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(ContainerListing))));
+export default withMetaResource(connect(null, { ...actions })(withContext(ContainerListing)));

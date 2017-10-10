@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import Dialog from 'react-md/lib/Dialogs';
 import TextField from 'react-md/lib/TextFields';
-import actions from '../../actions';
+import actions from '../actions';
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
@@ -31,6 +31,8 @@ class ConfirmModal extends PureComponent {
   }
 
   render() {
+    const isDisabled = !this.state.numInstances || this.state.numInstances > this.state.maxInstances;
+
     return (
       <Dialog
         id="container-actions-modal"
@@ -50,7 +52,7 @@ class ConfirmModal extends PureComponent {
             onClick: this.doIt,
             primary: true,
             label: 'Scale',
-            disabled: !this.state.numInstances || this.state.numInstances > this.state.maxInstances,
+            disabled: isDisabled,
           }]}
       >
         <Row center>

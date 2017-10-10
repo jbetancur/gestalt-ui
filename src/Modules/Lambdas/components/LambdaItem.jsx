@@ -6,9 +6,8 @@ import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { ActionsMenu } from 'Modules/Actions';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton, ClipboardButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import A from 'components/A';
 import { truncate } from 'util/helpers/strings';
 
@@ -89,7 +88,7 @@ class LambdaItem extends PureComponent {
         <TableColumn>{this.renderAPIEndpoints(lambda)}</TableColumn>
         <TableColumn>{lambda.properties.runtime}</TableColumn>
         <TableColumn>{lambda.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={lambda.created.timestamp} /> <FormattedTime value={lambda.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={lambda.created.timestamp} />
       </TableRow>
     ));
 

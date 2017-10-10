@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import FontIcon from 'react-md/lib/FontIcons';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { parseChildClass } from 'util/helpers/strings';
 
 class apiEndpointItem extends PureComponent {
@@ -69,7 +68,7 @@ class apiEndpointItem extends PureComponent {
         </TableColumn>
         <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{apiEndpoint.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={apiEndpoint.created.timestamp} /> <FormattedTime value={apiEndpoint.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={apiEndpoint.created.timestamp} />
       </TableRow>
     ));
 
