@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import ProviderItem from '../../components/ProviderItem';
-import actions from '../../actions';
+import ProviderItem from '../components/ProviderItem';
+import actions from '../actions';
 
 class ProviderListing extends PureComponent {
   static propTypes = {

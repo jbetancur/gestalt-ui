@@ -9,6 +9,7 @@ const EnhancedTCol = styled(TableColumn)`
   cursor: pointer;
 `;
 const EnhancedTableColumn = props => (
+  props.timestamp &&
   <EnhancedTCol>
     <Caption>
       <FormattedRelative value={props.timestamp} /> <br />
@@ -18,7 +19,11 @@ const EnhancedTableColumn = props => (
 );
 
 EnhancedTableColumn.propTypes = {
-  timestamp: PropTypes.string.isRequired,
+  timestamp: PropTypes.string,
+};
+
+EnhancedTableColumn.defaultProps = {
+  timestamp: '',
 };
 
 export default EnhancedTableColumn;

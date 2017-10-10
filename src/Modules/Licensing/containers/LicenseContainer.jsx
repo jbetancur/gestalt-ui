@@ -5,9 +5,9 @@ import { reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import Dialog from 'react-md/lib/Dialogs';
 import ActivityContainer from 'components/ActivityContainer';
-import LicenseForm from '../../components/LicenseForm';
-import validate from '../../validations';
-import actions from '../../actions';
+import LicenseForm from '../components/LicenseForm';
+import validate from '../validations';
+import actions from '../actions';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {

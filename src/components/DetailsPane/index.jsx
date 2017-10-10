@@ -47,30 +47,30 @@ const DetailPane = (props) => {
               />
               <H4>{model.id}</H4>
             </ContainsButtonsStyle>
-            {model.owner &&
-              <div>
-                <Label>Owner</Label>
-                <H4>{model.owner.name}</H4>
-              </div>}
+            <div>
+              <Label>Owner</Label>
+              <H4>{model.owner && model.owner.name}</H4>
+            </div>
           </Col>
 
           <Col flex={6} xs={24} sm={12} md={12}>
             <div>
               <Label>Created</Label>
-              <H4>
-                <FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)
-              </H4>
+              {model.created.timestamp &&
+                <H4>
+                  <FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)
+                </H4>}
             </div>
             <div>
               <Label>Modified</Label>
-              <H4>
-                <FormattedRelative value={model.modified.timestamp} /> (<FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />)
-              </H4>
+              {model.modified.timestamp &&
+                <H4>
+                  <FormattedRelative value={model.modified.timestamp} /> (<FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />)
+                </H4>}
             </div>
           </Col>
 
           <Col flex={6} xs={24} sm={12} md={12}>
-
             <div>
               <Label>Resource Type</Label>
               <H4>{model.resource_type}</H4>

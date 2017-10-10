@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import ProviderForm from '../../components/ProviderForm';
-import validate from '../../components/ProviderForm/validations';
-import actions from '../../actions';
-import { generateProviderPayload } from '../../payloadTransformer';
+import ProviderForm from '../components/ProviderForm';
+import validate from '../components/ProviderForm/validations';
+import actions from '../actions';
+import { generateProviderPayload } from '../payloadTransformer';
 
 class ProviderCreate extends Component {
   static propTypes = {

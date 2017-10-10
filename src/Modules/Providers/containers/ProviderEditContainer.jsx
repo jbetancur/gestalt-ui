@@ -8,10 +8,10 @@ import { containerActionCreators } from 'Modules/Containers';
 import base64 from 'base-64';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import ActivityContainer from 'components/ActivityContainer';
-import ProviderForm from '../../components/ProviderForm';
-import validate from '../../components/ProviderForm/validations';
-import actions from '../../actions';
-import { generateProviderPatches } from '../../payloadTransformer';
+import ProviderForm from '../components/ProviderForm';
+import validate from '../components/ProviderForm/validations';
+import actions from '../actions';
+import { generateProviderPatches } from '../payloadTransformer';
 
 class ProviderEdit extends PureComponent {
   static propTypes = {

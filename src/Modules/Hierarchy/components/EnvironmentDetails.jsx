@@ -14,8 +14,8 @@ const EnvironmentDetails = (props) => {
       <Col flex={6} xs={12}>
         <div><Label>Name: </Label><span className="gf-subtitle">{name}</span></div>
         <div><Label>short-name: </Label><span className="gf-subtitle">{environment.name}</span></div>
-        <div><Label>Created: </Label><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>
-        <div><Label>Modified: </Label><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>
+        {environment.created.timestamp && <div><Label>Created: </Label><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>}
+        {environment.modified.timestamp && <div><Label>Modified: </Label><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>}
         <div><Label>Environment Type: </Label><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
         <div><Label>Owner: </Label><span className="gf-subtitle">{environment.owner.name}</span></div>
         <div><Label>uuid: </Label><span className="gf-subtitle">{environment.id}</span></div>

@@ -1,4 +1,4 @@
-import License from './containers/License';
+import License from './containers/LicenseContainer';
 
 export default License;
 export { default as licenseActions } from './actions';
