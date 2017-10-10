@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Providers from './containers/ProviderListing';
-import ProviderCreate from './containers/ProviderCreate';
-import ProviderEdit from './containers/ProviderEdit';
+import Providers from './containers/ProviderListingContainer';
+import ProviderCreate from './containers/ProviderCreateContainer';
+import ProviderEdit from './containers/ProviderEditContainer';
 
 const ProviderRoot = () => (
   <Switch>
@@ -18,7 +18,7 @@ const ProviderRoot = () => (
 );
 
 export default ProviderRoot;
-export { default as Providers } from './containers/ProviderListing';
-export { default as ProviderEdit } from './containers/ProviderCreate';
-export { default as ProviderCreate } from './containers/ProviderCreate';
+export { default as Providers } from './containers/ProviderListingContainer';
+export { default as ProviderEdit } from './containers/ProviderCreateContainer';
+export { default as ProviderCreate } from './containers/ProviderCreateContainer';
 export { default as payloadTransformer } from './payloadTransformer';

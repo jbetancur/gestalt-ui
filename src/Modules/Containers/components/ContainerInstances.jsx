@@ -8,7 +8,11 @@ class ContainerInstances extends PureComponent {
   static propTypes = {
     containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    providerType: PropTypes.string.isRequired,
+    providerType: PropTypes.string,
+  };
+
+  static defaultProps = {
+    providerType: '',
   };
 
   constructor(props) {

@@ -71,59 +71,64 @@ const ProviderForm = (props) => {
 
   const renderExternalProtocolSection = () => (
     selectedProviderType.externalProtocol &&
-    <Field
-      id="select-return-type"
-      className="flex-2 flex-xs-12 flex-sm-4"
-      component={SelectField}
-      name="properties.config.external_protocol"
-      menuItems={httpProtocols}
-      itemLabel="name"
-      itemValue="value"
-      label="External Protocol"
-      helpText="The protocol used to reach any externally exposed endpoints"
-    />
+    <Col flex={2} xs={12} sm={4}>
+      <Field
+        id="select-return-type"
+        component={SelectField}
+        name="properties.config.external_protocol"
+        menuItems={httpProtocols}
+        itemLabel="name"
+        itemValue="value"
+        label="External Protocol"
+        helpText="The protocol used to reach any externally exposed endpoints"
+      />
+    </Col>
   );
 
   const renderConfigAndSecuritySections = () => (
     <Row>
       {selectedProviderType.config &&
-        <Field
-          className="flex-6 flex-xs-12 flex-sm-12"
-          component={TextField}
-          name="properties.config.url"
-          label="Provider URL/Host:Port"
-          type="text"
-          required
-        />}
-      {selectedProviderType.security &&
-        <div className="flex-6 flex-xs-12 flex-sm-12 flex-row">
+        <Col flex={6} xs={12} sm={12}>
           <Field
-            id="select-return-type"
-            className="flex-4 flex-xs-12 flex-sm-4"
-            component={SelectField}
-            name="properties.config.auth.scheme"
-            menuItems={['Basic']}
-            required
-            label="Security Scheme"
-          />
-          <Field
-            className="flex-4 flex-xs-12 flex-sm-4"
             component={TextField}
-            name="properties.config.auth.username"
-            label="Username"
+            name="properties.config.url"
+            label="Provider URL/Host:Port"
             type="text"
             required
           />
-          <PreventAutoFill />
-          <Field
-            className="flex-4 flex-xs-12 flex-sm-4"
-            component={TextField}
-            name="properties.config.auth.password"
-            label="Password"
-            type="password"
-            required
-          />
-        </div>}
+        </Col>}
+      {selectedProviderType.security &&
+        <Row gutter={5}>
+          <Col flex={2} xs={12} sm={2}>
+            <Field
+              id="select-return-type"
+              component={SelectField}
+              name="properties.config.auth.scheme"
+              menuItems={['Basic']}
+              required
+              label="Security Scheme"
+            />
+          </Col>
+          <Col flex={2} xs={12} sm={2}>
+            <Field
+              component={TextField}
+              name="properties.config.auth.username"
+              label="Username"
+              type="text"
+              required
+            />
+          </Col>
+          <Col flex={2} xs={12} sm={2}>
+            <PreventAutoFill />
+            <Field
+              component={TextField}
+              name="properties.config.auth.password"
+              label="Password"
+              type="password"
+              required
+            />
+          </Col>
+        </Row>}
     </Row>
   );
 
@@ -185,16 +190,17 @@ const ProviderForm = (props) => {
         />}
       {selectedProviderType.uploadConfig &&
         <Row gutter={5}>
-          <Field
-            className="flex-12"
-            component={AceEditor}
-            mode="yaml"
-            theme="chrome"
-            name="properties.data"
-            maxLines={50}
-            minLines={15}
-            fontSize={12}
-          />
+          <Col flex={12}>
+            <Field
+              component={AceEditor}
+              mode="yaml"
+              theme="chrome"
+              name="properties.data"
+              maxLines={50}
+              minLines={15}
+              fontSize={12}
+            />
+          </Col>
         </Row>}
     </Row>
   );
@@ -203,23 +209,25 @@ const ProviderForm = (props) => {
     !props.envSchemaPending &&
     <Row gutter={5}>
       {selectedProviderType.networking &&
-        <Field
-          className="flex-6 flex-xs-12"
-          component={TextField}
-          name="properties.config.networks"
-          label="Networks (JSON)"
-          type="text"
-          rows={2}
-        />}
+        <Col flex={6} xs={12}>
+          <Field
+            component={TextField}
+            name="properties.config.networks"
+            label="Networks (JSON)"
+            type="text"
+            rows={2}
+          />
+        </Col>}
       {selectedProviderType.extraConfig &&
-        <Field
-          className="flex-6 flex-xs-12"
-          component={TextField}
-          name="properties.config.extra"
-          label="Extra Configuration (JSON)"
-          type="text"
-          rows={2}
-        />}
+        <Col flex={6} xs={12}>
+          <Field
+            component={TextField}
+            name="properties.config.extra"
+            label="Extra Configuration (JSON)"
+            type="text"
+            rows={2}
+          />
+        </Col>}
     </Row>
   );
 
@@ -323,39 +331,42 @@ const ProviderForm = (props) => {
                 <Row>
                   {/* only allow the provider type to be selected once - this prevents redux-form errors */}
                   {!selectedProviderType.name &&
-                    <Field
-                      id="select-provider"
-                      className="flex-12"
-                      component={SelectField}
-                      name="resource_type"
-                      menuItems={providerTypes}
-                      itemLabel="name"
-                      itemValue="value"
-                      required
-                      label="Provider Type"
-                      disabled={provider.id}
-                      onChange={handleProviderChange}
-                    />}
+                    <Col flex={6}>
+                      <Field
+                        id="select-provider"
+                        component={SelectField}
+                        name="resource_type"
+                        menuItems={providerTypes}
+                        itemLabel="name"
+                        itemValue="value"
+                        required
+                        label="Provider Type"
+                        disabled={provider.id}
+                        onChange={handleProviderChange}
+                      />
+                    </Col>}
                   {selectedProviderType.name &&
                     <Row>
-                      <Field
-                        className="flex-6 flex-xs-12"
-                        component={TextField}
-                        name="name"
-                        label="Name"
-                        type="text"
-                        required
-                        maxLength={nameMaxLen}
-                        disabled={provider.id}
-                      />
-                      <Field
-                        className="flex-6 flex-xs-12"
-                        component={TextField}
-                        name="description"
-                        label="Description"
-                        type="text"
-                        rows={1}
-                      />
+                      <Col flex={6} xs={12}>
+                        <Field
+                          component={TextField}
+                          name="name"
+                          label="Name"
+                          type="text"
+                          required
+                          maxLength={nameMaxLen}
+                          disabled={provider.id}
+                        />
+                      </Col>
+                      <Col flex={6} xs={12}>
+                        <Field
+                          component={TextField}
+                          name="description"
+                          label="Description"
+                          type="text"
+                          rows={1}
+                        />
+                      </Col>
                     </Row>}
                   {renderConfigAndSecuritySections()}
                   {renderExternalProtocolSection()}

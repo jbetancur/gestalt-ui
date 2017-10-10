@@ -12,6 +12,7 @@ const ContainerStatusStyle = styled.div`
   color: white;
   font-weight: 600;
   font-size: 12px;
+  text-transform: uppercase;
   ${props => props.status === 'RUNNING' && `background-color: ${props.theme.colors['$md-blue-grey-400']}`};
   ${props => props.status === 'HEALTHY' && `background-color: ${props.theme.colors['$md-green-a700']}`};
   ${props => props.status === 'UNHEALTHY' && `background-color: ${props.theme.colors['$md-red-a400']}`};

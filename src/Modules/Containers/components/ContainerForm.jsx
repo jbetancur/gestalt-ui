@@ -419,7 +419,6 @@ ContainerForm.propTypes = {
   showSecretModal: PropTypes.func.isRequired,
   showVolumeModal: PropTypes.func.isRequired,
   showPortmapModal: PropTypes.func.isRequired,
-  showSecretsModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,
