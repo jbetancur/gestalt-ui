@@ -34,7 +34,8 @@ const DetailPane = (props) => {
 
   return (
     <Card>
-      {model.id && <CardTextStyle>
+      {model.id &&
+      <CardTextStyle>
         <Row gutter={6} columnDivisions={24}>
           <Col flex={6} xs={24} sm={12} md={12}>
             <ContainsButtonsStyle>

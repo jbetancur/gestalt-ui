@@ -5,8 +5,8 @@ import SecretEdit from './containers/SecretEdit';
 
 const SecretRoot = () => (
   <Switch>
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets/create'} component={SecretCreate} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets/:secretId/edit'} component={SecretEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets/create" component={SecretCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets/:secretId/edit" component={SecretEdit} />
   </Switch>
 );
 

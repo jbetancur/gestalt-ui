@@ -29,7 +29,7 @@ export default function configureStore(history) {
 
   if (DEBUG) {
     // eslint-disable-next-line global-require
-    const createLogger = require('redux-logger').createLogger;
+    const { createLogger } = require('redux-logger');
     middlewares = [...middlewares, createLogger({ collapsed: true })];
   }
 

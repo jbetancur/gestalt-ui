@@ -6,7 +6,7 @@ import Label from 'components/Label';
 
 class VariablesListing extends Component {
   static propTypes = {
-    envMap: PropTypes.object.isRequired,
+    envMap: PropTypes.object,
   };
 
   static defaultProps = {

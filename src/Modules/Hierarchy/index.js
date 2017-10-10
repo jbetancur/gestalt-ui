@@ -22,25 +22,25 @@ import EnvironmentContext from './containers/EnvironmentContextContainer';
 // Routing Structure
 const HierarchyRoot = () => (
   <Switch>
-    <Route exact path={'/:fqon/hierarchy'} component={HierarchyContext} />
-    <Route path={'/:fqon/hierarchy/providers'} component={ProviderRoot} />
-    <Route path={'/:fqon/hierarchy/users'} component={UserRoot} />
-    <Route path={'/:fqon/hierarchy/groups'} component={GroupRoot} />
-    <Route exact path={'/:fqon/hierarchy/createOrganization'} component={OrganizationCreate} />
-    <Route exact path={'/:fqon/hierarchy/editOrganization'} component={OrganizationEdit} />
-    <Route exact path={'/:fqon/hierarchy/createWorkspace'} component={WorkspaceCreate} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId'} component={WorkspaceContext} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/editWorkspace'} component={WorkspaceEdit} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/createEnvironment'} component={EnvironmentCreate} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId'} component={EnvironmentContext} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/edit'} component={EnvironmentEdit} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/providers'} component={ProviderRoot} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/providers'} component={ProviderRoot} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/lambdas'} component={LambdaRoot} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers'} component={ContainerRoot} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis'} component={APIRoot} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies'} component={PolicyRoot} />
-    <Route path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets'} component={SecretRoot} />
+    <Route exact path="/:fqon/hierarchy" component={HierarchyContext} />
+    <Route path="/:fqon/hierarchy/providers" component={ProviderRoot} />
+    <Route path="/:fqon/hierarchy/users" component={UserRoot} />
+    <Route path="/:fqon/hierarchy/groups" component={GroupRoot} />
+    <Route exact path="/:fqon/hierarchy/createOrganization" component={OrganizationCreate} />
+    <Route exact path="/:fqon/hierarchy/editOrganization" component={OrganizationEdit} />
+    <Route exact path="/:fqon/hierarchy/createWorkspace" component={WorkspaceCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId" component={WorkspaceContext} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/editWorkspace" component={WorkspaceEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/createEnvironment" component={EnvironmentCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId" component={EnvironmentContext} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/edit" component={EnvironmentEdit} />
+    <Route path="/:fqon/hierarchy/:workspaceId/providers" component={ProviderRoot} />
+    <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/providers" component={ProviderRoot} />
+    <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/lambdas" component={LambdaRoot} />
+    <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers" component={ContainerRoot} />
+    <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis" component={APIRoot} />
+    <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies" component={PolicyRoot} />
+    <Route path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/secrets" component={SecretRoot} />
     <Route component={NotFound} />
   </Switch>
 );

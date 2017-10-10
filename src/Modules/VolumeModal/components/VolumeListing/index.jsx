@@ -44,7 +44,7 @@ class VolumeListing extends Component {
   }
 
   render() {
-    const volumes = this.props.volumes;
+    const { volumes } = this.props;
 
     return (
       <DataTable plain>

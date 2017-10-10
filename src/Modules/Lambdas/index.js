@@ -6,8 +6,8 @@ import LambdaEdit from './containers/LambdaEditContainer';
 const LambdaRoot = () => (
   <div>
     <Switch>
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/lambdas/create'} component={LambdaCreate} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/lambdas/:lambdaId/edit'} component={LambdaEdit} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/lambdas/create" component={LambdaCreate} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/lambdas/:lambdaId/edit" component={LambdaEdit} />
     </Switch>
   </div>
 );

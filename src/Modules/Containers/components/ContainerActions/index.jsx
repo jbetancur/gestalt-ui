@@ -180,26 +180,28 @@ class ContainerActions extends Component {
           listHeightRestricted={false}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
-          {[<ListWrapper key="container-actions-menu">
-            <ListMenu>
-              <div className="gf-headline-1">{this.props.containerModel.name}</div>
-              <div className="gf-subtitle">{this.props.containerModel.properties.status}</div>
-            </ListMenu>
-            <EnhancedDivider />
-            <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />
-            <ListItem className="button--scale" primaryText="Scale" onClick={() => this.scaleContainer()} />
-            <ListItem primaryText="Migrate" onClick={() => this.migrateContainer()} />
-            {!this.props.disablePromote &&
-              <ListItem primaryText="Promote" onClick={() => this.promoteContainer()} />}
-            {!this.props.disableDestroy &&
-              <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
-            <ActionsMenu
-              listItem
-              model={this.props.containerModel}
-              actionList={this.props.actions}
-              pending={this.props.actionsPending}
-            />
-          </ListWrapper>]}
+          {[
+            <ListWrapper key="container-actions-menu">
+              <ListMenu>
+                <div className="gf-headline-1">{this.props.containerModel.name}</div>
+                <div className="gf-subtitle">{this.props.containerModel.properties.status}</div>
+              </ListMenu>
+              <EnhancedDivider />
+              <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />
+              <ListItem className="button--scale" primaryText="Scale" onClick={() => this.scaleContainer()} />
+              <ListItem primaryText="Migrate" onClick={() => this.migrateContainer()} />
+              {!this.props.disablePromote &&
+                <ListItem primaryText="Promote" onClick={() => this.promoteContainer()} />}
+              {!this.props.disableDestroy &&
+                <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
+              <ActionsMenu
+                listItem
+                model={this.props.containerModel}
+                actionList={this.props.actions}
+                pending={this.props.actionsPending}
+              />
+            </ListWrapper>
+          ]}
         </MenuButton>
       </ActionsWrapper>
     );

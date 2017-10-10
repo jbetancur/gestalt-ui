@@ -113,13 +113,10 @@ yarn test-coverage
 
 ### Maintenance Modes
 
-By default, the node-updates and node-upgrade commands are set to filter out npm-shrinkwrap, to lock it to v200+.
 ```
-yarn node-packages - list installed packages
-yarn node-updates - list node that may be outdated.
-yarn node-upgrade - updates all the node versions in node.json.
-yarn node-purge - removes your node_modules folder.
-yarn node-reinstall - removes your node_modules folder and does a npm install.
-yarn node-killall - kills all node processes - useful if your webpack-dev-server address is in use
+yarn packages - list installed packages
+yarn purge - removes your node_modules folder.
+yarn reinstall - removes your node_modules folder and does a npm install.
+yarn killall - kills all node processes - useful if your webpack-dev-server address is in use
 yarn stats - generates build stats that can be analyzed @ http://webpack.github.io/analyse/#hints
 ```

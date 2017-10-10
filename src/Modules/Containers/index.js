@@ -4,12 +4,10 @@ import ContainerCreate from './containers/ContainerCreate';
 import ContainerEdit from './containers/ContainerEdit';
 
 const ContainerRoot = () => (
-  <div>
-    <Switch>
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/create'} component={ContainerCreate} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/:containerId/edit'} component={ContainerEdit} />
-    </Switch>
-  </div>
+  <Switch>
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/create" component={ContainerCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/:containerId/edit" component={ContainerEdit} />
+  </Switch>
 );
 
 export default ContainerRoot;

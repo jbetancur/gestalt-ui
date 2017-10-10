@@ -33,10 +33,6 @@ class MigrateModal extends PureComponent {
     providersByTypePending: PropTypes.bool.isRequired,
   };
 
-  static defaultProps = {
-    body: '',
-  };
-
   constructor(props) {
     super(props);
 

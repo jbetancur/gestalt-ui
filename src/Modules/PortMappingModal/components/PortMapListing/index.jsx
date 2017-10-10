@@ -49,7 +49,7 @@ class PortMapListing extends Component {
   }
 
   render() {
-    const portMappings = this.props.portMappings;
+    const { portMappings } = this.props;
 
     return (
       <DataTable plain>

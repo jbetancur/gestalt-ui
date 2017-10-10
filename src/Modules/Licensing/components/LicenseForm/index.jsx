@@ -119,7 +119,6 @@ LicenseForm.propTypes = {
 
 LicenseForm.defaultProps = {
   submitLabel: '',
-  cancelLabel: 'Cancel'
 };
 
 export default LicenseForm;

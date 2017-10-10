@@ -17,7 +17,7 @@ import { generateContainerPayload } from '../../payloadTransformer';
 
 class ContainerCreate extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
+    history: PropTypes.object,
     match: PropTypes.object.isRequired,
     createContainer: PropTypes.func.isRequired,
     fetchEnv: PropTypes.func.isRequired,
@@ -30,7 +30,7 @@ class ContainerCreate extends Component {
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     envPending: PropTypes.bool.isRequired,
-    inlineMode: PropTypes.bool.isRequired,
+    inlineMode: PropTypes.bool,
     pristine: PropTypes.bool.isRequired,
     fetchActions: PropTypes.func.isRequired,
   };

@@ -5,8 +5,8 @@ import APIEdit from './containers/APIEndpointEditContainer';
 
 const APIRoot = () => (
   <Switch>
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis/:apiId/edit/apiendpoints/createEndpoint'} component={APICreate} />
-    <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis/:apiId/edit/apiendpoints/:apiEndpointId/editEndpoint'} component={APIEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis/:apiId/edit/apiendpoints/createEndpoint" component={APICreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/apis/:apiId/edit/apiendpoints/:apiEndpointId/editEndpoint" component={APIEdit} />
   </Switch>
 );
 

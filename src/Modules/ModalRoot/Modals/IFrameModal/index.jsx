@@ -39,7 +39,6 @@ class ActionsModal extends PureComponent {
 
   static defaultProps = {
     onProceed: () => { },
-    title: '',
     body: '',
     isFullScreen: false,
   };

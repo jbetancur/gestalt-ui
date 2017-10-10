@@ -10,7 +10,7 @@ export default class RateLimit extends PureComponent {
     className: PropTypes.string,
     rateLimitToggledName: PropTypes.string.isRequired,
     perMinuteName: PropTypes.string.isRequired,
-    isToggled: PropTypes.bool.isRequired,
+    isToggled: PropTypes.bool,
   };
 
   static defaultProps = {

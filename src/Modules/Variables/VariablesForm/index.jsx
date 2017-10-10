@@ -6,7 +6,7 @@ import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
 
-const PasswordTextField = styled(TextField) `
+const PasswordTextField = styled(TextField)`
   button {
     pointer-events: none;
   }

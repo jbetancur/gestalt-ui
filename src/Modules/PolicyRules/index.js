@@ -8,10 +8,10 @@ import PolicyEventRuleEdit from './containers/PolicyEventRuleEdit';
 const APIRoot = () => (
   <div>
     <Switch>
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/createlimitRule'} component={PolicyLimitRuleCreate} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/:ruleId/editlimitRule'} component={PolicyLimitRuleEdit} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/createeventRule'} component={PolicyEventRuleCreate} />
-      <Route exact path={'/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/:ruleId/editeventRule'} component={PolicyEventRuleEdit} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/createlimitRule" component={PolicyLimitRuleCreate} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/:ruleId/editlimitRule" component={PolicyLimitRuleEdit} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/createeventRule" component={PolicyEventRuleCreate} />
+      <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/policies/:policyId/edit/rules/:ruleId/editeventRule" component={PolicyEventRuleEdit} />
     </Switch>
   </div>
 );

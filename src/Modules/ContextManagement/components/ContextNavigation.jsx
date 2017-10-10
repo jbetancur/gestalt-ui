@@ -64,7 +64,6 @@ class ContextNavigation extends PureComponent {
     children: [],
     pending: false,
     pendingContextActions: false,
-    actions: [],
     actionsList: [],
     model: {},
   };
