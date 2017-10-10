@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { withTableManager } from 'Modules/TableManager';
 import A from 'components/A';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import StatusBubble from 'components/StatusBubble';
-import { parseChildClass } from 'util/helpers/strings';
-import ActionsModals from '../../ActionModals';
-import ContainerActions from '../ContainerActions';
-import ContainerIcon from '../ContainerIcon';
+import { parseChildClass, truncate } from 'util/helpers/strings';
+import ActionsModals from '../ActionModals';
+import ContainerActions from './ContainerActions';
+import ContainerIcon from './ContainerIcon';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
@@ -27,7 +27,7 @@ class ContainerItem extends PureComponent {
     model: PropTypes.array.isRequired,
     pending: PropTypes.bool.isRequired,
     tableManager: PropTypes.object.isRequired,
-    tableActions: PropTypes.func.isRequired,
+    tableActions: PropTypes.object.isRequired,
     getTableSortedItems: PropTypes.func.isRequired,
   };
 
@@ -49,22 +49,27 @@ class ContainerItem extends PureComponent {
     const { model, tableActions, getTableSortedItems } = this.props;
     const containers = getTableSortedItems(model, 'name').map((container) => {
       const providerType = parseChildClass(container.properties.provider.resource_type);
+
       return (
         <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>
-          <TableColumn style={{ width: '100px' }}>
+          <TableColumn>
             <ContainerActions
               containerModel={container}
               {...this.props}
             />
           </TableColumn>
-          <TableColumn style={{ width: '175px' }}><StatusBubble status={container.properties.status} /></TableColumn>
-          <TableColumn>{container.name}</TableColumn>
+          <TableColumn>
+            <StatusBubble status={container.properties.status} />
+          </TableColumn>
+          <TableColumn>{truncate(container.name, 30)}</TableColumn>
           <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
-          <TableColumn style={{ width: '100px' }}><ContainerIcon resourceType={providerType} /></TableColumn>
-          <TableColumn>{container.properties.provider.name}</TableColumn>
-          <TableColumn style={{ width: '100px' }}>{`${container.properties.instances.length} / ${container.properties.num_instances}`}</TableColumn>
-          <TableColumn style={{ width: '100px' }}>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
-          <TableColumn>{container.properties.age && <FormattedRelative value={container.properties.age} />}</TableColumn>
+          <TableColumn><ContainerIcon resourceType={providerType} /></TableColumn>
+          <TableColumn>{truncate(container.properties.provider.name, 30)}</TableColumn>
+          <TableColumn>
+            {`${container.properties.instances.length} / ${container.properties.num_instances}`}
+          </TableColumn>
+          <TableColumn>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
+          <TableColumnTimestamp timestamp={container.modified.timestamp} />
         </TableRow>
       );
     }
@@ -85,15 +90,15 @@ class ContainerItem extends PureComponent {
               <DataTable baseId="containers" plain>
                 <TableHeader>
                   <TableRow>
-                    <TableColumn>Actions</TableColumn>
-                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Status</TableColumn>
+                    <TableColumn style={{ width: '100px' }}>Actions</TableColumn>
+                    <TableColumn style={{ width: '175px' }} sorted={tableActions.handleTableSortIcon('properties.status')} onClick={() => tableActions.sortTable('properties.status')}>Status</TableColumn>
                     <TableColumn sorted={tableActions.handleTableSortIcon('name', true)} onClick={() => tableActions.sortTable('name')}>Name</TableColumn>
                     <TableColumn>Endpoints</TableColumn>
-                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
+                    <TableColumn style={{ width: '100px' }}sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
                     <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
-                    <TableColumn>Instances</TableColumn>
-                    <TableColumn>CPU / Memory</TableColumn>
-                    <TableColumn sorted={tableActions.handleTableSortIcon('properties.age')} onClick={() => tableActions.sortTable('properties.age')}>Age</TableColumn>
+                    <TableColumn style={{ width: '100px' }}>Instances</TableColumn>
+                    <TableColumn style={{ width: '100px' }}>CPU / Memory</TableColumn>
+                    <TableColumn style={{ width: '180px' }} sorted={tableActions.handleTableSortIcon('properties.modified.timestamp')} onClick={() => tableActions.sortTable('properties.modified.timestamp')}>Modified</TableColumn>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -108,5 +113,5 @@ class ContainerItem extends PureComponent {
   }
 }
 
-export default ContainerItem;
+export default withTableManager(ContainerItem);
 

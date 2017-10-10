@@ -10,6 +10,7 @@ const EnhancedDialog = styled(Dialog)`
   .md-dialog {
     width: 100%;
     max-width: 26em;
+    word-wrap: break-word;
   }
 `;
 

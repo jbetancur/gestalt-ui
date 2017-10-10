@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { DeleteIconButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 
 class UserItem extends PureComponent {
   static propTypes = {
@@ -40,7 +39,7 @@ class UserItem extends PureComponent {
         <TableColumn>{user.properties.lastName}</TableColumn>
         <TableColumn numeric>{user.properties.phoneNumber}</TableColumn>
         <TableColumn>{user.properties.email}</TableColumn>
-        <TableColumn><FormattedDate value={user.created.timestamp} /> <FormattedTime value={user.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={user.created.timestamp} />
         <TableColumn>{user.properties.gestalt_home}</TableColumn>
       </TableRow>
     ));

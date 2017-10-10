@@ -6,6 +6,7 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
+import { withContext } from 'Modules/ContextManagement';
 
 const ActionsWrapper = styled.div`
     display: inline-block;
@@ -59,7 +60,7 @@ class ContainerActions extends Component {
     promoteContainerModal: PropTypes.func.isRequired,
     confirmContainerDelete: PropTypes.func.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
-    setCurrentEnvironmentContext: PropTypes.func.isRequired,
+    contextManagerActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
@@ -140,22 +141,22 @@ class ContainerActions extends Component {
   }
 
   promoteContainer() {
-    const { match, promoteContainer, promoteContainerModal, containerModel, setCurrentEnvironmentContext, fetchEnvironment, fetchContainers } = this.props;
+    const { match, promoteContainer, promoteContainerModal, containerModel, contextManagerActions, fetchEnvironment, fetchContainers } = this.props;
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
       fetchEnvironment(match.params.fqon, environment.id);
-      setCurrentEnvironmentContext(environment);
+      contextManagerActions.setCurrentEnvironmentContext(environment);
       fetchContainers(match.params.fqon, environment.id);
       // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
       // if (inContainerView) {
       //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
-      //   setCurrentEnvironmentContext(environment);
+      //   contextManagerActions.setCurrentEnvironmentContext(environment);
       //   fetchContainer(match.params.fqon, container.id, environment.id, true);
       // } else {
       //   // TODO: Need to refactor this when we refactor the routing logic
       //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
       //   fetchEnvironment(match.params.fqon, environment.id);
-      //   setCurrentEnvironmentContext(environment);
+      //   contextManagerActions.setCurrentEnvironmentContext(environment);
       //   fetchContainers(match.params.fqon, environment.id);
       // }
     };
@@ -208,4 +209,4 @@ class ContainerActions extends Component {
   }
 }
 
-export default ContainerActions;
+export default withContext(ContainerActions);

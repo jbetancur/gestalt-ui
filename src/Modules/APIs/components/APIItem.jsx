@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 
 class APIItem extends PureComponent {
   static propTypes = {
@@ -37,7 +36,7 @@ class APIItem extends PureComponent {
         <TableColumn>{api.name}</TableColumn>
         <TableColumn>{api.description}</TableColumn>
         <TableColumn>{api.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={api.created.timestamp} /> <FormattedTime value={api.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={api.created.timestamp} />
       </TableRow>
     ));
 

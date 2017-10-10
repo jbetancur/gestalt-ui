@@ -25,12 +25,12 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { parseChildClass } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
-import ContainerInstances from '../ContainerInstances';
-import ContainerServiceAddresses from '../ContainerServiceAddresses';
-import { nameMaxLen } from '../../validations';
-import ContainerActions from '../ContainerActions';
-import ContainerIcon from '../ContainerIcon';
-import ActionsModals from '../../ActionModals';
+import ContainerInstances from './ContainerInstances';
+import ContainerServiceAddresses from './ContainerServiceAddresses';
+import { nameMaxLen } from '../validations';
+import ContainerActions from './ContainerActions';
+import ContainerIcon from './ContainerIcon';
+import ActionsModals from '../ActionModals';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 const ListButton = styled(Button)`
@@ -102,115 +102,124 @@ const ContainerForm = (props) => {
               <CardText>
                 <Row gutter={5}>
                   {!values.properties.provider.id &&
-                    <Field
-                      id="select-provider"
-                      className="flex-12 flex-xs-12"
-                      component={SelectField}
-                      name="properties.provider.id"
-                      required
-                      label="Provider"
-                      itemLabel="name"
-                      itemValue="id"
-                      menuItems={props.providersByType}
-                      onFocus={populateProviders}
-                      async
-                    />}
+                    <Col flex={12} xs={12}>
+                      <Field
+                        id="select-provider"
+                        component={SelectField}
+                        name="properties.provider.id"
+                        required
+                        label="Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={props.providersByType}
+                        onFocus={populateProviders}
+                        async
+                      />
+                    </Col>}
                   {values.properties.provider.id &&
                   <Row gutter={5}>
-                    <Field
-                      className="flex-5 flex-xs-12"
-                      component={TextField}
-                      name="name"
-                      label="Name"
-                      type="text"
-                      required
-                      maxLength={nameMaxLen}
-                      disabled={container.id}
-                    />
-                    <Field
-                      className="flex-7 flex-xs-12"
-                      component={TextField}
-                      name="description"
-                      label="Description"
-                      type="text"
-                      rows={1}
-                    />
-                    <Field
-                      className="flex-5 flex-xs-12"
-                      component={TextField}
-                      name="properties.image"
-                      label="Image"
-                      type="text"
-                      required
-                    />
-                    <Field
-                      id="select-network"
-                      className="flex-4 flex-xs-12"
-                      component={SelectField}
-                      name="properties.network"
-                      menuItems={selectedProvider.properties.config.networks}
-                      disabled={!selectedProvider.properties.config.networks.length}
-                      label={!selectedProvider.properties.config.networks.length ? 'No Configured Networks' : 'Network'}
-                      itemLabel="name"
-                      itemValue="name"
-                      required
-                      helpText="Select a network to configure port mappings"
-                    />
-                    <Field
-                      className="flex-1 flex-xs-12"
-                      component={TextField}
-                      name="properties.num_instances"
-                      min={1}
-                      max={999}
-                      step={1}
-                      label="Instances"
-                      type="number"
-                      required
-                      normalize={fixInputNumber}
-                    />
-                    <Field
-                      className="flex-1 flex-xs-12"
-                      component={TextField}
-                      name="properties.cpus"
-                      min={0.1}
-                      max={4.0}
-                      step={0.1}
-                      label="CPU"
-                      type="number"
-                      required
-                      parse={value => Number(value)} // redux form formats everything as string, so force number
-                    />
-                    <Field
-                      className="flex-1 flex-xs-12"
-                      component={TextField}
-                      name="properties.memory"
-                      min={32}
-                      max={8096}
-                      step={1}
-                      label="Memory"
-                      type="number"
-                      required
-                      normalize={fixInputNumber}
-                    />
-                    <Field
-                      className="flex-5 flex-xs-12"
-                      component={TextField}
-                      name="properties.cmd"
-                      label="Command"
-                      type="text"
-                    />
-                    <Field
-                      id="force_pull"
-                      className="flex-4 flex-xs-12"
-                      component={Checkbox}
-                      name="properties.force_pull"
-                      // TODO: Find out why redux-form state for bool doesn't apply
-                      checked={values.properties.force_pull}
-                      label="Force Pull Image on Every Launch"
-                    />
+                    <Col flex={5} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="name"
+                        label="Name"
+                        type="text"
+                        required
+                        maxLength={nameMaxLen}
+                        disabled={container.id}
+                      />
+                    </Col>
+                    <Col flex={7} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="description"
+                        label="Description"
+                        type="text"
+                        rows={1}
+                      />
+                    </Col>
+                    <Col flex={5} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.image"
+                        label="Image"
+                        type="text"
+                        required
+                      />
+                    </Col>
+                    <Col flex={4} xs={12}>
+                      <Field
+                        id="select-network"
+                        component={SelectField}
+                        name="properties.network"
+                        menuItems={selectedProvider.properties.config.networks}
+                        disabled={!selectedProvider.properties.config.networks.length}
+                        label={!selectedProvider.properties.config.networks.length ? 'No Configured Networks' : 'Network'}
+                        itemLabel="name"
+                        itemValue="name"
+                        required
+                        helpText="Select a network to configure port mappings"
+                      />
+                    </Col>
+                    <Col flex={1} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.num_instances"
+                        min={0}
+                        max={999}
+                        step={1}
+                        label="Instances"
+                        type="number"
+                        normalize={fixInputNumber}
+                        helpText="0 = suspended"
+                      />
+                    </Col>
+                    <Col flex={1} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.cpus"
+                        min={0.1}
+                        max={4.0}
+                        step={0.1}
+                        label="CPU"
+                        type="number"
+                        required
+                        parse={value => Number(value)} // redux form formats everything as string, so force number
+                      />
+                    </Col>
+                    <Col flex={1} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.memory"
+                        min={32}
+                        max={8096}
+                        step={1}
+                        label="Memory"
+                        type="number"
+                        required
+                        normalize={fixInputNumber}
+                      />
+                    </Col>
+                    <Col flex={5} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.cmd"
+                        label="Command"
+                        type="text"
+                      />
+                    </Col>
+                    <Col flex={4} xs={12}>
+                      <Field
+                        id="force_pull"
+                        component={Checkbox}
+                        name="properties.force_pull"
+                        // TODO: Find out why redux-form state for bool doesn't apply
+                        checked={values.properties.force_pull}
+                        label="Force Pull Image on Every Launch"
+                      />
+                    </Col>
                   </Row>}
                 </Row>
-
               </CardText>
               {(props.containerUpdatePending || props.containerPending) && <LinearProgress id="container-form-loading" />}
               {!props.inlineMode &&
@@ -223,14 +232,15 @@ const ContainerForm = (props) => {
                 >
                   {props.cancelLabel}
                 </Button>
-                <Button
-                  raised
-                  type="submit"
-                  disabled={isSubmitDisabled}
-                  primary
-                >
-                  {props.submitLabel}
-                </Button>
+                {selectedProvider.id &&
+                  <Button
+                    raised
+                    type="submit"
+                    disabled={isSubmitDisabled}
+                    primary
+                  >
+                    {props.submitLabel}
+                  </Button>}
               </CardActions>}
             </Card>
           </Col>
@@ -372,30 +382,29 @@ const ContainerForm = (props) => {
                   </ExpansionPanelNoPadding> : <div />}
 
                 <ExpansionPanel label={<h3>Optional</h3>} footer={null}>
-                  <Field
-                    className="flex-5 flex-xs-12"
-                    component={TextField}
-                    name="properties.constraints"
-                    label="Constraints"
-                    type="text"
-                    helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
-                  />
-                  <Field
-                    className="flex-5 flex-xs-12"
-                    component={TextField}
-                    name="properties.accepted_resource_roles"
-                    label="Resource Roles"
-                    type="text"
-                    helpText="Comma delimited set of resource roles"
-                  />
-                  <Field
-                    className="flex-3 flex-xs-12"
-                    component={TextField}
-                    name="properties.user"
-                    label="User"
-                    type="text"
-                    helpText="unix formatted username"
-                  />
+                  <Row>
+                    <Field
+                      component={TextField}
+                      name="properties.constraints"
+                      label="Constraints"
+                      type="text"
+                      helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
+                    />
+                    <Field
+                      component={TextField}
+                      name="properties.accepted_resource_roles"
+                      label="Resource Roles"
+                      type="text"
+                      helpText="Comma delimited set of resource roles"
+                    />
+                    <Field
+                      component={TextField}
+                      name="properties.user"
+                      label="User"
+                      type="text"
+                      helpText="unix formatted username"
+                    />
+                  </Row>
                 </ExpansionPanel>
               </ExpansionList>
             </Col>

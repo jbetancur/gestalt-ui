@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { truncate } from 'util/helpers/strings';
 
 class GroupItem extends PureComponent {
@@ -37,7 +36,7 @@ class GroupItem extends PureComponent {
       <TableRow key={group.id} onClick={e => this.props.onEditToggle(group, e)}>
         <TableColumn>{group.name}</TableColumn>
         <TableColumn>{truncate(group.description, 100)}</TableColumn>
-        <TableColumn><FormattedDate value={group.created.timestamp} /> <FormattedTime value={group.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={group.created.timestamp} />
       </TableRow>
     ));
 

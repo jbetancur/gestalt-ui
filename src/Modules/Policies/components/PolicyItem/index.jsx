@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 import { truncate } from 'util/helpers/strings';
 
@@ -38,7 +37,7 @@ class PolicyItem extends PureComponent {
         <TableColumn>{policy.name}</TableColumn>
         <TableColumn>{truncate(policy.description, 100)}</TableColumn>
         <TableColumn>{policy.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={policy.created.timestamp} /> <FormattedTime value={policy.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={policy.created.timestamp} />
       </TableRow>
     ));
 

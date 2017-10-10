@@ -40,6 +40,11 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
     },
   };
 
+  // force 1 instance since we disable num_instances field validation (to deal with suspended update case)
+  if (payload.properties.num_instances === '') {
+    payload.properties.num_instances = 1;
+  }
+
   // these will be in a string format as a result of redux-form limitations - superced by a future chips component
   if (source.properties.accepted_resource_roles && source.properties.accepted_resource_roles.length) {
     // convert to string if an array (updateMode)

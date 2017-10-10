@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
 import DotActivity from 'components/DotActivity';
-import actions from '../../actions';
+import actions from '../actions';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
@@ -20,47 +20,46 @@ const EnhancedDialog = styled(Dialog)`
   }
 `;
 
-class MigrateModal extends PureComponent {
+class PromoteModal extends PureComponent {
   static propTypes = {
     actionsModal: PropTypes.object.isRequired,
     onProceed: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    provider: PropTypes.object.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
+    fetchEnvironments: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
-    providersByType: PropTypes.array.isRequired,
-    providersByTypePending: PropTypes.bool.isRequired,
+    environments: PropTypes.array.isRequired,
+    environmentsPending: PropTypes.bool.isRequired,
+    unloadEnvironments: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
 
-    this.state = { provider: '' };
+    this.state = { environment: '' };
   }
 
   componentDidMount() {
-    this.props.fetchProvidersByType(this.props.params.fqon, this.props.params.environmentId, 'environments', 'CaaS');
+    this.props.fetchEnvironments(this.props.params.fqon, this.props.params.workspaceId);
+  }
+
+  componentWillUnmount() {
+    this.props.unloadEnvironments();
   }
 
   doIt = () => {
-    this.props.onProceed(this.state.provider);
+    this.props.onProceed(this.props.environments.find(env => env.id === this.state.environment));
     this.props.hideModal();
   }
 
-  providerChanged = (value) => {
-    this.setState({ provider: value });
-  }
-
-  formatResourceType(resourceType) {
-    const split = resourceType.split('::');
-    return split[split.length - 1];
+  environmentChanged = (value) => {
+    this.setState({ environment: value });
   }
 
   render() {
-    const providers = this.props.providersByType
-      .filter(provider => provider.id !== this.props.provider.id)
-      .map(provider => ({ id: provider.id, name: `${provider.name} (${this.formatResourceType(provider.resource_type)})` }));
+    const environments = this.props.environments
+      .filter(environment => environment.id !== this.props.params.environmentId)
+      .map(environment => ({ id: environment.id, name: environment.description || environment.name }));
 
     return (
       <EnhancedDialog
@@ -80,30 +79,30 @@ class MigrateModal extends PureComponent {
           {
             onClick: this.doIt,
             primary: true,
-            label: 'Migrate',
-            disabled: !this.state.provider,
+            label: 'Promote',
+            disabled: !this.state.environment,
           }]}
       >
-        {this.props.providersByTypePending ?
+        {this.props.environmentsPending ?
           <DotActivity size={1} primary /> :
           <div>
-            {providers.length ?
+            {environments.length > 0 ?
               <Row center>
                 <Col flex={12}>
                   <SelectField
-                    id="container-scaleto"
-                    label="Migrate to Provider"
+                    id="container-promoteto"
+                    label="Promote to Environment"
                     lineDirection="center"
-                    menuItems={providers}
+                    menuItems={environments}
                     itemLabel="name"
                     itemValue="id"
-                    value={this.state.provider}
-                    onChange={this.providerChanged}
+                    value={this.state.environment}
+                    onChange={this.environmentChanged}
                     required
                     fullWidth
                   />
                 </Col>
-              </Row> : <span>There are no available providers to migrate to</span>}
+              </Row> : <span>There are no available environments to promote to</span>}
           </div>}
       </EnhancedDialog>
     );
@@ -113,7 +112,9 @@ class MigrateModal extends PureComponent {
 function mapStateToProps(state) {
   return {
     actionsModal: state.containers.actionsModals,
+    environments: state.metaResource.environments.environments,
+    environmentsPending: state.metaResource.environments.pending,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(MigrateModal));
+export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(PromoteModal));

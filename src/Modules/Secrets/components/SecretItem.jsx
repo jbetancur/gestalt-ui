@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 
 class SecretItem extends PureComponent {
   static propTypes = {
@@ -38,7 +37,7 @@ class SecretItem extends PureComponent {
         <TableColumn>{secret.description}</TableColumn>
         <TableColumn>{secret.properties.provider && secret.properties.provider.name}</TableColumn>
         <TableColumn>{secret.owner.name}</TableColumn>
-        <TableColumn><FormattedDate value={secret.created.timestamp} /> <FormattedTime value={secret.created.timestamp} /></TableColumn>
+        <TableColumnTimestamp timestamp={secret.created.timestamp} />
       </TableRow>
     ));
 
