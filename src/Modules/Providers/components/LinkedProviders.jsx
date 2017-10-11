@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row } from 'react-flexybox';
+import { Row, Col } from 'react-flexybox';
 import { Field, FieldArray } from 'redux-form';
 import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
 import { Button } from 'components/Buttons';
@@ -20,28 +20,30 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
     {touched && error}
     {fields.map((member, index) => (
       <Row key={index} gutter={5}>
-        <Field
-          name={`${member}.name`}
-          type="text"
-          component={TextField}
-          label="Prefix"
-          className="flex-5"
-          value=" " // fix for [object Object] on deselect
-          required
-        />
-        <Field
-          id={`${member}.id`}
-          name={`${member}.id`}
-          component={SelectField}
-          label="Provider"
-          className="flex-6"
-          itemLabel="name"
-          itemValue="id"
-          required
-          menuItems={providersModel}
-          async
-          onFocus={() => fetchProviders()}
-        />
+        <Col flex={5} xs={12}>
+          <Field
+            name={`${member}.name`}
+            type="text"
+            component={TextField}
+            label="Prefix"
+            value=" " // fix for [object Object] on deselect
+            required
+          />
+        </Col>
+        <Col flex={6} xs={12}>
+          <Field
+            id={`${member}.id`}
+            name={`${member}.id`}
+            component={SelectField}
+            label="Provider"
+            itemLabel="name"
+            itemValue="id"
+            required
+            menuItems={providersModel}
+            async
+            onFocus={() => fetchProviders()}
+          />
+        </Col>
         <FieldRemoveButton onClick={() => fields.remove(index)} />
       </Row>
     ))}

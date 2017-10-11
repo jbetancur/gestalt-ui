@@ -132,7 +132,6 @@ const rendervariables = (props) => {
                 type="text"
                 component={renderNameField}
                 label={fieldNameStr}
-                className="flex-4 flex-xs-12"
                 disabled={isRequired || isInherited || disabled}
                 keyFieldValidationMessage={keyFieldValidationMessage}
                 keyFieldValidationFunction={keyFieldValidationFunction}
@@ -144,7 +143,6 @@ const rendervariables = (props) => {
                 type="text"
                 component={isPassword ? renderPasswordField : renderValueField}
                 label={fieldValueStr}
-                className="flex-7 flex-xs-12"
                 required={isRequired}
                 valueFieldValidationMessage={valueFieldValidationMessage}
                 valueFieldValidationFunction={valueFieldValidationFunction}

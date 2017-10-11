@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import PolicyRuleItem from '../../components/PolicyRuleItem';
-import actions from '../../actions';
+import PolicyRuleItem from '../components/PolicyRuleItem';
+import actions from '../actions';
 
 class PolicyRuleListing extends PureComponent {
   static propTypes = {

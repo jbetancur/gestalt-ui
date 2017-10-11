@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row } from 'react-flexybox';
+import { Row, Col } from 'react-flexybox';
 import { Field, getFormValues } from 'redux-form';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
@@ -21,70 +21,76 @@ const VolumeForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
       <Row gutter={5}>
-        <Field
-          name="type"
-          className="flex-2 flex-xs-12 flex-sm-6"
-          component={SelectField}
-          label="Type"
-          itemLabel="displayName"
-          itemValue="type"
-          menuItems={volumeTypes[providerType]}
-          onChange={() => reset()}
-          required
-        />
-        {selectedVolumeType &&
+        <Col flex={2} xs={12} sm={6}>
           <Field
-            name="mode"
-            className="flex-3 flex-xs-12 flex-sm-6"
+            name="type"
             component={SelectField}
-            label="Mode"
+            label="Type"
             itemLabel="displayName"
-            itemValue="mode"
-            menuItems={selectedVolumeType.modes}
+            itemValue="type"
+            menuItems={volumeTypes[providerType]}
+            onChange={() => reset()}
             required
-          />}
+          />
+        </Col>
+        {selectedVolumeType &&
+          <Col flex={3} xs={12} sm={6}>
+            <Field
+              name="mode"
+              component={SelectField}
+              label="Mode"
+              itemLabel="displayName"
+              itemValue="mode"
+              menuItems={selectedVolumeType.modes}
+              required
+            />
+          </Col>}
         {values.type === 'persistent' ?
+          <Col flex={2} xs={12}>
+            <Field
+              name="persistent.size"
+              type="number"
+              min={1}
+              label="Size (MiB)"
+              component={TextField}
+              parse={value => Number(value)} // redux form formats everything as string, so force number
+              required
+            />
+          </Col> :
+          <Col flex={4} xs={12} sm={12}>
+            <Field
+              name="host_path"
+              type="text"
+              label="Host Path"
+              component={TextField}
+              helpText="absolute directory path"
+              required
+            />
+          </Col>}
+        <Col flex sm={12}>
           <Field
-            name="persistent.size"
-            type="number"
-            min={1}
-            label="Size (MiB)"
-            className="flex-2 flex-xs-12"
-            component={TextField}
-            parse={value => Number(value)} // redux form formats everything as string, so force number
-            required
-          /> :
-          <Field
-            name="host_path"
+            name="container_path"
             type="text"
-            label="Host Path"
-            className="flex-4 flex-xs-12 flex-sm-12"
+            label="Container Path"
             component={TextField}
-            helpText="absolute directory path"
+            helpText="directory path"
             required
-          />}
-        <Field
-          name="container_path"
-          type="text"
-          label="Container Path"
-          className="flex flex-sm-12"
-          component={TextField}
-          helpText="directory path"
-          required
-        />
+          />
+        </Col>
       </Row>
 
       {providerType === 'Kubernetes' &&
         <Row gutter={5}>
-          <Field
-            name="name"
-            type="text"
-            label="Volume Name"
-            className="flex-6 flex-xs-12 flex-sm-12"
-            component={TextField}
-            helpText="The name is used to identify the volume to attach to the container"
-            required
-          />
+          <Col flex={6} xs={12} sm={12}>
+            <Field
+              name="name"
+              type="text"
+              label="Volume Name"
+              component={TextField}
+              helpText="The name is used to identify the volume to attach to the container"
+              required
+            />
+          </Col>
         </Row>}
       <ModalFooter>
         <Button

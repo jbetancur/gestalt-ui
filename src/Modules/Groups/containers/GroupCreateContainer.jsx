@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import GroupForm from '../../components/GroupForm';
-import validate from '../../validations';
-import actions from '../../actions';
+import GroupForm from '../components/GroupForm';
+import validate from '../validations';
+import actions from '../actions';
 
 class GroupCreate extends Component {
   static propTypes = {

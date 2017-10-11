@@ -5,10 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import PolicyLimitRuleForm from '../../components/PolicyLimitRuleForm';
-import validate from '../../components/PolicyLimitRuleForm/validations';
-import actions from '../../actions';
-import { generateLimitPolicyRulePatches } from '../../payloadTransformer';
+import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
+import validate from '../components/PolicyLimitRuleForm/validations';
+import actions from '../actions';
+import { generateLimitPolicyRulePatches } from '../payloadTransformer';
 
 class PolicyLimitRuleEdit extends Component {
   static propTypes = {

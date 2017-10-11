@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
-import validate from '../../components/PolicyEventRuleForm/validations';
-import actions from '../../actions';
-import { generateEventPolicyRulePayload } from '../../payloadTransformer';
+import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
+import validate from '../components/PolicyLimitRuleForm/validations';
+import actions from '../actions';
+import { generateLimitPolicyRulePayload } from '../payloadTransformer';
 
-class PolicyEventRuleCreate extends Component {
+class PolicyLimitRuleCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -25,7 +25,7 @@ class PolicyEventRuleCreate extends Component {
 
   create(values) {
     const { match, history, createPolicyRule, selectedActions } = this.props;
-    const payload = generateEventPolicyRulePayload(values, selectedActions);
+    const payload = generateLimitPolicyRulePayload(values, selectedActions);
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
@@ -37,8 +37,8 @@ class PolicyEventRuleCreate extends Component {
         <ContextNavigation
           breadcrumbComponent={<Breadcrumbs />}
         />
-        <PolicyEventRuleForm
-          title="Create Event Rule"
+        <PolicyLimitRuleForm
+          title="Create Limit Rule"
           submitLabel="Create"
           cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
           onSubmit={values => this.create(values)}
@@ -55,8 +55,9 @@ function mapStateToProps(state) {
     description: '',
     properties: {
       parent: {},
-      lambda: '',
+      strict: false,
       actions: [],
+      eval_logic: {},
     }
   };
 
@@ -68,6 +69,6 @@ function mapStateToProps(state) {
 }
 
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'policyEventRuleCreate',
+  form: 'policyLimitRuleCreate',
   validate
-})(withContext(PolicyEventRuleCreate))));
+})(withContext(PolicyLimitRuleCreate))));

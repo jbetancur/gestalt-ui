@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import GroupItem from '../../components/GroupItem';
-import actions from '../../actions';
+import GroupItem from '../components/GroupItem';
+import actions from '../actions';
 
 class GroupListing extends PureComponent {
   static propTypes = {

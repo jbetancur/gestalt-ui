@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row } from 'react-flexybox';
+import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
 import { parse } from 'query-string';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -86,7 +86,7 @@ const CodeWrapper = styled.div`
   font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
 
   @media screen and (max-width: 599px) {
-    padding-top: ${props => (props.fontSize === fontSizes.lg ? '7.5em' : '8.5em')};
+    padding-top: ${props => (props.fontSize === fontSizes.lg ? '9.5em' : '10.5em')};
   }
 `;
 
@@ -238,51 +238,55 @@ class Logging extends PureComponent {
       <PageWrapper>
         <Toolbar>
           <Row gutter={5} alignItems="center">
-            <ToolbarTitle className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-8">
-              <div className="gf-headline-1">Logs for {query.name} ({query.logType})</div>
-            </ToolbarTitle>
-            <ToolbarActions className="flex-xs-12 flex-sm-6 flex-md-6 flex-lg-4">
-              <ToolbarControls>
-                <SelectField
-                  id="log--timespan"
-                  menuItems={timeSpans}
-                  itemLabel="name"
-                  itemValue="value"
-                  defaultValue={logTimespan}
-                  lineDirection="center"
-                  position="below"
+            <Col xs={12} sm={6} md={6} lg={8}>
+              <ToolbarTitle>
+                <div className="gf-headline-1">Logs for {query.name} ({query.logType})</div>
+              </ToolbarTitle>
+            </Col>
+            <Col xs={12} sm={6} md={6} lg={4}>
+              <ToolbarActions>
+                <ToolbarControls>
+                  <SelectField
+                    id="log--timespan"
+                    menuItems={timeSpans}
+                    itemLabel="name"
+                    itemValue="value"
+                    defaultValue={logTimespan}
+                    lineDirection="center"
+                    position="below"
+                    disabled={logProviderPending || logPending || !logProviderURL}
+                    onChange={this.setLogTimespan}
+                  />
+                </ToolbarControls>
+                <Button
+                  icon
+                  iconChildren="refresh"
+                  tooltipLabel="Refresh Log"
+                  onClick={() => this.fetchLogs(this.props, this.state)}
                   disabled={logProviderPending || logPending || !logProviderURL}
-                  onChange={this.setLogTimespan}
                 />
-              </ToolbarControls>
-              <Button
-                icon
-                iconChildren="refresh"
-                tooltipLabel="Refresh Log"
-                onClick={() => this.fetchLogs(this.props, this.state)}
-                disabled={logProviderPending || logPending || !logProviderURL}
-              />
-              <FontSizeButton
-                flipState={fontSize === fontSizes.lg ? 1 : -1}
-                icon
-                iconChildren="text_fields"
-                tooltipLabel="Toggle Font Size"
-                onClick={() => this.changeFontSize()}
-              />
-              <FileDownloadButton
-                icon
-                data={logs.length && logs.join('\n')}
-                tooltipLabel="Download Log"
-                fileName={`${query.name}-${query.logType}.log`}
-                disabled={logProviderPending || logPending || !logProviderURL}
-              />
-              <Button
-                icon
-                iconChildren="close"
-                tooltipLabel="Close"
-                onClick={() => window.close()}
-              />
-            </ToolbarActions>
+                <FontSizeButton
+                  flipState={fontSize === fontSizes.lg ? 1 : -1}
+                  icon
+                  iconChildren="text_fields"
+                  tooltipLabel="Toggle Font Size"
+                  onClick={() => this.changeFontSize()}
+                />
+                <FileDownloadButton
+                  icon
+                  data={logs.length && logs.join('\n')}
+                  tooltipLabel="Download Log"
+                  fileName={`${query.name}-${query.logType}.log`}
+                  disabled={logProviderPending || logPending || !logProviderURL}
+                />
+                <Button
+                  icon
+                  iconChildren="close"
+                  tooltipLabel="Close"
+                  onClick={() => window.close()}
+                />
+              </ToolbarActions>
+            </Col>
           </Row>
         </Toolbar>
         <CodeWrapper fontSize={this.state.fontSize}>

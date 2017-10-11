@@ -17,7 +17,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import TextFieldMD from 'react-md/lib/TextFields';
 import { Button } from 'components/Buttons';
 import { differenceBy, debounce } from 'lodash';
-import { nameMaxLen } from '../../validations';
+import { nameMaxLen } from '../validations';
 
 const MembersList = styled(List)`
   height: 20em;
@@ -106,22 +106,24 @@ const GroupForm = (props) => {
             />
             <CardText>
               <Row gutter={5}>
-                <Field
-                  className="flex-4 flex-xs-12"
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  maxLength={nameMaxLen}
-                />
-                <Field
-                  className="flex-8 flex-xs-12"
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                />
+                <Col flex={4} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="name"
+                    label="Name"
+                    type="text"
+                    required
+                    maxLength={nameMaxLen}
+                  />
+                </Col>
+                <Col flex={8} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="description"
+                    label="Description"
+                    type="text"
+                  />
+                </Col>
               </Row>
             </CardText>
             {(groupUpdatePending || groupPending) && <LinearProgress id="group-form" />}

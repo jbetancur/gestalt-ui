@@ -227,7 +227,6 @@
         "base-64": "^0.1.0",
         "brace": "^0.10.0",
         "fast-json-patch": "^2.0.5",
-        "flexybox": "^0.7.0",
         "history": "^4.7.2",
         "i18next": "^9.1.0",
         "i18next-browser-languagedetector": "^2.0.0",

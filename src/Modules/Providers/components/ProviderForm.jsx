@@ -21,10 +21,10 @@ import { VariablesForm } from 'Modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions, ContainerActionsModal } from 'Modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
-import LinkedProviders from '../LinkedProviders';
-import EnvironmentTypes from '../EnvironmentTypes';
-import { nameMaxLen } from './validations';
-import providerTypes from '../../lists/providerTypes';
+import LinkedProviders from './LinkedProviders';
+import EnvironmentTypes from './EnvironmentTypes';
+import { nameMaxLen } from '../validations';
+import providerTypes from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 

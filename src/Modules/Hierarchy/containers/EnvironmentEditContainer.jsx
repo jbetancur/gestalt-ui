@@ -6,7 +6,7 @@ import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
-import validate from '../components/HierarchyForm/validations';
+import validate from '../validations';
 import actions from '../actions';
 import { generateEnvironmentPatches } from '../payloadTransformer';
 

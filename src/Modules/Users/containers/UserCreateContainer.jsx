@@ -4,25 +4,23 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
-import PolicyForm from '../../components/PolicyForm';
-import validate from '../../validations';
-import actions from '../../actions';
-import { generatePolicyPayload } from '../../payloadTransformer';
+import UserForm from '../components/UserForm';
+import validate from '../validations';
+import actions from '../actions';
 
-class PolicyCreate extends Component {
+class UserCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createPolicy: PropTypes.func.isRequired,
+    createUser: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
-    const { match, history, createPolicy } = this.props;
-    const payload = generatePolicyPayload(values);
-    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${response.id}/edit`);
+    const { history, match, createUser } = this.props;
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
-    createPolicy(match.params.fqon, match.params.environmentId, payload, onSuccess);
+    createUser(match.params.fqon, values, onSuccess);
   }
 
   render() {
@@ -31,8 +29,8 @@ class PolicyCreate extends Component {
         <ContextNavigation
           breadcrumbComponent={<Breadcrumbs />}
         />
-        <PolicyForm
-          title="Create Policy"
+        <UserForm
+          title="Create User"
           submitLabel="Create"
           cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
           onSubmit={values => this.create(values)}
@@ -46,17 +44,23 @@ class PolicyCreate extends Component {
 function mapStateToProps() {
   const model = {
     name: '',
-    description: '',
-    properties: {},
+    properties: {
+      password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      gestalt_home: ''
+    }
   };
 
   return {
-    policy: model,
+    user: model,
     initialValues: model
   };
 }
 
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'policyCreate',
+  form: 'userCreate',
   validate
-})(withContext(PolicyCreate))));
+})(withContext(UserCreate))));
