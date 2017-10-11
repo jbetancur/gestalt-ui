@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import UserListing from './containers/UserListing';
-import UserCreate from './containers/UserCreate';
-import UserEdit from './containers/UserEdit';
+import UserListing from './containers/UserListingContainer';
+import UserCreate from './containers/UserCreateContainer';
+import UserEdit from './containers/UserEditContainer';
 
 const UserRoot = () => (
   <div>
@@ -15,6 +15,6 @@ const UserRoot = () => (
 );
 
 export default UserRoot;
-export { default as Users } from './containers/UserListing';
-export { default as UserCreate } from './containers/UserCreate';
-export { default as UserEdit } from './containers/UserEdit';
+export { default as Users } from './containers/UserListingContainer';
+export { default as UserCreate } from './containers/UserCreateContainer';
+export { default as UserEdit } from './containers/UserEditContainer';

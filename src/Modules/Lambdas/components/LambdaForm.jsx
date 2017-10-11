@@ -316,7 +316,6 @@ const LambdaForm = (props) => {
                         </Col>
                         <Col flex={4} xs={12} sm={12} md={12}>
                           <Field
-                            className="flex-4 flex-xs-12 flex-sm-12 flex-md-12"
                             component={TextField}
                             name="properties.periodic_info.payload.eventName"
                             label="Event Name"

@@ -7,7 +7,7 @@ import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import { DeleteIconButton } from 'components/Buttons';
 import { truncate } from 'util/helpers/strings';
-import policyTypes from '../../lists/policyTypes';
+import policyTypes from '../lists/policyTypes';
 
 class PolicyRuleItem extends PureComponent {
   static propTypes = {

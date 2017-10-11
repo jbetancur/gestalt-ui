@@ -73,7 +73,7 @@ const PolicyLimitRuleForm = (props) => {
           </Col>
         </Row>}
       <Row gutter={5} center>
-        <Card className="flex-10 flex-xs-12 flex-sm-12">
+        <Col component={Card} flex={10} xs={12} sm={12}>
           <CardTitle
             title={
               <div>
@@ -89,81 +89,88 @@ const PolicyLimitRuleForm = (props) => {
           />
           <CardText>
             <Row gutter={5}>
-              <Field
-                className="flex-4 flex-xs-12"
-                component={TextField}
-                name="name"
-                label="Name"
-                type="text"
-                required
-                maxLength={nameMaxLen}
-              />
-              <Field
-                className="flex-8 flex-xs-12"
-                component={TextField}
-                name="description"
-                label="Description"
-                type="text"
-                rows={1}
-              />
-              <Row gutter={5}>
+              <Col flex={4} xs={12}>
                 <Field
-                  id="rule-eval-property"
-                  className="flex-3 flex-xs-12"
-                  component={SelectField}
-                  menuItems={policyLimiters}
-                  name="properties.eval_logic.property"
-                  itemLabel="name"
-                  itemValue="name"
+                  component={TextField}
+                  name="name"
+                  label="Name"
+                  type="text"
                   required
-                  label="Limit"
-                  onChange={() => handleEvalFields()}
+                  maxLength={nameMaxLen}
                 />
-                {values.properties.eval_logic.property ?
+              </Col>
+              <Col flex={8} xs={12}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  label="Description"
+                  type="text"
+                  rows={1}
+                />
+              </Col>
+              <Row gutter={5}>
+                <Col flex={3} xs={12}>
                   <Field
-                    id="rule-eval-operator"
-                    className="flex-3 flex-xs-12"
+                    id="rule-eval-property"
                     component={SelectField}
-                    menuItems={filteredPolicyOperators}
-                    name="properties.eval_logic.operator"
+                    menuItems={policyLimiters}
+                    name="properties.eval_logic.property"
                     itemLabel="name"
                     itemValue="name"
                     required
-                    label="Operator"
-                  /> : null }
-                {values.properties.eval_logic.operator ?
+                    label="Limit"
+                    onChange={() => handleEvalFields()}
+                  />
+                </Col>
+                {values.properties.eval_logic.property &&
+                  <Col flex={3} xs={12}>
+                    <Field
+                      id="rule-eval-operator"
+                      component={SelectField}
+                      menuItems={filteredPolicyOperators}
+                      name="properties.eval_logic.operator"
+                      itemLabel="name"
+                      itemValue="name"
+                      required
+                      label="Operator"
+                    />
+                  </Col>}
+                {values.properties.eval_logic.operator &&
+                  <Col flex={3} xs={12}>
+                    <Field
+                      id="rule-eval-value"
+                      component={TextField}
+                      name="properties.eval_logic.value"
+                      label="Value"
+                      type={valueType}
+                      parse={valueType === 'number' ? (value => Number(value)) : null} // redux form formats everything as string, so force number
+                      required
+                    />
+                  </Col>}
+                <Col flex={3} xs={12}>
                   <Field
-                    id="rule-eval-value"
-                    className="flex-3 flex-xs-12"
-                    component={TextField}
-                    name="properties.eval_logic.value"
-                    label="Value"
-                    type={valueType}
-                    parse={valueType === 'number' ? (value => Number(value)) : null} // redux form formats everything as string, so force number
-                    required
-                  /> : null}
-                <Field
-                  className="flex-3 flex-xs-12"
-                  id="rule-strict"
-                  component={CheckboxForm}
-                  name="properties.strict"
-                  checked={values.properties.strict}
-                  label="Strict"
-                />
+                    id="rule-strict"
+                    component={CheckboxForm}
+                    name="properties.strict"
+                    checked={values.properties.strict}
+                    label="Strict"
+                  />
+                </Col>
               </Row>
               <Fieldset legend="Actions">
                 <Row gutter={5}>
                   {policyActions.map(action => (
-                    <Field
-                      key={action.name}
-                      className="flex-2 flex-xs-12 flex-sm-6 flex-md-4"
-                      id={action.name}
-                      component={CheckboxForm}
-                      label={action.name}
-                      checked={!!selectedActions.find(a => a === action.name)}
-                      name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
-                      onChange={() => onActionChecked(action.name)}
-                    />))}
+                    <Col flex={2} xs={12} sm={6} md={4}>
+                      <Field
+                        key={action.name}
+                        id={action.name}
+                        component={CheckboxForm}
+                        label={action.name}
+                        checked={!!selectedActions.find(a => a === action.name)}
+                        name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                        onChange={() => onActionChecked(action.name)}
+                      />
+                    </Col>))}
                 </Row>
               </Fieldset>
             </Row>
@@ -187,7 +194,7 @@ const PolicyLimitRuleForm = (props) => {
               {submitLabel}
             </Button>
           </CardActions>
-        </Card>
+        </Col>
       </Row>
     </form>
   );

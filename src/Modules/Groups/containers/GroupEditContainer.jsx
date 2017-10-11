@@ -6,9 +6,9 @@ import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextMana
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
-import GroupForm from '../../components/GroupForm';
-import validate from '../../validations';
-import actions from '../../actions';
+import GroupForm from '../components/GroupForm';
+import validate from '../validations';
+import actions from '../actions';
 
 class GroupEdit extends Component {
   static propTypes = {

@@ -3178,10 +3178,6 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flexybox@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/flexybox/-/flexybox-0.7.0.tgz#2ed3dc1190713bf1551d317543bcd1b0f12915b6"
-
 follow-redirects@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.2.3.tgz#01abaeca85e3609837d9fcda3167a7e42fdaca21"

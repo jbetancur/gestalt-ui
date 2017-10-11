@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
-import validate from '../components/HierarchyForm/validations';
+import validate from '../validations';
 import actions from '../actions';
 import { generateOrganizationPayload } from '../payloadTransformer';
 

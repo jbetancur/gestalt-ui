@@ -65,7 +65,6 @@ const APIForm = (props) => {
                 {/* {values.properties.provider.id ?
                   <Field
                     id="select-location"
-                    className="flex-4 flex-xs-12"
                     component={SelectField}
                     name="properties.provider.locations"
                     required

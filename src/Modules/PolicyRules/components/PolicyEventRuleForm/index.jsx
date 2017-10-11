@@ -65,7 +65,7 @@ const PolicyEventRuleForm = (props) => {
           </Col>
         </Row>}
       <Row gutter={5} center>
-        <Card className="flex-10 flex-xs-12 flex-sm-12">
+        <Col component={Card} flex={10} xs={12} sm={12}>
           <CardTitle
             title={
               <div>
@@ -81,25 +81,27 @@ const PolicyEventRuleForm = (props) => {
           />
           <CardText>
             <Row gutter={5}>
-              <Field
-                className="flex-4 flex-xs-12 flex-sm-6"
-                component={TextField}
-                name="name"
-                label="Name"
-                type="text"
-                required
-                maxLength={nameMaxLen}
-              />
-              <Field
-                className="flex-8 flex-xs-12 flex-sm-6"
-                component={TextField}
-                name="description"
-                label="Description"
-                type="text"
-                rows={1}
-              />
+              <Col flex={4} xs={12} sm={6}>
+                <Field
+                  component={TextField}
+                  name="name"
+                  label="Name"
+                  type="text"
+                  required
+                  maxLength={nameMaxLen}
+                />
+              </Col>
+              <Col flex={8} xs={12} sm={6}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  label="Description"
+                  type="text"
+                  rows={1}
+                />
+              </Col>
               <Row gutter={5}>
-                <div className="flex-4 flex-sm-6 flex-xs-12">
+                <Col flex={4} sm={6} xs={12}>
                   <Fieldset legend="Lambda">
                     <Autocomplete
                       id="lambdas-dropdown"
@@ -119,24 +121,25 @@ const PolicyEventRuleForm = (props) => {
                       label="Lambda UUID"
                     />
                   </Fieldset>
-                </div>
-                <div className="flex-8 flex-xs-12 flex-sm-12">
+                </Col>
+                <Col flex={8} xs={12} sm={12}>
                   <Fieldset legend="Actions">
                     <Row gutter={5}>
                       {policyTriggers.map(action => (
-                        <Field
-                          key={action.name}
-                          className="flex-4 flex-xs-12 flex-sm-6 flex-md-6"
-                          id={action.name}
-                          component={CheckboxForm}
-                          label={action.name}
-                          checked={!!selectedActions.find(a => a === action.name)}
-                          name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
-                          onChange={() => onActionChecked(action.name)}
-                        />))}
+                        <Col flex={4} xs={12} sm={6} md={6}>
+                          <Field
+                            key={action.name}
+                            id={action.name}
+                            component={CheckboxForm}
+                            label={action.name}
+                            checked={!!selectedActions.find(a => a === action.name)}
+                            name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                            onChange={() => onActionChecked(action.name)}
+                          />
+                        </Col>))}
                     </Row>
                   </Fieldset>
-                </div>
+                </Col>
               </Row>
             </Row>
           </CardText>
@@ -159,7 +162,7 @@ const PolicyEventRuleForm = (props) => {
               {submitLabel}
             </Button>
           </CardActions>
-        </Card>
+        </Col>
       </Row>
     </form>
   );

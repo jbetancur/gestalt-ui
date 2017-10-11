@@ -12,7 +12,7 @@ import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import DetailsPane from 'components/DetailsPane';
 import { PolicyRules } from 'Modules/PolicyRules';
-import { nameMaxLen } from '../../validations';
+import { nameMaxLen } from '../validations';
 
 const PolicyForm = (props) => {
   const {
@@ -45,24 +45,26 @@ const PolicyForm = (props) => {
           />
           <CardText>
             <Row gutter={5}>
-              <Field
-                className="flex-5 flex-xs-12"
-                component={TextField}
-                name="name"
-                label="Name"
-                type="text"
-                required
-                maxLength={nameMaxLen}
-                autoComplete="none"
-              />
-              <Field
-                className="flex-7 flex-xs-12"
-                component={TextField}
-                name="description"
-                label="Description"
-                type="text"
-                rows={1}
-              />
+              <Col flex={5} xs={12}>
+                <Field
+                  component={TextField}
+                  name="name"
+                  label="Name"
+                  type="text"
+                  required
+                  maxLength={nameMaxLen}
+                  autoComplete="none"
+                />
+              </Col>
+              <Col flex={7} xs={12}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  label="Description"
+                  type="text"
+                  rows={1}
+                />
+              </Col>
             </Row>
           </CardText>
           {policyPending && <LinearProgress id="policy-form" />}

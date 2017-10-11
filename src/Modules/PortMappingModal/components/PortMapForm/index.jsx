@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row } from 'react-flexybox';
+import { Row, Col } from 'react-flexybox';
 import { Field, getFormValues } from 'redux-form';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
@@ -32,59 +32,64 @@ const PortMapForm = (props) => {
           label="Expose Service"
         />
         <Row gutter={5} style={{ marginTop: '-1.4em' }}>
-          <Field
-            name="name"
-            type="text"
-            label="Service Name"
-            className="flex-6 flex-xs-6"
-            component={TextField}
-            required
-            maxLength={serviceNameMaxLen}
-            helpText="e.g. web"
-          />
-          <Field
-            id="port-mapping-protocol"
-            name="protocol"
-            className="flex-3 flex-xs-6"
-            component={SelectField}
-            label="Protocol"
-            itemLabel="displayName"
-            itemValue="value"
-            menuItems={networkProtocols}
-            required
-          />
+          <Col flex={6} xs={6}>
+            <Field
+              name="name"
+              type="text"
+              label="Service Name"
+              component={TextField}
+              required
+              maxLength={serviceNameMaxLen}
+              helpText="e.g. web"
+            />
+          </Col>
+          <Col flex={3} xs={3}>
+            <Field
+              id="port-mapping-protocol"
+              name="protocol"
+              component={SelectField}
+              label="Protocol"
+              itemLabel="displayName"
+              itemValue="value"
+              menuItems={networkProtocols}
+              required
+            />
+          </Col>
           {(values.expose_endpoint && props.networkType === 'HOST') &&
+          <Col flex={3} xs={6}>
             <Field
               name="service_port"
               type="number"
               min={0}
               max={65535}
               label="Service Port"
-              className="flex-3 flex-xs-6"
               component={TextField}
               required
               normalize={fixInputNumber}
-            />}
+            />
+          </Col>}
           {(props.networkType !== 'HOST') &&
+          <Col flex={3} xs={6}>
             <Field
               name="container_port"
               type="number"
               min={0}
               max={65535}
               label="Container Port"
-              className="flex-3 flex-xs-6"
               component={TextField}
               required
               normalize={fixInputNumber}
-            />}
+            />
+          </Col>}
           {values.expose_endpoint &&
-          <Field
-            name="virtual_hosts"
-            className="flex-12"
-            component={TextField}
-            label="Virtual Hosts"
-            helpText="Comma delimited set of virtual host names or addresses"
-          />}
+          <Col flex={12}>
+            <Field
+              name="virtual_hosts"
+              component={TextField}
+              label="Virtual Hosts"
+              helpText="Comma delimited set of virtual host names or addresses"
+            />
+          </Col>}
         </Row>
         <ModalFooter>
           <Button

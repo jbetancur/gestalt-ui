@@ -5,10 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import PolicyEventRuleForm from '../../components/PolicyEventRuleForm';
-import validate from '../../components/PolicyEventRuleForm/validations';
-import actions from '../../actions';
-import { generateEventPolicyRulePatches } from '../../payloadTransformer';
+import PolicyEventRuleForm from '../components/PolicyEventRuleForm';
+import validate from '../components/PolicyEventRuleForm/validations';
+import actions from '../actions';
+import { generateEventPolicyRulePatches } from '../payloadTransformer';
 
 class PolicyEventRuleEdit extends Component {
   static propTypes = {

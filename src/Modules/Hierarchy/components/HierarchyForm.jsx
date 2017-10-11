@@ -16,7 +16,7 @@ import { Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
 import { isUnixVariable } from 'util/validations';
-import { nameMaxLen, shortNameMaxLen } from './validations';
+import { nameMaxLen, shortNameMaxLen } from '../validations';
 
 const ActionIconSection = styled.div`
   text-align: right;
@@ -43,38 +43,41 @@ const HierarchyForm = (props) => {
             />
             <CardText>
               <Row gutter={5}>
-                <Field
-                  className="flex-6 flex-xs-12"
-                  component={TextField}
-                  name="description"
-                  label={t('containment.fields.description.label')}
-                  type="text"
-                  maxLength={nameMaxLen}
-                  required
-                  disabled={props.pending}
-                />
-                <Field
-                  className="flex-6 flex-xs-12"
-                  component={TextField}
-                  name="name"
-                  label={t('containment.fields.name.label')}
-                  type="text"
-                  maxLength={shortNameMaxLen}
-                  required
-                  helpText={t('containment.fields.name.helpText')}
-                  disabled={props.pending}
-                />
+                <Col flex={6} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="description"
+                    label={t('containment.fields.description.label')}
+                    type="text"
+                    maxLength={nameMaxLen}
+                    required
+                    disabled={props.pending}
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="name"
+                    label={t('containment.fields.name.label')}
+                    type="text"
+                    maxLength={shortNameMaxLen}
+                    required
+                    helpText={t('containment.fields.name.helpText')}
+                    disabled={props.pending}
+                  />
+                </Col>
                 {props.isEnvironment &&
-                <Field
-                  id="environment-type"
-                  className="flex-6 flex-xs-12"
-                  component={SelectField}
-                  name="properties.environment_type"
-                  menuItems={['development', 'test', 'production']}
-                  required
-                  label={t('containment.fields.environmentType.label')}
-                  disabled={props.pending}
-                />}
+                <Col flex={6} xs={12}>
+                  <Field
+                    id="environment-type"
+                    component={SelectField}
+                    name="properties.environment_type"
+                    menuItems={['development', 'test', 'production']}
+                    required
+                    label={t('containment.fields.environmentType.label')}
+                    disabled={props.pending}
+                  />
+                </Col>}
               </Row>
               <Fieldset legend="Environment Variables">
                 <VariablesForm
@@ -86,8 +89,8 @@ const HierarchyForm = (props) => {
               </Fieldset>
             </CardText>
             {props.pending && <LinearProgress id="containment-form" />}
-            <Row component={CardActions}>
-              <Col flex={10} xs={12}>
+            <CardActions>
+              <Row>
                 <Button
                   flat
                   disabled={props.submitting}
@@ -103,20 +106,20 @@ const HierarchyForm = (props) => {
                 >
                   {props.submitLabel}
                 </Button>
-              </Col>
-              <Col component={ActionIconSection} flex={2} xs={12}>
-                {editMode &&
-                  <Button
-                    tooltipLabel="Entitlements"
-                    tooltipPosition="top"
-                    flat
-                    iconChildren="security"
-                    onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                  >
-                    Entitlements
-                  </Button>}
-              </Col>
-            </Row>
+                <Col component={ActionIconSection} flex>
+                  {editMode &&
+                    <Button
+                      tooltipLabel="Entitlements"
+                      tooltipPosition="top"
+                      flat
+                      iconChildren="security"
+                      onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
+                    >
+                      Entitlements
+                    </Button>}
+                </Col>
+              </Row>
+            </CardActions>
           </Col>
         </Row>
       </form>

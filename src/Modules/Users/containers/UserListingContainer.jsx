@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import UserItem from '../../components/UserItem';
-import actions from '../../actions';
+import UserItem from '../components/UserItem';
+import actions from '../actions';
 
 class UserListing extends PureComponent {
   static propTypes = {
