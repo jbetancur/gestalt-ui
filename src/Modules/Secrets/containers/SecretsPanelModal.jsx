@@ -26,6 +26,7 @@ class SecretPanelModal extends PureComponent {
   static propTypes = {
     addSecret: PropTypes.func.isRequired,
     hideSecretModal: PropTypes.func.isRequired,
+    unloadSecretsModal: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     secretPanelModal: PropTypes.object.isRequired,
     providerId: PropTypes.string,
@@ -38,6 +39,13 @@ class SecretPanelModal extends PureComponent {
 
   constructor(props) {
     super(props);
+  }
+
+
+  componentWillUnmount() {
+    const { unloadSecretsModal } = this.props;
+
+    unloadSecretsModal();
   }
 
   addSecret(values) {

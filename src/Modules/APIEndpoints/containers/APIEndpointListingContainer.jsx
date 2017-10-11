@@ -29,6 +29,7 @@ class APIEndpointList extends Component {
 
   componentWillUnmount() {
     const { unloadAPIEndpoints } = this.props;
+
     unloadAPIEndpoints();
   }
 

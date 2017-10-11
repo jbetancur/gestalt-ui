@@ -22,6 +22,12 @@ class EnvironmentContext extends Component {
     fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     environment: PropTypes.object.isRequired,
+    unloadContainers: PropTypes.func.isRequired,
+    unloadLambdas: PropTypes.func.isRequired,
+    unloadAPIs: PropTypes.func.isRequired,
+    unloadPolicies: PropTypes.func.isRequired,
+    unloadProviders: PropTypes.func.isRequired,
+    unloadSecrets: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -35,27 +41,40 @@ class EnvironmentContext extends Component {
     fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
   }
 
+
+  componentWillUnmount() {
+    // only clear state when the Environment Context changes - this acts as a cache
+    const { unloadContainers, unloadLambdas, unloadAPIs, unloadPolicies, unloadProviders, unloadSecrets } = this.props;
+
+    unloadContainers();
+    unloadLambdas();
+    unloadAPIs();
+    unloadPolicies();
+    unloadProviders();
+    unloadSecrets();
+  }
+
   renderThings(state) {
     switch (state) {
       case 'containers':
         return (
           <Containers {...this.props} />
         );
-      case 'apis':
-        return (
-          <APIs {...this.props} />
-        );
       case 'lambdas':
         return (
           <Lambdas {...this.props} />
         );
-      case 'providers':
+      case 'apis':
         return (
-          <Providers {...this.props} />
+          <APIs {...this.props} />
         );
       case 'policies':
         return (
           <Policies {...this.props} />
+        );
+      case 'providers':
+        return (
+          <Providers {...this.props} />
         );
       case 'secrets':
         return (

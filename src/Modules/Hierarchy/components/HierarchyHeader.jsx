@@ -5,23 +5,23 @@ import HierarchyActions from '../components/HierarchyActions';
 import HierarchyDetails from '../components/HierarchyDetails';
 
 const HierarchyHeader = (props) => {
-  const { model, orangizationSetPending, contextActions, contextActionsPending } = props;
+  const { model, organizationSetPending, contextActions, contextActionsPending } = props;
 
   return (
     <ContextNavigation
       model={model}
-      pending={orangizationSetPending}
+      pending={organizationSetPending}
       pendingContextActions={contextActionsPending}
       breadcrumbComponent={<Breadcrumbs lastIsActive />}
-      actionsComponent={<HierarchyActions organization={model} pending={orangizationSetPending} {...props} />}
-      detailsComponent={<HierarchyDetails organization={model} pending={orangizationSetPending} {...props} />}
+      actionsComponent={<HierarchyActions organization={model} pending={organizationSetPending} {...props} />}
+      detailsComponent={<HierarchyDetails organization={model} pending={organizationSetPending} {...props} />}
       actionsList={contextActions}
     />
   );
 };
 
 HierarchyHeader.propTypes = {
-  orangizationSetPending: PropTypes.bool.isRequired,
+  organizationSetPending: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   contextActions: PropTypes.array.isRequired,
   contextActionsPending: PropTypes.bool.isRequired,

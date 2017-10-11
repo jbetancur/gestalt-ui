@@ -21,7 +21,7 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
 
       // Subscriptions for an organization and its workspaces and sub orgs
       organizationSet: metaResource.organizationSet.organization,
-      orangizationSetPending: metaResource.organizationSet.pending,
+      organizationSetPending: metaResource.organizationSet.pending,
       organizationsSet: metaResource.organizationSet.organization.subOrganizations,
       workspacesSet: metaResource.organizationSet.organization.workspaces,
 
