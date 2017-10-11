@@ -6,6 +6,7 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { Providers } from 'Modules/Providers';
 import { Users } from 'Modules/Users';
 import { Groups } from 'Modules/Groups';
+// import { MicroModeler } from 'Modules/MicroModeler';
 import Div from 'components/Div';
 import HierarchyNav from '../components/HierarchyNav';
 import HierarchyListing from './HierarchyListingContainer';
@@ -19,7 +20,7 @@ class HierarchyContext extends PureComponent {
     workspacesSet: PropTypes.array,
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    orangizationSetPending: PropTypes.bool.isRequired,
+    organizationSetPending: PropTypes.bool.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
@@ -39,9 +40,9 @@ class HierarchyContext extends PureComponent {
   }
 
   componentDidMount() {
-    const { match, contextManagerActions } = this.props;
-    this.props.fetchOrgSet(match.params.fqon);
-    this.props.fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
+    const { match, fetchOrgSet, fetchContextActions, contextManagerActions } = this.props;
+    fetchOrgSet(match.params.fqon);
+    fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
     contextManagerActions.unloadWorkspaceContext();
     contextManagerActions.unloadEnvironmentContext();
   }
@@ -81,6 +82,10 @@ class HierarchyContext extends PureComponent {
         return (
           <Groups {...this.props} />
         );
+      // case 'micro-modeler':
+      //   return (
+      //     <MicroModeler {...this.props} />
+      //   );
       default:
         return <div />;
     }

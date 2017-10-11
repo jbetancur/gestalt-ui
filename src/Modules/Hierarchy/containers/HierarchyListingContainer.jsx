@@ -12,8 +12,8 @@ class HierarchyListing extends PureComponent {
     organizationsSet: PropTypes.array,
     organizationSet: PropTypes.object.isRequired,
     workspacesSet: PropTypes.array,
+    organizationSetPending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
-    orangizationSetPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -39,7 +39,7 @@ class HierarchyListing extends PureComponent {
   }
 
   render() {
-    const { orangizationSetPending, organizationsSet, workspacesSet } = this.props;
+    const { organizationSetPending, organizationsSet, workspacesSet } = this.props;
     const cardItems = organizationsSet.concat(workspacesSet);
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
     const cardTypes = {
@@ -49,7 +49,7 @@ class HierarchyListing extends PureComponent {
     };
 
     return (
-      orangizationSetPending ?
+      organizationSetPending ?
         <ActivityContainer id="hierarchy-progress" /> :
         <Row gutter={5} minColWidths={315}>
           <Sort

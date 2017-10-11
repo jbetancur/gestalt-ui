@@ -19,6 +19,7 @@ class WorkspaceContext extends PureComponent {
     unloadActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
+    unloadEnvironments: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -29,6 +30,12 @@ class WorkspaceContext extends PureComponent {
     const { fetchWorkspace, match, fetchContextActions } = this.props;
     fetchWorkspace(match.params.fqon, match.params.workspaceId);
     fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
+  }
+
+  componentWillUnmount() {
+    const { unloadEnvironments } = this.props;
+
+    unloadEnvironments();
   }
 
   renderThings(state) {

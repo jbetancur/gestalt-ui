@@ -17,7 +17,7 @@ class SecretListing extends PureComponent {
     history: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchSecrets: PropTypes.func.isRequired,
-    unloadSecretsModal: PropTypes.func.isRequired,
+    unloadSecrets: PropTypes.func.isRequired,
     secretsPending: PropTypes.bool.isRequired,
   };
 
@@ -28,9 +28,9 @@ class SecretListing extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadSecretsModal } = this.props;
+    const { unloadSecrets } = this.props;
 
-    unloadSecretsModal();
+    unloadSecrets();
   }
 
   edit = (secret, e) => {

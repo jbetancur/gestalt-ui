@@ -17,12 +17,6 @@ class ContainerListing extends PureComponent {
     fetchActions: PropTypes.func.isRequired,
   };
 
-  constructor() {
-    super();
-
-    this.edit = this.edit.bind(this);
-  }
-
   componentDidMount() {
     const { fetchActions, match } = this.props;
 
@@ -54,7 +48,7 @@ class ContainerListing extends PureComponent {
     fetchContainers(match.params.fqon, match.params.environmentId, isPolling);
   }
 
-  edit(container, e) {
+  edit = (container, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
