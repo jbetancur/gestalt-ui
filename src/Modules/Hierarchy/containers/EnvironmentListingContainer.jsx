@@ -36,6 +36,7 @@ class EnvironmentListing extends Component {
 
   componentDidMount() {
     const { match, contextManagerActions } = this.props;
+
     this.init(match.params.fqon, match.params.workspaceId);
     contextManagerActions.unloadEnvironmentContext();
   }

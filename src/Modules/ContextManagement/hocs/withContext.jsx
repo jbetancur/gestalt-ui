@@ -57,7 +57,7 @@ export default function WithContext(BaseComponent) {
 
     componentWillReceiveProps(nextProps) {
       // keep the org context synced if it is changed
-      if (nextProps.organizationSet.id !== this.props.organizationSet.id) {
+      if (nextProps.organizationSet.id && nextProps.organizationSet.id !== this.props.organizationSet.id) {
         this.props.contextManagerActions.setCurrentOrgContext(nextProps.organizationSet);
       }
     }
