@@ -14,7 +14,12 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px $md-white inset;
 }
 
-/* Override flexy box when using flex to overflow hidden */
+/* Override react-flexybox when using flex to overflow hidden */
 .flex {
   overflow: hidden;
+}
+
+// Deal with disabled links properly
+a[disabled] {
+  pointer-events: none;
 }

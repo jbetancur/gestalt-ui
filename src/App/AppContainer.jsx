@@ -42,8 +42,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
-      this.props.contextManagerActions.setCurrentOrgContextfromState(nextProps.self.properties.gestalt_home.properties.fqon);
+    if (nextProps.self.id && nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
       // TODO: routeing here must be moved to auth once we refactor Auth/JWT
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
       this.props.meta.sync();
