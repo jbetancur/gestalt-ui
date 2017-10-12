@@ -9,7 +9,7 @@ import { Groups } from 'Modules/Groups';
 // import { MicroModeler } from 'Modules/MicroModeler';
 import Div from 'components/Div';
 import HierarchyNav from '../components/HierarchyNav';
-import HierarchyListing from './HierarchyListingContainer';
+import HierarchyListing from './HierarchyListing';
 import HierarchyHeader from '../components/HierarchyHeader';
 import actions from '../actions';
 
@@ -20,9 +20,11 @@ class HierarchyContext extends PureComponent {
     workspacesSet: PropTypes.array,
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
+    fetchEnvironments: PropTypes.func.isRequired,
     organizationSetPending: PropTypes.bool.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
+    unloadEnvironments: PropTypes.func.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
     handleNavigation: PropTypes.func.isRequired,
@@ -48,10 +50,11 @@ class HierarchyContext extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.fqon !== this.props.match.params.fqon) {
+    if (nextProps.match.params.fqon && nextProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.fetchOrgSet(nextProps.match.params.fqon);
       this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
       this.props.unloadNavigation('hierarchy');
+      this.props.unloadEnvironments();
     }
   }
 
@@ -62,13 +65,26 @@ class HierarchyContext extends PureComponent {
     */
     this.props.onUnloadOrgSet();
     this.props.unloadWorkspaces();
+    this.props.unloadEnvironments();
+  }
+
+  onFetchEnvironments = () => {
+    const { match, fetchEnvironments } = this.props;
+
+    fetchEnvironments(match.params.fqon);
   }
 
   renderThings(state) {
     switch (state) {
       case 'hierarchy':
         return (
-          <HierarchyListing {...this.props} />
+          // Setting a key here ensures the state is reset when the organization context changes
+          <HierarchyListing
+            key={this.props.organizationSet.id}
+            onFetchEnvironments={this.onFetchEnvironments}
+            onUnloadEnvironments={this.props.unloadEnvironments}
+            {...this.props}
+          />
         );
       case 'providers':
         return (
@@ -93,6 +109,7 @@ class HierarchyContext extends PureComponent {
 
   render() {
     const { organizationSet, navigation, handleNavigation, match } = this.props;
+
     return (
       <Div>
         <HierarchyNav

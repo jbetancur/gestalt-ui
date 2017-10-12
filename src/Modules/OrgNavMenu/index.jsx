@@ -83,23 +83,21 @@ class OrgNavMenu extends PureComponent {
   renderSearch() {
     const { allOrganizationsPending, t } = this.props;
 
-    return (
-      <div>
-        <ListWrapper>
-          {!allOrganizationsPending &&
-            <div>
-              <span className="gf-headline-2">SWITCH ORGANIZATION</span>
-              <TextField
-                id="search-orgs"
-                label={t('general.verbs.search')}
-                fullWidth={true}
-                onChange={this.filterOrgs}
-              />
-            </div>}
-        </ListWrapper>
-        {allOrganizationsPending && <DotActivity primary size={1.2} id="orgs-nav-menu" centered />}
-      </div>
-    );
+    return [
+      <ListWrapper>
+        {!allOrganizationsPending &&
+          <div>
+            <span className="gf-headline-2">SWITCH ORGANIZATION</span>
+            <TextField
+              id="search-orgs"
+              label={t('general.verbs.search')}
+              fullWidth={true}
+              onChange={this.filterOrgs}
+            />
+          </div>}
+      </ListWrapper>,
+      <DotActivity visible={allOrganizationsPending} primary size={1.2} id="orgs-nav-menu" centered />
+    ];
   }
 
   render() {

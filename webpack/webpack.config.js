@@ -6,6 +6,7 @@ const Clean = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // enable manually for bundle analysis
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 
@@ -128,6 +129,9 @@ module.exports = function test(env) {
             disable: false,
           }),
           new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don't need them at this time
+          // new BundleAnalyzerPlugin({ // enable manually for bundle analysis
+          //   analyzerMode: 'static'
+          // }),
           // new webpack.optimize.ModuleConcatenationPlugin(), // TODO: enable this once heap errors are resolved
           parts.generateConstants('production'),
         ],

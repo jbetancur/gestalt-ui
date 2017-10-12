@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Col, Row } from 'react-flexybox';
+import { Row, Col } from 'react-flexybox';
 import SelectField from 'react-md/lib/SelectFields';
 import FontIcon from 'react-md/lib/FontIcons';
 import { Button } from 'components/Buttons';
@@ -27,38 +27,42 @@ const generateSortList = (isEnvironment) => {
   const ofSorts = sortItems.slice();
   if (isEnvironment) {
     ofSorts.push({ name: 'environment type', value: 'properties.environment_type' });
+  } else {
+    ofSorts.splice(1, 0, { name: 'type', value: 'resource_type' });
   }
 
   return ofSorts;
 };
 
 const Sort = (props) => {
-  const handleSort = (value) => {
-    const orderValue = value === 'asc' ? 'desc' : 'asc';
+  const handleSort = () => {
+    const orderValue = props.order === 'asc' ? 'desc' : 'asc';
     props.setOrder(orderValue);
   };
 
   return !!props.visible &&
-    <Row gutter={5} paddingLeft="1em">
-      <Col
-        component={SelectField}
-        id="sort--key"
-        menuItems={generateSortList(props.isEnvironment)}
-        itemLabel="name"
-        itemValue="value"
-        defaultValue={props.sortKey}
-        onChange={value => props.setKey(value)}
-        flex={1}
-        xs={9}
-        sm={3}
-      />
-      <SortOrderButton
-        icon
-        iconChildren={<SortOrderIcon order={props.order}>arrow_upward</SortOrderIcon>}
-        tooltipLabel={props.order === 'asc' ? 'ascending' : 'descending'}
-        tooltipPosition="right"
-        onClick={() => handleSort(props.order)}
-      />
+    <Row gutter={3} paddingRight="8px">
+      <Col flex={10}>
+        <SelectField
+          component={SelectField}
+          id="sort--key"
+          menuItems={generateSortList(props.isEnvironment)}
+          itemLabel="name"
+          itemValue="value"
+          defaultValue={props.sortKey}
+          onChange={props.setKey}
+          fullWidth
+        />
+      </Col>
+      <Col flex={2}>
+        <SortOrderButton
+          icon
+          iconChildren={<SortOrderIcon order={props.order}>arrow_upward</SortOrderIcon>}
+          tooltipLabel={props.order === 'asc' ? 'ascending' : 'descending'}
+          tooltipPosition="right"
+          onClick={handleSort}
+        />
+      </Col>
     </Row>;
 };
 
