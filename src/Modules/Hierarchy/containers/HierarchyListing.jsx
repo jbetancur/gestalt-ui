@@ -95,7 +95,7 @@ class HierarchyListing extends PureComponent {
         <ActivityContainer id="hierarchy--progress" /> :
         [
           <Row gutter={5} paddingLeft="1em" alignItems="center">
-            <Col flex={2} xs={9} sm={3}>
+            <Col flex={2} xs={12} sm={6} md={6}>
               <Sort
                 visible={sortedOrgs.length > 0}
                 sortKey={this.state.sortKey}
@@ -104,13 +104,13 @@ class HierarchyListing extends PureComponent {
                 setOrder={this.setSortOrder}
               />
             </Col>
-            <Col flex={10} xs={12} sm={12}>
+            <Col flex={10} xs={12} sm={6} md={6} style={{ textAlign: 'right' }}>
               <Button
                 flat
                 swapTheming
                 inkDisabled
                 iconChildren="folder"
-                primary={!this.state.showEnvironments}
+                primary={this.state.showEnvironments}
                 onClick={this.toggleEnvironments}
                 disabled={environmentsPending}
               >
