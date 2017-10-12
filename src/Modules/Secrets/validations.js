@@ -1,4 +1,9 @@
-import { isSecretNameValidation, secretNameValidationPattern } from 'util/validations';
+import {
+  isSecretNameValidation,
+  secretNameValidationPattern,
+  isSecretKeyValidation,
+  secretKeyValidationPattern
+} from 'util/validations';
 
 export const nameMaxLen = 30;
 
@@ -6,7 +11,7 @@ export default (values) => {
   const errors = {
     properties: {
       provider: {},
-      items: [],
+      items: {},
     },
   };
 
@@ -23,6 +28,29 @@ export default (values) => {
     errors.name = `allowed format: ${secretNameValidationPattern}`;
   }
 
+  if (!values.properties.items || !values.properties.items.length > 0) {
+    errors.properties.items = { _error: 'At least one secret must be entered' };
+  } else {
+    const itemsArrayErrors = [];
+
+    values.properties.items.forEach((item, i) => {
+      const itemErrors = {};
+
+      if (!item || !item.key || !isSecretKeyValidation(item)) {
+        itemErrors.key = `required: allowed format: ${secretKeyValidationPattern}`;
+        itemsArrayErrors[i] = itemErrors;
+      }
+
+      if (!item || !item.value) {
+        itemErrors.value = ' ';
+        itemsArrayErrors[i] = itemErrors;
+      }
+    });
+
+    if (itemsArrayErrors.length) {
+      errors.properties.items = itemsArrayErrors;
+    }
+  }
 
   return errors;
 };

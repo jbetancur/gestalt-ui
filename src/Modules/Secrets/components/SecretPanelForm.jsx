@@ -14,7 +14,7 @@ const SecretForm = (props) => {
   const { fetchSecretsDropDown, secretsDropDown, match, providerId, reset, values } = props;
 
   const getSecrets = () => fetchSecretsDropDown(match.params.fqon, match.params.environmentId, providerId);
-  const handleSecretNamePopulation = (secretId) => {
+  const handleSecretNamePopulation = (a, secretId) => {
     const secret = secretsDropDown.find(i => i.id === secretId);
     props.dispatch(change(props.form, 'secret_name', secret && secret.name));
   };
@@ -22,6 +22,14 @@ const SecretForm = (props) => {
   const getSecretKeys = (id) => {
     const item = secretsDropDown.find(s => s.id === id);
     return (item && item.properties && item.properties.items) || [];
+  };
+
+  const setSecretMountTypes = () => {
+    if (props.providerType === 'Kubernetes') {
+      return ['env', 'directory', 'file'];
+    }
+
+    return ['env'];
   };
 
   const getHelpText = (mountType) => {
@@ -56,8 +64,8 @@ const SecretForm = (props) => {
             name="mount_type"
             component={SelectField}
             label="Mount Type"
-            menuItems={['env', 'directory', 'file']}
-            onChange={() => reset()}
+            menuItems={setSecretMountTypes()}
+            onChange={reset}
             required
           />
         </Col>
@@ -73,7 +81,7 @@ const SecretForm = (props) => {
             menuItems={secretsDropDown}
             async
             onFocus={getSecrets}
-            onChange={(a, value) => handleSecretNamePopulation(value)}
+            onChange={handleSecretNamePopulation}
             validate={required}
           />
         </Col>
@@ -135,6 +143,7 @@ SecretForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   providerId: PropTypes.string,
+  providerType: PropTypes.string,
   fetchSecretsDropDown: PropTypes.func.isRequired,
   secretsDropDown: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -143,6 +152,7 @@ SecretForm.propTypes = {
 
 SecretForm.defaultProps = {
   providerId: '',
+  providerType: '',
 };
 
 // Connect to this forms state in the store so we can enum the values

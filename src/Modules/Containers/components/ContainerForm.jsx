@@ -52,8 +52,8 @@ const ContainerForm = (props) => {
 
   // TODO: Remove when Kubernetes/Docker when api is ready
   const providerType = parseChildClass(selectedProvider.resource_type);
-  const isHealthChecksEnabled = parseChildClass(providerType) === 'DCOS';
-  const isSecretsEnabled = parseChildClass(providerType) === 'Kubernetes';
+  const isHealthChecksEnabled = providerType === 'DCOS';
+  const isSecretsEnabled = providerType === 'Kubernetes' || selectedProvider.properties.config.secretSupport;
   const isSubmitDisabled =
     container.id ? (props.containerPending || props.containerUpdatePending || props.invalid || props.submitting)
       : (props.pristine || props.containerPending || props.containerUpdatePending || props.invalid || props.submitting);
@@ -62,9 +62,9 @@ const ContainerForm = (props) => {
     <div>
       <ActionsModals />
       <PortMapModal networkType={values.properties.network} />
-      <VolumeModal providerType={parseChildClass(providerType)} />
+      <VolumeModal providerType={providerType} />
       <HealthCheckModal />
-      <SecretsPanelModal providerId={selectedProvider.id} />
+      <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
       {container.id && props.editMode &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12}>

@@ -30,11 +30,13 @@ class SecretPanelModal extends PureComponent {
     reset: PropTypes.func.isRequired,
     secretPanelModal: PropTypes.object.isRequired,
     providerId: PropTypes.string,
+    providerType: PropTypes.string,
     match: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     providerId: '',
+    providerType: '',
   };
 
   constructor(props) {
@@ -69,6 +71,7 @@ class SecretPanelModal extends PureComponent {
         <SecretsPanelForm
           onSubmit={values => this.addSecret(values)}
           providerId={this.props.providerId}
+          providerType={this.props.providerType}
           {...this.props}
         />
       </EnhancedDialog>

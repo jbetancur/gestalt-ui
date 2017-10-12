@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
-import { Field } from 'redux-form';
+import { Field, getFormValues } from 'redux-form';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardActions from 'react-md/lib/Cards/CardActions';
@@ -15,6 +16,7 @@ import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
 import { VariablesForm } from 'Modules/Variables';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
+import { parseChildClass } from 'util/helpers/strings';
 import { nameMaxLen } from '../validations';
 
 const SecretForm = (props) => {
@@ -30,9 +32,14 @@ const SecretForm = (props) => {
     cancelLabel,
     submitLabel,
     title,
+    values,
+    reset,
   } = props;
 
-  const getProviders = () => props.providersByType.filter(item => item.resource_type === 'Gestalt::Configuration::Provider::CaaS::Kubernetes');
+  const getProviders = () => props.providersByType
+    .filter(item => parseChildClass(item.resource_type) === 'Kubernetes' || item.properties.config.secretSupport);
+  const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
+  const isMultiPartSecret = parseChildClass(selectedProvider.resource_type) === 'Kubernetes';
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -61,6 +68,7 @@ const SecretForm = (props) => {
                   async
                   onFocus={() => props.fetchProvidersByType(props.match.params.fqon, match.params.environmentId, 'environments', 'CaaS')}
                   disabled={secret.id}
+                  onChange={() => reset()}
                   required
                 />
               </Col>
@@ -76,6 +84,7 @@ const SecretForm = (props) => {
                   autoComplete="none"
                 />
               </Col>
+
               <Col flex={7} xs={12}>
                 <Field
                   component={TextField}
@@ -86,21 +95,49 @@ const SecretForm = (props) => {
                 />
               </Col>
 
-              <Col flex={12}>
-                <Fieldset legend="Secret Items" style={{ minHeight: '16em' }}>
-                  <VariablesForm
-                    addButtonLabel="Secret Item"
-                    icon="add"
-                    fieldName="properties.items"
-                    keyFieldName="key"
-                    keyFieldValue="key"
-                    hideValueField={secret.id}
-                    keyFieldValidationFunction={isSecretKeyValidation}
-                    keyFieldValidationMessage={`allowed format: ${secretKeyValidationPattern}`}
-                    disabled={secret.id}
-                  />
-                </Fieldset>
-              </Col>
+              {selectedProvider.id && isMultiPartSecret &&
+                <Col flex={12}>
+                  <Fieldset legend="Secret Items" style={{ minHeight: '16em' }}>
+                    <VariablesForm
+                      allowSingleItemOnly
+                      addButtonLabel="Secret Item"
+                      icon="add"
+                      fieldName="properties.items"
+                      keyFieldName="key"
+                      keyFieldValue="key"
+                      hideValueField={secret.id}
+                      keyFieldValidationFunction={isSecretKeyValidation}
+                      keyFieldValidationMessage={`allowed format: ${secretKeyValidationPattern}`}
+                      disabled={secret.id}
+                    />
+                  </Fieldset>
+                </Col>}
+
+              {selectedProvider.id && !isMultiPartSecret &&
+                <Row gutter={5}>
+                  <Col flex={6} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="properties.items[0].key"
+                      label="Seret Key"
+                      type="text"
+                      rows={1}
+                      disabled={secret.id}
+                      required
+                    />
+                  </Col>
+                  {!secret.id &&
+                    <Col flex={6} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.items[0].value"
+                        label="Secret Value"
+                        type="text"
+                        rows={1}
+                        required
+                      />
+                    </Col>}
+                </Row>}
             </Row>
           </CardText>
           {secretPending && <LinearProgress id="secret-form" />}
@@ -142,6 +179,8 @@ SecretForm.propTypes = {
   fetchProvidersByType: PropTypes.func.isRequired,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
+  values: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 SecretForm.defaultProps = {
@@ -150,4 +189,8 @@ SecretForm.defaultProps = {
   cancelLabel: 'Cancel',
 };
 
-export default SecretForm;
+export default connect(
+  (state, props) => ({
+    values: getFormValues(props.form)(state)
+  })
+)(SecretForm);

@@ -28,6 +28,12 @@ export default [
     codeOptions: codeOptionsInline,
   },
   {
+    value: 'nashorn',
+    format: 'Package format: {filename};{function} | Inline format: {function}',
+    codeFormat: 'javascript',
+    codeOptions: codeOptionsInline,
+  },
+  {
     value: 'python',
     format: '{filename}.py',
     codeFormat: 'python',
