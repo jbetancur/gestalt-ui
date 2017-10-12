@@ -107,10 +107,12 @@ class HierarchyListing extends PureComponent {
             <Col flex={10} xs={12} sm={12}>
               <Button
                 flat
+                swapTheming
                 inkDisabled
-                primary={this.state.showEnvironments}
+                iconChildren="folder"
+                primary={!this.state.showEnvironments}
                 onClick={this.toggleEnvironments}
-                style={{ minWidth: '14em' }}
+                disabled={environmentsPending}
               >
                 {environmentsPending ?
                   <DotActivity
