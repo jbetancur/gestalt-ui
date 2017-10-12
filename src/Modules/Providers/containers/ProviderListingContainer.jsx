@@ -22,13 +22,6 @@ class ProviderListing extends PureComponent {
     showProviderInstanceModal: PropTypes.func.isRequired,
   };
 
-  constructor() {
-    super();
-
-    this.edit = this.edit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
-
   componentDidMount() {
     const { match, fetchProviders } = this.props;
     const entityId = match.params.environmentId || match.params.workspaceId || null;
@@ -39,10 +32,11 @@ class ProviderListing extends PureComponent {
 
   componentWillUnmount() {
     const { unloadProviders } = this.props;
+
     unloadProviders();
   }
 
-  edit(provider, e) {
+  edit = (provider, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
@@ -57,7 +51,7 @@ class ProviderListing extends PureComponent {
     }
   }
 
-  delete() {
+  delete = () => {
     const { match, fetchProviders, deleteProviders, tableActions } = this.props;
     const { items } = this.props.tableManager.tableSelected;
     const providerIds = items.map(item => (item.id));

@@ -40,6 +40,7 @@ const SpinDiv = styled.div`
 `;
 
 const DotActivity = props => (
+  props.visible &&
   <SpinWrapper>
     <SpinDiv size={props.size} primary={props.primary} className="spinner" centered={props.centered}>
       <div className="bounce1" />
@@ -53,12 +54,14 @@ DotActivity.propTypes = {
   size: PropTypes.number,
   primary: PropTypes.bool,
   centered: PropTypes.bool,
+  visible: PropTypes.bool,
 };
 
 DotActivity.defaultProps = {
   size: 0.6,
   primary: false,
   centered: false,
+  visible: true,
 };
 
 export default DotActivity;

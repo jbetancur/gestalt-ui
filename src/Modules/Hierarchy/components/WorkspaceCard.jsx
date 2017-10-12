@@ -10,7 +10,6 @@ import { FormattedRelative } from 'react-intl';
 class WorkspaceCard extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
@@ -18,42 +17,43 @@ class WorkspaceCard extends PureComponent {
     unloadNavigation: PropTypes.func.isRequired,
   };
 
-  navWorkspaceDetails(item) {
-    const { history, match, contextManagerActions, unloadNavigation } = this.props;
+  navWorkspaceDetails = () => {
+    const { model, history, contextManagerActions, unloadNavigation } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${item.id}`);
-    contextManagerActions.setCurrentWorkspaceContext(item);
+    history.push(`/${model.org.properties.fqon}/hierarchy/${model.id}`);
+    contextManagerActions.setCurrentWorkspaceContext(model);
     unloadNavigation('workspace');
   }
 
-  edit(e, workspace) {
+  edit = (e) => {
     e.stopPropagation();
 
-    const { match, history } = this.props;
+    const { model, history } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${workspace.id}/editWorkspace`);
+    history.push(`/${model.org.properties.fqon}/hierarchy/${model.id}/editWorkspace`);
   }
 
   render() {
     const { t, model, theme } = this.props;
+    const title = model.description || model.name;
 
     return (
-      <Card key={model.id} onClick={e => this.navWorkspaceDetails(model, e)} raise typeSymbol="W" typeColor={theme.workspaceCard}>
+      <Card key={model.id} onClick={this.navWorkspaceDetails} raise typeSymbol="W" typeColor={theme.workspaceCard}>
         <CardTitle
-          title={model.description || model.name}
+          title={title}
           subtitle={
-            <div>
-              <div className="gf-caption">owner: {model.owner.name}</div>
-              <div className="gf-caption">created <FormattedRelative value={model.created.timestamp} /></div>
-              <div className="gf-caption">modified <FormattedRelative value={model.modified.timestamp} /></div>
-            </div>
+            [
+              <div>owner: {model.owner.name}</div>,
+              <div>created <FormattedRelative value={model.created.timestamp} /></div>,
+              <div>modified <FormattedRelative value={model.modified.timestamp} /></div>,
+            ]
           }
         />
         <CardActions>
           <Button
             tooltipLabel={t('general.verbs.edit')}
             icon
-            onClick={e => this.edit(e, model)}
+            onClick={this.edit}
           >
             edit
           </Button>

@@ -13,48 +13,47 @@ class OrganizationCard extends PureComponent {
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     unloadNavigation: PropTypes.func.isRequired,
-  }
+  };
 
-  navTo(e, organization, route) {
+  navTo = (e) => {
     e.stopPropagation();
 
-    const { history, unloadNavigation } = this.props;
-    const path = route ? `/${organization.properties.fqon}/${route}` : `/${organization.properties.fqon}`;
-    history.push(path);
+    const { model, history, unloadNavigation } = this.props;
+
+    history.push(`/${model.properties.fqon}/hierarchy`);
     unloadNavigation('hierarchy');
   }
 
-  edit(e, organization) {
+  edit = (e) => {
     e.stopPropagation();
 
-    const { history } = this.props;
+    const { model, history } = this.props;
 
-    history.push(`/${organization.properties.fqon}/hierarchy/editOrganization`);
+    history.push(`/${model.properties.fqon}/hierarchy/editOrganization`);
   }
 
   render() {
     const { t, model, theme } = this.props;
-    const name = model.description || model.name;
+    const title = model.description || model.name;
 
     return (
-      <Card key={model.id} onClick={e => this.navTo(e, model, 'hierarchy')} raise typeSymbol="O" typeColor={theme.organizationCard}>
+      <Card key={model.id} onClick={this.navTo} raise typeSymbol="O" typeColor={theme.organizationCard}>
         <CardTitle
-          title={name}
+          title={title}
           subtitle={
-            <div>
-              <div>{model.properties.fqon}</div>
-              {/* TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/185 */}
-              {model.owner.name && <div className="gf-caption"><span>{t('general.nouns.owner').toLowerCase()}: {model.owner.name}</span></div>}
-              <div className="gf-caption">{t('general.verbs.created').toLowerCase()} <FormattedRelative value={model.created.timestamp} /></div>
-              <div className="gf-caption">{t('general.verbs.modified').toLowerCase()} <FormattedRelative value={model.modified.timestamp} /></div>
-            </div>}
+            [
+              <div>{model.properties.fqon}</div>,
+              model.owner.name && <div><span>{t('general.nouns.owner').toLowerCase()}: {model.owner.name}</span></div>,
+              <div>{t('general.verbs.created').toLowerCase()} <FormattedRelative value={model.created.timestamp} /></div>,
+              <div>{t('general.verbs.modified').toLowerCase()} <FormattedRelative value={model.modified.timestamp} /></div>,
+            ]}
         />
         <CardActions>
           <Button
             tooltipLabel={t('general.verbs.edit')}
             icon
             iconChildren="edit"
-            onClick={e => this.edit(e, model)}
+            onClick={this.edit}
           />
         </CardActions>
       </Card>

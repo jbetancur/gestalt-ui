@@ -5,7 +5,6 @@ import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
-import { translate } from 'react-i18next';
 import ActivityContainer from 'components/ActivityContainer';
 import Sort from '../components/Sort';
 import EnvironmentCard from '../components/EnvironmentCard';
@@ -26,12 +25,10 @@ class EnvironmentListing extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { sortKey: 'created.timestamp', order: 'asc' };
-
-    this.navEnvironmentDetails = this.navEnvironmentDetails.bind(this);
-    this.edit = this.edit.bind(this);
-    this.setSortKey = this.setSortKey.bind(this);
-    this.setSortOrder = this.setSortOrder.bind(this);
+    this.state = {
+      sortKey: 'created.timestamp',
+      order: 'asc'
+    };
   }
 
   componentDidMount() {
@@ -51,11 +48,11 @@ class EnvironmentListing extends Component {
     this.props.unloadEnvironments();
   }
 
-  setSortKey(sortKey) {
+  setSortKey = (sortKey) => {
     this.setState({ sortKey });
   }
 
-  setSortOrder(order) {
+  setSortOrder = (order) => {
     this.setState({ order });
   }
 
@@ -63,57 +60,40 @@ class EnvironmentListing extends Component {
     this.props.fetchEnvironments(fqon, workspaceId);
   }
 
-  navEnvironmentDetails(item) {
-    const { match, history, contextManagerActions, unloadNavigation } = this.props;
-
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${item.id}`);
-    contextManagerActions.setCurrentEnvironmentContext(item);
-    unloadNavigation('environment');
-  }
-
-  edit(e, environment) {
-    const { match, history } = this.props;
-
-    e.stopPropagation();
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/edit`);
-  }
-
   renderCardsContainer() {
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
-    return (
+    return [
+      <Row gutter={5} paddingLeft="1em" alignItems="center">
+        <Col flex={2} xs={9} sm={3}>
+          <Sort
+            visible={sortedEnvironments.length > 0}
+            sortKey={this.state.sortKey}
+            order={this.state.order}
+            setKey={this.setSortKey}
+            setOrder={this.setSortOrder}
+            isEnvironment
+          />
+        </Col>
+      </Row>,
       <Row gutter={5} minColWidths={315}>
-        <Sort
-          visible={sortedEnvironments.length > 0}
-          sortKey={this.state.sortKey}
-          order={this.state.order}
-          setKey={this.setSortKey}
-          setOrder={this.setSortOrder}
-          isEnvironment
-        />
         {sortedEnvironments.map(item => (
           <Col key={item.id} flex={3} xs={12}>
             <EnvironmentCard
               model={item}
-              onEditToggle={this.edit}
-              onNavigationToggle={this.navEnvironmentDetails}
               {...this.props}
             />
           </Col>)
         )}
       </Row>
-    );
-  }
-
-  renderProgress() {
-    return <ActivityContainer id="environments-progress" />;
+    ];
   }
 
   render() {
-    return this.props.environmentsPending ? this.renderProgress() : this.renderCardsContainer();
+    return this.props.environmentsPending ? <ActivityContainer id="environments-progress" /> : this.renderCardsContainer();
   }
 }
 
 export default withMetaResource(
-  connect(null, actions)(translate()(withTheme(EnvironmentListing)))
+  connect(null, actions)(withTheme(EnvironmentListing))
 );

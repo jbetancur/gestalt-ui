@@ -1,32 +1,32 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import DotActivity from 'components/DotActivity';
 import styled from 'styled-components';
 
-const Div = styled.div`
+const ActivityWrapper = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
 `;
-class Progress extends PureComponent {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    primary: PropTypes.bool,
-  };
 
-  static defaultProps = {
-    primary: false,
-  };
+const ActivityContainer = props => (
+  props.visible &&
+  <ActivityWrapper>
+    <DotActivity id={props.id} size={3} centered primary={props.primary} />
+  </ActivityWrapper>
+);
 
-  render() {
-    return (
-      <Div>
-        <DotActivity id={this.props.id} size={3} centered primary={this.props.primary} />
-      </Div>
-    );
-  }
-}
+ActivityContainer.propTypes = {
+  id: PropTypes.string.isRequired,
+  primary: PropTypes.bool,
+  visible: PropTypes.bool,
+};
 
-export default Progress;
+ActivityContainer.defaultProps = {
+  primary: false,
+  visible: true,
+};
+
+export default ActivityContainer;
