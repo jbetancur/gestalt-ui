@@ -42,7 +42,7 @@ const Sort = (props) => {
 
   return !!props.visible &&
     <Row gutter={3} paddingRight="8px">
-      <Col flex={10}>
+      <Col flex={8}>
         <SelectField
           component={SelectField}
           id="sort--key"
