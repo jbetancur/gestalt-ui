@@ -5,6 +5,7 @@ import { Row, Col } from 'react-flexybox';
 import { Field, FieldArray } from 'redux-form';
 import { Button, FieldRemoveButton } from 'components/Buttons';
 import TextField from 'components/TextField';
+import PreventAutoFill from 'components/PreventAutoFill';
 
 const PasswordTextField = styled(TextField)`
   button {
@@ -31,6 +32,7 @@ const renderNameField = (props) => {
       rows={1}
       validate={doValidate && validateKey}
       onChange={onChange}
+      autoComplete="off"
     />
   );
 };
@@ -55,6 +57,7 @@ const renderValueField = (props) => {
       disabled={disabled}
       rows={1}
       validate={doValidate && validateValue}
+      autoComplete="off"
     />
   );
 };
@@ -67,20 +70,22 @@ const renderPasswordField = (props) => {
   const validateValue = value => (value && !valueFieldValidationFunction(value)) && valueFieldValidationMessage;
 
   return (
-    !hideValueField &&
-    <Field
-      {...input}
-      className={className}
-      label={label}
-      component={PasswordTextField}
-      style={{ marginTop: '14px' }}
-      type="password"
-      value=" " // fix for [object Object] on deselect
-      required={required}
-      disabled={disabled}
-      validate={doValidate && validateValue}
-      passwordIcon={null}
-    />
+    !hideValueField && [
+      <PreventAutoFill />,
+      <Field
+        {...input}
+        className={className}
+        label={label}
+        component={PasswordTextField}
+        style={{ marginTop: '14px' }}
+        type="password"
+        value=" " // fix for [object Object] on deselect
+        required={required}
+        disabled={disabled}
+        validate={doValidate && validateValue}
+        passwordIcon={null}
+        autoComplete="off"
+      />]
   );
 };
 
