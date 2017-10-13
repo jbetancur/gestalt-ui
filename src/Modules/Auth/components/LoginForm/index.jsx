@@ -69,12 +69,18 @@ const LoginForm = (props) => {
             name="username"
             type="text"
             placeholder="Username"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
           />
           <Field
             component={TextField}
             name="password"
             type="password"
             placeholder="Password"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
           />
           <LoginError>{props.statusText}</LoginError>
         </LoginCardText>
