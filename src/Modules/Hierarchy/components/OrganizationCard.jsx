@@ -5,6 +5,7 @@ import { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
+import { Subtitle } from 'components/Typography';
 
 class OrganizationCard extends PureComponent {
   static propTypes = {
@@ -42,10 +43,10 @@ class OrganizationCard extends PureComponent {
           title={title}
           subtitle={
             [
-              <div>{model.properties.fqon}</div>,
-              model.owner.name && <div><span>{t('general.nouns.owner').toLowerCase()}: {model.owner.name}</span></div>,
-              <div>{t('general.verbs.created').toLowerCase()} <FormattedRelative value={model.created.timestamp} /></div>,
-              <div>{t('general.verbs.modified').toLowerCase()} <FormattedRelative value={model.modified.timestamp} /></div>,
+              <Subtitle key="organization--fqon">{model.properties.fqon}</Subtitle>,
+              model.owner.name && <Subtitle key="organization--owner" block>{t('general.nouns.owner').toLowerCase()}: {model.owner.name}</Subtitle>,
+              <Subtitle key="organization--created">{t('general.verbs.created').toLowerCase()}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
+              <Subtitle key="organization--modified">{t('general.verbs.modified').toLowerCase()}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
             ]}
         />
         <CardActions>

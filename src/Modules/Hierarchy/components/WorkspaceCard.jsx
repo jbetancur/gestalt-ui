@@ -6,6 +6,7 @@ import { withContext } from 'Modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
+import { Subtitle } from 'components/Typography';
 
 class WorkspaceCard extends PureComponent {
   static propTypes = {
@@ -43,9 +44,9 @@ class WorkspaceCard extends PureComponent {
           title={title}
           subtitle={
             [
-              <div>owner: {model.owner.name}</div>,
-              <div>created <FormattedRelative value={model.created.timestamp} /></div>,
-              <div>modified <FormattedRelative value={model.modified.timestamp} /></div>,
+              <Subtitle key="workspace--ownser">owner: {model.owner.name}</Subtitle>,
+              <Subtitle key="workspace--created">created: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
+              <Subtitle key="workspace--modified">modified: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
             ]
           }
         />

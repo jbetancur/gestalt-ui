@@ -115,7 +115,7 @@ class HierarchyContext extends PureComponent {
         <HierarchyNav
           navigation={navigation}
           handleNavigation={handleNavigation}
-          showUsersGroups={match.params.fqon === 'root'}
+          showOnRootOnly={match.params.fqon === 'root'}
         />
         <Div paddingLeft="5em">
           <HierarchyHeader

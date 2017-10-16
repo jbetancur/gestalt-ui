@@ -64,7 +64,7 @@ class EnvironmentListing extends Component {
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
     return [
-      <Row gutter={5} paddingLeft="1em" alignItems="center">
+      <Row key="environment--listing" gutter={5} paddingLeft="1em" alignItems="center">
         <Col flex={2} xs={9} sm={3}>
           <Sort
             visible={sortedEnvironments.length > 0}
@@ -76,7 +76,7 @@ class EnvironmentListing extends Component {
           />
         </Col>
       </Row>,
-      <Row gutter={5} minColWidths={315}>
+      <Row key="environment--cards" gutter={5} minColWidths={315}>
         {sortedEnvironments.map(item => (
           <Col key={item.id} flex={3} xs={12}>
             <EnvironmentCard

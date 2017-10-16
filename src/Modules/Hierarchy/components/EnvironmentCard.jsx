@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 import { FormattedRelative } from 'react-intl';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { Button } from 'components/Buttons';
+import { Subtitle } from 'components/Typography';
 
 class EnvironmentCard extends PureComponent {
   static propTypes = {
@@ -46,11 +47,11 @@ class EnvironmentCard extends PureComponent {
           title={title}
           subtitle={
             [
-              <div><span>type: {model.properties.environment_type}</span></div>,
-              <div><span>workspace: {model.properties.workspace && model.properties.workspace.name}</span></div>,
-              <div>owner: {model.owner.name}</div>,
-              <div>created <FormattedRelative value={model.created.timestamp} /></div>,
-              <div>modified <FormattedRelative value={model.modified.timestamp} /></div>,
+              <Subtitle key="environment--type">type: {model.properties.environment_type}</Subtitle>,
+              <Subtitle key="environment--workspace">workspace: {model.properties.workspace && model.properties.workspace.name}</Subtitle>,
+              <Subtitle key="environment--owner">owner: {model.owner.name}</Subtitle>,
+              <Subtitle key="environment--created">created: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
+              <Subtitle key="environment--modified">modified: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
             ]
           }
         />

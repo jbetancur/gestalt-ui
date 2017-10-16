@@ -6,6 +6,7 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button, DeleteIconButton } from 'components/Buttons';
 import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';
+import { Caption } from 'components/Typography';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { parseChildClass } from 'util/helpers/strings';
 
@@ -58,7 +59,7 @@ class apiEndpointItem extends PureComponent {
           <A href={apiEndpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
         <TableColumn>
-          <span className="gf-caption-sm"><span>{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(',')}</span></span>
+          <Caption>{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(',')}</Caption>
         </TableColumn>
         <TableColumn numeric>
           {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.enabled && apiEndpoint.properties.plugins.rateLimit.perMinute}
