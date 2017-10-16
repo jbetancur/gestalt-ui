@@ -5,7 +5,7 @@ import Navbar from 'components/Navbar';
 import { HierarchyIcon } from 'components/Icons';
 import ListItemStacked from 'components/ListItemStacked';
 
-const renderNavItems = (navigation, handleNavigation, showUsersGroups, t) => (
+const renderNavItems = (navigation, handleNavigation, showOnRootOnly, t) => (
   [
     <ListItemStacked
       key="hierarchy--organizations"
@@ -24,9 +24,10 @@ const renderNavItems = (navigation, handleNavigation, showUsersGroups, t) => (
     // <ListItemStacked
     //   key="hierarchy--metamodeler"
     //   icon={<MetamodelIcon />}
-    //   title={<div><div>Micro</div><div>Modeler</div></div>}
+    //   title={<div><div>Resource</div><div>Models</div></div>}
     //   onClick={() => handleNavigation('hierarchy', 'micro-modeler', 2)}
     //   className={navigation.index === 2 && 'active-link'}
+    //   visible={showOnRootOnly}
     // />,
     <ListItemStacked
       key="hierarchy--users"
@@ -34,7 +35,7 @@ const renderNavItems = (navigation, handleNavigation, showUsersGroups, t) => (
       icon="person"
       onClick={() => handleNavigation('hierarchy', 'users', 3)}
       className={navigation.index === 3 && 'active-link'}
-      visible={showUsersGroups}
+      visible={showOnRootOnly}
     />,
     <ListItemStacked
       key="hierarchy--users"
@@ -42,20 +43,20 @@ const renderNavItems = (navigation, handleNavigation, showUsersGroups, t) => (
       icon="group"
       onClick={() => handleNavigation('hierarchy', 'groups', 4)}
       className={navigation.index === 4 && 'active-link'}
-      visible={showUsersGroups}
+      visible={showOnRootOnly}
     />,
   ]
 );
 
 const HierarchyNav = (props) => {
-  const { navigation, handleNavigation, showUsersGroups, t } = props;
+  const { navigation, handleNavigation, showOnRootOnly, t } = props;
 
-  return <Navbar vertical items={renderNavItems(navigation, handleNavigation, showUsersGroups, t)} />;
+  return <Navbar vertical items={renderNavItems(navigation, handleNavigation, showOnRootOnly, t)} />;
 };
 
 HierarchyNav.propTypes = {
   t: PropTypes.func.isRequired,
-  showUsersGroups: PropTypes.bool.isRequired,
+  showOnRootOnly: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
   handleNavigation: PropTypes.func.isRequired,
 };

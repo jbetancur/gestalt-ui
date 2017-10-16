@@ -84,7 +84,7 @@ class OrgNavMenu extends PureComponent {
     const { allOrganizationsPending, t } = this.props;
 
     return [
-      <ListWrapper>
+      <ListWrapper key="orgs-nav--search">
         {!allOrganizationsPending &&
           <div>
             <span className="gf-headline-2">SWITCH ORGANIZATION</span>
@@ -96,7 +96,14 @@ class OrgNavMenu extends PureComponent {
             />
           </div>}
       </ListWrapper>,
-      <DotActivity visible={allOrganizationsPending} primary size={1.2} id="orgs-nav-menu" centered />
+      <DotActivity
+        id="orgs-nav--loader"
+        key="orgs-nav--loader"
+        visible={allOrganizationsPending}
+        size={1.2}
+        primary
+        centered
+      />
     ];
   }
 

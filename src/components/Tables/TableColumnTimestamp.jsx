@@ -11,8 +11,10 @@ const EnhancedTCol = styled(TableColumn)`
 const EnhancedTableColumn = props => (
   props.timestamp &&
   <EnhancedTCol>
+    <div>
+      <FormattedRelative value={props.timestamp} />
+    </div>
     <Caption>
-      <FormattedRelative value={props.timestamp} /> <br />
       <FormattedDate value={props.timestamp} /> <FormattedTime value={props.timestamp} />
     </Caption>
   </EnhancedTCol>

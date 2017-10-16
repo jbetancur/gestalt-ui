@@ -94,7 +94,7 @@ class HierarchyListing extends PureComponent {
       organizationSetPending ?
         <ActivityContainer id="hierarchy--progress" /> :
         [
-          <Row gutter={5} paddingLeft="1em" alignItems="center">
+          <Row key="hierarchy--listing" gutter={5} paddingLeft="1em" alignItems="center">
             <Col flex={2} xs={12} sm={6} md={6}>
               <Sort
                 visible={sortedOrgs.length > 0}
@@ -107,12 +107,12 @@ class HierarchyListing extends PureComponent {
             <Col flex={10} xs={12} sm={6} md={6} style={{ textAlign: 'right' }}>
               <Button
                 flat
-                swapTheming
                 inkDisabled
                 iconChildren="folder"
                 primary={this.state.showEnvironments}
                 onClick={this.toggleEnvironments}
                 disabled={environmentsPending}
+                style={{ minWidth: '17em' }}
               >
                 {environmentsPending ?
                   <DotActivity
@@ -124,7 +124,7 @@ class HierarchyListing extends PureComponent {
               </Button>
             </Col>
           </Row>,
-          <Row gutter={5} minColWidths={315}>
+          <Row key="hierarchy--cards" gutter={5} minColWidths={315}>
             {sortedOrgs.map(item => (
               <Col key={item.id} flex={3} xs={12}>
                 {this.renderCard(item)}
