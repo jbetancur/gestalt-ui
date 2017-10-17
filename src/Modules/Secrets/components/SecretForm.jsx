@@ -37,7 +37,7 @@ const SecretForm = (props) => {
   } = props;
 
   const getProviders = () => props.providersByType
-    .filter(item => parseChildClass(item.resource_type) === 'Kubernetes' || item.properties.config.secretSupport);
+    .filter(item => parseChildClass(item.resource_type) === 'Kubernetes' || item.properties.config.secret_support);
   const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
   const isMultiPartSecret = parseChildClass(selectedProvider.resource_type) === 'Kubernetes';
 
