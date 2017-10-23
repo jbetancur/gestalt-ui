@@ -13,23 +13,14 @@ const cookies = new Cookies();
 export default function configureInterceptors(store, history) {
   axios.interceptors.request.use((config) => {
     const newConfig = { ...config };
-
-    store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: true });
     newConfig.headers.Authorization = `Bearer ${cookies.get('auth_token')}`;
-    return newConfig;
-  }, (error) => {
-    store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
 
-    Promise.reject(error);
-  });
+    return newConfig;
+  }, error => Promise.reject(error));
 
   // Dispatch App Wide Errors via response interceptor for whatever component is listening
-  axios.interceptors.response.use((config) => {
-    store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
-    return config;
-  }, (error) => {
+  axios.interceptors.response.use(config => config, (error) => {
     const validCookie = !!cookies.get('auth_token') || false;
-    store.dispatch({ type: 'app/APP_HTTP_REQUEST', activity: false });
 
     if (!validCookie) {
       // fall back for missing token
@@ -98,6 +89,6 @@ export default function configureInterceptors(store, history) {
       }
     }
 
-    Promise.reject(error);
+    return Promise.reject(error);
   });
 }

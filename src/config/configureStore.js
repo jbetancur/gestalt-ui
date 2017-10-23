@@ -11,7 +11,7 @@ import { DEBUG } from '../constants';
 const sagaMiddleware = createSagaMiddleware();
 
 // Compose all reducers to clear their state on logout
-const composeResetReducer = reducer => (state, action) => {
+const composeRootReducer = reducer => (state, action) => {
   // Clear the srore except for browser state
   if (action.type === 'auth/LOG_OUT') {
     return reducer(Object.assign({}, { browser: state.browser }), action);
@@ -19,6 +19,7 @@ const composeResetReducer = reducer => (state, action) => {
 
   return reducer(state, action);
 };
+
 
 export default function configureStore(history) {
   let middlewares = [
@@ -42,7 +43,7 @@ export default function configureStore(history) {
   }
 
   const store = createStore(
-    composeResetReducer(rootReducer),
+    composeRootReducer(rootReducer),
     // causes issues with redux-form - enable for troubleshooting purposes only
     // composeWithDevTools(
     //   responsiveStoreEnhancer,

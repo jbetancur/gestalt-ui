@@ -73,8 +73,9 @@ export function login(username, password) {
           action: `User Logged into Ui v${UI_VERSION}`,
         });
       }
-    }).catch((err) => {
-      dispatch({ type: REQUEST_TOKEN_REJECTED, payload: err });
+    }).catch((error) => {
+      dispatch({ type: REQUEST_TOKEN_REJECTED, payload: error });
+      return Promise.reject(error);
     });
   };
 }

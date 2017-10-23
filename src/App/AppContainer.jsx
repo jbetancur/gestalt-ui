@@ -35,15 +35,17 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const { meta } = this.props;
+    const { self, meta } = this.props;
     // sets our current logged in users home org
     // this can go away when we implement JWT
-    meta.fetchSelf();
+    if (!self.id) {
+      meta.fetchSelf();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.self.id && nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
-      // TODO: routeing here must be moved to auth once we refactor Auth/JWT
+      // TODO: routing here must be moved to auth once we refactor Auth/JWT
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
       this.props.meta.sync();
       this.props.license.fetchLicense('root');

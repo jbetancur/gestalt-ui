@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -95,8 +96,10 @@ class Breadcrumbs extends PureComponent {
   }
 
   checkIfShouldNav(e, route) {
-    // strip '/'to make compares reliable
-    if ((this.props.location.pathname.split('/').join('') === route.split('/').join(''))) {
+    const hashedPath = base64.encode(this.props.location.pathname);
+    const hashedRoute = base64.encode(route);
+
+    if (hashedPath === hashedRoute) {
       e.preventDefault();
     }
   }

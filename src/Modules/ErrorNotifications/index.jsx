@@ -59,7 +59,7 @@ class ErrorNotifications extends PureComponent {
     }
   }
 
-  removeToast() {
+  removeToast = () => {
     const [, ...toasts] = this.state.toasts;
     this.setState({ toasts });
   }
@@ -69,7 +69,7 @@ class ErrorNotifications extends PureComponent {
       <div className="btn-group">
         <EnhancedSnackBar
           {...this.state}
-          onDismiss={() => this.removeToast()}
+          onDismiss={this.removeToast}
         />
       </div>
     );
