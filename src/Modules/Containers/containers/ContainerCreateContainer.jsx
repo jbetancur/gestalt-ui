@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { mapTo2DArray } from 'util/helpers/transformations';
+import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { volumeModalActions } from 'Modules/VolumeModal';
@@ -42,10 +42,9 @@ class ContainerCreate extends Component {
 
   componentDidMount() {
     const { match, fetchEnv, fetchActions } = this.props;
-    const entityId = match.params.environmentId || match.params.workspaceId || null;
-    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
+    const entity = generateContextEntityState(match.params);
 
-    fetchEnv(match.params.fqon, entityId, entityKey);
+    fetchEnv(match.params.fqon, entity.id, entity.key);
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 

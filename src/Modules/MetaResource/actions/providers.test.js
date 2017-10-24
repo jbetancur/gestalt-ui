@@ -28,9 +28,10 @@ describe('Provider Actions', () => {
       entityId: '1',
       entityKey: 'environments',
       providerType: 'whateverType',
+      expand: false,
     };
 
-    expect(actions.fetchProvidersByType('iamfqon', '1', 'environments', 'whateverType')).to.deep.equal(expectedAction);
+    expect(actions.fetchProvidersByType('iamfqon', '1', 'environments', 'whateverType', false)).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_PROVIDERS_KONG_GATEWAY_REQUEST', () => {
@@ -113,5 +114,16 @@ describe('Provider Actions', () => {
     };
 
     expect(actions.deleteProviders([], 'iamfqon', '1', 'environments')).to.deep.equal(expectedAction);
+  });
+
+  it('should handle REDEPLOY_PROVIDER_REQUEST', () => {
+    const expectedAction = {
+      type: types.REDEPLOY_PROVIDER_REQUEST,
+      fqon: 'iamfqon',
+      providerId: '1',
+      onSuccess: undefined,
+    };
+
+    expect(actions.redeployProvider('iamfqon', '1')).to.deep.equal(expectedAction);
   });
 });

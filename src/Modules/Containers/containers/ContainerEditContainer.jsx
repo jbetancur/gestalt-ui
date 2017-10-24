@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import { mapTo2DArray } from 'util/helpers/transformations';
+import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
 import { volumeModalActions } from 'Modules/VolumeModal';
 import { portmapModalActions } from 'Modules/PortMappingModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
@@ -41,11 +41,10 @@ class ContainerEdit extends Component {
 
   componentDidMount() {
     const { match, fetchProvidersByType, fetchEnv, fetchActions } = this.props;
-    const entityId = match.params.environmentId || match.params.workspaceId || null;
-    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
+    const entity = generateContextEntityState(match.params);
 
-    fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
-    fetchEnv(match.params.fqon, entityId, entityKey);
+    fetchProvidersByType(match.params.fqon, entity.id, entity.key, 'CaaS');
+    fetchEnv(match.params.fqon, entity.id, entity.key);
 
     this.populateContainer();
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });

@@ -6,7 +6,7 @@ import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextMana
 import { withMetaResource } from 'Modules/MetaResource';
 import { containerActionCreators } from 'Modules/Containers';
 import base64 from 'base-64';
-import { mapTo2DArray } from 'util/helpers/transformations';
+import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
 import ActivityContainer from 'components/ActivityContainer';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
@@ -25,34 +25,46 @@ class ProviderEdit extends PureComponent {
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
+    redeployProvider: PropTypes.func.isRequired,
   };
+
+  constructor() {
+    super();
+
+    this.state = { redeploy: false };
+  }
 
   componentDidMount() {
     const { match, fetchProvider, fetchProvidersByType, fetchProviderContainer } = this.props;
-    const entityId = match.params.environmentId || match.params.workspaceId || null;
-    const entityKey = match.params.workspaceId && match.params.enviromentId ? 'environments' : 'workspaces';
+    const entity = generateContextEntityState(match.params);
 
-    fetchProvidersByType(match.params.fqon, entityId, entityKey);
+    fetchProvidersByType(match.params.fqon, entity.id, entity.key);
     fetchProvider(match.params.fqon, match.params.providerId);
     fetchProviderContainer(match.params.fqon, match.params.providerId);
   }
 
-  update(formValues) {
-    const { match, history, confirmUpdate, provider, updateProvider } = this.props;
+  setRedeployFlag = (redeploy) => {
+    this.setState({ redeploy });
+  }
+
+  update = (formValues) => {
+    const { match, history, confirmUpdate, provider, updateProvider, redeployProvider } = this.props;
     const patches = generateProviderPatches(provider, formValues);
+    const onSuccess = () => {
+      if (this.state.redeploy) {
+        redeployProvider(match.params.fqon, provider.id, () => history.goBack());
+      } else {
+        history.goBack();
+      }
+    };
 
-    let onSuccess;
-    if (match.params.workspaceId && !match.params.environmentId) {
-      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
-    } else if (match.params.environmentId) {
-      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
-    } else {
-      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
-    }
+    // Redepopy flag is set when the Update & Restart button is pressed
+    if (this.state.redeploy) {
+      const handleUpdate = () => {
+        updateProvider(match.params.fqon, provider.id, patches, onSuccess);
+      };
 
-    // If the provider has a container defined then warn the user of an impending container restart
-    if (provider.properties.services && provider.properties.services.length) {
-      confirmUpdate(() => updateProvider(match.params.fqon, provider.id, patches, onSuccess), provider.name);
+      confirmUpdate(handleUpdate, provider.name);
     } else {
       updateProvider(match.params.fqon, provider.id, patches, onSuccess);
     }
@@ -72,7 +84,8 @@ class ProviderEdit extends PureComponent {
             title={provider.name}
             submitLabel="Update"
             cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-            onSubmit={values => this.update(values)}
+            onSubmit={this.update}
+            onRedeploy={this.setRedeployFlag}
             {...this.props}
           />}
       </div>

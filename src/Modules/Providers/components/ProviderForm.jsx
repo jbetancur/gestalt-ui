@@ -17,6 +17,7 @@ import Fieldset from 'components/Fieldset';
 import { VariablesForm } from 'Modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions, ContainerActionsModal } from 'Modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import { isUnixVariable } from 'util/validations';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
@@ -28,20 +29,13 @@ const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value:
 const ProviderForm = (props) => {
   const { provider, change, reset, values, match, history, container, fetchEnvSchema, fetchProvidersByType } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
+  const entity = generateContextEntityState(match.params);
   const getProviders = () => {
-    const entityId = match.params.environmentId || match.params.workspaceId || null;
-    const entityKey = match.params.workspaceId && match.params.enviromentId ? 'environments' : 'workspaces';
-    fetchProvidersByType(match.params.fqon, entityId, entityKey);
+    fetchProvidersByType(match.params.fqon, entity.id, entity.key, '', false);
   };
 
   const goBack = () => {
-    if (match.params.workspaceId && !match.params.environmentId) {
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
-    } else if (match.params.environmentId) {
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
-    } else {
-      history.push(`/${match.params.fqon}/hierarchy`);
-    }
+    history.goBack();
   };
 
   const onFile = (file) => {
@@ -158,7 +152,6 @@ const ProviderForm = (props) => {
     </Row>
   );
 
-
   const renderDCOSAdvancedSection = () => (
     <Fieldset legend="Enterprise Edition">
       <Row gutter={5}>
@@ -204,7 +197,7 @@ const ProviderForm = (props) => {
             style={{ minWidth: '10em' }}
           />
         </Col>
-      </Row>,
+      </Row>
       <Row gutter={5}>
         <Col key="config--secret_support" flex={2} xs={12} sm={12} md={4}>
           <Field
@@ -377,7 +370,6 @@ const ProviderForm = (props) => {
     </Row>
   );
 
-
   const renderContainerActions = () => (
     <div>
       <ContainerActionsModal />
@@ -391,8 +383,10 @@ const ProviderForm = (props) => {
     </div>
   );
 
+  const submitDisabled = props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid;
+
   return (
-    <Row center>
+    <Row center onRedeploy={props.onRedeploy}>
       <Col
         flex={10}
         xs={12}
@@ -442,7 +436,7 @@ const ProviderForm = (props) => {
                       />
                     </Col>}
                   {selectedProviderType.name &&
-                    <Row>
+                    <Row gutter={5}>
                       <Col flex={6} xs={12}>
                         <Field
                           component={TextField}
@@ -486,11 +480,21 @@ const ProviderForm = (props) => {
                   <Button
                     raised
                     type="submit"
-                    disabled={props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid}
+                    disabled={submitDisabled}
                     primary
                   >
                     {props.submitLabel}
                   </Button>}
+                {provider.id && selectedProviderType.allowContainer &&
+                <Button
+                  raised
+                  type="submit"
+                  onClick={() => props.onRedeploy(true)}
+                  disabled={submitDisabled}
+                  primary
+                >
+                  Update & Redeploy
+                </Button>}
               </CardActions>
             </Col>
           </Row>
@@ -556,6 +560,7 @@ ProviderForm.propTypes = {
   cancelLabel: PropTypes.string,
   containerCreateInvalid: PropTypes.bool.isRequired,
   container: PropTypes.object,
+  onRedeploy: PropTypes.func,
 };
 
 ProviderForm.defaultProps = {
@@ -565,6 +570,7 @@ ProviderForm.defaultProps = {
   provider: {},
   providerUpdatePending: false,
   container: {},
+  onRedeploy: null,
 };
 
 // Connect to this forms state in the store so we can enum the values

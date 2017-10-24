@@ -41,11 +41,11 @@ export function* fetchProviders(action) {
 
 /**
  * fetchProvidersByType
- * @param {*} action { fqon, entityKey, entityId, providerType }
+ * @param {*} action { fqon, entityKey, entityId, providerType, expand }
  */
 export function* fetchProvidersByType(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
-  const urlHasType = action.providerType ? `${url}?expand=true&type=${action.providerType}` : `${url}?expand=true`;
+  const urlHasType = action.providerType ? `${url}?expand=true&type=${action.providerType}` : `${url}?expand=${action.expand}`;
 
   try {
     const response = yield call(axios.get, urlHasType);
@@ -190,6 +190,23 @@ export function* deleteProviders(action) {
   }
 }
 
+/**
+ * redeployProvider
+ * @param {*} action - { fqon, providerId, onSuccess }
+ */
+export function* redeployProvider(action) {
+  try {
+    yield call(axios.post, `${action.fqon}/providers/${action.providerId}/redeploy`);
+    yield put({ type: types.REDEPLOY_PROVIDER_FULFILLED });
+
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess();
+    }
+  } catch (e) {
+    yield put({ type: types.REDEPLOY_PROVIDER_REJECTED, payload: e.message });
+  }
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_PROVIDERS_REQUEST, fetchProviders);
@@ -201,4 +218,5 @@ export default function* () {
   yield fork(takeLatest, types.UPDATE_PROVIDER_REQUEST, updateProvider);
   yield fork(takeLatest, types.DELETE_PROVIDER_REQUEST, deleteProvider);
   yield fork(takeLatest, types.DELETE_PROVIDERS_REQUEST, deleteProviders);
+  yield fork(takeLatest, types.REDEPLOY_PROVIDER_REQUEST, redeployProvider);
 }
