@@ -89,9 +89,7 @@ function mapStateToProps(state) {
     properties: {
       environment_types: provider.properties.environment_types || [],
       config: {
-        auth: provider.properties.config.auth,
-        url: provider.properties.config.url,
-        external_protocol: provider.properties.config.external_protocol,
+        ...provider.properties.config,
         env: {
           public: mapTo2DArray(provider.properties.config.env.public),
           private: mapTo2DArray(provider.properties.config.env.private),

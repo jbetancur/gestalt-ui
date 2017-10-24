@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues, isInvalid } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import FileInput from 'react-md/lib/FileInputs';
+import { Card, CardTitle, CardActions, CardText, LinearProgress, FileInput } from 'react-md';
 import AceEditor from 'components/AceEditor';
+import Checkbox from 'components/Checkbox';
 import JSONTree from 'components/JSONTree';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
@@ -17,6 +13,7 @@ import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
 import Div from 'components/Div';
 import DetailsPane from 'components/DetailsPane';
+import Fieldset from 'components/Fieldset';
 import { VariablesForm } from 'Modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions, ContainerActionsModal } from 'Modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
@@ -70,7 +67,6 @@ const ProviderForm = (props) => {
   };
 
   const renderExternalProtocolSection = () => (
-    selectedProviderType.externalProtocol &&
     <Col flex={2} xs={12} sm={4}>
       <Field
         id="select-return-type"
@@ -104,36 +100,142 @@ const ProviderForm = (props) => {
               id="select-return-type"
               component={SelectField}
               name="properties.config.auth.scheme"
-              menuItems={['Basic']}
+              menuItems={['Basic', 'acs']}
               required
               label="Security Scheme"
             />
           </Col>
-          <Col flex={2} xs={12} sm={2}>
-            <Field
-              component={TextField}
-              name="properties.config.auth.username"
-              label="Username"
-              type="text"
-              required
-            />
-          </Col>
-          <Col flex={2} xs={12} sm={2}>
-            <PreventAutoFill />
-            <Field
-              component={TextField}
-              name="properties.config.auth.password"
-              label="Password"
-              type="password"
-              required
-            />
-          </Col>
+          {values.properties.config.auth && values.properties.config.auth.scheme === 'acs' ?
+            [
+              <Col key="config-auth--dcos_base_url" flex={2} xs={12} sm={4} md={4}>
+                <Field
+                  component={TextField}
+                  name="properties.config.auth.dcos_base_url"
+                  label="DCOS Base URL"
+                  required
+                />
+              </Col>,
+              <Col key="config-auth--service_account_id" flex={2} xs={12} sm={4} md={4}>
+                <Field
+                  component={TextField}
+                  name="properties.config.auth.service_account_id"
+                  label="Service Account Id"
+                  required
+                />
+              </Col>,
+              <Col key="config-auth--private_key" flex={6} xs={12} sm={4} md={4}>
+                <Field
+                  component={TextField}
+                  name="properties.config.auth.private_key"
+                  label="Private Key"
+                  rows={1}
+                  required
+                />
+              </Col>
+            ] :
+            [
+              <Col key="config-auth--username" flex={2} xs={12} sm={4} md={4}>
+                <Field
+                  component={TextField}
+                  name="properties.config.auth.username"
+                  label="Username"
+                  type="text"
+                  required
+                />
+              </Col>,
+              <Col key="config-auth--password" flex={2} xs={12} sm={4} md={4}>
+                <PreventAutoFill />
+                <Field
+                  component={TextField}
+                  name="properties.config.auth.password"
+                  label="Password"
+                  type="password"
+                  required
+                />
+              </Col>
+            ]}
         </Row>}
     </Row>
   );
 
+
+  const renderDCOSAdvancedSection = () => (
+    <Fieldset legend="Enterprise Edition">
+      <Row gutter={5}>
+        <Col key="config-auth--appGroupPrefix" flex={2} xs={12} sm={4} md={4}>
+          <Field
+            component={TextField}
+            name="properties.config.appGroupPrefix"
+            label="App Group Prefix"
+            required
+          />
+        </Col>
+        <Col key="config-auth--dcos_cluster_name" flex={2} xs={12} sm={4} md={4}>
+          <Field
+            component={TextField}
+            name="properties.config.dcos_cluster_name"
+            label="DCOS Cluster Name"
+            required
+          />
+        </Col>
+        <Col key="config--haproxyGroup" flex={2} xs={12} sm={4} md={4}>
+          <Field
+            component={TextField}
+            name="properties.config.haproxyGroup"
+            label="HAProxy Group"
+            required
+          />
+        </Col>
+        <Col key="config--marathon_framework_name" flex={2} xs={12} sm={4} md={4}>
+          <Field
+            component={TextField}
+            name="properties.config.marathon_framework_name"
+            label="Marathon Framework Name"
+            required
+          />
+        </Col>
+        <Col key="config--accept_any_cert" flex={3} xs={12}>
+          <Field
+            id="accept_any_cert"
+            component={Checkbox}
+            name="properties.config.accept_any_cert"
+            label="Accept Any Certificate"
+            checked={values.properties.config.accept_any_cert}
+            style={{ minWidth: '10em' }}
+          />
+        </Col>
+      </Row>,
+      <Row gutter={5}>
+        <Col key="config--secret_support" flex={2} xs={12} sm={12} md={4}>
+          <Field
+            id="secret_support"
+            component={Checkbox}
+            name="properties.config.secret_support"
+            label="Secret Support"
+            checked={values.properties.config.secret_support}
+            style={{ minWidth: '10em' }}
+          />
+        </Col>
+        <Col key="config--secret_store" flex={2} xs={12} sm={4} md={4}>
+          <Field
+            component={TextField}
+            name="properties.config.secret_store"
+            label="Secret Store"
+            required
+          />
+        </Col>
+        <Col key="config--secret_url" flex={2} xs={12} sm={4} md={4}>
+          <Field
+            component={TextField}
+            name="properties.config.secret_url"
+            label="Secret URL"
+          />
+        </Col>
+      </Row>
+    </Fieldset>
+  );
+
   const renderJSONSection = () => (
-    !props.envSchemaPending &&
     <Row gutter={5}>
       {selectedProviderType.networking &&
       <Col flex={6} xs={12}>
@@ -151,34 +253,32 @@ const ProviderForm = (props) => {
   );
 
   const renderVariablesSection = () => (
-    selectedProviderType.allowEnvVariables && selectedProviderType.type &&
-    <Row component={Div} disabled={props.envSchemaPending}>
-      <PreventAutoFill />
-      <Col flex={6} xs={12} sm={12}>
-        <VariablesForm
-          icon="public"
-          addButtonLabel="Add Public Variable"
-          fieldName="properties.config.env.public"
-          keyFieldValidationFunction={isUnixVariable}
-          keyFieldValidationMessage="must be a unix variable name"
-        />
-      </Col>
-      <Col flex={6} xs={12} sm={12}>
-        <VariablesForm
-          icon="vpn_key"
-          addButtonLabel="Add Private Variable"
-          fieldName="properties.config.env.private"
-          keyFieldValidationFunction={isUnixVariable}
-          keyFieldValidationMessage="must be a unix variable name"
-        />
-      </Col>
-    </Row>
+    <Fieldset legend="Variables">
+      <Row component={Div} disabled={props.envSchemaPending}>
+        <PreventAutoFill />
+        <Col flex={6} xs={12} sm={12}>
+          <VariablesForm
+            icon="public"
+            addButtonLabel="Add Public Variable"
+            fieldName="properties.config.env.public"
+            keyFieldValidationFunction={isUnixVariable}
+            keyFieldValidationMessage="must be a unix variable name"
+          />
+        </Col>
+        <Col flex={6} xs={12} sm={12}>
+          <VariablesForm
+            icon="vpn_key"
+            addButtonLabel="Add Private Variable"
+            fieldName="properties.config.env.private"
+            keyFieldValidationFunction={isUnixVariable}
+            keyFieldValidationMessage="must be a unix variable name"
+          />
+        </Col>
+      </Row>
+    </Fieldset>
   );
 
   const renderEditorSection = () => (
-    // Security: disable editing the yaml in edit mode
-    // TODO: This will need to be solved in the future to block sensitive info
-    !props.envSchemaPending && !provider.id &&
     <Row>
       {selectedProviderType.uploadConfig &&
         <FileInput
@@ -206,7 +306,6 @@ const ProviderForm = (props) => {
   );
 
   const renderOtherConfigSection = () => (
-    !props.envSchemaPending &&
     <Row gutter={5}>
       {selectedProviderType.networking &&
         <Col flex={6} xs={12}>
@@ -232,7 +331,6 @@ const ProviderForm = (props) => {
   );
 
   const renderContainerSection = () => (
-    (selectedProviderType.allowContainer && !container.id) &&
     <Row gutter={5}>
       <Col flex={12}>
         <Card title="Container">
@@ -247,7 +345,6 @@ const ProviderForm = (props) => {
   );
 
   const renderContainerInstancesPanel = () => (
-    (provider.id && selectedProviderType.allowContainer && container.id) &&
     <Row gutter={5} center>
       <Col
         flex={12}
@@ -282,17 +379,16 @@ const ProviderForm = (props) => {
 
 
   const renderContainerActions = () => (
-    (selectedProviderType.allowContainer && container.id) &&
-      <div>
-        <ContainerActionsModal />
-        <ContainerActions
-          containerModel={container}
-          inContainerView
-          disableDestroy
-          disablePromote
-          {...props}
-        />
-      </div>
+    <div>
+      <ContainerActionsModal />
+      <ContainerActions
+        containerModel={container}
+        inContainerView
+        disableDestroy
+        disablePromote
+        {...props}
+      />
+    </div>
   );
 
   return (
@@ -323,7 +419,7 @@ const ProviderForm = (props) => {
                   <div>
                     {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.name}` : props.title}
                     {provider.id && `::${selectedProviderType.name}`}
-                    {renderContainerActions()}
+                    {(selectedProviderType.allowContainer && container.id) && renderContainerActions()}
                   </div>
                 }
               />
@@ -364,19 +460,20 @@ const ProviderForm = (props) => {
                           name="description"
                           label="Description"
                           type="text"
-                          rows={1}
+                          maxRows={4}
                         />
                       </Col>
                     </Row>}
                   {renderConfigAndSecuritySections()}
-                  {renderExternalProtocolSection()}
-                  {renderEditorSection()}
-                  {renderVariablesSection()}
+                  {selectedProviderType.DCOSEnterprise && selectedProviderType.type && renderDCOSAdvancedSection()}
+                  {selectedProviderType.externalProtocol && renderExternalProtocolSection()}
+                  {!props.envSchemaPending && !provider.id && renderEditorSection()}
                   {renderOtherConfigSection()}
                   {provider.id && renderJSONSection()}
+                  {selectedProviderType.allowEnvVariables && selectedProviderType.type && renderVariablesSection()}
                 </Row>
               </CardText>
-              {props.providerUpdatePending || props.envSchemaPending || props.providerPending ? <LinearProgress id="provider-form" /> : null}
+              {(props.providerUpdatePending || props.providerPending) && <LinearProgress id="provider-form" />}
               <CardActions>
                 <Button
                   flat
@@ -398,13 +495,13 @@ const ProviderForm = (props) => {
             </Col>
           </Row>
 
-          {renderContainerInstancesPanel()}
+          {(provider.id && selectedProviderType.allowContainer && container.id) && renderContainerInstancesPanel()}
 
           {selectedProviderType.name &&
             <Row gutter={5} center>
               <Col flex={12} xs={12} sm={12} md={12}>
                 <Card>
-                  <CardTitle title={<h2>Linked Providers</h2>} />
+                  <CardTitle title="Linked Providers" />
                   <CardText>
                     <LinkedProviders
                       fetchProviders={getProviders}
@@ -419,7 +516,7 @@ const ProviderForm = (props) => {
                 <Col flex={12} xs={12} sm={12} md={12}>
                   <Card>
                     <CardTitle
-                      title={<h2>Restrict by Environment Type</h2>}
+                      title="Allowed Environments"
                     />
                     <CardText>
                       <EnvironmentTypes />
@@ -429,7 +526,7 @@ const ProviderForm = (props) => {
               </Row>
             </Row>}
         </form>
-        {renderContainerSection()}
+        {(selectedProviderType.allowContainer && !container.id) && renderContainerSection()}
       </Col>
     </Row>
   );
