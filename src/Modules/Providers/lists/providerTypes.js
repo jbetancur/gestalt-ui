@@ -11,6 +11,7 @@ export default [
     allowContainer: false,
     externalProtocol: true,
     allowEnvVariables: true,
+    DCOSEnterprise: true,
   },
   {
     name: 'Kubernetes',

@@ -27,12 +27,11 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
     resource_type,
     properties: {
       config: {
+        ...properties.config,
         env: {
           public: arrayToMap(properties.config.env.public, 'name', 'value'),
           private: arrayToMap(properties.config.env.private, 'name', 'value'),
         },
-        extra: properties.config.extra,
-        networks: properties.config.networks,
       },
       services: [],
       linked_providers: properties.linked_providers,

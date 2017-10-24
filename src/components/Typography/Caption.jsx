@@ -1,11 +1,15 @@
 import styled, { withTheme } from 'styled-components';
 
 const CaptionStyle = styled.span`
-  font-size: 12px;
-  color: ${props => props.theme.colors['$md-grey-800']};
+  font-size: 12px !important;
+  color: ${props => props.theme.colors[props.light ? '$md-grey-500' : '$md-grey-800']};
   ${props => props.block && 'display: block'};
-  ${props => props.small && 'font-size: 11px'};
-  ${props => props.large && 'font-size: 13px'};
+  ${props => props.small && 'font-size: 11px!important'};
+  ${props => props.large && 'font-size: 13px!important'};
+
+  * {
+    color: ${props => props.theme.colors[props.light ? '$md-grey-500' : '$md-grey-800']};
+  }
 `;
 
 export default withTheme(CaptionStyle);

@@ -12,7 +12,7 @@ class EnvironmentTypes extends PureComponent {
         <Col flex={4} xs={12} sm={3}>
           <HelpText
             fontSize="14px"
-            message="Setting all or none is equivalent to allow from all"
+            message="Allowed Environments this Provider can be used with"
           />
           <Field
             inline
