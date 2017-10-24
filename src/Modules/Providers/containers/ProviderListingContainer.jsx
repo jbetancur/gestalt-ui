@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import ProviderItem from '../components/ProviderItem';
 import actions from '../actions';
 
@@ -24,10 +25,9 @@ class ProviderListing extends PureComponent {
 
   componentDidMount() {
     const { match, fetchProviders } = this.props;
-    const entityId = match.params.environmentId || match.params.workspaceId || null;
-    const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
+    const entity = generateContextEntityState(match.params);
 
-    fetchProviders(match.params.fqon, entityId, entityKey);
+    fetchProviders(match.params.fqon, entity.id, entity.key);
   }
 
   componentWillUnmount() {

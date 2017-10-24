@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -50,15 +50,7 @@ class ProviderCreate extends Component {
     ];
 
     const payload = generateProviderPayload(values, mergeProps, containerValues);
-
-    let onSuccess;
-    if (match.params.workspaceId && !match.params.environmentId) {
-      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
-    } else if (match.params.environmentId) {
-      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
-    } else {
-      onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
-    }
+    const onSuccess = () => history.goBack();
 
     // Create it
     if (match.params.workspaceId && !match.params.environmentId) {
@@ -90,18 +82,13 @@ class ProviderCreate extends Component {
 
 function mapStateToProps(state) {
   const model = {
-    name: '',
-    description: '',
+    ...metaModels.providers,
     properties: {
       environment_types: '', // converted to Array on Create
       config: {
-        auth: {},
         external_protocol: 'https',
         env: state.metaResource.envSchema.schema,
       },
-      linked_providers: [],
-      services: [],
-      locations: [],
     },
   };
 

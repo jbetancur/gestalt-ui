@@ -9,18 +9,27 @@ export function mapTo2DArray(object, keyName = 'name', valueName = 'value', merg
   return sortBy(mappedItems, [v => v[keyName].toLowerCase()]);
 }
 
-export function generateEntityState(params) {
+export function generateContextEntityState(params) {
   const entity = {
-    id: params.containerId || params.lambdaId || params.environmentId || params.workspaceId || null,
+    id: params.environmentId || params.workspaceId || null,
     key: params.workspaceId && params.environmentId ? 'environments' : 'workspaces',
   };
 
+  return entity;
+}
+
+export function generateEntityState(params) {
+  const entity = {
+    id: params.containerId || params.lambdaId || params.environmentId || params.workspaceId || null,
+    key: params.workspaceId && params.enviromentId ? 'environments' : 'workspaces',
+  };
+
   if (params.lambdaId) {
-    entity.key = 'lambdas';
+    entity.childKey = 'lambdas';
   }
 
   if (params.containerId) {
-    entity.key = 'containers';
+    entity.childKey = 'containers';
   }
 
   return entity;

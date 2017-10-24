@@ -41,7 +41,7 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
             required
             menuItems={providersModel}
             async
-            onFocus={() => fetchProviders()}
+            onFocus={fetchProviders}
           />
         </Col>
         <FieldRemoveButton onClick={() => fields.remove(index)} />

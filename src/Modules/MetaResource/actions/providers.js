@@ -23,9 +23,10 @@ export function fetchProviders(fqon, entityId, entityKey) {
  * @param {string} entityId
  * @param {string} entityKey oneOf(workspaces || environments || null)
  * @param {string} providerType oneOf(CaaS || Lambda || GatewayManager)
+ * @param {boolean} expand
  */
-export function fetchProvidersByType(fqon, entityId, entityKey, providerType) {
-  return { type: types.FETCH_PROVIDERS_BYTYPE_REQUEST, fqon, entityId, entityKey, providerType };
+export function fetchProvidersByType(fqon, entityId, entityKey, providerType, expand = true) {
+  return { type: types.FETCH_PROVIDERS_BYTYPE_REQUEST, fqon, entityId, entityKey, providerType, expand };
 }
 
 /**
@@ -103,6 +104,16 @@ export function deleteProviders(providerIds, fqon, entityId, entityKey, onSucces
   return { type: types.DELETE_PROVIDERS_REQUEST, providerIds, fqon, entityId, entityKey, onSuccess };
 }
 
+/**
+ * createProvider
+ * @param {string} fqon
+ * @param {string} providerId
+ * @callback {*} onSuccess
+ */
+export function redeployProvider(fqon, providerId, onSuccess) {
+  return { type: types.REDEPLOY_PROVIDER_REQUEST, fqon, providerId, onSuccess };
+}
+
 export default {
   unloadProviders,
   fetchProviders,
@@ -114,4 +125,5 @@ export default {
   updateProvider,
   deleteProvider,
   deleteProviders,
+  redeployProvider,
 };

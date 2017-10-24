@@ -24,6 +24,7 @@ import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { parseChildClass } from 'util/helpers/strings';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import { isUnixVariable } from 'util/validations';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
@@ -40,14 +41,13 @@ const ListButton = styled(Button)`
 
 const ContainerForm = (props) => {
   const { values, match, container } = props;
-  const entityId = match.params.environmentId || match.params.workspaceId || null;
-  const entityKey = match.params.workspaceId && match.params.environmentId ? 'environments' : 'workspaces';
+  const entity = generateContextEntityState(match.params);
 
   const selectedProvider = merge({ properties: { config: { networks: [] } } },
     props.providersByType.find(provider => values.properties.provider.id === provider.id));
 
   const populateProviders = () => {
-    props.fetchProvidersByType(match.params.fqon, entityId, entityKey, 'CaaS');
+    props.fetchProvidersByType(match.params.fqon, entity.id, entity.key, 'CaaS');
   };
 
   // TODO: Remove when Kubernetes/Docker when api is ready
