@@ -7,7 +7,7 @@ import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 
-const renderLinkedProviders = ({ fields, touched, error, fetchProviders, providersModel }) => (
+const renderLinkedProviders = ({ fields, touched, error, providersModel }) => (
   <div>
     <Button
       flat
@@ -40,8 +40,6 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
             itemValue="id"
             required
             menuItems={providersModel}
-            async
-            onFocus={fetchProviders}
           />
         </Col>
         <FieldRemoveButton onClick={() => fields.remove(index)} />
@@ -51,7 +49,6 @@ const renderLinkedProviders = ({ fields, touched, error, fetchProviders, provide
 );
 
 renderLinkedProviders.propTypes = {
-  fetchProviders: PropTypes.func.isRequired,
   providersModel: PropTypes.array.isRequired,
   fields: PropTypes.object.isRequired,
   touched: PropTypes.bool,
@@ -65,7 +62,6 @@ renderLinkedProviders.defaultProps = {
 
 const FieldArraysForm = props => (
   <FieldArray
-    fetchProviders={props.fetchProviders}
     providersModel={props.providersModel}
     name="properties.linked_providers"
     component={renderLinkedProviders}
@@ -73,7 +69,6 @@ const FieldArraysForm = props => (
 );
 
 FieldArraysForm.propTypes = {
-  fetchProviders: PropTypes.func.isRequired,
   providersModel: PropTypes.array.isRequired,
 };
 

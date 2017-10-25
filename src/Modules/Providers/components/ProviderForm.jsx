@@ -17,7 +17,6 @@ import Fieldset from 'components/Fieldset';
 import { VariablesForm } from 'Modules/Variables';
 import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions, ContainerActionsModal } from 'Modules/Containers';
 import { parseChildClass } from 'util/helpers/strings';
-import { generateContextEntityState } from 'util/helpers/transformations';
 import { isUnixVariable } from 'util/validations';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
@@ -27,12 +26,8 @@ import providerTypes from '../lists/providerTypes';
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, values, match, history, container, fetchEnvSchema, fetchProvidersByType } = props;
+  const { provider, change, reset, match, values, history, container, fetchEnvSchema } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
-  const entity = generateContextEntityState(match.params);
-  const getProviders = () => {
-    fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
-  };
 
   const goBack = () => {
     history.goBack();
@@ -331,7 +326,7 @@ const ProviderForm = (props) => {
             title="Container"
             subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
           />
-          <ContainerCreate match={props.match} inlineMode />
+          <ContainerCreate match={match} inlineMode />
         </Card>
       </Col>
     </Row>
@@ -508,7 +503,6 @@ const ProviderForm = (props) => {
                   <CardTitle title="Linked Providers" />
                   <CardText>
                     <LinkedProviders
-                      fetchProviders={getProviders}
                       providersModel={props.providersByType.filter(p => p.id !== provider.id)}
                       pending={props.providersByTypePending}
                     />
@@ -554,7 +548,6 @@ ProviderForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
   fetchEnvSchema: PropTypes.func.isRequired,
-  fetchProvidersByType: PropTypes.func.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
