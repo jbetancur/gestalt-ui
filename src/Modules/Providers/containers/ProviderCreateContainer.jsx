@@ -28,12 +28,6 @@ class ProviderCreate extends Component {
     containerValues: {},
   };
 
-  // TODO: Add this when we can upgrade to React 16
-  // componentDidCatch(error, info) {
-  //   // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
-  //   this.setState({ hasError: true, error, info });
-  // }
-
   componentDidMount() {
     const { match, fetchProvidersByType } = this.props;
     const entity = generateContextEntityState(match.params);
@@ -69,6 +63,11 @@ class ProviderCreate extends Component {
     } else {
       createProvider(match.params.fqon, null, null, payload, onSuccess);
     }
+  }
+
+  componentDidCatch(error, info) {
+    // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
+    this.setState({ hasError: true, error, info });
   }
 
   render() {

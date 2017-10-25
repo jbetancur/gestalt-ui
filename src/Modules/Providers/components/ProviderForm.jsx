@@ -3,367 +3,46 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues, isInvalid } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { Card, CardTitle, CardActions, CardText, LinearProgress, FileInput } from 'react-md';
-import AceEditor from 'components/AceEditor';
-import Checkbox from 'components/Checkbox';
-import JSONTree from 'components/JSONTree';
+import { Card, CardTitle, CardActions, CardText, LinearProgress } from 'react-md';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { Button } from 'components/Buttons';
-import PreventAutoFill from 'components/PreventAutoFill';
-import Div from 'components/Div';
 import DetailsPane from 'components/DetailsPane';
-import Fieldset from 'components/Fieldset';
-import { VariablesForm } from 'Modules/Variables';
-import { ContainerCreate, ContainerInstances, ContainerServiceAddresses, ContainerActions, ContainerActionsModal } from 'Modules/Containers';
-import { parseChildClass } from 'util/helpers/strings';
-import { isUnixVariable } from 'util/validations';
+import { ContainerActions, ContainerActionsModal } from 'Modules/Containers';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
+import VariablesSection from './VariablesSection';
+import DCOSEESection from './DCOSEESection';
+import OtherConfigSection from './OtherConfigSection';
+import KubeEditorSection from './KubeEditorSection';
+import URLConfigSection from './URLConfigSection';
+import SecuritySection from './SecuritySection';
+import ContainerSection from './ContainerSection';
+import ContainerInstanceSection from './ContainerInstanceSection';
 import { nameMaxLen } from '../validations';
 import providerTypes from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
 const ProviderForm = (props) => {
-  const { provider, change, reset, match, values, history, container, fetchEnvSchema } = props;
+  const { provider, reset, values, history, container, fetchEnvSchema } = props;
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const goBack = () => {
     history.goBack();
   };
 
-  const onFile = (file) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      props.dispatch(change('properties.data', reader.result));
-    };
-
-    reader.readAsText(file);
-  };
-
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
     const providerType = providerTypes.find(type => type.value === value);
 
-    // no need to fetch the env schema if a container is not being required
+    // no need to fetch env schema if we do not allowEnvVariables
     if (providerType && providerType.allowEnvVariables) {
       fetchEnvSchema(providerType.type);
     }
 
     reset();
   };
-
-  const renderExternalProtocolSection = () => (
-    <Col flex={2} xs={12} sm={4}>
-      <Field
-        id="select-return-type"
-        component={SelectField}
-        name="properties.config.external_protocol"
-        menuItems={httpProtocols}
-        itemLabel="name"
-        itemValue="value"
-        label="External Protocol"
-        helpText="The protocol used to reach any externally exposed endpoints"
-      />
-    </Col>
-  );
-
-  const renderConfigAndSecuritySections = () => (
-    <Row>
-      {selectedProviderType.config &&
-        <Col flex={6} xs={12} sm={12}>
-          <Field
-            component={TextField}
-            name="properties.config.url"
-            label="Provider URL/Host:Port"
-            type="text"
-            required
-          />
-        </Col>}
-      {selectedProviderType.security &&
-        <Row gutter={5}>
-          <Col flex={2} xs={12} sm={2}>
-            <Field
-              id="select-return-type"
-              component={SelectField}
-              name="properties.config.auth.scheme"
-              menuItems={['Basic', 'acs']}
-              required
-              label="Security Scheme"
-            />
-          </Col>
-          {values.properties.config.auth && values.properties.config.auth.scheme === 'acs' ?
-            [
-              <Col key="config-auth--dcos_base_url" flex={2} xs={12} sm={4} md={4}>
-                <Field
-                  component={TextField}
-                  name="properties.config.auth.dcos_base_url"
-                  label="DCOS Base URL"
-                  required
-                />
-              </Col>,
-              <Col key="config-auth--service_account_id" flex={2} xs={12} sm={4} md={4}>
-                <Field
-                  component={TextField}
-                  name="properties.config.auth.service_account_id"
-                  label="Service Account Id"
-                  required
-                />
-              </Col>,
-              <Col key="config-auth--private_key" flex={6} xs={12} sm={4} md={4}>
-                <Field
-                  component={TextField}
-                  name="properties.config.auth.private_key"
-                  label="Private Key"
-                  rows={1}
-                  required
-                />
-              </Col>
-            ] :
-            [
-              <Col key="config-auth--username" flex={2} xs={12} sm={4} md={4}>
-                <Field
-                  component={TextField}
-                  name="properties.config.auth.username"
-                  label="Username"
-                  type="text"
-                  required
-                />
-              </Col>,
-              <Col key="config-auth--password" flex={2} xs={12} sm={4} md={4}>
-                <PreventAutoFill />
-                <Field
-                  component={TextField}
-                  name="properties.config.auth.password"
-                  label="Password"
-                  type="password"
-                  required
-                />
-              </Col>
-            ]}
-        </Row>}
-    </Row>
-  );
-
-  const renderDCOSAdvancedSection = () => (
-    <Fieldset legend="Enterprise Edition">
-      <Row gutter={5}>
-        <Col key="config-auth--appGroupPrefix" flex={2} xs={12} sm={4} md={4}>
-          <Field
-            component={TextField}
-            name="properties.config.appGroupPrefix"
-            label="App Group Prefix"
-            required
-          />
-        </Col>
-        <Col key="config-auth--dcos_cluster_name" flex={2} xs={12} sm={4} md={4}>
-          <Field
-            component={TextField}
-            name="properties.config.dcos_cluster_name"
-            label="DCOS Cluster Name"
-            required
-          />
-        </Col>
-        <Col key="config--haproxyGroup" flex={2} xs={12} sm={4} md={4}>
-          <Field
-            component={TextField}
-            name="properties.config.haproxyGroup"
-            label="HAProxy Group"
-            required
-          />
-        </Col>
-        <Col key="config--marathon_framework_name" flex={2} xs={12} sm={4} md={4}>
-          <Field
-            component={TextField}
-            name="properties.config.marathon_framework_name"
-            label="Marathon Framework Name"
-            required
-          />
-        </Col>
-        <Col key="config--accept_any_cert" flex={3} xs={12}>
-          <Field
-            id="accept_any_cert"
-            component={Checkbox}
-            name="properties.config.accept_any_cert"
-            label="Accept Any Certificate"
-            checked={values.properties.config.accept_any_cert}
-            style={{ minWidth: '10em' }}
-          />
-        </Col>
-      </Row>
-      <Row gutter={5}>
-        <Col key="config--secret_support" flex={2} xs={12} sm={12} md={4}>
-          <Field
-            id="secret_support"
-            component={Checkbox}
-            name="properties.config.secret_support"
-            label="Secret Support"
-            checked={values.properties.config.secret_support}
-            style={{ minWidth: '10em' }}
-          />
-        </Col>
-        <Col key="config--secret_store" flex={2} xs={12} sm={4} md={4}>
-          <Field
-            component={TextField}
-            name="properties.config.secret_store"
-            label="Secret Store"
-            required
-          />
-        </Col>
-        <Col key="config--secret_url" flex={2} xs={12} sm={4} md={4}>
-          <Field
-            component={TextField}
-            name="properties.config.secret_url"
-            label="Secret URL"
-          />
-        </Col>
-      </Row>
-    </Fieldset>
-  );
-
-  const renderJSONSection = () => (
-    <Row gutter={5}>
-      {selectedProviderType.networking &&
-      <Col flex={6} xs={12}>
-        <JSONTree
-          data={props.provider.properties.config.networks || []}
-        />
-      </Col>}
-      {selectedProviderType.extraConfig &&
-      <Col flex={6} xs={12}>
-        <JSONTree
-          data={props.provider.properties.config.extra || {}}
-        />
-      </Col>}
-    </Row>
-  );
-
-  const renderVariablesSection = () => (
-    <Fieldset legend="Variables">
-      <Row component={Div} disabled={props.envSchemaPending}>
-        <PreventAutoFill />
-        <Col flex={6} xs={12} sm={12}>
-          <VariablesForm
-            icon="public"
-            addButtonLabel="Add Public Variable"
-            fieldName="properties.config.env.public"
-            keyFieldValidationFunction={isUnixVariable}
-            keyFieldValidationMessage="must be a unix variable name"
-          />
-        </Col>
-        <Col flex={6} xs={12} sm={12}>
-          <VariablesForm
-            icon="vpn_key"
-            addButtonLabel="Add Private Variable"
-            fieldName="properties.config.env.private"
-            keyFieldValidationFunction={isUnixVariable}
-            keyFieldValidationMessage="must be a unix variable name"
-          />
-        </Col>
-      </Row>
-    </Fieldset>
-  );
-
-  const renderEditorSection = () => (
-    <Row>
-      {selectedProviderType.uploadConfig &&
-        <FileInput
-          id="imageInput1"
-          label="Upload YAML"
-          onChange={onFile}
-          accept="application/x-yaml" // The IANA MIME types registry doesn't list YAML yet, so there isn't a correct one, per se.
-          primary
-        />}
-      {selectedProviderType.uploadConfig &&
-        <Row gutter={5}>
-          <Col flex={12}>
-            <Field
-              component={AceEditor}
-              mode="yaml"
-              theme="chrome"
-              name="properties.data"
-              maxLines={50}
-              minLines={15}
-              fontSize={12}
-            />
-          </Col>
-        </Row>}
-    </Row>
-  );
-
-  const renderOtherConfigSection = () => (
-    <Row gutter={5}>
-      {selectedProviderType.networking &&
-        <Col flex={6} xs={12}>
-          <Field
-            component={TextField}
-            name="properties.config.networks"
-            label="Networks (JSON)"
-            type="text"
-            rows={2}
-          />
-        </Col>}
-      {selectedProviderType.extraConfig &&
-        <Col flex={6} xs={12}>
-          <Field
-            component={TextField}
-            name="properties.config.extra"
-            label="Extra Configuration (JSON)"
-            type="text"
-            rows={2}
-          />
-        </Col>}
-    </Row>
-  );
-
-  const renderContainerSection = () => (
-    <Row gutter={5}>
-      <Col flex={12}>
-        <Card title="Container">
-          <CardTitle
-            title="Container"
-            subtitle={`The provider type: ${selectedProviderType.name} requires a container`}
-          />
-          <ContainerCreate match={match} inlineMode />
-        </Card>
-      </Col>
-    </Row>
-  );
-
-  const renderContainerInstancesPanel = () => (
-    <Row gutter={5} center>
-      <Col
-        flex={12}
-        xs={12}
-        sm={12}
-        md={12}
-      >
-        <Card>
-          <ContainerInstances
-            containerModel={props.container}
-            match={props.match}
-            providerType={parseChildClass(provider.resource_type)}
-          />
-        </Card>
-      </Col>
-
-      <Col
-        flex={12}
-        xs={12}
-        sm={12}
-        md={12}
-      >
-        <Card>
-          <ContainerServiceAddresses
-            containerModel={props.container}
-            match={props.match}
-          />
-        </Card>
-      </Col>
-    </Row>
-  );
 
   const renderContainerActions = () => (
     <div>
@@ -379,6 +58,7 @@ const ProviderForm = (props) => {
   );
 
   const submitDisabled = props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid;
+  const linkedProviders = props.providersByType.filter(p => p.id !== provider.id);
 
   return (
     <Row center onRedeploy={props.onRedeploy}>
@@ -413,9 +93,9 @@ const ProviderForm = (props) => {
                 }
               />
               <CardText>
-                <Row>
-                  {/* only allow the provider type to be selected once - this prevents redux-form errors */}
-                  {!selectedProviderType.name &&
+                {!selectedProviderType.name ?
+                  <Row gutter={5}>
+                    {/* only allow the provider type to be selected once - this prevents redux-form errors */}
                     <Col flex={6}>
                       <Field
                         id="select-provider"
@@ -429,8 +109,10 @@ const ProviderForm = (props) => {
                         disabled={provider.id}
                         onChange={handleProviderChange}
                       />
-                    </Col>}
-                  {selectedProviderType.name &&
+                    </Col>
+                  </Row>
+                  :
+                  <div>
                     <Row gutter={5}>
                       <Col flex={6} xs={12}>
                         <Field
@@ -449,18 +131,44 @@ const ProviderForm = (props) => {
                           name="description"
                           label="Description"
                           type="text"
+                          rows={1}
                           maxRows={4}
                         />
                       </Col>
-                    </Row>}
-                  {renderConfigAndSecuritySections()}
-                  {selectedProviderType.DCOSEnterprise && selectedProviderType.type && renderDCOSAdvancedSection()}
-                  {selectedProviderType.externalProtocol && renderExternalProtocolSection()}
-                  {!props.envSchemaPending && !provider.id && renderEditorSection()}
-                  {renderOtherConfigSection()}
-                  {provider.id && renderJSONSection()}
-                  {selectedProviderType.allowEnvVariables && selectedProviderType.type && renderVariablesSection()}
-                </Row>
+                    </Row>
+                    {selectedProviderType.DCOSConfig &&
+                      <URLConfigSection {...props} />}
+
+                    {selectedProviderType.DCOSSecurity &&
+                      <SecuritySection authScheme={values.properties.config.auth && values.properties.config.auth.scheme} {...props} />}
+
+                    {selectedProviderType.DCOSEnterprise &&
+                      <DCOSEESection {...props} />}
+
+                    {selectedProviderType.externalProtocol &&
+                      <Row gutter={5}>
+                        <Col flex={2} xs={12} sm={4}>
+                          <Field
+                            id="select-return-type"
+                            component={SelectField}
+                            name="properties.config.external_protocol"
+                            menuItems={httpProtocols}
+                            itemLabel="name"
+                            itemValue="value"
+                            label="External Protocol"
+                            helpText="The protocol used to reach any externally exposed endpoints"
+                          />
+                        </Col>
+                      </Row>}
+
+                    {selectedProviderType.uploadConfig && !provider.id &&
+                      <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />}
+
+                    <OtherConfigSection selectedProviderType={selectedProviderType} showJSON={provider.id} {...props} />
+
+                    {selectedProviderType.allowEnvVariables &&
+                      <VariablesSection {...props} />}
+                  </div>}
               </CardText>
               {(props.providerUpdatePending || props.providerPending) && <LinearProgress id="provider-form" />}
               <CardActions>
@@ -475,6 +183,7 @@ const ProviderForm = (props) => {
                   <Button
                     raised
                     type="submit"
+                    onClick={() => props.onRedeploy(false)}
                     disabled={submitDisabled}
                     primary
                   >
@@ -488,13 +197,14 @@ const ProviderForm = (props) => {
                   disabled={submitDisabled}
                   primary
                 >
-                  Update & Redeploy
+                Update & Redeploy
                 </Button>}
               </CardActions>
             </Col>
           </Row>
 
-          {(provider.id && selectedProviderType.allowContainer && container.id) && renderContainerInstancesPanel()}
+          {(provider.id && selectedProviderType.allowContainer && container.id) &&
+            <ContainerInstanceSection container={props.container} provider={props.provider} {...props} />}
 
           {selectedProviderType.name &&
             <Row gutter={5} center>
@@ -503,8 +213,7 @@ const ProviderForm = (props) => {
                   <CardTitle title="Linked Providers" />
                   <CardText>
                     <LinkedProviders
-                      providersModel={props.providersByType.filter(p => p.id !== provider.id)}
-                      pending={props.providersByTypePending}
+                      providersModel={linkedProviders}
                     />
                   </CardText>
                 </Card>
@@ -524,7 +233,8 @@ const ProviderForm = (props) => {
               </Row>
             </Row>}
         </form>
-        {(selectedProviderType.allowContainer && !container.id) && renderContainerSection()}
+        {(selectedProviderType.allowContainer && !container.id) &&
+          <ContainerSection name={selectedProviderType.name} {...props} />}
       </Col>
     </Row>
   );
@@ -534,10 +244,8 @@ ProviderForm.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   providerPending: PropTypes.bool.isRequired,
-  change: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   providersByType: PropTypes.array.isRequired,
-  providersByTypePending: PropTypes.bool.isRequired,
   provider: PropTypes.object,
   providerUpdatePending: PropTypes.bool,
   envSchemaPending: PropTypes.bool.isRequired,
