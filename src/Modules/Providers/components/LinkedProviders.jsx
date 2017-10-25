@@ -39,6 +39,7 @@ const renderLinkedProviders = ({ fields, touched, error, providersModel }) => (
             itemLabel="name"
             itemValue="id"
             required
+            async
             menuItems={providersModel}
           />
         </Col>

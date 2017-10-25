@@ -70,6 +70,11 @@ class ProviderEdit extends PureComponent {
     }
   }
 
+  componentDidCatch(error, info) {
+    // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
+    this.setState({ hasError: true, error, info });
+  }
+
   render() {
     const { provider, providerPending } = this.props;
 

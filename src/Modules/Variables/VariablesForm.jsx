@@ -12,6 +12,10 @@ const PasswordTextField = styled(TextField)`
     pointer-events: none;
   }
 `;
+
+const checkIfPassword = field =>
+  field && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
+
 const renderNameField = (props) => {
   // eslint-disable-next-line react/prop-types
   const { input, label, type, className, disabled, required, keyFieldValidationMessage, keyFieldValidationFunction, onChange } = props;
@@ -71,9 +75,9 @@ const renderPasswordField = (props) => {
 
   return (
     !hideValueField && [
-      <PreventAutoFill />,
+      <PreventAutoFill key={`${name}--preventautofill`} />,
       <Field
-        {...input}
+        key={name}
         className={className}
         label={label}
         component={PasswordTextField}
@@ -85,6 +89,7 @@ const renderPasswordField = (props) => {
         validate={doValidate && validateValue}
         passwordIcon={null}
         autoComplete="off"
+        {...input}
       />]
   );
 };
@@ -125,7 +130,7 @@ const rendervariables = (props) => {
         const field = fields.get(index);
         const isRequired = field.required;
         const isInherited = field.inherited;
-        const isPassword = fields.get(index).name && (fields.get(index).name.toUpperCase().includes('PASSWORD') || fields.get(index).name.toUpperCase().includes('SECRET') || fields.get(index).name.toUpperCase().includes('KEY'));
+        const isPassword = checkIfPassword(fields.get(index).name);
         const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
         const fieldValueStr = isInherited ? `${valueFieldName} (overridable)` : valueFieldValue;
 
