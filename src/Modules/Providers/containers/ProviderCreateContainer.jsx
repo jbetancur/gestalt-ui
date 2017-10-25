@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -20,6 +21,7 @@ class ProviderCreate extends Component {
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     pristine: PropTypes.bool.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -31,6 +33,13 @@ class ProviderCreate extends Component {
   //   // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
   //   this.setState({ hasError: true, error, info });
   // }
+
+  componentDidMount() {
+    const { match, fetchProvidersByType } = this.props;
+    const entity = generateContextEntityState(match.params);
+
+    fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
+  }
 
   create(values) {
     const { match, history, createProvider, containerValues, volumes, portMappings, healthChecks } = this.props;
