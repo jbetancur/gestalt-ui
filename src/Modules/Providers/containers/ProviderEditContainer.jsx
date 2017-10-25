@@ -38,7 +38,7 @@ class ProviderEdit extends PureComponent {
     const { match, fetchProvider, fetchProvidersByType, fetchProviderContainer } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    fetchProvidersByType(match.params.fqon, entity.id, entity.key);
+    fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
     fetchProvider(match.params.fqon, match.params.providerId);
     fetchProviderContainer(match.params.fqon, match.params.providerId);
   }

@@ -31,7 +31,7 @@ const ProviderForm = (props) => {
   const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
   const entity = generateContextEntityState(match.params);
   const getProviders = () => {
-    fetchProvidersByType(match.params.fqon, entity.id, entity.key, '', false);
+    fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
   };
 
   const goBack = () => {
@@ -509,7 +509,7 @@ const ProviderForm = (props) => {
                   <CardText>
                     <LinkedProviders
                       fetchProviders={getProviders}
-                      providersModel={props.providersByType}
+                      providersModel={props.providersByType.filter(p => p.id !== provider.id)}
                       pending={props.providersByTypePending}
                     />
                   </CardText>
