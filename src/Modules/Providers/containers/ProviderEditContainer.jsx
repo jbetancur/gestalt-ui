@@ -50,11 +50,22 @@ class ProviderEdit extends PureComponent {
   update = (formValues) => {
     const { match, history, confirmUpdate, provider, updateProvider, redeployProvider } = this.props;
     const patches = generateProviderPatches(provider, formValues);
+
+    const goBack = () => {
+      if (match.params.workspaceId && !match.params.environmentId) {
+        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
+      } else if (match.params.workspaceId && match.params.environmentId) {
+        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
+      } else {
+        history.push(`/${match.params.fqon}/providers`);
+      }
+    };
+
     const onSuccess = () => {
       if (this.state.redeploy) {
-        redeployProvider(match.params.fqon, provider.id, () => history.goBack());
+        redeployProvider(match.params.fqon, provider.id, () => goBack());
       } else {
-        history.goBack();
+        goBack();
       }
     };
 

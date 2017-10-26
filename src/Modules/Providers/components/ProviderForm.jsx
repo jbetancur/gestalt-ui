@@ -25,11 +25,17 @@ import providerTypes from '../lists/providerTypes';
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
 const ProviderForm = (props) => {
-  const { provider, reset, values, history, container, fetchEnvSchema } = props;
-  const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
+  const { provider, reset, values, history, match, container, fetchEnvSchema } = props;
+  const selectedProviderType = providerTypes.find(type => type.value === values && values.resource_type) || {};
 
   const goBack = () => {
-    history.goBack();
+    if (match.params.workspaceId && !match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
+    } else if (match.params.workspaceId && match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
+    } else {
+      history.push(`/${match.params.fqon}/providers`);
+    }
   };
 
   // TODO: there is a bug with the first param which should be the value
