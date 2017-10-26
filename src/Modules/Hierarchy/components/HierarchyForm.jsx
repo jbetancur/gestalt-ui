@@ -12,7 +12,6 @@ import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'Modules/Variables';
-import { Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
 import { Button } from 'components/Buttons';
 import Fieldset from 'components/Fieldset';
 import { isUnixVariable } from 'util/validations';
@@ -26,104 +25,99 @@ const HierarchyForm = (props) => {
   const { t, editMode } = props;
 
   return (
-    <div>
-      <ContextNavigation
-        breadcrumbComponent={<Breadcrumbs />}
-      />
-      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-        <Row gutter={5} center>
-          <Col
-            component={Card}
-            flex={8}
-            xs={12}
-            sm={12}
-          >
-            <CardTitle
-              title={props.title}
-            />
-            <CardText>
-              <Row gutter={5}>
-                <Col flex={6} xs={12}>
-                  <Field
-                    component={TextField}
-                    name="description"
-                    label={t('containment.fields.description.label')}
-                    type="text"
-                    maxLength={nameMaxLen}
-                    required
-                    disabled={props.pending}
-                  />
-                </Col>
-                <Col flex={6} xs={12}>
-                  <Field
-                    component={TextField}
-                    name="name"
-                    label={t('containment.fields.name.label')}
-                    type="text"
-                    maxLength={shortNameMaxLen}
-                    required
-                    helpText={t('containment.fields.name.helpText')}
-                    disabled={props.pending}
-                  />
-                </Col>
-                {props.isEnvironment &&
-                <Col flex={6} xs={12}>
-                  <Field
-                    id="environment-type"
-                    component={SelectField}
-                    name="properties.environment_type"
-                    menuItems={['development', 'test', 'production']}
-                    required
-                    label={t('containment.fields.environmentType.label')}
-                    disabled={props.pending}
-                  />
-                </Col>}
-              </Row>
-              <Fieldset legend="Environment Variables">
-                <VariablesForm
-                  icon="add"
-                  fieldName="properties.env"
-                  keyFieldValidationFunction={isUnixVariable}
-                  keyFieldValidationMessage="must be a unix variable name"
+    <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      <Row gutter={5} center>
+        <Col
+          component={Card}
+          flex={8}
+          xs={12}
+          sm={12}
+        >
+          <CardTitle
+            title={props.title}
+          />
+          <CardText>
+            <Row gutter={5}>
+              <Col flex={6} xs={12}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  label={t('containment.fields.description.label')}
+                  type="text"
+                  maxLength={nameMaxLen}
+                  required
+                  disabled={props.pending}
                 />
-              </Fieldset>
-            </CardText>
-            {props.pending && <LinearProgress id="containment-form" />}
-            <CardActions>
-              <Row>
-                <Button
-                  flat
-                  disabled={props.submitting}
-                  onClick={() => props.history.goBack()}
-                >
-                  {props.cancelLabel}
-                </Button>
-                <Button
-                  raised
-                  type="submit"
-                  disabled={props.pristine || props.pending || props.invalid || props.submitting}
-                  primary
-                >
-                  {props.submitLabel}
-                </Button>
-                <Col component={ActionIconSection} flex>
-                  {editMode &&
-                    <Button
-                      tooltipLabel="Entitlements"
-                      tooltipPosition="top"
-                      flat
-                      iconChildren="security"
-                      onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                    >
-                      Entitlements
-                    </Button>}
-                </Col>
-              </Row>
-            </CardActions>
-          </Col>
-        </Row>
-      </form>
-    </div>
+              </Col>
+              <Col flex={6} xs={12}>
+                <Field
+                  component={TextField}
+                  name="name"
+                  label={t('containment.fields.name.label')}
+                  type="text"
+                  maxLength={shortNameMaxLen}
+                  required
+                  helpText={t('containment.fields.name.helpText')}
+                  disabled={props.pending}
+                />
+              </Col>
+              {props.isEnvironment &&
+              <Col flex={6} xs={12}>
+                <Field
+                  id="environment-type"
+                  component={SelectField}
+                  name="properties.environment_type"
+                  menuItems={['development', 'test', 'production']}
+                  required
+                  label={t('containment.fields.environmentType.label')}
+                  disabled={props.pending}
+                />
+              </Col>}
+            </Row>
+            <Fieldset legend="Environment Variables">
+              <VariablesForm
+                icon="add"
+                fieldName="properties.env"
+                keyFieldValidationFunction={isUnixVariable}
+                keyFieldValidationMessage="must be a unix variable name"
+              />
+            </Fieldset>
+          </CardText>
+          {props.pending && <LinearProgress id="containment-form" />}
+          <CardActions>
+            <Row>
+              <Button
+                flat
+                disabled={props.submitting}
+                onClick={() => props.history.goBack()}
+              >
+                {props.cancelLabel}
+              </Button>
+              <Button
+                raised
+                type="submit"
+                disabled={props.pristine || props.pending || props.invalid || props.submitting}
+                primary
+              >
+                {props.submitLabel}
+              </Button>
+              <Col component={ActionIconSection} flex>
+                {editMode &&
+                  <Button
+                    tooltipLabel="Entitlements"
+                    tooltipPosition="top"
+                    flat
+                    iconChildren="security"
+                    onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
+                  >
+                    Entitlements
+                  </Button>}
+              </Col>
+            </Row>
+          </CardActions>
+        </Col>
+      </Row>
+    </form>
   );
 };
 

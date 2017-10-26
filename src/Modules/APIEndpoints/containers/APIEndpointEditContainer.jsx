@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
 import { parse } from 'query-string';
 import APIEndpointForm from '../components/APIEndpointForm';
@@ -45,7 +45,7 @@ class APIEndpointEdit extends Component {
     const patches = generateAPIEndpointPatches(apiEndpoint, values);
 
     if (patches.length) {
-      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
       updateAPIEndpoint(match.params.fqon, match.params.apiId, apiEndpoint.id, patches, onSuccess);
     }
   }
@@ -55,9 +55,6 @@ class APIEndpointEdit extends Component {
 
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {apiEndpointPending ?
           <ActivityContainer id="apiEndpoint-loading" /> :
           <APIEndpointForm

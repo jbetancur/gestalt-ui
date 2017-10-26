@@ -52,7 +52,7 @@ class APIEndpointList extends Component {
   create = () => {
     const { match, history } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/createEndpoint`);
+    history.push(`${match.url}/apiendpoints/createEndpoint`);
   }
 
   edit = (apiEndpoint, e) => {
@@ -60,7 +60,7 @@ class APIEndpointList extends Component {
     if (e.target.className.includes('md-table-column')) {
       const { history, match, } = this.props;
       history.push({
-        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
+        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit/apiendpoints/${apiEndpoint.id}/editEndpoint`,
         search: `?implementationType=${apiEndpoint.properties.implementation_type}`
       });
     }

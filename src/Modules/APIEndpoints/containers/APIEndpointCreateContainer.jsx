@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import APIEndpointForm from '../components/APIEndpointForm';
 import validate from '../components/APIEndpointForm/validations';
@@ -21,24 +21,19 @@ class APIEndpointCreate extends Component {
     const { match, history, createAPIEndpoint } = this.props;
     const payload = generateAPIEndpointPayload(values);
 
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
     createAPIEndpoint(match.params.fqon, match.params.apiId, payload, onSuccess);
   }
 
   render() {
     return (
-      <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
-        <APIEndpointForm
-          title="Create Endpoint"
-          submitLabel="Create"
-          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-          onSubmit={values => this.create(values)}
-          {...this.props}
-        />
-      </div>
+      <APIEndpointForm
+        title="Create Endpoint"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
     );
   }
 }

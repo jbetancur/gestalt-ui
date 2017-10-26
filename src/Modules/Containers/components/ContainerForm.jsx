@@ -228,7 +228,7 @@ const ContainerForm = (props) => {
                   flat
                   disabled={props.containerPending || props.submitting}
                   component={Link}
-                  to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environments/${props.match.params.environmentId}`}
+                  to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/containers`}
                 >
                   {props.cancelLabel}
                 </Button>

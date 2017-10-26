@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withMetaResource } from 'Modules/MetaResource';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import ActivityContainer from 'components/ActivityContainer';
@@ -12,15 +13,16 @@ import EnvironmentCard from '../components/EnvironmentCard';
 
 class HierarchyListing extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     organizationsSet: PropTypes.array,
     organizationSet: PropTypes.object.isRequired,
     workspacesSet: PropTypes.array,
+    fetchOrgSet: PropTypes.func.isRequired,
+    fetchEnvironments: PropTypes.func.isRequired,
     environments: PropTypes.array,
     environmentsPending: PropTypes.bool,
     organizationSetPending: PropTypes.bool.isRequired,
-    match: PropTypes.object.isRequired,
-    onFetchEnvironments: PropTypes.func.isRequired,
-    onUnloadEnvironments: PropTypes.func.isRequired,
+    unloadEnvironments: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,6 +42,24 @@ class HierarchyListing extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    const { match, fetchOrgSet } = this.props;
+
+    fetchOrgSet(match.params.fqon);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { showEnvironments } = this.state;
+
+    if (nextProps.match.params.fqon && nextProps.match.params.fqon !== this.props.match.params.fqon) {
+      this.props.fetchOrgSet(nextProps.match.params.fqon);
+
+      if (showEnvironments) {
+        this.props.fetchEnvironments(nextProps.match.params.fqon);
+      }
+    }
+  }
+
   setSortKey = (sortKey) => {
     this.setState({ sortKey });
   }
@@ -49,15 +69,15 @@ class HierarchyListing extends PureComponent {
   }
 
   toggleEnvironments = () => {
-    const { onFetchEnvironments, onUnloadEnvironments } = this.props;
+    const { match, fetchEnvironments, unloadEnvironments } = this.props;
     const { showEnvironments } = this.state;
 
     if (!showEnvironments) {
       this.setState({ showEnvironments: true });
-      onFetchEnvironments();
+      fetchEnvironments(match.params.fqon);
     } else {
       this.setState({ showEnvironments: false });
-      onUnloadEnvironments();
+      unloadEnvironments();
     }
   }
 
@@ -94,7 +114,7 @@ class HierarchyListing extends PureComponent {
       organizationSetPending ?
         <ActivityContainer id="hierarchy--progress" /> :
         [
-          <Row key="hierarchy--listing" gutter={5} paddingLeft="1em" alignItems="center">
+          <Row key={this.props.organizationSet.id} gutter={5} paddingLeft="1em" alignItems="center">
             <Col flex={2} xs={12} sm={6} md={6}>
               <Sort
                 visible={sortedOrgs.length > 0}
@@ -124,7 +144,7 @@ class HierarchyListing extends PureComponent {
               </Button>
             </Col>
           </Row>,
-          <Row key="hierarchy--cards" gutter={5} minColWidths={315}>
+          <Row key={`${this.props.organizationSet.id}--cards`} gutter={5} minColWidths={315}>
             {sortedOrgs.map(item => (
               <Col key={item.id} flex={3} xs={12}>
                 {this.renderCard(item)}
@@ -136,4 +156,4 @@ class HierarchyListing extends PureComponent {
   }
 }
 
-export default HierarchyListing;
+export default withMetaResource(HierarchyListing);

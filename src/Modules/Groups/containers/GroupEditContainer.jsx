@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
@@ -51,9 +51,6 @@ class GroupEdit extends Component {
     const { group, groupPending, pristine } = this.props;
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {groupPending && !group.id ?
           <ActivityContainer id="group-loading" /> :
           <GroupForm

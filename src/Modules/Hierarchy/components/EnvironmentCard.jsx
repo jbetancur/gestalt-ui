@@ -14,22 +14,20 @@ class EnvironmentCard extends PureComponent {
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
-    unloadNavigation: PropTypes.func.isRequired,
   };
 
   navEnvironmentDetails = () => {
-    const { model, history, contextManagerActions, unloadNavigation } = this.props;
+    const { model, history, contextManagerActions } = this.props;
 
-    history.push(`/${model.org.properties.fqon}/hierarchy/${model.properties.workspace.id}/environments/${model.id}`);
+    history.push(`/${model.org.properties.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/containers`);
     contextManagerActions.setCurrentEnvironmentContext(model);
-    unloadNavigation('environment');
   }
 
   edit = (e) => {
     const { model, history } = this.props;
 
     e.stopPropagation();
-    history.push(`/${model.org.properties.fqon}/hierarchy/${model.properties.workspace.id}/environments/${model.id}/edit`);
+    history.push(`/${model.org.properties.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`);
   }
 
   render() {

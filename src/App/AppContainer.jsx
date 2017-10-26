@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import HierarchyRoot from 'Modules/Hierarchy';
+import { ContextRoutes } from 'Modules/Hierarchy';
 import { licenseActions } from 'Modules/Licensing';
 import Toolbar from 'react-md/lib/Toolbars';
 import ActivityContainer from 'components/ActivityContainer';
@@ -77,7 +77,7 @@ class App extends Component {
             <AppLogo visible={browser.greaterThan.sm} />
           </Toolbar>
           <ModalRoot />
-          <HierarchyRoot />
+          <ContextRoutes />
         </Main> : <AppError onLogout={this.logout} {...this.props} />
     );
   }

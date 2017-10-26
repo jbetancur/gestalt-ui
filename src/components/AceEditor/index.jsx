@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
@@ -9,25 +8,16 @@ import 'brace/mode/golang';
 import 'brace/mode/python';
 import 'brace/mode/ruby';
 import 'brace/mode/yaml';
+import 'brace/mode/json';
 import 'brace/mode/scala';
 import 'brace/theme/chrome';
 import 'brace/theme/monokai';
 import 'brace/ext/language_tools';
 
-const EnhancedAceEditor = styled(AceEditor)`
-  // Fixes font for ace editor
-  .ace_line {
-      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-
-      span {
-          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-      }
-  }
-`;
 
 /* eslint-disable react/prop-types */
 export default ({ input, meta: { touched, error }, ...others }) => (
-  <EnhancedAceEditor
+  <AceEditor
     {...input}
     {...others}
     error={touched && !!error}

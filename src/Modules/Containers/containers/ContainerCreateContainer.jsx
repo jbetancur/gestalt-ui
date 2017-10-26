@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { volumeModalActions } from 'Modules/VolumeModal';
 import { portmapModalActions } from 'Modules/PortMappingModal';
@@ -86,10 +86,6 @@ class ContainerCreate extends Component {
   render() {
     return (
       <div>
-        {!this.props.inlineMode &&
-          <ContextNavigation
-            breadcrumbComponent={<Breadcrumbs />}
-          />}
         {this.props.envPending ?
           <ActivityContainer id="container-load" /> :
           <ContainerForm

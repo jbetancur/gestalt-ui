@@ -23,23 +23,22 @@ class HierarchyActions extends PureComponent {
     self: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
-    handleNavigation: PropTypes.func.isRequired,
   };
 
-  delete(e, organization) {
+  delete = (e) => {
     e.stopPropagation();
-    const { history, deleteOrg } = this.props;
-    const name = organization.description || organization.name;
-    const parentFQON = getParentFQON(organization);
+    const { history, organizationSet, deleteOrg } = this.props;
+    const name = organizationSet.description || organizationSet.name;
+    const parentFQON = getParentFQON(organizationSet);
     const onSuccess = () => history.replace(`/${parentFQON}/hierarchy`);
 
     this.props.confirmDelete(() => {
-      deleteOrg(organization.properties.fqon, onSuccess);
+      deleteOrg(organizationSet.properties.fqon, onSuccess);
     }, name, 'Organization');
   }
 
   render() {
-    const { organizationSet, match, pending, self, t, handleNavigation } = this.props;
+    const { organizationSet, match, pending, self, t } = this.props;
     const name = organizationSet.description || organizationSet.name;
     const deleteDisabled = pending || (match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root');
 
@@ -58,7 +57,7 @@ class HierarchyActions extends PureComponent {
             primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
             component={Link}
             leftIcon={<FontIcon>domain</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/hierarchy/createOrganization`}
+            to={`/${organizationSet.properties.fqon}/createOrganization`}
             style={listItemStyle}
           />
           <ListItem
@@ -66,7 +65,7 @@ class HierarchyActions extends PureComponent {
             primaryText={<span>{t('workspaces.actions.create')}</span>}
             component={Link}
             leftIcon={<FontIcon>work</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/hierarchy/createWorkspace`}
+            to={`/${organizationSet.properties.fqon}/createWorkspace`}
             style={listItemStyle}
           />
           <ListItem
@@ -74,8 +73,7 @@ class HierarchyActions extends PureComponent {
             primaryText={<span>{t('providers.actions.create')}</span>}
             component={Link}
             leftIcon={<FontIcon>settings_applications</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/hierarchy/providers/create`}
-            onClick={() => handleNavigation('hierarchy', 'providers', 1)}
+            to={`/${organizationSet.properties.fqon}/providers/create`}
             style={listItemStyle}
           />
           {organizationSet.properties.fqon === 'root' ?
@@ -84,8 +82,7 @@ class HierarchyActions extends PureComponent {
               primaryText={<span>{t('users.actions.create')}</span>}
               component={Link}
               leftIcon={<FontIcon>person</FontIcon>}
-              to={`/${organizationSet.properties.fqon}/hierarchy/users/create`}
-              onClick={() => handleNavigation('hierarchy', 'users', 2)}
+              to={`/${organizationSet.properties.fqon}/users/create`}
               style={listItemStyle}
             /> : <div />}
           {organizationSet.properties.fqon === 'root' ?
@@ -94,8 +91,7 @@ class HierarchyActions extends PureComponent {
               primaryText={<span>{t('groups.actions.create')}</span>}
               component={Link}
               leftIcon={<FontIcon>group</FontIcon>}
-              to={`/${organizationSet.properties.fqon}/hierarchy/groups/create`}
-              onClick={() => handleNavigation('hierarchy', 'groups', 3)}
+              to={`/${organizationSet.properties.fqon}/groups/create`}
               style={listItemStyle}
             /> : <div />}
         </MenuButton>
@@ -104,7 +100,7 @@ class HierarchyActions extends PureComponent {
           flat
           iconChildren="edit"
           component={Link}
-          to={`/${organizationSet.properties.fqon}/hierarchy/editOrganization`}
+          to={`/${organizationSet.properties.fqon}/editOrganization`}
         >
           Edit
         </Button>
@@ -119,7 +115,7 @@ class HierarchyActions extends PureComponent {
           disabled={deleteDisabled}
           flat
           iconChildren={<DeleteIcon />}
-          onClick={e => this.delete(e, organizationSet)}
+          onClick={this.delete}
         >
           Delete
         </Button>

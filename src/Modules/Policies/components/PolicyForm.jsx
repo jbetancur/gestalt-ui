@@ -73,7 +73,7 @@ const PolicyForm = (props) => {
               flat
               disabled={policyPending || submitting}
               component={Link}
-              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
+              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
             >
               {cancelLabel}
             </Button>

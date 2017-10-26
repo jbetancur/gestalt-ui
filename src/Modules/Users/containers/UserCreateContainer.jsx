@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import UserForm from '../components/UserForm';
 import validate from '../validations';
@@ -18,25 +18,20 @@ class UserCreate extends Component {
 
   create(values) {
     const { history, match, createUser } = this.props;
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
     createUser(match.params.fqon, values, onSuccess);
   }
 
   render() {
     return (
-      <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
-        <UserForm
-          title="Create User"
-          submitLabel="Create"
-          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-          onSubmit={values => this.create(values)}
-          {...this.props}
-        />
-      </div>
+      <UserForm
+        title="Create User"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
     );
   }
 }

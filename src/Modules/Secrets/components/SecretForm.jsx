@@ -146,7 +146,7 @@ const SecretForm = (props) => {
               flat
               disabled={secretPending || submitting}
               component={Link}
-              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
+              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
             >
               {cancelLabel}
             </Button>

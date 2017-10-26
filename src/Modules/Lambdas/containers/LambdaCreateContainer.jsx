@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../components/LambdaForm';
@@ -32,7 +32,7 @@ class LambdaCreate extends PureComponent {
     const payload = generateLambdaPayload(values);
 
     const onSuccess = () => {
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`);
     };
 
     createLambda(match.params.fqon, match.params.environmentId, payload, onSuccess);
@@ -41,9 +41,6 @@ class LambdaCreate extends PureComponent {
   render() {
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {this.props.envPending ?
           <ActivityContainer id="container-load" /> :
           <LambdaForm

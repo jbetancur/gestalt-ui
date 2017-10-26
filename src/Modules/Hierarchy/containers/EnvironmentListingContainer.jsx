@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withContext } from 'Modules/ContextManagement';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
@@ -19,7 +20,6 @@ class EnvironmentListing extends Component {
     environmentsPending: PropTypes.bool.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
-    unloadNavigation: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -94,6 +94,4 @@ class EnvironmentListing extends Component {
   }
 }
 
-export default withMetaResource(
-  connect(null, actions)(withTheme(EnvironmentListing))
-);
+export default connect(null, actions)(withMetaResource(withContext(withTheme(EnvironmentListing))));

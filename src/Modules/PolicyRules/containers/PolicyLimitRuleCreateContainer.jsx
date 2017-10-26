@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
 import validate from '../components/PolicyLimitRuleForm/validations';
@@ -27,24 +27,19 @@ class PolicyLimitRuleCreate extends Component {
     const { match, history, createPolicyRule, selectedActions } = this.props;
     const payload = generateLimitPolicyRulePayload(values, selectedActions);
 
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
   }
 
   render() {
     return (
-      <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
-        <PolicyLimitRuleForm
-          title="Create Limit Rule"
-          submitLabel="Create"
-          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-          onSubmit={values => this.create(values)}
-          {...this.props}
-        />
-      </div>
+      <PolicyLimitRuleForm
+        title="Create Limit Rule"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
     );
   }
 }
