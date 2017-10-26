@@ -1,4 +1,5 @@
 import { isJSON } from 'validator';
+import { isContainerName, containerNamePattern } from 'util/validations';
 
 export const nameMaxLen = 45;
 
@@ -29,6 +30,10 @@ export default (values) => {
 
   if (!values.name) {
     errors.name = 'name is required';
+  }
+
+  if (values.name && !isContainerName(values.name)) {
+    errors.name = `invalid provider name ${containerNamePattern}`;
   }
 
   if (!values.resource_type) {
