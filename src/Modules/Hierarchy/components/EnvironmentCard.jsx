@@ -9,6 +9,7 @@ import { Subtitle } from 'components/Typography';
 
 class EnvironmentCard extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     theme: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
@@ -17,17 +18,17 @@ class EnvironmentCard extends PureComponent {
   };
 
   navEnvironmentDetails = () => {
-    const { model, history, contextManagerActions } = this.props;
+    const { model, match, history, contextManagerActions } = this.props;
 
-    history.push(`/${model.org.properties.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/containers`);
+    history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/containers`);
     contextManagerActions.setCurrentEnvironmentContext(model);
   }
 
   edit = (e) => {
-    const { model, history } = this.props;
+    const { model, match, history } = this.props;
 
     e.stopPropagation();
-    history.push(`/${model.org.properties.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`);
+    history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`);
   }
 
   render() {
