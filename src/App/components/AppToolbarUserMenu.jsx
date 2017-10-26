@@ -29,7 +29,7 @@ const AppToolbarUserMenu = (props) => {
         primaryText={self.name || ''}
         leftAvatar={renderAvatar(true)}
         component={Link}
-        to={`/${self.properties.gestalt_home.properties.fqon}/hierarchy/users/${self.id}/edit`}
+        to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}/edit`}
       />
       <ListItem
         id="main-menu--locale"

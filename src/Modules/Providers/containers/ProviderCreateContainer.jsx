@@ -53,7 +53,15 @@ class ProviderCreate extends Component {
     ];
 
     const payload = generateProviderPayload(values, mergeProps, containerValues);
-    const onSuccess = () => history.goBack();
+    const onSuccess = () => {
+      if (match.params.workspaceId && !match.params.environmentId) {
+        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
+      } else if (match.params.workspaceId && match.params.environmentId) {
+        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
+      } else {
+        history.push(`/${match.params.fqon}/providers`);
+      }
+    };
 
     // Create it
     if (match.params.workspaceId && !match.params.environmentId) {
