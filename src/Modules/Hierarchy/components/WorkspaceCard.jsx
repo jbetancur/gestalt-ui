@@ -10,6 +10,7 @@ import { Subtitle } from 'components/Typography';
 
 class WorkspaceCard extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
@@ -18,18 +19,18 @@ class WorkspaceCard extends PureComponent {
   };
 
   navWorkspaceDetails = () => {
-    const { model, history, contextManagerActions } = this.props;
+    const { model, match, history, contextManagerActions } = this.props;
 
-    history.push(`/${model.org.properties.fqon}/hierarchy/${model.id}/environments`);
+    history.push(`/${match.params.fqon}/hierarchy/${model.id}/environments`);
     contextManagerActions.setCurrentWorkspaceContext(model);
   }
 
   edit = (e) => {
     e.stopPropagation();
 
-    const { model, history } = this.props;
+    const { model, match, history } = this.props;
 
-    history.push(`/${model.org.properties.fqon}/hierarchy/${model.id}/editWorkspace`);
+    history.push(`/${match.params.fqon}/hierarchy/${model.id}/editWorkspace`);
   }
 
   render() {
