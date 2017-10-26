@@ -7,7 +7,7 @@ import {
 
 export const nameMaxLen = 30;
 
-export default (values) => {
+export default (values, props) => {
   const errors = {
     properties: {
       provider: {},
@@ -28,27 +28,29 @@ export default (values) => {
     errors.name = `allowed format: ${secretNameValidationPattern}`;
   }
 
-  if (!values.properties.items || !values.properties.items.length > 0) {
-    errors.properties.items = { _error: 'At least one secret must be entered' };
-  } else {
-    const itemsArrayErrors = [];
+  if (!props.secret.id) {
+    if (!values.properties.items || !values.properties.items.length > 0) {
+      errors.properties.items = { _error: 'At least one secret must be entered' };
+    } else {
+      const itemsArrayErrors = [];
 
-    values.properties.items.forEach((item, i) => {
-      const itemErrors = {};
+      values.properties.items.forEach((item, i) => {
+        const itemErrors = {};
 
-      if (!item || !item.key || !isSecretKeyValidation(item)) {
-        itemErrors.key = `required: allowed format: ${secretKeyValidationPattern}`;
-        itemsArrayErrors[i] = itemErrors;
+        if (!item || !item.key || !isSecretKeyValidation(item)) {
+          itemErrors.key = `required: allowed format: ${secretKeyValidationPattern}`;
+          itemsArrayErrors[i] = itemErrors;
+        }
+
+        if (!item || !item.value) {
+          itemErrors.value = ' ';
+          itemsArrayErrors[i] = itemErrors;
+        }
+      });
+
+      if (itemsArrayErrors.length) {
+        errors.properties.items = itemsArrayErrors;
       }
-
-      if (!item || !item.value) {
-        itemErrors.value = ' ';
-        itemsArrayErrors[i] = itemErrors;
-      }
-    });
-
-    if (itemsArrayErrors.length) {
-      errors.properties.items = itemsArrayErrors;
     }
   }
 
