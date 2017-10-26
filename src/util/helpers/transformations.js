@@ -21,15 +21,15 @@ export function generateContextEntityState(params) {
 export function generateEntityState(params) {
   const entity = {
     id: params.containerId || params.lambdaId || params.environmentId || params.workspaceId || null,
-    key: params.workspaceId && params.enviromentId ? 'environments' : 'workspaces',
+    key: params.workspaceId && params.environmentId ? 'environments' : 'workspaces',
   };
 
   if (params.lambdaId) {
-    entity.childKey = 'lambdas';
+    entity.key = 'lambdas';
   }
 
   if (params.containerId) {
-    entity.childKey = 'containers';
+    entity.key = 'containers';
   }
 
   return entity;
