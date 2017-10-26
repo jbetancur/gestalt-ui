@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import styled, { withTheme } from 'styled-components';
 import FontIcon from 'react-md/lib/FontIcons';
 
-const EnhancedListItem = styled.div`
+const EnhancedListItem = styled(NavLink)`
   height: 56px;
   text-decoration: none;
   display: ${props => (props.visible ? 'flex' : 'none')};
@@ -18,6 +19,10 @@ const EnhancedListItem = styled.div`
   .md-fake-btn {
     padding: 0;
   }
+
+  &.active-link * {
+    color:  ${props => props.theme.colors['$md-blue-500']}!important;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -26,6 +31,7 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.div`
+  color: ${props => props.theme.colors['$md-grey-900']};
   font-size: .7em;
   margin-top: 6px;
   padding-bottom: 1em;
@@ -62,4 +68,4 @@ ListItemStacked.defaultProps = {
   visible: true,
 };
 
-export default ListItemStacked;
+export default withTheme(ListItemStacked);

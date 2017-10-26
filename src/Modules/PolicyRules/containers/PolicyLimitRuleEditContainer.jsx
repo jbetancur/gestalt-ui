@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
@@ -48,7 +48,7 @@ class PolicyLimitRuleEdit extends Component {
     const patches = generateLimitPolicyRulePatches(policyRule, values, selectedActions);
 
     if (patches.length) {
-      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
       updatePolicyRule(match.params.fqon, match.params.policyId, policyRule.id, patches, onSuccess);
     }
   }
@@ -58,9 +58,6 @@ class PolicyLimitRuleEdit extends Component {
 
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {policyRulePending ?
           <ActivityContainer id="policyRule-load" /> :
           <PolicyLimitRuleForm

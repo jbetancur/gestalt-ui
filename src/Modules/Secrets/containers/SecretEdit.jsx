@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import SecretForm from '../components/SecretForm';
@@ -33,7 +33,7 @@ class SecretEdit extends Component {
     const { match, history, secret, updateSecret } = this.props;
     const patches = generateSecretPatches(secret, values);
     const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`);
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`);
     updateSecret(match.params.fqon, secret.id, patches, onSuccess);
   }
 
@@ -42,9 +42,6 @@ class SecretEdit extends Component {
 
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {secretPending && !secret.id ?
           <ActivityContainer id="secret-load" /> :
           <SecretForm

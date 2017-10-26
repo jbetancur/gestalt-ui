@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 
 const FieldsetStyle = styled.fieldset`
-  border: .2em solid ${props => props.theme.colors['$md-grey-100']} !important;
+  ${props => (props.border ? `border: .2em solid ${props.theme.colors['$md-grey-100']} !important` : 'border: none!important')};
+  ${props => props.background && `background-color: ${props.theme.colors['$md-grey-100']}`};
   width: 100% !important;
 `;
 
@@ -27,7 +28,7 @@ const ContentStyle = styled.div`
 `;
 
 const Fieldset = props => (
-  <FieldsetStyle className={props.className} style={props.style}>
+  <FieldsetStyle className={props.className} style={props.style} border={props.border} background={props.background}>
     {props.legend &&
       <LegendStyle legendFontSize={props.legendFontSize}>
         {props.legend}
@@ -54,6 +55,8 @@ Fieldset.propTypes = {
   overflow: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   style: PropTypes.object,
   className: PropTypes.string,
+  border: PropTypes.bool,
+  background: PropTypes.bool,
 };
 
 Fieldset.defaultProps = {
@@ -65,6 +68,8 @@ Fieldset.defaultProps = {
   overflow: false,
   style: {},
   className: '',
+  border: true,
+  background: false,
 };
 
 export default withTheme(Fieldset);

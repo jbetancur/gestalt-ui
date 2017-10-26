@@ -104,7 +104,7 @@ const APIForm = (props) => {
                 flat
                 disabled={apiPending || submitting}
                 component={Link}
-                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}`}
+                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
               >
                 {cancelLabel}
               </Button>

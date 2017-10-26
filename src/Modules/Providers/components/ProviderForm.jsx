@@ -271,7 +271,7 @@ ProviderForm.defaultProps = {
   provider: {},
   providerUpdatePending: false,
   container: {},
-  onRedeploy: null,
+  onRedeploy: () => { },
 };
 
 // Connect to this forms state in the store so we can enum the values

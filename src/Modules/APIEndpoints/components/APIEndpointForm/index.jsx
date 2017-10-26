@@ -48,7 +48,7 @@ const APIEndpointForm = (props) => {
     containersDropDownPending,
   } = props;
 
-  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`;
+  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit`;
 
   // TODO: implement selectors
   const containerPorts = () => {
@@ -128,7 +128,7 @@ const APIEndpointForm = (props) => {
                   itemValue="id"
                   required
                   label="Container"
-                  onFocus={() => fetchContainers()}
+                  onFocus={fetchContainers}
                   async
                   helpText="container from the current environment"
                 />

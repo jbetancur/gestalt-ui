@@ -34,7 +34,7 @@ class GroupListing extends PureComponent {
   edit = (group, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      this.props.history.push(`/${this.props.match.params.fqon}/hierarchy/groups/${group.id}/edit`);
+      this.props.history.push(`${this.props.match.url}/${group.id}/edit`);
     }
   }
 

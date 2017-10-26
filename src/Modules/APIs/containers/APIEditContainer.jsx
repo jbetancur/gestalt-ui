@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
 import APIForm from '../components/APIForm';
 import validate from '../validations';
@@ -42,9 +42,6 @@ class APIEdit extends Component {
 
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {apiPending && !api.id ?
           <ActivityContainer id="api-loading" /> :
           <APIForm

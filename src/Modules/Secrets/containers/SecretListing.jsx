@@ -38,7 +38,7 @@ class SecretListing extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
 
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/secrets/${secret.id}/edit`);
+      history.push(`${match.url}/${secret.id}/edit`);
     }
   }
 

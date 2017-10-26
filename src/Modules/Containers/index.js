@@ -1,16 +1,3 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import ContainerCreate from './containers/ContainerCreateContainer';
-import ContainerEdit from './containers/ContainerEditContainer';
-
-const ContainerRoot = () => (
-  <Switch>
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/create" component={ContainerCreate} />
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environments/:environmentId/containers/:containerId/edit" component={ContainerEdit} />
-  </Switch>
-);
-
-export default ContainerRoot;
 export { default as Containers } from './containers/ContainerListingContainer';
 export { default as ContainerCreate } from './containers/ContainerCreateContainer';
 export { default as ContainerEdit } from './containers/ContainerEditContainer';

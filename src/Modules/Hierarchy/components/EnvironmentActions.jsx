@@ -19,13 +19,12 @@ class EnvironmentActions extends PureComponent {
     deleteEnvironment: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
-    handleNavigation: PropTypes.func.isRequired,
   };
 
-  delete() {
+  delete = () => {
     const { match, history, environment, deleteEnvironment } = this.props;
     const name = environment.description || environment.name;
-    const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}`);
+    const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
     this.props.confirmDelete(() => {
       deleteEnvironment(match.params.fqon, environment.id, onSuccess);
@@ -33,7 +32,7 @@ class EnvironmentActions extends PureComponent {
   }
 
   render() {
-    const { environment, pending, match, handleNavigation } = this.props;
+    const { environment, pending, match } = this.props;
     const name = environment.description || environment.name;
 
     return (
@@ -51,8 +50,7 @@ class EnvironmentActions extends PureComponent {
             primaryText="Container"
             component={Link}
             leftIcon={<ContainerIcon />}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/containers/create`}
-            onClick={() => handleNavigation('environment', 'containers', 0)}
+            to={`${match.url}/containers/create`}
             style={listItemStyle}
           />
           <ListItem
@@ -60,8 +58,7 @@ class EnvironmentActions extends PureComponent {
             primaryText="Lambda"
             component={Link}
             leftIcon={<LambdaIcon />}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/lambdas/create`}
-            onClick={() => handleNavigation('environment', 'lambdas', 1)}
+            to={`${match.url}/lambdas/create`}
             style={listItemStyle}
           />
           <ListItem
@@ -69,8 +66,7 @@ class EnvironmentActions extends PureComponent {
             primaryText="API"
             component={Link}
             leftIcon={<FontIcon>device_hub</FontIcon>}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/create`}
-            onClick={() => handleNavigation('environment', 'apis', 2)}
+            to={`${match.url}/apis/create`}
             style={listItemStyle}
           />
           <ListItem
@@ -78,8 +74,7 @@ class EnvironmentActions extends PureComponent {
             primaryText="Policy"
             component={Link}
             leftIcon={<FontIcon>verified_user</FontIcon>}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/create`}
-            onClick={() => handleNavigation('environment', 'policies', 3)}
+            to={`${match.url}/policies/create`}
             style={listItemStyle}
           />
           <ListItem
@@ -87,8 +82,7 @@ class EnvironmentActions extends PureComponent {
             primaryText="Provider"
             component={Link}
             leftIcon={<FontIcon>settings_applications</FontIcon>}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/providers/create`}
-            onClick={() => handleNavigation('environment', 'providers', 4)}
+            to={`${match.url}/providers/create`}
             style={listItemStyle}
           />
           <ListItem
@@ -96,8 +90,7 @@ class EnvironmentActions extends PureComponent {
             primaryText="Secret"
             component={Link}
             leftIcon={<FontIcon>lock</FontIcon>}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/secrets/create`}
-            onClick={() => handleNavigation('environment', 'secrets', 5)}
+            to={`${match.url}/secrets/create`}
             style={listItemStyle}
           />
         </MenuButton>
@@ -105,7 +98,7 @@ class EnvironmentActions extends PureComponent {
           flat
           iconChildren="edit"
           component={Link}
-          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/edit`}
+          to={`${match.url}/edit`}
         >
           Edit
         </Button>
@@ -119,7 +112,7 @@ class EnvironmentActions extends PureComponent {
         <Button
           flat
           iconChildren={<DeleteIcon />}
-          onClick={e => this.delete(e)}
+          onClick={this.delete}
         >
           Delete
         </Button>

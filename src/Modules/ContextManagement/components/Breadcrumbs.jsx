@@ -67,9 +67,9 @@ const Wrapper = styled.div`
     a:last-child {
       color: ${props.theme.colors['$md-grey-800']};
 
-      &:hover {
-        color: ${props.theme.colors['$md-blue-500']};
-      }
+      // &:hover {
+      //   color: ${props.theme.colors['$md-blue-500']};
+      // }
     }
   `};
 `;
@@ -120,8 +120,8 @@ class Breadcrumbs extends PureComponent {
     const parentFQON = getParentFQON(currentOrgContext);
     const parentOrgRoute = `/${parentFQON}/hierarchy`;
     const orgsRoute = `/${currentOrgContext.properties.fqon}/hierarchy`;
-    const workspaceRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}`;
-    const environmentRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}/environments/${currentEnvironmentContext.id}`;
+    const workspaceRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}/environments`;
+    const environmentRoute = `/${match.url}`;
     const orgName = truncate(currentOrgContext.description || currentOrgContext.name, 30);
     const workspaceName = truncate(currentWorkspaceContext.description || currentWorkspaceContext.name, 30);
     const environmentName = truncate(currentEnvironmentContext.description || currentEnvironmentContext.name, 30);

@@ -9,7 +9,7 @@ import errorNotificationReducer from '../Modules/ErrorNotifications/reducers';
 import loginReducer from '../Modules/Auth/reducers';
 // import organizationsReducer from '../Modules/Organizations/reducers';
 import oranizationNavMenu from '../Modules/OrgNavMenu/reducers';
-import hierarchyReducer from '../Modules/Hierarchy/reducers';
+// import hierarchyReducer from '../Modules/Hierarchy/reducers';
 // import providersReducer from '../Modules/Providers/reducers';
 import lambdasReducer from '../Modules/Lambdas/reducers';
 // import entitlementsReducer from '../Modules/Entitlements/reducers';
@@ -45,7 +45,7 @@ export default combineReducers({
   metaResource: metaResourceReducers,
   login: loginReducer,
   orgnavmenu: oranizationNavMenu,
-  hierarchy: hierarchyReducer,
+  // hierarchy: hierarchyReducer,
   // providers: providersReducer,
   lambdas: lambdasReducer,
   // entitlements: entitlementsReducer,

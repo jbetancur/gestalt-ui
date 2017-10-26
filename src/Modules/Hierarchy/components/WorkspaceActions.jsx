@@ -19,7 +19,6 @@ class WorkspaceActions extends PureComponent {
     deleteWorkspace: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     showEntitlementsModal: PropTypes.func.isRequired,
-    handleNavigation: PropTypes.func.isRequired,
   };
 
   delete() {
@@ -33,7 +32,7 @@ class WorkspaceActions extends PureComponent {
   }
 
   render() {
-    const { workspace, pending, match, handleNavigation } = this.props;
+    const { workspace, pending, match } = this.props;
     const name = workspace.description || workspace.name;
 
     return (
@@ -51,7 +50,7 @@ class WorkspaceActions extends PureComponent {
             primaryText="Environment"
             component={Link}
             leftIcon={<FontIcon>folder</FontIcon>}
-            to={`/${match.params.fqon}/hierarchy/${workspace.id}/createEnvironment`}
+            to={`${match.url}/createEnvironment`}
             style={listItemStyle}
           />
           <ListItem
@@ -59,8 +58,7 @@ class WorkspaceActions extends PureComponent {
             primaryText="Provider"
             component={Link}
             leftIcon={<FontIcon>settings_applications</FontIcon>}
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/create`}
-            onClick={() => handleNavigation('workspace', 'providers', 1)}
+            to={`${match.url}/createProvider`}
             style={listItemStyle}
           />
         </MenuButton>
@@ -68,7 +66,7 @@ class WorkspaceActions extends PureComponent {
           flat
           iconChildren="edit"
           component={Link}
-          to={`/${match.params.fqon}/hierarchy/${workspace.id}/editWorkspace`}
+          to={`${match.url}/edit`}
         >
         Edit
         </Button>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import APIForm from '../components/APIForm';
 import validate from '../validations';
@@ -26,7 +26,7 @@ class APICreate extends Component {
     if (!payload.properties.provider.id) {
       this.props.dispatch({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create API. You must create and link a gateway manager provider type first' });
     } else {
-      const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${response.id}/edit`);
+      const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${response.id}/edit`);
       createAPI(match.params.fqon, match.params.environmentId, payload, onSuccess);
     }
   }
@@ -34,9 +34,6 @@ class APICreate extends Component {
   render() {
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         <APIForm
           title="Create API"
           submitLabel="Create"

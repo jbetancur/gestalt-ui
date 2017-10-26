@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { containerActionCreators } from 'Modules/Containers';
 import base64 from 'base-64';
@@ -80,9 +80,6 @@ class ProviderEdit extends PureComponent {
 
     return (
       <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
         {providerPending ?
           <ActivityContainer id="provider-load" /> :
           <ProviderForm

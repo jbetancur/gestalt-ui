@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext, Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
+import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import PolicyEventRuleForm from '../components/PolicyEventRuleForm';
 import validate from '../components/PolicyEventRuleForm/validations';
@@ -27,24 +27,19 @@ class PolicyEventRuleCreate extends Component {
     const { match, history, createPolicyRule, selectedActions } = this.props;
     const payload = generateEventPolicyRulePayload(values, selectedActions);
 
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
   }
 
   render() {
     return (
-      <div>
-        <ContextNavigation
-          breadcrumbComponent={<Breadcrumbs />}
-        />
-        <PolicyEventRuleForm
-          title="Create Event Rule"
-          submitLabel="Create"
-          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-          onSubmit={values => this.create(values)}
-          {...this.props}
-        />
-      </div>
+      <PolicyEventRuleForm
+        title="Create Event Rule"
+        submitLabel="Create"
+        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
     );
   }
 }
