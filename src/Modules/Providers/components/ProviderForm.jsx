@@ -26,7 +26,7 @@ const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value:
 
 const ProviderForm = (props) => {
   const { provider, reset, values, history, match, container, fetchEnvSchema } = props;
-  const selectedProviderType = providerTypes.find(type => type.value === values && values.resource_type) || {};
+  const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
 
   const goBack = () => {
     if (match.params.workspaceId && !match.params.environmentId) {
