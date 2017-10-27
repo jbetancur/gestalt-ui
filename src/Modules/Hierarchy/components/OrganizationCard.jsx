@@ -28,7 +28,7 @@ class OrganizationCard extends PureComponent {
 
     const { model, history } = this.props;
 
-    history.push(`/${model.properties.fqon}/hierarchy/editOrganization`);
+    history.push(`/${model.properties.fqon}/editOrganization`);
   }
 
   render() {
