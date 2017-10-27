@@ -40,7 +40,7 @@ class ContainerListing extends PureComponent {
   }
 
   startPoll() {
-    this.timeout = setTimeout(() => this.init(true), 5000);
+    this.timeout = setInterval(() => this.init(true), 5000);
   }
 
   init(isPolling) {
