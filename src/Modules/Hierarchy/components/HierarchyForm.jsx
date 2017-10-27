@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { translate } from 'react-i18next';
-import styled from 'styled-components';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
@@ -17,12 +16,8 @@ import Fieldset from 'components/Fieldset';
 import { isUnixVariable } from 'util/validations';
 import { nameMaxLen, shortNameMaxLen } from '../validations';
 
-const ActionIconSection = styled.div`
-  text-align: right;
-`;
-
 const HierarchyForm = (props) => {
-  const { t, editMode } = props;
+  const { t } = props;
 
   return (
     <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
@@ -101,18 +96,6 @@ const HierarchyForm = (props) => {
               >
                 {props.submitLabel}
               </Button>
-              <Col component={ActionIconSection} flex>
-                {editMode &&
-                  <Button
-                    tooltipLabel="Entitlements"
-                    tooltipPosition="top"
-                    flat
-                    iconChildren="security"
-                    onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
-                  >
-                    Entitlements
-                  </Button>}
-              </Col>
             </Row>
           </CardActions>
         </Col>
@@ -122,7 +105,6 @@ const HierarchyForm = (props) => {
 };
 
 HierarchyForm.propTypes = {
-  match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -135,8 +117,6 @@ HierarchyForm.propTypes = {
   cancelLabel: PropTypes.string,
   isEnvironment: PropTypes.bool,
   t: PropTypes.func.isRequired,
-  showEntitlementsModal: PropTypes.func.isRequired,
-  editMode: PropTypes.bool,
 };
 
 HierarchyForm.defaultProps = {
@@ -144,7 +124,6 @@ HierarchyForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   isEnvironment: false,
-  editMode: false,
 };
 
 export default translate()(HierarchyForm);
