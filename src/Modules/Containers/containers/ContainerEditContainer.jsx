@@ -43,19 +43,17 @@ class ContainerEdit extends Component {
     const { match, fetchProvidersByType, fetchEnv, fetchActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
+    this.populateContainer();
     fetchProvidersByType(match.params.fqon, entity.id, entity.key, 'CaaS');
     fetchEnv(match.params.fqon, entity.id, entity.key);
-
-    this.populateContainer();
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.container !== nextProps.container) {
+    if (this.props.container.id !== nextProps.container.id) {
       clearTimeout(this.timeout);
 
       if (!nextProps.containerPending) {
-        this.isPolling = false;
         this.startPoll();
       }
 
@@ -69,6 +67,7 @@ class ContainerEdit extends Component {
 
   componentWillUnmount() {
     const { unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
+
     unloadVolumes();
     unloadPortmappings();
     unloadSecretsModal();
@@ -76,7 +75,7 @@ class ContainerEdit extends Component {
   }
 
   startPoll() {
-    this.timeout = setTimeout(() => this.populateContainer(true), 5000);
+    this.timeout = setInterval(() => this.populateContainer(true), 5000);
   }
 
   populateContainer(isPolling) {
@@ -85,7 +84,7 @@ class ContainerEdit extends Component {
     fetchContainer(match.params.fqon, match.params.containerId, match.params.environmentId, isPolling);
   }
 
-  redeployContainer(values) {
+  redeployContainer = (values) => {
     const { match, history, container, updateContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
@@ -125,7 +124,7 @@ class ContainerEdit extends Component {
             title={container.name}
             submitLabel="Update"
             cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-            onSubmit={values => this.redeployContainer(values)}
+            onSubmit={this.redeployContainer}
             {...this.props}
           />}
       </div>

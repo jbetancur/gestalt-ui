@@ -5,3 +5,4 @@ export { default as H4 } from './H4';
 export { default as P } from './P';
 export { default as Caption } from './Caption';
 export { default as Subtitle } from './Subtitle';
+export { default as Title } from './Title';

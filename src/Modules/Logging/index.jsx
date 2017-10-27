@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
 import { parse } from 'query-string';
@@ -9,6 +8,7 @@ import axios from 'axios';
 import SelectField from 'react-md/lib/SelectFields';
 import ActivityContainer from 'components/ActivityContainer';
 import { Button, FileDownloadButton } from 'components/Buttons';
+import { Title } from 'components/Typography';
 import { API_TIMEOUT } from '../../constants';
 
 const timeSpans = [
@@ -155,7 +155,7 @@ class Logging extends PureComponent {
     super(props);
 
     this.state = {
-      logs: props.logProviderURL ? defaultLog(props.location) : defaultLogNoProvider(props.location),
+      logs: props.logProviderURL ? defaultLog(props.location) : defaultLogNoProvider(),
       logPending: false,
       logTimespan: '5m',
       fontSize: fontSizes.lg,
@@ -185,11 +185,11 @@ class Logging extends PureComponent {
 
   setLogTimespan = value => this.setState({ logTimespan: value });
 
-  scrollToBottom() {
+  scrollToBottom = () => {
     window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
   }
 
-  scrollToTop() {
+  scrollToTop = () => {
     window.scrollTo(0, 0);
   }
 
@@ -218,7 +218,9 @@ class Logging extends PureComponent {
       } else {
         this.setState({ logs: defaultLog(this.props.location) });
       }
-    }).catch(() => this.setState({ logPending: false }));
+    }).catch((error) => {
+      this.setState({ logPending: false, logs: ['unable to contact the log api', `${error}`] });
+    });
   }
 
   changeFontSize() {
@@ -240,7 +242,7 @@ class Logging extends PureComponent {
           <Row gutter={5} alignItems="center">
             <Col xs={12} sm={6} md={6} lg={8}>
               <ToolbarTitle>
-                <div className="gf-headline-1">Logs for {query.name} ({query.logType})</div>
+                <Title small>Logs for {query.name} ({query.logType})</Title>
               </ToolbarTitle>
             </Col>
             <Col xs={12} sm={6} md={6} lg={4}>
@@ -300,7 +302,7 @@ class Logging extends PureComponent {
                   primary
                   tooltipLabel="Scroll to Top"
                   tooltipPosition="left"
-                  onClick={() => this.scrollToTop()}
+                  onClick={this.scrollToTop}
                 />
                 <BottomScrollButton
                   icon
@@ -308,7 +310,7 @@ class Logging extends PureComponent {
                   primary
                   tooltipLabel="Scroll to Bottom"
                   tooltipPosition="left"
-                  onClick={() => this.scrollToBottom()}
+                  onClick={this.scrollToBottom}
                 />
               </ScrollButtons>
               <Pre>
@@ -324,8 +326,4 @@ class Logging extends PureComponent {
   }
 }
 
-function mapStateToProps() {
-  return {};
-}
-
-export default withMetaResource(connect(mapStateToProps)(Logging));
+export default withMetaResource(Logging);
