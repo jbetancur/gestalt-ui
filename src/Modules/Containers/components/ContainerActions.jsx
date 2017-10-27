@@ -143,18 +143,18 @@ class ContainerActions extends Component {
   promoteContainer() {
     const { match, promoteContainer, promoteContainerModal, containerModel, contextManagerActions, fetchEnvironment, fetchContainers } = this.props;
     const onSuccess = environment => () => {
-      this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
+      this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}/containers`);
       fetchEnvironment(match.params.fqon, environment.id);
       contextManagerActions.setCurrentEnvironmentContext(environment);
       fetchContainers(match.params.fqon, environment.id);
       // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
       // if (inContainerView) {
-      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}/containers/${container.id}/edit`);
+      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}/containers/${container.id}/edit`);
       //   contextManagerActions.setCurrentEnvironmentContext(environment);
       //   fetchContainer(match.params.fqon, container.id, environment.id, true);
       // } else {
       //   // TODO: Need to refactor this when we refactor the routing logic
-      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${environment.id}`);
+      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}`);
       //   fetchEnvironment(match.params.fqon, environment.id);
       //   contextManagerActions.setCurrentEnvironmentContext(environment);
       //   fetchContainers(match.params.fqon, environment.id);

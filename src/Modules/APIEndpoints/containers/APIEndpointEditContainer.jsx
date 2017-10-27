@@ -34,7 +34,7 @@ class APIEndpointEdit extends Component {
       fetchLambdasDropDown(match.params.fqon);
     } else {
       // if the search params are missing then go back to the API parent
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
     }
 
     fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
