@@ -30,7 +30,7 @@ class WorkspaceCard extends PureComponent {
 
     const { model, match, history } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${model.id}/editWorkspace`);
+    history.push(`/${match.params.fqon}/hierarchy/${model.id}/edit`);
   }
 
   render() {
