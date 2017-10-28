@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { withContext } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
-import HierarchyForm from '../components/HierarchyForm';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generateWorkspacePayload } from '../payloadTransformer';
 
 class OrgCreate extends Component {
@@ -40,19 +39,17 @@ class OrgCreate extends Component {
   }
 }
 
-function mapStateToProps() {
-  return {
+export default compose(
+  withMetaResource,
+  withContext,
+  reduxForm({
+    form: 'workspaceCreate',
     initialValues: {
-      name: '',
-      description: '',
+      ...metaModels.workspace,
       properties: {
         env: [],
       }
-    }
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'workspaceCreate',
-  validate
-})(withContext(OrgCreate))));
+    },
+    validate,
+  })
+)(OrgCreate);

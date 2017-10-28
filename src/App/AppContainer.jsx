@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { licenseActions } from 'Modules/Licensing';
@@ -16,7 +16,7 @@ import AppError from './components/AppError';
 import AppLogo from './components/AppLogo';
 import AppToolbarUserMenu from './components/AppToolbarUserMenu';
 import AppToolbarInfoMenu from './components/AppToolbarInfoMenu';
-import actions from './actions';
+import withApp from './withApp';
 
 class App extends Component {
   static propTypes = {
@@ -104,14 +104,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
     license: bindActionCreators(licenseActions, dispatch),
     auth: bindActionCreators(loginActions, dispatch),
     meta: bindActionCreators(metaActions, dispatch),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withContext(App));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withContext,
+  withApp
+)(App);

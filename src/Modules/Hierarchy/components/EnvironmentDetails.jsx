@@ -1,35 +1,74 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { Link } from 'react-router-dom';
+import { withMetaResource } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
-import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { VariablesListing } from 'Modules/Variables';
-import Label from 'components/Label';
+import { DeleteIcon } from 'components/Icons';
+import { Button } from 'components/Buttons';
+import Div from 'components/Div';
+import ResourceProperties from './ResourceProperties';
+import withHierarchy from '../withHierarchy';
 
-const EnvironmentDetails = (props) => {
-  const { environment } = props;
-  const name = environment.description || environment.name;
+class EnvironmentDetails extends PureComponent {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    environment: PropTypes.object.isRequired,
+    environmentPending: PropTypes.bool.isRequired,
+    history: PropTypes.object.isRequired,
+    deleteEnvironment: PropTypes.func.isRequired,
+    hierarchyActions: PropTypes.object.isRequired,
+  };
 
-  return (
-    <Row>
-      <Col flex={6} xs={12}>
-        <div><Label>Name: </Label><span className="gf-subtitle">{name}</span></div>
-        <div><Label>short-name: </Label><span className="gf-subtitle">{environment.name}</span></div>
-        {environment.created.timestamp && <div><Label>Created: </Label><span className="gf-subtitle"><FormattedRelative value={environment.created.timestamp} /> (<FormattedDate value={environment.created.timestamp} /> <FormattedTime value={environment.created.timestamp} />)</span></div>}
-        {environment.modified.timestamp && <div><Label>Modified: </Label><span className="gf-subtitle"><FormattedRelative value={environment.modified.timestamp} /> (<FormattedDate value={environment.modified.timestamp} /> <FormattedTime value={environment.modified.timestamp} />)</span></div>}
-        <div><Label>Environment Type: </Label><span className="gf-subtitle">{environment.properties.environment_type}</span></div>
-        <div><Label>Owner: </Label><span className="gf-subtitle">{environment.owner.name}</span></div>
-        <div><Label>uuid: </Label><span className="gf-subtitle">{environment.id}</span></div>
-      </Col>
-      <Col flex={6} xs={12}>
-        <VariablesListing envMap={environment.properties.env} />
-      </Col>
-    </Row>
-  );
-};
+  delete = () => {
+    const { match, history, environment, deleteEnvironment, hierarchyActions } = this.props;
+    const name = environment.description || environment.name;
+    const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
-EnvironmentDetails.propTypes = {
-  environment: PropTypes.object.isRequired,
-  // t: PropTypes.func.isRequired,
-};
+    hierarchyActions.confirmDelete(() => {
+      deleteEnvironment(match.params.fqon, environment.id, onSuccess);
+    }, name, 'Environment');
+  }
 
-export default EnvironmentDetails;
+  render() {
+    const { match, environment, environmentPending } = this.props;
+
+    return [
+      <Row key="environment-details">
+        <Col flex={6} xs={12}>
+          <ResourceProperties model={environment} isEnvironment />
+        </Col>
+        <Col flex={6} xs={12}>
+          <VariablesListing envMap={environment.properties.env} />
+        </Col>
+      </Row>,
+      <Div key="environemnt-details--actions" disabled={environmentPending} textAlign="right">
+        <Row>
+          <Col flex={12}>
+            <Button
+              flat
+              iconChildren={<DeleteIcon />}
+              onClick={this.delete}
+            >
+              Delete
+            </Button>
+            <Button
+              flat
+              iconChildren="edit"
+              component={Link}
+              to={`${match.url}/edit`}
+            >
+              Edit
+            </Button>
+          </Col>
+        </Row>
+      </Div>,
+    ];
+  }
+}
+
+export default compose(
+  withMetaResource,
+  withHierarchy,
+)(EnvironmentDetails);

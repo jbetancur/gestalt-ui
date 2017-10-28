@@ -1,34 +1,74 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { Link } from 'react-router-dom';
+import { withMetaResource } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
-import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { VariablesListing } from 'Modules/Variables';
-import Label from 'components/Label';
+import { DeleteIcon } from 'components/Icons';
+import { Button } from 'components/Buttons';
+import Div from 'components/Div';
+import ResourceProperties from './ResourceProperties';
+import withHierarchy from '../withHierarchy';
 
-const WorkspaceDetails = (props) => {
-  const { workspace } = props;
-  const name = workspace.description || workspace.name;
+class WorkspaceDetails extends PureComponent {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    workspace: PropTypes.object.isRequired,
+    workspacePending: PropTypes.bool.isRequired,
+    history: PropTypes.object.isRequired,
+    deleteWorkspace: PropTypes.func.isRequired,
+    hierarchyActions: PropTypes.object.isRequired,
+  };
 
-  return (
-    <Row>
-      <Col flex={6} xs={12}>
-        <div><Label>Name: </Label><span className="gf-subtitle">{name}</span></div>
-        <div><Label>short-name: </Label><span className="gf-subtitle">{workspace.name}</span></div>
-        {workspace.created.timestamp && <div><Label>Created: </Label><span className="gf-subtitle"><FormattedRelative value={workspace.created.timestamp} /> (<FormattedDate value={workspace.created.timestamp} /> <FormattedTime value={workspace.created.timestamp} />)</span></div>}
-        {workspace.modified.timestamp && <div><Label>Modified: </Label><span className="gf-subtitle"><FormattedRelative value={workspace.modified.timestamp} /> (<FormattedDate value={workspace.modified.timestamp} /> <FormattedTime value={workspace.modified.timestamp} />)</span></div>}
-        <div><Label>Owner: </Label><span className="gf-subtitle">{workspace.owner.name}</span></div>
-        <div><Label>uuid: </Label><span className="gf-subtitle">{workspace.id}</span></div>
-      </Col>
-      <Col flex={6} xs={12}>
-        <VariablesListing envMap={workspace.properties.env} />
-      </Col>
-    </Row>
-  );
-};
+  delete = () => {
+    const { match, history, workspace, deleteWorkspace, hierarchyActions } = this.props;
+    const name = workspace.description || workspace.name;
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
-WorkspaceDetails.propTypes = {
-  workspace: PropTypes.object.isRequired,
-  // t: PropTypes.func.isRequired,
-};
+    hierarchyActions.confirmDelete(() => {
+      deleteWorkspace(match.params.fqon, workspace.id, onSuccess);
+    }, name, 'Workspace');
+  }
+  render() {
+    const { match, workspace, workspacePending } = this.props;
 
-export default WorkspaceDetails;
+    return [
+      <Row key="workspace-details">
+        <Col flex={6} xs={12}>
+          <ResourceProperties model={workspace} />
+        </Col>
+        <Col flex={6} xs={12}>
+          <VariablesListing envMap={workspace.properties.env} />
+        </Col>
+      </Row>,
+      <Div key="workspace-details--actions" disabled={workspacePending} textAlign="right">
+        <Row>
+          <Col flex={12}>
+            <Button
+              flat
+              iconChildren={<DeleteIcon />}
+              onClick={this.delete}
+            >
+              Delete
+            </Button>
+            <Button
+              flat
+              iconChildren="edit"
+              component={Link}
+              to={`${match.url}/edit`}
+            >
+              Edit
+            </Button>
+          </Col>
+        </Row>
+      </Div>,
+    ];
+  }
+}
+
+export default compose(
+  withMetaResource,
+  withHierarchy,
+)(WorkspaceDetails);
+

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generateWorkspacePatches } from '../payloadTransformer';
 
 class WorkspaceEdit extends Component {
@@ -54,6 +54,7 @@ function mapStateToProps(state) {
 
   return {
     initialValues: {
+      ...metaModels.workspace,
       name: workspace.name,
       description: workspace.description,
       properties: {
@@ -65,7 +66,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'workspaceEdit',
-  validate
-})(withContext(WorkspaceEdit))));
+export default compose(
+  withMetaResource,
+  withContext,
+  connect(mapStateToProps),
+  reduxForm({
+    form: 'workspaceEdit',
+    validate
+  })
+)(WorkspaceEdit);

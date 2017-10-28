@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import createHistory from 'history/createBrowserHistory';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
-import es from 'react-intl/locale-data/es';
+// import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import configureStore from './config/configureStore';
@@ -36,7 +36,7 @@ const language = (navigator.languages && navigator.languages[0]) ||
                      navigator.language ||
                      navigator.userLanguage;
 
-addLocaleData([...en, ...es]);
+addLocaleData([...en]);
 
 const Root = () => (
   <ThemeProvider theme={lightTheme}>

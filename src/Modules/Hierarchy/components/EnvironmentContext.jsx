@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withContext } from 'Modules/ContextManagement';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
-import EnvironmentNav from '../components/EnvironmentNav';
-import EnvironmentHeader from '../components/EnvironmentHeader';
-import actions from '../actions';
+import EnvironmentNav from './EnvironmentNav';
+import EnvironmentHeader from './EnvironmentHeader';
 
 class EnvironmentContext extends Component {
   static propTypes = {
@@ -33,7 +32,6 @@ class EnvironmentContext extends Component {
     fetchEnvironment(match.params.fqon, match.params.environmentId);
     fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
   }
-
 
   componentWillUnmount() {
     // only clear state when the Environment Context changes - this acts as a cache
@@ -65,4 +63,7 @@ class EnvironmentContext extends Component {
   }
 }
 
-export default connect(null, actions)(withMetaResource(withContext(EnvironmentContext)));
+export default compose(
+  withMetaResource,
+  withContext,
+)(EnvironmentContext);

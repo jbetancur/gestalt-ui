@@ -11,6 +11,7 @@ const Div = styled.div`
   ${props => props.paddingBottom && `padding-bottom: ${props.paddingBottom}`};
   ${props => props.paddingRight && `padding-right: ${props.paddingRight}`};
   ${props => props.height && `height: ${props.height}`};
+  ${props => props.textAlign && `text-align: ${props.textAlign}`};
 `;
 
 export default withTheme(Div);

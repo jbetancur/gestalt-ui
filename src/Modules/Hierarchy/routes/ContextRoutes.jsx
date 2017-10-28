@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NotFound from 'components/NotFound';
-import HierarchyContext from '../containers/HierarchyContextContainer';
-import WorkspaceContext from '../containers/WorkspaceContextContainer';
-import EnvironmentContext from '../containers/EnvironmentContextContainer';
+import HierarchyContext from '../components/HierarchyContext';
+import WorkspaceContext from '../components/WorkspaceContext';
+import EnvironmentContext from '../components/EnvironmentContext';
 
-// Routing Structure
+// Routing Structure. Order is important here
 const ContextRoutes = () => (
   <Switch>
     <Route path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" component={EnvironmentContext} />

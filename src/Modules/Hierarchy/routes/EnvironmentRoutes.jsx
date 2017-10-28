@@ -9,7 +9,7 @@ import { Secrets, SecretCreate, SecretEdit } from 'Modules/Secrets';
 import { APIs, APICreate, APIEdit } from 'Modules/APIs';
 import { APIEndpoints, APIEndpointCreate, APIEndpointEdit } from 'Modules/APIEndpoints';
 import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRuleCreate, PolicyEventRuleEdit } from 'Modules/PolicyRules';
-import EnvironmentEdit from '../containers/EnvironmentEditContainer';
+import EnvironmentEdit from '../components/EnvironmentEdit';
 
 const EnvironmentRoutes = () => (
   <Switch>
