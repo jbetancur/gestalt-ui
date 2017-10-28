@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import ActivityContainer from 'components/ActivityContainer';
 import DotActivity from 'components/DotActivity';
 import { Button } from 'components/Buttons';
-import Sort from '../components/Sort';
-import OrganizationCard from '../components/OrganizationCard';
-import WorkspaceCard from '../components/WorkspaceCard';
-import EnvironmentCard from '../components/EnvironmentCard';
+import Sort from './Sort';
+import OrganizationCard from './OrganizationCard';
+import WorkspaceCard from './WorkspaceCard';
+import EnvironmentCard from './EnvironmentCard';
 
 class HierarchyListing extends PureComponent {
   static propTypes = {
@@ -156,4 +157,6 @@ class HierarchyListing extends PureComponent {
   }
 }
 
-export default withMetaResource(HierarchyListing);
+export default compose(
+  withMetaResource
+)(HierarchyListing);

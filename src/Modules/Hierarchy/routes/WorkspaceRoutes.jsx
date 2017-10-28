@@ -2,9 +2,9 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NotFound from 'components/NotFound';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
-import Environments from '../containers/EnvironmentListingContainer';
-import EnvironmentCreate from '../containers/EnvironmentCreateContainer';
-import WorkspaceEdit from '../containers/WorkspaceEditContainer';
+import Environments from '../components/EnvironmentListing';
+import EnvironmentCreate from '../components/EnvironmentCreate';
+import WorkspaceEdit from '../components/WorkspaceEdit';
 
 const WorkspaceRoutes = () => (
   <Switch>
@@ -14,7 +14,6 @@ const WorkspaceRoutes = () => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/providers" component={Providers} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/providers/:providerId" component={ProviderEdit} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/createProvider" component={ProviderCreate} />
-
     <Route component={NotFound} />
   </Switch>
 );

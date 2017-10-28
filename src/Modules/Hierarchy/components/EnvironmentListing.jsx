@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { withContext } from 'Modules/ContextManagement';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
-import { connect } from 'react-redux';
-import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import Sort from '../components/Sort';
-import EnvironmentCard from '../components/EnvironmentCard';
-import actions from '../actions';
+import Sort from './Sort';
+import EnvironmentCard from './EnvironmentCard';
 
 class EnvironmentListing extends Component {
   static propTypes = {
@@ -94,4 +92,7 @@ class EnvironmentListing extends Component {
   }
 }
 
-export default connect(null, actions)(withMetaResource(withContext(withTheme(EnvironmentListing))));
+export default compose(
+  withContext,
+  withMetaResource
+)(EnvironmentListing);

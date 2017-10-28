@@ -57,7 +57,7 @@ const Sort = (props) => {
       <Col flex={2}>
         <SortOrderButton
           icon
-          iconChildren={<SortOrderIcon order={props.order}>arrow_upward</SortOrderIcon>}
+          iconChildren={<SortOrderIcon order={props.order}>sort</SortOrderIcon>}
           tooltipLabel={props.order === 'asc' ? 'ascending' : 'descending'}
           tooltipPosition="right"
           onClick={handleSort}

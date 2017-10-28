@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { withContext } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
-import HierarchyForm from '../components/HierarchyForm';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generateEnvironmentPayload } from '../payloadTransformer';
 
 class OrgCreate extends Component {
@@ -18,7 +17,7 @@ class OrgCreate extends Component {
     pristine: PropTypes.bool.isRequired,
   };
 
-  create(values) {
+  create = (values) => {
     const { match, history, createEnvironment } = this.props;
     const payload = generateEnvironmentPayload(values);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments`);
@@ -32,7 +31,7 @@ class OrgCreate extends Component {
         title="Create Environment"
         submitLabel="Create"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.create(values)}
+        onSubmit={this.create}
         isEnvironment
         pending={this.props.environmentPending}
         {...this.props}
@@ -41,20 +40,17 @@ class OrgCreate extends Component {
   }
 }
 
-function mapStateToProps() {
-  return {
+export default compose(
+  withMetaResource,
+  withContext,
+  reduxForm({
+    form: 'environmentCreate',
     initialValues: {
-      name: '',
-      description: '',
+      ...metaModels.environment,
       properties: {
-        environment_type: '',
         env: [],
       }
-    }
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'environmentCreate',
-  validate
-})(withContext(OrgCreate))));
+    },
+    validate
+  })
+)(OrgCreate);

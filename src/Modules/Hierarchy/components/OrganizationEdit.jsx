@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withContext } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
-import HierarchyForm from '../components/HierarchyForm';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generateOrganizationPatches } from '../payloadTransformer';
 
 class OrgEdit extends Component {
@@ -56,6 +56,7 @@ function mapStateToProps(state) {
 
   return {
     initialValues: {
+      ...metaModels.organization,
       name: organization.name,
       description: organization.description,
       properties: {
@@ -67,7 +68,13 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'organizationEdit',
-  validate
-})(translate()(withContext(OrgEdit)))));
+export default compose(
+  withContext,
+  withMetaResource,
+  translate(),
+  connect(mapStateToProps),
+  reduxForm({
+    form: 'organizationEdit',
+    validate
+  }),
+)(OrgEdit);

@@ -6,10 +6,10 @@ import { Users, UserCreate, UserEdit } from 'Modules/Users';
 import { Groups, GroupCreate, GroupEdit } from 'Modules/Groups';
 import { ResourceTypeListing } from 'Modules/ResourceTypes';
 // import { MicroModeler } from 'Modules/MicroModeler';
-import HierarchyListing from '../containers/HierarchyListingContainer';
-import OrganizationCreate from '../containers/OrganizationCreateContainer';
-import OrganizationEdit from '../containers/OrganizationEditContainer';
-import WorkspaceCreate from '../containers/WorkspaceCreateContainer';
+import HierarchyListing from '../components/HierarchyListing';
+import OrganizationCreate from '../components/OrganizationCreate';
+import OrganizationEdit from '../components/OrganizationEdit';
+import WorkspaceCreate from '../components/WorkspaceCreate';
 
 const HierarchyRoutes = () => (
   <Switch>

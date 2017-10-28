@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
+import { withMetaResource } from 'Modules/MetaResource';
 import { FormattedRelative } from 'react-intl';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { Button } from 'components/Buttons';
 import { Subtitle } from 'components/Typography';
+import withHierarchy from '../withHierarchy';
 
 class EnvironmentCard extends PureComponent {
   static propTypes = {
@@ -15,6 +18,9 @@ class EnvironmentCard extends PureComponent {
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
+    deleteEnvironment: PropTypes.func.isRequired,
+    fetchEnvironments: PropTypes.func.isRequired,
+    hierarchyActions: PropTypes.object.isRequired,
   };
 
   navEnvironmentDetails = () => {
@@ -31,9 +37,24 @@ class EnvironmentCard extends PureComponent {
     history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`);
   }
 
+  delete = (e) => {
+    e.stopPropagation();
+    const { model, match, deleteEnvironment, fetchEnvironments, hierarchyActions } = this.props;
+    const name = model.description || model.name;
+    const onDeleteSuccess = () => fetchEnvironments(match.params.fqon, match.params.workspaceId);
+
+    hierarchyActions.confirmDelete(() => {
+      deleteEnvironment(match.params.fqon, model.id, onDeleteSuccess);
+    }, name, 'Environment');
+  }
+
+
   render() {
     const { model, t, theme } = this.props;
     const title = model.description || model.name;
+    const owner = t('general.nouns.owner').toLowerCase();
+    const created = t('general.verbs.created').toLowerCase();
+    const modified = t('general.verbs.modified').toLowerCase();
 
     return (
       <Card
@@ -48,13 +69,19 @@ class EnvironmentCard extends PureComponent {
             [
               <Subtitle key="environment--type">type: {model.properties.environment_type}</Subtitle>,
               <Subtitle key="environment--workspace">workspace: {model.properties.workspace && model.properties.workspace.name}</Subtitle>,
-              <Subtitle key="environment--owner">owner: {model.owner.name}</Subtitle>,
-              <Subtitle key="environment--created">created: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
-              <Subtitle key="environment--modified">modified: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
+              <Subtitle key="environment--owner">{owner}: {model.owner.name}</Subtitle>,
+              <Subtitle key="environment--created">{created}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
+              <Subtitle key="environment--modified">{modified}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
             ]
           }
         />
         <CardActions>
+          <Button
+            tooltipLabel={t('general.verbs.delete')}
+            icon
+            iconChildren="delete_sweep"
+            onClick={this.delete}
+          />
           <Button
             tooltipLabel={t('general.verbs.edit')}
             icon
@@ -67,4 +94,9 @@ class EnvironmentCard extends PureComponent {
   }
 }
 
-export default withTheme(translate()(EnvironmentCard));
+export default compose(
+  withMetaResource,
+  withHierarchy,
+  withTheme,
+  translate(),
+)(EnvironmentCard);

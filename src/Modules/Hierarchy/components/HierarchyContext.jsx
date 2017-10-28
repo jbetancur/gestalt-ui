@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
-import HierarchyNav from '../components/HierarchyNav';
-import HierarchyHeader from '../components/HierarchyHeader';
-import actions from '../actions';
+import HierarchyNav from './HierarchyNav';
+import HierarchyHeader from './HierarchyHeader';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
@@ -65,10 +64,7 @@ class HierarchyContext extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    self: state.metaResource.self.self,
-  };
-}
-
-export default connect(mapStateToProps, actions)(withMetaResource(withContext(HierarchyContext)));
+export default compose(
+  withMetaResource,
+  withContext,
+)(HierarchyContext);

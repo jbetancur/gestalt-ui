@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withMetaResource } from 'Modules/MetaResource';
 import { Link } from 'react-router-dom';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import FontIcon from 'react-md/lib/FontIcons';
-import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
+import withHierarchy from '../withHierarchy';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -15,24 +17,11 @@ class WorkspaceActions extends PureComponent {
     match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
-    deleteWorkspace: PropTypes.func.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
-    showEntitlementsModal: PropTypes.func.isRequired,
+    hierarchyActions: PropTypes.object.isRequired,
   };
 
-  delete() {
-    const { match, history, workspace, deleteWorkspace } = this.props;
-    const name = workspace.description || workspace.name;
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
-
-    this.props.confirmDelete(() => {
-      deleteWorkspace(match.params.fqon, workspace.id, onSuccess);
-    }, name, 'Workspace');
-  }
-
   render() {
-    const { workspace, pending, match } = this.props;
+    const { workspace, pending, match, hierarchyActions } = this.props;
     const name = workspace.description || workspace.name;
 
     return (
@@ -64,29 +53,17 @@ class WorkspaceActions extends PureComponent {
         </MenuButton>
         <Button
           flat
-          iconChildren="edit"
-          component={Link}
-          to={`${match.url}/edit`}
-        >
-        Edit
-        </Button>
-        <Button
-          flat
           iconChildren="security"
-          onClick={() => this.props.showEntitlementsModal(name, match.params, 'Workspace')}
+          onClick={() => hierarchyActions.showEntitlementsModal(name, match.params, 'Workspace')}
         >
         Entitlements
-        </Button>
-        <Button
-          flat
-          iconChildren={<DeleteIcon />}
-          onClick={e => this.delete(e)}
-        >
-          Delete
         </Button>
       </Div>
     );
   }
 }
 
-export default WorkspaceActions;
+export default compose(
+  withMetaResource,
+  withHierarchy,
+)(WorkspaceActions);

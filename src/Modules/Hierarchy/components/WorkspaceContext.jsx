@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withContext } from 'Modules/ContextManagement';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import WorkspaceNav from '../components/WorkspaceNav';
-import WorkspaceHeader from '../components/WorkspaceHeader';
-import actions from '../actions';
+import WorkspaceNav from './WorkspaceNav';
+import WorkspaceHeader from './WorkspaceHeader';
 
 class WorkspaceContext extends PureComponent {
   static propTypes = {
@@ -25,6 +24,7 @@ class WorkspaceContext extends PureComponent {
 
   componentDidMount() {
     const { fetchWorkspace, match, fetchContextActions } = this.props;
+
     fetchWorkspace(match.params.fqon, match.params.workspaceId);
     fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
   }
@@ -53,4 +53,8 @@ class WorkspaceContext extends PureComponent {
   }
 }
 
-export default connect(null, actions)(withMetaResource(withContext(WorkspaceContext)));
+export default compose(
+  withMetaResource,
+  withContext,
+)(WorkspaceContext);
+

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withContext } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
-import HierarchyForm from '../components/HierarchyForm';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generateOrganizationPayload } from '../payloadTransformer';
 
 class OrgCreate extends Component {
@@ -43,22 +42,18 @@ class OrgCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { organization } = state.metaResource.organization;
-
-  return {
-    organization,
+export default compose(
+  withMetaResource,
+  withContext,
+  translate(),
+  reduxForm({
+    form: 'organizationCreate',
     initialValues: {
-      name: '',
-      description: '',
+      ...metaModels.organization,
       properties: {
         env: [],
       }
-    }
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'organizationCreate',
-  validate
-})(translate()(withContext(OrgCreate)))));
+    },
+    validate,
+  }),
+)(OrgCreate);

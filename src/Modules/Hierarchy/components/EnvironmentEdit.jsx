@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withContext } from 'Modules/ContextManagement';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { withContext } from 'Modules/ContextManagement';
-import { withMetaResource } from 'Modules/MetaResource';
-import HierarchyForm from '../components/HierarchyForm';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generateEnvironmentPatches } from '../payloadTransformer';
 
 class EnvironmentEdit extends Component {
@@ -58,6 +58,7 @@ function mapStateToProps(state) {
 
   return {
     initialValues: {
+      ...metaModels.environment,
       name: environment.name,
       description: environment.description,
       properties: {
@@ -69,7 +70,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'environmentEdit',
-  validate
-})(withContext(EnvironmentEdit))));
+export default compose(
+  withMetaResource,
+  withContext,
+  connect(mapStateToProps),
+  reduxForm({
+    form: 'environmentEdit',
+    validate,
+  }),
+)(EnvironmentEdit);
