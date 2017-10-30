@@ -114,6 +114,11 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
     },
   };
 
+  // Hack Alert: Deal with Patch array issues
+  if (updatedPayload.properties.linked_providers) {
+    delete model.properties.linked_providers;
+  }
+
   // Hack Alert: Since we dont want to treat networks JSON as a patch array index
   if (updatedPayload.properties.config.networks) {
     delete model.properties.config.networks;

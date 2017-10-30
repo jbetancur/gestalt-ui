@@ -112,15 +112,25 @@ const rendervariables = (props) => {
     valueFieldValidationMessage,
     valueFieldValidationFunction,
     hideValueField,
-    disabled
+    disabled,
+    appendToEnd
   } = props;
+
+  const addItem = () => {
+    if (appendToEnd) {
+      fields.push({});
+    } else {
+      fields.unshift({});
+    }
+  };
+
   return (
     <div>
       <Button
         flat
         iconChildren={icon}
         primary
-        onClick={() => fields.unshift({})}
+        onClick={addItem}
         disabled={disabled}
       >
         {addButtonLabel}
@@ -189,6 +199,7 @@ rendervariables.propTypes = {
   valueFieldValidationFunction: PropTypes.func,
   className: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
+  appendToEnd: PropTypes.bool.isRequired,
 };
 
 rendervariables.defaultProps = {
@@ -214,6 +225,7 @@ const FieldArraysForm = props => (
     valueFieldValidationMessage={props.valueFieldValidationMessage}
     valueFieldValidationFunction={props.valueFieldValidationFunction}
     disabled={props.disabled}
+    appendToEnd={props.appendToEnd}
   />
 );
 
@@ -231,6 +243,7 @@ FieldArraysForm.propTypes = {
   valueFieldValidationMessage: PropTypes.string,
   valueFieldValidationFunction: PropTypes.func,
   disabled: PropTypes.bool,
+  appendToEnd: PropTypes.bool,
 };
 
 FieldArraysForm.defaultProps = {
@@ -247,6 +260,7 @@ FieldArraysForm.defaultProps = {
   valueFieldValidationMessage: '',
   valueFieldValidationFunction: null,
   disabled: false,
+  appendToEnd: false,
 };
 
 export default FieldArraysForm;
