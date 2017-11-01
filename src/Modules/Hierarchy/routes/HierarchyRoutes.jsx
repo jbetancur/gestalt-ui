@@ -5,7 +5,7 @@ import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import { Users, UserCreate, UserEdit } from 'Modules/Users';
 import { Groups, GroupCreate, GroupEdit } from 'Modules/Groups';
 import { ResourceTypeListing } from 'Modules/ResourceTypes';
-import { MicroModeler } from 'Modules/MicroModeler';
+// import { MicroModeler } from 'Modules/MicroModeler';
 import HierarchyListing from '../components/HierarchyListing';
 
 const HierarchyRoutes = () => (
@@ -25,7 +25,7 @@ const HierarchyRoutes = () => (
     <Route exact path="/:fqon/groups/create" component={GroupCreate} />
     <Route exact path="/:fqon/groups/:groupId/edit" component={GroupEdit} />
 
-    <Route exact path="/:fqon/micromodeler" component={MicroModeler} />
+    {/* <Route exact path="/:fqon/micromodeler" component={MicroModeler} /> */}
     <Route exact path="/:fqon/resourcetypes" component={ResourceTypeListing} />
 
     <Route component={NotFound} />
