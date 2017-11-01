@@ -52,7 +52,7 @@ const ContainerForm = (props) => {
 
   // TODO: Remove when Kubernetes/Docker when api is ready
   const providerType = parseChildClass(selectedProvider.resource_type);
-  const isHealthChecksEnabled = providerType === 'DCOS';
+  const isHealthChecksEnabled = providerType !== 'Docker';
   const isSecretsEnabled = providerType === 'Kubernetes' || selectedProvider.properties.config.secret_support;
   const isSubmitDisabled =
     container.id ? (props.containerPending || props.containerUpdatePending || props.invalid || props.submitting)
