@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import Navbar from 'components/Navbar';
-import { HierarchyIcon, MetamodelIcon } from 'components/Icons';
+import { HierarchyIcon } from 'components/Icons';
 import ListItemStacked from 'components/ListItemStacked';
 
 const renderNavItems = (showOnRootOnly, t, props) => (
@@ -38,14 +38,14 @@ const renderNavItems = (showOnRootOnly, t, props) => (
       activeClassName="active-link"
       visible={showOnRootOnly}
     />,
-    <ListItemStacked
-      key="hierarchy--micromodeler"
-      icon={<MetamodelIcon />}
-      title={<div><div>Micro</div><div>Modeler</div></div>}
-      to={`/${props.match.params.fqon}/micromodeler`}
-      activeClassName="active-link"
-      visible={showOnRootOnly}
-    />,
+    // <ListItemStacked
+    //   key="hierarchy--micromodeler"
+    //   icon={<MetamodelIcon />}
+    //   title={<div><div>Micro</div><div>Modeler</div></div>}
+    //   to={`/${props.match.params.fqon}/micromodeler`}
+    //   activeClassName="active-link"
+    //   visible={showOnRootOnly}
+    // />,
     <ListItemStacked
       key="hierarchy--resourceTypes"
       icon="widgets"

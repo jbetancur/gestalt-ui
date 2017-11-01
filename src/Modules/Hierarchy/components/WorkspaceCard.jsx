@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
@@ -15,7 +14,6 @@ class WorkspaceCard extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -26,10 +24,9 @@ class WorkspaceCard extends PureComponent {
 
   navWorkspaceDetails = (e) => {
     e.stopPropagation();
-    const { model, match, history, contextManagerActions } = this.props;
+    const { model, match, history } = this.props;
 
     history.push(`/${match.params.fqon}/hierarchy/${model.id}/environments`);
-    contextManagerActions.setCurrentWorkspaceContext(model);
   }
 
   edit = (e) => {
@@ -93,6 +90,5 @@ export default compose(
   withMetaResource,
   withHierarchy,
   withTheme,
-  withContext,
   translate(),
 )(WorkspaceCard);

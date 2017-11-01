@@ -10,6 +10,14 @@ describe('Environment Actions', () => {
     expect(actions.unloadEnvironments()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_ENVIRONMENT', () => {
+    const expectedAction = {
+      type: types.UNLOAD_ENVIRONMENT,
+    };
+
+    expect(actions.unloadEnvironment()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_ENVIRONMENTS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_ENVIRONMENTS_REQUEST,

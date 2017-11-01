@@ -15,6 +15,13 @@ export function onUnloadOrgSet() {
 }
 
 /**
+ * unloadOrganization
+ */
+export function unloadOrganization() {
+  return { type: types.UNLOAD_ORGANIZATION };
+}
+
+/**
  * fetchAllOrgs
  */
 export function fetchAllOrgs() {
@@ -86,6 +93,7 @@ export default {
   onUnloadAllOrgs,
   fetchAllOrgsDropDown,
   onUnloadOrgSet,
+  unloadOrganization,
   fetchAllOrgs,
   fetchOrgs,
   fetchOrgSet,

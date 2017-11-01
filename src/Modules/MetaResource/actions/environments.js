@@ -8,6 +8,13 @@ export function unloadEnvironments() {
 }
 
 /**
+ * unloadEnvironment
+ */
+export function unloadEnvironment() {
+  return { type: types.UNLOAD_ENVIRONMENT };
+}
+
+/**
  * fetchEnvironments
  * @param {string} fqon
  * @param {string} workspaceId
@@ -59,6 +66,7 @@ export function deleteEnvironment(fqon, environmentId, onSuccess) {
 
 export default {
   unloadEnvironments,
+  unloadEnvironment,
   fetchEnvironments,
   fetchEnvironment,
   createEnvironment,

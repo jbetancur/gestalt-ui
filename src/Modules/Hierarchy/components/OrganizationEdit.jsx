@@ -35,13 +35,12 @@ class OrgEdit extends Component {
     const patches = generateOrganizationPatches(organization, values);
     const onSuccess = (response) => {
       const fqon = location.state.card ? getParentFQON(response) : match.params.fqon;
+      history.replace(`/${fqon}/hierarchy`);
       fetchOrgSet(fqon);
 
       if (!location.state.card) {
         contextManagerActions.setCurrentOrgContext(response);
       }
-
-      history.replace(`/${fqon}/hierarchy`);
     };
 
     updateOrg(organization.properties.fqon, patches, onSuccess);
