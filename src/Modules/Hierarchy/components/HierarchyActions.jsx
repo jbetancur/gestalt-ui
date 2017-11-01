@@ -41,7 +41,7 @@ class HierarchyActions extends PureComponent {
             primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
             component={Link}
             leftIcon={<FontIcon>domain</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/createOrganization`}
+            to={{ pathname: `/${organizationSet.properties.fqon}/createOrganization`, state: { modal: true } }}
             style={listItemStyle}
           />
           <ListItem
@@ -49,7 +49,7 @@ class HierarchyActions extends PureComponent {
             primaryText={<span>{t('workspaces.actions.create')}</span>}
             component={Link}
             leftIcon={<FontIcon>work</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/createWorkspace`}
+            to={{ pathname: `/${organizationSet.properties.fqon}/createWorkspace`, state: { modal: true } }}
             style={listItemStyle}
           />
           <ListItem

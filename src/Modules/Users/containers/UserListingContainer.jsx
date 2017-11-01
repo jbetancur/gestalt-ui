@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
 import UserItem from '../components/UserItem';
@@ -69,4 +68,4 @@ class UserListing extends PureComponent {
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(withContext(withTableManager(UserListing))));
+export default withMetaResource(connect(null, { ...actions })(withTableManager(UserListing)));

@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withContext } from 'Modules/ContextManagement';
 import { withTableManager } from 'Modules/TableManager';
 import APIItem from '../components/APIItem';
 import actions from '../actions';
@@ -69,4 +68,4 @@ class APIListing extends PureComponent {
   }
 }
 
-export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(APIListing))));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(APIListing)));

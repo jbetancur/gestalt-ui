@@ -9,11 +9,10 @@ import { Secrets, SecretCreate, SecretEdit } from 'Modules/Secrets';
 import { APIs, APICreate, APIEdit } from 'Modules/APIs';
 import { APIEndpoints, APIEndpointCreate, APIEndpointEdit } from 'Modules/APIEndpoints';
 import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRuleCreate, PolicyEventRuleEdit } from 'Modules/PolicyRules';
-import EnvironmentEdit from '../components/EnvironmentEdit';
 
 const EnvironmentRoutes = () => (
   <Switch>
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/edit" component={EnvironmentEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers" component={Providers} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers/create" component={ProviderCreate} />

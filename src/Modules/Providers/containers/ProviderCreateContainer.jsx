@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/transformations';
 import ProviderForm from '../components/ProviderForm';
@@ -118,4 +117,4 @@ function mapStateToProps(state) {
 export default withMetaResource(connect(mapStateToProps, { ...actions })(reduxForm({
   form: 'providerCreate',
   validate,
-})(withContext(ProviderCreate))));
+})(ProviderCreate)));

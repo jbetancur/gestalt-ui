@@ -12,23 +12,34 @@ import { generateWorkspacePatches } from '../payloadTransformer';
 
 class WorkspaceEdit extends Component {
   static propTypes = {
+    location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
+    fetchOrgSet: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
     workspacePending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    contextManagerActions: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchWorkspace(this.props.match.params.fqon, this.props.match.params.workspaceId);
   }
 
-  update(values) {
-    const { match, history, workspace, updateWorkspace } = this.props;
+  update = (values) => {
+    const { match, history, location, workspace, updateWorkspace, fetchOrgSet, contextManagerActions } = this.props;
     const patches = generateWorkspacePatches(workspace, values);
-    const onSuccess = () => history.goBack();
+    const onSuccess = (response) => {
+      if (location.state.card) {
+        fetchOrgSet(match.params.fqon);
+      } else {
+        contextManagerActions.setCurrentWorkspaceContext(response);
+      }
+
+      history.goBack();
+    };
 
     updateWorkspace(match.params.fqon, workspace.id, patches, onSuccess);
   }
@@ -39,7 +50,7 @@ class WorkspaceEdit extends Component {
         title={this.props.workspace.description || this.props.workspace.nam}
         submitLabel="Update"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.update(values)}
+        onSubmit={this.update}
         envMap={this.props.workspace.properties.env}
         editMode
         pending={this.props.workspacePending}

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
@@ -13,14 +12,18 @@ class OrgCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createEnvironment: PropTypes.func.isRequired,
+    fetchEnvironments: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
-    const { match, history, createEnvironment } = this.props;
+    const { match, history, createEnvironment, fetchEnvironments } = this.props;
     const payload = generateEnvironmentPayload(values);
-    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments`);
+    const onSuccess = (response) => {
+      fetchEnvironments(match.params.fqon, response.properties.workspace.id);
+      history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments`);
+    };
 
     createEnvironment(match.params.fqon, match.params.workspaceId, payload, onSuccess);
   }
@@ -42,7 +45,6 @@ class OrgCreate extends Component {
 
 export default compose(
   withMetaResource,
-  withContext,
   reduxForm({
     form: 'environmentCreate',
     initialValues: {

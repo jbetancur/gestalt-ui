@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import SecretForm from '../components/SecretForm';
 import validate from '../validations';
@@ -58,4 +57,4 @@ function mapStateToProps() {
 export default withMetaResource(connect(mapStateToProps, actions)(reduxForm({
   form: 'secretCreate',
   validate
-})(withContext(SecretCreate))));
+})(SecretCreate)));

@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import FontIcon from 'react-md/lib/FontIcons';
 import { truncate, getParentFQON } from 'util/helpers/strings';
 import { Button } from 'components/Buttons';
@@ -121,7 +122,7 @@ class Breadcrumbs extends PureComponent {
     const parentOrgRoute = `/${parentFQON}/hierarchy`;
     const orgsRoute = `/${currentOrgContext.properties.fqon}/hierarchy`;
     const workspaceRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}/environments`;
-    const environmentRoute = `/${match.url}`;
+    const environmentRoute = `${match.url}/containers`;
     const orgName = truncate(currentOrgContext.description || currentOrgContext.name, 30);
     const workspaceName = truncate(currentWorkspaceContext.description || currentWorkspaceContext.name, 30);
     const environmentName = truncate(currentEnvironmentContext.description || currentEnvironmentContext.name, 30);
@@ -183,4 +184,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(Breadcrumbs));
+export default compose(
+  withRouter,
+  connect(mapStateToProps)
+)(Breadcrumbs);

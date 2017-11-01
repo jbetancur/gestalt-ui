@@ -58,10 +58,11 @@ class EnvironmentListing extends Component {
     this.props.fetchEnvironments(fqon, workspaceId);
   }
 
-  renderCardsContainer() {
+  render() {
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
     return [
+      this.props.environmentsPending && <ActivityContainer key="environments-listing--loading" id="environments-listing--loading" />,
       <Row key="environment--listing" gutter={5} paddingLeft="1em" alignItems="center">
         <Col flex={2} xs={9} sm={3}>
           <Sort
@@ -85,10 +86,6 @@ class EnvironmentListing extends Component {
         )}
       </Row>
     ];
-  }
-
-  render() {
-    return this.props.environmentsPending ? <ActivityContainer id="environments-progress" /> : this.renderCardsContainer();
   }
 }
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import UserForm from '../components/UserForm';
 import validate from '../validations';
@@ -58,4 +57,4 @@ function mapStateToProps() {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'userCreate',
   validate
-})(withContext(UserCreate))));
+})(UserCreate)));

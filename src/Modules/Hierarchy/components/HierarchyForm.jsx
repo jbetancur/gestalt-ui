@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { DialogContainer } from 'react-md';
+import ActivityContainer from 'components/ActivityContainer';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'Modules/Variables';
@@ -18,45 +15,64 @@ import { nameMaxLen, shortNameMaxLen } from '../validations';
 
 const HierarchyForm = (props) => {
   const { t } = props;
+  const submitDisabled = props.pristine || props.pending || props.invalid || props.submitting;
+
+  const actions = [
+    <Button
+      key="hierarchyform--cancel"
+      flat
+      disabled={props.submitting}
+      onClick={() => props.history.goBack()}
+    >
+      {props.cancelLabel}
+    </Button>,
+    <Button
+      key="hierarchyform--create"
+      raised
+      type="submit"
+      disabled={submitDisabled}
+      primary
+    >
+      {props.submitLabel}
+    </Button>
+  ];
 
   return (
     <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-      <Row gutter={5} center>
-        <Col
-          component={Card}
-          flex={8}
-          xs={12}
-          sm={12}
-        >
-          <CardTitle
-            title={props.title}
-          />
-          <CardText>
-            <Row gutter={5}>
-              <Col flex={6} xs={12}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  label={t('containment.fields.description.label')}
-                  type="text"
-                  maxLength={nameMaxLen}
-                  required
-                  disabled={props.pending}
-                />
-              </Col>
-              <Col flex={6} xs={12}>
-                <Field
-                  component={TextField}
-                  name="name"
-                  label={t('containment.fields.name.label')}
-                  type="text"
-                  maxLength={shortNameMaxLen}
-                  required
-                  helpText={t('containment.fields.name.helpText')}
-                  disabled={props.pending}
-                />
-              </Col>
-              {props.isEnvironment &&
+      <DialogContainer
+        id="context-form-dialog"
+        title={!props.pending && props.title}
+        visible
+        width="60em"
+        actions={actions}
+      >
+        {props.pending ?
+          <ActivityContainer primary centered id="context-form--loading" /> :
+          <Row gutter={5}>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="description"
+                label={t('containment.fields.description.label')}
+                type="text"
+                maxLength={nameMaxLen}
+                required
+                disabled={props.pending}
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="name"
+                label={t('containment.fields.name.label')}
+                type="text"
+                maxLength={shortNameMaxLen}
+                required
+                helpText={t('containment.fields.name.helpText')}
+                disabled={props.pending}
+              />
+            </Col>
+            {props.isEnvironment &&
               <Col flex={6} xs={12}>
                 <Field
                   id="environment-type"
@@ -68,45 +84,26 @@ const HierarchyForm = (props) => {
                   disabled={props.pending}
                 />
               </Col>}
-            </Row>
-            <Fieldset legend="Environment Variables">
-              <VariablesForm
-                icon="add"
-                fieldName="properties.env"
-                keyFieldValidationFunction={isUnixVariable}
-                keyFieldValidationMessage="must be a unix variable name"
-              />
-            </Fieldset>
-          </CardText>
-          {props.pending && <LinearProgress id="containment-form" />}
-          <CardActions>
-            <Row>
-              <Button
-                flat
-                disabled={props.submitting}
-                onClick={() => props.history.goBack()}
-              >
-                {props.cancelLabel}
-              </Button>
-              <Button
-                raised
-                type="submit"
-                disabled={props.pristine || props.pending || props.invalid || props.submitting}
-                primary
-              >
-                {props.submitLabel}
-              </Button>
-            </Row>
-          </CardActions>
-        </Col>
-      </Row>
+
+            <Col flex={12}>
+              <Fieldset legend="Environment Variables">
+                <VariablesForm
+                  icon="add"
+                  fieldName="properties.env"
+                  keyFieldValidationFunction={isUnixVariable}
+                  keyFieldValidationMessage="must be a unix variable name"
+                />
+              </Fieldset>
+            </Col>
+          </Row>}
+      </DialogContainer>
     </form>
   );
 };
 
 HierarchyForm.propTypes = {
   history: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
+  pending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -124,6 +121,7 @@ HierarchyForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   isEnvironment: false,
+  pending: false,
 };
 
 export default translate()(HierarchyForm);

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
 import { generateContextEntityState } from 'util/helpers/transformations';
@@ -105,4 +104,4 @@ class ProviderListing extends PureComponent {
   }
 }
 
-export default withTableManager(withMetaResource(connect(null, { ...actions })(withContext(ProviderListing))));
+export default withTableManager(withMetaResource(connect(null, { ...actions })(ProviderListing)));

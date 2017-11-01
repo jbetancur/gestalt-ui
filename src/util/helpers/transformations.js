@@ -12,7 +12,7 @@ export function mapTo2DArray(object, keyName = 'name', valueName = 'value', merg
 export function generateContextEntityState(params) {
   const entity = {
     id: params.environmentId || params.workspaceId || null,
-    key: params.workspaceId && params.environmentId ? 'environments' : 'workspaces',
+    key: params.workspaceId && params.environmentId ? 'environments' : 'workspaces' || null,
   };
 
   return entity;

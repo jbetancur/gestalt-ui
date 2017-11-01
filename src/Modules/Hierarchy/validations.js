@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { isFQON } from 'util/validations';
 
 export const nameMaxLen = 45;
-export const shortNameMaxLen = 25;
+export const shortNameMaxLen = 45;
 
 export default (values, props) => {
   const errors = {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
@@ -179,4 +178,4 @@ export default withMetaResource(connect(mapStateToProps,
   Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions))(reduxForm({
   form: 'containerEdit',
   validate
-})(withContext(ContainerEdit))));
+})(ContainerEdit)));

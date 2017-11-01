@@ -65,8 +65,7 @@ class License extends Component {
 
     return (
       <EnhancedDialog
-        id="volume-modal"
-        position="below"
+        id="license-modal"
         visible={this.props.modal.visible}
         title="License"
         closeOnEsc

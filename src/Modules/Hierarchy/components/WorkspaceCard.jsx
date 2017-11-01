@@ -24,7 +24,8 @@ class WorkspaceCard extends PureComponent {
     hierarchyActions: PropTypes.object.isRequired,
   };
 
-  navWorkspaceDetails = () => {
+  navWorkspaceDetails = (e) => {
+    e.stopPropagation();
     const { model, match, history, contextManagerActions } = this.props;
 
     history.push(`/${match.params.fqon}/hierarchy/${model.id}/environments`);
@@ -35,7 +36,7 @@ class WorkspaceCard extends PureComponent {
     e.stopPropagation();
     const { model, match, history } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${model.id}/edit`);
+    history.push({ pathname: `/${match.params.fqon}/hierarchy/${model.id}/edit`, state: { modal: true, card: true } });
   }
 
   delete = (e) => {

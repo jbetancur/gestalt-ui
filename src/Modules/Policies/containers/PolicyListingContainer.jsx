@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
 import PolicyItem from '../components/PolicyItem';
@@ -69,4 +68,4 @@ class PolicyListing extends PureComponent {
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(withContext(withTableManager(PolicyListing))));
+export default withMetaResource(connect(null, { ...actions })(withTableManager(PolicyListing)));
