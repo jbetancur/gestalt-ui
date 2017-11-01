@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { FontIcon, LinearProgress } from 'react-md';
 // import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
@@ -35,6 +35,7 @@ class ResourceTypeItem extends Component {
       <TableRow key={resourceType.id} onClick={e => this.props.onEditToggle(resourceType, e)}>
         <TableColumn>{resourceType.name}</TableColumn>
         <TableColumn>{truncate(resourceType.description, 45)}</TableColumn>
+        <TableColumn>{resourceType.properties.abstract && <FontIcon>checked</FontIcon>}</TableColumn>
         <TableColumnTimestamp timestamp={resourceType.created.timestamp} />
         <TableColumnTimestamp timestamp={resourceType.modified.timestamp} />
       </TableRow>
@@ -55,6 +56,7 @@ class ResourceTypeItem extends Component {
             <TableRow>
               <TableColumn>Name</TableColumn>
               <TableColumn>Description</TableColumn>
+              <TableColumn>Abstract</TableColumn>
               <TableColumn>Created</TableColumn>
               <TableColumn>Modified</TableColumn>
             </TableRow>
