@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withContext } from 'Modules/ContextManagement';
 import ActivityContainer from 'components/ActivityContainer';
 import { parse } from 'query-string';
 import APIEndpointForm from '../components/APIEndpointForm';
@@ -98,4 +97,4 @@ function mapStateToProps(state) {
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'apiEndpointEdit',
   validate
-})(withContext(APIEndpointEdit))));
+})(APIEndpointEdit)));

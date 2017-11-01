@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { reduxForm } from 'redux-form';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
@@ -14,15 +13,19 @@ class OrgCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createOrg: PropTypes.func.isRequired,
+    fetchOrgSet: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     organizationPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
-    const { match, history, createOrg } = this.props;
+    const { match, history, createOrg, fetchOrgSet } = this.props;
     const payload = generateOrganizationPayload(values);
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
+    const onSuccess = () => {
+      fetchOrgSet(match.params.fqon);
+      history.replace(`/${match.params.fqon}/hierarchy`);
+    };
 
     createOrg(match.params.fqon, payload, onSuccess);
   }
@@ -33,7 +36,7 @@ class OrgCreate extends Component {
       <HierarchyForm
         title={t('organizations.actions.create')}
         submitLabel={t('general.verbs.create')}
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel="Cancel"
         onSubmit={values => this.create(values)}
         pending={this.props.organizationPending}
         {...this.props}
@@ -44,7 +47,6 @@ class OrgCreate extends Component {
 
 export default compose(
   withMetaResource,
-  withContext,
   translate(),
   reduxForm({
     form: 'organizationCreate',

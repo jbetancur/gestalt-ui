@@ -24,7 +24,8 @@ class EnvironmentDetails extends PureComponent {
   delete = () => {
     const { match, history, environment, deleteEnvironment, hierarchyActions } = this.props;
     const name = environment.description || environment.name;
-    const onSuccess = () => history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
+    const onSuccess = () =>
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
     hierarchyActions.confirmDelete(() => {
       deleteEnvironment(match.params.fqon, environment.id, onSuccess);
@@ -43,7 +44,7 @@ class EnvironmentDetails extends PureComponent {
           <VariablesListing envMap={environment.properties.env} />
         </Col>
       </Row>,
-      <Div key="environemnt-details--actions" disabled={environmentPending} textAlign="right">
+      <Div key="environment-details--actions" disabled={environmentPending} textAlign="right">
         <Row>
           <Col flex={12}>
             <Button
@@ -57,7 +58,7 @@ class EnvironmentDetails extends PureComponent {
               flat
               iconChildren="edit"
               component={Link}
-              to={`${match.url}/edit`}
+              to={{ pathname: `${match.url}/edit`, state: { modal: true } }}
             >
               Edit
             </Button>

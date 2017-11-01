@@ -24,7 +24,7 @@ export function* fetchResourceType(action) {
 export function* fetchResourceTypes(action) {
   try {
     const response = yield call(axios.get, `${action.fqon}/resourcetypes?expand=true`);
-    const payload = orderBy(response.data, 'name', 'asc');
+    const payload = orderBy(response.data, 'created.timestamp', 'desc');
 
     yield put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload });
   } catch (e) {

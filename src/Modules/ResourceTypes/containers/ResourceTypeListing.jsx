@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Card } from 'react-md';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ResourceTypeItem from '../components/ResourceTypeItem';
 // import actions from '../../actions';
@@ -65,4 +64,4 @@ class ResourceTypeListing extends Component {
   }
 }
 
-export default connect()(withContext(withMetaResource(ResourceTypeListing)));
+export default connect()(withMetaResource(ResourceTypeListing));

@@ -39,7 +39,7 @@ class WorkspaceActions extends PureComponent {
             primaryText="Environment"
             component={Link}
             leftIcon={<FontIcon>folder</FontIcon>}
-            to={`${match.url}/createEnvironment`}
+            to={{ pathname: `${match.url}/createEnvironment`, state: { modal: true } }}
             style={listItemStyle}
           />
           <ListItem

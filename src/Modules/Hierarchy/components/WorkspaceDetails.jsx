@@ -24,7 +24,8 @@ class WorkspaceDetails extends PureComponent {
   delete = () => {
     const { match, history, workspace, deleteWorkspace, hierarchyActions } = this.props;
     const name = workspace.description || workspace.name;
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
+    const onSuccess = () =>
+      history.replace(`/${match.params.fqon}/hierarchy`);
 
     hierarchyActions.confirmDelete(() => {
       deleteWorkspace(match.params.fqon, workspace.id, onSuccess);
@@ -56,7 +57,7 @@ class WorkspaceDetails extends PureComponent {
               flat
               iconChildren="edit"
               component={Link}
-              to={`${match.url}/edit`}
+              to={{ pathname: `${match.url}/edit`, state: { modal: true } }}
             >
               Edit
             </Button>

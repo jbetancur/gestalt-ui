@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
@@ -126,5 +127,6 @@ class ContextNavigation extends PureComponent {
   }
 }
 
-
-export default withTheme(ContextNavigation);
+export default compose(
+  withTheme,
+)(ContextNavigation);

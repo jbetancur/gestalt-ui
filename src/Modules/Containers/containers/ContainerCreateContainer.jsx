@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { volumeModalActions } from 'Modules/VolumeModal';
 import { portmapModalActions } from 'Modules/PortMappingModal';
@@ -141,5 +140,5 @@ export default withMetaResource(connect(mapStateToProps,
   Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions))(reduxForm({
   form: 'containerCreate',
   validate,
-})(withContext(ContainerCreate))));
+})(ContainerCreate)));
 

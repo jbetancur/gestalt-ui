@@ -12,7 +12,7 @@ import { getParentFQON } from 'util/helpers/strings';
 import ResourceProperties from './ResourceProperties';
 import withHierarchy from '../withHierarchy';
 
-class HierarchyDetails extends PureComponent {
+class OrganizationDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
@@ -63,7 +63,7 @@ class HierarchyDetails extends PureComponent {
               flat
               iconChildren="edit"
               component={Link}
-              to={`/${organizationSet.properties.fqon}/editOrganization`}
+              to={{ pathname: `/${organizationSet.properties.fqon}/editOrganization`, state: { modal: true } }}
             >
               Edit
             </Button>
@@ -77,5 +77,5 @@ class HierarchyDetails extends PureComponent {
 export default compose(
   withMetaResource,
   withHierarchy,
-)(HierarchyDetails);
+)(OrganizationDetails);
 

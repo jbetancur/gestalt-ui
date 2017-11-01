@@ -60,6 +60,14 @@ export default function WithContext(BaseComponent) {
       if (nextProps.organizationSet.id && nextProps.organizationSet.id !== this.props.organizationSet.id) {
         this.props.contextManagerActions.setCurrentOrgContext(nextProps.organizationSet);
       }
+
+      // if (nextProps.workspace && nextProps.workspace !== this.props.workspace) {
+      //   this.props.contextManagerActions.setCurrentWorkspaceContext(nextProps.workspace);
+      // }
+
+      // if (nextProps.environment && nextProps.environment !== this.props.environment) {
+      //   this.props.contextManagerActions.setCurrentEnvironmentContext(nextProps.environment);
+      // }
     }
 
     render() {

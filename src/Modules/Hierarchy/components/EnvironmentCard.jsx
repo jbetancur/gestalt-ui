@@ -34,7 +34,7 @@ class EnvironmentCard extends PureComponent {
     const { model, match, history } = this.props;
 
     e.stopPropagation();
-    history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`);
+    history.push({ pathname: `/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`, state: { modal: true, card: true } });
   }
 
   delete = (e) => {

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
 import GroupItem from '../components/GroupItem';
@@ -67,4 +66,4 @@ class GroupListing extends PureComponent {
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(withContext(withTableManager(GroupListing))));
+export default withMetaResource(connect(null, { ...actions })(withTableManager(GroupListing)));

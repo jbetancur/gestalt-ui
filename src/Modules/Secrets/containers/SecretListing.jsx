@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
 import SecretItem from '../components/SecretItem';
@@ -71,4 +70,4 @@ class SecretListing extends PureComponent {
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(withContext(withTableManager(SecretListing))));
+export default withMetaResource(connect(null, { ...actions })(withTableManager(SecretListing)));

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import ContainerItem from '../components/ContainerItem';
 import actions from '../actions';
@@ -68,4 +67,4 @@ class ContainerListing extends PureComponent {
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(withContext(ContainerListing)));
+export default withMetaResource(connect(null, { ...actions })(ContainerListing));

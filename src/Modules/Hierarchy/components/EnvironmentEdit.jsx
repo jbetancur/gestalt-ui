@@ -12,13 +12,16 @@ import { generateEnvironmentPatches } from '../payloadTransformer';
 
 class EnvironmentEdit extends Component {
   static propTypes = {
+    location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
+    fetchEnvironments: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    contextManagerActions: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -26,10 +29,17 @@ class EnvironmentEdit extends Component {
     this.props.fetchEnvironment(match.params.fqon, match.params.environmentId);
   }
 
-  update(values) {
-    const { match, history, environment, updateEnvironment } = this.props;
+  update = (values) => {
+    const { match, history, location, environment, updateEnvironment, fetchEnvironments, contextManagerActions } = this.props;
     const patches = generateEnvironmentPatches(environment, values);
-    const onSuccess = () => history.goBack();
+    const onSuccess = (response) => {
+      if (location.state.card) {
+        fetchEnvironments(match.params.fqon, response.properties.workspace.id);
+      } else {
+        contextManagerActions.setCurrentEnvironmentContext(response);
+      }
+      history.goBack();
+    };
 
     updateEnvironment(match.params.fqon, environment.id, patches, onSuccess);
   }
@@ -42,7 +52,7 @@ class EnvironmentEdit extends Component {
         title={environment.description || environment.name}
         submitLabel="Update"
         cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.update(values)}
+        onSubmit={this.update}
         envMap={environment.properties.env}
         isEnvironment
         editMode

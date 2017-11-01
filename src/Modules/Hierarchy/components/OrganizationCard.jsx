@@ -33,7 +33,7 @@ class OrganizationCard extends PureComponent {
     e.stopPropagation();
     const { model, history } = this.props;
 
-    history.push(`/${model.properties.fqon}/editOrganization`);
+    history.push({ pathname: `/${model.properties.fqon}/editOrganization`, state: { modal: true, card: true } });
   }
 
   delete = (e) => {
@@ -53,7 +53,6 @@ class OrganizationCard extends PureComponent {
     const owner = t('general.nouns.owner').toLowerCase();
     const created = t('general.verbs.created').toLowerCase();
     const modified = t('general.verbs.modified').toLowerCase();
-
 
     return (
       <Card key={model.id} onClick={this.navTo} raise typeSymbol="O" typeColor={theme.organizationCard}>
