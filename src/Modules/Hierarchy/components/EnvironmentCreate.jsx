@@ -14,7 +14,6 @@ class OrgCreate extends Component {
     createEnvironment: PropTypes.func.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
@@ -33,7 +32,7 @@ class OrgCreate extends Component {
       <HierarchyForm
         title="Create Environment"
         submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel="Cancel"
         onSubmit={this.create}
         isEnvironment
         pending={this.props.environmentPending}

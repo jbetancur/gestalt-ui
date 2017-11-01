@@ -20,7 +20,6 @@ class WorkspaceEdit extends Component {
     fetchOrgSet: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
     workspacePending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
   }
 
@@ -49,7 +48,7 @@ class WorkspaceEdit extends Component {
       <HierarchyForm
         title={this.props.workspace.description || this.props.workspace.nam}
         submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel="Cancel"
         onSubmit={this.update}
         envMap={this.props.workspace.properties.env}
         editMode
