@@ -14,7 +14,6 @@ class OrgCreate extends Component {
     createWorkspace: PropTypes.func.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
     workspacePending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
@@ -32,7 +31,7 @@ class OrgCreate extends Component {
       <HierarchyForm
         title="Create Workspace"
         submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel="Cancel"
         onSubmit={values => this.create(values)}
         pending={this.props.workspacePending}
         {...this.props}

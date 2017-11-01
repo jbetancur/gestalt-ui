@@ -20,7 +20,6 @@ class EnvironmentEdit extends Component {
     fetchEnvironments: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     contextManagerActions: PropTypes.object.isRequired,
   }
 
@@ -51,7 +50,7 @@ class EnvironmentEdit extends Component {
       <HierarchyForm
         title={environment.description || environment.name}
         submitLabel="Update"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel="Cancel"
         onSubmit={this.update}
         envMap={environment.properties.env}
         isEnvironment
