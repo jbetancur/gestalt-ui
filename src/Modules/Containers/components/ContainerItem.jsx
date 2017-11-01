@@ -65,6 +65,7 @@ class ContainerItem extends PureComponent {
           <TableColumn>{this.renderAPIEndpoints(container)}</TableColumn>
           <TableColumn><ContainerIcon resourceType={providerType} /></TableColumn>
           <TableColumn>{truncate(container.properties.provider.name, 30)}</TableColumn>
+          <TableColumn>{truncate(container.properties.image, 20)}</TableColumn>
           <TableColumn>
             {`${container.properties.instances.length} / ${container.properties.num_instances}`}
           </TableColumn>
@@ -96,6 +97,7 @@ class ContainerItem extends PureComponent {
                     <TableColumn>Endpoints</TableColumn>
                     <TableColumn style={{ width: '100px' }}sorted={tableActions.handleTableSortIcon('properties.provider.resource_type')} onClick={() => tableActions.sortTable('properties.provider.resource_type')}>Platform</TableColumn>
                     <TableColumn sorted={tableActions.handleTableSortIcon('properties.provider.name')} onClick={() => tableActions.sortTable('properties.provider.name')}>Provider</TableColumn>
+                    <TableColumn style={{ width: '100px' }}>Image</TableColumn>
                     <TableColumn style={{ width: '100px' }}>Instances</TableColumn>
                     <TableColumn style={{ width: '100px' }}>CPU / Memory</TableColumn>
                     <TableColumn style={{ width: '180px' }} sorted={tableActions.handleTableSortIcon('properties.modified.timestamp')} onClick={() => tableActions.sortTable('properties.modified.timestamp')}>Modified</TableColumn>

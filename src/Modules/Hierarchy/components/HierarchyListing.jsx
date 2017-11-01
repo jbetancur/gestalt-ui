@@ -111,46 +111,48 @@ class HierarchyListing extends PureComponent {
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
     const environmentToggleName = this.state.showEnvironments ? 'Hide Environments' : 'Show Environments';
 
-    return [
-      organizationSetPending && <ActivityContainer key="hierarchy-listing--loading" id="hierarchy-listing--loading" />,
-      <Row key={this.props.organizationSet.id} gutter={5} paddingLeft="1em" alignItems="center">
-        <Col flex={2} xs={12} sm={6} md={6}>
-          <Sort
-            visible={sortedOrgs.length > 0}
-            sortKey={this.state.sortKey}
-            order={this.state.order}
-            setKey={this.setSortKey}
-            setOrder={this.setSortOrder}
-          />
-        </Col>
-        <Col flex={10} xs={12} sm={6} md={6} style={{ textAlign: 'right' }}>
-          <Button
-            flat
-            inkDisabled
-            iconChildren="folder"
-            primary={this.state.showEnvironments}
-            onClick={this.toggleEnvironments}
-            disabled={environmentsPending}
-            style={{ minWidth: '17em' }}
-          >
-            {environmentsPending ?
-              <DotActivity
-                size={1.2}
-                id="hierarchy-environments--progress"
-                centered
-              /> :
-              environmentToggleName}
-          </Button>
-        </Col>
-      </Row>,
-      <Row key={`${this.props.organizationSet.id}--cards`} gutter={5} minColWidths={315}>
-        {sortedOrgs.map(item => (
-          <Col key={item.id} flex={3} xs={12}>
-            {this.renderCard(item)}
-          </Col>
-        ))}
-      </Row>
-    ];
+    return (
+      organizationSetPending ? <ActivityContainer key="hierarchy-listing--loading" id="hierarchy-listing--loading" /> :
+        [
+          <Row key={this.props.organizationSet.id} gutter={5} paddingLeft="1em" alignItems="center">
+            <Col flex={2} xs={12} sm={6} md={6}>
+              <Sort
+                visible={sortedOrgs.length > 0}
+                sortKey={this.state.sortKey}
+                order={this.state.order}
+                setKey={this.setSortKey}
+                setOrder={this.setSortOrder}
+              />
+            </Col>
+            <Col flex={10} xs={12} sm={6} md={6} style={{ textAlign: 'right' }}>
+              <Button
+                flat
+                inkDisabled
+                iconChildren="folder"
+                primary={this.state.showEnvironments}
+                onClick={this.toggleEnvironments}
+                disabled={environmentsPending}
+                style={{ minWidth: '17em' }}
+              >
+                {environmentsPending ?
+                  <DotActivity
+                    size={1.2}
+                    id="hierarchy-environments--progress"
+                    centered
+                  /> :
+                  environmentToggleName}
+              </Button>
+            </Col>
+          </Row>,
+          <Row key={`${this.props.organizationSet.id}--cards`} gutter={5} minColWidths={315}>
+            {sortedOrgs.map(item => (
+              <Col key={item.id} flex={3} xs={12}>
+                {this.renderCard(item)}
+              </Col>
+            ))}
+          </Row>
+        ]
+    );
   }
 }
 

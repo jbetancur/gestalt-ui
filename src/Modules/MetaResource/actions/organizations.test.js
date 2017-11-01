@@ -2,6 +2,15 @@ import * as actionTypes from '../actionTypes';
 import * as actions from './organizations';
 
 describe('Organization Actions', () => {
+  it('should request UNLOAD_ORGANIZATION', () => {
+    const expectedAction = {
+      type: actionTypes.UNLOAD_ORGANIZATION,
+    };
+
+    expect(actions.unloadOrganization()).to.deep.equal(expectedAction);
+  });
+
+
   it('should request FETCH_ALLORGS_REQUEST', () => {
     const expectedAction = {
       type: actionTypes.FETCH_ALLORGS_REQUEST,

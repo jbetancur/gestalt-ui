@@ -56,18 +56,19 @@ export default function WithContext(BaseComponent) {
     }
 
     componentWillReceiveProps(nextProps) {
-      // keep the org context synced if it is changed
+      // keep the contexts synced as the user navigates
+
       if (nextProps.organizationSet.id && nextProps.organizationSet.id !== this.props.organizationSet.id) {
         this.props.contextManagerActions.setCurrentOrgContext(nextProps.organizationSet);
       }
 
-      // if (nextProps.workspace && nextProps.workspace !== this.props.workspace) {
-      //   this.props.contextManagerActions.setCurrentWorkspaceContext(nextProps.workspace);
-      // }
+      if (nextProps.workspace.id && nextProps.workspace.id !== this.props.workspace.id) {
+        this.props.contextManagerActions.setCurrentWorkspaceContext(nextProps.workspace);
+      }
 
-      // if (nextProps.environment && nextProps.environment !== this.props.environment) {
-      //   this.props.contextManagerActions.setCurrentEnvironmentContext(nextProps.environment);
-      // }
+      if (nextProps.environment.id && nextProps.environment.id !== this.props.environment.id) {
+        this.props.contextManagerActions.setCurrentEnvironmentContext(nextProps.environment);
+      }
     }
 
     render() {

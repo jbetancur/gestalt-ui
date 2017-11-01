@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -142,4 +143,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(withMetaResource(connect(mapStateToProps, actions)(translate()(OrgNavMenu))));
+export default compose(
+  withMetaResource,
+  withRouter,
+  translate(),
+  connect(mapStateToProps, actions)
+)(OrgNavMenu);

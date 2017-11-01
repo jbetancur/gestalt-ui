@@ -9,6 +9,13 @@ export function unloadWorkspaces() {
 }
 
 /**
+ * unloadWorkspace
+ */
+export function unloadWorkspace() {
+  return { type: types.UNLOAD_WORKSPACE };
+}
+
+/**
  * fetchWorkspaces
  * @param {string} fqon
  */
@@ -59,6 +66,7 @@ export function deleteWorkspace(fqon, workspaceId, onSuccess) {
 
 export default {
   unloadWorkspaces,
+  unloadWorkspace,
   fetchWorkspaces,
   fetchWorkspace,
   createWorkspace,

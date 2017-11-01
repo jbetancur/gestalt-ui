@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
 import ActivityContainer from 'components/ActivityContainer';
+import DotActivity from 'components/DotActivity';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { VariablesForm } from 'Modules/Variables';
@@ -19,7 +20,7 @@ const HierarchyForm = (props) => {
 
   const actions = [
     <Button
-      key="hierarchyform--cancel"
+      key="contextform--cancel"
       flat
       disabled={props.submitting}
       onClick={() => props.history.goBack()}
@@ -27,14 +28,14 @@ const HierarchyForm = (props) => {
       {props.cancelLabel}
     </Button>,
     <Button
-      key="hierarchyform--create"
+      key="contextform--create"
       raised
       type="submit"
       disabled={submitDisabled}
       primary
     >
-      {props.submitLabel}
-    </Button>
+      {props.pending && !props.editMode ? <DotActivity id="context-form-submit-loading" primary centered size={1} /> : props.submitLabel}
+    </Button>,
   ];
 
   return (
@@ -46,7 +47,7 @@ const HierarchyForm = (props) => {
         width="60em"
         actions={actions}
       >
-        {props.pending ?
+        {props.pending && props.editMode ?
           <ActivityContainer primary centered id="context-form--loading" /> :
           <Row gutter={5}>
             <Col flex={6} xs={12}>
@@ -114,6 +115,7 @@ HierarchyForm.propTypes = {
   cancelLabel: PropTypes.string,
   isEnvironment: PropTypes.bool,
   t: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
 };
 
 HierarchyForm.defaultProps = {
@@ -122,6 +124,7 @@ HierarchyForm.defaultProps = {
   cancelLabel: 'Cancel',
   isEnvironment: false,
   pending: false,
+  editMode: false,
 };
 
 export default translate()(HierarchyForm);

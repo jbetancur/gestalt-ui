@@ -20,6 +20,7 @@ const SpinWrapper = styled.div`
 
 const SpinDiv = styled.div`
   text-align: ${props => (props.centered ? 'center' : 'left')};
+  line-height: 24px;
 
   &.spinner > div {
     width: ${props => `${props.size}em`};

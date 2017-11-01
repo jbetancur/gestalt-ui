@@ -10,6 +10,14 @@ describe('Workspace Actions', () => {
     expect(actions.unloadWorkspaces()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_WORKSPACE', () => {
+    const expectedAction = {
+      type: actionTypes.UNLOAD_WORKSPACE,
+    };
+
+    expect(actions.unloadWorkspace()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_WORKSPACES_REQUEST', () => {
     const expectedAction = {
       type: actionTypes.FETCH_WORKSPACES_REQUEST,
