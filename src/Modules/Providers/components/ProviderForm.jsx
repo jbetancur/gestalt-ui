@@ -27,7 +27,7 @@ const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value:
 const ProviderForm = (props) => {
   const { provider, reset, values, history, match, container, fetchEnvSchema } = props;
   const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
-  const selectedProviderType = compiledProviderTypes.find(type => type.value === values.resource_type) || {};
+  const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
 
   const goBack = () => {
     if (match.params.workspaceId && !match.params.environmentId) {
@@ -111,10 +111,10 @@ const ProviderForm = (props) => {
                         menuItems={compiledProviderTypes}
                         itemLabel="displayName"
                         itemValue="name"
-                        required
                         label="Provider Type"
-                        disabled={provider.id}
                         onChange={handleProviderChange}
+                        disabled={provider.id}
+                        required
                         async
                       />
                     </Col>
