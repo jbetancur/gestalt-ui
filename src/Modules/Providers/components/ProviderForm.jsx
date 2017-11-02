@@ -20,13 +20,14 @@ import SecuritySection from './SecuritySection';
 import ContainerSection from './ContainerSection';
 import ContainerInstanceSection from './ContainerInstanceSection';
 import { nameMaxLen } from '../validations';
-import providerTypes from '../lists/providerTypes';
+import { generateResourceTypeSchema } from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
 const ProviderForm = (props) => {
   const { provider, reset, values, history, match, container, fetchEnvSchema } = props;
-  const selectedProviderType = providerTypes.find(type => type.value === values.resource_type) || {};
+  const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
+  const selectedProviderType = compiledProviderTypes.find(type => type.value === values.resource_type) || {};
 
   const goBack = () => {
     if (match.params.workspaceId && !match.params.environmentId) {
@@ -40,7 +41,7 @@ const ProviderForm = (props) => {
 
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
-    const providerType = providerTypes.find(type => type.value === value);
+    const providerType = compiledProviderTypes.find(type => type.value === value);
 
     // no need to fetch env schema if we do not allowEnvVariables
     if (providerType && providerType.allowEnvVariables) {
@@ -92,8 +93,8 @@ const ProviderForm = (props) => {
               <CardTitle
                 title={
                   <div>
-                    {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.name}` : props.title}
-                    {provider.id && `::${selectedProviderType.name}`}
+                    {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.displayName}` : props.title}
+                    {provider.id && `::${selectedProviderType.displayName}`}
                     {(selectedProviderType.allowContainer && container.id) && renderContainerActions()}
                   </div>
                 }
@@ -107,13 +108,14 @@ const ProviderForm = (props) => {
                         id="select-provider"
                         component={SelectField}
                         name="resource_type"
-                        menuItems={providerTypes}
-                        itemLabel="name"
-                        itemValue="value"
+                        menuItems={compiledProviderTypes}
+                        itemLabel="displayName"
+                        itemValue="name"
                         required
                         label="Provider Type"
                         disabled={provider.id}
                         onChange={handleProviderChange}
+                        async
                       />
                     </Col>
                   </Row>
@@ -212,7 +214,7 @@ const ProviderForm = (props) => {
           {(provider.id && selectedProviderType.allowContainer && container.id) &&
             <ContainerInstanceSection container={props.container} provider={props.provider} {...props} />}
 
-          {selectedProviderType.name &&
+          {selectedProviderType.allowLinkedProviders &&
             <Row gutter={5} center>
               <Col flex={12} xs={12} sm={12} md={12}>
                 <Card>
@@ -225,18 +227,19 @@ const ProviderForm = (props) => {
                 </Card>
               </Col>
 
-              <Row gutter={5} center>
-                <Col flex={12} xs={12} sm={12} md={12}>
-                  <Card>
-                    <CardTitle
-                      title="Allowed Environments"
-                    />
-                    <CardText>
-                      <EnvironmentTypes />
-                    </CardText>
-                  </Card>
-                </Col>
-              </Row>
+              {selectedProviderType.allowedRestrictEnvironments &&
+                <Row gutter={5} center>
+                  <Col flex={12} xs={12} sm={12} md={12}>
+                    <Card>
+                      <CardTitle
+                        title="Allowed Environments"
+                      />
+                      <CardText>
+                        <EnvironmentTypes />
+                      </CardText>
+                    </Card>
+                  </Col>
+                </Row>}
             </Row>}
         </form>
         {(selectedProviderType.allowContainer && !container.id) &&
@@ -268,6 +271,8 @@ ProviderForm.propTypes = {
   containerCreateInvalid: PropTypes.bool.isRequired,
   container: PropTypes.object,
   onRedeploy: PropTypes.func,
+  resourceTypes: PropTypes.array.isRequired,
+  resourceTypesPending: PropTypes.bool.isRequired,
 };
 
 ProviderForm.defaultProps = {

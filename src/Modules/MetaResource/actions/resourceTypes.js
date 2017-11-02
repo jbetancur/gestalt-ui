@@ -4,8 +4,8 @@ import * as types from '../actionTypes';
  * fetchResourceTypes
  * @param {string} fqon
  */
-export function fetchResourceTypes(fqon) {
-  return { type: types.FETCH_RESOURCETYPES_REQUEST, fqon };
+export function fetchResourceTypes(fqon, filter) {
+  return { type: types.FETCH_RESOURCETYPES_REQUEST, fqon, filter };
 }
 
 /**

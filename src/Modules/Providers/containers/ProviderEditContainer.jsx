@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -11,6 +12,7 @@ import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
+import withResourceTypes from '../hocs/withResourceTypes';
 
 class ProviderEdit extends PureComponent {
   static propTypes = {
@@ -140,7 +142,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions, containerActionCreators))(reduxForm({
-  form: 'providerCreate',
-  validate
-})(ProviderEdit)));
+export default compose(
+  withMetaResource,
+  withResourceTypes,
+  connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),
+  reduxForm({
+    form: 'providerCreate',
+    validate
+  })
+)(ProviderEdit);

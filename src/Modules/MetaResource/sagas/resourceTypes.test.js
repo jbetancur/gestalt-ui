@@ -75,6 +75,25 @@ describe('Resource Type Sagas', () => {
     });
   });
 
+  describe('fetchResourceTypes Sequence with a filter', () => {
+    let result;
+    const saga = fetchResourceTypes({ fqon: 'iamfqon', filter: 'morty' });
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'iamfqon/resourcetypes?expand=true&type=morty')
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: [{ id: '1' }] });
+      expect(result.value).to.deep.equal(
+        put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload: [{ id: '1' }] })
+      );
+    });
+  });
+
   describe('createResourceType Sequence', () => {
     const action = { fqon: 'iamfqon', payload: { name: 'iamnewresource' } };
     const saga = createResourceType(action);

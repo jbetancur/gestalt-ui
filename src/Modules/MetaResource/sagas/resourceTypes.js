@@ -19,11 +19,18 @@ export function* fetchResourceType(action) {
 
 /**
  * fetchResourceTypes
- * @param {*} action { fqon }
+ * @param {*} action { fqon, filter }
  */
 export function* fetchResourceTypes(action) {
   try {
-    const response = yield call(axios.get, `${action.fqon}/resourcetypes?expand=true`);
+    let url = `${action.fqon}/resourcetypes?expand=true`;
+
+    if (action.filter) {
+      url = `${url}&type=${action.filter}`;
+    }
+
+    const response = yield call(axios.get, url);
+
     const payload = orderBy(response.data, 'created.timestamp', 'desc');
 
     yield put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload });
