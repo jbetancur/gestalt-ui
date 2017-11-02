@@ -80,13 +80,13 @@ const common = merge([
 module.exports = (env) => {
   if (env === 'production') {
     return merge([
-      common,
       parts.babelConfig(PATHS),
+      common,
       parts.scssConfig({
-        PATHS,
+        ...PATHS,
         options: {
           sourceMap: false,
-          outputStyle: 'expanded',
+          outputStyle: 'compressed',
         }
       }),
       {
@@ -142,16 +142,22 @@ module.exports = (env) => {
   }
 
   return merge([
-    common,
     parts.babelConfig({
-      PATHS,
+      ...PATHS,
       options: {
-        cacheDirectory: true,
+        cacheDirectory: true
       }
     }),
+    common,
     parts.externals(),
     parts.sourceMaps(),
-    parts.scssConfig(PATHS),
+    parts.scssConfig({
+      ...PATHS,
+      options: {
+        sourceMap: true,
+        outputStyle: 'expanded',
+      }
+    }),
     parts.devServer({
       port: 8081,
       contentBase: path.join(__dirname, PATHS.buildPath),
