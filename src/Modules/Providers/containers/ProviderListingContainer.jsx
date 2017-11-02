@@ -43,9 +43,9 @@ class ProviderListing extends PureComponent {
       if (match.params.workspaceId && !match.params.environmentId) {
         history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/${provider.id}` });
       } else if (match.params.environmentId) {
-        history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers/${provider.id}/edit` });
+        history.push({ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers/${provider.id}` });
       } else {
-        history.push({ pathname: `/${match.params.fqon}/providers/${provider.id}/edit` });
+        history.push({ pathname: `/${match.params.fqon}/providers/${provider.id}` });
       }
     }
   }

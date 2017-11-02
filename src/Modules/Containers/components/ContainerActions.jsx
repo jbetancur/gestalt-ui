@@ -149,7 +149,7 @@ class ContainerActions extends Component {
       fetchContainers(match.params.fqon, environment.id);
       // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
       // if (inContainerView) {
-      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}/containers/${container.id}/edit`);
+      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}/containers/${container.id}`);
       //   contextManagerActions.setCurrentEnvironmentContext(environment);
       //   fetchContainer(match.params.fqon, container.id, environment.id, true);
       // } else {

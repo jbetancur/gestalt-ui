@@ -48,7 +48,7 @@ const APIEndpointForm = (props) => {
     containersDropDownPending,
   } = props;
 
-  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit`;
+  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`;
 
   // TODO: implement selectors
   const containerPorts = () => {

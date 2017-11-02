@@ -49,7 +49,7 @@ class GroupEdit extends Component {
     }
 
     const patches = jsonPatch.compare(originalModel, values);
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
     updateUser(match.params.fqon, user.id, patches, onSuccess);
   }

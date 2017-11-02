@@ -51,7 +51,7 @@ class ContainerListing extends PureComponent {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
-      history.push(`${match.url}/${container.id}/edit`);
+      history.push(`${match.url}/${container.id}`);
     }
   }
 

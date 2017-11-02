@@ -26,7 +26,7 @@ class PolicyEventRuleCreate extends Component {
     const { match, history, createPolicyRule, selectedActions } = this.props;
     const payload = generateEventPolicyRulePayload(values, selectedActions);
 
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
   }
 

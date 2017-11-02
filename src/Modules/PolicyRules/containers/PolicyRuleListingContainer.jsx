@@ -35,7 +35,7 @@ class PolicyRuleListing extends PureComponent {
   create = (type) => {
     const { match, history } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit/rules/create${type.name}Rule`);
+    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/rules/create${type.name}Rule`);
   }
 
   edit = (policyRule, e) => {
@@ -43,7 +43,7 @@ class PolicyRuleListing extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { history, match, } = this.props;
       const ruleType = policyRule.resource_type.split(/[::]+/).pop();
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`);
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/rules/${policyRule.id}/edit${ruleType.toLowerCase()}Rule`);
     }
   }
 

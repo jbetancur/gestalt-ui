@@ -19,7 +19,7 @@ class PolicyCreate extends Component {
   create(values) {
     const { match, history, createPolicy } = this.props;
     const payload = generatePolicyPayload(values);
-    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${response.id}/edit`);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${response.id}`);
 
     createPolicy(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }

@@ -20,7 +20,7 @@ class APIEndpointCreate extends Component {
     const { match, history, createAPIEndpoint } = this.props;
     const payload = generateAPIEndpointPayload(values);
 
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/edit`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`);
     createAPIEndpoint(match.params.fqon, match.params.apiId, payload, onSuccess);
   }
 

@@ -27,6 +27,7 @@ class ProviderEdit extends PureComponent {
     confirmUpdate: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     redeployProvider: PropTypes.func.isRequired,
+    resourceTypesPending: PropTypes.bool.isRequired,
   };
 
   constructor() {
@@ -83,17 +84,16 @@ class ProviderEdit extends PureComponent {
   }
 
   componentDidCatch(error, info) {
-    // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
+    // TODO: Eat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
     this.setState({ hasError: true, error, info });
   }
 
   render() {
-    const { provider, providerPending } = this.props;
-
+    const { provider, providerPending, resourceTypesPending } = this.props;
     return (
       <div>
-        {providerPending ?
-          <ActivityContainer id="provider-load" /> :
+        {providerPending || resourceTypesPending ?
+          <ActivityContainer id="provider-loading" /> :
           <ProviderForm
             title={provider.name}
             submitLabel="Update"
