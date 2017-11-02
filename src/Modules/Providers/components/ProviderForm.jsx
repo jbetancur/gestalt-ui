@@ -272,7 +272,6 @@ ProviderForm.propTypes = {
   container: PropTypes.object,
   onRedeploy: PropTypes.func,
   resourceTypes: PropTypes.array.isRequired,
-  resourceTypesPending: PropTypes.bool.isRequired,
 };
 
 ProviderForm.defaultProps = {

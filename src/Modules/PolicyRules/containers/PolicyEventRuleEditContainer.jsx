@@ -48,7 +48,7 @@ class PolicyEventRuleEdit extends Component {
     const patches = generateEventPolicyRulePatches(policyRule, values, selectedActions);
 
     if (patches.length) {
-      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/edit`);
+      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
 
       updatePolicyRule(match.params.fqon, match.params.policyId, policyRule.id, patches, onSuccess);
     }

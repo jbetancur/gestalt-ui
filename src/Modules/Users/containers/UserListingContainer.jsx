@@ -35,7 +35,7 @@ class UserListing extends PureComponent {
   edit = (user, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      this.props.history.push(`${this.props.match.url}/${user.id}/edit`);
+      this.props.history.push(`${this.props.match.url}/${user.id}`);
     }
   }
 

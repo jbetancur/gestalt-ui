@@ -39,7 +39,7 @@ class LambdaListing extends PureComponent {
     if (e.target.className.includes('md-table-column')) {
       const { history, match } = this.props;
 
-      history.push(`${match.url}/${lambda.id}/edit`);
+      history.push(`${match.url}/${lambda.id}`);
     }
   }
 

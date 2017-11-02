@@ -25,7 +25,7 @@ class APICreate extends Component {
     if (!payload.properties.provider.id) {
       this.props.dispatch({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create API. You must create and link a gateway manager provider type first' });
     } else {
-      const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${response.id}/edit`);
+      const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${response.id}`);
       createAPI(match.params.fqon, match.params.environmentId, payload, onSuccess);
     }
   }
