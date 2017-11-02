@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
@@ -8,6 +9,7 @@ import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
+import withResourceTypes from '../hocs/withResourceTypes';
 
 class ProviderCreate extends Component {
   static propTypes = {
@@ -114,7 +116,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, { ...actions })(reduxForm({
-  form: 'providerCreate',
-  validate,
-})(ProviderCreate)));
+export default compose(
+  withMetaResource,
+  withResourceTypes,
+  connect(mapStateToProps, { ...actions }),
+  reduxForm({
+    form: 'providerCreate',
+    validate,
+  }),
+)(ProviderCreate);

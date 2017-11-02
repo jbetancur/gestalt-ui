@@ -12,7 +12,7 @@ export default function withResourceTypes(BaseComponent) {
     componentDidMount() {
       const { fetchResourceTypes } = this.props;
 
-      fetchResourceTypes('root');
+      fetchResourceTypes('root', 'Gestalt::Configuration::Provider');
     }
 
     render() {

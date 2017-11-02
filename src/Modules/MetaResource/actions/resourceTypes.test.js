@@ -6,6 +6,7 @@ describe('Resource Type Actions', () => {
     const expectedAction = {
       type: types.FETCH_RESOURCETYPES_REQUEST,
       fqon: 'iamfqon',
+      filter: undefined,
     };
 
     expect(actions.fetchResourceTypes('iamfqon')).to.deep.equal(expectedAction);
