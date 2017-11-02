@@ -69,7 +69,6 @@ const common = merge([
       }),
     ],
   },
-  parts.babelConfig(PATHS),
   parts.fontConfig(PATHS),
   parts.icoConfig(PATHS),
   parts.svgConfig(PATHS),
@@ -78,11 +77,13 @@ const common = merge([
   parts.esLintConfig(PATHS),
 ]);
 
-module.exports = function test(env) {
+module.exports = (env) => {
   if (env === 'production') {
     return merge([
       common,
+      parts.babelConfig(PATHS),
       parts.scssConfig({
+        PATHS,
         options: {
           sourceMap: false,
           outputStyle: 'expanded',
@@ -113,6 +114,7 @@ module.exports = function test(env) {
               join_vars: true,
               if_return: true,
             },
+            parallel: true,
             mangle: true,
             output: {
               comments: false
@@ -141,9 +143,15 @@ module.exports = function test(env) {
 
   return merge([
     common,
+    parts.babelConfig({
+      PATHS,
+      options: {
+        cacheDirectory: true,
+      }
+    }),
     parts.externals(),
     parts.sourceMaps(),
-    parts.scssConfig({}),
+    parts.scssConfig(PATHS),
     parts.devServer({
       port: 8081,
       contentBase: path.join(__dirname, PATHS.buildPath),
