@@ -20,13 +20,13 @@ import SecuritySection from './SecuritySection';
 import ContainerSection from './ContainerSection';
 import ContainerInstanceSection from './ContainerInstanceSection';
 import { nameMaxLen } from '../validations';
-import { generateResourceTypeSchema } from '../lists/providerTypes';
+import providerTypes from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
 const ProviderForm = (props) => {
   const { provider, reset, values, history, match, container, fetchEnvSchema } = props;
-  const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
+  const compiledProviderTypes = providerTypes; // generateResourceTypeSchema(props.resourceTypes);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
 
   const goBack = () => {
@@ -41,7 +41,7 @@ const ProviderForm = (props) => {
 
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
-    const providerType = compiledProviderTypes.find(type => type.value === value);
+    const providerType = compiledProviderTypes.find(type => type.name === value);
 
     // no need to fetch env schema if we do not allowEnvVariables
     if (providerType && providerType.allowEnvVariables) {
@@ -115,7 +115,6 @@ const ProviderForm = (props) => {
                         onChange={handleProviderChange}
                         disabled={provider.id}
                         required
-                        async
                       />
                     </Col>
                   </Row>

@@ -1,6 +1,6 @@
-import { orderBy } from 'lodash';
+// import { orderBy } from 'lodash';
 
-const uiProviderTypes = [
+export default [
   {
     displayName: 'Mesosphere DC/OS',
     name: 'Gestalt::Configuration::Provider::CaaS::DCOS',
@@ -253,23 +253,23 @@ const uiProviderTypes = [
   },
 ];
 
-const blacklistAbstracts = [
-  'Gestalt::Configuration::Provider::ActionProvider',
-  'Gestalt::Configuration::Provider::Messaging',
-  'Gestalt::Configuration::Provider::Lambda::Executor',
-  'Gestalt::Resource::DataContainer',
-  'Gestalt::Configuration::Provider::Data',
-  'Gestalt::Configuration::Provider::CaaS',
-  'Gestalt::Configuration::Provider',
-  'Gestalt::Resource',
-  'Gestalt::Resource::Runnable',
-  'Gestalt::Resource::ResourceContainer',
-];
+// const blacklistAbstracts = [
+//   'Gestalt::Configuration::Provider::ActionProvider',
+//   'Gestalt::Configuration::Provider::Messaging',
+//   'Gestalt::Configuration::Provider::Lambda::Executor',
+//   'Gestalt::Resource::DataContainer',
+//   'Gestalt::Configuration::Provider::Data',
+//   'Gestalt::Configuration::Provider::CaaS',
+//   'Gestalt::Configuration::Provider',
+//   'Gestalt::Resource',
+//   'Gestalt::Resource::Runnable',
+//   'Gestalt::Resource::ResourceContainer',
+// ];
 
-export const generateResourceTypeSchema = (resourceTypes) => {
-  // Ideally instead of blacklisting use properties.abstract, however it is always true.
-  const list = resourceTypes
-    .filter(r => r.name !== blacklistAbstracts.find(bl => bl === r.name))
-    .map(r => ({ displayName: r.name, name: r.name, type: r.name, ...uiProviderTypes.find(i => i.name === r.name) }));
-  return orderBy(list, 'displayName');
-};
+// export const generateResourceTypeSchema = (resourceTypes) => {
+//   // Ideally instead of blacklisting use properties.abstract, however it is always true.
+//   const list = resourceTypes
+//     .filter(r => r.name !== blacklistAbstracts.find(bl => bl === r.name))
+//     .map(r => ({ displayName: r.name, name: r.name, type: r.name, ...uiProviderTypes.find(i => i.name === r.name) }));
+//   return orderBy(list, 'displayName');
+// };

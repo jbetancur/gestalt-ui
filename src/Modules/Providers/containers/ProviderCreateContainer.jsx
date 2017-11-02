@@ -9,7 +9,7 @@ import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
-import withResourceTypes from '../hocs/withResourceTypes';
+// import withResourceTypes from '../hocs/withResourceTypes';
 
 class ProviderCreate extends Component {
   static propTypes = {
@@ -118,7 +118,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
-  withResourceTypes,
+  // withResourceTypes,
   connect(mapStateToProps, { ...actions }),
   reduxForm({
     form: 'providerCreate',
