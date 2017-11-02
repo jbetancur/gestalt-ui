@@ -102,7 +102,7 @@ export default [
     networking: false,
     extraConfig: false,
     uploadConfig: false,
-    allowContainer: true,
+    allowContainer: false,
     externalProtocol: false,
     allowEnvVariables: true,
     allowLinkedProviders: true,
