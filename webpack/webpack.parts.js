@@ -39,13 +39,14 @@ exports.externals = () => (
   }
 );
 
-exports.babelConfig = ({ srcPath }) => (
+exports.babelConfig = ({ srcPath, options }) => (
   {
     module: {
       rules: [{
         test: /(\.js|\.jsx)$/,
         loader: 'babel-loader',
         include: srcPath,
+        options,
       }]
     }
   }
@@ -74,6 +75,8 @@ exports.scssConfig = ({ options, srcPath }) => (
             {
               loader: 'css-loader',
               options: {
+                modules: false,
+                minimize: true,
                 importLoaders: 1
               }
             },
