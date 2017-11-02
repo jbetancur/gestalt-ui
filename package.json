@@ -19,6 +19,7 @@
         "test-coverage": "cross-env NODE_ENV=test karma start --single-run && open './coverage/PhantomJS 2.1.1 (Mac OS X 0.0.0)/lcov-report/index.html'",
         "test-tdd": "cross-env NODE_ENV=test karma start --auto-watch",
         "test-browser": "cross-env NODE_ENV=test karma start --single-run --browsers 'PhantomJS,Chrome,Firefox,Safari'",
+        "eslint": "eslint .",
         "analyze": "yarn stats && webpack-bundle-size-analyzer build-stats.json",
         "stats": "webpack --config ./webpack/webpack.config.js --profile --json > build-stats.json",
         "check-circular": "madge --format es6 --circular --warning --extensions js,jsx --webpack src/",
@@ -67,6 +68,11 @@
     },
     "eslintConfig": {
         "parser": "babel-eslint",
+        "extends": "airbnb",
+        "plugins": [
+            "import",
+            "react"
+        ],
         "rules": {
             "comma-dangle": 0,
             "no-useless-constructor": 0,
@@ -97,10 +103,6 @@
                 }
             ]
         },
-        "extends": "airbnb",
-        "plugins": [
-            "import"
-        ],
         "env": {
             "browser": true,
             "mocha": true,
@@ -110,11 +112,15 @@
         "settings": {
             "import/resolver": {
                 "webpack": {
-                    "config": "webpack/webpack.config.js"
+                    "config": "./webpack/webpack.config.js"
                 }
             }
-        }
+        },
+        "globals": {
+          "sinon": false
+      }
     },
+    "eslintIgnore": ["node_modules", "coverage", "build", ".gitlab", ".vscode", "nginx"],
     "stylelint": {
         "extends": "stylelint-config-standard",
         "rules": {
@@ -214,12 +220,12 @@
         "raw-loader": "^0.5.1",
         "react-test-renderer": "^16.0.0",
         "sass-loader": "^6.0.6",
-        "sinon": "^4.0.2",
+        "sinon": "^4.1.0",
         "style-loader": "^0.19.0",
         "url-loader": "^0.6.2",
         "webpack": "^3.8.1",
         "webpack-bundle-analyzer": "^2.9.0",
-        "webpack-dev-server": "^2.9.3",
+        "webpack-dev-server": "^2.9.4",
         "webpack-merge": "^4.1.1",
         "yaml-loader": "^0.5.0"
     },
@@ -242,7 +248,6 @@
         "query-string": "^5.0.1",
         "react": "^16.0.0",
         "react-ace": "5.1.2",
-        "react-addons-test-utils": "^15.6.0",
         "react-copy-to-clipboard": "^5.0.1",
         "react-dom": "^16.0.0",
         "react-flexybox": "^1.0.0",
@@ -256,7 +261,7 @@
         "react-md": "^1.2.4",
         "react-redux": "^5.0.6",
         "react-router-dom": "^4.2.2",
-        "react-router-redux": "next",
+        "react-router-redux": "5.0.0-alpha.8",
         "redux": "^3.7.2",
         "redux-devtools-extension": "^2.13.2",
         "redux-form": "^7.1.2",

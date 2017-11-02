@@ -82,13 +82,13 @@ module.exports = (env) => {
     return merge([
       parts.babelConfig(PATHS),
       common,
-      parts.scssConfig({
-        ...PATHS,
-        options: {
-          sourceMap: false,
-          outputStyle: 'compressed',
-        }
-      }),
+      parts.scssConfig(
+        Object.assign(PATHS, {
+          options: {
+            sourceMap: false,
+            outputStyle: 'compressed',
+          }
+        })),
       {
         entry: {
           app: parts.appEntryProduction(PATHS),
@@ -142,22 +142,22 @@ module.exports = (env) => {
   }
 
   return merge([
-    parts.babelConfig({
-      ...PATHS,
-      options: {
-        cacheDirectory: true
-      }
-    }),
+    parts.babelConfig(
+      Object.assign(PATHS, {
+        options: {
+          cacheDirectory: true
+        }
+      })),
     common,
     parts.externals(),
     parts.sourceMaps(),
-    parts.scssConfig({
-      ...PATHS,
-      options: {
-        sourceMap: true,
-        outputStyle: 'expanded',
-      }
-    }),
+    parts.scssConfig(
+      Object.assign(PATHS, {
+        options: {
+          sourceMap: false,
+          outputStyle: 'expanded',
+        }
+      })),
     parts.devServer({
       port: 8081,
       contentBase: path.join(__dirname, PATHS.buildPath),

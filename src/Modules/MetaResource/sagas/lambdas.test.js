@@ -203,8 +203,6 @@ describe('Lambda Sagas', () => {
     });
   });
 
-
-
   describe('createLambda Sequence', () => {
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
     const saga = createLambda(action);
