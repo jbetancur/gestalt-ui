@@ -35,6 +35,10 @@ const ContainerStatusStyle = styled.div`
     text-align: center;
     line-height: 20px;
     margin-left: 8px;
+
+    @media (min-width: 0) and (max-width: 1025px) {
+      line-height: 24px;
+    }
   }
 `;
 
