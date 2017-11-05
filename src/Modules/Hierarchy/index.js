@@ -1,13 +1,13 @@
 export { default as ContextRoutes } from './routes/ContextRoutes';
-export { default as HierarchyContext } from './components/HierarchyContext';
+export { default as HierarchyContext } from './contexts/HierarchyContext';
 export { default as OrganizationCreate } from './components/OrganizationCreate';
 export { default as OrganizationEdit } from './components/OrganizationEdit';
 export { default as WorkspaceCreate } from './components/WorkspaceCreate';
 export { default as WorkspaceEdit } from './components/WorkspaceEdit';
-export { default as WorkspaceContext } from './components/WorkspaceContext';
+export { default as WorkspaceContext } from './contexts/WorkspaceContext';
 export { default as EnvironmentCreate } from './components/EnvironmentCreate';
 export { default as EnvironmentEdit } from './components/EnvironmentEdit';
-export { default as EnvironmentContext } from './components/EnvironmentContext';
+export { default as EnvironmentContext } from './contexts/EnvironmentContext';
 export { default as EnvironmentListing } from './components/EnvironmentListing';
 export { default as HierarchyNav } from './components/HierarchyNav';
 export { default as WorkspaceNav } from './components/WorkspaceNav';

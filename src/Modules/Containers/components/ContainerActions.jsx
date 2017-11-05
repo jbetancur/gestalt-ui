@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
-import { withContext } from 'Modules/ContextManagement';
 
 const ActionsWrapper = styled.div`
     display: inline-block;
@@ -19,15 +18,15 @@ const ActionsWrapper = styled.div`
     }
 
     .button--suspend * {
-      color: #FFC107;
+      color: ${props => props.theme.colors['$md-orange-500']};;
     }
 
     .button--scale * {
-      color: #2196F3;
+      color: ${props => props.theme.colors['$md-blue-500']};
     }
 
     .button--destroy * {
-      color: #F44336;
+      color: ${props => props.theme.colors['$md-red-a400']};
     }
 `;
 
@@ -60,7 +59,6 @@ class ContainerActions extends Component {
     promoteContainerModal: PropTypes.func.isRequired,
     confirmContainerDelete: PropTypes.func.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
@@ -78,7 +76,7 @@ class ContainerActions extends Component {
     super(props);
   }
 
-  destroyContainer() {
+  destroy = () => {
     const { match, history, confirmContainerDelete, fetchContainers, deleteContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
@@ -94,7 +92,7 @@ class ContainerActions extends Component {
     }, containerModel.name);
   }
 
-  suspendContainer() {
+  suspend = () => {
     const { match, fetchContainer, fetchContainers, scaleContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
@@ -108,7 +106,7 @@ class ContainerActions extends Component {
     scaleContainer(match.params.fqon, containerModel.id, 0, onSuccess);
   }
 
-  scaleContainer() {
+  scale = () => {
     const { match, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
@@ -125,7 +123,7 @@ class ContainerActions extends Component {
     }, containerModel.name, containerModel.properties.num_instances);
   }
 
-  migrateContainer() {
+  migrate = () => {
     const { match, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
@@ -137,28 +135,16 @@ class ContainerActions extends Component {
 
     migrateContainerModal((providerId) => {
       migrateContainer(match.params.fqon, containerModel.id, providerId, onSuccess);
-    }, containerModel.name, containerModel.properties.provider, match.params);
+    }, containerModel.name, containerModel.properties.provider);
   }
 
-  promoteContainer() {
-    const { match, promoteContainer, promoteContainerModal, containerModel, contextManagerActions, fetchEnvironment, fetchContainers } = this.props;
+  promote = () => {
+    const { match, promoteContainer, promoteContainerModal, containerModel, fetchEnvironment, fetchContainers } = this.props;
+    // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
-      this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}/containers`);
+      this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
       fetchEnvironment(match.params.fqon, environment.id);
-      contextManagerActions.setCurrentEnvironmentContext(environment);
       fetchContainers(match.params.fqon, environment.id);
-      // TODO: If we can better catch when a promote fails (ie mock/broken promote policy) then we can implement below
-      // if (inContainerView) {
-      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}/containers/${container.id}`);
-      //   contextManagerActions.setCurrentEnvironmentContext(environment);
-      //   fetchContainer(match.params.fqon, container.id, environment.id, true);
-      // } else {
-      //   // TODO: Need to refactor this when we refactor the routing logic
-      //   this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${environment.id}`);
-      //   fetchEnvironment(match.params.fqon, environment.id);
-      //   contextManagerActions.setCurrentEnvironmentContext(environment);
-      //   fetchContainers(match.params.fqon, environment.id);
-      // }
     };
 
     promoteContainerModal((environment) => {
@@ -167,39 +153,48 @@ class ContainerActions extends Component {
   }
 
   render() {
+    const {
+      inContainerView,
+      containerModel,
+      disablePromote,
+      disableDestroy,
+      actions,
+      actionsPending,
+    } = this.props;
+
     return (
-      <ActionsWrapper className={this.props.inContainerView && 'action--title'}>
+      <ActionsWrapper className={inContainerView && 'action--title'}>
         <MenuButton
           id="container-actions-menu"
-          icon={!this.props.inContainerView}
-          flat={this.props.inContainerView}
-          label={this.props.inContainerView && <StatusBubble status={this.props.containerModel.properties.status} />}
+          icon={!inContainerView}
+          flat={inContainerView}
+          label={inContainerView && <StatusBubble status={containerModel.properties.status} />}
           iconChildren="more_vert"
-          position={this.props.inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
-          tooltipLabel={!this.props.inContainerView && 'Actions'}
-          inkDisabled={this.props.inContainerView}
+          position={inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
+          tooltipLabel={!inContainerView && 'Actions'}
+          inkDisabled={inContainerView}
           listHeightRestricted={false}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[
-            <ListWrapper key="container-actions-menu">
+            <ListWrapper key="container-actions-menu--dropdown">
               <ListMenu>
-                <div className="gf-headline-1">{this.props.containerModel.name}</div>
-                <div className="gf-subtitle">{this.props.containerModel.properties.status}</div>
+                <div className="gf-headline-1">{containerModel.name}</div>
+                <div className="gf-subtitle">{containerModel.properties.status}</div>
               </ListMenu>
               <EnhancedDivider />
-              <ListItem className="button--suspend" primaryText="Suspend" onClick={() => this.suspendContainer()} />
-              <ListItem className="button--scale" primaryText="Scale" onClick={() => this.scaleContainer()} />
-              <ListItem primaryText="Migrate" onClick={() => this.migrateContainer()} />
-              {!this.props.disablePromote &&
-                <ListItem primaryText="Promote" onClick={() => this.promoteContainer()} />}
-              {!this.props.disableDestroy &&
-                <ListItem className="button--destroy" primaryText="Destroy" onClick={() => this.destroyContainer()} />}
+              <ListItem className="button--suspend" primaryText="Suspend" onClick={this.suspend} />
+              <ListItem className="button--scale" primaryText="Scale" onClick={this.scale} />
+              <ListItem primaryText="Migrate" onClick={this.migrate} />
+              {!disablePromote &&
+                <ListItem primaryText="Promote" onClick={this.promote} />}
+              {!disableDestroy &&
+                <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
               <ActionsMenu
                 listItem
-                model={this.props.containerModel}
-                actionList={this.props.actions}
-                pending={this.props.actionsPending}
+                model={containerModel}
+                actionList={actions}
+                pending={actionsPending}
               />
             </ListWrapper>
           ]}
@@ -209,4 +204,4 @@ class ContainerActions extends Component {
   }
 }
 
-export default withContext(ContainerActions);
+export default withTheme(ContainerActions);

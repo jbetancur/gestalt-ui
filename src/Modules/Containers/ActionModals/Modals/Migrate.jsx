@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
@@ -26,9 +28,9 @@ class MigrateModal extends PureComponent {
     onProceed: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    provider: PropTypes.object.isRequired,
+    sourceProvider: PropTypes.object.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     providersByType: PropTypes.array.isRequired,
     providersByTypePending: PropTypes.bool.isRequired,
   };
@@ -40,7 +42,8 @@ class MigrateModal extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchProvidersByType(this.props.params.fqon, this.props.params.environmentId, 'environments', 'CaaS');
+    console.log(this.props.sourceProvider);
+    this.props.fetchProvidersByType(this.props.match.params.fqon, this.props.match.params.environmentId, 'environments', 'CaaS');
   }
 
   doIt = () => {
@@ -59,7 +62,7 @@ class MigrateModal extends PureComponent {
 
   render() {
     const providers = this.props.providersByType
-      .filter(provider => provider.id !== this.props.provider.id)
+      .filter(provider => provider.id !== this.props.sourceProvider.id)
       .map(provider => ({ id: provider.id, name: `${provider.name} (${this.formatResourceType(provider.resource_type)})` }));
 
     return (
@@ -116,4 +119,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(MigrateModal));
+export default compose(
+  withMetaResource,
+  withRouter,
+  connect(mapStateToProps, Object.assign({}, actions)),
+)(MigrateModal);

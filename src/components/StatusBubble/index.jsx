@@ -17,12 +17,12 @@ const ContainerStatusStyle = styled.div`
   ${props => props.status === 'HEALTHY' && `background-color: ${props.theme.colors['$md-green-a700']}`};
   ${props => props.status === 'UNHEALTHY' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'SCALING' && `background-color: ${props.theme.colors['$md-blue-500']}`};
-  ${props => props.status === 'SUSPENDED' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
+  ${props => props.status === 'SUSPENDED' && `background-color: ${props.theme.colors['$md-orange-500']}`};
   ${props => props.status === 'LOST' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'ERROR' && `background-color: ${props.theme.colors['$md-red-a400']}`};
   ${props => props.status === 'ACTIVE' && `background-color: ${props.theme.colors['$md-blue-grey-400']}`};
   ${props => props.status === 'FAILED' && `background-color: ${props.theme.colors['$md-red-a400']}`};
-  ${props => props.status === 'PENDING' && `background-color: ${props.theme.colors['$md-orange-a400']}`};
+  ${props => props.status === 'PENDING' && `background-color: ${props.theme.colors['$md-orange-500']}`};
   ${props => props.status === 'DELETED' && `background-color: ${props.theme.colors['$md-grey-900']}`};
   ${props => props.status === 'DISABLED' && `background-color: ${props.theme.colors['$md-grey-500']}`};
 

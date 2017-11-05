@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Breadcrumbs, ContextNavigation } from 'Modules/ContextManagement';
-import EnvironmentActions from '../components/EnvironmentActions';
-import EnvironmentDetails from '../components/EnvironmentDetails';
+import Breadcrumbs from './Breadcrumbs';
+import ContextNavigation from './ContextNavigation';
+import EnvironmentActions from './EnvironmentActions';
+import EnvironmentDetails from './EnvironmentDetails';
 
 const EnvironmentHeader = (props) => {
   const { environment, environmentPending, contextActions, contextActionsPending } = props;

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { withMetaResource } from 'Modules/MetaResource';
 import { loadStorage, saveStorage } from 'util/helpers/localstorage';
 
 const getPreviousRoute = () => JSON.parse(loadStorage('lastVisitedRoute'));
@@ -43,13 +44,16 @@ export default function modalRouting(BaseComponent) {
 
   // tap into redux router - experimental
   function mapStateToProps(state) {
+    const { routing } = state;
+
     return {
-      routing: state.routing,
+      routing,
     };
   }
 
   return compose(
     withRouter,
+    withMetaResource,
     connect(mapStateToProps)
   )(ModalRouting);
 }
