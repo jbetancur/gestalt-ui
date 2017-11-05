@@ -15,28 +15,24 @@ import WorkspaceEdit from '../components/WorkspaceEdit';
 import withModalRouter from './withModalRouter';
 
 // Routing Structure. Order is important here
-const ContextRoutes = (props) => {
-  const { location, previousLocation, isModal } = props;
+const ContextRoutes = ({ location, previousLocation, isModal }) => (
+  <div>
+    <Switch location={isModal ? previousLocation : location}>
+      <Route path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" component={EnvironmentContext} />
+      <Route path="/:fqon/hierarchy/:workspaceId" component={WorkspaceContext} />
+      <Route path="/:fqon/hierarchy" component={HierarchyContext} />
+      <Route path="/:fqon" component={HierarchyContext} />
+      <Route component={NotFound} />
+    </Switch>
 
-  return (
-    <div>
-      <Switch location={isModal ? previousLocation : location}>
-        <Route path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" component={EnvironmentContext} />
-        <Route path="/:fqon/hierarchy/:workspaceId" component={WorkspaceContext} />
-        <Route path="/:fqon/hierarchy" component={HierarchyContext} />
-        <Route path="/:fqon" component={HierarchyContext} />
-        <Route component={NotFound} />
-      </Switch>
-
-      {isModal ? <Route exact path="/:fqon/createOrganization" component={OrganizationCreate} /> : null}
-      {isModal ? <Route exact path="/:fqon/editOrganization" component={OrganizationEdit} /> : null}
-      {isModal ? <Route exact path="/:fqon/createWorkspace" component={WorkspaceCreate} /> : null}
-      {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/edit" component={WorkspaceEdit} /> : null}
-      {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/createEnvironment" component={EnvironmentCreate} /> : null}
-      {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/edit" component={EnvironmentEdit} /> : null}
-    </div>
-  );
-};
+    {isModal ? <Route exact path="/:fqon/createOrganization" component={OrganizationCreate} /> : null}
+    {isModal ? <Route exact path="/:fqon/editOrganization" component={OrganizationEdit} /> : null}
+    {isModal ? <Route exact path="/:fqon/createWorkspace" component={WorkspaceCreate} /> : null}
+    {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/edit" component={WorkspaceEdit} /> : null}
+    {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/createEnvironment" component={EnvironmentCreate} /> : null}
+    {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/edit" component={EnvironmentEdit} /> : null}
+  </div>
+);
 
 ContextRoutes.propTypes = {
   location: PropTypes.object.isRequired,
