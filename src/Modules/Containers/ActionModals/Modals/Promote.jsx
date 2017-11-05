@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
@@ -27,7 +29,7 @@ class PromoteModal extends PureComponent {
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
@@ -40,7 +42,7 @@ class PromoteModal extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchEnvironments(this.props.params.fqon, this.props.params.workspaceId);
+    this.props.fetchEnvironments(this.props.match.params.fqon, this.props.match.params.workspaceId);
   }
 
   componentWillUnmount() {
@@ -58,7 +60,7 @@ class PromoteModal extends PureComponent {
 
   render() {
     const environments = this.props.environments
-      .filter(environment => environment.id !== this.props.params.environmentId)
+      .filter(environment => environment.id !== this.props.match.params.environmentId)
       .map(environment => ({ id: environment.id, name: environment.description || environment.name }));
 
     return (
@@ -117,4 +119,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(PromoteModal));
+export default compose(
+  withMetaResource,
+  withRouter,
+  connect(mapStateToProps, Object.assign({}, actions)),
+)(PromoteModal);

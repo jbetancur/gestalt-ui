@@ -39,7 +39,7 @@ class OrgNavMenu extends PureComponent {
     filterOrgs: PropTypes.func.isRequired,
     allOrganizations: PropTypes.array.isRequired,
     allOrganizationsPending: PropTypes.bool.isRequired,
-    currentOrgContext: PropTypes.object.isRequired,
+    organizationSet: PropTypes.object.isRequired,
     onUnloadAllOrgs: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
   };
@@ -109,12 +109,12 @@ class OrgNavMenu extends PureComponent {
   }
 
   render() {
-    const { currentOrgContext, allOrganizationsPending } = this.props;
+    const { organizationSet, allOrganizationsPending } = this.props;
 
     return (
       <EnhancedMenuButton
         id="orgs-nav"
-        label={this.props.currentOrgContext.description || currentOrgContext.name}
+        label={this.props.organizationSet.description || organizationSet.name}
         position={MenuButton.Positions.BELOW}
         iconChildren="expand_more"
         flat
@@ -134,12 +134,11 @@ class OrgNavMenu extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const { orgnavmenu, metaResource, contextManager } = state;
+  const { orgnavmenu, metaResource } = state;
   const orgMenuItems = metaResource.allOrganizations.organizations.filter(val => val.name.includes(orgnavmenu.filter.filterText) || (val.description && val.description.includes(orgnavmenu.filter.filterText)));
 
   return {
     allOrganizations: sortBy(orgMenuItems, 'name'),
-    currentOrgContext: contextManager.currentOrgContext.organization,
   };
 };
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withContext } from 'Modules/ContextManagement';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -16,7 +15,6 @@ class EnvironmentListing extends Component {
     history: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
   };
 
@@ -30,10 +28,9 @@ class EnvironmentListing extends Component {
   }
 
   componentDidMount() {
-    const { match, contextManagerActions } = this.props;
+    const { match } = this.props;
 
     this.init(match.params.fqon, match.params.workspaceId);
-    contextManagerActions.unloadEnvironmentContext();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,6 +87,5 @@ class EnvironmentListing extends Component {
 }
 
 export default compose(
-  withContext,
   withMetaResource
 )(EnvironmentListing);

@@ -26,7 +26,6 @@ import portmapModalReducer from '../Modules/PortMappingModal/reducers';
 import healthCheckModalReducer from '../Modules/HealthCheckModal/reducers';
 import secretReducers from '../Modules/Secrets/reducers';
 import tableManagerReducer from '../Modules/TableManager/reducers';
-import contextManager from '../Modules/ContextManagement/reducers';
 
 const mediaQuery = {
   xs: '(min-width: 0) and (max-width: 599px)',
@@ -62,5 +61,4 @@ export default combineReducers({
   healthCheckModal: healthCheckModalReducer,
   secrets: secretReducers,
   tableManager: tableManagerReducer,
-  contextManager,
 });

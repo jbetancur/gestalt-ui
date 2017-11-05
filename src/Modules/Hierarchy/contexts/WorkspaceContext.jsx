@@ -2,31 +2,39 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withContext } from 'Modules/ContextManagement';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import WorkspaceNav from './WorkspaceNav';
-import WorkspaceHeader from './WorkspaceHeader';
+import WorkspaceNav from '../components/WorkspaceNav';
+import WorkspaceHeader from '../components/WorkspaceHeader';
 
 class WorkspaceContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    fetchOrgSet: PropTypes.func.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
     unloadActions: PropTypes.func.isRequired,
+    organizationSet: PropTypes.func.isRequired,
     workspace: PropTypes.object.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    const { fetchWorkspace, match, fetchContextActions } = this.props;
+    const {
+      match,
+      fetchWorkspace,
+      fetchContextActions,
+      fetchOrgSet,
+      organizationSet
+    } = this.props;
 
     fetchWorkspace(match.params.fqon, match.params.workspaceId);
     fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
+
+    // Keep org context synced in case of refresh
+    if (match.params.fqon && !organizationSet.id) {
+      fetchOrgSet(match.params.fqon);
+    }
   }
 
   componentWillUnmount() {
@@ -55,6 +63,5 @@ class WorkspaceContext extends PureComponent {
 
 export default compose(
   withMetaResource,
-  withContext,
 )(WorkspaceContext);
 

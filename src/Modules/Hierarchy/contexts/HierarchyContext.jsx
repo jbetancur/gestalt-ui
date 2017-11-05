@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
-import HierarchyNav from './HierarchyNav';
-import HierarchyHeader from './HierarchyHeader';
+import HierarchyNav from '../components/HierarchyNav';
+import HierarchyHeader from '../components/HierarchyHeader';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
@@ -16,35 +15,27 @@ class HierarchyContext extends PureComponent {
     fetchOrgSet: PropTypes.func.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
+    unloadWorkspace: PropTypes.func.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    const { match, fetchOrgSet, fetchContextActions, contextManagerActions } = this.props;
-
+    const { match, fetchOrgSet, fetchContextActions, unloadWorkspace } = this.props;
     fetchOrgSet(match.params.fqon);
     fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
-    contextManagerActions.unloadWorkspaceContext();
-    contextManagerActions.unloadEnvironmentContext();
+    unloadWorkspace();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.fqon && nextProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
+      this.props.unloadWorkspace();
       this.props.unloadEnvironments();
     }
   }
 
   componentWillUnmount() {
-    // Clean up the context when it is changed
-    this.props.onUnloadOrgSet();
-    this.props.unloadWorkspaces();
     this.props.unloadEnvironments();
   }
 
@@ -68,5 +59,4 @@ class HierarchyContext extends PureComponent {
 
 export default compose(
   withMetaResource,
-  withContext,
 )(HierarchyContext);
