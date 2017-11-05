@@ -2,18 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withContext } from 'Modules/ContextManagement';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
-import EnvironmentNav from './EnvironmentNav';
-import EnvironmentHeader from './EnvironmentHeader';
+import EnvironmentNav from '../components/EnvironmentNav';
+import EnvironmentHeader from '../components/EnvironmentHeader';
 
 class EnvironmentContext extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    fetchOrgSet: PropTypes.func.isRequired,
+    fetchWorkspace: PropTypes.func.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
+    organizationSet: PropTypes.object.isRequired,
+    workspace: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
+    unloadEnvironment: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
     unloadLambdas: PropTypes.func.isRequired,
     unloadAPIs: PropTypes.func.isRequired,
@@ -22,21 +26,36 @@ class EnvironmentContext extends Component {
     unloadSecrets: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    const { match, fetchEnvironment, fetchContextActions } = this.props;
+    const {
+      match,
+      fetchEnvironment,
+      fetchContextActions,
+      organizationSet,
+      workspace,
+      fetchOrgSet,
+      fetchWorkspace
+    } = this.props;
 
     fetchEnvironment(match.params.fqon, match.params.environmentId);
     fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
+
+    // Keep org context synced in case of refresh
+    if (match.params.fqon && !organizationSet.id) {
+      fetchOrgSet(match.params.fqon);
+    }
+
+    // do the same for workspaces
+    if ((match.params.fqon && match.params.workspaceId) && !workspace.id) {
+      fetchWorkspace(match.params.fqon, match.params.workspaceId);
+    }
   }
 
   componentWillUnmount() {
     // only clear state when the Environment Context changes - this acts as a cache
-    const { unloadContainers, unloadLambdas, unloadAPIs, unloadPolicies, unloadProviders, unloadSecrets } = this.props;
+    const { unloadEnvironment, unloadContainers, unloadLambdas, unloadAPIs, unloadPolicies, unloadProviders, unloadSecrets } = this.props;
 
+    unloadEnvironment();
     unloadContainers();
     unloadLambdas();
     unloadAPIs();
@@ -65,5 +84,4 @@ class EnvironmentContext extends Component {
 
 export default compose(
   withMetaResource,
-  withContext,
 )(EnvironmentContext);

@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
@@ -24,17 +23,25 @@ class WorkspaceEdit extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchWorkspace(this.props.match.params.fqon, this.props.match.params.workspaceId);
+    const { match, fetchWorkspace } = this.props;
+
+    fetchWorkspace(match.params.fqon, match.params.workspaceId);
   }
 
   update = (values) => {
-    const { match, history, location, workspace, updateWorkspace, fetchOrgSet, contextManagerActions } = this.props;
+    const {
+      match,
+      history,
+      location,
+      workspace,
+      updateWorkspace,
+      fetchOrgSet,
+    } = this.props;
+
     const patches = generateWorkspacePatches(workspace, values);
-    const onSuccess = (response) => {
+    const onSuccess = () => {
       if (location.state.card) {
         fetchOrgSet(match.params.fqon);
-      } else {
-        contextManagerActions.setCurrentWorkspaceContext(response);
       }
 
       history.goBack();
@@ -78,7 +85,6 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
-  withContext,
   connect(mapStateToProps),
   reduxForm({
     form: 'workspaceEdit',

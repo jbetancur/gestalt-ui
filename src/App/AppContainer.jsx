@@ -10,7 +10,6 @@ import OrgNavMenu from 'Modules/OrgNavMenu';
 import ModalRoot from 'Modules/ModalRoot';
 import { loginActions } from 'Modules/Auth';
 import { metaActions } from 'Modules/MetaResource';
-import { withContext } from 'Modules/ContextManagement';
 import Main from './components/Main';
 import AppError from './components/AppError';
 import AppLogo from './components/AppLogo';
@@ -22,7 +21,6 @@ class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
     license: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -112,6 +110,5 @@ function mapDispatchToProps(dispatch) {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withContext,
   withApp
 )(App);

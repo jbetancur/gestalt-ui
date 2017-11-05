@@ -43,6 +43,12 @@ class HierarchyListing extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    const { match, fetchOrgSet } = this.props;
+
+    fetchOrgSet(match.params.fqon);
+  }
+
   componentWillReceiveProps(nextProps) {
     const { showEnvironments } = this.state;
 

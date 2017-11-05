@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withContext } from 'Modules/ContextManagement';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
@@ -29,14 +28,13 @@ class EnvironmentEdit extends Component {
   }
 
   update = (values) => {
-    const { match, history, location, environment, updateEnvironment, fetchEnvironments, contextManagerActions } = this.props;
+    const { match, history, location, environment, updateEnvironment, fetchEnvironments } = this.props;
     const patches = generateEnvironmentPatches(environment, values);
     const onSuccess = (response) => {
       if (location.state.card) {
         fetchEnvironments(match.params.fqon, response.properties.workspace.id);
-      } else {
-        contextManagerActions.setCurrentEnvironmentContext(response);
       }
+
       history.goBack();
     };
 
@@ -81,7 +79,6 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
-  withContext,
   connect(mapStateToProps),
   reduxForm({
     form: 'environmentEdit',

@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import FontIcon from 'react-md/lib/FontIcons';
+import { withMetaResource } from 'Modules/MetaResource';
+import { FontIcon } from 'react-md';
 import { truncate, getParentFQON } from 'util/helpers/strings';
 import { Button } from 'components/Buttons';
 
@@ -80,9 +80,9 @@ class Breadcrumbs extends PureComponent {
     location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
-    currentOrgContext: PropTypes.object.isRequired,
-    currentWorkspaceContext: PropTypes.object.isRequired,
-    currentEnvironmentContext: PropTypes.object.isRequired,
+    organizationSet: PropTypes.object.isRequired,
+    workspace: PropTypes.object.isRequired,
+    environment: PropTypes.object.isRequired,
     className: PropTypes.string,
     size: PropTypes.number,
     lastIsActive: PropTypes.bool,
@@ -108,9 +108,9 @@ class Breadcrumbs extends PureComponent {
   render() {
     const {
       self,
-      currentOrgContext,
-      currentWorkspaceContext,
-      currentEnvironmentContext,
+      organizationSet,
+      workspace,
+      environment,
       match,
       className,
       size,
@@ -118,16 +118,16 @@ class Breadcrumbs extends PureComponent {
       pending,
     } = this.props;
 
-    const parentFQON = getParentFQON(currentOrgContext);
+    const parentFQON = getParentFQON(organizationSet);
     const parentOrgRoute = `/${parentFQON}/hierarchy`;
-    const orgsRoute = `/${currentOrgContext.properties.fqon}/hierarchy`;
-    const workspaceRoute = `/${currentOrgContext.properties.fqon}/hierarchy/${currentWorkspaceContext.id}/environments`;
+    const orgsRoute = `/${organizationSet.properties.fqon}/hierarchy`;
+    const workspaceRoute = `/${organizationSet.properties.fqon}/hierarchy/${workspace.id}/environments`;
     const environmentRoute = `${match.url}/containers`;
-    const orgName = truncate(currentOrgContext.description || currentOrgContext.name, 30);
-    const workspaceName = truncate(currentWorkspaceContext.description || currentWorkspaceContext.name, 30);
-    const environmentName = truncate(currentEnvironmentContext.description || currentEnvironmentContext.name, 30);
-    const isWorkspaceCtx = currentWorkspaceContext.id && match.params.workspaceId;
-    const isEnvironmentCtx = currentEnvironmentContext.id && match.params.environmentId;
+    const orgName = truncate(organizationSet.description || organizationSet.name, 30);
+    const workspaceName = truncate(workspace.description || workspace.name, 30);
+    const environmentName = truncate(environment.description || environment.name, 30);
+    const isWorkspaceCtx = workspace.id && match.params.workspaceId;
+    const isEnvironmentCtx = environment.id && match.params.environmentId;
     const isGestaltHome = match.params.fqon === self.properties.gestalt_home.properties.fqon;
 
     return (
@@ -173,18 +173,7 @@ class Breadcrumbs extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  const { contextManager } = state;
-
-  return {
-    self: state.metaResource.self.self,
-    currentOrgContext: contextManager.currentOrgContext.organization,
-    currentWorkspaceContext: contextManager.currentWorkspaceContext.workspace,
-    currentEnvironmentContext: contextManager.currentEnvironmentContext.environment,
-  };
-}
-
 export default compose(
+  withMetaResource,
   withRouter,
-  connect(mapStateToProps)
 )(Breadcrumbs);

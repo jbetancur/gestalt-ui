@@ -22,26 +22,24 @@ export function scaleContainerModal(action, item, numInstances) {
   };
 }
 
-export function migrateContainerModal(action, item, provider, params) {
+export function migrateContainerModal(action, item, sourceProvider) {
   return {
     type: 'SHOW_CONTAINER_MODAL',
     modalType: 'MIGRATE',
     modalProps: {
       title: item,
-      provider,
-      params,
+      sourceProvider,
       onProceed: action,
     }
   };
 }
 
-export function promoteContainerModal(action, item, params) {
+export function promoteContainerModal(action, item) {
   return {
     type: 'SHOW_CONTAINER_MODAL',
     modalType: 'PROMOTE',
     modalProps: {
       title: item,
-      params,
       onProceed: action,
     }
   };

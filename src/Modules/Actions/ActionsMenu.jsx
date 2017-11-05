@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
@@ -106,4 +107,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withMetaResource(connect(null, mapDispatchToProps)(ActionsMenu));
+export default compose(
+  withMetaResource,
+  connect(null, mapDispatchToProps),
+)(ActionsMenu);

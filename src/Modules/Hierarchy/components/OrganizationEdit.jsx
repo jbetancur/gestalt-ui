@@ -5,7 +5,6 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { withContext } from 'Modules/ContextManagement';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import { getParentFQON } from 'util/helpers/strings';
 import HierarchyForm from './HierarchyForm';
@@ -27,20 +26,18 @@ class OrgEdit extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOrg(this.props.match.params.fqon);
+    const { match, fetchOrg } = this.props;
+
+    fetchOrg(match.params.fqon);
   }
 
   update(values) {
-    const { match, history, location, organization, updateOrg, fetchOrgSet, contextManagerActions } = this.props;
+    const { match, history, location, organization, updateOrg, fetchOrgSet } = this.props;
     const patches = generateOrganizationPatches(organization, values);
     const onSuccess = (response) => {
       const fqon = location.state.card ? getParentFQON(response) : match.params.fqon;
       history.replace(`/${fqon}/hierarchy`);
       fetchOrgSet(fqon);
-
-      if (!location.state.card) {
-        contextManagerActions.setCurrentOrgContext(response);
-      }
     };
 
     updateOrg(organization.properties.fqon, patches, onSuccess);
@@ -81,7 +78,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withContext,
   withMetaResource,
   translate(),
   connect(mapStateToProps),

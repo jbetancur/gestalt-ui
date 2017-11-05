@@ -2,18 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Switch, Route } from 'react-router-dom';
-import { withContext } from 'Modules/ContextManagement';
 import NotFound from 'components/NotFound';
-import HierarchyContext from '../components/HierarchyContext';
-import WorkspaceContext from '../components/WorkspaceContext';
-import EnvironmentContext from '../components/EnvironmentContext';
+import HierarchyContext from '../contexts/HierarchyContext';
+import WorkspaceContext from '../contexts/WorkspaceContext';
+import EnvironmentContext from '../contexts/EnvironmentContext';
 import OrganizationCreate from '../components/OrganizationCreate';
 import OrganizationEdit from '../components/OrganizationEdit';
 import WorkspaceCreate from '../components/WorkspaceCreate';
 import EnvironmentCreate from '../components/EnvironmentCreate';
 import EnvironmentEdit from '../components/EnvironmentEdit';
 import WorkspaceEdit from '../components/WorkspaceEdit';
-import routingHelper from './routingHelper';
+import withModalRouter from './withModalRouter';
 
 // Routing Structure. Order is important here
 const ContextRoutes = (props) => {
@@ -46,6 +45,5 @@ ContextRoutes.propTypes = {
 };
 
 export default compose(
-  routingHelper,
-  withContext
+  withModalRouter,
 )(ContextRoutes);
