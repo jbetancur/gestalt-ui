@@ -22,7 +22,6 @@ class OrgEdit extends Component {
     updateOrg: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     organizationPending: PropTypes.bool.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
   }
 
   componentDidMount() {

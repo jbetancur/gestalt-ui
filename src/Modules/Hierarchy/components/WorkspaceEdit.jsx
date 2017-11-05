@@ -19,7 +19,6 @@ class WorkspaceEdit extends Component {
     fetchOrgSet: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
     workspacePending: PropTypes.bool.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
   }
 
   componentDidMount() {

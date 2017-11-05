@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import NotFound from 'components/NotFound';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import Environments from '../components/EnvironmentListing';
+import withModalRouter from './withModalRouter';
 
-const WorkspaceRoutes = () => (
-  <Switch>
+const WorkspaceRoutes = ({ location, previousLocation, isModal }) => (
+  <Switch location={isModal ? previousLocation : location}>
     <Route exact path="/:fqon/hierarchy/:workspaceId" />
     <Route path="/:fqon/hierarchy/:workspaceId/environments" component={Environments} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/providers" component={Providers} />
@@ -15,4 +17,10 @@ const WorkspaceRoutes = () => (
   </Switch>
 );
 
-export default WorkspaceRoutes;
+WorkspaceRoutes.propTypes = {
+  location: PropTypes.object.isRequired,
+  previousLocation: PropTypes.object.isRequired,
+  isModal: PropTypes.bool.isRequired,
+};
+
+export default withModalRouter(WorkspaceRoutes);
