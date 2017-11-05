@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import NotFound from 'components/NotFound';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
@@ -9,9 +10,10 @@ import { Secrets, SecretCreate, SecretEdit } from 'Modules/Secrets';
 import { APIs, APICreate, APIEdit } from 'Modules/APIs';
 import { APIEndpoints, APIEndpointCreate, APIEndpointEdit } from 'Modules/APIEndpoints';
 import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRuleCreate, PolicyEventRuleEdit } from 'Modules/PolicyRules';
+import withModalRouter from './withModalRouter';
 
-const EnvironmentRoutes = () => (
-  <Switch>
+const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
+  <Switch location={isModal ? previousLocation : location}>
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers" component={Providers} />
@@ -50,4 +52,10 @@ const EnvironmentRoutes = () => (
   </Switch>
 );
 
-export default EnvironmentRoutes;
+EnvironmentRoutes.propTypes = {
+  location: PropTypes.object.isRequired,
+  previousLocation: PropTypes.object.isRequired,
+  isModal: PropTypes.bool.isRequired,
+};
+
+export default withModalRouter(EnvironmentRoutes);

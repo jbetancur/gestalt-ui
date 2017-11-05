@@ -19,7 +19,6 @@ class EnvironmentEdit extends Component {
     fetchEnvironments: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
-    contextManagerActions: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
