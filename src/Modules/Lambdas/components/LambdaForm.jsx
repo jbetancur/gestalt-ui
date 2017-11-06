@@ -120,7 +120,7 @@ const LambdaForm = (props) => {
                     label="Runtime"
                     async
                     onFocus={() => props.fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor')}
-                    onChange={() => handleSupportsInline()}
+                    onChange={handleSupportsInline}
                     disabled={props.editMode}
                   />
                 </Col>
