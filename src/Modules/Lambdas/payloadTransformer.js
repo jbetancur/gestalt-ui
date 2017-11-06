@@ -91,12 +91,13 @@ export function generateLambdaPatches(originalPayload, updatedPayload) {
     }
   };
 
-  if (!properties.code) {
+  if (properties.code_type === 'package') {
     delete model.properties.code;
   } else {
     delete model.properties.package_url;
     delete model.properties.compressed;
   }
+
 
   return jsonPatch.compare(model, generateLambdaPayload(updatedPayload, true));
 }
