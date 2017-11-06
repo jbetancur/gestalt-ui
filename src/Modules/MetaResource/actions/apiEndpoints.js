@@ -8,6 +8,13 @@ export function unloadAPIEndpoints() {
 }
 
 /**
+ * unloadAPIEndpoint
+ */
+export function unloadAPIEndpoint() {
+  return { type: types.UNLOAD_APIENDPOINT };
+}
+
+/**
  * fetchAPIEndpoints
  * @param {string} fqon
  * @param {string} apiId
@@ -74,6 +81,7 @@ export function deleteAPIEndpoints(apiendpointIds, fqon, apiId, onSuccess) {
 
 export default {
   unloadAPIEndpoints,
+  unloadAPIEndpoint,
   fetchAPIEndpoints,
   fetchAPIEndpoint,
   createAPIEndpoint,

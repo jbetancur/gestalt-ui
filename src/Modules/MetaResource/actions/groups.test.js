@@ -10,6 +10,14 @@ describe('Group Actions', () => {
     expect(actions.unloadGroups()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_GROUP', () => {
+    const expectedAction = {
+      type: types.UNLOAD_GROUP,
+    };
+
+    expect(actions.unloadGroup()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_GROUPS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_GROUPS_REQUEST,

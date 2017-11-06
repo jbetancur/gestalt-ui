@@ -8,6 +8,13 @@ export function unloadUsers() {
 }
 
 /**
+ * unloadUser
+ */
+export function unloadUser() {
+  return { type: types.UNLOAD_USER };
+}
+
+/**
  * fetchUsers
  * @param {string} fqon
  */
@@ -67,6 +74,7 @@ export function deleteUsers(userIds, fqon, onSuccess) {
 
 export default {
   unloadUsers,
+  unloadUser,
   fetchUsers,
   fetchUser,
   createUser,

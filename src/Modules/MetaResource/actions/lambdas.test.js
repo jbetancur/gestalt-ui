@@ -10,6 +10,14 @@ describe('Lambda Actions', () => {
     expect(actions.unloadLambdas()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_LAMBDA', () => {
+    const expectedAction = {
+      type: types.UNLOAD_LAMBDA,
+    };
+
+    expect(actions.unloadLambda()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_LAMBDAS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_LAMBDAS_REQUEST,

@@ -8,6 +8,13 @@ export function unloadSecrets() {
 }
 
 /**
+ * unloadSecret
+ */
+export function unloadSecret() {
+  return { type: types.UNLOAD_SECRET };
+}
+
+/**
  * fetchSecrets
  * @param {string} fqon
 * @param {string} environmentId
@@ -79,6 +86,7 @@ export function deleteSecrets(secretIds, fqon, onSuccess) {
 
 export default {
   unloadSecrets,
+  unloadSecret,
   fetchSecrets,
   fetchSecretsDropDown,
   fetchSecret,

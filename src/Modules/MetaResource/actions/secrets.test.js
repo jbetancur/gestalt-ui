@@ -10,6 +10,14 @@ describe('Secrets Actions', () => {
     expect(actions.unloadSecrets()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_SECRET', () => {
+    const expectedAction = {
+      type: types.UNLOAD_SECRET,
+    };
+
+    expect(actions.unloadSecret()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_SECRETS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_SECRETS_REQUEST,

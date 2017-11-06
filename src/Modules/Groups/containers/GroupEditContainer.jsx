@@ -19,13 +19,21 @@ class GroupEdit extends Component {
     fetchGroup: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired,
     updateGroup: PropTypes.func.isRequired,
+    unloadGroup: PropTypes.func.isRequired,
     groupPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
     const { match, fetchGroup, fetchUsers } = this.props;
+
     fetchGroup(match.params.fqon, match.params.groupId);
     fetchUsers(match.params.fqon);
+  }
+
+  componentWillUnmount() {
+    const { unloadGroup } = this.props;
+
+    unloadGroup();
   }
 
   update(values) {

@@ -8,6 +8,13 @@ export function unloadContainers() {
 }
 
 /**
+ * unloadContainer
+ */
+export function unloadContainer() {
+  return { type: types.UNLOAD_CONTAINER };
+}
+
+/**
  * fetchContainers
  * @param {string} fqon
  * @param {string} environmentId
@@ -114,6 +121,7 @@ export function fetchProviderContainer(fqon, providerId) {
 
 export default {
   unloadContainers,
+  unloadContainer,
   fetchContainers,
   fetchContainersDropDown,
   fetchContainer,

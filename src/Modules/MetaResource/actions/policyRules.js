@@ -8,6 +8,13 @@ export function unloadPolicyRules() {
 }
 
 /**
+ * unloadPolicyRule
+ */
+export function unloadPolicyRule() {
+  return { type: types.UNLOAD_POLICYRULE };
+}
+
+/**
  * fetchPolicyRules
  * @param {string} fqon
  * @param {string} policyId
@@ -73,6 +80,7 @@ export function deletePolicyRules(ruleIds, fqon, policyId, onSuccess) {
 
 export default {
   unloadPolicyRules,
+  unloadPolicyRule,
   fetchPolicyRules,
   fetchPolicyRule,
   createPolicyRule,
