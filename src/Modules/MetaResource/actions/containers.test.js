@@ -10,6 +10,14 @@ describe('Container Actions', () => {
     expect(actions.unloadContainers()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_CONTAINER', () => {
+    const expectedAction = {
+      type: types.UNLOAD_CONTAINER,
+    };
+
+    expect(actions.unloadContainer()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_CONTAINERS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_CONTAINERS_REQUEST,

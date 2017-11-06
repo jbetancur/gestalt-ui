@@ -10,6 +10,14 @@ describe('API Actions', () => {
     expect(actions.unloadAPIs()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_API', () => {
+    const expectedAction = {
+      type: types.UNLOAD_API,
+    };
+
+    expect(actions.unloadAPI()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_APIS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_APIS_REQUEST,

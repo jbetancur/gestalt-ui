@@ -28,6 +28,7 @@ class ProviderEdit extends PureComponent {
     pristine: PropTypes.bool.isRequired,
     redeployProvider: PropTypes.func.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
+    unloadProvider: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -43,6 +44,12 @@ class ProviderEdit extends PureComponent {
     fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
     fetchProvider(match.params.fqon, match.params.providerId);
     fetchProviderContainer(match.params.fqon, match.params.providerId);
+  }
+
+  componentWillUnmount() {
+    const { unloadProvider } = this.props;
+
+    unloadProvider();
   }
 
   setRedeployFlag = (redeploy) => {

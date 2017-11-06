@@ -10,6 +10,14 @@ describe('Policy Actions', () => {
     expect(actions.unloadPolicies()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_POLICY', () => {
+    const expectedAction = {
+      type: types.UNLOAD_POLICY,
+    };
+
+    expect(actions.unloadPolicy()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_POLICIES_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_POLICIES_REQUEST,

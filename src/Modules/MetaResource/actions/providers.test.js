@@ -10,6 +10,14 @@ describe('Provider Actions', () => {
     expect(actions.unloadProviders()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_PROVIDER', () => {
+    const expectedAction = {
+      type: types.UNLOAD_PROVIDER,
+    };
+
+    expect(actions.unloadProvider()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_PROVIDERS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_PROVIDERS_REQUEST,

@@ -8,6 +8,13 @@ export function unloadGroups() {
 }
 
 /**
+ * unloadGroup
+ */
+export function unloadGroup() {
+  return { type: types.UNLOAD_GROUP };
+}
+
+/**
  * fetchGroups
  * @param {string} fqon
  */
@@ -89,6 +96,7 @@ export function removeGroupMember(fqon, groupId, userId, onSuccess) {
 
 export default {
   unloadGroups,
+  unloadGroup,
   fetchGroups,
   fetchGroup,
   createGroup,

@@ -24,6 +24,7 @@ class LambdaEdit extends PureComponent {
     lambdaPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     fetchActions: PropTypes.func.isRequired,
+    unloadLambda: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -33,6 +34,12 @@ class LambdaEdit extends PureComponent {
     fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
     fetchLambda(match.params.fqon, match.params.lambdaId, match.params.environmentId);
+  }
+
+  componentWillUnmount() {
+    const { unloadLambda } = this.props;
+
+    unloadLambda();
   }
 
   updateLambda(values) {

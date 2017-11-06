@@ -129,6 +129,7 @@ export const FETCH_LAMBDAS_DROPDOWN_FULFILLED = 'metaResource/FETCH_LAMBDAS_DROP
 export const FETCH_LAMBDAS_DROPDOWN_REJECTED = 'metaResource/FETCH_LAMBDAS_DROPDOWN_REJECTED';
 
 export const UNLOAD_LAMBDAS = 'metaResource/UNLOAD_LAMBDAS';
+export const UNLOAD_LAMBDA = 'metaResource/UNLOAD_LAMBDA';
 
 /**
  * APIS
@@ -155,6 +156,7 @@ export const DELETE_API_FULFILLED = 'metaResource/DELETE_API_FULFILLED';
 export const DELETE_API_REJECTED = 'metaResource/DELETE_API_REJECTED';
 
 export const UNLOAD_APIS = 'metaResource/UNLOAD_APIS';
+export const UNLOAD_API = 'metaResource/UNLOAD_API';
 
 /**
  * API Endpoints
@@ -181,6 +183,7 @@ export const DELETE_APIENDPOINT_FULFILLED = 'metaResource/DELETE_APIENDPOINT_FUL
 export const DELETE_APIENDPOINT_REJECTED = 'metaResource/DELETE_APIENDPOINT_REJECTED';
 
 export const UNLOAD_APIENDPOINTS = 'metaResource/UNLOAD_APIENDPOINTS';
+export const UNLOAD_APIENDPOINT = 'metaResource/UNLOAD_APIENDPOINT';
 
 /**
  * Providers
@@ -223,6 +226,7 @@ export const REDEPLOY_PROVIDER_FULFILLED = 'metaResource/REDEPLOY_PROVIDER_FULFI
 export const REDEPLOY_PROVIDER_REJECTED = 'metaResource/REDEPLOY_PROVIDER_REJECTED';
 
 export const UNLOAD_PROVIDERS = 'metaResource/UNLOAD_PROVIDERS';
+export const UNLOAD_PROVIDER = 'metaResource/UNLOAD_PROVIDER';
 
 /**
  * Containers
@@ -265,6 +269,7 @@ export const FETCH_CONTAINERS_DROPDOWN_FULFILLED = 'metaResource/FETCH_CONTAINER
 export const FETCH_CONTAINERS_DROPDOWN_REJECTED = 'metaResource/FETCH_CONTAINERS_DROPDOWN_REJECTED';
 
 export const UNLOAD_CONTAINERS = 'metaResource/UNLOAD_CONTAINERS';
+export const UNLOAD_CONTAINER = 'metaResource/UNLOAD_CONTAINER';
 
 /**
  * Policies
@@ -291,6 +296,7 @@ export const DELETE_POLICY_FULFILLED = 'metaResource/DELETE_POLICY_FULFILLED';
 export const DELETE_POLICY_REJECTED = 'metaResource/DELETE_POLICY_REJECTED';
 
 export const UNLOAD_POLICIES = 'metaResource/UNLOAD_POLICIES';
+export const UNLOAD_POLICY = 'metaResource/UNLOAD_POLICY';
 
 /**
  * Policy Rules
@@ -316,7 +322,8 @@ export const DELETE_POLICYRULE_REQUEST = 'metaResource/DELETE_POLICYRULE_REQUEST
 export const DELETE_POLICYRULE_FULFILLED = 'metaResource/DELETE_POLICYRULE_FULFILLED';
 export const DELETE_POLICYRULE_REJECTED = 'metaResource/DELETE_POLICYRULE_REJECTED';
 
-export const UNLOAD_POLICYRULES = 'metaResource/POLICYRULES_UNLOADED';
+export const UNLOAD_POLICYRULES = 'metaResource/UNLOAD_POLICYRULES';
+export const UNLOAD_POLICYRULE = 'metaResource/UNLOAD_POLICYRULE';
 
 /**
  * Entitlements
@@ -360,6 +367,7 @@ export const DELETE_USER_FULFILLED = 'metaResource/DELETE_USER_FULFILLED';
 export const DELETE_USER_REJECTED = 'metaResource/DELETE_USER_REJECTED';
 
 export const UNLOAD_USERS = 'metaResource/UNLOAD_USERS';
+export const UNLOAD_USER = 'metaResource/UNLOAD_USER';
 
 /**
  * Groups
@@ -391,7 +399,9 @@ export const ADD_GROUP_MEMBER_REJECTED = 'metaResource/ADD_GROUP_MEMBER_REJECTED
 export const REMOVE_GROUP_MEMBER_REQUEST = 'metaResource/REMOVE_GROUP_MEMBER_REQUEST';
 export const REMOVE_GROUP_MEMBER_FULFILLED = 'metaResource/REMOVE_GROUP_MEMBER_FULFILLED';
 export const REMOVE_GROUP_MEMBER_REJECTED = 'metaResource/REMOVE_GROUP_MEMBER_REJECTED';
+
 export const UNLOAD_GROUPS = 'metaResource/UNLOAD_GROUPS';
+export const UNLOAD_GROUP = 'metaResource/UNLOAD_GROUP';
 
 /**
  * Env
@@ -449,6 +459,7 @@ export const DELETE_SECRET_FULFILLED = 'metaResource/DELETE_SECRET_FULFILLED';
 export const DELETE_SECRET_REJECTED = 'metaResource/DELETE_SECRET_REJECTED';
 
 export const UNLOAD_SECRETS = 'metaResource/UNLOAD_SECRETS';
+export const UNLOAD_SECRET = 'metaResource/UNLOAD_SECRET';
 
 export const FETCH_SECRETS_DROPDOWN_REQUEST = 'metaResource/FETCH_SECRETS_DROPDOWN_REQUEST';
 export const FETCH_SECRETS_DROPDOWN_FULFILLED = 'metaResource/FETCH_SECRETS_DROPDOWN_FULFILLED';
@@ -479,6 +490,7 @@ export const DELETE_RESOURCETYPE_REQUEST = 'metaResource/DELETE_RESOURCETYPE_REQ
 export const DELETE_RESOURCETYPE_FULFILLED = 'metaResource/DELETE_RESOURCETYPE_FULFILLED';
 export const DELETE_RESOURCETYPE_REJECTED = 'metaResource/DELETE_RESOURCETYPE_REJECTED';
 export const UNLOAD_RESOURCETYPES = 'metaResource/UNLOAD_RESOURCETYPES';
+export const UNLOAD_RESOURCETYPE = 'metaResource/UNLOAD_RESOURCETYPE';
 
 /**
  * Sync

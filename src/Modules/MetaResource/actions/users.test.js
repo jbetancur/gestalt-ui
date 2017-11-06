@@ -10,6 +10,14 @@ describe('User Actions', () => {
     expect(actions.unloadUsers()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_USER', () => {
+    const expectedAction = {
+      type: types.UNLOAD_USER,
+    };
+
+    expect(actions.unloadUser()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_USERS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_USERS_REQUEST,

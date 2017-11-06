@@ -21,6 +21,7 @@ class PolicyLimitRuleEdit extends Component {
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
+    unloadPolicyRule: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -37,7 +38,9 @@ class PolicyLimitRuleEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { clearSelectedActions } = this.props;
+    const { clearSelectedActions, unloadPolicyRule } = this.props;
+
+    unloadPolicyRule();
     clearSelectedActions();
   }
 

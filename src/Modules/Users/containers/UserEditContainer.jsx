@@ -18,13 +18,21 @@ class GroupEdit extends Component {
     fetchAllOrgsDropDown: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     userPending: PropTypes.bool.isRequired,
+    unloadUser: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
     const { match, fetchUser, fetchAllOrgsDropDown } = this.props;
+
     fetchAllOrgsDropDown(match.params.fqon);
     fetchUser(match.params.fqon, match.params.userId);
+  }
+
+  componentWillUnmount() {
+    const { unloadUser } = this.props;
+
+    unloadUser();
   }
 
   update(values) {

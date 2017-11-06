@@ -21,6 +21,7 @@ class APIEndpointEdit extends Component {
     fetchLambdasDropDown: PropTypes.func.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    unloadAPIEndpoint: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -37,6 +38,12 @@ class APIEndpointEdit extends Component {
     }
 
     fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
+  }
+
+  componentWillUnmount() {
+    const { unloadAPIEndpoint } = this.props;
+
+    unloadAPIEndpoint();
   }
 
   updateAPIEndpoint(values) {
