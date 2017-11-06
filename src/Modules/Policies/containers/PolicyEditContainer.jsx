@@ -19,11 +19,18 @@ class PolicyEdit extends Component {
     updatePolicy: PropTypes.func.isRequired,
     policyPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    unloadPolicy: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const { match, fetchPolicy } = this.props;
     fetchPolicy(match.params.fqon, match.params.policyId);
+  }
+
+  componentWillUnmount() {
+    const { unloadPolicy } = this.props;
+
+    unloadPolicy();
   }
 
   updatePolicy(values) {

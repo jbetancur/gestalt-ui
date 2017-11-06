@@ -10,6 +10,14 @@ describe('Policy Rule Actions', () => {
     expect(actions.unloadPolicyRules()).to.deep.equal(expectedAction);
   });
 
+  it('should request UNLOAD_POLICYRULE', () => {
+    const expectedAction = {
+      type: types.UNLOAD_POLICYRULE,
+    };
+
+    expect(actions.unloadPolicyRule()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_POLICYRULES_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_POLICYRULES_REQUEST,

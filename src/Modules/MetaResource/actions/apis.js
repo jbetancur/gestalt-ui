@@ -8,6 +8,13 @@ export function unloadAPIs() {
 }
 
 /**
+ * unloadAPI
+ */
+export function unloadAPI() {
+  return { type: types.UNLOAD_API };
+}
+
+/**
  * fetchAPIs
  * @param {string} fqon
  * @param {string} environmentId
@@ -70,6 +77,7 @@ export function deleteAPIs(apiIds, fqon, onSuccess) {
 
 export default {
   unloadAPIs,
+  unloadAPI,
   fetchAPIs,
   fetchAPI,
   createAPI,

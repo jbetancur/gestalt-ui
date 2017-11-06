@@ -19,6 +19,7 @@ class SecretEdit extends Component {
     updateSecret: PropTypes.func.isRequired,
     secretPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    unloadSecret: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -26,6 +27,12 @@ class SecretEdit extends Component {
 
     fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     fetchSecret(match.params.fqon, match.params.secretId);
+  }
+
+  componentWillUnmount() {
+    const { unloadSecret } = this.props;
+
+    unloadSecret();
   }
 
   updateSecret(values) {

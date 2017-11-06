@@ -20,12 +20,19 @@ class APIEdit extends Component {
     updateAPI: PropTypes.func.isRequired,
     apiPending: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    unloadAPI: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const { match, fetchAPI, fetchProviderKongsByGateway } = this.props;
     fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
     fetchAPI(match.params.fqon, match.params.apiId);
+  }
+
+  componentWillUnmount() {
+    const { unloadAPI } = this.props;
+
+    unloadAPI();
   }
 
   updateAPI(values) {

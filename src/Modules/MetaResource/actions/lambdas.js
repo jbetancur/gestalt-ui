@@ -8,6 +8,13 @@ export function unloadLambdas() {
 }
 
 /**
+ * unloadLambda
+ */
+export function unloadLambda() {
+  return { type: types.UNLOAD_LAMBDA };
+}
+
+/**
  * fetchLambdas
  * @param {string} fqon
  * @param {string} environmentId
@@ -89,6 +96,7 @@ export function fetchLambdaProvider(fqon, lambdaId) {
 
 export default {
   unloadLambdas,
+  unloadLambda,
   fetchLambdas,
   fetchLambdasDropDown,
   fetchLambda,

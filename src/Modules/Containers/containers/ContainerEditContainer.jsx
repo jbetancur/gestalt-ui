@@ -36,6 +36,7 @@ class ContainerEdit extends Component {
     unloadSecretsModal: PropTypes.func.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     fetchActions: PropTypes.func.isRequired,
+    unloadContainer: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -65,8 +66,9 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
+    const { unloadContainer, unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
 
+    unloadContainer();
     unloadVolumes();
     unloadPortmappings();
     unloadSecretsModal();

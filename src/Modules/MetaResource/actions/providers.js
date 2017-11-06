@@ -8,6 +8,13 @@ export function unloadProviders() {
 }
 
 /**
+ * unloadProvider
+ */
+export function unloadProvider() {
+  return { type: types.UNLOAD_PROVIDER };
+}
+
+/**
  * fetchProviders
  * @param {string} fqon
  * @param {string} entityId
@@ -116,6 +123,7 @@ export function redeployProvider(fqon, providerId, onSuccess) {
 
 export default {
   unloadProviders,
+  unloadProvider,
   fetchProviders,
   fetchProvidersByType,
   fetchProviderKongsByGateway,

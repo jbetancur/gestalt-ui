@@ -8,6 +8,13 @@ export function unloadPolicies() {
 }
 
 /**
+ * unloadPolicy
+ */
+export function unloadPolicy() {
+  return { type: types.UNLOAD_POLICY };
+}
+
+/**
  * fetchPolicies
  * @param {string} fqon
  * @param {string} environmentId
@@ -70,6 +77,7 @@ export function deletePolicies(policyIds, fqon, onSuccess) {
 
 export default {
   unloadPolicies,
+  unloadPolicy,
   fetchPolicies,
   fetchPolicy,
   createPolicy,
