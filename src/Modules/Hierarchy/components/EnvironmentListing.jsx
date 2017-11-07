@@ -15,7 +15,6 @@ class EnvironmentListing extends Component {
     history: PropTypes.object.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
-    unloadEnvironments: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,10 +36,6 @@ class EnvironmentListing extends Component {
     if (nextProps.match.params.workspaceId !== this.props.match.params.workspaceId) {
       this.init(nextProps.match.params.fqon, nextProps.match.params.workspaceId);
     }
-  }
-
-  componentWillUnmount() {
-    this.props.unloadEnvironments();
   }
 
   setSortKey = (sortKey) => {

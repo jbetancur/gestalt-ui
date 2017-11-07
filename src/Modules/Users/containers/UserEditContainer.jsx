@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -94,13 +95,17 @@ function mapStateToProps(state) {
         email: user.properties.email,
         phoneNumber: user.properties.phoneNumber,
         gestalt_home: user.properties.gestalt_home
-      }
+      },
     },
-    enableReinitialize: true
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'userEdit',
-  validate
-})(GroupEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, Object.assign({}, actions)),
+  reduxForm({
+    form: 'userEdit',
+    enableReinitialize: true,
+    validate,
+  }),
+)(GroupEdit);
