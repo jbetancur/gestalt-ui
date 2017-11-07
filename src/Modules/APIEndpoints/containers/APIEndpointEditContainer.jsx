@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -96,12 +97,17 @@ function mapStateToProps(state) {
   }
 
   return {
+    apiEndpoint,
     initialValues: model,
-    enableReinitialize: true,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'apiEndpointEdit',
-  validate
-})(APIEndpointEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, Object.assign({}, actions)),
+  reduxForm({
+    form: 'apiEndpointEdit',
+    enableReinitialize: true,
+    validate
+  })
+)(APIEndpointEdit);

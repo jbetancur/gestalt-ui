@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -75,11 +76,15 @@ function mapStateToProps(state) {
 
   return {
     initialValues: model,
-    enableReinitialize: true,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, actions)(reduxForm({
-  form: 'secretEdit',
-  validate
-})(SecretEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, actions),
+  reduxForm({
+    form: 'secretEdit',
+    enableReinitialize: true,
+    validate,
+  })
+)(SecretEdit);

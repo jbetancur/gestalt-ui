@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import base64 from 'base-64';
@@ -73,6 +74,7 @@ function mapStateToProps(state) {
   const { lambda } = state.metaResource.lambda;
 
   const model = {
+    ...metaModels.lambda,
     name: lambda.name,
     description: lambda.description,
     properties: {
@@ -109,7 +111,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'lambdaEdit',
-  validate
-})(LambdaEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, Object.assign({}, actions)),
+  reduxForm({
+    form: 'lambdaEdit',
+    validate
+  })
+)(LambdaEdit);

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from '../components/GroupForm';
@@ -75,24 +76,30 @@ class GroupEdit extends Component {
 
 function mapStateToProps(state) {
   const { group } = state.metaResource.group;
+  const model = {
+    ...metaModels.group,
+    name: group.name,
+    description: group.description,
+    properties: {
+      users: group.properties.users
+    }
+  };
 
   return {
     group,
     users: state.metaResource.users.users.filter(val => val.name.includes(state.groups.availableUsersFilter.filterText)),
     memberUsersFilter: state.groups.memberUsersFilter,
     availableUsersFilter: state.groups.availableUsersFilter,
-    initialValues: {
-      name: group.name,
-      description: group.description,
-      properties: {
-        users: group.properties.users
-      }
-    },
-    enableReinitialize: true
+    initialValues: model,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'groupEdit',
-  validate
-})(GroupEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, Object.assign({}, actions)),
+  reduxForm({
+    form: 'groupEdit',
+    enableReinitialize: true,
+    validate,
+  })
+)(GroupEdit);

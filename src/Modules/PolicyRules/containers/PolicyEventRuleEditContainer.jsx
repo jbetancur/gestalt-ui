@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -88,11 +89,15 @@ function mapStateToProps(state) {
   return {
     selectedActions: state.policyRules.selectedActions.selectedActions,
     initialValues: model,
-    enableReinitialize: true,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'policyEventRuleEdit',
-  validate
-})(PolicyEventRuleEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, Object.assign({}, actions)),
+  reduxForm({
+    form: 'policyEventRuleEdit',
+    enableReinitialize: true,
+    validate,
+  }),
+)(PolicyEventRuleEdit);
