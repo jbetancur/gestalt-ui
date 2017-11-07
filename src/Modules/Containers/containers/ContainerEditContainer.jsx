@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
 import { volumeModalActions } from 'Modules/VolumeModal';
@@ -136,6 +137,7 @@ class ContainerEdit extends Component {
 function mapStateToProps(state) {
   const { container } = state.metaResource.container;
   const model = {
+    ...metaModels.container,
     name: container.name,
     description: container.description,
     properties: {
@@ -172,12 +174,17 @@ function mapStateToProps(state) {
     secretsFromModal: state.secrets.secrets.secrets,
     secretPanelModal: state.secrets.secretPanelModal,
     initialValues: model,
-    enableReinitialize: true,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps,
-  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions))(reduxForm({
-  form: 'containerEdit',
-  validate
-})(ContainerEdit)));
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps,
+    Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions)),
+  reduxForm({
+    form: 'containerEdit',
+    enableReinitialize: true,
+    validate,
+  })
+)(ContainerEdit);
+

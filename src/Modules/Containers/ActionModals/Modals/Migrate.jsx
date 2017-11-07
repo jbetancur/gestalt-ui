@@ -42,7 +42,6 @@ class MigrateModal extends PureComponent {
   }
 
   componentDidMount() {
-    console.log(this.props.sourceProvider);
     this.props.fetchProvidersByType(this.props.match.params.fqon, this.props.match.params.environmentId, 'environments', 'CaaS');
   }
 
