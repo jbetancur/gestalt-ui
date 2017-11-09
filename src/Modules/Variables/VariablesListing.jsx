@@ -4,6 +4,9 @@ import { Col, Row } from 'react-flexybox';
 import { map, sortBy } from 'lodash';
 import Label from 'components/Label';
 
+const checkIfPassword = field =>
+  field && field.length && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
+
 class VariablesListing extends Component {
   static propTypes = {
     envMap: PropTypes.object,
@@ -22,10 +25,10 @@ class VariablesListing extends Component {
         <Col flex={5}>
           <Label>Environment Variables:</Label>
         </Col>
-        <Col flex={19} style={{ overflow: 'scroll', maxHeight: '18em' }}>
+        <Col flex={19} style={{ overflow: 'scroll', maxHeight: '18em', width: '100%' }}>
           {sortedVariables.map((item, i) => (
             <div key={i}>
-              <Label>{item.name}: </Label><span className="gf-subtitle">{item.value}</span>
+              <Label>{item.name}: </Label><span className="gf-subtitle">{checkIfPassword(item.name) ? '********' : item.value}</span>
             </div>
           ))}
         </Col>
