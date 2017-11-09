@@ -41,8 +41,7 @@ const ProviderForm = (props) => {
 
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
-    const providerType = compiledProviderTypes.find(type => type.value === value);
-
+    const providerType = compiledProviderTypes.find(type => type.name === value);
     // no need to fetch env schema if we do not allowEnvVariables
     if (providerType && providerType.allowEnvVariables) {
       fetchEnvSchema(providerType.type);

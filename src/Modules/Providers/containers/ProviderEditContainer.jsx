@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import { containerActionCreators } from 'Modules/Containers';
 import base64 from 'base-64';
 import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
@@ -117,6 +117,7 @@ class ProviderEdit extends PureComponent {
 function mapStateToProps(state) {
   const { provider } = state.metaResource.provider;
   const model = {
+    ...metaModels.provider,
     name: provider.name,
     description: provider.description,
     resource_type: provider.resource_type,
@@ -145,7 +146,6 @@ function mapStateToProps(state) {
 
   return {
     initialValues: model,
-    enableReinitialize: true,
   };
 }
 
@@ -155,6 +155,7 @@ export default compose(
   connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),
   reduxForm({
     form: 'providerCreate',
-    validate
+    enableReinitialize: true,
+    validate,
   })
 )(ProviderEdit);
