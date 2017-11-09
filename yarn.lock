@@ -6333,9 +6333,9 @@ react-jsonschema-form@^1.0.0:
     prop-types "^15.5.8"
     setimmediate "^1.0.5"
 
-react-md@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.2.4.tgz#69c3a76fd6e0116f928034c80170fb66c4b76be1"
+react-md@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.2.6.tgz#a853006d7d942bdbfc9f1977a85a4d977c8ad933"
   dependencies:
     classnames "^2.2.5"
     prop-types "15.6.0"

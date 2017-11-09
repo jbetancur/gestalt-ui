@@ -14,11 +14,11 @@ const PasswordTextField = styled(TextField)`
 `;
 
 const checkIfPassword = field =>
-  field && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
+  field && field.length && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
 
 const renderNameField = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { input, label, type, className, disabled, required, keyFieldValidationMessage, keyFieldValidationFunction, onChange } = props;
+  const { input, label, type, className, disabled, required, keyFieldValidationMessage, keyFieldValidationFunction } = props;
   const doValidate =
     (keyFieldValidationMessage && keyFieldValidationFunction && typeof keyFieldValidationFunction === 'function');
   const validateKey = value => (value && !keyFieldValidationFunction(value)) && keyFieldValidationMessage;
@@ -28,15 +28,15 @@ const renderNameField = (props) => {
       {...input}
       className={className}
       label={label}
+      placeholder={label}
       component={TextField}
       type={type}
-      value=" " // fix for [object Object] on deselect
       required={required}
       disabled={disabled}
       rows={1}
       validate={doValidate && validateKey}
-      onChange={onChange}
       autoComplete="off"
+      value=" "
     />
   );
 };
@@ -56,12 +56,12 @@ const renderValueField = (props) => {
       label={label}
       component={TextField}
       type={type}
-      value=" " // fix for [object Object] on deselect
       required={required}
       disabled={disabled}
       rows={1}
       validate={doValidate && validateValue}
       autoComplete="off"
+      value=" "
     />
   );
 };
@@ -77,19 +77,19 @@ const renderPasswordField = (props) => {
     !hideValueField && [
       <PreventAutoFill key={`${name}--preventautofill`} />,
       <Field
+        {...input}
         key={name}
         className={className}
         label={label}
         component={PasswordTextField}
         style={{ marginTop: '14px' }}
         type="password"
-        value=" " // fix for [object Object] on deselect
         required={required}
         disabled={disabled}
         validate={doValidate && validateValue}
         passwordIcon={null}
         autoComplete="off"
-        {...input}
+        value=" "
       />]
   );
 };
@@ -113,7 +113,7 @@ const rendervariables = (props) => {
     valueFieldValidationFunction,
     hideValueField,
     disabled,
-    appendToEnd
+    appendToEnd,
   } = props;
 
   const addItem = () => {
