@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import { mapTo2DArray } from 'util/helpers/transformations';
-import base64 from 'base-64';
 import LambdaForm from '../components/LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateLambdaPatches } from '../payloadTransformer';
+import { getEditLambdaModel, selectLambda } from '../selectors';
 
 class LambdaEdit extends PureComponent {
   static propTypes = {
@@ -23,7 +22,6 @@ class LambdaEdit extends PureComponent {
     fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     fetchActions: PropTypes.func.isRequired,
     unloadLambda: PropTypes.func.isRequired,
   };
@@ -52,7 +50,8 @@ class LambdaEdit extends PureComponent {
   }
 
   render() {
-    const { lambda, lambdaPending, pristine } = this.props;
+    const { lambda, lambdaPending } = this.props;
+
     return (
       <div>
         {lambdaPending && !lambda.id ?
@@ -61,7 +60,7 @@ class LambdaEdit extends PureComponent {
             editMode
             title={lambda.name}
             submitLabel="Update"
-            cancelLabel={pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Lambdas"
             onSubmit={values => this.updateLambda(values)}
             {...this.props}
           />}
@@ -71,43 +70,10 @@ class LambdaEdit extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { lambda } = state.metaResource.lambda;
-
-  const model = {
-    ...metaModels.lambda,
-    name: lambda.name,
-    description: lambda.description,
-    properties: {
-      env: mapTo2DArray(lambda.properties.env),
-      headers: lambda.properties.headers,
-      code: lambda.properties.code && base64.decode(lambda.properties.code),
-      code_type: lambda.properties.code_type,
-      compressed: lambda.properties.compressed,
-      cpus: lambda.properties.cpus,
-      memory: lambda.properties.memory,
-      timeout: lambda.properties.timeout,
-      handler: lambda.properties.handler,
-      package_url: lambda.properties.package_url,
-      public: lambda.properties.public,
-      runtime: lambda.properties.runtime,
-      provider: lambda.properties.provider,
-      // TODO: Refactor this into some model
-      periodic_info: {
-        payload: {
-          data: lambda.properties.periodic_info && lambda.properties.periodic_info.payload && lambda.properties.periodic_info.payload.data && base64.decode(lambda.properties.periodic_info.payload.data),
-          eventName: lambda.properties.periodic_info && lambda.properties.periodic_info.payload && lambda.properties.periodic_info.payload.eventName,
-        },
-        schedule: lambda.properties.periodic_info && lambda.properties.periodic_info.schedule,
-        timezone: lambda.properties.periodic_info && lambda.properties.periodic_info.timezone,
-      },
-    },
-  };
-
   return {
-    lambda,
+    lambda: selectLambda(state),
+    initialValues: getEditLambdaModel(state),
     theme: state.lambdas.theme,
-    initialValues: model,
-    enableReinitialize: true,
   };
 }
 
@@ -116,6 +82,7 @@ export default compose(
   connect(mapStateToProps, Object.assign({}, actions)),
   reduxForm({
     form: 'lambdaEdit',
-    validate
+    enableReinitialize: true,
+    validate,
   })
 )(LambdaEdit);

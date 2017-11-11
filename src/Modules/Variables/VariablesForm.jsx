@@ -98,8 +98,6 @@ const renderPasswordField = (props) => {
 const rendervariables = (props) => {
   const {
     fields,
-    touched,
-    error,
     addButtonLabel,
     icon,
     keyFieldName,
@@ -113,15 +111,10 @@ const rendervariables = (props) => {
     valueFieldValidationFunction,
     hideValueField,
     disabled,
-    appendToEnd,
   } = props;
 
   const addItem = () => {
-    if (appendToEnd) {
-      fields.push({});
-    } else {
-      fields.unshift({});
-    }
+    fields.push({});
   };
 
   return (
@@ -135,7 +128,6 @@ const rendervariables = (props) => {
       >
         {addButtonLabel}
       </Button>
-      {touched && error}
       {fields.map((member, index) => {
         const field = fields.get(index);
         const isRequired = field.required;
@@ -143,6 +135,8 @@ const rendervariables = (props) => {
         const isPassword = checkIfPassword(fields.get(index).name);
         const fieldNameStr = isInherited ? `${keyFieldName} (inherit)` : keyFieldName;
         const fieldValueStr = isInherited ? `${valueFieldName} (overridable)` : valueFieldValue;
+        const isDisabled = isRequired || isInherited || disabled;
+        const valueComponent = isPassword ? renderPasswordField : renderValueField;
 
         return (
           <Row key={index} gutter={5} className={className}>
@@ -152,7 +146,7 @@ const rendervariables = (props) => {
                 type="text"
                 component={renderNameField}
                 label={fieldNameStr}
-                disabled={isRequired || isInherited || disabled}
+                disabled={isDisabled}
                 keyFieldValidationMessage={keyFieldValidationMessage}
                 keyFieldValidationFunction={keyFieldValidationFunction}
               />
@@ -161,7 +155,7 @@ const rendervariables = (props) => {
               <Field
                 name={`${member}.${valueFieldValue}`}
                 type="text"
-                component={isPassword ? renderPasswordField : renderValueField}
+                component={valueComponent}
                 label={fieldValueStr}
                 required={isRequired}
                 valueFieldValidationMessage={valueFieldValidationMessage}
@@ -170,7 +164,7 @@ const rendervariables = (props) => {
                 disabled={props.disabled}
               />
             </Col>
-            {!(isRequired || isInherited || disabled) &&
+            {!isDisabled &&
               <FieldRemoveButton
                 marginTop="1em"
                 onClick={() => fields.remove(index)}
@@ -184,8 +178,6 @@ const rendervariables = (props) => {
 
 rendervariables.propTypes = {
   fields: PropTypes.object.isRequired,
-  touched: PropTypes.bool,
-  error: PropTypes.bool,
   addButtonLabel: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   keyFieldName: PropTypes.string.isRequired,
@@ -199,12 +191,9 @@ rendervariables.propTypes = {
   valueFieldValidationFunction: PropTypes.func,
   className: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
-  appendToEnd: PropTypes.bool.isRequired,
 };
 
 rendervariables.defaultProps = {
-  touched: false,
-  error: false,
   className: '',
   valueFieldValidationFunction: null,
 };
@@ -225,7 +214,6 @@ const FieldArraysForm = props => (
     valueFieldValidationMessage={props.valueFieldValidationMessage}
     valueFieldValidationFunction={props.valueFieldValidationFunction}
     disabled={props.disabled}
-    appendToEnd={props.appendToEnd}
   />
 );
 
@@ -243,7 +231,6 @@ FieldArraysForm.propTypes = {
   valueFieldValidationMessage: PropTypes.string,
   valueFieldValidationFunction: PropTypes.func,
   disabled: PropTypes.bool,
-  appendToEnd: PropTypes.bool,
 };
 
 FieldArraysForm.defaultProps = {
@@ -260,7 +247,6 @@ FieldArraysForm.defaultProps = {
   valueFieldValidationMessage: '',
   valueFieldValidationFunction: null,
   disabled: false,
-  appendToEnd: false,
 };
 
 export default FieldArraysForm;
