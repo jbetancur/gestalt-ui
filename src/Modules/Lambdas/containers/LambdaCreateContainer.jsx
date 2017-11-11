@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { mapTo2DArray } from 'util/helpers/transformations';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../components/LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateLambdaPayload } from '../payloadTransformer';
+import { getCreateLambdaModel } from '../selectors';
 
 class LambdaCreate extends PureComponent {
   static propTypes = {
@@ -17,12 +18,15 @@ class LambdaCreate extends PureComponent {
     createLambda: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
+    fetchExecutors: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchEnv } = this.props;
+    const { match, fetchProvidersByType, fetchExecutors, fetchEnv } = this.props;
 
+    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
+    fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
   }
 
@@ -45,7 +49,7 @@ class LambdaCreate extends PureComponent {
           <LambdaForm
             title="Create Lambda"
             submitLabel="Create"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Lambdas"
             onSubmit={values => this.create(values)}
             {...this.props}
           />}
@@ -56,37 +60,18 @@ class LambdaCreate extends PureComponent {
 
 function mapStateToProps(state) {
   return {
+    lambda: getCreateLambdaModel(state),
+    initialValues: getCreateLambdaModel(state),
     theme: state.lambdas.theme,
-    initialValues: {
-      name: '',
-      properties: {
-        env: mapTo2DArray(state.metaResource.env.env, 'name', 'value', { inherited: true }),
-        headers: {
-          Accept: 'text/plain'
-        },
-        code: '',
-        code_type: 'package',
-        compressed: false,
-        cpus: 0.1,
-        memory: 512,
-        timeout: 30,
-        handler: '',
-        package_url: '',
-        public: true,
-        runtime: '',
-        // Providers is really an array of {id, locations[]}
-        provider: {},
-        periodic_info: {
-          payload: {},
-        },
-      },
-    },
-    enableReinitialize: true,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'lambdaCreate',
-  validate
-})(LambdaCreate)));
-
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, Object.assign({}, actions)),
+  reduxForm({
+    form: 'lambdaCreate',
+    enableReinitialize: true,
+    validate,
+  })
+)(LambdaCreate);

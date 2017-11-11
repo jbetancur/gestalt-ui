@@ -150,7 +150,7 @@ module.exports = (env) => {
       })),
     common,
     parts.externals(),
-    parts.sourceMaps(),
+    parts.sourceMaps('inline-source-map'),
     parts.scssConfig(
       Object.assign(PATHS, {
         options: {

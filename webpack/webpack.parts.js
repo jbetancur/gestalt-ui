@@ -22,9 +22,9 @@ exports.appEntryProduction = ({ srcPath }) => (
   ]
 );
 
-exports.sourceMaps = () => (
+exports.sourceMaps = sourcemap => (
   {
-    devtool: 'inline-source-map' // or cheap-module-eval-source-map
+    devtool: sourcemap || 'cheap-module-eval-source-map',
   }
 );
 
