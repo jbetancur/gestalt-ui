@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import Divider from 'react-md/lib/Dividers';
+import { withMetaResource } from 'Modules/MetaResource';
+import { MenuButton, ListItem, Divider } from 'react-md';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
+import { generateContextEntityState } from 'util/helpers/transformations';
+import actionCreators from '../actions';
 
 const ActionsWrapper = styled.div`
     display: inline-block;
@@ -27,6 +31,12 @@ const ActionsWrapper = styled.div`
 
     .button--destroy * {
       color: ${props => props.theme.colors['$md-red-a400']};
+    }
+
+    button {
+      &:hover {
+        background-color: transparent;
+      }
     }
 `;
 
@@ -72,18 +82,21 @@ class ContainerActions extends Component {
     disablePromote: false,
   }
 
-  constructor(props) {
-    super(props);
+  populateContainers() {
+    const { match, fetchContainers } = this.props;
+    const entity = generateContextEntityState(match.params);
+
+    fetchContainers(match.params.fqon, entity.id, entity.key);
   }
 
   destroy = () => {
-    const { match, history, confirmContainerDelete, fetchContainers, deleteContainer, containerModel, inContainerView } = this.props;
+    const { match, history, confirmContainerDelete, deleteContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
-        history.goBack();
+        history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
       } else {
-        fetchContainers(match.params.fqon, match.params.environmentId);
+        this.populateContainers();
       }
     };
 
@@ -93,13 +106,13 @@ class ContainerActions extends Component {
   }
 
   suspend = () => {
-    const { match, fetchContainer, fetchContainers, scaleContainer, containerModel, inContainerView } = this.props;
+    const { match, fetchContainer, scaleContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
         fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
       } else {
-        fetchContainers(match.params.fqon, match.params.environmentId);
+        this.populateContainers();
       }
     };
 
@@ -107,12 +120,12 @@ class ContainerActions extends Component {
   }
 
   scale = () => {
-    const { match, fetchContainer, fetchContainers, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
+    const { match, fetchContainer, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
         fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
       } else {
-        fetchContainers(match.params.fqon, match.params.environmentId);
+        this.populateContainers();
       }
     };
 
@@ -124,12 +137,12 @@ class ContainerActions extends Component {
   }
 
   migrate = () => {
-    const { match, fetchContainer, fetchContainers, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
+    const { match, fetchContainer, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
         fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
       } else {
-        fetchContainers(match.params.fqon, match.params.environmentId);
+        this.populateContainers();
       }
     };
 
@@ -139,12 +152,12 @@ class ContainerActions extends Component {
   }
 
   promote = () => {
-    const { match, promoteContainer, promoteContainerModal, containerModel, fetchEnvironment, fetchContainers } = this.props;
+    const { match, promoteContainer, promoteContainerModal, containerModel, fetchEnvironment } = this.props;
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
       fetchEnvironment(match.params.fqon, environment.id);
-      fetchContainers(match.params.fqon, environment.id);
+      this.populateContainers();
     };
 
     promoteContainerModal((environment) => {
@@ -168,12 +181,12 @@ class ContainerActions extends Component {
           id="container-actions-menu"
           icon={!inContainerView}
           flat={inContainerView}
-          label={inContainerView && <StatusBubble status={containerModel.properties.status} />}
+          label={inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
+          disabled={!containerModel.properties.status}
           iconChildren="more_vert"
           position={inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
           tooltipLabel={!inContainerView && 'Actions'}
           inkDisabled={inContainerView}
-          listHeightRestricted={false}
         >
           {/* https://github.com/mlaursen/react-md/issues/259 */}
           {[
@@ -204,4 +217,9 @@ class ContainerActions extends Component {
   }
 }
 
-export default withTheme(ContainerActions);
+export default compose(
+  withMetaResource,
+  withTheme,
+  withRouter,
+  connect(null, Object.assign({}, actionCreators)),
+)(ContainerActions);

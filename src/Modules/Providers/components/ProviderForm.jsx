@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, getFormValues, isInvalid } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { Card, CardTitle, CardActions, CardText, LinearProgress } from 'react-md';
+import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
-import { ContainerActions, ContainerActionsModal } from 'Modules/Containers';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { Panel } from 'components/Panels';
+import HelpText from 'components/HelpText';
+import { ContainerCreate, ContainerEdit } from 'Modules/Containers';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
 import VariablesSection from './VariablesSection';
@@ -17,8 +20,6 @@ import OtherConfigSection from './OtherConfigSection';
 import KubeEditorSection from './KubeEditorSection';
 import URLConfigSection from './URLConfigSection';
 import SecuritySection from './SecuritySection';
-import ContainerSection from './ContainerSection';
-import ContainerInstanceSection from './ContainerInstanceSection';
 import { nameMaxLen } from '../validations';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
 
@@ -50,21 +51,8 @@ const ProviderForm = (props) => {
     reset();
   };
 
-  const renderContainerActions = () => (
-    <div>
-      <ContainerActionsModal />
-      <ContainerActions
-        containerModel={container}
-        inContainerView
-        disableDestroy
-        disablePromote
-        {...props}
-      />
-    </div>
-  );
-
-  const submitDisabled = props.pristine || props.providerUpdatePending || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid;
-  const linkedProviders = props.providersByType.filter(p => p.id !== provider.id);
+  const submitDisabled = props.pristine || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid;
+  const linkedProviders = props.providers.filter(p => p.id !== provider.id);
 
   return (
     <Row center onRedeploy={props.onRedeploy}>
@@ -74,13 +62,13 @@ const ProviderForm = (props) => {
         sm={12}
         md={12}
       >
+        {provider.id &&
+          <Row gutter={5} center>
+            <Col flex={12}>
+              <DetailsPane model={provider} />
+            </Col>
+          </Row>}
         <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
-          {provider.id &&
-            <Row gutter={5} center>
-              <Col flex={12}>
-                <DetailsPane model={provider} />
-              </Col>
-            </Row>}
           <Row gutter={5} center>
             <Col
               component={Card}
@@ -94,10 +82,40 @@ const ProviderForm = (props) => {
                   <div>
                     {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.displayName}` : props.title}
                     {provider.id && `::${selectedProviderType.displayName}`}
-                    {(selectedProviderType.allowContainer && container.id) && renderContainerActions()}
                   </div>
                 }
               />
+              <ActionsToolbar>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={props.providerPending || props.submitting}
+                  onClick={goBack}
+                >
+                  {props.cancelLabel}
+                </Button>
+                {selectedProviderType.name &&
+                  <Button
+                    raised
+                    iconChildren="save"
+                    type="submit"
+                    onClick={() => props.onRedeploy(false)}
+                    disabled={submitDisabled}
+                    primary
+                  >
+                    {props.submitLabel}
+                  </Button>}
+                {provider.id && selectedProviderType.allowContainer &&
+                <Button
+                  raised
+                  type="submit"
+                  onClick={() => props.onRedeploy(true)}
+                  primary
+                >
+                Redeploy
+                </Button>}
+              </ActionsToolbar>
+              {props.providerPending && <LinearProgress id="provider-form--loading" />}
               <CardText>
                 {!selectedProviderType.name ?
                   <Row gutter={5}>
@@ -172,77 +190,35 @@ const ProviderForm = (props) => {
                       <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />}
 
                     <OtherConfigSection selectedProviderType={selectedProviderType} showJSON={provider.id} {...props} />
-
-                    {selectedProviderType.allowEnvVariables &&
-                      <VariablesSection {...props} />}
                   </div>}
               </CardText>
-              {(props.providerUpdatePending || props.providerPending) && <LinearProgress id="provider-form" />}
-              <CardActions>
-                <Button
-                  flat
-                  disabled={props.providerUpdatePending || props.providerPending || props.submitting}
-                  onClick={goBack}
-                >
-                  {props.cancelLabel}
-                </Button>
-                {selectedProviderType.name &&
-                  <Button
-                    raised
-                    type="submit"
-                    onClick={() => props.onRedeploy(false)}
-                    disabled={submitDisabled}
-                    primary
-                  >
-                    {props.submitLabel}
-                  </Button>}
-                {provider.id && selectedProviderType.allowContainer &&
-                <Button
-                  raised
-                  type="submit"
-                  onClick={() => props.onRedeploy(true)}
-                  disabled={submitDisabled}
-                  primary
-                >
-                Update & Redeploy
-                </Button>}
-              </CardActions>
+
+              <Row gutter={5}>
+                {selectedProviderType.allowEnvVariables &&
+                <Col flex={12}>
+                  <VariablesSection {...props} />
+                </Col>}
+                {selectedProviderType.allowLinkedProviders &&
+                  <Col flex={12}>
+                    <LinkedProviders providersModel={linkedProviders} />
+                  </Col>}
+                {selectedProviderType.allowedRestrictEnvironments &&
+                <Col flex={12}>
+                  <EnvironmentTypes />
+                </Col>}
+              </Row>
             </Col>
           </Row>
-
-          {(provider.id && selectedProviderType.allowContainer && container.id) &&
-            <ContainerInstanceSection container={props.container} provider={props.provider} {...props} />}
-
-          {selectedProviderType.allowLinkedProviders &&
-            <Row gutter={5} center>
-              <Col flex={12} xs={12} sm={12} md={12}>
-                <Card>
-                  <CardTitle title="Linked Providers" />
-                  <CardText>
-                    <LinkedProviders
-                      providersModel={linkedProviders}
-                    />
-                  </CardText>
-                </Card>
-              </Col>
-
-              {selectedProviderType.allowedRestrictEnvironments &&
-                <Row gutter={5} center>
-                  <Col flex={12} xs={12} sm={12} md={12}>
-                    <Card>
-                      <CardTitle
-                        title="Allowed Environments"
-                      />
-                      <CardText>
-                        <EnvironmentTypes />
-                      </CardText>
-                    </Card>
-                  </Col>
-                </Row>}
-            </Row>}
         </form>
-        {(selectedProviderType.allowContainer && !container.id) &&
-          <ContainerSection name={selectedProviderType.name} {...props} />}
+        {selectedProviderType.allowContainer &&
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Panel title="Provider Container">
+                <HelpText message={`The provider type ${selectedProviderType.displayName} requires a container`} />
+                {container.id && props.editMode ? <ContainerEdit inlineMode /> : <ContainerCreate inlineMode />}
+              </Panel>
+            </Col>
+          </Row>}
       </Col>
     </Row>
   );
@@ -253,9 +229,8 @@ ProviderForm.propTypes = {
   history: PropTypes.object.isRequired,
   providerPending: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
-  providersByType: PropTypes.array.isRequired,
+  providers: PropTypes.array.isRequired,
   provider: PropTypes.object,
-  providerUpdatePending: PropTypes.bool,
   envSchemaPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -271,6 +246,7 @@ ProviderForm.propTypes = {
   container: PropTypes.object,
   onRedeploy: PropTypes.func,
   resourceTypes: PropTypes.array.isRequired,
+  editMode: PropTypes.bool,
 };
 
 ProviderForm.defaultProps = {
@@ -278,9 +254,9 @@ ProviderForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   provider: {},
-  providerUpdatePending: false,
   container: {},
   onRedeploy: () => { },
+  editMode: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

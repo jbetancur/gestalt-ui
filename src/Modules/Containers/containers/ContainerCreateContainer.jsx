@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
 import { withMetaResource } from 'Modules/MetaResource';
 import { volumeModalActions } from 'Modules/VolumeModal';
 import { portmapModalActions } from 'Modules/PortMappingModal';
@@ -13,6 +14,7 @@ import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateContainerPayload } from '../payloadTransformer';
+import { getCreateContainerModel } from '../selectors';
 
 class ContainerCreate extends Component {
   static propTypes = {
@@ -30,8 +32,8 @@ class ContainerCreate extends Component {
     secretsFromModal: PropTypes.array.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
-    pristine: PropTypes.bool.isRequired,
     fetchActions: PropTypes.func.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,22 +42,23 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchEnv, fetchActions } = this.props;
-    const entity = generateContextEntityState(match.params);
+    const { match, fetchProvidersByType, fetchEnv, fetchActions } = this.props;
 
-    fetchEnv(match.params.fqon, entity.id, entity.key);
+    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
+    fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 
   componentWillUnmount() {
     const { unloadVolumes, unloadPortmappings, unloadHealthChecks, unloadSecretsModal } = this.props;
+
     unloadVolumes();
     unloadSecretsModal();
     unloadPortmappings();
     unloadHealthChecks();
   }
 
-  create(values) {
+  create = (values) => {
     const { match, history, createContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
@@ -77,7 +80,7 @@ class ContainerCreate extends Component {
     ];
 
     const payload = generateContainerPayload(values, mergeProps);
-    const onSuccess = () => history.goBack();
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
 
     createContainer(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }
@@ -91,8 +94,8 @@ class ContainerCreate extends Component {
             inlineMode={this.props.inlineMode}
             title="Deploy Container"
             submitLabel="Deploy"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-            onSubmit={values => this.create(values)}
+            cancelLabel="Containers"
+            onSubmit={this.create}
             {...this.props}
           />}
       </div>
@@ -102,6 +105,8 @@ class ContainerCreate extends Component {
 
 function mapStateToProps(state) {
   return {
+    container: {},
+    initialValues: getCreateContainerModel(state),
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -110,35 +115,16 @@ function mapStateToProps(state) {
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     secretsFromModal: state.secrets.secrets.secrets,
     secretPanelModal: state.secrets.secretPanelModal,
-    initialValues: {
-      name: '',
-      properties: {
-        container_type: 'DOCKER',
-        env: mapTo2DArray(state.metaResource.env.env, 'name', 'value', { inherited: true }),
-        labels: [],
-        accepted_resource_roles: [],
-        constraints: [],
-        health_checks: [],
-        instances: [],
-        port_mappings: [],
-        volumes: [],
-        secrets: [],
-        provider: {
-          locations: [],
-        },
-        force_pull: false,
-        cpus: 0.1,
-        memory: 128,
-        num_instances: 1,
-      },
-    },
-    enableReinitialize: true,
   };
 }
 
-export default withMetaResource(connect(mapStateToProps,
-  Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions))(reduxForm({
-  form: 'containerCreate',
-  validate,
-})(ContainerCreate)));
-
+export default compose(
+  withMetaResource,
+  withRouter,
+  connect(mapStateToProps, Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions)),
+  reduxForm({
+    form: 'containerCreate',
+    enableReinitialize: true,
+    validate,
+  })
+)(ContainerCreate);

@@ -1,6 +1,13 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadEnvSchema
+ */
+export function unloadEnvSchema() {
+  return { type: types.UNLOAD_ENV_SCHEMA };
+}
+
+/**
  * fetchEnv
  * @param {string} fqon
  * @param {string} entityId
@@ -19,6 +26,7 @@ export function fetchEnvSchema(schemaType) {
 }
 
 export default {
+  unloadEnvSchema,
   fetchEnv,
   fetchEnvSchema,
 };

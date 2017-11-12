@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Button, ClipboardButton } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableColumnTimestamp } from 'components/Tables';
 
 class ContainerInstances extends PureComponent {
   static propTypes = {
@@ -62,23 +62,20 @@ class ContainerInstances extends PureComponent {
 
   renderInstancesTable() {
     return (
-      <div>
-        <TableCardHeader title={<span className="gf-headline">{`Instances (${this.props.containerModel.properties.instances.length}/${this.props.containerModel.properties.num_instances})`}</span>} />
-        <DataTable plain>
-          <TableHeader>
-            <TableRow>
-              <TableColumn />
-              <TableColumn>Host Address</TableColumn>
-              <TableColumn>Container Addresses</TableColumn>
-              <TableColumn>Host Port</TableColumn>
-              <TableColumn>Started At</TableColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {this.renderInstancesRows()}
-          </TableBody>
-        </DataTable>
-      </div>
+      <DataTable plain>
+        <TableHeader>
+          <TableRow>
+            <TableColumn style={{ width: '99px' }} />
+            <TableColumn>Host Address</TableColumn>
+            <TableColumn>Container Addresses</TableColumn>
+            <TableColumn>Host Port</TableColumn>
+            <TableColumn>Started At</TableColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {this.renderInstancesRows()}
+        </TableBody>
+      </DataTable>
     );
   }
 
@@ -91,4 +88,4 @@ class ContainerInstances extends PureComponent {
   }
 }
 
-export default ContainerInstances;
+export default withRouter(ContainerInstances);

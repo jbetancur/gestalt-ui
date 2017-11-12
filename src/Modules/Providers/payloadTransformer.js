@@ -84,7 +84,6 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
 
   if (updateMode) {
     delete payload.resource_type;
-    delete payload.properties.services;
   } else {
     // eslint-disable-next-line no-lonely-if
     if (properties.data) {
@@ -102,34 +101,41 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
  */
-export function generateProviderPatches(originalPayload, updatedPayload) {
-  const { name, description, properties: { config, locations, linked_providers } } = cloneDeep(originalPayload);
+export function generateProviderPatches(originalPayload, updatedPayload, containerValues = {}, mergeContainerProps = []) {
+  const { name, description, properties: { config, locations, linked_providers, environment_types, services } } = cloneDeep(originalPayload);
   const model = {
     name,
     description,
     properties: {
       config,
       linked_providers,
+      environment_types,
       locations,
+      services,
     },
   };
 
-  // Hack Alert: Deal with Patch array issues
-  if (updatedPayload.properties.linked_providers) {
+  // TODO: Deal with Patch array issues
+  if (updatedPayload.properties.linked_providers !== originalPayload.properties.linked_providers) {
     delete model.properties.linked_providers;
   }
 
-  // Hack Alert: Since we dont want to treat networks JSON as a patch array index
-  if (updatedPayload.properties.config.networks) {
+  // TODO: Since we dont want to treat networks JSON as a patch array index
+  if (updatedPayload.properties.config.networks !== originalPayload.properties.config.networks) {
     delete model.properties.config.networks;
   }
 
-  // Hack Alert: Since we dont want to treat extra JSON as a patch array index
-  if (updatedPayload.properties.config.extra) {
+  // TODO: Since we dont want to treat extra JSON as a patch array index
+  if (updatedPayload.properties.config.extra !== originalPayload.properties.config.extra) {
     delete model.properties.config.extra;
   }
 
-  return jsonPatch.compare(model, generateProviderPayload(updatedPayload, [], {}, true));
+  // TODO: Deal with Patch array issues
+  if (updatedPayload.properties.services !== originalPayload.properties.services) {
+    delete model.properties.services;
+  }
+
+  return jsonPatch.compare(model, generateProviderPayload(updatedPayload, mergeContainerProps, containerValues, true));
 }
 
 export default {

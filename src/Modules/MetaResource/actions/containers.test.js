@@ -22,11 +22,12 @@ describe('Container Actions', () => {
     const expectedAction = {
       type: types.FETCH_CONTAINERS_REQUEST,
       fqon: 'iamfqon',
-      environmentId: '1',
+      entityId: '1',
+      entityKey: 'environments',
       isPolling: false,
     };
 
-    expect(actions.fetchContainers('iamfqon', '1', false)).to.deep.equal(expectedAction);
+    expect(actions.fetchContainers('iamfqon', '1', 'environments', false)).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_CONTAINERS_DROPDOWN_REQUEST', () => {

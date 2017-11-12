@@ -4,11 +4,11 @@ import { isUnixVariable } from 'util/validations';
 import { Col, Row } from 'react-flexybox';
 import { VariablesForm } from 'Modules/Variables';
 import Div from 'components/Div';
+import { Panel } from 'components/Panels';
 import PreventAutoFill from 'components/PreventAutoFill';
-import Fieldset from 'components/Fieldset';
 
 const ProviderVariablesSection = props => (
-  <Fieldset legend="Variables">
+  <Panel title="Variables">
     <Row component={Div} disabled={props.envSchemaPending}>
       <PreventAutoFill />
       <Col flex={6} xs={12} sm={12}>
@@ -30,7 +30,7 @@ const ProviderVariablesSection = props => (
         />
       </Col>
     </Row>
-  </Fieldset>
+  </Panel>
 );
 
 ProviderVariablesSection.propTypes = {

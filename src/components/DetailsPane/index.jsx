@@ -11,6 +11,10 @@ import StatusBubble from 'components/StatusBubble';
 import { ClipboardButton } from 'components/Buttons';
 import { parseChildClass } from 'util/helpers/strings';
 
+const CardStyle = styled(Card) `
+  ${props => props.noShadow && 'box-shadow: none'};
+`;
+
 const ContainsButtonsStyle = styled.div`
   button {
     margin-left: 6px;
@@ -33,7 +37,7 @@ const DetailPane = (props) => {
   const { model } = props;
 
   return (
-    <Card>
+    <CardStyle noShadow={props.noShadow}>
       {model.id &&
       <CardTextStyle>
         <Row gutter={6} columnDivisions={24}>
@@ -82,16 +86,18 @@ const DetailPane = (props) => {
           </Col>
         </Row>
       </CardTextStyle>}
-    </Card>
+    </CardStyle>
   );
 };
 
 DetailPane.propTypes = {
   model: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  noShadow: PropTypes.bool,
 };
 
 DetailPane.defaultProps = {
   model: {},
+  noShadow: false,
 };
 
 export default DetailPane;

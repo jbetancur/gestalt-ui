@@ -1,54 +1,55 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { reduxForm, getFormValues } from 'redux-form';
+import { withMetaResource } from 'Modules/MetaResource';
 import { containerActionCreators } from 'Modules/Containers';
-import base64 from 'base-64';
-import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import ActivityContainer from 'components/ActivityContainer';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
 import withResourceTypes from '../hocs/withResourceTypes';
+import { getEditProviderModel } from '../selectors';
 
-class ProviderEdit extends PureComponent {
+class ProviderEdit extends Component {
   static propTypes = {
     providerPending: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     fetchProviderContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
+    fetchProviders: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     redeployProvider: PropTypes.func.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
     unloadProvider: PropTypes.func.isRequired,
+    unloadProviders: PropTypes.func.isRequired,
+    containerValues: PropTypes.object,
+    volumes: PropTypes.array.isRequired,
+    portMappings: PropTypes.array.isRequired,
+    healthChecks: PropTypes.array.isRequired,
+    secretsFromModal: PropTypes.array.isRequired,
   };
 
-  constructor() {
-    super();
+  static defaultProps = {
+    containerValues: {},
+  };
 
-    this.state = { redeploy: false };
-  }
+  state = { redeploy: false };
 
   componentDidMount() {
-    const { match, fetchProvider, fetchProvidersByType, fetchProviderContainer } = this.props;
-    const entity = generateContextEntityState(match.params);
-
-    fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
-    fetchProvider(match.params.fqon, match.params.providerId);
-    fetchProviderContainer(match.params.fqon, match.params.providerId);
+    this.populateProvider();
+    this.populateContainer();
   }
 
   componentWillUnmount() {
-    const { unloadProvider } = this.props;
+    const { unloadProviders, unloadProvider } = this.props;
 
+    unloadProviders();
     unloadProvider();
   }
 
@@ -56,29 +57,53 @@ class ProviderEdit extends PureComponent {
     this.setState({ redeploy });
   }
 
-  update = (formValues) => {
-    const { match, history, confirmUpdate, provider, updateProvider, redeployProvider } = this.props;
-    const patches = generateProviderPatches(provider, formValues);
+  populateProvider() {
+    const { match, fetchProvider, fetchProviders } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    const goBack = () => {
-      if (match.params.workspaceId && !match.params.environmentId) {
-        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
-      } else if (match.params.workspaceId && match.params.environmentId) {
-        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
-      } else {
-        history.push(`/${match.params.fqon}/providers`);
+    fetchProviders(match.params.fqon, entity.id, entity.key);
+    fetchProvider(match.params.fqon, match.params.providerId);
+  }
+
+  populateContainer() {
+    const { match, fetchProviderContainer } = this.props;
+
+    fetchProviderContainer(match.params.fqon, match.params.providerId);
+  }
+
+  update = (formValues) => {
+    const { match, confirmUpdate, provider, updateProvider, redeployProvider, fetchProviderContainer, containerValues, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
+    const mergeProps = [
+      {
+        key: 'volumes',
+        value: volumes,
+      },
+      {
+        key: 'port_mappings',
+        value: portMappings,
+      },
+      {
+        key: 'health_checks',
+        value: healthChecks,
+      },
+      {
+        key: 'secrets',
+        value: secretsFromModal,
       }
-    };
+    ];
+
+    const patches = generateProviderPatches(provider, formValues, containerValues, mergeProps);
 
     const onSuccess = () => {
       if (this.state.redeploy) {
-        redeployProvider(match.params.fqon, provider.id, () => goBack());
-      } else {
-        goBack();
+        // TODO: Pass in container form payload
+        redeployProvider(match.params.fqon, provider.id);
       }
+
+      fetchProviderContainer(match.params.fqon, match.params.providerId);
     };
 
-    // Redepopy flag is set when the Update & Restart button is pressed
+    // Redeploy flag is set when the Update & Restart button is pressed
     if (this.state.redeploy) {
       const handleUpdate = () => {
         updateProvider(match.params.fqon, provider.id, patches, onSuccess);
@@ -99,12 +124,13 @@ class ProviderEdit extends PureComponent {
     const { provider, providerPending, resourceTypesPending } = this.props;
     return (
       <div>
-        {providerPending || resourceTypesPending ?
+        {(providerPending || resourceTypesPending) ?
           <ActivityContainer id="provider-loading" /> :
           <ProviderForm
+            editMode
             title={provider.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Providers"
             onSubmit={this.update}
             onRedeploy={this.setRedeployFlag}
             {...this.props}
@@ -115,37 +141,13 @@ class ProviderEdit extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { provider } = state.metaResource.provider;
-  const model = {
-    ...metaModels.provider,
-    name: provider.name,
-    description: provider.description,
-    resource_type: provider.resource_type,
-    properties: {
-      environment_types: provider.properties.environment_types || [],
-      config: {
-        ...provider.properties.config,
-        env: {
-          public: mapTo2DArray(provider.properties.config.env.public),
-          private: mapTo2DArray(provider.properties.config.env.private),
-        },
-        networks: JSON.stringify(provider.properties.config.networks),
-        extra: JSON.stringify(provider.properties.config.extra),
-      },
-      linked_providers: provider.properties.linked_providers,
-      data: provider.properties.data ? base64.decode(provider.properties.data) : '',
-      locations: provider.properties.locations,
-      services: provider.properties.services,
-    },
-  };
-
-  // TODO: move this logic to reselect
-  if (model.properties.environment_types && Array.isArray(model.properties.environment_types)) {
-    model.properties.environment_types = model.properties.environment_types.join(',');
-  }
-
   return {
-    initialValues: model,
+    initialValues: getEditProviderModel(state),
+    containerValues: getFormValues('containerEdit')(state),
+    volumes: state.volumeModal.volumes.volumes,
+    portMappings: state.portmapModal.portMappings.portMappings,
+    healthChecks: state.healthCheckModal.healthChecks.healthChecks,
+    secretsFromModal: state.secrets.secrets.secrets,
   };
 }
 
@@ -154,7 +156,7 @@ export default compose(
   withResourceTypes,
   connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),
   reduxForm({
-    form: 'providerCreate',
+    form: 'providerEdit',
     enableReinitialize: true,
     validate,
   })

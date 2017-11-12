@@ -18,7 +18,7 @@ describe('Container Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchContainers Sequence with an environmentId', () => {
-    const saga = fetchContainers({ fqon: 'iamfqon', environmentId: '1' });
+    const saga = fetchContainers({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' });
     let result;
 
     it('should make an api call', () => {
