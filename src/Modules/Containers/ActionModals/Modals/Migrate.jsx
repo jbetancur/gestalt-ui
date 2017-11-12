@@ -73,10 +73,10 @@ class MigrateModal extends PureComponent {
         closeOnEsc
         defaultVisibleTransitionable
         autosizeContent={false}
-        onHide={() => this.props.hideModal()}
+        onHide={this.props.hideModal}
         actions={[
           {
-            onClick: () => this.props.hideModal(),
+            onClick: this.props.hideModal,
             label: 'Cancel',
           },
           {

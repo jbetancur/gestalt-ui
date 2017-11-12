@@ -138,19 +138,22 @@ const LambdaForm = (props) => {
                     maxLength={nameMaxLen}
                   />
                 </Col>
-                <Col flex={12}>
-                  <Field
-                    component={TextField}
-                    name="description"
-                    label="Description"
-                    type="text"
-                    rows={1}
-                    maxLength={descriptionMaxLen}
-                  />
-                </Col>
               </Row>
 
               <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Description" defaultExpanded={!!lambda.description}>
+                    <Field
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                      rows={1}
+                      maxLength={descriptionMaxLen}
+                    />
+                  </Panel>
+                </Col>
+
                 <Col flex={12}>
                   <Panel title="Lambda Function">
                     <Row gutter={5}>

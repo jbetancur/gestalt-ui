@@ -9,7 +9,7 @@ import * as types from '../actionTypes';
  */
 export function* fetchContainers(action) {
   try {
-    const url = action.environmentId ? `${action.fqon}/environments/${action.environmentId}/containers` : `${action.fqon}/containers`;
+    const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/containers` : `${action.fqon}/containers`;
     const containersResponse = yield call(axios.get, `${url}?expand=true`);
 
     const containers = [];

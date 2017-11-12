@@ -6,9 +6,10 @@ import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
+import { Panel } from 'components/Panels';
 
 const renderLinkedProviders = ({ fields, touched, error, providersModel }) => (
-  <div>
+  <Panel title="Linked Providers">
     <Button
       flat
       iconChildren="add"
@@ -46,7 +47,7 @@ const renderLinkedProviders = ({ fields, touched, error, providersModel }) => (
         <FieldRemoveButton onClick={() => fields.remove(index)} />
       </Row>
     ))}
-  </div>
+  </Panel>
 );
 
 renderLinkedProviders.propTypes = {

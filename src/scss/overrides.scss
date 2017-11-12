@@ -16,18 +16,6 @@
   overflow: auto;
 }
 
-.md-expansion-panel--expanded:not(:first-child) {
-  margin-top: 5px;
-}
-
-.md-expansion-panel--expanded:not(:last-child) {
-  margin-bottom: 5px;
-}
-
-.md-panel-header--expanded {
-  height: 52px;
-}
-
 .md-no-paper {
   box-shadow: none;
 }

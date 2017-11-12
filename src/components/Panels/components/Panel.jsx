@@ -14,7 +14,7 @@ const Header = styled.div`
   align-items: center;
   box-sizing: border-box;
   height: 4em;
-  background-color: ${props => props.theme.colors['$md-blue-grey-50']};
+  background-color: ${props => props.theme.colors['$md-grey-50']};
   border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
   font-weight: 700;
@@ -25,10 +25,12 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 1em;
+  background-color: ${props => props.theme.colors['$md-white']};
+  ${props => (props.noPadding ? 'padding: 0' : 'padding: 1em')};
   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
   width: 100%;
   display: ${props => (props.expanded ? 'block' : 'none')};
+  ${props => (props.minHeight && `min-height: ${props.minHeight}`)};
 `;
 
 const ExpanderIcon = styled(FontIcon)`
@@ -42,10 +44,14 @@ class Panel extends Component {
     title: PropTypes.string.isRequired,
     children: PropTypes.any.isRequired,
     defaultExpanded: PropTypes.bool,
+    noPadding: PropTypes.bool,
+    minHeight: PropTypes.oneOf([PropTypes.bool, PropTypes.string]),
   };
 
   static defaultProps = {
     defaultExpanded: true,
+    noPadding: false,
+    minHeight: false,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -57,9 +63,15 @@ class Panel extends Component {
       <PanelWrapper>
         <Header onClick={this.toggle}>
           <ExpanderIcon expanded={this.state.isExpanded}>expand_more</ExpanderIcon>
-          <Title>{this.props.title}</Title>
+          {this.props.title && <Title>{this.props.title}</Title>}
         </Header>
-        <Content expanded={this.state.isExpanded}>{this.props.children}</Content>
+        <Content
+          expanded={this.state.isExpanded}
+          noPadding={this.props.noPadding}
+          minHeight={this.props.minHeight}
+        >
+          {this.props.children}
+        </Content>
       </PanelWrapper>
     );
   }

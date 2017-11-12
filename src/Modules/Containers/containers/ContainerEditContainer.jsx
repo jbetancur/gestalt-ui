@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import { mapTo2DArray, generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import { volumeModalActions } from 'Modules/VolumeModal';
 import { portmapModalActions } from 'Modules/PortMappingModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
@@ -15,6 +16,7 @@ import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateContainerPayload } from '../payloadTransformer';
+import { getEditContainerModel, selectContainer } from '../selectors';
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -23,7 +25,6 @@ class ContainerEdit extends Component {
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
-    fetchEnv: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
     unloadPortmappings: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
@@ -32,22 +33,28 @@ class ContainerEdit extends Component {
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secrets: PropTypes.array.isRequired,
-    pristine: PropTypes.bool.isRequired,
     fetchSecretsDropDown: PropTypes.func.isRequired,
     unloadSecretsModal: PropTypes.func.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     fetchActions: PropTypes.func.isRequired,
     unloadContainer: PropTypes.func.isRequired,
+    inlineMode: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    inlineMode: false,
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchEnv, fetchActions } = this.props;
+    const { match, fetchProvidersByType, fetchActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    this.populateContainer();
     fetchProvidersByType(match.params.fqon, entity.id, entity.key, 'CaaS');
-    fetchEnv(match.params.fqon, entity.id, entity.key);
-    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
+
+    if (!this.props.inlineMode) {
+      this.populateContainer();
+      fetchActions(match.params.fqon, entity.id, entity.key, { filter: 'container.detail' });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,7 +66,7 @@ class ContainerEdit extends Component {
       }
 
       // TODO: temporary until we support all providers
-      if (!this.secretsPolled && parseChildClass(nextProps.container.properties.provider.resource_type) === 'Kubernetes') {
+      if (!this.secretsPolled && parseChildClass(nextProps.container.properties.provider.resource_type) !== 'Docker') {
         this.secretsPolled = true;
         this.props.fetchSecretsDropDown(nextProps.match.params.fqon, nextProps.match.params.environmentId, nextProps.container.properties.provider.id);
       }
@@ -87,7 +94,7 @@ class ContainerEdit extends Component {
   }
 
   redeployContainer = (values) => {
-    const { match, history, container, updateContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
+    const { match, container, updateContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
@@ -108,10 +115,8 @@ class ContainerEdit extends Component {
     ];
 
     const payload = generateContainerPayload(values, mergeProps, true);
-    const onSuccess = () => history.goBack();
-    clearTimeout(this.timeout);
 
-    updateContainer(match.params.fqon, container.id, payload, onSuccess);
+    updateContainer(match.params.fqon, container.id, payload);
   }
 
   render() {
@@ -119,13 +124,14 @@ class ContainerEdit extends Component {
 
     return (
       <div>
-        {containerPending ?
+        {containerPending && !container.id ?
           <ActivityContainer id="container-load" /> :
           <ContainerForm
             editMode
+            inlineMode={this.props.inlineMode}
             title={container.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Containers"
             onSubmit={this.redeployContainer}
             {...this.props}
           />}
@@ -135,36 +141,8 @@ class ContainerEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { container } = state.metaResource.container;
-  const model = {
-    ...metaModels.container,
-    name: container.name,
-    description: container.description,
-    properties: {
-      env: mapTo2DArray(container.properties.env),
-      labels: mapTo2DArray(container.properties.labels),
-      container_type: container.properties.container_type,
-      accepted_resource_roles: container.properties.accepted_resource_roles,
-      constraints: container.properties.constraints,
-      health_checks: container.properties.health_checks,
-      instances: container.properties.instances,
-      port_mappings: container.properties.port_mappings,
-      volumes: container.properties.volumes,
-      secrets: container.properties.secrets || [],
-      provider: container.properties.provider,
-      force_pull: container.properties.force_pull,
-      cpus: container.properties.cpus,
-      memory: container.properties.memory,
-      num_instances: container.properties.num_instances,
-      network: container.properties.network,
-      image: container.properties.image,
-      cmd: container.properties.cmd,
-      user: container.properties.user,
-    },
-  };
-
   return {
-    container,
+    container: selectContainer(state),
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -173,12 +151,13 @@ function mapStateToProps(state) {
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     secretsFromModal: state.secrets.secrets.secrets,
     secretPanelModal: state.secrets.secretPanelModal,
-    initialValues: model,
+    initialValues: getEditContainerModel(state),
   };
 }
 
 export default compose(
   withMetaResource,
+  withRouter,
   connect(mapStateToProps,
     Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions)),
   reduxForm({

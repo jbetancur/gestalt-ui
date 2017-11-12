@@ -17,11 +17,12 @@ export function unloadContainer() {
 /**
  * fetchContainers
  * @param {string} fqon
- * @param {string} environmentId
+  * @param {string} entityId
+ * @param {string} entityKey - oneOf provides | environments | null
  * @param {boolean} isPolling
  */
-export function fetchContainers(fqon, environmentId, isPolling) {
-  return { type: types.FETCH_CONTAINERS_REQUEST, fqon, environmentId, isPolling };
+export function fetchContainers(fqon, entityId, entityKey, isPolling) {
+  return { type: types.FETCH_CONTAINERS_REQUEST, fqon, entityId, entityKey, isPolling };
 }
 
 /**

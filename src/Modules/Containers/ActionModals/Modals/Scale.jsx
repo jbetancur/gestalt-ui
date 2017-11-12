@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withMetaResource } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import Dialog from 'react-md/lib/Dialogs';
 import TextField from 'react-md/lib/TextFields';
@@ -42,10 +44,10 @@ class ConfirmModal extends PureComponent {
         closeOnEsc
         defaultVisibleTransitionable
         autosizeContent={false}
-        onHide={() => this.props.hideModal()}
+        onHide={this.props.hideModal}
         actions={[
           {
-            onClick: () => this.props.hideModal(),
+            onClick: this.props.hideModal,
             label: 'Cancel',
           },
           {
@@ -82,4 +84,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(ConfirmModal);
+export default compose(
+  withMetaResource,
+  connect(mapStateToProps, actions)
+)(ConfirmModal);

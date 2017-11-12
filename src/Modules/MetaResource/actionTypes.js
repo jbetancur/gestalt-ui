@@ -414,6 +414,8 @@ export const FETCH_ENV_SCHEMA_REQUEST = 'metaResource/FETCH_ENV_SCHEMA_REQUEST';
 export const FETCH_ENV_SCHEMA_FULFILLED = 'metaResource/FETCH_ENV_SCHEMA_FULFILLED';
 export const FETCH_ENV_SCHEMA_REJECTED = 'metaResource/FETCH_ENV_SCHEMA_REJECTED';
 
+export const UNLOAD_ENV_SCHEMA = 'metaResource/UNLOAD_ENV_SCHEMA';
+
 /**
  * Logs
  */

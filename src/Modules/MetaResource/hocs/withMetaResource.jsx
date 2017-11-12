@@ -64,15 +64,12 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       containersPending: metaResource.containers.pending,
       container: metaResource.container.container,
       containerPending: metaResource.container.pending,
-      containerUpdatePending: state.metaResource.containerUpdate.pending,
 
       // Subscriptions for Providers
       providers: metaResource.providers.providers,
       providersPending: metaResource.providers.pending,
       provider: metaResource.provider.provider,
       providerPending: metaResource.provider.pending,
-      providerUpdated: metaResource.providerUpdate.provider,
-      providerUpdatePending: metaResource.providerUpdate.pending,
       providersByType: metaResource.providersByType.providers,
       providersByTypePending: metaResource.providersByType.pending,
       providersKongByGateway: metaResource.fetchProviderKongsByGateway.providers,

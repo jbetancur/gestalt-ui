@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
 
 class ContainerServiceAddresses extends PureComponent {
   static propTypes = {
@@ -23,21 +23,18 @@ class ContainerServiceAddresses extends PureComponent {
 
   renderServiceAddressesTable() {
     return (
-      <div>
-        <TableCardHeader title={<span className="gf-headline">Service Instances</span>} />
-        <DataTable plain>
-          <TableHeader>
-            <TableRow>
-              <TableColumn>Host</TableColumn>
-              <TableColumn>Port</TableColumn>
-              <TableColumn>Protocol</TableColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {this.renderServiceAddressesRows()}
-          </TableBody>
-        </DataTable>
-      </div>
+      <DataTable plain>
+        <TableHeader>
+          <TableRow>
+            <TableColumn>Host</TableColumn>
+            <TableColumn>Port</TableColumn>
+            <TableColumn>Protocol</TableColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {this.renderServiceAddressesRows()}
+        </TableBody>
+      </DataTable>
     );
   }
 

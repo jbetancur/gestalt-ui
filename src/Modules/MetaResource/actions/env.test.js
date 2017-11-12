@@ -2,6 +2,14 @@ import * as types from '../actionTypes';
 import * as actions from './env';
 
 describe('Env Actions', () => {
+  it('should request UNLOAD_ENV_SCHEMA', () => {
+    const expectedAction = {
+      type: types.UNLOAD_ENV_SCHEMA,
+    };
+
+    expect(actions.unloadEnvSchema()).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_ENV_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_ENV_REQUEST,

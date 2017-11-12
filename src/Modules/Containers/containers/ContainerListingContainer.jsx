@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/transformations';
 import ContainerItem from '../components/ContainerItem';
 import actions from '../actions';
 
@@ -14,13 +17,15 @@ class ContainerListing extends PureComponent {
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
     fetchActions: PropTypes.func.isRequired,
+    providerContext: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
     const { fetchActions, match } = this.props;
+    const entity = generateContextEntityState(match.params);
 
     this.init();
-    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
+    fetchActions(match.params.fqon, entity.id, entity.key, { filter: 'container.detail' });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,7 +49,9 @@ class ContainerListing extends PureComponent {
 
   init(isPolling) {
     const { match, fetchContainers } = this.props;
-    fetchContainers(match.params.fqon, match.params.environmentId, isPolling);
+    const entity = generateContextEntityState(match.params);
+
+    fetchContainers(match.params.fqon, entity.id, entity.key, isPolling);
   }
 
   edit = (container, e) => {
@@ -67,4 +74,8 @@ class ContainerListing extends PureComponent {
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(ContainerListing));
+export default compose(
+  withMetaResource,
+  withRouter,
+  connect(null, { ...actions }),
+)(ContainerListing);

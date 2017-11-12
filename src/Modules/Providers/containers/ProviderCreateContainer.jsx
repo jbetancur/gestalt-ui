@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/transformations';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
 import withResourceTypes from '../hocs/withResourceTypes';
+import { getCreateProviderModel } from '../selectors';
 
 class ProviderCreate extends Component {
   static propTypes = {
@@ -21,8 +22,11 @@ class ProviderCreate extends Component {
     volumes: PropTypes.array.isRequired,
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
-    pristine: PropTypes.bool.isRequired,
+    secretsFromModal: PropTypes.array.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
+    fetchProviders: PropTypes.func.isRequired,
+    unloadEnvSchema: PropTypes.func.isRequired,
+    unloadProviders: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -30,14 +34,20 @@ class ProviderCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType } = this.props;
+    const { match, fetchProvidersByType, fetchProviders } = this.props;
     const entity = generateContextEntityState(match.params);
 
     fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
+    fetchProviders(match.params.fqon, entity.id, entity.key);
   }
 
-  create(values) {
-    const { match, history, createProvider, containerValues, volumes, portMappings, healthChecks } = this.props;
+  componentWillUnmount() {
+    this.props.unloadProviders();
+    this.props.unloadEnvSchema();
+  }
+
+  create = (values) => {
+    const { match, history, createProvider, containerValues, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
@@ -50,6 +60,10 @@ class ProviderCreate extends Component {
       {
         key: 'health_checks',
         value: healthChecks,
+      },
+      {
+        key: 'secrets',
+        value: secretsFromModal,
       }
     ];
 
@@ -84,8 +98,8 @@ class ProviderCreate extends Component {
       <ProviderForm
         title="Create Provider"
         submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-        onSubmit={values => this.create(values)}
+        cancelLabel="Providers"
+        onSubmit={this.create}
         {...this.props}
       />
     );
@@ -93,26 +107,16 @@ class ProviderCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  const model = {
-    ...metaModels.providers,
-    properties: {
-      environment_types: '', // converted to Array on Create
-      config: {
-        external_protocol: 'https',
-        env: state.metaResource.envSchema.schema,
-      },
-    },
-  };
-
   return {
-    provider: model,
-    initialValues: model,
+    provider: getCreateProviderModel(state),
+    initialValues: getCreateProviderModel(state),
     enableReinitialize: true,
     keepDirtyOnReinitialize: true, // keeps dirty values in forms when the provider type is changed
     containerValues: getFormValues('containerCreate')(state),
     volumes: state.volumeModal.volumes.volumes,
     portMappings: state.portmapModal.portMappings.portMappings,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
+    secretsFromModal: state.secrets.secrets.secrets,
   };
 }
 
