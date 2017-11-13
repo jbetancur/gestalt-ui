@@ -68,3 +68,37 @@ export const getEditContainerModel = createSelector(
     return model;
   }
 );
+
+export const getEditContainerModelAsSpec = createSelector(
+  [containerSpec => containerSpec],
+  (container) => {
+    const model = {
+      ...metaModels.container,
+      name: container.name,
+      description: container.description,
+      properties: {
+        env: mapTo2DArray(container.properties.env),
+        labels: mapTo2DArray(container.properties.labels),
+        container_type: container.properties.container_type,
+        accepted_resource_roles: container.properties.accepted_resource_roles,
+        constraints: container.properties.constraints,
+        health_checks: container.properties.health_checks,
+        instances: container.properties.instances,
+        port_mappings: container.properties.port_mappings,
+        volumes: container.properties.volumes,
+        secrets: container.properties.secrets || [],
+        provider: container.properties.provider,
+        force_pull: container.properties.force_pull,
+        cpus: container.properties.cpus,
+        memory: container.properties.memory,
+        num_instances: container.properties.num_instances,
+        network: container.properties.network,
+        image: container.properties.image,
+        cmd: container.properties.cmd,
+        user: container.properties.user,
+      },
+    };
+
+    return model;
+  }
+);

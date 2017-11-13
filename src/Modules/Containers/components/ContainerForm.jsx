@@ -46,11 +46,11 @@ const ContainerForm = (props) => {
   const isHealthChecksEnabled = providerType !== 'Docker';
   const isSecretsEnabled = providerType === 'Kubernetes' || selectedProvider.properties.config.secret_support;
   const isSubmitDisabled =
-    container.id ? (props.containerPending || props.invalid || props.submitting)
+    props.editMode ? (props.containerPending || props.invalid || props.submitting)
       : (props.pristine || props.containerPending || props.invalid || props.submitting);
 
-  const hasInstances = props.editMode && container.id && container.properties.instances && container.properties.instances.length > 0;
-  const hasServicePorts = props.editMode && container.id && container.properties.port_mappings && container.properties.port_mappings.length > 0;
+  const hasInstances = props.editMode && container.properties.instances && container.properties.instances.length > 0;
+  const hasServicePorts = props.editMode && container.properties.port_mappings && container.properties.port_mappings.length > 0;
 
   return (
     <div>
@@ -59,7 +59,7 @@ const ContainerForm = (props) => {
       <VolumeModal providerType={providerType} />
       <HealthCheckModal />
       <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
-      {container.id && props.editMode &&
+      {props.editMode &&
         <Row gutter={5} center>
           <Col flex={props.inlineMode ? 12 : 10} xs={12} sm={12}>
             <DetailsPane model={container} noShadow={props.inlineMode} />
@@ -108,7 +108,7 @@ const ContainerForm = (props) => {
                   >
                     {props.submitLabel}
                   </Button>}
-                {props.editMode &&
+                {!props.inlineMode && props.editMode &&
                   <ContainerActions
                     inContainerView
                     containerModel={container}
@@ -144,7 +144,7 @@ const ContainerForm = (props) => {
                         type="text"
                         required
                         maxLength={nameMaxLen}
-                        disabled={container.id}
+                        disabled={props.editMode}
                       />
                     </Col>
                     <Col flex={6} xs={12}>

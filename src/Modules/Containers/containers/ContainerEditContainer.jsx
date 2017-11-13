@@ -16,7 +16,7 @@ import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateContainerPayload } from '../payloadTransformer';
-import { getEditContainerModel, selectContainer } from '../selectors';
+import { getEditContainerModel, getEditContainerModelAsSpec, selectContainer } from '../selectors';
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -120,7 +120,7 @@ class ContainerEdit extends Component {
   }
 
   render() {
-    const { container, containerPending } = this.props;
+    const { container, containerPending, inlineMode } = this.props;
 
     return (
       <div>
@@ -128,7 +128,7 @@ class ContainerEdit extends Component {
           <ActivityContainer id="container-load" /> :
           <ContainerForm
             editMode
-            inlineMode={this.props.inlineMode}
+            inlineMode={inlineMode}
             title={container.name}
             submitLabel="Update"
             cancelLabel="Containers"
@@ -140,9 +140,10 @@ class ContainerEdit extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps.containerSpec);
   return {
-    container: selectContainer(state),
+    container: ownProps.containerSpec || selectContainer(state),
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
     portmapModal: state.portmapModal.portmapModal,
@@ -151,9 +152,9 @@ function mapStateToProps(state) {
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     secretsFromModal: state.secrets.secrets.secrets,
     secretPanelModal: state.secrets.secretPanelModal,
-    initialValues: getEditContainerModel(state),
+    initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(ownProps.containerSpec) : getEditContainerModel(state),
   };
-}
+};
 
 export default compose(
   withMetaResource,

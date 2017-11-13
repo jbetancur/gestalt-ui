@@ -67,7 +67,7 @@ class ContainerItem extends PureComponent {
           <TableColumn>{truncate(container.properties.provider.name, 30)}</TableColumn>
           <TableColumn>{truncate(container.properties.image, 20)}</TableColumn>
           <TableColumn>
-            {`${container.properties.instances.length} / ${container.properties.num_instances}`}
+            {container.properties.instances && `${container.properties.instances.length} / ${container.properties.num_instances}`}
           </TableColumn>
           <TableColumn>{`${container.properties.cpus} / ${container.properties.memory}`}</TableColumn>
           <TableColumnTimestamp timestamp={container.modified.timestamp} />

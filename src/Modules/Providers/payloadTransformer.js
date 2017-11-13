@@ -116,22 +116,22 @@ export function generateProviderPatches(originalPayload, updatedPayload, contain
   };
 
   // TODO: Deal with Patch array issues
-  if (updatedPayload.properties.linked_providers !== originalPayload.properties.linked_providers) {
+  if (updatedPayload.properties.linked_providers) {
     delete model.properties.linked_providers;
   }
 
   // TODO: Since we dont want to treat networks JSON as a patch array index
-  if (updatedPayload.properties.config.networks !== originalPayload.properties.config.networks) {
+  if (updatedPayload.properties.config.networks) {
     delete model.properties.config.networks;
   }
 
   // TODO: Since we dont want to treat extra JSON as a patch array index
-  if (updatedPayload.properties.config.extra !== originalPayload.properties.config.extra) {
+  if (updatedPayload.properties.config.extra) {
     delete model.properties.config.extra;
   }
 
   // TODO: Deal with Patch array issues
-  if (updatedPayload.properties.services !== originalPayload.properties.services) {
+  if (updatedPayload.properties.services) {
     delete model.properties.services;
   }
 
