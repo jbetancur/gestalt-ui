@@ -42,10 +42,13 @@ const ExpanderIcon = styled(FontIcon)`
 class Panel extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    children: PropTypes.any.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
+    ]).isRequired,
     defaultExpanded: PropTypes.bool,
     noPadding: PropTypes.bool,
-    minHeight: PropTypes.oneOf([PropTypes.bool, PropTypes.string]),
+    minHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   };
 
   static defaultProps = {

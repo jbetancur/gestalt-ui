@@ -18,9 +18,9 @@ class ProviderEdit extends Component {
   static propTypes = {
     providerPending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
-    fetchProviderContainer: PropTypes.func.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
@@ -42,8 +42,10 @@ class ProviderEdit extends Component {
   state = { redeploy: false };
 
   componentDidMount() {
+    const { match, fetchProvidersByType } = this.props;
+
+    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     this.populateProvider();
-    this.populateContainer();
   }
 
   componentWillUnmount() {
@@ -65,14 +67,8 @@ class ProviderEdit extends Component {
     fetchProvider(match.params.fqon, match.params.providerId);
   }
 
-  populateContainer() {
-    const { match, fetchProviderContainer } = this.props;
-
-    fetchProviderContainer(match.params.fqon, match.params.providerId);
-  }
-
   update = (formValues) => {
-    const { match, confirmUpdate, provider, updateProvider, redeployProvider, fetchProviderContainer, containerValues, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
+    const { match, confirmUpdate, provider, updateProvider, redeployProvider, containerValues, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
@@ -92,26 +88,14 @@ class ProviderEdit extends Component {
       }
     ];
 
-    const patches = generateProviderPatches(provider, formValues, containerValues, mergeProps);
-
-    const onSuccess = () => {
-      if (this.state.redeploy) {
-        // TODO: Pass in container form payload
-        redeployProvider(match.params.fqon, provider.id);
-      }
-
-      fetchProviderContainer(match.params.fqon, match.params.providerId);
-    };
-
-    // Redeploy flag is set when the Update & Restart button is pressed
     if (this.state.redeploy) {
-      const handleUpdate = () => {
-        updateProvider(match.params.fqon, provider.id, patches, onSuccess);
-      };
+      const handleRedeploy = () => redeployProvider(match.params.fqon, provider.id);
 
-      confirmUpdate(handleUpdate, provider.name);
+      confirmUpdate(handleRedeploy, provider.name);
     } else {
-      updateProvider(match.params.fqon, provider.id, patches, onSuccess);
+      const patches = generateProviderPatches(provider, formValues, containerValues, mergeProps);
+
+      updateProvider(match.params.fqon, provider.id, patches);
     }
   }
 

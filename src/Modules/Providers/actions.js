@@ -18,9 +18,9 @@ export function confirmUpdate(action, item) {
       type: 'SHOW_MODAL',
       modalType: 'CONFIRM',
       modalProps: {
-        title: `"${item}" provider will be updated and its associated container will be re-deployed. Are you sure you want to proceed?`,
+        title: `"${item}" provider container will be re-deployed. Are you sure you want to proceed?`,
         onProceed: action,
-        proceedLabel: 'Update',
+        proceedLabel: 'Redeploy',
       }
     });
   };

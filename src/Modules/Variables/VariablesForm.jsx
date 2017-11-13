@@ -186,7 +186,7 @@ rendervariables.propTypes = {
   valueFieldValue: PropTypes.string.isRequired,
   hideValueField: PropTypes.bool.isRequired,
   keyFieldValidationMessage: PropTypes.string.isRequired,
-  keyFieldValidationFunction: PropTypes.func.isRequired,
+  keyFieldValidationFunction: PropTypes.func,
   valueFieldValidationMessage: PropTypes.string.isRequired,
   valueFieldValidationFunction: PropTypes.func,
   className: PropTypes.string,
@@ -195,6 +195,7 @@ rendervariables.propTypes = {
 
 rendervariables.defaultProps = {
   className: '',
+  keyFieldValidationFunction: null,
   valueFieldValidationFunction: null,
 };
 

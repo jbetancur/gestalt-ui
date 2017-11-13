@@ -26,7 +26,7 @@ import { generateResourceTypeSchema } from '../lists/providerTypes';
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
 const ProviderForm = (props) => {
-  const { provider, reset, values, history, match, container, fetchEnvSchema } = props;
+  const { provider, reset, values, history, match, fetchEnvSchema } = props;
   const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
 
@@ -51,7 +51,8 @@ const ProviderForm = (props) => {
     reset();
   };
 
-  const submitDisabled = props.pristine || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || props.containerCreateInvalid;
+  const containerFormInvalid = props.editMode ? props.containerEditInvalid : props.containerCreateInvalid;
+  const submitDisabled = props.pristine || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || containerFormInvalid;
   const linkedProviders = props.providers.filter(p => p.id !== provider.id);
 
   return (
@@ -110,6 +111,7 @@ const ProviderForm = (props) => {
                   raised
                   type="submit"
                   onClick={() => props.onRedeploy(true)}
+                  disabled={containerFormInvalid}
                   primary
                 >
                 Redeploy
@@ -215,7 +217,8 @@ const ProviderForm = (props) => {
             <Col flex={12}>
               <Panel title="Provider Container">
                 <HelpText message={`The provider type ${selectedProviderType.displayName} requires a container`} />
-                {container.id && props.editMode ? <ContainerEdit inlineMode /> : <ContainerCreate inlineMode />}
+                {props.editMode ?
+                  <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode /> : <ContainerCreate inlineMode />}
               </Panel>
             </Col>
           </Row>}
@@ -243,6 +246,7 @@ ProviderForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   containerCreateInvalid: PropTypes.bool.isRequired,
+  containerEditInvalid: PropTypes.bool.isRequired,
   container: PropTypes.object,
   onRedeploy: PropTypes.func,
   resourceTypes: PropTypes.array.isRequired,
@@ -264,5 +268,6 @@ export default connect(
   (state, props) => ({
     values: getFormValues(props.form)(state),
     containerCreateInvalid: isInvalid('containerCreate')(state),
+    containerEditInvalid: isInvalid('containerEdit')(state),
   })
 )(ProviderForm);

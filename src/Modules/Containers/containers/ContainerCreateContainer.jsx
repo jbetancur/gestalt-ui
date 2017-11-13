@@ -105,7 +105,7 @@ class ContainerCreate extends Component {
 
 function mapStateToProps(state) {
   return {
-    container: {},
+    containerModel: {},
     initialValues: getCreateContainerModel(state),
     volumeModal: state.volumeModal.volumeModal,
     volumes: state.volumeModal.volumes.volumes,
