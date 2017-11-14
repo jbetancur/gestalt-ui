@@ -21,7 +21,6 @@ class PolicyEventRuleEdit extends Component {
     selectedActions: PropTypes.array.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     unloadPolicyRule: PropTypes.func.isRequired,
     // fetchLambdas: PropTypes.func.isRequired,
   };
@@ -60,6 +59,7 @@ class PolicyEventRuleEdit extends Component {
 
   render() {
     const { policyRule, policyRulePending } = this.props;
+
     return (
       <div>
         {policyRulePending ?
@@ -68,7 +68,7 @@ class PolicyEventRuleEdit extends Component {
             editMode
             title={policyRule.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel={`${policyRule.properties.parent && policyRule.properties.parent.name} Policy`}
             onSubmit={values => this.updatePolicyRule(values)}
             {...this.props}
           />}

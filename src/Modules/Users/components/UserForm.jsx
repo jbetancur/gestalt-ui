@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
@@ -23,9 +20,27 @@ const UserForm = (props) => {
       <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12}>
-            <CardTitle
-              title={props.title}
-            />
+            <CardTitle title={props.title} />
+            <ActionsToolbar>
+              <Button
+                flat
+                iconChildren="arrow_back"
+                disabled={props.userPending || props.submitting}
+                onClick={goBack}
+              >
+                {props.cancelLabel}
+              </Button>
+              <Button
+                raised
+                iconChildren="save"
+                type="submit"
+                disabled={props.pristine || props.userPending || props.userUpdatePending || props.invalid || props.submitting}
+                primary
+              >
+                {props.submitLabel}
+              </Button>
+            </ActionsToolbar>
+            {(props.userUpdatePending || props.userPending) && <LinearProgress id="user-form" />}
             <CardText>
               <Row gutter={5}>
                 <Col flex={6} xs={12}>
@@ -108,24 +123,6 @@ const UserForm = (props) => {
                 </Col>
               </Row>
             </CardText>
-            {(props.userUpdatePending || props.userPending) && <LinearProgress id="user-form" />}
-            <CardActions>
-              <Button
-                flat
-                disabled={props.userPending || props.submitting}
-                onClick={goBack}
-              >
-                {props.cancelLabel}
-              </Button>
-              <Button
-                raised
-                type="submit"
-                disabled={props.pristine || props.userPending || props.userUpdatePending || props.invalid || props.submitting}
-                primary
-              >
-                {props.submitLabel}
-              </Button>
-            </CardActions>
           </Col>
         </Row>
       </form>

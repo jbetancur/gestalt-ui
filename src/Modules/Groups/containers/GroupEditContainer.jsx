@@ -14,7 +14,6 @@ class GroupEdit extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
     fetchGroup: PropTypes.func.isRequired,
@@ -56,7 +55,7 @@ class GroupEdit extends Component {
   }
 
   render() {
-    const { group, groupPending, pristine } = this.props;
+    const { group, groupPending } = this.props;
     return (
       <div>
         {groupPending && !group.id ?
@@ -65,7 +64,7 @@ class GroupEdit extends Component {
             editMode
             title={group.name}
             submitLabel="Update"
-            cancelLabel={pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Groups"
             onSubmit={values => this.update(values)}
             {...this.props}
           />}
