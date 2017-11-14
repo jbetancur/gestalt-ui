@@ -11,7 +11,7 @@ import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
 import HelpText from 'components/HelpText';
-import { ContainerCreate, ContainerEdit } from 'Modules/Containers';
+import { ContainerCreate, ContainerEdit, ContainerActions } from 'Modules/Containers';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
 import VariablesSection from './VariablesSection';
@@ -25,20 +25,20 @@ import { generateResourceTypeSchema } from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
+const isSubmitDisabled = (props, selectedProviderType) => {
+  if (selectedProviderType.allowContainer) {
+    const containerInvalid = props.editMode ? props.containerEditInvalid : props.containerCreateInvalid;
+    return props.envSchemaPending || props.providerPending || props.submitting || props.invalid || containerInvalid;
+  }
+
+  return props.envSchemaPending || props.providerPending || props.submitting || props.invalid;
+};
+
+
 const ProviderForm = (props) => {
-  const { provider, reset, values, history, match, fetchEnvSchema } = props;
+  const { provider, reset, values, fetchEnvSchema } = props;
   const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
-
-  const goBack = () => {
-    if (match.params.workspaceId && !match.params.environmentId) {
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
-    } else if (match.params.workspaceId && match.params.environmentId) {
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
-    } else {
-      history.push(`/${match.params.fqon}/providers`);
-    }
-  };
 
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
@@ -52,11 +52,11 @@ const ProviderForm = (props) => {
   };
 
   const containerFormInvalid = props.editMode ? props.containerEditInvalid : props.containerCreateInvalid;
-  const submitDisabled = props.pristine || props.envSchemaPending || props.providerPending || props.invalid || props.submitting || containerFormInvalid;
+  const submitDisabled = isSubmitDisabled(props, selectedProviderType);
   const linkedProviders = props.providers.filter(p => p.id !== provider.id);
 
   return (
-    <Row center onRedeploy={props.onRedeploy}>
+    <Row center onRedeploy={props.onRedeploy} goBack={props.goBack}>
       <Col
         flex={10}
         xs={12}
@@ -91,7 +91,7 @@ const ProviderForm = (props) => {
                   flat
                   iconChildren="arrow_back"
                   disabled={props.providerPending || props.submitting}
-                  onClick={goBack}
+                  onClick={props.goBack}
                 >
                   {props.cancelLabel}
                 </Button>
@@ -109,6 +109,7 @@ const ProviderForm = (props) => {
                 {provider.id && selectedProviderType.allowContainer &&
                 <Button
                   raised
+                  iconChildren="refresh"
                   type="submit"
                   onClick={() => props.onRedeploy(true)}
                   disabled={containerFormInvalid}
@@ -116,10 +117,18 @@ const ProviderForm = (props) => {
                 >
                 Redeploy
                 </Button>}
+                {props.editMode && selectedProviderType.allowContainer &&
+                  <ContainerActions
+                    inContainerView
+                    containerModel={props.container}
+                    disableDestroy
+                    disablePromote
+                  />}
               </ActionsToolbar>
+
               {props.providerPending && <LinearProgress id="provider-form--loading" />}
               <CardText>
-                {!selectedProviderType.name ?
+                {!selectedProviderType.name &&
                   <Row gutter={5}>
                     {/* only allow the provider type to be selected once - this prevents redux-form errors */}
                     <Col flex={6}>
@@ -137,8 +146,9 @@ const ProviderForm = (props) => {
                         async
                       />
                     </Col>
-                  </Row>
-                  :
+                  </Row>}
+
+                {selectedProviderType.name &&
                   <div>
                     <Row gutter={5}>
                       <Col flex={6} xs={12}>
@@ -150,16 +160,6 @@ const ProviderForm = (props) => {
                           required
                           maxLength={nameMaxLen}
                           disabled={provider.id}
-                        />
-                      </Col>
-                      <Col flex={6} xs={12}>
-                        <Field
-                          component={TextField}
-                          name="description"
-                          label="Description"
-                          type="text"
-                          rows={1}
-                          maxRows={4}
                         />
                       </Col>
                     </Row>
@@ -195,27 +195,40 @@ const ProviderForm = (props) => {
                   </div>}
               </CardText>
 
-              <Row gutter={5}>
-                {selectedProviderType.allowEnvVariables &&
-                <Col flex={12}>
-                  <VariablesSection {...props} />
-                </Col>}
-                {selectedProviderType.allowLinkedProviders &&
-                  <Col flex={12}>
-                    <LinkedProviders providersModel={linkedProviders} />
-                  </Col>}
-                {selectedProviderType.allowedRestrictEnvironments &&
-                <Col flex={12}>
-                  <EnvironmentTypes />
-                </Col>}
-              </Row>
+              {selectedProviderType.name &&
+                <Row gutter={5}>
+                  <Col flex={12} xs={12}>
+                    <Panel title="Description" defaultExpanded={!!provider.description}>
+                      <Field
+                        component={TextField}
+                        name="description"
+                        label="Description"
+                        type="text"
+                        rows={1}
+                        maxRows={4}
+                      />
+                    </Panel>
+                  </Col>
+                  {selectedProviderType.allowEnvVariables &&
+                    <Col flex={12}>
+                      <VariablesSection {...props} />
+                    </Col>}
+                  {selectedProviderType.allowLinkedProviders &&
+                    <Col flex={12}>
+                      <LinkedProviders providersModel={linkedProviders} />
+                    </Col>}
+                  {selectedProviderType.allowedRestrictEnvironments &&
+                    <Col flex={12}>
+                      <EnvironmentTypes />
+                    </Col>}
+                </Row>}
             </Col>
           </Row>
         </form>
         {selectedProviderType.allowContainer &&
           <Row gutter={5}>
             <Col flex={12}>
-              <Panel title="Provider Container">
+              <Panel title="Container Specification">
                 <HelpText message={`The provider type ${selectedProviderType.displayName} requires a container`} />
                 {props.editMode ?
                   <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode /> : <ContainerCreate inlineMode />}
@@ -228,8 +241,6 @@ const ProviderForm = (props) => {
 };
 
 ProviderForm.propTypes = {
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   providerPending: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
   providers: PropTypes.array.isRequired,
@@ -251,6 +262,7 @@ ProviderForm.propTypes = {
   onRedeploy: PropTypes.func,
   resourceTypes: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
+  goBack: PropTypes.func.isRequired,
 };
 
 ProviderForm.defaultProps = {

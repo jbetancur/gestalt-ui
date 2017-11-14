@@ -45,11 +45,12 @@ describe('Container Actions', () => {
       type: types.FETCH_CONTAINER_REQUEST,
       fqon: 'iamfqon',
       containerId: '1',
-      environmentId: '2',
+      entityId: '2',
+      entityKey: 'environments',
       isPolling: false,
     };
 
-    expect(actions.fetchContainer('iamfqon', '1', '2', false)).to.deep.equal(expectedAction);
+    expect(actions.fetchContainer('iamfqon', '1', '2', 'environments', false)).to.deep.equal(expectedAction);
   });
 
   it('should handle CREATE_CONTAINER_REQUEST', () => {

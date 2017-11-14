@@ -19,6 +19,7 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers" component={Providers} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers/create" component={ProviderCreate} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers/:providerId" component={ProviderEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers/:providerId/container/:containerId" component={ContainerEdit} />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/lambdas" component={Lambdas} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/lambdas/create" component={LambdaCreate} />

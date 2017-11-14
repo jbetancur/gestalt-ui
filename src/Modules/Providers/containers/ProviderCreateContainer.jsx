@@ -88,6 +88,17 @@ class ProviderCreate extends Component {
     }
   }
 
+  goBack = () => {
+    const { match, history } = this.props;
+    if (match.params.workspaceId && !match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
+    } else if (match.params.workspaceId && match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
+    } else {
+      history.push(`/${match.params.fqon}/providers`);
+    }
+  };
+
   componentDidCatch(error, info) {
     // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
     this.setState({ hasError: true, error, info });
@@ -100,6 +111,7 @@ class ProviderCreate extends Component {
         submitLabel="Create"
         cancelLabel="Providers"
         onSubmit={this.create}
+        goBack={this.goBack}
         {...this.props}
       />
     );

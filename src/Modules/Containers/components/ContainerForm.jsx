@@ -31,8 +31,9 @@ import ActionsModals from '../ActionModals';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 const ListButton = styled(Button)`
-  margin-left: 1.7em;
-  margin-bottom: .5em;
+  margin-top: 8px;
+  margin-left: 16px;
+  margin-bottom: 8px;
 `;
 
 const ContainerForm = (props) => {
@@ -50,7 +51,7 @@ const ContainerForm = (props) => {
       : (props.pristine || props.containerPending || props.invalid || props.submitting);
 
   const hasInstances = props.editMode && container.properties.instances && container.properties.instances.length > 0;
-  const hasServicePorts = props.editMode && container.properties.port_mappings && container.properties.port_mappings.length > 0;
+  const hasServiceAddresses = props.editMode && container.properties.service_addresses && container.properties.service_addresses.length > 0;
 
   return (
     <div>
@@ -78,7 +79,7 @@ const ContainerForm = (props) => {
               <CardTitle
                 title={
                   <div>
-                    {!props.inlineMode && <div>{props.title}</div>}
+                    <div>{props.title}</div>
                     {selectedProvider.id &&
                       <div className="gf-headline-1">
                         <ContainerIcon resourceType={providerType} /> {selectedProvider.name}
@@ -86,37 +87,37 @@ const ContainerForm = (props) => {
                   </div>
                 }
               />
-              <ActionsToolbar>
-                {!props.inlineMode &&
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  disabled={props.containerPending || props.submitting}
-                  component={Link}
-                  to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/containers`}
-                >
-                  {props.cancelLabel}
-                </Button>}
-
-                {!props.inlineMode && selectedProvider.id &&
+              {!props.inlineMode &&
+                <ActionsToolbar>
                   <Button
-                    raised
-                    iconChildren="save"
-                    type="submit"
-                    disabled={isSubmitDisabled}
-                    primary
+                    flat
+                    iconChildren="arrow_back"
+                    disabled={props.containerPending || props.submitting}
+                    component={Link}
+                    to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/containers`}
                   >
-                    {props.submitLabel}
-                  </Button>}
-                {!props.inlineMode && props.editMode &&
-                  <ContainerActions
-                    inContainerView
-                    containerModel={container}
-                    disableDestroy={props.inlineMode}
-                    disablePromote={props.inlineMode}
-                  />}
-              </ActionsToolbar>
-              {props.containerPending && <LinearProgress id="container-form-loading" />}
+                    {props.cancelLabel}
+                  </Button>
+
+                  {selectedProvider.id &&
+                    <Button
+                      raised
+                      iconChildren="save"
+                      type="submit"
+                      disabled={isSubmitDisabled}
+                      primary
+                    >
+                      {props.submitLabel}
+                    </Button>}
+                  {props.editMode &&
+                    <ContainerActions
+                      inContainerView
+                      containerModel={container}
+                      disableDestroy={props.inlineMode}
+                      disablePromote={props.inlineMode}
+                    />}
+                </ActionsToolbar>}
+              {!props.inlineMode && props.containerPending && <LinearProgress id="container-form-loading" />}
 
               <CardText>
                 <Row gutter={5}>
@@ -164,13 +165,23 @@ const ContainerForm = (props) => {
                     <Col flex={6} xs={12} sm={12}>
                       <Panel title="Resources" minHeight="13.75em">
                         <Row gutter={5}>
-                          <Col flex={12}>
+                          <Col flex={9}>
                             <Field
                               component={TextField}
                               name="properties.image"
                               label="Image"
                               type="text"
                               required
+                            />
+                          </Col>
+                          <Col flex={3} xs={12} sm={12}>
+                            <Field
+                              id="force_pull"
+                              component={Checkbox}
+                              name="properties.force_pull"
+                              // TODO: Find out why redux-form state for bool doesn't apply
+                              checked={values.properties.force_pull}
+                              label="Force Pull Image"
                             />
                           </Col>
                           <Col flex={2} xs={12}>
@@ -212,16 +223,6 @@ const ContainerForm = (props) => {
                               normalize={fixInputNumber}
                             />
                           </Col>
-                          <Col flex={6} xs={12} sm={12}>
-                            <Field
-                              id="force_pull"
-                              component={Checkbox}
-                              name="properties.force_pull"
-                              // TODO: Find out why redux-form state for bool doesn't apply
-                              checked={values.properties.force_pull}
-                              label="Force Pull Image"
-                            />
-                          </Col>
                         </Row>
                       </Panel>
                     </Col>
@@ -230,6 +231,7 @@ const ContainerForm = (props) => {
                         <Field
                           component={AceEditor}
                           mode="sh"
+                          theme="chrome"
                           name="properties.cmd"
                           maxLines={12}
                           minLines={12}
@@ -265,7 +267,7 @@ const ContainerForm = (props) => {
                           />
                         </Panel>
                       </Col>}
-                    {hasServicePorts &&
+                    {hasServiceAddresses &&
                       <Col flex={6} xs={12} sm={12}>
                         <Panel title={`Service Instances (${container.properties.port_mappings.length})`} noPadding>
                           <ContainerServiceAddresses

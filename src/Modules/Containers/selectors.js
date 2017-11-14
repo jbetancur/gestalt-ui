@@ -1,9 +1,15 @@
 import { createSelector } from 'reselect';
 import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
+import { merge } from 'lodash';
 
 export const selectContainer = state => state.metaResource.container.container;
+export const selectContainerSpec = (state, containerSpec) => containerSpec;
 export const selectEnv = state => state.metaResource.env.env;
+const selectVolumes = state => state.volumeModal.volumes.volumes;
+const selectPortMappings = state => state.portmapModal.portMappings.portMappings;
+const selectHealthChecks = state => state.healthCheckModal.healthChecks.healthChecks;
+const selectSecrets = state => state.secrets.secrets.secrets;
 
 export const getCreateContainerModel = createSelector(
   [selectEnv],
@@ -16,11 +22,7 @@ export const getCreateContainerModel = createSelector(
         labels: [],
         accepted_resource_roles: [],
         constraints: [],
-        health_checks: [],
         instances: [],
-        port_mappings: [],
-        volumes: [],
-        secrets: [],
         provider: {
           locations: [],
         },
@@ -28,6 +30,10 @@ export const getCreateContainerModel = createSelector(
         cpus: 0.1,
         memory: 128,
         num_instances: 1,
+        port_mappings: [],
+        health_checks: [],
+        volumes: [],
+        secrets: [],
       },
     };
 
@@ -36,8 +42,8 @@ export const getCreateContainerModel = createSelector(
 );
 
 export const getEditContainerModel = createSelector(
-  [selectContainer],
-  (container) => {
+  [selectContainer, selectVolumes, selectPortMappings, selectHealthChecks, selectSecrets],
+  (container, volumes, portMappings, healthChecks, secrets) => {
     const model = {
       ...metaModels.container,
       name: container.name,
@@ -48,11 +54,7 @@ export const getEditContainerModel = createSelector(
         container_type: container.properties.container_type,
         accepted_resource_roles: container.properties.accepted_resource_roles,
         constraints: container.properties.constraints,
-        health_checks: container.properties.health_checks,
         instances: container.properties.instances,
-        port_mappings: container.properties.port_mappings,
-        volumes: container.properties.volumes,
-        secrets: container.properties.secrets || [],
         provider: container.properties.provider,
         force_pull: container.properties.force_pull,
         cpus: container.properties.cpus,
@@ -62,6 +64,10 @@ export const getEditContainerModel = createSelector(
         image: container.properties.image,
         cmd: container.properties.cmd,
         user: container.properties.user,
+        port_mappings: merge(container.properties.port_mappings || [], portMappings),
+        health_checks: merge(container.properties.health_checks || [], healthChecks),
+        volumes: merge(container.properties.volumes || [], volumes),
+        secrets: merge(container.properties.secrets || [], secrets),
       },
     };
 
@@ -70,8 +76,8 @@ export const getEditContainerModel = createSelector(
 );
 
 export const getEditContainerModelAsSpec = createSelector(
-  [containerSpec => containerSpec],
-  (container) => {
+  [selectContainerSpec, selectVolumes, selectPortMappings, selectHealthChecks, selectSecrets],
+  (container, volumes, portMappings, healthChecks, secrets) => {
     const model = {
       ...metaModels.container,
       name: container.name,
@@ -82,11 +88,7 @@ export const getEditContainerModelAsSpec = createSelector(
         container_type: container.properties.container_type,
         accepted_resource_roles: container.properties.accepted_resource_roles,
         constraints: container.properties.constraints,
-        health_checks: container.properties.health_checks,
         instances: container.properties.instances,
-        port_mappings: container.properties.port_mappings,
-        volumes: container.properties.volumes,
-        secrets: container.properties.secrets || [],
         provider: container.properties.provider,
         force_pull: container.properties.force_pull,
         cpus: container.properties.cpus,
@@ -96,6 +98,10 @@ export const getEditContainerModelAsSpec = createSelector(
         image: container.properties.image,
         cmd: container.properties.cmd,
         user: container.properties.user,
+        port_mappings: merge(container.properties.port_mappings || [], portMappings),
+        health_checks: merge(container.properties.health_checks || [], healthChecks),
+        volumes: merge(container.properties.volumes || [], volumes),
+        secrets: merge(container.properties.secrets || [], secrets),
       },
     };
 
