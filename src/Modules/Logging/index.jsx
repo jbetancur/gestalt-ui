@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
 import { parse } from 'query-string';
@@ -165,7 +167,6 @@ class Logging extends PureComponent {
   componentDidMount() {
     const { location, fetchLogProvider } = this.props;
     const query = parse(location.search);
-
     if (!this.props.logProviderURL) {
       fetchLogProvider(query.fqon, query.providerId, query.logType);
     }
@@ -326,4 +327,7 @@ class Logging extends PureComponent {
   }
 }
 
-export default withMetaResource(Logging);
+export default compose(
+  withMetaResource,
+  withRouter,
+)(Logging);

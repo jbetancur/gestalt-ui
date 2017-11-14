@@ -227,7 +227,6 @@ const LambdaForm = (props) => {
                           name="properties.code"
                           maxLines={75}
                           minLines={25}
-                          fontSize={12}
                         />
                       </Col>}
 

@@ -66,14 +66,14 @@ export default function configureInterceptors(store, history) {
       // reroute to root if the context is no longer available
       if (response.message.includes('not found') &&
         response.code === 404) {
-        history.replace('/');
+        history.replace('/404');
       }
 
-      // if someone decides to muck or paste a url with an invalid UUID
-      if (response.message.includes('is not a valid v4 UUID') &&
-        response.code === 400) {
-        history.replace('/');
-      }
+      // // if someone decides to muck or paste a url with an invalid UUID
+      // if (response.message.includes('is not a valid v4 UUID') &&
+      //   response.code === 400) {
+      //   history.replace('/404');
+      // }
 
       // handle if an environment is deleted and user is in environment context
       if (response.message.includes('UUID did not correspond to an environment') &&
@@ -83,7 +83,7 @@ export default function configureInterceptors(store, history) {
 
       // default
       if (response.code === 404) {
-        history.replace('/');
+        history.replace('/404');
       }
     }
 
