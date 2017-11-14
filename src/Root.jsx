@@ -10,6 +10,7 @@ import en from 'react-intl/locale-data/en';
 // import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
 import ErrorNotifications from 'Modules/ErrorNotifications';
+import NotFound from 'components/NotFound';
 import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
@@ -50,7 +51,9 @@ const Root = () => (
                 <Route exact path="/login" component={LoginContainer} />
                 <Route exact path="/logs" component={restricted(Logging)} />
                 <Route exact path="/" component={restricted(AppContainer)} />
+                <Route exact path="/404" component={NotFound} />
                 <Route path="/:fqon" component={restricted(AppContainer)} />
+                <Route path="/notfound" component={restricted(AppContainer)} />
               </Switch>
             </ConnectedRouter>
           </div>

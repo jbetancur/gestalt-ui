@@ -1,10 +1,24 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { merge } from 'lodash';
 import loggingSagas, {
   fetchLogProvider,
 } from './logging';
 import * as types from '../actionTypes';
 import { LOGGING } from '../constants/resourceTypes'; // TODO: mock up with rewire
+
+const genericMock = Object.freeze({
+  data: {
+    properties: {
+      config: {
+        env: {
+          public: {},
+          private: {},
+        }
+      }
+    }
+  }
+});
 
 describe('Logging Sagas', () => {
   const error = 'an error has occured';
@@ -30,7 +44,7 @@ describe('Logging Sagas', () => {
       });
 
       it('should return a payload and dispatch a success status', () => {
-        const logProviderResponse = { data: { id: '1', properties: { config: { env: { public: { SERVICE_VHOST_0: 'whatever' } } } } } };
+        const logProviderResponse = merge(genericMock, { data: { id: '1', properties: { config: { env: { public: { SERVICE_VHOST_0: 'whatever' } } } } } });
         result = saga.next(logProviderResponse);
 
         const payload = {
@@ -48,7 +62,7 @@ describe('Logging Sagas', () => {
       const saga = fetchLogProvider({ fqon: 'iamfqon', providerId: '1', logType: 'container' });
 
       it('should return a payload and dispatch a success status', () => {
-        const logProviderResponse = { data: { id: '1', properties: { config: { env: { public: { SERVICE_VHOST_0: 'whatever', SERVICE_VHOST_0_PROTOCOL: 'poopy' } } } } } };
+        const logProviderResponse = merge(genericMock, { data: { id: '1', properties: { config: { env: { public: { SERVICE_VHOST_0: 'whatever', SERVICE_VHOST_0_PROTOCOL: 'poopy' } } } } } });
         result = saga.next();
         result = saga.next({ data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } });
         result = saga.next(logProviderResponse);
@@ -74,7 +88,7 @@ describe('Logging Sagas', () => {
       });
 
       it('should make an api call for the "META_COMPUTE_PROVIDER_ID" provider', () => {
-        const providerResponse = { data: { id: '1', properties: { config: { env: { public: { META_COMPUTE_PROVIDER_ID: '123' } } } } } };
+        const providerResponse = merge(genericMock, { data: { id: '1', properties: { config: { env: { public: { META_COMPUTE_PROVIDER_ID: '123' } } } } } });
 
         result = saga.next(providerResponse);
         expect(result.value).to.deep.equal(
@@ -83,7 +97,7 @@ describe('Logging Sagas', () => {
       });
 
       it('should make an api call for the "Logging" provider', () => {
-        const caasProviderResponse = { data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } };
+        const caasProviderResponse = merge(genericMock, { data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } });
         result = saga.next(caasProviderResponse);
         expect(result.value).to.deep.equal(
           call(axios.get, 'iamfqon/providers/2')
@@ -93,7 +107,6 @@ describe('Logging Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         const logProviderResponse = { data: { id: '1', properties: { config: { env: { public: { SERVICE_VHOST_0: 'whatever' } } } } } };
         result = saga.next(logProviderResponse);
-
         const payload = {
           provider: logProviderResponse.data,
           url: 'https://whatever/lambda',
@@ -113,7 +126,6 @@ describe('Logging Sagas', () => {
         result = sagaMissingPUBLIC.next();
         result = sagaMissingPUBLIC.next(cassProviderResponse);
         result = sagaMissingPUBLIC.next(logProviderResponse);
-
         const payload = {
           provider: logProviderResponse.data,
           url: '',
@@ -134,7 +146,7 @@ describe('Logging Sagas', () => {
           result = saga.next();
           result = saga.next(caasProviderResponse);
           expect(result.value).to.deep.equal(
-            put({ type: types.FETCH_LOGPROVIDER_REJECTED, payload: 'The CAAS Provider poopy is not Linked to a Log Provider' })
+            put({ type: types.FETCH_LOGPROVIDER_REJECTED, payload: 'A Logging Provided does not appear to be Linked to poopy' })
           );
         });
       });
