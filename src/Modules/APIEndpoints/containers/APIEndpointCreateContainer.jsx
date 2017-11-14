@@ -13,7 +13,6 @@ class APIEndpointCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
@@ -29,7 +28,7 @@ class APIEndpointCreate extends Component {
       <APIEndpointForm
         title="Create Endpoint"
         submitLabel="Create"
-        cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+        cancelLabel="API"
         onSubmit={values => this.create(values)}
         {...this.props}
       />

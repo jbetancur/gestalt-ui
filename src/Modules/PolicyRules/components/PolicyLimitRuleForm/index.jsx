@@ -4,11 +4,8 @@ import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import SelectField from 'components/SelectField';
 import TextField from 'components/TextField';
@@ -74,19 +71,28 @@ const PolicyLimitRuleForm = (props) => {
         </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12}>
-          <CardTitle
-            title={
-              <div>
-                <Link
-                  style={{ color: 'inherit' }}
-                  to={backLink}
-                >
-                  Policies
-                </Link>
-                <span> - {title}</span>
-              </div>
-            }
-          />
+          <CardTitle title={title} />
+          <ActionsToolbar>
+            <Button
+              flat
+              iconChildren="arrow_back"
+              disabled={policyRulePending || submitting}
+              component={Link}
+              to={backLink}
+            >
+              {cancelLabel}
+            </Button>
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={pristine || policyRulePending || invalid || submitting}
+              primary
+            >
+              {submitLabel}
+            </Button>
+          </ActionsToolbar>
+          {(policyRuleUpdatePending || policyRulePending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
           <CardText>
             <Row gutter={5}>
               <Col flex={4} xs={12}>
@@ -175,25 +181,6 @@ const PolicyLimitRuleForm = (props) => {
               </Fieldset>
             </Row>
           </CardText>
-          {policyRuleUpdatePending || policyRulePending ? <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} /> : null}
-          <CardActions>
-            <Button
-              flat
-              disabled={policyRulePending || submitting}
-              component={Link}
-              to={backLink}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              type="submit"
-              disabled={pristine || policyRulePending || invalid || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
-          </CardActions>
         </Col>
       </Row>
     </form>

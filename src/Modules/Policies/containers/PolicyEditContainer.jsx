@@ -19,7 +19,6 @@ class PolicyEdit extends Component {
     fetchPolicy: PropTypes.func.isRequired,
     updatePolicy: PropTypes.func.isRequired,
     policyPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     unloadPolicy: PropTypes.func.isRequired,
   };
 
@@ -34,7 +33,7 @@ class PolicyEdit extends Component {
     unloadPolicy();
   }
 
-  updatePolicy(values) {
+  updatePolicy = (values) => {
     const { dispatch, reset, match, policy, updatePolicy } = this.props;
     const patches = generatePolicyPatches(policy, values);
     const onSuccess = () => dispatch(reset());
@@ -53,8 +52,8 @@ class PolicyEdit extends Component {
             editMode
             title={policy.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-            onSubmit={values => this.updatePolicy(values)}
+            cancelLabel="Policies"
+            onSubmit={this.updatePolicy}
             {...this.props}
           />}
       </div>

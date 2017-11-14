@@ -4,11 +4,8 @@ import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import ActionsToolbar from 'components/ActionsToolbar';
 import TextField from 'components/TextField';
 import List from 'react-md/lib/Lists/List';
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -101,9 +98,28 @@ const GroupForm = (props) => {
       <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12}>
-            <CardTitle
-              title={props.title}
-            />
+            <CardTitle title={props.title} />
+            <ActionsToolbar>
+              <Button
+                flat
+                iconChildren="arrow_back"
+                disabled={groupUpdatePending || groupPending || submitting}
+                component={Link}
+                to={`/${match.params.fqon}/groups`}
+              >
+                {cancelLabel}
+              </Button>
+              <Button
+                raised
+                iconChildren="save"
+                type="submit"
+                disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
+                primary
+              >
+                {submitLabel}
+              </Button>
+            </ActionsToolbar>
+            {(groupUpdatePending || groupPending) && <LinearProgress id="group-form" />}
             <CardText>
               <Row gutter={5}>
                 <Col flex={4} xs={12}>
@@ -126,25 +142,6 @@ const GroupForm = (props) => {
                 </Col>
               </Row>
             </CardText>
-            {(groupUpdatePending || groupPending) && <LinearProgress id="group-form" />}
-            <CardActions>
-              <Button
-                flat
-                disabled={groupUpdatePending || groupPending || submitting}
-                component={Link}
-                to={`/${match.params.fqon}/groups`}
-              >
-                {cancelLabel}
-              </Button>
-              <Button
-                raised
-                type="submit"
-                disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
-                primary
-              >
-                {submitLabel}
-              </Button>
-            </CardActions>
           </Col>
         </Row>
       </form>

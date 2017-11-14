@@ -20,7 +20,6 @@ class APIEdit extends Component {
     fetchProviderKongsByGateway: PropTypes.func.isRequired,
     updateAPI: PropTypes.func.isRequired,
     apiPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     unloadAPI: PropTypes.func.isRequired,
   };
 
@@ -55,7 +54,7 @@ class APIEdit extends Component {
             editMode
             title={api.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel="APIs"
             onSubmit={values => this.updateAPI(values)}
             {...this.props}
           />}

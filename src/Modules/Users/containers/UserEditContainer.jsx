@@ -12,7 +12,6 @@ import actions from '../actions';
 
 class GroupEdit extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
@@ -20,7 +19,6 @@ class GroupEdit extends Component {
     updateUser: PropTypes.func.isRequired,
     userPending: PropTypes.bool.isRequired,
     unloadUser: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -37,7 +35,7 @@ class GroupEdit extends Component {
   }
 
   update(values) {
-    const { match, history, user, updateUser } = this.props;
+    const { match, user, updateUser } = this.props;
     const { name, description, properties: { password, firstName, lastName, phoneNumber, email, gestalt_home } } = user;
     const originalModel = {
       name,
@@ -58,9 +56,8 @@ class GroupEdit extends Component {
     }
 
     const patches = jsonPatch.compare(originalModel, values);
-    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
-    updateUser(match.params.fqon, user.id, patches, onSuccess);
+    updateUser(match.params.fqon, user.id, patches);
   }
 
   render() {
@@ -72,7 +69,7 @@ class GroupEdit extends Component {
           <UserForm
             title={user.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Users"
             onSubmit={values => this.update(values)}
             {...this.props}
           />}

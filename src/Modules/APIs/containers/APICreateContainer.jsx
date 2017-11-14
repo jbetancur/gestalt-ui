@@ -15,7 +15,6 @@ class APICreate extends Component {
     match: PropTypes.object.isRequired,
     createAPI: PropTypes.func.isRequired,
     providersKongByGateway: PropTypes.array.isRequired,
-    pristine: PropTypes.bool.isRequired,
   };
 
   create(values) {
@@ -36,7 +35,7 @@ class APICreate extends Component {
         <APIForm
           title="Create API"
           submitLabel="Create"
-          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+          cancelLabel="APIs"
           onSubmit={values => this.create(values)}
           {...this.props}
         />

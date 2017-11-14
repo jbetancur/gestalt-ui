@@ -4,11 +4,8 @@ import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, getFormValues } from 'redux-form';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import ActionsToolbar from 'components/ActionsToolbar';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
 import { APIEndpoints } from 'Modules/APIEndpoints';
@@ -45,6 +42,27 @@ const APIForm = (props) => {
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12}>
             <CardTitle title={title} />
+            <ActionsToolbar>
+              <Button
+                iconChildren="arrow_back"
+                flat
+                disabled={apiPending || submitting}
+                component={Link}
+                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
+              >
+                {cancelLabel}
+              </Button>
+              <Button
+                raised
+                iconChildren="save"
+                type="submit"
+                disabled={pristine || apiPending || apiUpdatePending || invalid || submitting}
+                primary
+              >
+                {submitLabel}
+              </Button>
+            </ActionsToolbar>
+            {(apiPending || apiUpdatePending) && <LinearProgress id="api-form" />}
             <CardText>
               <Row gutter={5}>
                 <Col flex={4} xs={12}>
@@ -98,25 +116,6 @@ const APIForm = (props) => {
                 </Row>
               </Row>
             </CardText>
-            {(apiPending || apiUpdatePending) && <LinearProgress id="api-form" />}
-            <CardActions>
-              <Button
-                flat
-                disabled={apiPending || submitting}
-                component={Link}
-                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
-              >
-                {cancelLabel}
-              </Button>
-              <Button
-                raised
-                type="submit"
-                disabled={pristine || apiPending || apiUpdatePending || invalid || submitting}
-                primary
-              >
-                {submitLabel}
-              </Button>
-            </CardActions>
           </Col>
 
           {editMode && api.id &&

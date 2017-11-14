@@ -4,12 +4,8 @@ import { Field, getFormValues, change } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import Autocomplete from 'react-md/lib/Autocompletes';
+import { Card, CardTitle, CardText, LinearProgress, Autocomplete } from 'react-md';
+import ActionsToolbar from 'components/ActionsToolbar';
 import Checkbox from 'components/Checkbox';
 import SelectField from 'components/SelectField';
 import SelectionControlGroup from 'components/SelectionControlGroup';
@@ -79,19 +75,28 @@ const APIEndpointForm = (props) => {
         </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12}>
-          <CardTitle
-            title={
-              <div>
-                <Link
-                  style={{ color: 'inherit' }}
-                  to={backLink}
-                >
-                  APIS
-                </Link>
-                <span> - {title}</span>
-              </div>
-            }
-          />
+          <CardTitle title={title} />
+          <ActionsToolbar>
+            <Button
+              flat
+              iconChildren="arrow_back"
+              disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
+              component={Link}
+              to={backLink}
+            >
+              {cancelLabel}
+            </Button>
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
+              primary
+            >
+              {submitLabel}
+            </Button>
+          </ActionsToolbar>
+          {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
           <CardText>
             <Row gutter={5}>
               <Col flex={2} xs={12}>
@@ -208,25 +213,6 @@ const APIEndpointForm = (props) => {
               </Row>
             </Row>
           </CardText>
-          {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
-          <CardActions>
-            <Button
-              flat
-              disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
-              component={Link}
-              to={backLink}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              type="submit"
-              disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
-          </CardActions>
         </Col>
       </Row>
     </form>
