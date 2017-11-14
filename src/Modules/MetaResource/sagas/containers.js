@@ -65,8 +65,14 @@ export function* fetchContainer(action) {
     return axios.get(url);
   }
 
+  // TODO: have meta allow expands so we don't have to do this
+  const promises = [getContainer()];
+  if (action.entityKey !== 'providers') {
+    promises.push(getEnv());
+  }
+
   try {
-    const response = yield call(axios.all, [getContainer(), getEnv()]);
+    const response = yield call(axios.all, promises);
     const payload = { ...response[0].data };
     payload.properties.env = Object.assign(response[1].data, payload.properties.env);
 
