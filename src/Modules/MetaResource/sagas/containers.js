@@ -53,7 +53,7 @@ export function* fetchContainersDropDown(action) {
 
 /**
  * fetchContainer
- * @param {*} action { fqon, containerId, environmentId }
+ * @param {*} action { fqon, containerId, entityKey, entityId }
  */
 export function* fetchContainer(action) {
   function getContainer() {
@@ -61,7 +61,8 @@ export function* fetchContainer(action) {
   }
 
   function getEnv() {
-    return axios.get(`${action.fqon}/environments/${action.environmentId}/env`);
+    const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/env` : `${action.fqon}/env`;
+    return axios.get(url);
   }
 
   try {

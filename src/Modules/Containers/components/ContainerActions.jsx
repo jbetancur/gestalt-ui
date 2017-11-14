@@ -89,6 +89,13 @@ class ContainerActions extends Component {
     fetchContainers(match.params.fqon, entity.id, entity.key);
   }
 
+  populateContainer() {
+    const { match, fetchContainer, containerModel } = this.props;
+    const entity = generateContextEntityState(match.params);
+
+    fetchContainer(match.params.fqon, containerModel.id, entity.id, entity.key, true);
+  }
+
   destroy = () => {
     const { match, history, confirmContainerDelete, deleteContainer, containerModel, inContainerView } = this.props;
 
@@ -106,11 +113,11 @@ class ContainerActions extends Component {
   }
 
   suspend = () => {
-    const { match, fetchContainer, scaleContainer, containerModel, inContainerView } = this.props;
+    const { match, scaleContainer, containerModel, inContainerView } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
+        this.populateContainer();
       } else {
         this.populateContainers();
       }
@@ -120,10 +127,10 @@ class ContainerActions extends Component {
   }
 
   scale = () => {
-    const { match, fetchContainer, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
+    const { match, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
+        this.populateContainer();
       } else {
         this.populateContainers();
       }
@@ -137,10 +144,10 @@ class ContainerActions extends Component {
   }
 
   migrate = () => {
-    const { match, fetchContainer, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
+    const { match, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        fetchContainer(match.params.fqon, containerModel.id, match.params.environmentId, true);
+        this.populateContainer();
       } else {
         this.populateContainers();
       }

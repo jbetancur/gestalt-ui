@@ -57,8 +57,13 @@ class ContainerListing extends PureComponent {
   edit = (container, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
-      const { history, match } = this.props;
-      history.push(`${match.url}/${container.id}`);
+      const { history, match, providerContext } = this.props;
+
+      if (providerContext) {
+        history.push(`${match.url}/container/${container.id}`);
+      } else {
+        history.push(`${match.url}/${container.id}`);
+      }
     }
   }
 
@@ -68,6 +73,7 @@ class ContainerListing extends PureComponent {
         model={this.props.containers}
         pending={this.props.containersPending}
         onEditToggle={this.edit}
+
         {...this.props}
       />
     );

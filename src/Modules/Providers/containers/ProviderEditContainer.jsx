@@ -16,11 +16,13 @@ import { getEditProviderModel } from '../selectors';
 
 class ProviderEdit extends Component {
   static propTypes = {
-    providerPending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    providerPending: PropTypes.bool.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
+    fetchProviderContainer: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
@@ -33,6 +35,7 @@ class ProviderEdit extends Component {
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
+    containerPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -46,6 +49,19 @@ class ProviderEdit extends Component {
 
     fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     this.populateProvider();
+    this.populateContainer();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.provider.id !== this.props.provider.id) {
+      if (nextProps.provider.properties.services && nextProps.provider.properties.services.length > 0) {
+        clearTimeout(this.timeout);
+
+        if (!nextProps.containerPending) {
+          this.startPoll();
+        }
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -53,6 +69,7 @@ class ProviderEdit extends Component {
 
     unloadProviders();
     unloadProvider();
+    clearTimeout(this.timeout);
   }
 
   setRedeployFlag = (redeploy) => {
@@ -65,6 +82,16 @@ class ProviderEdit extends Component {
 
     fetchProviders(match.params.fqon, entity.id, entity.key);
     fetchProvider(match.params.fqon, match.params.providerId);
+  }
+
+  populateContainer() {
+    const { match, fetchProviderContainer } = this.props;
+
+    fetchProviderContainer(match.params.fqon, match.params.providerId);
+  }
+
+  startPoll() {
+    this.timeout = setInterval(() => this.populateContainer(true), 5000);
   }
 
   update = (formValues) => {
@@ -99,6 +126,17 @@ class ProviderEdit extends Component {
     }
   }
 
+  goBack = () => {
+    const { match, history } = this.props;
+    if (match.params.workspaceId && !match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
+    } else if (match.params.workspaceId && match.params.environmentId) {
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
+    } else {
+      history.push(`/${match.params.fqon}/providers`);
+    }
+  };
+
   componentDidCatch(error, info) {
     // TODO: Eat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
     this.setState({ hasError: true, error, info });
@@ -117,6 +155,7 @@ class ProviderEdit extends Component {
             cancelLabel="Providers"
             onSubmit={this.update}
             onRedeploy={this.setRedeployFlag}
+            goBack={this.goBack}
             {...this.props}
           />}
       </div>

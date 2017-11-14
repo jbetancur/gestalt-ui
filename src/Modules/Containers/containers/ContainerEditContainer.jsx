@@ -89,8 +89,9 @@ class ContainerEdit extends Component {
 
   populateContainer(isPolling) {
     const { match, fetchContainer } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    fetchContainer(match.params.fqon, match.params.containerId, match.params.environmentId, isPolling);
+    fetchContainer(match.params.fqon, match.params.containerId, entity.id, entity.key, isPolling);
   }
 
   redeployContainer = (values) => {
@@ -140,21 +141,18 @@ class ContainerEdit extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.containerSpec);
-  return {
-    container: ownProps.containerSpec || selectContainer(state),
-    volumeModal: state.volumeModal.volumeModal,
-    volumes: state.volumeModal.volumes.volumes,
-    portmapModal: state.portmapModal.portmapModal,
-    portMappings: state.portmapModal.portMappings.portMappings,
-    healthCheckModal: state.healthCheckModal.healthCheckModal,
-    healthChecks: state.healthCheckModal.healthChecks.healthChecks,
-    secretsFromModal: state.secrets.secrets.secrets,
-    secretPanelModal: state.secrets.secretPanelModal,
-    initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(ownProps.containerSpec) : getEditContainerModel(state),
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  container: ownProps.containerSpec || selectContainer(state),
+  volumeModal: state.volumeModal.volumeModal,
+  portmapModal: state.portmapModal.portmapModal,
+  healthCheckModal: state.healthCheckModal.healthCheckModal,
+  secretPanelModal: state.secrets.secretPanelModal,
+  portMappings: state.portmapModal.portMappings.portMappings,
+  healthChecks: state.healthCheckModal.healthChecks.healthChecks,
+  volumes: state.volumeModal.volumes.volumes,
+  secretsFromModal: state.secrets.secrets.secrets,
+  initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(state, ownProps.containerSpec) : getEditContainerModel(state),
+});
 
 export default compose(
   withMetaResource,

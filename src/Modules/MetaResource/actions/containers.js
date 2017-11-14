@@ -39,11 +39,12 @@ export function fetchContainersDropDown(fqon, environmentId) {
  * fetchContainer
  * @param {string} fqon
  * @param {string} containerId
- * @param {string} environmentId
+ * @param {string} entityId
+ * @param {string} entityKey - oneOf workpsaces | environments | null
  * @param {boolean} isPolling
  */
-export function fetchContainer(fqon, containerId, environmentId, isPolling) {
-  return { type: types.FETCH_CONTAINER_REQUEST, fqon, containerId, environmentId, isPolling };
+export function fetchContainer(fqon, containerId, entityId, entityKey, isPolling) {
+  return { type: types.FETCH_CONTAINER_REQUEST, fqon, containerId, entityId, entityKey, isPolling };
 }
 
 /**
