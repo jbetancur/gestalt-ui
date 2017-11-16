@@ -65,9 +65,9 @@ class ContainerInstances extends PureComponent {
       <DataTable plain>
         <TableHeader>
           <TableRow>
-            <TableColumn style={{ width: '99px' }} />
-            <TableColumn>Host Address</TableColumn>
-            <TableColumn>Addresses</TableColumn>
+            <TableColumn style={{ width: '140px' }} />
+            <TableColumn>Container IPs</TableColumn>
+            <TableColumn>Host IP</TableColumn>
             <TableColumn>Host Port</TableColumn>
             <TableColumn>Started</TableColumn>
           </TableRow>
