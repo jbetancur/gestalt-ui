@@ -45,7 +45,7 @@ class APIEndpointItem extends PureComponent {
             showLabel={false}
             text={apiEndpoint.properties.public_url}
           />
-          <A href={apiEndpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
+          <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
         <TableColumn>
           <Caption small>

@@ -12,10 +12,13 @@ class ContainerServiceAddresses extends PureComponent {
   }
 
   renderServiceAddressesRows() {
-    return this.props.containerModel.properties.port_mappings.map((port, i) => (
+    const { containerModel } = this.props;
+
+    return containerModel.properties.port_mappings.map((port, i) => (
+      port.service_address &&
       <TableRow key={i}>
         <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
-        <TableColumn>{port.service_address && port.service_address.port}</TableColumn>
+        <TableColumn numberic>{port.service_address && port.service_address.port}</TableColumn>
         <TableColumn>{port.service_address && port.service_address.protocol}</TableColumn>
       </TableRow>
     ));
@@ -41,7 +44,7 @@ class ContainerServiceAddresses extends PureComponent {
   render() {
     return (
       <div>
-        {this.props.containerModel.properties.port_mappings.some(prop => prop.service_address) ? this.renderServiceAddressesTable() : null}
+        {this.renderServiceAddressesTable()}
       </div>
     );
   }
