@@ -11,7 +11,7 @@ import SelectField from 'components/SelectField';
 import SelectionControlGroup from 'components/SelectionControlGroup';
 import TextField from 'components/TextField';
 import { Button } from 'components/Buttons';
-import HelpText from 'components/HelpText';
+import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../RateLimit';
@@ -112,7 +112,7 @@ const APIEndpointForm = (props) => {
                   required
                 />
               </Col>
-              <Col flex={5} xs={12}>
+              <Col flex={5} xs={12} sm={12}>
                 <Field
                   component={TextField}
                   name="properties.resource"
@@ -138,8 +138,21 @@ const APIEndpointForm = (props) => {
                   helpText="container from the current environment"
                 />
               </Col>}
+              {values.properties.implementation_type === 'container' &&
+              <Col flex={2} xs={12}>
+                <Field
+                  id="container-ports-dropdown"
+                  component={SelectField}
+                  name="properties.container_port_name"
+                  menuItems={containerPorts()}
+                  itemLabel="name"
+                  itemValue="name"
+                  required
+                  label="Container Port Name"
+                />
+              </Col>}
               {values.properties.implementation_type === 'lambda' &&
-                <Col flex={3} sm={6} xs={12}>
+                <Col flex={5} xs={12} sm={12}>
                   <Autocomplete
                     id="lambdas-dropdown"
                     data={lambdasDropDown}
@@ -160,7 +173,7 @@ const APIEndpointForm = (props) => {
                     />}
                 </Col>}
               {values.properties.implementation_type === 'lambda' &&
-                <Col flex={2} xs={6}>
+                <Col flex={2} xs={12} sm={12}>
                   <Field
                     id="synchronous"
                     component={Checkbox}
@@ -169,22 +182,18 @@ const APIEndpointForm = (props) => {
                     checked={values.properties.synchronous}
                     label="Synchronous"
                   />
+                  <Caption light>wait for the lambda to return a response</Caption>
                 </Col>}
-              {values.properties.implementation_type === 'container' &&
-                <Col flex={2} xs={12}>
-                  <Field
-                    id="container-ports-dropdown"
-                    component={SelectField}
-                    name="properties.container_port_name"
-                    menuItems={containerPorts()}
-                    itemLabel="name"
-                    itemValue="name"
-                    required
-                    label="Container Port Name"
-                  />
-                </Col>}
+              <Col flex={6} xs={12} sm={12}>
+                <RateLimit
+                  rateLimitToggledName="properties.plugins.rateLimit.enabled"
+                  perMinuteName="properties.plugins.rateLimit.perMinute"
+                  isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled}
+                />
+                <Caption light>Accesses per minute allowed for this endpoint</Caption>
+              </Col>
               <Row gutter={5}>
-                <Col flex={6} xs={12}>
+                <Col flex={6} xs={12} sm={6}>
                   <Field
                     inline
                     controlStyle={{ minWidth: '7em' }}
@@ -195,20 +204,10 @@ const APIEndpointForm = (props) => {
                     label={<span>HTTP Methods<span>*</span></span>}
                     controls={httpMethods}
                   />
-                  <HelpText message="* at least one http method is required" />
+                  <Caption light>at least one http method is required</Caption>
                 </Col>
-                <Col flex={6} xs={12}>
-                  <RateLimit
-                    rateLimitToggledName="properties.plugins.rateLimit.enabled"
-                    perMinuteName="properties.plugins.rateLimit.perMinute"
-                    isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled}
-                  />
-                </Col>
-                <Col flex={4} xs={12}>
-                  <Security
-                    enabledName="properties.plugins.gestaltSecurity.enabled"
-                    {...props}
-                  />
+                <Col flex={6} xs={12} sm={6}>
+                  <Security enabledName="properties.plugins.gestaltSecurity.enabled" {...props} />
                 </Col>
               </Row>
             </Row>

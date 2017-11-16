@@ -45,7 +45,7 @@ const DetailPane = (props) => {
             <ContainsButtonsStyle>
               <Label>UUID</Label>
               <ClipboardButton
-                showUUID={false}
+                showLabel={false}
                 text={model.id}
                 tooltipLabel="Copy uuid to clipboard"
               />

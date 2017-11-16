@@ -27,7 +27,7 @@ class ContainerInstances extends PureComponent {
         <TableColumn>
           {providerType === 'Kubernetes' &&
           <ClipboardButton
-            showUUID={false}
+            showLabel={false}
             text={`fog console ${match.params.environmentId} ${item.id}`}
             tooltipLabel="Copy console access cmd"
             tooltipPosition="right"

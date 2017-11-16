@@ -1,9 +1,11 @@
 export default [
   {
-    displayName: 'Event',
+    displayName: 'Event Rule',
+    name: 'event',
     value: 'Gestalt::Resource::Rule::Event'
   }, {
-    displayName: 'Limit',
+    displayName: 'Limit Rule',
+    name: 'limit',
     value: 'Gestalt::Resource::Rule::Limit'
   }
 ];

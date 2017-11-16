@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Col, Row } from 'react-flexybox';
-import Card from 'react-md/lib/Cards/Card';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Card, LinearProgress } from 'react-md';
 import { ActionsMenu } from 'Modules/Actions';
 import { Button, DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
@@ -13,10 +12,10 @@ import { truncate } from 'util/helpers/strings';
 
 // TODO: Sad hack for overflow menus within tables - research fixed option
 const TableWrapper = styled.div`
-.md-data-table--responsive {
-  padding-bottom: 250px;
-  margin-bottom: -250px;
-}
+  .md-data-table--responsive {
+    padding-bottom: 250px;
+    margin-bottom: -250px;
+  }
 `;
 
 class LambdaItem extends PureComponent {
@@ -45,8 +44,13 @@ class LambdaItem extends PureComponent {
 
   renderAPIEndpoints(lambda) {
     return lambda.properties.apiEndpoints.map(endpoint => (
-      <div key={endpoint.id} >
-        <A href={endpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">
+      <div key={endpoint.id}>
+        <ClipboardButton
+          showLabel={false}
+          text={endpoint.properties.public_url}
+          inLink
+        />
+        <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
         </A>
       </div>
@@ -61,7 +65,7 @@ class LambdaItem extends PureComponent {
         <TableColumn>
           <ClipboardButton
             text={lambda.id}
-            showUUID={false}
+            showLabel={false}
             tooltipLabel="Copy uuid to clipboard"
           />
           <ActionsMenu

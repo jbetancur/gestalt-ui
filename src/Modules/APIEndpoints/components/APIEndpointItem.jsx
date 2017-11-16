@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import FontIcon from 'react-md/lib/FontIcons';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import { Button, DeleteIconButton } from 'components/Buttons';
+import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';
 import { Caption } from 'components/Typography';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { parseChildClass } from 'util/helpers/strings';
 
-class apiEndpointItem extends PureComponent {
+class APIEndpointItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     tableManager: PropTypes.object.isRequired,
@@ -32,20 +31,6 @@ class apiEndpointItem extends PureComponent {
     tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
   }
 
-  renderCreateButton() {
-    return (
-      <Button
-        id="create-endpoint"
-        flat
-        primary
-        onClick={this.props.onCreateToggle}
-        iconChildren="add"
-      >
-        Create Endpoint
-      </Button>
-    );
-  }
-
   render() {
     const { count } = this.props.tableManager.tableSelected;
     const { model, tableActions, getTableSortedItems } = this.props;
@@ -56,15 +41,23 @@ class apiEndpointItem extends PureComponent {
           <StatusBubble status={parseChildClass(apiEndpoint.resource_state)} />
         </TableColumn>
         <TableColumn>
+          <ClipboardButton
+            showLabel={false}
+            text={apiEndpoint.properties.public_url}
+          />
           <A href={apiEndpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
         </TableColumn>
         <TableColumn>
-          <Caption>{apiEndpoint.properties.methods && apiEndpoint.properties.methods.join(',')}</Caption>
+          <Caption small>
+            {apiEndpoint.properties.methods &&
+              apiEndpoint.properties.methods.length > 0 &&
+              apiEndpoint.properties.methods.map(m => <div>{m}</div>)}
+          </Caption>
         </TableColumn>
         <TableColumn numeric>
           {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.enabled && apiEndpoint.properties.plugins.rateLimit.perMinute}
         </TableColumn>
-        <TableColumn>
+        <TableColumn numeric>
           {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled && <FontIcon>checked</FontIcon>}
         </TableColumn>
         <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
@@ -80,9 +73,7 @@ class apiEndpointItem extends PureComponent {
           visible={count > 0}
           contextualTitle={`${count} endpoint${count > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={() => this.props.onDeleteToggle()} />]}
-        >
-          <div>{this.renderCreateButton()}</div>
-        </TableCardHeader>
+        />
         {this.props.pending && <LinearProgress id="apiEndpoint-listing" />}
         <DataTable baseId="apiEndpoints" onRowToggle={this.handleRowToggle}>
           {this.props.model.length > 0 &&
@@ -107,4 +98,4 @@ class apiEndpointItem extends PureComponent {
   }
 }
 
-export default apiEndpointItem;
+export default APIEndpointItem;

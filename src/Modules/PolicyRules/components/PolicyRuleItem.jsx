@@ -1,18 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Card from 'react-md/lib/Cards/Card';
+import { Card, LinearProgress } from 'react-md';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
 import { DeleteIconButton } from 'components/Buttons';
 import { truncate } from 'util/helpers/strings';
-import policyTypes from '../lists/policyTypes';
 
 class PolicyRuleItem extends PureComponent {
   static propTypes = {
     onEditToggle: PropTypes.func.isRequired,
-    onCreateToggle: PropTypes.func.isRequired,
     onDeleteToggle: PropTypes.func.isRequired,
     model: PropTypes.array.isRequired,
     tableManager: PropTypes.object.isRequired,
@@ -29,32 +24,6 @@ class PolicyRuleItem extends PureComponent {
     const { model, tableActions, tableManager } = this.props;
 
     tableActions.handleTableSelected(row, toggled, count, model, tableManager.tableSelected.items);
-  }
-
-  renderCreateMenuItems() {
-    return policyTypes.map(type => (
-      <ListItem
-        key={type.value}
-        primaryText={type.displayName}
-        onClick={() => this.props.onCreateToggle(type)}
-      />)
-    );
-  }
-
-  renderCreateButton() {
-    return (
-      <MenuButton
-        id="create-policyRule"
-        label="Create Policy Rule"
-        flat
-        primary
-        fullWidth
-        position="below"
-        iconChildren="add"
-      >
-        {this.renderCreateMenuItems()}
-      </MenuButton>
-    );
   }
 
   render() {
@@ -78,9 +47,7 @@ class PolicyRuleItem extends PureComponent {
           visible={count > 0}
           contextualTitle={`${count} policy rule${count > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
-        >
-          <div>{this.renderCreateButton()}</div>
-        </TableCardHeader>
+        />
         {this.props.policyRulesPending && <LinearProgress id="policyRule-listing" />}
         <DataTable baseId="policyRules" onRowToggle={this.handleRowToggle}>
           {this.props.model.length > 0 &&

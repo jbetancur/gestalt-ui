@@ -50,8 +50,14 @@ const ContainerForm = (props) => {
     props.editMode ? (props.containerPending || props.invalid || props.submitting)
       : (props.pristine || props.containerPending || props.invalid || props.submitting);
 
-  const hasInstances = props.editMode && container.properties.instances && container.properties.instances.length > 0;
-  const hasServiceAddresses = props.editMode && container.properties.service_addresses && container.properties.service_addresses.length > 0;
+  const hasInstances =
+    props.editMode &&
+    container.properties.instances &&
+    container.properties.instances.length > 0;
+  const hasServiceAddresses =
+    props.editMode &&
+    container.properties.port_mappings &&
+    container.properties.port_mappings.length > 0;
 
   return (
     <div>
@@ -244,7 +250,7 @@ const ContainerForm = (props) => {
                         <Field
                           component={TextField}
                           name="description"
-                          label="Description"
+                          placeholder="Description"
                           type="text"
                           rows={1}
                         />
@@ -269,7 +275,7 @@ const ContainerForm = (props) => {
                       </Col>}
                     {hasServiceAddresses &&
                       <Col flex={6} xs={12} sm={12}>
-                        <Panel title={`Service Instances (${container.properties.port_mappings.length})`} noPadding>
+                        <Panel title="Service Instances" noPadding>
                           <ContainerServiceAddresses
                             containerModel={props.container}
                           />
