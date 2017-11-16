@@ -11,6 +11,7 @@ import SelectField from 'components/SelectField';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
+import { Panel } from 'components/Panels';
 import { nameMaxLen } from '../validations';
 
 const APIForm = (props) => {
@@ -61,11 +62,22 @@ const APIForm = (props) => {
               >
                 {submitLabel}
               </Button>
+              {editMode && api.id &&
+              <Button
+                id="add-endpoint"
+                raised
+                primary
+                component={Link}
+                to={`${match.url}/apiendpoints/create`}
+                iconChildren="link"
+              >
+                Add Endpoint
+              </Button>}
             </ActionsToolbar>
             {(apiPending || apiUpdatePending) && <LinearProgress id="api-form" />}
             <CardText>
               <Row gutter={5}>
-                <Col flex={4} xs={12}>
+                <Col flex={6} xs={12}>
                   <Field
                     id="select-provider"
                     component={SelectField}
@@ -92,28 +104,28 @@ const APIForm = (props) => {
 
                     menuItems={selectedProviderLocations()}
                   /> : null} */}
-                <Row gutter={5}>
-                  <Col flex={4} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="name"
-                      label="Name"
-                      type="text"
-                      required
-                      maxLength={nameMaxLen}
-                      disabled={editMode}
-                    />
-                  </Col>
-                  <Col flex={8} xs={12}>
+                <Col flex={6} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="name"
+                    label="Name"
+                    type="text"
+                    required
+                    maxLength={nameMaxLen}
+                    disabled={editMode}
+                  />
+                </Col>
+                <Col flex={12}>
+                  <Panel title="Description" defaultExpanded={!!api.description}>
                     <Field
                       component={TextField}
                       name="description"
-                      label="Description"
+                      placeholder="Description"
                       type="text"
                       rows={1}
                     />
-                  </Col>
-                </Row>
+                  </Panel>
+                </Col>
               </Row>
             </CardText>
           </Col>

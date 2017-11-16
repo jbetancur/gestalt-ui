@@ -25,7 +25,7 @@ export default class RateLimit extends PureComponent {
   render() {
     return (
       <div className={this.props.className}>
-        <Row gutter={5}>
+        <Row>
           <Col flex={3} xs={12}>
             <Field
               id="show-rate-limits"
@@ -37,7 +37,7 @@ export default class RateLimit extends PureComponent {
             />
           </Col>
           {this.props.isToggled &&
-          <Col flex={3} xs={12}>
+          <Col flex={2} xs={12}>
             <Field
               component={TextField}
               name={this.props.perMinuteName}
@@ -48,7 +48,6 @@ export default class RateLimit extends PureComponent {
               type="number"
               required
               parse={value => Number(value)} // redux form formats everything as string, so force number
-              helpText="Accesses per minute allowed for this endpoint"
             />
           </Col>}
         </Row>

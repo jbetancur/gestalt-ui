@@ -32,12 +32,6 @@ class PolicyRuleListing extends PureComponent {
     unloadPolicyRules();
   }
 
-  create = (type) => {
-    const { match, history } = this.props;
-
-    history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/rules/create${type.name}Rule`);
-  }
-
   edit = (policyRule, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
@@ -68,7 +62,6 @@ class PolicyRuleListing extends PureComponent {
       <PolicyRuleItem
         model={this.props.policyRules}
         pending={this.props.policyRulesPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

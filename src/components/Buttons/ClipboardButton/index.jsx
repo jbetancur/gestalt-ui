@@ -1,12 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from 'react-md/lib/Buttons/Button';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-const EnhancedButton = styled(Button)`
+const EnhancedButton = styled(Button) `
   text-transform: none;
   vertical-align: middle;
+
+  ${props => props.inLink && css`
+    height: 20px;
+    width: 24px;
+    padding: 1px;
+
+    i {
+      font-size: 16px!important;
+    }
+
+    &:hover {
+      background: none!important;
+    }
+  `};
 `;
 
 class ClipboardButton extends PureComponent {
@@ -14,13 +28,15 @@ class ClipboardButton extends PureComponent {
     text: PropTypes.string.isRequired,
     tooltipLabel: PropTypes.string,
     tooltipPosition: PropTypes.string,
-    showUUID: PropTypes.bool,
+    showLabel: PropTypes.bool,
+    inLink: PropTypes.bool,
   };
 
   static defaultProps = {
     tooltipLabel: '',
     tooltipPosition: 'bottom',
-    showUUID: true,
+    showLabel: true,
+    inLink: false,
   };
 
   render() {
@@ -30,10 +46,11 @@ class ClipboardButton extends PureComponent {
           iconChildren="content_copy"
           tooltipPosition={this.props.tooltipPosition}
           tooltipLabel={this.props.tooltipLabel}
-          flat={this.props.showUUID}
-          icon={!this.props.showUUID}
+          flat={this.props.showLabel}
+          icon={!this.props.showLabel}
+          inLink={this.props.inLink}
         >
-          {this.props.showUUID && this.props.text}
+          {this.props.showLabel && this.props.text}
         </EnhancedButton>
       </CopyToClipboard>
     );

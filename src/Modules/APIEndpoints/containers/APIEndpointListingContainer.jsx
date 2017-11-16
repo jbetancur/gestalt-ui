@@ -48,12 +48,6 @@ class APIEndpointList extends Component {
     }, names);
   }
 
-  create = () => {
-    const { match, history } = this.props;
-
-    history.push(`${match.url}/apiendpoints/create`);
-  }
-
   edit = (apiEndpoint, e) => {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
@@ -70,7 +64,6 @@ class APIEndpointList extends Component {
       <APIEndpointItem
         model={this.props.apiEndpoints}
         pending={this.props.apiEndpointsPending}
-        onCreateToggle={this.create}
         onEditToggle={this.edit}
         onDeleteToggle={this.delete}
         {...this.props}

@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import { Field, getFormValues } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { Card, CardTitle, CardText, LinearProgress, SelectField as MDSelectField } from 'react-md';
 import TextField from 'components/TextField';
 import SelectField from 'components/SelectField';
-import MDSelectField from 'react-md/lib/SelectFields';
 import Checkbox from 'components/Checkbox';
 import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -88,7 +87,6 @@ const LambdaForm = (props) => {
                         }}
                         target="_blank"
                         component={Link}
-                        showUUID
                       >
                         View Log
                       </Button>,
@@ -146,7 +144,7 @@ const LambdaForm = (props) => {
                     <Field
                       component={TextField}
                       name="description"
-                      label="Description"
+                      placeholder="Description"
                       type="text"
                       rows={1}
                       maxLength={descriptionMaxLen}
@@ -314,7 +312,7 @@ const LambdaForm = (props) => {
                           name="properties.public"
                           // TODO: Find out why redux-form state for bool doesn't apply
                           checked={values.properties.public}
-                          label="Make Public"
+                          label="Public"
                         />
                       </Col>
                     </Row>

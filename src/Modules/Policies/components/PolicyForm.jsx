@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { Card, CardTitle, CardText, LinearProgress, MenuButton, ListItem } from 'react-md';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import TextField from 'components/TextField';
 import DetailsPane from 'components/DetailsPane';
+import { Panel } from 'components/Panels';
 import { PolicyRules } from 'Modules/PolicyRules';
 import { nameMaxLen } from '../validations';
+import policyTypes from '../lists/policyTypes';
 
 const PolicyForm = (props) => {
   const {
@@ -26,6 +28,16 @@ const PolicyForm = (props) => {
     title,
     editMode,
   } = props;
+
+  const ruleTypes = () => (
+    policyTypes.map(type => (
+      <ListItem
+        key={type.value}
+        primaryText={type.displayName}
+        component={Link}
+        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}/rules/create${type.name}Rule`}
+      />)
+    ));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -57,6 +69,18 @@ const PolicyForm = (props) => {
             >
               {submitLabel}
             </Button>
+            {policy.id &&
+              <MenuButton
+                id="add-policyRule"
+                raised
+                primary
+                position="below"
+                menuItems={ruleTypes()}
+                iconChildren="playlist_add_check"
+                style={{ marginLeft: '.1em' }}
+              >
+                Add Policy Rule
+              </MenuButton>}
           </ActionsToolbar>
           {policyPending && <LinearProgress id="policy-form" />}
           <CardText>
@@ -72,14 +96,16 @@ const PolicyForm = (props) => {
                   autoComplete="none"
                 />
               </Col>
-              <Col flex={7} xs={12}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  rows={1}
-                />
+              <Col flex={12}>
+                <Panel title="Description" defaultExpanded={!!policy.description}>
+                  <Field
+                    component={TextField}
+                    name="description"
+                    placeholder="Description"
+                    type="text"
+                    rows={1}
+                  />
+                </Panel>
               </Col>
             </Row>
           </CardText>

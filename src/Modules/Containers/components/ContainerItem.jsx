@@ -8,6 +8,7 @@ import { withTableManager } from 'Modules/TableManager';
 import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import StatusBubble from 'components/StatusBubble';
+import { ClipboardButton } from 'components/Buttons';
 import { parseChildClass, truncate } from 'util/helpers/strings';
 import ActionsModals from '../ActionModals';
 import ContainerActions from './ContainerActions';
@@ -37,8 +38,13 @@ class ContainerItem extends PureComponent {
 
   renderAPIEndpoints(container) {
     return container.properties.apiEndpoints.map(endpoint => (
-      <div key={endpoint.id} >
-        <A href={endpoint.properties.public_url} bubble target="_blank" rel="noopener noreferrer">
+      <div key={endpoint.id}>
+        <ClipboardButton
+          showLabel={false}
+          text={endpoint.properties.public_url}
+          inLink
+        />
+        <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
           {endpoint.properties.public_url}
         </A>
       </div>
