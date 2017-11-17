@@ -27,6 +27,20 @@ export default {
   ],
   Kubernetes: [
     {
+      type: 'host',
+      displayName: 'Host',
+      modes: [
+        {
+          mode: 'RO',
+          displayName: 'Read Only',
+        },
+        {
+          mode: 'RW',
+          displayName: 'Read/Write',
+        }
+      ],
+    },
+    {
       type: 'persistent',
       displayName: 'Persistent',
       modes: [

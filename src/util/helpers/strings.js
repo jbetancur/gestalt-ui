@@ -16,9 +16,12 @@ export function getParentFQON(organization) {
  * @param {String} string
  */
 export function getLastFromSplit(string, delimiter = '::') {
-  const split = string.split(delimiter);
+  if (string) {
+    const split = string.split(delimiter);
 
-  return split[split.length - 1];
+    return split[split.length - 1];
+  }
+  return string;
 }
 
 /**

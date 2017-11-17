@@ -22,13 +22,18 @@ export default (values, props) => {
     errors.container_path = ' ';
   }
 
+  if (values.host_path &&
+    !isURL(values.host_path, { require_protocol: false, require_host: false, require_valid_protocol: false })) {
+    errors.host_path = 'the path must be absolute';
+  }
+
   if (props.providerType !== 'DCOS' &&
     values.container_path &&
     !isURL(values.container_path, { require_protocol: false, require_host: false, require_valid_protocol: false })) {
-    errors.container_path = 'the directory path must be absolute';
+    errors.container_path = 'the path must be absolute';
   } else if (props.providerType === 'DCOS' &&
     (values.container_path && values.container_path.charAt(0) === '/')) {
-    errors.container_path = 'the directory path must be relative';
+    errors.container_path = 'the path must be relative';
   }
 
   if (!values.name) {

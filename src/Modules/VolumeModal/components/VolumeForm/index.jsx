@@ -87,7 +87,7 @@ const VolumeForm = (props) => {
               label="Volume Name"
               component={TextField}
               helpText="The name is used to identify the volume to attach to the container"
-              required
+              required={values.type === 'persistent'}
             />
           </Col>
         </Row>}
