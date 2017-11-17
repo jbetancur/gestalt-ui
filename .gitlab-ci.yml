@@ -15,6 +15,8 @@ cache:
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
   CI_URL: https://gtw1.test.galacticfog.com/cd/ui-review-deploy
+  TEST_DOMAIN: test.galacticfog.com
+  CLUSTER_URL: marathon.mesos:8080
 
 test:
   stage: test
