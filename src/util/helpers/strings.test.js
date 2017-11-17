@@ -25,6 +25,10 @@ describe('Util Transformations', () => {
 
       expect(getLastFromSplit(string, ',')).to.equal('String!');
     });
+
+    it('should not return anything if no string is provided', () => {
+      expect(getLastFromSplit(null)).to.equal(null);
+    });
   });
 
   describe('truncate function', () => {
