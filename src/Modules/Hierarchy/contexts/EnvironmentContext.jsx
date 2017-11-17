@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
-import EnvironmentNav from '../components/EnvironmentNav';
-import EnvironmentHeader from '../components/EnvironmentHeader';
+import EnvironmentNav from '../containers/EnvironmentNav';
+import EnvironmentHeader from '../containers/EnvironmentHeader';
 
 class EnvironmentContext extends Component {
   static propTypes = {

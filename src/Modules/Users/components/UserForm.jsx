@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
-import SelectField from 'components/SelectField';
 import PreventAutoFill from 'components/PreventAutoFill';
 import { usernameMaxLen } from '../validations';
 

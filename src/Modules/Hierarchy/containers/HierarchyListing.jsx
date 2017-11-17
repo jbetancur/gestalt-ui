@@ -7,7 +7,7 @@ import { Row, Col } from 'react-flexybox';
 import ActivityContainer from 'components/ActivityContainer';
 import DotActivity from 'components/DotActivity';
 import { Button } from 'components/Buttons';
-import Sort from './Sort';
+import Sort from '../components/Sort';
 import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
 import EnvironmentCard from './EnvironmentCard';

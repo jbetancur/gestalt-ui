@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { Field, FieldArray } from 'redux-form';
+import { TextField } from 'components/ReduxFormFields';
 import { Button, FieldRemoveButton } from 'components/Buttons';
-import TextField from 'components/TextField';
 import PreventAutoFill from 'components/PreventAutoFill';
 
 const PasswordTextField = styled(TextField)`

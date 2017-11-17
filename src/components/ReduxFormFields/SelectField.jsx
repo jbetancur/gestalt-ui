@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SelectField from 'react-md/lib/SelectFields';
+import { SelectField } from 'react-md';
 import DotActivity from 'components/DotActivity';
 
 const Div = styled.div`

@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FormattedDate } from 'react-intl';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
+import { TextField } from 'components/ReduxFormFields';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
 import { ModalFooter } from 'components/Modal';

@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from 'react-md/lib/TextFields';
+import { TextField } from 'react-md';
 
 /* eslint-disable react/prop-types */
 export default (props) => {

@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import SelectField from 'react-md/lib/SelectFields';
-import FontIcon from 'react-md/lib/FontIcons';
+import { SelectField, FontIcon } from 'react-md';
 import { Button } from 'components/Buttons';
 
 const SortOrderButton = styled(Button)`

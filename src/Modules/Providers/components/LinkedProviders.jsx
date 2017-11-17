@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field, FieldArray } from 'redux-form';
-import FieldRemoveButton from 'components/Buttons/FieldRemoveButton';
-import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
-import SelectField from 'components/SelectField';
+import { FieldRemoveButton, Button } from 'components/Buttons';
+import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 
 const renderLinkedProviders = ({ fields, touched, error, providersModel }) => (

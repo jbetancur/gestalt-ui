@@ -1,19 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { differenceBy, debounce } from 'lodash';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
-import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { Card, CardTitle, CardText, LinearProgress, List, ListItem, FontIcon, TextField as TextFieldMD } from 'react-md';
 import ActionsToolbar from 'components/ActionsToolbar';
-import TextField from 'components/TextField';
-import List from 'react-md/lib/Lists/List';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import CardSubHeader from 'components/CardSubHeader';
-import FontIcon from 'react-md/lib/FontIcons';
-import TextFieldMD from 'react-md/lib/TextFields';
+import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import { differenceBy, debounce } from 'lodash';
+import CardSubHeader from './CardSubHeader';
 import { nameMaxLen } from '../validations';
 
 const MembersList = styled(List)`

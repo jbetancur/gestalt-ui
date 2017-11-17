@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import SelectField from 'components/SelectField';
-import TextField from 'components/TextField';
+import { SelectField, TextField } from 'components/ReduxFormFields';
 import PreventAutoFill from 'components/PreventAutoFill';
 
 const SecuritySection = props => (

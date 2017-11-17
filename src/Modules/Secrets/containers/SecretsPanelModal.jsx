@@ -89,5 +89,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, actions)(reduxForm({
-  form: 'secretCreate',
+  form: 'secretCreateModal',
 })(withMetaResource(withRouter(SecretPanelModal))));

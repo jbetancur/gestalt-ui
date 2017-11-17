@@ -4,16 +4,12 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field, getFormValues } from 'redux-form';
-import Card from 'react-md/lib/Cards/Card';
-import CardTitle from 'react-md/lib/Cards/CardTitle';
-import CardActions from 'react-md/lib/Cards/CardActions';
-import CardText from 'react-md/lib/Cards/CardText';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
-import SelectField from 'components/SelectField';
+import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
-import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { Panel } from 'components/Panels';
 import { VariablesForm } from 'Modules/Variables';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
 import { parseChildClass } from 'util/helpers/strings';
@@ -51,12 +47,31 @@ const SecretForm = (props) => {
         </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12}>
-          <CardTitle
-            title={title}
-          />
+          <CardTitle title={title} />
+          <ActionsToolbar>
+            <Button
+              flat
+              iconChildren="arrow_back"
+              disabled={secretPending || submitting}
+              component={Link}
+              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
+            >
+              {cancelLabel}
+            </Button>
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={pristine || secretPending || invalid || submitting}
+              primary
+            >
+              {submitLabel}
+            </Button>
+          </ActionsToolbar>
+          {secretPending && <LinearProgress id="secret-form" />}
           <CardText>
             <Row gutter={5}>
-              <Col flex={12}>
+              <Col flex={6} xs={12}>
                 <Field
                   id="select-provider"
                   component={SelectField}
@@ -66,14 +81,13 @@ const SecretForm = (props) => {
                   itemValue="id"
                   menuItems={getProviders()}
                   async
-                  onFocus={() => props.fetchProvidersByType(props.match.params.fqon, match.params.environmentId, 'environments', 'CaaS')}
                   disabled={secret.id}
                   onChange={() => reset()}
                   required
                 />
               </Col>
 
-              <Col flex={5} xs={12}>
+              <Col flex={6} xs={12}>
                 <Field
                   component={TextField}
                   name="name"
@@ -85,19 +99,21 @@ const SecretForm = (props) => {
                 />
               </Col>
 
-              <Col flex={7} xs={12}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  rows={1}
-                />
+              <Col flex={12}>
+                <Panel title="Description" defaultExpanded={!!secret.description}>
+                  <Field
+                    component={TextField}
+                    name="description"
+                    placeholder="Description"
+                    type="text"
+                    rows={1}
+                  />
+                </Panel>
               </Col>
 
               {selectedProvider.id && isMultiPartSecret &&
                 <Col flex={12}>
-                  <Fieldset legend="Secret Items" style={{ minHeight: '16em' }}>
+                  <Panel title="Secret Items">
                     <VariablesForm
                       allowSingleItemOnly
                       addButtonLabel="Secret Item"
@@ -110,7 +126,7 @@ const SecretForm = (props) => {
                       keyFieldValidationMessage={`allowed format: ${secretKeyValidationPattern}`}
                       disabled={secret.id}
                     />
-                  </Fieldset>
+                  </Panel>
                 </Col>}
 
               {selectedProvider.id && !isMultiPartSecret &&
@@ -140,25 +156,6 @@ const SecretForm = (props) => {
                 </Row>}
             </Row>
           </CardText>
-          {secretPending && <LinearProgress id="secret-form" />}
-          <CardActions>
-            <Button
-              flat
-              disabled={secretPending || submitting}
-              component={Link}
-              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              type="submit"
-              disabled={pristine || secretPending || invalid || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
-          </CardActions>
         </Col>
       </Row>
     </form>
@@ -176,7 +173,6 @@ SecretForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
   providersByType: PropTypes.array.isRequired,
-  fetchProvidersByType: PropTypes.func.isRequired,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   values: PropTypes.object.isRequired,

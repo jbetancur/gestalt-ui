@@ -15,8 +15,7 @@ export default (values, props) => {
     },
   };
 
-
-  if (values.properties.provider && !values.properties.provider.id) {
+  if (values.properties && values.properties.provider && !values.properties.provider.id) {
     errors.properties.provider.id = 'a caas provider is required';
   }
 

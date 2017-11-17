@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import TextField from 'components/TextField';
+import { TextField } from 'components/ReduxFormFields';
 
 const URLConfigSection = () => (
   <Row gutter={5}>

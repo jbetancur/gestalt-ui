@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import WorkspaceNav from '../components/WorkspaceNav';
-import WorkspaceHeader from '../components/WorkspaceHeader';
+import WorkspaceNav from '../containers/WorkspaceNav';
+import WorkspaceHeader from '../containers/WorkspaceHeader';
 
 class WorkspaceContext extends PureComponent {
   static propTypes = {
