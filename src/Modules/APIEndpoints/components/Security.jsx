@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 // import FontIcon from 'react-md/lib/FontIcons';
-import Checkbox from 'components/Checkbox';
+import { Checkbox } from 'components/ReduxFormFields';
 // import Autocomplete from 'react-md/lib/Autocompletes';
 // import List from 'react-md/lib/Lists/List';
 // import ListItem from 'react-md/lib/Lists/ListItem';

@@ -7,9 +7,7 @@ import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
-import TextField from 'components/TextField';
-import SelectField from 'components/SelectField';
-import Checkbox from 'components/Checkbox';
+import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import { VariablesForm } from 'Modules/Variables';
 import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
 import { PortMapModal, PortMapListing } from 'Modules/PortMappingModal';
@@ -45,7 +43,7 @@ const ContainerForm = (props) => {
   // TODO: Remove when Kubernetes/Docker when api is ready
   const providerType = parseChildClass(selectedProvider.resource_type);
   const isHealthChecksEnabled = providerType !== 'Docker';
-  const isSecretsEnabled = providerType === 'Kubernetes' || selectedProvider.properties.config.secret_support;
+  const isSecretsEnabled = providerType !== 'Docker' || selectedProvider.properties.config.secret_support;
   const isSubmitDisabled =
     props.editMode ? (props.containerPending || props.invalid || props.submitting)
       : (props.pristine || props.containerPending || props.invalid || props.submitting);

@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import { Field, getFormValues, change } from 'redux-form';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
-import SelectField from 'components/SelectField';
+import { SelectField, TextField } from 'components/ReduxFormFields';
 import { ModalFooter } from 'components/Modal';
 
 const required = value => (value ? undefined : ' ');

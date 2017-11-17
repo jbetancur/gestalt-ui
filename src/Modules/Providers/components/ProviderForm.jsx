@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { Field, getFormValues, isInvalid } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
-import TextField from 'components/TextField';
-import SelectField from 'components/SelectField';
+import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import HelpText from 'components/HelpText';
+import { Caption } from 'components/Typography';
 import { ContainerCreate, ContainerEdit, ContainerActions } from 'Modules/Containers';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
@@ -229,7 +228,7 @@ const ProviderForm = (props) => {
           <Row gutter={5}>
             <Col flex={12}>
               <Panel title="Container Specification">
-                <HelpText message={`The provider type ${selectedProviderType.displayName} requires a container`} />
+                <Caption light>{`The provider type ${selectedProviderType.displayName} requires a container`}</Caption>
                 {props.editMode ?
                   <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode /> : <ContainerCreate inlineMode />}
               </Panel>

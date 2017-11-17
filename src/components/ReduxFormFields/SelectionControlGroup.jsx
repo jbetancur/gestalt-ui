@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectionControlGroup } from 'react-md/lib/SelectionControls';
+import { SelectionControlGroup } from 'react-md';
 
 /* eslint-disable react/prop-types */
 export default ({ input, meta: { touched, error }, ...others }) => (

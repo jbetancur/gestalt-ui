@@ -7,7 +7,7 @@ import { Users, UserCreate, UserEdit } from 'Modules/Users';
 import { Groups, GroupCreate, GroupEdit } from 'Modules/Groups';
 import { ResourceTypeListing } from 'Modules/ResourceTypes';
 // import { MicroModeler } from 'Modules/MicroModeler';';
-import HierarchyListing from '../components/HierarchyListing';
+import HierarchyListing from '../containers/HierarchyListing';
 import withModalRouter from './withModalRouter';
 
 const HierarchyRoutes = ({ location, previousLocation, isModal }) => (

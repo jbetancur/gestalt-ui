@@ -7,8 +7,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, LinearProgress, Autocomplete } from 'react-md';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
-import CheckboxForm from 'components/Checkbox';
+import { TextField, Checkbox } from 'components/ReduxFormFields';
 import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
 import { nameMaxLen } from './validations';
@@ -135,7 +134,7 @@ const PolicyEventRuleForm = (props) => {
                           <Field
                             key={action.name}
                             id={action.name}
-                            component={CheckboxForm}
+                            component={Checkbox}
                             label={action.name}
                             checked={!!selectedActions.find(a => a === action.name)}
                             name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values

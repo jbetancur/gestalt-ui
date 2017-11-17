@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import A from './index';
+import A from './A';
 
 const wrapper = shallow(<A />);
 

@@ -6,12 +6,12 @@ import NotFound from 'components/NotFound';
 import HierarchyContext from '../contexts/HierarchyContext';
 import WorkspaceContext from '../contexts/WorkspaceContext';
 import EnvironmentContext from '../contexts/EnvironmentContext';
-import OrganizationCreate from '../components/OrganizationCreate';
-import OrganizationEdit from '../components/OrganizationEdit';
-import WorkspaceCreate from '../components/WorkspaceCreate';
-import EnvironmentCreate from '../components/EnvironmentCreate';
-import EnvironmentEdit from '../components/EnvironmentEdit';
-import WorkspaceEdit from '../components/WorkspaceEdit';
+import OrganizationCreate from '../containers/OrganizationCreate';
+import OrganizationEdit from '../containers/OrganizationEdit';
+import WorkspaceCreate from '../containers/WorkspaceCreate';
+import EnvironmentCreate from '../containers/EnvironmentCreate';
+import EnvironmentEdit from '../containers/EnvironmentEdit';
+import WorkspaceEdit from '../containers/WorkspaceEdit';
 import withModalRouter from './withModalRouter';
 
 // Routing Structure. Order is important here

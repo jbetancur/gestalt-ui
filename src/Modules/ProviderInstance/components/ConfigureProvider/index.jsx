@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import TextField from 'react-md/lib/TextFields';
 // import SelectField from 'react-md/lib/SelectFields';
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
-import DataTable from 'react-md/lib/DataTables/DataTable';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
-import TableBody from 'react-md/lib/DataTables/TableBody';
-import TableRow from 'react-md/lib/DataTables/TableRow';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
-import FontIcon from 'react-md/lib/FontIcons';
+import { TextField, Checkbox, DataTable, TableHeader, TableBody, TableRow, TableColumn, FontIcon } from 'react-md';
 // import Divider from 'react-md/lib/Dividers';
 import AceEditor from 'components/AceEditor';
 import { Button } from 'components/Buttons';

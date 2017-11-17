@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'redux-form';
-import Checkbox from 'components/Checkbox';
-import TextField from 'components/TextField';
+import { Checkbox, TextField } from 'components/ReduxFormFields';
 
 export default class RateLimit extends PureComponent {
   static propTypes = {

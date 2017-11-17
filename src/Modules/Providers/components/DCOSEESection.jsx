@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import Fieldset from 'components/Fieldset';
-import Checkbox from 'components/Checkbox';
-import TextField from 'components/TextField';
+import { Checkbox, TextField } from 'components/ReduxFormFields';
 
 const DCOSEESection = props => (
   <Fieldset legend="Enterprise Edition">

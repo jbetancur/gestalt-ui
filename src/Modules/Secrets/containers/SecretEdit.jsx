@@ -9,6 +9,7 @@ import SecretForm from '../components/SecretForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateSecretPatches } from '../payloadTransformer';
+import { getEditSecretModel } from '../selectors';
 
 class SecretEdit extends Component {
   static propTypes = {
@@ -19,7 +20,6 @@ class SecretEdit extends Component {
     fetchProvidersByType: PropTypes.func.isRequired,
     updateSecret: PropTypes.func.isRequired,
     secretPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     unloadSecret: PropTypes.func.isRequired,
   };
 
@@ -41,6 +41,7 @@ class SecretEdit extends Component {
     const patches = generateSecretPatches(secret, values);
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`);
+
     updateSecret(match.params.fqon, secret.id, patches, onSuccess);
   }
 
@@ -54,7 +55,7 @@ class SecretEdit extends Component {
           <SecretForm
             title={secret.name}
             submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+            cancelLabel="Secrets"
             onSubmit={values => this.updateSecret(values)}
             {...this.props}
           />}
@@ -64,18 +65,8 @@ class SecretEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { secret } = state.metaResource.secret;
-  const model = {
-    name: secret.name,
-    description: secret.description,
-    properties: {
-      provider: secret.properties.provider,
-      items: secret.properties.items,
-    },
-  };
-
   return {
-    initialValues: model,
+    initialValues: getEditSecretModel(state),
   };
 }
 

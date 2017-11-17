@@ -5,7 +5,7 @@ import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
+import { TextField } from 'components/ReduxFormFields';
 import { GestaltIcon } from 'components/Icons';
 import { APP_TITLE } from '../../../../constants';
 

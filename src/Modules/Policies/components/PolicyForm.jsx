@@ -6,7 +6,7 @@ import { Field } from 'redux-form';
 import { Card, CardTitle, CardText, LinearProgress, MenuButton, ListItem } from 'react-md';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
-import TextField from 'components/TextField';
+import { TextField } from 'components/ReduxFormFields';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { PolicyRules } from 'Modules/PolicyRules';
