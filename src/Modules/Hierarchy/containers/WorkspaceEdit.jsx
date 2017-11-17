@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
-import HierarchyForm from '../containers/HierarchyForm';
+import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
 

@@ -8,7 +8,7 @@ import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';
 import { Caption } from 'components/Typography';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
-import { parseChildClass } from 'util/helpers/strings';
+import { getLastFromSplit } from 'util/helpers/strings';
 
 class APIEndpointItem extends PureComponent {
   static propTypes = {
@@ -38,7 +38,7 @@ class APIEndpointItem extends PureComponent {
     const endpoints = getTableSortedItems(model, 'created.timestamp').map(apiEndpoint => (
       <TableRow key={apiEndpoint.id} onClick={e => this.props.onEditToggle(apiEndpoint, e)}>
         <TableColumn>
-          <StatusBubble status={parseChildClass(apiEndpoint.resource_state)} />
+          <StatusBubble status={getLastFromSplit(apiEndpoint.resource_state)} />
         </TableColumn>
         <TableColumn>
           <ClipboardButton

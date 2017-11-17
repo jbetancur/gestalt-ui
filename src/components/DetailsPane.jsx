@@ -9,7 +9,7 @@ import Label from 'components/Label';
 import { H4 } from 'components/Typography';
 import StatusBubble from 'components/StatusBubble';
 import { ClipboardButton } from 'components/Buttons';
-import { parseChildClass } from 'util/helpers/strings';
+import { getLastFromSplit } from 'util/helpers/strings';
 
 const CardStyle = styled(Card) `
   ${props => props.noShadow && 'box-shadow: none'};
@@ -81,7 +81,7 @@ const DetailPane = (props) => {
             </div>
             <div>
               <Label>Resource State</Label>
-              <StatusBubble status={parseChildClass(model.resource_state)} />
+              <StatusBubble status={getLastFromSplit(model.resource_state)} />
             </div>
           </Col>
         </Row>

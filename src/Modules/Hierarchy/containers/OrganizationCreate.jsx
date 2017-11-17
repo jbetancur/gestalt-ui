@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { reduxForm } from 'redux-form';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
-import HierarchyForm from './HierarchyForm';
+import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPayload } from '../payloadTransformer';
 

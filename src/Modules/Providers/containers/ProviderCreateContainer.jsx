@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import { generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/context';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';

@@ -1,41 +1,35 @@
-// sad hack for parsing url
-
 /**
+ * getParentFQON
  * Extracts the fqon from an meta resource
  * @param {string} - meta resource
  */
 export function getParentFQON(organization) {
-  if (organization.org) {
-    const urlParser = document.createElement('a');
-    urlParser.href = organization.org.href;
-    return urlParser.pathname.replace('/', '').split('/')[0];
-  }
+  const urlParser = document.createElement('a');
+  urlParser.href = organization.org.href;
 
-  return organization;
+  return urlParser.pathname.replace('/', '').split('/')[0];
 }
 
 /**
+ * getLastFromSplit
  * Parses and returns the last item in a structure like GrandPareng::Parent::Child
  * @param {String} string
  */
-export function parseChildClass(string) {
-  if (string) {
-    const split = string.split('::');
-    return split[split.length - 1];
-  }
+export function getLastFromSplit(string, delimiter = '::') {
+  const split = string.split(delimiter);
 
-  return string;
+  return split[split.length - 1];
 }
 
 /**
- *
+ * truncate
  * @param {String} string
  * @param {Number} at
  * @param {String} trailing
  */
 export function truncate(string, at, trailing = '...') {
   if (string && string.length > at) {
-    return `${string.substring(0, at)}${trailing}`;
+    return `${string.substring(0, at).trim()}${trailing}`;
   }
 
   return string;
@@ -43,6 +37,6 @@ export function truncate(string, at, trailing = '...') {
 
 export default {
   getParentFQON,
-  parseChildClass,
+  getLastFromSplit,
   truncate,
 };

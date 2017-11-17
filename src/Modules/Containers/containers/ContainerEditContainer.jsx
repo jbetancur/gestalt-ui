@@ -6,12 +6,12 @@ import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import { generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/context';
 import { volumeModalActions } from 'Modules/VolumeModal';
 import { portmapModalActions } from 'Modules/PortMappingModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
 import { secretModalActions } from 'Modules/Secrets';
-import { parseChildClass } from 'util/helpers/strings';
+import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -66,7 +66,7 @@ class ContainerEdit extends Component {
       }
 
       // TODO: temporary until we support all providers
-      if (!this.secretsPolled && parseChildClass(nextProps.container.properties.provider.resource_type) !== 'Docker') {
+      if (!this.secretsPolled && getLastFromSplit(nextProps.container.properties.provider.resource_type) !== 'Docker') {
         this.secretsPolled = true;
         this.props.fetchSecretsDropDown(nextProps.match.params.fqon, nextProps.match.params.environmentId, nextProps.container.properties.provider.id);
       }

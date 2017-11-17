@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import { containerActionCreators } from 'Modules/Containers';
-import { generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/context';
 import ActivityContainer from 'components/ActivityContainer';
 import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';

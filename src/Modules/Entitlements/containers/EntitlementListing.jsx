@@ -8,7 +8,7 @@ import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
 import DotActivity from 'components/DotActivity';
-import { generateEntityState } from 'util/helpers/transformations';
+import { generateEntitlementEntityState } from 'util/helpers/context';
 import SearchFields from '../components/SearchFields';
 import EntitlementTree from '../components/EntitlementTree';
 import actions from './../actions';
@@ -42,7 +42,7 @@ class EntitlementListing extends Component {
 
   componentDidMount() {
     const { params, fetchEntitlements } = this.props;
-    const entity = generateEntityState(params);
+    const entity = generateEntitlementEntityState(params);
 
     fetchEntitlements(params.fqon, entity.id, entity.key, this.state.selectedIdentityId);
   }
@@ -53,7 +53,7 @@ class EntitlementListing extends Component {
 
   update = () => {
     const { params, fetchEntitlements, updateEntitlements, entitlements } = this.props;
-    const entity = generateEntityState(params);
+    const entity = generateEntitlementEntityState(params);
     const identity = this.state.selectedIdentityId;
 
     const entitlementActions = [];
@@ -69,7 +69,7 @@ class EntitlementListing extends Component {
 
   handleSelectedIdentity = (selectedIdentityId, selectedIdentity) => {
     const { params, fetchEntitlements } = this.props;
-    const entity = generateEntityState(params);
+    const entity = generateEntitlementEntityState(params);
 
     this.setState({
       selectedIdentityId,

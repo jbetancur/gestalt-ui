@@ -8,7 +8,7 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { MenuButton, ListItem, Divider } from 'react-md';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
-import { generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
 
 const ActionsWrapper = styled.div`

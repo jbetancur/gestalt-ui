@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withTableManager } from 'Modules/TableManager';
-import { generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/context';
 import ProviderItem from '../components/ProviderItem';
 import actions from '../actions';
 

@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import { getParentFQON } from 'util/helpers/strings';
-import HierarchyForm from './HierarchyForm';
+import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPatches } from '../payloadTransformer';
 
