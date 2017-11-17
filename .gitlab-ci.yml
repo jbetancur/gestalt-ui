@@ -106,7 +106,7 @@ review:
     - docker push                $DOCKER_IMG:$DOCKER_TAG
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG gitlab_env_url="$CI_ENVIRONMENT_URL"
+    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
   dependencies:
     - test
   environment:
@@ -119,7 +119,7 @@ review:
 stop_review:
   stage: review
   script:
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin "$CI_URL?entryPoint=stop" git_ref=$CI_COMMIT_REF_NAME
+    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin "$CI_URL?entryPoint=stop" gitlab_env_slug=$CI_ENVIRONMENT_SLUG 
   variables:
     GIT_STRATEGY: none
   environment:
