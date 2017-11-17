@@ -18,7 +18,7 @@ import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
 import AceEditor from 'components/AceEditor';
-import { parseChildClass } from 'util/helpers/strings';
+import { getLastFromSplit } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
@@ -41,7 +41,7 @@ const ContainerForm = (props) => {
     props.providersByType.find(provider => values.properties.provider.id === provider.id));
 
   // TODO: Remove when Kubernetes/Docker when api is ready
-  const providerType = parseChildClass(selectedProvider.resource_type);
+  const providerType = getLastFromSplit(selectedProvider.resource_type);
   const isHealthChecksEnabled = providerType !== 'Docker';
   const isSecretsEnabled = providerType !== 'Docker' || selectedProvider.properties.config.secret_support;
   const isSubmitDisabled =

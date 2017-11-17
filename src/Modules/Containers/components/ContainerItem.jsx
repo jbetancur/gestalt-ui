@@ -9,7 +9,7 @@ import A from 'components/A';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import StatusBubble from 'components/StatusBubble';
 import { ClipboardButton } from 'components/Buttons';
-import { parseChildClass, truncate } from 'util/helpers/strings';
+import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import ActionsModals from '../ActionModals';
 import ContainerActions from './ContainerActions';
 import ContainerIcon from './ContainerIcon';
@@ -54,7 +54,7 @@ class ContainerItem extends PureComponent {
   render() {
     const { model, tableActions, getTableSortedItems } = this.props;
     const containers = getTableSortedItems(model, 'name').map((container) => {
-      const providerType = parseChildClass(container.properties.provider.resource_type);
+      const providerType = getLastFromSplit(container.properties.provider.resource_type);
 
       return (
         <TableRow key={container.id} onClick={e => this.props.onEditToggle(container, e)}>

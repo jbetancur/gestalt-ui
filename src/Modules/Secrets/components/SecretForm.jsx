@@ -12,7 +12,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
 import { VariablesForm } from 'Modules/Variables';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
-import { parseChildClass } from 'util/helpers/strings';
+import { getLastFromSplit } from 'util/helpers/strings';
 import { nameMaxLen } from '../validations';
 
 const SecretForm = (props) => {
@@ -33,9 +33,9 @@ const SecretForm = (props) => {
   } = props;
 
   const getProviders = () => props.providersByType
-    .filter(item => parseChildClass(item.resource_type) === 'Kubernetes' || item.properties.config.secret_support);
+    .filter(item => getLastFromSplit(item.resource_type) === 'Kubernetes' || item.properties.config.secret_support);
   const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
-  const isMultiPartSecret = parseChildClass(selectedProvider.resource_type) === 'Kubernetes';
+  const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

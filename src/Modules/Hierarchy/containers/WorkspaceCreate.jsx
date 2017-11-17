@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
-import HierarchyForm from './HierarchyForm';
+import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePayload } from '../payloadTransformer';
 

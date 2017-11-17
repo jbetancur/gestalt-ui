@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
-import { generateContextEntityState } from 'util/helpers/transformations';
+import { generateContextEntityState } from 'util/helpers/context';
 import ContainerItem from '../components/ContainerItem';
 import actions from '../actions';
 
@@ -73,7 +73,6 @@ class ContainerListing extends PureComponent {
         model={this.props.containers}
         pending={this.props.containersPending}
         onEditToggle={this.edit}
-
         {...this.props}
       />
     );

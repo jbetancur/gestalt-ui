@@ -5,7 +5,7 @@ import Card from 'react-md/lib/Cards/Card';
 import LinearProgress from 'react-md/lib/Progress/LinearProgress';
 import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
-import { parseChildClass, truncate } from 'util/helpers/strings';
+import { getLastFromSplit, truncate } from 'util/helpers/strings';
 
 class ProviderItem extends PureComponent {
   static propTypes = {
@@ -36,7 +36,7 @@ class ProviderItem extends PureComponent {
       <TableRow key={provider.id} onClick={e => this.props.onEditToggle(provider, e)}>
         <TableColumn>{provider.name}</TableColumn>
         <TableColumn>{truncate(provider.description, 100)}</TableColumn>
-        <TableColumn>{provider.resource_type && parseChildClass(provider.resource_type)}</TableColumn>
+        <TableColumn>{provider.resource_type && getLastFromSplit(provider.resource_type)}</TableColumn>
         <TableColumn>{provider.properties.parent.name}</TableColumn>
         <TableColumn>{provider.owner.name}</TableColumn>
         <TableColumnTimestamp timestamp={provider.created.timestamp} />
