@@ -1,0 +1,9 @@
+{
+    "extends": "stylelint-config-standard",
+    "rules": {
+        "color-hex-case": "upper",
+        "string-quotes": "single",
+        "font-family-name-quotes": "single-where-recommended",
+        "indentation": 2
+    }
+}

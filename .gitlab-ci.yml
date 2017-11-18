@@ -26,7 +26,7 @@ test:
   artifacts:
     expire_in: 60 minutes
     paths:
-    - coverage/
+    - test/coverage/
 
 .deploy_template: &deploy_to_test
   stage: deploy
@@ -87,7 +87,7 @@ pages:
     - test
   script:
     - mkdir -p public
-    - cp -r coverage/PhantomJS*/lcov-report/* public/
+    - cp -r test/coverage/PhantomJS*/lcov-report/* public/
   artifacts:
     paths:
       - public
@@ -121,7 +121,7 @@ review:
 stop_review:
   stage: review
   script:
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin "$CI_URL?entryPoint=stop" gitlab_env_slug=$CI_ENVIRONMENT_SLUG 
+    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin "$CI_URL?entryPoint=stop" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
   variables:
     GIT_STRATEGY: none
   environment:

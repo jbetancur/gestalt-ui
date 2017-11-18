@@ -33,8 +33,6 @@ export const getEditSecretModel = createSelector(
       },
     };
 
-    console.log(model);
-
     return model;
   }
 );

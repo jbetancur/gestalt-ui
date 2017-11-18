@@ -13,7 +13,7 @@ const parts = require('./webpack.parts');
 const PATHS = {
   rootPath: path.join(__dirname, '../'),
   buildPath: path.join(__dirname, '../build'),
-  srcPath: path.join(__dirname, '../src')
+  srcPath: path.join(__dirname, '../src'),
 };
 
 const common = merge([
@@ -30,6 +30,7 @@ const common = merge([
         Modules: path.resolve(PATHS.srcPath, 'Modules'),
         util: path.resolve(PATHS.srcPath, 'util'),
         scss: path.resolve(PATHS.srcPath, 'scss'),
+        assets: path.resolve(PATHS.srcPath, 'assets'),
       },
     },
     output: {
@@ -145,7 +146,7 @@ module.exports = (env) => {
     parts.babelConfig(
       Object.assign(PATHS, {
         options: {
-          cacheDirectory: true
+          cacheDirectory: true,
         }
       })),
     common,

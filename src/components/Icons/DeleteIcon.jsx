@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import FontIcon from 'react-md/lib/FontIcons';
+import { FontIcon } from 'react-md';
 
 const Icon = styled(FontIcon)`
   // color: ${props => props.theme.removeIconColor} !important;

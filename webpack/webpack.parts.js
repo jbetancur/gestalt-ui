@@ -84,7 +84,7 @@ exports.scssConfig = ({ options, srcPath }) => (
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss-loader',
-                plugins: () => [autoprefixer]
+                plugins: [autoprefixer]
               }
             },
             {

@@ -1,4 +1,4 @@
-const webpackConfig = require('./webpack/webpack.config');
+const webpackConfig = require('../webpack/webpack.config');
 
 const webpack = webpackConfig();
 delete webpack.entry;
@@ -8,13 +8,18 @@ module.exports = (config) => {
     webpack,
     reporters: ['mocha', 'coverage'],
     files: [
-      'node_modules/babel-polyfill/dist/polyfill.js',
-      'src/all.tests.js',
+      '../src/test.helper.js',
     ],
     preprocessors: {
-      'src/all.tests.js': ['webpack', 'sourcemap'],
+      '../src/test.helper.js': ['webpack', 'sourcemap'],
     },
     browsers: ['PhantomJS'],
+    customLaunchers: {
+      FirefoxHeadless: {
+        base: 'Firefox',
+        flags: ['-headless'],
+      },
+    },
     browserConsoleLogOptions: {
       level: 'log',
       terminal: true,
@@ -24,7 +29,7 @@ module.exports = (config) => {
     browserDisconnectTimeout: 120000,
     browserDisconnectTolerance: 5,
     browserNoActivityTimeout: 120000,
-    frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
+    frameworks: ['mocha', 'chai'],
     plugins: [
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
@@ -35,8 +40,6 @@ module.exports = (config) => {
       'karma-sourcemap-loader',
       'karma-webpack',
       'karma-mocha-reporter',
-      'karma-sinon',
-      'karma-sinon-chai',
       'karma-coverage',
     ],
     logLevel: config.LOG_INFO,

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import A from './A';
 
-const wrapper = shallow(<A />);
+const wrapper = shallow(<A theme={{}} />);
 
 describe('(Component) A', () => {
   it('renders component without exploding', () => {
