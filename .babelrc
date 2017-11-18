@@ -1,0 +1,42 @@
+{
+  "compact": "auto",
+  "presets": [
+      [
+          "latest",
+          {
+              "es2015": {
+                  "modules": false
+              }
+          }
+      ],
+      "react"
+  ],
+  "env": {
+      "development": {
+          "plugins": []
+      },
+      "test": {
+          "presets": [
+              "latest",
+              "react"
+          ],
+          "plugins": [
+              [
+                  "istanbul",
+                  {
+                      "useInlineSourceMaps": false,
+                      "exclude": [
+                          "**/*.test*.js*"
+                      ]
+                  }
+              ]
+          ]
+      },
+      "production": {}
+  },
+  "plugins": [
+      "transform-object-rest-spread",
+      "transform-object-assign",
+      "transform-class-properties"
+  ]
+}

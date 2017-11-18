@@ -36,7 +36,7 @@ const LoginCardHeader = styled.div`
   span {
     display: block;
     font-size: 18px;
-    color: ${props => props.theme.fontColorInverse};
+    color: ${props => props.theme.colors['$gf-brighter-blue']};
     font-family: lovelo, Ubuntu;
   }
 `;
