@@ -13,6 +13,8 @@ const EnhancedCard = styled(Card)`
 
 const Type = styled.div`
     position: absolute;
+    /* fixes chrome issue where on zoom in where there is a gap in the logo */
+    top: -1px;
     left: 0;
     font-size: 1em;
     width: 0;
@@ -34,7 +36,7 @@ const Type = styled.div`
 `;
 
 const GFCard = props => (
-  <EnhancedCard typeSymbol={props.typeSymbol} {...props}>
+  <EnhancedCard {...props}>
     <Type typeSymbol={props.typeSymbol} typeColor={props.typeColor}><span>{props.typeSymbol}</span></Type>
     {props.children}
   </EnhancedCard>
