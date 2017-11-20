@@ -2789,14 +2789,14 @@ eslint-plugin-jsx-a11y@^5.1.1:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
 
-eslint-plugin-react@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.4.0.tgz#300a95861b9729c087d362dd64abcc351a74364a"
+eslint-plugin-react@^7.5.1:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
   dependencies:
     doctrine "^2.0.0"
     has "^1.0.1"
     jsx-ast-utils "^2.0.0"
-    prop-types "^15.5.10"
+    prop-types "^15.6.0"
 
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
@@ -6931,9 +6931,9 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-responsive@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.4.tgz#fcf6dc30250ac882ab5e86022ba5c6a7c849918b"
+redux-responsive@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.5.tgz#16b0c8448f87796c7aa594016e825a392a943b9d"
   dependencies:
     mediaquery "0.0.3"
 

@@ -89,6 +89,7 @@ const LoginForm = (props) => {
           <Row justifyContent="center">
             <Col flex={12}>
               <LoginButton
+                id="login-button"
                 flat
                 primary
                 type="submit"
