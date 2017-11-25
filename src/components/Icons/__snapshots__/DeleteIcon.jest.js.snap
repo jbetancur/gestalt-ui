@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) DeleteIcon it mounts without additional props 1`] = `
+<DeleteIcon__Icon>
+  delete_sweep
+</DeleteIcon__Icon>
+`;

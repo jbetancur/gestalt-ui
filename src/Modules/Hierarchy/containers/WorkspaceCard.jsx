@@ -55,7 +55,7 @@ class WorkspaceCard extends PureComponent {
     const modified = t('general.verbs.modified').toLowerCase();
 
     return (
-      <Card key={model.id} onClick={this.navWorkspaceDetails} raise typeSymbol="W" typeColor={theme.workspaceCard}>
+      <Card id={`${model.name}--workspace`} key={model.id} onClick={this.navWorkspaceDetails} raise typeSymbol="W" typeColor={theme.workspaceCard}>
         <CardTitle
           title={title}
           subtitle={

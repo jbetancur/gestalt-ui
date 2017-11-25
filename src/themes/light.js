@@ -1,7 +1,8 @@
-import colors from '../colors.json';
+import base from './base';
+import colors from './colors.json';
 
 export default {
-  colors,
+  ...base,
   mainBackgroundColor: colors['$md-grey-100'],
   mainNavBackgroundColor: colors['$gf-deep-blue'],
   cardBackgroundColor: colors['$md-white'],

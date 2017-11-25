@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Panels) Panel renders component with basic props 1`] = `
+.c0 {
+  width: 100%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+}
+
+<div
+  className="c0"
+>
+  <WithTheme(Header)
+    onClick={[Function]}
+  >
+    <WithTheme(ExpanderIcon)
+      isExpanded={true}
+    >
+      expand_more
+    </WithTheme(ExpanderIcon)>
+    <WithTheme(Title__TitleStyle)>
+      gazobazorb
+    </WithTheme(Title__TitleStyle)>
+  </WithTheme(Header)>
+  <WithTheme(Content)
+    isExpanded={true}
+    minHeight={false}
+    noPadding={false}
+  />
+</div>
+`;
+
+exports[`(Panels) Panel renders component with children 1`] = `
+.c0 {
+  width: 100%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+}
+
+<div
+  className="c0"
+>
+  <WithTheme(Header)
+    onClick={[Function]}
+  >
+    <WithTheme(ExpanderIcon)
+      isExpanded={true}
+    >
+      expand_more
+    </WithTheme(ExpanderIcon)>
+    <WithTheme(Title__TitleStyle)>
+      gazobazorb
+    </WithTheme(Title__TitleStyle)>
+  </WithTheme(Header)>
+  <WithTheme(Content)
+    isExpanded={true}
+    minHeight={false}
+    noPadding={false}
+  >
+    <span>
+      this is a test
+    </span>
+  </WithTheme(Content)>
+</div>
+`;
+
+exports[`(Panels) Panel renders component with minHeight prop 1`] = `
+.c0 {
+  width: 100%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+}
+
+<div
+  className="c0"
+>
+  <WithTheme(Header)
+    onClick={[Function]}
+  >
+    <WithTheme(ExpanderIcon)
+      isExpanded={true}
+    >
+      expand_more
+    </WithTheme(ExpanderIcon)>
+    <WithTheme(Title__TitleStyle)>
+      gazobazorb
+    </WithTheme(Title__TitleStyle)>
+  </WithTheme(Header)>
+  <WithTheme(Content)
+    isExpanded={true}
+    minHeight="10em"
+    noPadding={false}
+  />
+</div>
+`;
+
+exports[`(Panels) Panel renders component with noPadding prop 1`] = `
+.c0 {
+  width: 100%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+}
+
+<div
+  className="c0"
+>
+  <WithTheme(Header)
+    onClick={[Function]}
+  >
+    <WithTheme(ExpanderIcon)
+      isExpanded={true}
+    >
+      expand_more
+    </WithTheme(ExpanderIcon)>
+    <WithTheme(Title__TitleStyle)>
+      gazobazorb
+    </WithTheme(Title__TitleStyle)>
+  </WithTheme(Header)>
+  <WithTheme(Content)
+    isExpanded={true}
+    minHeight={false}
+    noPadding={true}
+  />
+</div>
+`;

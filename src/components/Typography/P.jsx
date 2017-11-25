@@ -25,18 +25,18 @@ const P = props => (
 );
 
 P.propTypes = {
-  children: PropTypes.node,
   fontSize: PropTypes.number,
   overflow: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   wrap: PropTypes.bool,
-};
-
-P.defaultProps = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]),
+  ])
+};
+
+P.defaultProps = {
+  children: null,
   fontSize: 14,
   overflow: false,
   maxHeight: false,

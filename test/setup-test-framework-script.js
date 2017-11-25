@@ -1,6 +1,8 @@
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import chai from 'chai';
+import 'jest-styled-components';
 
 // Make sure chai and jasmine ".not" play nice together
 const originalNot = Object.getOwnPropertyDescriptor(chai.Assertion.prototype, 'not').get;
@@ -25,6 +27,8 @@ global.expect = (actual) => {
   return combinedMatchers;
 };
 
+global.mount = mount;
+global.shallow = shallow;
 chai.use(sinonChai);
 global.sinon = sinon;
 global.expect = expect;

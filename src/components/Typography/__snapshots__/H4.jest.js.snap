@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) H4 renders with basic props 1`] = `
+.c0 {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+}
+
+<h4
+  className="c0"
+>
+  this is a test
+</h4>
+`;

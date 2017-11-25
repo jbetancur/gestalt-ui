@@ -55,7 +55,7 @@ class OrganizationCard extends PureComponent {
     const modified = t('general.verbs.modified').toLowerCase();
 
     return (
-      <Card key={model.id} onClick={this.navTo} raise typeSymbol="O" typeColor={theme.organizationCard}>
+      <Card id={`${model.name}--organization`} key={model.id} onClick={this.navTo} raise typeSymbol="O" typeColor={theme.organizationCard}>
         <CardTitle
           title={title}
           subtitle={

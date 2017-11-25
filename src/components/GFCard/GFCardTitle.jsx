@@ -4,9 +4,9 @@ import CardTitle from 'react-md/lib/Cards/CardTitle';
 // TODO: Write our own Card component
 const EnhancedCardTitle = styled(CardTitle)`
   &.md-card-title {
-      padding-top: 0px;
-      padding-left: 23px;
-      padding-right: 23px;
+      padding-top: 8px;
+      padding-left: 16px;
+      padding-right: 16px;
   }
 
   .md-card-title--title {
