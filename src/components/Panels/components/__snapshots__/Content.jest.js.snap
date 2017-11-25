@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Panels) Content renders that is collapsed 1`] = `
+.c0 {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+  display: none;
+  padding: 1em;
+}
+
+<div
+  className="c0"
+/>
+`;
+
+exports[`(Panels) Content renders that is expanded 1`] = `
+.c0 {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+  display: block;
+  padding: 1em;
+}
+
+<div
+  className="c0"
+/>
+`;
+
+exports[`(Panels) Content renders with minHeight 1`] = `
+.c0 {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+  display: none;
+  padding: 1em;
+  min-height: 1em;
+}
+
+<div
+  className="c0"
+/>
+`;
+
+exports[`(Panels) Content renders with noPadding 1`] = `
+.c0 {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+  display: none;
+  padding: 0;
+}
+
+<div
+  className="c0"
+/>
+`;

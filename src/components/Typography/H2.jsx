@@ -5,7 +5,6 @@ const H2Style = styled.h2`
   font-weight: 400;
   line-height: 18px;
   color: ${props => props.theme.colors['$md-grey-900']};
-  ${props => props.inline && 'display: inline'};
 `;
 
 export default withTheme(H2Style);

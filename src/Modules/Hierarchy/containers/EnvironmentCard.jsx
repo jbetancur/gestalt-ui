@@ -56,6 +56,8 @@ class EnvironmentCard extends PureComponent {
 
     return (
       <Card
+        id={`${model.name}--environment`}
+        key={model.id}
         onClick={this.navEnvironmentDetails}
         raise
         typeColor={theme.environmentCard}

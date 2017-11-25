@@ -17,7 +17,7 @@ import configureHTTP from './config/configureHTTP';
 import AppContainer from './App/AppContainer';
 import { LoginContainer, restricted } from './Modules/Auth';
 import Logging from './Modules/Logging';
-import lightTheme from './scss/themes/light';
+import lightTheme from './themes/light';
 import './scss/style.scss';
 
 // Create our store

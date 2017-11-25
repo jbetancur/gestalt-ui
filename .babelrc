@@ -13,7 +13,11 @@
   ],
   "env": {
       "development": {
-          "plugins": []
+          "plugins": [
+            "transform-object-rest-spread",
+            "transform-object-assign",
+            "transform-class-properties"
+          ]
       },
       "test": {
           "presets": [
@@ -26,10 +30,24 @@
                   {
                       "useInlineSourceMaps": false,
                       "exclude": [
-                          "**/*.test*.js*"
+                          "**/*.test*.js*",
+                          "**/*.jest*.js*",
+                          "**/__mocks__/**",
+                          "**/__snapshots__/**",
+                          "**/test/**",
+                          "**/themes/**",
+                          "**/node_modules/**"
                       ]
                   }
-              ]
+              ],
+              "transform-object-rest-spread",
+              "transform-object-assign",
+              "transform-class-properties",
+              [
+                "babel-plugin-styled-components", {
+                "minify": false
+              }
+            ]
           ]
       },
       "production": {}

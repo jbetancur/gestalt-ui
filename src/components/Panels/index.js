@@ -1,1 +1,1 @@
-export { default as Panel } from './components/Panel';
+export { default as Panel } from './containers/Panel';

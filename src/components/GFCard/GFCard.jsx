@@ -3,42 +3,42 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from 'react-md/lib/Cards/Card';
 
+// black list non compliance typeColor, typeSymbol from DOM
 const EnhancedCard = styled(Card)`
   position: relative;
   height: 10em;
   cursor: pointer;
   border-radius: 2px;
-  border-top: 4px solid ${props => props.typeColor};
 `;
 
 const Type = styled.div`
-    position: absolute;
-    /* fixes chrome issue where on zoom in where there is a gap in the logo */
-    top: -1px;
-    left: 0;
-    font-size: 1em;
-    width: 0;
-    height: 0;
-    border-top: 25px solid ${props => props.typeColor};
-    border-right: 25px solid transparent;
+  position: absolute;
+  /* fixes chrome issue where on zoom in where there is a gap in the logo */
+  top: 0;
+  left: 0;
+  font-size: 1em;
+  width: 0;
+  height: 0;
+  border-top: 25px solid ${props => props.typeColor};
+  border-right: 25px solid transparent;
 
-    span {
-      text-align: center;
-      height: 12px;
-      width: 12px;
-      font-family: 'lovelo';
-      font-size: .6em;
-      position: absolute;
-      top: -23px;
-      left: 2px;
-      color: white;
-    }
+  span {
+    text-align: center;
+    height: 12px;
+    width: 12px;
+    font-family: 'lovelo';
+    font-size: .6em;
+    position: absolute;
+    top: -21px;
+    left: 1.5px;
+    color: white;
+  }
 `;
 
-const GFCard = props => (
-  <EnhancedCard {...props}>
-    <Type typeSymbol={props.typeSymbol} typeColor={props.typeColor}><span>{props.typeSymbol}</span></Type>
-    {props.children}
+const GFCard = ({ typeColor, typeSymbol, children, ...rest }) => (
+  <EnhancedCard {...rest}>
+    <Type typeSymbol={typeSymbol} typeColor={typeColor}><span>{typeSymbol}</span></Type>
+    {children}
   </EnhancedCard>
 );
 

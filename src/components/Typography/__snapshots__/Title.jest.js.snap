@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) Title it render with large prop 1`] = `
+.c0 {
+  font-size: 18px;
+  color: #212121;
+  font-size: 20px;
+}
+
+<div
+  className="c0"
+>
+  this is a test
+</div>
+`;
+
+exports[`(Component) Title it render with small prop 1`] = `
+.c0 {
+  font-size: 18px;
+  color: #212121;
+  font-size: 16px;
+}
+
+<div
+  className="c0"
+>
+  this is a test
+</div>
+`;
+
+exports[`(Component) Title renders with basic props 1`] = `
+.c0 {
+  font-size: 18px;
+  color: #212121;
+}
+
+<div
+  className="c0"
+>
+  this is a test
+</div>
+`;

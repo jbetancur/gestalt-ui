@@ -49,6 +49,8 @@
       }
   },
   "globals": {
-      "sinon": false
+      "sinon": false,
+      "mount": false,
+      "shallow": false
   }
 }

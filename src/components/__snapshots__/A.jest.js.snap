@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) A it mounts the bubble prop 1`] = `
+.c0 {
+  font-size: 12px;
+  text-decoration: none;
+  background-color: #eee;
+  border-radius: 15px;
+  padding-left: 4px;
+  padding-right: 4px;
+  font-weight: 400;
+  color: #0d47a1;
+}
+
+<a
+  className="c0"
+  href="http://wassup"
+/>
+`;
+
+exports[`(Component) A it mounts without additional props 1`] = `
+.c0 {
+  font-size: 12px;
+  text-decoration: none;
+}
+
+<a
+  className="c0"
+  href="http://wassup"
+/>
+`;

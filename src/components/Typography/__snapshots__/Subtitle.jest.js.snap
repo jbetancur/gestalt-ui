@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) Subtitle renders with basic props 1`] = `
+.c0 {
+  font-size: 13px;
+  color: #616161;
+}
+
+<div
+  className="c0"
+>
+  this is a test
+</div>
+`;

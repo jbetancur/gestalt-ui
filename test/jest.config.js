@@ -1,14 +1,15 @@
 module.exports = {
   rootDir: '../',
+  // note babelrc containers test exclusions for istanbul
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{js,jsx}',
-    '!**/node_modules/**',
-    '!/**/test/**',
-    '!/__mocks__/**',
   ],
   coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/__mocks__/',
+    '<rootDir>/node_modules/',
+    '<rootDir>/__mocks__/',
+    '<rootDir>/src/themes',
+    '<rootDir>/src/scss',
+    '<rootDir>/test',
   ],
   coverageDirectory: '<rootDir>/test/coverage',
   setupFiles: [
@@ -19,12 +20,18 @@ module.exports = {
   snapshotSerializers: [
     'enzyme-to-json/serializer'
   ],
+  testMatch: [
+    '**/__tests__/**/*.js?(x)',
+    '**/?(*.)(jest|spec|test).js?(x)'
+  ],
   testPathIgnorePatterns: [
     '/node_modules/',
     '/__mocks__/',
   ],
   moduleFileExtensions: ['js', 'jsx'],
-  moduleDirectories: ['node_modules'],
+  // The next two lines section should generally mirror webpack.alias
+  moduleDirectories: ['node_modules', 'src'],
+  modulePaths: ['src/Modules', 'src/components', 'src/util'],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js'
   },

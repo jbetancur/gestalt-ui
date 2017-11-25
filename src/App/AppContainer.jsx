@@ -62,7 +62,7 @@ class App extends Component {
 
     return (
       self.id ?
-        <Main>
+        <Main id="app-main">
           <Toolbar
             colored
             fixed
