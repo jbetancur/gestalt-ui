@@ -41,7 +41,7 @@ const LambdaForm = (props) => {
     <div>
       {lambda.id &&
         <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12}>
+          <Col flex={10} xs={12} sm={12} md={12}>
             <DetailsPane model={lambda} />
           </Col>
         </Row>}
@@ -50,7 +50,7 @@ const LambdaForm = (props) => {
         autoComplete="off"
       >
         <Row gutter={5} center>
-          <Col component={Card} flex={10} xs={12} sm={12}>
+          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle
               title={props.title}
             />
