@@ -68,7 +68,7 @@ const ContainerForm = (props) => {
       <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
       {props.editMode &&
         <Row gutter={5} center>
-          <Col flex={props.inlineMode ? 12 : 10} xs={12} sm={12}>
+          <Col flex={props.inlineMode ? 12 : 10} xs={12} sm={12} md={12}>
             <DetailsPane model={container} noShadow={props.inlineMode} />
           </Col>
         </Row>}
@@ -78,10 +78,9 @@ const ContainerForm = (props) => {
             flex={props.inlineMode ? 12 : 10}
             xs={12}
             sm={12}
+            md={12}
           >
-            <Card
-              className={props.inlineMode ? 'md-no-paper' : ''}
-            >
+            <Card className={props.inlineMode ? 'md-no-paper' : ''}>
               <CardTitle
                 title={
                   <div>
@@ -190,7 +189,7 @@ const ContainerForm = (props) => {
                               label="Force Pull Image"
                             />
                           </Col>
-                          <Col flex={2} xs={12}>
+                          <Col flex={3} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.num_instances"
@@ -203,7 +202,7 @@ const ContainerForm = (props) => {
                               helpText="0 = suspended"
                             />
                           </Col>
-                          <Col flex={2} xs={12}>
+                          <Col flex={3} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.cpus"
@@ -216,7 +215,7 @@ const ContainerForm = (props) => {
                               parse={value => Number(value)} // redux form formats everything as string, so force number
                             />
                           </Col>
-                          <Col flex={2} xs={12}>
+                          <Col flex={3} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.memory"
