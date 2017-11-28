@@ -20,6 +20,10 @@ class ContainerListing extends PureComponent {
     providerContext: PropTypes.bool.isRequired,
   };
 
+  static defaultProps = {
+    providerContext: false,
+  };
+
   componentDidMount() {
     const { fetchActions, match } = this.props;
     const entity = generateContextEntityState(match.params);

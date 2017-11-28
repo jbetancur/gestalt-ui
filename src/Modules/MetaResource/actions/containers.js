@@ -17,8 +17,8 @@ export function unloadContainer() {
 /**
  * fetchContainers
  * @param {string} fqon
-  * @param {string} entityId
- * @param {string} entityKey - oneOf provides | environments | null
+ * @param {string} entityId
+ * @param {string} entityKey - oneOf providers | environments | null
  * @param {boolean} isPolling
  */
 export function fetchContainers(fqon, entityId, entityKey, isPolling) {

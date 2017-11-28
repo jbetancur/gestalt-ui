@@ -5,11 +5,12 @@ import * as types from '../actionTypes';
 
 /**
  * fetchAPIEndpoints
- * @param {*} action { fqon, apiId }
+ * @param {*} action { fqon, entityKey, apiId }
  */
 export function* fetchAPIEndpoints(action) {
   try {
-    const responseEndpoints = yield call(axios.get, `${action.fqon}/apis/${action.apiId}/apiendpoints?expand=true`);
+    const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/apiendpoints` : `${action.fqon}/apiendpoints`;
+    const responseEndpoints = yield call(axios.get, `${url}?expand=true`);
 
     const endpoints = [];
     // this is a niche case with generators and arrays where we need an imperative loop to collate public_url into endpoints
@@ -26,6 +27,7 @@ export function* fetchAPIEndpoints(action) {
         }
       );
     }
+
     const payload = orderBy(endpoints, 'created.timestamp', 'asc');
     yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload });
   } catch (e) {

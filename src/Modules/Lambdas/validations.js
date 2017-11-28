@@ -21,7 +21,7 @@ export default (values) => {
   }
 
   if (!values.name) {
-    errors.name = 'lambda name is required';
+    errors.name = 'name is required';
   }
 
   if (values.name && !isLambdaName(values.name)) {
@@ -29,11 +29,11 @@ export default (values) => {
   }
 
   if (values.name && values.name.length > nameMaxLen) {
-    errors.name = 'lambda name is too long';
+    errors.name = 'name is too long';
   }
 
   if (values.description && values.description.length > descriptionMaxLen) {
-    errors.description = 'lambda description is too long';
+    errors.description = 'description is too long';
   }
 
   if (!values.properties.runtime) {

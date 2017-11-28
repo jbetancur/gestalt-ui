@@ -23,7 +23,7 @@ class APIEndpointList extends Component {
   componentDidMount() {
     const { match, fetchAPIEndpoints } = this.props;
 
-    fetchAPIEndpoints(match.params.fqon, match.params.apiId);
+    fetchAPIEndpoints(match.params.fqon, match.params.apiId, 'apis');
   }
 
   componentWillUnmount() {

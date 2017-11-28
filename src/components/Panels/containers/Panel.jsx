@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { Title } from 'components/Typography';
+import DotActivity from 'components/DotActivity';
 import Header from '../components/Header';
 import Content from '../components/Content';
 import ExpanderIcon from '../components/ExpanderIcon';
@@ -21,6 +22,7 @@ class Panel extends Component {
     defaultExpanded: PropTypes.bool,
     noPadding: PropTypes.bool,
     minHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    pending: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -28,6 +30,7 @@ class Panel extends Component {
     noPadding: false,
     minHeight: false,
     children: null,
+    pending: false,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -46,7 +49,7 @@ class Panel extends Component {
           noPadding={this.props.noPadding}
           minHeight={this.props.minHeight}
         >
-          {this.props.children}
+          {this.props.pending ? <DotActivity centered size={1} /> : this.props.children}
         </Content>
       </PanelWrapper>
     );

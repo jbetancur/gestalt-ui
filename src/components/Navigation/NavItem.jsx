@@ -2,23 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
-import FontIcon from 'react-md/lib/FontIcons';
+import { FontIcon } from 'react-md';
 
 const EnhancedListItem = styled(NavLink)`
   height: 56px;
   text-decoration: none;
-  display: ${props => (props.visible ? 'flex' : 'none')};
+  display: ${props => (props.isVisible ? 'flex' : 'none')};
   align-items: center;
-
-  @media screen and (min-width: 1025px) {
-    .md-list-tile {
-      height: 56px;
-    }
-  }
-
-  .md-fake-btn {
-    padding: 0;
-  }
 
   &.active-link * {
     color:  ${props => props.theme.colors['$md-blue-500']}!important;
@@ -49,23 +39,23 @@ const Icon = styled(FontIcon)`
   }
 `;
 
-const ListItemStacked = props => (
-  <EnhancedListItem visible={props.visible} {...props}>
+const NavItem = ({ icon, title, isVisible, ...rest }) => (
+  <EnhancedListItem isVisible={isVisible} {...rest}>
     <Wrapper>
-      <Icon>{props.icon}</Icon>
-      <Text>{props.title}</Text>
+      <Icon>{icon}</Icon>
+      <Text>{title}</Text>
     </Wrapper>
   </EnhancedListItem>
 );
 
-ListItemStacked.propTypes = {
+NavItem.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  visible: PropTypes.bool,
+  isVisible: PropTypes.bool,
 };
 
-ListItemStacked.defaultProps = {
-  visible: true,
+NavItem.defaultProps = {
+  isVisible: true,
 };
 
-export default withTheme(ListItemStacked);
+export default withTheme(NavItem);

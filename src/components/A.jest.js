@@ -1,6 +1,5 @@
 import React from 'react';
 import A from './A';
-import baseTheme from '../themes/light';
 import { shallowWithTheme } from '../../test/helpers';
 
 describe('(Component) A', () => {

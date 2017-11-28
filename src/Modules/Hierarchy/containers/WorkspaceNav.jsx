@@ -1,18 +1,17 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import Navbar from 'components/Navbar';
-import ListItemStacked from 'components/ListItemStacked';
+import { Navbar, NavItem } from 'components/Navigation';
 
 const renderNavItems = props => (
   [
-    <ListItemStacked
+    <NavItem
       key="workspace--environments"
       title="Environments"
       icon="folder"
       to={`${props.match.url}/environments`}
       activeClassName="active-link"
     />,
-    <ListItemStacked
+    <NavItem
       key="workspace--providers"
       title="Providers"
       icon="settings_applications"

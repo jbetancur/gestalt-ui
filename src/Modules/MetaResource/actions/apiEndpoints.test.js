@@ -22,10 +22,11 @@ describe('API Actions', () => {
     const expectedAction = {
       type: types.FETCH_APIENDPOINTS_REQUEST,
       fqon: 'iamfqon',
-      apiId: '1',
+      entityId: '1',
+      entityKey: 'apis',
     };
 
-    expect(actions.fetchAPIEndpoints('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchAPIEndpoints('iamfqon', '1', 'apis')).to.deep.equal(expectedAction);
   });
 
   it('should request FETCH_APIENDPOINT_REQUEST', () => {
