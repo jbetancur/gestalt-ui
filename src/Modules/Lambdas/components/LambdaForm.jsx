@@ -13,6 +13,8 @@ import { VariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
+import A from 'components/A';
+import { Caption } from 'components/Typography';
 import { ActionsMenu } from 'Modules/Actions';
 import { isUnixVariable } from 'util/validations';
 import runTimes from '../lists/runTimes';
@@ -150,6 +152,14 @@ const LambdaForm = (props) => {
                   </Panel>
                 </Col>
 
+                {props.editMode &&
+                <Col flex={12}>
+                  <Panel title="Public Endpoints" pending={props.apiEndpointsPending}>
+                    {props.apiEndpoints.map(a => <A href={a.properties.public_url} target="_blank" rel="noopener noreferrer" block>{a.properties.public_url}</A>)}
+                    {!props.apiEndpoints.length > 0 && !props.apiEndpointsPending && <Caption light large>No Public Endpoints Configured</Caption> }
+                  </Panel>
+                </Col>}
+
                 <Col flex={12}>
                   <Panel title="Lambda Function">
                     <Row gutter={5}>
@@ -250,6 +260,7 @@ const LambdaForm = (props) => {
                     </Row>
                   </Panel>
                 </Col>
+
                 <Col flex={12}>
                   <Panel title="Environment Variables">
                     <VariablesForm
@@ -370,6 +381,7 @@ LambdaForm.propTypes = {
   history: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   lambdaPending: PropTypes.bool.isRequired,
+  apiEndpointsPending: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -383,6 +395,7 @@ LambdaForm.propTypes = {
   theme: PropTypes.string.isRequired,
   executorsDropDown: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
+  apiEndpoints: PropTypes.array.isRequired,
   showEntitlementsModal: PropTypes.func.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,

@@ -14,7 +14,7 @@ class WorkspaceContext extends PureComponent {
     fetchWorkspace: PropTypes.func.isRequired,
     fetchContextActions: PropTypes.func.isRequired,
     unloadActions: PropTypes.func.isRequired,
-    organizationSet: PropTypes.func.isRequired,
+    organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
   };

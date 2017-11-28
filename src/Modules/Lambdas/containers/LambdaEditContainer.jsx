@@ -18,27 +18,31 @@ class LambdaEdit extends PureComponent {
     match: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
     fetchLambda: PropTypes.func.isRequired,
+    fetchAPIEndpoints: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
     fetchActions: PropTypes.func.isRequired,
     unloadLambda: PropTypes.func.isRequired,
+    unloadAPIEndpoints: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchLambda, fetchProvidersByType, fetchExecutors, fetchActions } = this.props;
+    const { match, fetchLambda, fetchAPIEndpoints, fetchProvidersByType, fetchExecutors, fetchActions } = this.props;
 
     fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
     fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
     fetchLambda(match.params.fqon, match.params.lambdaId, match.params.environmentId);
+    fetchAPIEndpoints(match.params.fqon, match.params.lambdaId, 'lambdas');
   }
 
   componentWillUnmount() {
-    const { unloadLambda } = this.props;
+    const { unloadLambda, unloadAPIEndpoints } = this.props;
 
     unloadLambda();
+    unloadAPIEndpoints();
   }
 
   updateLambda(values) {

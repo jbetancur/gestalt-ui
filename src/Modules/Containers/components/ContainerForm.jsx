@@ -18,11 +18,13 @@ import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
 import AceEditor from 'components/AceEditor';
+import A from 'components/A';
+import { Caption } from 'components/Typography';
 import { getLastFromSplit } from 'util/helpers/strings';
 import { isUnixVariable } from 'util/validations';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
-import { nameMaxLen } from '../validations';
+import { nameMaxLen, descriptionMaxLen } from '../validations';
 import ContainerActions from './ContainerActions';
 import ContainerIcon from './ContainerIcon';
 import ActionsModals from '../ActionModals';
@@ -250,10 +252,19 @@ const ContainerForm = (props) => {
                           name="description"
                           placeholder="Description"
                           type="text"
+                          maxLength={descriptionMaxLen}
                           rows={1}
                         />
                       </Panel>
                     </Col>
+
+                    {props.editMode &&
+                    <Col flex={12}>
+                      <Panel title="Public Endpoints" pending={props.apiEndpointsPending}>
+                        {props.apiEndpoints.map(a => <A href={a.properties.public_url} target="_blank" rel="noopener noreferrer" block>{a.properties.public_url}</A>)}
+                        {!props.apiEndpoints.length > 0 && !props.apiEndpointsPending && <Caption light large>No Public Endpoints Configured</Caption> }
+                      </Panel>
+                    </Col>}
                   </Row>}
 
                   {selectedProvider.id &&
@@ -428,7 +439,9 @@ ContainerForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
-  inlineMode: PropTypes.bool
+  inlineMode: PropTypes.bool,
+  apiEndpoints: PropTypes.array.isRequired,
+  apiEndpointsPending: PropTypes.bool.isRequired,
 };
 
 ContainerForm.defaultProps = {

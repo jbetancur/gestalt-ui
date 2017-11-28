@@ -23,7 +23,7 @@ class App extends Component {
     meta: PropTypes.object.isRequired,
     license: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    // actions: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
     syncPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,

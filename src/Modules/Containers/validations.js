@@ -1,6 +1,7 @@
 import { isContainerName, isCommaDelimited, isCommaDelimitedConstraints, containerNamePattern } from 'util/validations';
 
 export const nameMaxLen = 60;
+export const descriptionMaxLen = 512;
 
 export default (values) => {
   const errors = {
@@ -16,11 +17,19 @@ export default (values) => {
   }
 
   if (!values.name) {
-    errors.name = 'container name is required';
+    errors.name = 'name is required';
   }
 
   if (values.name && !isContainerName(values.name)) {
     errors.name = `invalid container name ${containerNamePattern}`;
+  }
+
+  if (values.name && values.name.length > nameMaxLen) {
+    errors.name = 'name is too long';
+  }
+
+  if (values.description && values.description.length > descriptionMaxLen) {
+    errors.description = 'description is too long';
   }
 
   if (!values.properties.network) {

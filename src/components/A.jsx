@@ -11,6 +11,7 @@ const AStyle = styled.a`
     font-weight: 400;
     color: ${props.theme.colors['$md-blue-900']};;
   `};
+  ${props => props.block && 'display: block'};
 `;
 
 export default withTheme(AStyle);

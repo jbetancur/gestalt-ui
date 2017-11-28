@@ -1,48 +1,47 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Navbar from 'components/Navbar';
-import ListItemStacked from 'components/ListItemStacked';
+import { Navbar, NavItem } from 'components/Navigation';
 import { LambdaIcon, ContainerIcon } from 'components/Icons';
 
 const renderNavItems = props => (
   [
-    <ListItemStacked
+    <NavItem
       key="environment--containers"
       icon={<ContainerIcon />}
       title="Containers"
       to={`${props.match.url}/containers`}
       activeClassName="active-link"
     />,
-    <ListItemStacked
+    <NavItem
       key="environment--lambdas"
       icon={<LambdaIcon />}
       title="Lambdas"
       to={`${props.match.url}/lambdas`}
       activeClassName="active-link"
     />,
-    <ListItemStacked
+    <NavItem
       key="environment--apis"
       icon="device_hub"
       title="APIs"
       to={`${props.match.url}/apis`}
       activeClassName="active-link"
     />,
-    <ListItemStacked
+    <NavItem
       key="environment--policies"
       icon="verified_user"
       title="Policies"
       to={`${props.match.url}/policies`}
       activeClassName="active-link"
     />,
-    <ListItemStacked
+    <NavItem
       key="environment--providers"
       icon="settings_applications"
       title="Providers"
       to={`${props.match.url}/providers`}
       activeClassName="active-link"
     />,
-    <ListItemStacked
+    <NavItem
       key="environment--secrets"
       icon="lock"
       title="Secrets"

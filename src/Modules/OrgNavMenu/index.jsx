@@ -110,11 +110,12 @@ class OrgNavMenu extends PureComponent {
 
   render() {
     const { organizationSet, allOrganizationsPending } = this.props;
+    const name = this.props.organizationSet.description || organizationSet.name;
 
     return (
       <EnhancedMenuButton
         id="orgs-nav"
-        label={this.props.organizationSet.description || organizationSet.name}
+        label={name}
         position={MenuButton.Positions.BELOW}
         iconChildren="expand_more"
         flat

@@ -15,14 +15,12 @@ import 'brace/theme/chrome';
 import 'brace/theme/monokai';
 import 'brace/ext/language_tools';
 
-
 /* eslint-disable react/prop-types */
-export default ({ input, meta: { touched, error }, ...others }) => (
+export default ({ input, ...others }) => (
   <AceEditor
     {...input}
     {...others}
-    error={touched && !!error}
-    errorText={error}
+    tabSize={2}
     width="100%"
     height="100%"
     wrapEnabled

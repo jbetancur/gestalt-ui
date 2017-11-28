@@ -24,9 +24,11 @@ class ContainerEdit extends Component {
     match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
+    fetchAPIEndpoints: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
     unloadPortmappings: PropTypes.func.isRequired,
+    unloadAPIEndpoints: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
     volumes: PropTypes.array.isRequired,
@@ -46,7 +48,7 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchActions } = this.props;
+    const { match, fetchProvidersByType, fetchAPIEndpoints, fetchActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
     fetchProvidersByType(match.params.fqon, entity.id, entity.key, 'CaaS');
@@ -54,6 +56,7 @@ class ContainerEdit extends Component {
     if (!this.props.inlineMode) {
       this.populateContainer();
       fetchActions(match.params.fqon, entity.id, entity.key, { filter: 'container.detail' });
+      fetchAPIEndpoints(match.params.fqon, match.params.containerId, 'containers');
     }
   }
 
@@ -74,9 +77,10 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadContainer, unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
+    const { unloadContainer, unloadAPIEndpoints, unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
 
     unloadContainer();
+    unloadAPIEndpoints();
     unloadVolumes();
     unloadPortmappings();
     unloadSecretsModal();

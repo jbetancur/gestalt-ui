@@ -44,6 +44,14 @@ describe('(Panels) Panel', () => {
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
+  it('renders component activity status when pending', () => {
+    const wrapper = shallowWithTheme(
+      <Panel title="gazobazorb" pending><span>this is a test</span></Panel>
+    );
+
+    expect(wrapper.dive().dive()).toMatchSnapshot();
+  });
+
   it('toggles isExpanded on correct elements when the Header is clicked', () => {
     const wrapper = mountWithTheme(
       <Panel title="gazobazorb"><span>this is a test</span></Panel>

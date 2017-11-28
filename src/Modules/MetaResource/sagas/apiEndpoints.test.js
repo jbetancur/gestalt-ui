@@ -14,7 +14,7 @@ describe('API Endpoint Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchAPIEndpoints Sequence', () => {
-    const saga = fetchAPIEndpoints({ fqon: 'iamfqon', apiId: '1' });
+    const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'apis' });
     let result;
 
     it('should make an api call', () => {

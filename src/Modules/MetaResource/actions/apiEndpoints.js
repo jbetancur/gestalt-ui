@@ -17,10 +17,11 @@ export function unloadAPIEndpoint() {
 /**
  * fetchAPIEndpoints
  * @param {string} fqon
- * @param {string} apiId
+ * @param {string} entityId
+ * @param {string} entityKey - oneOf lambdas | containers | apis | null
  */
-export function fetchAPIEndpoints(fqon, apiId) {
-  return { type: types.FETCH_APIENDPOINTS_REQUEST, fqon, apiId };
+export function fetchAPIEndpoints(fqon, entityId, entityKey) {
+  return { type: types.FETCH_APIENDPOINTS_REQUEST, fqon, entityId, entityKey };
 }
 
 /**

@@ -61,9 +61,7 @@ class Navbar extends PureComponent {
       <NavbarContainer vertical={vertical}>
         <List>
           {items.map((item, i) => (
-            <ListItem
-              key={i}
-            >
+            <ListItem key={i}>
               {item}
             </ListItem>
           ))}
