@@ -21,9 +21,7 @@ class APIEndpointList extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchAPIEndpoints } = this.props;
-
-    fetchAPIEndpoints(match.params.fqon, match.params.apiId, 'apis');
+    this.populateAPIs();
   }
 
   componentWillUnmount() {
@@ -32,15 +30,21 @@ class APIEndpointList extends Component {
     unloadAPIEndpoints();
   }
 
+  populateAPIs() {
+    const { match, fetchAPIEndpoints } = this.props;
+
+    fetchAPIEndpoints(match.params.fqon, match.params.apiId, 'apis');
+  }
+
   delete = () => {
-    const { match, fetchAPIEndpoints, deleteAPIEndpoints, tableActions } = this.props;
+    const { match, deleteAPIEndpoints, tableActions } = this.props;
     const { items } = this.props.tableManager.tableSelected;
     const IDs = items.map(item => (item.id));
     const names = items.map(item => (item.properties.resource));
 
     const onSuccess = () => {
       tableActions.clearTableSelected();
-      fetchAPIEndpoints(match.params.fqon, match.params.apiId);
+      this.populateAPIs();
     };
 
     this.props.confirmDelete(() => {
