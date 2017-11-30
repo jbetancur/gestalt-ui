@@ -1,7 +1,7 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { sortBy } from 'lodash';
-import constants from '../constants/resourceTypes';
+import constants from '../../../constants';
 import * as types from '../actionTypes';
 
 /**

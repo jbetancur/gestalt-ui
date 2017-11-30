@@ -5,7 +5,7 @@ import loggingSagas, {
   fetchLogProvider,
 } from './logging';
 import * as types from '../actionTypes';
-import { LOGGING } from '../constants/resourceTypes'; // TODO: mock up with rewire
+import { LOGGING } from '../../../constants'; // TODO: mock up with rewire
 
 const genericMock = Object.freeze({
   data: {
