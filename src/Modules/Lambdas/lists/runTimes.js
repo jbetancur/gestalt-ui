@@ -10,6 +10,12 @@ const codeOptionsInline = [
 
 export default [
   {
+    value: 'nodejs',
+    format: 'Package format: {filename};{function} | Inline format: {function}',
+    codeFormat: 'javascript',
+    codeOptions: codeOptionsInline,
+  },
+  {
     value: 'java;scala',
     format: 'com.package.Class;function',
     codeFormat: 'java',
@@ -20,12 +26,6 @@ export default [
     format: 'com.package.Class;function',
     codeFormat: 'java',
     codeOptions,
-  },
-  {
-    value: 'nodejs',
-    format: 'Package format: {filename};{function} | Inline format: {function}',
-    codeFormat: 'javascript',
-    codeOptions: codeOptionsInline,
   },
   {
     value: 'nashorn',
@@ -68,5 +68,11 @@ export default [
     format: 'com.package.Class;function',
     codeFormat: 'scala',
     codeOptions,
+  },
+  {
+    value: 'bash',
+    format: '',
+    codeFormat: 'sh',
+    codeOptionsInline,
   },
 ];
