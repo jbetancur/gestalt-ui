@@ -2,7 +2,7 @@ import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { merge, cloneDeep } from 'lodash';
 import * as types from '../actionTypes';
-import { LOGGING } from '../constants/resourceTypes';
+import { LOGGING } from '../../../constants';
 
 /**
  * fetchLogProvider
