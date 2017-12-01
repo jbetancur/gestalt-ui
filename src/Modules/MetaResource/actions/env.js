@@ -19,10 +19,10 @@ export function fetchEnv(fqon, entityId, entityKey) {
 
 /**
  * fetchEnvSchema
- * @param {string} schemaType
+ * @param {string} resourceTypeId
  */
-export function fetchEnvSchema(schemaType) {
-  return { type: types.FETCH_ENV_SCHEMA_REQUEST, schemaType };
+export function fetchEnvSchema(resourceTypeId) {
+  return { type: types.FETCH_ENV_SCHEMA_REQUEST, resourceTypeId };
 }
 
 export default {

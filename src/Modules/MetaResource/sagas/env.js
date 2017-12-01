@@ -1,7 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { sortBy } from 'lodash';
-import constants from '../../../constants';
 import * as types from '../actionTypes';
 
 /**
@@ -21,11 +20,11 @@ export function* fetchEnv(action) {
 
 /**
  * fetchEnvSchema
- * @param {*} action { schemaType }
+ * @param {*} action { schemaType, resourceTypeId }
  */
 export function* fetchEnvSchema(action) {
   try {
-    const response = yield call(axios.get, `root/resourcetypes/${constants[action.schemaType]}/schema?filter=config`);
+    const response = yield call(axios.get, `root/resourcetypes/${action.resourceTypeId}/schema?filter=config`);
 
     const payload = {
       public: sortBy(response.data.filter(item => item.public === true), [v => v.name.toLowerCase()]),
