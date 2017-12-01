@@ -4,7 +4,6 @@ const uiProviderTypes = [
   {
     displayName: 'Mesosphere DC/OS',
     name: 'Gestalt::Configuration::Provider::CaaS::DCOS',
-    type: 'DCOS',
     DCOSConfig: true,
     DCOSSecurity: true,
     networking: true,
@@ -19,7 +18,6 @@ const uiProviderTypes = [
   {
     displayName: 'Kubernetes',
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
-    type: 'KUBERNETES',
     networking: false,
     extraConfig: false,
     uploadConfig: true,
@@ -31,7 +29,6 @@ const uiProviderTypes = [
   {
     displayName: 'Docker Swarm',
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
-    type: 'DOCKER',
     networking: true,
     extraConfig: false,
     uploadConfig: false,
@@ -43,7 +40,6 @@ const uiProviderTypes = [
   {
     displayName: 'APIGateway (Kong)',
     name: 'Gestalt::Configuration::Provider::Kong',
-    type: 'KONG',
     networking: false,
     extraConfig: true,
     uploadConfig: false,
@@ -55,7 +51,6 @@ const uiProviderTypes = [
   {
     displayName: 'GatewayManager',
     name: 'Gestalt::Configuration::Provider::GatewayManager',
-    type: 'GATEWAYMANAGER',
     networking: false,
     extraConfig: true,
     uploadConfig: false,
@@ -67,7 +62,6 @@ const uiProviderTypes = [
   {
     displayName: 'Security',
     name: 'Gestalt::Configuration::Provider::Security',
-    type: 'SECURITY',
     networking: false,
     extraConfig: false,
     uploadConfig: false,
@@ -79,7 +73,6 @@ const uiProviderTypes = [
   {
     displayName: 'PostgreSQL',
     name: 'Gestalt::Configuration::Provider::Data::PostgreSQL',
-    type: 'DATA::POSTGRESQL',
     networking: false,
     extraConfig: false,
     uploadConfig: false,
@@ -91,7 +84,6 @@ const uiProviderTypes = [
   {
     displayName: 'RabbitMQ',
     name: 'Gestalt::Configuration::Provider::Messaging::RabbitMQ',
-    type: 'MESSAGING::RABBITMQ',
     networking: false,
     extraConfig: false,
     uploadConfig: false,
@@ -103,7 +95,6 @@ const uiProviderTypes = [
   {
     displayName: 'Policy',
     name: 'Gestalt::Configuration::Provider::Policy',
-    type: 'POLICY',
     networking: false,
     extraConfig: false,
     uploadConfig: false,
@@ -115,7 +106,17 @@ const uiProviderTypes = [
   {
     displayName: 'Logging',
     name: 'Gestalt::Configuration::Provider::Logging',
-    type: 'LOGGING',
+    networking: false,
+    extraConfig: false,
+    uploadConfig: false,
+    allowContainer: true,
+    externalProtocol: false,
+    allowLinkedProviders: true,
+    allowedRestrictEnvironments: true,
+  },
+  {
+    displayName: 'Gestalt Flink',
+    name: 'Gestalt::Configuration::Provider::GestaltFlink',
     networking: false,
     extraConfig: false,
     uploadConfig: false,
@@ -127,7 +128,6 @@ const uiProviderTypes = [
   {
     displayName: 'Laser (Lambda)',
     name: 'Gestalt::Configuration::Provider::Lambda',
-    type: 'LAMBDA',
     allowContainer: true,
     externalProtocol: false,
     allowLinkedProviders: true,
@@ -136,63 +136,54 @@ const uiProviderTypes = [
   {
     displayName: 'Laser Executor NodeJS',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::NodeJS',
-    type: 'LAMBDA::NODEJS',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Nashorn',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Nashorn',
-    type: 'LAMBDA::NASHORN',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Scala',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Scala',
-    type: 'LAMBDA::SCALA',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Java',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Java',
-    type: 'LAMBDA::JAVA',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Ruby',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Ruby',
-    type: 'LAMBDA::RUBY',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Python',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Python',
-    type: 'LAMBDA::PYTHON',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor C#',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::CSharp',
-    type: 'LAMBDA::CSHARP',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Go',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::GoLang',
-    type: 'LAMBDA::GO',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
     displayName: 'Laser Executor Bash',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Bash',
-    type: 'LAMBDA::BASH',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },

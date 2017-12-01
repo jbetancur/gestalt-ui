@@ -57,7 +57,8 @@ const ContainerForm = (props) => {
   const hasServiceAddresses =
     props.editMode &&
     container.properties.port_mappings &&
-    container.properties.port_mappings.length > 0;
+    container.properties.port_mappings.length > 0 &&
+    container.properties.port_mappings.some(p => p.service_address);
 
   return (
     <div>
