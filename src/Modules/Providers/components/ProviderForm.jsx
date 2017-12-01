@@ -43,7 +43,9 @@ const ProviderForm = (props) => {
   const handleProviderChange = (a, value) => {
     const providerType = compiledProviderTypes.find(type => type.name === value);
 
-    fetchEnvSchema(providerType.id);
+    if (providerType && providerType.id) {
+      fetchEnvSchema(providerType.id);
+    }
     reset();
   };
 
