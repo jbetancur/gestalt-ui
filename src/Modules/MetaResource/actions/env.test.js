@@ -24,9 +24,9 @@ describe('Env Actions', () => {
   it('should request FETCH_ENV_SCHEMA_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_ENV_SCHEMA_REQUEST,
-      schemaType: 'whatevs',
+      resourceTypeId: '1',
     };
 
-    expect(actions.fetchEnvSchema('whatevs')).to.deep.equal(expectedAction);
+    expect(actions.fetchEnvSchema('1')).to.deep.equal(expectedAction);
   });
 });

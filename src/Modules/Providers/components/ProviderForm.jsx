@@ -42,11 +42,8 @@ const ProviderForm = (props) => {
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
     const providerType = compiledProviderTypes.find(type => type.name === value);
-    // no need to fetch env schema if we do not allowEnvVariables
-    if (providerType && providerType.allowEnvVariables) {
-      fetchEnvSchema(providerType.type);
-    }
 
+    fetchEnvSchema(providerType.id);
     reset();
   };
 
@@ -208,10 +205,9 @@ const ProviderForm = (props) => {
                       />
                     </Panel>
                   </Col>
-                  {selectedProviderType.allowEnvVariables &&
-                    <Col flex={12}>
-                      <VariablesSection {...props} />
-                    </Col>}
+                  <Col flex={12}>
+                    <VariablesSection {...props} />
+                  </Col>
                   {selectedProviderType.allowLinkedProviders &&
                     <Col flex={12}>
                       <LinkedProviders providersModel={linkedProviders} />

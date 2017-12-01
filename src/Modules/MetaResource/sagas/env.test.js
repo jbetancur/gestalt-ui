@@ -5,7 +5,6 @@ import envSagas, {
   fetchEnvSchema,
 } from './env';
 import * as types from '../actionTypes';
-// import constants from '../constants/envSchema'; // TODO: mock up with rewire
 
 describe('Env Sagas', () => {
   const error = 'an error has occured';
@@ -61,7 +60,7 @@ describe('Env Sagas', () => {
 
   describe('fetchEnvSchema Sequence', () => {
     let result;
-    const saga = fetchEnvSchema({ schemaType: 'KONG' }); // TODO: Rewire this, but babel rewire plugin is borked
+    const saga = fetchEnvSchema({ resourceTypeId: '25acb32c-6635-49d1-ba19-4cf317003ff6' }); // TODO: Rewire this, but babel rewire plugin is borked
 
     it('should make an api call', () => {
       result = saga.next();
