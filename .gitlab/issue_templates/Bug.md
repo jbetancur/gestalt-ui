@@ -16,5 +16,8 @@
 ## Possible Fix
 [not obligatory, but suggest fixes or reasons for the bug]
 
+## UI Version (release-SHA)
+
+
 ## Browser Brand/Version (s)
 * [Chrome...]
