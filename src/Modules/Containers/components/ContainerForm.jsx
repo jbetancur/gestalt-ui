@@ -50,15 +50,8 @@ const ContainerForm = (props) => {
     props.editMode ? (props.containerPending || props.invalid || props.submitting)
       : (props.pristine || props.containerPending || props.invalid || props.submitting);
 
-  const hasInstances =
-    props.editMode &&
-    container.properties.instances &&
-    container.properties.instances.length > 0;
-  const hasServiceAddresses =
-    props.editMode &&
-    container.properties.port_mappings &&
-    container.properties.port_mappings.length > 0 &&
-    container.properties.port_mappings.some(p => p.service_address);
+  const hasInstances = props.containerInstances.length > 0;
+  const hasServiceAddresses = props.containerServiceAddresses.length > 0 && props.containerServiceAddresses.some(p => p.service_address);
 
   return (
     <div>
@@ -221,7 +214,6 @@ const ContainerForm = (props) => {
                               component={TextField}
                               name="properties.memory"
                               min={32}
-                              max={32384}
                               step={1}
                               label="Memory"
                               type="number"
@@ -272,13 +264,13 @@ const ContainerForm = (props) => {
                     {hasInstances &&
                       <Col flex={6} xs={12} sm={12}>
                         <Panel
-                          title={`Instances (${container.properties.instances.length}/${container.properties.num_instances})`}
+                          title={`Instances (${props.containerInstances.length}/${container.properties.num_instances})`}
                           noPadding
                         >
                           <ContainerInstances
-                            containerModel={props.container}
-                            match={props.match}
+                            instances={props.containerInstances}
                             providerType={providerType}
+                            containerModel={container}
                           />
                         </Panel>
                       </Col>}
@@ -286,7 +278,7 @@ const ContainerForm = (props) => {
                       <Col flex={6} xs={12} sm={12}>
                         <Panel title="Service Instances" noPadding>
                           <ContainerServiceAddresses
-                            containerModel={props.container}
+                            serviceAddresses={props.containerServiceAddresses}
                           />
                         </Panel>
                       </Col>
@@ -442,6 +434,8 @@ ContainerForm.propTypes = {
   inlineMode: PropTypes.bool,
   apiEndpoints: PropTypes.array.isRequired,
   apiEndpointsPending: PropTypes.bool.isRequired,
+  containerInstances: PropTypes.array,
+  containerServiceAddresses: PropTypes.array,
 };
 
 ContainerForm.defaultProps = {
@@ -450,6 +444,8 @@ ContainerForm.defaultProps = {
   cancelLabel: 'Cancel',
   editMode: false,
   inlineMode: false,
+  containerInstances: [],
+  containerServiceAddresses: [],
 };
 
 // Connect to this forms state in the store so we can enum the values

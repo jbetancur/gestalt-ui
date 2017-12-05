@@ -6,6 +6,7 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableColumnTi
 
 class ContainerInstances extends PureComponent {
   static propTypes = {
+    instances: PropTypes.array.isRequired,
     containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     providerType: PropTypes.string,
@@ -15,14 +16,10 @@ class ContainerInstances extends PureComponent {
     providerType: '',
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   renderInstancesRows() {
-    const { match, containerModel, providerType } = this.props;
+    const { match, instances, providerType, containerModel } = this.props;
 
-    return containerModel.properties.instances.map((item, i) => (
+    return instances.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>
           {providerType === 'Kubernetes' &&
@@ -82,7 +79,7 @@ class ContainerInstances extends PureComponent {
   render() {
     return (
       <div>
-        {(this.props.containerModel.properties.instances && Object.keys(this.props.containerModel.properties.instances).length) ? this.renderInstancesTable() : null}
+        {(this.props.instances && Object.keys(this.props.instances).length) ? this.renderInstancesTable() : null}
       </div>
     );
   }

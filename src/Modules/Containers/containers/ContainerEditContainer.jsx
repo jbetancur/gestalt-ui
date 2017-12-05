@@ -16,7 +16,13 @@ import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateContainerPayload } from '../payloadTransformer';
-import { getEditContainerModel, getEditContainerModelAsSpec, selectContainer } from '../selectors';
+import {
+  getEditContainerModel,
+  getEditContainerModelAsSpec,
+  selectContainer,
+  getContainerInstances,
+  getContainerServiceAddresses
+} from '../selectors';
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -147,6 +153,8 @@ class ContainerEdit extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   container: ownProps.containerSpec || selectContainer(state),
+  containerInstances: getContainerInstances(state),
+  containerServiceAddresses: getContainerServiceAddresses(state),
   volumeModal: state.volumeModal.volumeModal,
   portmapModal: state.portmapModal.portmapModal,
   healthCheckModal: state.healthCheckModal.healthCheckModal,

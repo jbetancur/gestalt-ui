@@ -6804,9 +6804,9 @@ react-i18next@^7.1.1:
     html-parse-stringify2 "2.0.1"
     prop-types "^15.6.0"
 
-react-inlinesvg@^0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.7.3.tgz#365e148f823f390e62079c4357ca632466e1a0d2"
+react-inlinesvg@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.7.4.tgz#c5191ebb94dd9eb9274f3dbd1dd437d989107557"
   dependencies:
     httpplease "^0.16.4"
     once "^1.4.0"
