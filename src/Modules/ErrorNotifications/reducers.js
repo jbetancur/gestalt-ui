@@ -12,24 +12,25 @@ export default (state = initialState, action) => {
     return state;
   }
 
-  // Catch all REJECTIONS
-  if (action.type.includes('REJECTED')) {
-    // TODO: axios bug on failed promise
-    // don't display this annoying error
-    if (action.payload && action.payload.message && action.payload.message.includes('Cannot read property \'data\' of undefined')) {
-      return state;
-    }
+  // TODO: removed for now as this is handeled by our axios interceptors
+  // // Catch all REJECTIONS
+  // if (action.type.includes('REJECTED')) {
+  //   // TODO: axios bug on failed promise
+  //   // don't display this annoying error
+  //   if (action.payload && action.payload.message && action.payload.message.includes('Cannot read property \'data\' of undefined')) {
+  //     return state;
+  //   }
 
-    if (typeof action.payload === 'string' && action.payload.includes('Cannot read property \'data\' of undefined')) {
-      return state;
-    }
+  //   if (typeof action.payload === 'string' && action.payload.includes('Cannot read property \'data\' of undefined')) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      friendlyMessage: '',
-      error: action.payload || 'Unknown'
-    };
-  }
+  //   return {
+  //     ...state,
+  //     friendlyMessage: '',
+  //     error: action.payload || 'Unknown'
+  //   };
+  // }
 
   // Handle Global state errors
   switch (action.type) {

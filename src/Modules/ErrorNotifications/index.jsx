@@ -1,14 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import Snackbar from 'react-md/lib/Snackbars';
 
 const EnhancedSnackBar = styled(Snackbar)`
   z-index: 9999;
   min-height: 5em;
+  min-width: 50%;
+  width: 100%;
+  overflow: auto;
+
   button {
-    color: red;
+    color: ${props => props.theme.colors['$md-orange-800']};
   }
 `;
 
@@ -49,7 +53,7 @@ class ErrorNotifications extends PureComponent {
       // deal with errors when an object as well as phantom data: {}
       if (error.data && Object.keys(error.data).length > 0) {
         const errorPayload = {
-          text: `${friendlyMessage} ${statusCode} ${message}`,
+          text: `${friendlyMessage} ${message} ${statusCode && `(code ${statusCode})`}`,
           action: 'Close'
         };
 
@@ -66,12 +70,10 @@ class ErrorNotifications extends PureComponent {
 
   render() {
     return (
-      <div className="btn-group">
-        <EnhancedSnackBar
-          {...this.state}
-          onDismiss={this.removeToast}
-        />
-      </div>
+      <EnhancedSnackBar
+        {...this.state}
+        onDismiss={this.removeToast}
+      />
     );
   }
 }
@@ -82,5 +84,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ErrorNotifications);
+export default connect(mapStateToProps)(withTheme(ErrorNotifications));
 
