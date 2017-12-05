@@ -4,17 +4,13 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'compon
 
 class ContainerServiceAddresses extends PureComponent {
   static propTypes = {
-    containerModel: PropTypes.object.isRequired,
+    serviceAddresses: PropTypes.array.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   renderServiceAddressesRows() {
-    const { containerModel } = this.props;
+    const { serviceAddresses } = this.props;
 
-    return containerModel.properties.port_mappings.map((port, i) => (
+    return serviceAddresses.map((port, i) => (
       port.service_address &&
       <TableRow key={i}>
         <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
@@ -24,7 +20,7 @@ class ContainerServiceAddresses extends PureComponent {
     ));
   }
 
-  renderServiceAddressesTable() {
+  render() {
     return (
       <DataTable plain>
         <TableHeader>
@@ -38,14 +34,6 @@ class ContainerServiceAddresses extends PureComponent {
           {this.renderServiceAddressesRows()}
         </TableBody>
       </DataTable>
-    );
-  }
-
-  render() {
-    return (
-      <div>
-        {this.renderServiceAddressesTable()}
-      </div>
     );
   }
 }

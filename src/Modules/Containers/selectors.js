@@ -22,7 +22,6 @@ export const getCreateContainerModel = createSelector(
         labels: [],
         accepted_resource_roles: [],
         constraints: [],
-        instances: [],
         provider: {
           locations: [],
         },
@@ -54,7 +53,6 @@ export const getEditContainerModel = createSelector(
         container_type: container.properties.container_type,
         accepted_resource_roles: container.properties.accepted_resource_roles,
         constraints: container.properties.constraints,
-        instances: container.properties.instances,
         provider: container.properties.provider,
         force_pull: container.properties.force_pull,
         cpus: container.properties.cpus,
@@ -88,7 +86,6 @@ export const getEditContainerModelAsSpec = createSelector(
         container_type: container.properties.container_type,
         accepted_resource_roles: container.properties.accepted_resource_roles,
         constraints: container.properties.constraints,
-        instances: container.properties.instances,
         provider: container.properties.provider,
         force_pull: container.properties.force_pull,
         cpus: container.properties.cpus,
@@ -107,4 +104,14 @@ export const getEditContainerModelAsSpec = createSelector(
 
     return model;
   }
+);
+
+export const getContainerInstances = createSelector(
+  [selectContainer],
+  container => container.properties.instances || []
+);
+
+export const getContainerServiceAddresses = createSelector(
+  [selectContainer],
+  container => container.properties.port_mappings || []
 );
