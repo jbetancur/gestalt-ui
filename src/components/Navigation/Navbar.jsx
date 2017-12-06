@@ -18,7 +18,7 @@ const NavbarContainer = styled.nav`
   padding-top: 16px;
   height: 100%;
   overflow: visible;
-  z-index: 20;
+  z-index: 5;
   top: 4.6em;
 
   @media (min-width: 0) and (max-width: 768px) {
