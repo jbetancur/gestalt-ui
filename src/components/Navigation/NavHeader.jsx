@@ -10,7 +10,7 @@ const NavHeader = styled.div`
   /* position: fixed; */
   /* width: calc(100% - 70px); */
   width: 100%;
-  z-index: 19;
+  z-index: 4;
   top: 64px;
 
   .md-btn--icon {
