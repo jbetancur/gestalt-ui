@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { licenseActions } from 'Modules/Licensing';
-import Toolbar from 'react-md/lib/Toolbars';
+import { Header } from 'components/Navigation';
 import ActivityContainer from 'components/ActivityContainer';
 import OrgNavMenu from 'Modules/OrgNavMenu';
 import ModalRoot from 'Modules/ModalRoot';
@@ -63,7 +63,7 @@ class App extends Component {
     return (
       self.id ?
         <Main id="app-main">
-          <Toolbar
+          <Header
             colored
             fixed
             title={<OrgNavMenu />}
@@ -73,7 +73,7 @@ class App extends Component {
             ]}
           >
             <AppLogo visible={browser.greaterThan.sm} />
-          </Toolbar>
+          </Header>
           <ModalRoot />
           <ContextRoutes />
         </Main> : <AppError onLogout={this.logout} {...this.props} />

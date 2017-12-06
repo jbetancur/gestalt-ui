@@ -5,23 +5,8 @@ import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import ExpansionPanel from 'components/ExpansionPanel';
+import { NavHeader } from 'components/Navigation';
 import { ActionsMenu } from 'Modules/Actions';
-
-const ContextNavigationStyle = styled.div`
-  background-color: ${props => props.theme.colors['$md-white']};
-  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-300']};
-  padding: 13px 8px 13px 8px;
-  text-align: left;
-  min-height: 64px;
-  width: 100%;
-  overflow: visible;
-
-  .md-btn--icon {
-    height: 32px;
-    padding: 0;
-    width: 32px;
-  }
-`;
 
 const DetailsPanel = styled.div`
   padding: 16px;
@@ -87,7 +72,7 @@ class ContextNavigation extends PureComponent {
     const { breadcrumbComponent, actionsComponent, detailsComponent, pending, pendingContextActions, actionsList, model } = this.props;
 
     return (
-      <ContextNavigationStyle>
+      <NavHeader>
         <Row alignItems="center">
           <Col xs={12} sm={12} md={6} lg={6}>
             {breadcrumbComponent}
@@ -122,7 +107,7 @@ class ContextNavigation extends PureComponent {
           </Col>}
         </Row>
         {this.props.children}
-      </ContextNavigationStyle>
+      </NavHeader>
     );
   }
 }

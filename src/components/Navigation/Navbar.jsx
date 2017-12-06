@@ -4,7 +4,6 @@ import styled, { withTheme } from 'styled-components';
 
 const NavbarContainer = styled.nav`
   position: fixed;
-  top: 4.6em;
   left: 0;
   bottom: 0;
   background-color: white;
@@ -17,9 +16,10 @@ const NavbarContainer = styled.nav`
   justify-content: start;
   align-items: start;
   padding-top: 16px;
-  z-index: 14;
   height: 100%;
   overflow: visible;
+  z-index: 20;
+  top: 4.6em;
 
   @media (min-width: 0) and (max-width: 768px) {
     top: 3.8em;

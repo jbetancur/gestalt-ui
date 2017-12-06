@@ -44,10 +44,10 @@ class ContainerInstances extends PureComponent {
             View Log
           </Button>
         </TableColumn>
-        <TableColumn>{item.host}</TableColumn>
         <TableColumn>
           {item.ipAddresses && item.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)}
         </TableColumn>
+        <TableColumn>{item.host}</TableColumn>
         <TableColumn>
           {/* TODO: <a rel="noopener noreferrer" target="_blank" href={`http://${item.host}:${port}`}>{port}</a> */}
           {item.ports && item.ports.map((port, idx) => <div key={idx}>{port}</div>)}
