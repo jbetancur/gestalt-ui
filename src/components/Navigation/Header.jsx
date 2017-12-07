@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Toolbar } from 'react-md';
 
 const Header = styled(Toolbar)`
@@ -6,4 +6,4 @@ const Header = styled(Toolbar)`
   background-color: ${props => props.theme.appHeaderColor};
 `;
 
-export default withTheme(Header);
+export default Header;

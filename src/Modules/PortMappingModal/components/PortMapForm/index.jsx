@@ -19,7 +19,7 @@ const PortMapForm = (props) => {
   };
 
   return (
-    <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" style={{ marginTop: '-.5em' }}>
+    <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
       <Row gutter={5}>
         <Field
           id="expose-service"
@@ -27,10 +27,10 @@ const PortMapForm = (props) => {
           name="expose_endpoint"
           // TODO: Find out why redux-form state for bool doesn't apply
           checked={values.expose_endpoint}
-          label="Expose Service"
+          label="Expose Service Endpoint"
         />
-        <Row gutter={5} style={{ marginTop: '-1.4em' }}>
-          <Col flex={6} xs={6}>
+        <Row gutter={5}>
+          <Col flex={12}>
             <Field
               name="name"
               type="text"
@@ -41,7 +41,7 @@ const PortMapForm = (props) => {
               helpText="e.g. web"
             />
           </Col>
-          <Col flex={3} xs={3}>
+          <Col flex>
             <Field
               id="port-mapping-protocol"
               name="protocol"
@@ -53,21 +53,8 @@ const PortMapForm = (props) => {
               required
             />
           </Col>
-          {(values.expose_endpoint && props.networkType === 'HOST') &&
-          <Col flex={3} xs={6}>
-            <Field
-              name="service_port"
-              type="number"
-              min={0}
-              max={65535}
-              label="Service Port"
-              component={TextField}
-              required
-              normalize={fixInputNumber}
-            />
-          </Col>}
           {(props.networkType !== 'HOST') &&
-          <Col flex={3} xs={6}>
+          <Col flex={4}>
             <Field
               name="container_port"
               type="number"
@@ -77,6 +64,20 @@ const PortMapForm = (props) => {
               component={TextField}
               required
               normalize={fixInputNumber}
+            />
+          </Col>}
+          {(values.expose_endpoint) &&
+          <Col flex={4}>
+            <Field
+              name="service_port"
+              type="number"
+              min={0}
+              max={65535}
+              label="Service Port"
+              component={TextField}
+              required
+              normalize={fixInputNumber}
+              helpText="0 = auto-assign (recommended)"
             />
           </Col>}
           {values.expose_endpoint &&
@@ -92,7 +93,7 @@ const PortMapForm = (props) => {
         <ModalFooter>
           <Button
             flat
-            onClick={() => close()}
+            onClick={close}
           >
             Cancel
           </Button>

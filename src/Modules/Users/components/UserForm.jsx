@@ -18,7 +18,7 @@ const UserForm = (props) => {
     <div>
       <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
         <Row gutter={5} center>
-          <Col component={Card} flex={10} xs={12} sm={12}>
+          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle title={props.title} />
             <ActionsToolbar>
               <Button
