@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Navigation) NavHeader renders a NavHeader 1`] = `
+.c0 {
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 13px 8px 13px 8px;
+  text-align: left;
+  min-height: 64px;
+  overflow: visible;
+  width: 100%;
+  z-index: 4;
+  top: 64px;
+}
+
+.c0 .md-btn--icon {
+  height: 32px;
+  padding: 0;
+  width: 32px;
+}
+
+<div
+  className="c0"
+/>
+`;

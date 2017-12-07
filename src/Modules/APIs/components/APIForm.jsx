@@ -34,13 +34,13 @@ const APIForm = (props) => {
     <div>
       {api.id &&
         <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12}>
+          <Col flex={10} xs={12} sm={12} md={12}>
             <DetailsPane model={api} />
           </Col>
         </Row>}
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Row gutter={5} center>
-          <Col component={Card} flex={10} xs={12} sm={12}>
+          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle title={title} />
             <ActionsToolbar>
               <Button

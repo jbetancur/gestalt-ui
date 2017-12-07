@@ -43,12 +43,12 @@ const PolicyForm = (props) => {
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       {policy.id &&
         <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12}>
+          <Col flex={10} xs={12} sm={12} md={12}>
             <DetailsPane model={policy} />
           </Col>
         </Row>}
       <Row gutter={5} center>
-        <Col component={Card} flex={10} xs={12} sm={12}>
+        <Col component={Card} flex={10} xs={12} sm={12} md={12}>
           <CardTitle title={title} />
           <ActionsToolbar>
             <Button
@@ -113,7 +113,7 @@ const PolicyForm = (props) => {
 
         {(editMode && policy.id) &&
           <Row gutter={5} center>
-            <Col flex={10} xs={12} sm={12}>
+            <Col flex={10} xs={12} sm={12} md={12}>
               <PolicyRules {...props} />
             </Col>
           </Row>}

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Navigation) Header renders a Header 1`] = `
+.c0 {
+  z-index: 9999;
+  background-color: #1C1F2F;
+}
+
+<Paper
+  className="md-toolbar c0"
+  component="header"
+  zDepth={0}
+>
+  <ToolbarTitle
+    key="title"
+  />
+</Paper>
+`;

@@ -3,18 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import styled from 'styled-components';
-import Dialog from 'react-md/lib/Dialogs';
+import { media } from 'util/helpers/media';
+import { DialogContainer } from 'react-md';
 import { ModalTitle } from 'components/Modal';
 import PortMapForm from '../../components/PortMapForm';
 import actions from '../../actions';
 import validate from '../../components/PortMapForm/validations';
 
-const EnhancedDialog = styled(Dialog)`
+const EnhancedDialog = styled(DialogContainer) `
   .md-dialog {
     width: 100%;
-    max-width: 40em;
+    max-width: 35em;
+
     .md-dialog-content {
-      min-height: 18em;
+      min-height: 26em;
+      ${media.xs`min-height: 30em`};
+      ${media.sm`min-height: 30em`};
+      ${media.md`min-height: 30em`};
+      padding-left: 1em;
+      padding-right: 1em;
       overflow: visible;
     }
   }
@@ -37,7 +44,7 @@ class PortMapModel extends PureComponent {
     super(props);
   }
 
-  addPortmapping(values) {
+  addPortmapping = (values) => {
     const payload = { ...values };
 
     if (values.virtual_hosts && values.expose_endpoint) {
@@ -58,15 +65,17 @@ class PortMapModel extends PureComponent {
     return (
       <EnhancedDialog
         id="portmap-modal"
-        position="below"
         visible={this.props.portmapModal.visible}
         title={<ModalTitle title="Add Port Mapping" icon="settings_ethernet" />}
-        modal={false}
         closeOnEsc
         autosizeContent={false}
-        onHide={() => this.props.hidePortmapModal()}
+        onHide={this.props.hidePortmapModal}
       >
-        <PortMapForm networkType={this.props.networkType} onSubmit={values => this.addPortmapping(values)} {...this.props} />
+        <PortMapForm
+          networkType={this.props.networkType}
+          onSubmit={this.addPortmapping}
+          {...this.props}
+        />
       </EnhancedDialog>
     );
   }
@@ -78,11 +87,12 @@ function mapStateToProps(state) {
     initialValues: {
       protocol: 'tcp',
       expose_endpoint: true,
+      service_port: 0,
     },
   };
 }
 
 export default connect(mapStateToProps, actions)(reduxForm({
-  form: 'networkCreate',
+  form: 'portMapCreate',
   validate,
 })(PortMapModel));

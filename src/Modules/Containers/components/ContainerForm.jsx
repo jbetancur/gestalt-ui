@@ -164,7 +164,7 @@ const ContainerForm = (props) => {
                     <Col flex={6} xs={12} sm={12}>
                       <Panel title="Resources" minHeight="13.75em">
                         <Row gutter={5}>
-                          <Col flex={9}>
+                          <Col flex={9} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.image"
