@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from 'react-md/lib/Buttons/Button';
+import { Button } from 'react-md';
 
 const EnhancedButton = styled(Button)`
   margin-left: .1em;
@@ -7,7 +7,7 @@ const EnhancedButton = styled(Button)`
   text-align: center;
   ${props => props.noShadow && 'box-shadow: none'};
 
-  // fixes font when using React-Router-Link
+  /* fixes font when using React-Router-Link */
   .md-icon-text {
     font-weight: normal;
   }

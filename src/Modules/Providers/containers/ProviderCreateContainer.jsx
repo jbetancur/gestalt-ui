@@ -9,7 +9,6 @@ import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
-import withResourceTypes from '../hocs/withResourceTypes';
 import { getCreateProviderModel } from '../selectors';
 
 class ProviderCreate extends Component {
@@ -23,6 +22,7 @@ class ProviderCreate extends Component {
     portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
+    fetchResourceTypes: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
     unloadEnvSchema: PropTypes.func.isRequired,
@@ -34,9 +34,10 @@ class ProviderCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchProviders } = this.props;
+    const { match, fetchResourceTypes, fetchProvidersByType, fetchProviders } = this.props;
     const entity = generateContextEntityState(match.params);
 
+    fetchResourceTypes('root', 'Gestalt::Configuration::Provider');
     fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
     fetchProviders(match.params.fqon, entity.id, entity.key);
   }
@@ -134,7 +135,6 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
-  withResourceTypes,
   connect(mapStateToProps, { ...actions }),
   reduxForm({
     form: 'providerCreate',

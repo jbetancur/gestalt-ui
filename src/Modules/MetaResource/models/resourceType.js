@@ -4,6 +4,7 @@ export default Object.freeze({
   },
   created: {},
   modified: {},
-  properties: {},
-  property_defs: {},
+  properties: {
+    property_defs: [],
+  },
 });

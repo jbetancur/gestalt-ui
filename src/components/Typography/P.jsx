@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const PStyle = styled.p`
   display: block;
   line-height: 16px;
-  padding-bottom: 1em;
+  padding: 1em;
   color: ${props => props.theme.fontColorLight};
   font-size: ${props => `${props.fontSize}px`};
   ${props => props.overflow && `overflow: ${props.overflow}`};

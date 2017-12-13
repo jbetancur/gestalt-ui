@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
     case 'APP_HTTP_ERROR_404':
       return {
         ...state,
-        friendlyMessage: 'API path not found',
+        friendlyMessage: '',
         error: action.payload
       };
     case 'APP_HTTP_ERROR_401':

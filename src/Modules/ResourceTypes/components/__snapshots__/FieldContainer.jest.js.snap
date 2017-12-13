@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(ResourceTypes) FieldContainer mounts with basic props 1`] = `
+.c0 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+<ul
+  className="c0"
+/>
+`;

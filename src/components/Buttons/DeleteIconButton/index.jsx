@@ -7,11 +7,11 @@ const StyledIcon = styled.span`
     color: ${props => props.theme.removeIconColor};
 `;
 
-const DeleteIconButton = props => (
+const DeleteIconButton = ({ icon, ...rest }) => (
   <Button
     icon
-    iconChildren={<StyledIcon>{props.icon}</StyledIcon>}
-    {...props}
+    iconChildren={<StyledIcon>{icon}</StyledIcon>}
+    {...rest}
   />);
 
 DeleteIconButton.propTypes = {

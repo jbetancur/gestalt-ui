@@ -35,24 +35,24 @@ export default ({ input, required, meta: { touched, error }, menuItems, async, .
     menuItems ?
       <SelectField
         id={input.id}
-        {...input}
-        {...others}
         error={touched && !!error}
         errorText={error}
         menuItems={async ? compileMenuItems() : menuItems}
         lineDirection="center"
         sameWidth
         fullWidth
+        {...input}
+        {...others}
       /> :
       <SelectField
         id={input.name}
-        {...input}
-        {...others}
         error={touched && !!error}
         errorText={error}
         lineDirection="center"
         sameWidth
         fullWidth
+        {...input}
+        {...others}
       />
   );
 };

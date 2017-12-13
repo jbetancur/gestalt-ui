@@ -23,6 +23,26 @@ class WorkspaceActions extends PureComponent {
   render() {
     const { workspace, pending, match, hierarchyActions } = this.props;
     const name = workspace.description || workspace.name;
+    const menuItems = [
+      <ListItem
+        id="workspace-settings-menu--environment-create"
+        key="workspace-settings-menu--environment-create"
+        primaryText="Environment"
+        component={Link}
+        leftIcon={<FontIcon>folder</FontIcon>}
+        to={{ pathname: `${match.url}/createEnvironment`, state: { modal: true } }}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="workspace-settings-menu--provider-create"
+        key="workspace-settings-menu--provider-create"
+        primaryText="Provider"
+        component={Link}
+        leftIcon={<FontIcon>settings_applications</FontIcon>}
+        to={`${match.url}/createProvider`}
+        style={listItemStyle}
+      />
+    ];
 
     return (
       <Div display="inline" disabled={pending}>
@@ -33,24 +53,8 @@ class WorkspaceActions extends PureComponent {
           flat
           sameWidth={false}
           label="Create"
-        >
-          <ListItem
-            id="workspace-settings-menu--environment-create"
-            primaryText="Environment"
-            component={Link}
-            leftIcon={<FontIcon>folder</FontIcon>}
-            to={{ pathname: `${match.url}/createEnvironment`, state: { modal: true } }}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="workspace-settings-menu--provider-create"
-            primaryText="Provider"
-            component={Link}
-            leftIcon={<FontIcon>settings_applications</FontIcon>}
-            to={`${match.url}/createProvider`}
-            style={listItemStyle}
-          />
-        </MenuButton>
+          menuItems={menuItems}
+        />
         <Button
           flat
           iconChildren="security"

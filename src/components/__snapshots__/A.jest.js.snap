@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Component) A it mounts the bubble prop 1`] = `
+exports[`(Component) A mounts the bubble prop 1`] = `
 .c0 {
   font-size: 12px;
   text-decoration: none;
@@ -18,7 +18,7 @@ exports[`(Component) A it mounts the bubble prop 1`] = `
 />
 `;
 
-exports[`(Component) A it mounts without additional props 1`] = `
+exports[`(Component) A mounts without additional props 1`] = `
 .c0 {
   font-size: 12px;
   text-decoration: none;

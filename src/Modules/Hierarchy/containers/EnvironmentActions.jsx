@@ -23,6 +23,56 @@ class EnvironmentActions extends PureComponent {
   render() {
     const { environment, pending, match, hierarchyActions } = this.props;
     const name = environment.description || environment.name;
+    const menuItems = [
+      <ListItem
+        id="workspace-settings-menu--container-create"
+        primaryText="Container"
+        component={Link}
+        leftIcon={<ContainerIcon />}
+        to={`${match.url}/containers/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="workspace-settings-menu--lambda-create"
+        primaryText="Lambda"
+        component={Link}
+        leftIcon={<LambdaIcon />}
+        to={`${match.url}/lambdas/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="environment-settings-menu--apis-create"
+        primaryText="API"
+        component={Link}
+        leftIcon={<FontIcon>device_hub</FontIcon>}
+        to={`${match.url}/apis/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="environment-settings-menu--policies-create"
+        primaryText="Policy"
+        component={Link}
+        leftIcon={<FontIcon>verified_user</FontIcon>}
+        to={`${match.url}/policies/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="environment-settings-menu--provider-create"
+        primaryText="Provider"
+        component={Link}
+        leftIcon={<FontIcon>settings_applications</FontIcon>}
+        to={`${match.url}/providers/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="environment-settings-menu--secret-create"
+        primaryText="Secret"
+        component={Link}
+        leftIcon={<FontIcon>lock</FontIcon>}
+        to={`${match.url}/secrets/create`}
+        style={listItemStyle}
+      />
+    ];
 
     return (
       <Div display="inline" disabled={pending}>
@@ -33,56 +83,8 @@ class EnvironmentActions extends PureComponent {
           flat
           sameWidth={false}
           label="Create"
-        >
-          <ListItem
-            id="workspace-settings-menu--container-create"
-            primaryText="Container"
-            component={Link}
-            leftIcon={<ContainerIcon />}
-            to={`${match.url}/containers/create`}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="workspace-settings-menu--lambda-create"
-            primaryText="Lambda"
-            component={Link}
-            leftIcon={<LambdaIcon />}
-            to={`${match.url}/lambdas/create`}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="environment-settings-menu--apis-create"
-            primaryText="API"
-            component={Link}
-            leftIcon={<FontIcon>device_hub</FontIcon>}
-            to={`${match.url}/apis/create`}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="environment-settings-menu--policies-create"
-            primaryText="Policy"
-            component={Link}
-            leftIcon={<FontIcon>verified_user</FontIcon>}
-            to={`${match.url}/policies/create`}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="environment-settings-menu--provider-create"
-            primaryText="Provider"
-            component={Link}
-            leftIcon={<FontIcon>settings_applications</FontIcon>}
-            to={`${match.url}/providers/create`}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="environment-settings-menu--secret-create"
-            primaryText="Secret"
-            component={Link}
-            leftIcon={<FontIcon>lock</FontIcon>}
-            to={`${match.url}/secrets/create`}
-            style={listItemStyle}
-          />
-        </MenuButton>
+          menuItems={menuItems}
+        />
         <Button
           flat
           iconChildren="security"

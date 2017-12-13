@@ -11,7 +11,7 @@ import StatusBubble from 'components/StatusBubble';
 import { ClipboardButton } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const CardStyle = styled(Card) `
+const CardStyle = styled(({ noShadow, ...rest }) => <Card {...rest} />) `
   ${props => props.noShadow && 'box-shadow: none'};
 `;
 

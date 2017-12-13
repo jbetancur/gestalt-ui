@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import Button from 'react-md/lib/Buttons/Button';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-const EnhancedButton = styled(Button)`
+const EnhancedButton = styled(({ inLink, ...rest }) => <Button {...rest} />)`
   text-transform: none;
   vertical-align: middle;
 
