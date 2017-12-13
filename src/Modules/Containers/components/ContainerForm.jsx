@@ -138,6 +138,7 @@ const ContainerForm = (props) => {
                   <Row gutter={5}>
                     <Col flex={6} xs={12}>
                       <Field
+                        id="container-name"
                         component={TextField}
                         name="name"
                         label="Name"
@@ -240,6 +241,7 @@ const ContainerForm = (props) => {
                     <Col flex={12}>
                       <Panel title="Description" defaultExpanded={!!container.description}>
                         <Field
+                          id="container-description"
                           component={TextField}
                           name="description"
                           placeholder="Description"

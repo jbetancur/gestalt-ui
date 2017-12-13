@@ -112,7 +112,7 @@ class HierarchyListing extends PureComponent {
     const environmentToggleName = this.state.showEnvironments ? 'Hide Environments' : 'Show Environments';
 
     return (
-      organizationSetPending ? <ActivityContainer key="hierarchy-listing--loading" id="hierarchy-listing--loading" /> :
+      organizationSetPending ? <ActivityContainer id="hierarchy-listing--loading" /> :
         [
           <Row key={this.props.organizationSet.id} gutter={5} paddingLeft="1em" alignItems="center">
             <Col flex={2} xs={12} sm={6} md={6}>

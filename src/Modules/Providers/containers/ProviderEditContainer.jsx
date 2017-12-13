@@ -11,7 +11,6 @@ import ProviderForm from '../components/ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
-import withResourceTypes from '../hocs/withResourceTypes';
 import { getEditProviderModel } from '../selectors';
 
 class ProviderEdit extends Component {
@@ -23,6 +22,7 @@ class ProviderEdit extends Component {
     fetchProviders: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     fetchProviderContainer: PropTypes.func.isRequired,
+    fetchResourceTypes: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
@@ -45,8 +45,9 @@ class ProviderEdit extends Component {
   state = { redeploy: false };
 
   componentDidMount() {
-    const { match, fetchProvidersByType } = this.props;
+    const { match, fetchResourceTypes, fetchProvidersByType } = this.props;
 
+    fetchResourceTypes('root', 'Gestalt::Configuration::Provider');
     fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     this.populateProvider();
     this.populateContainer();
@@ -176,7 +177,6 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
-  withResourceTypes,
   connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),
   reduxForm({
     form: 'providerEdit',

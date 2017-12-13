@@ -207,9 +207,9 @@ const ProviderForm = (props) => {
                       />
                     </Panel>
                   </Col>
-                  <Col flex={12}>
-                    <VariablesSection {...props} />
-                  </Col>
+
+                  <VariablesSection {...props} />
+
                   {selectedProviderType.allowLinkedProviders &&
                     <Col flex={12}>
                       <LinkedProviders providersModel={linkedProviders} />

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontIcon, LinearProgress } from 'react-md';
-// import { FormattedDate, FormattedTime } from 'react-intl';
 import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { truncate } from 'util/helpers/strings';
@@ -50,7 +49,7 @@ class ResourceTypeItem extends Component {
           actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
         />
         {this.props.pending && <LinearProgress id="resourceType-listing" />}
-        <DataTable baseId="resourceTypes" onRowToggle={this.handleRowToggle} plain>
+        <DataTable baseId="resourceTypes" onRowToggle={this.handleRowToggle}>
           {this.props.model.length > 0 &&
           <TableHeader>
             <TableRow>

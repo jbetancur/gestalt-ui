@@ -4,7 +4,7 @@ exports[`(Component) P renders with basic props 1`] = `
 .c0 {
   display: block;
   line-height: 16px;
-  padding-bottom: 1em;
+  padding: 1em;
   color: #616161;
   font-size: 14px;
 }

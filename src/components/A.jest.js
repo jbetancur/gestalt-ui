@@ -9,13 +9,13 @@ describe('(Component) A', () => {
     expect(wrapper).to.have.length(1);
   });
 
-  test('it mounts without additional props', () => {
+  it('mounts without additional props', () => {
     const wrapper = shallowWithTheme(<A href="http://wassup" />);
 
     expect(wrapper.dive()).toMatchSnapshot();
   });
 
-  test('it mounts the bubble prop', () => {
+  it('mounts the bubble prop', () => {
     const wrapper = shallowWithTheme(<A href="http://wassup" bubble />);
 
     expect(wrapper.dive()).toMatchSnapshot();

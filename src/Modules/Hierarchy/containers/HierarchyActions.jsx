@@ -25,6 +25,65 @@ class HierarchyActions extends PureComponent {
   render() {
     const { organizationSet, match, pending, hierarchyActions, t } = this.props;
     const name = organizationSet.description || organizationSet.name;
+    const menuItems = [
+      <ListItem
+        id="orgs-settings-menu--create"
+        key="orgs-settings-menu--create"
+        primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
+        component={Link}
+        leftIcon={<FontIcon>domain</FontIcon>}
+        to={{ pathname: `/${organizationSet.properties.fqon}/createOrganization`, state: { modal: true } }}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="orgs-settings-menu--workspace-create"
+        key="orgs-settings-menu--workspace-create"
+        primaryText={<span>{t('workspaces.actions.create')}</span>}
+        component={Link}
+        leftIcon={<FontIcon>work</FontIcon>}
+        to={{ pathname: `/${organizationSet.properties.fqon}/createWorkspace`, state: { modal: true } }}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="orgs-settings-menu--provider-create"
+        key="orgs-settings-menu--provider-create"
+        primaryText={<span>{t('providers.actions.create')}</span>}
+        component={Link}
+        leftIcon={<FontIcon>settings_applications</FontIcon>}
+        to={`/${organizationSet.properties.fqon}/providers/create`}
+        style={listItemStyle}
+      />,
+      organizationSet.properties.fqon === 'root' ?
+        <ListItem
+          id="orgs-settings-menu--users-create"
+          key="orgs-settings-menu--users-create"
+          primaryText={<span>{t('users.actions.create')}</span>}
+          component={Link}
+          leftIcon={<FontIcon>person</FontIcon>}
+          to={`/${organizationSet.properties.fqon}/users/create`}
+          style={listItemStyle}
+        /> : <div key="orgs-settings-menu--users-create" />,
+      organizationSet.properties.fqon === 'root' ?
+        <ListItem
+          id="orgs-settings-menu--groups-create"
+          key="orgs-settings-menu--groups-create"
+          primaryText={<span>{t('groups.actions.create')}</span>}
+          component={Link}
+          leftIcon={<FontIcon>group</FontIcon>}
+          to={`/${organizationSet.properties.fqon}/groups/create`}
+          style={listItemStyle}
+        /> : <div key="orgs-settings-menu--groups-create" />,
+      organizationSet.properties.fqon === 'root' ?
+        <ListItem
+          id="orgs-settings-menu--resourceTypes-create"
+          key="orgs-settings-menu--resourceTypes-create"
+          primaryText="Resource Type"
+          component={Link}
+          leftIcon={<FontIcon>widgets</FontIcon>}
+          to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
+          style={listItemStyle}
+        /> : <div key="orgs-settings-menu--resourceTypes-create" />,
+    ];
 
     return (
       <Div display="inline" disabled={pending}>
@@ -34,57 +93,15 @@ class HierarchyActions extends PureComponent {
           iconChildren="add"
           flat
           sameWidth={false}
+          menuItems={menuItems}
           label="Create"
-        >
-          <ListItem
-            id="orgs-settings-menu--create"
-            primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
-            component={Link}
-            leftIcon={<FontIcon>domain</FontIcon>}
-            to={{ pathname: `/${organizationSet.properties.fqon}/createOrganization`, state: { modal: true } }}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="orgs-settings-menu--workspace-create"
-            primaryText={<span>{t('workspaces.actions.create')}</span>}
-            component={Link}
-            leftIcon={<FontIcon>work</FontIcon>}
-            to={{ pathname: `/${organizationSet.properties.fqon}/createWorkspace`, state: { modal: true } }}
-            style={listItemStyle}
-          />
-          <ListItem
-            id="orgs-settings-menu--provider-create"
-            primaryText={<span>{t('providers.actions.create')}</span>}
-            component={Link}
-            leftIcon={<FontIcon>settings_applications</FontIcon>}
-            to={`/${organizationSet.properties.fqon}/providers/create`}
-            style={listItemStyle}
-          />
-          {organizationSet.properties.fqon === 'root' ?
-            <ListItem
-              id="orgs-settings-menu--users-create"
-              primaryText={<span>{t('users.actions.create')}</span>}
-              component={Link}
-              leftIcon={<FontIcon>person</FontIcon>}
-              to={`/${organizationSet.properties.fqon}/users/create`}
-              style={listItemStyle}
-            /> : <div />}
-          {organizationSet.properties.fqon === 'root' ?
-            <ListItem
-              id="orgs-settings-menu--groups-create"
-              primaryText={<span>{t('groups.actions.create')}</span>}
-              component={Link}
-              leftIcon={<FontIcon>group</FontIcon>}
-              to={`/${organizationSet.properties.fqon}/groups/create`}
-              style={listItemStyle}
-            /> : <div />}
-        </MenuButton>
+        />
         <Button
           flat
           iconChildren="security"
           onClick={() => hierarchyActions.showEntitlementsModal(name, match.params, 'Organization')}
         >
-        Entitlements
+          Entitlements
         </Button>
       </Div>
     );

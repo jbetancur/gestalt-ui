@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
 
-const EnhancedListItem = styled(NavLink)`
+const EnhancedListItem = styled(({ isVisible, ...rest }) => <NavLink {...rest} />)`
   height: 56px;
   text-decoration: none;
   display: ${props => (props.isVisible ? 'flex' : 'none')};

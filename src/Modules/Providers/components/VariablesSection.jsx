@@ -8,29 +8,31 @@ import { Panel } from 'components/Panels';
 import PreventAutoFill from 'components/PreventAutoFill';
 
 const ProviderVariablesSection = props => (
-  <Panel title="Variables">
-    <Row component={Div} disabled={props.envSchemaPending}>
-      <PreventAutoFill />
-      <Col flex={6} xs={12} sm={12}>
+  <Row gutter={5}>
+    <PreventAutoFill />
+    <Col flex={6} xs={12} sm={12} component={Div} disabled={props.envSchemaPending}>
+      <Panel title="Public Variables">
         <VariablesForm
-          icon="public"
-          addButtonLabel="Add Public Variable"
+          icon="add"
+          addButtonLabel="Add Variable"
           fieldName="properties.config.env.public"
           keyFieldValidationFunction={isUnixVariable}
           keyFieldValidationMessage="must be a unix variable name"
         />
-      </Col>
-      <Col flex={6} xs={12} sm={12}>
+      </Panel>
+    </Col>
+    <Col flex={6} xs={12} sm={12} component={Div} disabled={props.envSchemaPending}>
+      <Panel title="Private Variables">
         <VariablesForm
-          icon="vpn_key"
-          addButtonLabel="Add Private Variable"
+          icon="add"
+          addButtonLabel="Add Variable"
           fieldName="properties.config.env.private"
           keyFieldValidationFunction={isUnixVariable}
           keyFieldValidationMessage="must be a unix variable name"
         />
-      </Col>
-    </Row>
-  </Panel>
+      </Panel>
+    </Col>
+  </Row>
 );
 
 ProviderVariablesSection.propTypes = {
