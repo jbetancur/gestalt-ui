@@ -10,6 +10,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import PropertyDefForm from './PropertyDefForm';
 import LineageForm from './LineageForm';
+import ActionVerbsForm from './ActionVerbsForm';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const ResourceTypeForm = (props) => {
@@ -56,27 +57,18 @@ const ResourceTypeForm = (props) => {
                   />
                 </Col>
 
-                <Col flex={4} xs={12} sm={12}>
+                <Col flex={7} xs={12} sm={12}>
                   <Field
                     id="select-extends"
                     component={SelectField}
-                    name="extends"
+                    name="extend"
                     menuItems={resourceTypes}
                     itemLabel="name"
                     itemValue="id"
                     required
-                    label="Extends Resource"
+                    label="Extend Resource"
                     async
                     helpText="Resource Type to extend"
-                  />
-                </Col>
-
-                <Col flex={3} xs={12} sm={12}>
-                  <Field
-                    component={TextField}
-                    name="properties.api.rest_name"
-                    label="Registered API Endpoint"
-                    required
                   />
                 </Col>
 
@@ -101,20 +93,51 @@ const ResourceTypeForm = (props) => {
                   </Panel>
                 </Col>
 
+                <Col flex={6} xs={12}>
+                  <Panel title="API" minHeight="145px">
+                    <Row gutter={5}>
+                      <Col flex={12}>
+                        <Field
+                          component={TextField}
+                          name="properties.api.rest_name"
+                          label="Registered API Endpoint"
+                          helpText="a valid resource path"
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Col>
+
+                <Col flex={6} xs={12}>
+                  <Panel title="Actions" noPadding>
+                    <Row gutter={10}>
+                      <Col flex={12}>
+                        <Field
+                          name="properties.actions.prefix"
+                          component={TextField}
+                          label="Prefix"
+                          helpText="the action verb prefix"
+                        />
+                      </Col>
+                    </Row>
+                    <FieldArray name="properties.actions.verbs" component={ActionVerbsForm} resourceTypes={resourceTypes} />
+                  </Panel>
+                </Col>
+
                 <Col flex={12}>
                   <Panel title="Property Definitions" noPadding>
-                    <FieldArray name="properties.property_defs" component={PropertyDefForm} />
+                    <FieldArray name="property_defs" component={PropertyDefForm} resourceTypes={resourceTypes} />
                   </Panel>
                 </Col>
 
                 <Col flex={6} xs={12} sm={12}>
-                  <Panel title="Parent Resource Types" noPadding>
+                  <Panel title="Parent Lineage" noPadding>
                     <FieldArray name="properties.lineage.parent_types" component={LineageForm} resourceTypes={resourceTypes} />
                   </Panel>
                 </Col>
 
                 <Col flex={6} xs={12} sm={12}>
-                  <Panel title="Child Resource Types" noPadding>
+                  <Panel title="Child Lineage" noPadding>
                     <FieldArray name="properties.lineage.child_types" component={LineageForm} resourceTypes={resourceTypes} />
                   </Panel>
                 </Col>

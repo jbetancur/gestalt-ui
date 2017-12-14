@@ -23,12 +23,12 @@ class CreateResourceType extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchResourceTypes('root', 'Gestalt::Configuration::Provider');
+    this.props.fetchResourceTypes('root');
   }
 
   create = (values) => {
     const { history, createResourceType } = this.props;
-    const resourceTypeName = this.props.resourceTypes.find(r => r.id === this.props.formValues.extends);
+    const resourceTypeName = this.props.resourceTypes.find(r => r.id === this.props.formValues.extend);
     const payload = generateResourcePayload(values, resourceTypeName.name);
     const onSuccess = () => history.replace('/root/resourcetypes');
 
