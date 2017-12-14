@@ -5,6 +5,13 @@ export default Object.freeze({
   created: {},
   modified: {},
   properties: {
-    property_defs: [],
+    actions: {
+      verbs: [],
+    },
+    lineage: {
+      parent_types: [],
+      child_types: []
+    }
   },
+  property_defs: [],
 });

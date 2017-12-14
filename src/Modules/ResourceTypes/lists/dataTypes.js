@@ -1,23 +1,7 @@
 export default [
   {
-    name: 'resource::uuid',
-    help: 'uuid to a resource, renders the uuid'
-  },
-  {
-    name: 'resource::uuid::name',
-    help: 'uuid to a resource, renders the name'
-  },
-  {
-    name: 'resource::uuid::link',
-    help: 'is a uuid to a resoruce, renders a resource link'
-  },
-  {
-    name: 'resource::uuid::list',
-    help: 'list of resource uuids, rendered as uuid'
-  },
-  {
-    name: 'resource::uuid::link::list',
-    help: 'list of resource uuids, rendered as links'
+    name: 'string',
+    help: ''
   },
   {
     name: 'int',
@@ -34,6 +18,10 @@ export default [
   {
     name: 'json',
     help: 'json blob'
+  },
+  {
+    name: 'uuid',
+    help: ''
   },
   {
     name: 'json::list',
@@ -58,5 +46,25 @@ export default [
   {
     name: 'uuid::list',
     help: 'list of uuids'
+  },
+  {
+    name: 'resource::uuid',
+    help: 'uuid to a resource, renders the uuid'
+  },
+  {
+    name: 'resource::uuid::name',
+    help: 'uuid to a resource, renders the name'
+  },
+  {
+    name: 'resource::uuid::link',
+    help: 'is a uuid to a resoruce, renders a resource link'
+  },
+  {
+    name: 'resource::uuid::list',
+    help: 'list of resource uuids, rendered as uuid'
+  },
+  {
+    name: 'resource::uuid::link::list',
+    help: 'list of resource uuids, rendered as links'
   },
 ];

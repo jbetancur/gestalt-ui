@@ -2,23 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import { Caption } from 'components/Typography';
 import dataTypes from '../lists/dataTypes';
 import FieldContainer from './FieldContainer';
 import FieldItem from './FieldItem';
 import RemoveButton from './RemoveButton';
 
-const PropertyDefForm = ({ fields }) => (
+const PropertyDefForm = ({ fields, resourceTypes }) => (
   <FieldContainer>
     <FieldItem>
-      <Caption block light>At least 1 property definition is required</Caption>
       <Button
         flat
         primary
         iconChildren="add"
-        onClick={() => fields.push({ visibility_type: 'plain', requirement_type: 'optional' })}
+        onClick={() => fields.push({ data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true })}
       >
       Add Property
       </Button>
@@ -27,7 +25,7 @@ const PropertyDefForm = ({ fields }) => (
       <FieldItem key={index}>
         <RemoveButton onClick={() => fields.remove(index)} />
         <Row gutter={5}>
-          <Col flex={6} xs={12} sm={12}>
+          <Col flex={5} xs={12} sm={12}>
             <Field
               name={`${member}.name`}
               type="text"
@@ -54,7 +52,7 @@ const PropertyDefForm = ({ fields }) => (
               name={`${member}.visibility_type`}
               component={SelectField}
               label="Visibility Type"
-              menuItems={['plain']}
+              menuItems={['plain', 'hidden']}
               required
             />
           </Col>
@@ -69,14 +67,29 @@ const PropertyDefForm = ({ fields }) => (
             />
           </Col>
 
-          {/* <Col flex={1} xs={12} sm={12}>
+          <Col flex={1} xs={12} sm={12}>
             <Field
-              id={`${member}.is_sealed`}
-              name={`${member}.is_sealed`}
+              id={`${member}.public`}
+              name={`${member}.public`}
+              defaultChecked={fields.get(index).public}
               component={Checkbox}
-              label="Sealed"
+              label="Public"
             />
-          </Col> */}
+          </Col>
+
+          {fields.get(index).data_type.includes('resource::uuid') &&
+            <Col flex={8} xs={12} sm={12}>
+              <Field
+                id={`${member}.refers_to`}
+                name={`${member}.refers_to`}
+                component={SelectField}
+                menuItems={resourceTypes}
+                itemLabel="name"
+                itemValue="id"
+                label="Refers To"
+                async
+              />
+            </Col>}
 
           {/* <Col flex={1} xs={12} sm={12}>
             <Field
@@ -94,6 +107,7 @@ const PropertyDefForm = ({ fields }) => (
 
 PropertyDefForm.propTypes = {
   fields: PropTypes.object.isRequired,
+  resourceTypes: PropTypes.array.isRequired,
 };
 
 export default PropertyDefForm;

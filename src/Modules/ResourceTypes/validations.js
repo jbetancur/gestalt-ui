@@ -4,36 +4,52 @@ export const descriptionMaxLen = 512;
 export default (values) => {
   const errors = {
     properties: {
-      property_defs: {}
-    }
+      actions: {
+        verbs: {},
+      },
+    },
+    property_defs: {},
   };
 
   if (!values.name) {
     errors.name = 'name is required';
   }
 
+  if (values.name && values.name.indexOf(' ') >= 0) {
+    errors.name = 'spaces not allowed';
+  }
+
   if (!values.extends) {
     errors.extends = 'extends is required';
   }
 
-  if (!values.properties.property_defs || !values.properties.property_defs.length) {
-    errors.properties.property_defs = { _error: 'At least one property definition must be entered' };
-  } else {
+  if ((errors.properties.actions && values.properties.actions.verbs.length) && !values.properties.actions.prefix) {
+    errors.properties.actions.prefix = 'a prefix is required when specifying actions';
+  }
+
+  if (values.property_defs && values.property_defs.length) {
     const properyDefErrors = [];
-    values.properties.property_defs.forEach((definition, index) => {
+    values.property_defs.forEach((definition, index) => {
       const propertyDefError = {};
+
       if (!definition || !definition.name) {
-        propertyDefError.name = 'Required';
+        propertyDefError.name = 'required';
         properyDefErrors[index] = propertyDefError;
       }
+
       if (!definition || !definition.data_type) {
-        propertyDefError.data_type = 'Required';
+        propertyDefError.data_type = 'required';
+        properyDefErrors[index] = propertyDefError;
+      }
+
+      if (!definition || !definition.refers_to) {
+        propertyDefError.refers_to = 'required';
         properyDefErrors[index] = propertyDefError;
       }
     });
 
     if (properyDefErrors.length) {
-      errors.properties.property_defs = properyDefErrors;
+      errors.property_defs = properyDefErrors;
     }
   }
 
