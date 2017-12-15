@@ -24,6 +24,7 @@
         "test-tdd": "cross-env NODE_ENV=test karma start ./test/karma.config.js --auto-watch",
         "test:browser": "cross-env NODE_ENV=test karma start test/karma.config.js --single-run --browsers 'PhantomJS,Chrome,FirefoxHeadless,Safari'",
         "test:all": "yarn test && yarn test:jest-coverage",
+        "purge-coverage": "rm -rf ./test/coverage",
         "eslint": "eslint .",
         "analyze": "yarn stats && webpack-bundle-size-analyzer build-stats.json",
         "stats": "webpack --config ./webpack/webpack.config.js --profile --json > build-stats.json",
@@ -142,7 +143,7 @@
         "redux-thunk": "^2.2.0",
         "reselect": "^3.0.1",
         "sanitize.css": "^5.0.0",
-        "styled-components": "^2.2.4",
+        "styled-components": "^2.3.0",
         "universal-cookie": "2.0.9",
         "validator": "^9.2.0"
     }

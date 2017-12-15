@@ -4,11 +4,10 @@ import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import FontIcon from 'react-md/lib/FontIcons';
+import { ListItem, FontIcon, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
+import { MetamodelIcon } from 'components/Icons';
 import withHierarchy from '../withHierarchy';
 
 const listItemStyle = { textAlign: 'left' };
@@ -79,7 +78,7 @@ class HierarchyActions extends PureComponent {
           key="orgs-settings-menu--resourceTypes-create"
           primaryText="Resource Type"
           component={Link}
-          leftIcon={<FontIcon>widgets</FontIcon>}
+          leftIcon={<MetamodelIcon />}
           to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--resourceTypes-create" />,

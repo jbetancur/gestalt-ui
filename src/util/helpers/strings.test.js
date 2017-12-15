@@ -43,5 +43,11 @@ describe('Util Transformations', () => {
 
       expect(truncate(string, 5, '***')).to.equal('This***');
     });
+
+    it('should not truncate and trim a string if it is less than the max chars', () => {
+      const string = 'shorty';
+
+      expect(truncate(string, 20)).to.equal('shorty');
+    });
   });
 });

@@ -12,6 +12,7 @@ import withResourceTypes from '../withResourceTypes';
 class ResourceTypeListing extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     fetchResourceTypes: PropTypes.func.isRequired,
     fetchResourceType: PropTypes.func.isRequired,
     resourceTypes: PropTypes.array.isRequired,
@@ -28,13 +29,13 @@ class ResourceTypeListing extends Component {
     fetchResourceTypes('root');
   }
 
-  edit = () => {
-    // const { fetchResourceType } = this.props;
+  edit = (resourceType, e) => {
+    // TODO: workaround for checkbox event bubbling
+    if (e.target.className.includes('md-table-column')) {
+      const { history, match } = this.props;
 
-    // // TODO: workaround for checkbox event bubbling
-    // if (e.target.className.includes('md-table-column')) {
-    //   fetchResourceType('root', resourceType.id);
-    // }
+      history.push(`${match.url}/${resourceType.id}`);
+    }
   }
 
   delete = () => {

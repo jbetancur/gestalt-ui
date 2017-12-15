@@ -1,19 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
-import { H1 } from 'components/Typography';
+import { Title, Subtitle } from 'components/Typography';
 
 const Wrapper = styled.div`
   padding: 16px;
 `;
 
-const CardTitle = props => <Wrapper><H1>{props.children}</H1></Wrapper>;
+const CardTitle = ({ title, subTitle, children }) => (
+  <Wrapper>
+    {!children ?
+      <div>
+        <Title large>{title}</Title>
+        <Subtitle>{subTitle}</Subtitle>
+      </div>
+      : children}
+  </Wrapper>
+);
 
 CardTitle.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired
+  ]),
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
+};
+
+CardTitle.defaultProps = {
+  children: null,
+  title: '',
+  subTitle: '',
 };
 
 export default withTheme(CardTitle);

@@ -81,6 +81,7 @@ export const getEditContainerModelAsSpec = createSelector(
       name: container.name,
       description: container.description,
       properties: {
+        ...metaModels.container.properties,
         env: mapTo2DArray(container.properties.env),
         labels: mapTo2DArray(container.properties.labels),
         container_type: container.properties.container_type,

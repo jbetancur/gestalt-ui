@@ -1,6 +1,20 @@
 import * as types from '../actionTypes';
 
 /**
+ * unloadResourceTypes
+ */
+export function unloadResourceTypes() {
+  return { type: types.UNLOAD_RESOURCETYPES };
+}
+
+/**
+ * unloadResourceType
+ */
+export function unloadResourceType() {
+  return { type: types.UNLOAD_RESOURCETYPE };
+}
+
+/**
  * fetchResourceTypes
  * @param {string} fqon
  */
@@ -26,6 +40,17 @@ export function createResourceType(fqon, payload, onSuccess) {
 }
 
 /**
+ * udpateResourceType
+ * @param {string} fqon
+ * @param {string} resourceTypeId
+ * @param {Array} payload
+ * @callback {*} onSuccess
+ */
+export function updateResourceType(fqon, resourceTypeId, payload, onSuccess) {
+  return { type: types.UPDATE_RESOURCETYPE_REQUEST, fqon, resourceTypeId, payload, onSuccess };
+}
+
+/**
  * deleteResourceType
  * @param {string} fqon
  * @param {string} resourceTypeId
@@ -47,9 +72,12 @@ export function deleteResourceTypes(resourceTypeIds, fqon, onSuccess) {
 
 
 export default {
+  unloadResourceTypes,
+  unloadResourceType,
   fetchResourceTypes,
   fetchResourceType,
   createResourceType,
+  updateResourceType,
   deleteResourceType,
   deleteResourceTypes,
 };

@@ -1,12 +1,10 @@
-export const nameMaxLen = 30;
+export const nameMaxLen = 60;
 export const descriptionMaxLen = 512;
 
 export default (values) => {
   const errors = {
     properties: {
-      actions: {
-        verbs: {},
-      },
+      actions: {},
     },
     property_defs: {},
   };
@@ -19,11 +17,11 @@ export default (values) => {
     errors.name = 'spaces not allowed';
   }
 
-  if (!values.extends) {
-    errors.extends = 'extends is required';
+  if (!values.extend) {
+    errors.extend = 'extend is required';
   }
 
-  if ((errors.properties.actions && values.properties.actions.verbs.length) && !values.properties.actions.prefix) {
+  if (values.properties.actions.verbs.length && !values.properties.actions.prefix) {
     errors.properties.actions.prefix = 'a prefix is required when specifying actions';
   }
 
