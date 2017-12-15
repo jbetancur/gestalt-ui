@@ -4,6 +4,7 @@ import resourceTypeSagas, {
   fetchResourceType,
   fetchResourceTypes,
   createResourceType,
+  updateResourceType,
   deleteResourceType,
   deleteResourceTypes,
 } from './resourceTypes';
@@ -18,7 +19,7 @@ describe('Resource Type Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/resourcetypes/1')
+        call(axios.get, 'iamfqon/resourcetypes/1?withprops=true')
       );
     });
 
@@ -135,6 +136,48 @@ describe('Resource Type Sagas', () => {
     });
   });
 
+  describe('updateResourceType Sequence', () => {
+    const action = { fqon: 'iamfqon', resourceTypeId: '1', payload: [] };
+    const saga = updateResourceType(action);
+    let result;
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.patch, 'iamfqon/resourcetypes/1?withprops=true', action.payload)
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 1 } });
+      expect(result.value).to.deep.equal(
+        put({ type: types.UPDATE_RESOURCETYPE_FULFILLED, payload: { id: 1 } })
+      );
+
+      // Finish the iteration
+      result = saga.next();
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { fqon: 'iamfqon', resourceTypeId: '1', payload: [], onSuccess: sinon.stub() };
+      const sagaSuccess = updateResourceType(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+    });
+
+    it('should return a payload and dispatch a reject status when there is an error', () => {
+      const sagaError = updateResourceType(action);
+      let resultError = sagaError.next();
+
+      resultError = sagaError.throw({ message: error });
+      expect(resultError.value).to.deep.equal(
+        put({ type: types.UPDATE_RESOURCETYPE_REJECTED, payload: error })
+      );
+    });
+  });
+
   describe('deleteResourceType Sequence', () => {
     const action = { fqon: 'iamfqon', resourceTypeId: '1' };
     const saga = deleteResourceType(action);
@@ -243,6 +286,13 @@ describe('Resource Type Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.CREATE_RESOURCETYPE_REQUEST, createResourceType)
+      );
+    });
+
+    it('should fork a watcher for updateResourceType', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.UPDATE_RESOURCETYPE_REQUEST, updateResourceType)
       );
     });
 

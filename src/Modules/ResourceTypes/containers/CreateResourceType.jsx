@@ -28,8 +28,7 @@ class CreateResourceType extends Component {
 
   create = (values) => {
     const { history, createResourceType } = this.props;
-    const resourceTypeName = this.props.resourceTypes.find(r => r.id === this.props.formValues.extend);
-    const payload = generateResourcePayload(values, resourceTypeName.name);
+    const payload = generateResourcePayload(values);
     const onSuccess = () => history.replace('/root/resourcetypes');
 
     createResourceType('root', payload, onSuccess);
@@ -38,6 +37,7 @@ class CreateResourceType extends Component {
   render() {
     return (
       <ResourceTypeForm
+        title="Create Resource Type"
         onSubmit={this.create}
         {...this.props}
       />

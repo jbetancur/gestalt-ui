@@ -1,31 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Cards) CardTitle mounts with basic props 1`] = `
-.c0 {
-  position: relative;
-  background: #fff;
-  cursor: pointer;
-  border-radius: 2px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
-}
-
-<div
-  className="c0"
-/>
+<CardTitle__Wrapper>
+  <div>
+    <WithTheme(Title__TitleStyle)
+      large={true}
+    />
+    <WithTheme(Subtitle__SubtitleStyle) />
+  </div>
+</CardTitle__Wrapper>
 `;
 
 exports[`(Cards) CardTitle mounts with children 1`] = `
-.c0 {
-  position: relative;
-  background: #fff;
-  cursor: pointer;
-  border-radius: 2px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
-}
-
-<div
-  className="c0"
->
+<CardTitle__Wrapper>
   Hellow!
-</div>
+</CardTitle__Wrapper>
+`;
+
+exports[`(Cards) CardTitle mounts with title and subTitle 1`] = `
+<CardTitle__Wrapper>
+  <div>
+    <WithTheme(Title__TitleStyle)
+      large={true}
+    >
+      woop
+    </WithTheme(Title__TitleStyle)>
+    <WithTheme(Subtitle__SubtitleStyle)>
+      woop!
+    </WithTheme(Subtitle__SubtitleStyle)>
+  </div>
+</CardTitle__Wrapper>
 `;

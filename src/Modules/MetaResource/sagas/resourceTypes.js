@@ -9,7 +9,7 @@ import * as types from '../actionTypes';
  */
 export function* fetchResourceType(action) {
   try {
-    const response = yield call(axios.get, `${action.fqon}/resourcetypes/${action.resourceTypeId}`);
+    const response = yield call(axios.get, `${action.fqon}/resourcetypes/${action.resourceTypeId}?withprops=true`);
 
     yield put({ type: types.FETCH_RESOURCETYPE_FULFILLED, payload: response.data });
   } catch (e) {
@@ -31,7 +31,7 @@ export function* fetchResourceTypes(action) {
 
     const response = yield call(axios.get, url);
 
-    const payload = orderBy(response.data, 'created.timestamp', 'desc');
+    const payload = orderBy(response.data, 'name');
 
     yield put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload });
   } catch (e) {
@@ -54,6 +54,23 @@ export function* createResourceType(action) {
     yield put({ type: types.CREATE_RESOURCETYPE_FULFILLED, payload: response.data });
   } catch (e) {
     yield put({ type: types.CREATE_RESOURCETYPE_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * updateResourceType
+ * @param {*} action - { fqon, resourceTypeId, payload, onSuccess {returns response.data}  }
+ */
+export function* updateResourceType(action) {
+  try {
+    const response = yield call(axios.patch, `${action.fqon}/resourcetypes/${action.resourceTypeId}?withprops=true`, action.payload);
+    yield put({ type: types.UPDATE_RESOURCETYPE_FULFILLED, payload: response.data });
+
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(response.data);
+    }
+  } catch (e) {
+    yield put({ type: types.UPDATE_RESOURCETYPE_REJECTED, payload: e.message });
   }
 }
 
@@ -99,6 +116,7 @@ export default function* () {
   yield fork(takeLatest, types.FETCH_RESOURCETYPE_REQUEST, fetchResourceType);
   yield fork(takeLatest, types.FETCH_RESOURCETYPES_REQUEST, fetchResourceTypes);
   yield fork(takeLatest, types.CREATE_RESOURCETYPE_REQUEST, createResourceType);
+  yield fork(takeLatest, types.UPDATE_RESOURCETYPE_REQUEST, updateResourceType);
   yield fork(takeLatest, types.DELETE_RESOURCETYPE_REQUEST, deleteResourceType);
   yield fork(takeLatest, types.DELETE_RESOURCETYPES_REQUEST, deleteResourceTypes);
 }

@@ -71,13 +71,13 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
             <Field
               id={`${member}.public`}
               name={`${member}.public`}
-              defaultChecked={fields.get(index).public}
+              checked={fields.get(index).public}
               component={Checkbox}
               label="Public"
             />
           </Col>
 
-          {fields.get(index).data_type.includes('resource::uuid') &&
+          {fields.get(index).data_type && fields.get(index).data_type.includes('resource::uuid') &&
             <Col flex={8} xs={12} sm={12}>
               <Field
                 id={`${member}.refers_to`}

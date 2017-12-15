@@ -5,6 +5,14 @@
       "import",
       "react"
   ],
+  "overrides": [
+    {
+        "files": ["*.test.js", "*.jest.js"],
+        "rules": {
+            "no-unused-expressions": "off"
+        }
+    }
+  ],
   "rules": {
       "comma-dangle": 0,
       "no-useless-constructor": 0,

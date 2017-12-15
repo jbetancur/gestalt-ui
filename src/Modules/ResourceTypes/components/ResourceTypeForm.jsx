@@ -14,16 +14,14 @@ import ActionVerbsForm from './ActionVerbsForm';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const ResourceTypeForm = (props) => {
-  const { handleSubmit, submitting, invalid, pristine, resourceTypes, onSubmit } = props;
+  const { title, handleSubmit, submitting, pristine, resourceTypes, onSubmit, resourceType, editMode } = props;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
           <Card>
-            <CardTitle>
-              Create Resource Type
-            </CardTitle>
+            <CardTitle title={title} subTitle={resourceType.extend && `extends: ${resourceType.extend}`} />
             <ActionsToolbar>
               <Button
                 flat
@@ -39,9 +37,9 @@ const ResourceTypeForm = (props) => {
                 raised
                 iconChildren="save"
                 type="submit"
-                disabled={submitting || invalid || pristine || props.resourceTypePending}
+                disabled={submitting || pristine || props.resourceTypePending}
               >
-                Create
+                {editMode ? 'Update' : 'Create'}
               </Button>
             </ActionsToolbar>
             <CardContent>
@@ -53,30 +51,31 @@ const ResourceTypeForm = (props) => {
                     label="Name"
                     maxLength={nameMaxLen}
                     required
-                    helpText="The Name will be appended to Extends Resource"
                   />
                 </Col>
 
-                <Col flex={7} xs={12} sm={12}>
-                  <Field
-                    id="select-extends"
-                    component={SelectField}
-                    name="extend"
-                    menuItems={resourceTypes}
-                    itemLabel="name"
-                    itemValue="id"
-                    required
-                    label="Extend Resource"
-                    async
-                    helpText="Resource Type to extend"
-                  />
-                </Col>
+                {!editMode &&
+                  <Col flex>
+                    <Field
+                      id="select-extends"
+                      component={SelectField}
+                      name="extend"
+                      menuItems={resourceTypes}
+                      itemLabel="name"
+                      itemValue="id"
+                      required
+                      label="Extend Resource"
+                      async
+                      helpText="Resource Type to extend"
+                    />
+                  </Col>}
 
                 <Col flex={1} xs={12} sm={12}>
                   <Field
                     id="abstract"
                     component={Checkbox}
                     name="properties.abstract"
+                    defaultChecked={resourceType.properties.abstract}
                     label="Abstract"
                   />
                 </Col>
@@ -151,13 +150,16 @@ const ResourceTypeForm = (props) => {
 };
 
 ResourceTypeForm.propTypes = {
+  title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   resourceTypes: PropTypes.array.isRequired,
   resourceTypePending: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
+  // invalid: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
+  resourceType: PropTypes.object.isRequired,
+  editMode: PropTypes.bool.isRequired,
 };
 
 export default ResourceTypeForm;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { Navbar, NavItem } from 'components/Navigation';
-import { HierarchyIcon } from 'components/Icons';
+import { HierarchyIcon, MetamodelIcon } from 'components/Icons';
 
 const renderNavItems = (showOnRootOnly, t, props) => (
   [
@@ -47,7 +47,7 @@ const renderNavItems = (showOnRootOnly, t, props) => (
     // />,
     <NavItem
       key="hierarchy--resourceTypes"
-      icon="widgets"
+      icon={<MetamodelIcon />}
       title={<div><div>Resource</div><div>Types</div></div>}
       to={`/${props.match.params.fqon}/resourcetypes`}
       activeClassName="active-link"
