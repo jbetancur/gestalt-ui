@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import { parse } from 'query-string';
 import { withMetaResource } from 'Modules/MetaResource';
 import axios from 'axios';
-import SelectField from 'react-md/lib/SelectFields';
+import { SelectField } from 'react-md';
+import Div from 'components/Div';
 import ActivityContainer from 'components/ActivityContainer';
 import { Button, FileDownloadButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
@@ -71,13 +72,21 @@ const ToolbarControls = styled.div`
   text-align: left;
   display: inline-block;
   vertical-align: top;
-  margin-top: .3em;
 `;
 
 const FontSizeButton = styled(Button)`
   i {
     transform: ${props => `scaleX(${props.flipState || 1})`};
   }
+`;
+
+const LoutOutputWrapper = styled.div`
+  display: inline-block;
+  padding-left: 16px;
+`;
+
+const LogOutputButton = styled(Button)`
+  color: white;
 `;
 
 const CodeWrapper = styled.div`
@@ -88,7 +97,7 @@ const CodeWrapper = styled.div`
   font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
 
   @media screen and (max-width: 599px) {
-    padding-top: ${props => (props.fontSize === fontSizes.lg ? '9.5em' : '10.5em')};
+    padding-top: ${props => (props.fontSize === fontSizes.lg ? '7.5em' : '10.5em')};
   }
 `;
 
@@ -161,6 +170,7 @@ class Logging extends PureComponent {
       logPending: false,
       logTimespan: '5m',
       fontSize: fontSizes.lg,
+      stderr: false,
     };
   }
 
@@ -182,9 +192,15 @@ class Logging extends PureComponent {
     if (nextState.logTimespan !== this.state.logTimespan) {
       this.fetchLogs(nextProps, nextState);
     }
+
+    if (nextState.stderr !== this.state.stderr) {
+      this.fetchLogs(nextProps, nextState);
+    }
   }
 
   setLogTimespan = value => this.setState({ logTimespan: value });
+
+  showStdErr = stderr => this.setState({ stderr });
 
   scrollToBottom = () => {
     window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
@@ -208,7 +224,7 @@ class Logging extends PureComponent {
 
     this.setState({ logPending: true });
 
-    const time = (currentState.logTimespan && currentState.logTimespan !== 'all') ? `?time=${currentState.logTimespan}` : '';
+    const time = (currentState.logTimespan && currentState.logTimespan !== 'all') ? `?time=${currentState.logTimespan}&stderr=${currentState.stderr}` : `?stderr=${currentState.stderr}`;
 
     logAPI.get(`${query.logId}${time}`).then((response) => {
       this.setState({ logPending: false });
@@ -224,7 +240,7 @@ class Logging extends PureComponent {
     });
   }
 
-  changeFontSize() {
+  changeFontSize = () => {
     if (this.state.fontSize === fontSizes.lg) {
       this.setState({ fontSize: fontSizes.sm });
     } else {
@@ -236,17 +252,18 @@ class Logging extends PureComponent {
     const { location, logProviderPending, logProviderURL } = this.props;
     const { logs, logPending, logTimespan, fontSize } = this.state;
     const query = parse(location.search);
+    const showLogOutputs = query.logType === 'container' && query.providerType === 'DCOS';
 
     return (
       <PageWrapper>
         <Toolbar>
           <Row gutter={5} alignItems="center">
-            <Col xs={12} sm={6} md={6} lg={8}>
+            <Col xs={12} sm={4} md={6} lg={8}>
               <ToolbarTitle>
                 <Title small>Logs for {query.name} ({query.logType})</Title>
               </ToolbarTitle>
             </Col>
-            <Col xs={12} sm={6} md={6} lg={4}>
+            <Col component={Div} xs={12} sm={8} md={6} lg={4} disabled={logProviderPending || logPending || !logProviderURL}>
               <ToolbarActions>
                 <ToolbarControls>
                   <SelectField
@@ -257,7 +274,6 @@ class Logging extends PureComponent {
                     defaultValue={logTimespan}
                     lineDirection="center"
                     position="below"
-                    disabled={logProviderPending || logPending || !logProviderURL}
                     onChange={this.setLogTimespan}
                   />
                 </ToolbarControls>
@@ -266,21 +282,19 @@ class Logging extends PureComponent {
                   iconChildren="refresh"
                   tooltipLabel="Refresh Log"
                   onClick={() => this.fetchLogs(this.props, this.state)}
-                  disabled={logProviderPending || logPending || !logProviderURL}
                 />
                 <FontSizeButton
                   flipState={fontSize === fontSizes.lg ? 1 : -1}
                   icon
                   iconChildren="text_fields"
                   tooltipLabel="Toggle Font Size"
-                  onClick={() => this.changeFontSize()}
+                  onClick={this.changeFontSize}
                 />
                 <FileDownloadButton
                   icon
                   data={logs.length && logs.join('\n')}
                   tooltipLabel="Download Log"
                   fileName={`${query.name}-${query.logType}.log`}
-                  disabled={logProviderPending || logPending || !logProviderURL}
                 />
                 <Button
                   icon
@@ -296,6 +310,23 @@ class Logging extends PureComponent {
           {(logProviderPending || logPending) ?
             <ActivityContainer id="log-loading" primary /> :
             <div>
+              {showLogOutputs &&
+                <LoutOutputWrapper>
+                  <LogOutputButton
+                    raised
+                    primary={!this.state.stderr}
+                    onClick={() => this.showStdErr(false)}
+                  >
+                    STDOUT
+                  </LogOutputButton>
+                  <LogOutputButton
+                    raised
+                    primary={this.state.stderr}
+                    onClick={() => this.showStdErr(true)}
+                  >
+                    STDERR
+                  </LogOutputButton>
+                </LoutOutputWrapper>}
               <ScrollButtons>
                 <TopScrollButton
                   icon
