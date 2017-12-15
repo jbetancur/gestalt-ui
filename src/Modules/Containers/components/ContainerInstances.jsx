@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, ClipboardButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableColumnTimestamp } from 'components/Tables';
+import { getLastFromSplit } from 'util/helpers/strings';
 
 class ContainerInstances extends PureComponent {
   static propTypes = {
@@ -36,7 +37,7 @@ class ContainerInstances extends PureComponent {
             tooltipPosition="right"
             to={{
               pathname: '/logs',
-              search: `?name=${containerModel.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${containerModel.properties.provider.id}&logType=container&logId=${item.id}`
+              search: `?name=${containerModel.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${containerModel.properties.provider.id}&providerType=${getLastFromSplit(containerModel.properties.provider.resource_type)}&logType=container&logId=${item.id}`
             }}
             target="_blank"
             component={Link}
