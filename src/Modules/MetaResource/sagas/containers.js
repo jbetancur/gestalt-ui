@@ -17,15 +17,14 @@ export function* fetchContainers(action) {
     // eslint-disable-next-line
     for (const container of containersResponse.data) {
       const apiEndpoints = [];
-      const apieEndpointsResponse = yield call(axios.get, `${action.fqon}/containers/${container.id}/apiendpoints?expand=true`);
+      const apieEndpointsResponse = yield call(axios.get, `${action.fqon}/apiendpoints?expand=true&implementation_type=container&implementation_id=${container.id}`);
       // eslint-disable-next-line
       for (const endpoint of apieEndpointsResponse.data) {
-        const providerResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
-        apiEndpoints.push(merge(endpoint, { properties: { public_url: `${providerResponse.data.properties.config.external_protocol}://${providerResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
+        const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
+        apiEndpoints.push(merge(endpoint, { properties: { public_url: `${kongProviderResponse.data.properties.config.external_protocol}://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
       }
       containers.push(merge(container, { properties: { apiEndpoints } }));
     }
-
     const payload = orderBy(containers, 'name', 'asc');
     yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload });
   } catch (e) {
