@@ -17,7 +17,7 @@ export function* fetchLambdas(action) {
     // eslint-disable-next-line
     for (const lambda of lambdasResponse.data) {
       const apiEndpoints = [];
-      const apieEndpointsResponse = yield call(axios.get, `${action.fqon}/lambdas/${lambda.id}/apiendpoints?expand=true`);
+      const apieEndpointsResponse = yield call(axios.get, `${action.fqon}/apiendpoints?expand=true&implementation_type=lambda&implementation_id=${lambda.id}`);
       // eslint-disable-next-line
       for (const endpoint of apieEndpointsResponse.data) {
         const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
@@ -26,7 +26,6 @@ export function* fetchLambdas(action) {
       lambdas.push(merge(lambda, { properties: { apiEndpoints } }));
     }
     const payload = orderBy(lambdas, 'name', 'asc');
-
     yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_LAMBDAS_REJECTED, payload: e.message });

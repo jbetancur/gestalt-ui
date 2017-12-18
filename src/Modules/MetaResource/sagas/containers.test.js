@@ -31,7 +31,7 @@ describe('Container Sagas', () => {
     it('should make an api call for endpoints', () => {
       result = saga.next({ data: [{ id: 1 }] });
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/containers/1/apiendpoints?expand=true')
+        call(axios.get, 'iamfqon/apiendpoints?expand=true&implementation_type=container&implementation_id=1')
       );
     });
 
