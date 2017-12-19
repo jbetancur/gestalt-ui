@@ -18,6 +18,7 @@ import actionSagas from './actions';
 import secretSagas from './secrets';
 import searchSagas from './search';
 import resourceTypeSagas from './resourceTypes';
+import typePropertySagas from './typeProperties';
 import syncSagas from './sync';
 
 export default function* metaSagas() {
@@ -42,6 +43,7 @@ export default function* metaSagas() {
     secretSagas(),
     searchSagas(),
     resourceTypeSagas(),
+    typePropertySagas(),
     syncSagas(),
   ];
 }

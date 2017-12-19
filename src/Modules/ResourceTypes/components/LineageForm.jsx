@@ -11,7 +11,7 @@ import RemoveButton from './RemoveButton';
 const PropertyDefForm = ({ fields, resourceTypes }) => (
   <FieldContainer>
     <FieldItem>
-      <Button flat primary iconChildren="add"onClick={() => fields.push({})}>Add Resource</Button>
+      <Button flat primary iconChildren="add"onClick={() => fields.push()}>Add Resource</Button>
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
