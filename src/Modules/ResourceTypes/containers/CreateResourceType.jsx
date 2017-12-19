@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import validate from '../validations';
 import { generateResourcePayload } from '../payloadTransformer';
 import { getCreateResourceTypeModel } from '../selectors';
 
-class CreateResourceType extends Component {
+class CreateResourceType extends PureComponent {
   static propTypes = {
     fetchResourceTypes: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,

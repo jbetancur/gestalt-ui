@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -7,15 +7,16 @@ import { withMetaResource } from 'Modules//MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import ResourceTypeForm from '../components/ResourceTypeForm';
 import validate from '../validations';
-import { generatePatches } from '../payloadTransformer';
+import { generatePatches, batchTypeProps } from '../payloadTransformer';
 import { getEditResourceTypeModel } from '../selectors';
 
-class EditResourceType extends Component {
+class EditResourceType extends PureComponent {
   static propTypes = {
     fetchResourceTypes: PropTypes.func.isRequired,
     fetchResourceType: PropTypes.func.isRequired,
     updateResourceType: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,
+    batchUpdateTypeProperties: PropTypes.func.isRequired,
     resourceTypes: PropTypes.array.isRequired,
     resourceType: PropTypes.object.isRequired,
     unloadResourceType: PropTypes.func.isRequired,
@@ -23,8 +24,6 @@ class EditResourceType extends Component {
     formValues: PropTypes.object,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -45,11 +44,12 @@ class EditResourceType extends Component {
   }
 
   update = (values) => {
-    const { resourceType, dispatch, reset, updateResourceType } = this.props;
+    const { resourceType, updateResourceType, batchUpdateTypeProperties } = this.props;
     const patches = generatePatches(resourceType, values);
-    const onSuccess = () => dispatch(reset());
+    const batchOps = batchTypeProps(resourceType.id, resourceType.property_defs, values.property_defs);
+    const onSuccessTypePropsUpdate = () => updateResourceType('root', resourceType.id, patches);
 
-    updateResourceType('root', resourceType.id, patches, onSuccess);
+    batchUpdateTypeProperties('root', batchOps, onSuccessTypePropsUpdate);
   }
 
   render() {
