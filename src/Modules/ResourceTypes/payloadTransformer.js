@@ -47,7 +47,7 @@ export function generatePatches(original, updated) {
  */
 export function batchTypeProps(resourceTypeId, originalProps, currentProps) {
   const ops = currentProps.map((updatedProp) => {
-    const foundOrigProp = originalProps.find(o => o.id === updatedProp.id);
+    const foundOrigProp = originalProps.find(prop => prop.id === updatedProp.id);
 
     if (updatedProp.id && foundOrigProp.id) {
       const patches = jsonPatch.compare(foundOrigProp, updatedProp);
@@ -57,9 +57,9 @@ export function batchTypeProps(resourceTypeId, originalProps, currentProps) {
     return { op: 'POST', resourceTypeId, payload: updatedProp };
   });
 
-  originalProps.forEach((prop) => {
-    if (!currentProps.find(c => c.id === prop.id)) {
-      ops.push({ op: 'DELETE', id: prop.id });
+  originalProps.forEach((oprop) => {
+    if (!currentProps.find(cprop => cprop.id === oprop.id)) {
+      ops.push({ op: 'DELETE', id: oprop.id });
     }
   });
 
