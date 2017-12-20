@@ -119,25 +119,41 @@ const ResourceTypeForm = (props) => {
                         />
                       </Col>
                     </Row>
-                    <FieldArray name="properties.actions.verbs" component={ActionVerbsForm} resourceTypes={resourceTypes} />
+                    <FieldArray
+                      name="properties.actions.verbs"
+                      component={ActionVerbsForm}
+                      resourceTypes={resourceTypes}
+                    />
                   </Panel>
                 </Col>
 
                 <Col flex={12}>
                   <Panel title="Property Definitions" noPadding>
-                    <FieldArray name="property_defs" component={PropertyDefForm} resourceTypes={resourceTypes} />
+                    <FieldArray
+                      name="property_defs"
+                      component={PropertyDefForm}
+                      resourceTypes={resourceTypes}
+                    />
                   </Panel>
                 </Col>
 
                 <Col flex={6} xs={12} sm={12}>
                   <Panel title="Parent Lineage" noPadding>
-                    <FieldArray name="properties.lineage.parent_types" component={LineageForm} resourceTypes={resourceTypes} />
+                    <FieldArray
+                      name="properties.lineage.parent_types"
+                      component={LineageForm}
+                      resourceTypes={resourceTypes}
+                    />
                   </Panel>
                 </Col>
 
                 <Col flex={6} xs={12} sm={12}>
                   <Panel title="Child Lineage" noPadding>
-                    <FieldArray name="properties.lineage.child_types" component={LineageForm} resourceTypes={resourceTypes} />
+                    <FieldArray
+                      name="properties.lineage.child_types"
+                      component={LineageForm}
+                      resourceTypes={resourceTypes}
+                    />
                   </Panel>
                 </Col>
               </Row>

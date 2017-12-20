@@ -67,16 +67,6 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
             />
           </Col>
 
-          {/* <Col flex={1} xs={12} sm={12}>
-            <Field
-              id={`${member}.public`}
-              name={`${member}.public`}
-              checked={fields.get(index).public}
-              component={Checkbox}
-              label="Public"
-            />
-          </Col> */}
-
           {fields.get(index).data_type && fields.get(index).data_type.includes('resource::uuid') &&
             <Col flex={8} xs={12} sm={12}>
               <Field
@@ -85,20 +75,11 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
                 component={SelectField}
                 menuItems={resourceTypes}
                 itemLabel="name"
-                itemValue="id"
+                itemValue="name"
                 label="Refers To"
                 async
               />
             </Col>}
-
-          {/* <Col flex={1} xs={12} sm={12}>
-            <Field
-              id={`${member}.is_system`}
-              name={`${member}.is_system`}
-              component={Checkbox}
-              label="System"
-            />
-          </Col> */}
         </Row>
       </FieldItem>
     ))}

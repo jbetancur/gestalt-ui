@@ -1,5 +1,5 @@
 import { metaModels } from 'Modules/MetaResource';
-import validate from './validations';
+import validate, { nameMaxLen, descriptionMaxLen} from './validations';
 
 describe('(ResourceTypes) Form Validations', () => {
   it('should have not an error when name is present', () => {
@@ -24,6 +24,17 @@ describe('(ResourceTypes) Form Validations', () => {
     expect(doValidate.name).to.not.be.empty;
   });
 
+  it('should have an error when name is too long', () => {
+    const values = {
+      ...metaModels.resourceType,
+      name: new Array(nameMaxLen + 2).join('a'),
+    };
+
+    const doValidate = validate(values);
+
+    expect(doValidate.name).to.not.be.empty;
+  });
+
   it('should have an error when name has spaces', () => {
     const values = {
       ...metaModels.resourceType,
@@ -33,6 +44,17 @@ describe('(ResourceTypes) Form Validations', () => {
     const doValidate = validate(values);
 
     expect(doValidate.name).to.not.be.empty;
+  });
+
+  it('should have an error when description is too long', () => {
+    const values = {
+      ...metaModels.resourceType,
+      description: new Array(descriptionMaxLen + 2).join('a'),
+    };
+
+    const doValidate = validate(values);
+
+    expect(doValidate.description).to.not.be.empty;
   });
 
   it('should have not an error when extend is present', () => {
@@ -85,6 +107,19 @@ describe('(ResourceTypes) Form Validations', () => {
     const doValidate = validate(values);
 
     expect(doValidate.property_defs[0]).to.be.empty;
+  });
+
+  it('should have an error for property_defs name if there is a space', () => {
+    const values = {
+      ...metaModels.resourceType,
+      property_defs: [
+        { name: 'spaces hah hah hah', data_type: 'string' },
+      ],
+    };
+
+    const doValidate = validate(values);
+
+    expect(doValidate.property_defs[0].name).to.not.be.empty;
   });
 
   it('should have an error for property_defs name, data_type, or refers_to properties are not present', () => {

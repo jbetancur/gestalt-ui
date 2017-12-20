@@ -17,6 +17,14 @@ export default (values) => {
     errors.name = 'spaces not allowed';
   }
 
+  if (values.name && values.name.length > nameMaxLen) {
+    errors.name = `name must be less than ${nameMaxLen} characters`;
+  }
+
+  if (values.description && values.description.length > descriptionMaxLen) {
+    errors.description = `description must be less than ${descriptionMaxLen} characters`;
+  }
+
   if (!values.extend) {
     errors.extend = 'extend is required';
   }
@@ -32,6 +40,11 @@ export default (values) => {
 
       if (!definition || !definition.name) {
         propertyDefError.name = 'required';
+        properyDefErrors[index] = propertyDefError;
+      }
+
+      if (definition && definition.name.indexOf(' ') >= 0) {
+        propertyDefError.name = 'spaces not allowed';
         properyDefErrors[index] = propertyDefError;
       }
 
