@@ -73,6 +73,6 @@ export default [
     value: 'bash',
     format: '',
     codeFormat: 'sh',
-    codeOptionsInline,
+    codeOptions: codeOptionsInline,
   },
 ];
