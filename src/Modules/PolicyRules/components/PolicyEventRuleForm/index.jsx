@@ -128,7 +128,7 @@ const PolicyEventRuleForm = (props) => {
                 </Col>
                 <Col flex={8} xs={12} sm={12}>
                   <Fieldset legend="Actions">
-                    <Row gutter={5}>
+                    <Row>
                       {policyTriggers.map(action => (
                         <Col flex={4} xs={12} sm={6} md={6}>
                           <Field
@@ -137,7 +137,7 @@ const PolicyEventRuleForm = (props) => {
                             component={Checkbox}
                             label={action.name}
                             checked={!!selectedActions.find(a => a === action.name)}
-                            name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                            name="properties.match_actions" // this is just a stub to change form touch state and is not used in the final form values
                             onChange={() => onActionChecked(action.name)}
                           />
                         </Col>))}

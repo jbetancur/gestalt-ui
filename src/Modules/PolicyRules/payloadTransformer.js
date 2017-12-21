@@ -11,7 +11,7 @@ import jsonPatch from 'fast-json-patch';
 export function generateEventPolicyRulePayload(sourcePayload, selectedActions = [], updateMode = false) {
   const payload = cloneDeep(sourcePayload);
 
-  payload.properties.actions = selectedActions;
+  payload.properties.match_actions = selectedActions;
 
   if (!updateMode) {
     payload.resource_type = 'Gestalt::Resource::Rule::Event';
@@ -32,7 +32,7 @@ export function generateEventPolicyRulePayload(sourcePayload, selectedActions = 
 export function generateLimitPolicyRulePayload(sourcePayload, selectedActions = [], updateMode = false) {
   const payload = cloneDeep(sourcePayload);
 
-  payload.properties.actions = selectedActions;
+  payload.properties.match_actions = selectedActions;
 
   if (!updateMode) {
     payload.resource_type = 'Gestalt::Resource::Rule::Limit';

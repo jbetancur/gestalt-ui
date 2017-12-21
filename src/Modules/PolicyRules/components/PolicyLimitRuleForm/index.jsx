@@ -123,7 +123,7 @@ const PolicyLimitRuleForm = (props) => {
                     itemValue="name"
                     required
                     label="Limit"
-                    onChange={() => handleEvalFields()}
+                    onChange={handleEvalFields}
                   />
                 </Col>
                 {values.properties.eval_logic.property &&
@@ -162,7 +162,7 @@ const PolicyLimitRuleForm = (props) => {
                 </Col>
               </Row>
               <Fieldset legend="Actions">
-                <Row gutter={5}>
+                <Row>
                   {policyActions.map(action => (
                     <Col flex={2} xs={12} sm={6} md={4}>
                       <Field
@@ -171,7 +171,7 @@ const PolicyLimitRuleForm = (props) => {
                         component={CheckboxForm}
                         label={action.name}
                         checked={!!selectedActions.find(a => a === action.name)}
-                        name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                        name="properties.match_actions" // this is just a stub to change form touch state and is not used in the final form values
                         onChange={() => onActionChecked(action.name)}
                       />
                     </Col>))}
