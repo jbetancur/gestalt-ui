@@ -49,7 +49,7 @@ function mapStateToProps(state) {
     properties: {
       parent: {},
       strict: false,
-      actions: [],
+      match_actions: [],
       eval_logic: {},
     }
   };
