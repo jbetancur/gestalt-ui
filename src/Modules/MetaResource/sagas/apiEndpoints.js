@@ -5,12 +5,23 @@ import * as types from '../actionTypes';
 
 /**
  * fetchAPIEndpoints
- * @param {*} action { fqon, entityKey, apiId }
+ * @param {*} action { fqon, entityKey }
  */
 export function* fetchAPIEndpoints(action) {
   try {
-    const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/apiendpoints` : `${action.fqon}/apiendpoints`;
-    const responseEndpoints = yield call(axios.get, `${url}?expand=true`);
+    const getUrl = () => {
+      if (action.entityKey === 'apis') {
+        return `${action.fqon}/${action.entityKey}/${action.entityId}/apiendpoints?expand=true`;
+      }
+
+      if (!action.entityKey && !action.entityId) {
+        return `${action.fqon}/apiendpoints?expand=true`;
+      }
+
+      return `${action.fqon}/apiendpoints?expand=true&implementation_type=${action.entityKey}&implementation_id=${action.entityId}`;
+    };
+
+    const responseEndpoints = yield call(axios.get, getUrl());
 
     const endpoints = [];
     // this is a niche case with generators and arrays where we need an imperative loop to collate public_url into endpoints
@@ -37,11 +48,11 @@ export function* fetchAPIEndpoints(action) {
 
 /**
  * fetchAPIEndpoint
- * @param {*} action { fqon, apiId, apiendpointId, onSuccess }
+ * @param {*} action { fqon, apiendpointId, onSuccess }
  */
 export function* fetchAPIEndpoint(action) {
   try {
-    const response = yield call(axios.get, `${action.fqon}/apis/${action.apiId}/apiendpoints/${action.apiendpointId}`);
+    const response = yield call(axios.get, `${action.fqon}/apiendpoints/${action.apiendpointId}`);
 
     yield put({ type: types.FETCH_APIENDPOINT_FULFILLED, payload: response.data });
 
@@ -72,11 +83,11 @@ export function* createAPIEndpoint(action) {
 
 /**
  * updateAPIEndpoint
- * @param {*} action - { fqon, apiId, apiendpointId, payload, onSuccess {returns response.data}  }
+ * @param {*} action - { fqon, apiendpointId, payload, onSuccess {returns response.data}  }
  */
 export function* updateAPIEndpoint(action) {
   try {
-    const response = yield call(axios.patch, `${action.fqon}/apis/${action.apiId}/apiendpoints/${action.apiendpointId}`, action.payload);
+    const response = yield call(axios.patch, `${action.fqon}/apiendpoints/${action.apiendpointId}`, action.payload);
     yield put({ type: types.UPDATE_APIENDPOINT_FULFILLED, payload: response.data });
 
     if (typeof action.onSuccess === 'function') {
@@ -89,11 +100,11 @@ export function* updateAPIEndpoint(action) {
 
 /**
  * deleteAPIEndpoint
- * @param {*} action - { fqon, apiId, apiendpointId, onSuccess }
+ * @param {*} action - { fqon, apiendpointId, onSuccess }
  */
 export function* deleteAPIEndpoint(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/apis/${action.apiId}/apiendpoints/${action.apiendpointId}?force=true`);
+    yield call(axios.delete, `${action.fqon}/apiendpoints/${action.apiendpointId}?force=true`);
     yield put({ type: types.DELETE_APIENDPOINT_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
@@ -106,11 +117,11 @@ export function* deleteAPIEndpoint(action) {
 
 /**
  * deleteAPIEndpoints
- * @param {*} action - { fqon, apiId, apiendpointIds, onSuccess }
+ * @param {*} action - { fqon, apiendpointIds, onSuccess }
  */
 export function* deleteAPIEndpoints(action) {
   try {
-    const all = action.apiendpointIds.map(id => axios.delete(`${action.fqon}/apis/${action.apiId}/apiendpoints/${id}?force=true`));
+    const all = action.apiendpointIds.map(id => axios.delete(`${action.fqon}/apiendpoints/${id}?force=true`));
 
     yield call(axios.all, all);
     yield put({ type: types.DELETE_APIENDPOINT_FULFILLED });

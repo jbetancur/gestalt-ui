@@ -10,36 +10,76 @@ import apiSagas, {
 } from './apiEndpoints';
 import * as types from '../actionTypes';
 
+const scaffoldEndpointTest = (saga) => {
+  let result;
+
+  it('should make an api call for the provider', () => {
+    // eslint-disable-next-line no-param-reassign
+    result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }] });
+    expect(result.value).to.deep.equal(
+      call(axios.get, 'iamfqon/providers/42')
+    );
+  });
+
+  it('should return a payload and dispatch a success status', () => {
+    // eslint-disable-next-line no-param-reassign
+    result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
+    expect(result.value).to.deep.equal(
+      put({
+        type: types.FETCH_APIENDPOINTS_FULFILLED,
+        payload: [
+          { id: 1, properties: { public_url: 'https://vhostness/testapi/testpath', parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }]
+      })
+    );
+  });
+
+  return result;
+};
+
 describe('API Endpoint Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchAPIEndpoints Sequence', () => {
-    const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'apis' });
-    let result;
+    describe('when entityId is present and entityKey is "apis"', () => {
+      const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'apis' });
+      let result;
 
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/apis/1/apiendpoints?expand=true')
-      );
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/apis/1/apiendpoints?expand=true')
+        );
+      });
+
+      scaffoldEndpointTest(saga);
     });
 
-    it('should make an api call for the provider', () => {
-      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }] });
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/providers/42')
-      );
+    describe('when no entites are passed"', () => {
+      const saga = fetchAPIEndpoints({ fqon: 'iamfqon' });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/apiendpoints?expand=true')
+        );
+      });
+
+      scaffoldEndpointTest(saga);
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
-      expect(result.value).to.deep.equal(
-        put({
-          type: types.FETCH_APIENDPOINTS_FULFILLED,
-          payload: [
-            { id: 1, properties: { public_url: 'https://vhostness/testapi/testpath', parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }]
-        })
-      );
+    describe('when a singular entityKey/Id is passed (container, lamnda...)', () => {
+      const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'lambda' });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/apiendpoints?expand=true&implementation_type=lambda&implementation_id=1')
+        );
+      });
+
+      scaffoldEndpointTest(saga);
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -55,14 +95,14 @@ describe('API Endpoint Sagas', () => {
   });
 
   describe('fetchAPIEndpoint Sequence', () => {
-    const action = { fqon: 'iamfqon', apiId: '1', apiendpointId: '2' };
+    const action = { fqon: 'iamfqon', apiendpointId: '1' };
     const saga = fetchAPIEndpoint(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/apis/1/apiendpoints/2')
+        call(axios.get, 'iamfqon/apiendpoints/1')
       );
     });
 
@@ -81,6 +121,7 @@ describe('API Endpoint Sagas', () => {
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
+
       expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
     });
 
@@ -138,14 +179,14 @@ describe('API Endpoint Sagas', () => {
   });
 
   describe('updateAPIEndpoint Sequence', () => {
-    const action = { fqon: 'iamfqon', apiId: '1', apiendpointId: '2', payload: [] };
+    const action = { fqon: 'iamfqon', apiendpointId: '1', payload: [] };
     const saga = updateAPIEndpoint(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.patch, 'iamfqon/apis/1/apiendpoints/2', action.payload)
+        call(axios.patch, 'iamfqon/apiendpoints/1', action.payload)
       );
     });
 
@@ -160,7 +201,7 @@ describe('API Endpoint Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { fqon: 'iamfqon', apiId: '1', apiendpointId: '2', payload: [], onSuccess: sinon.stub() };
+      const onSuccessAction = { fqon: 'iamfqon', apiendpointId: '1', payload: [], onSuccess: sinon.stub() };
       const sagaSuccess = updateAPIEndpoint(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
@@ -180,14 +221,14 @@ describe('API Endpoint Sagas', () => {
   });
 
   describe('deleteAPIEndpoint Sequence', () => {
-    const action = { fqon: 'iamfqon', apiId: '1', apiendpointId: '2' };
+    const action = { fqon: 'iamfqon', apiendpointId: '1' };
     const saga = deleteAPIEndpoint(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.delete, 'iamfqon/apis/1/apiendpoints/2?force=true')
+        call(axios.delete, 'iamfqon/apiendpoints/1?force=true')
       );
     });
 
@@ -223,14 +264,14 @@ describe('API Endpoint Sagas', () => {
   });
 
   describe('deleteAPIEndpoints Sequence', () => {
-    const action = { apiendpointIds: ['1'], fqon: 'iamfqon', apiId: '2' };
+    const action = { apiendpointIds: ['1'], fqon: 'iamfqon' };
     const saga = deleteAPIEndpoints(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.all, [axios.delete('iamfqon/apis/2/apiendpoints/1?force=true')])
+        call(axios.all, [axios.delete('iamfqon/apiendpoints/1?force=true')])
       );
     });
 
