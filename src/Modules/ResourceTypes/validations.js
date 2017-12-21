@@ -43,7 +43,7 @@ export default (values) => {
         properyDefErrors[index] = propertyDefError;
       }
 
-      if (definition && definition.name.indexOf(' ') >= 0) {
+      if (definition && definition.name && definition.name.indexOf(' ') >= 0) {
         propertyDefError.name = 'spaces not allowed';
         properyDefErrors[index] = propertyDefError;
       }
