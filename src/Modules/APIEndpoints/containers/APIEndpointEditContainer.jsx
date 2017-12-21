@@ -37,7 +37,7 @@ class APIEndpointEdit extends Component {
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`);
     }
 
-    fetchAPIEndpoint(match.params.fqon, match.params.apiId, match.params.apiEndpointId);
+    fetchAPIEndpoint(match.params.fqon, match.params.apiEndpointId);
   }
 
   componentWillUnmount() {
@@ -52,7 +52,7 @@ class APIEndpointEdit extends Component {
 
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`);
-      updateAPIEndpoint(match.params.fqon, match.params.apiId, apiEndpoint.id, patches, onSuccess);
+      updateAPIEndpoint(match.params.fqon, apiEndpoint.id, patches, onSuccess);
     }
   }
 

@@ -62,7 +62,7 @@ class ContainerEdit extends Component {
     if (!this.props.inlineMode) {
       this.populateContainer();
       fetchActions(match.params.fqon, entity.id, entity.key, { filter: 'container.detail' });
-      fetchAPIEndpoints(match.params.fqon, match.params.containerId, 'containers');
+      fetchAPIEndpoints(match.params.fqon, match.params.containerId, 'container');
     }
   }
 

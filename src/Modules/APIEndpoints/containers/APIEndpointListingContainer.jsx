@@ -48,7 +48,7 @@ class APIEndpointList extends Component {
     };
 
     this.props.confirmDelete(() => {
-      deleteAPIEndpoints(IDs, match.params.fqon, match.params.apiId, onSuccess);
+      deleteAPIEndpoints(IDs, match.params.fqon, onSuccess);
     }, names);
   }
 
