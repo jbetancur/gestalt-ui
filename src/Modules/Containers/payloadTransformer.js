@@ -45,6 +45,15 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
     payload.properties.num_instances = 1;
   }
 
+  // Trim the cmd of leading/trailng spaces to prevent container errors
+  if (payload.properties.cmd && (payload.properties.cmd.trim() !== payload.properties.cmd)) {
+    payload.properties.cmd = payload.properties.cmd.trim();
+  }
+
+  if (!payload.properties.cmd.length > 0) {
+    delete payload.properties.cmd;
+  }
+
   // these will be in a string format as a result of redux-form limitations - superced by a future chips component
   if (source.properties.accepted_resource_roles && source.properties.accepted_resource_roles.length) {
     // convert to string if an array (updateMode)
