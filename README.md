@@ -15,7 +15,7 @@ nvm use 8
 
 ### Install Binaries
 ```
-npm install -g karma karma-cli yarn
+npm install -g yarn
 ```
 
 ## Install Dependencies
