@@ -4,11 +4,9 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import FieldContainer from './FieldContainer';
-import FieldItem from './FieldItem';
-import RemoveButton from './RemoveButton';
+import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 
-const PropertyDefForm = ({ fields, resourceTypes }) => (
+const LineageForm = ({ fields, resourceTypes }) => (
   <FieldContainer>
     <FieldItem>
       <Button flat primary iconChildren="add"onClick={() => fields.push()}>Add Resource</Button>
@@ -35,9 +33,9 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
   </FieldContainer>
 );
 
-PropertyDefForm.propTypes = {
+LineageForm.propTypes = {
   fields: PropTypes.object.isRequired,
   resourceTypes: PropTypes.array.isRequired,
 };
 
-export default PropertyDefForm;
+export default LineageForm;

@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
+import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 import { Button } from 'components/Buttons';
 import dataTypes from '../lists/dataTypes';
-import FieldContainer from './FieldContainer';
-import FieldItem from './FieldItem';
-import RemoveButton from './RemoveButton';
 
 const PropertyDefForm = ({ fields, resourceTypes }) => (
   <FieldContainer>

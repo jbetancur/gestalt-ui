@@ -1,6 +1,6 @@
 import React from 'react';
 import FieldContainer from './FieldContainer';
-import { shallowWithTheme } from '../../../../test/helpers';
+import { shallowWithTheme } from '../../../test/helpers';
 
 describe('(ResourceTypes) FieldContainer', () => {
   it('renders component without exploding', () => {

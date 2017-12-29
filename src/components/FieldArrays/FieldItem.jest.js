@@ -1,6 +1,6 @@
 import React from 'react';
 import FieldItem from './FieldItem';
-import { shallowWithTheme } from '../../../../test/helpers';
+import { shallowWithTheme } from '../../../test/helpers';
 
 describe('(ResourceTypes) FieldItem', () => {
   it('renders component without exploding', () => {

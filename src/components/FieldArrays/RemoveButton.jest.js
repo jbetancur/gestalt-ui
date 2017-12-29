@@ -1,6 +1,6 @@
 import React from 'react';
 import RemoveButton from './RemoveButton';
-import { shallowWithTheme } from '../../../../test/helpers';
+import { shallowWithTheme } from '../../../test/helpers';
 
 describe('(ResourceTypes) RemoveButton', () => {
   it('renders component without exploding', () => {
