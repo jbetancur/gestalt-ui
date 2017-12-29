@@ -8,7 +8,6 @@ import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import { generateContextEntityState } from 'util/helpers/context';
 import { volumeModalActions } from 'Modules/VolumeModal';
-import { portmapModalActions } from 'Modules/PortMappingModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
 import { secretModalActions } from 'Modules/Secrets';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -33,12 +32,10 @@ class ContainerEdit extends Component {
     fetchAPIEndpoints: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
-    unloadPortmappings: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
     volumes: PropTypes.array.isRequired,
-    portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secrets: PropTypes.array.isRequired,
     fetchSecretsDropDown: PropTypes.func.isRequired,
@@ -83,12 +80,11 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadContainer, unloadAPIEndpoints, unloadVolumes, unloadPortmappings, unloadSecretsModal } = this.props;
+    const { unloadContainer, unloadAPIEndpoints, unloadVolumes, unloadSecretsModal } = this.props;
 
     unloadContainer();
     unloadAPIEndpoints();
     unloadVolumes();
-    unloadPortmappings();
     unloadSecretsModal();
     clearTimeout(this.timeout);
   }
@@ -105,15 +101,11 @@ class ContainerEdit extends Component {
   }
 
   redeployContainer = (values) => {
-    const { match, container, updateContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
+    const { match, container, updateContainer, volumes, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
         value: volumes,
-      },
-      {
-        key: 'port_mappings',
-        value: portMappings,
       },
       {
         key: 'health_checks',
@@ -151,15 +143,14 @@ class ContainerEdit extends Component {
   }
 }
 
+const formName = 'containerEdit';
 const mapStateToProps = (state, ownProps) => ({
   container: ownProps.containerSpec || selectContainer(state),
   containerInstances: getContainerInstances(state),
   containerServiceAddresses: getContainerServiceAddresses(state),
   volumeModal: state.volumeModal.volumeModal,
-  portmapModal: state.portmapModal.portmapModal,
   healthCheckModal: state.healthCheckModal.healthCheckModal,
   secretPanelModal: state.secrets.secretPanelModal,
-  portMappings: state.portmapModal.portMappings.portMappings,
   healthChecks: state.healthCheckModal.healthChecks.healthChecks,
   volumes: state.volumeModal.volumes.volumes,
   secretsFromModal: state.secrets.secrets.secrets,
@@ -170,9 +161,9 @@ export default compose(
   withMetaResource,
   withRouter,
   connect(mapStateToProps,
-    Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions)),
+    Object.assign({}, actions, volumeModalActions, healthCheckModalActions, secretModalActions)),
   reduxForm({
-    form: 'containerEdit',
+    form: formName,
     enableReinitialize: true,
     validate,
   })

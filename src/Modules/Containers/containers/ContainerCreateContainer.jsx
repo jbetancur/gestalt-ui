@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import { volumeModalActions } from 'Modules/VolumeModal';
-import { portmapModalActions } from 'Modules/PortMappingModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
 import { secretModalActions } from 'Modules/Secrets';
 import ActivityContainer from 'components/ActivityContainer';
@@ -24,10 +23,8 @@ class ContainerCreate extends Component {
     fetchEnv: PropTypes.func.isRequired,
     unloadVolumes: PropTypes.func.isRequired,
     unloadSecretsModal: PropTypes.func.isRequired,
-    unloadPortmappings: PropTypes.func.isRequired,
     unloadHealthChecks: PropTypes.func.isRequired,
     volumes: PropTypes.array.isRequired,
-    portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     envPending: PropTypes.bool.isRequired,
@@ -50,24 +47,19 @@ class ContainerCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadVolumes, unloadPortmappings, unloadHealthChecks, unloadSecretsModal } = this.props;
+    const { unloadVolumes, unloadHealthChecks, unloadSecretsModal } = this.props;
 
     unloadVolumes();
     unloadSecretsModal();
-    unloadPortmappings();
     unloadHealthChecks();
   }
 
   create = (values) => {
-    const { match, history, createContainer, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
+    const { match, history, createContainer, volumes, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
         value: volumes,
-      },
-      {
-        key: 'port_mappings',
-        value: portMappings,
       },
       {
         key: 'health_checks',
@@ -103,27 +95,24 @@ class ContainerCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    containerModel: {},
-    initialValues: getCreateContainerModel(state),
-    volumeModal: state.volumeModal.volumeModal,
-    volumes: state.volumeModal.volumes.volumes,
-    portmapModal: state.portmapModal.portmapModal,
-    portMappings: state.portmapModal.portMappings.portMappings,
-    healthCheckModal: state.healthCheckModal.healthCheckModal,
-    healthChecks: state.healthCheckModal.healthChecks.healthChecks,
-    secretsFromModal: state.secrets.secrets.secrets,
-    secretPanelModal: state.secrets.secretPanelModal,
-  };
-}
+const formName = 'containerCreate';
+const mapStateToProps = state => ({
+  containerModel: {},
+  initialValues: getCreateContainerModel(state),
+  volumeModal: state.volumeModal.volumeModal,
+  volumes: state.volumeModal.volumes.volumes,
+  healthCheckModal: state.healthCheckModal.healthCheckModal,
+  healthChecks: state.healthCheckModal.healthChecks.healthChecks,
+  secretsFromModal: state.secrets.secrets.secrets,
+  secretPanelModal: state.secrets.secretPanelModal,
+});
 
 export default compose(
   withMetaResource,
   withRouter,
-  connect(mapStateToProps, Object.assign({}, actions, volumeModalActions, portmapModalActions, healthCheckModalActions, secretModalActions)),
+  connect(mapStateToProps, Object.assign({}, actions, volumeModalActions, healthCheckModalActions, secretModalActions)),
   reduxForm({
-    form: 'containerCreate',
+    form: formName,
     enableReinitialize: true,
     validate,
   })
