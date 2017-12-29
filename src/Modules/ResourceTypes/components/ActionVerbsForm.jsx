@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import FieldContainer from './FieldContainer';
-import FieldItem from './FieldItem';
-import RemoveButton from './RemoveButton';
+import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 
 const ActionVerbsForm = ({ fields }) => (
   <FieldContainer>
