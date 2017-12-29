@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, getFormValues } from 'redux-form';
+import { Field, FieldArray, getFormValues } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
@@ -10,7 +10,6 @@ import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import { VariablesForm } from 'Modules/Variables';
 import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
-import { PortMapModal, PortMapListing } from 'Modules/PortMappingModal';
 import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
 import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
 import { Button } from 'components/Buttons';
@@ -28,6 +27,7 @@ import { nameMaxLen, descriptionMaxLen } from '../validations';
 import ContainerActions from './ContainerActions';
 import ContainerIcon from './ContainerIcon';
 import ActionsModals from '../ActionModals';
+import PortMappingsForm from './PortMappingsForm';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 const ListButton = styled(Button)`
@@ -36,9 +36,7 @@ const ListButton = styled(Button)`
   margin-bottom: 8px;
 `;
 
-const ContainerForm = (props) => {
-  const { values, container } = props;
-
+const ContainerForm = ({ values, container, ...props }) => {
   const selectedProvider = merge({ properties: { config: { networks: [] } } },
     props.providersByType.find(provider => values.properties.provider.id === provider.id));
 
@@ -56,7 +54,7 @@ const ContainerForm = (props) => {
   return (
     <div>
       <ActionsModals />
-      <PortMapModal networkType={values.properties.network} />
+      {/* <PortMapModal networkType={values.properties.network} /> */}
       <VolumeModal providerType={providerType} />
       <HealthCheckModal />
       <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
@@ -293,17 +291,12 @@ const ContainerForm = (props) => {
                         noPadding
                         defaultExpanded={values.properties.port_mappings.length > 0}
                       >
-                        <ListButton
-                          id="port-mappings"
-                          flat
-                          iconBefore
-                          primary
-                          label="Port Mapping"
-                          onClick={props.showPortmapModal}
-                        >
-                          add
-                        </ListButton>
-                        <PortMapListing editMode={props.editMode} mergePortMappings={values.properties.port_mappings} {...props} />
+                        <FieldArray
+                          name="properties.port_mappings"
+                          component={PortMappingsForm}
+                          networkType={values.properties.network}
+                          portMappingFormValues={values.properties.port_mappings}
+                        />
                       </Panel>
                     </Col>}
 
@@ -438,6 +431,7 @@ ContainerForm.propTypes = {
   apiEndpointsPending: PropTypes.bool.isRequired,
   containerInstances: PropTypes.array,
   containerServiceAddresses: PropTypes.array,
+  portMappingFormValues: PropTypes.array.isRequired,
 };
 
 ContainerForm.defaultProps = {

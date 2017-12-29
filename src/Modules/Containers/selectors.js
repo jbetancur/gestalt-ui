@@ -7,7 +7,6 @@ export const selectContainer = state => state.metaResource.container.container;
 export const selectContainerSpec = (state, containerSpec) => containerSpec;
 export const selectEnv = state => state.metaResource.env.env;
 const selectVolumes = state => state.volumeModal.volumes.volumes;
-const selectPortMappings = state => state.portmapModal.portMappings.portMappings;
 const selectHealthChecks = state => state.healthCheckModal.healthChecks.healthChecks;
 const selectSecrets = state => state.secrets.secrets.secrets;
 
@@ -41,8 +40,8 @@ export const getCreateContainerModel = createSelector(
 );
 
 export const getEditContainerModel = createSelector(
-  [selectContainer, selectVolumes, selectPortMappings, selectHealthChecks, selectSecrets],
-  (container, volumes, portMappings, healthChecks, secrets) => {
+  [selectContainer, selectVolumes, selectHealthChecks, selectSecrets],
+  (container, volumes, healthChecks, secrets) => {
     const model = {
       ...metaModels.container,
       name: container.name,
@@ -62,7 +61,7 @@ export const getEditContainerModel = createSelector(
         image: container.properties.image,
         cmd: container.properties.cmd,
         user: container.properties.user,
-        port_mappings: merge(container.properties.port_mappings || [], portMappings),
+        port_mappings: container.properties.port_mappings,
         health_checks: merge(container.properties.health_checks || [], healthChecks),
         volumes: merge(container.properties.volumes || [], volumes),
         secrets: merge(container.properties.secrets || [], secrets),
@@ -74,8 +73,8 @@ export const getEditContainerModel = createSelector(
 );
 
 export const getEditContainerModelAsSpec = createSelector(
-  [selectContainerSpec, selectVolumes, selectPortMappings, selectHealthChecks, selectSecrets],
-  (container, volumes, portMappings, healthChecks, secrets) => {
+  [selectContainerSpec, selectVolumes, selectHealthChecks, selectSecrets],
+  (container, volumes, healthChecks, secrets) => {
     const model = {
       ...metaModels.container,
       name: container.name,
@@ -96,7 +95,7 @@ export const getEditContainerModelAsSpec = createSelector(
         image: container.properties.image,
         cmd: container.properties.cmd,
         user: container.properties.user,
-        port_mappings: merge(container.properties.port_mappings || [], portMappings),
+        port_mappings: container.properties.port_mappings,
         health_checks: merge(container.properties.health_checks || [], healthChecks),
         volumes: merge(container.properties.volumes || [], volumes),
         secrets: merge(container.properties.secrets || [], secrets),
@@ -109,10 +108,10 @@ export const getEditContainerModelAsSpec = createSelector(
 
 export const getContainerInstances = createSelector(
   [selectContainer],
-  container => container.properties.instances || []
+  container => (container.properties && container.properties.instances) || []
 );
 
 export const getContainerServiceAddresses = createSelector(
   [selectContainer],
-  container => container.properties.port_mappings || []
+  container => (container.properties && container.properties.port_mappings) || []
 );

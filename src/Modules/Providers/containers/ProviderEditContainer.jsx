@@ -32,7 +32,6 @@ class ProviderEdit extends Component {
     unloadProviders: PropTypes.func.isRequired,
     containerValues: PropTypes.object,
     volumes: PropTypes.array.isRequired,
-    portMappings: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     containerPending: PropTypes.bool.isRequired,
@@ -96,15 +95,11 @@ class ProviderEdit extends Component {
   }
 
   update = (formValues) => {
-    const { match, confirmUpdate, provider, updateProvider, redeployProvider, containerValues, volumes, portMappings, healthChecks, secretsFromModal } = this.props;
+    const { match, confirmUpdate, provider, updateProvider, redeployProvider, containerValues, volumes, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
       {
         key: 'volumes',
         value: volumes,
-      },
-      {
-        key: 'port_mappings',
-        value: portMappings,
       },
       {
         key: 'health_checks',
@@ -169,7 +164,6 @@ function mapStateToProps(state) {
     initialValues: getEditProviderModel(state),
     containerValues: getFormValues('containerEdit')(state),
     volumes: state.volumeModal.volumes.volumes,
-    portMappings: state.portmapModal.portMappings.portMappings,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     secretsFromModal: state.secrets.secrets.secrets,
   };
