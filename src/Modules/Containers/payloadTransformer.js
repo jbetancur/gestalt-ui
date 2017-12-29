@@ -23,7 +23,7 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
       labels: arrayToMap(source.properties.labels, 'name', 'value'),
       volumes: [],
       secrets: [],
-      port_mappings: [],
+      port_mappings: source.properties.port_mappings,
       health_checks: [],
       accepted_resource_roles: [],
       constraints: [],
@@ -74,6 +74,23 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
   mergeSet.forEach((p) => {
     payload.properties[p.key] = p.value;
   });
+
+  // re-format port mappings
+  payload.properties.port_mappings = payload.properties.port_mappings.map((port) => {
+    const portPayload = { ...port };
+
+    if (port.virtual_hosts && !Array.isArray(port.virtual_hosts) && port.expose_endpoint) {
+      let hosts = port.virtual_hosts;
+      hosts = hosts.replace(/[\s,]+/g, ',');
+
+      portPayload.virtual_hosts = hosts.split(',');
+    } else {
+      delete portPayload.virtual_hosts;
+    }
+
+    return portPayload;
+  });
+
 
   if (updateMode) {
     // we dont want to change the provider on updateMode (i.e. PUT, PATCH container)

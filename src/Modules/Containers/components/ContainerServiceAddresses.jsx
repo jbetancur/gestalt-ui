@@ -14,7 +14,7 @@ class ContainerServiceAddresses extends PureComponent {
       port.service_address &&
       <TableRow key={i}>
         <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
-        <TableColumn numberic>{port.service_address && port.service_address.port}</TableColumn>
+        <TableColumn numeric>{port.service_address && port.service_address.port}</TableColumn>
         <TableColumn>{port.service_address && port.service_address.protocol}</TableColumn>
       </TableRow>
     ));
