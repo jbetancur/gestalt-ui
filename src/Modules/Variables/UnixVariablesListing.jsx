@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { checkIfPassword } from 'util/helpers/strings';
 import { Col, Row } from 'react-flexybox';
 import { map, sortBy } from 'lodash';
 import Label from 'components/Label';
 
-const checkIfPassword = field =>
-  field && field.length && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
-
-class VariablesListing extends Component {
+class UnixVariablesListing extends PureComponent {
   static propTypes = {
     envMap: PropTypes.object,
   };
@@ -37,4 +35,4 @@ class VariablesListing extends Component {
   }
 }
 
-export default VariablesListing;
+export default UnixVariablesListing;

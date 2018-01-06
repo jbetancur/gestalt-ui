@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
-import { VariablesListing } from 'Modules/Variables';
+import { UnixVariablesListing } from 'Modules/Variables';
 import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
@@ -45,7 +45,7 @@ class OrganizationDetails extends PureComponent {
           <ResourceProperties model={organizationSet} isOrganization />
         </Col>
         <Col flex={6} xs={12}>
-          <VariablesListing envMap={organizationSet.properties.env} />
+          <UnixVariablesListing envMap={organizationSet.properties.env} />
         </Col>
       </Row>,
       <Div key="hierarchy-details--actions" disabled={organizationSetPending} textAlign="right">

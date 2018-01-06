@@ -1,4 +1,3 @@
-export { default as VariablesForm } from './VariablesForm';
-export { default as VariablesListing } from './VariablesListing';
-
-export default './VariablesForm';
+export { default as UnixVariablesForm } from './UnixVariablesForm';
+export { default as LabelsForm } from './LabelsForm';
+export { default as UnixVariablesListing } from './UnixVariablesListing';

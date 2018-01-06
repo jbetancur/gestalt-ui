@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
 import ActivityContainer from 'components/ActivityContainer';
 import DotActivity from 'components/DotActivity';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { VariablesForm } from 'Modules/Variables';
+import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
-import Fieldset from 'components/Fieldset';
-import { isUnixVariable } from 'util/validations';
+import { Panel } from 'components/Panels';
 import { nameMaxLen, shortNameMaxLen } from '../validations';
 
 const HierarchyForm = (props) => {
@@ -22,7 +21,7 @@ const HierarchyForm = (props) => {
       key="contextform--cancel"
       flat
       disabled={props.submitting}
-      onClick={() => props.history.goBack()}
+      onClick={props.history.goBack}
     >
       {props.cancelLabel}
     </Button>,
@@ -86,14 +85,12 @@ const HierarchyForm = (props) => {
               </Col>}
 
             <Col flex={12}>
-              <Fieldset legend="Environment Variables">
-                <VariablesForm
-                  icon="add"
-                  fieldName="properties.env"
-                  keyFieldValidationFunction={isUnixVariable}
-                  keyFieldValidationMessage="must be a unix variable name"
+              <Panel title="Environment Variables" noPadding>
+                <FieldArray
+                  component={UnixVariablesForm}
+                  name="properties.env"
                 />
-              </Fieldset>
+              </Panel>
             </Col>
           </Row>}
       </DialogContainer>

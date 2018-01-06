@@ -12,7 +12,7 @@ const ActionVerbsForm = ({ fields }) => (
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
-        <RemoveButton onClick={() => fields.remove(index)} />
+        <RemoveButton onRemove={fields.remove} index={index} />
         <Field
           name={`${member}`}
           type="text"

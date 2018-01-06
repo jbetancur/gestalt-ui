@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, getFormValues } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules//MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import ResourceTypeForm from '../components/ResourceTypeForm';
@@ -21,13 +21,8 @@ class EditResourceType extends PureComponent {
     resourceType: PropTypes.object.isRequired,
     unloadResourceType: PropTypes.func.isRequired,
     resourceTypePending: PropTypes.bool.isRequired,
-    formValues: PropTypes.object,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    formValues: {},
   };
 
   componentDidMount() {
@@ -72,7 +67,6 @@ class EditResourceType extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  formValues: getFormValues('editResourceTypeForm')(state),
   initialValues: getEditResourceTypeModel(state),
 });
 

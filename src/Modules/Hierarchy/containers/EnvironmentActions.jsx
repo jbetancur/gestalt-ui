@@ -24,6 +24,7 @@ class EnvironmentActions extends PureComponent {
     const menuItems = [
       <ListItem
         id="workspace-settings-menu--container-create"
+        key="workspace-settings-menu--container-create"
         primaryText="Container"
         component={Link}
         leftIcon={<ContainerIcon />}
@@ -32,6 +33,7 @@ class EnvironmentActions extends PureComponent {
       />,
       <ListItem
         id="workspace-settings-menu--lambda-create"
+        key="workspace-settings-menu--lambda-create"
         primaryText="Lambda"
         component={Link}
         leftIcon={<LambdaIcon />}
@@ -40,6 +42,7 @@ class EnvironmentActions extends PureComponent {
       />,
       <ListItem
         id="environment-settings-menu--apis-create"
+        key="environment-settings-menu--apis-create"
         primaryText="API"
         component={Link}
         leftIcon={<FontIcon>device_hub</FontIcon>}
@@ -48,6 +51,7 @@ class EnvironmentActions extends PureComponent {
       />,
       <ListItem
         id="environment-settings-menu--policies-create"
+        key="environment-settings-menu--policies-create"
         primaryText="Policy"
         component={Link}
         leftIcon={<FontIcon>verified_user</FontIcon>}
@@ -56,6 +60,7 @@ class EnvironmentActions extends PureComponent {
       />,
       <ListItem
         id="environment-settings-menu--provider-create"
+        key="environment-settings-menu--provider-create"
         primaryText="Provider"
         component={Link}
         leftIcon={<FontIcon>settings_applications</FontIcon>}
@@ -64,6 +69,7 @@ class EnvironmentActions extends PureComponent {
       />,
       <ListItem
         id="environment-settings-menu--secret-create"
+        key="environment-settings-menu--secret-create"
         primaryText="Secret"
         component={Link}
         leftIcon={<FontIcon>lock</FontIcon>}
