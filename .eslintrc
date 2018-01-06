@@ -25,6 +25,7 @@
       "function-paren-newline": 0,
       "jsx-a11y/anchor-is-valid": 0,
       "jsx-a11y/no-marquee": 0,
+      "camelcase": 0,
       "new-cap": [
           2,
           {

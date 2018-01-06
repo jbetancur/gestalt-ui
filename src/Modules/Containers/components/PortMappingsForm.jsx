@@ -33,7 +33,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
 
       return (
         <FieldItem key={`portmapping-${index}`}>
-          <RemoveButton onClick={() => fields.remove(index)} />
+          <RemoveButton onRemove={fields.remove} index={index} />
           <Subtitle>Mapping {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={12}>

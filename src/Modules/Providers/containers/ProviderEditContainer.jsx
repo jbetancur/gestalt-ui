@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -14,7 +14,7 @@ import { generateProviderPatches } from '../payloadTransformer';
 import withResourceTypes from '../hocs/withResourceTypes';
 import { getEditProviderModel } from '../selectors';
 
-class ProviderEdit extends Component {
+class ProviderEdit extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,

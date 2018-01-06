@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, getFormValues, isInvalid } from 'redux-form';
+import { Field, formValueSelector, isInvalid } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
 import { SelectField, TextField } from 'components/ReduxFormFields';
@@ -26,13 +26,11 @@ const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value:
 
 const isSubmitDisabled = (props, selectedProviderType) => {
   if (selectedProviderType.allowContainer) {
-    const containerInvalid = props.editMode ? props.containerEditInvalid : props.containerCreateInvalid;
-    return props.envSchemaPending || props.providerPending || props.submitting || props.invalid || containerInvalid;
+    return props.envSchemaPending || props.providerPending || props.submitting || props.containerInvalid;
   }
 
-  return props.envSchemaPending || props.providerPending || props.submitting || props.invalid;
+  return props.envSchemaPending || props.providerPending || props.submitting;
 };
-
 
 const ProviderForm = (props) => {
   const { provider, reset, values, fetchEnvSchema } = props;
@@ -273,10 +271,10 @@ ProviderForm.defaultProps = {
 };
 
 // Connect to this forms state in the store so we can enum the values
+const selector = form => formValueSelector(form);
 export default connect(
   (state, props) => ({
-    values: getFormValues(props.form)(state),
-    containerCreateInvalid: isInvalid('containerCreate')(state),
-    containerEditInvalid: isInvalid('containerEdit')(state),
+    values: selector(props.form)(state, 'resource_type', 'properties.config.auth'),
+    containerInvalid: isInvalid(props.editMode ? 'containerEdit' : 'containerCreate')(state),
   })
 )(ProviderForm);
