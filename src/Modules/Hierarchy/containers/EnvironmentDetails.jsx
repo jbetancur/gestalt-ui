@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
-import { VariablesListing } from 'Modules/Variables';
+import { UnixVariablesListing } from 'Modules/Variables';
 import { DeleteIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
@@ -41,7 +41,7 @@ class EnvironmentDetails extends PureComponent {
           <ResourceProperties model={environment} isEnvironment />
         </Col>
         <Col flex={6} xs={12}>
-          <VariablesListing envMap={environment.properties.env} />
+          <UnixVariablesListing envMap={environment.properties.env} />
         </Col>
       </Row>,
       <Div key="environment-details--actions" disabled={environmentPending} textAlign="right">

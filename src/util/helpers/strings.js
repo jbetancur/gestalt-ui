@@ -38,8 +38,14 @@ export function truncate(string, at, trailing = '...') {
   return string;
 }
 
+
+// TODO: Will be rmeoved when we have security config
+export const checkIfPassword = field =>
+  field && field.length && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
+
 export default {
   getParentFQON,
   getLastFromSplit,
   truncate,
+  checkIfPassword
 };

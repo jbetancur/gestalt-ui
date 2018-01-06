@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, FieldArray, getFormValues } from 'redux-form';
+import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
-import { VariablesForm } from 'Modules/Variables';
+import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
 import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
 import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
 import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
@@ -20,7 +20,6 @@ import AceEditor from 'components/AceEditor';
 import A from 'components/A';
 import { Caption } from 'components/Typography';
 import { getLastFromSplit } from 'util/helpers/strings';
-import { isUnixVariable } from 'util/validations';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
@@ -334,20 +333,20 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>}
 
                     <Col flex={12}>
-                      <Panel title="Environment Variables" defaultExpanded={values.properties.env.length > 0}>
-                        <VariablesForm
-                          icon="add"
-                          fieldName="properties.env"
-                          keyFieldValidationFunction={isUnixVariable}
-                          keyFieldValidationMessage="must be a unix variable name"
-                          {...props}
+                      <Panel title="Environment Variables" defaultExpanded={values.properties.env.length > 0} noPadding>
+                        <FieldArray
+                          component={UnixVariablesForm}
+                          name="properties.env"
                         />
                       </Panel>
                     </Col>
 
                     <Col flex={12}>
                       <Panel title="Labels" defaultExpanded={values.properties.labels.length > 0}>
-                        <VariablesForm addButtonLabel="Label" icon="add" fieldName="properties.labels" {...props} />
+                        <FieldArray
+                          component={LabelsForm}
+                          name="properties.labels"
+                        />
                       </Panel>
                     </Col>
 
@@ -445,8 +444,20 @@ ContainerForm.defaultProps = {
 };
 
 // Connect to this forms state in the store so we can enum the values
+const selector = form => formValueSelector(form);
 export default connect(
   (state, props) => ({
-    values: getFormValues(props.form)(state)
+    values: selector(props.form)(state,
+      'properties.force_pull',
+      'properties.provider',
+      'properties.network',
+      'properties.secrets',
+      'properties.port_mappings',
+      'properties.volumes',
+      'properties.health_checks',
+      'properties.num_instances',
+      'properties.env',
+      'properties.labels',
+    ),
   })
 )(ContainerForm);

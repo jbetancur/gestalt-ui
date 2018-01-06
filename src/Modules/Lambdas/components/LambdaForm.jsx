@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import { Field, getFormValues } from 'redux-form';
+import { Field, FieldArray, getFormValues } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, LinearProgress, SelectField as MDSelectField } from 'react-md';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import AceEditor from 'components/AceEditor';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { VariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import A from 'components/A';
 import { Caption } from 'components/Typography';
+import { UnixVariablesForm } from 'Modules/Variables';
 import { ActionsMenu } from 'Modules/Actions';
-import { isUnixVariable } from 'util/validations';
 import runTimes from '../lists/runTimes';
 import acceptHeaders from '../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
@@ -262,13 +261,10 @@ const LambdaForm = (props) => {
                 </Col>
 
                 <Col flex={12}>
-                  <Panel title="Environment Variables">
-                    <VariablesForm
-                      icon="add"
-                      fieldName="properties.env"
-                      keyFieldValidationFunction={isUnixVariable}
-                      keyFieldValidationMessage="must be a unix variable name"
-                      {...props}
+                  <Panel title="Environment Variables" noPadding>
+                    <FieldArray
+                      component={UnixVariablesForm}
+                      name="properties.env"
                     />
                   </Panel>
                 </Col>
@@ -378,7 +374,6 @@ const LambdaForm = (props) => {
 };
 
 LambdaForm.propTypes = {
-  history: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   lambdaPending: PropTypes.bool.isRequired,
   apiEndpointsPending: PropTypes.bool.isRequired,

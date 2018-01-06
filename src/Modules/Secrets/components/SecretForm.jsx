@@ -1,18 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
-import { Field, getFormValues } from 'redux-form';
+import { Field, FieldArray, getFormValues } from 'redux-form';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { VariablesForm } from 'Modules/Variables';
-import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
 import { getLastFromSplit } from 'util/helpers/strings';
+import SecretItemsForm from './SecretItemsForm';
 import { nameMaxLen } from '../validations';
 
 const SecretForm = (props) => {
@@ -113,17 +112,10 @@ const SecretForm = (props) => {
 
               {selectedProvider.id && isMultiPartSecret &&
                 <Col flex={12}>
-                  <Panel title="Secret Items">
-                    <VariablesForm
-                      allowSingleItemOnly
-                      addButtonLabel="Secret Item"
-                      icon="add"
-                      fieldName="properties.items"
-                      keyFieldName="key"
-                      keyFieldValue="key"
-                      hideValueField={secret.id}
-                      keyFieldValidationFunction={isSecretKeyValidation}
-                      keyFieldValidationMessage={`allowed format: ${secretKeyValidationPattern}`}
+                  <Panel title="Secret Items" noPadding>
+                    <FieldArray
+                      component={SecretItemsForm}
+                      name="properties.items"
                       disabled={secret.id}
                     />
                   </Panel>
