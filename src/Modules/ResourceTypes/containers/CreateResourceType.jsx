@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, getFormValues } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules//MetaResource';
 import ResourceTypeForm from '../components/ResourceTypeForm';
 import validate from '../validations';
@@ -14,12 +14,7 @@ class CreateResourceType extends PureComponent {
     fetchResourceTypes: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,
     resourceTypes: PropTypes.array.isRequired,
-    formValues: PropTypes.object,
     history: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    formValues: {},
   };
 
   componentDidMount() {
@@ -46,7 +41,6 @@ class CreateResourceType extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  formValues: getFormValues('createResourceTypeForm')(state),
   initialValues: getCreateResourceTypeModel(state),
 });
 

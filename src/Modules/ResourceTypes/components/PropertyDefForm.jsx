@@ -21,7 +21,7 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
-        <RemoveButton onClick={() => fields.remove(index)} />
+        <RemoveButton onRemove={fields.remove} index={index} />
         <Row gutter={5}>
           <Col flex={6} xs={12} sm={12}>
             <Field

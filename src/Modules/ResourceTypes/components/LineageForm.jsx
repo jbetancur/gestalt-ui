@@ -13,7 +13,7 @@ const LineageForm = ({ fields, resourceTypes }) => (
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
-        <RemoveButton onClick={() => fields.remove(index)} />
+        <RemoveButton onRemove={fields.remove} index={index} />
         <Row gutter={5}>
           <Col flex={12}>
             <Field

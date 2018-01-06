@@ -342,7 +342,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>
 
                     <Col flex={12}>
-                      <Panel title="Labels" defaultExpanded={values.properties.labels.length > 0}>
+                      <Panel title="Labels" defaultExpanded={values.properties.labels.length > 0} noPadding>
                         <FieldArray
                           component={LabelsForm}
                           name="properties.labels"
@@ -408,7 +408,6 @@ ContainerForm.propTypes = {
   fetchProvidersByType: PropTypes.func.isRequired,
   showSecretModal: PropTypes.func.isRequired,
   showVolumeModal: PropTypes.func.isRequired,
-  showPortmapModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,
