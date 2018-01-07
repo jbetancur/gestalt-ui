@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import AceEditor from 'components/AceEditor';
+import { AceEditor } from 'components/ReduxFormFields';
 import { FileInput } from 'react-md';
 
 const KubeEditorSection = (props) => {

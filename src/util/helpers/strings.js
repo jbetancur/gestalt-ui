@@ -1,3 +1,5 @@
+import { startCase, toLower } from 'lodash';
+
 /**
  * getParentFQON
  * Extracts the fqon from an meta resource
@@ -38,6 +40,14 @@ export function truncate(string, at, trailing = '...') {
   return string;
 }
 
+/**
+ * toTitleCase
+ * @param {String} string
+ */
+export function toTitleCase(string) {
+  return startCase(toLower(string));
+}
+
 
 // TODO: Will be rmeoved when we have security config
 export const checkIfPassword = field =>
@@ -47,5 +57,6 @@ export default {
   getParentFQON,
   getLastFromSplit,
   truncate,
+  toTitleCase,
   checkIfPassword
 };

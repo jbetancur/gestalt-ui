@@ -8,19 +8,18 @@ import ListItem from 'react-md/lib/Lists/ListItem';
 import Divider from 'react-md/lib/Dividers';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../constants';
 
-const AppToolbarInfoMenu = props => (
-  <MenuButton
-    id="info-menu"
-    icon
-    iconChildren="info_outline"
-    position={MenuButton.Positions.TOP_RIGHT}
-  >
+const AppToolbarInfoMenu = (props) => {
+  const menuItems = [
     <ListItem
+      id="main--info--menu--version"
+      key="main--info--menu--version"
       primaryText={`Ui v${UI_VERSION}`}
       leftIcon={<FontIcon>info_outline</FontIcon>}
-    />
-    <Divider />
+    />,
+    <Divider key="main--info--menu--divider" />,
     <ListItem
+      id="main--info--menu--documentation"
+      key="main--info--menu--documentation"
       primaryText={props.t('documentation.title')}
       leftIcon={<FontIcon>library_books</FontIcon>}
       component={styled.a`text-decoration: none;`}
@@ -28,14 +27,26 @@ const AppToolbarInfoMenu = props => (
       target="_blank"
       rel="noopener noreferrer"
       inkDisabled
-    />
+    />,
     <ListItem
+      id="main--info--menu--licensing"
+      key="main--info--menu--licensing"
       primaryText="Licensing"
       leftIcon={<FontIcon>vpn_key</FontIcon>}
       onClick={props.onShowLicenseModal}
+    />,
+  ];
+
+  return (
+    <MenuButton
+      id="info-menu"
+      icon
+      iconChildren="info_outline"
+      position={MenuButton.Positions.TOP_RIGHT}
+      menuItems={menuItems}
     />
-  </MenuButton>
-);
+  );
+};
 
 AppToolbarInfoMenu.propTypes = {
   t: PropTypes.func.isRequired,
