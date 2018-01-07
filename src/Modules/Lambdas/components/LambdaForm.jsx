@@ -6,8 +6,7 @@ import moment from 'moment-timezone';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, LinearProgress, SelectField as MDSelectField } from 'react-md';
-import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
-import AceEditor from 'components/AceEditor';
+import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
@@ -16,6 +15,7 @@ import A from 'components/A';
 import { Caption } from 'components/Typography';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { ActionsMenu } from 'Modules/Actions';
+import { toTitleCase } from 'util/helpers/strings';
 import runTimes from '../lists/runTimes';
 import acceptHeaders from '../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
@@ -35,6 +35,10 @@ const LambdaForm = (props) => {
       props.dispatch(props.change('properties.code_type', 'package'));
     }
   };
+
+  // Since runtime value can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
+  const uniqueExecutors = props.executorsDropDown.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
+  const lambdaPaneTitle = props.editMode ? `Lambda Function: ${toTitleCase(values.properties.runtime)}` : 'Lambda Function';
 
   return (
     <div>
@@ -69,7 +73,7 @@ const LambdaForm = (props) => {
                     raised
                     iconChildren="save"
                     type="submit"
-                    disabled={props.pristine || props.lambdaPending || props.invalid || props.submitting}
+                    disabled={props.pristine || props.lambdaPending || props.submitting}
                     primary
                   >
                     {props.submitLabel}
@@ -101,7 +105,7 @@ const LambdaForm = (props) => {
                         iconChildren="security"
                         onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
                       >
-                          Entitlements
+                          Lambda Entitlements
                       </Button>
                     ]}
                 </Col>
@@ -160,14 +164,15 @@ const LambdaForm = (props) => {
                 </Col>}
 
                 <Col flex={12}>
-                  <Panel title="Lambda Function">
+                  <Panel title={lambdaPaneTitle}>
                     <Row gutter={5}>
+                      {!props.editMode &&
                       <Col flex={4} xs={12} sm={12}>
                         <Field
                           id="select-runtime"
                           component={SelectField}
                           name="properties.runtime"
-                          menuItems={props.executorsDropDown}
+                          menuItems={uniqueExecutors}
                           itemLabel="name"
                           itemValue="runtime"
                           required
@@ -176,7 +181,7 @@ const LambdaForm = (props) => {
                           onChange={handleSupportsInline}
                           disabled={props.editMode}
                         />
-                      </Col>
+                      </Col>}
                       <Col flex={2} xs={12} sm={12}>
                         <Field
                           id="select-code-type"
@@ -202,7 +207,7 @@ const LambdaForm = (props) => {
                           label="Accept Header"
                         />
                       </Col>
-                      <Col flex={4} xs={12} sm={12}>
+                      <Col flex>
                         <Field
                           component={TextField}
                           name="properties.handler"
@@ -381,7 +386,6 @@ LambdaForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,

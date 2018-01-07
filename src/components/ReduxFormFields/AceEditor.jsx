@@ -15,21 +15,32 @@ import 'brace/theme/chrome';
 import 'brace/theme/monokai';
 import 'brace/ext/language_tools';
 
+const aceOnBlur = onBlur => (_event, editor) => {
+  const value = editor.getValue();
+  onBlur(value);
+};
+
 /* eslint-disable react/prop-types */
-export default ({ input, ...others }) => (
+export default ({ input, className, ...others }) => (
   <AceEditor
-    {...input}
-    {...others}
+    name={input.name}
+    onBlur={aceOnBlur(input.onBlur)}
+    onChange={input.onChange}
+    onFocus={input.onFocus}
+    value={input.value}
+    className={className}
     tabSize={2}
     width="100%"
     height="100%"
     wrapEnabled
     showPrintMargin={false}
     highlightActiveLine={true}
+    enableBasicAutocompletion={true}
     setOptions={{
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
     }}
     editorProps={{ $blockScrolling: Infinity }}
+    {...others}
   />
 );

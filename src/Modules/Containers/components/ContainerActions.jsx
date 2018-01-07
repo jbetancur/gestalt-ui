@@ -4,10 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
-import { withMetaResource } from 'Modules/MetaResource';
 import { MenuButton, ListItem, Divider } from 'react-md';
+import { withMetaResource } from 'Modules/MetaResource';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
+import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
 
@@ -19,6 +20,14 @@ const ActionsWrapper = styled.div`
       position: absolute;
       right: .3em;
       top: .7em;
+    }
+
+    .button--start * {
+      color: ${props => props.theme.colors['$md-green-500']};;
+    }
+
+    .button--start[disabled] * {
+      color: ${props => props.theme.colors['$md-grey-500']};;
     }
 
     .button--suspend * {
@@ -112,6 +121,20 @@ class ContainerActions extends Component {
     }, containerModel.name);
   }
 
+  start = () => {
+    const { match, scaleContainer, containerModel, inContainerView } = this.props;
+
+    const onSuccess = () => {
+      if (inContainerView) {
+        this.populateContainer();
+      } else {
+        this.populateContainers();
+      }
+    };
+
+    scaleContainer(match.params.fqon, containerModel.id, 1, onSuccess);
+  }
+
   suspend = () => {
     const { match, scaleContainer, containerModel, inContainerView } = this.props;
 
@@ -182,42 +205,47 @@ class ContainerActions extends Component {
       actionsPending,
     } = this.props;
 
+    const menuItems = [
+      <ListWrapper key="container-actions-menu--dropdown">
+        <ListMenu>
+          <Title>{containerModel.name}</Title>
+          <Subtitle>{containerModel.properties.status}</Subtitle>
+        </ListMenu>
+        <EnhancedDivider />
+        <ListItem className="button--start" primaryText="Start" onClick={this.start} />
+        <ListItem className="button--suspend" primaryText="Suspend" onClick={this.suspend} />
+        <ListItem className="button--scale" primaryText="Scale" onClick={this.scale} />
+        <ListItem primaryText="Migrate" onClick={this.migrate} />
+        {!disablePromote &&
+          <ListItem primaryText="Promote" onClick={this.promote} />}
+        {!disableDestroy &&
+          <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
+        <ActionsMenu
+          listItem
+          model={containerModel}
+          actionList={actions}
+          pending={actionsPending}
+        />
+      </ListWrapper>
+    ];
+
+    const icon = inContainerView ? null : 'more_vert';
+    const position = inContainerView ? MenuButton.Positions.BELOW : MenuButton.Positions.BOTTOM_LEFT;
+
     return (
       <ActionsWrapper className={inContainerView && 'action--title'}>
         <MenuButton
           id="container-actions-menu"
           icon={!inContainerView}
           flat={inContainerView}
-          label={inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
           disabled={!containerModel.properties.status}
-          iconChildren="more_vert"
-          position={inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BOTTOM_LEFT}
+          iconChildren={icon}
+          position={position}
           tooltipLabel={!inContainerView && 'Actions'}
           inkDisabled={inContainerView}
+          menuItems={menuItems}
         >
-          {/* https://github.com/mlaursen/react-md/issues/259 */}
-          {[
-            <ListWrapper key="container-actions-menu--dropdown">
-              <ListMenu>
-                <div className="gf-headline-1">{containerModel.name}</div>
-                <div className="gf-subtitle">{containerModel.properties.status}</div>
-              </ListMenu>
-              <EnhancedDivider />
-              <ListItem className="button--suspend" primaryText="Suspend" onClick={this.suspend} />
-              <ListItem className="button--scale" primaryText="Scale" onClick={this.scale} />
-              <ListItem primaryText="Migrate" onClick={this.migrate} />
-              {!disablePromote &&
-                <ListItem primaryText="Promote" onClick={this.promote} />}
-              {!disableDestroy &&
-                <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
-              <ActionsMenu
-                listItem
-                model={containerModel}
-                actionList={actions}
-                pending={actionsPending}
-              />
-            </ListWrapper>
-          ]}
+          {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
         </MenuButton>
       </ActionsWrapper>
     );

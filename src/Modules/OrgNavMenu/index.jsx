@@ -4,13 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { sortBy } from 'lodash';
 import styled from 'styled-components';
 import Divider from 'react-md/lib/Dividers';
 import TextField from 'react-md/lib/TextFields';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
-import { sortBy } from 'lodash';
 import DotActivity from 'components/DotActivity';
+import { H3 } from 'components/Typography';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from './actions';
 
@@ -88,7 +89,7 @@ class OrgNavMenu extends PureComponent {
       <ListWrapper key="orgs-nav--search">
         {!allOrganizationsPending &&
           <div>
-            <span className="gf-headline-2">SWITCH ORGANIZATION</span>
+            <H3>SWITCH ORGANIZATION</H3>
             <TextField
               id="search-orgs"
               label={t('general.verbs.search')}
