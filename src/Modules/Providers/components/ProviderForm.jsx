@@ -47,7 +47,6 @@ const ProviderForm = (props) => {
     reset();
   };
 
-  const containerFormInvalid = props.editMode ? props.containerEditInvalid : props.containerCreateInvalid;
   const submitDisabled = isSubmitDisabled(props, selectedProviderType);
   const linkedProviders = props.providers.filter(p => p.id !== provider.id);
 
@@ -108,7 +107,7 @@ const ProviderForm = (props) => {
                   iconChildren="refresh"
                   type="submit"
                   onClick={() => props.onRedeploy(true)}
-                  disabled={containerFormInvalid}
+                  disabled={props.containerInvalid}
                   primary
                 >
                 Redeploy
@@ -251,8 +250,7 @@ ProviderForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  containerCreateInvalid: PropTypes.bool.isRequired,
-  containerEditInvalid: PropTypes.bool.isRequired,
+  containerInvalid: PropTypes.bool,
   container: PropTypes.object,
   onRedeploy: PropTypes.func,
   resourceTypes: PropTypes.array.isRequired,
@@ -268,6 +266,7 @@ ProviderForm.defaultProps = {
   container: {},
   onRedeploy: () => { },
   editMode: false,
+  containerInvalid: false,
 };
 
 // Connect to this forms state in the store so we can enum the values

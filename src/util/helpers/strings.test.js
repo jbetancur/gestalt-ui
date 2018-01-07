@@ -2,6 +2,7 @@ import {
   getParentFQON,
   getLastFromSplit,
   truncate,
+  toTitleCase,
 } from './strings';
 
 describe('Util Transformations', () => {
@@ -42,6 +43,14 @@ describe('Util Transformations', () => {
       const string = 'This is possibly the longest string ever convievable to man';
 
       expect(truncate(string, 5, '***')).to.equal('This***');
+    });
+  });
+
+  describe('toTitleCase function', () => {
+    it('should convert a sentance to title case', () => {
+      const string = 'the worlds most stable genuis';
+
+      expect(toTitleCase(string)).to.equal('The Worlds Most Stable Genuis');
     });
   });
 });

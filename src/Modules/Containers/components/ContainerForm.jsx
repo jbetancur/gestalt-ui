@@ -7,7 +7,7 @@ import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
-import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
+import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
 import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
 import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
@@ -16,9 +16,8 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import AceEditor from 'components/AceEditor';
 import A from 'components/A';
-import { Caption } from 'components/Typography';
+import { Title, Caption } from 'components/Typography';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
@@ -77,9 +76,9 @@ const ContainerForm = ({ values, container, ...props }) => {
                   <div>
                     <div>{props.title}</div>
                     {selectedProvider.id &&
-                      <div className="gf-headline-1">
+                      <Title>
                         <ContainerIcon resourceType={providerType} /> {selectedProvider.name}
-                      </div>}
+                      </Title>}
                   </div>
                 }
               />

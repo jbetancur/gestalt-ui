@@ -33,10 +33,13 @@ export function generateLambdaPayload(sourcePayload, updateMode = false) {
     },
   };
 
-
-  // TODO: fake locations for now
   if (!updateMode) {
+    // TODO: Fake Locations
     model.properties.provider = { id: model.properties.provider.id, locations: [] };
+
+    // strip off value field uniqueness performed in LambdaForm as META expects a specific value (e.g. nodejs vs nodejs---1)
+    const rindex = model.properties.runtime.indexOf('---');
+    model.properties.runtime = model.properties.runtime.substring(0, rindex);
   }
 
   // Clean up properties depending on lambda code_type

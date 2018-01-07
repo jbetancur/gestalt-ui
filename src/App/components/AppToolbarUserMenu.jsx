@@ -14,44 +14,49 @@ const AppToolbarUserMenu = (props) => {
   const { self, browser, t, onLogout, } = props;
   const renderAvatar = iconSized =>
     <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
+  const menuItems = [
+    <ListItem
+      id="main--user--menu--profile"
+      key="main--user--menu--profile"
+      primaryText={self.name || ''}
+      leftAvatar={renderAvatar(true)}
+      component={Link}
+      to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}
+    />,
+    <ListItem
+      id="main--user--menu--locale"
+      key="main--user--menu--locale"
+      primaryText={t('general.nouns.language')}
+      leftIcon={<FontIcon>language</FontIcon>}
+      nestedItems={[
+        <ListItem
+          primaryText="English"
+          leftIcon={<USEnglishLangIcon />}
+          key={0}
+          onClick={() => i18next.changeLanguage('en')}
+        />,
+      ]}
+    />,
+    <Divider key="main--user--menu--divider" />,
+    <ListItem
+      id="main--user--menu--logout"
+      key="main--user--menu--logout"
+      primaryText={t('auth.logout')}
+      leftIcon={<FontIcon>power_settings_new</FontIcon>}
+      onClick={onLogout}
+    />,
+  ];
   return (
     <MenuButton
-      id="main-menu"
+      id="main--user--menu"
       flat={browser.greaterThan.xs}
       icon={browser.lessThan.sm}
       label={browser.greaterThan.xs && self.name}
       iconChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
       position={browser.lessThan.sm ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
       iconBefore={false}
-    >
-      <ListItem
-        id="main-menu--profile"
-        primaryText={self.name || ''}
-        leftAvatar={renderAvatar(true)}
-        component={Link}
-        to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}
-      />
-      <ListItem
-        id="main-menu--locale"
-        primaryText={t('general.nouns.language')}
-        leftIcon={<FontIcon>language</FontIcon>}
-        nestedItems={[
-          <ListItem
-            primaryText="English"
-            leftIcon={<USEnglishLangIcon />}
-            key={0}
-            onClick={() => i18next.changeLanguage('en')}
-          />,
-        ]}
-      />
-      <Divider />
-      <ListItem
-        id="main-menu--logout"
-        primaryText={t('auth.logout')}
-        leftIcon={<FontIcon>power_settings_new</FontIcon>}
-        onClick={onLogout}
-      />
-    </MenuButton>
+      menuItems={menuItems}
+    />
   );
 };
 
