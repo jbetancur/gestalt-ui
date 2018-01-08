@@ -244,6 +244,7 @@ class ContainerActions extends Component {
           tooltipLabel={!inContainerView && 'Actions'}
           inkDisabled={inContainerView}
           menuItems={menuItems}
+          listHeightRestricted={false}
         >
           {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
         </MenuButton>
