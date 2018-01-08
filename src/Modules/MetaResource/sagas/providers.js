@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { flatten, merge, orderBy } from 'lodash';
+import providerModel from '../models/provider';
 import * as types from '../actionTypes';
 
 
@@ -51,7 +52,7 @@ export function* fetchProvidersByType(action) {
     const response = yield call(axios.get, urlHasType);
 
     if (!response.data.length) {
-      yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] });
+      yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ ...providerModel, id: '', name: 'No Available Providers' }] });
     } else {
       yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: response.data });
     }
