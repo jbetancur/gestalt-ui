@@ -31,8 +31,9 @@ const SecretForm = (props) => {
     reset,
   } = props;
 
-  const getProviders = () => props.providersByType
+  const filteredProviderTypes = () => props.providersByType
     .filter(item => getLastFromSplit(item.resource_type) === 'Kubernetes' || item.properties.config.secret_support);
+  const providerTypes = filteredProviderTypes.length ? filteredProviderTypes : props.providersByType;
   const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
 
@@ -67,7 +68,7 @@ const SecretForm = (props) => {
               {submitLabel}
             </Button>
           </ActionsToolbar>
-          {secretPending && <LinearProgress id="secret-form" />}
+          {secretPending && <LinearProgress id="secret-form-loading" />}
           <CardText>
             <Row gutter={5}>
               <Col flex={6} xs={12}>
@@ -78,11 +79,11 @@ const SecretForm = (props) => {
                   label="Provider"
                   itemLabel="name"
                   itemValue="id"
-                  menuItems={getProviders()}
-                  async
+                  menuItems={providerTypes}
                   disabled={secret.id}
-                  onChange={() => reset()}
+                  onChange={reset}
                   required
+                  async
                 />
               </Col>
 

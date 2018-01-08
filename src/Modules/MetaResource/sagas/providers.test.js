@@ -12,6 +12,7 @@ import providersagas, {
   deleteProviders,
   redeployProvider,
 } from './providers';
+import providerModel from '../models/provider';
 import * as types from '../actionTypes';
 
 describe('Provider Sagas', () => {
@@ -98,7 +99,7 @@ describe('Provider Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
         expect(result.value).to.deep.equal(
-          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] })
+          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ ...providerModel, id: '', name: 'No Available Providers' }] })
         );
       });
     });
@@ -115,7 +116,7 @@ describe('Provider Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
         expect(result.value).to.deep.equal(
-          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ id: '', name: 'No Available Providers' }] })
+          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ ...providerModel, id: '', name: 'No Available Providers' }] })
         );
       });
     });
