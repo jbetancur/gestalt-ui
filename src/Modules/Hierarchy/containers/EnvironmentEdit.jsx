@@ -23,15 +23,17 @@ class EnvironmentEdit extends Component {
 
   componentDidMount() {
     const { match } = this.props;
+
     this.props.fetchEnvironment(match.params.fqon, match.params.environmentId);
   }
 
   update = (values) => {
     const { match, history, location, environment, updateEnvironment, fetchEnvironments } = this.props;
     const patches = generateEnvironmentPatches(environment, values);
-    const onSuccess = (response) => {
+    const onSuccess = () => {
       if (location.state.card) {
-        fetchEnvironments(match.params.fqon, response.properties.workspace.id);
+        // note that if the match.params.workspaceId dosnt exist (and it will not in the heirarchy views) the call for re-pop will be made against /fqon/environments
+        fetchEnvironments(match.params.fqon, match.params.workspaceId);
       }
 
       history.goBack();

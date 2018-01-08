@@ -2,18 +2,19 @@ import React from 'react';
 import { TextField } from 'react-md';
 
 /* eslint-disable react/prop-types */
-export default (props) => {
-  const { input, meta: { touched, error }, ...others } = props;
+const InputField = ({ input, meta: { touched, error }, ...others }) => (
+  <TextField
+    id={input.name}
+    error={touched && !!error}
+    errorText={error}
+    {...input}
+    {...others}
+  />
+);
 
-  return (
-    <TextField
-      id={input.name}
-      {...input}
-      {...others}
-      error={touched && !!error}
-      errorText={error}
-      lineDirection="center"
-      fullWidth
-    />
-  );
+InputField.defaultProps = {
+  lineDirection: 'center',
+  fullWidth: true,
 };
+
+export default InputField;
