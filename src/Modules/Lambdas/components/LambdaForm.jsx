@@ -105,7 +105,7 @@ const LambdaForm = (props) => {
                         iconChildren="security"
                         onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
                       >
-                          Lambda Entitlements
+                        Lambda Entitlements
                       </Button>
                     ]}
                 </Col>
