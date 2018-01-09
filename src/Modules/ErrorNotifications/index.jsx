@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
-import Snackbar from 'react-md/lib/Snackbars';
+import { Snackbar } from 'react-md';
+import { isEqual } from 'lodash';
 
 const EnhancedSnackBar = styled(Snackbar)`
   z-index: 9999;
@@ -43,24 +44,39 @@ class ErrorNotifications extends PureComponent {
       if (typeof error === 'string') {
         const errorPayload = {
           text: error,
-          action: 'Close'
+          action: 'Close',
         };
 
-        toasts.push(errorPayload);
-        this.setState({ toasts });
+        if (!this.checkDupeToasts(errorPayload)) {
+          toasts.push(errorPayload);
+          this.setState({ toasts });
+        }
       }
 
       // deal with errors when an object as well as phantom data: {}
       if (error.data && Object.keys(error.data).length > 0) {
-        const errorPayload = {
-          text: `${friendlyMessage} ${message} ${statusCode && `(code ${statusCode})`}`,
-          action: 'Close'
-        };
+        // TODO: ignore sync errors for now until meta sync is no longer required
+        const isSyncError = error.request && error.request.responseURL && error.request.responseURL.includes('/sync');
 
-        toasts.push(errorPayload);
-        this.setState({ toasts });
+        if (!isSyncError) {
+          const errorPayload = {
+            text: `${friendlyMessage} ${message} ${statusCode && `(code ${statusCode})`}`,
+            action: 'Close',
+          };
+
+          if (!this.checkDupeToasts(errorPayload)) {
+            toasts.push(errorPayload);
+            this.setState({ toasts });
+          }
+        }
       }
     }
+  }
+
+  checkDupeToasts(errorPayload) {
+    const toasts = this.state.toasts;
+
+    return isEqual(toasts[toasts.length - 1], errorPayload);
   }
 
   removeToast = () => {
@@ -85,4 +101,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(withTheme(ErrorNotifications));
-
