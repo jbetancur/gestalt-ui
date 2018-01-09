@@ -27,9 +27,12 @@ const LambdaForm = (props) => {
 
   // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
   const getRuntime = () => runTimes.find((runtime) => {
-    const rindex = values.properties.runtime.indexOf('---');
+    if (values.properties.runtime) {
+      const rindex = values.properties.runtime.indexOf('---');
 
-    return runtime.value === values.properties.runtime.substring(0, rindex);
+      return runtime.value === values.properties.runtime.substring(0, rindex);
+    }
+    return {};
   }) || '';
 
   // if doesn't support inline set back to package
