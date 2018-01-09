@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
 import { MenuButton, ListItem, Divider } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
 import { Title, Subtitle } from 'components/Typography';
@@ -62,7 +62,7 @@ const EnhancedDivider = styled(Divider)`
   margin: 0;
 `;
 
-class ContainerActions extends Component {
+class ContainerActions extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -205,11 +205,13 @@ class ContainerActions extends Component {
       actionsPending,
     } = this.props;
 
+    const container = { ...metaModels.container, ...containerModel };
+
     const menuItems = [
       <ListWrapper key="container-actions-menu--dropdown">
         <ListMenu>
-          <Title>{containerModel.name}</Title>
-          <Subtitle>{containerModel.properties.status}</Subtitle>
+          <Title>{container.name}</Title>
+          <Subtitle>{container.properties.status}</Subtitle>
         </ListMenu>
         <EnhancedDivider />
         <ListItem className="button--start" primaryText="Start" onClick={this.start} />
@@ -222,7 +224,7 @@ class ContainerActions extends Component {
           <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
         <ActionsMenu
           listItem
-          model={containerModel}
+          model={container}
           actionList={actions}
           pending={actionsPending}
         />
@@ -233,22 +235,23 @@ class ContainerActions extends Component {
     const position = inContainerView ? MenuButton.Positions.BELOW : MenuButton.Positions.BOTTOM_LEFT;
 
     return (
-      <ActionsWrapper className={inContainerView && 'action--title'}>
-        <MenuButton
-          id="container-actions-menu"
-          icon={!inContainerView}
-          flat={inContainerView}
-          disabled={!containerModel.properties.status}
-          iconChildren={icon}
-          position={position}
-          tooltipLabel={!inContainerView && 'Actions'}
-          inkDisabled={inContainerView}
-          menuItems={menuItems}
-          listHeightRestricted={false}
-        >
-          {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
-        </MenuButton>
-      </ActionsWrapper>
+      container.id ?
+        <ActionsWrapper className={inContainerView && 'action--title'}>
+          <MenuButton
+            id="container-actions-menu"
+            icon={!inContainerView}
+            flat={inContainerView}
+            disabled={!container.properties.status}
+            iconChildren={icon}
+            position={position}
+            tooltipLabel={!inContainerView && 'Actions'}
+            inkDisabled={inContainerView}
+            menuItems={menuItems}
+            listHeightRestricted={false}
+          >
+            {inContainerView && <StatusBubble status={container.properties.status || 'Pending'} />}
+          </MenuButton>
+        </ActionsWrapper> : null
     );
   }
 }
