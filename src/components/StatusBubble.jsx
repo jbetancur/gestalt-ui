@@ -25,6 +25,7 @@ const ContainerStatusStyle = styled.div`
   ${props => props.status === 'PENDING' && `background-color: ${props.theme.colors['$md-orange-500']}`};
   ${props => props.status === 'DELETED' && `background-color: ${props.theme.colors['$md-grey-900']}`};
   ${props => props.status === 'DISABLED' && `background-color: ${props.theme.colors['$md-grey-500']}`};
+  ${props => props.status === 'UNKNOWN' && `background-color: ${props.theme.colors['$md-red-a400']}`};
 
   i {
     color: white;
@@ -69,6 +70,8 @@ const ContainerStatus = (props) => {
         return 'clear';
       case 'DISABLED':
         return 'remove_circle';
+      case 'UNKNOWN':
+        return 'help_outline';
       default:
         return 'info';
     }

@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { merge, orderBy } from 'lodash';
+import containerModel from '../models/container';
 import * as types from '../actionTypes';
 
 /**
@@ -205,7 +206,7 @@ export function* fetchProviderContainer(action) {
       const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}`);
       yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data });
     } else {
-      yield put({ type: types.FETCH_CONTAINER_FULFILLED });
+      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel });
     }
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINER_REJECTED, payload: e.message });

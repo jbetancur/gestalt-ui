@@ -12,6 +12,7 @@ import containerSagas, {
   promoteContainer,
   fetchProviderContainer,
 } from './containers';
+import containerModel from '../models/container';
 import * as types from '../actionTypes';
 
 describe('Container Sagas', () => {
@@ -505,7 +506,7 @@ describe('Container Sagas', () => {
       it('should make an api call to get container', () => {
         result = saga.next({ data: [] });
         expect(result.value).to.deep.equal(
-          put({ type: types.FETCH_CONTAINER_FULFILLED })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel })
         );
 
         // Finish the iteration
