@@ -14,6 +14,7 @@ export const getCreateProviderModel = createSelector(
       properties: {
         environment_types: '', // converted to Array on Create
         config: {
+          auth: {},
           external_protocol: 'https',
           env: envSchema,
         },
@@ -37,8 +38,8 @@ export const getEditProviderModel = createSelector(
         config: {
           ...provider.properties.config,
           env: {
-            public: mapTo2DArray(provider.properties.config.env.public),
-            private: mapTo2DArray(provider.properties.config.env.private),
+            public: {},
+            private: {},
           },
           networks: JSON.stringify(provider.properties.config.networks),
           extra: JSON.stringify(provider.properties.config.extra),
@@ -49,6 +50,11 @@ export const getEditProviderModel = createSelector(
         services: provider.properties.services,
       },
     };
+
+    if (provider.properties.config && provider.properties.config.env) {
+      model.properties.config.env.public = mapTo2DArray(provider.properties.config.env.public);
+      model.properties.config.env.private = mapTo2DArray(provider.properties.config.env.private);
+    }
 
     if (model.properties.environment_types && Array.isArray(model.properties.environment_types)) {
       model.properties.environment_types = model.properties.environment_types.join(',');

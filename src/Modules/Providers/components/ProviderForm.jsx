@@ -171,7 +171,7 @@ const ProviderForm = (props) => {
                       <Row gutter={5}>
                         <Col flex={2} xs={12} sm={4}>
                           <Field
-                            id="select-return-type"
+                            id="select-external-protocol"
                             component={SelectField}
                             name="properties.config.external_protocol"
                             menuItems={httpProtocols}
@@ -273,7 +273,12 @@ ProviderForm.defaultProps = {
 const selector = form => formValueSelector(form);
 export default connect(
   (state, props) => ({
-    values: selector(props.form)(state, 'resource_type', 'properties.config.auth'),
+    values: selector(props.form)(state,
+      'resource_type',
+      'properties.config.auth',
+      'properties.config.secret_support',
+      'properties.config.accept_any_cert'
+    ),
     containerInvalid: isInvalid(props.editMode ? 'containerEdit' : 'containerCreate')(state),
   })
 )(ProviderForm);
