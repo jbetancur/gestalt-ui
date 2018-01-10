@@ -32,7 +32,7 @@ export default function configureInterceptors(store, history) {
 
     const permissions = [
       'license.view',
-      'org.view',
+      // 'org.view',
       'workspace.view',
       'environment.view',
       'lambda.view',
@@ -54,6 +54,9 @@ export default function configureInterceptors(store, history) {
       // eslint-disable-next-line no-lonely-if
       if (response.message.includes('license.view')) {
         // Nothing for now
+      } else if (response.message.includes('org.view')) {
+        // eslint-disable-next-line no-alert
+        window.confirm('You have not been entitled to this organization. Please contact your administrator');
       } else if (response.code === 403 && permissions.some(entitlement => response.message.includes(entitlement))) {
         history.goBack();
       } else {
