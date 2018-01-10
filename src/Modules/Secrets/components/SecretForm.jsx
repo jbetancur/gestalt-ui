@@ -33,7 +33,7 @@ const SecretForm = (props) => {
 
   const filteredProviderTypes = () => props.providersByType
     .filter(item => getLastFromSplit(item.resource_type) === 'Kubernetes' || item.properties.config.secret_support);
-  const providerTypes = filteredProviderTypes.length ? filteredProviderTypes : props.providersByType;
+  const providerTypes = filteredProviderTypes().length > 0 ? filteredProviderTypes() : props.providersByType;
   const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
 
@@ -111,42 +111,17 @@ const SecretForm = (props) => {
                 </Panel>
               </Col>
 
-              {selectedProvider.id && isMultiPartSecret &&
+              {selectedProvider.id &&
                 <Col flex={12}>
                   <Panel title="Secret Items" noPadding>
                     <FieldArray
                       component={SecretItemsForm}
                       name="properties.items"
                       disabled={secret.id}
+                      multiPart={isMultiPartSecret}
                     />
                   </Panel>
                 </Col>}
-
-              {selectedProvider.id && !isMultiPartSecret &&
-                <Row gutter={5}>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="properties.items[0].key"
-                      label="Seret Key"
-                      type="text"
-                      rows={1}
-                      disabled={secret.id}
-                      required
-                    />
-                  </Col>
-                  {!secret.id &&
-                    <Col flex={6} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.items[0].value"
-                        label="Secret Value"
-                        type="text"
-                        rows={1}
-                        required
-                      />
-                    </Col>}
-                </Row>}
             </Row>
           </CardText>
         </Col>
