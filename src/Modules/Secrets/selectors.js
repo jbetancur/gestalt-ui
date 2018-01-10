@@ -12,7 +12,7 @@ export const getCreateSecretModel = createSelector(
       description: '',
       properties: {
         provider: {},
-        items: [],
+        items: [{ key: '', value: '' }],
       },
     };
 

@@ -10,22 +10,23 @@ import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays'
 const validatePattern = value => (value && !isSecretKeyValidation(value)) && `Allowed format: ${secretKeyValidationPattern}`;
 const required = value => (value ? undefined : 'Required');
 
-const SecretItemsForm = ({ fields, disabled }) => (
+const SecretItemsForm = ({ fields, multiPart, disabled }) => (
   <FieldContainer>
     <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={fields.push}
-        disabled={disabled}
-      >
-        Add Secret Item
-      </Button>
+      {multiPart &&
+        <Button
+          flat
+          primary
+          iconChildren="add"
+          onClick={fields.push}
+          disabled={disabled}
+        >
+          Add Secret Item
+        </Button>}
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
-        {!disabled && <RemoveButton onRemove={fields.remove} index={index} />}
+        {(!disabled && multiPart) && <RemoveButton onRemove={fields.remove} index={index} />}
         <Row gutter={5}>
           <Col flex={12}>
             <Field
@@ -58,10 +59,12 @@ const SecretItemsForm = ({ fields, disabled }) => (
 SecretItemsForm.propTypes = {
   fields: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
+  multiPart: PropTypes.bool.isRequired,
 };
 
 SecretItemsForm.defaultProps = {
   disabled: false,
+  multiPart: false,
 };
 
 export default SecretItemsForm;
