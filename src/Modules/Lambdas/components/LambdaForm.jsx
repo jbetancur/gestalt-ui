@@ -30,8 +30,13 @@ const LambdaForm = (props) => {
     if (values.properties.runtime) {
       const rindex = values.properties.runtime.indexOf('---');
 
-      return runtime.value === values.properties.runtime.substring(0, rindex);
+      if (rindex > -1) {
+        return runtime.value === values.properties.runtime.substring(0, rindex);
+      }
+
+      return runtime.value;
     }
+
     return {};
   }) || '';
 
@@ -43,7 +48,7 @@ const LambdaForm = (props) => {
     }
   };
 
-  // Since runtime value can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
+  // Since runtime values can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
   const uniqueExecutors = props.executorsDropDown.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
   const lambdaPaneTitle = props.editMode ? `Lambda Function: ${toTitleCase(values.properties.runtime)}` : 'Lambda Function';
 
@@ -174,7 +179,7 @@ const LambdaForm = (props) => {
                   <Panel title={lambdaPaneTitle}>
                     <Row gutter={5}>
                       {!props.editMode &&
-                      <Col flex={4} xs={12} sm={12}>
+                      <Col flex={3} xs={12} sm={12}>
                         <Field
                           id="select-runtime"
                           component={SelectField}
@@ -224,28 +229,29 @@ const LambdaForm = (props) => {
                           required
                         />
                       </Col>
-                      {values.properties.code_type === 'code' &&
-                      <Col flex={2} xs={12} sm={6} md={6}>
-                        <MDSelectField
-                          id="select-code-theme"
-                          label="Editor Theme"
-                          menuItems={['monokai', 'chrome']}
-                          defaultValue={props.theme}
-                          onChange={value => props.handleTheme(value)}
-                        />
-                      </Col>}
 
                       {values.properties.code_type === 'code' &&
-                      <Col flex={12}>
-                        <Field
-                          component={AceEditor}
-                          mode={getRuntime().codeFormat}
-                          theme={props.theme}
-                          name="properties.code"
-                          maxLines={75}
-                          minLines={25}
-                        />
-                      </Col>}
+                        <Row>
+                          <Col flex={2} xs={12} sm={6} md={6}>
+                            <MDSelectField
+                              id="select-code-theme"
+                              label="Editor Theme"
+                              menuItems={['monokai', 'chrome']}
+                              defaultValue={props.theme}
+                              onChange={props.handleTheme}
+                            />
+                          </Col>
+                          <Col flex={12}>
+                            <Field
+                              component={AceEditor}
+                              mode={getRuntime().codeFormat}
+                              theme={props.theme}
+                              name="properties.code"
+                              maxLines={75}
+                              minLines={25}
+                            />
+                          </Col>
+                        </Row>}
 
                       {values.properties.code_type === 'package' &&
                       <Col flex={10} xs={12} sm={12}>
