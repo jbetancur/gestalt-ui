@@ -145,7 +145,7 @@ const ProviderForm = (props) => {
 
                 {selectedProviderType.name &&
                   <div>
-                    <Row gutter={5}>
+                    {!provider.id && <Row gutter={5}>
                       <Col flex={6} xs={12}>
                         <Field
                           component={TextField}
@@ -154,10 +154,10 @@ const ProviderForm = (props) => {
                           type="text"
                           required
                           maxLength={nameMaxLen}
-                          disabled={provider.id}
+
                         />
                       </Col>
-                    </Row>
+                    </Row>}
                     {selectedProviderType.DCOSConfig &&
                       <URLConfigSection {...props} />}
 
