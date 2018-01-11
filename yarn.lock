@@ -3381,6 +3381,10 @@ extend@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.0.tgz#5a474353b9f3353ddd8176dfd37b91c83a46f1d4"
 
+extend@~3.0.0, extend@~3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
+
 external-editor@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/external-editor/-/external-editor-2.0.4.tgz#1ed9199da9cbfe2ef2f7a31b2fde8b0d12368972"
@@ -7543,9 +7547,9 @@ react-jsonschema-form@^1.0.0:
     prop-types "^15.5.8"
     setimmediate "^1.0.5"
 
-react-md@^1.2.10:
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.2.10.tgz#0f01e96285093a79da37bf351aa0cb5027b9d2a8"
+react-md@^1.2.11:
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.2.11.tgz#b2296e36bb8095ace00cf8b35fd0c5b1d4837799"
   dependencies:
     classnames "^2.2.5"
     prop-types "15.6.0"
@@ -8185,7 +8189,7 @@ rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
 
-safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+safe-buffer@5.1.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
@@ -9059,7 +9063,7 @@ tmp@0.0.31, tmp@^0.0.31:
   dependencies:
     os-tmpdir "~1.0.1"
 
-tmp@0.0.33:
+tmp@0.0.x:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
   dependencies:
