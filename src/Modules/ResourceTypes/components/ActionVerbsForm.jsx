@@ -5,10 +5,10 @@ import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 
-const ActionVerbsForm = ({ fields }) => (
+const ActionVerbsForm = ({ fields, addLabel }) => (
   <FieldContainer>
     <FieldItem>
-      <Button flat primary iconChildren="add"onClick={() => fields.push()}>Add Verb</Button>
+      <Button flat primary iconChildren="add" onClick={() => fields.push()}>{addLabel}</Button>
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
@@ -26,6 +26,11 @@ const ActionVerbsForm = ({ fields }) => (
 
 ActionVerbsForm.propTypes = {
   fields: PropTypes.object.isRequired,
+  addLabel: PropTypes.string,
+};
+
+ActionVerbsForm.defaultProps = {
+  addLabel: 'Add Verb',
 };
 
 export default ActionVerbsForm;

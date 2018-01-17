@@ -122,7 +122,6 @@ const ResourceTypeForm = (props) => {
                     <FieldArray
                       name="properties.actions.verbs"
                       component={ActionVerbsForm}
-                      resourceTypes={resourceTypes}
                     />
                   </Panel>
                 </Col>

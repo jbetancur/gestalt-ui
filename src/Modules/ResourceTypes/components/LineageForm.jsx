@@ -6,10 +6,10 @@ import { SelectField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 
-const LineageForm = ({ fields, resourceTypes }) => (
+const LineageForm = ({ fields, resourceTypes, addLabel }) => (
   <FieldContainer>
     <FieldItem>
-      <Button flat primary iconChildren="add"onClick={() => fields.push()}>Add Resource</Button>
+      <Button flat primary iconChildren="add"onClick={() => fields.push()}>{addLabel}</Button>
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
@@ -36,6 +36,11 @@ const LineageForm = ({ fields, resourceTypes }) => (
 LineageForm.propTypes = {
   fields: PropTypes.object.isRequired,
   resourceTypes: PropTypes.array.isRequired,
+  addLabel: PropTypes.string,
+};
+
+LineageForm.defaultProps = {
+  addLabel: 'Add Label',
 };
 
 export default LineageForm;

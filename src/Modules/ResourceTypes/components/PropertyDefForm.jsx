@@ -7,7 +7,7 @@ import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays'
 import { Button } from 'components/Buttons';
 import dataTypes from '../lists/dataTypes';
 
-const PropertyDefForm = ({ fields, resourceTypes }) => (
+const PropertyDefForm = ({ fields, resourceTypes, addLabel }) => (
   <FieldContainer>
     <FieldItem>
       <Button
@@ -16,7 +16,7 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
         iconChildren="add"
         onClick={() => fields.push({ data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true })}
       >
-      Add Property
+        {addLabel}
       </Button>
     </FieldItem>
     {fields.map((member, index) => (
@@ -87,6 +87,11 @@ const PropertyDefForm = ({ fields, resourceTypes }) => (
 PropertyDefForm.propTypes = {
   fields: PropTypes.object.isRequired,
   resourceTypes: PropTypes.array.isRequired,
+  addLabel: PropTypes.string,
+};
+
+PropertyDefForm.defaultProps = {
+  addLabel: 'Add Property'
 };
 
 export default PropertyDefForm;

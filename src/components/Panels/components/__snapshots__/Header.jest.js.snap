@@ -2,6 +2,7 @@
 
 exports[`(Panels) Header renders with a title 1`] = `
 .c0 {
+  padding-left: 14px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -16,6 +17,10 @@ exports[`(Panels) Header renders with a title 1`] = `
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   font-weight: 700;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .c0:hover {
