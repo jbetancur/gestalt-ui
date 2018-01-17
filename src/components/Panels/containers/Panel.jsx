@@ -23,6 +23,7 @@ class Panel extends Component {
     noPadding: PropTypes.bool,
     minHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     pending: PropTypes.bool,
+    expandable: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -31,6 +32,7 @@ class Panel extends Component {
     minHeight: false,
     children: null,
     pending: false,
+    expandable: true,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -38,18 +40,20 @@ class Panel extends Component {
   toggle = () => this.setState({ isExpanded: !this.state.isExpanded });
 
   render() {
+    const { title, noPadding, minHeight, pending, children, expandable } = this.props;
+
     return (
       <PanelWrapper>
-        <Header onClick={this.toggle}>
-          <ExpanderIcon isExpanded={this.state.isExpanded}>expand_more</ExpanderIcon>
-          <Title>{this.props.title}</Title>
+        <Header onClick={expandable && this.toggle} expandable={expandable}>
+          {expandable && <ExpanderIcon isExpanded={this.state.isExpanded}>expand_more</ExpanderIcon>}
+          <Title>{title}</Title>
         </Header>
         <Content
           isExpanded={this.state.isExpanded}
-          noPadding={this.props.noPadding}
-          minHeight={this.props.minHeight}
+          noPadding={noPadding}
+          minHeight={minHeight}
         >
-          {this.props.pending ? <DotActivity centered size={1} /> : this.props.children}
+          {pending ? <DotActivity centered size={1} /> : children}
         </Content>
       </PanelWrapper>
     );

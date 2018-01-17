@@ -11,7 +11,9 @@ export function* fetchEnvironments(action) {
     const url = action.workspaceId ? `${action.fqon}/workspaces/${action.workspaceId}/environments` : `${action.fqon}/environments`;
     const response = yield call(axios.get, `${url}?expand=true`);
 
-    yield put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: response.data });
+    const payload = response.data.filter(env => env.properties.workspace);
+
+    yield put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_ENVIRONMENTS_REJECTED, payload: e.message });
   }

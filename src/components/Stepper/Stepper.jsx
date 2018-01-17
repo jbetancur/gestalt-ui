@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from 'components/Buttons';
 
 const StepperContainer = styled.div`
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 `;
 
-const Indicators = styled.div`
+const Indicators = styled.ol`
+  list-style: none;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  // border-bottom: 3px solid blue;
+  padding-left: 64px;
+  padding-right: 64px;
 `;
 
-const Indicator = styled.div`
+const Indicator = styled.li`
   width: 15em;
   text-align: center;
-  cursor: pointer;
 `;
 
 const IndicatorNumber = styled.div`
@@ -42,29 +43,6 @@ const IndicatorNumber = styled.div`
     color: ${props => props.theme.colors['$md-white']};
     background-color: ${props => props.theme.colors['$md-blue-500']};
   }
-
-  // span:after {
-  //   width: 100em;
-  //   height: 1px;
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 40px;
-  //   background-color: ${props => props.theme.colors['$md-grey-200']};
-  //   content: " ";
-  // }
-
-  // span:first-child {
-  //   &:after {
-  //     left: 50%;
-  //   }
-  // }
-
-  // span:last-child {
-  //   &:after {
-  //     right: 50%;
-  //     left: auto;
-  //   }
-  // }
 `;
 
 const IndicatorLabel = styled.div`
@@ -78,64 +56,34 @@ const IndicatorLabel = styled.div`
 `;
 
 const Steps = styled.div`
-  min-height: 25em;
+  min-height: 14em;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 2em;
-`;
-
-const Actions = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
 `;
 
 export default class Stepper extends Component {
   static propTypes = {
     steps: PropTypes.array.isRequired,
-    onFinish: PropTypes.func,
     className: PropTypes.string,
+    activeStep: PropTypes.number,
   };
 
   static defaultProps = {
-    onFinish: () => { },
     className: '',
+    steps: [],
+    activeStep: 0,
   };
-
-  constructor() {
-    super();
-
-    this.state = { activeStep: 0 };
-  }
 
   handleStepChange(activeStep) {
     this.setState({ activeStep });
   }
 
-  nextStep() {
-    const { steps } = this.props;
-
-    if (this.state.activeStep < steps.length - 1) {
-      this.setState({ activeStep: this.state.activeStep + 1 });
-    }
-  }
-
-  previousStep() {
-    if (this.state.activeStep > 0) {
-      this.setState({ activeStep: this.state.activeStep - 1 });
-    }
-  }
-
   render() {
-    const { className, steps, onFinish } = this.props;
-    const { activeStep } = this.state;
+    const { className, steps, activeStep } = this.props;
     const stepIndicators = steps.map((step, i) => (
-      <Indicator onClick={() => this.handleStepChange(i)}>
+      <Indicator>
         <IndicatorNumber className={`${activeStep === i && 'active'}`}>
           <span>{i + 1}</span>
         </IndicatorNumber>
@@ -152,12 +100,6 @@ export default class Stepper extends Component {
         <Steps>
           {steps[activeStep].component}
         </Steps>
-        <Actions>
-          {activeStep > 0 && <Button flat onClick={() => this.previousStep()}>Previous</Button>}
-          {activeStep === steps.length - 1 ?
-            <Button primary raised disabled={!!steps[activeStep].exitValidation} onClick={onFinish}>Finish</Button> :
-            <Button primary raised disabled={!!steps[activeStep].exitValidation} onClick={() => this.nextStep()}>Next</Button>}
-        </Actions>
       </StepperContainer>
     );
   }
