@@ -12,52 +12,65 @@ import * as types from '../actionTypes';
 describe('Environment Sagas', () => {
   const error = 'an error has occured';
 
-  describe('fetchEnvironments Sequence with a workspaceId', () => {
-    const saga = fetchEnvironments({ fqon: 'iamfqon', workspaceId: '1' });
-    let result;
+  describe('fetchEnvironments', () => {
+    describe('fetchEnvironments Sequence with a workspaceId', () => {
+      const saga = fetchEnvironments({ fqon: 'iamfqon', workspaceId: '1' });
+      let result;
 
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/workspaces/1/environments?expand=true')
-      );
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/workspaces/1/environments?expand=true')
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        const model = { id: 1, properties: { workspace: { id: '123' } } };
+        result = saga.next({ data: [model] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [model] })
+        );
+      });
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [{ id: 1 }] })
-      );
+    describe('fetchEnvironments Sequence without a workspaceId', () => {
+      const saga = fetchEnvironments({ fqon: 'iamfqon' });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/environments?expand=true')
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        const model = { id: 1, properties: { workspace: { id: '123' } } };
+        result = saga.next({ data: [model] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [model] })
+        );
+      });
     });
 
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchEnvironments({ fqon: 'iamfqon' });
-      let resultError = sagaError.next();
+    describe('fetchEnvironments Sequence without properties.workspace', () => {
+      const saga = fetchEnvironments({ fqon: 'iamfqon' });
+      let result;
 
-      resultError = sagaError.throw({ message: error });
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/environments?expand=true')
+        );
+      });
 
-      expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_ENVIRONMENTS_REJECTED, payload: error })
-      );
-    });
-  });
-
-  describe('fetchEnvironments Sequence without a workspaceId', () => {
-    const saga = fetchEnvironments({ fqon: 'iamfqon' });
-    let result;
-
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/environments?expand=true')
-      );
-    });
-
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
-        put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [{ id: 1 }] })
-      );
+      it('should return a payload and dispatch a success status', () => {
+        const model = { id: 1, properties: { workspace: null } };
+        result = saga.next({ data: [model] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [] })
+        );
+      });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
