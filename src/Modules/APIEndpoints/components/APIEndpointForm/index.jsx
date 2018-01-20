@@ -10,7 +10,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
-import { Panel } from 'components/Panels';
+import Fieldset from 'components/Fieldset';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../RateLimit';
 import Security from '../Security';
@@ -189,14 +189,14 @@ const APIEndpointForm = (props) => {
 
             <Row gutter={5}>
               <Col flex={6} xs={12} sm={6}>
-                <Panel title="Allowed HTTP Methods" expandable={false} minHeight="105px">
+                <Fieldset legend="Allowed HTTP Methods">
                   <HTTPMethods />
-                </Panel>
+                </Fieldset>
               </Col>
               <Col flex={6} xs={12} sm={6}>
-                <Panel title="Security" expandable={false} minHeight="105px">
+                <Fieldset legend="Security">
                   <Security isEnabled={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled} />
-                </Panel>
+                </Fieldset>
               </Col>
             </Row>
           </CardText>
