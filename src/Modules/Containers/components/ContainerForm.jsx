@@ -6,18 +6,20 @@ import { Link } from 'react-router-dom';
 import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
-import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { Card, CardTitle, CardText } from 'react-md';
+import ActivityContainer from 'components/ActivityContainer';
+import Form from 'components/Form';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
 import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
 import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
 import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
+import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import A from 'components/A';
-import { Title, Caption } from 'components/Typography';
+import { Title } from 'components/Typography';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
@@ -48,6 +50,7 @@ const ContainerForm = ({ values, container, ...props }) => {
 
   const hasInstances = props.containerInstances.length > 0;
   const hasServiceAddresses = props.containerServiceAddresses.length > 0 && props.containerServiceAddresses.some(p => p.service_address);
+  const isPending = !props.inlineMode && props.containerPending;
 
   return (
     <div>
@@ -62,7 +65,7 @@ const ContainerForm = ({ values, container, ...props }) => {
             <DetailsPane model={container} noShadow={props.inlineMode} />
           </Col>
         </Row>}
-      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={isPending}>
         <Row gutter={5} center>
           <Col
             flex={props.inlineMode ? 12 : 10}
@@ -112,7 +115,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                       disablePromote={props.inlineMode}
                     />}
                 </ActionsToolbar>}
-              {!props.inlineMode && props.containerPending && <LinearProgress id="container-form-loading" />}
+              {isPending && <ActivityContainer id="container-form-loading" />}
 
               <CardText>
                 <Row gutter={5}>
@@ -248,11 +251,14 @@ const ContainerForm = ({ values, container, ...props }) => {
                       </Panel>
                     </Col>
 
-                    {props.editMode &&
+                    {/* disabled for provider containers "inline mode" */}
+                    {props.editMode && !props.inlineMode &&
                     <Col flex={12}>
-                      <Panel title="Public Endpoints" pending={props.apiEndpointsPending}>
-                        {props.apiEndpoints.map(a => <A href={a.properties.public_url} target="_blank" rel="noopener noreferrer" block>{a.properties.public_url}</A>)}
-                        {!props.apiEndpoints.length > 0 && !props.apiEndpointsPending && <Caption light large>No Public Endpoints Configured</Caption> }
+                      <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding>
+                        <APIEndpointInlineList
+                          endpoints={props.apiEndpoints}
+                          onAddEndpoint={() => props.showAPIEndpointWizardModal(props.match.params, container.id, 'container', values.properties.port_mappings)}
+                        />
                       </Panel>
                     </Col>}
                   </Row>}
@@ -398,7 +404,7 @@ const ContainerForm = ({ values, container, ...props }) => {
             </Card>
           </Col>
         </Row>
-      </form>
+      </Form>
     </div>
   );
 };
@@ -429,6 +435,7 @@ ContainerForm.propTypes = {
   containerInstances: PropTypes.array,
   containerServiceAddresses: PropTypes.array,
   portMappingFormValues: PropTypes.array.isRequired,
+  showAPIEndpointWizardModal: PropTypes.func.isRequired,
 };
 
 ContainerForm.defaultProps = {

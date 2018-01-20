@@ -53,7 +53,7 @@ class Panel extends Component {
           noPadding={noPadding}
           minHeight={minHeight}
         >
-          {pending ? <DotActivity centered size={1} /> : children}
+          {pending ? <DotActivity centered size={2} /> : children}
         </Content>
       </PanelWrapper>
     );

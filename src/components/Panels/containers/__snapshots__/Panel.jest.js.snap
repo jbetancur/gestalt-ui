@@ -30,7 +30,7 @@ exports[`(Panels) Panel renders component activity status when pending 1`] = `
     <DotActivity
       centered={true}
       primary={false}
-      size={1}
+      size={2}
       visible={true}
     />
   </WithTheme(Content)>

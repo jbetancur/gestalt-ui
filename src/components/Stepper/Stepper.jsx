@@ -72,7 +72,7 @@ export default class Stepper extends Component {
 
   static defaultProps = {
     className: '',
-    steps: [],
+    steps: [{ title: '', component: <div /> }],
     activeStep: 0,
   };
 

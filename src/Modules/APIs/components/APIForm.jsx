@@ -87,7 +87,6 @@ const APIForm = (props) => {
                     itemValue="id"
                     menuItems={props.providersKongByGateway}
                     async
-                    onFocus={() => props.fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments')}
                     disabled={editMode}
                   />
                 </Col>
@@ -144,7 +143,6 @@ const APIForm = (props) => {
 APIForm.propTypes = {
   // values: PropTypes.object.isRequired,
   providersKongByGateway: PropTypes.array.isRequired,
-  fetchProviderKongsByGateway: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   apiPending: PropTypes.bool.isRequired,
