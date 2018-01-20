@@ -264,6 +264,7 @@ const LambdaForm = (props) => {
                           name="properties.package_url"
                           label="Package URL"
                           type="text"
+                          helpText="The url to the package directory or file (if it is zipped)"
                           required
                         />
                       </Col>}
