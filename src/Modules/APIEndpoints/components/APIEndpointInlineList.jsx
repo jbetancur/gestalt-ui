@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { Button, FontIcon } from 'react-md';
+import { withMetaResource } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
 import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';
@@ -14,37 +16,44 @@ class APIEndpointInlineList extends PureComponent {
     onAddEndpoint: PropTypes.func.isRequired,
   };
 
+  // delete(endpoint) {
+  //   this.props.deleteAPIEndpoint(endpoint.org.properties.fqon, endpoint.id);
+  // }
+
   render() {
     const { endpoints, onAddEndpoint } = this.props;
 
-    const items = endpoints.map(apiEndpoint => (
-      <TableRow key={apiEndpoint.id}>
+    const items = endpoints.map(endpoint => (
+      <TableRow key={endpoint.id}>
         <TableColumn style={{ width: '170px' }}>
-          <StatusBubble status={getLastFromSplit(apiEndpoint.resource_state)} />
+          <StatusBubble status={getLastFromSplit(endpoint.resource_state)} />
         </TableColumn>
         <TableColumn>
           <ClipboardButton
             showLabel={false}
-            text={apiEndpoint.properties.public_url}
+            text={endpoint.properties.public_url}
           />
-          <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{apiEndpoint.properties.public_url}</A>
+          <A href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">{endpoint.properties.public_url}</A>
         </TableColumn>
         <TableColumn>
           <Caption small>
-            {apiEndpoint.properties.methods &&
-              apiEndpoint.properties.methods.length > 0 &&
-              apiEndpoint.properties.methods.map(m => <div key={`${apiEndpoint.id}--${m}`}>{m}</div>)}
+            {endpoint.properties.methods &&
+              endpoint.properties.methods.length > 0 &&
+              endpoint.properties.methods.map(m => <div key={`${endpoint.id}--${m}`}>{m}</div>)}
           </Caption>
         </TableColumn>
         <TableColumn numeric>
-          {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.rateLimit && apiEndpoint.properties.plugins.rateLimit.enabled && apiEndpoint.properties.plugins.rateLimit.perMinute}
+          {endpoint.properties.plugins && endpoint.properties.plugins.rateLimit && endpoint.properties.plugins.rateLimit.enabled && endpoint.properties.plugins.rateLimit.perMinute}
         </TableColumn>
         <TableColumn numeric>
-          {apiEndpoint.properties.plugins && apiEndpoint.properties.plugins.gestaltSecurity && apiEndpoint.properties.plugins.gestaltSecurity.enabled && <FontIcon>checked</FontIcon>}
+          {endpoint.properties.plugins && endpoint.properties.plugins.gestaltSecurity && endpoint.properties.plugins.gestaltSecurity.enabled && <FontIcon>checked</FontIcon>}
         </TableColumn>
-        <TableColumn>{apiEndpoint.properties.implementation_type}</TableColumn>
-        <TableColumn>{truncate(apiEndpoint.owner.name, 25)}</TableColumn>
-        <TableColumnTimestamp timestamp={apiEndpoint.created.timestamp} />
+        <TableColumn>{endpoint.properties.implementation_type}</TableColumn>
+        <TableColumn>{truncate(endpoint.owner.name, 25)}</TableColumn>
+        <TableColumnTimestamp timestamp={endpoint.created.timestamp} />
+        {/* <TableColumn>
+          <Button icon onClick={() => this.delete(endpoint)}>delete</Button>
+        </TableColumn> */}
       </TableRow>
     ));
 
@@ -69,10 +78,11 @@ class APIEndpointInlineList extends PureComponent {
               <TableColumn>Public URL</TableColumn>
               <TableColumn>Methods</TableColumn>
               <TableColumn numeric>Rate Limit</TableColumn>
-              <TableColumn style={{ padding: 0 }}>Authentication</TableColumn>
+              <TableColumn style={{ padding: 0 }}>Auth</TableColumn>
               <TableColumn>Type</TableColumn>
               <TableColumn>Owner</TableColumn>
               <TableColumn>Created</TableColumn>
+              {/* <TableColumn /> */}
             </TableRow>
           </TableHeader>}
           <TableBody>
@@ -84,4 +94,6 @@ class APIEndpointInlineList extends PureComponent {
   }
 }
 
-export default APIEndpointInlineList;
+export default compose(
+  withMetaResource,
+)(APIEndpointInlineList);
