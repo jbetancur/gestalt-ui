@@ -32,8 +32,26 @@ export function showEntitlementsModal(item, params) {
   };
 }
 
+/**
+ * showAPIEndpointWizardModal
+ * @param {*} implementationId - containerId | lamnbdaId
+ * @param {*} implementationType - container | lambda
+ */
+export function showAPIEndpointWizardModal(params, implementationId, implementationType) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'APIEndpointWizardModal',
+    modalProps: {
+      params,
+      implementationId,
+      implementationType,
+    }
+  };
+}
+
 export default {
   confirmDelete,
   handleTheme,
   showEntitlementsModal,
+  showAPIEndpointWizardModal,
 };

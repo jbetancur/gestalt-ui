@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 // These are regular React components we will write soon
 import { EntitlementModal } from 'Modules/Entitlements';
+import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import LicenseModal from 'Modules/Licensing';
 import CONFIRM from './Modals/Confirm';
 import IFRAME from './Modals/IFrameModal';
@@ -13,6 +14,7 @@ const MODAL_COMPONENTS = {
   IFRAME,
   EntitlementModal,
   LicenseModal,
+  APIEndpointWizardModal,
   /* other modals */
 };
 

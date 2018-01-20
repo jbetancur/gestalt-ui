@@ -10,7 +10,7 @@ import { stringDemiltedToArray } from 'util/helpers/transformations';
 export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
   const payload = cloneDeep(sourcePayload);
 
-  payload.name = payload.properties.resource.split('/').join('-');
+  payload.name = payload.properties.resource;
 
   if (updateMode) {
     // meta patch cannot currently handle array patching - so force a replace on /properties/methods

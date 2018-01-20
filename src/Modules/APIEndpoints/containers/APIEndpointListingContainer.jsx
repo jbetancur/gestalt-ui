@@ -56,10 +56,8 @@ class APIEndpointList extends Component {
     // TODO: workaround for checkbox event bubbling
     if (e.target.className.includes('md-table-column')) {
       const { history, match, } = this.props;
-      history.push({
-        pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/apiendpoints/${apiEndpoint.id}`,
-        search: `?implementationType=${apiEndpoint.properties.implementation_type}`
-      });
+
+      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}/apiendpoints/${apiEndpoint.id}`);
     }
   }
 

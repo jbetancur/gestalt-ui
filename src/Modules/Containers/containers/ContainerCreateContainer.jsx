@@ -72,7 +72,7 @@ class ContainerCreate extends Component {
     ];
 
     const payload = generateContainerPayload(values, mergeProps);
-    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
+    const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
 
     createContainer(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }

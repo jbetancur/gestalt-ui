@@ -15,7 +15,14 @@ class APICreate extends Component {
     match: PropTypes.object.isRequired,
     createAPI: PropTypes.func.isRequired,
     providersKongByGateway: PropTypes.array.isRequired,
+    fetchProviderKongsByGateway: PropTypes.func.isRequired,
   };
+
+  componentDidMount() {
+    const { fetchProviderKongsByGateway, match } = this.props;
+
+    fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
+  }
 
   create(values) {
     const { match, history, createAPI, providersKongByGateway } = this.props;

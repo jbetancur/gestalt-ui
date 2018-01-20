@@ -56,6 +56,25 @@ export function showEntitlementsModal(item, params) {
   };
 }
 
+/**
+ * showAPIEndpointWizardModal
+ * @param {String} implementationId - containerId | lamnbdaId
+ * @param {String} implementationType - container | lambda
+ * @param {Array} portMappings - only required if implementationType = container
+ */
+export function showAPIEndpointWizardModal(params, implementationId, implementationType, portMappings = []) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'APIEndpointWizardModal',
+    modalProps: {
+      params,
+      implementationId,
+      implementationType,
+      portMappings,
+    }
+  };
+}
+
 
 export default {
   confirmContainerDelete,
@@ -63,4 +82,5 @@ export default {
   migrateContainerModal,
   promoteContainerModal,
   showEntitlementsModal,
+  showAPIEndpointWizardModal,
 };
