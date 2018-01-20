@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, getFormValues, change } from 'redux-form';
+import { Field, formValueSelector, change } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, LinearProgress, Autocomplete } from 'react-md';
-import { Checkbox, SelectField, SelectionControlGroup, TextField } from 'components/ReduxFormFields';
+import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
+import { Panel } from 'components/Panels';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../RateLimit';
 import Security from '../Security';
-import httpMethods from '../../lists/httpMethods';
+import HTTPMethods from '../HTTPMethods';
 import implementationTypes from '../../lists/implementationTypes';
 
 const APIEndpointForm = (props) => {
@@ -96,7 +97,7 @@ const APIEndpointForm = (props) => {
           {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
           <CardText>
             <Row gutter={5}>
-              <Col flex={2} xs={12}>
+              <Col flex={2} xs={12} lg={1}>
                 <Field
                   id="endpoint-type"
                   component={SelectField}
@@ -105,11 +106,11 @@ const APIEndpointForm = (props) => {
                   itemLabel="name"
                   itemValue="value"
                   label="Type"
-                  onChange={() => resetForm()}
+                  onChange={resetForm}
                   required
                 />
               </Col>
-              <Col flex={5} xs={12} sm={12}>
+              <Col flex>
                 <Field
                   component={TextField}
                   name="properties.resource"
@@ -120,7 +121,7 @@ const APIEndpointForm = (props) => {
                 />
               </Col>
               {values.properties.implementation_type === 'container' &&
-              <Col flex={3} xs={12}>
+              <Col flex={3} xs={12} sm={6} md={6}>
                 <Field
                   id="containers-dropdown"
                   component={SelectField}
@@ -136,7 +137,7 @@ const APIEndpointForm = (props) => {
                 />
               </Col>}
               {values.properties.implementation_type === 'container' &&
-              <Col flex={2} xs={12}>
+              <Col flex={2} xs={12} sm={6} md={6}>
                 <Field
                   id="container-ports-dropdown"
                   component={SelectField}
@@ -149,7 +150,7 @@ const APIEndpointForm = (props) => {
                 />
               </Col>}
               {values.properties.implementation_type === 'lambda' &&
-                <Col flex={5} xs={12} sm={12}>
+                <Col flex={4} xs={12} sm={12}>
                   <Autocomplete
                     id="lambdas-dropdown"
                     data={lambdasDropDown}
@@ -158,7 +159,7 @@ const APIEndpointForm = (props) => {
                     label="Search Lambdas"
                     clearOnAutocomplete
                     onClick={() => fetchLambdasDropDown(match.params.fqon)}
-                    onAutocomplete={value => handleAutoComplete(value)}
+                    onAutocomplete={handleAutoComplete}
                     helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                   />
                   {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
@@ -170,43 +171,33 @@ const APIEndpointForm = (props) => {
                     />}
                 </Col>}
               {values.properties.implementation_type === 'lambda' &&
-                <Col flex={2} xs={12} sm={12}>
+                <Col flex={1} xs={12} sm={6} md={6}>
                   <Field
                     id="synchronous"
                     component={Checkbox}
                     name="properties.synchronous"
                     // TODO: Find out why redux-form state for bool doesn't apply
                     checked={values.properties.synchronous}
-                    label="Synchronous"
+                    label="Sync"
                   />
-                  <Caption light>wait for the lambda to return a response</Caption>
+                  <Caption light>sync waits for a return response</Caption>
                 </Col>}
-              <Col flex={6} xs={12} sm={12}>
-                <RateLimit
-                  rateLimitToggledName="properties.plugins.rateLimit.enabled"
-                  perMinuteName="properties.plugins.rateLimit.perMinute"
-                  isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled}
-                />
-                <Caption light>Accesses per minute allowed for this endpoint</Caption>
+              <Col flex={2} xs={12} sm={6} md={6}>
+                <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
               </Col>
-              <Row gutter={5}>
-                <Col flex={6} xs={12} sm={6}>
-                  <Field
-                    inline
-                    controlStyle={{ minWidth: '7em' }}
-                    component={SelectionControlGroup}
-                    type="checkbox"
-                    id="controlGroupCheckbox"
-                    name="properties.methods"
-                    label={<span>HTTP Methods<span>*</span></span>}
-                    controls={httpMethods}
-                  />
-                  <Caption light>at least one http method is required</Caption>
-                </Col>
-                <Col flex={6} xs={12} sm={6}>
-                  <Security enabledName="properties.plugins.gestaltSecurity.enabled" {...props} />
-                </Col>
-              </Row>
+            </Row>
+
+            <Row gutter={5}>
+              <Col flex={6} xs={12} sm={6}>
+                <Panel title="Allowed HTTP Methods" expandable={false} minHeight="105px">
+                  <HTTPMethods />
+                </Panel>
+              </Col>
+              <Col flex={6} xs={12} sm={6}>
+                <Panel title="Security" expandable={false} minHeight="105px">
+                  <Security isEnabled={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled} />
+                </Panel>
+              </Col>
             </Row>
           </CardText>
         </Col>
@@ -248,8 +239,15 @@ APIEndpointForm.defaultProps = {
   cancelLabel: 'Cancel',
 };
 
+const selector = form => formValueSelector(form);
+
 export default connect(
   (state, props) => ({
-    values: getFormValues(props.form)(state),
+    values: selector(props.form)(state,
+      'properties.plugins',
+      'properties.implementation_type',
+      'properties.implementation_id',
+      'properties.synchronous',
+    ),
   })
 )(APIEndpointForm);

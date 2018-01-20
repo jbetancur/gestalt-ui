@@ -7,6 +7,7 @@ import APIEndpointForm from '../components/APIEndpointForm';
 import validate from '../components/APIEndpointForm/validations';
 import actions from '../actions';
 import { generateAPIEndpointPayload } from '../payloadTransformer';
+import { getCreateEndpointModel } from '../selectors';
 
 class APIEndpointCreate extends Component {
   static propTypes = {
@@ -15,7 +16,7 @@ class APIEndpointCreate extends Component {
     createAPIEndpoint: PropTypes.func.isRequired,
   };
 
-  create(values) {
+  create = (values) => {
     const { match, history, createAPIEndpoint } = this.props;
     const payload = generateAPIEndpointPayload(values);
 
@@ -29,41 +30,18 @@ class APIEndpointCreate extends Component {
         title="Create Endpoint"
         submitLabel="Create"
         cancelLabel="API"
-        onSubmit={values => this.create(values)}
+        onSubmit={this.create}
         {...this.props}
       />
     );
   }
 }
 
-function mapStateToProps() {
-  const model = {
-    properties: {
-      methods: 'GET', // converts to array
-      plugins: {
-        rateLimit: {
-          enabled: false,
-          perMinute: 60,
-        },
-        gestaltSecurity: {
-          enabled: false,
-          users: [],
-          groups: [],
-        },
-      },
-      implementation_type: 'lambda',
-      resource: '',
-      implementation_id: '',
-      synchronous: true,
-    }
-  };
-
-  return {
-    apiEndpoint: model,
-    initialValues: model,
-    enableReinitialize: true,
-  };
-}
+const mapStateToProps = state => ({
+  apiEndpoint: getCreateEndpointModel(state),
+  initialValues: getCreateEndpointModel(state),
+  enableReinitialize: true,
+});
 
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'apiEndpointCreate',

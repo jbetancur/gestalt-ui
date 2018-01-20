@@ -25,6 +25,7 @@ class APIEdit extends Component {
 
   componentDidMount() {
     const { match, fetchAPI, fetchProviderKongsByGateway } = this.props;
+
     fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
     fetchAPI(match.params.fqon, match.params.apiId);
   }

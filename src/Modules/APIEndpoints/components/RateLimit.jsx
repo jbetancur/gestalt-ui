@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'redux-form';
 import { Checkbox, TextField } from 'components/ReduxFormFields';
+import { Caption } from 'components/Typography';
 
 export default class RateLimit extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    rateLimitToggledName: PropTypes.string.isRequired,
-    perMinuteName: PropTypes.string.isRequired,
     isToggled: PropTypes.bool,
   };
 
@@ -17,40 +16,35 @@ export default class RateLimit extends PureComponent {
     isToggled: false,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
-      <div className={this.props.className}>
-        <Row>
-          <Col flex={3} xs={12}>
-            <Field
-              id="show-rate-limits"
-              component={Checkbox}
-              name={this.props.rateLimitToggledName}
-              checked={this.props.isToggled}
-              label="Rate Limit"
-              style={{ minWidth: '10em' }}
-            />
-          </Col>
-          {this.props.isToggled &&
-          <Col flex={2} xs={12}>
-            <Field
-              component={TextField}
-              name={this.props.perMinuteName}
-              min={1}
-              max={65536}
-              step={1}
-              label="Per Minute"
-              type="number"
-              required
-              parse={value => Number(value)} // redux form formats everything as string, so force number
-            />
-          </Col>}
-        </Row>
-      </div>
+      <Row className={this.props.className}>
+        <Col flex={6}>
+          <Field
+            id="show-rate-limits"
+            component={Checkbox}
+            name="properties.plugins.rateLimit.enabled"
+            checked={this.props.isToggled}
+            label="Rate Limit"
+          />
+        </Col>
+        {this.props.isToggled &&
+        <Col flex={6}>
+          <Field
+            component={TextField}
+            name="properties.plugins.rateLimit.perMinute"
+            min={1}
+            max={65536}
+            step={1}
+            label="Per Minute"
+            type="number"
+            required
+            parse={value => Number(value)} // redux form formats everything as string, so force number
+            style={{ paddingLeft: '3px' }}
+          />
+        </Col>}
+        <Caption light>Allowed Accesses per minute</Caption>
+      </Row>
     );
   }
 }

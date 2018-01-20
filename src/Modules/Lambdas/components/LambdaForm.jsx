@@ -5,16 +5,17 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { Card, CardTitle, CardText, LinearProgress, SelectField as MDSelectField } from 'react-md';
+import { Card, CardTitle, CardText, SelectField as MDSelectField } from 'react-md';
+import Form from 'components/Form';
+import ActivityContainer from 'components/ActivityContainer';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import A from 'components/A';
-import { Caption } from 'components/Typography';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { ActionsMenu } from 'Modules/Actions';
+import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { toTitleCase } from 'util/helpers/strings';
 import runTimes from '../lists/runTimes';
 import acceptHeaders from '../lists/acceptHeaders';
@@ -60,9 +61,10 @@ const LambdaForm = (props) => {
             <DetailsPane model={lambda} />
           </Col>
         </Row>}
-      <form
+      <Form
         onSubmit={props.handleSubmit(props.onSubmit)}
         autoComplete="off"
+        disabled={props.lambdaPending}
       >
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
@@ -123,7 +125,7 @@ const LambdaForm = (props) => {
                 </Col>
               </Row>
             </ActionsToolbar>
-            {props.lambdaPending && <LinearProgress id="lambda-form" />}
+            {props.lambdaPending && <ActivityContainer id="lambda-form" />}
 
             <CardText>
               <Row gutter={5}>
@@ -169,9 +171,11 @@ const LambdaForm = (props) => {
 
                 {props.editMode &&
                 <Col flex={12}>
-                  <Panel title="Public Endpoints" pending={props.apiEndpointsPending}>
-                    {props.apiEndpoints.map(a => <A href={a.properties.public_url} target="_blank" rel="noopener noreferrer" block>{a.properties.public_url}</A>)}
-                    {!props.apiEndpoints.length > 0 && !props.apiEndpointsPending && <Caption light large>No Public Endpoints Configured</Caption> }
+                  <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding>
+                    <APIEndpointInlineList
+                      endpoints={props.apiEndpoints}
+                      onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
+                    />
                   </Panel>
                 </Col>}
 
@@ -386,7 +390,7 @@ const LambdaForm = (props) => {
             </CardText>
           </Col>
         </Row>
-      </form>
+      </Form>
     </div>
   );
 };
@@ -415,6 +419,7 @@ LambdaForm.propTypes = {
   editMode: PropTypes.bool,
   actions: PropTypes.array.isRequired,
   actionsPending: PropTypes.bool.isRequired,
+  showAPIEndpointWizardModal: PropTypes.func.isRequired,
 };
 
 LambdaForm.defaultProps = {

@@ -34,8 +34,8 @@ class LambdaCreate extends PureComponent {
     const { match, history, createLambda } = this.props;
     const payload = generateLambdaPayload(values);
 
-    const onSuccess = () => {
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`);
+    const onSuccess = (response) => {
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas/${response.id}`);
     };
 
     createLambda(match.params.fqon, match.params.environmentId, payload, onSuccess);

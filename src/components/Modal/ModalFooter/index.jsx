@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-
 const WrapperDiv = styled.div`
-  height: 1.5em;
+  height: 32px;
 `;
 
 const FooterDiv = styled.div`
   position: absolute;
   right: 0;
-  padding: 1em;
+  padding: 16px;
   bottom: 0;
 `;
-
 
 const ModalFooter = props => (
   <WrapperDiv>
@@ -24,7 +22,7 @@ const ModalFooter = props => (
 );
 
 ModalFooter.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.node]),
 };
 
 ModalFooter.defaultProps = {

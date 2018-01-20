@@ -64,7 +64,7 @@ class ContainerEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.container.id !== nextProps.container.id) {
+    if (this.props.container !== nextProps.container) {
       clearTimeout(this.timeout);
 
       if (!nextProps.containerPending) {

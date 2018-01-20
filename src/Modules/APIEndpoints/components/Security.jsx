@@ -8,13 +8,11 @@ import { Checkbox } from 'components/ReduxFormFields';
 // import Autocomplete from 'react-md/lib/Autocompletes';
 // import List from 'react-md/lib/Lists/List';
 // import ListItem from 'react-md/lib/Lists/ListItem';
-import Fieldset from 'components/Fieldset';
 
 export default class APIEndpointSecurity extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    values: PropTypes.object.isRequired,
-    enabledName: PropTypes.string.isRequired,
+    isEnabled: PropTypes.bool.isRequired,
     // identities: PropTypes.array.isRequired,
     // fetchIdentities: PropTypes.func.isRequired,
   };
@@ -38,10 +36,10 @@ export default class APIEndpointSecurity extends PureComponent {
   //   }
   // }
 
-  removeIdentity(value) {
-    const index = this.state.items.indexOf(value);
-    this.setState({ items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)] });
-  }
+  // removeIdentity(value) {
+  //   const index = this.state.items.indexOf(value);
+  //   this.setState({ items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)] });
+  // }
 
   // handleAutoComplete(value) {
   //   if (this.selectedItem) {
@@ -50,58 +48,52 @@ export default class APIEndpointSecurity extends PureComponent {
   // }
 
   render() {
-    const { values } = this.props;
-    const securityEnabled = values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled;
+    const { isEnabled } = this.props;
 
     return (
-      <div className={this.props.className}>
-        <Fieldset legend="Authorization">
-          <Row gutter={5}>
-            <Col flex={12} xs={12}>
-              <Field
-                id="show-api-endpoints-security"
-                component={Checkbox}
-                name={this.props.enabledName}
-                checked={securityEnabled}
-                label="Require Authentication "
-                style={{ minWidth: '10em' }}
-                helpText="test"
-              />
-            </Col>
-            {/* {securityEnabled &&
-            <Col>
-              <Col flex={12} sm={6} xs={12}>
-                <Autocomplete
-                  id="api-endpoints-security-dropdown"
-                  data={this.props.identities}
-                  dataLabel="name"
-                  dataValue="id"
-                  type="search"
-                  label="Whitelist a User/Group"
-                  clearOnAutocomplete
-                  onClick={() => fetchIdentities('root')}
-                  onAutocomplete={value => this.handleAutoComplete(value)}
-                  ref={value => this.setInput(value)}
-                  helpText="search for a user or group to whitelist"
+      <Row gutter={5} className={this.props.className}>
+        <Col flex={12} xs={12}>
+          <Field
+            id="show-api-endpoints-security"
+            component={Checkbox}
+            name="properties.plugins.gestaltSecurity.enabled"
+            checked={isEnabled}
+            label="Require Authentication"
+            style={{ marginTop: 0 }}
+          />
+        </Col>
+        {/* {securityEnabled &&
+        <Col>
+          <Col flex={12} sm={6} xs={12}>
+            <Autocomplete
+              id="api-endpoints-security-dropdown"
+              data={this.props.identities}
+              dataLabel="name"
+              dataValue="id"
+              type="search"
+              label="Whitelist a User/Group"
+              clearOnAutocomplete
+              onClick={() => fetchIdentities('root')}
+              onAutocomplete={value => this.handleAutoComplete(value)}
+              ref={value => this.setInput(value)}
+              helpText="search for a user or group to whitelist"
+            />
+          </Col>
+          <Col flex={12} sm={6} xs={12}>
+            {this.state.items.length > 0 && <h4>Whitelisted Users/Groups</h4>}
+            <List>
+              {this.state.items.map(item => (
+                <ListItem
+                  key={item.id}
+                  primaryText={item.name}
+                  rightIcon={<FontIcon style={{ color: 'red' }}>remove_circle</FontIcon>}
+                  onClick={() => this.removeIdentity(item)}
                 />
-              </Col>
-              <Col flex={12} sm={6} xs={12}>
-                {this.state.items.length > 0 && <h4>Whitelisted Users/Groups</h4>}
-                <List>
-                  {this.state.items.map(item => (
-                    <ListItem
-                      key={item.id}
-                      primaryText={item.name}
-                      rightIcon={<FontIcon style={{ color: 'red' }}>remove_circle</FontIcon>}
-                      onClick={() => this.removeIdentity(item)}
-                    />
-                  ))}
-                </List>
-              </Col>
-            </div>} */}
-          </Row>
-        </Fieldset>
-      </div>
+              ))}
+            </List>
+          </Col>
+        </div>} */}
+      </Row>
     );
   }
 }
