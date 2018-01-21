@@ -78,14 +78,17 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
   // re-format port mappings
   payload.properties.port_mappings = payload.properties.port_mappings.map((port) => {
     const portPayload = { ...port };
+    console.log(port.virtual_hosts, Array.isArray(port.virtual_hosts), port.expose_endpoint);
 
-    if (port.virtual_hosts && !Array.isArray(port.virtual_hosts) && port.expose_endpoint) {
-      let hosts = port.virtual_hosts;
-      hosts = hosts.replace(/[\s,]+/g, ',');
+    if (port.expose_endpoint && port.virtual_hosts) {
+      if (typeof port.virtual_hosts === 'string') {
+        let hosts = port.virtual_hosts;
+        hosts = hosts.replace(/[\s,]+/g, ',');
 
-      portPayload.virtual_hosts = hosts.split(',');
-    } else {
-      delete portPayload.virtual_hosts;
+        portPayload.virtual_hosts = hosts.split(',');
+      } else {
+        portPayload.virtual_hosts = port.virtual_hosts;
+      }
     }
 
     return portPayload;
