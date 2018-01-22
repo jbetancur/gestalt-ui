@@ -73,7 +73,9 @@ class APIEndpointWizard extends PureComponent {
 
     const payload = generateAPIEndpointPayload(model);
     const onSuccess = () => {
-      fetchAPIEndpoints(params.fqon, implementationId, implementationType);
+      const entityKey = implementationType === 'container' ? 'containers' : 'lambdas';
+
+      fetchAPIEndpoints(params.fqon, implementationId, entityKey);
       hideModal();
     };
 
