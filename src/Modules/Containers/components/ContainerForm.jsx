@@ -45,8 +45,8 @@ const ContainerForm = ({ values, container, ...props }) => {
   const isHealthChecksEnabled = providerType !== 'Docker';
   const isSecretsEnabled = providerType !== 'Docker' || selectedProvider.properties.config.secret_support;
   const isSubmitDisabled =
-    props.editMode ? (props.containerPending || props.invalid || props.submitting)
-      : (props.pristine || props.containerPending || props.invalid || props.submitting);
+    props.editMode ? (props.containerPending || props.submitting)
+      : (props.pristine || props.containerPending || props.submitting);
 
   const hasInstances = props.containerInstances.length > 0;
   const hasServiceAddresses = props.containerServiceAddresses.length > 0 && props.containerServiceAddresses.some(p => p.service_address);

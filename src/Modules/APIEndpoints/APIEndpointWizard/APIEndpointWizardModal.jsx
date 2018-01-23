@@ -14,7 +14,7 @@ import APIEndpointForm from './APIEndpointForm';
 class APIEndpointWizard extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    modal: PropTypes.bool.isRequired,
+    modal: PropTypes.object.isRequired,
     hideModal: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
@@ -25,13 +25,12 @@ class APIEndpointWizard extends PureComponent {
     params: PropTypes.object.isRequired,
     implementationId: PropTypes.string.isRequired,
     implementationType: PropTypes.string.isRequired,
-    formValues: PropTypes.func.isRequired,
+    formValues: PropTypes.object.isRequired,
     portMappings: PropTypes.array,
     destroyForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    modal: false,
     portMappings: [],
   };
 

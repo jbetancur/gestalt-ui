@@ -180,21 +180,21 @@ describe('API Endpoint Sagas', () => {
   });
 
   describe('deleteAPIEndpoint Sequence', () => {
-    const action = { fqon: 'iamfqon', apiId: '1', apiendpointId: '2' };
+    const action = { fqon: 'iamfqon', apiendpointId: '1' };
     const saga = deleteAPIEndpoint(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.delete, 'iamfqon/apis/1/apiendpoints/2?force=true')
+        call(axios.delete, 'iamfqon/apiendpoints/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_APIENDPOINT_FULFILLED })
+        put({ type: types.DELETE_APIENDPOINTS_FULFILLED, payload: action.apiendpointId })
       );
 
       // Finish the iteration
@@ -217,20 +217,20 @@ describe('API Endpoint Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_APIENDPOINT_REJECTED, payload: error })
+        put({ type: types.DELETE_APIENDPOINTS_REJECTED, payload: error })
       );
     });
   });
 
   describe('deleteAPIEndpoints Sequence', () => {
-    const action = { apiendpointIds: ['1'], fqon: 'iamfqon', apiId: '2' };
+    const action = { apiendpointIds: ['1'], fqon: 'iamfqon' };
     const saga = deleteAPIEndpoints(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.all, [axios.delete('iamfqon/apis/2/apiendpoints/1?force=true')])
+        call(axios.all, [axios.delete('iamfqon/apiendpoints/1?force=true')])
       );
     });
 
@@ -265,7 +265,7 @@ describe('API Endpoint Sagas', () => {
     });
   });
 
-  describe('apiSagas', () => {
+  describe('apiEndpointSagas', () => {
     let result;
     const rootSaga = apiSagas();
 

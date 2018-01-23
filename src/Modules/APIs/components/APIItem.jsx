@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
-import Card from 'react-md/lib/Cards/Card';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { Card, LinearProgress } from 'react-md';
 import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 
@@ -44,7 +43,7 @@ class APIItem extends PureComponent {
       <Row gutter={5}>
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
-            title={<div className="gf-headline">APIs</div>}
+            title="APIs"
             visible={count > 0}
             contextualTitle={`${count} API${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}

@@ -44,7 +44,7 @@ class ResourceTypeItem extends Component {
     return (
       <div>
         <TableCardHeader
-          title={<div className="gf-headline">Meta Resource Types</div>}
+          title="Meta Resource Types"
           visible={count > 0}
           contextualTitle={`${count} Resource Type${count > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}

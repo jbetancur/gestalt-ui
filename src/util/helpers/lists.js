@@ -38,8 +38,20 @@ export function toggleHandler(row, toggled, count, selectedItems, list) {
   return items;
 }
 
+export function insertItem(array, item) {
+  return [...array, item];
+}
+
 export function removeItem(array, item) {
   const newArray = array.slice();
   newArray.splice(newArray.findIndex(a => a === item), 1);
+
+  return newArray;
+}
+
+export function removeItemById(array, id) {
+  const newArray = array.slice();
+  newArray.splice(newArray.findIndex(a => a.id === id), 1);
+
   return newArray;
 }

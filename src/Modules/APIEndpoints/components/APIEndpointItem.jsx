@@ -69,7 +69,7 @@ class APIEndpointItem extends PureComponent {
     return (
       <Card tableCard>
         <TableCardHeader
-          title={<div className="gf-headline">Endpoints</div>}
+          title="Endpoints"
           visible={count > 0}
           contextualTitle={`${count} endpoint${count > 1 ? 's' : ''} selected`}
           actions={[<DeleteIconButton onClick={() => this.props.onDeleteToggle()} />]}

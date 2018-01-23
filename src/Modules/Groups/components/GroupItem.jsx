@@ -44,7 +44,7 @@ class GroupItem extends PureComponent {
       <Row gutter={5}>
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
-            title={<div className="gf-headline">Groups</div>}
+            title="Groups"
             visible={count > 0}
             contextualTitle={`${count} group${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}
