@@ -48,7 +48,7 @@ class UserItem extends PureComponent {
       <Row gutter={5}>
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
-            title={<div className="gf-headline">Users</div>}
+            title="Users"
             visible={count > 0}
             contextualTitle={`${count} user${count > 1 ? 's' : ''} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}

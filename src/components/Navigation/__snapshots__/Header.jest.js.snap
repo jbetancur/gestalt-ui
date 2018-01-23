@@ -2,7 +2,7 @@
 
 exports[`(Navigation) Header renders a Header 1`] = `
 .c0 {
-  z-index: 9999;
+  z-index: 19;
   background-color: #1C1F2F;
 }
 

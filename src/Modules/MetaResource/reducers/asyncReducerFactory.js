@@ -1,4 +1,5 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { insertItem, removeItemById } from 'util/helpers/lists';
 
 /**
  * Creates Async API Reducers so we don't have to...
@@ -46,6 +47,20 @@ export default function createAsyncReducer(verbs, key, category, model, clearSta
 
           if (verb !== 'delete') {
             Object.assign(payload, { [key]: action.payload });
+          }
+
+          if (Array.isArray(state[key]) && Array.isArray(model)) {
+            if (verb === 'delete') {
+              Object.assign(payload, {
+                [key]: removeItemById(state[key], action.payload)
+              });
+            }
+
+            if (verb === 'create') {
+              Object.assign(payload, {
+                [key]: insertItem(state[key], action.payload)
+              });
+            }
           }
 
           return payload;

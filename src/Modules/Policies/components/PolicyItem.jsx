@@ -45,7 +45,7 @@ class PolicyItem extends PureComponent {
       <Row gutter={5}>
         <Col component={Card} flex={12} tableCard>
           <TableCardHeader
-            title={<div className="gf-headline">Policies</div>}
+            title="Policies"
             visible={count > 0}
             contextualTitle={`${count} polic${count > 1 ? 'ies' : 'y'} selected`}
             actions={[<DeleteIconButton onClick={this.props.onDeleteToggle} />]}

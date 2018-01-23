@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Button, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
@@ -9,16 +10,21 @@ import StatusBubble from 'components/StatusBubble';
 import { Caption } from 'components/Typography';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
+import APIEndpointDeleteButton from './APIEndpointDeleteButton';
 
 class APIEndpointInlineList extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     endpoints: PropTypes.array.isRequired,
     onAddEndpoint: PropTypes.func.isRequired,
+    deleteAPIEndpoint: PropTypes.func.isRequired,
   };
 
-  // delete(endpoint) {
-  //   this.props.deleteAPIEndpoint(endpoint.org.properties.fqon, endpoint.id);
-  // }
+  delete = (endpoint) => {
+    const { match, deleteAPIEndpoint } = this.props;
+
+    deleteAPIEndpoint(match.params.fqon, endpoint.id);
+  }
 
   render() {
     const { endpoints, onAddEndpoint } = this.props;
@@ -51,9 +57,9 @@ class APIEndpointInlineList extends PureComponent {
         <TableColumn>{endpoint.properties.implementation_type}</TableColumn>
         <TableColumn>{truncate(endpoint.owner.name, 25)}</TableColumn>
         <TableColumnTimestamp timestamp={endpoint.created.timestamp} />
-        {/* <TableColumn>
-          <Button icon onClick={() => this.delete(endpoint)}>delete</Button>
-        </TableColumn> */}
+        <TableColumn style={{ width: '64px' }}>
+          <APIEndpointDeleteButton endpoint={endpoint} onDelete={this.delete} />
+        </TableColumn>
       </TableRow>
     ));
 
@@ -63,6 +69,7 @@ class APIEndpointInlineList extends PureComponent {
           <Button
             key="add-endpoint"
             iconChildren="link"
+            visible={false}
             primary
             flat
             onClick={onAddEndpoint}
@@ -82,7 +89,7 @@ class APIEndpointInlineList extends PureComponent {
               <TableColumn>Type</TableColumn>
               <TableColumn>Owner</TableColumn>
               <TableColumn>Created</TableColumn>
-              {/* <TableColumn /> */}
+              <TableColumn />
             </TableRow>
           </TableHeader>}
           <TableBody>
@@ -96,4 +103,5 @@ class APIEndpointInlineList extends PureComponent {
 
 export default compose(
   withMetaResource,
+  withRouter,
 )(APIEndpointInlineList);

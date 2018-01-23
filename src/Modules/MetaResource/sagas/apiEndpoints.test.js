@@ -235,7 +235,7 @@ describe('API Endpoint Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_APIENDPOINT_FULFILLED })
+        put({ type: types.DELETE_APIENDPOINTS_FULFILLED, payload: action.apiendpointId })
       );
 
       // Finish the iteration
@@ -258,7 +258,7 @@ describe('API Endpoint Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_APIENDPOINT_REJECTED, payload: error })
+        put({ type: types.DELETE_APIENDPOINTS_REJECTED, payload: error })
       );
     });
   });
@@ -278,7 +278,7 @@ describe('API Endpoint Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_APIENDPOINT_FULFILLED })
+        put({ type: types.DELETE_APIENDPOINTS_FULFILLED })
       );
 
       // Finish the iteration
@@ -301,12 +301,12 @@ describe('API Endpoint Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_APIENDPOINT_REJECTED, payload: error })
+        put({ type: types.DELETE_APIENDPOINTS_REJECTED, payload: error })
       );
     });
   });
 
-  describe('apiSagas', () => {
+  describe('apiEndpointSagas', () => {
     let result;
     const rootSaga = apiSagas();
 
