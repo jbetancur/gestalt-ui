@@ -88,7 +88,7 @@ class ContainerItem extends PureComponent {
         <Row gutter={5}>
           <Col component={Card} flex={12} tableCard>
             <TableCardHeader
-              title={<div className="gf-headline">Containers</div>}
+              title="Containers"
               visible={false} // TODO: React-md propTypes bug
             />
             {this.props.pending && <LinearProgress id="containers-listing" />}
