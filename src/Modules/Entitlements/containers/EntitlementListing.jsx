@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -8,23 +8,30 @@ import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
 import DotActivity from 'components/DotActivity';
-import { generateEntitlementEntityState } from 'util/helpers/context';
+import { H3 } from 'components/Typography';
 import SearchFields from '../components/SearchFields';
 import EntitlementTree from '../components/EntitlementTree';
 import actions from './../actions';
 import { USER } from '../../../constants';
 
-class EntitlementListing extends Component {
+class EntitlementListing extends PureComponent {
   static propTypes = {
-    fetchEntitlements: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired,
+    fqon: PropTypes.string.isRequired,
+    entityId: PropTypes.string,
+    entityKey: PropTypes.string,
     entitlements: PropTypes.array.isRequired,
+    fetchEntitlements: PropTypes.func.isRequired,
     unloadEntitlements: PropTypes.func.isRequired,
     entitlementsPending: PropTypes.bool.isRequired,
     entitlementsUpdatePending: PropTypes.bool.isRequired,
     updateEntitlements: PropTypes.func.isRequired,
     unloadSearch: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    entityId: null,
+    entityKey: null,
   };
 
   constructor(props) {
@@ -41,10 +48,9 @@ class EntitlementListing extends Component {
   }
 
   componentDidMount() {
-    const { params, fetchEntitlements } = this.props;
-    const entity = generateEntitlementEntityState(params);
+    const { fqon, fetchEntitlements, entityId, entityKey } = this.props;
 
-    fetchEntitlements(params.fqon, entity.id, entity.key, this.state.selectedIdentityId);
+    fetchEntitlements(fqon, entityId, entityKey, this.state.selectedIdentityId);
   }
 
   componentWillUnmount() {
@@ -52,8 +58,7 @@ class EntitlementListing extends Component {
   }
 
   update = () => {
-    const { params, fetchEntitlements, updateEntitlements, entitlements } = this.props;
-    const entity = generateEntitlementEntityState(params);
+    const { fqon, fetchEntitlements, updateEntitlements, entitlements, entityId, entityKey } = this.props;
     const identity = this.state.selectedIdentityId;
 
     const entitlementActions = [];
@@ -63,13 +68,12 @@ class EntitlementListing extends Component {
       });
     });
 
-    const onSuccess = () => fetchEntitlements(params.fqon, entity.id, entity.key, identity);
-    updateEntitlements(params.fqon, identity, entitlementActions, entity.id, entity.key, onSuccess);
+    const onSuccess = () => fetchEntitlements(fqon, entityId, entityKey, identity);
+    updateEntitlements(fqon, identity, entitlementActions, entityId, entityKey, onSuccess);
   }
 
   handleSelectedIdentity = (selectedIdentityId, selectedIdentity) => {
-    const { params, fetchEntitlements } = this.props;
-    const entity = generateEntitlementEntityState(params);
+    const { fqon, fetchEntitlements, entityId, entityKey } = this.props;
 
     this.setState({
       selectedIdentityId,
@@ -77,7 +81,7 @@ class EntitlementListing extends Component {
       selectedIdentityType: selectedIdentity.typeId,
     });
 
-    fetchEntitlements(params.fqon, entity.id, entity.key, selectedIdentityId);
+    fetchEntitlements(fqon, entityId, entityKey, selectedIdentityId);
   }
 
   handleFieldNameChange = (selectedSearchFieldValue) => {
@@ -158,7 +162,7 @@ class EntitlementListing extends Component {
               {!showEntitlementTree && !isPending &&
               <Row center fill>
                 <Col flex style={{ textAlign: 'center' }}>
-                  <h4>You do not have permissions to view these Entitlements</h4>
+                  <H3>You do not have permissions to view these Entitlements</H3>
                 </Col>
               </Row>}
             </Fieldset>}

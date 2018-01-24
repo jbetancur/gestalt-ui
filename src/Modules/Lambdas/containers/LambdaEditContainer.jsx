@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../components/LambdaForm';
 import validate from '../validations';
@@ -83,6 +84,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
+  withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions)),
   reduxForm({
     form: 'lambdaEdit',

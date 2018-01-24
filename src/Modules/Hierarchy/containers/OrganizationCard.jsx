@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
@@ -19,6 +20,7 @@ class OrganizationCard extends PureComponent {
     t: PropTypes.func.isRequired,
     deleteOrg: PropTypes.func.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
   };
 
@@ -45,6 +47,14 @@ class OrganizationCard extends PureComponent {
     hierarchyActions.confirmDelete(() => {
       deleteOrg(model.properties.fqon, onDeleteSuccess);
     }, name, 'Organization');
+  }
+
+  showEntitlements = (e) => {
+    e.stopPropagation();
+    const { entitlementActions, model } = this.props;
+    const name = model.description || model.name;
+
+    entitlementActions.showEntitlementsModal(name, model.properties.fqon, null, null, 'Organization');
   }
 
   render() {
@@ -79,6 +89,12 @@ class OrganizationCard extends PureComponent {
             iconChildren="edit"
             onClick={this.edit}
           />
+          <Button
+            tooltipLabel="Entitlements"
+            icon
+            iconChildren="security"
+            onClick={this.showEntitlements}
+          />
         </CardActions>
       </Card>
     );
@@ -88,6 +104,7 @@ class OrganizationCard extends PureComponent {
 export default compose(
   withMetaResource,
   withHierarchy,
+  withEntitlements,
   withTheme,
   translate(),
 )(OrganizationCard);

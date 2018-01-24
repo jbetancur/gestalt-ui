@@ -12,18 +12,6 @@ export function confirmDelete(action, item, HierarchyType) {
   };
 }
 
-export function showEntitlementsModal(item, params, HierarchyType) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'EntitlementModal',
-    modalProps: {
-      title: `Entitlements for "${item}" ${HierarchyType || ''}`,
-      params,
-    }
-  };
-}
-
 export default {
   confirmDelete,
-  showEntitlementsModal,
 };

@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { Button } from 'components/Buttons';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
@@ -20,6 +21,7 @@ class WorkspaceCard extends PureComponent {
     deleteWorkspace: PropTypes.func.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
 
   navWorkspaceDetails = (e) => {
@@ -45,6 +47,14 @@ class WorkspaceCard extends PureComponent {
     hierarchyActions.confirmDelete(() => {
       deleteWorkspace(match.params.fqon, model.id, onDeleteSuccess);
     }, name, 'Workspace');
+  }
+
+  showEntitlements = (e) => {
+    e.stopPropagation();
+    const { entitlementActions, model, match } = this.props;
+    const name = model.description || model.name;
+
+    entitlementActions.showEntitlementsModal(name, match.params.fqon, model.id, 'workspaces', 'Workspace');
   }
 
   render() {
@@ -80,6 +90,12 @@ class WorkspaceCard extends PureComponent {
           >
             edit
           </Button>
+          <Button
+            tooltipLabel="Entitlements"
+            icon
+            iconChildren="security"
+            onClick={this.showEntitlements}
+          />
         </CardActions>
       </Card>
     );
@@ -89,6 +105,7 @@ class WorkspaceCard extends PureComponent {
 export default compose(
   withMetaResource,
   withHierarchy,
+  withEntitlements,
   withTheme,
   translate(),
 )(WorkspaceCard);

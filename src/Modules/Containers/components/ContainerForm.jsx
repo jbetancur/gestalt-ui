@@ -108,6 +108,15 @@ const ContainerForm = ({ values, container, ...props }) => {
                       {props.submitLabel}
                     </Button>}
                   {props.editMode &&
+                    <Button
+                      key="container--entitlements"
+                      flat
+                      iconChildren="security"
+                      onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, container.id, 'containers', 'Container')}
+                    >
+                      Container Entitlements
+                    </Button>}
+                  {props.editMode &&
                     <ContainerActions
                       inContainerView
                       containerModel={container}
@@ -424,7 +433,7 @@ ContainerForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   providersByType: PropTypes.array.isRequired,
   container: PropTypes.object.isRequired,
-  // showEntitlementsModal: PropTypes.func.isRequired,
+  entitlementActions: PropTypes.object,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -446,6 +455,7 @@ ContainerForm.defaultProps = {
   inlineMode: false,
   containerInstances: [],
   containerServiceAddresses: [],
+  entitlementActions: {}
 };
 
 // Connect to this forms state in the store so we can enum the values
