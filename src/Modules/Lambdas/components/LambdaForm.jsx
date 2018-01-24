@@ -117,7 +117,7 @@ const LambdaForm = (props) => {
                         key="lambda--entitlements"
                         flat
                         iconChildren="security"
-                        onClick={() => props.showEntitlementsModal(props.title, props.match.params)}
+                        onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, lambda.id, 'lambdas', 'Lambda')}
                       >
                         Lambda Entitlements
                       </Button>
@@ -413,7 +413,6 @@ LambdaForm.propTypes = {
   executorsDropDown: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
   apiEndpoints: PropTypes.array.isRequired,
-  showEntitlementsModal: PropTypes.func.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -421,6 +420,7 @@ LambdaForm.propTypes = {
   actions: PropTypes.array.isRequired,
   actionsPending: PropTypes.bool.isRequired,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
+  entitlementActions: PropTypes.object,
 };
 
 LambdaForm.defaultProps = {
@@ -428,6 +428,7 @@ LambdaForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  entitlementActions: {}
 };
 
 // Connect to this forms state in the store so we can enum the values

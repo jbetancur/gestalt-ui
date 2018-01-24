@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import ActivityContainer from 'components/ActivityContainer';
 import { generateContextEntityState } from 'util/helpers/context';
 import { volumeModalActions } from 'Modules/VolumeModal';
@@ -159,6 +160,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default compose(
   withMetaResource,
+  withEntitlements,
   withRouter,
   connect(mapStateToProps,
     Object.assign({}, actions, volumeModalActions, healthCheckModalActions, secretModalActions)),

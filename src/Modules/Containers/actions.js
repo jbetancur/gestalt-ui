@@ -45,17 +45,6 @@ export function promoteContainerModal(action, item) {
   };
 }
 
-export function showEntitlementsModal(item, params) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'EntitlementModal',
-    modalProps: {
-      title: `Entitlements for "${item}"`,
-      params,
-    }
-  };
-}
-
 /**
  * showAPIEndpointWizardModal
  * @param {String} implementationId - containerId | lamnbdaId
@@ -81,6 +70,5 @@ export default {
   scaleContainerModal,
   migrateContainerModal,
   promoteContainerModal,
-  showEntitlementsModal,
   showAPIEndpointWizardModal,
 };

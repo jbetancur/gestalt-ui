@@ -21,17 +21,6 @@ export function handleTheme(theme) {
   return { type: CHANGE_EDITOR_THEME, theme };
 }
 
-export function showEntitlementsModal(item, params) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'EntitlementModal',
-    modalProps: {
-      title: `Entitlements for "${item}"`,
-      params,
-    }
-  };
-}
-
 /**
  * showAPIEndpointWizardModal
  * @param {*} implementationId - containerId | lamnbdaId
@@ -52,6 +41,5 @@ export function showAPIEndpointWizardModal(params, implementationId, implementat
 export default {
   confirmDelete,
   handleTheme,
-  showEntitlementsModal,
   showAPIEndpointWizardModal,
 };

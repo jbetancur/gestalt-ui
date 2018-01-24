@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
 import { ListItem, FontIcon, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
-import withHierarchy from '../withHierarchy';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -15,12 +15,19 @@ class WorkspaceActions extends PureComponent {
     match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
 
-  render() {
-    const { workspace, pending, match, hierarchyActions } = this.props;
+  showEntitlements = () => {
+    const { workspace, match, entitlementActions } = this.props;
+
     const name = workspace.description || workspace.name;
+    entitlementActions.showEntitlementsModal(name, match.params.fqon, workspace.id, 'workspaces', 'Workspace');
+  }
+
+  render() {
+    const { pending, match } = this.props;
+
     const menuItems = [
       <ListItem
         id="workspace-settings-menu--environment-create"
@@ -56,7 +63,7 @@ class WorkspaceActions extends PureComponent {
         <Button
           flat
           iconChildren="security"
-          onClick={() => hierarchyActions.showEntitlementsModal(name, match.params, 'Workspace')}
+          onClick={this.showEntitlements}
         >
         Entitlements
         </Button>
@@ -67,5 +74,5 @@ class WorkspaceActions extends PureComponent {
 
 export default compose(
   withMetaResource,
-  withHierarchy,
+  withEntitlements,
 )(WorkspaceActions);

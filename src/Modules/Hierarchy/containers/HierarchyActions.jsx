@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { ListItem, FontIcon, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 import { MetamodelIcon } from 'components/Icons';
-import withHierarchy from '../withHierarchy';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -18,12 +18,19 @@ class HierarchyActions extends PureComponent {
     organizationSet: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     t: PropTypes.func.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
 
-  render() {
-    const { organizationSet, match, pending, hierarchyActions, t } = this.props;
+  showEntitlements = () => {
+    const { organizationSet, match, entitlementActions } = this.props;
+
     const name = organizationSet.description || organizationSet.name;
+    entitlementActions.showEntitlementsModal(name, match.params.fqon, null, null, 'Organization');
+  }
+
+  render() {
+    const { organizationSet, pending, t } = this.props;
+
     const menuItems = [
       <ListItem
         id="orgs-settings-menu--create"
@@ -98,7 +105,7 @@ class HierarchyActions extends PureComponent {
         <Button
           flat
           iconChildren="security"
-          onClick={() => hierarchyActions.showEntitlementsModal(name, match.params, 'Organization')}
+          onClick={this.showEntitlements}
         >
           Entitlements
         </Button>
@@ -110,5 +117,5 @@ class HierarchyActions extends PureComponent {
 export default compose(
   translate(),
   withMetaResource,
-  withHierarchy,
+  withEntitlements,
 )(HierarchyActions);

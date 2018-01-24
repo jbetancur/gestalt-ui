@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import DialogContainer from 'react-md/lib/Dialogs';
 import { ModalTitle } from 'components/Modal';
@@ -25,7 +25,6 @@ class EntitlementModal extends PureComponent {
     modal: PropTypes.object.isRequired,
     hideEntitlementsModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    params: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -53,7 +52,7 @@ class EntitlementModal extends PureComponent {
             label: 'Close',
           }]}
       >
-        <EntitlementListing params={this.props.params} {...this.props} />
+        <EntitlementListing {...this.props} />
       </EnhancedDialog>
     );
   }
@@ -65,4 +64,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(withRouter(EntitlementModal));
+export default compose(
+  connect(mapStateToProps, actions)
+)(EntitlementModal);

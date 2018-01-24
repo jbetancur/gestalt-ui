@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { FormattedRelative } from 'react-intl';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { Button } from 'components/Buttons';
@@ -20,6 +21,7 @@ class EnvironmentCard extends PureComponent {
     deleteEnvironment: PropTypes.func.isRequired,
     fetchEnvironments: PropTypes.func.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
 
   navEnvironmentDetails = () => {
@@ -46,6 +48,13 @@ class EnvironmentCard extends PureComponent {
     }, name, 'Environment');
   }
 
+  showEntitlements = (e) => {
+    e.stopPropagation();
+    const { entitlementActions, model, match } = this.props;
+    const name = model.description || model.name;
+
+    entitlementActions.showEntitlementsModal(name, match.params.fqon, model.id, 'environments', 'Environment');
+  }
 
   render() {
     const { model, t, theme } = this.props;
@@ -88,6 +97,12 @@ class EnvironmentCard extends PureComponent {
             iconChildren="edit"
             onClick={this.edit}
           />
+          <Button
+            tooltipLabel="Entitlements"
+            icon
+            iconChildren="security"
+            onClick={this.showEntitlements}
+          />
         </CardActions>
       </Card>
     );
@@ -97,6 +112,7 @@ class EnvironmentCard extends PureComponent {
 export default compose(
   withMetaResource,
   withHierarchy,
+  withEntitlements,
   withTheme,
   translate(),
 )(EnvironmentCard);
