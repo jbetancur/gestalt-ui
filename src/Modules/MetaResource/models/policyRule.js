@@ -5,7 +5,7 @@ export default Object.freeze({
   created: {},
   modified: {},
   properties: {
-    match_actions: [],
+    actions: [],
     eval_logic: {}
   }
 });
