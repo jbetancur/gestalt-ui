@@ -2,7 +2,6 @@ import { orderBy } from 'lodash';
 
 const uiProviderTypes = [
   {
-    displayName: 'Mesosphere DC/OS',
     name: 'Gestalt::Configuration::Provider::CaaS::DCOS',
     DCOSConfig: true,
     DCOSSecurity: true,
@@ -16,7 +15,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Kubernetes',
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
     networking: false,
     extraConfig: false,
@@ -27,7 +25,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Docker Swarm',
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
     networking: true,
     extraConfig: false,
@@ -38,7 +35,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'APIGateway (Kong)',
     name: 'Gestalt::Configuration::Provider::Kong',
     networking: false,
     extraConfig: true,
@@ -49,7 +45,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'GatewayManager',
     name: 'Gestalt::Configuration::Provider::GatewayManager',
     networking: false,
     extraConfig: true,
@@ -60,7 +55,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Security',
     name: 'Gestalt::Configuration::Provider::Security',
     networking: false,
     extraConfig: false,
@@ -71,7 +65,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'PostgreSQL',
     name: 'Gestalt::Configuration::Provider::Data::PostgreSQL',
     networking: false,
     extraConfig: false,
@@ -82,7 +75,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'RabbitMQ',
     name: 'Gestalt::Configuration::Provider::Messaging::RabbitMQ',
     networking: false,
     extraConfig: false,
@@ -93,7 +85,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Policy',
     name: 'Gestalt::Configuration::Provider::Policy',
     networking: false,
     extraConfig: false,
@@ -104,7 +95,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Logging',
     name: 'Gestalt::Configuration::Provider::Logging',
     networking: false,
     extraConfig: false,
@@ -115,7 +105,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Gestalt Flink',
     name: 'Gestalt::Configuration::Provider::GestaltFlink',
     networking: false,
     extraConfig: false,
@@ -126,7 +115,6 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser (Lambda)',
     name: 'Gestalt::Configuration::Provider::Lambda',
     allowContainer: true,
     externalProtocol: false,
@@ -134,55 +122,46 @@ const uiProviderTypes = [
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor NodeJS',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::NodeJS',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Nashorn',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Nashorn',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Scala',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Scala',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Java',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Java',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Ruby',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Ruby',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Python',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Python',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor C#',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::CSharp',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Go',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::GoLang',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },
   {
-    displayName: 'Laser Executor Bash',
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Bash',
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
@@ -206,7 +185,14 @@ export const generateResourceTypeSchema = (resourceTypes) => {
   // Ideally instead of blacklisting use properties.abstract, however it is always true.
   const list = resourceTypes
     .filter(r => r.name !== blacklistAbstracts.find(bl => bl === r.name))
-    .map(r => ({ id: r.id, displayName: r.name, name: r.name, type: r.name, ...uiProviderTypes.find(i => i.name === r.name) }));
+    .map(r => ({
+      id: r.id,
+      displayName: r.name.replace('Gestalt::Configuration::Provider::', ''),
+      name: r.name,
+      type: r.name,
+      allowedRestrictEnvironments: true,
+      ...uiProviderTypes.find(i => i.name === r.name)
+    }));
 
   return orderBy(list, 'displayName');
 };
