@@ -51,7 +51,7 @@ class APIEndpointItem extends PureComponent {
           <Caption small>
             {apiEndpoint.properties.methods &&
               apiEndpoint.properties.methods.length > 0 &&
-              apiEndpoint.properties.methods.map(m => <div>{m}</div>)}
+              apiEndpoint.properties.methods.map(m => <div key={`${apiEndpoint.id}--${m}`}>{m}</div>)}
           </Caption>
         </TableColumn>
         <TableColumn numeric>
