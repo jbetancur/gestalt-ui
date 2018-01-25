@@ -66,8 +66,9 @@ export default function configureInterceptors(store, history) {
 
     // handle partial error messages - this is really just patch for dealing with sparse error handling from meta
     if (response.message) {
-      // reroute to root if the context is no longer available
-      if (response.message.includes('not found') &&
+      // reroute to 404 if the org context is no longer available
+      if (response.message.includes('Org with FQON') &&
+        response.message.includes('not found') &&
         response.code === 404) {
         history.replace('/404');
       }
@@ -84,10 +85,10 @@ export default function configureInterceptors(store, history) {
         history.replace('/');
       }
 
-      // default
-      if (response.code === 404) {
-        history.replace('/404');
-      }
+      // // default
+      // if (response.code === 404) {
+      //   history.replace('/404');
+      // }
     }
 
     // The API kicks inconsistet errors - in this case response handle string errors

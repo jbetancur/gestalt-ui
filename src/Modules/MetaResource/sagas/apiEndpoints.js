@@ -124,13 +124,13 @@ export function* deleteAPIEndpoints(action) {
     const all = action.apiendpointIds.map(id => axios.delete(`${action.fqon}/apiendpoints/${id}?force=true`));
 
     yield call(axios.all, all);
-    yield put({ type: types.DELETE_APIENDPOINTS_FULFILLED });
+    yield put({ type: types.DELETE_APIENDPOINT_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();
     }
   } catch (e) {
-    yield put({ type: types.DELETE_APIENDPOINTS_REJECTED, payload: e.message });
+    yield put({ type: types.DELETE_APIENDPOINT_REJECTED, payload: e.message });
   }
 }
 
