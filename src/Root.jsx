@@ -40,9 +40,10 @@ const language = (navigator.languages && navigator.languages[0]) ||
 addLocaleData([...en]);
 
 // Disable scrolling on Number
-document.addEventListener('mousewheel', (event) => {
-  if (document.activeElement.type === 'number') {
-    event.preventDefault();
+document.addEventListener('mousewheel', () => {
+  const el = document.activeElement;
+  if (el.type === 'number') {
+    el.blur();
   }
 });
 
