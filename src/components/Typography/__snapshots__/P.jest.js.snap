@@ -12,8 +12,6 @@ exports[`(Component) P renders with basic props 1`] = `
 <p
   className="c0"
   fontSize={14}
-  overflow={false}
-  wrap={false}
 >
   this is a test
 </p>

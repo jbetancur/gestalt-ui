@@ -36,8 +36,12 @@ const HierarchyRoutes = ({ location, previousLocation, isModal }) => (
 
 HierarchyRoutes.propTypes = {
   location: PropTypes.object.isRequired,
-  previousLocation: PropTypes.object.isRequired,
+  previousLocation: PropTypes.object,
   isModal: PropTypes.bool.isRequired,
+};
+
+HierarchyRoutes.defaultProps = {
+  previousLocation: {}
 };
 
 export default withModalRouter(HierarchyRoutes);

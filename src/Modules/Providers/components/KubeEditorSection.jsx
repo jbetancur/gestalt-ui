@@ -1,16 +1,16 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { AceEditor } from 'components/ReduxFormFields';
 import { FileInput } from 'react-md';
 
-const KubeEditorSection = (props) => {
+const KubeEditorSection = ({ dispatch, change }) => {
   const onFile = (file) => {
     const reader = new FileReader();
 
     reader.onload = () => {
-      props.dispatch(props.change('properties.data', reader.result));
+      dispatch(change('properties.data', reader.result));
     };
 
     reader.readAsText(file);
@@ -42,6 +42,9 @@ const KubeEditorSection = (props) => {
   );
 };
 
-KubeEditorSection.propTypes = {};
+KubeEditorSection.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+};
 
 export default KubeEditorSection;

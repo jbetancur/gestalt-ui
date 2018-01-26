@@ -82,13 +82,6 @@ const NotFound = props => (
           >
             {`Navigate back to ${props.match.params.fqon}`}
           </Button>}
-        <Button
-          primary
-          raised
-          onClick={() => props.history.goBack()}
-        >
-          Go Back
-        </Button>
       </Row>
     </Row>
     <Row justifyContent="center">

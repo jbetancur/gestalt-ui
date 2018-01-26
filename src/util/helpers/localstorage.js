@@ -1,3 +1,7 @@
+/**
+ * loadStorage
+ * @param {*} key
+ */
 export const loadStorage = (key) => {
   try {
     return localStorage.getItem(key);
@@ -6,6 +10,11 @@ export const loadStorage = (key) => {
   }
 };
 
+/**
+ * saveStorage
+ * @param {*} key
+ * @param {*} value
+ */
 export const saveStorage = (key, value) => {
   try {
     localStorage.setItem(key, value);
@@ -15,3 +24,19 @@ export const saveStorage = (key, value) => {
 
   return undefined;
 };
+
+/**
+ * removeItem
+ * @param {*} key
+ * @param {*} value
+ */
+export const removeItem = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (err) {
+    // ignore write errors
+  }
+
+  return undefined;
+};
+

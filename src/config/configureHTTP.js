@@ -49,8 +49,29 @@ export default function configureInterceptors(store, history) {
     ];
 
     const response = error.response.data;
-    // TODO: Until we have a permissions prefetch API - for now Handle routing when context view permissions are thrown
-    if (response.message) {
+
+    // "Robust" Fallback Routing -_-
+    if (response.message && typeof response.message === 'string') {
+      const fqon = store.getState().metaResource.self.self.properties.gestalt_home.properties.fqon;
+
+      if ((response.code === 404 || response.code === 400) &&
+        (response.message.includes('not found') ||
+        response.message.includes('Resource with ID') ||
+        response.message.includes('is not a valid v4 UUID') ||
+        response.message.includes('Cannot parse parameter id as UUID'))
+      ) {
+        history.replace(`/${fqon}/404`);
+
+        return Promise.reject(error);
+      }
+
+      if (response.message.includes('Org with FQON') && response.message.includes('not found')) {
+        history.replace(`/${fqon}/404`);
+
+        return Promise.reject(error);
+      }
+
+      // TODO: Until we have a permissions prefetch API - for now Handle routing when context view permissions are thrown
       // eslint-disable-next-line no-lonely-if
       if (response.message.includes('license.view')) {
         // Nothing for now
@@ -58,41 +79,17 @@ export default function configureInterceptors(store, history) {
         // eslint-disable-next-line no-alert
         window.confirm('You have not been entitled to this organization. Please contact your administrator');
       } else if (response.code === 403 && permissions.some(entitlement => response.message.includes(entitlement))) {
-        history.goBack();
+        history.replace(`/${fqon}/404`);
       } else {
         store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
-      }
-    }
-
-    // handle partial error messages - this is really just patch for dealing with sparse error handling from meta
-    if (response.message) {
-      // reroute to root if the context is no longer available
-      if (response.message.includes('not found') &&
-        response.code === 404) {
-        history.replace('/404');
-      }
-
-      // // if someone decides to muck or paste a url with an invalid UUID
-      // if (response.message.includes('is not a valid v4 UUID') &&
-      //   response.code === 400) {
-      //   history.replace('/404');
-      // }
-
-      // handle if an environment is deleted and user is in environment context
-      if (response.message.includes('UUID did not correspond to an environment') &&
-        response.code === 400) {
-        history.replace('/');
-      }
-
-      // default
-      if (response.code === 404) {
-        history.replace('/404');
       }
     }
 
     // The API kicks inconsistet errors - in this case response handle string errors
     if (response === 'code 403: Forbidden') {
       store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
+
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);
