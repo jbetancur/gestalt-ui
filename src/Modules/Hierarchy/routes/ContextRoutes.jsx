@@ -36,8 +36,12 @@ const ContextRoutes = ({ location, previousLocation, isModal }) => (
 
 ContextRoutes.propTypes = {
   location: PropTypes.object.isRequired,
-  previousLocation: PropTypes.object.isRequired,
+  previousLocation: PropTypes.object,
   isModal: PropTypes.bool.isRequired,
+};
+
+ContextRoutes.defaultProps = {
+  previousLocation: {}
 };
 
 export default compose(

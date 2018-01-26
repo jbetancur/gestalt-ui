@@ -19,8 +19,12 @@ const WorkspaceRoutes = ({ location, previousLocation, isModal }) => (
 
 WorkspaceRoutes.propTypes = {
   location: PropTypes.object.isRequired,
-  previousLocation: PropTypes.object.isRequired,
+  previousLocation: PropTypes.object,
   isModal: PropTypes.bool.isRequired,
+};
+
+WorkspaceRoutes.defaultProps = {
+  previousLocation: {}
 };
 
 export default withModalRouter(WorkspaceRoutes);
