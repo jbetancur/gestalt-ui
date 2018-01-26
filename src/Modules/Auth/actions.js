@@ -2,6 +2,7 @@ import axios from 'axios';
 import { isIP } from 'validator';
 import Cookies from 'universal-cookie';
 import ReactGA from 'react-ga';
+import { removeItem } from 'util/helpers/localstorage';
 import {
   REQUEST_TOKEN_PENDING,
   REQUEST_TOKEN_FULFILLED,
@@ -94,7 +95,9 @@ export function logout() {
         }
       });
 
+      // Clean up our token and localstorage items
       cookies.remove('auth_token', configureCookie());
+      removeItem('lastVisitedRoute');
 
       return securityAPI.delete(`accessTokens/${tokenId}`);
     }

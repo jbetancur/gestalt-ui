@@ -55,8 +55,12 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
 
 EnvironmentRoutes.propTypes = {
   location: PropTypes.object.isRequired,
-  previousLocation: PropTypes.object.isRequired,
+  previousLocation: PropTypes.object,
   isModal: PropTypes.bool.isRequired,
+};
+
+EnvironmentRoutes.defaultProps = {
+  previousLocation: {}
 };
 
 export default withModalRouter(EnvironmentRoutes);

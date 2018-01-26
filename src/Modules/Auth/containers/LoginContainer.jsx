@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { loadStorage } from 'util/helpers/localstorage';
 import actions from '../actions';
 import LoginPage from '../components/LoginPage';
 
@@ -25,17 +26,18 @@ class LoginContainer extends Component {
     loginModal: PropTypes.object.isRequired,
     hideLoginModal: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   submitLogin = (values) => {
-    const { history, login, loginModal, hideLoginModal } = this.props;
-    // TODO: disabled for now since we need to refactor routing - but this allows us to redirect to a pasted path
-    // const path = (props.router.location.state && props.router.location.state.nextPathname) || '/';
+    const { history, login, loginModal, hideLoginModal, location } = this.props;
+    const path = (location.state && location.state.nextPathname) || JSON.parse(loadStorage('lastVisitedRoute')) || '/';
+
     login(values.username, values.password).then(() => {
       if (loginModal.visible) {
         hideLoginModal();
       } else {
-        history.replace('/');
+        history.replace(path);
       }
     });
   };

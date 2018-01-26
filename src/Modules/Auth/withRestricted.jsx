@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -38,11 +38,12 @@ export default function AuthWrapper(BaseComponent) {
     }
   }
 
-  function mapDispatchToProps(dispatch) {
-    return {
-      auth: bindActionCreators(actions, dispatch)
-    };
-  }
+  const mapDispatchToProps = dispatch => ({
+    auth: bindActionCreators(actions, dispatch)
+  });
 
-  return connect(null, mapDispatchToProps)(withRouter(Restricted));
+  return compose(
+    connect(null, mapDispatchToProps),
+    withRouter
+  )(Restricted);
 }

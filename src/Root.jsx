@@ -61,6 +61,7 @@ const Root = () => (
                 <Route exact path="/" component={restricted(AppContainer)} />
                 <Route exact path="/404" component={NotFound} />
                 <Route path="/:fqon" component={restricted(AppContainer)} />
+                <Route exact path="/:fqon/404" component={NotFound} />
                 <Route path="/notfound" component={restricted(AppContainer)} />
               </Switch>
             </ConnectedRouter>
