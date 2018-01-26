@@ -70,12 +70,11 @@ describe('API Actions', () => {
     const expectedAction = {
       type: types.DELETE_APIENDPOINT_REQUEST,
       fqon: 'iamfqon',
-      apiId: '1',
-      apiendpointId: '2',
+      apiendpointId: '1',
       onSuccess: undefined,
     };
 
-    expect(actions.deleteAPIEndpoint('iamfqon', '1', '2')).to.deep.equal(expectedAction);
+    expect(actions.deleteAPIEndpoint('iamfqon', '1')).to.deep.equal(expectedAction);
   });
 
   it('should handle DELETE_APIENDPOINTS_REQUEST', () => {

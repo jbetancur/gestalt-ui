@@ -61,12 +61,11 @@ export function updateAPIEndpoint(fqon, apiId, apiendpointId, payload, onSuccess
 /**
  * deleteAPIEndpoint
  * @param {string} fqon
- * @param {string} apiId
  * @param {string} apiendpointId
  * @callback {*} onSuccess - callback to be performed on success
  */
-export function deleteAPIEndpoint(fqon, apiId, apiendpointId, onSuccess) {
-  return { type: types.DELETE_APIENDPOINT_REQUEST, fqon, apiId, apiendpointId, onSuccess };
+export function deleteAPIEndpoint(fqon, apiendpointId, onSuccess) {
+  return { type: types.DELETE_APIENDPOINT_REQUEST, fqon, apiendpointId, onSuccess };
 }
 
 /**
