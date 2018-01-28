@@ -40,7 +40,7 @@ LineageForm.propTypes = {
 };
 
 LineageForm.defaultProps = {
-  addLabel: 'Add Label',
+  addLabel: 'Add Type',
 };
 
 export default LineageForm;
