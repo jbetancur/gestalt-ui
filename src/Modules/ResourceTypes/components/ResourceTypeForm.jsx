@@ -142,6 +142,7 @@ const ResourceTypeForm = (props) => {
                       name="properties.lineage.parent_types"
                       component={LineageForm}
                       resourceTypes={resourceTypes}
+                      addLabel="Add Parent"
                     />
                   </Panel>
                 </Col>
@@ -152,6 +153,7 @@ const ResourceTypeForm = (props) => {
                       name="properties.lineage.child_types"
                       component={LineageForm}
                       resourceTypes={resourceTypes}
+                      addLabel="Add Child"
                     />
                   </Panel>
                 </Col>
