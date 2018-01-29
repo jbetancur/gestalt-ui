@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Checkbox } from 'react-md';
 
 const CheckboxStyle = styled(Checkbox)`
-    margin-top: 16px;
+    margin-top: 19px;
 `;
 
 /* eslint-disable react/prop-types */

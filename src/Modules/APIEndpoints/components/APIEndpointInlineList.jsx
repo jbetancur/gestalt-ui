@@ -5,10 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { Button, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
+import Div from 'components/Div';
 import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';
 import { Caption } from 'components/Typography';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
+import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableColumnTimestamp } from 'components/Tables';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import APIEndpointDeleteButton from './APIEndpointDeleteButton';
 
@@ -65,7 +66,7 @@ class APIEndpointInlineList extends PureComponent {
 
     return (
       <div>
-        <TableCardHeader style={{ height: '40px' }}>
+        <Div padding="8px" paddingLeft="16px">
           <Button
             key="add-endpoint"
             iconChildren="link"
@@ -76,7 +77,7 @@ class APIEndpointInlineList extends PureComponent {
           >
             Add Endpoint
           </Button>
-        </TableCardHeader>
+        </Div>
         <DataTable baseId="apiEndpoints" plain>
           {this.props.endpoints.length > 0 &&
           <TableHeader>
