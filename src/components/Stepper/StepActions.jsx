@@ -7,7 +7,10 @@ const StepActions = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  padding: 32px;
+  padding-top: 32px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 8px;
 `;
 
 export default StepActions;

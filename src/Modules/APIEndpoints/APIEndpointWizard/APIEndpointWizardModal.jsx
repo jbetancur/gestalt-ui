@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector, destroy } from 'redux-form';
-import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Stepper';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -13,7 +12,7 @@ import APIEndpointForm from './APIEndpointForm';
 
 class APIEndpointWizard extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
     modal: PropTypes.object.isRequired,
     hideModal: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
@@ -32,6 +31,7 @@ class APIEndpointWizard extends PureComponent {
 
   static defaultProps = {
     portMappings: [],
+    onSubmit: null,
   };
 
   state = { step: 0 };
@@ -121,15 +121,11 @@ class APIEndpointWizard extends PureComponent {
         defaultVisibleTransitionable
         modal
       >
-        <Row gutter={5}>
-          <Col flex={12} xs={12}>
-            <Stepper
-              steps={steps}
-              onSubmit={onSubmit}
-              activeStep={this.state.step}
-            />
-          </Col>
-        </Row>
+        <Stepper
+          steps={steps}
+          onSubmit={onSubmit}
+          activeStep={this.state.step}
+        />
       </DialogContainer>
     );
   }

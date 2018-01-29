@@ -8,7 +8,6 @@ const ButtonStyle = styled(({ theme, ...rest }) => <Button {...rest} />)`
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 99;
 `;
 
 const RemoveButton = (props) => {

@@ -12,18 +12,16 @@ export default (values) => {
     },
   };
 
-
   if (!values.properties.resource) {
-    errors.properties.resource = ' ';
+    errors.properties.resource = 'a relative path is required';
   }
 
   if (values.properties.resource && !isURL(values.properties.resource, { require_protocol: false, require_host: false, allow_trailing_dot: false })) {
     errors.properties.resource = 'must be valid url path';
   }
 
-
   if (!values.properties.container_port_name) {
-    errors.properties.container_port_name = 'select a container port name, otherwise, ensure that you created an exposed port mapping';
+    errors.properties.container_port_name = 'select a container port, otherwise, ensure that you created an exposed port mapping';
   }
 
   if (!values.properties.methods) {

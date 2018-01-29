@@ -13,9 +13,15 @@ class ContainerServiceAddresses extends PureComponent {
     return serviceAddresses.map((port, i) => (
       port.service_address &&
       <TableRow key={i}>
-        <TableColumn>{port.service_address && port.service_address.host}</TableColumn>
-        <TableColumn numeric>{port.service_address && port.service_address.port}</TableColumn>
-        <TableColumn>{port.service_address && port.service_address.protocol}</TableColumn>
+        <TableColumn>
+          {port.service_address.host}
+        </TableColumn>
+        <TableColumn numeric>
+          {port.service_address.port === 0 ? 'auto' : port.service_address.port}
+        </TableColumn>
+        <TableColumn numeric>
+          {port.service_address.protocol}
+        </TableColumn>
       </TableRow>
     ));
   }
@@ -26,7 +32,7 @@ class ContainerServiceAddresses extends PureComponent {
         <TableHeader>
           <TableRow>
             <TableColumn>Host</TableColumn>
-            <TableColumn>Port</TableColumn>
+            <TableColumn>Service Port</TableColumn>
             <TableColumn>Protocol</TableColumn>
           </TableRow>
         </TableHeader>

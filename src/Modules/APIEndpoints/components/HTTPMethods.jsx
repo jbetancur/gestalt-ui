@@ -17,7 +17,7 @@ class HTTPMethods extends PureComponent {
         name="properties.methods"
         controls={httpMethods}
       />,
-      <Caption light key="httpmethods--help-caption">at least one http method is required</Caption>
+      <Caption light key="httpmethods--help-caption">* at least one http method is required</Caption>
     ];
   }
 }
