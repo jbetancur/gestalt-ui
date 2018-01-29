@@ -19,7 +19,7 @@ const LegendStyle = styled.legend`
   font-size: ${props => props.legendFontSize};
 `;
 
-const ContentStyle = styled.div`
+const ContentStyle = styled(({ height, overflow, maxHeight, ...rest }) => <div {...rest} />)`
   width: 100%;
   ${props => props.maxHeight && 'overflow: scroll'};
   ${props => props.maxHeight && `max-height: ${props.maxHeight}`};

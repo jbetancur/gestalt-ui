@@ -28,7 +28,7 @@ const APIEndpointForm = (props) => {
             name="properties.resource"
             label="Relative Path"
             type="text"
-            helpText="ex: /path or /path1/path2"
+            helpText="e.g. /path or /path1/path2"
             required
           />
         </Col>
@@ -50,11 +50,11 @@ const APIEndpointForm = (props) => {
         </Col>
       </Row>
 
+      {implementationType === 'container' &&
       <Row gutter={5}>
-        {implementationType === 'container' &&
         <Col flex={6} xs={12}>
           <Field
-            id="container-ports-dropdown"
+            id="container--properties.container_port_name"
             component={SelectField}
             name="properties.container_port_name"
             menuItems={portMappings}
@@ -62,9 +62,10 @@ const APIEndpointForm = (props) => {
             itemValue="name"
             label="Container Port Name"
             required
+            helpText="Ensure that you created a container port mapping"
           />
-        </Col>}
-      </Row>
+        </Col>
+      </Row>}
 
       <Row gutter={5}>
         <Col flex={6} xs={12}>

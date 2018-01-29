@@ -83,7 +83,7 @@ export default class Stepper extends Component {
   render() {
     const { className, steps, activeStep } = this.props;
     const stepIndicators = steps.map((step, i) => (
-      <Indicator>
+      <Indicator key={`wizard-step--${step.title}--${i}`}>
         <IndicatorNumber className={`${activeStep === i && 'active'}`}>
           <span>{i + 1}</span>
         </IndicatorNumber>
