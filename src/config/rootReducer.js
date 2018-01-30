@@ -21,7 +21,6 @@ import containersReducer from '../Modules/Containers/reducers';
 // import policiesReducer from '../Modules/Policies/reducers';
 import policyRulesReducer from '../Modules/PolicyRules/reducers';
 import licensingReducer from '../Modules/Licensing/reducers';
-import volumeModalReducer from '../Modules/VolumeModal/reducers';
 import healthCheckModalReducer from '../Modules/HealthCheckModal/reducers';
 import secretReducers from '../Modules/Secrets/reducers';
 import tableManagerReducer from '../Modules/TableManager/reducers';
@@ -55,7 +54,6 @@ export default combineReducers({
   // apis: apisReducer,
   // apiEndpoints: apiEndpointsReducer,
   licensing: licensingReducer,
-  volumeModal: volumeModalReducer,
   healthCheckModal: healthCheckModalReducer,
   secrets: secretReducers,
   tableManager: tableManagerReducer,
