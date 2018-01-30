@@ -31,7 +31,6 @@ class ProviderEdit extends PureComponent {
     unloadProvider: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
     containerValues: PropTypes.object,
-    volumes: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     containerPending: PropTypes.bool.isRequired,
@@ -95,12 +94,8 @@ class ProviderEdit extends PureComponent {
   }
 
   update = (formValues) => {
-    const { match, confirmUpdate, provider, updateProvider, redeployProvider, containerValues, volumes, healthChecks, secretsFromModal } = this.props;
+    const { match, confirmUpdate, provider, updateProvider, redeployProvider, containerValues, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
-      {
-        key: 'volumes',
-        value: volumes,
-      },
       {
         key: 'health_checks',
         value: healthChecks,
@@ -163,7 +158,6 @@ function mapStateToProps(state) {
   return {
     initialValues: getEditProviderModel(state),
     containerValues: getFormValues('containerEdit')(state),
-    volumes: state.volumeModal.volumes.volumes,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     secretsFromModal: state.secrets.secrets.secrets,
   };

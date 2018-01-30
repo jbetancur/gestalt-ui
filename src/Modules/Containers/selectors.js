@@ -6,9 +6,21 @@ import { merge } from 'lodash';
 export const selectContainer = state => state.metaResource.container.container;
 export const selectContainerSpec = (state, containerSpec) => containerSpec;
 export const selectEnv = state => state.metaResource.env.env;
-const selectVolumes = state => state.volumeModal.volumes.volumes;
 const selectHealthChecks = state => state.healthCheckModal.healthChecks.healthChecks;
 const selectSecrets = state => state.secrets.secrets.secrets;
+
+// TODO: deal with missing volume.type - https://gitlab.com/galacticfog/gestalt-meta/issues/416
+const fixVolumes = volumes => volumes.map((volume) => {
+  const newVolume = volume;
+  if (!volume.type) {
+    if (volume.persistent && volume.persistent.size) {
+      newVolume.type = 'persistent';
+    } else {
+      newVolume.type = 'host';
+    }
+  }
+  return newVolume;
+});
 
 export const getCreateContainerModel = createSelector(
   [selectEnv],
@@ -40,7 +52,7 @@ export const getCreateContainerModel = createSelector(
 );
 
 export const getEditContainerModel = createSelector(
-  [selectContainer, selectVolumes, selectHealthChecks, selectSecrets],
+  [selectContainer, selectHealthChecks, selectSecrets],
   (container, volumes, healthChecks, secrets) => {
     const model = {
       ...metaModels.container,
@@ -63,7 +75,7 @@ export const getEditContainerModel = createSelector(
         user: container.properties.user,
         port_mappings: container.properties.port_mappings,
         health_checks: merge(container.properties.health_checks || [], healthChecks),
-        volumes: merge(container.properties.volumes || [], volumes),
+        volumes: fixVolumes(container.properties.volumes),
         secrets: merge(container.properties.secrets || [], secrets),
       },
     };
@@ -73,7 +85,7 @@ export const getEditContainerModel = createSelector(
 );
 
 export const getEditContainerModelAsSpec = createSelector(
-  [selectContainerSpec, selectVolumes, selectHealthChecks, selectSecrets],
+  [selectContainerSpec, selectHealthChecks, selectSecrets],
   (container, volumes, healthChecks, secrets) => {
     const model = {
       ...metaModels.container,
@@ -97,7 +109,7 @@ export const getEditContainerModelAsSpec = createSelector(
         user: container.properties.user,
         port_mappings: container.properties.port_mappings,
         health_checks: merge(container.properties.health_checks || [], healthChecks),
-        volumes: merge(container.properties.volumes || [], volumes),
+        volumes: container.properties.volumes,
         secrets: merge(container.properties.secrets || [], secrets),
       },
     };

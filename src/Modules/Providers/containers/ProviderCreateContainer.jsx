@@ -18,7 +18,6 @@ class ProviderCreate extends Component {
     createProvider: PropTypes.func.isRequired,
     /* container related */
     containerValues: PropTypes.object,
-    volumes: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     fetchResourceTypes: PropTypes.func.isRequired,
@@ -47,12 +46,8 @@ class ProviderCreate extends Component {
   }
 
   create = (values) => {
-    const { match, history, createProvider, containerValues, volumes, healthChecks, secretsFromModal } = this.props;
+    const { match, history, createProvider, containerValues, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
-      {
-        key: 'volumes',
-        value: volumes,
-      },
       {
         key: 'health_checks',
         value: healthChecks,
@@ -121,7 +116,6 @@ function mapStateToProps(state) {
     enableReinitialize: true,
     keepDirtyOnReinitialize: true, // keeps dirty values in forms when the provider type is changed
     containerValues: getFormValues('containerCreate')(state),
-    volumes: state.volumeModal.volumes.volumes,
     healthChecks: state.healthCheckModal.healthChecks.healthChecks,
     secretsFromModal: state.secrets.secrets.secrets,
   };

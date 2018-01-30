@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import { volumeModalActions } from 'Modules/VolumeModal';
 import { healthCheckModalActions } from 'Modules/HealthCheckModal';
 import { secretModalActions } from 'Modules/Secrets';
 import ActivityContainer from 'components/ActivityContainer';
@@ -21,10 +20,8 @@ class ContainerCreate extends Component {
     match: PropTypes.object.isRequired,
     createContainer: PropTypes.func.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    unloadVolumes: PropTypes.func.isRequired,
     unloadSecretsModal: PropTypes.func.isRequired,
     unloadHealthChecks: PropTypes.func.isRequired,
-    volumes: PropTypes.array.isRequired,
     healthChecks: PropTypes.array.isRequired,
     secretsFromModal: PropTypes.array.isRequired,
     envPending: PropTypes.bool.isRequired,
@@ -47,20 +44,15 @@ class ContainerCreate extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadVolumes, unloadHealthChecks, unloadSecretsModal } = this.props;
+    const { unloadHealthChecks, unloadSecretsModal } = this.props;
 
-    unloadVolumes();
     unloadSecretsModal();
     unloadHealthChecks();
   }
 
   create = (values) => {
-    const { match, history, createContainer, volumes, healthChecks, secretsFromModal } = this.props;
+    const { match, history, createContainer, healthChecks, secretsFromModal } = this.props;
     const mergeProps = [
-      {
-        key: 'volumes',
-        value: volumes,
-      },
       {
         key: 'health_checks',
         value: healthChecks,
@@ -99,8 +91,6 @@ const formName = 'containerCreate';
 const mapStateToProps = state => ({
   containerModel: {},
   initialValues: getCreateContainerModel(state),
-  volumeModal: state.volumeModal.volumeModal,
-  volumes: state.volumeModal.volumes.volumes,
   healthCheckModal: state.healthCheckModal.healthCheckModal,
   healthChecks: state.healthCheckModal.healthChecks.healthChecks,
   secretsFromModal: state.secrets.secrets.secrets,
@@ -110,7 +100,7 @@ const mapStateToProps = state => ({
 export default compose(
   withMetaResource,
   withRouter,
-  connect(mapStateToProps, Object.assign({}, actions, volumeModalActions, healthCheckModalActions, secretModalActions)),
+  connect(mapStateToProps, Object.assign({}, actions, healthCheckModalActions, secretModalActions)),
   reduxForm({
     form: formName,
     enableReinitialize: true,

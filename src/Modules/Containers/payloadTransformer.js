@@ -21,7 +21,7 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
     properties: {
       env: arrayToMap(source.properties.env, 'name', 'value'),
       labels: arrayToMap(source.properties.labels, 'name', 'value'),
-      volumes: [],
+      volumes: source.properties.volumes,
       secrets: [],
       port_mappings: source.properties.port_mappings,
       health_checks: [],
@@ -102,6 +102,18 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
     return portPayload;
   });
 
+  // re-format port volumes
+  payload.properties.volumes = payload.properties.volumes.map((volume) => {
+    const volumePayload = { ...volume };
+
+    if (volume.type === 'persistent') {
+      delete volumePayload.host_path;
+    } else {
+      delete volumePayload.persistent;
+    }
+
+    return volumePayload;
+  });
 
   if (updateMode) {
     // we dont want to change the provider on updateMode (i.e. PUT, PATCH container)

@@ -4,8 +4,11 @@ import {
   isCommaDelimitedConstraints,
   isContainerServicePortName,
   containerNamePattern,
-  containerServicePortNamePattern
+  containerServicePortNamePattern,
+  kubernetesVolumeNamePattern,
+  isKubernetesVolumeName
 } from 'util/validations';
+import { isURL } from 'validator';
 
 export const nameMaxLen = 60;
 export const descriptionMaxLen = 512;
@@ -18,6 +21,7 @@ export default (values) => {
       constraints: '',
       provider: {},
       port_mappings: {},
+      volumes: {},
     }
   };
 
@@ -136,6 +140,59 @@ export default (values) => {
     }
   }
 
+  if (values.properties.volumes && values.properties.volumes.length) {
+    const volumeErrors = [];
+    values.properties.volumes.forEach((volume, index) => {
+      const volumeMapError = {
+        persistent: {},
+      };
+
+      if (!volume.mode) {
+        volumeMapError.mode = 'required';
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (!volume.host_path) {
+        volumeMapError.host_path = 'required';
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (!volume.container_path) {
+        volumeMapError.container_path = 'required';
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (!volume.name) {
+        volumeMapError.name = 'required';
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (volume.name && !isKubernetesVolumeName(volume.name)) {
+        volumeMapError.name = `a DNS-1123 subdomain must consist of lower case alphanumeric characters, \\'-\\' or \\'.\\', and must start and end with an alphanumeric character ${kubernetesVolumeNamePattern}`;
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (volume.persistent && !volume.persistent.size) {
+        volumeMapError.persistent.size = ' ';
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (volume.persistent && !volume.persistent.size > 0) {
+        volumeMapError.persistent.size = 'must be between greater that 0';
+        volumeErrors[index] = volumeMapError;
+      }
+
+      if (volume.host_path &&
+        !isURL(volume.host_path, { require_protocol: false, require_host: false, require_valid_protocol: false })) {
+        volumeMapError.host_path = 'the path must be absolute';
+        volumeErrors[index] = volumeMapError;
+      }
+    });
+
+    if (volumeErrors.length) {
+      errors.properties.volumes = volumeErrors;
+    }
+  }
 
   return errors;
 };

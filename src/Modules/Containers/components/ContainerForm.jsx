@@ -11,7 +11,6 @@ import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
-import { VolumeModal, VolumeListing } from 'Modules/VolumeModal';
 import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
 import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
@@ -28,6 +27,7 @@ import ContainerActions from './ContainerActions';
 import ContainerIcon from './ContainerIcon';
 import ActionsModals from '../ActionModals';
 import PortMappingsForm from './PortMappingsForm';
+import VolumesForm from './VolumesForm';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 const ListButton = styled(Button)`
@@ -55,8 +55,6 @@ const ContainerForm = ({ values, container, ...props }) => {
   return (
     <div>
       <ActionsModals />
-      {/* <PortMapModal networkType={values.properties.network} /> */}
-      <VolumeModal providerType={providerType} />
       <HealthCheckModal />
       <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
       {props.editMode &&
@@ -314,18 +312,17 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>}
 
                     <Col flex={12}>
-                      <Panel title="Volumes" noPadding defaultExpanded={values.properties.volumes.length > 0}>
-                        <ListButton
-                          id="volume-modes"
-                          flat
-                          iconBefore
-                          primary
-                          label="Volume"
-                          onClick={props.showVolumeModal}
-                        >
-                          add
-                        </ListButton>
-                        <VolumeListing editMode={props.editMode} mergeVolumes={values.properties.volumes} />
+                      <Panel
+                        title="Volumes"
+                        noPadding
+                        defaultExpanded={values.properties.volumes.length > 0}
+                      >
+                        <FieldArray
+                          name="properties.volumes"
+                          component={VolumesForm}
+                          providerType={providerType}
+                          volumeFormValues={values.properties.volumes}
+                        />
                       </Panel>
                     </Col>
 
@@ -421,7 +418,6 @@ const ContainerForm = ({ values, container, ...props }) => {
 ContainerForm.propTypes = {
   fetchProvidersByType: PropTypes.func.isRequired,
   showSecretModal: PropTypes.func.isRequired,
-  showVolumeModal: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,
