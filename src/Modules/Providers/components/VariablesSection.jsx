@@ -7,10 +7,10 @@ import Div from 'components/Div';
 import { Panel } from 'components/Panels';
 import PreventAutoFill from 'components/PreventAutoFill';
 
-const ProviderVariablesSection = props => (
+const ProviderVariablesSection = ({ envSchemaPending }) => (
   <Row gutter={5}>
     <PreventAutoFill />
-    <Col flex={6} xs={12} sm={12} component={Div} disabled={props.envSchemaPending}>
+    <Col flex={6} xs={12} sm={12} component={Div} disabled={envSchemaPending}>
       <Panel title="Public Variables" noPadding>
         <FieldArray
           component={UnixVariablesForm}
@@ -18,7 +18,7 @@ const ProviderVariablesSection = props => (
         />
       </Panel>
     </Col>
-    <Col flex={6} xs={12} sm={12} component={Div} disabled={props.envSchemaPending}>
+    <Col flex={6} xs={12} sm={12} component={Div} disabled={envSchemaPending}>
       <Panel title="Private Variables" noPadding>
         <FieldArray
           component={UnixVariablesForm}

@@ -57,14 +57,12 @@ const ContainerForm = ({ values, container, ...props }) => {
       <ActionsModals />
       <HealthCheckModal />
       <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
-      {props.editMode &&
-        <Row gutter={5} center>
-          <Col flex={props.inlineMode ? 12 : 10} xs={12} sm={12} md={12}>
-            <DetailsPane model={container} noShadow={props.inlineMode} />
-          </Col>
-        </Row>}
       <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={isPending}>
         <Row gutter={5} center>
+          {props.editMode &&
+            <Col flex={props.inlineMode ? 12 : 10}>
+              <DetailsPane model={container} />
+            </Col>}
           <Col
             flex={props.inlineMode ? 12 : 10}
             xs={12}
@@ -85,42 +83,46 @@ const ContainerForm = ({ values, container, ...props }) => {
               />
               {!props.inlineMode &&
                 <ActionsToolbar>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    disabled={props.containerPending || props.submitting}
-                    component={Link}
-                    to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/containers`}
-                  >
-                    {props.cancelLabel}
-                  </Button>
+                  <Row>
+                    <Col flex={12}>
+                      <Button
+                        flat
+                        iconChildren="arrow_back"
+                        disabled={props.containerPending || props.submitting}
+                        component={Link}
+                        to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/containers`}
+                      >
+                        {props.cancelLabel}
+                      </Button>
 
-                  {selectedProvider.id &&
-                    <Button
-                      raised
-                      iconChildren="save"
-                      type="submit"
-                      disabled={isSubmitDisabled}
-                      primary
-                    >
-                      {props.submitLabel}
-                    </Button>}
-                  {props.editMode &&
-                    <Button
-                      key="container--entitlements"
-                      flat
-                      iconChildren="security"
-                      onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, container.id, 'containers', 'Container')}
-                    >
-                      Container Entitlements
-                    </Button>}
-                  {props.editMode &&
-                    <ContainerActions
-                      inContainerView
-                      containerModel={container}
-                      disableDestroy={props.inlineMode}
-                      disablePromote={props.inlineMode}
-                    />}
+                      {selectedProvider.id &&
+                        <Button
+                          raised
+                          iconChildren="save"
+                          type="submit"
+                          disabled={isSubmitDisabled}
+                          primary
+                        >
+                          {props.submitLabel}
+                        </Button>}
+                      {props.editMode &&
+                        <Button
+                          key="container--entitlements"
+                          flat
+                          iconChildren="security"
+                          onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, container.id, 'containers', 'Container')}
+                        >
+                          Container Entitlements
+                        </Button>}
+                      {props.editMode &&
+                        <ContainerActions
+                          inContainerView
+                          containerModel={container}
+                          disableDestroy={props.inlineMode}
+                          disablePromote={props.inlineMode}
+                        />}
+                    </Col>
+                  </Row>
                 </ActionsToolbar>}
               {isPending && <ActivityContainer id="container-form-loading" />}
 
@@ -169,7 +171,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                       />
                     </Col>
                     <Col flex={6} xs={12} sm={12}>
-                      <Panel title="Resources" minHeight="13.75em">
+                      <Panel title="Resources" minHeight="13.75em" expandable={false}>
                         <Row gutter={5}>
                           <Col flex={9} xs={12}>
                             <Field
@@ -232,7 +234,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                       </Panel>
                     </Col>
                     <Col flex={6} xs={12} sm={12}>
-                      <Panel title="Command" noPadding>
+                      <Panel title="Command" noPadding expandable={false}>
                         <Field
                           component={AceEditor}
                           mode="sh"
@@ -261,7 +263,12 @@ const ContainerForm = ({ values, container, ...props }) => {
                     {/* disabled for provider containers "inline mode" */}
                     {props.editMode && !props.inlineMode &&
                     <Col flex={12}>
-                      <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding>
+                      <Panel
+                        title="Public Endpoints"
+                        pending={props.apiEndpointsPending}
+                        noPadding
+                        count={props.apiEndpoints.length}
+                      >
                         <APIEndpointInlineList
                           endpoints={props.apiEndpoints}
                           onAddEndpoint={() => props.showAPIEndpointWizardModal(props.match.params, container.id, 'container', values.properties.port_mappings)}
@@ -275,8 +282,9 @@ const ContainerForm = ({ values, container, ...props }) => {
                     {hasInstances &&
                       <Col flex={6} xs={12} sm={12}>
                         <Panel
-                          title={`Instances (${props.containerInstances.length}/${container.properties.num_instances})`}
+                          title="Instances"
                           noPadding
+                          count={container.properties.instances && container.properties.instances.length}
                         >
                           <ContainerInstances
                             instances={props.containerInstances}
@@ -287,7 +295,11 @@ const ContainerForm = ({ values, container, ...props }) => {
                       </Col>}
                     {hasServiceAddresses &&
                       <Col flex={6} xs={12} sm={12}>
-                        <Panel title="Service Instances" noPadding>
+                        <Panel
+                          title="Service Instances"
+                          noPadding
+                          count={props.containerServiceAddresses && props.containerServiceAddresses.length}
+                        >
                           <ContainerServiceAddresses
                             serviceAddresses={props.containerServiceAddresses}
                           />
@@ -301,6 +313,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                         title="Port Mappings"
                         noPadding
                         defaultExpanded={values.properties.port_mappings.length > 0}
+                        count={values.properties.port_mappings.length}
                       >
                         <FieldArray
                           name="properties.port_mappings"
@@ -316,6 +329,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                         title="Volumes"
                         noPadding
                         defaultExpanded={values.properties.volumes.length > 0}
+                        count={values.properties.volumes.length}
                       >
                         <FieldArray
                           name="properties.volumes"
@@ -328,7 +342,12 @@ const ContainerForm = ({ values, container, ...props }) => {
 
                     {isSecretsEnabled &&
                     <Col flex={12}>
-                      <Panel title="Secrets" noPadding defaultExpanded={values.properties.secrets.length > 0}>
+                      <Panel
+                        title="Secrets"
+                        noPadding
+                        defaultExpanded={values.properties.secrets.length > 0}
+                        count={values.properties.secrets.length}
+                      >
                         <ListButton
                           id="secret-modal"
                           flat
@@ -344,7 +363,12 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>}
 
                     <Col flex={12}>
-                      <Panel title="Environment Variables" defaultExpanded={values.properties.env.length > 0} noPadding>
+                      <Panel
+                        title="Environment Variables"
+                        defaultExpanded={values.properties.env.length > 0}
+                        noPadding
+                        count={values.properties.env.length}
+                      >
                         <FieldArray
                           component={UnixVariablesForm}
                           name="properties.env"
@@ -353,7 +377,12 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>
 
                     <Col flex={12}>
-                      <Panel title="Labels" defaultExpanded={values.properties.labels.length > 0} noPadding>
+                      <Panel
+                        title="Labels"
+                        defaultExpanded={values.properties.labels.length > 0}
+                        noPadding
+                        count={values.properties.labels.length}
+                      >
                         <FieldArray
                           component={LabelsForm}
                           name="properties.labels"
@@ -364,7 +393,12 @@ const ContainerForm = ({ values, container, ...props }) => {
                     {/* TODO: Implement for Kubernetes/Docker when api is ready */}
                     {isHealthChecksEnabled &&
                     <Col flex={12}>
-                      <Panel title="Health Checks" noPadding defaultExpanded={values.properties.health_checks.length > 0}>
+                      <Panel
+                        title="Health Checks"
+                        noPadding
+                        defaultExpanded={values.properties.health_checks.length > 0}
+                        count={values.properties.health_checks.length}
+                      >
                         <ListButton
                           id="health-checks"
                           flat
@@ -380,7 +414,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>}
 
                     <Col flex={12}>
-                      <Panel title="Optional" defaultExpanded={false}>
+                      <Panel title="Advanced" defaultExpanded={false}>
                         <Field
                           component={TextField}
                           name="properties.constraints"
@@ -441,6 +475,7 @@ ContainerForm.propTypes = {
   containerServiceAddresses: PropTypes.array,
   portMappingFormValues: PropTypes.array.isRequired,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
+  formErrors: PropTypes.object.isRequired,
 };
 
 ContainerForm.defaultProps = {

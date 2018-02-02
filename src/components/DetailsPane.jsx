@@ -3,17 +3,11 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
-import Card from 'react-md/lib/Cards/Card';
-import CardText from 'react-md/lib/Cards/CardText';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
 import StatusBubble from 'components/StatusBubble';
 import { ClipboardButton } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
-
-const CardStyle = styled(({ noShadow, ...rest }) => <Card {...rest} />) `
-  ${props => props.noShadow && 'box-shadow: none'};
-`;
 
 const ContainsButtonsStyle = styled.div`
   button {
@@ -29,19 +23,22 @@ const ContainsButtonsStyle = styled.div`
   }
 `;
 
-const CardTextStyle = styled(CardText)`
-  padding-bottom: 0!important;
+const Content = styled.div`
+  text-align: center;
+`;
+
+const StatusStyle = styled.div`
+  display: inline-block;
 `;
 
 const DetailPane = (props) => {
   const { model } = props;
 
   return (
-    <CardStyle noShadow={props.noShadow}>
-      {model.id &&
-      <CardTextStyle>
-        <Row gutter={6} columnDivisions={24}>
-          <Col flex={6} xs={24} sm={12} md={12}>
+    model.id ?
+      <Content>
+        <Row gutter={6}>
+          <Col flex={4} xs={12} sm={6} md={6}>
             <ContainsButtonsStyle>
               <Label>UUID</Label>
               <ClipboardButton
@@ -57,7 +54,7 @@ const DetailPane = (props) => {
             </div>
           </Col>
 
-          <Col flex={6} xs={24} sm={12} md={12}>
+          <Col flex={4} xs={12} sm={6} md={6}>
             <div>
               <Label>Created</Label>
               {model.created.timestamp &&
@@ -74,30 +71,27 @@ const DetailPane = (props) => {
             </div>
           </Col>
 
-          <Col flex={6} xs={24} sm={12} md={12}>
+          <Col flex={4} xs={12} sm={6} md={6}>
             <div>
               <Label>Resource Type</Label>
               <H4>{model.resource_type}</H4>
             </div>
-            <div>
+            <StatusStyle>
               <Label>Resource State</Label>
               <StatusBubble status={getLastFromSplit(model.resource_state)} />
-            </div>
+            </StatusStyle>
           </Col>
         </Row>
-      </CardTextStyle>}
-    </CardStyle>
+      </Content> : null
   );
 };
 
 DetailPane.propTypes = {
   model: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  noShadow: PropTypes.bool,
 };
 
 DetailPane.defaultProps = {
   model: {},
-  noShadow: false,
 };
 
 export default DetailPane;

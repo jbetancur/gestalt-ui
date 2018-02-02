@@ -1,18 +1,21 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
-import { Title } from 'components/Typography';
+import styled, { withTheme, css } from 'styled-components';
 import DotActivity from 'components/DotActivity';
 import Header from '../components/Header';
 import Content from '../components/Content';
-import ExpanderIcon from '../components/ExpanderIcon';
 
 const PanelWrapper = styled.div`
   width: 100%;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  ${props => !props.error && !props.noShadow && 'box-shadow: 0 1px 1px 0 rgba(0,0,0,.1), 0 1px 1px 0 rgba(0,0,0,.1), 0 0 1px -4px rgba(0,0,0,.2)'};
+  ${props => props.error && css`
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1), 0 1px 1px 0 rgba(0,0,0,.1), 0 0 1px -4px rgba(0,0,0,.2);
+  box-shadow: 0 0px 3px 0 ${props.theme.colors['$md-red-500']},
+  0 1px 3px 0 ${props.theme.colors['$md-red-500']},
+  0 2px 3px -4px ${props.theme.colors['$md-red-500']};`};
 `;
 
-class Panel extends Component {
+class Panel extends PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
@@ -24,6 +27,9 @@ class Panel extends Component {
     minHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     pending: PropTypes.bool,
     expandable: PropTypes.bool,
+    count: PropTypes.number,
+    error: PropTypes.bool,
+    noShadow: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -33,6 +39,9 @@ class Panel extends Component {
     children: null,
     pending: false,
     expandable: true,
+    count: 0,
+    error: false,
+    noShadow: false,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -40,14 +49,17 @@ class Panel extends Component {
   toggle = () => this.setState({ isExpanded: !this.state.isExpanded });
 
   render() {
-    const { title, noPadding, minHeight, pending, children, expandable } = this.props;
+    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow } = this.props;
 
     return (
-      <PanelWrapper>
-        <Header onClick={expandable && this.toggle} expandable={expandable}>
-          {expandable && <ExpanderIcon isExpanded={this.state.isExpanded}>expand_more</ExpanderIcon>}
-          <Title>{title}</Title>
-        </Header>
+      <PanelWrapper error={error} noShadow={noShadow}>
+        <Header
+          title={title}
+          onClick={expandable && this.toggle}
+          expandable={expandable}
+          expanded={this.state.isExpanded}
+          count={count}
+        />
         <Content
           isExpanded={this.state.isExpanded}
           noPadding={noPadding}

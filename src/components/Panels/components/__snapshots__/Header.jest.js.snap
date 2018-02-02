@@ -1,34 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Panels) Header renders with a title 1`] = `
-.c0 {
-  padding-left: 14px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  box-sizing: border-box;
-  height: 4em;
-  background-color: #fafafa;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  font-weight: 700;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.c0:hover {
-  cursor: pointer;
-}
-
-<header
-  className="c0"
-  title="gazobazorb"
-/>
+<Header__HeaderStyle
+  expandable={true}
+  onClick={null}
+>
+  <Row
+    alignContent="stretch"
+    alignItems="stretch"
+    center={true}
+    className=""
+    columnDivisions={12}
+    component="div"
+    debug={false}
+    direction="row"
+    fill={true}
+    gutter={1}
+    height=""
+    justifyContent="flex-start"
+    minColWidths={false}
+    padding=""
+    paddingBottom=""
+    paddingLeft=""
+    paddingRight=""
+    paddingTop=""
+    style={Object {}}
+    wrap="nowrap"
+  >
+    <Header__TitleSection
+      flex={12}
+    >
+      <WithTheme(ExpanderIcon)
+        isExpanded={true}
+      >
+        expand_more
+      </WithTheme(ExpanderIcon)>
+      <Header__Title
+        small={true}
+      >
+        gazobazorb
+      </Header__Title>
+    </Header__TitleSection>
+  </Row>
+</Header__HeaderStyle>
 `;
