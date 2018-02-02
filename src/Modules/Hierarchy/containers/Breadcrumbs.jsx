@@ -31,7 +31,7 @@ const BreadIcon = Icon.extend`
   }
 `;
 
-const IconSeparator = styled(FontIcon)`
+const IconSeparator = styled(({ size, ...rest }) => <FontIcon {...rest} />)`
   font-size: ${props => `${props.size}px`};
   line-height: 35px;
 `;

@@ -107,9 +107,9 @@ export const getEditContainerModelAsSpec = createSelector(
         image: container.properties.image,
         cmd: container.properties.cmd,
         user: container.properties.user,
-        port_mappings: container.properties.port_mappings,
+        port_mappings: container.properties.port_mappings || [],
         health_checks: merge(container.properties.health_checks || [], healthChecks),
-        volumes: container.properties.volumes,
+        volumes: container.properties.volumes || [],
         secrets: merge(container.properties.secrets || [], secrets),
       },
     };

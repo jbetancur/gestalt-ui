@@ -20,8 +20,8 @@ export default (values) => {
       accepted_resource_roles: '',
       constraints: '',
       provider: {},
-      port_mappings: {},
-      volumes: {},
+      port_mappings: [],
+      volumes: [],
     }
   };
 

@@ -3,7 +3,8 @@ import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
 
 const ExpanderIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
-  padding: .5em;
+  margin-left: 3px;
+  margin-right: 3px;
   transition: transform 100ms ease;
   transform: ${props => (props.isExpanded ? 'rotate(0)' : 'rotate(-90deg)')};
 `;

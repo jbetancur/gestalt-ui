@@ -41,6 +41,7 @@ const SecuritySection = props => (
             name="properties.config.auth.private_key"
             label="Private Key"
             rows={1}
+            maxRows={4}
             required
           />
         </Col>

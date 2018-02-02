@@ -51,22 +51,20 @@ const LambdaForm = (props) => {
 
   // Since runtime values can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
   const uniqueExecutors = props.executorsDropDown.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
-  const lambdaPaneTitle = props.editMode ? `Lambda Function: ${toTitleCase(values.properties.runtime)}` : 'Lambda Function';
+  const lambdaPaneTitle = props.editMode ? `Function: ${toTitleCase(values.properties.runtime)}` : 'Function';
 
   return (
     <div>
-      {lambda.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <DetailsPane model={lambda} />
-          </Col>
-        </Row>}
       <Form
         onSubmit={props.handleSubmit(props.onSubmit)}
         autoComplete="off"
         disabled={props.lambdaPending}
       >
         <Row gutter={5} center>
+          {lambda.id &&
+            <Col flex={10} xs={12} sm={12} md={12}>
+              <DetailsPane model={lambda} />
+            </Col>}
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle
               title={props.title}
@@ -157,7 +155,7 @@ const LambdaForm = (props) => {
 
               <Row gutter={5}>
                 <Col flex={12}>
-                  <Panel title="Description" defaultExpanded={!!lambda.description}>
+                  <Panel title="Description" defaultExpanded={!!lambda.description} >
                     <Field
                       component={TextField}
                       name="description"
@@ -171,7 +169,7 @@ const LambdaForm = (props) => {
 
                 {props.editMode &&
                 <Col flex={12}>
-                  <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding>
+                  <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding count={props.apiEndpoints.length}>
                     <APIEndpointInlineList
                       endpoints={props.apiEndpoints}
                       onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
@@ -284,7 +282,7 @@ const LambdaForm = (props) => {
                 </Col>
 
                 <Col flex={12}>
-                  <Panel title="Environment Variables" noPadding>
+                  <Panel title="Environment Variables" noPadding count={values.properties.env.length}>
                     <FieldArray
                       component={UnixVariablesForm}
                       name="properties.env"
@@ -292,8 +290,50 @@ const LambdaForm = (props) => {
                   </Panel>
                 </Col>
 
-                <Col flex={6} xs={12} sm={12}>
-                  <Panel title="Advanced">
+                <Col flex={12}>
+                  <Panel title="Periodic Configuration">
+                    <Row gutter={5}>
+                      <Col flex={4} xs={12} sm={12} md={6}>
+                        <Field
+                          component={TextField}
+                          name="properties.periodic_info.schedule"
+                          label="Schedule"
+                          helpText="Date and time format - ISO 8601"
+                          type="text"
+                        />
+                      </Col>
+                      <Col flex={4} xs={12} sm={12} md={6}>
+                        <Field
+                          id="periodic-timezone"
+                          component={SelectField}
+                          name="properties.periodic_info.timezone"
+                          label="Timezone"
+                          menuItems={timezones}
+                        />
+                      </Col>
+                      <Col flex={4} xs={12} sm={12} md={12}>
+                        <Field
+                          component={TextField}
+                          name="properties.periodic_info.payload.eventName"
+                          label="Event Name"
+                          type="text"
+                        />
+                      </Col>
+                      <Col flex={12} xs={12} sm={12} md={12}>
+                        <Field
+                          component={TextField}
+                          name="properties.periodic_info.payload.data"
+                          label="json payload"
+                          type="text"
+                          rows={2}
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel title="Advanced" defaultExpanded={false}>
                     <Row gutter={5}>
                       <Col flex={3} xs={6} sm={6}>
                         <Field
@@ -341,47 +381,6 @@ const LambdaForm = (props) => {
                           // TODO: Find out why redux-form state for bool doesn't apply
                           checked={values.properties.public}
                           label="Public"
-                        />
-                      </Col>
-                    </Row>
-                  </Panel>
-                </Col>
-                <Col flex={6} xs={12} sm={12}>
-                  <Panel title="Periodic Configuration">
-                    <Row gutter={5}>
-                      <Col flex={4} xs={12} sm={12} md={6}>
-                        <Field
-                          component={TextField}
-                          name="properties.periodic_info.schedule"
-                          label="Schedule"
-                          helpText="Date and time format - ISO 8601"
-                          type="text"
-                        />
-                      </Col>
-                      <Col flex={4} xs={12} sm={12} md={6}>
-                        <Field
-                          id="periodic-timezone"
-                          component={SelectField}
-                          name="properties.periodic_info.timezone"
-                          label="Timezone"
-                          menuItems={timezones}
-                        />
-                      </Col>
-                      <Col flex={4} xs={12} sm={12} md={12}>
-                        <Field
-                          component={TextField}
-                          name="properties.periodic_info.payload.eventName"
-                          label="Event Name"
-                          type="text"
-                        />
-                      </Col>
-                      <Col flex={12} xs={12} sm={12} md={12}>
-                        <Field
-                          component={TextField}
-                          name="properties.periodic_info.payload.data"
-                          label="json payload"
-                          type="text"
-                          rows={2}
                         />
                       </Col>
                     </Row>

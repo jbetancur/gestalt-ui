@@ -10,6 +10,7 @@ import en from 'react-intl/locale-data/en';
 // import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
 import ErrorNotifications from 'Modules/ErrorNotifications';
+import ModalRoot from 'Modules/ModalRoot';
 import NotFound from 'components/NotFound';
 import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
@@ -53,6 +54,7 @@ const Root = () => (
       <IntlProvider locale={language}>
         <I18nextProvider i18n={i18n}>
           <div id="app-wrapper">
+            <ModalRoot />
             <ErrorNotifications />
             <ConnectedRouter history={history}>
               <Switch>

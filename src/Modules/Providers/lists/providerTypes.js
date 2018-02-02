@@ -13,6 +13,8 @@ const uiProviderTypes = [
     DCOSEnterprise: true,
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
+    allowAdvanced: true,
+    allowEnvVariables: false,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
@@ -23,6 +25,8 @@ const uiProviderTypes = [
     externalProtocol: true,
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
+    allowAdvanced: true,
+    allowEnvVariables: false,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
@@ -33,6 +37,8 @@ const uiProviderTypes = [
     externalProtocol: true,
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
+    allowAdvanced: true,
+    allowEnvVariables: false,
   },
   {
     name: 'Gestalt::Configuration::Provider::Kong',
@@ -43,6 +49,7 @@ const uiProviderTypes = [
     externalProtocol: true,
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
+    allowAdvanced: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::GatewayManager',
@@ -53,6 +60,7 @@ const uiProviderTypes = [
     externalProtocol: false,
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
+    allowAdvanced: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Security',
@@ -123,47 +131,47 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::NodeJS',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Nashorn',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Scala',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Java',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Ruby',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Python',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::CSharp',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::GoLang',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::Bash',
-    allowLinkedProviders: true,
+    allowLinkedProviders: false,
     allowedRestrictEnvironments: true,
   },
 ];
@@ -191,6 +199,9 @@ export const generateResourceTypeSchema = (resourceTypes) => {
       name: r.name,
       type: r.name,
       allowedRestrictEnvironments: true,
+      allowLinkedProviders: false,
+      allowEnvVariables: true,
+      allowAdvanced: false,
       ...uiProviderTypes.find(i => i.name === r.name)
     }));
 

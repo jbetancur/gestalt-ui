@@ -69,7 +69,7 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
   }
 
   // Handle our container Form and map to the provider payload
-  if (Object.keys(containerValues).length) {
+  if (Object.keys(containerValues).length && containerValues.properties.provider.id) {
     const containerServicepayload = {
       init: {
         binding: 'eager',

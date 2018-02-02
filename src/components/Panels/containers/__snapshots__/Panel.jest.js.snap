@@ -3,25 +3,19 @@
 exports[`(Panels) Panel renders component activity status when pending 1`] = `
 .c0 {
   width: 100%;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
 <div
   className="c0"
 >
   <WithTheme(Header)
+    count={0}
     expandable={true}
+    expanded={true}
     onClick={[Function]}
-  >
-    <WithTheme(ExpanderIcon)
-      isExpanded={true}
-    >
-      expand_more
-    </WithTheme(ExpanderIcon)>
-    <WithTheme(Title__TitleStyle)>
-      gazobazorb
-    </WithTheme(Title__TitleStyle)>
-  </WithTheme(Header)>
+    title="gazobazorb"
+  />
   <WithTheme(Content)
     isExpanded={true}
     minHeight={false}
@@ -40,25 +34,19 @@ exports[`(Panels) Panel renders component activity status when pending 1`] = `
 exports[`(Panels) Panel renders component with basic props 1`] = `
 .c0 {
   width: 100%;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
 <div
   className="c0"
 >
   <WithTheme(Header)
+    count={0}
     expandable={true}
+    expanded={true}
     onClick={[Function]}
-  >
-    <WithTheme(ExpanderIcon)
-      isExpanded={true}
-    >
-      expand_more
-    </WithTheme(ExpanderIcon)>
-    <WithTheme(Title__TitleStyle)>
-      gazobazorb
-    </WithTheme(Title__TitleStyle)>
-  </WithTheme(Header)>
+    title="gazobazorb"
+  />
   <WithTheme(Content)
     isExpanded={true}
     minHeight={false}
@@ -70,25 +58,19 @@ exports[`(Panels) Panel renders component with basic props 1`] = `
 exports[`(Panels) Panel renders component with children 1`] = `
 .c0 {
   width: 100%;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
 <div
   className="c0"
 >
   <WithTheme(Header)
+    count={0}
     expandable={true}
+    expanded={true}
     onClick={[Function]}
-  >
-    <WithTheme(ExpanderIcon)
-      isExpanded={true}
-    >
-      expand_more
-    </WithTheme(ExpanderIcon)>
-    <WithTheme(Title__TitleStyle)>
-      gazobazorb
-    </WithTheme(Title__TitleStyle)>
-  </WithTheme(Header)>
+    title="gazobazorb"
+  />
   <WithTheme(Content)
     isExpanded={true}
     minHeight={false}
@@ -104,25 +86,19 @@ exports[`(Panels) Panel renders component with children 1`] = `
 exports[`(Panels) Panel renders component with minHeight prop 1`] = `
 .c0 {
   width: 100%;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
 <div
   className="c0"
 >
   <WithTheme(Header)
+    count={0}
     expandable={true}
+    expanded={true}
     onClick={[Function]}
-  >
-    <WithTheme(ExpanderIcon)
-      isExpanded={true}
-    >
-      expand_more
-    </WithTheme(ExpanderIcon)>
-    <WithTheme(Title__TitleStyle)>
-      gazobazorb
-    </WithTheme(Title__TitleStyle)>
-  </WithTheme(Header)>
+    title="gazobazorb"
+  />
   <WithTheme(Content)
     isExpanded={true}
     minHeight="10em"
@@ -134,25 +110,19 @@ exports[`(Panels) Panel renders component with minHeight prop 1`] = `
 exports[`(Panels) Panel renders component with noPadding prop 1`] = `
 .c0 {
   width: 100%;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
 <div
   className="c0"
 >
   <WithTheme(Header)
+    count={0}
     expandable={true}
+    expanded={true}
     onClick={[Function]}
-  >
-    <WithTheme(ExpanderIcon)
-      isExpanded={true}
-    >
-      expand_more
-    </WithTheme(ExpanderIcon)>
-    <WithTheme(Title__TitleStyle)>
-      gazobazorb
-    </WithTheme(Title__TitleStyle)>
-  </WithTheme(Header)>
+    title="gazobazorb"
+  />
   <WithTheme(Content)
     isExpanded={true}
     minHeight={false}
