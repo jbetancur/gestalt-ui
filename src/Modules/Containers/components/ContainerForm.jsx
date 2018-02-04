@@ -127,9 +127,9 @@ const ContainerForm = ({ values, container, ...props }) => {
               {isPending && <ActivityContainer id="container-form-loading" />}
 
               <CardText>
-                <Row gutter={5}>
-                  {!values.properties.provider.id &&
-                    <Col flex={12} xs={12}>
+                {!values.properties.provider.id &&
+                  <Row gutter={5}>
+                    <Col flex={12}>
                       <Field
                         id="select-provider"
                         component={SelectField}
@@ -141,58 +141,58 @@ const ContainerForm = ({ values, container, ...props }) => {
                         menuItems={props.providersByType}
                         async
                       />
-                    </Col>}
-                  {values.properties.provider.id &&
+                    </Col>
+                  </Row>}
+
+                {values.properties.provider.id &&
                   <Row gutter={5}>
-                    <Col flex={6} xs={12}>
-                      <Field
-                        id="container-name"
-                        component={TextField}
-                        name="name"
-                        label="Name"
-                        type="text"
-                        required
-                        maxLength={nameMaxLen}
-                        disabled={props.editMode}
-                      />
-                    </Col>
-                    <Col flex={6} xs={12}>
-                      <Field
-                        id="select-network"
-                        component={SelectField}
-                        name="properties.network"
-                        menuItems={selectedProvider.properties.config.networks}
-                        disabled={!selectedProvider.properties.config.networks.length}
-                        label={!selectedProvider.properties.config.networks.length ? 'No Configured Networks' : 'Network'}
-                        itemLabel="name"
-                        itemValue="name"
-                        required
-                        helpText="Select a network to configure port mappings"
-                      />
-                    </Col>
-                    <Col flex={6} xs={12} sm={12}>
-                      <Panel title="Resources" minHeight="13.75em" expandable={false}>
+
+                    {selectedProvider.id && hasInstances &&
+                      <Col flex={12}>
+                        <Panel
+                          title="Running Instances"
+                          noPadding
+                          count={container.properties.instances && container.properties.instances.length}
+                        >
+                          <ContainerInstances
+                            instances={props.containerInstances}
+                            providerType={providerType}
+                            containerModel={container}
+                          />
+                        </Panel>
+                      </Col>}
+
+                    {selectedProvider.id && hasServiceAddresses &&
+                      <Col flex={12}>
+                        <Panel
+                          title="Service Addresses"
+                          noPadding
+                          count={props.containerServiceAddresses && props.containerServiceAddresses.length}
+                        >
+                          <ContainerServiceAddresses
+                            serviceAddresses={props.containerServiceAddresses}
+                          />
+                        </Panel>
+                      </Col>}
+
+                    <Col flex={12}>
+                      <Panel title="General" expandable={false}>
                         <Row gutter={5}>
-                          <Col flex={9} xs={12}>
+                          <Col flex={6} xs={12}>
                             <Field
+                              id="container-name"
                               component={TextField}
-                              name="properties.image"
-                              label="Image"
+                              name="name"
+                              label="Name"
                               type="text"
                               required
+                              maxLength={nameMaxLen}
+                              disabled={props.editMode}
+                              helpText="the name of the container"
                             />
                           </Col>
-                          <Col flex={3} xs={12} sm={12}>
-                            <Field
-                              id="force_pull"
-                              component={Checkbox}
-                              name="properties.force_pull"
-                              // TODO: Find out why redux-form state for bool doesn't apply
-                              checked={values.properties.force_pull}
-                              label="Force Pull Image"
-                            />
-                          </Col>
-                          <Col flex={3} xs={12}>
+
+                          <Col flex={2} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.num_instances"
@@ -205,7 +205,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                               helpText="0 = suspended"
                             />
                           </Col>
-                          <Col flex={3} xs={12}>
+                          <Col flex={2} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.cpus"
@@ -218,7 +218,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                               parse={value => Number(value)} // redux form formats everything as string, so force number
                             />
                           </Col>
-                          <Col flex={3} xs={12}>
+                          <Col flex={2} xs={12}>
                             <Field
                               component={TextField}
                               name="properties.memory"
@@ -230,24 +230,80 @@ const ContainerForm = ({ values, container, ...props }) => {
                               normalize={fixInputNumber}
                             />
                           </Col>
+
+                          <Col flex={10} xs={12}>
+                            <Field
+                              component={TextField}
+                              name="properties.image"
+                              label="Image"
+                              type="text"
+                              required
+                              helpText="e.g. nginx:alpine"
+                            />
+                          </Col>
+
+                          <Col flex={2} xs={12}>
+                            <Field
+                              id="force_pull"
+                              component={Checkbox}
+                              name="properties.force_pull"
+                              // TODO: Find out why redux-form state for bool doesn't apply
+                              checked={values.properties.force_pull}
+                              label="Force Pull"
+                            />
+                          </Col>
                         </Row>
                       </Panel>
                     </Col>
-                    <Col flex={6} xs={12} sm={12}>
-                      <Panel title="Command" noPadding expandable={false}>
+
+                    <Col flex={12}>
+                      <Panel
+                        title="Networking"
+                        expandable={false}
+                      >
+                        <Row gutter={5}>
+                          <Col flex={6} xs={12}>
+                            <Field
+                              id="select-network"
+                              component={SelectField}
+                              name="properties.network"
+                              menuItems={selectedProvider.properties.config.networks}
+                              disabled={!selectedProvider.properties.config.networks.length}
+                              label={!selectedProvider.properties.config.networks.length ? 'No Configured Network Types' : 'Network Type'}
+                              itemLabel="name"
+                              itemValue="name"
+                              required
+                              helpText="Select a network to configure port mappings"
+                            />
+                          </Col>
+                        </Row>
+                        {values.properties.network &&
+                        <Panel title="Service Mappings" noPadding count={values.properties.port_mappings.length}>
+                          <FieldArray
+                            name="properties.port_mappings"
+                            component={PortMappingsForm}
+                            networkType={values.properties.network}
+                            portMappingFormValues={values.properties.port_mappings}
+                          />
+                        </Panel>}
+                      </Panel>
+                    </Col>
+
+                    <Col flex={12}>
+                      <Panel title="Command" noPadding>
                         <Field
                           component={AceEditor}
                           mode="sh"
                           theme="chrome"
                           name="properties.cmd"
-                          maxLines={12}
-                          minLines={12}
+                          maxLines={10}
+                          minLines={5}
                         />
                       </Panel>
                     </Col>
 
                     <Col flex={12}>
-                      <Panel title="Description" defaultExpanded={!!container.description}>
+                      <Panel title="Container Description" defaultExpanded={!!container.description}>
                         <Field
                           id="container-description"
                           component={TextField}
@@ -275,54 +331,34 @@ const ContainerForm = ({ values, container, ...props }) => {
                         />
                       </Panel>
                     </Col>}
-                  </Row>}
 
-                  {selectedProvider.id &&
-                  <Row gutter={5}>
-                    {hasInstances &&
-                      <Col flex={6} xs={12} sm={12}>
-                        <Panel
-                          title="Instances"
-                          noPadding
-                          count={container.properties.instances && container.properties.instances.length}
-                        >
-                          <ContainerInstances
-                            instances={props.containerInstances}
-                            providerType={providerType}
-                            containerModel={container}
-                          />
-                        </Panel>
-                      </Col>}
-                    {hasServiceAddresses &&
-                      <Col flex={6} xs={12} sm={12}>
-                        <Panel
-                          title="Service Instances"
-                          noPadding
-                          count={props.containerServiceAddresses && props.containerServiceAddresses.length}
-                        >
-                          <ContainerServiceAddresses
-                            serviceAddresses={props.containerServiceAddresses}
-                          />
-                        </Panel>
-                      </Col>
-                    }
-
-                    {values.properties.network &&
                     <Col flex={12}>
                       <Panel
-                        title="Port Mappings"
+                        title="Environment Variables"
+                        defaultExpanded={values.properties.env.length > 0}
                         noPadding
-                        defaultExpanded={values.properties.port_mappings.length > 0}
-                        count={values.properties.port_mappings.length}
+                        count={values.properties.env.length}
                       >
                         <FieldArray
-                          name="properties.port_mappings"
-                          component={PortMappingsForm}
-                          networkType={values.properties.network}
-                          portMappingFormValues={values.properties.port_mappings}
+                          component={UnixVariablesForm}
+                          name="properties.env"
                         />
                       </Panel>
-                    </Col>}
+                    </Col>
+
+                    <Col flex={12}>
+                      <Panel
+                        title="Labels"
+                        defaultExpanded={values.properties.labels.length > 0}
+                        noPadding
+                        count={values.properties.labels.length}
+                      >
+                        <FieldArray
+                          component={LabelsForm}
+                          name="properties.labels"
+                        />
+                      </Panel>
+                    </Col>
 
                     <Col flex={12}>
                       <Panel
@@ -361,34 +397,6 @@ const ContainerForm = ({ values, container, ...props }) => {
                         <SecretsPanelList editMode={props.editMode} mergeSecrets={values.properties.secrets} />
                       </Panel>
                     </Col>}
-
-                    <Col flex={12}>
-                      <Panel
-                        title="Environment Variables"
-                        defaultExpanded={values.properties.env.length > 0}
-                        noPadding
-                        count={values.properties.env.length}
-                      >
-                        <FieldArray
-                          component={UnixVariablesForm}
-                          name="properties.env"
-                        />
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel
-                        title="Labels"
-                        defaultExpanded={values.properties.labels.length > 0}
-                        noPadding
-                        count={values.properties.labels.length}
-                      >
-                        <FieldArray
-                          component={LabelsForm}
-                          name="properties.labels"
-                        />
-                      </Panel>
-                    </Col>
 
                     {/* TODO: Implement for Kubernetes/Docker when api is ready */}
                     {isHealthChecksEnabled &&
@@ -439,7 +447,6 @@ const ContainerForm = ({ values, container, ...props }) => {
                       </Panel>
                     </Col>
                   </Row>}
-                </Row>
               </CardText>
             </Card>
           </Col>

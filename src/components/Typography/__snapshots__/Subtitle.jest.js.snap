@@ -3,7 +3,7 @@
 exports[`(Component) Subtitle renders with basic props 1`] = `
 .c0 {
   font-size: 13px;
-  color: #616161;
+  color: #757575;
 }
 
 <div

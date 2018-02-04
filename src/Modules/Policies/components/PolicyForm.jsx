@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import { Card, CardTitle, CardText, LinearProgress, MenuButton, ListItem } from 'react-md';
+import { Card, CardTitle, CardText, MenuButton, ListItem } from 'react-md';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
+import Form from 'components/Form';
+import ActivityContainer from 'components/ActivityContainer';
 import { PolicyRules } from 'Modules/PolicyRules';
 import { nameMaxLen } from '../validations';
 import policyTypes from '../lists/policyTypes';
@@ -19,7 +21,6 @@ const PolicyForm = (props) => {
     policyPending,
     policy,
     onSubmit,
-    invalid,
     pristine,
     submitting,
     handleSubmit,
@@ -40,7 +41,7 @@ const PolicyForm = (props) => {
     ));
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyPending}>
       {policy.id &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12} md={12}>
@@ -64,7 +65,7 @@ const PolicyForm = (props) => {
               raised
               iconChildren="save"
               type="submit"
-              disabled={pristine || policyPending || invalid || submitting}
+              disabled={pristine || policyPending || submitting}
               primary
             >
               {submitLabel}
@@ -82,20 +83,29 @@ const PolicyForm = (props) => {
                 Add Policy Rule
               </MenuButton>}
           </ActionsToolbar>
-          {policyPending && <LinearProgress id="policy-form" />}
+
+          {policyPending && <ActivityContainer id="policy-form" />}
+
           <CardText>
             <Row gutter={5}>
-              <Col flex={5} xs={12}>
-                <Field
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  maxLength={nameMaxLen}
-                  autoComplete="none"
-                />
+              <Col flex={12}>
+                <Panel title="General" expandable={false}>
+                  <Row gutter={5}>
+                    <Col flex={5} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="name"
+                        label="Name"
+                        type="text"
+                        required
+                        maxLength={nameMaxLen}
+                        autoComplete="none"
+                      />
+                    </Col>
+                  </Row>
+                </Panel>
               </Col>
+
               <Col flex={12}>
                 <Panel title="Description" defaultExpanded={!!policy.description}>
                   <Field
@@ -118,7 +128,7 @@ const PolicyForm = (props) => {
             </Col>
           </Row>}
       </Row>
-    </form>
+    </Form>
   );
 };
 

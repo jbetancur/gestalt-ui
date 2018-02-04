@@ -52,7 +52,7 @@ class EditResourceType extends PureComponent {
 
     return (
       <div>
-        {resourceTypePending ?
+        {resourceTypePending && !resourceType.id ?
           <ActivityContainer id="resourceType-loading" /> :
           <ResourceTypeForm
             title={resourceType.name}

@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray, getFormValues } from 'redux-form';
-import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { Card, CardTitle, CardText } from 'react-md';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
+import ActivityContainer from 'components/ActivityContainer';
+import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from './SecretItemsForm';
 import { nameMaxLen } from '../validations';
@@ -20,7 +22,6 @@ const SecretForm = (props) => {
     secretPending,
     secret,
     onSubmit,
-    invalid,
     pristine,
     submitting,
     handleSubmit,
@@ -38,7 +39,7 @@ const SecretForm = (props) => {
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={secretPending}>
       {secret.id &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12} md={12}>
@@ -62,41 +63,49 @@ const SecretForm = (props) => {
               raised
               iconChildren="save"
               type="submit"
-              disabled={pristine || secretPending || invalid || submitting}
+              disabled={pristine || secretPending || submitting}
               primary
             >
               {submitLabel}
             </Button>
           </ActionsToolbar>
-          {secretPending && <LinearProgress id="secret-form-loading" />}
+
+          {secretPending && <ActivityContainer id="secret-form-loading" />}
+
           <CardText>
             <Row gutter={5}>
-              <Col flex={6} xs={12}>
-                <Field
-                  id="select-provider"
-                  component={SelectField}
-                  name="properties.provider.id"
-                  label="Provider"
-                  itemLabel="name"
-                  itemValue="id"
-                  menuItems={providerTypes}
-                  disabled={secret.id}
-                  onChange={reset}
-                  required
-                  async
-                />
-              </Col>
+              <Col flex={12}>
+                <Panel title="General" expandable={false}>
+                  <Row gutter={5}>
+                    <Col flex={6} xs={12}>
+                      <Field
+                        id="select-provider"
+                        component={SelectField}
+                        name="properties.provider.id"
+                        label="Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={providerTypes}
+                        disabled={secret.id}
+                        onChange={reset}
+                        required
+                        async
+                      />
+                    </Col>
 
-              <Col flex={6} xs={12}>
-                <Field
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                  maxLength={nameMaxLen}
-                  autoComplete="none"
-                />
+                    <Col flex={6} xs={12}>
+                      <Field
+                        component={TextField}
+                        name="name"
+                        label="Name"
+                        type="text"
+                        required
+                        maxLength={nameMaxLen}
+                        autoComplete="none"
+                      />
+                    </Col>
+                  </Row>
+                </Panel>
               </Col>
 
               <Col flex={12}>
@@ -126,7 +135,7 @@ const SecretForm = (props) => {
           </CardText>
         </Col>
       </Row>
-    </form>
+    </Form>
   );
 };
 
@@ -137,7 +146,6 @@ SecretForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
   providersByType: PropTypes.array.isRequired,

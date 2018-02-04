@@ -25,7 +25,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
         iconChildren="add"
         onClick={() => fields.push(initialValues)}
       >
-        Port Mapping
+        Service Mapping
       </Button>
     </FieldItem>
     {fields.map((member, index) => {
@@ -42,7 +42,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
                 name={`${member}.expose_endpoint`}
                 component={Checkbox}
                 checked={field.expose_endpoint}
-                label="Expose Service Endpoint"
+                label="Enabled"
               />
             </Col>
             <Col flex>
