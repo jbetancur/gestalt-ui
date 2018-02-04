@@ -16,10 +16,10 @@ class ContainerServiceAddresses extends PureComponent {
         <TableColumn>
           {port.service_address.host}
         </TableColumn>
-        <TableColumn numeric>
+        <TableColumn>
           {port.service_address.port === 0 ? 'auto' : port.service_address.port}
         </TableColumn>
-        <TableColumn numeric>
+        <TableColumn>
           {port.service_address.protocol}
         </TableColumn>
       </TableRow>

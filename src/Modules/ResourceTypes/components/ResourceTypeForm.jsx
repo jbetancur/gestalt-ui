@@ -8,16 +8,18 @@ import { Panel } from 'components/Panels';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
+import Form from 'components/Form';
+import ActivityContainer from 'components/ActivityContainer';
 import PropertyDefForm from './PropertyDefForm';
 import LineageForm from './LineageForm';
 import ActionVerbsForm from './ActionVerbsForm';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const ResourceTypeForm = (props) => {
-  const { title, handleSubmit, submitting, pristine, resourceTypes, onSubmit, resourceType, editMode } = props;
+  const { title, handleSubmit, submitting, pristine, resourceTypes, onSubmit, resourceType, resourceTypePending, editMode } = props;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={resourceTypePending}>
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
           <Card>
@@ -26,7 +28,7 @@ const ResourceTypeForm = (props) => {
               <Button
                 flat
                 iconChildren="arrow_back"
-                disabled={props.resourceTypePending || props.submitting}
+                disabled={resourceTypePending || props.submitting}
                 component={Link}
                 to="/root/resourcetypes"
               >
@@ -37,51 +39,60 @@ const ResourceTypeForm = (props) => {
                 raised
                 iconChildren="save"
                 type="submit"
-                disabled={submitting || pristine || props.resourceTypePending}
+                disabled={submitting || pristine || resourceTypePending}
               >
                 {editMode ? 'Update' : 'Create'}
               </Button>
             </ActionsToolbar>
+
+            {resourceTypePending && <ActivityContainer id="resourceType-form" />}
+
             <CardContent>
               <Row gutter={5}>
-                <Col flex={4} xs={12} sm={12}>
-                  <Field
-                    component={TextField}
-                    name="name"
-                    label="Name"
-                    maxLength={nameMaxLen}
-                    required
-                  />
-                </Col>
+                <Col flex={12}>
+                  <Panel title="General" expandable={false}>
+                    <Row gutter={5}>
+                      <Col flex={6} xs={12} sm={12}>
+                        <Field
+                          component={TextField}
+                          name="name"
+                          label="Name"
+                          maxLength={nameMaxLen}
+                          required
+                        />
+                      </Col>
 
-                {!editMode &&
-                  <Col flex>
-                    <Field
-                      id="select-extends"
-                      component={SelectField}
-                      name="extend"
-                      menuItems={resourceTypes}
-                      itemLabel="name"
-                      itemValue="id"
-                      required
-                      label="Extend Resource"
-                      async
-                      helpText="Resource Type to extend"
-                    />
-                  </Col>}
+                      {!editMode &&
+                        <Col flex>
+                          <Field
+                            id="select-extends"
+                            component={SelectField}
+                            name="extend"
+                            menuItems={resourceTypes}
+                            itemLabel="name"
+                            itemValue="id"
+                            required
+                            label="Extend Resource"
+                            async
+                            helpText="Resource Type to extend"
+                          />
+                        </Col>}
 
-                <Col flex={1} xs={12} sm={12}>
-                  <Field
-                    id="abstract"
-                    component={Checkbox}
-                    name="properties.abstract"
-                    defaultChecked={resourceType.properties.abstract}
-                    label="Abstract"
-                  />
+                      <Col flex={1} xs={12} sm={12}>
+                        <Field
+                          id="abstract"
+                          component={Checkbox}
+                          name="properties.abstract"
+                          defaultChecked={resourceType.properties.abstract}
+                          label="Abstract"
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
                 </Col>
 
                 <Col flex={12}>
-                  <Panel title="Description">
+                  <Panel title="Description" defaultExpanded={!!resourceType.description}>
                     <Field
                       component={TextField}
                       name="description"
@@ -162,7 +173,7 @@ const ResourceTypeForm = (props) => {
           </Card>
         </Col>
       </Row>
-    </form>
+    </Form>
   );
 };
 

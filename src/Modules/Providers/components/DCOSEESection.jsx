@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import Fieldset from 'components/Fieldset';
+import { Panel } from 'components/Panels';
 import { Checkbox, TextField } from 'components/ReduxFormFields';
 
 const DCOSEESection = props => (
-  <Fieldset legend="Enterprise Edition">
+  <Panel title="Enterprise Edition">
     <Row gutter={5}>
       <Col key="config-auth--appGroupPrefix" flex={2} xs={12} sm={4} md={4}>
         <Field
@@ -78,7 +78,7 @@ const DCOSEESection = props => (
         />
       </Col>
     </Row>
-  </Fieldset>
+  </Panel>
 );
 
 DCOSEESection.propTypes = {

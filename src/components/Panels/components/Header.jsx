@@ -16,7 +16,7 @@ const Title = styled.div`
   display: inline-block;
   font-size: 16px;
   line-height: 20px;
-  color: ${props => props.theme.colors['$md-grey-800']};
+  color: ${props => props.theme.colors['$md-grey-700']};
 `;
 
 const CountSection = styled(Col)`
@@ -36,7 +36,7 @@ const Bubble = styled.div`
 `;
 
 const HeaderStyle = styled.header`
-  ${props => !props.expandable && 'padding-left: 12px'};
+  ${props => !props.expandable && 'padding-left: 8px'};
   height: 4em;
   background-color: ${props => props.theme.colors['$md-grey-50']};
   border-top: 1px solid ${props => props.theme.colors['$md-grey-100']};

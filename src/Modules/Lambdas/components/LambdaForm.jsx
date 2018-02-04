@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import { Field, FieldArray, getFormValues } from 'redux-form';
+import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, SelectField as MDSelectField } from 'react-md';
 import Form from 'components/Form';
@@ -13,10 +13,10 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
+import { Subtitle } from 'components/Typography';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { ActionsMenu } from 'Modules/Actions';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
-import { toTitleCase } from 'util/helpers/strings';
 import runTimes from '../lists/runTimes';
 import acceptHeaders from '../lists/acceptHeaders';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
@@ -45,157 +45,162 @@ const LambdaForm = (props) => {
   const handleSupportsInline = () => {
     const items = getRuntime().codeOptions;
     if (items && items.some(opt => opt.value !== 'code')) {
-      props.dispatch(props.change('properties.code_type', 'package'));
+      props.change('properties.code_type', 'package');
     }
   };
 
   // Since runtime values can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
   const uniqueExecutors = props.executorsDropDown.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
-  const lambdaPaneTitle = props.editMode ? `Function: ${toTitleCase(values.properties.runtime)}` : 'Function';
+  const lambdaPaneTitle = props.editMode ? `Function: ${values.properties.runtime}` : 'Function';
 
   return (
-    <div>
-      <Form
-        onSubmit={props.handleSubmit(props.onSubmit)}
-        autoComplete="off"
-        disabled={props.lambdaPending}
-      >
-        <Row gutter={5} center>
-          {lambda.id &&
-            <Col flex={10} xs={12} sm={12} md={12}>
-              <DetailsPane model={lambda} />
-            </Col>}
-          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-            <CardTitle
-              title={props.title}
-            />
-            <ActionsToolbar>
-              <Row>
-                <Col flex={12}>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    disabled={props.lambdaPending || props.submitting}
-                    component={Link}
-                    to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/lambdas`}
-                  >
-                    {props.cancelLabel}
-                  </Button>
-                  <Button
-                    raised
-                    iconChildren="save"
-                    type="submit"
-                    disabled={props.pristine || props.lambdaPending || props.submitting}
-                    primary
-                  >
-                    {props.submitLabel}
-                  </Button>
-                  {lambda.id &&
-                    [
-                      <Button
-                        key="lambda--log"
-                        flat
-                        iconChildren="subject"
-                        to={{
-                          pathname: '/logs',
-                          search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
-                        }}
-                        target="_blank"
-                        component={Link}
-                      >
-                        View Log
-                      </Button>,
-                      <ActionsMenu
-                        key="lambda--actions"
-                        model={props.lambda}
-                        actionList={props.actions}
-                        pending={props.actionsPending}
-                      />,
-                      <Button
-                        key="lambda--entitlements"
-                        flat
-                        iconChildren="security"
-                        onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, lambda.id, 'lambdas', 'Lambda')}
-                      >
-                        Lambda Entitlements
-                      </Button>
-                    ]}
-                </Col>
-              </Row>
-            </ActionsToolbar>
-            {props.lambdaPending && <ActivityContainer id="lambda-form" />}
+    <Form
+      onSubmit={props.handleSubmit(props.onSubmit)}
+      autoComplete="off"
+      disabled={props.lambdaPending}
+    >
+      <Row gutter={5} center>
+        {lambda.id &&
+          <Col flex={10} xs={12} sm={12} md={12}>
+            <DetailsPane model={lambda} />
+          </Col>}
+        <Col component={Card} flex={10} xs={12} sm={12} md={12}>
+          <CardTitle
+            title={props.title}
+          />
+          <ActionsToolbar>
+            <Row>
+              <Col flex={12}>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={props.lambdaPending || props.submitting}
+                  component={Link}
+                  to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/lambdas`}
+                >
+                  {props.cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={props.pristine || props.lambdaPending || props.submitting}
+                  primary
+                >
+                  {props.submitLabel}
+                </Button>
+                {lambda.id &&
+                  [
+                    <Button
+                      key="lambda--log"
+                      flat
+                      iconChildren="subject"
+                      to={{
+                        pathname: '/logs',
+                        search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
+                      }}
+                      target="_blank"
+                      component={Link}
+                    >
+                      View Log
+                    </Button>,
+                    <ActionsMenu
+                      key="lambda--actions"
+                      model={props.lambda}
+                      actionList={props.actions}
+                      pending={props.actionsPending}
+                    />,
+                    <Button
+                      key="lambda--entitlements"
+                      flat
+                      iconChildren="security"
+                      onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, lambda.id, 'lambdas', 'Lambda')}
+                    >
+                      Lambda Entitlements
+                    </Button>
+                  ]}
+              </Col>
+            </Row>
+          </ActionsToolbar>
 
-            <CardText>
-              <Row gutter={5}>
-                <Col flex={6} xs={12} sm={12}>
-                  <Field
-                    id="select-provider"
-                    component={SelectField}
-                    name="properties.provider.id"
-                    required
-                    label="Lambda Provider"
-                    itemLabel="name"
-                    itemValue="id"
-                    menuItems={props.providersByType}
-                    async
-                    disabled={props.editMode}
-                  />
-                </Col>
-                <Col flex={6} xs={12} sm={12}>
+          {props.lambdaPending && <ActivityContainer id="lambda-form" />}
+
+          <CardText>
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Panel title="General" expandable={false} >
+                  <Row gutter={5}>
+                    <Col flex={6} xs={12} sm={12}>
+                      <Field
+                        id="select-provider"
+                        component={SelectField}
+                        name="properties.provider.id"
+                        required
+                        label="Lambda Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={props.providersByType}
+                        async
+                        disabled={props.editMode}
+                      />
+                    </Col>
+                    <Col flex={6} xs={12} sm={12}>
+                      <Field
+                        component={TextField}
+                        name="name"
+                        label="Lambda Name"
+                        type="text"
+                        required
+                        maxLength={nameMaxLen}
+                      />
+                    </Col>
+                  </Row>
+                </Panel>
+              </Col>
+
+              <Col flex={12}>
+                <Panel title="Description" defaultExpanded={!!lambda.description}>
                   <Field
                     component={TextField}
-                    name="name"
-                    label="Lambda Name"
+                    name="description"
+                    placeholder="Description"
                     type="text"
-                    required
-                    maxLength={nameMaxLen}
+                    rows={1}
+                    maxLength={descriptionMaxLen}
                   />
-                </Col>
-              </Row>
+                </Panel>
+              </Col>
 
-              <Row gutter={5}>
-                <Col flex={12}>
-                  <Panel title="Description" defaultExpanded={!!lambda.description} >
-                    <Field
-                      component={TextField}
-                      name="description"
-                      placeholder="Description"
-                      type="text"
-                      rows={1}
-                      maxLength={descriptionMaxLen}
-                    />
-                  </Panel>
-                </Col>
+              {props.editMode &&
+              <Col flex={12}>
+                <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding count={props.apiEndpoints.length}>
+                  <APIEndpointInlineList
+                    endpoints={props.apiEndpoints}
+                    onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
+                  />
+                </Panel>
+              </Col>}
 
-                {props.editMode &&
-                <Col flex={12}>
-                  <Panel title="Public Endpoints" pending={props.apiEndpointsPending} noPadding count={props.apiEndpoints.length}>
-                    <APIEndpointInlineList
-                      endpoints={props.apiEndpoints}
-                      onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
-                    />
-                  </Panel>
-                </Col>}
-
-                <Col flex={12}>
-                  <Panel title={lambdaPaneTitle}>
-                    <Row gutter={5}>
-                      {!props.editMode &&
-                      <Col flex={3} xs={12} sm={12}>
-                        <Field
-                          id="select-runtime"
-                          component={SelectField}
-                          name="properties.runtime"
-                          menuItems={uniqueExecutors}
-                          itemLabel="name"
-                          itemValue="runtime"
-                          required
-                          label="Runtime"
-                          async
-                          onChange={handleSupportsInline}
-                          disabled={props.editMode}
-                        />
-                      </Col>}
+              <Col flex={12}>
+                <Panel title={lambdaPaneTitle}>
+                  <Row gutter={5}>
+                    {!props.editMode &&
+                    <Col flex={3} xs={12} sm={12}>
+                      <Field
+                        id="select-runtime"
+                        component={SelectField}
+                        name="properties.runtime"
+                        menuItems={uniqueExecutors}
+                        itemLabel="name"
+                        itemValue="runtime"
+                        required
+                        label="Runtime"
+                        async
+                        onChange={handleSupportsInline}
+                        disabled={props.editMode}
+                      />
+                    </Col>}
+                    {!props.editMode &&
                       <Col flex={2} xs={12} sm={12}>
                         <Field
                           id="select-code-type"
@@ -208,190 +213,192 @@ const LambdaForm = (props) => {
                           label="Code Type"
                           disabled={props.editMode}
                         />
-                      </Col>
-                      <Col flex={2} xs={12} sm={12}>
-                        <Field
-                          id="select-return-type"
-                          component={SelectField}
-                          name="properties.headers.Accept"
-                          menuItems={acceptHeaders}
-                          itemLabel="displayName"
-                          itemValue="value"
-                          required
-                          label="Accept Header"
-                        />
-                      </Col>
-                      <Col flex>
-                        <Field
-                          component={TextField}
-                          name="properties.handler"
-                          label="Handler"
-                          helpText={getRuntime().format}
-                          type="text"
-                          required
-                        />
-                      </Col>
-
-                      {values.properties.code_type === 'code' &&
-                        <Row>
-                          <Col flex={2} xs={12} sm={6} md={6}>
-                            <MDSelectField
-                              id="select-code-theme"
-                              label="Editor Theme"
-                              menuItems={['monokai', 'chrome']}
-                              defaultValue={props.theme}
-                              onChange={props.handleTheme}
-                            />
-                          </Col>
-                          <Col flex={12}>
-                            <Field
-                              component={AceEditor}
-                              mode={getRuntime().codeFormat}
-                              theme={props.theme}
-                              name="properties.code"
-                              maxLines={75}
-                              minLines={25}
-                            />
-                          </Col>
-                        </Row>}
-
-                      {values.properties.code_type === 'package' &&
-                      <Col flex={10} xs={12} sm={12}>
-                        <Field
-                          component={TextField}
-                          name="properties.package_url"
-                          label="Package URL"
-                          type="text"
-                          helpText="The url to the package directory or file (if it is zipped)"
-                          required
-                        />
                       </Col>}
-                      {values.properties.code_type === 'package' &&
-                      <Col flex={2} xs={12} sm={12}>
-                        <Field
-                          id="compressed-packageurl"
-                          component={Checkbox}
-                          name="properties.compressed"
-                          label="Compressed Package"
-                          // TODO: Find out why redux-form state for bool doesn't apply
-                          checked={values.properties.compressed}
-                        />
-                      </Col>}
-                    </Row>
-                  </Panel>
-                </Col>
 
-                <Col flex={12}>
-                  <Panel title="Environment Variables" noPadding count={values.properties.env.length}>
-                    <FieldArray
-                      component={UnixVariablesForm}
-                      name="properties.env"
-                    />
-                  </Panel>
-                </Col>
+                    <Col flex={2} xs={12} sm={12}>
+                      <Field
+                        id="select-return-type"
+                        component={SelectField}
+                        name="properties.headers.Accept"
+                        menuItems={acceptHeaders}
+                        itemLabel="displayName"
+                        itemValue="value"
+                        required
+                        label="Accept Header"
+                      />
+                    </Col>
+                    <Col flex>
+                      <Field
+                        component={TextField}
+                        name="properties.handler"
+                        label="Handler"
+                        helpText={getRuntime().format}
+                        type="text"
+                        required
+                      />
+                    </Col>
 
-                <Col flex={12}>
-                  <Panel title="Periodic Configuration">
-                    <Row gutter={5}>
-                      <Col flex={4} xs={12} sm={12} md={6}>
-                        <Field
-                          component={TextField}
-                          name="properties.periodic_info.schedule"
-                          label="Schedule"
-                          helpText="Date and time format - ISO 8601"
-                          type="text"
-                        />
-                      </Col>
-                      <Col flex={4} xs={12} sm={12} md={6}>
-                        <Field
-                          id="periodic-timezone"
-                          component={SelectField}
-                          name="properties.periodic_info.timezone"
-                          label="Timezone"
-                          menuItems={timezones}
-                        />
-                      </Col>
-                      <Col flex={4} xs={12} sm={12} md={12}>
-                        <Field
-                          component={TextField}
-                          name="properties.periodic_info.payload.eventName"
-                          label="Event Name"
-                          type="text"
-                        />
-                      </Col>
-                      <Col flex={12} xs={12} sm={12} md={12}>
-                        <Field
-                          component={TextField}
-                          name="properties.periodic_info.payload.data"
-                          label="json payload"
-                          type="text"
-                          rows={2}
-                        />
-                      </Col>
-                    </Row>
-                  </Panel>
-                </Col>
+                    {values.properties.code_type === 'code' &&
+                      <Row>
+                        <Col flex={2} xs={12} sm={6} md={6}>
+                          <MDSelectField
+                            id="select-code-theme"
+                            label="Editor Theme"
+                            menuItems={['monokai', 'chrome']}
+                            defaultValue={props.theme}
+                            onChange={props.handleTheme}
+                          />
+                        </Col>
+                        <Col flex={12}>
+                          <Field
+                            component={AceEditor}
+                            mode={getRuntime().codeFormat}
+                            theme={props.theme}
+                            name="properties.code"
+                            maxLines={75}
+                            minLines={25}
+                          />
+                        </Col>
+                      </Row>}
 
-                <Col flex={12}>
-                  <Panel title="Advanced" defaultExpanded={false}>
-                    <Row gutter={5}>
-                      <Col flex={3} xs={6} sm={6}>
-                        <Field
-                          component={TextField}
-                          name="properties.cpus"
-                          min={0.1}
-                          max={4.0}
-                          step={0.1}
-                          label="CPU"
-                          type="number"
-                          required
-                          parse={value => Number(value)} // redux form formats everything as string, so force number
-                        />
-                      </Col>
-                      <Col flex={3} xs={6} sm={6}>
-                        <Field
-                          component={TextField}
-                          name="properties.memory"
-                          min={256}
-                          max={2048}
-                          step={256}
-                          label="Memory"
-                          type="number"
-                          required
-                          parse={value => Number(value)} // redux form formats everything as string, so force number
-                        />
-                      </Col>
-                      <Col flex={3} xs={6} sm={6}>
-                        <Field
-                          component={TextField}
-                          name="properties.timeout"
-                          min={1}
-                          step={1}
-                          label="Timeout"
-                          type="number"
-                          required
-                          parse={value => Number(value)} // redux form formats everything as string, so force number
-                        />
-                      </Col>
-                      <Col flex={3} xs={6} sm={6}>
-                        <Field
-                          id="public"
-                          component={Checkbox}
-                          name="properties.public"
-                          // TODO: Find out why redux-form state for bool doesn't apply
-                          checked={values.properties.public}
-                          label="Public"
-                        />
-                      </Col>
-                    </Row>
-                  </Panel>
-                </Col>
-              </Row>
-            </CardText>
-          </Col>
-        </Row>
-      </Form>
-    </div>
+                    {values.properties.code_type === 'package' &&
+                    <Col flex={10} xs={12} sm={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.package_url"
+                        label="Package URL"
+                        type="text"
+                        helpText="The url to the package directory or file (if it is zipped)"
+                        required
+                      />
+                    </Col>}
+                    {values.properties.code_type === 'package' &&
+                    <Col flex={2} xs={12} sm={12}>
+                      <Field
+                        id="compressed-packageurl"
+                        component={Checkbox}
+                        name="properties.compressed"
+                        label="Compressed Package"
+                        // TODO: Find out why redux-form state for bool doesn't apply
+                        checked={values.properties.compressed}
+                      />
+                    </Col>}
+                  </Row>
+                </Panel>
+              </Col>
+
+              <Col flex={12}>
+                <Panel title="Environment Variables" noPadding count={values.properties.env.length}>
+                  <FieldArray
+                    component={UnixVariablesForm}
+                    name="properties.env"
+                  />
+                </Panel>
+              </Col>
+
+              <Col flex={12}>
+                <Panel title="Periodic Configuration">
+                  <Row gutter={5}>
+                    <Col flex={6} xs={12} sm={12} md={6}>
+                      <Field
+                        component={TextField}
+                        name="properties.periodic_info.schedule"
+                        label="Schedule"
+                        helpText="Date and time format - ISO 8601"
+                        type="text"
+                      />
+                    </Col>
+                    <Col flex={3} xs={12} sm={12} md={6}>
+                      <Field
+                        id="periodic-timezone"
+                        component={SelectField}
+                        name="properties.periodic_info.timezone"
+                        label="Timezone"
+                        menuItems={timezones}
+                      />
+                    </Col>
+                    <Col flex={3} xs={12} sm={12} md={12}>
+                      <Field
+                        component={TextField}
+                        name="properties.periodic_info.payload.eventName"
+                        label="Event Name"
+                        type="text"
+                      />
+                    </Col>
+                    <Col flex={12} xs={12} sm={12} md={12}>
+                      <Subtitle>JSON Payload</Subtitle>
+                      <Field
+                        component={AceEditor}
+                        mode="json"
+                        theme="chrome"
+                        name="properties.periodic_info.payload.data"
+                        minLines={5}
+                        maxLines={20}
+                      />
+                    </Col>
+                  </Row>
+                </Panel>
+              </Col>
+
+              <Col flex={12}>
+                <Panel title="Advanced" defaultExpanded={false}>
+                  <Row gutter={5}>
+                    <Col flex={3} xs={6} sm={6}>
+                      <Field
+                        component={TextField}
+                        name="properties.cpus"
+                        min={0.1}
+                        max={4.0}
+                        step={0.1}
+                        label="CPU"
+                        type="number"
+                        required
+                        parse={value => Number(value)} // redux form formats everything as string, so force number
+                      />
+                    </Col>
+                    <Col flex={3} xs={6} sm={6}>
+                      <Field
+                        component={TextField}
+                        name="properties.memory"
+                        min={256}
+                        max={2048}
+                        step={256}
+                        label="Memory"
+                        type="number"
+                        required
+                        parse={value => Number(value)} // redux form formats everything as string, so force number
+                      />
+                    </Col>
+                    <Col flex={3} xs={6} sm={6}>
+                      <Field
+                        component={TextField}
+                        name="properties.timeout"
+                        min={1}
+                        step={1}
+                        label="Timeout"
+                        type="number"
+                        required
+                        parse={value => Number(value)} // redux form formats everything as string, so force number
+                      />
+                    </Col>
+                    <Col flex={3} xs={6} sm={6}>
+                      <Field
+                        id="public"
+                        component={Checkbox}
+                        name="properties.public"
+                        // TODO: Find out why redux-form state for bool doesn't apply
+                        checked={values.properties.public}
+                        label="Public"
+                      />
+                    </Col>
+                  </Row>
+                </Panel>
+              </Col>
+            </Row>
+          </CardText>
+        </Col>
+      </Row>
+    </Form>
   );
 };
 
@@ -404,7 +411,6 @@ LambdaForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
   providersByType: PropTypes.array.isRequired,
   handleTheme: PropTypes.func.isRequired,
@@ -431,8 +437,15 @@ LambdaForm.defaultProps = {
 };
 
 // Connect to this forms state in the store so we can enum the values
+const selector = form => formValueSelector(form);
 export default connect(
   (state, props) => ({
-    values: getFormValues(props.form)(state)
+    values: selector(props.form)(state,
+      'properties.public',
+      'properties.runtime',
+      'properties.code_type',
+      'properties.compressed',
+      'properties.env',
+    ),
   })
 )(LambdaForm);

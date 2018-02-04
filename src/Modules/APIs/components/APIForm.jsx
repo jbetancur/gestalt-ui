@@ -2,25 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Field, getFormValues } from 'redux-form';
-import { Card, CardTitle, CardText, LinearProgress } from 'react-md';
+import { Field } from 'redux-form';
+import { Card, CardTitle, CardText } from 'react-md';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
+import Form from 'components/Form';
+import ActivityContainer from 'components/ActivityContainer';
 import { nameMaxLen } from '../validations';
 
 const APIForm = (props) => {
   const {
     match,
     apiPending,
-    apiUpdatePending,
     api,
     onSubmit,
-    invalid,
     pristine,
     submitting,
     handleSubmit,
@@ -38,7 +37,7 @@ const APIForm = (props) => {
             <DetailsPane model={api} />
           </Col>
         </Row>}
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiPending}>
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle title={title} />
@@ -56,7 +55,7 @@ const APIForm = (props) => {
                 raised
                 iconChildren="save"
                 type="submit"
-                disabled={pristine || apiPending || apiUpdatePending || invalid || submitting}
+                disabled={pristine || apiPending || submitting}
                 primary
               >
                 {submitLabel}
@@ -73,46 +72,43 @@ const APIForm = (props) => {
                 Add Endpoint
               </Button>}
             </ActionsToolbar>
-            {(apiPending || apiUpdatePending) && <LinearProgress id="api-form" />}
+
+            {apiPending && <ActivityContainer id="api-form" />}
+
             <CardText>
               <Row gutter={5}>
-                <Col flex={6} xs={12}>
-                  <Field
-                    id="select-provider"
-                    component={SelectField}
-                    name="properties.provider.locations"
-                    required
-                    label="Provider"
-                    itemLabel="name"
-                    itemValue="id"
-                    menuItems={props.providersKongByGateway}
-                    async
-                    disabled={editMode}
-                  />
+                <Col flex={12}>
+                  <Panel title="General" expandable={false}>
+                    <Row gutter={5}>
+                      <Col flex={6} xs={12}>
+                        <Field
+                          id="select-provider"
+                          component={SelectField}
+                          name="properties.provider.locations"
+                          required
+                          label="Provider"
+                          itemLabel="name"
+                          itemValue="id"
+                          menuItems={props.providersKongByGateway}
+                          async
+                          disabled={editMode}
+                        />
+                      </Col>
+                      <Col flex={6} xs={12}>
+                        <Field
+                          component={TextField}
+                          name="name"
+                          label="Name"
+                          type="text"
+                          required
+                          maxLength={nameMaxLen}
+                          disabled={editMode}
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
                 </Col>
-                {/* {values.properties.provider.id ?
-                  <Field
-                    id="select-location"
-                    component={SelectField}
-                    name="properties.provider.locations"
-                    required
-                    label="Location"
-                    itemLabel="name"
-                    itemValue="id"
 
-                    menuItems={selectedProviderLocations()}
-                  /> : null} */}
-                <Col flex={6} xs={12}>
-                  <Field
-                    component={TextField}
-                    name="name"
-                    label="Name"
-                    type="text"
-                    required
-                    maxLength={nameMaxLen}
-                    disabled={editMode}
-                  />
-                </Col>
                 <Col flex={12}>
                   <Panel title="Description" defaultExpanded={!!api.description}>
                     <Field
@@ -135,7 +131,7 @@ const APIForm = (props) => {
               </Col>
             </Row>}
         </Row>
-      </form>
+      </Form>
     </div>
   );
 };
@@ -146,11 +142,9 @@ APIForm.propTypes = {
   match: PropTypes.object.isRequired,
   api: PropTypes.object.isRequired,
   apiPending: PropTypes.bool.isRequired,
-  apiUpdatePending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
@@ -163,12 +157,8 @@ APIForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
-  apiUpdatePending: false,
 };
 
 // Connect to this forms state in the store so we can enum the values
-export default connect(
-  (state, props) => ({
-    values: getFormValues(props.form)(state)
-  })
-)(APIForm);
+export default APIForm;
+

@@ -75,7 +75,7 @@ const ProviderForm = (props) => {
           <DetailsPane model={provider} />
         </Col>}
         <Card>
-          <Form onSubmit={props.handleSubmit(props.onSubmit)} pending={props.providerPending} autoComplete="off">
+          <Form onSubmit={props.handleSubmit(props.onSubmit)} disabled={props.providerPending} autoComplete="off">
             <Row gutter={5} center>
               <Col
                 flex={12}
@@ -155,38 +155,50 @@ const ProviderForm = (props) => {
                     </Row>
                   </CardText>}
 
-                {selectedProviderType.name &&
-                  <CardText>
-                    {!provider.id && <Row gutter={5}>
-                      <Col flex={6} xs={12}>
-                        <Field
-                          component={TextField}
-                          name="name"
-                          label="Name"
-                          type="text"
-                          required
-                          maxLength={nameMaxLen}
-
-                        />
-                      </Col>
-                    </Row>}
-                    {selectedProviderType.DCOSConfig &&
-                      <URLConfigSection {...props} />}
-
-                    {selectedProviderType.DCOSSecurity &&
-                      <SecuritySection authScheme={values.properties.config.auth && values.properties.config.auth.scheme} {...props} />}
-
-                    {selectedProviderType.DCOSEnterprise &&
-                      <DCOSEESection {...props} />}
-
-                    {selectedProviderType.uploadConfig && !provider.id &&
-                      <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />}
-                  </CardText>}
-
+                {!provider.id && selectedProviderType.name &&
+                  <Row gutter={5}>
+                    <Col flex={12}>
+                      <Panel title="General" expandable={false}>
+                        <Row gutter={5}>
+                          <Col flex={6} xs={12}>
+                            <Field
+                              component={TextField}
+                              name="name"
+                              label="Name"
+                              type="text"
+                              required
+                              maxLength={nameMaxLen}
+                            />
+                          </Col>
+                        </Row>
+                      </Panel>
+                    </Col>
+                  </Row>}
 
                 {selectedProviderType.name &&
                   <Row gutter={5}>
-                    <Col flex={12} xs={12}>
+                    {selectedProviderType.DCOSConfig &&
+                      <Col flex={12}>
+                        <Panel title="Configuration" expandable={false}>
+                          <URLConfigSection {...props} />
+
+                          {selectedProviderType.DCOSSecurity &&
+                            <SecuritySection authScheme={values.properties.config.auth && values.properties.config.auth.scheme} {...props} />}
+                        </Panel>
+                      </Col>}
+
+                    {selectedProviderType.DCOSEnterprise &&
+                      <Col flex={12}>
+                        <DCOSEESection {...props} />
+                      </Col>}
+
+                    {/* do not show on edit mode */}
+                    {selectedProviderType.uploadConfig && !provider.id &&
+                      <Col flex={12}>
+                        <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />
+                      </Col>}
+
+                    <Col flex={12}>
                       <Panel title="Description" defaultExpanded={!!provider.description}>
                         <Field
                           component={TextField}
@@ -211,7 +223,7 @@ const ProviderForm = (props) => {
                       </Col>}
 
                     {selectedProviderType.allowAdvanced &&
-                      <Col flex={12} xs={12}>
+                      <Col flex={12}>
                         <Panel title="Advanced" defaultExpanded={false}>
                           {selectedProviderType.externalProtocol &&
                             <Row gutter={5}>
