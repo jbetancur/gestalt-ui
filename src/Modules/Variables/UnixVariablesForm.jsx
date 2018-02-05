@@ -36,11 +36,12 @@ const UnixVariablesForm = ({ fields, disabled }) => (
         <FieldItem key={index}>
           {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} index={index} />}
           <Row gutter={5}>
-            <Col flex={12}>
+            <Col flex={4} xs={12}>
               <Field
                 name={`${member}.name`}
                 label={fieldNameStr}
-                type="text"
+                rows={isPasswordField ? undefined : 1}
+                maxRows={isPasswordField ? undefined : 4}
                 component={TextField}
                 validate={[validatePattern, required]}
                 disabled={isDisabled}
@@ -48,7 +49,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
                 required
               />
             </Col>
-            <Col flex={12}>
+            <Col flex={8} xs={12}>
               {isPasswordField && <PreventAutoFill key={`${member}--preventautofill`} />}
               <Field
                 name={`${member}.value`}
@@ -56,6 +57,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
                 type={isPasswordField ? 'password' : 'text'}
                 component={TextField}
                 rows={isPasswordField ? undefined : 1}
+                maxRows={isPasswordField ? undefined : 4}
                 autoComplete="off"
                 validate={field.required ? required : []}
                 required={field.required}

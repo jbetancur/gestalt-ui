@@ -24,7 +24,7 @@ const ContainsButtonsStyle = styled.div`
 `;
 
 const Content = styled.div`
-  text-align: center;
+  text-align: left;
 `;
 
 const StatusStyle = styled.div`

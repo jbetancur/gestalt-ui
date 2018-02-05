@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, ClipboardButton } from 'components/Buttons';
+import { Button } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableColumnTimestamp } from 'components/Tables';
 import { getLastFromSplit } from 'util/helpers/strings';
 
@@ -10,7 +10,6 @@ class ContainerInstances extends PureComponent {
     instances: PropTypes.array.isRequired,
     containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    providerType: PropTypes.string,
   };
 
   static defaultProps = {
@@ -18,18 +17,11 @@ class ContainerInstances extends PureComponent {
   };
 
   renderInstancesRows() {
-    const { match, instances, providerType, containerModel } = this.props;
+    const { match, instances, containerModel } = this.props;
 
     return instances.map((item, i) => (
       <TableRow key={i}>
         <TableColumn>
-          {providerType === 'Kubernetes' &&
-          <ClipboardButton
-            showLabel={false}
-            text={`fog console ${match.params.environmentId} ${item.id}`}
-            tooltipLabel="Copy console access cmd"
-            tooltipPosition="right"
-          />}
           <Button
             icon
             iconChildren="subject"
@@ -63,7 +55,7 @@ class ContainerInstances extends PureComponent {
       <DataTable plain>
         <TableHeader>
           <TableRow>
-            <TableColumn style={{ width: '140px' }} />
+            <TableColumn />
             <TableColumn>Container IPs</TableColumn>
             <TableColumn>Host IP</TableColumn>
             <TableColumn>Host Port</TableColumn>
@@ -78,11 +70,7 @@ class ContainerInstances extends PureComponent {
   }
 
   render() {
-    return (
-      <div>
-        {(this.props.instances && Object.keys(this.props.instances).length) ? this.renderInstancesTable() : null}
-      </div>
-    );
+    return (this.props.instances && Object.keys(this.props.instances).length) ? this.renderInstancesTable() : null;
   }
 }
 
