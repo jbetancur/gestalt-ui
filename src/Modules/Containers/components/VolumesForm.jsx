@@ -29,7 +29,7 @@ const VolumesForm = ({ fields, providerType }) => (
     </FieldItem>
     {fields.map((member, index) => {
       const field = fields.get(index);
-      const selectedVolumeType = volumeTypes[providerType].find(type => field.type === type.type);
+      const selectedVolumeType = volumeTypes[providerType] && volumeTypes[providerType].find(type => field.type === type.type);
 
       return (
         <FieldItem key={`portmapping-${index}`}>

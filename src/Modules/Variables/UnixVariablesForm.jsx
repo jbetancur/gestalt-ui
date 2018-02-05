@@ -36,7 +36,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
         <FieldItem key={index}>
           {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} index={index} />}
           <Row gutter={5}>
-            <Col flex={4} xs={12}>
+            <Col flex={4} xs={12} sm={12}>
               <Field
                 name={`${member}.name`}
                 label={fieldNameStr}
@@ -49,7 +49,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
                 required
               />
             </Col>
-            <Col flex={8} xs={12}>
+            <Col flex={8} xs={12} sm={12}>
               {isPasswordField && <PreventAutoFill key={`${member}--preventautofill`} />}
               <Field
                 name={`${member}.value`}

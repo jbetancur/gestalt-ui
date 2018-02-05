@@ -55,18 +55,6 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
                 required
               />
             </Col>
-            <Col flex={1} xs={12} sm={12} md={2}>
-              <Field
-                id={`${member}.protocol`}
-                name={`${member}.protocol`}
-                component={SelectField}
-                label="Protocol"
-                itemLabel="displayName"
-                itemValue="value"
-                menuItems={networkProtocols}
-                required
-              />
-            </Col>
             {(networkType !== 'HOST') &&
               <Col flex={2} xs={12} sm={12} md={2}>
                 <Field
@@ -94,6 +82,18 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
                   helpText="0=auto-assign"
                 />
               </Col>}
+            <Col flex={1} xs={12} sm={12} md={2}>
+              <Field
+                id={`${member}.protocol`}
+                name={`${member}.protocol`}
+                component={SelectField}
+                label="Protocol"
+                itemLabel="displayName"
+                itemValue="value"
+                menuItems={networkProtocols}
+                required
+              />
+            </Col>
             {field.expose_endpoint &&
             <Col flex={5} xs={12} sm={12} md={10}>
               <Field
