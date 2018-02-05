@@ -9,14 +9,16 @@ const EnhancedTCol = styled(TableColumn)`
   cursor: pointer;
 `;
 const EnhancedTableColumn = props => (
-  props.timestamp &&
   <EnhancedTCol>
+    {props.timestamp &&
     <div>
-      <FormattedRelative value={props.timestamp} />
-    </div>
-    <Caption>
-      <FormattedDate value={props.timestamp} /> <FormattedTime value={props.timestamp} />
-    </Caption>
+      <div>
+        <FormattedRelative value={props.timestamp} />
+      </div>
+      <Caption>
+        <FormattedDate value={props.timestamp} /> <FormattedTime value={props.timestamp} />
+      </Caption>
+    </div>}
   </EnhancedTCol>
 );
 

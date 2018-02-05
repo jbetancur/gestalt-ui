@@ -69,6 +69,11 @@ class ContainerEdit extends Component {
         this.startPoll();
       }
 
+      // stop polling if the container is destroyed
+      if (!nextProps.container.id) {
+        clearTimeout(this.timeout);
+      }
+
       // TODO: temporary until we support all providers
       if (!this.secretsPolled && getLastFromSplit(nextProps.container.properties.provider.resource_type) !== 'Docker') {
         this.secretsPolled = true;

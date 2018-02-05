@@ -23,10 +23,8 @@ class ContainerInstances extends PureComponent {
       <TableRow key={i}>
         <TableColumn>
           <Button
-            icon
-            iconChildren="subject"
-            tooltipLabel="View Log"
-            tooltipPosition="right"
+            flat
+            primary
             to={{
               pathname: '/logs',
               search: `?name=${containerModel.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${containerModel.properties.provider.id}&providerType=${getLastFromSplit(containerModel.properties.provider.resource_type)}&logType=container&logId=${item.id}`

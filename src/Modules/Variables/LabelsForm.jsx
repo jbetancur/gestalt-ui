@@ -26,7 +26,7 @@ const LabelsForm = ({ fields }) => (
       <FieldItem key={index}>
         <RemoveButton onRemove={fields.remove} index={index} />
         <Row gutter={5}>
-          <Col flex={4} xs={12}>
+          <Col flex={4} xs={12} sm={12}>
             <Field
               name={`${member}.name`}
               label="name"
@@ -36,7 +36,7 @@ const LabelsForm = ({ fields }) => (
               autoComplete="off"
             />
           </Col>
-          <Col flex={8} xs={12}>
+          <Col flex={8} xs={12} sm={12}>
             <Field
               name={`${member}.value`}
               label="value"

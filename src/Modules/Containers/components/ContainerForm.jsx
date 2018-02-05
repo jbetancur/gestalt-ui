@@ -290,20 +290,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>
 
                     <Col flex={12}>
-                      <Panel title="Command" noPadding>
-                        <Field
-                          component={AceEditor}
-                          mode="sh"
-                          theme="chrome"
-                          name="properties.cmd"
-                          maxLines={10}
-                          minLines={5}
-                        />
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel title="Container Description" defaultExpanded={!!container.description}>
+                      <Panel title="Description" defaultExpanded={!!container.description}>
                         <Field
                           id="container-description"
                           component={TextField}
@@ -312,6 +299,19 @@ const ContainerForm = ({ values, container, ...props }) => {
                           type="text"
                           maxLength={descriptionMaxLen}
                           rows={1}
+                        />
+                      </Panel>
+                    </Col>
+
+                    <Col flex={12}>
+                      <Panel title="Command" noPadding defaultExpanded={!!container.properties.cmd}>
+                        <Field
+                          component={AceEditor}
+                          mode="sh"
+                          theme="chrome"
+                          name="properties.cmd"
+                          maxLines={10}
+                          minLines={5}
                         />
                       </Panel>
                     </Col>
