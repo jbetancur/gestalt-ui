@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled, { ThemeProvider } from 'styled-components';
+import { Container, Col, Row } from 'react-flexybox';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { loadStorage } from 'util/helpers/localstorage';
 import actions from '../actions';
-import LoginPage from '../components/LoginPage';
+import LoginForm from '../components/LoginForm';
+import LoginFooter from './LoginFooter';
+import lightTheme from '../../../themes/light';
 
 const validate = (values) => {
   const errors = {};
@@ -19,6 +23,13 @@ const validate = (values) => {
 
   return errors;
 };
+
+const Wrapper = styled(Container)`
+  position: relative;
+  padding-bottom: 4em;
+  background-image: -webkit-radial-gradient(circle, ${props => props.theme.colors['$md-blue-300']} 0, ${props => props.theme.colors['$md-blue-700']} 100%);
+  height: 100%;
+`;
 
 class LoginContainer extends Component {
   static propTypes = {
@@ -44,22 +55,26 @@ class LoginContainer extends Component {
 
   render() {
     return (
-      <LoginPage
-        onSubmit={this.submitLogin}
-        {...this.props}
-      />
+      <ThemeProvider theme={lightTheme}>
+        <Wrapper fluid>
+          <Row center fill>
+            <Col flex={4} xs={12} sm={8} md={5}>
+              <LoginForm onSubmit={this.submitLogin} {...this.props} />
+            </Col>
+          </Row>
+          <LoginFooter />
+        </Wrapper>
+      </ThemeProvider>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    token: state.login.login.token,
-    isAuthenticating: state.login.login.isAuthenticating,
-    statusText: state.login.login.statusText,
-    loginModal: state.login.loginModal,
-  };
-}
+const mapStateToProps = state => ({
+  token: state.login.login.token,
+  isAuthenticating: state.login.login.isAuthenticating,
+  statusText: state.login.login.statusText,
+  loginModal: state.login.loginModal,
+});
 
 export default connect(mapStateToProps, actions)(reduxForm({
   form: 'login',

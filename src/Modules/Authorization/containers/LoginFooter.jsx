@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Col, Row } from 'react-flexybox';
 import { GalacticFogIcon } from 'components/Icons';
-import { COMPANY_URL, COMPANY_TITLE } from '../../../../constants';
+import { COMPANY_URL, COMPANY_TITLE } from '../../../constants';
 
 const Wrapper = styled.div`
     position: fixed;
@@ -32,7 +32,7 @@ const A = styled.a`
 `;
 
 const CompanyName = styled.span`
-  color: ${props => props.theme.fontColorInverse};
+  color: white;
   font-family: lovelo, Ubuntu;
 `;
 

@@ -7,7 +7,7 @@ import { licenseActions } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
 import ActivityContainer from 'components/ActivityContainer';
 import OrgNavMenu from 'Modules/OrgNavMenu';
-import { loginActions } from 'Modules/Auth';
+import { loginActions } from 'Modules/Authorization';
 import { metaActions } from 'Modules/MetaResource';
 import Main from './components/Main';
 import AppError from './components/AppError';

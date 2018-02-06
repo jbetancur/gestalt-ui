@@ -16,7 +16,7 @@ import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
 import AppContainer from './App/AppContainer';
-import { LoginContainer, restricted } from './Modules/Auth';
+import { LoginContainer, restricted } from './Modules/Authorization';
 import Logging from './Modules/Logging';
 import lightTheme from './themes/light';
 import './scss/style.scss';
