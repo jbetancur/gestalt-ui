@@ -2,12 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import styled, { withTheme } from 'styled-components';
+import styled, { withTheme, keyframes } from 'styled-components';
 import DotActivity from 'components/DotActivity';
 import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
 import { GestaltIcon } from 'components/Icons';
 import { APP_TITLE } from '../../../constants';
+
+const autofill = keyframes`
+  to {
+    background: transparent;
+    color: inherit;
+  }
+`;
 
 const TextFieldStyle = styled(TextField)`
   * {
@@ -24,14 +31,6 @@ const TextFieldStyle = styled(TextField)`
     }
   }
 
-  input:-webkit-autofill {
-    border-radius: 2px;
-  }
-
-  .md-divider--text-field {
-    margin-top: 3px;
-  }
-
   .md-divider--text-field:after {
     background: white;
   }
@@ -43,6 +42,25 @@ const TextFieldStyle = styled(TextField)`
   .md-password-btn.md-password-btn {
     height: 32px;
     width: 32px;
+  }
+
+  /* Hack for chrome & safari autofill ugliness */
+  input:-webkit-autofill,
+  input:-webkit-autofill:active,
+  input:-webkit-autofill:focus,
+  input.md-text-field:-webkit-autofill,
+  input.md-text-field:-webkit-autofill:active,
+  input.md-text-field:-webkit-autofill:focus {
+    box-shadow: none;
+    transition: background-color 10000s ease-in-out 0s;
+    -webkit-animation-name: ${autofill};
+    -webkit-animation-fill-mode: both;
+    -webkit-text-fill-color: white;
+
+    /* Only Target Chrome 29+ as this causes issues with Safari */
+    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
+      -webkit-text-fill-color: white;
+    }
   }
 `;
 
@@ -107,6 +125,7 @@ const LoginForm = ({ submitting, handleSubmit, onSubmit, isAuthenticating, statu
       <form onSubmit={handleSubmit(onSubmit)}>
         <LoginCardText>
           <Field
+            id="login--username"
             component={TextFieldStyle}
             name="username"
             type="text"
@@ -116,6 +135,7 @@ const LoginForm = ({ submitting, handleSubmit, onSubmit, isAuthenticating, statu
             spellCheck="false"
           />
           <Field
+            id="login--password"
             component={TextFieldStyle}
             name="password"
             type="password"
@@ -130,7 +150,7 @@ const LoginForm = ({ submitting, handleSubmit, onSubmit, isAuthenticating, statu
           <Row justifyContent="center">
             <Col flex={12}>
               <LoginButton
-                id="login-button"
+                id="login--submit"
                 raised
                 primary
                 type="submit"
