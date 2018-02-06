@@ -24,7 +24,7 @@ const LabelsForm = ({ fields }) => (
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={index}>
-        <RemoveButton onRemove={fields.remove} index={index} />
+        <RemoveButton onRemove={fields.remove} index={index} tabindex="-1" />
         <Row gutter={5}>
           <Col flex={4} xs={12} sm={12}>
             <Field

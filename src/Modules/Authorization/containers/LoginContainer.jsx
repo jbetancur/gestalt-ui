@@ -27,7 +27,7 @@ const validate = (values) => {
 const Wrapper = styled(Container)`
   position: relative;
   padding-bottom: 72px;
-  background-image: -webkit-radial-gradient(circle, ${props => props.theme.colors['$md-blue-300']} 0, ${props => props.theme.colors['$md-blue-900']} 100%);
+  background-image: -webkit-radial-gradient(circle, ${props => props.theme.colors['$md-blue-400']} 0, ${props => props.theme.colors['$md-blue-900']} 100%);
   height: 100%;
 `;
 

@@ -17,7 +17,7 @@ const TextFieldStyle = styled(TextField)`
   input {
     background: rgba(0, 0, 0, 0)!important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    padding: 3px;
+    padding: 2px;
 
     &::placeholder {
       color: white;
