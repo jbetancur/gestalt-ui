@@ -26,8 +26,8 @@ const validate = (values) => {
 
 const Wrapper = styled(Container)`
   position: relative;
-  padding-bottom: 4em;
-  background-image: -webkit-radial-gradient(circle, ${props => props.theme.colors['$md-blue-300']} 0, ${props => props.theme.colors['$md-blue-700']} 100%);
+  padding-bottom: 72px;
+  background-image: -webkit-radial-gradient(circle, ${props => props.theme.colors['$md-blue-300']} 0, ${props => props.theme.colors['$md-blue-900']} 100%);
   height: 100%;
 `;
 
@@ -58,7 +58,7 @@ class LoginContainer extends Component {
       <ThemeProvider theme={lightTheme}>
         <Wrapper fluid>
           <Row center fill>
-            <Col flex={4} xs={12} sm={8} md={5}>
+            <Col flex={3} xs={12} sm={8} md={5}>
               <LoginForm onSubmit={this.submitLogin} {...this.props} />
             </Col>
           </Row>

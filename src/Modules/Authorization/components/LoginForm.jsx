@@ -58,11 +58,10 @@ const LoginCardHeader = styled.div`
   color: white;
   text-align: center;
   line-height: 42px;
-  font-size: 16px;
 
   span {
     display: block;
-    font-size: 18px;
+    font-size: 20px;
     font-family: lovelo, Ubuntu;
   }
 `;
@@ -102,7 +101,7 @@ const LoginForm = ({ submitting, handleSubmit, onSubmit, isAuthenticating, statu
     <div>
       {statusText && <Error>{statusText}</Error>}
       <LoginCardHeader>
-        <GestaltIcon size={42} />
+        <GestaltIcon size={52} />
         <span>{APP_TITLE}</span>
       </LoginCardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
