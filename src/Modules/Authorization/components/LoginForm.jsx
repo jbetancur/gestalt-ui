@@ -39,7 +39,7 @@ const TextFieldStyle = styled(TextField)`
     background: white;
   }
 
-  .md-password-btn.md-password-btn {
+  .md-password-btn {
     height: 32px;
     width: 32px;
   }
@@ -56,11 +56,7 @@ const TextFieldStyle = styled(TextField)`
     -webkit-animation-name: ${autofill};
     -webkit-animation-fill-mode: both;
     -webkit-text-fill-color: white;
-
-    /* Only Target Chrome 29+ as this causes issues with Safari */
-    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
-      -webkit-text-fill-color: white;
-    }
+    caret-color: white;
   }
 `;
 
