@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
         ...state,
         count: action.payload.count,
         showTitle: action.payload.showTitle,
-        items: action.payload.items,
+        items: action.payload.items
       };
     default:
       return state;

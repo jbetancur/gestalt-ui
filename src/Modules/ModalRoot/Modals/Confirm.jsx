@@ -75,12 +75,13 @@ class ConfirmModal extends PureComponent {
     actionButtons.push(<ConfirmButton flat primary onClick={this.doIt} disabled={isConfirmDisabled}>{this.props.proceedLabel}</ConfirmButton>);
     actionButtons.push({ primary: true, children: this.props.cancelLabel, onClick: this.props.hideModal });
 
+    const title = this.props.multipleItems.length ? `${this.props.title} (${this.props.multipleItems.length})` : this.props.title;
     return (
       <EnhancedDialog
         id="confirmation-modal"
         contentStyle={{ maxHeight: '10em' }}
         visible={this.props.modal.visible}
-        title={this.props.title}
+        title={title}
         defaultVisibleTransitionable
         autosizeContent={false}
         onHide={this.props.hideModal}

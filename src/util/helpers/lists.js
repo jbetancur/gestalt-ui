@@ -16,28 +16,6 @@ export function sort(arr, key, ascending) {
   return list;
 }
 
-export function toggleHandler(row, toggled, count, selectedItems, list) {
-  let items = selectedItems.slice();
-
-  if (row > -1 && toggled) {
-    items.push(list[row]);
-  }
-
-  if (row > -1 && !toggled) {
-    items.splice(list[row], 1);
-  }
-
-  if (count === list.length && toggled) {
-    items = list;
-  }
-
-  if (count === 0 && !toggled) {
-    items = [];
-  }
-
-  return items;
-}
-
 export function insertItem(array, item) {
   return [...array, item];
 }
@@ -54,4 +32,24 @@ export function removeItemById(array, id) {
   newArray.splice(newArray.findIndex(a => a.id === id), 1);
 
   return newArray;
+}
+
+export function toggleHandler(row, toggled, count, selectedItems, allItems) {
+  if (row > -1 && toggled) {
+    return insertItem(selectedItems, allItems[row]);
+  }
+
+  if (row > -1 && !toggled) {
+    return removeItem(selectedItems, allItems[row]);
+  }
+
+  if (count === allItems.length && toggled) {
+    return allItems;
+  }
+
+  if (count === 0 && !toggled) {
+    return [];
+  }
+
+  return [];
 }
