@@ -5,8 +5,8 @@ import styled from 'styled-components';
 const PStyle = styled.p`
   display: block;
   line-height: 16px;
-  padding: 1em;
-  color: ${props => props.theme.fontColorLight};
+  padding: 8px;
+  color: ${props => props.theme.colors['$md-grey-800']};
   font-size: ${props => `${props.fontSize}px`};
 `;
 
