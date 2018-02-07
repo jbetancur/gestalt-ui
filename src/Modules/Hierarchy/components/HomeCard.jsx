@@ -10,10 +10,14 @@ const HomeCardBase = styled(Card) `
   border-radius: 2px;
 `;
 
-const CartTitleStyle = styled(CardTitle)`
+const CardTitleStyle = styled(CardTitle)`
   h2 {
     font-size: 18px;
   }
+`;
+
+const CardTextStyle = styled(CardText)`
+  min-height: 125px;
 `;
 
 const CardActionsStyle = styled(CardActions)`
@@ -28,15 +32,15 @@ const CardStyle = HomeCardBase.extend`
 
 const HomeCard = props => (
   <CardStyle color={props.iconColor} gradient={props.iconGradient}>
-    <CartTitleStyle
+    <CardTitleStyle
       title={props.title}
       avatar={props.icon}
     />
-    <CardText>
+    <CardTextStyle>
       <P>
         {props.children}
       </P>
-    </CardText>
+    </CardTextStyle>
 
     <CardActionsStyle>
       {props.createURL && <Button flat primary component={Link} to={props.createURL}>Create</Button>}
