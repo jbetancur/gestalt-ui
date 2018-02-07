@@ -15,7 +15,7 @@ const EnhancedLink = styled(Link)`
 
   &:hover {
     text-decoration: none;
-    color: ${props => props.theme.colors['$md-blue-300']};
+    color: ${props => props.theme.colors['$md-grey-800']};
   }
 `;
 
@@ -66,11 +66,11 @@ const Wrapper = styled.div`
 
   ${props => props.lastIsActive && css`
     a:last-child {
-      color: ${props.theme.colors['$md-grey-800']};
+      color: ${props.theme.colors['$md-blue-500']};
 
-      // &:hover {
-      //   color: ${props.theme.colors['$md-blue-500']};
-      // }
+      &:hover {
+        color: ${props.theme.colors['$md-blue-400']};
+      }
     }
   `};
 `;
@@ -122,7 +122,7 @@ class Breadcrumbs extends PureComponent {
     const parentOrgRoute = `/${parentFQON}/hierarchy`;
     const orgsRoute = `/${organizationSet.properties.fqon}/hierarchy`;
     const workspaceRoute = `/${organizationSet.properties.fqon}/hierarchy/${workspace.id}/environments`;
-    const environmentRoute = `${match.url}/containers`;
+    const environmentRoute = `${match.url}`;
     const orgName = truncate(organizationSet.description || organizationSet.name, 30);
     const workspaceName = truncate(workspace.description || workspace.name, 30);
     const environmentName = truncate(environment.description || environment.name, 30);

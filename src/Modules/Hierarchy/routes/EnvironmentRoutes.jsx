@@ -10,11 +10,12 @@ import { Secrets, SecretCreate, SecretEdit } from 'Modules/Secrets';
 import { APIs, APICreate, APIEdit } from 'Modules/APIs';
 import { APIEndpoints, APIEndpointCreate, APIEndpointEdit } from 'Modules/APIEndpoints';
 import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRuleCreate, PolicyEventRuleEdit } from 'Modules/PolicyRules';
+import EnvironmentHome from '../containers/EnvironmentHome';
 import withModalRouter from './withModalRouter';
 
 const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
   <Switch location={isModal ? previousLocation : location}>
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" component={EnvironmentHome} />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers" component={Providers} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/providers/create" component={ProviderCreate} />

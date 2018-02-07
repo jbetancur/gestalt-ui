@@ -27,7 +27,7 @@ class EnvironmentCard extends PureComponent {
   navEnvironmentDetails = () => {
     const { model, match, history } = this.props;
 
-    history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/containers`);
+    history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}`);
   }
 
   edit = (e) => {
