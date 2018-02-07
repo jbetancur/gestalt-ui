@@ -13,8 +13,8 @@ class EnvironmentHome extends PureComponent {
 
   render() {
     return (
-      <Row gutter={5}>
-        <Col flex={4} xs={12} sm={12}>
+      <Row gutter={5} columnDivisions={25} center>
+        <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="Lambdas"
             icon={<LambdaIcon size={42} />}
@@ -28,7 +28,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={4} xs={12} sm={12}>
+        <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="Containers"
             icon={<ContainerIcon size={42} />}
@@ -42,7 +42,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={4} xs={12} sm={12}>
+        <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="Policies"
             icon={<FontIcon style={{ fontSize: '42px' }}>verified_user</FontIcon>}
@@ -56,20 +56,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={4} xs={12} sm={12}>
-          <HomeCard
-            title="Secrets"
-            icon={<FontIcon style={{ fontSize: '42px' }}>lock</FontIcon>}
-            iconColor="indigo"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/secrets/create`}
-            manageURL={`${this.props.match.url}/secrets`}
-          >
-            Secret are intended to hold sensitive information: passwords, OAuth tokens, and ssh keys.
-          </HomeCard>
-        </Col>
-
-        <Col flex={4} xs={12} sm={12}>
+        <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="APIs"
             icon={<FontIcon style={{ fontSize: '42px' }}>share</FontIcon>}
@@ -78,7 +65,20 @@ class EnvironmentHome extends PureComponent {
             createURL={`${this.props.match.url}/apis/create`}
             manageURL={`${this.props.match.url}/apis`}
           >
-            Upstream access to lambdas/containers can be defined through API Endpoints
+            Upstream access to lambdas/containers can be defined through API endpoints
+          </HomeCard>
+        </Col>
+
+        <Col flex={5} xs={25} sm={20} md={10}>
+          <HomeCard
+            title="Secrets"
+            icon={<FontIcon style={{ fontSize: '42px' }}>lock</FontIcon>}
+            iconColor="indigo"
+            iconGradient="500"
+            createURL={`${this.props.match.url}/secrets/create`}
+            manageURL={`${this.props.match.url}/secrets`}
+          >
+            Secret are intended to hold sensitive information: passwords, OAuth tokens, and ssh keys
           </HomeCard>
         </Col>
       </Row>
