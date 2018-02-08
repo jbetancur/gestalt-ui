@@ -50,7 +50,7 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
     payload.properties.cmd = payload.properties.cmd.trim();
   }
 
-  if (payload.properties.cmd && !payload.properties.cmd.length > 0) {
+  if (!payload.properties.cmd) {
     delete payload.properties.cmd;
   }
 
