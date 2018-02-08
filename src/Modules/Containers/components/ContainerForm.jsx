@@ -18,7 +18,8 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Title } from 'components/Typography';
+import { Title, Caption } from 'components/Typography';
+import Div from 'components/Div';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
@@ -51,6 +52,10 @@ const ContainerForm = ({ values, container, ...props }) => {
   const hasInstances = props.containerInstances.length > 0;
   const hasServiceAddresses = props.containerServiceAddresses.length > 0 && props.containerServiceAddresses.some(p => p.service_address);
   const isPending = !props.inlineMode && props.containerPending;
+  const enabledEndpoints =
+    props.editMode &&
+    !props.inlineMode &&
+    container.properties.port_mappings.length > 0;
 
   return (
     <div>
@@ -124,6 +129,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                     </Col>
                   </Row>
                 </ActionsToolbar>}
+
               {isPending && <ActivityContainer id="container-form-loading" />}
 
               <CardText>
@@ -174,6 +180,26 @@ const ContainerForm = ({ values, container, ...props }) => {
                           />
                         </Panel>
                       </Col>}
+
+                    {/* disabled for provider containers "inline mode" */}
+                    <Col flex={12}>
+                      <Panel
+                        title="Public Endpoints"
+                        pending={props.apiEndpointsPending}
+                        noPadding
+                        count={props.apiEndpoints.length}
+                      >
+                        {props.editMode && !enabledEndpoints &&
+                        <Div padding="8px">
+                          <Caption>You must have saved least one enabled Service Mapping to map a Public Endpoint</Caption>
+                        </Div>}
+                        <APIEndpointInlineList
+                          endpoints={props.apiEndpoints}
+                          onAddEndpoint={() => props.showAPIEndpointWizardModal(props.match.params, container.id, 'container', values.properties.port_mappings)}
+                          disabled={!enabledEndpoints}
+                        />
+                      </Panel>
+                    </Col>
 
                     <Col flex={12}>
                       <Panel title="General" expandable={false}>
@@ -315,22 +341,6 @@ const ContainerForm = ({ values, container, ...props }) => {
                         />
                       </Panel>
                     </Col>
-
-                    {/* disabled for provider containers "inline mode" */}
-                    {props.editMode && !props.inlineMode &&
-                    <Col flex={12}>
-                      <Panel
-                        title="Public Endpoints"
-                        pending={props.apiEndpointsPending}
-                        noPadding
-                        count={props.apiEndpoints.length}
-                      >
-                        <APIEndpointInlineList
-                          endpoints={props.apiEndpoints}
-                          onAddEndpoint={() => props.showAPIEndpointWizardModal(props.match.params, container.id, 'container', values.properties.port_mappings)}
-                        />
-                      </Panel>
-                    </Col>}
 
                     <Col flex={12}>
                       <Panel

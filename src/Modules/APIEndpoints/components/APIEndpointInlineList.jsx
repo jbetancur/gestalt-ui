@@ -19,7 +19,12 @@ class APIEndpointInlineList extends PureComponent {
     endpoints: PropTypes.array.isRequired,
     onAddEndpoint: PropTypes.func.isRequired,
     deleteAPIEndpoint: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
   };
+
+  static defaultProps = {
+    disabled: false
+  }
 
   delete = (endpoint) => {
     const { match, deleteAPIEndpoint } = this.props;
@@ -28,7 +33,7 @@ class APIEndpointInlineList extends PureComponent {
   }
 
   render() {
-    const { endpoints, onAddEndpoint } = this.props;
+    const { endpoints, onAddEndpoint, disabled } = this.props;
 
     const items = endpoints.map(endpoint => (
       <TableRow key={endpoint.id}>
@@ -74,6 +79,7 @@ class APIEndpointInlineList extends PureComponent {
             primary
             flat
             onClick={onAddEndpoint}
+            disabled={disabled}
           >
             Add Endpoint
           </Button>
