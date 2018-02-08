@@ -6,3 +6,4 @@ export { default as P } from './P';
 export { default as Caption } from './Caption';
 export { default as Subtitle } from './Subtitle';
 export { default as Title } from './Title';
+export { default as Error } from './Error';

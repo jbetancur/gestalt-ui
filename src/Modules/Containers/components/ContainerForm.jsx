@@ -18,7 +18,7 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Title, Caption } from 'components/Typography';
+import { Title, Caption, Error } from 'components/Typography';
 import Div from 'components/Div';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from './ContainerInstances';
@@ -182,6 +182,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                       </Col>}
 
                     {/* disabled for provider containers "inline mode" */}
+                    {props.editMode && !props.inlineMode &&
                     <Col flex={12}>
                       <Panel
                         title="Public Endpoints"
@@ -189,17 +190,20 @@ const ContainerForm = ({ values, container, ...props }) => {
                         noPadding
                         count={props.apiEndpoints.length}
                       >
-                        {props.editMode && !enabledEndpoints &&
-                        <Div padding="8px">
-                          <Caption>You must have saved least one enabled Service Mapping to map a Public Endpoint</Caption>
-                        </Div>}
+
+                        {!enabledEndpoints &&
+                          <Div padding="16px">
+                            {!enabledEndpoints && values.properties.port_mappings.length > 0 ?
+                              <Error block>* Save your changes to add an endpoint</Error> : <Caption>Add a Service Mapping to add a Public Endpoint</Caption>}
+                          </Div>}
+
                         <APIEndpointInlineList
                           endpoints={props.apiEndpoints}
                           onAddEndpoint={() => props.showAPIEndpointWizardModal(props.match.params, container.id, 'container', values.properties.port_mappings)}
                           disabled={!enabledEndpoints}
                         />
                       </Panel>
-                    </Col>
+                    </Col>}
 
                     <Col flex={12}>
                       <Panel title="General" expandable={false}>
