@@ -303,7 +303,6 @@ const ContainerForm = ({ values, container, ...props }) => {
                               itemLabel="name"
                               itemValue="name"
                               required
-                              helpText="Select a network to configure port mappings"
                             />
                           </Col>
                         </Row>
