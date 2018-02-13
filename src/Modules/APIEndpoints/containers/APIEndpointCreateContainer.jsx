@@ -6,7 +6,7 @@ import { withMetaResource } from 'Modules/MetaResource';
 import APIEndpointForm from '../components/APIEndpointForm';
 import validate from '../components/APIEndpointForm/validations';
 import actions from '../actions';
-import { generateAPIEndpointPayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
 import { getCreateEndpointModel } from '../selectors';
 
 class APIEndpointCreate extends Component {
@@ -18,7 +18,7 @@ class APIEndpointCreate extends Component {
 
   create = (values) => {
     const { match, history, createAPIEndpoint } = this.props;
-    const payload = generateAPIEndpointPayload(values);
+    const payload = generatePayload(values);
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`);
     createAPIEndpoint(match.params.fqon, match.params.apiId, payload, onSuccess);

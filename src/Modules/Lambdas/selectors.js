@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import base64 from 'base-64';
-import { merge } from 'lodash';
 import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
 
@@ -11,31 +10,12 @@ export const getCreateLambdaModel = createSelector(
   [selectEnv],
   (env) => {
     const model = {
-      name: '',
       properties: {
-        env: mapTo2DArray(env, 'name', 'value', { inherited: true }),
-        headers: {
-          Accept: 'text/plain'
-        },
-        code: '',
-        code_type: 'package',
-        compressed: false,
-        cpus: 0.1,
-        memory: 512,
-        timeout: 30,
-        handler: '',
-        package_url: '',
-        public: true,
-        runtime: '',
-        // Providers is really an array of {id, locations[]}
-        provider: {},
-        periodic_info: {
-          payload: {},
-        },
-      },
+        env: mapTo2DArray(env, 'name', 'value', { inherited: true })
+      }
     };
 
-    return merge(metaModels.lambda.get(), model);
+    return metaModels.lambda.get(model);
   }
 );
 
@@ -43,22 +23,11 @@ export const getEditLambdaModel = createSelector(
   [selectLambda],
   (lambda) => {
     const model = {
-      name: lambda.name,
-      description: lambda.description,
+      ...lambda,
       properties: {
+        ...lambda.properties,
         env: mapTo2DArray(lambda.properties.env),
-        headers: lambda.properties.headers,
         code: lambda.properties.code && base64.decode(lambda.properties.code),
-        code_type: lambda.properties.code_type,
-        compressed: lambda.properties.compressed,
-        cpus: lambda.properties.cpus,
-        memory: lambda.properties.memory,
-        timeout: lambda.properties.timeout,
-        handler: lambda.properties.handler,
-        package_url: lambda.properties.package_url,
-        public: lambda.properties.public,
-        runtime: lambda.properties.runtime,
-        provider: lambda.properties.provider,
         // TODO: Refactor this into some model
         periodic_info: {
           payload: {
@@ -71,6 +40,6 @@ export const getEditLambdaModel = createSelector(
       },
     };
 
-    return merge(metaModels.lambda.get(), model);
+    return metaModels.lambda.create(model);
   }
 );

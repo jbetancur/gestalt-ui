@@ -1,30 +1,28 @@
-import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import { stringDemiltedToArray } from 'util/helpers/transformations';
+import { metaModels } from 'Modules/MetaResource';
 
 /**
- * generateAPIEndpointPayload
+ * generatePayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
  */
-export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
-  const payload = cloneDeep(sourcePayload);
-
+export function generatePayload(sourcePayload, updateMode = false) {
+  const payload = metaModels.apiEndpoint.create(sourcePayload);
   payload.name = payload.properties.resource;
 
   if (updateMode) {
-    // meta patch cannot currently handle array patching - so force a replace on /properties/methods
-    delete payload.properties.methods;
-
     if (payload.properties.implementation_type === 'lambda') {
       delete payload.properties.container_port_name;
-    } else {
-      delete payload.properties.synchronous;
     }
   }
 
-  if (sourcePayload.properties.methods) {
+  if (sourcePayload.properties.methods && typeof sourcePayload.properties.methods === 'string') {
     payload.properties.methods = stringDemiltedToArray(sourcePayload.properties.methods);
+  }
+
+  if (!sourcePayload.properties.methods) {
+    payload.properties.methods = [];
   }
 
   return payload;
@@ -35,18 +33,13 @@ export function generateAPIEndpointPayload(sourcePayload, updateMode = false) {
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
  */
-export function generateAPIEndpointPatches(originalPayload, updatedPayload) {
-  const { name, description, properties } = cloneDeep(originalPayload);
-  const model = cloneDeep({
-    name,
-    description,
-    properties,
-  });
+export function generatePatches(originalPayload, updatedPayload) {
+  const model = metaModels.apiEndpoint.create(originalPayload);
 
-  return jsonPatch.compare(model, generateAPIEndpointPayload(updatedPayload, true));
+  return jsonPatch.compare(model, generatePayload(updatedPayload, true));
 }
 
 export default {
-  generateAPIEndpointPayload,
-  generateAPIEndpointPatches,
+  generatePayload,
+  generatePatches,
 };

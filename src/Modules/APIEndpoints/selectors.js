@@ -1,53 +1,23 @@
 import { createSelector } from 'reselect';
+import { metaModels } from 'Modules/MetaResource';
 
 export const selectAPIEndpoint = state => state.metaResource.apiEndpoint.apiEndpoint;
 
 export const getCreateEndpointModel = createSelector(
   [],
-  () => {
-    const model = {
-      properties: {
-        methods: 'GET', // converts to array
-        plugins: {
-          rateLimit: {
-            enabled: false,
-            perMinute: 60,
-          },
-          gestaltSecurity: {
-            enabled: false,
-            users: [],
-            groups: [],
-          },
-        },
-        implementation_type: 'lambda',
-        resource: '',
-        implementation_id: '',
-        synchronous: true,
-      }
-    };
-
-    return model;
-  }
+  () => metaModels.apiEndpoint.get()
 );
 
 export const getEditEndpointModel = createSelector(
   [selectAPIEndpoint],
   (apiEndpoint) => {
-    const model = {
-      name: apiEndpoint.name,
-      description: apiEndpoint.description,
-      properties: {
-        ...apiEndpoint.properties,
-        plugins: {
-          ...apiEndpoint.properties.plugins,
-        }
-      },
-    };
+    const model = { ...apiEndpoint };
 
+    // Convert to comma delimted for the SelectionControl
     if (model.properties.methods && Array.isArray(model.properties.methods)) {
       model.properties.methods = model.properties.methods.join(',');
     }
 
-    return model;
+    return metaModels.apiEndpoint.create(model);
   }
 );

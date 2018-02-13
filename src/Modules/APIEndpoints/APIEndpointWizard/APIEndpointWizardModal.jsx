@@ -6,7 +6,7 @@ import { formValueSelector, destroy } from 'redux-form';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Stepper';
 import { withMetaResource } from 'Modules/MetaResource';
-import { generateAPIEndpointPayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
 import APIForm from './APIForm';
 import APIEndpointForm from './APIEndpointForm';
 
@@ -70,7 +70,7 @@ class APIEndpointWizard extends PureComponent {
       }
     };
 
-    const payload = generateAPIEndpointPayload(model);
+    const payload = generatePayload(model);
     const onSuccess = () => {
       fetchAPIEndpoints(params.fqon, implementationId, implementationType);
       hideModal();

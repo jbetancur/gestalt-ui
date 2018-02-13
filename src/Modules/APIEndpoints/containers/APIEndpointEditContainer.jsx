@@ -8,7 +8,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import APIEndpointForm from '../components/APIEndpointForm';
 import validate from '../components/APIEndpointForm/validations';
 import actions from '../actions';
-import { generateAPIEndpointPatches } from '../payloadTransformer';
+import { generatePatches } from '../payloadTransformer';
 import { getEditEndpointModel, selectAPIEndpoint } from '../selectors';
 
 class APIEndpointEdit extends PureComponent {
@@ -51,7 +51,7 @@ class APIEndpointEdit extends PureComponent {
 
   updateAPIEndpoint(values) {
     const { match, history, apiEndpoint, updateAPIEndpoint } = this.props;
-    const patches = generateAPIEndpointPatches(apiEndpoint, values);
+    const patches = generatePatches(apiEndpoint, values);
 
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`);
