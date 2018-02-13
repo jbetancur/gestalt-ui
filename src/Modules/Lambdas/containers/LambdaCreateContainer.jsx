@@ -8,7 +8,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../components/LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateLambdaPayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
 
 class LambdaCreate extends PureComponent {
@@ -32,7 +32,7 @@ class LambdaCreate extends PureComponent {
 
   create(values) {
     const { match, history, createLambda } = this.props;
-    const payload = generateLambdaPayload(values);
+    const payload = generatePayload(values);
 
     const onSuccess = (response) => {
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas/${response.id}`);

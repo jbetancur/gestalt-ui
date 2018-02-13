@@ -13,7 +13,6 @@ module.exports = {
   ],
   coverageDirectory: '<rootDir>/test/coverage',
   setupFiles: [
-    '<rootDir>/test/shim.js',
     '<rootDir>/test/jestSetup.js'
   ],
   setupTestFrameworkScriptFile: '<rootDir>/test/setup-test-framework-script',

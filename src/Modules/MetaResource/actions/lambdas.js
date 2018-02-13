@@ -36,10 +36,9 @@ export function fetchLambdasDropDown(fqon, environmentId) {
  * fetchLambda
  * @param {string} fqon
  * @param {string} lambdaId
- * @param {string} environmentId
  */
-export function fetchLambda(fqon, lambdaId, environmentId) {
-  return { type: types.FETCH_LAMBDA_REQUEST, fqon, lambdaId, environmentId };
+export function fetchLambda(fqon, lambdaId) {
+  return { type: types.FETCH_LAMBDA_REQUEST, fqon, lambdaId };
 }
 
 /**

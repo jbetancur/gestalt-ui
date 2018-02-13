@@ -157,7 +157,7 @@ describe('Lambda Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).to.deep.equal(
-          call(axios.all, [axios.get('iamfqon/lambdas/1'), axios.get('iamfqon/environments/2/env')])
+          call(axios.all, [axios.get('iamfqon/lambdas/1'), axios.get('iamfqon/lambdas/1/env')])
         );
       });
 

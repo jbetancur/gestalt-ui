@@ -43,10 +43,9 @@ describe('Lambda Actions', () => {
       type: types.FETCH_LAMBDA_REQUEST,
       fqon: 'iamfqon',
       lambdaId: '1',
-      environmentId: '2',
     };
 
-    expect(actions.fetchLambda('iamfqon', '1', '2')).to.deep.equal(expectedAction);
+    expect(actions.fetchLambda('iamfqon', '1')).to.deep.equal(expectedAction);
   });
 
   it('should handle CREATE_LAMBDA_REQUEST', () => {

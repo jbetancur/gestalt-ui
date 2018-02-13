@@ -1,37 +1,17 @@
-import { cloneDeep } from 'lodash';
 import base64 from 'base-64';
 import jsonPatch from 'fast-json-patch';
 import { arrayToMap } from 'util/helpers/transformations';
+import { metaModels } from 'Modules/MetaResource';
 
 /**
- * generateLambdaPayload
+ * generatePayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
- * @param {Array} mergeSet
  * @param {Boolean} updateMode
  */
-export function generateLambdaPayload(sourcePayload, updateMode = false) {
-  const { name, description, properties } = cloneDeep(sourcePayload);
-  const model = {
-    name,
-    description,
-    properties: {
-      env: arrayToMap(properties.env, 'name', 'value'),
-      headers: properties.headers,
-      code_type: properties.code_type,
-      code: properties.code,
-      compressed: properties.compressed,
-      cpus: properties.cpus,
-      memory: properties.memory,
-      timeout: properties.timeout,
-      handler: properties.handler,
-      package_url: properties.package_url,
-      public: properties.public,
-      runtime: properties.runtime,
-      provider: properties.provider,
-      periodic_info: properties.periodic_info,
-    },
-  };
+export function generatePayload(sourcePayload, updateMode = false) {
+  const model = metaModels.lambda.create(sourcePayload);
+  model.properties.env = arrayToMap(model.properties.env, 'name', 'value');
 
   if (!updateMode) {
     // TODO: Fake Locations
@@ -71,41 +51,21 @@ export function generateLambdaPayload(sourcePayload, updateMode = false) {
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
  */
-export function generateLambdaPatches(originalPayload, updatedPayload) {
-  const { name, description, properties } = cloneDeep(originalPayload);
-  const model = {
-    name,
-    description,
-    properties: {
-      env: properties.env,
-      headers: properties.headers,
-      code: properties.code,
-      code_type: properties.code_type,
-      compressed: properties.compressed,
-      cpus: properties.cpus,
-      memory: properties.memory,
-      timeout: properties.timeout,
-      handler: properties.handler,
-      package_url: properties.package_url,
-      public: properties.public,
-      runtime: properties.runtime,
-      provider: properties.provider,
-      periodic_info: properties.periodic_info,
-    }
-  };
+export function generatePatches(originalPayload, updatedPayload) {
+  const model = metaModels.lambda.create(originalPayload);
+  model.properties.env = arrayToMap(model.properties.env, 'name', 'value');
 
-  if (properties.code_type === 'package') {
+  if (originalPayload.properties.code_type === 'package') {
     delete model.properties.code;
   } else {
     delete model.properties.package_url;
     delete model.properties.compressed;
   }
 
-
-  return jsonPatch.compare(model, generateLambdaPayload(updatedPayload, true));
+  return jsonPatch.compare(model, generatePayload(updatedPayload, true));
 }
 
 export default {
-  generateLambdaPayload,
-  generateLambdaPatches,
+  generatePayload,
+  generatePatches,
 };
