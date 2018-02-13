@@ -54,6 +54,10 @@ const create = (model) => {
       secrets: [],
       health_checks: [],
       provider: {},
+      force_pull: false,
+      cpus: 0.1,
+      memory: 128,
+      num_instances: 1,
     }
   }, safeModel), [
     'name',

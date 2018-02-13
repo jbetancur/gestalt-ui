@@ -5,23 +5,10 @@ export const selectResourceType = state => state.metaResource.resourceType.resou
 
 export const getCreateResourceTypeModel = createSelector(
   [],
-  () => {
-    const model = {
-      ...metaModels.resourceType,
-    };
-
-    return model;
-  }
+  () => metaModels.resourceType.get()
 );
 
 export const getEditResourceTypeModel = createSelector(
   [selectResourceType],
-  (resourceType) => {
-    const model = {
-      ...metaModels.resourceType,
-      ...resourceType,
-    };
-
-    return model;
-  }
+  resourceType => metaModels.resourceType.create(resourceType)
 );

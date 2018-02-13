@@ -1,77 +1,60 @@
-import { generateResourcePayload, generatePatches, batchTypeProps } from './payloadTransformer';
+import { metaModels } from 'Modules/MetaResource';
+import { generatePayload, generatePatches, batchTypeProps } from './payloadTransformer';
 
-const originalPayload = Object.freeze({
-  name: 'Imma',
-  description: 'test',
-  extend: '123',
-  properties: {
-    abstract: true,
-    actions: { prefix: 'morty' }
-  },
-  property_defs: [],
-});
-
-describe('(Payload Transformer) generateResourcePayload', () => {
-  describe('generateResourcePayload', () => {
+describe('(Payload Transformer) generatePayload', () => {
+  describe('generatePayload', () => {
     it('should request Generate the correct payload', () => {
-      const sourcePayload = {
-        name: 'Me',
+      const sourcePayload = metaModels.resourceType.create({
+        name: 'Imma',
         description: 'test',
         extend: '123',
-        properties: {},
-        property_defs: [{ name: 'test', data_type: 'string' }],
-      };
+        properties: {
+          abstract: true,
+          actions: { prefix: 'morty' }
+        },
+        property_defs: [],
+      });
+      const payload = generatePayload(sourcePayload);
 
-      const expectedPayload = {
-        ...sourcePayload,
-      };
-
-      expect(generateResourcePayload(sourcePayload, 'Dont::Mock')).to.deep.equal(expectedPayload);
+      expect(payload).to.deep.equal(sourcePayload);
     });
   });
 
   describe('generatePatches', () => {
     it('should not generate any patches if there is no difference', () => {
-      const updatedPayload = {
-        ...originalPayload,
-        properties: {
-          ...originalPayload.properties,
-          abstract: true,
-        },
-      };
+      const originalPayload = metaModels.resourceType.create();
+      const updatedPayload = metaModels.resourceType.create();
+      const payload = generatePatches(originalPayload, updatedPayload);
 
-      expect(generatePatches(originalPayload, updatedPayload)).to.be.an('array').that.is.empty;
+      expect(payload).to.be.an('array').that.is.empty;
     });
 
     it('should generate the correct patches if there is a difference', () => {
-      const updatedPayload = {
-        ...originalPayload,
+      const originalPayload = metaModels.resourceType.get();
+      const updatedPayload = metaModels.resourceType.create({
         properties: {
-          ...originalPayload.properties,
-          abstract: false,
+          abstract: true,
           actions: { prefix: 'imma-prefix' }
-        },
-      };
-
+        }
+      });
+      const payload = generatePatches(originalPayload, updatedPayload);
       const expectedPatches = [
-        { op: 'replace', path: '/properties/actions/prefix', value: 'imma-prefix' },
-        { op: 'replace', path: '/properties/abstract', value: false },
+        { op: 'add', path: '/properties/actions/prefix', value: 'imma-prefix' },
+        { op: 'replace', path: '/properties/abstract', value: true }
       ];
 
-      expect(generatePatches(originalPayload, updatedPayload)).to.deep.equal(expectedPatches);
+      expect(payload).to.have.deep.members(expectedPatches);
     });
 
     it('should not patch extends or property_defs', () => {
-      const updatedPayload = {
-        ...originalPayload,
-        extend: 'nicetry',
-        properties: {
-          ...originalPayload.properties,
-        },
+      const originalPayload = metaModels.resourceType.get();
+      const updatedPayload = metaModels.resourceType.create({
+        extend: '1231312',
         property_defs: [{ name: 'woopwoop' }]
-      };
+      });
+      const payload = generatePatches(originalPayload, updatedPayload);
 
-      expect(generatePatches(originalPayload, updatedPayload)).to.be.an('array').that.is.empty;
+      expect(payload).to.be.an('array').that.is.empty;
     });
   });
 

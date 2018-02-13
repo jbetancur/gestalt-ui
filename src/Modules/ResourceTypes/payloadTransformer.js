@@ -1,22 +1,13 @@
-import { cloneDeep, omit } from 'lodash';
 import jsonPatch from 'fast-json-patch';
+import { metaModels } from 'Modules/MetaResource';
+import { omit } from 'lodash';
 
 /**
- * generateResourcePayload
+ * generatePayload
  * @param {Object} sourcePayload
  */
-export function generateResourcePayload(sourcePayload) {
-  const { name, description, extend, property_defs, properties } = cloneDeep(sourcePayload);
-
-  return {
-    name,
-    description,
-    extend,
-    property_defs,
-    properties: {
-      ...properties,
-    },
-  };
+export function generatePayload(sourcePayload) {
+  return metaModels.resourceType.create(sourcePayload);
 }
 
 /**
@@ -25,18 +16,11 @@ export function generateResourcePayload(sourcePayload) {
  * @param {Object} updated
  */
 export function generatePatches(original, updated) {
-  const { name, description, properties } = cloneDeep(original);
-  const updatedPayload = omit(generateResourcePayload(updated), ['extend', 'property_defs']);
+  // we need to strip these properties off the model as they are not pached directly
+  const originalPayload = omit(metaModels.resourceType.create(original), ['extend', 'property_defs']);
+  const updatedPayload = omit(generatePayload(updated), ['extend', 'property_defs']);
 
-  const sourcePayload = {
-    name,
-    description,
-    properties: {
-      ...properties,
-    },
-  };
-
-  return jsonPatch.compare(sourcePayload, updatedPayload);
+  return jsonPatch.compare(originalPayload, updatedPayload);
 }
 
 /**

@@ -72,6 +72,6 @@ export default combineReducers({
   secretsDropDown: reducerFactory(['fetch'], 'secrets', 'secrets_dropdown', [], true, []),
   search: reducerFactory(['fetch'], 'search', 'search', [], true),
   resourceTypes: reducerFactory(['fetch', 'delete'], 'resourceTypes', 'resourceTypes', []),
-  resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel),
+  resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel.get()),
   sync: reducerFactory(['fetch'], 'sync', 'sync', {}),
 });

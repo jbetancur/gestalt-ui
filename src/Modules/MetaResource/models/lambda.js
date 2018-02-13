@@ -47,10 +47,16 @@ const create = (model = {}) => {
   return pick(merge({
     properties: {
       env: [],
-      headers: {},
+      headers: {
+        Accept: 'text/plain'
+      },
       // Providers is really an array of {id, locations[]}
       provider: {},
       periodic_info: {},
+      public: true,
+      cpus: 0.1,
+      memory: 512,
+      timeout: 30,
     }
   }, safeModel), [
     'name',
