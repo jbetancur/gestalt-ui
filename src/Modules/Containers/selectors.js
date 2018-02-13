@@ -47,7 +47,7 @@ export const getCreateContainerModel = createSelector(
       },
     };
 
-    return model;
+    return merge(metaModels.container.get(), model);
   }
 );
 
@@ -55,7 +55,6 @@ export const getEditContainerModel = createSelector(
   [selectContainer, selectHealthChecks, selectSecrets],
   (container, volumes, healthChecks, secrets) => {
     const model = {
-      ...metaModels.container,
       name: container.name,
       description: container.description,
       properties: {
@@ -80,7 +79,7 @@ export const getEditContainerModel = createSelector(
       },
     };
 
-    return model;
+    return merge(metaModels.container.get(), model);
   }
 );
 
@@ -88,11 +87,9 @@ export const getEditContainerModelAsSpec = createSelector(
   [selectContainerSpec, selectHealthChecks, selectSecrets],
   (container, volumes, healthChecks, secrets) => {
     const model = {
-      ...metaModels.container,
       name: container.name,
       description: container.description,
       properties: {
-        ...metaModels.container.properties,
         env: mapTo2DArray(container.properties.env),
         labels: mapTo2DArray(container.properties.labels),
         container_type: container.properties.container_type,
@@ -114,7 +111,7 @@ export const getEditContainerModelAsSpec = createSelector(
       },
     };
 
-    return model;
+    return merge(metaModels.container.get(), model);
   }
 );
 

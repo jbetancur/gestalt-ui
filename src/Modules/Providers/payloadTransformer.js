@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
 import { arrayToMap, stringDemiltedToArray } from 'util/helpers/transformations';
-import { payloadTransformer } from 'Modules/Containers';
+import { payloadTransformer as containerPayloadTransforder } from 'Modules/Containers';
 
 // import { mapTo2DArray } from 'util/helpers/transformations';
 /**
@@ -79,7 +79,7 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
     };
 
     payload.properties.services.push(containerServicepayload);
-    payload.properties.services[0].container_spec = payloadTransformer.generateContainerPayload(containerValues, mergeContainerProps);
+    payload.properties.services[0].container_spec = containerPayloadTransforder.generatePayload(containerValues, mergeContainerProps);
   }
 
   if (updateMode) {

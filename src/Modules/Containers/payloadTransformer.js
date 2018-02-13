@@ -1,44 +1,23 @@
 import { cloneDeep } from 'lodash';
 import { arrayToMap } from 'util/helpers/transformations';
+import { metaModels } from 'Modules/MetaResource';
 
 function arrayifyish(string) {
   return string.replace(/[\s,]+/g, ',').split(',');
 }
 
 /**
- * generateContainerPayload
+ * generatePayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
  * @param {Array} mergeSet
  * @param {Boolean} updateMode
  */
-export function generateContainerPayload(sourcePayload, mergeSet = [], updateMode = false) {
+export function generatePayload(sourcePayload, mergeSet = [], updateMode = false) {
   const source = cloneDeep(sourcePayload);
-
-  const payload = {
-    name: source.name,
-    description: source.description,
-    properties: {
-      env: arrayToMap(source.properties.env, 'name', 'value'),
-      labels: arrayToMap(source.properties.labels, 'name', 'value'),
-      volumes: source.properties.volumes,
-      secrets: [],
-      port_mappings: source.properties.port_mappings,
-      health_checks: [],
-      accepted_resource_roles: [],
-      constraints: [],
-      provider: source.properties.provider, // deleted in updateMode
-      container_type: source.properties.container_type,
-      force_pull: source.properties.force_pull,
-      cpus: source.properties.cpus,
-      memory: source.properties.memory,
-      num_instances: source.properties.num_instances,
-      network: source.properties.network,
-      image: source.properties.image,
-      cmd: source.properties.cmd,
-      user: source.properties.user,
-    },
-  };
+  const payload = metaModels.container.create(sourcePayload);
+  payload.properties.env = arrayToMap(payload.properties.env, 'name', 'value');
+  payload.properties.labels = arrayToMap(payload.properties.labels, 'name', 'value');
 
   // force 1 instance since we disable num_instances field validation (to deal with suspended update case)
   if (payload.properties.num_instances === '') {
@@ -124,5 +103,5 @@ export function generateContainerPayload(sourcePayload, mergeSet = [], updateMod
 }
 
 export default {
-  generateContainerPayload,
+  generatePayload,
 };

@@ -11,7 +11,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateContainerPayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
 import { getCreateContainerModel } from '../selectors';
 
 class ContainerCreate extends Component {
@@ -63,7 +63,7 @@ class ContainerCreate extends Component {
       }
     ];
 
-    const payload = generateContainerPayload(values, mergeProps);
+    const payload = generatePayload(values, mergeProps);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
 
     createContainer(match.params.fqon, match.params.environmentId, payload, onSuccess);

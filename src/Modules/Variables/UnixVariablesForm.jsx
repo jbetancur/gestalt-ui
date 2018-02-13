@@ -34,7 +34,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
 
       return (
         <FieldItem key={index}>
-          {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} index={index} tabindex="-1" />}
+          {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />}
           <Row gutter={5}>
             <Col flex={4} xs={12} sm={12}>
               <Field

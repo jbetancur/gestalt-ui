@@ -17,7 +17,7 @@ const get = () => ({
 });
 
 /**
- * generateCreateModel - only allow mutable props
+ * create - only allow mutable props
  * @param {Object} model
  */
 const create = (model) => {
