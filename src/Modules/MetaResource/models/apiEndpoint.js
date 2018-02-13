@@ -1,17 +1,71 @@
-export default Object.freeze({
-  org: {
-    properties: {},
-  },
-  created: {},
-  modified: {},
-  properties: {
-    methods: [],
-    plugins: {
-      rateLimit: {},
-      gestaltSecurity: {
-        users: [],
-        groups: [],
+import { cloneDeep, pick, merge } from 'lodash';
+
+/**
+ * get
+ * @param {Object} model - override the model
+ */
+const get = (model = {}) => {
+  const safeModel = cloneDeep(model);
+
+  return merge({
+    org: {
+      properties: {},
+    },
+    created: {},
+    modified: {},
+    name: '',
+    description: '',
+    properties: {
+      implementation_type: 'lambda',
+      resource: '',
+      implementation_id: '',
+      synchronous: true,
+      methods: 'GET',
+      plugins: {
+        rateLimit: {
+          enabled: false,
+          perMinute: 60,
+        },
+        gestaltSecurity: {
+          enabled: false,
+          users: [],
+          groups: [],
+        },
       },
     },
-  },
-});
+  }, safeModel);
+};
+
+/**
+ * create - only allow mutable props
+ * @param {Object} model - override the model
+ */
+const create = (model = {}) => {
+  const safeModel = cloneDeep(model);
+
+  return pick(merge({
+    properties: {
+      methods: [],
+      plugins: {
+        rateLimit: {},
+        gestaltSecurity: {},
+      },
+    },
+  }, safeModel), [
+    'name',
+    'description',
+    'properties.resource',
+    'properties.methods',
+    'properties.plugins',
+    'properties.synchronous',
+    'properties.implementation_id',
+    'properties.implementation_type',
+    'properties.container_port_name',
+    'properties.provider'
+  ]);
+};
+
+export default {
+  get,
+  create
+};

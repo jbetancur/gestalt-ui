@@ -1,33 +1,56 @@
 import { cloneDeep, pick, merge } from 'lodash';
 
-const get = () => ({
-  org: {
-    properties: {},
-  },
-  created: {},
-  modified: {},
-  properties: {
-    env: {},
-    headers: {},
-    providers: [],
-    periodic_info: {
-      payload: {},
+/**
+ * get
+ * @param {Object} model - override the model
+ */
+const get = (model = {}) => {
+  const safeModel = cloneDeep(model);
+
+  return merge({
+    org: {
+      properties: {},
     },
-  },
-});
+    created: {},
+    modified: {},
+    name: '',
+    description: '',
+    properties: {
+      env: [],
+      headers: {
+        Accept: 'text/plain'
+      },
+      code: '',
+      code_type: 'package',
+      compressed: false,
+      cpus: 0.1,
+      memory: 512,
+      timeout: 30,
+      handler: '',
+      package_url: '',
+      public: true,
+      runtime: '',
+      // Providers is really an array of {id, locations[]}
+      provider: {},
+      periodic_info: {},
+    }
+  }, safeModel);
+};
 
 /**
  * create - only allow mutable props
- * @param {Object} model
+ * @param {Object} model - override the model
  */
-const create = (model) => {
+const create = (model = {}) => {
   const safeModel = cloneDeep(model);
+
   return pick(merge({
     properties: {
-      env: [], // should be converted back to map
+      env: [],
       headers: {},
+      // Providers is really an array of {id, locations[]}
       provider: {},
-      periodic_info: {}
+      periodic_info: {},
     }
   }, safeModel), [
     'name',

@@ -64,7 +64,7 @@ export default (values) => {
     errors.properties.timeout = 'timeout is required';
   }
 
-  if (!values.properties.headers.Accept) {
+  if (values.properties.headers && !values.properties.headers.Accept) {
     errors.properties.headers.Accept = 'accept header is required';
   }
 

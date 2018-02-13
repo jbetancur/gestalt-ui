@@ -28,6 +28,7 @@ class APICreate extends Component {
     const { match, history, createAPI, providersKongByGateway } = this.props;
     const payload = generateAPIPayload(values, providersKongByGateway);
 
+    // providerid must be the linked_gateway manager
     if (!payload.properties.provider.id) {
       this.props.dispatch({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create API. You must create and link a gateway manager provider type first' });
     } else {

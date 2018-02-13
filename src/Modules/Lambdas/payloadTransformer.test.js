@@ -1,37 +1,11 @@
-import { merge, cloneDeep } from 'lodash';
+import { metaModels } from 'Modules/MetaResource';
 import { generatePayload, generatePatches } from './payloadTransformer';
-
-const mockPayload = {
-  name: '',
-  description: '',
-  properties: {
-    env: [],
-    headers: {
-      Accept: 'text/plain'
-    },
-    code: '',
-    code_type: 'package',
-    compressed: false,
-    cpus: 0.1,
-    memory: 512,
-    timeout: 30,
-    handler: '',
-    package_url: '',
-    public: true,
-    runtime: '',
-    // Providers is really an array of {id, locations[]}
-    provider: {
-      id: '1',
-    },
-    periodic_info: {},
-  },
-};
 
 describe('(Lambda Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('properties.provider', () => {
       it('should generate the correct properties.provider payload', () => {
-        const sourcePayload = cloneDeep(mockPayload);
+        const sourcePayload = metaModels.lambda.get();
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties.provider).to.have.property('id');
@@ -41,7 +15,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.env', () => {
       it('should convert properties.env array to a map', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.lambda.get({
           properties: {
             env: [{ name: 'test', value: 'this' }, { name: 'this', value: 'test' }],
           }
@@ -54,7 +28,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.code_type', () => {
       it('should generate the correct payload when it is a package', () => {
-        const sourcePayload = cloneDeep(mockPayload);
+        const sourcePayload = metaModels.lambda.get();
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties).to.include({ code_type: 'package' });
@@ -63,7 +37,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when it is inline code', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.lambda.get({
           properties: {
             code_type: 'code',
             code: 'a'
@@ -79,7 +53,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.periodic_info', () => {
       it('should generate the correct payload when it is no periodic_info', () => {
-        const sourcePayload = cloneDeep(mockPayload);
+        const sourcePayload = metaModels.lambda.get();
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties).to.have.property('periodic_info');
@@ -89,7 +63,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when periodic_info is missing properties.schedule', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.lambda.get({
           properties: {
             periodic_info: {
               payload: {}
@@ -102,7 +76,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when periodic_info is provided properties.schedule', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.lambda.get({
           properties: {
             periodic_info: {
               schedule: 'ISO8601here',
@@ -116,7 +90,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when periodic_info is provided properties.schedule a data payload is provided', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.lambda.get({
           properties: {
             periodic_info: {
               schedule: 'ISO8601here',
@@ -134,7 +108,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.runtime uniqueness is removed', () => {
       it('should generate the correct payload when a runtime needs to have the name normalized', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.lambda.get({
           properties: {
             runtime: 'nodejs---1'
           }
@@ -147,7 +121,13 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('updateMode', () => {
       it('should generate the correct payload when updateMode is specified as an argument', () => {
-        const sourcePayload = cloneDeep(mockPayload);
+        const sourcePayload = metaModels.lambda.get({
+          properties: {
+            provider: {
+              id: '1'
+            },
+          }
+        });
         const payload = generatePayload(sourcePayload, true);
 
         expect(payload.properties.provider).to.have.property('id').that.equals('1');
@@ -157,17 +137,9 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
   });
 
   describe('generatePatches', () => {
-    it('should not generate any patches if there is no difference', () => {
-      const originalPayload = cloneDeep(mockPayload);
-      const updatedPayload = cloneDeep(mockPayload);
-      const payload = generatePatches(originalPayload, updatedPayload);
-
-      expect(payload).to.be.a('array').that.is.empty;
-    });
-
     it('should generate the correct patch payload code_type is changed from package to code', () => {
-      const originalPayload = cloneDeep(mockPayload);
-      const updatedPayload = merge(cloneDeep(mockPayload), {
+      const originalPayload = metaModels.lambda.get();
+      const updatedPayload = metaModels.lambda.get({
         properties: {
           code_type: 'code',
           code: 'a'
@@ -185,13 +157,13 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
     });
 
     it('should generate the correct patch payload code_type is changed frm code to package', () => {
-      const originalPayload = merge(cloneDeep(mockPayload), {
+      const originalPayload = metaModels.lambda.get({
         properties: {
           code_type: 'code'
         }
       });
 
-      const updatedPayload = merge(cloneDeep(mockPayload), {
+      const updatedPayload = metaModels.lambda.get({
         properties: {
           code_type: 'package',
           compressed: false,

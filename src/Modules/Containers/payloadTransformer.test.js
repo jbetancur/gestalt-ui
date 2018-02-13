@@ -1,33 +1,11 @@
-import { merge, cloneDeep } from 'lodash';
+import { metaModels } from 'Modules/MetaResource';
 import { generatePayload } from './payloadTransformer';
-
-const mockPayload = {
-  name: '',
-  properties: {
-    container_type: 'DOCKER',
-    env: {},
-    labels: [],
-    accepted_resource_roles: [],
-    constraints: [],
-    provider: {
-      locations: [],
-    },
-    force_pull: false,
-    cpus: 0.1,
-    memory: 128,
-    num_instances: 1,
-    port_mappings: [],
-    health_checks: [],
-    volumes: [],
-    secrets: [],
-  },
-};
 
 describe('(Container Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('properties.env', () => {
       it('should convert properties.env array to a map', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             env: [{ name: 'test', value: 'this' }, { name: 'this', value: 'test' }],
           }
@@ -40,7 +18,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.labels', () => {
       it('should convert properties.labels array to a map', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             labels: [{ name: 'test', value: 'this' }, { name: 'this', value: 'test' }],
           }
@@ -53,7 +31,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.num_instances', () => {
       it('should set properties.num_instances to 1 if it is \'\'', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             num_instances: ''
           }
@@ -66,7 +44,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.cmd', () => {
       it('should set trim cmd if it is present and there are spaces to trim at the end', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             cmd: 'echo hello      '
           }
@@ -77,7 +55,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should set remove cmd if it is \'\'', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             cmd: ''
           }
@@ -90,7 +68,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.accepted_resource_roles', () => {
       it('should handle accepted_resource_roles if it is an Array', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             accepted_resource_roles: ['testrole', 'roletest']
           }
@@ -100,7 +78,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should handle accepted_resource_roles if it is a comma delimited string', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             accepted_resource_roles: 'testrole, roletest'
           }
@@ -110,7 +88,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should set remove accepted_resource_roles if it is \'\'', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             accepted_resource_roles: ''
           }
@@ -123,7 +101,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.constraints', () => {
       it('should handle constraints if it is an Array', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             constraints: ['testrole', 'roletest']
           }
@@ -133,7 +111,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should handle constraints if it is a comma delimited string', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             constraints: 'testrole, roletest'
           }
@@ -143,7 +121,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should set remove constraints if it is \'\'', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             constraints: ''
           }
@@ -156,7 +134,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.port_mappings', () => {
       it('should correctly format a port_mapping if it is enabled has virtual_hosts that comma delimited strings', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             port_mappings: [{ expose_endpoint: true, virtual_hosts: 'tick, tock' }]
           }
@@ -167,7 +145,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should correctly format a port_mapping if it is enabled has virtual_hosts is an Array', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             port_mappings: [{ expose_endpoint: true, virtual_hosts: ['tick, tock'] }]
           }
@@ -178,7 +156,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should correctly format a port_mapping if it is disabled or there are no virtual_hosts', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             port_mappings: [{ expose_endpoint: false, virtual_hosts: '' }]
           }
@@ -191,7 +169,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.volumes', () => {
       it('should correctly format a volume if it is persistent', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             volumes: [{ type: 'persistent', host_path: '/lalala' }]
           }
@@ -202,7 +180,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should correctly format a volume if it is not persistent', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             volumes: [{ type: 'RO', host_path: '/lalala' }]
           }
@@ -215,7 +193,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.provider', () => {
       it('should delete provider in updateMode so it is not PATCHED', () => {
-        const sourcePayload = merge(cloneDeep(mockPayload), {
+        const sourcePayload = metaModels.container.get({
           properties: {
             provider: { id: '1' }
           }

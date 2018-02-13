@@ -82,7 +82,7 @@ const LoginCardHeader = styled.div`
 
 const LoginButton = styled(Button)`
   background: white;
-  color: black;
+  color: ${props => props.theme.colors['$md-blue-400']};
   width: 100%;
   box-shadow: none;
   font-weight: 700;
