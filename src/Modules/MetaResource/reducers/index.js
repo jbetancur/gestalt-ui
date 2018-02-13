@@ -44,7 +44,7 @@ export default combineReducers({
   fetchProviderKongsByGateway: reducerFactory(['fetch'], 'providers', 'providers_kong_gateway', [], false, []),
   executors: reducerFactory(['fetch'], 'executors', 'executors', [], false, []),
   containers: reducerFactory(['fetch'], 'containers', 'containers', []),
-  container: reducerFactory(['fetch', 'create', 'update'], 'container', 'container', containerModel),
+  container: reducerFactory(['fetch', 'create', 'update'], 'container', 'container', containerModel.get()),
   containersDropDown: reducerFactory(['fetch'], 'containers', 'containers_dropdown', [], true, []),
   policies: reducerFactory(['fetch', 'delete'], 'policies', 'policies', []),
   policy: reducerFactory(['fetch', 'create', 'update'], 'policy', 'policy', policyModel),

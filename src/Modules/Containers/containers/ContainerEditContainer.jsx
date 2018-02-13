@@ -14,7 +14,7 @@ import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateContainerPayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
 import {
   getEditContainerModel,
   getEditContainerModelAsSpec,
@@ -115,7 +115,7 @@ class ContainerEdit extends Component {
       }
     ];
 
-    const payload = generateContainerPayload(values, mergeProps, true);
+    const payload = generatePayload(values, mergeProps, true);
 
     updateContainer(match.params.fqon, container.id, payload);
   }

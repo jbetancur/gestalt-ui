@@ -27,7 +27,7 @@ const mockPayload = {
   },
 };
 
-describe('(Payload Transformer) generatePayload', () => {
+describe('(Lambda Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('properties.provider', () => {
       it('should generate the correct properties.provider payload', () => {

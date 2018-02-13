@@ -55,7 +55,7 @@ class Panel extends PureComponent {
       <PanelWrapper error={error} noShadow={noShadow}>
         <Header
           title={title}
-          onClick={expandable && this.toggle}
+          onClick={expandable ? this.toggle : null}
           expandable={expandable}
           expanded={this.state.isExpanded}
           count={count}
