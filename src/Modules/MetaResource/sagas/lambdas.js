@@ -54,7 +54,7 @@ export function* fetchLambdasDropDown(action) {
 
 /**
  * fetchLambda
- * @param {*} action { fqon, lambdaId, environmentId }
+ * @param {*} action { fqon, lambdaId }
  */
 export function* fetchLambda(action) {
   function getLambda() {
@@ -62,7 +62,7 @@ export function* fetchLambda(action) {
   }
 
   function getEnv() {
-    return axios.get(`${action.fqon}/environments/${action.environmentId}/env`);
+    return axios.get(`${action.fqon}/lambdas/${action.lambdaId}/env`);
   }
 
   try {

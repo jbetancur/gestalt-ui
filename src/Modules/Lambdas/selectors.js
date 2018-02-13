@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import base64 from 'base-64';
+import { merge } from 'lodash';
 import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
 
@@ -34,7 +35,7 @@ export const getCreateLambdaModel = createSelector(
       },
     };
 
-    return model;
+    return merge(metaModels.lambda.get(), model);
   }
 );
 
@@ -42,7 +43,6 @@ export const getEditLambdaModel = createSelector(
   [selectLambda],
   (lambda) => {
     const model = {
-      ...metaModels.lambda,
       name: lambda.name,
       description: lambda.description,
       properties: {
@@ -71,6 +71,6 @@ export const getEditLambdaModel = createSelector(
       },
     };
 
-    return model;
+    return merge(metaModels.lambda.get(), model);
   }
 );

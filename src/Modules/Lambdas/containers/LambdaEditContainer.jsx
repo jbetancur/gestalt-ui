@@ -9,7 +9,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import LambdaForm from '../components/LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateLambdaPatches } from '../payloadTransformer';
+import { generatePatches } from '../payloadTransformer';
 import { getEditLambdaModel, selectLambda } from '../selectors';
 
 class LambdaEdit extends PureComponent {
@@ -35,7 +35,7 @@ class LambdaEdit extends PureComponent {
     fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
     fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
-    fetchLambda(match.params.fqon, match.params.lambdaId, match.params.environmentId);
+    fetchLambda(match.params.fqon, match.params.lambdaId);
     fetchAPIEndpoints(match.params.fqon, match.params.lambdaId, 'lambda');
   }
 
@@ -48,7 +48,7 @@ class LambdaEdit extends PureComponent {
 
   updateLambda(values) {
     const { lambda, match, dispatch, reset, updateLambda } = this.props;
-    const patches = generateLambdaPatches(lambda, values);
+    const patches = generatePatches(lambda, values);
     const onSuccess = () => dispatch(reset());
 
     updateLambda(match.params.fqon, lambda.id, lambda.properties.parent.id, patches, onSuccess);
