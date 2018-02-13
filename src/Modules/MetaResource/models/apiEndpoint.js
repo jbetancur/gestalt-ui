@@ -46,6 +46,7 @@ const create = (model = {}) => {
   return pick(merge({
     properties: {
       methods: [],
+      synchronous: true,
       plugins: {
         rateLimit: {},
         gestaltSecurity: {},

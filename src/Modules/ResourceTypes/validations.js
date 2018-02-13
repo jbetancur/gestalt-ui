@@ -29,7 +29,7 @@ export default (values) => {
     errors.extend = 'extend is required';
   }
 
-  if (values.properties.actions.verbs.length && !values.properties.actions.prefix) {
+  if (values.properties && values.properties.actions && values.properties.actions.verbs.length && !values.properties.actions.prefix) {
     errors.properties.actions.prefix = 'a prefix is required when specifying actions';
   }
 
