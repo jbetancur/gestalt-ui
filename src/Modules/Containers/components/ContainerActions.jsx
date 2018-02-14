@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
 import { MenuButton, ListItem, Divider } from 'react-md';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource } from 'Modules/MetaResource';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
 import { Title, Subtitle } from 'components/Typography';
@@ -205,13 +205,11 @@ class ContainerActions extends PureComponent {
       actionsPending,
     } = this.props;
 
-    const container = { ...metaModels.container, ...containerModel };
-
     const menuItems = [
       <ListWrapper key="container-actions-menu--dropdown">
         <ListMenu>
-          <Title>{container.name}</Title>
-          <Subtitle>{container.properties.status}</Subtitle>
+          <Title>{containerModel.name}</Title>
+          <Subtitle>{containerModel.properties.status}</Subtitle>
         </ListMenu>
         <EnhancedDivider />
         <ListItem className="button--start" primaryText="Start" onClick={this.start} />
@@ -224,7 +222,7 @@ class ContainerActions extends PureComponent {
           <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
         <ActionsMenu
           listItem
-          model={container}
+          model={containerModel}
           actionList={actions}
           pending={actionsPending}
         />
@@ -235,13 +233,13 @@ class ContainerActions extends PureComponent {
     const position = inContainerView ? MenuButton.Positions.BELOW : MenuButton.Positions.BOTTOM_LEFT;
 
     return (
-      container.id ?
+      containerModel.id ?
         <ActionsWrapper className={inContainerView && 'action--title'}>
           <MenuButton
             id="container-actions-menu"
             icon={!inContainerView}
             flat={inContainerView}
-            disabled={!container.properties.status}
+            disabled={!containerModel.properties.status}
             iconChildren={icon}
             position={position}
             tooltipLabel={!inContainerView && 'Actions'}
@@ -249,7 +247,7 @@ class ContainerActions extends PureComponent {
             menuItems={menuItems}
             listHeightRestricted={false}
           >
-            {inContainerView && <StatusBubble status={container.properties.status || 'Pending'} />}
+            {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
           </MenuButton>
         </ActionsWrapper> : null
     );

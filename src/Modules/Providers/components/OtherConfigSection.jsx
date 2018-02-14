@@ -5,9 +5,9 @@ import { Col, Row } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import JSONTree from 'components/JSONTree';
 
-const OtherConfigSection = props => (
+const OtherConfigSection = ({ selectedProviderType, provider }) => (
   <Row gutter={5}>
-    {props.selectedProviderType.networking &&
+    {selectedProviderType.networking &&
       <Col flex={6} xs={12}>
         <Field
           component={TextField}
@@ -17,7 +17,7 @@ const OtherConfigSection = props => (
           rows={2}
         />
       </Col>}
-    {props.selectedProviderType.extraConfig &&
+    {selectedProviderType.extraConfig &&
       <Col flex={6} xs={12}>
         <Field
           component={TextField}
@@ -28,16 +28,16 @@ const OtherConfigSection = props => (
         />
       </Col>}
 
-    {props.selectedProviderType.networking &&
+    {selectedProviderType.networking &&
     <Col flex={6} xs={12}>
       <JSONTree
-        data={props.provider.properties.config.networks || []}
+        data={provider.properties.config.networks || []}
       />
     </Col>}
-    {props.selectedProviderType.extraConfig &&
+    {selectedProviderType.extraConfig &&
     <Col flex={6} xs={12}>
       <JSONTree
-        data={props.provider.properties.config.extra || {}}
+        data={provider.properties.config.extra || {}}
       />
     </Col>}
   </Row>

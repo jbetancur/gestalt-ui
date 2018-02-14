@@ -71,8 +71,8 @@ class ProviderEdit extends PureComponent {
     clearTimeout(this.timeout);
   }
 
-  setRedeployFlag = (redeploy) => {
-    this.setState({ redeploy });
+  flagForRedeploy = () => {
+    this.setState({ redeploy: true });
   }
 
   populateProvider() {
@@ -107,9 +107,13 @@ class ProviderEdit extends PureComponent {
     ];
 
     if (this.state.redeploy) {
-      const handleRedeploy = () => redeployProvider(match.params.fqon, provider.id);
+      const handleRedeploy = () => {
+        redeployProvider(match.params.fqon, provider.id);
+      };
 
-      confirmUpdate(handleRedeploy, provider.name);
+      const onClose = this.setState({ redeploy: false });
+
+      confirmUpdate(handleRedeploy, provider.name, onClose);
     } else {
       const patches = generateProviderPatches(provider, formValues, containerValues, mergeProps);
 
@@ -145,7 +149,7 @@ class ProviderEdit extends PureComponent {
             submitLabel="Update"
             cancelLabel="Providers"
             onSubmit={this.update}
-            onRedeploy={this.setRedeployFlag}
+            onRedeploy={this.flagForRedeploy}
             goBack={this.goBack}
             {...this.props}
           />}

@@ -55,7 +55,7 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
     payload.properties.config.extra = JSON.parse(properties.config.extra);
   }
 
-  if (properties.config.networks) {
+  if (!Array.isArray(properties.config.networks)) {
     payload.properties.config.networks = JSON.parse(properties.config.networks);
   }
 

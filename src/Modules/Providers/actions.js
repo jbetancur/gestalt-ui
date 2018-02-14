@@ -12,7 +12,7 @@ export function confirmDelete(action, multipleItems) {
   };
 }
 
-export function confirmUpdate(action, item) {
+export function confirmUpdate(action, item, onClose) {
   return (dispatch) => {
     dispatch({
       type: 'SHOW_MODAL',
@@ -21,6 +21,7 @@ export function confirmUpdate(action, item) {
         title: `"${item}" provider container will be re-deployed. Are you sure you want to proceed?`,
         onProceed: action,
         proceedLabel: 'Redeploy',
+        onClose,
       }
     });
   };

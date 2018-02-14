@@ -52,7 +52,7 @@ export function* fetchProvidersByType(action) {
     const response = yield call(axios.get, urlHasType);
 
     if (!response.data.length) {
-      yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ ...providerModel, id: '', name: 'No Available Providers' }] });
+      yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [providerModel.get({ id: '', name: 'No Available Providers' })] });
     } else {
       yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: response.data });
     }

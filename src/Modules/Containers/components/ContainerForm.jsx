@@ -493,9 +493,7 @@ ContainerForm.propTypes = {
   apiEndpointsPending: PropTypes.bool.isRequired,
   containerInstances: PropTypes.array,
   containerServiceAddresses: PropTypes.array,
-  portMappingFormValues: PropTypes.array.isRequired,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
-  formErrors: PropTypes.object.isRequired,
 };
 
 ContainerForm.defaultProps = {

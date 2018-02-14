@@ -31,16 +31,18 @@ class ConfirmModal extends PureComponent {
     values: PropTypes.object,
     proceedLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
+    onClose: PropTypes.func,
   };
 
   static defaultProps = {
-    onProceed: () => {},
+    onProceed: null,
     multipleItems: [],
     body: '',
     values: {},
     requireConfirm: false,
     proceedLabel: 'Delete',
     cancelLabel: 'Cancel',
+    onClose: null,
   };
 
   constructor(props) {
@@ -59,9 +61,16 @@ class ConfirmModal extends PureComponent {
     });
   }
 
+  close = () => {
+    this.props.hideModal();
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
+  }
+
   doIt = () => {
     this.props.onProceed();
-    this.props.hideModal();
+    this.close();
   }
 
   render() {
@@ -73,7 +82,7 @@ class ConfirmModal extends PureComponent {
 
     const actionButtons = [];
     actionButtons.push(<ConfirmButton flat primary onClick={this.doIt} disabled={isConfirmDisabled}>{this.props.proceedLabel}</ConfirmButton>);
-    actionButtons.push({ primary: true, children: this.props.cancelLabel, onClick: this.props.hideModal });
+    actionButtons.push({ primary: true, children: this.props.cancelLabel, onClick: this.close });
 
     const title = this.props.multipleItems.length ? `${this.props.title} (${this.props.multipleItems.length})` : this.props.title;
     return (
@@ -84,7 +93,7 @@ class ConfirmModal extends PureComponent {
         title={title}
         defaultVisibleTransitionable
         autosizeContent={false}
-        onHide={this.props.hideModal}
+        onHide={this.close}
         actions={actionButtons}
       >
         <div>
