@@ -31,6 +31,7 @@ const get = (model = {}) => {
       cpus: 0.1,
       memory: 128,
       num_instances: 1,
+      status: '',
     }
   }, safeModel);
 };
@@ -64,7 +65,6 @@ const create = (model) => {
     'description',
     'properties.env',
     'properties.labels',
-    'properties.instances',
     'properties.port_mappings',
     'properties.volumes',
     'properties.secrets',

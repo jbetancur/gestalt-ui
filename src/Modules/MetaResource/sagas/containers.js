@@ -206,7 +206,7 @@ export function* fetchProviderContainer(action) {
       const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}`);
       yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data });
     } else {
-      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel });
+      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get() });
     }
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINER_REJECTED, payload: e.message });

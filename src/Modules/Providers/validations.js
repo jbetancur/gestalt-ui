@@ -53,7 +53,7 @@ export default (values) => {
     errors.properties.config.auth.password = 'password is required';
   }
 
-  if (values.properties.config.networks && !isJSON(values.properties.config.networks)) {
+  if (values.properties.config.networks && typeof values.properties.config.networks === 'string' && !isJSON(values.properties.config.networks)) {
     errors.properties.config.networks = 'networks must be valid JSON';
   }
 
@@ -61,7 +61,7 @@ export default (values) => {
     errors.properties.data = 'you must provide a yaml configuration';
   }
 
-  if (values.properties.config.extra) {
+  if (values.properties.config && values.properties.config.extra && typeof values.properties.config.extra === 'string') {
     // hack to deal with just a "string"" that we want to set on extra, but still treat validation as JSON
     if (!isJSON(values.properties.config.extra)) {
       try {

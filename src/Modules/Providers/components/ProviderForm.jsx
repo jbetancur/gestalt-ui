@@ -35,8 +35,7 @@ const isSubmitDisabled = (props, selectedProviderType) => {
   return props.envSchemaPending || props.providerPending || props.submitting;
 };
 
-const ProviderForm = (props) => {
-  const { provider, reset, values, fetchEnvSchema } = props;
+const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRedeploy, ...props }) => {
   const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
   const showContainer = () => {
@@ -57,6 +56,12 @@ const ProviderForm = (props) => {
       fetchEnvSchema(providerType.id);
     }
     reset();
+  };
+
+  const handleRedeploy = () => {
+    if (onRedeploy) {
+      onRedeploy();
+    }
   };
 
   const submitDisabled = isSubmitDisabled(props, selectedProviderType);
@@ -105,7 +110,6 @@ const ProviderForm = (props) => {
                       raised
                       iconChildren="save"
                       type="submit"
-                      onClick={() => props.onRedeploy(false)}
                       disabled={submitDisabled}
                       primary
                     >
@@ -116,16 +120,16 @@ const ProviderForm = (props) => {
                     raised
                     iconChildren="refresh"
                     type="submit"
-                    onClick={() => props.onRedeploy(true)}
+                    onClick={handleRedeploy}
                     disabled={props.containerInvalid}
                     primary
                   >
                   Redeploy
                   </Button>}
-                  {props.editMode && selectedProviderType.allowContainer &&
+                  {props.editMode && showContainer() &&
                     <ContainerActions
                       inContainerView
-                      containerModel={props.container}
+                      containerModel={container}
                       disableDestroy
                       disablePromote
                     />}
@@ -139,7 +143,7 @@ const ProviderForm = (props) => {
                       {/* only allow the provider type to be selected once - this prevents redux-form errors */}
                       <Col flex={12}>
                         <Field
-                          id="select-provider"
+                          id="select-provider-type"
                           component={SelectField}
                           name="resource_type"
                           menuItems={compiledProviderTypes}
@@ -189,7 +193,7 @@ const ProviderForm = (props) => {
 
                     {selectedProviderType.DCOSEnterprise &&
                       <Col flex={12}>
-                        <DCOSEESection {...props} />
+                        <DCOSEESection values={values} />
                       </Col>}
 
                     {/* do not show on edit mode */}
@@ -240,7 +244,11 @@ const ProviderForm = (props) => {
                                 />
                               </Col>
                             </Row>}
-                          <OtherConfigSection selectedProviderType={selectedProviderType} showJSON={provider.id} {...props} />
+                          <OtherConfigSection
+                            selectedProviderType={selectedProviderType}
+                            showJSON={provider.id}
+                            provider={provider}
+                          />
                         </Panel>
                       </Col>}
                   </Row>}

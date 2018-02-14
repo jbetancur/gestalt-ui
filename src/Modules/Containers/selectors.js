@@ -4,13 +4,13 @@ import { mapTo2DArray } from 'util/helpers/transformations';
 import { merge } from 'lodash';
 
 export const selectContainer = state => state.metaResource.container.container;
-export const selectContainerSpec = (state, containerSpec) => containerSpec;
+export const selectContainerSpec = (state, containerSpec) => metaModels.container.get(containerSpec);
 export const selectEnv = state => state.metaResource.env.env;
 const selectHealthChecks = state => state.healthCheckModal.healthChecks.healthChecks;
 const selectSecrets = state => state.secrets.secrets.secrets;
 
 // TODO: deal with missing volume.type - https://gitlab.com/galacticfog/gestalt-meta/issues/416
-const fixVolumes = volumes => volumes.map((volume) => {
+const fixVolumes = (volumes = []) => volumes.map((volume) => {
   const newVolume = volume;
   if (!volume.type) {
     if (volume.persistent && volume.persistent.size) {

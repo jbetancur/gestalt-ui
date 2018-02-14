@@ -10,7 +10,6 @@ export const getCreateProviderModel = createSelector(
   [selectEnvSchema],
   (envSchema) => {
     const model = {
-      ...metaModels.providers,
       properties: {
         environment_types: '', // converted to Array on Create
         config: {
@@ -21,7 +20,7 @@ export const getCreateProviderModel = createSelector(
       },
     };
 
-    return model;
+    return metaModels.provider.get(model);
   }
 );
 
@@ -29,11 +28,12 @@ export const getEditProviderModel = createSelector(
   [selectProvider],
   (provider) => {
     const model = {
-      ...metaModels.provider,
+      ...provider,
       name: provider.name,
       description: provider.description,
       resource_type: provider.resource_type,
       properties: {
+        ...provider.properties,
         environment_types: provider.properties.environment_types || [],
         config: {
           ...provider.properties.config,
@@ -60,6 +60,6 @@ export const getEditProviderModel = createSelector(
       model.properties.environment_types = model.properties.environment_types.join(',');
     }
 
-    return model;
+    return metaModels.provider.create(model);
   }
 );

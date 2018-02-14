@@ -5,7 +5,7 @@ import { Col, Row } from 'react-flexybox';
 import { Panel } from 'components/Panels';
 import { Checkbox, TextField } from 'components/ReduxFormFields';
 
-const DCOSEESection = props => (
+const DCOSEESection = ({ values }) => (
   <Panel title="Enterprise Edition">
     <Row gutter={5}>
       <Col key="config-auth--appGroupPrefix" flex={2} xs={12} sm={4} md={4}>
@@ -46,7 +46,7 @@ const DCOSEESection = props => (
           component={Checkbox}
           name="properties.config.accept_any_cert"
           label="Accept Any Certificate"
-          checked={props.values.properties.config.accept_any_cert}
+          checked={values.properties.config.accept_any_cert}
           style={{ minWidth: '10em' }}
         />
       </Col>
@@ -58,7 +58,7 @@ const DCOSEESection = props => (
           component={Checkbox}
           name="properties.config.secret_support"
           label="Secret Support"
-          checked={props.values.properties.config.secret_support}
+          checked={values.properties.config.secret_support}
           style={{ minWidth: '10em' }}
         />
       </Col>
