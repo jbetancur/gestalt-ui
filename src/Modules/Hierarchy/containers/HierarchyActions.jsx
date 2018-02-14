@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 import { ListItem, FontIcon, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
-import { MetamodelIcon } from 'components/Icons';
+import { MetamodelIcon, ServiceIcon } from 'components/Icons';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -79,16 +79,24 @@ class HierarchyActions extends PureComponent {
           to={`/${organizationSet.properties.fqon}/groups/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--groups-create" />,
-      organizationSet.properties.fqon === 'root' ?
-        <ListItem
-          id="orgs-settings-menu--resourceTypes-create"
-          key="orgs-settings-menu--resourceTypes-create"
-          primaryText="Resource Type"
-          component={Link}
-          leftIcon={<MetamodelIcon />}
-          to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
-          style={listItemStyle}
-        /> : <div key="orgs-settings-menu--resourceTypes-create" />,
+      <ListItem
+        id="orgs-settings-menu--resourceTypes-create"
+        key="orgs-settings-menu--resourceTypes-create"
+        primaryText="Resource Type"
+        component={Link}
+        leftIcon={<MetamodelIcon />}
+        to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="orgs-settings-menu--serviceSpecs-create"
+        key="orgs-settings-menu--serviceSpecs-create"
+        primaryText="Service Specification"
+        component={Link}
+        leftIcon={<ServiceIcon />}
+        to={`/${organizationSet.properties.fqon}/servicespecs/create`}
+        style={listItemStyle}
+      />
     ];
 
     return (
@@ -101,6 +109,7 @@ class HierarchyActions extends PureComponent {
           sameWidth={false}
           menuItems={menuItems}
           label="Create"
+          listHeightRestricted={false}
         />
         <Button
           flat

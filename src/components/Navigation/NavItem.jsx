@@ -4,11 +4,14 @@ import { NavLink } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
 
-const EnhancedListItem = styled(({ isVisible, ...rest }) => <NavLink {...rest} />)`
+const EnhancedListItem = styled(NavLink)`
   height: 56px;
   text-decoration: none;
-  display: ${props => (props.isVisible ? 'flex' : 'none')};
-  align-items: center;
+  display: flex;
+  color: inherit;
+  width: 100%;
+  font-size: 12px;
+  cursor: pointer;
 
   &.active-link * {
     color:  ${props => props.theme.colors['$md-blue-500']}!important;
@@ -40,12 +43,12 @@ const Icon = styled(FontIcon)`
 `;
 
 const NavItem = ({ icon, title, isVisible, ...rest }) => (
-  <EnhancedListItem isVisible={isVisible} {...rest}>
+  isVisible ? <EnhancedListItem {...rest}>
     <Wrapper>
       <Icon>{icon}</Icon>
       <Text>{title}</Text>
     </Wrapper>
-  </EnhancedListItem>
+  </EnhancedListItem> : null
 );
 
 NavItem.propTypes = {

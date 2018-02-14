@@ -40,6 +40,26 @@ export function* fetchResourceTypes(action) {
 }
 
 /**
+ * fetchResourceTypesDropDown
+ * @param {*} action { fqon, environmentId }
+ */
+export function* fetchResourceTypesDropDown(action) {
+  try {
+    const response = yield call(axios.get, `${action.fqon}/resourcetypes?expand=true`);
+
+    if (!response.data.length) {
+      yield put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Resource Types' }] });
+    } else {
+      const payload = orderBy(response.data, 'name', 'asc');
+
+      yield put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_FULFILLED, payload });
+    }
+  } catch (e) {
+    yield put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_REJECTED, payload: e.message });
+  }
+}
+
+/**
  * createResourceType
  * @param {*} action - { fqon, payload, onSuccess {returns response.data} }
  */
@@ -115,6 +135,7 @@ export function* deleteResourceTypes(action) {
 export default function* () {
   yield fork(takeLatest, types.FETCH_RESOURCETYPE_REQUEST, fetchResourceType);
   yield fork(takeLatest, types.FETCH_RESOURCETYPES_REQUEST, fetchResourceTypes);
+  yield fork(takeLatest, types.FETCH_RESOURCETYPES_DROPDOWN_REQUEST, fetchResourceTypesDropDown);
   yield fork(takeLatest, types.CREATE_RESOURCETYPE_REQUEST, createResourceType);
   yield fork(takeLatest, types.UPDATE_RESOURCETYPE_REQUEST, updateResourceType);
   yield fork(takeLatest, types.DELETE_RESOURCETYPE_REQUEST, deleteResourceType);

@@ -17,6 +17,7 @@ import containerModel from '../models/container';
 import envSchemaModel from '../models/envSchema';
 import secretModel from '../models/secret';
 import resourceTypeModel from '../models/resourceType';
+import serviceSpecModel from '../models/serviceSpec';
 
 export default combineReducers({
   envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel),
@@ -73,5 +74,9 @@ export default combineReducers({
   search: reducerFactory(['fetch'], 'search', 'search', [], true),
   resourceTypes: reducerFactory(['fetch', 'delete'], 'resourceTypes', 'resourceTypes', []),
   resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel.get()),
+  resourceTypesDropDown: reducerFactory(['fetch'], 'resourceTypes', 'resourceTypes_dropdown', [], true, []),
   sync: reducerFactory(['fetch'], 'sync', 'sync', {}),
+  serviceSpecs: reducerFactory(['fetch', 'delete'], 'serviceSpecs', 'serviceSpecs', []),
+  serviceSpec: reducerFactory(['create'], 'serviceSpec', 'serviceSpec', serviceSpecModel.get()),
+  serviceSpecsDropDown: reducerFactory(['fetch'], 'serviceSpecs', 'serviceSpecs_dropdown', [], true, []),
 });

@@ -7,6 +7,6 @@ describe('Sagas Index', () => {
   // This test is to mostly appease test coverage
   it('should load metaSagas', () => {
     result = rootSaga.next();
-    expect(result.value.length).to.equal(22);
+    expect(result.value.length).to.equal(23);
   });
 });

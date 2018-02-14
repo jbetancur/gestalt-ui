@@ -20,6 +20,7 @@ import search from './search';
 import resourceTypes from './resourceTypes';
 import typeProperties from './typeProperties';
 import syncMeta from './sync';
+import serviceSpecs from './serviceSpecs';
 
 export default Object.assign({},
   organizations,
@@ -44,4 +45,5 @@ export default Object.assign({},
   resourceTypes,
   typeProperties,
   syncMeta,
+  serviceSpecs,
 );

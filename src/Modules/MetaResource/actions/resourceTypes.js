@@ -23,6 +23,14 @@ export function fetchResourceTypes(fqon, filter) {
 }
 
 /**
+ * fetchResourceTypesDropDown
+ * @param {string} fqon
+ */
+export function fetchResourceTypesDropDown(fqon) {
+  return { type: types.FETCH_RESOURCETYPES_DROPDOWN_REQUEST, fqon };
+}
+
+/**
  * fetchResourceType
  * @param {string} fqon
  * @param {string} resourceTypeId
@@ -75,6 +83,7 @@ export default {
   unloadResourceTypes,
   unloadResourceType,
   fetchResourceTypes,
+  fetchResourceTypesDropDown,
   fetchResourceType,
   createResourceType,
   updateResourceType,

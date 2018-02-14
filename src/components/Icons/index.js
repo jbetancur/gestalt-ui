@@ -11,3 +11,4 @@ export { default as MesosIcon } from './MesosIcon';
 export { default as KubernetesIcon } from './KubernetesIcon';
 export { default as ContainerIcon } from './ContainerIcon';
 export { default as MetamodelIcon } from './MetamodelIcon';
+export { default as ServiceIcon } from './ServiceIcon';

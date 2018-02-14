@@ -11,22 +11,24 @@ import { getCreateResourceTypeModel } from '../selectors';
 
 class CreateResourceType extends PureComponent {
   static propTypes = {
-    fetchResourceTypes: PropTypes.func.isRequired,
+    fetchResourceTypesDropDown: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,
-    resourceTypes: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    this.props.fetchResourceTypes('root');
+    const { match, fetchResourceTypesDropDown } = this.props;
+
+    fetchResourceTypesDropDown(match.params.fqon);
   }
 
   create = (values) => {
-    const { history, createResourceType } = this.props;
+    const { history, match, createResourceType } = this.props;
     const payload = generatePayload(values);
-    const onSuccess = () => history.replace('/root/resourcetypes');
+    const onSuccess = () => history.replace(`/${match.params.fqon}/resourcetypes`);
 
-    createResourceType('root', payload, onSuccess);
+    createResourceType(match.params.fqon, payload, onSuccess);
   }
 
   render() {

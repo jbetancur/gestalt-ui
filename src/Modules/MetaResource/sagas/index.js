@@ -20,6 +20,7 @@ import searchSagas from './search';
 import resourceTypeSagas from './resourceTypes';
 import typePropertySagas from './typeProperties';
 import syncSagas from './sync';
+import serviceSpecSagas from './serviceSpecs';
 
 export default function* metaSagas() {
   yield [
@@ -45,5 +46,6 @@ export default function* metaSagas() {
     resourceTypeSagas(),
     typePropertySagas(),
     syncSagas(),
+    serviceSpecSagas(),
   ];
 }

@@ -160,10 +160,18 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       resourceTypesPending: metaResource.resourceTypes.pending,
       resourceType: metaResource.resourceType.resourceType,
       resourceTypePending: metaResource.resourceType.pending,
+      resourceTypesDropDown: metaResource.resourceTypesDropDown.resourceTypes,
 
       // Subscriptions for sync
       sync: metaResource.sync.sync,
       syncPending: metaResource.sync.pending,
+
+      // Subscriptions for services
+      serviceSpecs: metaResource.serviceSpecs.serviceSpecs,
+      serviceSpecsPending: metaResource.serviceSpecs.pending,
+      serviceSpec: metaResource.serviceSpec.serviceSpec,
+      serviceSpecPending: metaResource.serviceSpec.pending,
+      serviceSpecsDropDown: metaResource.serviceSpecsDropDown.serviceSpecs,
     };
   }
 
