@@ -28,6 +28,15 @@ describe('Resource Type Actions', () => {
     expect(actions.fetchResourceTypes('iamfqon')).to.deep.equal(expectedAction);
   });
 
+  it('should request FETCH_RESOURCETYPES_DROPDOWN_REQUEST', () => {
+    const expectedAction = {
+      type: types.FETCH_RESOURCETYPES_DROPDOWN_REQUEST,
+      fqon: 'iamfqon',
+    };
+
+    expect(actions.fetchResourceTypesDropDown('iamfqon')).to.deep.equal(expectedAction);
+  });
+
   it('should request FETCH_RESOURCETYPE_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_RESOURCETYPE_REQUEST,

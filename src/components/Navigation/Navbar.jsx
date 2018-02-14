@@ -33,16 +33,6 @@ const List = styled.div`
   align-self: center;
 `;
 
-const ListItem = styled.div`
-  color: inherit;
-  display: inline-block;
-  width: 100%;
-  font-size: 12px;
-  cursor: pointer;
-  align-self: center;
-  text-align: center;
-`;
-
 class Navbar extends PureComponent {
   static propTypes = {
     items: PropTypes.array,
@@ -61,9 +51,9 @@ class Navbar extends PureComponent {
       <NavbarContainer vertical={vertical}>
         <List>
           {items.map((item, i) => (
-            <ListItem key={i}>
+            <div key={i}>
               {item}
-            </ListItem>
+            </div>
           ))}
         </List>
       </NavbarContainer>

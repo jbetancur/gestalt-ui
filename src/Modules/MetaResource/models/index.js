@@ -15,6 +15,7 @@ import secret from './secret';
 import self from './self';
 import user from './user';
 import workspace from './workspace';
+import serviceSpec from './serviceSpec';
 
 export default {
   api,
@@ -34,4 +35,5 @@ export default {
   self,
   user,
   workspace,
+  serviceSpec,
 };

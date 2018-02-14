@@ -3,6 +3,7 @@ import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import resourceTypeSagas, {
   fetchResourceType,
   fetchResourceTypes,
+  fetchResourceTypesDropDown,
   createResourceType,
   updateResourceType,
   deleteResourceType,
@@ -92,6 +93,57 @@ describe('Resource Type Sagas', () => {
       expect(result.value).to.deep.equal(
         put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload: [{ id: '1' }] })
       );
+    });
+  });
+
+  describe('fetchResourceTypesDropDown Sequence', () => {
+    describe('fetchResourceTypesDropDown when there are resourcetypes', () => {
+      const saga = fetchResourceTypesDropDown({ fqon: 'iamfqon', environmentId: '1' });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/resourcetypes?expand=true')
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next({ data: [{ id: '1', name: 'morty' }] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_FULFILLED, payload: [{ id: '1', name: 'morty' }] })
+        );
+      });
+
+      it('should return a payload and dispatch a reject status when there is an error', () => {
+        const sagaError = fetchResourceTypesDropDown({ fqon: 'iamfqon' });
+        let resultError = sagaError.next();
+
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).to.deep.equal(
+          put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_REJECTED, payload: error })
+        );
+      });
+    });
+
+    describe('fetchResourceTypesDropDown when there are NO providers', () => {
+      const saga = fetchResourceTypesDropDown({ fqon: 'iamfqon', environmentId: 1 });
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).to.deep.equal(
+          call(axios.get, 'iamfqon/resourcetypes?expand=true')
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next({ data: [] });
+        expect(result.value).to.deep.equal(
+          put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Resource Types' }] })
+        );
+      });
     });
   });
 
@@ -279,6 +331,13 @@ describe('Resource Type Sagas', () => {
       result = rootSaga.next();
       expect(result.value).to.deep.equal(
         fork(takeLatest, types.FETCH_RESOURCETYPES_REQUEST, fetchResourceTypes)
+      );
+    });
+
+    it('should fork a watcher for fetchResourceTypesDropDown', () => {
+      result = rootSaga.next();
+      expect(result.value).to.deep.equal(
+        fork(takeLatest, types.FETCH_RESOURCETYPES_DROPDOWN_REQUEST, fetchResourceTypesDropDown)
       );
     });
 

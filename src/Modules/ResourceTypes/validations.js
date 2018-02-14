@@ -1,6 +1,37 @@
 export const nameMaxLen = 60;
 export const descriptionMaxLen = 512;
 
+export const propertyDefValidations = (property_defs) => {
+  const properyDefErrors = [];
+  if (property_defs && property_defs.length) {
+    property_defs.forEach((definition, index) => {
+      const propertyDefError = {};
+
+      if (!definition || !definition.name) {
+        propertyDefError.name = 'required';
+        properyDefErrors[index] = propertyDefError;
+      }
+
+      if (definition && definition.name && definition.name.indexOf(' ') >= 0) {
+        propertyDefError.name = 'spaces not allowed';
+        properyDefErrors[index] = propertyDefError;
+      }
+
+      if (!definition || !definition.data_type) {
+        propertyDefError.data_type = 'required';
+        properyDefErrors[index] = propertyDefError;
+      }
+
+      if (!definition || !definition.refers_to) {
+        propertyDefError.refers_to = 'required';
+        properyDefErrors[index] = propertyDefError;
+      }
+    });
+  }
+
+  return properyDefErrors;
+};
+
 export default (values) => {
   const errors = {
     properties: {
@@ -33,35 +64,10 @@ export default (values) => {
     errors.properties.actions.prefix = 'a prefix is required';
   }
 
-  if (values.property_defs && values.property_defs.length) {
-    const properyDefErrors = [];
-    values.property_defs.forEach((definition, index) => {
-      const propertyDefError = {};
+  const properyDefErrors = propertyDefValidations(values.property_defs);
 
-      if (!definition || !definition.name) {
-        propertyDefError.name = 'required';
-        properyDefErrors[index] = propertyDefError;
-      }
-
-      if (definition && definition.name && definition.name.indexOf(' ') >= 0) {
-        propertyDefError.name = 'spaces not allowed';
-        properyDefErrors[index] = propertyDefError;
-      }
-
-      if (!definition || !definition.data_type) {
-        propertyDefError.data_type = 'required';
-        properyDefErrors[index] = propertyDefError;
-      }
-
-      if (!definition || !definition.refers_to) {
-        propertyDefError.refers_to = 'required';
-        properyDefErrors[index] = propertyDefError;
-      }
-    });
-
-    if (properyDefErrors.length) {
-      errors.property_defs = properyDefErrors;
-    }
+  if (properyDefErrors.length) {
+    errors.property_defs = properyDefErrors;
   }
 
   return errors;

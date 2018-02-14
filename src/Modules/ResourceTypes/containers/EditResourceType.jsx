@@ -12,12 +12,11 @@ import { getEditResourceTypeModel } from '../selectors';
 
 class EditResourceType extends PureComponent {
   static propTypes = {
-    fetchResourceTypes: PropTypes.func.isRequired,
+    fetchResourceTypesDropDown: PropTypes.func.isRequired,
     fetchResourceType: PropTypes.func.isRequired,
     updateResourceType: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,
     batchUpdateTypeProperties: PropTypes.func.isRequired,
-    resourceTypes: PropTypes.array.isRequired,
     resourceType: PropTypes.object.isRequired,
     unloadResourceType: PropTypes.func.isRequired,
     resourceTypePending: PropTypes.bool.isRequired,
@@ -26,10 +25,10 @@ class EditResourceType extends PureComponent {
   };
 
   componentDidMount() {
-    const { match, fetchResourceTypes, fetchResourceType } = this.props;
+    const { match, fetchResourceTypesDropDown, fetchResourceType } = this.props;
 
-    fetchResourceTypes('root');
-    fetchResourceType('root', match.params.resourceTypeId);
+    fetchResourceTypesDropDown(match.params.fqon);
+    fetchResourceType(match.params.fqon, match.params.resourceTypeId);
   }
 
   componentWillUnmount() {
@@ -39,12 +38,12 @@ class EditResourceType extends PureComponent {
   }
 
   update = (values) => {
-    const { resourceType, updateResourceType, batchUpdateTypeProperties } = this.props;
+    const { match, resourceType, updateResourceType, batchUpdateTypeProperties } = this.props;
     const patches = generatePatches(resourceType, values);
     const batchOps = batchTypeProps(resourceType.id, resourceType.property_defs, values.property_defs);
-    const onSuccessTypePropsUpdate = () => updateResourceType('root', resourceType.id, patches);
+    const onSuccessTypePropsUpdate = () => updateResourceType(match.params.fqon, resourceType.id, patches);
 
-    batchUpdateTypeProperties('root', batchOps, onSuccessTypePropsUpdate);
+    batchUpdateTypeProperties(match.params.fqon, batchOps, onSuccessTypePropsUpdate);
   }
 
   render() {
@@ -58,7 +57,6 @@ class EditResourceType extends PureComponent {
             title={resourceType.name}
             onSubmit={this.update}
             editMode
-            resourceType={resourceType}
             {...this.props}
           />}
       </div>

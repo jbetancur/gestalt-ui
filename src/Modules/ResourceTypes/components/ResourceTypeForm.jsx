@@ -16,7 +16,7 @@ import ActionVerbsForm from './ActionVerbsForm';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const ResourceTypeForm = (props) => {
-  const { title, handleSubmit, submitting, pristine, resourceTypes, onSubmit, resourceType, resourceTypePending, editMode } = props;
+  const { title, match, handleSubmit, submitting, pristine, resourceTypesDropDown, onSubmit, resourceType, resourceTypePending, editMode } = props;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={resourceTypePending}>
@@ -30,7 +30,7 @@ const ResourceTypeForm = (props) => {
                 iconChildren="arrow_back"
                 disabled={resourceTypePending || props.submitting}
                 component={Link}
-                to="/root/resourcetypes"
+                to={`/${match.params.fqon}/resourcetypes`}
               >
                 Resource Types
               </Button>
@@ -68,7 +68,7 @@ const ResourceTypeForm = (props) => {
                             id="select-extends"
                             component={SelectField}
                             name="extend"
-                            menuItems={resourceTypes}
+                            menuItems={resourceTypesDropDown}
                             itemLabel="name"
                             itemValue="id"
                             required
@@ -142,7 +142,7 @@ const ResourceTypeForm = (props) => {
                     <FieldArray
                       name="property_defs"
                       component={PropertyDefForm}
-                      resourceTypes={resourceTypes}
+                      resourceTypes={resourceTypesDropDown}
                     />
                   </Panel>
                 </Col>
@@ -152,7 +152,7 @@ const ResourceTypeForm = (props) => {
                     <FieldArray
                       name="properties.lineage.parent_types"
                       component={LineageForm}
-                      resourceTypes={resourceTypes}
+                      resourceTypes={resourceTypesDropDown}
                       addLabel="Add Parent"
                     />
                   </Panel>
@@ -163,7 +163,7 @@ const ResourceTypeForm = (props) => {
                     <FieldArray
                       name="properties.lineage.child_types"
                       component={LineageForm}
-                      resourceTypes={resourceTypes}
+                      resourceTypes={resourceTypesDropDown}
                       addLabel="Add Child"
                     />
                   </Panel>
@@ -181,13 +181,13 @@ ResourceTypeForm.propTypes = {
   title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  resourceTypes: PropTypes.array.isRequired,
+  resourceTypesDropDown: PropTypes.array.isRequired,
   resourceTypePending: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  // invalid: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   resourceType: PropTypes.object.isRequired,
   editMode: PropTypes.bool.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default ResourceTypeForm;
