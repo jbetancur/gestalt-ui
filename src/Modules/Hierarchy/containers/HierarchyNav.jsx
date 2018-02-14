@@ -48,7 +48,7 @@ const renderNavItems = (showOnRootOnly, t, props) => (
     <NavItem
       key="hierarchy--resourceTypes"
       icon={<MetamodelIcon />}
-      title="Resources Types"
+      title="Resource Types"
       to={`/${props.match.params.fqon}/resourcetypes`}
       activeClassName="active-link"
     />,
