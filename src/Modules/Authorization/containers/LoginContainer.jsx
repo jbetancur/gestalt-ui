@@ -34,22 +34,16 @@ const Wrapper = styled(Container)`
 class LoginContainer extends Component {
   static propTypes = {
     login: PropTypes.func.isRequired,
-    loginModal: PropTypes.object.isRequired,
-    hideLoginModal: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
   };
 
   submitLogin = (values) => {
-    const { history, login, loginModal, hideLoginModal, location } = this.props;
+    const { history, login, location } = this.props;
     const path = (location.state && location.state.nextPathname) || JSON.parse(loadStorage('lastVisitedRoute')) || '/';
 
     login(values.username, values.password).then(() => {
-      if (loginModal.visible) {
-        hideLoginModal();
-      } else {
-        history.replace(path);
-      }
+      history.replace(path);
     });
   };
 
@@ -73,7 +67,6 @@ const mapStateToProps = state => ({
   token: state.login.login.token,
   isAuthenticating: state.login.login.isAuthenticating,
   statusText: state.login.login.statusText,
-  loginModal: state.login.loginModal,
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({
