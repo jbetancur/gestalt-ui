@@ -12,7 +12,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import Div from 'components/Div';
 import { Panel } from 'components/Panels';
-import { Caption } from 'components/Typography';
+import { Caption, Error, P } from 'components/Typography';
 import { ContainerCreate, ContainerEdit, ContainerActions } from 'Modules/Containers';
 import LinkedProviders from './LinkedProviders';
 import EnvironmentTypes from './EnvironmentTypes';
@@ -35,11 +35,11 @@ const isSubmitDisabled = (props, selectedProviderType) => {
   return props.envSchemaPending || props.providerPending || props.submitting;
 };
 
-const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRedeploy, ...props }) => {
+const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, fetchEnvSchema, container, onRedeploy, ...props }) => {
   const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
   const showContainer = () => {
-    if (props.editMode) {
+    if (editMode) {
       return selectedProviderType.allowContainer &&
         provider.properties.services &&
         provider.properties.services.length > 0;
@@ -58,12 +58,7 @@ const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRe
     reset();
   };
 
-  const handleRedeploy = () => {
-    if (onRedeploy) {
-      onRedeploy();
-    }
-  };
-
+  const handleRedeploy = () => onRedeploy && onRedeploy();
   const submitDisabled = isSubmitDisabled(props, selectedProviderType);
   const linkedProviders = props.providers.filter(p => p.id !== provider.id);
 
@@ -96,6 +91,7 @@ const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRe
                     </div>
                   }
                 />
+                {editMode && showContainer() && props.containerInvalid && <P><Error>Invalid Container Specification</Error></P>}
                 <ActionsToolbar>
                   <Button
                     flat
@@ -115,7 +111,7 @@ const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRe
                     >
                       {props.submitLabel}
                     </Button>}
-                  {props.editMode && showContainer() &&
+                  {editMode && showContainer() &&
                   <Button
                     raised
                     iconChildren="refresh"
@@ -126,7 +122,7 @@ const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRe
                   >
                   Redeploy
                   </Button>}
-                  {props.editMode && showContainer() &&
+                  {editMode && showContainer() &&
                     <ContainerActions
                       inContainerView
                       containerModel={container}
@@ -260,7 +256,7 @@ const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRe
               <Col flex={12}>
                 <Panel title="Container Specification" defaultExpanded={showContainer()}>
                   <Caption light>{`The provider type ${selectedProviderType.displayName} requires a container`}</Caption>
-                  {props.editMode ?
+                  {editMode ?
                     <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode /> : <ContainerCreate inlineMode />}
                 </Panel>
               </Col>
@@ -274,6 +270,7 @@ const ProviderForm = ({ provider, reset, values, fetchEnvSchema, container, onRe
 ProviderForm.propTypes = {
   providerPending: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
+  containerFormErrors: PropTypes.object.isRequired,
   providers: PropTypes.array.isRequired,
   provider: PropTypes.object,
   envSchemaPending: PropTypes.bool.isRequired,

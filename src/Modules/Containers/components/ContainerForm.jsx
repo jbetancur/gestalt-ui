@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { Card, CardTitle, CardText, FontIcon } from 'react-md';
+import { metaModels } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
 import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
-import { SecretsPanelModal, SecretsPanelList } from 'Modules/Secrets';
+import { SecretsPanelForm } from 'Modules/Secrets';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
@@ -37,44 +37,59 @@ const ListButton = styled(Button)`
   margin-bottom: 8px;
 `;
 
-const ContainerForm = ({ values, container, ...props }) => {
-  const selectedProvider = merge({ properties: { config: { networks: [] } } },
-    props.providersByType.find(provider => values.properties.provider.id === provider.id));
+const ContainerForm = ({ match, values, container, containerPending, editMode, inlineMode, ...props }) => {
+  const selectedProvider = metaModels.provider.get(props.providersByType
+    .find(provider => values.properties.provider.id === provider.id));
 
   // TODO: Remove when Kubernetes/Docker when api is ready
   const providerType = getLastFromSplit(selectedProvider.resource_type);
-  const isHealthChecksEnabled = providerType !== 'Docker';
-  const isSecretsEnabled = providerType !== 'Docker' || selectedProvider.properties.config.secret_support;
   const isSubmitDisabled =
-    props.editMode ? (props.containerPending || props.submitting)
-      : (props.pristine || props.containerPending || props.submitting);
+    editMode ? (containerPending || props.submitting)
+      : (props.pristine || containerPending || props.submitting);
 
   const hasInstances = props.containerInstances.length > 0;
-  const hasServiceAddresses = props.containerServiceAddresses.length > 0 && props.containerServiceAddresses.some(p => p.service_address);
-  const isPending = !props.inlineMode && props.containerPending;
-  const enabledEndpoints =
-    props.editMode &&
-    !props.inlineMode &&
-    container.properties.port_mappings.length > 0;
+  const hasServiceAddresses = container.properties.port_mappings.length > 0 && container.properties.port_mappings.some(p => p.service_address);
+  const isPending = !inlineMode && containerPending;
+  const enabledEndpoints = editMode && !inlineMode && container.properties.port_mappings.length > 0;
+  const isSecretsEnabled = () => {
+    if (providerType === 'Kubernetes') {
+      return true;
+    }
+
+    if (providerType === 'Docker') {
+      return false;
+    }
+
+    if (providerType === 'DCOS' && selectedProvider.properties.config.secret_support) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const isHealthChecksEnabled = providerType !== 'Docker';
+  // TODO: Fix "dummy" param - react-md passes busted data in first parram probably conflicting with onChange event of Refux Form Field
+  const getSecrets = (dummy, id) => {
+    props.fetchSecretsDropDown(match.params.fqon, match.params.environmentId, id);
+  };
 
   return (
     <div>
       <ActionsModals />
       <HealthCheckModal />
-      <SecretsPanelModal providerId={selectedProvider.id} providerType={providerType} />
       <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={isPending}>
         <Row gutter={5} center>
-          {props.editMode &&
-            <Col flex={props.inlineMode ? 12 : 10}>
+          {editMode &&
+            <Col flex={inlineMode ? 12 : 10}>
               <DetailsPane model={container} />
             </Col>}
           <Col
-            flex={props.inlineMode ? 12 : 10}
+            flex={inlineMode ? 12 : 10}
             xs={12}
             sm={12}
             md={12}
           >
-            <Card className={props.inlineMode ? 'md-no-paper' : ''}>
+            <Card className={inlineMode ? 'md-no-paper' : ''}>
               <CardTitle
                 title={
                   <div>
@@ -86,16 +101,16 @@ const ContainerForm = ({ values, container, ...props }) => {
                   </div>
                 }
               />
-              {!props.inlineMode &&
+              {!inlineMode &&
                 <ActionsToolbar>
                   <Row>
                     <Col flex={12}>
                       <Button
                         flat
                         iconChildren="arrow_back"
-                        disabled={props.containerPending || props.submitting}
+                        disabled={containerPending || props.submitting}
                         component={Link}
-                        to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/containers`}
+                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
                       >
                         {props.cancelLabel}
                       </Button>
@@ -110,21 +125,21 @@ const ContainerForm = ({ values, container, ...props }) => {
                         >
                           {props.submitLabel}
                         </Button>}
-                      {props.editMode &&
+                      {editMode &&
                         <Button
                           key="container--entitlements"
                           flat
                           iconChildren="security"
-                          onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, container.id, 'containers', 'Container')}
+                          onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, container.id, 'containers', 'Container')}
                         >
                           Container Entitlements
                         </Button>}
-                      {props.editMode &&
+                      {editMode &&
                         <ContainerActions
                           inContainerView
                           containerModel={container}
-                          disableDestroy={props.inlineMode}
-                          disablePromote={props.inlineMode}
+                          disableDestroy={inlineMode}
+                          disablePromote={inlineMode}
                         />}
                     </Col>
                   </Row>
@@ -145,6 +160,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                         itemLabel="name"
                         itemValue="id"
                         menuItems={props.providersByType}
+                        onChange={getSecrets}
                         async
                       />
                     </Col>
@@ -174,17 +190,17 @@ const ContainerForm = ({ values, container, ...props }) => {
                         <Panel
                           title="Service Addresses"
                           noPadding
-                          count={props.containerServiceAddresses && props.containerServiceAddresses.length}
+                          count={container.properties.port_mappings && container.properties.port_mappings.length}
                           icon={<FontIcon>settings_ethernet</FontIcon>}
                         >
                           <ContainerServiceAddresses
-                            serviceAddresses={props.containerServiceAddresses}
+                            portMappings={container.properties.port_mappings}
                           />
                         </Panel>
                       </Col>}
 
                     {/* disabled for provider containers "inline mode" */}
-                    {props.editMode && !props.inlineMode &&
+                    {editMode && !inlineMode &&
                     <Col flex={12}>
                       <Panel
                         title="Public Endpoints"
@@ -201,7 +217,7 @@ const ContainerForm = ({ values, container, ...props }) => {
 
                         <APIEndpointInlineList
                           endpoints={props.apiEndpoints}
-                          onAddEndpoint={() => props.showAPIEndpointWizardModal(props.match.params, container.id, 'container', values.properties.port_mappings)}
+                          onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, container.id, 'container', values.properties.port_mappings)}
                           disabled={!enabledEndpoints}
                         />
                       </Panel>
@@ -391,7 +407,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                       </Panel>
                     </Col>
 
-                    {isSecretsEnabled &&
+                    {isSecretsEnabled() &&
                     <Col flex={12}>
                       <Panel
                         title="Secrets"
@@ -399,17 +415,13 @@ const ContainerForm = ({ values, container, ...props }) => {
                         defaultExpanded={values.properties.secrets.length > 0}
                         count={values.properties.secrets.length}
                       >
-                        <ListButton
-                          id="secret-modal"
-                          flat
-                          iconBefore
-                          primary
-                          label="Secret"
-                          onClick={props.showSecretModal}
-                        >
-                          add
-                        </ListButton>
-                        <SecretsPanelList editMode={props.editMode} mergeSecrets={values.properties.secrets} />
+                        <FieldArray
+                          name="properties.secrets"
+                          component={SecretsPanelForm}
+                          secrets={props.secretsDropDown}
+                          providerType={providerType}
+                          secretFormValues={values.properties.secrets}
+                        />
                       </Panel>
                     </Col>}
 
@@ -473,7 +485,7 @@ const ContainerForm = ({ values, container, ...props }) => {
 
 ContainerForm.propTypes = {
   fetchProvidersByType: PropTypes.func.isRequired,
-  showSecretModal: PropTypes.func.isRequired,
+  fetchSecretsDropDown: PropTypes.func.isRequired,
   showHealthCheckModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,
@@ -494,8 +506,8 @@ ContainerForm.propTypes = {
   apiEndpoints: PropTypes.array.isRequired,
   apiEndpointsPending: PropTypes.bool.isRequired,
   containerInstances: PropTypes.array,
-  containerServiceAddresses: PropTypes.array,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
+  secretsDropDown: PropTypes.array.isRequired,
 };
 
 ContainerForm.defaultProps = {
@@ -505,7 +517,6 @@ ContainerForm.defaultProps = {
   editMode: false,
   inlineMode: false,
   containerInstances: [],
-  containerServiceAddresses: [],
   entitlementActions: {}
 };
 

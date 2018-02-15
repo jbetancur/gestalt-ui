@@ -59,7 +59,7 @@ class Header extends PureComponent {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     count: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool]),
   };
 
   static defaultProps = {

@@ -100,7 +100,7 @@ export default (values) => {
       }
 
       if (!port.service_port && !Number.isInteger(port.service_port)) {
-        portMapError.service_port = ' ';
+        portMapError.service_port = 'required';
         portMappingErrors[index] = portMapError;
       }
 

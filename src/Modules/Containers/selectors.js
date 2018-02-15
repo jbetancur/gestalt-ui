@@ -75,10 +75,5 @@ export const getEditContainerModelAsSpec = createSelector(
 
 export const getContainerInstances = createSelector(
   [selectContainer],
-  container => (container && container.properties && container.properties.instances) || []
-);
-
-export const getContainerServiceAddresses = createSelector(
-  [selectContainer],
-  container => (container && container.properties && container.properties.port_mappings) || []
+  container => metaModels.container.get(container).properties.instances
 );

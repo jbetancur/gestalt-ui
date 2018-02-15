@@ -103,7 +103,7 @@ class HierarchyListing extends PureComponent {
   }
 
   render() {
-    const { organizationSetPending, organizationsSet, workspacesSet, environmentsPending, environments } = this.props;
+    const { organizationSetPending, organizationsSet, organizationSet, workspacesSet, environmentsPending, environments } = this.props;
     // only show environments that have a workspace parent
     const cardItems = organizationsSet
       .concat(workspacesSet)
@@ -114,7 +114,7 @@ class HierarchyListing extends PureComponent {
     return (
       organizationSetPending ? <ActivityContainer id="hierarchy-listing--loading" /> :
         [
-          <Row key={this.props.organizationSet.id} gutter={5} paddingLeft="1em" alignItems="center">
+          <Row key={`${organizationSet.id}--toolbar`} gutter={5} paddingLeft="1em" alignItems="center">
             <Col flex={2} xs={12} sm={6} md={6}>
               <Sort
                 visible={sortedOrgs.length > 0}
@@ -144,7 +144,7 @@ class HierarchyListing extends PureComponent {
               </Button>
             </Col>
           </Row>,
-          <Row key={`${this.props.organizationSet.id}--cards`} gutter={5} minColWidths={315}>
+          <Row key={`${organizationSet.id}--cards`} gutter={5} minColWidths={315}>
             {sortedOrgs.map(item => (
               <Col key={item.id} flex={3} xs={12}>
                 {this.renderCard(item)}
