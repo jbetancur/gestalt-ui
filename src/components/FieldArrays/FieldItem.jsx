@@ -8,11 +8,11 @@ const LI = styled.li`
   padding-right: 16px;
 
   &:nth-child(odd) {
-    background-color: ${props => props.theme.colors['$md-grey-200']};
+    background-color: ${props => props.theme.colors['$md-grey-100']};
   }
 
   &:nth-child(even) {
-    background-color: ${props => props.theme.colors['$md-grey-100']};
+    background-color: ${props => props.theme.colors['$md-grey-50']};
   }
 
   &:first-child {
@@ -22,9 +22,8 @@ const LI = styled.li`
     padding-left: 16px;
   }
 
-  &:nth-child(2) {
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
+  &:nth-child(n+3) {
+    border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
   }
 
   &:last-child {

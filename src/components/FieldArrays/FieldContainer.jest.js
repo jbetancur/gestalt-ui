@@ -2,7 +2,7 @@ import React from 'react';
 import FieldContainer from './FieldContainer';
 import { shallowWithTheme } from '../../../test/helpers';
 
-describe('(ResourceTypes) FieldContainer', () => {
+describe('(Components) FieldContainer', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<FieldContainer />);
 

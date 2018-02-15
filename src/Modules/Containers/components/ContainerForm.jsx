@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { merge } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
-import { Card, CardTitle, CardText } from 'react-md';
+import { Card, CardTitle, CardText, FontIcon } from 'react-md';
 import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
@@ -159,6 +159,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                           title="Running Instances"
                           noPadding
                           count={container.properties.instances && container.properties.instances.length}
+                          icon={<FontIcon>memory</FontIcon>}
                         >
                           <ContainerInstances
                             instances={props.containerInstances}
@@ -174,6 +175,7 @@ const ContainerForm = ({ values, container, ...props }) => {
                           title="Service Addresses"
                           noPadding
                           count={props.containerServiceAddresses && props.containerServiceAddresses.length}
+                          icon={<FontIcon>settings_ethernet</FontIcon>}
                         >
                           <ContainerServiceAddresses
                             serviceAddresses={props.containerServiceAddresses}

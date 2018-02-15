@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { metaModels } from 'Modules/MetaResource';
 
 export const selectSecret = state => state.metaResource.secret.secret;
 
@@ -6,14 +7,12 @@ export const getCreateSecretModel = createSelector(
   [],
   () => {
     const model = {
-      name: '',
       properties: {
-        provider: {},
         items: [{ key: '', value: '' }],
       },
     };
 
-    return model;
+    return metaModels.secret.get(model);
   }
 );
 
@@ -29,6 +28,6 @@ export const getEditSecretModel = createSelector(
       },
     };
 
-    return model;
+    return metaModels.secret.create(model);
   }
 );

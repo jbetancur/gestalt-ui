@@ -4,6 +4,7 @@ exports[`(Panels) ExpanderIcon renders when collapsed 1`] = `
 .c0 {
   margin-left: 3px;
   margin-right: 3px;
+  margin-top: .5px;
   -webkit-transition: -webkit-transform 100ms ease;
   -webkit-transition: transform 100ms ease;
   transition: transform 100ms ease;
@@ -305,6 +306,7 @@ exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
 .c0 {
   margin-left: 3px;
   margin-right: 3px;
+  margin-top: .5px;
   -webkit-transition: -webkit-transform 100ms ease;
   -webkit-transition: transform 100ms ease;
   transition: transform 100ms ease;

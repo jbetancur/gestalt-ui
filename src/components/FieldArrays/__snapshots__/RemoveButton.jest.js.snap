@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(ResourceTypes) RemoveButton mounts with basic mountWithTheme 1`] = `
+exports[`(Components) RemoveButton mounts with basic mountWithTheme 1`] = `
 .c0 {
   color: #f44336;
   position: absolute;

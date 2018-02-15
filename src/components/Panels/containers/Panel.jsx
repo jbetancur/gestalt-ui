@@ -30,6 +30,7 @@ class Panel extends PureComponent {
     count: PropTypes.number,
     error: PropTypes.bool,
     noShadow: PropTypes.bool,
+    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   };
 
   static defaultProps = {
@@ -42,6 +43,7 @@ class Panel extends PureComponent {
     count: 0,
     error: false,
     noShadow: false,
+    icon: false,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -49,7 +51,7 @@ class Panel extends PureComponent {
   toggle = () => this.setState({ isExpanded: !this.state.isExpanded });
 
   render() {
-    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow } = this.props;
+    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow, icon } = this.props;
 
     return (
       <PanelWrapper error={error} noShadow={noShadow}>
@@ -59,6 +61,7 @@ class Panel extends PureComponent {
           expandable={expandable}
           expanded={this.state.isExpanded}
           count={count}
+          icon={icon}
         />
         <Content
           isExpanded={this.state.isExpanded}

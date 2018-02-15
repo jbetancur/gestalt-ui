@@ -5,6 +5,7 @@ import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import { Card, CardTitle, CardText } from 'react-md';
+import { metaModels } from 'Modules/MetaResource';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
@@ -33,7 +34,7 @@ const SecretForm = (props) => {
   } = props;
 
   const filteredProviderTypes = () => props.providersByType
-    .filter(item => getLastFromSplit(item.resource_type) === 'Kubernetes' || item.properties.config.secret_support);
+    .filter(provider => getLastFromSplit(provider.resource_type) === 'Kubernetes' || metaModels.provider.get(provider).properties.config.secret_support);
   const providerTypes = filteredProviderTypes().length > 0 ? filteredProviderTypes() : props.providersByType;
   const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';

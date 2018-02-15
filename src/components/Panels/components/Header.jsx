@@ -15,8 +15,12 @@ const TitleSection = styled(Col)`
 const Title = styled.div`
   display: inline-block;
   font-size: 16px;
-  line-height: 20px;
   color: ${props => props.theme.colors['$md-grey-700']};
+`;
+
+const Icon = styled.div`
+  display: inline-block;
+  margin-right: 5px;
 `;
 
 const CountSection = styled(Col)`
@@ -55,6 +59,7 @@ class Header extends PureComponent {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     count: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   };
 
   static defaultProps = {
@@ -62,10 +67,11 @@ class Header extends PureComponent {
     expanded: true,
     onClick: null,
     count: false,
+    icon: false,
   };
 
   render() {
-    const { title, count, expandable, expanded, onClick } = this.props;
+    const { title, count, expandable, expanded, onClick, icon } = this.props;
     const showCount = (count || count !== 0) && !expanded;
 
     return (
@@ -73,6 +79,7 @@ class Header extends PureComponent {
         <Row gutter={1} center fill wrap="nowrap">
           <TitleSection flex={showCount ? 10 : 12}>
             {expandable && <ExpanderIcon isExpanded={expanded}>expand_more</ExpanderIcon>}
+            {icon && <Icon>{icon}</Icon>}
             <Title small>{title}</Title>
           </TitleSection>
           {showCount &&

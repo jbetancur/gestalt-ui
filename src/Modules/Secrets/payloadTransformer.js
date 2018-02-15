@@ -1,15 +1,15 @@
-import { cloneDeep } from 'lodash';
 import base64 from 'base-64';
 import jsonPatch from 'fast-json-patch';
+import { metaModels } from 'Modules/MetaResource';
 
 /**
- * generateSecretPayload
+ * generatePayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
  * @param {Boolean} updateMode
  */
-export function generateSecretPayload(sourcePayload, updateMode = false) {
-  const payload = cloneDeep(sourcePayload);
+export function generatePayload(sourcePayload, updateMode = false) {
+  const payload = metaModels.secret.create(sourcePayload);
 
   if (updateMode) {
     return {
@@ -18,7 +18,7 @@ export function generateSecretPayload(sourcePayload, updateMode = false) {
     };
   }
 
-  payload.properties.items = sourcePayload.properties.items.map(item => ({ key: item.key, value: base64.encode(item.value) }));
+  payload.properties.items = payload.properties.items.map(item => ({ key: item.key, value: base64.encode(item.value) }));
 
   return payload;
 }
@@ -28,17 +28,17 @@ export function generateSecretPayload(sourcePayload, updateMode = false) {
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
  */
-export function generateSecretPatches(originalPayload, updatedPayload) {
-  const { name, description } = cloneDeep(originalPayload);
+export function generatePatches(originalPayload, updatedPayload) {
+  const { name, description } = metaModels.secret.create(originalPayload);
   const model = {
     name,
     description,
   };
 
-  return jsonPatch.compare(model, generateSecretPayload(updatedPayload, true));
+  return jsonPatch.compare(model, generatePayload(updatedPayload, true));
 }
 
 export default {
-  generateSecretPayload,
-  generateSecretPatches,
+  generatePayload,
+  generatePatches,
 };
