@@ -7,13 +7,14 @@ import { getLastFromSplit } from 'util/helpers/strings';
 
 class ContainerInstances extends PureComponent {
   static propTypes = {
-    instances: PropTypes.array.isRequired,
+    instances: PropTypes.array,
     containerModel: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     providerType: '',
+    instances: [],
   };
 
   renderInstancesRows() {

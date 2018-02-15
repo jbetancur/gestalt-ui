@@ -6,7 +6,7 @@ import { Button, Card, CardTitle, CardText, CardActions } from 'react-md';
 import { P } from 'components/Typography';
 
 const HomeCardBase = styled(Card) `
-  background-image: radial-gradient(circle,  ${props => props.theme.colors['$md-grey-50']} 0, white 100%);
+  background-image: radial-gradient(circle,  ${props => props.theme.colors['$md-grey-100']} 0, white 100%);
   border-radius: 2px;
 `;
 
@@ -52,7 +52,10 @@ const HomeCard = props => (
 
 HomeCard.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.func.isRequired,
+  icon: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.func),
+    PropTypes.object
+  ]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

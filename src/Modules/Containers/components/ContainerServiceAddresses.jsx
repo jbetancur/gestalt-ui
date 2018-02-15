@@ -4,13 +4,17 @@ import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'compon
 
 class ContainerServiceAddresses extends PureComponent {
   static propTypes = {
-    serviceAddresses: PropTypes.array.isRequired,
+    portMappings: PropTypes.array,
+  };
+
+  static defaultProps = {
+    portMappings: [],
   };
 
   renderServiceAddressesRows() {
-    const { serviceAddresses } = this.props;
+    const { portMappings } = this.props;
 
-    return serviceAddresses.map((port, i) => (
+    return portMappings.map((port, i) => (
       port.service_address &&
       <TableRow key={i}>
         <TableColumn>
