@@ -19,7 +19,7 @@ describe('(Secret Payload Transformer) generatePayload', () => {
     });
   });
 
-  xdescribe('generatePatches', () => {
+  describe('generatePatches', () => {
     it('should generate patch ops if there is a change but ignore secret.properties', () => {
       const originalPayload = metaModels.secret.get();
       const updatedPayload = metaModels.secret.get({
