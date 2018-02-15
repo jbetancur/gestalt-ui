@@ -7,7 +7,7 @@ import { withMetaResource } from 'Modules/MetaResource';
 import SecretForm from '../components/SecretForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateSecretPayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
 import { getCreateSecretModel, selectSecret } from '../selectors';
 
 class SecretCreate extends Component {
@@ -26,7 +26,7 @@ class SecretCreate extends Component {
 
   create(values) {
     const { match, history, createSecret } = this.props;
-    const payload = generateSecretPayload(values);
+    const payload = generatePayload(values);
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`);
 

@@ -8,7 +8,7 @@ import ActivityContainer from 'components/ActivityContainer';
 import SecretForm from '../components/SecretForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateSecretPatches } from '../payloadTransformer';
+import { generatePatches } from '../payloadTransformer';
 import { getEditSecretModel } from '../selectors';
 
 class SecretEdit extends Component {
@@ -38,7 +38,7 @@ class SecretEdit extends Component {
 
   updateSecret(values) {
     const { match, history, secret, updateSecret } = this.props;
-    const patches = generateSecretPatches(secret, values);
+    const patches = generatePatches(secret, values);
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`);
 

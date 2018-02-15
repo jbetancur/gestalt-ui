@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(ResourceTypes) FieldItem mounts with basic props 1`] = `
+exports[`(Components) FieldItem mounts with basic props 1`] = `
 .c0 {
   position: relative;
   padding-top: 8px;
@@ -10,11 +10,11 @@ exports[`(ResourceTypes) FieldItem mounts with basic props 1`] = `
 }
 
 .c0:nth-child(odd) {
-  background-color: #eee;
+  background-color: #f5f5f5;
 }
 
 .c0:nth-child(even) {
-  background-color: #f5f5f5;
+  background-color: #fafafa;
 }
 
 .c0:first-child {
@@ -24,9 +24,8 @@ exports[`(ResourceTypes) FieldItem mounts with basic props 1`] = `
   padding-left: 16px;
 }
 
-.c0:nth-child(2) {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
+.c0:nth-child(n+3) {
+  border-top: 1px solid #eee;
 }
 
 .c0:last-child {

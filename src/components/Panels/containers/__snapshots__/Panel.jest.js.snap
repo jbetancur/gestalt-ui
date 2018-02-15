@@ -13,6 +13,7 @@ exports[`(Panels) Panel renders component activity status when pending 1`] = `
     count={0}
     expandable={true}
     expanded={true}
+    icon={false}
     onClick={[Function]}
     title="gazobazorb"
   />
@@ -44,6 +45,7 @@ exports[`(Panels) Panel renders component with basic props 1`] = `
     count={0}
     expandable={true}
     expanded={true}
+    icon={false}
     onClick={[Function]}
     title="gazobazorb"
   />
@@ -68,6 +70,7 @@ exports[`(Panels) Panel renders component with children 1`] = `
     count={0}
     expandable={true}
     expanded={true}
+    icon={false}
     onClick={[Function]}
     title="gazobazorb"
   />
@@ -96,6 +99,7 @@ exports[`(Panels) Panel renders component with minHeight prop 1`] = `
     count={0}
     expandable={true}
     expanded={true}
+    icon={false}
     onClick={[Function]}
     title="gazobazorb"
   />
@@ -120,6 +124,7 @@ exports[`(Panels) Panel renders component with noPadding prop 1`] = `
     count={0}
     expandable={true}
     expanded={true}
+    icon={false}
     onClick={[Function]}
     title="gazobazorb"
   />

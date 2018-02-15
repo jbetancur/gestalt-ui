@@ -36,16 +36,16 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
           <RemoveButton onRemove={fields.remove} index={index} />
           <Subtitle>Mapping {index + 1}</Subtitle>
           <Row gutter={5}>
-            <Col flex={12}>
+            <Col flex={1} xs={12} sm={12} md={12} style={{ minWidth: '90px' }}>
               <Field
                 id={`${member}.expose_endpoint`}
                 name={`${member}.expose_endpoint`}
                 component={Checkbox}
                 checked={field.expose_endpoint}
-                label="Enabled"
+                label="Enable"
               />
             </Col>
-            <Col flex>
+            <Col flex={2} xs={12} sm={12} md={6}>
               <Field
                 name={`${member}.name`}
                 type="text"
@@ -56,7 +56,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
               />
             </Col>
             {(networkType !== 'HOST') &&
-              <Col flex={2} xs={12} sm={12} md={2}>
+              <Col flex={2} xs={12} sm={12} minWidth={100}>
                 <Field
                   name={`${member}.container_port`}
                   type="number"
@@ -69,7 +69,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
                 />
               </Col>}
             {field.expose_endpoint &&
-              <Col flex={2} xs={12} sm={12} md={2}>
+              <Col flex={2} xs={12} sm={12}>
                 <Field
                   name={`${member}.service_port`}
                   type="number"
@@ -95,7 +95,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
               />
             </Col>
             {field.expose_endpoint &&
-            <Col flex={5} xs={12} sm={12} md={10}>
+            <Col flex>
               <Field
                 name={`${member}.virtual_hosts`}
                 component={TextField}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(ResourceTypes) FieldContainer mounts with basic props 1`] = `
+exports[`(Components) FieldContainer mounts with basic props 1`] = `
 .c0 {
   list-style: none;
   padding: 0;
