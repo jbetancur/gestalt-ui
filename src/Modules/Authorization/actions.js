@@ -34,10 +34,6 @@ function setToken(token) {
   cookies.set('auth_token', token.access_token, configureCookie({ expires: expirationDate }));
 }
 
-export function hideLoginModal() {
-  return { type: 'HIDE_LOGIN_MODAL' };
-}
-
 export function login(username, password) {
   const securityAPI = axios.create({
     baseURL: SEC_API_URL,
@@ -112,7 +108,6 @@ export function logoutOnTokenExpiration() {
 }
 
 export default {
-  hideLoginModal,
   login,
   logout,
   logoutOnTokenExpiration,

@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticating: false,
         statusText: (
-          action.payload.response.data && action.payload.response.data.error === 'invalid_grant' && action.payload.response.data.code === 400
+          action.payload.response && action.payload.response.data && action.payload.response.data.error === 'invalid_grant' && action.payload.response.data.code === 400
         ) ? 'Invalid username or password' : `Authentication Error: ${action.payload}`
       };
     default:
