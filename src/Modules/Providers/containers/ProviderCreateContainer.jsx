@@ -18,7 +18,6 @@ class ProviderCreate extends Component {
     createProvider: PropTypes.func.isRequired,
     /* container related */
     containerValues: PropTypes.object,
-    healthChecks: PropTypes.array.isRequired,
     fetchResourceTypes: PropTypes.func.isRequired,
     fetchProvidersByType: PropTypes.func.isRequired,
     fetchProviders: PropTypes.func.isRequired,
@@ -45,15 +44,9 @@ class ProviderCreate extends Component {
   }
 
   create = (values) => {
-    const { match, history, createProvider, containerValues, healthChecks } = this.props;
-    const mergeProps = [
-      {
-        key: 'health_checks',
-        value: healthChecks,
-      }
-    ];
+    const { match, history, createProvider, containerValues } = this.props;
 
-    const payload = generateProviderPayload(values, mergeProps, containerValues);
+    const payload = generateProviderPayload(values, containerValues);
     const onSuccess = () => {
       if (match.params.workspaceId && !match.params.environmentId) {
         history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
@@ -111,7 +104,6 @@ function mapStateToProps(state) {
     enableReinitialize: true,
     keepDirtyOnReinitialize: true, // keeps dirty values in forms when the provider type is changed
     containerValues: getFormValues('containerCreate')(state),
-    healthChecks: state.healthCheckModal.healthChecks.healthChecks,
   };
 }
 

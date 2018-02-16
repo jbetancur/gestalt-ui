@@ -94,6 +94,11 @@ export default (values) => {
         portMappingErrors[index] = portMapError;
       }
 
+      if (!port || !port.port_type) {
+        portMapError.port_type = 'required';
+        portMappingErrors[index] = portMapError;
+      }
+
       if (!port || !port.container_port) {
         portMapError.container_port = 'required';
         portMappingErrors[index] = portMapError;
@@ -191,6 +196,67 @@ export default (values) => {
 
     if (volumeErrors.length) {
       errors.properties.volumes = volumeErrors;
+    }
+  }
+
+  if (values.properties.health_checks && values.properties.health_checks.length) {
+    const healthCheckErrors = [];
+    values.properties.health_checks.forEach((check, index) => {
+      const healthCheckError = {};
+
+      if (!check.protocol) {
+        healthCheckError.protocol = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.grace_period_seconds) {
+        healthCheckError.grace_period_seconds = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.interval_seconds) {
+        healthCheckError.interval_seconds = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.timeout_seconds) {
+        healthCheckError.timeout_seconds = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.max_consecutive_failures) {
+        healthCheckError.max_consecutive_failures = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.path) {
+        healthCheckError.path = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.command) {
+        healthCheckError.command = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (!check.port) {
+        healthCheckError.port = 'required';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (check.port > 65536) {
+        healthCheckError.port = 'Invalid Port';
+        healthCheckErrors[index] = healthCheckError;
+      }
+
+      if (check.port_index > 65536) {
+        healthCheckError.port_index = 'Invalid Port';
+        healthCheckErrors[index] = healthCheckError;
+      }
+    });
+
+    if (healthCheckErrors.length) {
+      errors.properties.health_checks = healthCheckErrors;
     }
   }
 

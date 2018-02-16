@@ -1,5 +1,5 @@
 import React from 'react';
-import TableHeader from 'react-md/lib/DataTables/TableHeader';
+import { TableHeader } from 'react-md';
 
 const EnhancedTableHeader = props => <TableHeader {...props} />;
 

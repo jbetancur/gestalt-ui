@@ -9,11 +9,10 @@ import { payloadTransformer as containerPayloadTransforder } from 'Modules/Conta
  * generateProviderPayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
- * @param {Array} mergeContainerProps
  * @param {Object} containerValues
  * @param {Boolean} updateMode
  */
-export function generateProviderPayload(sourcePayload, mergeContainerProps = [], containerValues = {}, updateMode = false) {
+export function generateProviderPayload(sourcePayload, containerValues = {}, updateMode = false) {
   const {
     name,
     description,
@@ -79,7 +78,7 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
     };
 
     payload.properties.services.push(containerServicepayload);
-    payload.properties.services[0].container_spec = containerPayloadTransforder.generatePayload(containerValues, mergeContainerProps);
+    payload.properties.services[0].container_spec = containerPayloadTransforder.generatePayload(containerValues);
   }
 
   if (updateMode) {
@@ -101,7 +100,7 @@ export function generateProviderPayload(sourcePayload, mergeContainerProps = [],
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
  */
-export function generateProviderPatches(originalPayload, updatedPayload, containerValues = {}, mergeContainerProps = []) {
+export function generateProviderPatches(originalPayload, updatedPayload, containerValues = {}) {
   const { name, description, properties: { config, locations, linked_providers, environment_types, services } } = cloneDeep(originalPayload);
   const model = {
     name,
@@ -135,7 +134,7 @@ export function generateProviderPatches(originalPayload, updatedPayload, contain
     delete model.properties.services;
   }
 
-  return jsonPatch.compare(model, generateProviderPayload(updatedPayload, mergeContainerProps, containerValues, true));
+  return jsonPatch.compare(model, generateProviderPayload(updatedPayload, containerValues, true));
 }
 
 export default {

@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
-import styled from 'styled-components';
 import { Card, CardTitle, CardText, FontIcon } from 'react-md';
 import { metaModels } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
-import { HealthCheckModal, HealthCheckListing } from 'Modules/HealthCheckModal';
 import { SecretsPanelForm } from 'Modules/Secrets';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
@@ -29,13 +27,9 @@ import ContainerIcon from './ContainerIcon';
 import ActionsModals from '../ActionModals';
 import PortMappingsForm from './PortMappingsForm';
 import VolumesForm from './VolumesForm';
+import HealthChecksForm from './HealthChecksForm';
 
 const fixInputNumber = value => value && parseInt(value, 10);
-const ListButton = styled(Button)`
-  margin-top: 8px;
-  margin-left: 16px;
-  margin-bottom: 8px;
-`;
 
 const ContainerForm = ({ match, values, container, containerPending, editMode, inlineMode, ...props }) => {
   const selectedProvider = metaModels.provider.get(props.providersByType
@@ -77,7 +71,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
   return (
     <div>
       <ActionsModals />
-      <HealthCheckModal />
       <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={isPending}>
         <Row gutter={5} center>
           {editMode &&
@@ -236,7 +229,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                               type="text"
                               required
                               maxLength={nameMaxLen}
-                              disabled={props.editMode}
+                              disabled={editMode}
                               helpText="the name of the container"
                             />
                           </Col>
@@ -435,17 +428,11 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                         defaultExpanded={values.properties.health_checks.length > 0}
                         count={values.properties.health_checks.length}
                       >
-                        <ListButton
-                          id="health-checks"
-                          flat
-                          iconBefore
-                          primary
-                          label="Health Check"
-                          onClick={props.showHealthCheckModal}
-                        >
-                          add
-                        </ListButton>
-                        <HealthCheckListing editMode={props.editMode} mergeHealthChecks={values.properties.health_checks} />
+                        <FieldArray
+                          name="properties.health_checks"
+                          component={HealthChecksForm}
+                          healthCheckvalues={values.properties.health_checks}
+                        />
                       </Panel>
                     </Col>}
 

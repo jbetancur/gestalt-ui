@@ -1,5 +1,5 @@
 import React from 'react';
-import TableBody from 'react-md/lib/DataTables/TableBody';
+import { TableBody } from 'react-md';
 
 const EnhancedTableBody = props => <TableBody {...props} />;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import TableRow from 'react-md/lib/DataTables/TableRow';
+import { TableRow } from 'react-md';
 
 const EnhancedTableRow = props => <TableRow {...props} />;
 

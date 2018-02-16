@@ -270,7 +270,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
 ProviderForm.propTypes = {
   providerPending: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
-  containerFormErrors: PropTypes.object.isRequired,
+  containerFormErrors: PropTypes.object,
   providers: PropTypes.array.isRequired,
   provider: PropTypes.object,
   envSchemaPending: PropTypes.bool.isRequired,
@@ -301,6 +301,7 @@ ProviderForm.defaultProps = {
   onRedeploy: null,
   editMode: false,
   containerInvalid: false,
+  containerFormErrors: {},
 };
 
 // Connect to this forms state in the store so we can enum the values
