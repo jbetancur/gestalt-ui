@@ -72,6 +72,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
   const getSecrets = (dummy, id) => {
     props.fetchSecretsDropDown(match.params.fqon, match.params.environmentId, id);
   };
+  const setNetworks = () => (providerType === 'Kubernetes' ? [{ name: 'default' }] : selectedProvider.properties.config.networks);
 
   return (
     <div>
@@ -315,9 +316,9 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                               id="select-network"
                               component={SelectField}
                               name="properties.network"
-                              menuItems={selectedProvider.properties.config.networks}
-                              disabled={!selectedProvider.properties.config.networks.length}
-                              label={!selectedProvider.properties.config.networks.length ? 'No Configured Network Types' : 'Network Type'}
+                              menuItems={setNetworks()}
+                              disabled={!setNetworks().length}
+                              label={!setNetworks().length ? 'No Configured Network Types' : 'Network Type'}
                               itemLabel="name"
                               itemValue="name"
                               required
