@@ -1,17 +1,14 @@
 import { createSelector } from 'reselect';
 import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import { merge } from 'lodash';
 
 export const selectContainer = state => state.metaResource.container.container;
 export const selectContainerSpec = (state, containerSpec) => metaModels.container.get(containerSpec);
 export const selectEnv = state => state.metaResource.env.env;
-const selectHealthChecks = state => state.healthCheckModal.healthChecks.healthChecks;
-const selectSecrets = state => state.secrets.secrets.secrets;
 
 // TODO: deal with missing volume.type - https://gitlab.com/galacticfog/gestalt-meta/issues/416
 const fixVolumes = (volumes = []) => volumes.map((volume) => {
-  const newVolume = volume;
+  const newVolume = Object.assign({}, volume);
   if (!volume.type) {
     if (volume.persistent && volume.persistent.size) {
       newVolume.type = 'persistent';
@@ -20,6 +17,19 @@ const fixVolumes = (volumes = []) => volumes.map((volume) => {
     }
   }
   return newVolume;
+});
+
+const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
+  const newcheck = Object.assign({}, check);
+  console.log(check);
+  if (!check.protocol !== 'COMMAND') {
+    if (check.port_index) {
+      newcheck.port_type = 'index';
+    } else {
+      newcheck.port_type = 'number';
+    }
+  }
+  return newcheck;
 });
 
 export const getCreateContainerModel = createSelector(
@@ -36,17 +46,17 @@ export const getCreateContainerModel = createSelector(
 );
 
 export const getEditContainerModel = createSelector(
-  [selectContainer, selectHealthChecks, selectSecrets],
-  (container, volumes, healthChecks, secrets) => {
+  [selectContainer],
+  (container) => {
     const model = {
       ...container,
       properties: {
         ...container.properties,
         env: mapTo2DArray(container.properties.env),
         labels: mapTo2DArray(container.properties.labels),
-        health_checks: merge(container.properties.health_checks || [], healthChecks),
+        health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
-        secrets: merge(container.properties.secrets || [], secrets),
+        secrets: container.properties.secrets,
       },
     };
 
@@ -55,17 +65,17 @@ export const getEditContainerModel = createSelector(
 );
 
 export const getEditContainerModelAsSpec = createSelector(
-  [selectContainerSpec, selectHealthChecks, selectSecrets],
-  (container, volumes, healthChecks, secrets) => {
+  [selectContainerSpec],
+  (container) => {
     const model = {
       ...container,
       properties: {
         ...container.properties,
         env: mapTo2DArray(container.properties.env),
         labels: mapTo2DArray(container.properties.labels),
-        health_checks: merge(container.properties.health_checks || [], healthChecks),
+        health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
-        secrets: merge(container.properties.secrets || [], secrets),
+        secrets: container.properties.secrets
       },
     };
 

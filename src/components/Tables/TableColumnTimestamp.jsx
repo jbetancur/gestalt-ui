@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { Caption } from 'components/Typography';
-import TableColumn from 'react-md/lib/DataTables/TableColumn';
+import { TableColumn } from 'react-md';
 
 const EnhancedTCol = styled(TableColumn)`
   cursor: pointer;

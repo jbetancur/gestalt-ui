@@ -8,7 +8,6 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import ActivityContainer from 'components/ActivityContainer';
 import { generateContextEntityState } from 'util/helpers/context';
-import { healthCheckModalActions } from 'Modules/HealthCheckModal';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from '../components/ContainerForm';
 import validate from '../validations';
@@ -32,11 +31,9 @@ class ContainerEdit extends Component {
     unloadAPIEndpoints: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
-    healthChecks: PropTypes.array.isRequired,
     fetchSecretsDropDown: PropTypes.func.isRequired,
     fetchActions: PropTypes.func.isRequired,
     unloadContainer: PropTypes.func.isRequired,
-    unloadHealthChecks: PropTypes.func.isRequired,
     inlineMode: PropTypes.bool,
   };
 
@@ -79,11 +76,10 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadContainer, unloadAPIEndpoints, unloadHealthChecks } = this.props;
+    const { unloadContainer, unloadAPIEndpoints } = this.props;
 
     unloadContainer();
     unloadAPIEndpoints();
-    unloadHealthChecks();
     clearTimeout(this.timeout);
   }
 
@@ -99,17 +95,10 @@ class ContainerEdit extends Component {
   }
 
   redeployContainer = (values) => {
-    const { match, container, updateContainer, healthChecks, inlineMode } = this.props;
+    const { match, container, updateContainer, inlineMode } = this.props;
 
     if (!inlineMode) {
-      const mergeProps = [
-        {
-          key: 'health_checks',
-          value: healthChecks,
-        }
-      ];
-
-      const payload = generatePayload(values, mergeProps, true);
+      const payload = generatePayload(values, true);
 
       updateContainer(match.params.fqon, container.id, payload);
     }
@@ -140,8 +129,6 @@ const formName = 'containerEdit';
 const mapStateToProps = (state, ownProps) => ({
   container: ownProps.containerSpec || selectContainer(state),
   containerInstances: getContainerInstances(state),
-  healthCheckModal: state.healthCheckModal.healthCheckModal,
-  healthChecks: state.healthCheckModal.healthChecks.healthChecks,
   initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(state, ownProps.containerSpec) : getEditContainerModel(state),
 });
 
@@ -150,7 +137,7 @@ export default compose(
   withEntitlements,
   withRouter,
   connect(mapStateToProps,
-    Object.assign({}, actions, healthCheckModalActions)),
+    Object.assign({}, actions)),
   reduxForm({
     form: formName,
     enableReinitialize: true,

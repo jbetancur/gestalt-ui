@@ -13,7 +13,7 @@ function arrayifyish(string) {
  * @param {Array} mergeSet
  * @param {Boolean} updateMode
  */
-export function generatePayload(sourcePayload, mergeSet = [], updateMode = false) {
+export function generatePayload(sourcePayload, updateMode = false) {
   const source = cloneDeep(sourcePayload);
   const payload = metaModels.container.create(sourcePayload);
   payload.properties.env = arrayToMap(payload.properties.env, 'name', 'value');
@@ -59,10 +59,6 @@ export function generatePayload(sourcePayload, mergeSet = [], updateMode = false
     delete payload.properties.constraints;
   }
 
-  mergeSet.forEach((p) => {
-    payload.properties[p.key] = p.value;
-  });
-
   // re-format port mappings
   payload.properties.port_mappings = payload.properties.port_mappings.map((port) => {
     const portPayload = { ...port };
@@ -81,7 +77,7 @@ export function generatePayload(sourcePayload, mergeSet = [], updateMode = false
     return portPayload;
   });
 
-  // re-format port volumes
+  // re-format volumes
   payload.properties.volumes = payload.properties.volumes.map((volume) => {
     const volumePayload = { ...volume };
 
@@ -92,6 +88,39 @@ export function generatePayload(sourcePayload, mergeSet = [], updateMode = false
     }
 
     return volumePayload;
+  });
+
+  // re-format health checks
+  payload.properties.health_checks = payload.properties.health_checks.map((healthCheck) => {
+    const healthCheckPayload = { ...healthCheck };
+
+    if (healthCheckPayload.port_type === 'index') {
+      delete healthCheckPayload.port;
+    }
+
+    if (healthCheckPayload.port_type === 'number') {
+      delete healthCheckPayload.port_index;
+    }
+
+    if (healthCheckPayload.protocol === 'TCP') {
+      delete healthCheckPayload.path;
+      delete healthCheckPayload.command;
+      delete healthCheckPayload.ignore_http_1xx;
+    }
+
+    if (healthCheckPayload.protocol === 'HTTP' || healthCheckPayload.protocol === 'HTTPS') {
+      delete healthCheckPayload.command;
+    }
+
+    if (healthCheckPayload.protocol === 'COMMAND') {
+      delete healthCheckPayload.path;
+      delete healthCheckPayload.ignore_http_1xx;
+      delete healthCheckPayload.port_type;
+      delete healthCheckPayload.port_index;
+      delete healthCheckPayload.port;
+    }
+
+    return healthCheckPayload;
   });
 
   if (updateMode) {
