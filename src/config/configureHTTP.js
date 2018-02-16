@@ -58,8 +58,9 @@ export default function configureInterceptors(store, history) {
         (response.message.includes('not found') ||
         response.message.includes('Resource with ID') ||
         response.message.includes('is not a valid v4 UUID') ||
-        response.message.includes('Cannot parse parameter id as UUID'))
-      ) {
+          response.message.includes('Cannot parse parameter id as UUID')) &&
+        // TODO: https://gitlab.com/galacticfog/gestalt-meta/issues/425
+        !(response.message.includes('is corrupt') && response.message.includes('Provider with ID'))) {
         history.replace(`/${fqon}/404`);
 
         return Promise.reject(error);

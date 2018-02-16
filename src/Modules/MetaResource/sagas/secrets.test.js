@@ -275,7 +275,7 @@ describe('Secret Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_SECRET_FULFILLED })
+        put({ type: types.DELETE_SECRETS_FULFILLED })
       );
 
       // Finish the iteration
@@ -298,7 +298,7 @@ describe('Secret Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_SECRET_REJECTED, payload: error })
+        put({ type: types.DELETE_SECRETS_REJECTED, payload: error })
       );
     });
   });

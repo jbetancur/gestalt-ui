@@ -110,13 +110,13 @@ export function* deleteSecrets(action) {
     const all = action.secretIds.map(id => axios.delete(`${action.fqon}/secrets/${id}`));
 
     yield call(axios.all, all);
-    yield put({ type: types.DELETE_SECRET_FULFILLED });
+    yield put({ type: types.DELETE_SECRETS_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();
     }
   } catch (e) {
-    yield put({ type: types.DELETE_SECRET_REJECTED, payload: e.message });
+    yield put({ type: types.DELETE_SECRETS_REJECTED, payload: e.message });
   }
 }
 
