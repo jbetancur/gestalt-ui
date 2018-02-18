@@ -143,6 +143,7 @@ const ResourceTypeForm = (props) => {
                       name="property_defs"
                       component={PropertyDefForm}
                       resourceTypes={resourceTypesDropDown}
+                      rerenderOnEveryChange
                     />
                   </Panel>
                 </Col>
