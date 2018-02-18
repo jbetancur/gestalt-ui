@@ -61,7 +61,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
 
       return (
         <FieldItem key={`sercret-${index}`}>
-          <RemoveButton onRemove={fields.remove} index={index} />
+          <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
           <Subtitle>Secret {index + 1}</Subtitle>
           {/* hidden field */}
           <Field

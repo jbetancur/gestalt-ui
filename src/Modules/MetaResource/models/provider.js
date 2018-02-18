@@ -13,6 +13,7 @@ const get = (model = {}) => {
     },
     created: {},
     modified: {},
+    owner: {},
     name: '',
     description: '',
     properties: {

@@ -11,9 +11,7 @@ exports[`(Components) RemoveButton mounts with basic mountWithTheme 1`] = `
 <Button__EnhancedButton
   className="c0"
   icon={true}
-  index={1}
   onClick={[Function]}
-  onRemove={[Function]}
 >
   delete
 </Button__EnhancedButton>

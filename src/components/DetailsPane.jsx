@@ -33,6 +33,7 @@ const StatusStyle = styled.div`
 
 const DetailPane = (props) => {
   const { model } = props;
+  const owner = (model.owner && model.owner.name) || (model.owner && model.owner.id);
 
   return (
     model.id ?
@@ -50,7 +51,7 @@ const DetailPane = (props) => {
             </ContainsButtonsStyle>
             <div>
               <Label>Owner</Label>
-              <H4>{model.owner && model.owner.name}</H4>
+              <H4>{owner}</H4>
             </div>
           </Col>
 

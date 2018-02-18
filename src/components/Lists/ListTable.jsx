@@ -12,11 +12,13 @@ class ListTable extends PureComponent {
   static propTypes = {
     prefix: PropTypes.string,
     input: PropTypes.object,
+    ignorePrefixValidation: PropTypes.bool,
   };
 
   static defaultProps = {
     input: {},
     prefix: null,
+    ignorePrefixValidation: false,
   };
 
   state = { items: [], item: '' };
@@ -34,7 +36,14 @@ class ListTable extends PureComponent {
   }
 
   addItem = () => {
-    const prefixedItem = `${this.props.prefix}.${this.state.item}`;
+    let prefixedItem;
+
+    if (this.props.prefix) {
+      prefixedItem = `${this.props.prefix}.${this.state.item}`;
+    } else {
+      prefixedItem = this.state.item;
+    }
+
     const isDupe = this.state.items.find(item => item === prefixedItem);
 
     if (this.state.item && !isDupe) {
@@ -61,7 +70,7 @@ class ListTable extends PureComponent {
           onChange={this.handleChange}
           value={this.state.item}
           lineDirection="center"
-          disabled={!this.props.prefix}
+          disabled={!this.props.prefix && !this.props.ignorePrefixValidation}
         />
         <List>
           {this.state.items.map((item, i) => <ListItem key={`${item}--${i}`} item={item} onRemove={this.removeItem} />)}
