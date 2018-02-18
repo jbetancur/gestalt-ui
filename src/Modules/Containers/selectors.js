@@ -21,7 +21,7 @@ const fixVolumes = (volumes = []) => volumes.map((volume) => {
 
 const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
   const newcheck = Object.assign({}, check);
-  console.log(check);
+
   if (!check.protocol !== 'COMMAND') {
     if (check.port_index) {
       newcheck.port_type = 'index';

@@ -37,7 +37,7 @@ const HealthChecksForm = ({ fields, healthCheckvalues }) => (
 
       return (
         <FieldItem key={`portmapping-${index}`}>
-          <RemoveButton onRemove={fields.remove} index={index} />
+          <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
           <Subtitle>Check {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={3} xs={6} sm={6}>

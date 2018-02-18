@@ -76,6 +76,7 @@ const SupportedResourceForm = ({ fields, resourceTypes }) => (
                 name={`${member}.property_defs`}
                 component={PropertyDefForm}
                 resourceTypes={resourceTypes}
+                rerenderOnEveryChange
               />
             </Col>
             <Col flex={12}>

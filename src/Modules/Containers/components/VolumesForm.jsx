@@ -33,7 +33,7 @@ const VolumesForm = ({ fields, providerType }) => (
 
       return (
         <FieldItem key={`portmapping-${index}`}>
-          <RemoveButton onRemove={fields.remove} index={index} />
+          <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
           <Subtitle>Volume {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={2} xs={12} sm={6}>

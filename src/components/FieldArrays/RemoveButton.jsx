@@ -10,8 +10,8 @@ const ButtonStyle = styled(({ theme, ...rest }) => <Button {...rest} />)`
   top: 0;
 `;
 
-const RemoveButton = (props) => {
-  const handleRemove = () => props.onRemove(props.index);
+const RemoveButton = ({ onRemove, index, ...props }) => {
+  const handleRemove = () => onRemove(index);
 
   return <ButtonStyle icon onClick={handleRemove} {...props}>delete</ButtonStyle>;
 };

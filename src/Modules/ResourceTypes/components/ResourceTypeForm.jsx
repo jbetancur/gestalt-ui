@@ -9,10 +9,12 @@ import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import Form from 'components/Form';
+import DetailsPane from 'components/DetailsPane';
 import ActivityContainer from 'components/ActivityContainer';
+import { ListTable } from 'components/Lists';
+import Fieldset from 'components/Fieldset';
 import PropertyDefForm from './PropertyDefForm';
 import LineageForm from './LineageForm';
-import ActionVerbsForm from './ActionVerbsForm';
 import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const ResourceTypeForm = (props) => {
@@ -21,6 +23,10 @@ const ResourceTypeForm = (props) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={resourceTypePending}>
       <Row gutter={5} center>
+        {editMode &&
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <DetailsPane model={resourceType} />
+        </Col>}
         <Col flex={10} xs={12} sm={12} md={12}>
           <Card>
             <CardTitle title={title} subTitle={resourceType.extend && `extends: ${resourceType.extend}`} />
@@ -129,11 +135,16 @@ const ResourceTypeForm = (props) => {
                           helpText="the action verb prefix"
                         />
                       </Col>
+                      <Col flex={12}>
+                        <Fieldset legend="Verbs">
+                          <Field
+                            component={ListTable}
+                            name="properties.actions.verbs"
+                            ignorePrefixValidation
+                          />
+                        </Fieldset>
+                      </Col>
                     </Row>
-                    <FieldArray
-                      name="properties.actions.verbs"
-                      component={ActionVerbsForm}
-                    />
                   </Panel>
                 </Col>
 
