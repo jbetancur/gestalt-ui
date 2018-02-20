@@ -1,60 +1,64 @@
 {
-  "compact": "auto",
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-object-assign",
+    "transform-class-properties"
+  ],
   "presets": [
-      [
-          "latest",
-          {
-              "es2015": {
-                  "modules": false
-              }
-          }
-      ],
-      "react"
+    "latest",
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "> 1%",
+            "Chrome >= 48",
+            "Firefox >= 44",
+            "Firefox ESR",
+            "Safari >= 9.1",
+            "Edge >= 12",
+            "ios_saf >= 9.3",
+            "ie 11"
+          ],
+          "uglify": true,
+          "modules": false
+        }
+      }
+    ]
   ],
   "env": {
-      "development": {
-          "plugins": [
-            "transform-object-rest-spread",
-            "transform-object-assign",
-            "transform-class-properties"
-          ]
-      },
-      "test": {
-          "presets": [
-              "latest",
-              "react"
-          ],
-          "plugins": [
-              [
-                  "istanbul",
-                  {
-                      "useInlineSourceMaps": false,
-                      "exclude": [
-                          "**/*.test*.js*",
-                          "**/*.jest*.js*",
-                          "**/__mocks__/**",
-                          "**/__snapshots__/**",
-                          "**/test/**",
-                          "**/themes/**",
-                          "**/node_modules/**"
-                      ]
-                  }
-              ],
-              "transform-object-rest-spread",
-              "transform-object-assign",
-              "transform-class-properties",
-              [
-                "babel-plugin-styled-components", {
-                "minify": false
-              }
+    "test": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current"
+          }
+        }]
+      ],
+      "plugins": [
+        [
+          "istanbul",
+          {
+            "useInlineSourceMaps": false,
+            "exclude": [
+              "**/*.test*.js*",
+              "**/*.jest*.js*",
+              "**/__mocks__/**",
+              "**/__snapshots__/**",
+              "**/test/**",
+              "**/themes/**",
+              "**/node_modules/**"
             ]
-          ]
-      },
-      "production": {}
-  },
-  "plugins": [
-      "transform-object-rest-spread",
-      "transform-object-assign",
-      "transform-class-properties"
-  ]
+          }
+        ],
+        [
+          "babel-plugin-styled-components",
+          {
+            "minify": false
+          }
+        ]
+      ]
+    }
+  }
 }

@@ -75,7 +75,6 @@ class APIEndpointInlineList extends PureComponent {
           <Button
             key="add-endpoint"
             iconChildren="link"
-            visible={false}
             primary
             flat
             onClick={onAddEndpoint}
