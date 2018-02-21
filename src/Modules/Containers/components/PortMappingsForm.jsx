@@ -42,7 +42,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
                 name={`${member}.expose_endpoint`}
                 component={Checkbox}
                 checked={field.expose_endpoint}
-                label="Enable"
+                label="Expose Service"
               />
             </Col>
             <Col flex={2} xs={12} sm={12} md={6}>

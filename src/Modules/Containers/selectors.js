@@ -10,7 +10,7 @@ export const selectEnv = state => state.metaResource.env.env;
 const fixVolumes = (volumes = []) => volumes.map((volume) => {
   const newVolume = Object.assign({}, volume);
   if (!volume.type) {
-    if (volume.persistent && volume.persistent.size) {
+    if (newVolume.persistent && newVolume.persistent.size) {
       newVolume.type = 'persistent';
     } else {
       newVolume.type = 'host';
@@ -23,13 +23,23 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
   const newcheck = Object.assign({}, check);
 
   if (!check.protocol !== 'COMMAND') {
-    if (check.port_index) {
+    if ('port_index' in newcheck) {
       newcheck.port_type = 'index';
     } else {
       newcheck.port_type = 'number';
     }
   }
   return newcheck;
+});
+
+const fixPortMappings = (mappings = []) => mappings.map((mapping) => {
+  const newMapping = Object.assign({}, mapping);
+  if (!newMapping.type) {
+    if (newMapping.expose_endpoint && !('service_port' in newMapping)) {
+      newMapping.service_port = 0; // set it to auto/default if missing
+    }
+  }
+  return newMapping;
 });
 
 export const getCreateContainerModel = createSelector(
@@ -56,6 +66,7 @@ export const getEditContainerModel = createSelector(
         labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
+        port_mappings: fixPortMappings(container.properties.port_mappings),
         secrets: container.properties.secrets,
       },
     };
@@ -75,6 +86,7 @@ export const getEditContainerModelAsSpec = createSelector(
         labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
+        port_mappings: fixPortMappings(container.properties.port_mappings),
         secrets: container.properties.secrets
       },
     };
