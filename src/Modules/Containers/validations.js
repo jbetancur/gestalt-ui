@@ -248,11 +248,6 @@ export default (values) => {
         healthCheckError.port = 'Invalid Port';
         healthCheckErrors[index] = healthCheckError;
       }
-
-      if (check.port_index > 65536) {
-        healthCheckError.port_index = 'Invalid Port';
-        healthCheckErrors[index] = healthCheckError;
-      }
     });
 
     if (healthCheckErrors.length) {

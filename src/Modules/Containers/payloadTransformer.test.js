@@ -256,7 +256,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'COMMAND', command: 'oxford comma'}]);
+        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'COMMAND', command: 'oxford comma' }]);
       });
     });
 
