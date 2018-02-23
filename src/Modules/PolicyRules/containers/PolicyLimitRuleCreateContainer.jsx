@@ -6,7 +6,8 @@ import { withMetaResource } from 'Modules/MetaResource';
 import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
 import validate from '../components/PolicyLimitRuleForm/validations';
 import actions from '../actions';
-import { generateLimitPolicyRulePayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
+import { getCreateLimitRuleModel } from '../selectors';
 
 class PolicyLimitRuleCreate extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ class PolicyLimitRuleCreate extends Component {
 
   create(values) {
     const { match, history, createPolicyRule, selectedActions } = this.props;
-    const payload = generateLimitPolicyRulePayload(values, selectedActions);
+    const payload = generatePayload(values, selectedActions, false, 'limit');
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
@@ -42,24 +43,11 @@ class PolicyLimitRuleCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const model = {
-    name: '',
-    description: '',
-    properties: {
-      parent: {},
-      strict: false,
-      actions: [],
-      eval_logic: {},
-    }
-  };
-
-  return {
-    policyRule: model,
-    selectedActions: state.policyRules.selectedActions.selectedActions,
-    initialValues: model,
-  };
-}
+const mapStateToProps = state => ({
+  policyRule: getCreateLimitRuleModel(state),
+  selectedActions: state.policyRules.selectedActions.selectedActions,
+  initialValues: getCreateLimitRuleModel(state),
+});
 
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyLimitRuleCreate',

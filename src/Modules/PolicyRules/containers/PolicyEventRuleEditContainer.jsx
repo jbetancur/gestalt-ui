@@ -8,7 +8,8 @@ import ActivityContainer from 'components/ActivityContainer';
 import PolicyEventRuleForm from '../components/PolicyEventRuleForm';
 import validate from '../components/PolicyEventRuleForm/validations';
 import actions from '../actions';
-import { generateEventPolicyRulePatches } from '../payloadTransformer';
+import { generatePatches } from '../payloadTransformer';
+import { getEditEventRuleModel, selectRule } from '../selectors';
 
 class PolicyEventRuleEdit extends Component {
   static propTypes = {
@@ -32,10 +33,10 @@ class PolicyEventRuleEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // propery.actions is an array of values that is not handled via redux form,
+    // property.match_actions is an array of values that is not handled via redux form,
     // therefore, we have to load it manually in the redux state for selectedActions
-    if (nextProps.policyRule.properties.actions && nextProps.policyRule !== this.props.policyRule) {
-      this.props.handleSelectedActions(null, nextProps.policyRule.properties.actions);
+    if (nextProps.policyRule.properties.match_actions && nextProps.policyRule !== this.props.policyRule) {
+      this.props.handleSelectedActions(null, nextProps.policyRule.properties.match_actions);
     }
   }
 
@@ -46,9 +47,9 @@ class PolicyEventRuleEdit extends Component {
     clearSelectedActions();
   }
 
-  updatePolicyRule(values) {
+  update = (values) => {
     const { match, history, policyRule, updatePolicyRule, selectedActions } = this.props;
-    const patches = generateEventPolicyRulePatches(policyRule, values, selectedActions);
+    const patches = generatePatches(policyRule, values, selectedActions, 'event');
 
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
@@ -69,7 +70,7 @@ class PolicyEventRuleEdit extends Component {
             title={policyRule.name}
             submitLabel="Update"
             cancelLabel={`${policyRule.properties.parent && policyRule.properties.parent.name} Policy`}
-            onSubmit={values => this.updatePolicyRule(values)}
+            onSubmit={this.update}
             {...this.props}
           />}
       </div>
@@ -77,20 +78,11 @@ class PolicyEventRuleEdit extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { policyRule } = state.metaResource.policyRule;
-
-  const model = {
-    name: policyRule.name,
-    description: policyRule.description,
-    properties: policyRule.properties,
-  };
-
-  return {
-    selectedActions: state.policyRules.selectedActions.selectedActions,
-    initialValues: model,
-  };
-}
+const mapStateToProps = state => ({
+  policyRule: selectRule(state),
+  selectedActions: state.policyRules.selectedActions.selectedActions,
+  initialValues: getEditEventRuleModel(state),
+});
 
 export default compose(
   withMetaResource,

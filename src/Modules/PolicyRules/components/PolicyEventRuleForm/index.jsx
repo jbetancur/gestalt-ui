@@ -19,7 +19,6 @@ const PolicyEventRuleForm = (props) => {
     policyRulePending,
     policyRuleUpdatePending,
     onSubmit,
-    invalid,
     pristine,
     submitting,
     handleSubmit,
@@ -76,7 +75,7 @@ const PolicyEventRuleForm = (props) => {
               raised
               iconChildren="save"
               type="submit"
-              disabled={pristine || lambdasDropDownPending || policyRulePending || invalid || submitting}
+              disabled={pristine || lambdasDropDownPending || policyRulePending || submitting}
               primary
             >
               {submitLabel}
@@ -127,18 +126,19 @@ const PolicyEventRuleForm = (props) => {
                   </Fieldset>
                 </Col>
                 <Col flex={8} xs={12} sm={12}>
-                  <Fieldset legend="Actions">
-                    <Row>
+                  <Fieldset legend="Triggers On">
+                    <Row columnDivisions={24}>
                       {policyTriggers.map(action => (
-                        <Col flex={4} xs={12} sm={6} md={6}>
+                        <Col flex={6} xs={24} sm={12} md={12} key={action.id}>
                           <Field
                             key={action.name}
                             id={action.name}
                             component={Checkbox}
                             label={action.name}
                             checked={!!selectedActions.find(a => a === action.name)}
-                            name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                            name="properties.match_actions" // this is just a stub to change form touch state and is not used in the final form values
                             onChange={() => onActionChecked(action.name)}
+                            style={{ margin: 0 }}
                           />
                         </Col>))}
                     </Row>
@@ -154,7 +154,7 @@ const PolicyEventRuleForm = (props) => {
 };
 
 PolicyEventRuleForm.propTypes = {
-  form: PropTypes.object.isRequired,
+  form: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   handleSelectedActions: PropTypes.func.isRequired,
   policyRule: PropTypes.object.isRequired,
@@ -164,7 +164,6 @@ PolicyEventRuleForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
