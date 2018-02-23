@@ -8,7 +8,8 @@ import ActivityContainer from 'components/ActivityContainer';
 import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
 import validate from '../components/PolicyLimitRuleForm/validations';
 import actions from '../actions';
-import { generateLimitPolicyRulePatches } from '../payloadTransformer';
+import { generatePatches } from '../payloadTransformer';
+import { getEditLimitRuleModel, selectRule } from '../selectors';
 
 class PolicyLimitRuleEdit extends Component {
   static propTypes = {
@@ -30,10 +31,10 @@ class PolicyLimitRuleEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // propery.actions is an array of values that is not handled via redux form,
+    // propery.match_actions is an array of values that is not handled via redux form,
     // therefore, we have to load it manually in the redux state for selectedActions
-    if (nextProps.policyRule.properties.actions && nextProps.policyRule !== this.props.policyRule) {
-      this.props.handleSelectedActions(null, nextProps.policyRule.properties.actions);
+    if (nextProps.policyRule.properties.match_actions && nextProps.policyRule !== this.props.policyRule) {
+      this.props.handleSelectedActions(null, nextProps.policyRule.properties.match_actions);
     }
   }
 
@@ -44,10 +45,10 @@ class PolicyLimitRuleEdit extends Component {
     clearSelectedActions();
   }
 
-  updatePolicyRule(values) {
+  update = (values) => {
     const { match, history, selectedActions, policyRule, updatePolicyRule } = this.props;
 
-    const patches = generateLimitPolicyRulePatches(policyRule, values, selectedActions);
+    const patches = generatePatches(policyRule, values, selectedActions, 'limit');
 
     if (patches.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
@@ -66,7 +67,7 @@ class PolicyLimitRuleEdit extends Component {
             title={policyRule.name}
             submitLabel="Update"
             cancelLabel={`${policyRule.properties.parent && policyRule.properties.parent.name} Policy`}
-            onSubmit={values => this.updatePolicyRule(values)}
+            onSubmit={this.update}
             {...this.props}
           />}
       </div>
@@ -74,20 +75,11 @@ class PolicyLimitRuleEdit extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { policyRule } = state.metaResource.policyRule;
-
-  const model = {
-    name: policyRule.name,
-    description: policyRule.description,
-    properties: policyRule.properties,
-  };
-
-  return {
-    selectedActions: state.policyRules.selectedActions.selectedActions,
-    initialValues: model,
-  };
-}
+const mapStateToProps = state => ({
+  policyRule: selectRule(state),
+  selectedActions: state.policyRules.selectedActions.selectedActions,
+  initialValues: getEditLimitRuleModel(state),
+});
 
 export default compose(
   withMetaResource,

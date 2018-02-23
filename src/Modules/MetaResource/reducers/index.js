@@ -50,7 +50,7 @@ export default combineReducers({
   policies: reducerFactory(['fetch', 'delete'], 'policies', 'policies', []),
   policy: reducerFactory(['fetch', 'create', 'update'], 'policy', 'policy', policyModel),
   policyRules: reducerFactory(['fetch', 'delete'], 'policyRules', 'policyRules', []),
-  policyRule: reducerFactory(['fetch', 'create', 'update'], 'policyRule', 'policyRule', policyRuleModel),
+  policyRule: reducerFactory(['fetch', 'create', 'update'], 'policyRule', 'policyRule', policyRuleModel.get()),
   entitlements: reducerFactory(['fetch'], 'entitlements', 'entitlements', [], true),
   entitlementUpdate: reducerFactory(['update'], 'entitlement', 'entitlement', {}, true),
   entitlementIdentities: reducerFactory(['fetch'], 'identities', 'identities', []),

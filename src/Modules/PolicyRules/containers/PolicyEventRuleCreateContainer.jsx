@@ -6,7 +6,8 @@ import { withMetaResource } from 'Modules/MetaResource';
 import PolicyEventRuleForm from '../components/PolicyEventRuleForm';
 import validate from '../components/PolicyEventRuleForm/validations';
 import actions from '../actions';
-import { generateEventPolicyRulePayload } from '../payloadTransformer';
+import { generatePayload } from '../payloadTransformer';
+import { getCreateEventRuleModel } from '../selectors';
 
 class PolicyEventRuleCreate extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ class PolicyEventRuleCreate extends Component {
 
   create(values) {
     const { match, history, createPolicyRule, selectedActions } = this.props;
-    const payload = generateEventPolicyRulePayload(values, selectedActions);
+    const payload = generatePayload(values, selectedActions, false, 'event');
 
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
     createPolicyRule(match.params.fqon, match.params.policyId, payload, onSuccess);
@@ -42,23 +43,11 @@ class PolicyEventRuleCreate extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const model = {
-    name: '',
-    description: '',
-    properties: {
-      parent: {},
-      lambda: '',
-      actions: [],
-    }
-  };
-
-  return {
-    policyRule: model,
-    selectedActions: state.policyRules.selectedActions.selectedActions,
-    initialValues: model,
-  };
-}
+const mapStateToProps = state => ({
+  policyRule: getCreateEventRuleModel(state),
+  selectedActions: state.policyRules.selectedActions.selectedActions,
+  initialValues: getCreateEventRuleModel(state),
+});
 
 export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
   form: 'policyEventRuleCreate',

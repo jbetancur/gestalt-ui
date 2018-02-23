@@ -20,7 +20,6 @@ const PolicyLimitRuleForm = (props) => {
     policyRulePending,
     policyRuleUpdatePending,
     onSubmit,
-    invalid,
     pristine,
     submitting,
     handleSubmit,
@@ -31,7 +30,6 @@ const PolicyLimitRuleForm = (props) => {
     selectedActions,
     policyRule,
     handleSelectedActions,
-    dispatch,
     change,
   } = props;
 
@@ -54,9 +52,8 @@ const PolicyLimitRuleForm = (props) => {
 
   const handleEvalFields = () => {
     // since we need to deal with input types we should clear the form value fields
-    // when
-    dispatch(change('properties.eval_logic.operator', ''));
-    dispatch(change('properties.eval_logic.value', ''));
+    change('properties.eval_logic.operator', '');
+    change('properties.eval_logic.value', '');
   };
 
   return (
@@ -84,7 +81,7 @@ const PolicyLimitRuleForm = (props) => {
               raised
               iconChildren="save"
               type="submit"
-              disabled={pristine || policyRulePending || invalid || submitting}
+              disabled={pristine || policyRulePending || submitting}
               primary
             >
               {submitLabel}
@@ -161,18 +158,19 @@ const PolicyLimitRuleForm = (props) => {
                   />
                 </Col>
               </Row>
-              <Fieldset legend="Actions">
+              <Fieldset legend="Match Actions">
                 <Row>
                   {policyActions.map(action => (
-                    <Col flex={2} xs={12} sm={6} md={4}>
+                    <Col flex={2} xs={12} sm={6} md={4} key={action.id}>
                       <Field
                         key={action.name}
                         id={action.name}
                         component={CheckboxForm}
                         label={action.name}
                         checked={!!selectedActions.find(a => a === action.name)}
-                        name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
+                        name="properties.match_actions" // this is just a stub to change form touch state and is not used in the final form values
                         onChange={() => onActionChecked(action.name)}
+                        style={{ margin: 0 }}
                       />
                     </Col>))}
                 </Row>
@@ -187,7 +185,6 @@ const PolicyLimitRuleForm = (props) => {
 
 PolicyLimitRuleForm.propTypes = {
   handleSelectedActions: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -196,7 +193,6 @@ PolicyLimitRuleForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
