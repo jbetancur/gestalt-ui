@@ -22,6 +22,10 @@ const LI = styled.li`
     padding-left: 16px;
   }
 
+  &:nth-child(n+2) {
+    padding-right: 42px;
+  }
+
   &:nth-child(n+3) {
     border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
   }

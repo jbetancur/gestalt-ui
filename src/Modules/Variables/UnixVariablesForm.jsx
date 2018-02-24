@@ -39,7 +39,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
             <Col flex={4} xs={12} sm={12}>
               <Field
                 name={`${member}.name`}
-                label={fieldNameStr}
+                placeholder={fieldNameStr}
                 rows={isPasswordField ? undefined : 1}
                 maxRows={isPasswordField ? undefined : 4}
                 component={TextField}
@@ -53,7 +53,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
               {isPasswordField && <PreventAutoFill key={`${member}--preventautofill`} />}
               <Field
                 name={`${member}.value`}
-                label={fieldValueStr}
+                placeholder={fieldValueStr}
                 type={isPasswordField ? 'password' : 'text'}
                 component={TextField}
                 rows={isPasswordField ? undefined : 1}
