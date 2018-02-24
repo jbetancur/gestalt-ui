@@ -29,7 +29,7 @@ const LabelsForm = ({ fields }) => (
           <Col flex={4} xs={12} sm={12}>
             <Field
               name={`${member}.name`}
-              label="name"
+              placeholder="name"
               type="text"
               component={TextField}
               validate={[validatePattern, required]}
@@ -39,7 +39,7 @@ const LabelsForm = ({ fields }) => (
           <Col flex={8} xs={12} sm={12}>
             <Field
               name={`${member}.value`}
-              label="value"
+              placeholder="value"
               type="text"
               component={TextField}
               autoComplete="off"
