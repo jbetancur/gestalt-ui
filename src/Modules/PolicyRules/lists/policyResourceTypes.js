@@ -4,7 +4,9 @@ export default {
       {
         name: 'api.create.post'
       },
-
+      {
+        name: 'api.update.post'
+      },
       {
         name: 'api.delete.post'
       }
@@ -17,7 +19,9 @@ export default {
       {
         name: 'apiendpoint.create.post'
       },
-
+      {
+        name: 'apiendpoint.update.post'
+      },
       {
         name: 'apiendpoint.delete.post'
       }
