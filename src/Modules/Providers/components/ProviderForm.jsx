@@ -22,7 +22,6 @@ import OtherConfigSection from './OtherConfigSection';
 import KubeEditorSection from './KubeEditorSection';
 import URLConfigSection from './URLConfigSection';
 import SecuritySection from './SecuritySection';
-import { nameMaxLen } from '../validations';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
@@ -167,7 +166,6 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                               label="Name"
                               type="text"
                               required
-                              maxLength={nameMaxLen}
                             />
                           </Col>
                         </Row>

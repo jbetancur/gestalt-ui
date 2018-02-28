@@ -15,7 +15,6 @@ import { ListTable } from 'components/Lists';
 import Fieldset from 'components/Fieldset';
 import PropertyDefForm from './PropertyDefForm';
 import LineageForm from './LineageForm';
-import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const ResourceTypeForm = (props) => {
   const { title, match, handleSubmit, submitting, pristine, resourceTypesDropDown, onSubmit, resourceType, resourceTypePending, editMode } = props;
@@ -63,7 +62,6 @@ const ResourceTypeForm = (props) => {
                           component={TextField}
                           name="name"
                           label="Name"
-                          maxLength={nameMaxLen}
                           required
                         />
                       </Col>
@@ -104,7 +102,6 @@ const ResourceTypeForm = (props) => {
                       name="description"
                       placeholder="Description"
                       rows={1}
-                      maxLength={descriptionMaxLen}
                     />
                   </Panel>
                 </Col>

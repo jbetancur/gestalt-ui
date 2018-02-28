@@ -51,7 +51,7 @@ class LambdaEdit extends PureComponent {
     const patches = generatePatches(lambda, values);
     const onSuccess = () => dispatch(reset());
 
-    updateLambda(match.params.fqon, lambda.id, lambda.properties.parent.id, patches, onSuccess);
+    updateLambda(match.params.fqon, lambda.id, patches, onSuccess);
   }
 
   render() {

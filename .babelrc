@@ -5,7 +5,6 @@
     "transform-class-properties"
   ],
   "presets": [
-    "latest",
     "react",
     [
       "env",

@@ -65,12 +65,11 @@ describe('Lambda Actions', () => {
       type: types.UPDATE_LAMBDA_REQUEST,
       fqon: 'iamfqon',
       lambdaId: '1',
-      environmentId: '2',
       payload: [],
       onSuccess: undefined,
     };
 
-    expect(actions.updateLambda('iamfqon', '1', '2', [])).to.deep.equal(expectedAction);
+    expect(actions.updateLambda('iamfqon', '1', [])).to.deep.equal(expectedAction);
   });
 
   it('should handle DELETE_LAMBDA_REQUEST', () => {

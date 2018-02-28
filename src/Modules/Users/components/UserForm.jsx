@@ -7,7 +7,6 @@ import { SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
-import { usernameMaxLen } from '../validations';
 
 const UserForm = (props) => {
   const goBack = () => {
@@ -49,7 +48,6 @@ const UserForm = (props) => {
                     label="Username"
                     type="text"
                     required
-                    maxLength={usernameMaxLen}
                   />
                 </Col>
                 <Col flex={6} xs={12}>

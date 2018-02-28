@@ -12,7 +12,6 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import Form from 'components/Form';
 import ActivityContainer from 'components/ActivityContainer';
-import { nameMaxLen } from '../validations';
 
 const APIForm = (props) => {
   const {
@@ -101,7 +100,6 @@ const APIForm = (props) => {
                           label="Name"
                           type="text"
                           required
-                          maxLength={nameMaxLen}
                           disabled={editMode}
                         />
                       </Col>

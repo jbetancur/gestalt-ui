@@ -1,6 +1,7 @@
 import {
   arrayToMap,
   mapTo2DArray,
+  convertFromMaps,
   stringDemiltedToArray,
 } from './transformations';
 
@@ -30,6 +31,28 @@ describe('Util Transformations', () => {
       const obj = { 'luke skywalker': 'awesome' };
 
       expect(mapTo2DArray(obj, 'fullname', 'status')).to.deep.equal([{ fullname: 'luke skywalker', status: 'awesome' }]);
+    });
+  });
+
+  describe('convertFromMaps function', () => {
+    it('should return the correct values', () => {
+      const own = { luke_skywalker: 'jedi' };
+      const inherited = { darth_vadar: 'sith' };
+
+      expect(convertFromMaps(own, inherited)).to.deep.equal([
+        { name: 'darth_vadar', value: 'sith', inherited: true },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false }
+      ]);
+    });
+
+    it('should return the correct values when own and inherited have the same values', () => {
+      const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
+      const inherited = { darth_vadar: 'sith' };
+
+      expect(convertFromMaps(own, inherited)).to.deep.equal([
+        { name: 'darth_vadar', value: 'sith lord', inherited: false },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false }
+      ]);
     });
   });
 

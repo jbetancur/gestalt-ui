@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { merge, orderBy } from 'lodash';
+import { convertFromMaps } from 'util/helpers/transformations';
 import * as types from '../actionTypes';
 
 /**
@@ -57,19 +58,12 @@ export function* fetchLambdasDropDown(action) {
  * @param {*} action { fqon, lambdaId }
  */
 export function* fetchLambda(action) {
-  function getLambda() {
-    return axios.get(`${action.fqon}/lambdas/${action.lambdaId}`);
-  }
-
-  function getEnv() {
-    return axios.get(`${action.fqon}/lambdas/${action.lambdaId}/env`);
-  }
-
   try {
-    const response = yield call(axios.all, [getLambda(), getEnv()]);
-    const payload = { ...response[0].data };
-    payload.properties.env = Object.assign(response[1].data, payload.properties.env);
+    const lambdaResponse = yield call(axios.get, `${action.fqon}/lambdas/${action.lambdaId}`);
+    const envResponse = yield call(axios.get, `${lambdaResponse.data.properties.parent.href}/env`);
+    const payload = { ...lambdaResponse.data };
 
+    payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
     yield put({ type: types.FETCH_LAMBDA_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_LAMBDA_REJECTED, payload: e.message });
@@ -82,11 +76,16 @@ export function* fetchLambda(action) {
  */
 export function* createLambda(action) {
   try {
-    const response = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas`, action.payload);
-    yield put({ type: types.CREATE_LAMBDA_FULFILLED, payload: response.data });
+    const lambdaResponse = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas`, action.payload);
+    // On a new resource we still need to pull in the inheritied envs so we can reconcile them
+    const envResponse = yield call(axios.get, `${lambdaResponse.data.properties.parent.href}/env`);
+    const payload = { ...lambdaResponse.data };
+
+    payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
+    yield put({ type: types.CREATE_LAMBDA_FULFILLED, payload });
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(response.data);
+      action.onSuccess(payload);
     }
   } catch (e) {
     yield put({ type: types.CREATE_LAMBDA_REJECTED, payload: e.message });
@@ -95,15 +94,16 @@ export function* createLambda(action) {
 
 /**
  * updateLambda
- * @param {*} action - { fqon, lambdaId, environmentId, payload, onSuccess {returns response.data}  }
+ * @param {*} action - { fqon, lambdaId, payload, onSuccess {returns response.data}  }
  */
 export function* updateLambda(action) {
   try {
-    const response = yield call(axios.patch, `${action.fqon}/lambdas/${action.lambdaId}`, action.payload);
-    const envResponse = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/env`);
-    const payload = { ...response.data };
-    payload.properties.env = Object.assign(envResponse.data, payload.properties.env);
+    const lambdaResponse = yield call(axios.patch, `${action.fqon}/lambdas/${action.lambdaId}`, action.payload);
+    // On a patch resource we still need to pull in the inheritied envs so we can reconcile them
+    const envResponse = yield call(axios.get, `${lambdaResponse.data.properties.parent.href}/env`);
+    const payload = { ...lambdaResponse.data };
 
+    payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
     yield put({ type: types.UPDATE_LAMBDA_FULFILLED, payload });
 
     if (typeof action.onSuccess === 'function') {

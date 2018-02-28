@@ -15,7 +15,6 @@ import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from './SecretItemsForm';
-import { nameMaxLen } from '../validations';
 
 const SecretForm = (props) => {
   const {
@@ -101,7 +100,6 @@ const SecretForm = (props) => {
                         label="Name"
                         type="text"
                         required
-                        maxLength={nameMaxLen}
                         autoComplete="none"
                       />
                     </Col>

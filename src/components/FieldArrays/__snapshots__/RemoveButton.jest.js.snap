@@ -14,12 +14,18 @@ exports[`(Components) RemoveButton mounts with basic mountWithTheme 1`] = `
 @media (min-width:0) and (max-width:599px) {
   .c0 {
     top: 0;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
   }
 }
 
 @media (min-width:600px) and (max-width:959px) {
   .c0 {
     top: 0;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
   }
 }
 

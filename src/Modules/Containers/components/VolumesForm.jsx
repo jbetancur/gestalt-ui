@@ -32,8 +32,8 @@ const VolumesForm = ({ fields, providerType }) => (
       const selectedVolumeType = volumeTypes[providerType] && volumeTypes[providerType].find(type => field.type === type.type);
 
       return (
-        <FieldItem key={`portmapping-${index}`}>
-          <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
+        <FieldItem key={`volume-${member}`}>
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
           <Subtitle>Volume {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={2} xs={12} sm={6}>

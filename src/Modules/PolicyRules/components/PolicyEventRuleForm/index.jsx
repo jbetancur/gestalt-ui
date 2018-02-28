@@ -10,7 +10,6 @@ import { Button } from 'components/Buttons';
 import { TextField, Checkbox } from 'components/ReduxFormFields';
 import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
-import { nameMaxLen } from './validations';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 
 const PolicyEventRuleForm = (props) => {
@@ -91,7 +90,6 @@ const PolicyEventRuleForm = (props) => {
                   label="Name"
                   type="text"
                   required
-                  maxLength={nameMaxLen}
                 />
               </Col>
               <Col flex={8} xs={12} sm={6}>
