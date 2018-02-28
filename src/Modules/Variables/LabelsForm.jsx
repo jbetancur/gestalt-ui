@@ -17,14 +17,14 @@ const LabelsForm = ({ fields }) => (
         flat
         primary
         iconChildren="add"
-        onClick={fields.push}
+        onClick={() => fields.push({})}
       >
         Add Label
       </Button>
     </FieldItem>
     {fields.map((member, index) => (
-      <FieldItem key={index}>
-        <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
+      <FieldItem key={`label-${member}`}>
+        <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
         <Row gutter={5}>
           <Col flex={4} xs={12} sm={12}>
             <Field

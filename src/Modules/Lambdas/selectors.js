@@ -26,7 +26,6 @@ export const getEditLambdaModel = createSelector(
       ...lambda,
       properties: {
         ...lambda.properties,
-        env: mapTo2DArray(lambda.properties.env),
         code: lambda.properties.code && base64.decode(lambda.properties.code),
         // TODO: Refactor this into some model
         periodic_info: {

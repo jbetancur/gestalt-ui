@@ -12,7 +12,6 @@ import { Panel } from 'components/Panels';
 import Form from 'components/Form';
 import ActivityContainer from 'components/ActivityContainer';
 import { PolicyRules } from 'Modules/PolicyRules';
-import { nameMaxLen } from '../validations';
 import policyTypes from '../lists/policyTypes';
 
 const PolicyForm = (props) => {
@@ -98,7 +97,6 @@ const PolicyForm = (props) => {
                         label="Name"
                         type="text"
                         required
-                        maxLength={nameMaxLen}
                         autoComplete="none"
                       />
                     </Col>

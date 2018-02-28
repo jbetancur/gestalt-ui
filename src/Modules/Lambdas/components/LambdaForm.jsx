@@ -19,7 +19,6 @@ import { ActionsMenu } from 'Modules/Actions';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import runTimes from '../lists/runTimes';
 import acceptHeaders from '../lists/acceptHeaders';
-import { nameMaxLen, descriptionMaxLen } from '../validations';
 
 const timezones = moment.tz.names();
 
@@ -151,7 +150,6 @@ const LambdaForm = (props) => {
                         label="Lambda Name"
                         type="text"
                         required
-                        maxLength={nameMaxLen}
                       />
                     </Col>
                   </Row>
@@ -166,7 +164,6 @@ const LambdaForm = (props) => {
                     placeholder="Description"
                     type="text"
                     rows={1}
-                    maxLength={descriptionMaxLen}
                   />
                 </Panel>
               </Col>
@@ -353,7 +350,7 @@ const LambdaForm = (props) => {
                         label="CPU"
                         type="number"
                         required
-                        parse={value => Number(value)} // redux form formats everything as string, so force number
+                        parse={value => parseFloat(value)} // redux form formats everything as string, so force number
                       />
                     </Col>
                     <Col flex={3} xs={6} sm={6}>

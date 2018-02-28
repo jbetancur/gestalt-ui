@@ -19,7 +19,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
         flat
         primary
         iconChildren="add"
-        onClick={fields.push}
+        onClick={() => fields.push({})}
       >
         Add Variable
       </Button>
@@ -33,11 +33,12 @@ const UnixVariablesForm = ({ fields, disabled }) => (
       const isPasswordField = checkIfPassword(field.name);
 
       return (
-        <FieldItem key={index}>
-          {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />}
+        <FieldItem key={`variable-${member}`}>
+          {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
           <Row gutter={5}>
             <Col flex={4} xs={12} sm={12}>
               <Field
+                id={`${member}.name`}
                 name={`${member}.name`}
                 placeholder={fieldNameStr}
                 rows={isPasswordField ? undefined : 1}
@@ -47,11 +48,13 @@ const UnixVariablesForm = ({ fields, disabled }) => (
                 disabled={isDisabled}
                 autoComplete="off"
                 required
+                helpText={isInherited ? 'inherited' : null}
               />
             </Col>
             <Col flex={8} xs={12} sm={12}>
               {isPasswordField && <PreventAutoFill key={`${member}--preventautofill`} />}
               <Field
+                id={`${member}.value`}
                 name={`${member}.value`}
                 placeholder={fieldValueStr}
                 type={isPasswordField ? 'password' : 'text'}
@@ -62,6 +65,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
                 validate={field.required ? required : []}
                 required={field.required}
                 passwordIcon={null}
+                helpText={isInherited ? 'overridable' : null}
               />
             </Col>
           </Row>

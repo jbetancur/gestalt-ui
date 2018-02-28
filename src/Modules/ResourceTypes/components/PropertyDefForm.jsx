@@ -20,8 +20,8 @@ const PropertyDefForm = ({ fields, resourceTypes, addLabel }) => (
       </Button>
     </FieldItem>
     {fields.map((member, index) => (
-      <FieldItem key={index}>
-        <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
+      <FieldItem key={member}>
+        <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
         <Row gutter={5}>
           <Col flex={6} xs={12} sm={12}>
             <Field

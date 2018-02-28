@@ -55,13 +55,12 @@ export function createLambda(fqon, environmentId, payload, onSuccess) {
 /**
  * updateLambda
  * @param {string} fqon
- * @param {string} lambdaId
- * @param {string} environmentId
+ * @param {string} lambdaIds
  * @param {Array} payload
  * @callbak {*} onSuccess
  */
-export function updateLambda(fqon, lambdaId, environmentId, payload, onSuccess) {
-  return { type: types.UPDATE_LAMBDA_REQUEST, fqon, lambdaId, environmentId, payload, onSuccess };
+export function updateLambda(fqon, lambdaId, payload, onSuccess) {
+  return { type: types.UPDATE_LAMBDA_REQUEST, fqon, lambdaId, payload, onSuccess };
 }
 
 /**

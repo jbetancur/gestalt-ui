@@ -1,4 +1,4 @@
-import { map, sortBy, compact } from 'lodash';
+import { map, sortBy, compact, unionBy, orderBy } from 'lodash';
 
 /**
  * arrayToMap
@@ -29,4 +29,18 @@ export function mapTo2DArray(object, keyName = 'name', valueName = 'value', merg
  */
 export function stringDemiltedToArray(string) {
   return compact(string.split(','));
+}
+
+/**
+ * convertFromMaps
+ * used to convert env vars from a map to an array
+ * @param {*} own
+ * @param {*} inherited
+ */
+export function convertFromMaps(own = {}, inherited = {}, keyName = 'name', valueName = 'value') {
+  // vars are a map but we need arrays to work with forms and for additional attributes for inheritance
+  const inheritedVars = mapTo2DArray(inherited, keyName, valueName, { inherited: true });
+  const ownVars = mapTo2DArray(own, keyName, valueName, { inherited: false });
+
+  return orderBy(unionBy(ownVars, inheritedVars, keyName), 'inherited', 'desc');
 }

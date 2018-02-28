@@ -22,15 +22,15 @@ const ButtonStyle = styled(({ theme, ...rest }) => <Button {...rest} />) `
   `};
 `;
 
-const RemoveButton = ({ onRemove, index, ...props }) => {
-  const handleRemove = () => onRemove(index);
+const RemoveButton = ({ onRemove, fieldIndex, ...props }) => {
+  const handleRemove = () => onRemove(fieldIndex);
 
   return <ButtonStyle icon onClick={handleRemove} {...props}>delete</ButtonStyle>;
 };
 
 RemoveButton.propTypes = {
   onRemove: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
+  fieldIndex: PropTypes.number.isRequired,
 };
 
 export default withTheme(RemoveButton);

@@ -9,11 +9,11 @@ import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays'
 const LineageForm = ({ fields, resourceTypes, addLabel }) => (
   <FieldContainer>
     <FieldItem>
-      <Button flat primary iconChildren="add"onClick={() => fields.push()}>{addLabel}</Button>
+      <Button flat primary iconChildren="add" onClick={() => fields.push({})}>{addLabel}</Button>
     </FieldItem>
     {fields.map((member, index) => (
-      <FieldItem key={index}>
-        <RemoveButton onRemove={fields.remove} index={index} />
+      <FieldItem key={member}>
+        <RemoveButton onRemove={fields.remove} fieldIndex={index} />
         <Row gutter={5}>
           <Col flex={12}>
             <Field

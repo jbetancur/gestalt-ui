@@ -36,8 +36,8 @@ const HealthChecksForm = ({ fields, healthCheckvalues }) => (
       const selectedHCProtocol = healthCheckProtocols.find(item => field.protocol === item.value);
 
       return (
-        <FieldItem key={`portmapping-${index}`}>
-          <RemoveButton onRemove={fields.remove} index={index} tabIndex="-1" />
+        <FieldItem key={`healthcheck-${member}`}>
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
           <Subtitle>Check {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={3} xs={6} sm={6}>

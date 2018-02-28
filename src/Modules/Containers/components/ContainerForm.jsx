@@ -21,7 +21,6 @@ import Div from 'components/Div';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from './ContainerInstances';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
-import { nameMaxLen, descriptionMaxLen } from '../validations';
 import ContainerActions from './ContainerActions';
 import ContainerIcon from './ContainerIcon';
 import ActionsModals from '../ActionModals';
@@ -228,7 +227,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                               label="Name"
                               type="text"
                               required
-                              maxLength={nameMaxLen}
                               disabled={editMode}
                               helpText="the name of the container"
                             />
@@ -257,7 +255,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                               label="CPU"
                               type="number"
                               required
-                              parse={value => Number(value)} // redux form formats everything as string, so force number
+                              parse={value => parseFloat(value)} // redux form formats everything as string, so force number
                             />
                           </Col>
                           <Col flex={2} xs={12}>
@@ -338,7 +336,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                           name="description"
                           placeholder="Description"
                           type="text"
-                          maxLength={descriptionMaxLen}
                           rows={1}
                         />
                       </Panel>

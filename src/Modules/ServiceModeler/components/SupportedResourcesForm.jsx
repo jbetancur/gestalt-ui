@@ -7,7 +7,6 @@ import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 import { PropertyDefForm, LineageForm } from 'Modules/ResourceTypes';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { descriptionMaxLen } from '../validations';
 
 const SupportedResourceForm = ({ fields, resourceTypes }) => (
   <FieldContainer>
@@ -28,7 +27,7 @@ const SupportedResourceForm = ({ fields, resourceTypes }) => (
     {fields.map((member, index) => (
       <Panel title={`Resource Class Definition ${index + 1}`} noPadding>
         <FieldItem key={index}>
-          <RemoveButton onRemove={fields.remove} index={index} />
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} />
           <Row gutter={5}>
             <Col flex={4}>
               <Field
@@ -66,7 +65,6 @@ const SupportedResourceForm = ({ fields, resourceTypes }) => (
                 component={TextField}
                 name={`${member}.description`}
                 label="Description"
-                maxLength={descriptionMaxLen}
                 rows={1}
               />
             </Col>

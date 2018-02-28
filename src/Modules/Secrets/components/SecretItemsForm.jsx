@@ -25,8 +25,8 @@ const SecretItemsForm = ({ fields, multiPart, disabled }) => (
         </Button>}
     </FieldItem>
     {fields.map((member, index) => (
-      <FieldItem key={index}>
-        {(!disabled && multiPart) && <RemoveButton onRemove={fields.remove} index={index} />}
+      <FieldItem key={`secrets-${member}`}>
+        {(!disabled && multiPart) && <RemoveButton onRemove={fields.remove} fieldIndex={index} />}
         <Row gutter={5}>
           <Col flex={12}>
             <Field
