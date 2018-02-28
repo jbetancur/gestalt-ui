@@ -92,13 +92,12 @@ export function* deleteAPIs(action) {
     const all = action.apiIds.map(id => axios.delete(`${action.fqon}/apis/${id}?force=false`));
 
     yield call(axios.all, all);
-    yield put({ type: types.DELETE_API_FULFILLED });
-
+    yield put({ type: types.DELETE_APIS_FULFILLED });
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();
     }
   } catch (e) {
-    yield put({ type: types.DELETE_API_REJECTED, payload: e.message });
+    yield put({ type: types.DELETE_APIS_REJECTED, payload: e.message });
   }
 }
 

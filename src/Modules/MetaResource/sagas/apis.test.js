@@ -215,7 +215,7 @@ describe('API Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_API_FULFILLED })
+        put({ type: types.DELETE_APIS_FULFILLED })
       );
 
       // Finish the iteration
@@ -238,7 +238,7 @@ describe('API Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_API_REJECTED, payload: error })
+        put({ type: types.DELETE_APIS_REJECTED, payload: error })
       );
     });
   });

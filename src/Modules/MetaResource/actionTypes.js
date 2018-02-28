@@ -151,6 +151,8 @@ export const UPDATE_API_FULFILLED = 'metaResource/UPDATE_API_FULFILLED';
 export const UPDATE_API_REJECTED = 'metaResource/UPDATE_API_REJECTED';
 
 export const DELETE_APIS_REQUEST = 'metaResource/DELETE_APIS_REQUEST';
+export const DELETE_APIS_FULFILLED = 'metaResource/DELETE_APIS_FULFILLED';
+export const DELETE_APIS_REJECTED = 'metaResource/DELETE_APIS_REJECTED';
 export const DELETE_API_REQUEST = 'metaResource/DELETE_API_REQUEST';
 export const DELETE_API_FULFILLED = 'metaResource/DELETE_API_FULFILLED';
 export const DELETE_API_REJECTED = 'metaResource/DELETE_API_REJECTED';
