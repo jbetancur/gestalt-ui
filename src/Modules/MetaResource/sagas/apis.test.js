@@ -165,7 +165,7 @@ describe('API Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.delete, 'iamfqon/apis/1?force=true')
+        call(axios.delete, 'iamfqon/apis/1?force=false')
       );
     });
 
@@ -208,7 +208,7 @@ describe('API Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.all, [axios.delete('iamfqon/apis/1?force=true')])
+        call(axios.all, [axios.delete('iamfqon/apis/1?force=false')])
       );
     });
 

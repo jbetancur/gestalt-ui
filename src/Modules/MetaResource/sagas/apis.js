@@ -72,7 +72,7 @@ export function* updateAPI(action) {
  */
 export function* deleteAPI(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/apis/${action.apiId}?force=true`);
+    yield call(axios.delete, `${action.fqon}/apis/${action.apiId}?force=false`);
     yield put({ type: types.DELETE_API_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
@@ -89,7 +89,7 @@ export function* deleteAPI(action) {
  */
 export function* deleteAPIs(action) {
   try {
-    const all = action.apiIds.map(id => axios.delete(`${action.fqon}/apis/${id}?force=true`));
+    const all = action.apiIds.map(id => axios.delete(`${action.fqon}/apis/${id}?force=false`));
 
     yield call(axios.all, all);
     yield put({ type: types.DELETE_API_FULFILLED });
