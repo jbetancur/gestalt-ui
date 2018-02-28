@@ -18,7 +18,7 @@ const get = (model = {}) => {
     properties: {
       defined_at: {},
       parent: {},
-      match_actions: [],
+      actions: [],
       eval_logic: {},
     }
   }, safeModel);
@@ -33,13 +33,13 @@ const create = (model = {}) => {
 
   return pick(merge({
     properties: {
-      match_actions: [],
+      actions: [],
       eval_logic: {},
     }
   }, safeModel), [
     'name',
     'description',
-    'properties.match_actions',
+    'properties.actions',
     'properties.eval_logic',
     'properties.lambda',
     'properties.strict',

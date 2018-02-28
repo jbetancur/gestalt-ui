@@ -33,10 +33,10 @@ class PolicyEventRuleEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // property.match_actions is an array of values that is not handled via redux form,
+    // property.actions is an array of values that is not handled via redux form,
     // therefore, we have to load it manually in the redux state for selectedActions
-    if (nextProps.policyRule.properties.match_actions && nextProps.policyRule !== this.props.policyRule) {
-      this.props.handleSelectedActions(null, nextProps.policyRule.properties.match_actions);
+    if (nextProps.policyRule.properties.actions && nextProps.policyRule !== this.props.policyRule) {
+      this.props.handleSelectedActions(null, nextProps.policyRule.properties.actions);
     }
   }
 

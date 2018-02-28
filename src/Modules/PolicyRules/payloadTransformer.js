@@ -12,7 +12,7 @@ import { metaModels } from 'Modules/MetaResource';
 export function generatePayload(sourcePayload, selectedActions = [], updateMode = false, policyType) {
   const payload = metaModels.policyRule.create(sourcePayload);
 
-  payload.properties.match_actions = selectedActions;
+  payload.properties.actions = selectedActions;
 
   if (!updateMode) {
     if (policyType === 'limit') {

@@ -166,7 +166,7 @@ const PolicyLimitRuleForm = (props) => {
                         component={CheckboxForm}
                         label={action.name}
                         checked={!!selectedActions.find(a => a === action.name)}
-                        name="properties.match_actions" // this is just a stub to change form touch state and is not used in the final form values
+                        name="properties.actions" // this is just a stub to change form touch state and is not used in the final form values
                         onChange={() => onActionChecked(action.name)}
                         style={{ margin: 0 }}
                       />

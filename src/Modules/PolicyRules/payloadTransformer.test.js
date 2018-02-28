@@ -29,7 +29,7 @@ describe('(Policy Event Rule Payload Transformer)', () => {
         name: 'test',
         description: 'hi',
         properties: {
-          match_actions: ['takeaction'],
+          actions: ['takeaction'],
           eval_logic: { operator: 'whoa' },
         }
       });
@@ -37,7 +37,7 @@ describe('(Policy Event Rule Payload Transformer)', () => {
       const expectedPatches = [
         { op: 'replace', path: '/name', value: 'test' },
         { op: 'replace', path: '/description', value: 'hi' },
-        { op: 'add', path: '/properties/match_actions/0', value: 'takeaction' },
+        { op: 'add', path: '/properties/actions/0', value: 'takeaction' },
         { op: 'add', path: '/properties/eval_logic', value: { operator: 'whoa' } },
       ];
 
@@ -53,7 +53,7 @@ describe('(Policy Event Rule Payload Transformer)', () => {
         name: 'test',
         description: 'hi',
         properties: {
-          match_actions: ['takeaction'],
+          actions: ['takeaction'],
           lambda: { id: '123' }
         }
       });
@@ -62,7 +62,7 @@ describe('(Policy Event Rule Payload Transformer)', () => {
         { op: 'replace', path: '/name', value: 'test' },
         { op: 'replace', path: '/description', value: 'hi' },
         { op: 'add', path: '/properties/lambda', value: '123' },
-        { op: 'add', path: '/properties/match_actions/0', value: 'takeaction' },
+        { op: 'add', path: '/properties/actions/0', value: 'takeaction' },
       ];
 
       expect(payload.length).to.equal(4);

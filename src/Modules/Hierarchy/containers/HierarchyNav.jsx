@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { Navbar, NavItem } from 'components/Navigation';
-import { HierarchyIcon, MetamodelIcon, ServiceIcon } from 'components/Icons';
+import { HierarchyIcon, MetamodelIcon } from 'components/Icons';
 
 const renderNavItems = (showOnRootOnly, t, props) => (
   [
@@ -37,26 +37,11 @@ const renderNavItems = (showOnRootOnly, t, props) => (
       activeClassName="active-link"
       isVisible={showOnRootOnly}
     />,
-    // <NavItem
-    //   key="hierarchy--micromodeler"
-    //   icon={<MetamodelIcon />}
-    //   title={<div><div>Micro</div><div>Modeler</div></div>}
-    //   to={`/${props.match.params.fqon}/micromodeler`}
-    //   activeClassName="active-link"
-    //   isVisible={showOnRootOnly}
-    // />,
     <NavItem
       key="hierarchy--resourceTypes"
       icon={<MetamodelIcon />}
       title="Resource Types"
       to={`/${props.match.params.fqon}/resourcetypes`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="hierarchy--servicemodeler"
-      icon={<ServiceIcon size={28} />}
-      title={<div><div>Service</div><div>Specs</div></div>}
-      to={`/${props.match.params.fqon}/servicespecs`}
       activeClassName="active-link"
     />,
   ]
