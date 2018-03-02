@@ -60,14 +60,7 @@ const common = merge([
       new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/, // exclude node_modules
         failOnError: false, // show a warning when there is a circular dependency
-      }),
-      new CompressionPlugin({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: /\.(js|css|html|ico|svg)$/,
-        threshold: 10240,
-        minRatio: 0.8,
-      }),
+      })
     ],
   },
   parts.fontConfig(PATHS),
@@ -101,27 +94,6 @@ module.exports = (env) => {
           new Clean(['build'], {
             root: PATHS.rootPath,
           }),
-          new webpack.optimize.UglifyJsPlugin({
-            compress: {
-              unused: true, // Enables tree shaking
-              dead_code: true, // Enables tree shaking
-              pure_getters: true,
-              warnings: false,
-              screw_ie8: true,
-              conditionals: true,
-              comparisons: true,
-              sequences: true,
-              evaluate: true,
-              join_vars: true,
-              if_return: true,
-            },
-            parallel: true,
-            mangle: true,
-            output: {
-              comments: false
-            },
-            sourceMap: true
-          }),
           new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false,
@@ -130,6 +102,13 @@ module.exports = (env) => {
             filename: 'theme-[hash:6].css',
             allChunks: true,
             disable: false,
+          }),
+          new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.(js|css|html|ico|svg)$/,
+            threshold: 10240,
+            minRatio: 0.8,
           }),
           new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // exclude moment locales - we don't need them at this time
           // new BundleAnalyzerPlugin({ // enable manually for bundle analysis
