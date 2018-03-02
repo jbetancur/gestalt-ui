@@ -51,36 +51,50 @@ const PolicyForm = (props) => {
         <Col component={Card} flex={10} xs={12} sm={12} md={12}>
           <CardTitle title={title} />
           <ActionsToolbar>
-            <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={policyPending || submitting}
-              component={Link}
-              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={pristine || policyPending || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
-            {policy.id &&
-              <MenuButton
-                id="add-policyRule"
-                raised
-                primary
-                position="below"
-                menuItems={ruleTypes()}
-                iconChildren="playlist_add_check"
-                style={{ marginLeft: '.1em' }}
-              >
-                Add Policy Rule
-              </MenuButton>}
+            <Row>
+              <Col flex={12}>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={policyPending || submitting}
+                  component={Link}
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
+                >
+                  {cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={pristine || policyPending || submitting}
+                  primary
+                >
+                  {submitLabel}
+                </Button>
+                {editMode && policy.id && [
+                  <MenuButton
+                    id="add-policyRule"
+                    key="add-policyRule"
+                    flat
+                    sameWidth
+                    primary
+                    position="below"
+                    menuItems={ruleTypes()}
+                    iconChildren="playlist_add_check"
+                    style={{ marginLeft: '.1em' }}
+                  >
+                    Add Policy Rule
+                  </MenuButton>,
+                  <Button
+                    key="policy--entitlements"
+                    flat
+                    iconChildren="security"
+                    onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, policy.id, 'policies', 'Policy')}
+                  >
+                    Policy Entitlements
+                  </Button>]}
+              </Col>
+            </Row>
           </ActionsToolbar>
 
           {policyPending && <ActivityContainer id="policy-form" />}
@@ -144,6 +158,7 @@ PolicyForm.propTypes = {
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
+  entitlementActions: PropTypes.object,
 };
 
 PolicyForm.defaultProps = {
@@ -151,6 +166,7 @@ PolicyForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  entitlementActions: {},
 };
 
 export default PolicyForm;

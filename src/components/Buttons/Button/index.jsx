@@ -5,7 +5,7 @@ const EnhancedButton = styled(Button)`
   margin-left: .1em;
   margin-right: .1em;
   text-align: center;
-  ${props => props.noShadow && 'box-shadow: none'};
+  box-shadow: none;
 
   /* fixes font when using React-Router-Link */
   .md-icon-text {

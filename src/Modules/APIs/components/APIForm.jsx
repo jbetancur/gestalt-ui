@@ -41,35 +41,47 @@ const APIForm = (props) => {
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle title={title} />
             <ActionsToolbar>
-              <Button
-                iconChildren="arrow_back"
-                flat
-                disabled={apiPending || submitting}
-                component={Link}
-                to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
-              >
-                {cancelLabel}
-              </Button>
-              <Button
-                raised
-                iconChildren="save"
-                type="submit"
-                disabled={pristine || apiPending || submitting}
-                primary
-              >
-                {submitLabel}
-              </Button>
-              {editMode && api.id &&
-              <Button
-                id="add-endpoint"
-                raised
-                primary
-                component={Link}
-                to={`${match.url}/apiendpoints/create`}
-                iconChildren="link"
-              >
-                Add Endpoint
-              </Button>}
+              <Row>
+                <Col flex={12}>
+                  <Button
+                    iconChildren="arrow_back"
+                    flat
+                    disabled={apiPending || submitting}
+                    component={Link}
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
+                  >
+                    {cancelLabel}
+                  </Button>
+                  <Button
+                    raised
+                    iconChildren="save"
+                    type="submit"
+                    disabled={pristine || apiPending || submitting}
+                    primary
+                  >
+                    {submitLabel}
+                  </Button>
+                  {editMode && api.id && [
+                    <Button
+                      key="add-endpoint"
+                      flat
+                      primary
+                      component={Link}
+                      to={`${match.url}/apiendpoints/create`}
+                      iconChildren="link"
+                    >
+                      Add Endpoint
+                    </Button>,
+                    <Button
+                      key="api--entitlements"
+                      flat
+                      iconChildren="security"
+                      onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, api.id, 'apis', 'API')}
+                    >
+                      API Entitlements
+                    </Button>]}
+                </Col>
+              </Row>
             </ActionsToolbar>
 
             {apiPending && <ActivityContainer id="api-form" />}
@@ -124,7 +136,7 @@ const APIForm = (props) => {
 
           {editMode && api.id &&
             <Row gutter={5} center>
-              <Col flex={10} xs={12} sm={12}>
+              <Col flex={10} xs={12} sm={12} md={12}>
                 <APIEndpoints {...props} />
               </Col>
             </Row>}
@@ -147,7 +159,8 @@ APIForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  entitlementActions: PropTypes.object,
 };
 
 APIForm.defaultProps = {
@@ -155,6 +168,7 @@ APIForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  entitlementActions: {},
 };
 
 // Connect to this forms state in the store so we can enum the values
