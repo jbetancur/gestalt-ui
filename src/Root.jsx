@@ -15,7 +15,7 @@ import NotFound from 'components/NotFound';
 import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
-import AppContainer from './App/AppContainer';
+import App from './App/App';
 import { LoginContainer, restricted } from './Modules/Authorization';
 import Logging from './Modules/Logging';
 import lightTheme from './themes/light';
@@ -60,11 +60,11 @@ const Root = () => (
               <Switch>
                 <Route exact path="/login" component={LoginContainer} />
                 <Route exact path="/logs" component={restricted(Logging)} />
-                <Route exact path="/" component={restricted(AppContainer)} />
+                <Route exact path="/" component={restricted(App)} />
                 <Route exact path="/404" component={NotFound} />
-                <Route path="/:fqon" component={restricted(AppContainer)} />
+                <Route path="/:fqon" component={restricted(App)} />
                 <Route exact path="/:fqon/404" component={NotFound} />
-                <Route path="/notfound" component={restricted(AppContainer)} />
+                <Route path="/notfound" component={restricted(App)} />
               </Switch>
             </ConnectedRouter>
           </div>
