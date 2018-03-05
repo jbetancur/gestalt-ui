@@ -50,24 +50,37 @@ const SecretForm = (props) => {
         <Col component={Card} flex={10} xs={12} sm={12} md={12}>
           <CardTitle title={title} />
           <ActionsToolbar>
-            <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={secretPending || submitting}
-              component={Link}
-              to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={pristine || secretPending || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
+            <Row>
+              <Col flex={12}>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={secretPending || submitting}
+                  component={Link}
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
+                >
+                  {cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={pristine || secretPending || submitting}
+                  primary
+                >
+                  {submitLabel}
+                </Button>
+                {/* {secret.id &&
+                <Button
+                  key="secret--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, secret.id, 'secrets', 'Secret')}
+                >
+                  Secret Entitlements
+                </Button>} */}
+              </Col>
+            </Row>
           </ActionsToolbar>
 
           {secretPending && <ActivityContainer id="secret-form-loading" />}
@@ -152,12 +165,14 @@ SecretForm.propTypes = {
   cancelLabel: PropTypes.string,
   values: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
+  // entitlementActions: PropTypes.object,
 };
 
 SecretForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
+  // entitlementActions: {},
 };
 
 export default connect(

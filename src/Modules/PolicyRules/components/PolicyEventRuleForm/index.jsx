@@ -61,24 +61,37 @@ const PolicyEventRuleForm = (props) => {
         <Col component={Card} flex={10} xs={12} sm={12} md={12}>
           <CardTitle title={title} />
           <ActionsToolbar>
-            <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={policyRulePending || submitting}
-              component={Link}
-              to={backLink}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={pristine || lambdasDropDownPending || policyRulePending || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
+            <Row>
+              <Col flex={12}>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={policyRulePending || submitting}
+                  component={Link}
+                  to={backLink}
+                >
+                  {cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={pristine || lambdasDropDownPending || policyRulePending || submitting}
+                  primary
+                >
+                  {submitLabel}
+                </Button>
+                {policyRule.id &&
+                <Button
+                  key="eventRule--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, policyRule.id, 'rules', 'Event Rule')}
+                >
+                  Rule Entitlements
+                </Button>}
+              </Col>
+            </Row>
           </ActionsToolbar>
           {(policyRuleUpdatePending || policyRulePending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
           <CardText>
@@ -171,6 +184,7 @@ PolicyEventRuleForm.propTypes = {
   fetchLambdasDropDown: PropTypes.func.isRequired,
   lambdasDropDown: PropTypes.array.isRequired,
   lambdasDropDownPending: PropTypes.bool.isRequired,
+  entitlementActions: PropTypes.object,
 };
 
 PolicyEventRuleForm.defaultProps = {
@@ -178,6 +192,7 @@ PolicyEventRuleForm.defaultProps = {
   submitLabel: '',
   cancelLabel: 'Cancel',
   editMode: false,
+  entitlementActions: {},
 };
 
 export default connect(
