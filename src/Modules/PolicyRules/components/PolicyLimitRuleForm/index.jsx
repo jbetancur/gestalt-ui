@@ -67,24 +67,37 @@ const PolicyLimitRuleForm = (props) => {
         <Col component={Card} flex={10} xs={12} sm={12} md={12}>
           <CardTitle title={title} />
           <ActionsToolbar>
-            <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={policyRulePending || submitting}
-              component={Link}
-              to={backLink}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={pristine || policyRulePending || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
+            <Row>
+              <Col flex={12}>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={policyRulePending || submitting}
+                  component={Link}
+                  to={backLink}
+                >
+                  {cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={pristine || policyRulePending || submitting}
+                  primary
+                >
+                  {submitLabel}
+                </Button>
+                {policyRule.id &&
+                <Button
+                  key="eventRule--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
+                >
+                  Rule Entitlements
+                </Button>}
+              </Col>
+            </Row>
           </ActionsToolbar>
           {(policyRuleUpdatePending || policyRulePending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
           <CardText>
@@ -197,12 +210,14 @@ PolicyLimitRuleForm.propTypes = {
   cancelLabel: PropTypes.string,
   values: PropTypes.object.isRequired,
   selectedActions: PropTypes.array.isRequired,
+  entitlementActions: PropTypes.object,
 };
 
 PolicyLimitRuleForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
+  entitlementActions: {},
 };
 
 export default connect(

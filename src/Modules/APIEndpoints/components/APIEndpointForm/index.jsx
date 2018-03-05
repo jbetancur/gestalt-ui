@@ -75,24 +75,37 @@ const APIEndpointForm = (props) => {
         <Col component={Card} flex={10} xs={12} sm={12} md={12}>
           <CardTitle title={title} />
           <ActionsToolbar>
-            <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
-              component={Link}
-              to={backLink}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
-              primary
-            >
-              {submitLabel}
-            </Button>
+            <Row>
+              <Col flex={12}>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
+                  component={Link}
+                  to={backLink}
+                >
+                  {cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
+                  primary
+                >
+                  {submitLabel}
+                </Button>
+                {apiEndpoint.id &&
+                <Button
+                  key="apiEndpoint--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, apiEndpoint.id, 'apiendpoints', 'API Endpoint')}
+                >
+                  Endpoint Entitlements
+                </Button>}
+              </Col>
+            </Row>
           </ActionsToolbar>
           {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
           <CardText>
@@ -228,6 +241,7 @@ APIEndpointForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
+  entitlementActions: PropTypes.object,
 };
 
 APIEndpointForm.defaultProps = {
@@ -237,6 +251,7 @@ APIEndpointForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
+  entitlementActions: {},
 };
 
 const selector = form => formValueSelector(form);
