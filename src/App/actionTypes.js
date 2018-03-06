@@ -1,1 +1,2 @@
 export const APP_HTTP_REQUEST = 'app/APP_HTTP_REQUEST';
+export const SHOW_EXPERIMENTAL = 'app/SHOW_EXPERIMENTAL';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
+import withApp from 'App/withApp';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { ListItem, FontIcon, MenuButton } from 'react-md';
@@ -19,6 +20,7 @@ class HierarchyActions extends PureComponent {
     pending: PropTypes.bool.isRequired,
     t: PropTypes.func.isRequired,
     entitlementActions: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
   };
 
   showEntitlements = () => {
@@ -29,7 +31,7 @@ class HierarchyActions extends PureComponent {
   }
 
   render() {
-    const { organizationSet, pending, t } = this.props;
+    const { organizationSet, pending, t, appState } = this.props;
 
     const menuItems = [
       <ListItem
@@ -88,7 +90,7 @@ class HierarchyActions extends PureComponent {
         to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
         style={listItemStyle}
       />,
-      <ListItem
+      appState.enableExperimental ? <ListItem
         id="orgs-settings-menu--serviceSpecs-create"
         key="orgs-settings-menu--serviceSpecs-create"
         primaryText="Service Specification"
@@ -96,7 +98,7 @@ class HierarchyActions extends PureComponent {
         leftIcon={<ServiceIcon />}
         to={`/${organizationSet.properties.fqon}/servicespecs/create`}
         style={listItemStyle}
-      />
+      /> : <div key="orgs-settings-menu--groups-create" />
     ];
 
     return (
@@ -127,4 +129,5 @@ export default compose(
   translate(),
   withMetaResource,
   withEntitlements,
+  withApp,
 )(HierarchyActions);
