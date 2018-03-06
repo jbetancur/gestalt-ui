@@ -5,7 +5,6 @@ import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { Subtitle } from 'components/Typography';
 import networkProtocols from '../lists/networkProtocols';
 import { portMappingServiceNameMaxLen } from '../validations';
 
@@ -33,8 +32,6 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
 
       return (
         <FieldItem key={`portmapping-${member}`}>
-          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
-          <Subtitle>Mapping {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={1} xs={12} sm={12} md={12} style={{ minWidth: '90px' }}>
               <Field
@@ -104,6 +101,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
               />
             </Col>}
           </Row>
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
         </FieldItem>
       );
     })}

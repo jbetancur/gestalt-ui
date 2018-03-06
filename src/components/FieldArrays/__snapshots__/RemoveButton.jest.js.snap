@@ -3,29 +3,21 @@
 exports[`(Components) RemoveButton mounts with basic mountWithTheme 1`] = `
 .c0 {
   color: #f44336;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
 }
 
 @media (min-width:0) and (max-width:599px) {
   .c0 {
+    position: absolute;
     top: 0;
-    -webkit-transform: none;
-    -ms-transform: none;
-    transform: none;
+    right: 0;
   }
 }
 
 @media (min-width:600px) and (max-width:959px) {
   .c0 {
+    position: absolute;
     top: 0;
-    -webkit-transform: none;
-    -ms-transform: none;
-    transform: none;
+    right: 0;
   }
 }
 

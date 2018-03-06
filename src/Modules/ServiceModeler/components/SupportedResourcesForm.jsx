@@ -27,7 +27,7 @@ const SupportedResourceForm = ({ fields, resourceTypes }) => (
     {fields.map((member, index) => (
       <Panel title={`Resource Class Definition ${index + 1}`} noPadding>
         <FieldItem key={index}>
-          <RemoveButton onRemove={fields.remove} fieldIndex={index} />
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} absoluteTopRight tabIndex="-1" />
           <Row gutter={5}>
             <Col flex={4}>
               <Field

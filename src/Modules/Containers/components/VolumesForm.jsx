@@ -5,7 +5,6 @@ import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { Subtitle } from 'components/Typography';
 import { isURL } from 'validator';
 import volumeTypes from '../lists/volumeTypes';
 
@@ -33,8 +32,6 @@ const VolumesForm = ({ fields, providerType }) => (
 
       return (
         <FieldItem key={`volume-${member}`}>
-          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
-          <Subtitle>Volume {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={2} xs={12} sm={6}>
               <Field
@@ -109,6 +106,7 @@ const VolumesForm = ({ fields, providerType }) => (
                 />
               </Col>
             </Row>}
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
         </FieldItem>
       );
     })}

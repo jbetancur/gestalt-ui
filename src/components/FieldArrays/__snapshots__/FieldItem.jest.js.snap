@@ -25,7 +25,14 @@ exports[`(Components) FieldItem mounts with basic props 1`] = `
 }
 
 .c0:nth-child(n+2) {
-  padding-right: 42px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .c0:nth-child(n+3) {

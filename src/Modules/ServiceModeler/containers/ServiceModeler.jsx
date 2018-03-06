@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { destroy } from 'redux-form';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import ServiceWizard from './ServiceWizard';
 
@@ -11,11 +13,16 @@ class ServiceModeler extends PureComponent {
     fetchLambdasDropDown: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    destroyForm: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     this.props.fetchResourceTypesDropDown('root');
     this.props.fetchLambdasDropDown(this.props.match.params.fqon);
+  }
+
+  componentWillUnmount() {
+    this.props.destroyForm('ServiceModelerWizard');
   }
 
   create = (values) => {
@@ -32,6 +39,13 @@ class ServiceModeler extends PureComponent {
   }
 }
 
+const actions = dispatch => ({
+  destroyForm: (form) => {
+    dispatch(destroy(form));
+  }
+});
+
 export default compose(
   withMetaResource,
+  connect(null, actions),
 )(ServiceModeler);

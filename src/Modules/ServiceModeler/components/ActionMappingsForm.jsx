@@ -30,7 +30,7 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
       {fields.map((member, index) => (
         <Panel title={`Action ${index + 1}`} noPadding>
           <FieldItem key={index}>
-            <RemoveButton onRemove={fields.remove} fieldIndex={index} />
+            <RemoveButton onRemove={fields.remove} fieldIndex={index} absoluteTopRight tabIndex="-1" />
             <Row gutter={5}>
               <Col flex={12}>
                 <Row gutter={5}>

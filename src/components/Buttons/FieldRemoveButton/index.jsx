@@ -19,7 +19,7 @@ const FieldRemoveButton = props => (
     icon
     iconChildren={
       <StyledIcon>
-        <FontIcon inherit>remove_circle_outline</FontIcon>
+        <FontIcon inherit>delete</FontIcon>
       </StyledIcon>
     }
     marginTop={props.marginTop}

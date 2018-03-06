@@ -56,6 +56,7 @@ const AppToolbarUserMenu = (props) => {
       position={browser.lessThan.sm ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
       iconBefore={false}
       menuItems={menuItems}
+      sameWidth={browser.greaterThan.sm}
     />
   );
 };

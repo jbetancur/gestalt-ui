@@ -34,7 +34,6 @@ const UnixVariablesForm = ({ fields, disabled }) => (
 
       return (
         <FieldItem key={`variable-${member}`}>
-          {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
           <Row gutter={5}>
             <Col flex={4} xs={12} sm={12}>
               <Field
@@ -69,6 +68,7 @@ const UnixVariablesForm = ({ fields, disabled }) => (
               />
             </Col>
           </Row>
+          {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
         </FieldItem>
       );
     })}
