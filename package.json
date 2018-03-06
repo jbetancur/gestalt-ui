@@ -116,6 +116,7 @@
         "material-design-icons": "^3.0.1",
         "moment": "^2.20.1",
         "moment-timezone": "^0.5.14",
+        "mousetrap": "^1.6.1",
         "prop-types": "^15.6.0",
         "query-string": "^5.1.0",
         "react": "^16.2.0",

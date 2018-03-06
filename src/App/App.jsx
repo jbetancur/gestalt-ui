@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import Mousetrap from 'mousetrap';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { licenseActions } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
@@ -27,8 +28,8 @@ class App extends Component {
     syncPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    activityIndicator: PropTypes.bool.isRequired,
     browser: PropTypes.object.isRequired,
+    appActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -38,6 +39,9 @@ class App extends Component {
     if (!self.id) {
       meta.fetchSelf();
     }
+
+    // demo konami for showing expermimental features
+    Mousetrap.bind(['ctrl+shift+g', 'up up down down left right left right b a enter'], this.showExperimental);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,6 +51,15 @@ class App extends Component {
       this.props.meta.sync();
       this.props.license.fetchLicense('root');
     }
+  }
+
+  componentWillUnmount() {
+    Mousetrap.unbind(['ctrl+shift+g', 'up up down down left right left right b a enter'], this.showExperimental);
+  }
+
+
+  showExperimental = () => {
+    this.props.appActions.showExperimental(true);
   }
 
   logout = () => {
@@ -87,13 +100,12 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app, browser, metaResource } = state;
+  const { browser, metaResource } = state;
 
   return {
     self: metaResource.self.self,
     selfPending: metaResource.self.pending,
     syncPending: metaResource.sync.pending,
-    activityIndicator: app.activityIndicator.activity,
     browser,
   };
 }
@@ -107,6 +119,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default compose(
+  withApp,
   connect(mapStateToProps, mapDispatchToProps),
-  withApp
 )(App);

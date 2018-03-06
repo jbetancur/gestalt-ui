@@ -14,15 +14,16 @@ export default function withhApp(BaseComponent) {
     const { app } = state;
 
     return {
-      activityIndicator: app.activityIndicator.activity,
+      appState: {
+        activityIndicator: app.activityIndicator.activity,
+        enableExperimental: app.showExperimental.enabled,
+      }
     };
   }
 
-  function mapDispatchToProps(dispatch) {
-    return {
-      appActions: bindActionCreators(actions, dispatch)
-    };
-  }
+  const mapDispatchToProps = dispatch => ({
+    appActions: bindActionCreators(actions, dispatch)
+  });
 
   return connect(mapStateToProps, mapDispatchToProps)(Actions);
 }
