@@ -1,24 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled, { withTheme, css } from 'styled-components';
 import { Button } from 'components/Buttons';
 import { media } from 'util/helpers/media';
 
-const ButtonStyle = styled(({ theme, ...rest }) => <Button {...rest} />) `
+const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {...rest} />) `
   color: ${props => props.theme.colors['$md-red-500']};
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+  ${props => props.absoluteTopRight && css`
+    position: absolute;
+    top: 0;
+    right: 0;
+  `};
 
   ${() => media.xs`
+    position: absolute;
     top: 0;
-    transform: none;
+    right: 0;
   `};
 
   ${() => media.sm`
+    position: absolute;
     top: 0;
-    transform: none;
+    right: 0;
   `};
 `;
 
@@ -31,6 +35,11 @@ const RemoveButton = ({ onRemove, fieldIndex, ...props }) => {
 RemoveButton.propTypes = {
   onRemove: PropTypes.func.isRequired,
   fieldIndex: PropTypes.number.isRequired,
+  absoluteTopRight: PropTypes.bool,
+};
+
+RemoveButton.defaultProps = {
+  absoluteTopRight: false,
 };
 
 export default withTheme(RemoveButton);

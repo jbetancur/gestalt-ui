@@ -23,7 +23,8 @@ const LI = styled.li`
   }
 
   &:nth-child(n+2) {
-    padding-right: 42px;
+    display: flex;
+    align-items: center;
   }
 
   &:nth-child(n+3) {

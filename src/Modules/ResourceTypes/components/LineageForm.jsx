@@ -13,7 +13,6 @@ const LineageForm = ({ fields, resourceTypes, addLabel }) => (
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={member}>
-        <RemoveButton onRemove={fields.remove} fieldIndex={index} />
         <Row gutter={5}>
           <Col flex={12}>
             <Field
@@ -28,6 +27,7 @@ const LineageForm = ({ fields, resourceTypes, addLabel }) => (
             />
           </Col>
         </Row>
+        <RemoveButton onRemove={fields.remove} fieldIndex={index} />
       </FieldItem>
     ))}
   </FieldContainer>

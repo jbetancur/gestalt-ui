@@ -5,7 +5,6 @@ import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { Subtitle } from 'components/Typography';
 import healthCheckProtocols from '../lists/healthCheckProtocols';
 import healthCheckPortTypes from '../lists/healthCheckPortTypes';
 
@@ -37,8 +36,6 @@ const HealthChecksForm = ({ fields, healthCheckvalues }) => (
 
       return (
         <FieldItem key={`healthcheck-${member}`}>
-          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
-          <Subtitle>Check {index + 1}</Subtitle>
           <Row gutter={5}>
             <Col flex={3} xs={6} sm={6}>
               <Field
@@ -178,6 +175,7 @@ const HealthChecksForm = ({ fields, healthCheckvalues }) => (
               />
             </Col>}
           </Row>
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
         </FieldItem>
       );
     })}

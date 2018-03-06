@@ -31,7 +31,9 @@ const Right = styled.div`
   border-left: 1px solid ${props => props.theme.colors['$md-grey-200']};
 `;
 
-const RemoveButton = styled(Button) `
+const RemoveButton = styled(Button)`
+  color: ${props => props.theme.colors['$md-red-500']};
+
   &:hover {
     border-radius 0;
   }
@@ -50,7 +52,7 @@ class ListItem extends PureComponent {
       <ListStyled>
         <Left>{this.props.item}</Left>
         <Right>
-          <RemoveButton icon primary onClick={this.remove}>remove</RemoveButton>
+          <RemoveButton icon onClick={this.remove}>delete</RemoveButton>
         </Right>
       </ListStyled>
     );
