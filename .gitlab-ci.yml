@@ -21,7 +21,7 @@ variables:
 test:
   stage: test
   script:
-    - yarn install --pure-lockfile --cache-folder .yarn-cache
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - yarn test:jest
   artifacts:
     expire_in: 60 minutes
@@ -39,7 +39,7 @@ test:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn install --cache-folder .yarn-cache
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - yarn build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
@@ -67,7 +67,7 @@ publish-docker-image:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn install --cache-folder .yarn-cache
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - yarn build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
@@ -102,7 +102,7 @@ review:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn install --cache-folder .yarn-cache
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - yarn build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
