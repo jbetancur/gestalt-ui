@@ -9,6 +9,7 @@ stages:
 cache:
   key: "gestalt-ui-react"
   untracked: false
+  key: "$CI_PIPELINE_ID"
   paths:
   - .yarn-cache/
 
@@ -21,7 +22,7 @@ test:
   stage: test
   script:
     - yarn install --pure-lockfile --cache-folder .yarn-cache
-    - yarn test
+    - yarn test:jest
   artifacts:
     expire_in: 60 minutes
     paths:
