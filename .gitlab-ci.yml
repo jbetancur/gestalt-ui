@@ -20,9 +20,9 @@ variables:
 test:
   stage: test
   script:
-    - yarn cache dir 
+    - yarn cache dir
     - yarn --frozen-lockfile install
-    - yarn test:jest
+    - yarn test:coverage
   artifacts:
     expire_in: 60 minutes
     paths:
@@ -87,7 +87,7 @@ pages:
     - test
   script:
     - mkdir -p public
-    - cp -r test/coverage/PhantomJS*/lcov-report/* public/
+    - cp -r test/coverage/lcov-report/* public/
   artifacts:
     paths:
       - public
