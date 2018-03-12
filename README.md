@@ -92,24 +92,15 @@ yarn test
 ### TDD Testing
 Runs the app in watch mode, which allows you to watch the code and tests for changes with you as you TDD.
 ```
-yarn test-tdd
-```
-
-### Cross Browser Testing
-Runs all Tests against the following browsers: PhantomJS, Chrome, Firefox, Safari. Useful for cross browser unit testing.
-
-```
-yarn test-browser
+yarn test:tdd
 ```
 
 ### Code Coverage
 Simply opens a browser window with coverage results.
 
 ```
-yarn test-coverage
+yarn test:coverage
 ```
-
-
 
 ### Maintenance Modes
 

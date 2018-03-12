@@ -37,21 +37,6 @@
       ],
       "plugins": [
         [
-          "istanbul",
-          {
-            "useInlineSourceMaps": false,
-            "exclude": [
-              "**/*.test*.js*",
-              "**/*.jest*.js*",
-              "**/__mocks__/**",
-              "**/__snapshots__/**",
-              "**/test/**",
-              "**/themes/**",
-              "**/node_modules/**"
-            ]
-          }
-        ],
-        [
           "babel-plugin-styled-components",
           {
             "minify": false
