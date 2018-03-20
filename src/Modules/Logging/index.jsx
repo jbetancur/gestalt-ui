@@ -91,10 +91,14 @@ const LogOutputButton = styled(Button)`
 
 const CodeWrapper = styled.div`
   position: relative;
+  color: #f1f1f1;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #222;
+  clear: left;
   height: 100%;
-  background-color: black;
   padding-top: ${props => (props.fontSize === fontSizes.lg ? '4.5em' : '5.5em')};
-  font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
 
   @media screen and (max-width: 599px) {
     padding-top: ${props => (props.fontSize === fontSizes.lg ? '7.5em' : '10.5em')};
@@ -102,27 +106,51 @@ const CodeWrapper = styled.div`
 `;
 
 const Pre = styled.pre`
-  background: black;
-  color: #eeeeee;
-  white-space: pre;
-  overflow-x: auto;
+  font-family: Cousine,monospace;
   position: relative;
-  padding: 1em;
-  margin: 0;
-`;
-
-const Code = styled.code`
-  padding: 0;
-  font-size: inherit;
-  color: inherit;
+  color: #f1f1f1;
+  overflow-x: auto;
   white-space: pre-wrap;
-  background-color: transparent;
-  border-radius: 0;
+  word-wrap: break-word;
+  background-color: #222;
+  clear: left;
+  counter-reset: line-numbering;
 `;
 
-const LogItem = styled.div`
-  font-family: "Ubuntu Mono", "lucida console", monospace;
-  word-wrap: break-word;
+const LogLine = styled.div`
+  position: relative;
+  padding: 0 8px 0 43px;
+  margin: 0;
+  min-height: 19px;
+
+  &:hover {
+    background-color: rgba(220,220,220,.12);
+  }
+
+  span {
+    font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
+    color: #f1f1f1;
+    line-height: 19px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+`;
+
+const LogNumber = styled.a`
+  color: #666;
+  display: inline-block;
+  text-align: right;
+  min-width: 40px;
+  margin-left: -40px;
+  text-decoration: none;
+  position: absolute;
+
+  &::before{
+    user-select: none;
+    content: counter(line-numbering);
+    counter-increment: line-numbering;
+    padding-right: 1em;
+  }
 `;
 
 const ScrollButtons = styled.div`
@@ -346,10 +374,11 @@ class Logging extends PureComponent {
                 />
               </ScrollButtons>
               <Pre>
-                <Code>
-                  {this.state.logs.map((log, i) =>
-                    <LogItem key={i}>{log}</LogItem>)}
-                </Code>
+                {this.state.logs.map((log, i) =>
+                  (<LogLine key={i} fontSize={this.state.fontSize}>
+                    <LogNumber />
+                    <span>{log}</span>
+                  </LogLine>))}
               </Pre>
             </div>}
         </CodeWrapper>
