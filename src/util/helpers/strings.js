@@ -60,3 +60,5 @@ export default {
   toTitleCase,
   checkIfPassword
 };
+
+export const removeHostFromURL = url => url.replace(/^.*\/\/[^/]+:?[0-9]?\//i, '');

@@ -3,16 +3,14 @@ import {
 } from './actionTypes';
 
 export function confirmDelete(action, title, multipleItems) {
-  return (dispatch) => {
-    dispatch({
-      type: 'SHOW_MODAL',
-      modalType: 'CONFIRM',
-      modalProps: {
-        title,
-        multipleItems,
-        onProceed: action,
-      }
-    });
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'CONFIRM',
+    modalProps: {
+      title,
+      multipleItems,
+      onProceed: action,
+    }
   };
 }
 
