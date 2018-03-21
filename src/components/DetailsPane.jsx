@@ -31,13 +31,12 @@ const StatusStyle = styled.div`
   display: inline-block;
 `;
 
-const DetailPane = (props) => {
-  const { model } = props;
+const DetailPane = ({ model, ...props }) => {
   const owner = (model.owner && model.owner.name) || (model.owner && model.owner.id);
 
   return (
     model.id ?
-      <Content>
+      <Content {...props}>
         <Row gutter={6}>
           <Col flex={4} xs={12} sm={6} md={6}>
             <ContainsButtonsStyle>

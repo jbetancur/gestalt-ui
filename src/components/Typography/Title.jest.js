@@ -26,5 +26,4 @@ describe('(Component) Title', () => {
 
     expect(wrapper.dive()).toMatchSnapshot();
   });
-
 });

@@ -32,6 +32,7 @@ const common = merge([
         util: path.resolve(PATHS.srcPath, 'util'),
         scss: path.resolve(PATHS.srcPath, 'scss'),
         assets: path.resolve(PATHS.srcPath, 'assets'),
+        'styled-components': path.resolve('./node_modules/styled-components'),
       },
     },
     output: {

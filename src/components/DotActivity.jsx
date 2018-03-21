@@ -5,9 +5,13 @@ import styled, { keyframes } from 'styled-components';
 /* Huge thanks to @tobiasahlin at http://tobiasahlin.com/spinkit/ */
 
 const animation = keyframes`
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0);
-  } 40% {
+  }
+
+  40% {
     transform: scale(0.5);
   }
 `;
