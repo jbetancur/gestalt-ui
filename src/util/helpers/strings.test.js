@@ -3,6 +3,7 @@ import {
   getLastFromSplit,
   truncate,
   toTitleCase,
+  removeHostFromURL,
 } from './strings';
 
 describe('Util Transformations', () => {
@@ -53,10 +54,24 @@ describe('Util Transformations', () => {
   });
 
   describe('toTitleCase function', () => {
-    it('should convert a sentance to title case', () => {
+    it('should convert a sentence to title case', () => {
       const string = 'the worlds most stable genuis';
 
       expect(toTitleCase(string)).to.equal('The Worlds Most Stable Genuis');
+    });
+  });
+
+  describe('removeHostFromURL function', () => {
+    it('should remove the host with a port from a url', () => {
+      const url = 'http://localhost:7001/gfi/galacticfog.com';
+
+      expect(removeHostFromURL(url)).to.equal('gfi/galacticfog.com');
+    });
+
+    it('should remove the host without a port from a url', () => {
+      const url = 'https://gtw1.test.galacticfog.com/jb/upgrade-all-the-things';
+
+      expect(removeHostFromURL(url)).to.equal('jb/upgrade-all-the-things');
     });
   });
 });

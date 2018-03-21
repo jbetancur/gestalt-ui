@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from 'components/Buttons';
 import A from 'components/A';
+import { removeHostFromURL } from 'util/helpers/strings';
 
 const CopyLink = styled(Button)`
   height: 18px;
@@ -21,7 +22,7 @@ const CopyLink = styled(Button)`
 
 const ALink = styled(A)`
   display: inline-block;
-  max-width: 150px;
+  max-width: 250px;
   font-size: 11px;
   line-height: 20px;
   height: 18px;
@@ -40,7 +41,7 @@ const Endpoints = ({ endpoints }) => (
         <CopyLink icon>content_copy</CopyLink>
       </CopyToClipboard>
       <ALink href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
-        <span>{endpoint.properties.resource}</span>
+        <span>{removeHostFromURL(endpoint.properties.public_url)}</span>
       </ALink>
     </div>
   ))

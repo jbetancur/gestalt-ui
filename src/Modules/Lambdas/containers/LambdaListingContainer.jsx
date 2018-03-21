@@ -146,7 +146,6 @@ class LambdaListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.lambdasPending}
             progressComponent={<LinearProgress id="lambda-listing" />}
-            progeressCentered
             columns={columns}
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
