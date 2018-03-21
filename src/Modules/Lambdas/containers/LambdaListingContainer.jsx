@@ -9,7 +9,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import LambdaMenuActions from '../components/LambdaMenuActions';
-import LambdaExpanderRow from '../components/LambdaExpanderRow';
+// import LambdaExpanderRow from '../components/LambdaExpanderRow';
 import actions from '../actions';
 
 class LambdaListing extends PureComponent {
@@ -124,7 +124,7 @@ class LambdaListing extends PureComponent {
             row={row}
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
-            baseURL={this.props.match.url}
+            editURL={`${this.props.match.url}/${row.id}`}
             {...this.props}
           />
         ),
@@ -140,8 +140,8 @@ class LambdaListing extends PureComponent {
             highlightOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
-            expandableRows
-            expandableRowsComponent={<LambdaExpanderRow />}
+            // expandableRows
+            // expandableRowsComponent={<LambdaExpanderRow />}
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.lambdasPending}
@@ -150,6 +150,7 @@ class LambdaListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
+            noDataComponent="There are no lambdas to display"
             overflowY
           />
         </Col>

@@ -148,7 +148,7 @@ PolicyForm.propTypes = {
   match: PropTypes.object.isRequired,
   policy: PropTypes.object.isRequired,
   policyPending: PropTypes.bool.isRequired,
-  policyUpdatePending: PropTypes.bool.isRequired,
+  policyUpdatePending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -167,6 +167,7 @@ PolicyForm.defaultProps = {
   cancelLabel: 'Cancel',
   editMode: false,
   entitlementActions: {},
+  policyUpdatePending: false,
 };
 
 export default PolicyForm;

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, baseURL, entityKey }) => {
+const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey }) => {
   const handleDelete = () => {
     onDelete(row);
   };
@@ -26,7 +26,7 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, baseURL, 
           key={`${entityKey}--edit`}
           primaryText="Edit"
           leftIcon={<FontIcon>edit</FontIcon>}
-          to={`${baseURL}/${row.id}`}
+          to={editURL}
           component={Link}
         />,
         <ListItem
@@ -62,7 +62,7 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, baseURL, 
 GenericMenuActions.propTypes = {
   row: PropTypes.object,
   fqon: PropTypes.string.isRequired,
-  baseURL: PropTypes.string.isRequired,
+  editURL: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object.isRequired,
   entityKey: PropTypes.string.isRequired,
