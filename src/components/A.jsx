@@ -9,7 +9,7 @@ const AStyle = styled.a`
     padding-left: 4px;
     padding-right: 4px;
     font-weight: 400;
-    color: ${props.theme.colors['$md-blue-900']};;
+    color: ${props.theme.colors['$md-blue-900']};
   `};
   ${props => props.block && 'display: block'};
 `;

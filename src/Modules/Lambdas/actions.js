@@ -2,13 +2,13 @@ import {
   CHANGE_EDITOR_THEME,
 } from './actionTypes';
 
-export function confirmDelete(action, multipleItems) {
+export function confirmDelete(action, title, multipleItems) {
   return (dispatch) => {
     dispatch({
       type: 'SHOW_MODAL',
       modalType: 'CONFIRM',
       modalProps: {
-        title: 'Confirm Delete Lambdas',
+        title,
         multipleItems,
         onProceed: action,
       }

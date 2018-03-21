@@ -5,7 +5,7 @@ const ActionsBar = styled.div`
   align-items: center;
   text-align: left;
   min-height: 3em;
-  padding: .3em;
+  padding: 0.3em;
 `;
 
 export default withTheme(ActionsBar);

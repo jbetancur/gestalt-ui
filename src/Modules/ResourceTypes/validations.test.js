@@ -1,5 +1,5 @@
 import { metaModels } from 'Modules/MetaResource';
-import validate, { nameMaxLen, descriptionMaxLen} from './validations';
+import validate, { nameMaxLen, descriptionMaxLen } from './validations';
 
 describe('(ResourceTypes) Form Validations', () => {
   it('should have not an error when name is present', () => {

@@ -1,9 +1,15 @@
 {
-    "extends": "stylelint-config-standard",
-    "rules": {
-        "color-hex-case": "upper",
-        "string-quotes": "single",
-        "font-family-name-quotes": "single-where-recommended",
-        "indentation": 2
-    }
+  "processors": ["stylelint-processor-styled-components"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-styled-components"
+  ],
+  "rules": {
+    "indentation": 2,
+    "string-quotes": "single",
+    "color-hex-case": "upper",
+    "declaration-colon-newline-after": null,
+    "value-list-max-empty-lines": null,
+  },
+  "syntax": "scss"
 }

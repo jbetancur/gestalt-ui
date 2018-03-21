@@ -84,7 +84,7 @@ class ConfirmModal extends PureComponent {
     actionButtons.push(<ConfirmButton flat primary onClick={this.doIt} disabled={isConfirmDisabled}>{this.props.proceedLabel}</ConfirmButton>);
     actionButtons.push({ primary: true, children: this.props.cancelLabel, onClick: this.close });
 
-    const title = this.props.multipleItems.length ? `${this.props.title} (${this.props.multipleItems.length})` : this.props.title;
+    const title = this.props.multipleItems.length > 1 ? `${this.props.title} (${this.props.multipleItems.length})` : this.props.title;
     return (
       <EnhancedDialog
         id="confirmation-modal"
