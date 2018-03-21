@@ -134,7 +134,7 @@ class PolicyRuleListing extends PureComponent {
     ];
 
     return (
-      <Row gutter={5}>
+      <Row>
         <Col component={Card} flex={12}>
           <DataTable
             title="Policy Rules"

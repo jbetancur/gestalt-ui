@@ -1,24 +1,28 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import DataTable from 'react-data-table-component';
+import { Col, Row } from 'react-flexybox';
+import { Name, Timestamp, GenericMenuActions, LinearProgress } from 'components/TableCells';
+import { DeleteIconButton } from 'components/Buttons';
+import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withTableManager } from 'Modules/TableManager';
-import SecretItem from '../components/SecretItem';
 import actions from '../actions';
 
 class SecretListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     secrets: PropTypes.array.isRequired,
-    tableManager: PropTypes.object.isRequired,
-    tableActions: PropTypes.object.isRequired,
     deleteSecrets: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    deleteSecret: PropTypes.func.isRequired,
+    secretsPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     fetchSecrets: PropTypes.func.isRequired,
     unloadSecrets: PropTypes.func.isRequired,
-    secretsPending: PropTypes.bool.isRequired,
   };
+
+  state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
     const { match, fetchSecrets } = this.props;
@@ -32,42 +36,119 @@ class SecretListing extends PureComponent {
     unloadSecrets();
   }
 
-  edit = (secret, e) => {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match } = this.props;
-
-      history.push(`${match.url}/${secret.id}`);
-    }
-  }
-
-  delete = () => {
-    const { match, deleteSecrets, tableActions, fetchSecrets } = this.props;
-    const { items } = this.props.tableManager.tableSelected;
-    const IDs = items.map(item => (item.id));
-    const names = items.map(item => (item.name));
+  deleteOne = (row) => {
+    const { match, deleteSecret, fetchSecrets } = this.props;
 
     const onSuccess = () => {
-      tableActions.clearTableSelected();
+      fetchSecrets(match.params.fqon, match.params.environmentId);
+    };
+
+    this.props.confirmDelete(() => {
+      deleteSecret(match.params.fqon, row.id, onSuccess);
+    }, `Are you sure you want to delete ${row.name}?`);
+  }
+
+
+  deleteMultiple = () => {
+    const { match, deleteSecrets, fetchSecrets } = this.props;
+    const { selectedRows } = this.state;
+
+    const IDs = selectedRows.map(item => item.id);
+    const names = selectedRows.map(item => item.name);
+
+    const onSuccess = () => {
+      this.setState({ clearSelected: true });
       fetchSecrets(match.params.fqon, match.params.environmentId);
     };
 
     this.props.confirmDelete(() => {
       deleteSecrets(IDs, match.params.fqon, onSuccess);
-    }, names);
+    }, 'Confirm Delete Secrets', names);
   }
 
+  handleTableChange = ({ selectedRows }) => {
+    this.setState({ selectedRows });
+  };
+
   render() {
+    const contextActions = [
+      <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
+    ];
+
+    const columns = [
+      {
+        name: 'Name',
+        selector: 'name',
+        sortable: true,
+        compact: true,
+        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+      },
+      {
+        name: 'Provider',
+        selector: 'properties.provider.name',
+        sortable: true,
+      },
+      {
+        name: 'Owner',
+        selector: 'owner.name',
+        sortable: true,
+      },
+      {
+        name: 'Created',
+        selector: 'created.timestamp',
+        sortable: true,
+        cell: row => <Timestamp timestamp={row.created.timestamp} />
+      },
+      {
+        name: 'Modified',
+        selector: 'modified.timestamp',
+        sortable: true,
+        cell: row => <Timestamp timestamp={row.modified.timestamp} />
+      },
+      {
+        name: 'Actions',
+        width: '42px',
+        compact: true,
+        cell: row => (
+          <GenericMenuActions
+            row={row}
+            fqon={this.props.match.params.fqon}
+            onDelete={this.deleteOne}
+            editURL={`${this.props.match.url}/${row.id}`}
+            entityKey="secrets"
+            {...this.props}
+          />
+        ),
+      }
+    ];
+
     return (
-      <SecretItem
-        model={this.props.secrets}
-        pending={this.props.secretsPending}
-        onEditToggle={this.edit}
-        onDeleteToggle={this.delete}
-        {...this.props}
-      />
+      <Row gutter={5}>
+        <Col component={Card} flex={12}>
+          <DataTable
+            title="Secrets"
+            data={this.props.secrets}
+            highlightOnHover
+            selectableRows
+            selectableRowsComponent={Checkbox}
+            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            defaultSortField="name"
+            progressPending={this.props.secretsPending}
+            progressComponent={<LinearProgress id="secret-listing" />}
+            columns={columns}
+            contextActions={contextActions}
+            onTableUpdate={this.handleTableChange}
+            clearSelectedRows={this.state.clearSelected}
+            noDataComponent="There are no secrets to display"
+            overflowY
+          />
+        </Col>
+      </Row>
     );
   }
 }
 
-export default withMetaResource(connect(null, { ...actions })(withTableManager(SecretListing)));
+export default compose(
+  withMetaResource,
+  connect(null, actions),
+)(SecretListing);
