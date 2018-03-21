@@ -6,7 +6,7 @@ import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, baseURL, actions, actionsPending }) => {
+const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, actions, actionsPending }) => {
   const handleDelete = () => {
     onDelete(row);
   };
@@ -26,7 +26,7 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, baseURL, a
           key="lambda--edit"
           primaryText="Edit"
           leftIcon={<FontIcon>edit</FontIcon>}
-          to={`${baseURL}/${row.id}`}
+          to={editURL}
           component={Link}
         />,
         <ListItem
@@ -75,7 +75,7 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, baseURL, a
 LambdaMenuActions.propTypes = {
   row: PropTypes.object,
   fqon: PropTypes.string.isRequired,
-  baseURL: PropTypes.string.isRequired,
+  editURL: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object.isRequired,
   actions: PropTypes.array,

@@ -42,9 +42,9 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId" component={PolicyEdit} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules" component={PolicyRules} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules/createlimitRule" component={PolicyLimitRuleCreate} />
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules/:ruleId/editlimitRule" component={PolicyLimitRuleEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules/:ruleId/editLimitRule" component={PolicyLimitRuleEdit} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules/createeventRule" component={PolicyEventRuleCreate} />
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules/:ruleId/editeventRule" component={PolicyEventRuleEdit} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/policies/:policyId/rules/:ruleId/editEventRule" component={PolicyEventRuleEdit} />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/secrets" component={Secrets} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/secrets/create" component={SecretCreate} />

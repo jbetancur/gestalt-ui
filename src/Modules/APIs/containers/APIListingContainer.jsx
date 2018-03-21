@@ -109,7 +109,7 @@ class APIListing extends PureComponent {
             row={row}
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
-            baseURL={this.props.match.url}
+            editURL={`${this.props.match.url}/${row.id}`}
             entityKey="apis"
             {...this.props}
           />
@@ -134,6 +134,8 @@ class APIListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
+            noDataComponent="There are no apis to display"
+            overflowY
           />
         </Col>
       </Row>
