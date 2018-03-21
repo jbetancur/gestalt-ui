@@ -2,16 +2,20 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
-import { MenuButton, ListItem, Divider } from 'react-md';
+import { withRouter, Link } from 'react-router-dom';
+import { Col, Row } from 'react-flexybox';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { MenuButton, ListItem, Divider, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
 import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
 
+const dividerStyle = { borderRight: '1px solid #eee' };
 const ActionsWrapper = styled.div`
     display: inline-block;
 
@@ -50,7 +54,7 @@ const ActionsWrapper = styled.div`
 `;
 
 const ListWrapper = styled.div`
-  min-width: 10em;
+  min-width: 300px;
 `;
 
 const ListMenu = styled.div`
@@ -83,6 +87,8 @@ class ContainerActions extends PureComponent {
     disablePromote: PropTypes.bool,
     actions: PropTypes.array.isRequired,
     actionsPending: PropTypes.bool.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
+    editURL: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -90,6 +96,12 @@ class ContainerActions extends PureComponent {
     disableDestroy: false,
     disablePromote: false,
   }
+
+  handleEntitlements = () => {
+    const { match, entitlementActions, containerModel } = this.props;
+
+    entitlementActions.showEntitlementsModal(containerModel.name, match.params.fqon, containerModel.id, 'containers', 'Container');
+  };
 
   populateContainers() {
     const { match, fetchContainers } = this.props;
@@ -207,30 +219,64 @@ class ContainerActions extends PureComponent {
 
     const menuItems = [
       <ListWrapper key="container-actions-menu--dropdown">
-        <ListMenu>
-          <Title>{containerModel.name}</Title>
-          <Subtitle>{containerModel.properties.status}</Subtitle>
-        </ListMenu>
-        <EnhancedDivider />
-        <ListItem className="button--start" primaryText="Start" onClick={this.start} />
-        <ListItem className="button--suspend" primaryText="Suspend" onClick={this.suspend} />
-        <ListItem className="button--scale" primaryText="Scale" onClick={this.scale} />
-        <ListItem primaryText="Migrate" onClick={this.migrate} />
-        {!disablePromote &&
-          <ListItem primaryText="Promote" onClick={this.promote} />}
-        {!disableDestroy &&
-          <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
-        <ActionsMenu
-          listItem
-          model={containerModel}
-          actionList={actions}
-          pending={actionsPending}
-        />
+
+        <Row>
+          <Col flex={12}>
+            <ListMenu>
+              <Title>{containerModel.name}</Title>
+              <Subtitle>{containerModel.properties.status}</Subtitle>
+            </ListMenu>
+
+            <EnhancedDivider />
+          </Col>
+
+          <Col flex={6} style={dividerStyle}>
+            <ListItem className="button--start" primaryText="Start" onClick={this.start} />
+            <ListItem className="button--suspend" primaryText="Suspend" onClick={this.suspend} />
+            <ListItem className="button--scale" primaryText="Scale" onClick={this.scale} />
+            <ListItem primaryText="Migrate" onClick={this.migrate} />
+            {!disablePromote &&
+              <ListItem primaryText="Promote" onClick={this.promote} />}
+            {!disableDestroy &&
+              <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
+          </Col>
+
+          <Col flex={6}>
+            <ListItem
+              key="container--edit"
+              primaryText="Edit"
+              leftIcon={<FontIcon>edit</FontIcon>}
+              to={this.props.editURL}
+              component={Link}
+            />
+            <ListItem
+              key="container--entitlements"
+              primaryText="Entitlements"
+              leftIcon={<FontIcon>security</FontIcon>}
+              onClick={this.handleEntitlements}
+            />
+            <CopyToClipboard
+              key="container--copyuuid"
+              text={containerModel.id}
+            >
+              <ListItem
+                primaryText="Copy uuid"
+                leftIcon={<FontIcon>content_copy</FontIcon>}
+              />
+            </CopyToClipboard>
+            <ActionsMenu
+              listItem
+              model={containerModel}
+              actionList={actions}
+              pending={actionsPending}
+            />
+          </Col>
+        </Row>
       </ListWrapper>
     ];
 
     const icon = inContainerView ? null : 'more_vert';
-    const position = inContainerView ? MenuButton.Positions.BELOW : MenuButton.Positions.BOTTOM_LEFT;
+    const position = inContainerView ? MenuButton.Positions.BELOW : MenuButton.Positions.TOP_RIGHT;
 
     return (
       containerModel.id ?
@@ -246,6 +292,7 @@ class ContainerActions extends PureComponent {
             inkDisabled={inContainerView}
             menuItems={menuItems}
             listHeightRestricted={false}
+            primary
           >
             {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
           </MenuButton>
@@ -256,6 +303,7 @@ class ContainerActions extends PureComponent {
 
 export default compose(
   withMetaResource,
+  withEntitlements,
   withTheme,
   withRouter,
   connect(null, Object.assign({}, actionCreators)),

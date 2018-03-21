@@ -6,7 +6,7 @@ import { truncate } from 'util/helpers/strings';
 
 const LinkName = styled(Link)`
   display: block;
-  max-width: 350px;
+  max-width: 300px;
   color: ${props => props.theme.colors['$md-blue-500']};
   font-weight: bold;
   font-size: 15px;
@@ -17,7 +17,7 @@ const LinkName = styled(Link)`
 `;
 
 const Description = styled.div`
-  max-width: 350px;
+  max-width: 300px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
