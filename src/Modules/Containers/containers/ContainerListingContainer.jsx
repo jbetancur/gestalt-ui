@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { isEqual } from 'lodash';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -17,7 +16,7 @@ import ContainerActions from '../components/ContainerActions';
 import ContainerIcon from '../components/ContainerIcon';
 import ActionsModals from '../ActionModals';
 
-class ContainerListing extends Component {
+class ContainerListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     containers: PropTypes.array.isRequired,
@@ -51,18 +50,6 @@ class ContainerListing extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (!isEqual(this.props.containers, nextProps.containers)) {
-      return true;
-    }
-
-    if (!this.props.containers.length > 0) {
-      return true;
-    }
-
-    return false;
-  }
-
   componentWillUnmount() {
     this.props.unloadContainers();
     clearTimeout(this.timeout);
@@ -77,19 +64,6 @@ class ContainerListing extends Component {
     const entity = generateContextEntityState(match.params);
 
     fetchContainers(match.params.fqon, entity.id, entity.key, isPolling);
-  }
-
-  edit = (container, e) => {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      const { history, match, providerContext } = this.props;
-
-      if (providerContext) {
-        history.push(`${match.url}/container/${container.id}`);
-      } else {
-        history.push(`${match.url}/${container.id}`);
-      }
-    }
   }
 
   render() {
