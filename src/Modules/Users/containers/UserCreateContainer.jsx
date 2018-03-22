@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import UserForm from '../components/UserForm';
+import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
 

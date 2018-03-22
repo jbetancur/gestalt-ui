@@ -19,14 +19,14 @@ import { Panel } from 'components/Panels';
 import { Title, Caption, Error } from 'components/Typography';
 import Div from 'components/Div';
 import { getLastFromSplit } from 'util/helpers/strings';
-import ContainerInstances from './ContainerInstances';
-import ContainerServiceAddresses from './ContainerServiceAddresses';
-import ContainerActions from './ContainerActions';
-import ContainerIcon from './ContainerIcon';
+import ContainerInstances from '../components/ContainerInstances';
+import ContainerServiceAddresses from '../components/ContainerServiceAddresses';
+import ContainerActions from '../components/ContainerActions';
+import ContainerIcon from '../components/ContainerIcon';
 import ActionsModals from '../ActionModals';
-import PortMappingsForm from './PortMappingsForm';
-import VolumesForm from './VolumesForm';
-import HealthChecksForm from './HealthChecksForm';
+import PortMappingsForm from '../components/PortMappingsForm';
+import VolumesForm from '../components/VolumesForm';
+import HealthChecksForm from '../components/HealthChecksForm';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 

@@ -18,7 +18,7 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
   return (
     <MenuButton
       key={`${entityKey}--menu-actions`}
-      position="tr"
+      position="tl"
       primary
       icon
       menuItems={[

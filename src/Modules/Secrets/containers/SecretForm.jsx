@@ -14,7 +14,7 @@ import { Panel } from 'components/Panels';
 import ActivityContainer from 'components/ActivityContainer';
 import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
-import SecretItemsForm from './SecretItemsForm';
+import SecretItemsForm from '../components/SecretItemsForm';
 
 const SecretForm = (props) => {
   const {

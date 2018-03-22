@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
-import { Card, CardTitle, CardText, LinearProgress, List, ListItem, FontIcon, TextField as TextFieldMD } from 'react-md';
+import { Card, CardTitle, CardText, List, ListItem, FontIcon, TextField as TextFieldMD } from 'react-md';
+import { LinearProgress } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import CardSubHeader from './CardSubHeader';
+import CardSubHeader from '../components/CardSubHeader';
 import { nameMaxLen } from '../validations';
 
 const MembersList = styled(List)`

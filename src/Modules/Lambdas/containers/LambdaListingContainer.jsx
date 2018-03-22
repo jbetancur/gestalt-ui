@@ -4,7 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, Endpoints, LinearProgress } from 'components/TableCells';
+import { Name, Timestamp, Endpoints } from 'components/TableCells';
+import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -81,6 +82,19 @@ class LambdaListing extends PureComponent {
 
     const columns = [
       {
+        name: 'Actions',
+        width: '42px',
+        cell: row => (
+          <LambdaMenuActions
+            row={row}
+            fqon={this.props.match.params.fqon}
+            onDelete={this.deleteOne}
+            editURL={`${this.props.match.url}/${row.id}`}
+            {...this.props}
+          />
+        ),
+      },
+      {
         name: 'Name',
         selector: 'name',
         sortable: true,
@@ -115,20 +129,6 @@ class LambdaListing extends PureComponent {
         sortable: true,
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
-      {
-        name: 'Actions',
-        width: '42px',
-        compact: true,
-        cell: row => (
-          <LambdaMenuActions
-            row={row}
-            fqon={this.props.match.params.fqon}
-            onDelete={this.deleteOne}
-            editURL={`${this.props.match.url}/${row.id}`}
-            {...this.props}
-          />
-        ),
-      }
     ];
 
     return (
