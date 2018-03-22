@@ -15,7 +15,7 @@ import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
 
-const dividerStyle = { borderRight: '1px solid #eee' };
+const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`
     display: inline-block;
 
@@ -58,8 +58,8 @@ const ListWrapper = styled.div`
 `;
 
 const ListMenu = styled.div`
-  padding-left: .5em;
-  padding-right: .5em;
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
 const EnhancedDivider = styled(Divider)`
@@ -239,6 +239,7 @@ class ContainerActions extends PureComponent {
               <ListItem primaryText="Promote" onClick={this.promote} />}
             {!disableDestroy &&
               <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
+
           </Col>
 
           <Col flex={6}>
