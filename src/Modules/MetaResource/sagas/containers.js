@@ -159,10 +159,10 @@ export function* migrateContainer(action) {
     const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}`);
     // TODO: Workaround since Meta does not return a response on rejection
     if (response) {
-      yield put({ type: types.MIGRATE_CONTAINER_FULFILLED });
+      yield put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: response.data });
 
       if (typeof action.onSuccess === 'function') {
-        action.onSuccess();
+        action.onSuccess(response.data);
       }
     } else {
       yield put({ type: types.MIGRATE_CONTAINER_REJECTED, payload: 'Unable to Migrate Container' });

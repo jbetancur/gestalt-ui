@@ -69,6 +69,17 @@ class ContainerListing extends PureComponent {
   render() {
     const columns = [
       {
+        name: 'Actions',
+        width: '42px',
+        cell: row => (
+          <ContainerActions
+            containerModel={row}
+            editURL={`${this.props.match.url}/${row.id}`}
+            {...this.props}
+          />
+        )
+      },
+      {
         name: 'Status',
         selector: 'properties.status',
         sortable: true,
@@ -135,18 +146,6 @@ class ContainerListing extends PureComponent {
         selector: 'created.timestamp',
         sortable: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
-      },
-      {
-        name: 'Actions',
-        width: '42px',
-        compact: true,
-        cell: row => (
-          <ContainerActions
-            containerModel={row}
-            editURL={`${this.props.match.url}/${row.id}`}
-            {...this.props}
-          />
-        )
       },
     ];
 

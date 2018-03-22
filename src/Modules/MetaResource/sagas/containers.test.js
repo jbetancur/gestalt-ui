@@ -377,9 +377,9 @@ describe('Container Sagas', () => {
     });
 
     it('should return dispatch a success status', () => {
-      result = saga.next({});
+      result = saga.next({ data: { id: 1 } });
       expect(result.value).to.deep.equal(
-        put({ type: types.MIGRATE_CONTAINER_FULFILLED })
+        put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: { id: 1 } })
       );
 
       // Finish the iteration

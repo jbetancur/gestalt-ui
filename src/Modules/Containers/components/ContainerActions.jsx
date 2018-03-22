@@ -88,13 +88,14 @@ class ContainerActions extends PureComponent {
     actions: PropTypes.array.isRequired,
     actionsPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
-    editURL: PropTypes.string.isRequired,
+    editURL: PropTypes.string,
   }
 
   static defaultProps = {
     inContainerView: false,
     disableDestroy: false,
     disablePromote: false,
+    editURL: null,
   }
 
   handleEntitlements = () => {
@@ -182,7 +183,7 @@ class ContainerActions extends PureComponent {
     const { match, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
-        this.populateContainer();
+        this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
       } else {
         this.populateContainers();
       }
@@ -190,7 +191,7 @@ class ContainerActions extends PureComponent {
 
     migrateContainerModal((providerId) => {
       migrateContainer(match.params.fqon, containerModel.id, providerId, onSuccess);
-    }, containerModel.name, containerModel.properties.provider);
+    }, containerModel.name, containerModel.properties.provider, inContainerView);
   }
 
   promote = () => {
@@ -243,13 +244,14 @@ class ContainerActions extends PureComponent {
           </Col>
 
           <Col flex={6}>
-            <ListItem
-              key="container--edit"
-              primaryText="Edit"
-              leftIcon={<FontIcon>edit</FontIcon>}
-              to={this.props.editURL}
-              component={Link}
-            />
+            {!inContainerView ?
+              <ListItem
+                key="container--edit"
+                primaryText="Edit"
+                leftIcon={<FontIcon>edit</FontIcon>}
+                to={this.props.editURL}
+                component={Link}
+              /> : <div />}
             <ListItem
               key="container--entitlements"
               primaryText="Entitlements"
@@ -265,6 +267,7 @@ class ContainerActions extends PureComponent {
                 leftIcon={<FontIcon>content_copy</FontIcon>}
               />
             </CopyToClipboard>
+
             <ActionsMenu
               listItem
               model={containerModel}
@@ -277,7 +280,7 @@ class ContainerActions extends PureComponent {
     ];
 
     const icon = inContainerView ? null : 'more_vert';
-    const position = inContainerView ? MenuButton.Positions.BELOW : MenuButton.Positions.TOP_RIGHT;
+    const position = inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.TOP_LEFT;
 
     return (
       containerModel.id ?
