@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import Card from 'react-md/lib/Cards/Card';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableCardHeader, TableColumnTimestamp } from 'components/Tables';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';

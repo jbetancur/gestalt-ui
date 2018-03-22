@@ -18,7 +18,7 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, a
   return (
     <MenuButton
       id="lambda-menu-actions"
-      position="tr"
+      position="tl"
       primary
       icon
       menuItems={[

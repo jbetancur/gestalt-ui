@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
-import APIForm from '../components/APIForm';
+import APIForm from './APIForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateAPIPayload } from '../payloadTransformer';

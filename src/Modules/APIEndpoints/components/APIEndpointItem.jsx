@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-md/lib/Cards/Card';
 import FontIcon from 'react-md/lib/FontIcons';
-import LinearProgress from 'react-md/lib/Progress/LinearProgress';
+import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import A from 'components/A';
 import StatusBubble from 'components/StatusBubble';

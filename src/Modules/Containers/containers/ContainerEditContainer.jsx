@@ -9,7 +9,7 @@ import { withEntitlements } from 'Modules/Entitlements';
 import ActivityContainer from 'components/ActivityContainer';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
-import ContainerForm from '../components/ContainerForm';
+import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';

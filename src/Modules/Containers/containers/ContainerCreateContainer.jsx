@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
-import ContainerForm from '../components/ContainerForm';
+import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';

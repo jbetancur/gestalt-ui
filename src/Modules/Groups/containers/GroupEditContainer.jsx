@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
-import GroupForm from '../components/GroupForm';
+import GroupForm from './GroupForm';
 import validate from '../validations';
 import actions from '../actions';
 

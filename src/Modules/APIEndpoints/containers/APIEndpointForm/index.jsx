@@ -4,7 +4,8 @@ import { Field, formValueSelector, change } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Card, CardTitle, CardText, LinearProgress, Autocomplete } from 'react-md';
+import { Card, CardTitle, CardText, Autocomplete } from 'react-md';
+import { LinearProgress } from 'components/ProgressIndicators';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
@@ -12,9 +13,9 @@ import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
 import Fieldset from 'components/Fieldset';
 // import authTypes from '../../lists/authTypes';
-import RateLimit from '../RateLimit';
-import Security from '../Security';
-import HTTPMethods from '../HTTPMethods';
+import RateLimit from '../../components/RateLimit';
+import Security from '../../components/Security';
+import HTTPMethods from '../../components/HTTPMethods';
 import implementationTypes from '../../lists/implementationTypes';
 
 const APIEndpointForm = (props) => {

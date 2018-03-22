@@ -4,7 +4,7 @@ import styled, { withTheme } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { truncate } from 'util/helpers/strings';
 
-const LinkName = styled(Link)`
+const LinkName = styled(({ maxWidth, ...rest }) => <Link {...rest} />)`
   display: block;
   max-width: ${props => props.maxWidth};
   color: ${props => props.theme.colors['$md-blue-500']};
@@ -13,10 +13,11 @@ const LinkName = styled(Link)`
   margin-bottom: 4px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-decoration: none;
   overflow: hidden;
 `;
 
-const Description = styled.div`
+const Description = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   max-width: ${props => props.maxWidth};
   text-overflow: ellipsis;
   white-space: nowrap;

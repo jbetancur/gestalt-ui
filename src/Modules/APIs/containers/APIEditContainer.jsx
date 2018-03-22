@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import ActivityContainer from 'components/ActivityContainer';
-import APIForm from '../components/APIForm';
+import APIForm from './APIForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateAPIPatches } from '../payloadTransformer';

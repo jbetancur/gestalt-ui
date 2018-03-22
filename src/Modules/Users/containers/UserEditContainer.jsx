@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import ActivityContainer from 'components/ActivityContainer';
 import jsonPatch from 'fast-json-patch';
-import UserForm from '../components/UserForm';
+import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
 
