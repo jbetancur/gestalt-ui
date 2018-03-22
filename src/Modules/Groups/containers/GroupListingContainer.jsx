@@ -10,7 +10,7 @@ import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from '../actions';
 
-class PolicyListing extends PureComponent {
+class GroupListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     groups: PropTypes.array.isRequired,
@@ -84,6 +84,11 @@ class PolicyListing extends PureComponent {
         cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
       },
       {
+        name: 'Owner',
+        selector: 'owner.name',
+        sortable: true,
+      },
+      {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
@@ -142,4 +147,4 @@ class PolicyListing extends PureComponent {
 export default compose(
   withMetaResource,
   connect(null, actions),
-)(PolicyListing);
+)(GroupListing);
