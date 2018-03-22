@@ -27,17 +27,15 @@ export function clearMemberUsersFilter() {
   };
 }
 
-export function confirmDelete(action, multipleItems) {
-  return (dispatch) => {
-    dispatch({
-      type: 'SHOW_MODAL',
-      modalType: 'CONFIRM',
-      modalProps: {
-        title: 'Confirm Delete Groups',
-        multipleItems,
-        onProceed: action,
-      }
-    });
+export function confirmDelete(action, title, multipleItems) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'CONFIRM',
+    modalProps: {
+      title,
+      multipleItems,
+      onProceed: action,
+    }
   };
 }
 

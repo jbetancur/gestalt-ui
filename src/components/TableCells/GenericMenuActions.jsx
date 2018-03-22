@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey }) => {
+const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey, disableEntitlements }) => {
   const handleDelete = () => {
     onDelete(row);
   };
@@ -29,12 +29,13 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
           to={editURL}
           component={Link}
         />,
-        <ListItem
-          key={`${entityKey}--entitlements`}
-          primaryText="Entitlements"
-          leftIcon={<FontIcon>security</FontIcon>}
-          onClick={handleEntitlements}
-        />,
+        !disableEntitlements ?
+          <ListItem
+            key={`${entityKey}--entitlements`}
+            primaryText="Entitlements"
+            leftIcon={<FontIcon>security</FontIcon>}
+            onClick={handleEntitlements}
+          /> : <div />,
         <CopyToClipboard
           key={`${entityKey}--copyuuid`}
           text={row.id}
@@ -66,10 +67,12 @@ GenericMenuActions.propTypes = {
   onDelete: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object.isRequired,
   entityKey: PropTypes.string.isRequired,
+  disableEntitlements: PropTypes.bool,
 };
 
 GenericMenuActions.defaultProps = {
   row: {},
+  disableEntitlements: false,
 };
 
 export default withEntitlements(GenericMenuActions);
