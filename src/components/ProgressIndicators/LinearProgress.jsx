@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { LinearProgress } from 'react-md';
 
-export default styled(LinearProgress)`
+const LinearProgressStyled = styled(LinearProgress)`
   padding: 0;
   margin: 0;
   position: absolute;
   bottom: 0;
 `;
+
+export default LinearProgressStyled;

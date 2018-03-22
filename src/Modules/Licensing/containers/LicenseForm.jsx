@@ -4,6 +4,7 @@ import { Row, Col } from 'react-flexybox';
 import { Field } from 'redux-form';
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
 import { FormattedDate } from 'react-intl';
+import Form from 'components/Form';
 import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
 import Label from 'components/Label';
@@ -51,7 +52,7 @@ const LicenseForm = (props) => {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <Row gutter={5}>
         <Col flex={5} xs={12}>
           <Field
@@ -101,7 +102,7 @@ const LicenseForm = (props) => {
           {submitLabel}
         </Button>
       </ModalFooter>
-    </form>
+    </Form>
   );
 };
 

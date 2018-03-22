@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { Card, CardTitle, CardText, FontIcon } from 'react-md';
 import { metaModels } from 'Modules/MetaResource';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';

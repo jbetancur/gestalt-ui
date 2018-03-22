@@ -8,11 +8,11 @@ import { RobotUprisingIcon } from 'components/Icons';
 
 const Title = styled.h1`
   font-family: 'lovelo';
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
 `;
 
 const MessageTitle = styled.p`
-  color: rgba(0,0,0,.54);
+  color: rgba(0, 0, 0, 0.54);
   font-weight: bold;
   font-size: 20px;
   line-height: 28px;
@@ -22,7 +22,7 @@ const MessageTitle = styled.p`
 const Quotes = styled.p`
   font-size: 15px;
   font-weight: bold;
-  color: rgba(0,0,0,.54);
+  color: rgba(0, 0, 0, 0.54);
   padding: 32px 8px 8px 8px;
 `;
 

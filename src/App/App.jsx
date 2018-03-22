@@ -6,7 +6,7 @@ import Mousetrap from 'mousetrap';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { licenseActions } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import OrgNavMenu from 'Modules/OrgNavMenu';
 import { loginActions } from 'Modules/Authorization';
 import { metaActions } from 'Modules/MetaResource';

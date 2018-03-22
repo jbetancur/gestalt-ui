@@ -10,6 +10,7 @@
     "color-hex-case": "upper",
     "declaration-colon-newline-after": null,
     "value-list-max-empty-lines": null,
+    "font-family-no-missing-generic-family-keyword": null,
   },
   "syntax": "scss"
 }

@@ -136,7 +136,6 @@ class GroupListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no groups to display"
-            overflowY
           />
         </Col>
       </Row>

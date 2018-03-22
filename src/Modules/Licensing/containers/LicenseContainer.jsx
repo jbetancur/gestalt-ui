@@ -2,25 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import styled from 'styled-components';
-import Dialog from 'react-md/lib/Dialogs';
-import ActivityContainer from 'components/ActivityContainer';
-import LicenseForm from '../components/LicenseForm';
+import { DialogContainer } from 'react-md';
+import { ActivityContainer } from 'components/ProgressIndicators';
+import LicenseForm from './LicenseForm';
 import validate from '../validations';
 import actions from '../actions';
 
-const EnhancedDialog = styled(Dialog)`
-  .md-dialog {
-    width: 100%;
-    max-width: 55em;
-    min-height: 32em;
+// const EnhancedDialog = styled(Dialog)`
+//   .md-dialog {
+//     width: 100%;
+//     max-width: 55em;
+//     min-height: 32em;
 
-    .md-dialog-content {
-      max-height: 40em;
-      overflow: scroll;
-    }
-  }
-`;
+//     .md-dialog-content {
+//       max-height: 40em;
+//       overflow: scroll;
+//     }
+//   }
+// `;
 
 class License extends Component {
   static propTypes = {
@@ -64,13 +63,13 @@ class License extends Component {
     const isPending = pending || updatedLicenseInfoPending;
 
     return (
-      <EnhancedDialog
+      <DialogContainer
         id="license-modal"
         visible={this.props.modal.visible}
         title="License"
         closeOnEsc
-        autosizeContent={false}
-        onHide={() => this.props.hideLicenseModal()}
+        onHide={this.props.hideLicenseModal}
+        width="60%"
       >
         {isPending ?
           <ActivityContainer id="license-load" /> :
@@ -80,7 +79,7 @@ class License extends Component {
             onSubmit={values => this.update(values)}
             {...this.props}
           />}
-      </EnhancedDialog>
+      </DialogContainer>
     );
   }
 }

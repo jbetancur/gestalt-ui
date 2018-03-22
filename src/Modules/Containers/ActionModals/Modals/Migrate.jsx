@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import { SelectField } from 'react-md';
-import DotActivity from 'components/DotActivity';
+import { DotActivity } from 'components/ProgressIndicators';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
@@ -19,7 +19,7 @@ const EnhancedDialog = styled(Dialog)`
 
   /* Fix Scrolling issue in dialogs with drop downs */
   .md-dialog-content {
-      overflow: visible;
+    overflow: visible;
   }
 `;
 

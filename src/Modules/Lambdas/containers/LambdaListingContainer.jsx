@@ -151,7 +151,6 @@ class LambdaListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no lambdas to display"
-            overflowY
           />
         </Col>
       </Row>

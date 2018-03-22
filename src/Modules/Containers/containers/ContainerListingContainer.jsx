@@ -164,8 +164,6 @@ class ContainerListing extends PureComponent {
             progressComponent={<LinearProgress id="container-listing" />}
             columns={columns}
             noDataComponent="There are no containers to display"
-            overflowY
-            overflowYOffset="350px"
           />
         </Col>
       </Row>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import { StepActions } from 'components/Stepper';
 import { Col, Row } from 'react-flexybox';

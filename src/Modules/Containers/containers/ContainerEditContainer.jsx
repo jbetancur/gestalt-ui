@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from './ContainerForm';

@@ -9,7 +9,7 @@ import { withMetaResource } from 'Modules/MetaResource';
 import axios from 'axios';
 import { SelectField } from 'react-md';
 import Div from 'components/Div';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button, FileDownloadButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { API_TIMEOUT } from '../../constants';
@@ -52,7 +52,6 @@ const PageWrapper = styled.div`
 `;
 
 const Toolbar = styled.header`
-  position: relative;
   min-height: 3.5em;
   width: 100%;
   position: fixed;
@@ -91,7 +90,7 @@ const LogOutputButton = styled(Button)`
 
 const CodeWrapper = styled.div`
   position: relative;
-  color: #f1f1f1;
+  color: #F1F1F1;
   overflow-x: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -106,9 +105,9 @@ const CodeWrapper = styled.div`
 `;
 
 const Pre = styled.pre`
-  font-family: Cousine,monospace;
+  font-family: Cousine, monospace;
   position: relative;
-  color: #f1f1f1;
+  color: #F1F1F1;
   overflow-x: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -124,12 +123,12 @@ const LogLine = styled.div`
   min-height: 19px;
 
   &:hover {
-    background-color: rgba(220,220,220,.12);
+    background-color: rgba(220, 220, 220, 0.12);
   }
 
   span {
     font-size: ${props => `${props.fontSize || fontSizes.lg}px`};
-    color: #f1f1f1;
+    color: #F1F1F1;
     line-height: 19px;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -145,7 +144,7 @@ const LogNumber = styled.a`
   text-decoration: none;
   position: absolute;
 
-  &::before{
+  &::before {
     user-select: none;
     content: counter(line-numbering);
     counter-increment: line-numbering;

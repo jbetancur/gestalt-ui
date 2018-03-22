@@ -10,7 +10,7 @@ import { TextField } from 'components/ReduxFormFields';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import Form from 'components/Form';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { PolicyRules } from 'Modules/PolicyRules';
 import policyTypes from '../lists/policyTypes';
 

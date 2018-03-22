@@ -116,7 +116,6 @@ class ResourceTypeListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no resource types to display"
-            overflowY
           />
         </Col>
       </Row>

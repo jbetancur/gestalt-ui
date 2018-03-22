@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SelectField } from 'react-md';
-import DotActivity from 'components/DotActivity';
+import { DotActivity } from 'components/ProgressIndicators';
 
 const Div = styled.div`
   width: 100%;

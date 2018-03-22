@@ -135,7 +135,6 @@ class APIListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no apis to display"
-            overflowY
           />
         </Col>
       </Row>

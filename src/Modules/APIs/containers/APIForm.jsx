@@ -11,7 +11,7 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import Form from 'components/Form';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 
 const APIForm = (props) => {
   const {
