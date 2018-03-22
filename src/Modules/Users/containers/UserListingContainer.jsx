@@ -10,7 +10,7 @@ import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from '../actions';
 
-class PolicyListing extends PureComponent {
+class UserListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
@@ -167,4 +167,4 @@ class PolicyListing extends PureComponent {
 export default compose(
   withMetaResource,
   connect(null, actions),
-)(PolicyListing);
+)(UserListing);

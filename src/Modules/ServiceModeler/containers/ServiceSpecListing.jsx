@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Row, Col } from 'react-flexybox';
-import { Card } from 'react-md';
+import { connect } from 'react-redux';
+import DataTable from 'react-data-table-component';
+import { Col, Row } from 'react-flexybox';
+import { Name, Timestamp, LinearProgress } from 'components/TableCells';
+import { DeleteIconButton } from 'components/Buttons';
+import { Card, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
-import { withTableManager } from 'Modules/TableManager';
-import ServiceSpecItem from '../components/ServiceSpecItem';
 
-class ResourceTypeListing extends Component {
+class PolicyListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    fetchServiceSpecs: PropTypes.func.isRequired,
-    fetchResourceType: PropTypes.func.isRequired,
-    unloadServiceSpecs: PropTypes.func.isRequired,
     serviceSpecs: PropTypes.array.isRequired,
+    deleteServiceSpec: PropTypes.func.isRequired,
     serviceSpecsPending: PropTypes.bool.isRequired,
-    deleteserviceSpecs: PropTypes.func.isRequired,
-    tableManager: PropTypes.object.isRequired,
-    tableActions: PropTypes.object.isRequired,
-    resourceTypeActions: PropTypes.object.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
+    fetchServiceSpecs: PropTypes.func.isRequired,
+    unloadServiceSpecs: PropTypes.func.isRequired,
   };
+
+  state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
     const { match, fetchServiceSpecs } = this.props;
@@ -34,41 +34,87 @@ class ResourceTypeListing extends Component {
     unloadServiceSpecs();
   }
 
-  edit = (serviceSpecId, e) => {
-    // TODO: workaround for checkbox event bubbling
-    if (e.target.className.includes('md-table-column')) {
-      // const { history, match } = this.props;
-
-      // history.push(`${match.url}/${serviceSpecId.id}`);
-    }
-  }
-
-  delete = () => {
-    const { match, deleteserviceSpecs, tableActions, fetchServiceSpecs, resourceTypeActions } = this.props;
-    const { items } = this.props.tableManager.tableSelected;
-    const IDs = items.map(item => (item.id));
-    const names = items.map(item => (item.name));
+  deleteOne = (row) => {
+    const { match, deleteServiceSpec, fetchServiceSpecs } = this.props;
 
     const onSuccess = () => {
-      tableActions.clearTableSelected();
-      fetchServiceSpecs(match.params.fqon, match.params.environmentId);
+      fetchServiceSpecs(match.params.fqon);
     };
 
-    resourceTypeActions.confirmDelete(() => {
-      deleteserviceSpecs(IDs, match.params.fqon, onSuccess);
-    }, names);
+    this.props.confirmDelete(() => {
+      deleteServiceSpec(match.params.fqon, row.id, onSuccess);
+    }, `Are you sure you want to delete ${row.name}?`);
   }
 
+  handleTableChange = ({ selectedRows }) => {
+    this.setState({ selectedRows });
+  };
+
   render() {
+    const contextActions = [
+      <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
+    ];
+
+    const columns = [
+      {
+        name: 'Name',
+        selector: 'name',
+        sortable: true,
+        compact: true,
+        cell: row => <Name maxWidth="500px" name={row.name} description={row.description} to={`${this.props.match.url}/${row.id}`} />
+      },
+      {
+        name: 'Owner',
+        selector: 'owner.name',
+        sortable: true,
+      },
+      {
+        name: 'Created',
+        selector: 'created.timestamp',
+        sortable: true,
+        cell: row => <Timestamp timestamp={row.created.timestamp} />
+      },
+      {
+        name: 'Modified',
+        selector: 'modified.timestamp',
+        sortable: true,
+        cell: row => <Timestamp timestamp={row.modified.timestamp} />
+      },
+      // {
+      //   name: 'Actions',
+      //   width: '42px',
+      //   compact: true,
+      //   cell: row => (
+      //     <GenericMenuActions
+      //       row={row}
+      //       fqon={this.props.match.params.fqon}
+      //       onDelete={this.deleteOne}
+      //       editURL={`${this.props.match.url}/${row.id}`}
+      //       entityKey="serviceSpecs"
+      //       disableEntitlements
+      //       {...this.props}
+      //     />
+      //   ),
+      // }
+    ];
+
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
-          <ServiceSpecItem
-            model={this.props.serviceSpecs}
-            pending={this.props.serviceSpecsPending}
-            onEditToggle={this.edit}
-            onDeleteToggle={this.delete}
-            {...this.props}
+          <DataTable
+            title="Service Specifications"
+            data={this.props.serviceSpecs}
+            highlightOnHover
+            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            defaultSortField="name"
+            progressPending={this.props.serviceSpecsPending}
+            progressComponent={<LinearProgress id="servicespecs-listing" />}
+            columns={columns}
+            contextActions={contextActions}
+            onTableUpdate={this.handleTableChange}
+            clearSelectedRows={this.state.clearSelected}
+            noDataComponent="There are no service specs to display"
+            overflowY
           />
         </Col>
       </Row>
@@ -78,5 +124,5 @@ class ResourceTypeListing extends Component {
 
 export default compose(
   withMetaResource,
-  withTableManager,
-)(ResourceTypeListing);
+  connect(null),
+)(PolicyListing);
