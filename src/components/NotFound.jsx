@@ -1,12 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
-import { P } from 'components/Typography';
 
-const lyrics = [
+const Title = styled.h1`
+  font-family: 'lovelo';
+  color: rgba(0,0,0,.87);
+`;
+
+const MessageTitle = styled.p`
+  color: rgba(0,0,0,.54);
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+  padding: 8px;
+`;
+
+const Quotes = styled.p`
+  font-size: 15px;
+  font-weight: bold;
+  color: rgba(0,0,0,.54);
+  padding: 32px 8px 8px 8px;
+`;
+
+const SVGWrapper = styled.div`
+  text-align: center;
+`;
+
+const quotes = [
   'Hey, laser lips, your mama was a snow blower.',
   'Number 5 is alive.',
   'Many fragments. Some large, some small.',
@@ -63,16 +87,15 @@ const lyrics = [
   'I think the butler did it.',
 ];
 
+const quote = quotes[Math.floor(Math.random() * quotes.length)];
+
 const NotFound = props => (
-  <Row center padding="1em">
+  <Row center padding="16px" fill>
     <Row justifyContent="center">
-      <h1 style={{ fontFamily: 'lovelo' }}>No Disassemble!</h1>
+      <Title>No Disassemble!</Title>
     </Row>
     <Row justifyContent="center">
-      <P fontSize={14}>The resource you are looking for was not found!</P>
-      <Row justifyContent="center">
-        <P fontSize={14}>{lyrics[Math.floor(Math.random() * lyrics.length)]}</P>
-      </Row>
+      <MessageTitle>The resource you are looking for was not found or was deleted!</MessageTitle>
       <Row justifyContent="center">
         {props.match.params.fqon &&
           <Button
@@ -82,10 +105,22 @@ const NotFound = props => (
           >
             {`Navigate back to ${props.match.params.fqon}`}
           </Button>}
+        <Button
+          primary
+          raised
+          onClick={() => props.history.goBack()}
+        >
+          Previous Page
+        </Button>
       </Row>
     </Row>
     <Row justifyContent="center">
-      <RobotUprisingIcon />
+      <Quotes>{`"${quote}"`}</Quotes>
+    </Row>
+    <Row center fill>
+      <SVGWrapper>
+        <RobotUprisingIcon />
+      </SVGWrapper>
     </Row>
   </Row>
 );
