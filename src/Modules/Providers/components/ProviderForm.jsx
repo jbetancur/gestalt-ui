@@ -8,7 +8,7 @@ import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import Div from 'components/Div';
 import { Panel } from 'components/Panels';

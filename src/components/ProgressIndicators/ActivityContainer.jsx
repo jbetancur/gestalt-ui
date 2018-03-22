@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DotActivity from 'components/DotActivity';
 import styled from 'styled-components';
+import DotActivity from './DotActivity';
 
 const ActivityWrapper = styled.div`
   position: fixed;

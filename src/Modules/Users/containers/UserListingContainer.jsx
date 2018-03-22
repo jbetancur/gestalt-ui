@@ -156,7 +156,6 @@ class UserListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no users to display"
-            overflowY
           />
         </Col>
       </Row>

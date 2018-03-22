@@ -17,40 +17,40 @@ import actionCreators from '../actions';
 
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`
-    display: inline-block;
+  display: inline-block;
 
-    &.action--title {
-      padding-left: .3em;
-      position: absolute;
-      right: .3em;
-      top: .7em;
-    }
+  &.action--title {
+    padding-left: 0.3em;
+    position: absolute;
+    right: 0.3em;
+    top: 0.7em;
+  }
 
-    .button--start * {
-      color: ${props => props.theme.colors['$md-green-500']};;
-    }
+  .button--start * {
+    color: ${props => props.theme.colors['$md-green-500']};
+  }
 
-    .button--start[disabled] * {
-      color: ${props => props.theme.colors['$md-grey-500']};;
-    }
+  .button--start[disabled] * {
+    color: ${props => props.theme.colors['$md-grey-500']};
+  }
 
-    .button--suspend * {
-      color: ${props => props.theme.colors['$md-orange-500']};;
-    }
+  .button--suspend * {
+    color: ${props => props.theme.colors['$md-orange-500']};
+  }
 
-    .button--scale * {
-      color: ${props => props.theme.colors['$md-blue-500']};
-    }
+  .button--scale * {
+    color: ${props => props.theme.colors['$md-blue-500']};
+  }
 
-    .button--destroy * {
-      color: ${props => props.theme.colors['$md-red-a400']};
-    }
+  .button--destroy * {
+    color: ${props => props.theme.colors['$md-red-a400']};
+  }
 
-    button {
-      &:hover {
-        background-color: transparent;
-      }
+  button {
+    &:hover {
+      background-color: transparent;
     }
+  }
 `;
 
 const ListWrapper = styled.div`
@@ -280,7 +280,7 @@ class ContainerActions extends PureComponent {
     ];
 
     const icon = inContainerView ? null : 'more_vert';
-    const position = inContainerView ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.TOP_LEFT;
+    const positionX = inContainerView ? 'INNER_RIGHT' : 'INNER_LEFT';
 
     return (
       containerModel.id ?
@@ -291,11 +291,16 @@ class ContainerActions extends PureComponent {
             flat={inContainerView}
             disabled={!containerModel.properties.status}
             iconChildren={icon}
-            position={position}
             tooltipLabel={!inContainerView && 'Actions'}
             inkDisabled={inContainerView}
             menuItems={menuItems}
             listHeightRestricted={false}
+            simplifiedMenu={false}
+            repositionOnScroll={false}
+            anchor={{
+              x: MenuButton.HorizontalAnchors[positionX],
+              y: MenuButton.VerticalAnchors.OVERLAP,
+            }}
             primary
           >
             {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}

@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import styled from 'styled-components';
-import FontIcon from 'react-md/lib/FontIcons';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import Divider from 'react-md/lib/Dividers';
+import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
+import A from 'components/A';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../constants';
 
 const AppToolbarInfoMenu = (props) => {
@@ -15,6 +12,7 @@ const AppToolbarInfoMenu = (props) => {
       key="main--info--menu--version"
       primaryText={`Ui v${UI_VERSION}`}
       leftIcon={<FontIcon>info_outline</FontIcon>}
+      inkDisabled
     />,
     <Divider key="main--info--menu--divider" />,
     <ListItem
@@ -22,7 +20,7 @@ const AppToolbarInfoMenu = (props) => {
       key="main--info--menu--documentation"
       primaryText={props.t('documentation.title')}
       leftIcon={<FontIcon>library_books</FontIcon>}
-      component={styled.a`text-decoration: none;`}
+      component={A}
       href={DOCUMENTATION_URL}
       target="_blank"
       rel="noopener noreferrer"
@@ -41,10 +39,11 @@ const AppToolbarInfoMenu = (props) => {
     <MenuButton
       id="info-menu"
       icon
-      iconChildren="info_outline"
       position={MenuButton.Positions.TOP_RIGHT}
       menuItems={menuItems}
-    />
+    >
+      info_outline
+    </MenuButton>
   );
 };
 

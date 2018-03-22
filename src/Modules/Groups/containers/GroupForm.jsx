@@ -17,7 +17,7 @@ const MembersList = styled(List)`
   height: 20em;
   box-shadow: none;
   overflow: auto;
-  border: 1px solid #f5f5f5;
+  border: 1px solid #F5F5F5;
 `;
 
 const GroupForm = (props) => {

@@ -8,7 +8,7 @@ import { Row, Col } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import SelectField from 'react-md/lib/SelectFields';
-import DotActivity from 'components/DotActivity';
+import { DotActivity } from 'components/ProgressIndicators';
 import actions from '../actions';
 
 const EnhancedDialog = styled(Dialog)`
@@ -16,9 +16,9 @@ const EnhancedDialog = styled(Dialog)`
     min-width: 24em;
   }
 
-  // Fix Scrolling issue in dialogs with drop downs
+  /* Fix Scrolling issue in dialogs with drop downs */
   .md-dialog-content {
-      overflow: visible;
+    overflow: visible;
   }
 `;
 

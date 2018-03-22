@@ -6,7 +6,7 @@ import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
 import Form from 'components/Form';
 import { ModalFooter } from 'components/Modal';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';

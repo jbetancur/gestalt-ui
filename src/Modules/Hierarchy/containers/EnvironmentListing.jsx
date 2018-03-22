@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import Sort from '../components/Sort';
 import EnvironmentCard from './EnvironmentCard';
 

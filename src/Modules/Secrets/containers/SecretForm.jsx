@@ -11,7 +11,7 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from '../components/SecretItemsForm';

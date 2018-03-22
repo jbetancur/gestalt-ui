@@ -18,9 +18,14 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, a
   return (
     <MenuButton
       id="lambda-menu-actions"
-      position="tl"
       primary
       icon
+      simplifiedMenu={false}
+      repositionOnScroll={false}
+      anchor={{
+        x: MenuButton.HorizontalAnchors.INNER_LEFT,
+        y: MenuButton.VerticalAnchors.OVERLAP,
+      }}
       menuItems={[
         <ListItem
           key="lambda--edit"

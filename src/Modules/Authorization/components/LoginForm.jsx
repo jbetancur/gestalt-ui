@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme, keyframes } from 'styled-components';
-import DotActivity from 'components/DotActivity';
+import { DotActivity } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
 import { GestaltIcon } from 'components/Icons';

@@ -17,10 +17,16 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
 
   return (
     <MenuButton
+      id={`${entityKey}--menu-actions`}
       key={`${entityKey}--menu-actions`}
-      position="tl"
       primary
       icon
+      simplifiedMenu={false}
+      repositionOnScroll={false}
+      anchor={{
+        x: MenuButton.HorizontalAnchors.INNER_LEFT,
+        y: MenuButton.VerticalAnchors.OVERLAP,
+      }}
       menuItems={[
         <ListItem
           key={`${entityKey}--edit`}

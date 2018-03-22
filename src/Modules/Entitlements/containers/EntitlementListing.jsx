@@ -7,7 +7,7 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
-import DotActivity from 'components/DotActivity';
+import { DotActivity } from 'components/ProgressIndicators';
 import { H3 } from 'components/Typography';
 import SearchFields from '../components/SearchFields';
 import EntitlementTree from '../components/EntitlementTree';

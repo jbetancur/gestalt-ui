@@ -10,11 +10,11 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import Form from 'components/Form';
 import DetailsPane from 'components/DetailsPane';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { ListTable } from 'components/Lists';
 import Fieldset from 'components/Fieldset';
-import PropertyDefForm from './PropertyDefForm';
-import LineageForm from './LineageForm';
+import PropertyDefForm from '../components/PropertyDefForm';
+import LineageForm from '../components/LineageForm';
 
 const ResourceTypeForm = (props) => {
   const { title, match, handleSubmit, submitting, pristine, resourceTypesDropDown, onSubmit, resourceType, resourceTypePending, editMode } = props;

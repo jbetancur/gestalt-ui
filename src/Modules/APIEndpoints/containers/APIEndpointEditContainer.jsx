@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './APIEndpointForm/validations';
 import actions from '../actions';

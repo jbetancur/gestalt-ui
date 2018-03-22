@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withMetaResource } from 'Modules//MetaResource';
-import ResourceTypeForm from '../components/ResourceTypeForm';
+import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateResourceTypeModel } from '../selectors';

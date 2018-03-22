@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
-import FontIcon from 'react-md/lib/FontIcons';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import Avatar from 'react-md/lib/Avatars';
-import Divider from 'react-md/lib/Dividers';
+import { FontIcon, MenuButton, ListItem, Divider, Avatar } from 'react-md';
 import { USEnglishLangIcon } from 'components/Icons';
 
 const AppToolbarUserMenu = (props) => {
@@ -51,13 +47,13 @@ const AppToolbarUserMenu = (props) => {
       id="main--user--menu"
       flat={browser.greaterThan.xs}
       icon={browser.lessThan.sm}
-      label={browser.greaterThan.xs && self.name}
       iconChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
       position={browser.lessThan.sm ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
       iconBefore={false}
       menuItems={menuItems}
-      sameWidth={browser.greaterThan.sm}
-    />
+    >
+      {browser.greaterThan.xs && self.name}
+    </MenuButton>
   );
 };
 

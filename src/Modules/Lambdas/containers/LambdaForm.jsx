@@ -7,7 +7,7 @@ import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, SelectField as MDSelectField } from 'react-md';
 import Form from 'components/Form';
-import ActivityContainer from 'components/ActivityContainer';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';

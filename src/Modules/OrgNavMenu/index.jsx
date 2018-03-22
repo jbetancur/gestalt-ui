@@ -10,7 +10,7 @@ import Divider from 'react-md/lib/Dividers';
 import TextField from 'react-md/lib/TextFields';
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
-import DotActivity from 'components/DotActivity';
+import { DotActivity } from 'components/ProgressIndicators';
 import { H3 } from 'components/Typography';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from './actions';
@@ -21,7 +21,7 @@ const EnhancedMenuButton = styled(MenuButton)`
   margin-top: 0 !important;
   height: 100%;
   border-radius: 0;
-  border-right: 1px solid ${props => props.theme.colors['$md-grey-800']}
+  border-right: 1px solid ${props => props.theme.colors['$md-grey-800']};
 `;
 
 const ListWrapper = styled.div`

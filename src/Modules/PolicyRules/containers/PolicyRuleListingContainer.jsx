@@ -151,7 +151,6 @@ class PolicyRuleListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no rules to display"
-            overflowY
           />
         </Col>
       </Row>
