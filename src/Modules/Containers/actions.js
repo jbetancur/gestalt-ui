@@ -22,13 +22,14 @@ export function scaleContainerModal(action, item, numInstances) {
   };
 }
 
-export function migrateContainerModal(action, item, sourceProvider) {
+export function migrateContainerModal(action, item, sourceProvider, inContainerView) {
   return {
     type: 'SHOW_CONTAINER_MODAL',
     modalType: 'MIGRATE',
     modalProps: {
       title: item,
       sourceProvider,
+      inContainerView,
       onProceed: action,
     }
   };

@@ -469,7 +469,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
 };
 
 ContainerForm.propTypes = {
-  fetchProvidersByType: PropTypes.func.isRequired,
   fetchSecretsDropDown: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,

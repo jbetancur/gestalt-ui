@@ -7,8 +7,9 @@ import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
-import SelectField from 'react-md/lib/SelectFields';
+import { SelectField } from 'react-md';
 import DotActivity from 'components/DotActivity';
+import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
 const EnhancedDialog = styled(Dialog)`
@@ -16,7 +17,7 @@ const EnhancedDialog = styled(Dialog)`
     min-width: 24em;
   }
 
-  // Fix Scrolling issue in dialogs with drop downs
+  /* Fix Scrolling issue in dialogs with drop downs */
   .md-dialog-content {
       overflow: visible;
   }
@@ -29,11 +30,16 @@ class MigrateModal extends PureComponent {
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     sourceProvider: PropTypes.object.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
     providersByType: PropTypes.array.isRequired,
     providersByTypePending: PropTypes.bool.isRequired,
+    fetchProvidersByType: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
+    inContainerView: PropTypes.bool,
   };
+
+  static defaultProps = {
+    inContainerView: false,
+  }
 
   constructor(props) {
     super(props);
@@ -42,7 +48,9 @@ class MigrateModal extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchProvidersByType(this.props.match.params.fqon, this.props.match.params.environmentId, 'environments', 'CaaS');
+    if (!this.props.inContainerView) {
+      this.props.fetchProvidersByType(this.props.match.params.fqon, this.props.match.params.environmentId, 'environments', 'CaaS');
+    }
   }
 
   doIt = () => {
@@ -54,15 +62,10 @@ class MigrateModal extends PureComponent {
     this.setState({ provider: value });
   }
 
-  formatResourceType(resourceType) {
-    const split = resourceType.split('::');
-    return split[split.length - 1];
-  }
-
   render() {
     const providers = this.props.providersByType
       .filter(provider => provider.id !== this.props.sourceProvider.id)
-      .map(provider => ({ id: provider.id, name: `${provider.name} (${this.formatResourceType(provider.resource_type)})` }));
+      .map(provider => ({ id: provider.id, name: `${provider.name} (${getLastFromSplit(provider.resource_type)})` }));
 
     return (
       <EnhancedDialog
@@ -103,6 +106,7 @@ class MigrateModal extends PureComponent {
                     onChange={this.providerChanged}
                     required
                     fullWidth
+                    sameWidth
                   />
                 </Col>
               </Row> : <span>There are no available providers to migrate to</span>}
