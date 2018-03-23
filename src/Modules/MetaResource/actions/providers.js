@@ -103,12 +103,10 @@ export function deleteProvider(fqon, providerId, onSuccess) {
  * deleteProviders
  * @param {Array} providerIds
  * @param {string} fqon
- * @param {string} entityId
- * @param {string} entityKey oneOf(workspaces || environments || null)
  * @callback {*} onSuccess
  */
-export function deleteProviders(providerIds, fqon, entityId, entityKey, onSuccess) {
-  return { type: types.DELETE_PROVIDERS_REQUEST, providerIds, fqon, entityId, entityKey, onSuccess };
+export function deleteProviders(providerIds, fqon, onSuccess) {
+  return { type: types.DELETE_PROVIDERS_REQUEST, providerIds, fqon, onSuccess };
 }
 
 /**

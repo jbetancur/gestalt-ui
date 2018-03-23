@@ -64,7 +64,7 @@ class PolicyListing extends PureComponent {
 
     this.props.confirmDelete(() => {
       deletePolicies(IDs, match.params.fqon, onSuccess);
-    }, 'Confirm Delete policies', names);
+    }, 'Confirm Delete Policies', names);
   }
 
   handleTableChange = ({ selectedRows }) => {

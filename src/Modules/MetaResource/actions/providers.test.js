@@ -116,12 +116,10 @@ describe('Provider Actions', () => {
       type: types.DELETE_PROVIDERS_REQUEST,
       providerIds: [],
       fqon: 'iamfqon',
-      entityId: '1',
-      entityKey: 'environments',
       onSuccess: undefined,
     };
 
-    expect(actions.deleteProviders([], 'iamfqon', '1', 'environments')).to.deep.equal(expectedAction);
+    expect(actions.deleteProviders([], 'iamfqon')).to.deep.equal(expectedAction);
   });
 
   it('should handle REDEPLOY_PROVIDER_REQUEST', () => {
