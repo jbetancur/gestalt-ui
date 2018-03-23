@@ -447,7 +447,7 @@ describe('Provider Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        put({ type: types.DELETE_PROVIDER_FULFILLED })
+        put({ type: types.DELETE_PROVIDERS_FULFILLED })
       );
 
       // Finish the iteration
@@ -470,7 +470,7 @@ describe('Provider Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).to.deep.equal(
-        put({ type: types.DELETE_PROVIDER_REJECTED, payload: error })
+        put({ type: types.DELETE_PROVIDERS_REJECTED, payload: error })
       );
     });
   });

@@ -156,7 +156,7 @@ export function* updateProvider(action) {
 }
 
 /**
- * deleteAPI
+ * deleteProvider
  * @param {*} action - { fqon, providerId, onSuccess }
  */
 export function* deleteProvider(action) {
@@ -181,13 +181,13 @@ export function* deleteProviders(action) {
     const all = action.providerIds.map(id => axios.delete(`${action.fqon}/providers/${id}?force=true`));
 
     yield call(axios.all, all);
-    yield put({ type: types.DELETE_PROVIDER_FULFILLED });
+    yield put({ type: types.DELETE_PROVIDERS_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();
     }
   } catch (e) {
-    yield put({ type: types.DELETE_PROVIDER_REJECTED, payload: e.message });
+    yield put({ type: types.DELETE_PROVIDERS_REJECTED, payload: e.message });
   }
 }
 

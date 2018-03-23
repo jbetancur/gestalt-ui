@@ -1,29 +1,25 @@
-export function confirmDelete(action, multipleItems) {
-  return (dispatch) => {
-    dispatch({
-      type: 'SHOW_MODAL',
-      modalType: 'CONFIRM',
-      modalProps: {
-        title: 'Confirm Delete Providers',
-        multipleItems,
-        onProceed: action,
-      }
-    });
+export function confirmDelete(action, title, multipleItems) {
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'CONFIRM',
+    modalProps: {
+      title,
+      multipleItems,
+      onProceed: action,
+    }
   };
 }
 
 export function confirmUpdate(action, item, onClose) {
-  return (dispatch) => {
-    dispatch({
-      type: 'SHOW_MODAL',
-      modalType: 'CONFIRM',
-      modalProps: {
-        title: `"${item}" provider container will be re-deployed. Are you sure you want to proceed?`,
-        onProceed: action,
-        proceedLabel: 'Redeploy',
-        onClose,
-      }
-    });
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'CONFIRM',
+    modalProps: {
+      title: `"${item}" provider container will be re-deployed. Are you sure you want to proceed?`,
+      onProceed: action,
+      proceedLabel: 'Redeploy',
+      onClose,
+    }
   };
 }
 
