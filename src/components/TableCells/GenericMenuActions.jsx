@@ -28,13 +28,14 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
         y: MenuButton.VerticalAnchors.OVERLAP,
       }}
       menuItems={[
-        <ListItem
-          key={`${entityKey}--edit`}
-          primaryText="Edit"
-          leftIcon={<FontIcon>edit</FontIcon>}
-          to={editURL}
-          component={Link}
-        />,
+        editURL ?
+          <ListItem
+            key={`${entityKey}--edit`}
+            primaryText="Edit"
+            leftIcon={<FontIcon>edit</FontIcon>}
+            to={editURL}
+            component={Link}
+          /> : <div />,
         !disableEntitlements ?
           <ListItem
             key={`${entityKey}--entitlements`}

@@ -1,9 +1,9 @@
-export function confirmDelete(action, multipleItems) {
+export function confirmDelete(action, title, multipleItems) {
   return {
     type: 'SHOW_MODAL',
     modalType: 'CONFIRM',
     modalProps: {
-      title: 'Confirm Delete API Endpoints',
+      title,
       multipleItems,
       onProceed: action,
     }
