@@ -22,7 +22,6 @@ import containersReducer from '../Modules/Containers/reducers';
 import policyRulesReducer from '../Modules/PolicyRules/reducers';
 import licensingReducer from '../Modules/Licensing/reducers';
 // import secretReducers from '../Modules/Secrets/reducers';
-import tableManagerReducer from '../Modules/TableManager/reducers';
 
 const mediaQuery = {
   xs: '(min-width: 0) and (max-width: 599px)',
@@ -54,5 +53,4 @@ export default combineReducers({
   // apiEndpoints: apiEndpointsReducer,
   licensing: licensingReducer,
   // secrets: secretReducers,
-  tableManager: tableManagerReducer,
 });
