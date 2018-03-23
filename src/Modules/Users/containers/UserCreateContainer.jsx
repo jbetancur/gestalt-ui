@@ -14,7 +14,7 @@ class UserCreate extends Component {
     createUser: PropTypes.func.isRequired,
   };
 
-  create(values) {
+  create = (values) => {
     const { history, match, createUser } = this.props;
     const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
@@ -27,7 +27,7 @@ class UserCreate extends Component {
         title="Create User"
         submitLabel="Create"
         cancelLabel="Users"
-        onSubmit={values => this.create(values)}
+        onSubmit={this.create}
         {...this.props}
       />
     );

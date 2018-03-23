@@ -4,17 +4,17 @@ import styled from 'styled-components';
 import DotActivity from './DotActivity';
 
 const ActivityWrapper = styled.div`
-  position: fixed;
+  position: ${props => (props.fixed ? 'fixed' : 'absolute')};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
 `;
 
-const ActivityContainer = props => (
-  props.visible &&
-  <ActivityWrapper>
-    <DotActivity id={props.id} size={3} centered primary={props.primary} />
+const ActivityContainer = ({ id, visible, primary, fixed }) => (
+  visible &&
+  <ActivityWrapper fixed={fixed}>
+    <DotActivity id={id} size={3} centered primary={primary} />
   </ActivityWrapper>
 );
 
@@ -22,11 +22,13 @@ ActivityContainer.propTypes = {
   id: PropTypes.string.isRequired,
   primary: PropTypes.bool,
   visible: PropTypes.bool,
+  fixed: PropTypes.bool,
 };
 
 ActivityContainer.defaultProps = {
   primary: false,
   visible: true,
+  fixed: true,
 };
 
 export default ActivityContainer;

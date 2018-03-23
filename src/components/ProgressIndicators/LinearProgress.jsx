@@ -5,7 +5,7 @@ const LinearProgressStyled = styled(LinearProgress)`
   padding: 0;
   margin: 0;
   position: absolute;
-  bottom: 0;
+  top: -3px;
 `;
 
 export default LinearProgressStyled;

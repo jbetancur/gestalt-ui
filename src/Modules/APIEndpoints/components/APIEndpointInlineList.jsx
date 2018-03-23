@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Button, FontIcon } from 'react-md';
+import { Button, FontIcon, Checkbox } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
+import { Timestamp, GenericMenuActions } from 'components/TableCells';
 import StatusBubble from 'components/StatusBubble';
 import Div from 'components/Div';
 import A from 'components/A';
@@ -59,12 +59,6 @@ class APIEndpointInlineList extends PureComponent {
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
-        name: 'Path',
-        selector: 'name',
-        sortable: true,
-        cell: row => <Name name={row.name} description={row.description} />
-      },
-      {
         name: 'Public URL',
         selector: 'properties.public_url',
         sortable: true,
@@ -85,9 +79,17 @@ class APIEndpointInlineList extends PureComponent {
         ]
       },
       {
-        name: 'Type',
-        selector: 'properties.implementation_type',
+        name: 'Rate Limit',
+        selector: 'properties.plugins.rateLimit.perMinute',
         sortable: true,
+        number: true,
+        format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
+      },
+      {
+        name: 'Auth',
+        selector: 'properties.plugins.gestaltSecurity.enabled',
+        sortable: true,
+        cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
       },
       {
         name: 'Created',
@@ -133,4 +135,3 @@ export default compose(
   withMetaResource,
   withRouter,
 )(APIEndpointInlineList);
-

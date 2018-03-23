@@ -11,6 +11,8 @@ import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from '../actions';
 
+const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+
 class SecretListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -131,6 +133,7 @@ class SecretListing extends PureComponent {
             highlightOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
+            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.secretsPending}

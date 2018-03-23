@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardTitle, CardText } from 'react-md';
-import { LinearProgress } from 'components/ProgressIndicators';
+import { ActivityContainer } from 'components/ProgressIndicators';
+import Form from 'components/Form';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
@@ -16,7 +17,7 @@ const UserForm = (props) => {
 
   return (
     <div>
-      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.userUpdatePending || props.userPending}>
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle title={props.title} />
@@ -39,7 +40,7 @@ const UserForm = (props) => {
                 {props.submitLabel}
               </Button>
             </ActionsToolbar>
-            {(props.userUpdatePending || props.userPending) && <LinearProgress id="user-form" />}
+            {(props.userUpdatePending || props.userPending) && <ActivityContainer id="user-form" />}
             <CardText>
               <Row gutter={5}>
                 <Col flex={6} xs={12}>
@@ -123,7 +124,7 @@ const UserForm = (props) => {
             </CardText>
           </Col>
         </Row>
-      </form>
+      </Form>
     </div>
   );
 };

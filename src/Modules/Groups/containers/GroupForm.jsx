@@ -6,10 +6,11 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
 import { Card, CardTitle, CardText, List, ListItem, FontIcon, TextField as TextFieldMD } from 'react-md';
-import { LinearProgress } from 'components/ProgressIndicators';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
+import Form from 'components/Form';
 import CardSubHeader from '../components/CardSubHeader';
 import { nameMaxLen } from '../validations';
 
@@ -92,7 +93,7 @@ const GroupForm = (props) => {
 
   return (
     <div>
-      <form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off">
+      <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={groupUpdatePending || groupPending}>
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
             <CardTitle title={props.title} />
@@ -116,7 +117,7 @@ const GroupForm = (props) => {
                 {submitLabel}
               </Button>
             </ActionsToolbar>
-            {(groupUpdatePending || groupPending) && <LinearProgress id="group-form" />}
+            {(groupUpdatePending || groupPending) && <ActivityContainer id="group-form" />}
             <CardText>
               <Row gutter={5}>
                 <Col flex={4} xs={12}>
@@ -141,12 +142,12 @@ const GroupForm = (props) => {
             </CardText>
           </Col>
         </Row>
-      </form>
+      </Form>
 
       {editMode &&
         <Row gutter={5} center>
           <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-            {props.groupMembersPending && <LinearProgress id="group-members" />}
+            {props.groupMembersPending && <ActivityContainer id="group-members" />}
             <Row gutter={5}>
               <Col flex={6} xs={12}>
                 <h3>Available Users</h3>
