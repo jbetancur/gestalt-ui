@@ -5,13 +5,14 @@ import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, Autocomplete } from 'react-md';
-import { LinearProgress } from 'components/ProgressIndicators';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
 import Fieldset from 'components/Fieldset';
+import Form from 'components/Form';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../../components/RateLimit';
 import Security from '../../components/Security';
@@ -64,8 +65,10 @@ const APIEndpointForm = (props) => {
     dispatch(change(form, 'properties.implementation_id', ''));
   };
 
+  const disabledSubmit = pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting;
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointUpdatePending || apiEndpointPending}>
       {apiEndpoint.id &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12} md={12}>
@@ -91,7 +94,7 @@ const APIEndpointForm = (props) => {
                   raised
                   iconChildren="save"
                   type="submit"
-                  disabled={pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting}
+                  disabled={disabledSubmit}
                   primary
                 >
                   {submitLabel}
@@ -108,7 +111,7 @@ const APIEndpointForm = (props) => {
               </Col>
             </Row>
           </ActionsToolbar>
-          {(apiEndpointUpdatePending || apiEndpointPending) && <LinearProgress id="apiEndpoint-form" />}
+          {(apiEndpointUpdatePending || apiEndpointPending) && <ActivityContainer id="apiEndpoint-form" />}
           <CardText>
             <Row gutter={5}>
               <Col flex={2} xs={12} lg={1}>
@@ -216,7 +219,7 @@ const APIEndpointForm = (props) => {
           </CardText>
         </Col>
       </Row>
-    </form>
+    </Form>
   );
 };
 

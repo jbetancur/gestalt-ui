@@ -39,15 +39,13 @@ class APICreate extends Component {
 
   render() {
     return (
-      <div>
-        <APIForm
-          title="Create API"
-          submitLabel="Create"
-          cancelLabel="APIs"
-          onSubmit={values => this.create(values)}
-          {...this.props}
-        />
-      </div>
+      <APIForm
+        title="Create API"
+        submitLabel="Create"
+        cancelLabel="APIs"
+        onSubmit={values => this.create(values)}
+        {...this.props}
+      />
     );
   }
 }

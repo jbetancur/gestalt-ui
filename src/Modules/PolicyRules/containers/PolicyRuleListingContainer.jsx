@@ -13,6 +13,7 @@ import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
 const getBaseURL = (params, row) => `/${params.fqon}/hierarchy/${params.workspaceId}/environment/${params.environmentId}/policies/${params.policyId}/rules/${row.id}/edit${getLastFromSplit(row.resource_type)}Rule`;
+const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 
 class PolicyRuleListing extends PureComponent {
   static propTypes = {
@@ -142,6 +143,7 @@ class PolicyRuleListing extends PureComponent {
             highlightOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
+            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.policyRulesPending}

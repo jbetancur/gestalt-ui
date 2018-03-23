@@ -13,6 +13,8 @@ import LambdaMenuActions from '../components/LambdaMenuActions';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow';
 import actions from '../actions';
 
+const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+
 class LambdaListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -123,12 +125,6 @@ class LambdaListing extends PureComponent {
         sortable: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
-      {
-        name: 'Modified',
-        selector: 'modified.timestamp',
-        sortable: true,
-        cell: row => <Timestamp timestamp={row.modified.timestamp} />
-      },
     ];
 
     return (
@@ -140,6 +136,7 @@ class LambdaListing extends PureComponent {
             highlightOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
+            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
             // expandableRows
             // expandableRowsComponent={<LambdaExpanderRow />}
             sortIcon={<FontIcon>arrow_downward</FontIcon>}

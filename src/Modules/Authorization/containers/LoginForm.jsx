@@ -22,7 +22,7 @@ const TextFieldStyle = styled(TextField)`
   }
 
   input {
-    background: rgba(0, 0, 0, 0)!important;
+    background: rgba(0, 0, 0, 0) !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     padding: 2px;
 
@@ -31,11 +31,11 @@ const TextFieldStyle = styled(TextField)`
     }
   }
 
-  .md-divider--text-field:after {
+  .md-divider--text-field::after {
     background: white;
   }
 
-  .md-divider:not(.md-divider--text-field-error){
+  .md-divider:not(.md-divider--text-field-error) {
     background: white;
   }
 
@@ -104,7 +104,7 @@ const Error = styled.div`
   padding: 1em;
   background: ${props => props.theme.colors['$md-red-500']};
   color: white;
-  text-align:center;
+  text-align: center;
   font-weight: 700;
 `;
 

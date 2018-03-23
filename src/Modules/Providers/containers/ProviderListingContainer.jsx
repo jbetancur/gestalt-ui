@@ -13,6 +13,8 @@ import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
+const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+
 class ProviderListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -151,6 +153,7 @@ class ProviderListing extends PureComponent {
             highlightOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
+            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.providersPending}

@@ -19,7 +19,7 @@ class GroupCreate extends Component {
     this.props.fetchUsers(this.props.match.params.fqon);
   }
 
-  create(values) {
+  create = (values) => {
     const { match, history, createGroup } = this.props;
     const { name, description } = values;
     const payload = {
@@ -39,7 +39,7 @@ class GroupCreate extends Component {
         title="Create Group"
         submitLabel="Create"
         cancelLabel="Groups"
-        onSubmit={values => this.create(values)}
+        onSubmit={this.create}
         {...this.props}
       />
     );

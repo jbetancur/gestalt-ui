@@ -64,7 +64,7 @@ class GroupEdit extends Component {
     const { user, userPending } = this.props;
     return (
       <div>
-        {userPending ?
+        {userPending && !user.id ?
           <ActivityContainer id="user-load" /> :
           <UserForm
             title={user.name}

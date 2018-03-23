@@ -6,8 +6,8 @@ import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { loadStorage } from 'util/helpers/localstorage';
 import actions from '../actions';
-import LoginForm from '../components/LoginForm';
-import LoginFooter from './LoginFooter';
+import LoginForm from './LoginForm';
+import LoginFooter from '../components/LoginFooter';
 import lightTheme from '../../../themes/light';
 
 const validate = (values) => {

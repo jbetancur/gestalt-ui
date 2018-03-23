@@ -64,7 +64,7 @@ class PolicyEventRuleEdit extends Component {
 
     return (
       <div>
-        {policyRulePending ?
+        {policyRulePending && !policyRule.id ?
           <ActivityContainer id="policyRule-load" /> :
           <PolicyEventRuleForm
             editMode

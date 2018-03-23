@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardTitle, CardText } from 'react-md';
-import { LinearProgress } from 'components/ProgressIndicators';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import { Checkbox as CheckboxForm, SelectField, TextField } from 'components/ReduxFormFields';
 import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
+import Form from 'components/Form';
 import policyResourceTypes from '../../lists/policyResourceTypes';
 import policyOperators from '../../lists/policyOperators';
 
@@ -57,7 +58,7 @@ const PolicyLimitRuleForm = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRuleUpdatePending || policyRulePending}>
       {policyRule.id &&
         <Row gutter={5} center>
           <Col flex={10} xs={12} sm={12} md={12}>
@@ -100,7 +101,7 @@ const PolicyLimitRuleForm = (props) => {
               </Col>
             </Row>
           </ActionsToolbar>
-          {(policyRuleUpdatePending || policyRulePending) && <LinearProgress id="policyRule-form" style={{ zIndex: 999 }} />}
+          {(policyRuleUpdatePending || policyRulePending) && <ActivityContainer id="policyRule-form" />}
           <CardText>
             <Row gutter={5}>
               <Col flex={4} xs={12}>
@@ -191,7 +192,7 @@ const PolicyLimitRuleForm = (props) => {
           </CardText>
         </Col>
       </Row>
-    </form>
+    </Form>
   );
 };
 
