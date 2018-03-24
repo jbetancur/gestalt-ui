@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { truncate } from 'util/helpers/strings';
 
-const LinkName = styled(({ maxWidth, ...rest }) => <Link {...rest} />)`
+const Name = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   display: block;
   max-width: ${props => props.maxWidth};
-  color: ${props => props.theme.colors['$md-blue-500']};
+  color: ${props => props.theme.colors['$md-grey-800']};
   font-weight: bold;
-  font-size: 15px;
+  font-size: 14px;
   margin-bottom: 4px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -27,9 +25,9 @@ const Description = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   color: ${props => props.theme.colors['$md-grey-800']};
 `;
 
-const Name = ({ name, description, linkable, to, maxWidth }) => (
+const NameCell = ({ name, description, maxWidth }) => (
   <div>
-    {linkable ? <LinkName maxWidth={maxWidth} to={to}>{name}</LinkName> : <div>{truncate(name, 75)}</div>}
+    <Name maxWidth={maxWidth}>{name}</Name>
     {description &&
       <Description maxWidth={maxWidth}>
         {description}
@@ -37,20 +35,16 @@ const Name = ({ name, description, linkable, to, maxWidth }) => (
   </div>
 );
 
-Name.propTypes = {
+NameCell.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  linkable: PropTypes.bool,
-  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   maxWidth: PropTypes.string,
 };
 
-Name.defaultProps = {
+NameCell.defaultProps = {
   name: null,
   description: null,
-  linkable: false,
-  to: null,
   maxWidth: '300px',
 };
 
-export default withTheme(Name);
+export default withTheme(NameCell);

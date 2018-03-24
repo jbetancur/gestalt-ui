@@ -18,6 +18,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class ProviderListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     deleteProviders: PropTypes.func.isRequired,
     deleteProvider: PropTypes.func.isRequired,
@@ -79,6 +80,12 @@ class ProviderListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -86,8 +93,8 @@ class ProviderListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -108,8 +115,6 @@ class ProviderListing extends PureComponent {
           <Name
             name={row.name}
             description={row.description}
-            linkable
-            to={`${this.props.match.url}/${row.id}`}
             maxWidth="450px"
           />
         )
@@ -134,12 +139,14 @@ class ProviderListing extends PureComponent {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />,
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />,
       },
     ];
@@ -151,6 +158,7 @@ class ProviderListing extends PureComponent {
             title="Providers"
             data={this.props.providers}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -163,6 +171,7 @@ class ProviderListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no providers to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

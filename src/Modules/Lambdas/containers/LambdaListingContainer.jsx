@@ -18,6 +18,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class LambdaListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
     deleteLambdas: PropTypes.func.isRequired,
     deleteLambda: PropTypes.func.isRequired,
@@ -77,6 +78,12 @@ class LambdaListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -84,8 +91,8 @@ class LambdaListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <LambdaMenuActions
             row={row}
@@ -101,29 +108,40 @@ class LambdaListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Endpoints',
         selector: 'lambda.properties.apiEndpoints',
         compact: true,
+        ignoreRowClick: true,
         cell: row => <Endpoints endpoints={row.properties.apiEndpoints} />
       },
       {
         name: 'Runtime',
         selector: 'properties.runtime',
         sortable: true,
+        width: '200px',
       },
       {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
+        width: '200px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
+      },
+      {
+        name: 'Modified',
+        selector: 'modified.timestamp',
+        sortable: true,
+        width: '158px',
+        cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
 
@@ -134,6 +152,7 @@ class LambdaListing extends PureComponent {
             title="Lambdas"
             data={this.props.lambdas}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -148,6 +167,7 @@ class LambdaListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no lambdas to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

@@ -2,7 +2,7 @@
 
 exports[`(Component) A mounts the bubble prop 1`] = `
 .c0 {
-  font-size: 12px;
+  font-size: 13px;
   -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #eee;
@@ -10,7 +10,6 @@ exports[`(Component) A mounts the bubble prop 1`] = `
   padding-left: 4px;
   padding-right: 4px;
   font-weight: 400;
-  color: #0d47a1;
 }
 
 <a
@@ -21,7 +20,7 @@ exports[`(Component) A mounts the bubble prop 1`] = `
 
 exports[`(Component) A mounts without additional props 1`] = `
 .c0 {
-  font-size: 12px;
+  font-size: 13px;
   -webkit-text-decoration: none;
   text-decoration: none;
 }

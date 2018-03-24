@@ -291,7 +291,6 @@ class ContainerActions extends PureComponent {
             flat={inContainerView}
             disabled={!containerModel.properties.status}
             iconChildren={icon}
-            tooltipLabel={!inContainerView && 'Actions'}
             inkDisabled={inContainerView}
             menuItems={menuItems}
             listHeightRestricted={false}
