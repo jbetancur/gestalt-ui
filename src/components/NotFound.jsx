@@ -117,7 +117,7 @@ const NotFound = props => (
     <Row justifyContent="center">
       <Quotes>{`"${quote}"`}</Quotes>
     </Row>
-    <Row center fill>
+    <Row justifyContent="center" fill>
       <SVGWrapper>
         <RobotUprisingIcon />
       </SVGWrapper>
