@@ -16,6 +16,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class APIListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     apis: PropTypes.array.isRequired,
     deleteAPIs: PropTypes.func.isRequired,
     deleteAPI: PropTypes.func.isRequired,
@@ -73,6 +74,12 @@ class APIListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -80,8 +87,8 @@ class APIListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -98,23 +105,26 @@ class APIListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
+        width: '200px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
@@ -126,6 +136,7 @@ class APIListing extends PureComponent {
             title="APIs"
             data={this.props.apis}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -138,6 +149,7 @@ class APIListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no apis to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

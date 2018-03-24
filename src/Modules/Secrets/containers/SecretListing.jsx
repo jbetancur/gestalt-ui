@@ -16,6 +16,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class SecretListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     secrets: PropTypes.array.isRequired,
     deleteSecrets: PropTypes.func.isRequired,
     deleteSecret: PropTypes.func.isRequired,
@@ -73,6 +74,12 @@ class SecretListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -80,8 +87,8 @@ class SecretListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -98,28 +105,32 @@ class SecretListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Provider',
         selector: 'properties.provider.name',
         sortable: true,
+        width: '200px',
       },
       {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
+        width: '200px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
@@ -131,6 +142,7 @@ class SecretListing extends PureComponent {
             title="Secrets"
             data={this.props.secrets}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -143,6 +155,7 @@ class SecretListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no secrets to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

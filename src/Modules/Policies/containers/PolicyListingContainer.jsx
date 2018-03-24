@@ -16,6 +16,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class PolicyListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     policies: PropTypes.array.isRequired,
     deletePolicies: PropTypes.func.isRequired,
     deletePolicy: PropTypes.func.isRequired,
@@ -73,6 +74,12 @@ class PolicyListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -80,8 +87,8 @@ class PolicyListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -98,23 +105,34 @@ class PolicyListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name name={row.name} description={row.description} />
+      },
+      {
+        name: 'Rules',
+        selector: 'properties.rules',
+        sortable: true,
+        width: '42px',
+        number: true,
+        format: row => row.properties.rules.length,
       },
       {
         name: 'Owner',
         selector: 'owner.name',
+        width: '200px',
         sortable: true,
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
@@ -126,6 +144,7 @@ class PolicyListing extends PureComponent {
             title="Policies"
             data={this.props.policies}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -138,6 +157,7 @@ class PolicyListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no policies to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

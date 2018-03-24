@@ -18,6 +18,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class PolicyRuleListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     policyRules: PropTypes.array.isRequired,
     deletePolicyRules: PropTypes.func.isRequired,
     deletePolicyRule: PropTypes.func.isRequired,
@@ -75,6 +76,12 @@ class PolicyRuleListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(getBaseURL(match.params, row));
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -82,8 +89,8 @@ class PolicyRuleListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -101,12 +108,7 @@ class PolicyRuleListing extends PureComponent {
         sortable: true,
         compact: true,
         cell: row => (
-          <Name
-            name={row.name}
-            description={row.description}
-            linkable
-            to={getBaseURL(this.props.match.params, row)}
-          />
+          <Name name={row.name} description={row.description} />
         )
       },
       {
@@ -124,12 +126,14 @@ class PolicyRuleListing extends PureComponent {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
@@ -141,6 +145,7 @@ class PolicyRuleListing extends PureComponent {
             title="Policy Rules"
             data={this.props.policyRules}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -153,6 +158,7 @@ class PolicyRuleListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no rules to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

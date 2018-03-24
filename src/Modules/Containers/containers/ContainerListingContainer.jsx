@@ -67,11 +67,17 @@ class ContainerListing extends PureComponent {
     fetchContainers(match.params.fqon, entity.id, entity.key, isPolling);
   }
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <ContainerActions
             containerModel={row}
@@ -85,6 +91,7 @@ class ContainerListing extends PureComponent {
         selector: 'properties.status',
         sortable: true,
         width: '100px',
+        center: true,
         cell: row => <StatusBubble status={row.properties.status} />
       },
       {
@@ -92,11 +99,12 @@ class ContainerListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Endpoints',
         selector: 'properties.apiEndpoints',
+        ignoreRowClick: true,
         cell: row => <Endpoints endpoints={row.properties.apiEndpoints} />
       },
       {
@@ -106,23 +114,22 @@ class ContainerListing extends PureComponent {
         format: row => truncate(row.properties.provider.name, 30),
       },
       {
-        name: 'Platform',
-        selector: 'properties.provider.resource_type',
-        compact: true,
-        sortable: true,
-        center: true,
-        width: '42px',
-        cell: row => <ContainerIcon resourceType={getLastFromSplit(row.properties.provider.resource_type)} />
-      },
-      {
         name: 'Image',
         selector: 'properties.image',
         sortable: true,
         format: row => truncate(row.properties.image, 30),
       },
       {
+        name: 'Platform',
+        selector: 'properties.provider.resource_type',
+        sortable: true,
+        center: true,
+        width: '42px',
+        cell: row => <ContainerIcon resourceType={getLastFromSplit(row.properties.provider.resource_type)} />
+      },
+      {
         name: 'Instances',
-        selector: 'properties.image',
+        selector: 'properties.num_instances',
         sortable: true,
         number: true,
         width: '42px',
@@ -136,7 +143,7 @@ class ContainerListing extends PureComponent {
         width: '42px',
       },
       {
-        name: 'Mem',
+        name: 'Mem (MiB)',
         selector: 'properties.memory',
         sortable: true,
         number: true,
@@ -146,6 +153,7 @@ class ContainerListing extends PureComponent {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
     ];
@@ -158,12 +166,14 @@ class ContainerListing extends PureComponent {
             title="Containers"
             data={this.props.containers}
             highlightOnHover
+            pointerOnHover
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.containersPending}
             progressComponent={<LinearProgress id="container-listing" />}
             columns={columns}
             noDataComponent="There are no containers to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

@@ -16,6 +16,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class GroupListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     groups: PropTypes.array.isRequired,
     deleteGroups: PropTypes.func.isRequired,
     deleteGroup: PropTypes.func.isRequired,
@@ -73,6 +74,12 @@ class GroupListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -80,8 +87,8 @@ class GroupListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -99,23 +106,26 @@ class GroupListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
+        width: '200px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
@@ -127,6 +137,7 @@ class GroupListing extends PureComponent {
             title="Groups"
             data={this.props.groups}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -139,6 +150,7 @@ class GroupListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no groups to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

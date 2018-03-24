@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from 'components/Buttons';
 import A from 'components/A';
@@ -12,11 +12,11 @@ const CopyLink = styled(Button)`
   padding: 1px;
 
   i {
-    font-size: 16px!important;
+    font-size: 16px !important;
   }
 
   &:hover {
-    background: none!important;
+    background: none !important;
   }
 `;
 
@@ -40,7 +40,7 @@ const Endpoints = ({ endpoints }) => (
       >
         <CopyLink icon>content_copy</CopyLink>
       </CopyToClipboard>
-      <ALink href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer">
+      <ALink href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>
         <span>{removeHostFromURL(endpoint.properties.public_url)}</span>
       </ALink>
     </div>
@@ -55,4 +55,4 @@ Endpoints.defaultProps = {
   endpoints: [],
 };
 
-export default Endpoints;
+export default withTheme(Endpoints);

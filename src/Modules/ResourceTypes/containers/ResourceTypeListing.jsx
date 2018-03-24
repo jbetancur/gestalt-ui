@@ -14,6 +14,7 @@ import actions from '../actions';
 class ResourceTypeListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     resourceTypes: PropTypes.array.isRequired,
     deleteResourceType: PropTypes.func.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
@@ -52,6 +53,12 @@ class ResourceTypeListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(`${match.url}/${row.id}`);
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -59,8 +66,8 @@ class ResourceTypeListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -78,24 +85,28 @@ class ResourceTypeListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        cell: row => <Name maxWidth="500px" name={row.name} description={row.description} linkable to={`${this.props.match.url}/${row.id}`} />
+        cell: row => <Name maxWidth="500px" name={row.name} description={row.description} />
       },
       {
         name: 'Abstract',
         selector: 'properties.abstract',
         sortable: true,
+        center: true,
+        width: '42px',
         cell: row => <Checkbox inkDisabled defaultChecked={row.properties.abstract} disabled />
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
@@ -107,6 +118,7 @@ class ResourceTypeListing extends PureComponent {
             title="Resource Types"
             data={this.props.resourceTypes}
             highlightOnHover
+            pointerOnHover
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.resourceTypesPending}
@@ -116,6 +128,7 @@ class ResourceTypeListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no resource types to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

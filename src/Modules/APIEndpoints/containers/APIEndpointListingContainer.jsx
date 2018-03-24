@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
+import { Timestamp, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import StatusBubble from 'components/StatusBubble';
@@ -20,6 +20,7 @@ const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>inde
 class APIEndpointListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
     deleteAPIEndpoint: PropTypes.func.isRequired,
@@ -81,6 +82,12 @@ class APIEndpointListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
+  handleRowClicked = (row) => {
+    const { history, match } = this.props;
+
+    history.push(getBaseURL(match.params, row));
+  }
+
   render() {
     const contextActions = [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -88,8 +95,8 @@ class APIEndpointListing extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -110,15 +117,10 @@ class APIEndpointListing extends PureComponent {
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
-        name: 'Path',
-        selector: 'name',
-        sortable: true,
-        cell: row => <Name name={row.name} description={row.description} linkable to={getBaseURL(this.props.match.params, row)} />
-      },
-      {
         name: 'Public URL',
         selector: 'properties.public_url',
         sortable: true,
+        ignoreRowClick: true,
         cell: row => [
           <ClipboardButton
             key={`public-url-copy-${row.id}`}
@@ -130,6 +132,7 @@ class APIEndpointListing extends PureComponent {
             href={row.properties.public_url}
             target="_blank"
             rel="noopener noreferrer"
+            primary
           >
             {row.properties.public_url}
           </A>
@@ -139,11 +142,29 @@ class APIEndpointListing extends PureComponent {
         name: 'Type',
         selector: 'properties.implementation_type',
         sortable: true,
+        width: '103px',
+      },
+      {
+        name: 'Auth',
+        selector: 'properties.plugins.gestaltSecurity.enabled',
+        sortable: true,
+        center: true,
+        width: '42px',
+        cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
+      },
+      {
+        name: 'Limit (m)',
+        selector: 'properties.plugins.rateLimit.perMinute',
+        sortable: true,
+        number: true,
+        width: '42px',
+        format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
     ];
@@ -155,6 +176,7 @@ class APIEndpointListing extends PureComponent {
             title="Endpoints"
             data={this.props.apiEndpoints}
             highlightOnHover
+            pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
             selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
@@ -167,6 +189,7 @@ class APIEndpointListing extends PureComponent {
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent="There are no api endpoints to display"
+            onRowClicked={this.handleRowClicked}
           />
         </Col>
       </Row>

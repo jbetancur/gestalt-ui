@@ -37,7 +37,6 @@ class APIEndpointInlineList extends PureComponent {
 
     const columns = [
       {
-        name: 'Actions',
         width: '42px',
         cell: row => (
           <GenericMenuActions
@@ -56,12 +55,14 @@ class APIEndpointInlineList extends PureComponent {
         compact: true,
         sortable: true,
         width: '42px',
+        ignoreRowClick: true,
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
         name: 'Public URL',
         selector: 'properties.public_url',
         sortable: true,
+        ignoreRowClick: true,
         cell: row => [
           <ClipboardButton
             key={`public-url-copy-${row.id}`}
@@ -73,28 +74,33 @@ class APIEndpointInlineList extends PureComponent {
             href={row.properties.public_url}
             target="_blank"
             rel="noopener noreferrer"
+            primary
           >
             {row.properties.public_url}
           </A>
         ]
       },
       {
-        name: 'Rate Limit',
+        name: 'Limit (m)',
         selector: 'properties.plugins.rateLimit.perMinute',
         sortable: true,
         number: true,
+        width: '42px',
         format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
       },
       {
         name: 'Auth',
         selector: 'properties.plugins.gestaltSecurity.enabled',
         sortable: true,
+        center: true,
+        width: '42px',
         cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
+        width: '158px',
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
     ];
