@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'components/Navigation';
-import { LambdaIcon, ContainerIcon } from 'components/Icons';
+import { LambdaIcon, ContainerIcon, ProviderIcon, APIIcon, PolicyIcon, SecretIcon } from 'components/Icons';
 
 const renderNavItems = props => (
   [
@@ -22,28 +22,28 @@ const renderNavItems = props => (
     />,
     <NavItem
       key="environment--apis"
-      icon="device_hub"
+      icon={<APIIcon />}
       title="APIs"
       to={`${props.match.url}/apis`}
       activeClassName="active-link"
     />,
     <NavItem
       key="environment--policies"
-      icon="verified_user"
+      icon={<PolicyIcon />}
       title="Policies"
       to={`${props.match.url}/policies`}
       activeClassName="active-link"
     />,
     <NavItem
       key="environment--providers"
-      icon="settings_applications"
+      icon={<ProviderIcon />}
       title="Providers"
       to={`${props.match.url}/providers`}
       activeClassName="active-link"
     />,
     <NavItem
       key="environment--secrets"
-      icon="lock"
+      icon={<SecretIcon />}
       title="Secrets"
       to={`${props.match.url}/secrets`}
       activeClassName="active-link"

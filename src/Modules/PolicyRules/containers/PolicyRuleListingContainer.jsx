@@ -7,6 +7,7 @@ import { Col, Row } from 'react-flexybox';
 import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
+import { Title } from 'components/Typography';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -157,7 +158,7 @@ class PolicyRuleListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent="There are no rules to display"
+            noDataComponent={<Title>There are no rules to display</Title>}
             onRowClicked={this.handleRowClicked}
           />
         </Col>

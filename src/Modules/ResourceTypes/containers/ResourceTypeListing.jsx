@@ -4,9 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
+import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
+import { MetamodelIcon } from 'components/Icons';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from '../actions';
@@ -127,7 +128,7 @@ class ResourceTypeListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent="There are no resource types to display"
+            noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
           />
         </Col>

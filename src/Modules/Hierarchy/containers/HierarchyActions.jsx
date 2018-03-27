@@ -9,7 +9,7 @@ import { translate } from 'react-i18next';
 import { ListItem, FontIcon, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
-import { MetamodelIcon, ServiceIcon } from 'components/Icons';
+import { MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon } from 'components/Icons';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -57,7 +57,7 @@ class HierarchyActions extends PureComponent {
         key="orgs-settings-menu--provider-create"
         primaryText={<span>{t('providers.actions.create')}</span>}
         component={Link}
-        leftIcon={<FontIcon>settings_applications</FontIcon>}
+        leftIcon={<ProviderIcon />}
         to={`/${organizationSet.properties.fqon}/providers/create`}
         style={listItemStyle}
       />,
@@ -67,7 +67,7 @@ class HierarchyActions extends PureComponent {
           key="orgs-settings-menu--users-create"
           primaryText={<span>{t('users.actions.create')}</span>}
           component={Link}
-          leftIcon={<FontIcon>person</FontIcon>}
+          leftIcon={<UserIcon />}
           to={`/${organizationSet.properties.fqon}/users/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--users-create" />,
@@ -77,7 +77,7 @@ class HierarchyActions extends PureComponent {
           key="orgs-settings-menu--groups-create"
           primaryText={<span>{t('groups.actions.create')}</span>}
           component={Link}
-          leftIcon={<FontIcon>group</FontIcon>}
+          leftIcon={<GroupIcon />}
           to={`/${organizationSet.properties.fqon}/groups/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--groups-create" />,

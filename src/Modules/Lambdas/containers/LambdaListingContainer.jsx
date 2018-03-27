@@ -4,13 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, Endpoints } from 'components/TableCells';
+import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
+import { LambdaIcon } from 'components/Icons';
 import LambdaMenuActions from '../components/LambdaMenuActions';
-// import LambdaExpanderRow from '../components/LambdaExpanderRow';
+// import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -166,7 +167,7 @@ class LambdaListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent="There are no lambdas to display"
+            noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
           />
         </Col>

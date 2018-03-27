@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'components/Navigation';
+import { ProviderIcon } from 'components/Icons';
 
 const renderNavItems = props => (
   [
@@ -14,7 +15,7 @@ const renderNavItems = props => (
     <NavItem
       key="workspace--providers"
       title="Providers"
-      icon="settings_applications"
+      icon={<ProviderIcon />}
       to={`${props.match.url}/providers`}
       activeClassName="active-link"
     />,

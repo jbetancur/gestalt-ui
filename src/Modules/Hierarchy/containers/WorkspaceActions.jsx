@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
+import { ProviderIcon } from 'components/Icons';
 import { ListItem, FontIcon, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
@@ -43,7 +44,7 @@ class WorkspaceActions extends PureComponent {
         key="workspace-settings-menu--provider-create"
         primaryText="Provider"
         component={Link}
-        leftIcon={<FontIcon>settings_applications</FontIcon>}
+        leftIcon={<ProviderIcon />}
         to={`${match.url}/createProvider`}
         style={listItemStyle}
       />

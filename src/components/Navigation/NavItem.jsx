@@ -14,7 +14,7 @@ const EnhancedListItem = styled(NavLink)`
   cursor: pointer;
 
   &.active-link * {
-    color:  ${props => props.theme.colors['$md-blue-500']}!important;
+    color: ${props => props.theme.colors['$md-blue-500']} !important;
   }
 `;
 
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 
 const Text = styled.div`
   color: ${props => props.theme.colors['$md-grey-900']};
-  font-size: .7em;
+  font-size: 0.7em;
   margin-top: 6px;
   padding-bottom: 1em;
   text-align: center;
@@ -34,7 +34,7 @@ const Text = styled.div`
 `;
 
 const Icon = styled(FontIcon)`
-  font-size: 24px!important;
+  font-size: 24px !important;
 
   svg {
     height: 24px;

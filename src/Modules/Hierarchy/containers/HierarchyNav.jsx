@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { Navbar, NavItem } from 'components/Navigation';
-import { HierarchyIcon, MetamodelIcon, ServiceIcon } from 'components/Icons';
+import { HierarchyIcon, MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon } from 'components/Icons';
 import withApp from 'App/withApp';
 
 const renderNavItems = (showOnRootOnly, t, props) => (
@@ -19,14 +19,14 @@ const renderNavItems = (showOnRootOnly, t, props) => (
     <NavItem
       key="hierarchy--providers"
       title={t('providers.title')}
-      icon="settings_applications"
+      icon={<ProviderIcon />}
       to={`/${props.match.params.fqon}/providers`}
       activeClassName="active-link"
     />,
     <NavItem
       key="hierarchy--users"
       title={t('users.title')}
-      icon="person"
+      icon={<UserIcon />}
       to={`/${props.match.params.fqon}/users`}
       activeClassName="active-link"
       isVisible={showOnRootOnly}
@@ -34,7 +34,7 @@ const renderNavItems = (showOnRootOnly, t, props) => (
     <NavItem
       key="hierarchy--users"
       title={t('groups.title')}
-      icon="group"
+      icon={<GroupIcon />}
       to={`/${props.match.params.fqon}/groups`}
       activeClassName="active-link"
       isVisible={showOnRootOnly}
@@ -56,7 +56,7 @@ const renderNavItems = (showOnRootOnly, t, props) => (
     />,
     <NavItem
       key="hierarchy--servicemodeler"
-      icon={<ServiceIcon size={28} />}
+      icon={<ServiceIcon size={24} />}
       title={<div><div>Service</div><div>Specs</div></div>}
       to={`/${props.match.params.fqon}/servicespecs`}
       activeClassName="active-link"

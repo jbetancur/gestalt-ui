@@ -4,9 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
+import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
+import { PolicyIcon } from 'components/Icons';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from '../actions';
@@ -156,7 +157,7 @@ class PolicyListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent="There are no policies to display"
+            noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
           />
         </Col>
