@@ -12,10 +12,9 @@ const fixInputNumber = value => value && parseInt(value, 10);
 const initialValues = {
   protocol: 'tcp',
   expose_endpoint: true,
-  service_port: 0,
 };
 
-const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
+const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }) => (
   <FieldContainer>
     <FieldItem>
       <Button
@@ -29,6 +28,11 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
     </FieldItem>
     {fields.map((member, index) => {
       const field = portMappingFormValues[index];
+      const handleLBPort = (dummy, value) => {
+        if (field.expose_endpoint) {
+          change(`${member}.lb_port`, value);
+        }
+      };
 
       return (
         <FieldItem key={`portmapping-${member}`}>
@@ -63,20 +67,20 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues }) => (
                   component={TextField}
                   required
                   normalize={fixInputNumber}
+                  onChange={handleLBPort}
                 />
               </Col>}
             {field.expose_endpoint &&
               <Col flex={2} xs={12} sm={12}>
                 <Field
-                  name={`${member}.service_port`}
+                  name={`${member}.lb_port`}
                   type="number"
                   min={0}
                   max={65535}
-                  label="Service Port"
+                  label="Load Balancer Port"
                   component={TextField}
                   required
                   normalize={fixInputNumber}
-                  helpText="0=auto-assign"
                 />
               </Col>}
             <Col flex={1} xs={12} sm={12} md={2}>
@@ -112,6 +116,7 @@ PortMappingsForm.propTypes = {
   fields: PropTypes.object.isRequired,
   networkType: PropTypes.string.isRequired,
   portMappingFormValues: PropTypes.array.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 export default PortMappingsForm;

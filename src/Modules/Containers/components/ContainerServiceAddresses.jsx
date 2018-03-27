@@ -1,51 +1,52 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow } from 'components/Tables';
+import DataTable from 'react-data-table-component';
+import { FontIcon } from 'react-md';
 
-class ContainerServiceAddresses extends PureComponent {
-  static propTypes = {
-    portMappings: PropTypes.array,
-  };
+const ContainerServiceAddresses = ({ portMappings }) => {
+  const columns = [
+    {
+      name: 'Port Name',
+      selector: 'name',
+      sortable: true,
+    },
+    {
+      name: 'Service Address',
+      selector: 'service_address.host',
+      sortable: true,
+      grow: 4,
+    },
+    {
+      name: 'Port',
+      selector: 'lb_port',
+      sortable: true,
+      number: true,
+    },
+    {
+      name: 'Protocol',
+      selector: 'service_address.protocol',
+      sortable: true,
+      format: row => row.service_address && row.service_address.protocol.toUpperCase(),
+    },
+  ];
 
-  static defaultProps = {
-    portMappings: [],
-  };
+  return (
+    <DataTable
+      data={portMappings.filter(p => p.service_address)}
+      columns={columns}
+      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      defaultSortField="name"
+      noHeader
+    />
+  );
+};
 
-  renderServiceAddressesRows() {
-    const { portMappings } = this.props;
+ContainerServiceAddresses.propTypes = {
+  portMappings: PropTypes.array,
+};
 
-    return portMappings.map((port, i) => (
-      port.service_address &&
-      <TableRow key={i}>
-        <TableColumn>
-          {port.service_address.host}
-        </TableColumn>
-        <TableColumn>
-          {port.service_address.port === 0 ? 'auto' : port.service_address.port}
-        </TableColumn>
-        <TableColumn>
-          {port.service_address.protocol}
-        </TableColumn>
-      </TableRow>
-    ));
-  }
-
-  render() {
-    return (
-      <DataTable plain>
-        <TableHeader>
-          <TableRow>
-            <TableColumn>Host</TableColumn>
-            <TableColumn>Service Port</TableColumn>
-            <TableColumn>Protocol</TableColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {this.renderServiceAddressesRows()}
-        </TableBody>
-      </DataTable>
-    );
-  }
-}
+ContainerServiceAddresses.defaultProps = {
+  portMappings: [],
+};
 
 export default ContainerServiceAddresses;

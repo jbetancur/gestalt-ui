@@ -99,23 +99,18 @@ export default (values) => {
         portMappingErrors[index] = portMapError;
       }
 
+      if (!port || !port.lb_port) {
+        portMapError.lb_port = 'required';
+        portMappingErrors[index] = portMapError;
+      }
+
+      if (port.lb_port > 65536) {
+        portMapError.lb_port = 'must be between 0-65536';
+        portMappingErrors[index] = portMapError;
+      }
+
       if (!port || !port.container_port) {
         portMapError.container_port = 'required';
-        portMappingErrors[index] = portMapError;
-      }
-
-      if (!port.service_port && !Number.isInteger(port.service_port)) {
-        portMapError.service_port = 'required';
-        portMappingErrors[index] = portMapError;
-      }
-
-      if (port.service_port < 0) {
-        portMapError.service_port = 'cannot be negative';
-        portMappingErrors[index] = portMapError;
-      }
-
-      if (port.service_port > 65536) {
-        portMapError.service_port = 'must be between 0-65536';
         portMappingErrors[index] = portMapError;
       }
 

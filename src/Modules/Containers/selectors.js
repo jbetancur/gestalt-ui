@@ -32,16 +32,6 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
   return newcheck;
 });
 
-const fixPortMappings = (mappings = []) => mappings.map((mapping) => {
-  const newMapping = Object.assign({}, mapping);
-  if (!newMapping.type) {
-    if (newMapping.expose_endpoint && !('service_port' in newMapping)) {
-      newMapping.service_port = 0; // set it to auto/default if missing
-    }
-  }
-  return newMapping;
-});
-
 export const getCreateContainerModel = createSelector(
   [selectEnv],
   (env) => {
@@ -66,7 +56,7 @@ export const getEditContainerModel = createSelector(
         labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
-        port_mappings: fixPortMappings(container.properties.port_mappings),
+        port_mappings: container.properties.port_mappings,
         secrets: container.properties.secrets,
       },
     };
@@ -86,7 +76,7 @@ export const getEditContainerModelAsSpec = createSelector(
         labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
-        port_mappings: fixPortMappings(container.properties.port_mappings),
+        port_mappings: container.properties.port_mappings,
         secrets: container.properties.secrets
       },
     };
