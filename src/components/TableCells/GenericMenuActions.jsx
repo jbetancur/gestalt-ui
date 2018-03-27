@@ -70,7 +70,7 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
 GenericMenuActions.propTypes = {
   row: PropTypes.object,
   fqon: PropTypes.string.isRequired,
-  editURL: PropTypes.string.isRequired,
+  editURL: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object.isRequired,
   entityKey: PropTypes.string.isRequired,
@@ -80,6 +80,7 @@ GenericMenuActions.propTypes = {
 GenericMenuActions.defaultProps = {
   row: {},
   disableEntitlements: false,
+  editURL: null,
 };
 
 export default withEntitlements(GenericMenuActions);

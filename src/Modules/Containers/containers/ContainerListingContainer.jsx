@@ -16,6 +16,7 @@ import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
 import ContainerIcon from '../components/ContainerIcon';
 import ActionsModals from '../ActionModals';
+// import ContainerListingExpandable from '../components/ContainerListingExpandable';
 
 class ContainerListing extends PureComponent {
   static propTypes = {
@@ -178,6 +179,8 @@ class ContainerListing extends PureComponent {
             columns={columns}
             noDataComponent="There are no containers to display"
             onRowClicked={this.handleRowClicked}
+            // expandableRows
+            // expandableRowsComponent={<ContainerListingExpandable />}
           />
         </Col>
       </Row>

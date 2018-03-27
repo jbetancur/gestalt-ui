@@ -174,6 +174,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                             instances={props.containerInstances}
                             providerType={providerType}
                             containerModel={container}
+                            fqon={match.params.fqon}
                           />
                         </Panel>
                       </Col>}
