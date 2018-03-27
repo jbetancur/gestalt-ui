@@ -30,7 +30,7 @@ import HealthChecksForm from '../components/HealthChecksForm';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 
-const ContainerForm = ({ match, values, container, containerPending, editMode, inlineMode, ...props }) => {
+const ContainerForm = ({ match, values, container, containerPending, editMode, inlineMode, change, ...props }) => {
   const selectedProvider = metaModels.provider.get(props.providersByType
     .find(provider => values.properties.provider.id === provider.id));
 
@@ -323,6 +323,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                             component={PortMappingsForm}
                             networkType={values.properties.network}
                             portMappingFormValues={values.properties.port_mappings}
+                            change={change}
                           />
                         </Panel>}
                       </Panel>
@@ -491,6 +492,7 @@ ContainerForm.propTypes = {
   containerInstances: PropTypes.array,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
   secretsDropDown: PropTypes.array.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 ContainerForm.defaultProps = {
