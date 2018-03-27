@@ -14,7 +14,6 @@ const ContainerServiceAddresses = ({ portMappings }) => {
       name: 'Service Address',
       selector: 'service_address.host',
       sortable: true,
-      grow: 4,
     },
     {
       name: 'Port',

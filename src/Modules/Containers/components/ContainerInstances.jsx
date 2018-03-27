@@ -1,76 +1,77 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
-import { Button } from 'components/Buttons';
-import { DataTable, TableHeader, TableBody, TableColumn, TableRow, TableColumnTimestamp } from 'components/Tables';
+import { Link } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
+import { Timestamp } from 'components/TableCells';
+import { FontIcon, Button } from 'react-md';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-class ContainerInstances extends PureComponent {
-  static propTypes = {
-    instances: PropTypes.array,
-    containerModel: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
-  };
+const ContainerInstances = ({ instances, containerModel, fqon }) => {
+  const columns = [
+    {
+      ignoreRowClick: true,
+      compact: true,
+      cell: row => (
+        <Button
+          flat
+          primary
+          to={{
+            pathname: '/logs',
+            search: `?name=${containerModel.name} - ${row.host}&fqon=${fqon}&providerId=${containerModel.properties.provider.id}&providerType=${getLastFromSplit(containerModel.properties.provider.resource_type)}&logType=container&logId=${row.id}`
+          }}
+          target="_blank"
+          component={Link}
+        >
+          View Log
+        </Button>
+      ),
+    },
+    {
+      name: 'Container IPs',
+      selector: 'ipAddresses',
+      number: true,
+      cell: row => row.ipAddresses && row.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)
+    },
+    {
+      name: 'Host',
+      selector: 'host',
+      sortable: true,
+      number: true,
+    },
+    {
+      name: 'Host Port',
+      number: true,
+      cell: row => row.ports && row.ports.map((port, idx) => <div key={idx}>{port}</div>)
+    },
+    {
+      name: 'Started',
+      selector: 'startedAt',
+      sortable: true,
+      width: '158px',
+      cell: row => <Timestamp timestamp={row.startedAt} />
+    },
+  ];
 
-  static defaultProps = {
-    providerType: '',
-    instances: [],
-  };
+  return (
+    <DataTable
+      data={instances}
+      columns={columns}
+      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      defaultSortField="startedAt"
+      noHeader
+    />
+  );
+};
 
-  renderInstancesRows() {
-    const { match, instances, containerModel } = this.props;
+ContainerInstances.propTypes = {
+  instances: PropTypes.array,
+  containerModel: PropTypes.object.isRequired,
+  fqon: PropTypes.object.isRequired,
+};
 
-    return instances.map((item, i) => (
-      <TableRow key={i}>
-        <TableColumn>
-          <Button
-            flat
-            primary
-            to={{
-              pathname: '/logs',
-              search: `?name=${containerModel.name} - ${item.host}&fqon=${match.params.fqon}&providerId=${containerModel.properties.provider.id}&providerType=${getLastFromSplit(containerModel.properties.provider.resource_type)}&logType=container&logId=${item.id}`
-            }}
-            target="_blank"
-            component={Link}
-          >
-            View Log
-          </Button>
-        </TableColumn>
-        <TableColumn>
-          {item.ipAddresses && item.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)}
-        </TableColumn>
-        <TableColumn>{item.host}</TableColumn>
-        <TableColumn>
-          {/* TODO: <a rel="noopener noreferrer" target="_blank" href={`http://${item.host}:${port}`}>{port}</a> */}
-          {item.ports && item.ports.map((port, idx) => <div key={idx}>{port}</div>)}
-        </TableColumn>
-        <TableColumnTimestamp timestamp={item.startedAt} />
-      </TableRow>
-    ));
-  }
+ContainerInstances.defaultProps = {
+  instances: [],
+};
 
-  renderInstancesTable() {
-    return (
-      <DataTable plain>
-        <TableHeader>
-          <TableRow>
-            <TableColumn />
-            <TableColumn>Container IPs</TableColumn>
-            <TableColumn>Host IP</TableColumn>
-            <TableColumn>Host Port</TableColumn>
-            <TableColumn>Started</TableColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {this.renderInstancesRows()}
-        </TableBody>
-      </DataTable>
-    );
-  }
+export default ContainerInstances;
 
-  render() {
-    return (this.props.instances && Object.keys(this.props.instances).length) ? this.renderInstancesTable() : null;
-  }
-}
-
-export default withRouter(ContainerInstances);
