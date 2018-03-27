@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withEntitlements } from 'Modules/Entitlements';
-import { ListItem, FontIcon, MenuButton } from 'react-md';
-import { LambdaIcon, ContainerIcon } from 'components/Icons';
+import { ListItem, MenuButton } from 'react-md';
+import { LambdaIcon, ContainerIcon, APIIcon, PolicyIcon, ProviderIcon, SecretIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -30,8 +30,8 @@ class EnvironmentActions extends PureComponent {
 
     const menuItems = [
       <ListItem
-        id="workspace-settings-menu--container-create"
-        key="workspace-settings-menu--container-create"
+        id="environment-settings-menu--container-create"
+        key="environment-settings-menu--container-create"
         primaryText="Container"
         component={Link}
         leftIcon={<ContainerIcon />}
@@ -39,8 +39,8 @@ class EnvironmentActions extends PureComponent {
         style={listItemStyle}
       />,
       <ListItem
-        id="workspace-settings-menu--lambda-create"
-        key="workspace-settings-menu--lambda-create"
+        id="environment-settings-menu--lambda-create"
+        key="environment-settings-menu--lambda-create"
         primaryText="Lambda"
         component={Link}
         leftIcon={<LambdaIcon />}
@@ -52,7 +52,7 @@ class EnvironmentActions extends PureComponent {
         key="environment-settings-menu--apis-create"
         primaryText="API"
         component={Link}
-        leftIcon={<FontIcon>device_hub</FontIcon>}
+        leftIcon={<APIIcon />}
         to={`${match.url}/apis/create`}
         style={listItemStyle}
       />,
@@ -61,7 +61,7 @@ class EnvironmentActions extends PureComponent {
         key="environment-settings-menu--policies-create"
         primaryText="Policy"
         component={Link}
-        leftIcon={<FontIcon>verified_user</FontIcon>}
+        leftIcon={<PolicyIcon />}
         to={`${match.url}/policies/create`}
         style={listItemStyle}
       />,
@@ -70,7 +70,7 @@ class EnvironmentActions extends PureComponent {
         key="environment-settings-menu--provider-create"
         primaryText="Provider"
         component={Link}
-        leftIcon={<FontIcon>settings_applications</FontIcon>}
+        leftIcon={<ProviderIcon />}
         to={`${match.url}/providers/create`}
         style={listItemStyle}
       />,
@@ -79,7 +79,7 @@ class EnvironmentActions extends PureComponent {
         key="environment-settings-menu--secret-create"
         primaryText="Secret"
         component={Link}
-        leftIcon={<FontIcon>lock</FontIcon>}
+        leftIcon={<SecretIcon />}
         to={`${match.url}/secrets/create`}
         style={listItemStyle}
       />

@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { FontIcon } from 'react-md';
-import { LambdaIcon, ContainerIcon } from 'components/Icons';
+import { LambdaIcon, ContainerIcon, APIIcon, SecretIcon, PolicyIcon } from 'components/Icons';
 import HomeCard from '../components/HomeCard';
 // import { DOCUMENTATION_URL } from '../../../constants';
 
@@ -45,7 +44,7 @@ class EnvironmentHome extends PureComponent {
         <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="Policies"
-            icon={<FontIcon style={{ fontSize: '42px' }}>verified_user</FontIcon>}
+            icon={<PolicyIcon size={42} />}
             iconColor="green"
             iconGradient="500"
             createURL={`${this.props.match.url}/policies/create`}
@@ -59,7 +58,7 @@ class EnvironmentHome extends PureComponent {
         <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="APIs"
-            icon={<FontIcon style={{ fontSize: '42px' }}>share</FontIcon>}
+            icon={<APIIcon size={42} />}
             iconColor="blue-grey"
             iconGradient="500"
             createURL={`${this.props.match.url}/apis/create`}
@@ -72,7 +71,7 @@ class EnvironmentHome extends PureComponent {
         <Col flex={5} xs={25} sm={20} md={10}>
           <HomeCard
             title="Secrets"
-            icon={<FontIcon style={{ fontSize: '42px' }}>lock</FontIcon>}
+            icon={<SecretIcon size={42} />}
             iconColor="indigo"
             iconGradient="500"
             createURL={`${this.props.match.url}/secrets/create`}

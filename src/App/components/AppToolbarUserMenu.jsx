@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
 import { FontIcon, MenuButton, ListItem, Divider, Avatar } from 'react-md';
-import { USEnglishLangIcon } from 'components/Icons';
+import { USEnglishLangIcon, UserIcon } from 'components/Icons';
 
 const AppToolbarUserMenu = (props) => {
   const { self, browser, t, onLogout, } = props;
@@ -47,7 +47,7 @@ const AppToolbarUserMenu = (props) => {
       id="main--user--menu"
       flat={browser.greaterThan.xs}
       icon={browser.lessThan.sm}
-      iconChildren={browser.lessThan.sm ? 'person' : 'expand_more'}
+      iconChildren={browser.lessThan.sm ? <UserIcon /> : 'expand_more'}
       position={browser.lessThan.sm ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
       iconBefore={false}
       menuItems={menuItems}

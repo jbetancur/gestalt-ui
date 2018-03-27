@@ -7,10 +7,11 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, Endpoints } from 'components/TableCells';
+import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { Card, FontIcon } from 'react-md';
 import StatusBubble from 'components/StatusBubble';
+import { ContainerIcon as CIcon } from 'components/Icons';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
@@ -177,7 +178,7 @@ class ContainerListing extends PureComponent {
             progressPending={this.props.containersPending}
             progressComponent={<LinearProgress id="container-listing" />}
             columns={columns}
-            noDataComponent="There are no containers to display"
+            noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             // expandableRows
             // expandableRowsComponent={<ContainerListingExpandable />}

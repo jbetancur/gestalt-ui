@@ -8,6 +8,7 @@ import { Timestamp, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import StatusBubble from 'components/StatusBubble';
+import { Title } from 'components/Typography';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import A from 'components/A';
@@ -188,7 +189,7 @@ class APIEndpointListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent="There are no api endpoints to display"
+            noDataComponent={<Title>There are no endpoints to display</Title>}
             onRowClicked={this.handleRowClicked}
           />
         </Col>

@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Button, FontIcon, Checkbox } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
+import { Title } from 'components/Typography';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Timestamp, GenericMenuActions } from 'components/TableCells';
@@ -128,7 +129,7 @@ class APIEndpointInlineList extends PureComponent {
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
               columns={columns}
-              noDataComponent="There are no api endpoints to display"
+              noDataComponent={<Title>There are no endpoints to display</Title>}
             />
           </Col>
         </Row>

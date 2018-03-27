@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
+import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
+import { ProviderIcon } from 'components/Icons';
 import { Card, Checkbox, FontIcon } from 'react-md';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -170,7 +171,7 @@ class ProviderListing extends PureComponent {
             contextActions={contextActions}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent="There are no providers to display"
+            noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
           />
         </Col>

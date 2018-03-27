@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
-import FontIcon from 'react-md/lib/FontIcons';
 import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
 import { DotActivity } from 'components/ProgressIndicators';
 import { H3 } from 'components/Typography';
+import { UserIcon, GroupIcon } from 'components/Icons';
 import SearchFields from '../components/SearchFields';
 import EntitlementTree from '../components/EntitlementTree';
 import actions from './../actions';
@@ -96,8 +96,7 @@ class EntitlementListing extends PureComponent {
     const isUserQuery = this.state.selectedSearchFieldValue === 'users';
     const searchLabel = isUserQuery ? 'Search username' : 'Search group name';
     const searchField = isUserQuery ? 'username' : 'name';
-    const identityTypeIcon =
-      <FontIcon style={{ fontSize: '24px' }}>{this.state.selectedIdentityType === USER ? 'person' : 'group'}</FontIcon>;
+    const identityTypeIcon = this.state.selectedIdentityType === USER ? <UserIcon size={24} /> : <GroupIcon size={24} />;
 
     return (
       <Row>
