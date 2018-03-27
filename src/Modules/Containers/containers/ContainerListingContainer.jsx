@@ -78,6 +78,7 @@ class ContainerListing extends PureComponent {
       {
         width: '42px',
         ignoreRowClick: true,
+        compact: true,
         cell: row => (
           <ContainerActions
             containerModel={row}
@@ -92,13 +93,13 @@ class ContainerListing extends PureComponent {
         sortable: true,
         width: '100px',
         center: true,
+        compact: true,
         cell: row => <StatusBubble status={row.properties.status} />
       },
       {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        compact: true,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
@@ -111,13 +112,14 @@ class ContainerListing extends PureComponent {
         name: 'Provider',
         selector: 'properties.provider.name',
         sortable: true,
+        width: '158px',
         format: row => truncate(row.properties.provider.name, 30),
       },
       {
         name: 'Image',
         selector: 'properties.image',
         sortable: true,
-        format: row => truncate(row.properties.image, 30),
+        format: row => truncate(row.properties.image, 25),
       },
       {
         name: 'Platform',
@@ -125,6 +127,7 @@ class ContainerListing extends PureComponent {
         sortable: true,
         center: true,
         width: '42px',
+        compact: true,
         cell: row => <ContainerIcon resourceType={getLastFromSplit(row.properties.provider.resource_type)} />
       },
       {
@@ -140,6 +143,7 @@ class ContainerListing extends PureComponent {
         selector: 'properties.cpus',
         sortable: true,
         number: true,
+        compact: true,
         width: '42px',
       },
       {
