@@ -62,7 +62,7 @@ class APIEndpointListing extends PureComponent {
 
 
   deleteMultiple = () => {
-    const { match, deleteAPIEndpoints, fetchAPIEndpoints } = this.props;
+    const { match, deleteAPIEndpoints } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => item.id);
@@ -70,7 +70,7 @@ class APIEndpointListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: true });
-      fetchAPIEndpoints(match.params.fqon, match.params.environmentId);
+      this.populalateEndpoints();
     };
 
     this.props.confirmDelete(() => {
