@@ -1,28 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme, css } from 'styled-components';
-import { Button } from 'components/Buttons';
+import { Button } from 'react-md';
 import { media } from 'util/helpers/media';
 
 const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {...rest} />) `
   color: ${props => props.theme.colors['$md-red-500']};
-
   ${props => props.absoluteTopRight && css`
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: 2px;
   `};
-
   ${() => media.xs`
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: 2px;
   `};
-
   ${() => media.sm`
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: 2px;
   `};
 `;
 

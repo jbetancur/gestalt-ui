@@ -1,11 +1,12 @@
 import styled, { withTheme } from 'styled-components';
+import { media } from 'util/helpers/media';
 
 const LI = styled.li`
   position: relative;
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 16px;
-  padding-right: 16px;
+  padding-right: 8px;
 
   &:nth-child(odd) {
     background-color: ${props => props.theme.colors['$md-grey-100']};
@@ -25,6 +26,12 @@ const LI = styled.li`
   &:nth-child(n+2) {
     display: flex;
     align-items: center;
+    ${() => media.xs || media.xs`
+      padding-top: 32px;
+    `};
+    ${() => media.sm`
+      padding-top: 32px;
+    `};
   }
 
   &:nth-child(n+3) {

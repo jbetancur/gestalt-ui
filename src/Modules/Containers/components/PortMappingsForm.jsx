@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import networkProtocols from '../lists/networkProtocols';
 import { portMappingServiceNameMaxLen } from '../validations';
 
@@ -17,14 +16,7 @@ const initialValues = {
 const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }) => (
   <FieldContainer>
     <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={() => fields.push(initialValues)}
-      >
-        Service Mapping
-      </Button>
+      <AddButton label="Add Mapping" onAddItem={() => fields.push(initialValues)} />
     </FieldItem>
     {fields.map((member, index) => {
       const field = portMappingFormValues[index];
