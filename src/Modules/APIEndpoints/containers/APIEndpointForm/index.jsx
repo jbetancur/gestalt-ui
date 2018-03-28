@@ -13,6 +13,7 @@ import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
 import Fieldset from 'components/Fieldset';
 import Form from 'components/Form';
+import A from 'components/A';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../../components/RateLimit';
 import Security from '../../components/Security';
@@ -77,7 +78,7 @@ const APIEndpointForm = (props) => {
         </Row>}
       <Row gutter={5} center>
         <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-          <CardTitle title={title} />
+          <CardTitle title={title} subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null} />
           <ActionsToolbar>
             <Row>
               <Col flex={12}>
