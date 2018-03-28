@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
+import { Checkbox } from 'react-md';
 
 const EntitlementCheckBox = (props) => {
   const handleCheck = () => props.onChange(props.model);

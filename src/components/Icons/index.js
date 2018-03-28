@@ -18,3 +18,7 @@ export { default as ProviderIcon } from './ProviderIcon';
 export { default as SecretIcon } from './SecretIcon';
 export { default as UserIcon } from './UserIcon';
 export { default as GroupIcon } from './GroupIcon';
+export { default as EntitlementIcon } from './EntitlementIcon';
+export { default as EnvironmentIcon } from './EnvironmentIcon';
+export { default as OrganizationIcon } from './OrganizationIcon';
+export { default as WorkspaceIcon } from './WorkspaceIcon';

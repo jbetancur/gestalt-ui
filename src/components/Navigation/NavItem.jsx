@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
-import { FontIcon } from 'react-md';
 
 const EnhancedListItem = styled(NavLink)`
   height: 56px;
@@ -33,26 +32,17 @@ const Text = styled.div`
   text-transform: uppercase;
 `;
 
-const Icon = styled(FontIcon)`
-  font-size: 24px !important;
-
-  svg {
-    height: 24px;
-    width: 24px;
-  }
-`;
-
 const NavItem = ({ icon, title, isVisible, ...rest }) => (
   isVisible ? <EnhancedListItem {...rest}>
     <Wrapper>
-      <Icon>{icon}</Icon>
+      <div>{icon}</div>
       <Text>{title}</Text>
     </Wrapper>
   </EnhancedListItem> : null
 );
 
 NavItem.propTypes = {
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  icon: PropTypes.object.isRequired,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   isVisible: PropTypes.bool,
 };

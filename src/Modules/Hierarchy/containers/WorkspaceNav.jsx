@@ -1,14 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'components/Navigation';
-import { ProviderIcon } from 'components/Icons';
+import { ProviderIcon, EnvironmentIcon } from 'components/Icons';
 
 const renderNavItems = props => (
   [
     <NavItem
       key="workspace--environments"
       title="Environments"
-      icon="folder"
+      icon={<EnvironmentIcon />}
       to={`${props.match.url}/environments`}
       activeClassName="active-link"
     />,

@@ -1,31 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import FontIcon from 'react-md/lib/FontIcons';
 
 const Title = styled.div`
   position: absolute;
-  margin-left: .5em;
-  margin-top: -.1em;
+  margin-left: 0.5em;
+  margin-top: -0.1em;
   display: inline-block;
 `;
 
-
 const ModalTitle = props => (
   <div>
-    <FontIcon>{props.icon}</FontIcon>
+    {props.icon}
     <Title>{props.title}</Title>
   </div>
 );
 
 ModalTitle.propTypes = {
   title: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.object,
 };
 
 ModalTitle.defaultProps = {
-  title: '',
-  icon: '',
+  title: null,
+  icon: null,
 };
 
 export default ModalTitle;

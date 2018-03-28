@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ListItem, MenuButton } from 'react-md';
-import { LambdaIcon, ContainerIcon, APIIcon, PolicyIcon, ProviderIcon, SecretIcon } from 'components/Icons';
+import { LambdaIcon, ContainerIcon, APIIcon, PolicyIcon, ProviderIcon, SecretIcon, EntitlementIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -93,12 +93,13 @@ class EnvironmentActions extends PureComponent {
           iconChildren="add"
           flat
           sameWidth={false}
-          label="Create"
           menuItems={menuItems}
-        />
+        >
+          Create
+        </MenuButton>
         <Button
           flat
-          iconChildren="security"
+          iconChildren={<EntitlementIcon size={20} />}
           onClick={this.showEntitlements}
         >
           Entitlements

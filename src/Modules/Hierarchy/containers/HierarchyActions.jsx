@@ -6,10 +6,10 @@ import { withEntitlements } from 'Modules/Entitlements';
 import withApp from 'App/withApp';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { ListItem, FontIcon, MenuButton } from 'react-md';
+import { ListItem, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
-import { MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon } from 'components/Icons';
+import { MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon, EntitlementIcon, WorkspaceIcon, OrganizationIcon } from 'components/Icons';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -39,7 +39,7 @@ class HierarchyActions extends PureComponent {
         key="orgs-settings-menu--create"
         primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
         component={Link}
-        leftIcon={<FontIcon>domain</FontIcon>}
+        leftIcon={<OrganizationIcon />}
         to={{ pathname: `/${organizationSet.properties.fqon}/createOrganization`, state: { modal: true } }}
         style={listItemStyle}
       />,
@@ -48,7 +48,7 @@ class HierarchyActions extends PureComponent {
         key="orgs-settings-menu--workspace-create"
         primaryText={<span>{t('workspaces.actions.create')}</span>}
         component={Link}
-        leftIcon={<FontIcon>work</FontIcon>}
+        leftIcon={<WorkspaceIcon />}
         to={{ pathname: `/${organizationSet.properties.fqon}/createWorkspace`, state: { modal: true } }}
         style={listItemStyle}
       />,
@@ -110,12 +110,13 @@ class HierarchyActions extends PureComponent {
           flat
           sameWidth={false}
           menuItems={menuItems}
-          label="Create"
           listHeightRestricted={false}
-        />
+        >
+          Create
+        </MenuButton>
         <Button
           flat
-          iconChildren="security"
+          iconChildren={<EntitlementIcon size={20} />}
           onClick={this.showEntitlements}
         >
           Entitlements

@@ -7,6 +7,7 @@ import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { FormattedRelative } from 'react-intl';
 import { Card, CardTitle, CardActions } from 'components/GFCard';
+import { EntitlementIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import { Subtitle } from 'components/Typography';
 import withHierarchy from '../withHierarchy';
@@ -100,7 +101,7 @@ class EnvironmentCard extends PureComponent {
           <Button
             tooltipLabel="Entitlements"
             icon
-            iconChildren="security"
+            iconChildren={<EntitlementIcon size={20} />}
             onClick={this.showEntitlements}
           />
         </CardActions>
