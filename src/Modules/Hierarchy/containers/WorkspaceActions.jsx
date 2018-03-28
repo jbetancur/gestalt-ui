@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
-import { ProviderIcon } from 'components/Icons';
-import { ListItem, FontIcon, MenuButton } from 'react-md';
+import { ProviderIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
+import { ListItem, MenuButton } from 'react-md';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
@@ -35,7 +35,7 @@ class WorkspaceActions extends PureComponent {
         key="workspace-settings-menu--environment-create"
         primaryText="Environment"
         component={Link}
-        leftIcon={<FontIcon>folder</FontIcon>}
+        leftIcon={<EnvironmentIcon />}
         to={{ pathname: `${match.url}/createEnvironment`, state: { modal: true } }}
         style={listItemStyle}
       />,
@@ -60,10 +60,12 @@ class WorkspaceActions extends PureComponent {
           sameWidth={false}
           label="Create"
           menuItems={menuItems}
-        />
+        >
+          Create
+        </MenuButton>
         <Button
           flat
-          iconChildren="security"
+          iconChildren={<EntitlementIcon size={20} />}
           onClick={this.showEntitlements}
         >
         Entitlements

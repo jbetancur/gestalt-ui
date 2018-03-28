@@ -6,6 +6,7 @@ import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { DotActivity, ActivityContainer } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
+import { EnvironmentIcon } from 'components/Icons';
 import Sort from '../components/Sort';
 import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
@@ -127,7 +128,7 @@ class HierarchyListing extends PureComponent {
               <Button
                 flat
                 inkDisabled
-                iconChildren="folder"
+                iconChildren={<EnvironmentIcon size={20} />}
                 primary={this.state.showEnvironments}
                 onClick={this.toggleEnvironments}
                 disabled={environmentsPending}

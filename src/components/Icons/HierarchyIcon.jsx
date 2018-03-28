@@ -1,9 +1,9 @@
 import React from 'react';
-import SVGIcon from 'react-md/lib/SVGIcons';
+import { SVGIcon } from 'react-md';
 
 /* eslint react/jsx-indent: 0 */
 const HierarchyIcon = props => (
-  <SVGIcon viewBox="0 0 578.543 578.543" style={{ verticalAlign: 'unset' }} {...props}>
+  <SVGIcon viewBox="0 0 578.543 578.543" size={24} {...props}>
     <path d="M547.545,371.922h-30.992v-61.988c0-11.188-4.088-20.869-12.264-29.058c-8.184-8.17-17.865-12.265-29.059-12.265H309.93
     v-61.989h30.99c8.605,0,15.926-2.999,21.953-9.033c6.021-6.022,9.045-13.335,9.045-21.958V72.318
     c0-8.604-3.016-15.924-9.045-21.952c-6.027-6.028-13.348-9.04-21.953-9.04H237.615c-8.611,0-15.93,3.011-21.953,9.04

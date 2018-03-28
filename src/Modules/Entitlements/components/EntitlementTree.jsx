@@ -6,20 +6,20 @@ import EntitlementCheckbox from './EntitlementCheckbox';
 import { setEntitlementToggleStates } from '../entitlementToggleStates';
 
 const UL = styled.ul`
-    list-style-type: none;
-    margin-bottom: 0;
-    padding-left: 1em;
+  list-style-type: none;
+  margin-bottom: 0;
+  padding-left: 1em;
 
-    .md-selection-control-container {
-      height: 1.5em;
-    }
+  .md-selection-control-container {
+    height: 1.5em;
+  }
 
-    .md-btn--icon {
-      height: 1.3em;
-      padding: 0;
-      padding-right: 1.6em;
-      width: 1.3em;
-    }
+  .md-btn--icon {
+    height: 1.3em;
+    padding: 0;
+    padding-right: 1.6em;
+    width: 1.3em;
+  }
 `;
 
 const EntitlementDiv = styled.div`

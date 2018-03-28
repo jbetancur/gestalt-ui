@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import DialogContainer from 'react-md/lib/Dialogs';
+import { DialogContainer } from 'react-md';
 import { ModalTitle } from 'components/Modal';
+import { EntitlementIcon } from 'components/Icons';
 import EntitlementListing from './EntitlementListing';
 import actions from '../actions';
 
@@ -41,7 +42,7 @@ class EntitlementModal extends PureComponent {
         id="entitlement-modal"
         autosizeContent={false}
         visible={this.props.modal.visible}
-        title={<ModalTitle title={this.props.title} icon="security" />}
+        title={<ModalTitle title={this.props.title} icon={<EntitlementIcon />} />}
         defaultVisibleTransitionable
         closeOnEsc
         onHide={this.handleHideModal}

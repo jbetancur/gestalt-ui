@@ -17,8 +17,9 @@ const ActionsPanel = styled.div`
   text-align: right;
   overflow: visible;
 
-  button, a {
-    min-width: 44px;
+  button,
+  a {
+    margin-left: 3px;
     padding: 4px 8px;
     font-size: 10px;
 
