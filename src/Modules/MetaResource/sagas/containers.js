@@ -1,6 +1,5 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
-import { merge, orderBy } from 'lodash';
 import containerModel from '../models/container';
 import * as types from '../actionTypes';
 
@@ -11,23 +10,9 @@ import * as types from '../actionTypes';
 export function* fetchContainers(action) {
   try {
     const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/containers` : `${action.fqon}/containers`;
-    const containersResponse = yield call(axios.get, `${url}?expand=true`);
+    const response = yield call(axios.get, `${url}?expand=true&embed=apiendpoints`);
 
-    const containers = [];
-    // this is a niche case with generators and arrays where we need an imperative loop to collate public_url and transform containers/endpoints
-    // eslint-disable-next-line
-    for (const container of containersResponse.data) {
-      const apiEndpoints = [];
-      const apieEndpointsResponse = yield call(axios.get, `${action.fqon}/apiendpoints?expand=true&implementation_type=container&implementation_id=${container.id}`);
-      // eslint-disable-next-line
-      for (const endpoint of apieEndpointsResponse.data) {
-        const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
-        apiEndpoints.push(merge(endpoint, { properties: { public_url: `${kongProviderResponse.data.properties.config.external_protocol}://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}` } }));
-      }
-      containers.push(merge(container, { properties: { apiEndpoints } }));
-    }
-    const payload = orderBy(containers, 'name', 'asc');
-    yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload });
+    yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload: response.data });
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINERS_REJECTED, payload: e.message });
   }
