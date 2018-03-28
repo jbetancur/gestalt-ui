@@ -10,78 +10,50 @@ import apiSagas, {
 } from './apiEndpoints';
 import * as types from '../actionTypes';
 
-const scaffoldEndpointTest = (saga) => {
-  let result;
-
-  it('should make an api call for the provider', () => {
-    // eslint-disable-next-line no-param-reassign
-    result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }] });
-    expect(result.value).to.deep.equal(
-      call(axios.get, 'iamfqon/providers/42')
-    );
-  });
-
-  it('should return a payload and dispatch a success status', () => {
-    // eslint-disable-next-line no-param-reassign
-    result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
-    expect(result.value).to.deep.equal(
-      put({
-        type: types.FETCH_APIENDPOINTS_FULFILLED,
-        payload: [
-          { id: 1, properties: { public_url: 'https://vhostness/testapi/testpath', parent: { name: 'testapi' }, resource: '/testpath', location_id: 42 } }]
-      })
-    );
-  });
-
-  return result;
-};
-
 describe('API Endpoint Sagas', () => {
   const error = 'an error has occured';
 
-  describe('fetchAPIEndpoints Sequence', () => {
-    describe('when entityId is present and entityKey is "apis"', () => {
-      const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'apis' });
-      let result;
+  describe('fetchAPIEndpoints Sequence with entity', () => {
+    const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'apis' });
+    let result;
 
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).to.deep.equal(
-          call(axios.get, 'iamfqon/apis/1/apiendpoints?expand=true')
-        );
-      });
-
-      scaffoldEndpointTest(saga);
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'iamfqon/apis/1/apiendpoints?expand=true')
+      );
     });
 
-    describe('when no entites are passed"', () => {
-      const saga = fetchAPIEndpoints({ fqon: 'iamfqon' });
-      let result;
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 1 } });
 
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).to.deep.equal(
-          call(axios.get, 'iamfqon/apiendpoints?expand=true')
-        );
-      });
+      expect(result.value).to.deep.equal(
+        put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: { id: 1 } })
+      );
+    });
+  });
 
-      scaffoldEndpointTest(saga);
+  describe('fetchAPIEndpoints Sequenc with no entity', () => {
+    const saga = fetchAPIEndpoints({ fqon: 'iamfqon' });
+    let result;
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).to.deep.equal(
+        call(axios.get, 'iamfqon/apiendpoints?expand=true')
+      );
     });
 
-    describe('when a singular entityKey/Id is passed (container, lamnda...)', () => {
-      const saga = fetchAPIEndpoints({ fqon: 'iamfqon', entityId: '1', entityKey: 'lambda' });
-      let result;
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: { id: 1 } });
 
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).to.deep.equal(
-          call(axios.get, 'iamfqon/apiendpoints?expand=true&implementation_type=lambda&implementation_id=1')
-        );
-      });
-
-      scaffoldEndpointTest(saga);
+      expect(result.value).to.deep.equal(
+        put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: { id: 1 } })
+      );
     });
+  });
 
+  describe('when there is an error"', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = fetchAPIEndpoints({ fqon: 'iamfqon' });
       let resultError = sagaError.next();

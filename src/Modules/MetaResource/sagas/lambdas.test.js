@@ -22,71 +22,42 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/environments/1/lambdas?expand=true')
-      );
-    });
-
-    it('should make an api call for endpoints', () => {
-      result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/apiendpoints?expand=true&implementation_type=lambda&implementation_id=1')
-      );
-    });
-
-    it('should make an api call for the provider', () => {
-      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/providers/42')
+        call(axios.get, 'iamfqon/environments/1/lambdas?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
+      result = saga.next({ data: [{ id: 2 }] });
       expect(result.value).to.deep.equal(
         put({
           type: types.FETCH_LAMBDAS_FULFILLED,
-          payload: [
-            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
-        })
-      );
-    });
-
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchLambdas({ fqon: 'iamfqon' });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_LAMBDAS_REJECTED, payload: error })
+          payload: [{ id: 2 }] })
       );
     });
   });
 
-  describe('fetchLambdas Sequence without an environmentId', () => {
+  describe('fetchLambdas Sequence with no environmentId', () => {
     const saga = fetchLambdas({ fqon: 'iamfqon' });
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/lambdas?expand=true')
+        call(axios.get, 'iamfqon/lambdas?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1 }] });
-      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
-      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
+      result = saga.next({ data: [{ id: 2 }] });
       expect(result.value).to.deep.equal(
         put({
           type: types.FETCH_LAMBDAS_FULFILLED,
-          payload: [
-            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
-        })
+          payload: [{ id: 2 }] })
       );
     });
+  });
 
+  describe('fetchLambdas Sequence when there is an error', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = fetchLambdas({ fqon: 'iamfqon' });
       let resultError = sagaError.next();

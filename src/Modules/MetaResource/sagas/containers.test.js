@@ -19,77 +19,48 @@ describe('Container Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchContainers Sequence with an environmentId', () => {
-    const saga = fetchContainers({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' });
+    const saga = fetchContainers({ fqon: 'iamfqon', entityKey: 'environments', entityId: '1' });
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/environments/1/containers?expand=true')
-      );
-    });
-
-    it('should make an api call for endpoints', () => {
-      result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/apiendpoints?expand=true&implementation_type=container&implementation_id=1')
-      );
-    });
-
-    it('should make an api call for the provider', () => {
-      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
-      expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/providers/42')
+        call(axios.get, 'iamfqon/environments/1/containers?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
+      result = saga.next({ data: [{ id: 2 }] });
       expect(result.value).to.deep.equal(
         put({
           type: types.FETCH_CONTAINERS_FULFILLED,
-          payload: [
-            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
-        })
-      );
-    });
-
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchContainers({ fqon: 'iamfqon' });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).to.deep.equal(
-        put({ type: types.FETCH_CONTAINERS_REJECTED, payload: error })
+          payload: [{ id: 2 }] })
       );
     });
   });
 
-  describe('fetchContainers Sequence without an environmentId', () => {
+  describe('fetchContainers Sequence with no environmentId', () => {
     const saga = fetchContainers({ fqon: 'iamfqon' });
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).to.deep.equal(
-        call(axios.get, 'iamfqon/containers?expand=true')
+        call(axios.get, 'iamfqon/containers?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: [{ id: 1 }] });
-      result = saga.next({ data: [{ id: 1, properties: { parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] });
-      result = saga.next({ data: { id: 1, properties: { config: { env: { public: { PUBLIC_URL_VHOST_0: 'vhostness' } }, external_protocol: 'https' } } } });
+      result = saga.next({ data: [{ id: 2 }] });
       expect(result.value).to.deep.equal(
         put({
           type: types.FETCH_CONTAINERS_FULFILLED,
-          payload: [
-            { id: 1, properties: { apiEndpoints: [{ id: 1, properties: { public_url: 'https://vhostness/testapi/testapi', parent: { name: 'testapi' }, resource: '/testapi', location_id: 42 } }] } }]
-        })
+          payload: [{ id: 2 }] })
       );
     });
+  });
 
+  describe('fetchContainers Sequence when there is an error', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const sagaError = fetchContainers({ fqon: 'iamfqon' });
       let resultError = sagaError.next();

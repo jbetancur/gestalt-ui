@@ -1,6 +1,5 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
-import { orderBy } from 'lodash';
 import * as types from '../actionTypes';
 
 /**
@@ -23,24 +22,7 @@ export function* fetchAPIEndpoints(action) {
 
     const responseEndpoints = yield call(axios.get, getUrl());
 
-    const endpoints = [];
-    // this is a niche case with generators and arrays where we need an imperative loop to collate public_url into endpoints
-    // eslint-disable-next-line
-    for (const endpoint of responseEndpoints.data) {
-      const kongProviderResponse = yield call(axios.get, `${action.fqon}/providers/${endpoint.properties.location_id}`);
-      endpoints.push(
-        {
-          ...endpoint,
-          properties: {
-            ...endpoint.properties,
-            public_url: `${kongProviderResponse.data.properties.config.external_protocol}://${kongProviderResponse.data.properties.config.env.public.PUBLIC_URL_VHOST_0}/${endpoint.properties.parent.name}${endpoint.properties.resource}`
-          }
-        }
-      );
-    }
-
-    const payload = orderBy(endpoints, 'created.timestamp', 'asc');
-    yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload });
+    yield put({ type: types.FETCH_APIENDPOINTS_FULFILLED, payload: responseEndpoints.data });
   } catch (e) {
     yield put({ type: types.FETCH_APIENDPOINTS_REJECTED, payload: e.message });
   }

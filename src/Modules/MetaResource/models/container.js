@@ -32,6 +32,7 @@ const get = (model = {}) => {
       memory: 128,
       num_instances: 1,
       status: '',
+      apiendpoints: [],
     }
   }, safeModel);
 };
@@ -81,6 +82,7 @@ const create = (model) => {
     'properties.user',
     'properties.accepted_resource_roles',
     'properties.constraints',
+    'properties.apiendpoints',
   ]);
 };
 

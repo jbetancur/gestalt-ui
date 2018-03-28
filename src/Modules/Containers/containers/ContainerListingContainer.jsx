@@ -106,9 +106,9 @@ class ContainerListing extends PureComponent {
       },
       {
         name: 'Endpoints',
-        selector: 'properties.apiEndpoints',
+        selector: 'properties.apiendpoints',
         ignoreRowClick: true,
-        cell: row => <Endpoints endpoints={row.properties.apiEndpoints} />
+        cell: row => <Endpoints endpoints={row.properties.apiendpoints} />
       },
       {
         name: 'Provider',

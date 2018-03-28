@@ -113,10 +113,10 @@ class LambdaListing extends PureComponent {
       },
       {
         name: 'Endpoints',
-        selector: 'lambda.properties.apiEndpoints',
+        selector: 'lambda.properties.apiendpoints',
         compact: true,
         ignoreRowClick: true,
-        cell: row => <Endpoints endpoints={row.properties.apiEndpoints} />
+        cell: row => <Endpoints endpoints={row.properties.apiendpoints} />
       },
       {
         name: 'Runtime',
