@@ -4,25 +4,26 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { isUnixVariable } from 'util/validations';
 import { TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
 import PreventAutoFill from 'components/PreventAutoFill';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { checkIfPassword } from 'util/helpers/strings';
 
 const validatePattern = value => (value && !isUnixVariable(value)) && 'Invalid Unix Variable';
 const required = value => (value ? undefined : 'Required');
 
+AddButton.propTypes = {
+  onAddItem: PropTypes.func.isRequired,
+  label: PropTypes.string,
+};
+
+AddButton.defaultProps = {
+  label: null,
+};
+
 const UnixVariablesForm = ({ fields, disabled }) => (
   <FieldContainer>
     <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={() => fields.push({})}
-      >
-        Add Variable
-      </Button>
+      <AddButton label="Add Variable" onAddItem={() => fields.push({})} />
     </FieldItem>
     {fields.map((member, index, allFields) => {
       const field = allFields.get(index);

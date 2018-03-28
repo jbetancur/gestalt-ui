@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import healthCheckProtocols from '../lists/healthCheckProtocols';
 import healthCheckPortTypes from '../lists/healthCheckPortTypes';
 
 const fixInputNumber = value => value && parseInt(value, 10);
-const initialfield = {
+const initialValues = {
   protocol: 'HTTP',
   grace_period_seconds: 300,
   interval_seconds: 60,
@@ -21,14 +20,7 @@ const initialfield = {
 const HealthChecksForm = ({ fields, healthCheckvalues }) => (
   <FieldContainer>
     <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={() => fields.push(initialfield)}
-      >
-        Health Check
-      </Button>
+      <AddButton label="Add Health Check" onAddItem={() => fields.push(initialValues)} />
     </FieldItem>
     {fields.map((member, index) => {
       const field = healthCheckvalues[index];

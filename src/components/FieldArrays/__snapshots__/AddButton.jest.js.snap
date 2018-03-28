@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Components) AddButton renders correctly with basic required props 1`] = `
+.c0 {
+  color: #2196f3;
+}
+
+@media (min-width:0) and (max-width:599px) {
+  .c0 {
+    position: absolute;
+    top: 4px;
+    right: 50px;
+  }
+}
+
+@media (min-width:600px) and (max-width:959px) {
+  .c0 {
+    position: absolute;
+    top: 4px;
+    right: 50px;
+  }
+}
+
+<withInk(withTooltip(Button))
+  className="c0"
+  flat={null}
+  icon={true}
+  iconChildren="add"
+  inkTransitionEnterTimeout={450}
+  inkTransitionLeaveTimeout={300}
+  inkTransitionOverlap={150}
+  onClick={[Function]}
+>
+  add
+</withInk(withTooltip(Button))>
+`;
+
+exports[`(Components) AddButton renders correctly with label 1`] = `
+.c0 {
+  color: #2196f3;
+}
+
+<withInk(withTooltip(Button))
+  className="c0"
+  flat="Wow"
+  icon={false}
+  iconChildren="add"
+  inkTransitionEnterTimeout={450}
+  inkTransitionLeaveTimeout={300}
+  inkTransitionOverlap={150}
+  onClick={[Function]}
+>
+  Wow
+</withInk(withTooltip(Button))>
+`;

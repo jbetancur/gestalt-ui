@@ -6,7 +6,7 @@ exports[`(Components) FieldItem mounts with basic props 1`] = `
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 16px;
-  padding-right: 16px;
+  padding-right: 8px;
 }
 
 .c0:nth-child(odd) {
@@ -42,6 +42,12 @@ exports[`(Components) FieldItem mounts with basic props 1`] = `
 .c0:last-child {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
+}
+
+@media (min-width:600px) and (max-width:959px) {
+  .c0:nth-child(n+2) {
+    padding-top: 32px;
+  }
 }
 
 <li

@@ -4,8 +4,7 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { isUnixVariable } from 'util/validations';
 import { TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 
 const validatePattern = value => (value && !isUnixVariable(value)) && 'Invalid Label Name';
 const required = value => (value ? undefined : 'Required');
@@ -13,14 +12,7 @@ const required = value => (value ? undefined : 'Required');
 const LabelsForm = ({ fields }) => (
   <FieldContainer>
     <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={() => fields.push({})}
-      >
-        Add Label
-      </Button>
+      <AddButton label="Add Label" onAddItem={() => fields.push({})} />
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={`label-${member}`}>
