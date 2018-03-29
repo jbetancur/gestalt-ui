@@ -27,8 +27,8 @@ class SecretCreate extends Component {
   create(values) {
     const { match, history, createSecret } = this.props;
     const payload = generatePayload(values);
-    const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`);
+    const onSuccess = response =>
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets/${response.id}`);
 
     createSecret(match.params.fqon, match.params.environmentId, payload, onSuccess);
   }

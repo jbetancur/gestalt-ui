@@ -139,7 +139,7 @@ class Breadcrumbs extends PureComponent {
           disabled={pending}
           component={Link}
           to={parentOrgRoute}
-          tooltipLabel={parentFQON}
+          tooltipLabel="Up one org level"
           tooltipPosition="right"
         />}
 
