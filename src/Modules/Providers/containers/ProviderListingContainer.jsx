@@ -52,6 +52,7 @@ class ProviderListing extends PureComponent {
     const { match, deleteProvider } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       this.populateProviders();
     };
 
@@ -69,6 +70,7 @@ class ProviderListing extends PureComponent {
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       this.populateProviders();
     };
 

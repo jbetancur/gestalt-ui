@@ -45,6 +45,7 @@ class SecretListing extends PureComponent {
     const { match, deleteSecret, fetchSecrets } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchSecrets(match.params.fqon, match.params.environmentId);
     };
 
@@ -62,7 +63,7 @@ class SecretListing extends PureComponent {
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
-      this.setState({ clearSelected: true });
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchSecrets(match.params.fqon, match.params.environmentId);
     };
 

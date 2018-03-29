@@ -45,6 +45,7 @@ class UserListing extends PureComponent {
     const { match, deleteUser, fetchUsers } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchUsers(match.params.fqon);
     };
 
@@ -62,7 +63,7 @@ class UserListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: true });
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchUsers(match.params.fqon);
     };
 

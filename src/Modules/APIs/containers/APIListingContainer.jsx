@@ -45,6 +45,7 @@ class APIListing extends PureComponent {
     const { match, deleteAPI, fetchAPIs } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchAPIs(match.params.fqon, match.params.environmentId);
     };
 
@@ -52,7 +53,6 @@ class APIListing extends PureComponent {
       deleteAPI(match.params.fqon, row.id, onSuccess);
     }, `Are you sure you want to delete ${row.name}?`);
   }
-
 
   deleteMultiple = () => {
     const { match, deleteAPIs, fetchAPIs } = this.props;
@@ -62,7 +62,7 @@ class APIListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: true });
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchAPIs(match.params.fqon, match.params.environmentId);
     };
 
