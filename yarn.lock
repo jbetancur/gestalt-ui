@@ -7468,9 +7468,9 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-data-table-component@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-0.4.3.tgz#537e5a86b56e664d79dbf614964d1e2ffe745470"
+react-data-table-component@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-0.5.0.tgz#3dd8e0d9fb075594a14fdf2007faa7eb8efbd911"
   dependencies:
     lodash "^4.17.5"
     shortid "^2.2.8"

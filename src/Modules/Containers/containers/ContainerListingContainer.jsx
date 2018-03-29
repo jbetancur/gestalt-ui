@@ -80,7 +80,6 @@ class ContainerListing extends PureComponent {
       {
         width: '42px',
         ignoreRowClick: true,
-        compact: true,
         cell: row => (
           <ContainerActions
             containerModel={row}
@@ -95,7 +94,6 @@ class ContainerListing extends PureComponent {
         sortable: true,
         width: '100px',
         center: true,
-        compact: true,
         cell: row => <StatusBubble status={row.properties.status} />
       },
       {
