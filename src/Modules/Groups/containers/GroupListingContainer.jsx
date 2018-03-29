@@ -45,6 +45,7 @@ class GroupListing extends PureComponent {
     const { match, deleteGroup, fetchGroups } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchGroups(match.params.fqon);
     };
 
@@ -62,7 +63,7 @@ class GroupListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: true });
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchGroups(match.params.fqon);
     };
 

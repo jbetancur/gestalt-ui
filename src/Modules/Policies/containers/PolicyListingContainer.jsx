@@ -45,6 +45,7 @@ class PolicyListing extends PureComponent {
     const { match, deletePolicy, fetchPolicies } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchPolicies(match.params.fqon, match.params.environmentId);
     };
 
@@ -62,7 +63,7 @@ class PolicyListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: true });
+      this.setState({ clearSelected: !this.state.clearSelected });
       fetchPolicies(match.params.fqon, match.params.environmentId);
     };
 

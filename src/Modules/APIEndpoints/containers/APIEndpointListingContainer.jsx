@@ -53,6 +53,7 @@ class APIEndpointListing extends PureComponent {
     const { match, deleteAPIEndpoint } = this.props;
 
     const onSuccess = () => {
+      this.setState({ clearSelected: !this.state.clearSelected });
       this.populalateEndpoints();
     };
 
@@ -70,7 +71,7 @@ class APIEndpointListing extends PureComponent {
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
-      this.setState({ clearSelected: true });
+      this.setState({ clearSelected: !this.state.clearSelected });
       this.populalateEndpoints();
     };
 
