@@ -86,14 +86,17 @@ class LambdaListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
-  render() {
-    const contextActions = [
+  defineContextActions() {
+    return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
     ];
+  }
 
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
           <LambdaMenuActions
@@ -110,6 +113,7 @@ class LambdaListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
+        grow: 3,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
@@ -123,30 +127,31 @@ class LambdaListing extends PureComponent {
         name: 'Runtime',
         selector: 'properties.runtime',
         sortable: true,
-        width: '200px',
+
       },
       {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
-        width: '200px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
+  }
 
+  render() {
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
@@ -164,8 +169,8 @@ class LambdaListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.lambdasPending}
             progressComponent={<LinearProgress id="lambda-listing" />}
-            columns={columns}
-            contextActions={contextActions}
+            columns={this.defineColumns()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}

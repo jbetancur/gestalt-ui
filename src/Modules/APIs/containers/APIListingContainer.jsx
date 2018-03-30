@@ -81,14 +81,17 @@ class APIListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
-  render() {
-    const contextActions = [
+  defineContectActions() {
+    return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
     ];
+  }
 
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
@@ -106,30 +109,32 @@ class APIListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
+        grow: 3,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
-        width: '200px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
+  }
 
+  render() {
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
@@ -145,8 +150,8 @@ class APIListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.apisPending}
             progressComponent={<LinearProgress id="api-listing" />}
-            columns={columns}
-            contextActions={contextActions}
+            columns={this.defineColumns()}
+            contextActions={this.defineContectActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}

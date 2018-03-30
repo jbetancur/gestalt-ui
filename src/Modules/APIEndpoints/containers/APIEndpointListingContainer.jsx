@@ -90,14 +90,17 @@ class APIEndpointListing extends PureComponent {
     history.push(getBaseURL(match.params, row));
   }
 
-  render() {
-    const contextActions = [
+  defineContectActions() {
+    return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
     ];
+  }
 
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
@@ -115,7 +118,8 @@ class APIEndpointListing extends PureComponent {
         selector: 'resource_state',
         compact: true,
         sortable: true,
-        width: '42px',
+        allowOverflow: true,
+        center: true,
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
@@ -123,6 +127,7 @@ class APIEndpointListing extends PureComponent {
         selector: 'properties.public_url',
         sortable: true,
         ignoreRowClick: true,
+        grow: 3,
         cell: row => [
           <ClipboardButton
             key={`public-url-copy-${row.id}`}
@@ -144,33 +149,32 @@ class APIEndpointListing extends PureComponent {
         name: 'Type',
         selector: 'properties.implementation_type',
         sortable: true,
-        width: '103px',
       },
       {
         name: 'Auth',
         selector: 'properties.plugins.gestaltSecurity.enabled',
         sortable: true,
         center: true,
-        width: '42px',
         cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
       },
       {
         name: 'Limit (m)',
         selector: 'properties.plugins.rateLimit.perMinute',
         sortable: true,
-        number: true,
-        width: '42px',
+        right: true,
         format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
     ];
+  }
 
+  render() {
     return (
       <Row>
         <Col component={Card} flex={12}>
@@ -186,8 +190,8 @@ class APIEndpointListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.apiEndpointsPending}
             progressComponent={<LinearProgress id="apiendpoints-listing" />}
-            columns={columns}
-            contextActions={contextActions}
+            columns={this.defineColumns()}
+            contextActions={this.defineContectActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<Title>There are no endpoints to display</Title>}

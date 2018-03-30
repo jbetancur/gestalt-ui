@@ -75,10 +75,11 @@ class ContainerListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
-  render() {
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
           <ContainerActions
@@ -92,14 +93,15 @@ class ContainerListing extends PureComponent {
         name: 'Status',
         selector: 'properties.status',
         sortable: true,
-        width: '100px',
-        center: true,
+        allowOverflow: true,
+        minWidth: '120px',
         cell: row => <StatusBubble status={row.properties.status} />
       },
       {
         name: 'Name',
         selector: 'name',
         sortable: true,
+        grow: 3,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
@@ -112,13 +114,14 @@ class ContainerListing extends PureComponent {
         name: 'Provider',
         selector: 'properties.provider.name',
         sortable: true,
-        width: '158px',
+        minWidth: '50px',
         format: row => truncate(row.properties.provider.name, 30),
       },
       {
         name: 'Image',
         selector: 'properties.image',
         sortable: true,
+        minWidth: '50px',
         format: row => truncate(row.properties.image, 25),
       },
       {
@@ -126,42 +129,50 @@ class ContainerListing extends PureComponent {
         selector: 'properties.provider.resource_type',
         sortable: true,
         center: true,
-        width: '42px',
         compact: true,
+        width: '60px',
         cell: row => <ContainerIcon resourceType={getLastFromSplit(row.properties.provider.resource_type)} />
       },
       {
         name: 'Instances',
         selector: 'properties.num_instances',
         sortable: true,
-        number: true,
-        width: '42px',
+        right: true,
+        compact: true,
+        grow: 0,
+        minWidth: '80px',
         cell: row => <div>{row.properties.instances && `${row.properties.instances.length} / ${row.properties.num_instances}`}</div>
       },
       {
         name: 'CPU',
         selector: 'properties.cpus',
         sortable: true,
-        number: true,
+        right: true,
         compact: true,
-        width: '42px',
+        grow: 0,
+        minWidth: '50px',
       },
       {
-        name: 'Mem (MiB)',
+        name: 'Mem',
         selector: 'properties.memory',
         sortable: true,
-        number: true,
-        width: '42px',
+        right: true,
+        compact: true,
+        grow: 0,
+        minWidth: '50px',
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        allowOverflow: true,
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
     ];
+  }
 
+  render() {
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
@@ -175,7 +186,7 @@ class ContainerListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.containersPending}
             progressComponent={<LinearProgress id="container-listing" />}
-            columns={columns}
+            columns={this.defineColumns()}
             noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             // expandableRows

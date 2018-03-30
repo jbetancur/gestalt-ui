@@ -52,17 +52,19 @@ class PolicyListing extends PureComponent {
     this.setState({ selectedRows });
   };
 
-  render() {
-    const contextActions = [
+  defineContextActions() {
+    return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
     ];
+  }
 
-    const columns = [
+  defineColumns() {
+    return [
       {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        compact: true,
+        grow: 3,
         cell: row => <Name maxWidth="500px" name={row.name} description={row.description} to={`${this.props.match.url}/${row.id}`} />
       },
       {
@@ -99,7 +101,9 @@ class PolicyListing extends PureComponent {
       //   ),
       // }
     ];
+  }
 
+  render() {
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
@@ -111,8 +115,8 @@ class PolicyListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.serviceSpecsPending}
             progressComponent={<LinearProgress id="servicespecs-listing" />}
-            columns={columns}
-            contextActions={contextActions}
+            columns={this.defineColumns()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no service specifications to display" icon={<ServiceIcon size={150} />} />}

@@ -33,12 +33,12 @@ class APIEndpointInlineList extends PureComponent {
     deleteAPIEndpoint(match.params.fqon, endpoint.id);
   }
 
-  render() {
-    const { endpoints, onAddEndpoint, disabled } = this.props;
-
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
+        ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -53,10 +53,10 @@ class APIEndpointInlineList extends PureComponent {
       {
         name: 'State',
         selector: 'resource_state',
-        compact: true,
         sortable: true,
-        width: '42px',
+        allowOverflow: true,
         ignoreRowClick: true,
+        center: true,
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
@@ -64,6 +64,7 @@ class APIEndpointInlineList extends PureComponent {
         selector: 'properties.public_url',
         sortable: true,
         ignoreRowClick: true,
+        grow: 3,
         cell: row => [
           <ClipboardButton
             key={`public-url-copy-${row.id}`}
@@ -85,8 +86,7 @@ class APIEndpointInlineList extends PureComponent {
         name: 'Limit (m)',
         selector: 'properties.plugins.rateLimit.perMinute',
         sortable: true,
-        number: true,
-        width: '42px',
+        right: true,
         format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
       },
       {
@@ -94,17 +94,20 @@ class APIEndpointInlineList extends PureComponent {
         selector: 'properties.plugins.gestaltSecurity.enabled',
         sortable: true,
         center: true,
-        width: '42px',
         cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
     ];
+  }
+
+  render() {
+    const { endpoints, onAddEndpoint, disabled } = this.props;
 
     return (
       <div>
@@ -128,7 +131,7 @@ class APIEndpointInlineList extends PureComponent {
               highlightOnHover
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
-              columns={columns}
+              columns={this.defineColumns()}
               noDataComponent={<Title>There are no endpoints to display</Title>}
             />
           </Col>

@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { Caption } from 'components/Typography';
+import { media } from 'util/helpers/media';
+
+const DateCaption = styled(Caption) `
+  ${() => media.xs`
+    display: none;
+  `};
+  ${() => media.sm`
+    display: none;
+  `};
+`;
 
 const Timestamp = ({ timestamp }) => (
   timestamp ?
@@ -9,9 +20,9 @@ const Timestamp = ({ timestamp }) => (
       <div>
         <FormattedRelative value={timestamp} />
       </div>
-      <Caption>
+      <DateCaption>
         <FormattedDate value={timestamp} /> <FormattedTime value={timestamp} />
-      </Caption>
+      </DateCaption>
     </div> : null
 );
 

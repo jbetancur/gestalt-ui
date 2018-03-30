@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
+import { media } from 'util/helpers/media';
 
 const Name = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   display: block;
@@ -23,6 +24,12 @@ const Description = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   display: block;
   font-size: 12px;
   color: ${props => props.theme.colors['$md-grey-800']};
+  ${() => media.xs`
+  display: none;
+  `};
+  ${() => media.sm`
+    display: none;
+  `};
 `;
 
 const NameCell = ({ name, description, maxWidth }) => (

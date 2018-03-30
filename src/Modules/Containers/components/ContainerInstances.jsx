@@ -10,7 +10,6 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
   const columns = [
     {
       ignoreRowClick: true,
-      compact: true,
       cell: row => (
         <Button
           flat
@@ -29,25 +28,24 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
     {
       name: 'Container IPs',
       selector: 'ipAddresses',
-      number: true,
+      right: true,
       cell: row => row.ipAddresses && row.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)
     },
     {
       name: 'Host',
       selector: 'host',
       sortable: true,
-      number: true,
+      right: true,
     },
     {
       name: 'Host Port',
-      number: true,
+      right: true,
       cell: row => row.ports && row.ports.map((port, idx) => <div key={idx}>{port}</div>)
     },
     {
       name: 'Started',
       selector: 'startedAt',
       sortable: true,
-      width: '158px',
       cell: row => <Timestamp timestamp={row.startedAt} />
     },
   ];

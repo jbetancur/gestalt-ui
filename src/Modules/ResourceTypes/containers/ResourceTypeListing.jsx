@@ -60,14 +60,17 @@ class ResourceTypeListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
-  render() {
-    const contextActions = [
+  defineContextActions() {
+    return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
     ];
+  }
 
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
@@ -85,7 +88,7 @@ class ResourceTypeListing extends PureComponent {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        compact: true,
+        grow: 3,
         cell: row => <Name maxWidth="500px" name={row.name} description={row.description} />
       },
       {
@@ -93,25 +96,26 @@ class ResourceTypeListing extends PureComponent {
         selector: 'properties.abstract',
         sortable: true,
         center: true,
-        width: '42px',
         cell: row => <Checkbox inkDisabled defaultChecked={row.properties.abstract} disabled />
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
+  }
 
+  render() {
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
@@ -124,8 +128,8 @@ class ResourceTypeListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.resourceTypesPending}
             progressComponent={<LinearProgress id="resourcetype-listing" />}
-            columns={columns}
-            contextActions={contextActions}
+            columns={this.defineColumns()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
