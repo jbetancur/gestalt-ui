@@ -82,14 +82,17 @@ class PolicyListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
-  render() {
-    const contextActions = [
+  defineContextActions() {
+    return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
     ];
+  }
 
-    const columns = [
+  defineColumns() {
+    return [
       {
-        width: '42px',
+        width: '56px',
+        allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
           <GenericMenuActions
@@ -107,38 +110,39 @@ class PolicyListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
+        grow: 3,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Rules',
         selector: 'properties.rules',
         sortable: true,
-        width: '42px',
-        number: true,
+        right: true,
         format: row => row.properties.rules.length,
       },
       {
         name: 'Owner',
         selector: 'owner.name',
-        width: '200px',
         sortable: true,
       },
       {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.created.timestamp} />
       },
       {
         name: 'Modified',
         selector: 'modified.timestamp',
         sortable: true,
-        width: '158px',
+        wrap: true,
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
+  }
 
+  render() {
     return (
       <Row gutter={5}>
         <Col component={Card} flex={12}>
@@ -154,8 +158,8 @@ class PolicyListing extends PureComponent {
             defaultSortField="name"
             progressPending={this.props.policiesPending}
             progressComponent={<LinearProgress id="policy-listing" />}
-            columns={columns}
-            contextActions={contextActions}
+            columns={this.defineColumns()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}
