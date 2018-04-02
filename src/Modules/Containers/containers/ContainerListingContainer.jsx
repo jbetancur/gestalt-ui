@@ -94,7 +94,7 @@ class ContainerListing extends PureComponent {
         selector: 'properties.status',
         sortable: true,
         allowOverflow: true,
-        minWidth: '120px',
+        minWidth: '150px',
         cell: row => <StatusBubble status={row.properties.status} />
       },
       {

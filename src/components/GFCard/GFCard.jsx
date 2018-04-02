@@ -6,7 +6,7 @@ import Card from 'react-md/lib/Cards/Card';
 // black list non compliance typeColor, typeSymbol from DOM
 const EnhancedCard = styled(Card)`
   position: relative;
-  height: 10em;
+  height: 10.5em;
   cursor: pointer;
   border-radius: 2px;
 `;
@@ -27,7 +27,7 @@ const Type = styled.div`
     height: 12px;
     width: 12px;
     font-family: 'lovelo';
-    font-size: .6em;
+    font-size: 0.6em;
     position: absolute;
     top: -21px;
     left: 1.5px;

@@ -7,8 +7,8 @@ import ExpanderIcon from '../components/ExpanderIcon';
 const TitleSection = styled(Col)`
   padding-left: 8px;
   padding-right: 8px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   height: 100%;
 `;
 
@@ -41,10 +41,10 @@ const Bubble = styled.div`
 
 const HeaderStyle = styled.header`
   ${props => !props.expandable && 'padding-left: 8px'};
-  height: 4em;
-  background-color: ${props => props.theme.colors['$md-grey-50']};
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-100']};
-  font-weight: 700;
+  height: 48px;
+  background-color: ${props => props.theme.colors['$md-grey-100']};
+  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  font-weight: bold;
   user-select: none;
 
   &:hover {
