@@ -46,6 +46,7 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
       name: 'Started',
       selector: 'startedAt',
       sortable: true,
+      wrap: true,
       cell: row => <Timestamp timestamp={row.startedAt} />
     },
   ];

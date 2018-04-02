@@ -6,6 +6,11 @@ const GFCardActions = styled(CardActions)`
   bottom: 0;
   justify-content: flex-end !important;
   width: 100%;
+
+  i,
+  svg {
+    font-size: 18px !important;
+  }
 `;
 
 export default GFCardActions;

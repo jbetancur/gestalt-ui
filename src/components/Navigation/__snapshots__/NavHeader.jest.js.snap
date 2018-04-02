@@ -3,7 +3,7 @@
 exports[`(Navigation) NavHeader renders a NavHeader 1`] = `
 .c0 {
   background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
   padding: 13px 8px 13px 8px;
   text-align: left;
   min-height: 64px;

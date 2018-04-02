@@ -13,17 +13,20 @@ const columns = [
     name: 'Service Address',
     selector: 'service_address.host',
     sortable: true,
+    grow: 3,
   },
   {
     name: 'Port',
     selector: 'lb_port',
     sortable: true,
     right: true,
+    grow: 0,
   },
   {
     name: 'Protocol',
     selector: 'service_address.protocol',
     sortable: true,
+    grow: 0,
     format: row => row.service_address && row.service_address.protocol.toUpperCase(),
   },
 ];

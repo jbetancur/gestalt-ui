@@ -20,14 +20,18 @@ const NoDataWrapper = styled.div`
   padding: 24px;
 `;
 
+const TitleStyled = styled(Title)`
+  padding-top: 16px;
+`;
+
 const NoData = ({ match, message, icon }) => (
   <NoDataContainer>
     <IconWaterMark>
       {icon}
     </IconWaterMark>
-    <Title>
+    <TitleStyled>
       {message}
-    </Title>
+    </TitleStyled>
     <NoDataWrapper>
       <Button
         raised
