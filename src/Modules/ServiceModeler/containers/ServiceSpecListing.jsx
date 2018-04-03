@@ -12,7 +12,7 @@ import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 
-class PolicyListing extends PureComponent {
+class ServiceSpecListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     serviceSpecs: PropTypes.array.isRequired,
@@ -131,4 +131,4 @@ class PolicyListing extends PureComponent {
 export default compose(
   withMetaResource,
   connect(null),
-)(PolicyListing);
+)(ServiceSpecListing);

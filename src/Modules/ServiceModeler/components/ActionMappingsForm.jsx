@@ -17,7 +17,7 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
 
   return (
     <FieldContainer>
-      <FieldItem>
+      <FieldItem noBackground>
         <Button
           flat
           primary
@@ -28,11 +28,11 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
         </Button>
       </FieldItem>
       {fields.map((member, index) => (
-        <Panel title={`Action ${index + 1}`} noPadding>
-          <FieldItem key={index}>
-            <RemoveButton onRemove={fields.remove} fieldIndex={index} absoluteTopRight tabIndex="-1" />
-            <Row gutter={5}>
-              <Col flex={12}>
+        <Row gutter={5}>
+          <Col flex={12}>
+            <Panel title={`Action ${index + 1}`} noPadding>
+              <FieldItem key={index}>
+                <RemoveButton onRemove={fields.remove} fieldIndex={index} absoluteTopRight tabIndex="-1" />
                 <Row gutter={5}>
                   <Col flex={6}>
                     <Field
@@ -83,7 +83,7 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                   </Col>
 
                   <Col flex={6}>
-                    <Fieldset legend="Authorization">
+                    <Fieldset legend="Authentication">
                       <Row gutter={5}>
                         {/* <Col flex={6}>
                           <Field
@@ -104,6 +104,7 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                           />
                         </Col>
                         <Col flex={4}>
+                          <PreventAutoFill />
                           <Field
                             component={TextField}
                             name={`${member}.authentication.username`}
@@ -123,10 +124,10 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                     </Fieldset>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
-          </FieldItem>
-        </Panel>
+              </FieldItem>
+            </Panel>
+          </Col>
+        </Row>
       ))}
     </FieldContainer>
   );
