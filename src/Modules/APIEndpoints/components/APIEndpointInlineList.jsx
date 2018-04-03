@@ -132,7 +132,7 @@ class APIEndpointInlineList extends PureComponent {
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
               columns={this.defineColumns()}
-              noDataComponent={<Title>There are no endpoints to display</Title>}
+              noDataComponent={<Title light>There are no endpoints to display</Title>}
             />
           </Col>
         </Row>

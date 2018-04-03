@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import { Card, CardTitle, CardText, MenuButton, ListItem } from 'react-md';
+import { MenuButton, ListItem } from 'react-md';
+import { Title } from 'components/Typography';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
@@ -40,16 +41,10 @@ const PolicyForm = (props) => {
     ));
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyPending}>
-      {policy.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <DetailsPane model={policy} />
-          </Col>
-        </Row>}
-      <Row gutter={5} center>
-        <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-          <CardTitle title={title} />
+    <Row gutter={5} center>
+      <Col flex={10} xs={12} sm={12} md={12}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyPending}>
+          <Title>{title}</Title>
           <ActionsToolbar>
             <Row>
               <Col flex={12}>
@@ -99,48 +94,53 @@ const PolicyForm = (props) => {
 
           {policyPending && <ActivityContainer id="policy-form" />}
 
-          <CardText>
-            <Row gutter={5}>
+          <Row gutter={5}>
+            {policy.id &&
               <Col flex={12}>
-                <Panel title="General" expandable={false}>
-                  <Row gutter={5}>
-                    <Col flex={5} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="name"
-                        label="Name"
-                        type="text"
-                        required
-                        autoComplete="none"
-                      />
-                    </Col>
-                  </Row>
+                <Panel title="Resource Details">
+                  <DetailsPane model={policy} />
                 </Panel>
-              </Col>
+              </Col>}
+            <Col flex={12}>
+              <Panel title="General" expandable={false}>
+                <Row gutter={5}>
+                  <Col flex={5} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      required
+                      autoComplete="none"
+                    />
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
 
-              <Col flex={12}>
-                <Panel title="Description" defaultExpanded={!!policy.description}>
-                  <Field
-                    component={TextField}
-                    name="description"
-                    placeholder="Description"
-                    type="text"
-                    rows={1}
-                  />
-                </Panel>
-              </Col>
-            </Row>
-          </CardText>
-        </Col>
+            <Col flex={12}>
+              <Panel title="Description" defaultExpanded={!!policy.description}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  placeholder="Description"
+                  type="text"
+                  rows={1}
+                />
+              </Panel>
+            </Col>
+          </Row>
+        </Form>
 
-        {(editMode && policy.id) &&
-          <Row gutter={5} center>
-            <Col flex={10} xs={12} sm={12} md={12}>
+        {editMode && policy.id &&
+          <Row gutter={5}>
+            <Col flex={12}>
               <PolicyRules {...props} />
             </Col>
           </Row>}
-      </Row>
-    </Form>
+
+      </Col>
+    </Row>
   );
 };
 

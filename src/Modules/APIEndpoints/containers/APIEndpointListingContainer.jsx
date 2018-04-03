@@ -9,7 +9,8 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import StatusBubble from 'components/StatusBubble';
 import { Title } from 'components/Typography';
-import { Card, Checkbox, FontIcon } from 'react-md';
+import { Card } from 'components/Cards';
+import { Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import A from 'components/A';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -194,7 +195,7 @@ class APIEndpointListing extends PureComponent {
             contextActions={this.defineContectActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<Title>There are no endpoints to display</Title>}
+            noDataComponent={<Title light>There are no endpoints to display</Title>}
             onRowClicked={this.handleRowClicked}
           />
         </Col>

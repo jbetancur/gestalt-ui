@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
-import { Card, CardTitle, CardText, FontIcon } from 'react-md';
+import { FontIcon } from 'react-md';
 import { metaModels } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
@@ -16,7 +16,7 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Title, Caption, Error } from 'components/Typography';
+import { Title, H2, Caption, Error } from 'components/Typography';
 import Div from 'components/Div';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from '../components/ContainerInstances';
@@ -72,397 +72,390 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
       <ActionsModals />
       <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={isPending}>
         <Row gutter={5} center>
-          {editMode &&
-            <Col flex={inlineMode ? 12 : 10}>
-              <DetailsPane model={container} />
-            </Col>}
           <Col
             flex={inlineMode ? 12 : 10}
             xs={12}
             sm={12}
             md={12}
           >
-            <Card className={inlineMode ? 'md-no-paper' : ''}>
-              <CardTitle
-                title={
-                  <div>
-                    <div>{props.title}</div>
+            <Title>{props.title}</Title>
+            {selectedProvider.id &&
+              <H2>
+                <ContainerIcon resourceType={providerType} /> {selectedProvider.name}
+              </H2>}
+            {!inlineMode &&
+              <ActionsToolbar>
+                <Row>
+                  <Col flex={12}>
+                    <Button
+                      flat
+                      iconChildren="arrow_back"
+                      disabled={containerPending || props.submitting}
+                      component={Link}
+                      to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+                    >
+                      {props.cancelLabel}
+                    </Button>
+
                     {selectedProvider.id &&
-                      <Title>
-                        <ContainerIcon resourceType={providerType} /> {selectedProvider.name}
-                      </Title>}
-                  </div>
-                }
-              />
-              {!inlineMode &&
-                <ActionsToolbar>
-                  <Row>
-                    <Col flex={12}>
                       <Button
+                        raised
+                        iconChildren="save"
+                        type="submit"
+                        disabled={isSubmitDisabled}
+                        primary
+                      >
+                        {props.submitLabel}
+                      </Button>}
+                    {editMode &&
+                      <Button
+                        key="container--entitlements"
                         flat
-                        iconChildren="arrow_back"
-                        disabled={containerPending || props.submitting}
-                        component={Link}
-                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+                        iconChildren="security"
+                        onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, container.id, 'containers', 'Container')}
                       >
-                        {props.cancelLabel}
-                      </Button>
+                        Container Entitlements
+                      </Button>}
+                    {editMode &&
+                      <ContainerActions
+                        inContainerView
+                        containerModel={container}
+                        disableDestroy={inlineMode}
+                        disablePromote={inlineMode}
+                      />}
+                  </Col>
+                </Row>
+              </ActionsToolbar>}
 
-                      {selectedProvider.id &&
-                        <Button
-                          raised
-                          iconChildren="save"
-                          type="submit"
-                          disabled={isSubmitDisabled}
-                          primary
-                        >
-                          {props.submitLabel}
-                        </Button>}
-                      {editMode &&
-                        <Button
-                          key="container--entitlements"
-                          flat
-                          iconChildren="security"
-                          onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, container.id, 'containers', 'Container')}
-                        >
-                          Container Entitlements
-                        </Button>}
-                      {editMode &&
-                        <ContainerActions
-                          inContainerView
-                          containerModel={container}
-                          disableDestroy={inlineMode}
-                          disablePromote={inlineMode}
-                        />}
-                    </Col>
-                  </Row>
-                </ActionsToolbar>}
+            {isPending && <ActivityContainer id="container-form-loading" />}
 
-              {isPending && <ActivityContainer id="container-form-loading" />}
+            {!values.properties.provider.id &&
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Select a Provider" expandable={false}>
+                    <Field
+                      id="select-provider"
+                      component={SelectField}
+                      name="properties.provider.id"
+                      required
+                      label="Provider"
+                      itemLabel="name"
+                      itemValue="id"
+                      menuItems={props.providersByType}
+                      onChange={getSecrets}
+                      async
+                    />
+                  </Panel>
+                </Col>
+              </Row>}
 
-              <CardText>
-                {!values.properties.provider.id &&
-                  <Row gutter={5}>
-                    <Col flex={12}>
-                      <Field
-                        id="select-provider"
-                        component={SelectField}
-                        name="properties.provider.id"
-                        required
-                        label="Provider"
-                        itemLabel="name"
-                        itemValue="id"
-                        menuItems={props.providersByType}
-                        onChange={getSecrets}
-                        async
+            {values.properties.provider.id &&
+              <Row gutter={5}>
+                {editMode && container.id &&
+                  <Col flex={12}>
+                    <Panel title="Resource Details">
+                      <DetailsPane model={container} />
+                    </Panel>
+                  </Col>}
+                {selectedProvider.id && hasInstances &&
+                  <Col flex={12}>
+                    <Panel
+                      title="Running Instances"
+                      noPadding
+                      count={container.properties.instances && container.properties.instances.length}
+                      icon={<FontIcon>memory</FontIcon>}
+                    >
+                      <ContainerInstances
+                        instances={props.containerInstances}
+                        providerType={providerType}
+                        containerModel={container}
+                        fqon={match.params.fqon}
                       />
-                    </Col>
-                  </Row>}
+                    </Panel>
+                  </Col>}
 
-                {values.properties.provider.id &&
-                  <Row gutter={5}>
+                {selectedProvider.id && hasServiceAddresses &&
+                  <Col flex={12}>
+                    <Panel
+                      title="Service Addresses"
+                      noPadding
+                      count={container.properties.port_mappings && container.properties.port_mappings.length}
+                      icon={<FontIcon>settings_ethernet</FontIcon>}
+                    >
+                      <ContainerServiceAddresses
+                        portMappings={container.properties.port_mappings}
+                      />
+                    </Panel>
+                  </Col>}
 
-                    {selectedProvider.id && hasInstances &&
-                      <Col flex={12}>
-                        <Panel
-                          title="Running Instances"
-                          noPadding
-                          count={container.properties.instances && container.properties.instances.length}
-                          icon={<FontIcon>memory</FontIcon>}
-                        >
-                          <ContainerInstances
-                            instances={props.containerInstances}
-                            providerType={providerType}
-                            containerModel={container}
-                            fqon={match.params.fqon}
-                          />
-                        </Panel>
-                      </Col>}
+                {/* disabled for provider containers "inline mode" */}
+                {editMode && !inlineMode &&
+                <Col flex={12}>
+                  <Panel
+                    title="Public Endpoints"
+                    pending={props.apiEndpointsPending}
+                    noPadding
+                    count={props.apiEndpoints.length}
+                  >
 
-                    {selectedProvider.id && hasServiceAddresses &&
-                      <Col flex={12}>
-                        <Panel
-                          title="Service Addresses"
-                          noPadding
-                          count={container.properties.port_mappings && container.properties.port_mappings.length}
-                          icon={<FontIcon>settings_ethernet</FontIcon>}
-                        >
-                          <ContainerServiceAddresses
-                            portMappings={container.properties.port_mappings}
-                          />
-                        </Panel>
-                      </Col>}
+                    {!enabledEndpoints &&
+                      <Div padding="16px">
+                        {!enabledEndpoints && values.properties.port_mappings.length > 0 ?
+                          <Error block>* Save your changes to add an endpoint</Error> : <Caption>Add a Service Mapping to add a Public Endpoint</Caption>}
+                      </Div>}
 
-                    {/* disabled for provider containers "inline mode" */}
-                    {editMode && !inlineMode &&
-                    <Col flex={12}>
-                      <Panel
-                        title="Public Endpoints"
-                        pending={props.apiEndpointsPending}
-                        noPadding
-                        count={props.apiEndpoints.length}
-                      >
+                    <APIEndpointInlineList
+                      endpoints={props.apiEndpoints}
+                      onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, container.id, 'container', values.properties.port_mappings)}
+                      disabled={!enabledEndpoints}
+                    />
+                  </Panel>
+                </Col>}
 
-                        {!enabledEndpoints &&
-                          <Div padding="16px">
-                            {!enabledEndpoints && values.properties.port_mappings.length > 0 ?
-                              <Error block>* Save your changes to add an endpoint</Error> : <Caption>Add a Service Mapping to add a Public Endpoint</Caption>}
-                          </Div>}
-
-                        <APIEndpointInlineList
-                          endpoints={props.apiEndpoints}
-                          onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, container.id, 'container', values.properties.port_mappings)}
-                          disabled={!enabledEndpoints}
-                        />
-                      </Panel>
-                    </Col>}
-
-                    <Col flex={12}>
-                      <Panel title="General" expandable={false}>
-                        <Row gutter={5}>
-                          <Col flex={6} xs={12}>
-                            <Field
-                              id="container-name"
-                              component={TextField}
-                              name="name"
-                              label="Name"
-                              type="text"
-                              required
-                              disabled={editMode}
-                              helpText="the name of the container"
-                            />
-                          </Col>
-
-                          <Col flex={2} xs={12}>
-                            <Field
-                              component={TextField}
-                              name="properties.num_instances"
-                              min={0}
-                              max={999}
-                              step={1}
-                              label="Instances"
-                              type="number"
-                              normalize={fixInputNumber}
-                              helpText="0 = suspended"
-                            />
-                          </Col>
-                          <Col flex={2} xs={12}>
-                            <Field
-                              component={TextField}
-                              name="properties.cpus"
-                              min={0.1}
-                              max={10.0}
-                              step="any"
-                              label="CPU"
-                              type="number"
-                              required
-                              parse={value => parseFloat(value)} // redux form formats everything as string, so force number
-                            />
-                          </Col>
-                          <Col flex={2} xs={12}>
-                            <Field
-                              component={TextField}
-                              name="properties.memory"
-                              min={32}
-                              step={1}
-                              label="Memory"
-                              type="number"
-                              required
-                              normalize={fixInputNumber}
-                            />
-                          </Col>
-
-                          <Col flex={10} xs={12}>
-                            <Field
-                              component={TextField}
-                              name="properties.image"
-                              label="Image"
-                              type="text"
-                              required
-                              helpText="e.g. nginx:alpine"
-                            />
-                          </Col>
-
-                          <Col flex={2} xs={12}>
-                            <Field
-                              id="force_pull"
-                              component={Checkbox}
-                              name="properties.force_pull"
-                              // TODO: Find out why redux-form state for bool doesn't apply
-                              checked={values.properties.force_pull}
-                              label="Force Pull"
-                            />
-                          </Col>
-                        </Row>
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel
-                        title="Networking"
-                        expandable={false}
-                      >
-                        <Row gutter={5}>
-                          <Col flex={6} xs={12}>
-                            <Field
-                              id="select-network"
-                              component={SelectField}
-                              name="properties.network"
-                              menuItems={setNetworks()}
-                              disabled={!setNetworks().length}
-                              label={!setNetworks().length ? 'No Configured Network Types' : 'Network Type'}
-                              itemLabel="name"
-                              itemValue="name"
-                              required
-                            />
-                          </Col>
-                        </Row>
-                        {values.properties.network &&
-                        <Panel title="Service Mappings" noPadding count={values.properties.port_mappings.length}>
-                          <FieldArray
-                            name="properties.port_mappings"
-                            component={PortMappingsForm}
-                            networkType={values.properties.network}
-                            portMappingFormValues={values.properties.port_mappings}
-                            change={change}
-                          />
-                        </Panel>}
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel title="Description" defaultExpanded={!!container.description}>
+                <Col flex={12}>
+                  <Panel title="General" expandable={false}>
+                    <Row gutter={5}>
+                      <Col flex={6} xs={12}>
                         <Field
-                          id="container-description"
+                          id="container-name"
                           component={TextField}
-                          name="description"
-                          placeholder="Description"
+                          name="name"
+                          label="Name"
                           type="text"
-                          rows={1}
+                          required
+                          disabled={editMode}
+                          helpText="the name of the container"
                         />
-                      </Panel>
-                    </Col>
+                      </Col>
 
-                    <Col flex={12}>
-                      <Panel title="Command" noPadding defaultExpanded={!!container.properties.cmd}>
-                        <Field
-                          component={AceEditor}
-                          mode="sh"
-                          theme="chrome"
-                          name="properties.cmd"
-                          maxLines={10}
-                          minLines={5}
-                        />
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel
-                        title="Environment Variables"
-                        defaultExpanded={values.properties.env.length > 0}
-                        noPadding
-                        count={values.properties.env.length}
-                      >
-                        <FieldArray
-                          component={UnixVariablesForm}
-                          name="properties.env"
-                        />
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel
-                        title="Labels"
-                        defaultExpanded={values.properties.labels.length > 0}
-                        noPadding
-                        count={values.properties.labels.length}
-                      >
-                        <FieldArray
-                          component={LabelsForm}
-                          name="properties.labels"
-                        />
-                      </Panel>
-                    </Col>
-
-                    <Col flex={12}>
-                      <Panel
-                        title="Volumes"
-                        noPadding
-                        defaultExpanded={values.properties.volumes.length > 0}
-                        count={values.properties.volumes.length}
-                      >
-                        <FieldArray
-                          name="properties.volumes"
-                          component={VolumesForm}
-                          providerType={providerType}
-                          volumeFormValues={values.properties.volumes}
-                        />
-                      </Panel>
-                    </Col>
-
-                    {isSecretsEnabled() &&
-                    <Col flex={12}>
-                      <Panel
-                        title="Secrets"
-                        noPadding
-                        defaultExpanded={values.properties.secrets.length > 0}
-                        count={values.properties.secrets.length}
-                      >
-                        <FieldArray
-                          name="properties.secrets"
-                          component={SecretsPanelForm}
-                          secrets={props.secretsDropDown}
-                          providerType={providerType}
-                          secretFormValues={values.properties.secrets}
-                        />
-                      </Panel>
-                    </Col>}
-
-                    {/* TODO: Implement for Kubernetes/Docker when api is ready */}
-                    {isHealthChecksEnabled &&
-                    <Col flex={12}>
-                      <Panel
-                        title="Health Checks"
-                        noPadding
-                        defaultExpanded={values.properties.health_checks.length > 0}
-                        count={values.properties.health_checks.length}
-                      >
-                        <FieldArray
-                          name="properties.health_checks"
-                          component={HealthChecksForm}
-                          healthCheckvalues={values.properties.health_checks}
-                        />
-                      </Panel>
-                    </Col>}
-
-                    <Col flex={12}>
-                      <Panel title="Advanced" defaultExpanded={false}>
+                      <Col flex={2} xs={12}>
                         <Field
                           component={TextField}
-                          name="properties.constraints"
-                          label="Constraints"
-                          type="text"
-                          helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
+                          name="properties.num_instances"
+                          min={0}
+                          max={999}
+                          step={1}
+                          label="Instances"
+                          type="number"
+                          normalize={fixInputNumber}
+                          helpText="0 = suspended"
                         />
+                      </Col>
+                      <Col flex={2} xs={12}>
                         <Field
                           component={TextField}
-                          name="properties.accepted_resource_roles"
-                          label="Resource Roles"
-                          type="text"
-                          helpText="Comma delimited set of resource roles"
+                          name="properties.cpus"
+                          min={0.1}
+                          max={10.0}
+                          step="any"
+                          label="CPU"
+                          type="number"
+                          required
+                          parse={value => parseFloat(value)} // redux form formats everything as string, so force number
                         />
+                      </Col>
+                      <Col flex={2} xs={12}>
                         <Field
                           component={TextField}
-                          name="properties.user"
-                          label="User"
-                          type="text"
-                          helpText="unix formatted username"
+                          name="properties.memory"
+                          min={32}
+                          step={1}
+                          label="Memory"
+                          type="number"
+                          required
+                          normalize={fixInputNumber}
                         />
-                      </Panel>
-                    </Col>
-                  </Row>}
-              </CardText>
-            </Card>
+                      </Col>
+
+                      <Col flex={10} xs={12}>
+                        <Field
+                          component={TextField}
+                          name="properties.image"
+                          label="Image"
+                          type="text"
+                          required
+                          helpText="e.g. nginx:alpine"
+                        />
+                      </Col>
+
+                      <Col flex={2} xs={12}>
+                        <Field
+                          id="force_pull"
+                          component={Checkbox}
+                          name="properties.force_pull"
+                          // TODO: Find out why redux-form state for bool doesn't apply
+                          checked={values.properties.force_pull}
+                          label="Force Pull"
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel
+                    title="Networking"
+                    expandable={false}
+                  >
+                    <Row gutter={5}>
+                      <Col flex={6} xs={12}>
+                        <Field
+                          id="select-network"
+                          component={SelectField}
+                          name="properties.network"
+                          menuItems={setNetworks()}
+                          disabled={!setNetworks().length}
+                          label={!setNetworks().length ? 'No Configured Network Types' : 'Network Type'}
+                          itemLabel="name"
+                          itemValue="name"
+                          required
+                        />
+                      </Col>
+                    </Row>
+                    {values.properties.network &&
+                    <Panel title="Service Mappings" noPadding count={values.properties.port_mappings.length}>
+                      <FieldArray
+                        name="properties.port_mappings"
+                        component={PortMappingsForm}
+                        networkType={values.properties.network}
+                        portMappingFormValues={values.properties.port_mappings}
+                        change={change}
+                      />
+                    </Panel>}
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel title="Description" defaultExpanded={!!container.description}>
+                    <Field
+                      id="container-description"
+                      component={TextField}
+                      name="description"
+                      placeholder="Description"
+                      type="text"
+                      rows={1}
+                    />
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel title="Command" noPadding defaultExpanded={!!container.properties.cmd}>
+                    <Field
+                      component={AceEditor}
+                      mode="sh"
+                      theme="chrome"
+                      name="properties.cmd"
+                      maxLines={10}
+                      minLines={5}
+                    />
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel
+                    title="Environment Variables"
+                    defaultExpanded={values.properties.env.length > 0}
+                    noPadding
+                    count={values.properties.env.length}
+                  >
+                    <FieldArray
+                      component={UnixVariablesForm}
+                      name="properties.env"
+                    />
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel
+                    title="Labels"
+                    defaultExpanded={values.properties.labels.length > 0}
+                    noPadding
+                    count={values.properties.labels.length}
+                  >
+                    <FieldArray
+                      component={LabelsForm}
+                      name="properties.labels"
+                    />
+                  </Panel>
+                </Col>
+
+                <Col flex={12}>
+                  <Panel
+                    title="Volumes"
+                    noPadding
+                    defaultExpanded={values.properties.volumes.length > 0}
+                    count={values.properties.volumes.length}
+                  >
+                    <FieldArray
+                      name="properties.volumes"
+                      component={VolumesForm}
+                      providerType={providerType}
+                      volumeFormValues={values.properties.volumes}
+                    />
+                  </Panel>
+                </Col>
+
+                {isSecretsEnabled() &&
+                <Col flex={12}>
+                  <Panel
+                    title="Secrets"
+                    noPadding
+                    defaultExpanded={values.properties.secrets.length > 0}
+                    count={values.properties.secrets.length}
+                  >
+                    <FieldArray
+                      name="properties.secrets"
+                      component={SecretsPanelForm}
+                      secrets={props.secretsDropDown}
+                      providerType={providerType}
+                      secretFormValues={values.properties.secrets}
+                    />
+                  </Panel>
+                </Col>}
+
+                {/* TODO: Implement for Kubernetes/Docker when api is ready */}
+                {isHealthChecksEnabled &&
+                <Col flex={12}>
+                  <Panel
+                    title="Health Checks"
+                    noPadding
+                    defaultExpanded={values.properties.health_checks.length > 0}
+                    count={values.properties.health_checks.length}
+                  >
+                    <FieldArray
+                      name="properties.health_checks"
+                      component={HealthChecksForm}
+                      healthCheckvalues={values.properties.health_checks}
+                    />
+                  </Panel>
+                </Col>}
+
+                <Col flex={12}>
+                  <Panel title="Advanced" defaultExpanded={false}>
+                    <Field
+                      component={TextField}
+                      name="properties.constraints"
+                      label="Constraints"
+                      type="text"
+                      helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
+                    />
+                    <Field
+                      component={TextField}
+                      name="properties.accepted_resource_roles"
+                      label="Resource Roles"
+                      type="text"
+                      helpText="Comma delimited set of resource roles"
+                    />
+                    <Field
+                      component={TextField}
+                      name="properties.user"
+                      label="User"
+                      type="text"
+                      helpText="unix formatted username"
+                    />
+                  </Panel>
+                </Col>
+              </Row>}
           </Col>
         </Row>
       </Form>

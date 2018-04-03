@@ -9,10 +9,10 @@ const PanelWrapper = styled.div`
   width: 100%;
   ${props => !props.error && !props.noShadow && 'box-shadow: 0 1px 1px 0 rgba(0,0,0,.1), 0 1px 1px 0 rgba(0,0,0,.1), 0 0 1px -4px rgba(0,0,0,.2)'};
   ${props => props.error && css`
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 0 1px -4px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0px 3px 0 ${props.theme.colors['$md-red-500']},
-  0 1px 3px 0 ${props.theme.colors['$md-red-500']},
-  0 2px 3px -4px ${props.theme.colors['$md-red-500']};
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 0 1px -4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 3px 0 ${props.theme.colors['$md-red-500']},
+    0 1px 3px 0 ${props.theme.colors['$md-red-500']},
+    0 2px 3px -4px ${props.theme.colors['$md-red-500']};
   `};
 `;
 

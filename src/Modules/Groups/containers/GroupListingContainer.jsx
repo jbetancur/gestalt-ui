@@ -8,7 +8,8 @@ import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCel
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { GroupIcon } from 'components/Icons';
-import { Card, Checkbox, FontIcon } from 'react-md';
+import { Card } from 'components/Cards';
+import { Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import actions from '../actions';
 

@@ -8,7 +8,8 @@ import { Name, Timestamp, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
-import { Card, Checkbox, FontIcon } from 'react-md';
+import { Card } from 'components/Cards';
+import { Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
@@ -165,7 +166,7 @@ class PolicyRuleListing extends PureComponent {
             contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<Title>There are no rules to display</Title>}
+            noDataComponent={<Title light>There are no rules to display</Title>}
             onRowClicked={this.handleRowClicked}
           />
         </Col>
