@@ -9,11 +9,11 @@ const LI = styled.li`
   padding-right: 8px;
 
   &:nth-child(odd) {
-    background-color: ${props => props.theme.colors['$md-grey-100']};
+    background-color: ${props => props.theme.colors['$md-grey-50']};
   }
 
   &:nth-child(even) {
-    background-color: ${props => props.theme.colors['$md-grey-50']};
+    background-color: ${props => props.theme.colors['$md-white']};
   }
 
   &:first-child {
@@ -32,15 +32,6 @@ const LI = styled.li`
     ${() => media.sm`
       padding-top: 32px;
     `};
-  }
-
-  &:nth-child(n+3) {
-    border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  }
-
-  &:last-child {
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
   }
 `;
 

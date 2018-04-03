@@ -29,7 +29,7 @@ const NoData = ({ match, message, icon }) => (
     <IconWaterMark>
       {icon}
     </IconWaterMark>
-    <TitleStyled>
+    <TitleStyled light>
       {message}
     </TitleStyled>
     <NoDataWrapper>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import { Card, CardTitle, CardText } from 'react-md';
+import { Title } from 'components/Typography';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { APIEndpoints } from 'Modules/APIEndpoints';
@@ -29,120 +29,117 @@ const APIForm = (props) => {
   } = props;
 
   return (
-    <div>
-      {api.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <DetailsPane model={api} />
-          </Col>
-        </Row>}
-      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiPending}>
-        <Row gutter={5} center>
-          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-            <CardTitle title={title} />
-            <ActionsToolbar>
-              <Row>
-                <Col flex={12}>
+    <Row gutter={5} center>
+      <Col flex={10} xs={12} sm={12} md={12}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiPending}>
+          <Title>{title}</Title>
+          <ActionsToolbar>
+            <Row>
+              <Col flex={12}>
+                <Button
+                  iconChildren="arrow_back"
+                  flat
+                  disabled={apiPending || submitting}
+                  component={Link}
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
+                >
+                  {cancelLabel}
+                </Button>
+                <Button
+                  raised
+                  iconChildren="save"
+                  type="submit"
+                  disabled={pristine || apiPending || submitting}
+                  primary
+                >
+                  {submitLabel}
+                </Button>
+                {editMode && api.id && [
                   <Button
-                    iconChildren="arrow_back"
+                    key="add-endpoint"
                     flat
-                    disabled={apiPending || submitting}
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
-                  >
-                    {cancelLabel}
-                  </Button>
-                  <Button
-                    raised
-                    iconChildren="save"
-                    type="submit"
-                    disabled={pristine || apiPending || submitting}
                     primary
+                    component={Link}
+                    to={`${match.url}/apiendpoints/create`}
+                    iconChildren="link"
                   >
-                    {submitLabel}
-                  </Button>
-                  {editMode && api.id && [
-                    <Button
-                      key="add-endpoint"
-                      flat
-                      primary
-                      component={Link}
-                      to={`${match.url}/apiendpoints/create`}
-                      iconChildren="link"
-                    >
-                      Add Endpoint
-                    </Button>,
-                    <Button
-                      key="api--entitlements"
-                      flat
-                      iconChildren="security"
-                      onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, api.id, 'apis', 'API')}
-                    >
-                      API Entitlements
-                    </Button>]}
-                </Col>
-              </Row>
-            </ActionsToolbar>
+                    Add Endpoint
+                  </Button>,
+                  <Button
+                    key="api--entitlements"
+                    flat
+                    iconChildren="security"
+                    onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, api.id, 'apis', 'API')}
+                  >
+                    API Entitlements
+                  </Button>]}
+              </Col>
+            </Row>
+          </ActionsToolbar>
 
-            {apiPending && <ActivityContainer id="api-form" />}
+          {apiPending && <ActivityContainer id="api-form" />}
 
-            <CardText>
-              <Row gutter={5}>
-                <Col flex={12}>
-                  <Panel title="General" expandable={false}>
-                    <Row gutter={5}>
-                      <Col flex={6} xs={12}>
-                        <Field
-                          id="select-provider"
-                          component={SelectField}
-                          name="properties.provider.locations"
-                          required
-                          label="Provider"
-                          itemLabel="name"
-                          itemValue="id"
-                          menuItems={props.providersKongByGateway}
-                          async
-                          disabled={editMode}
-                        />
-                      </Col>
-                      <Col flex={6} xs={12}>
-                        <Field
-                          component={TextField}
-                          name="name"
-                          label="Name"
-                          type="text"
-                          required
-                          disabled={editMode}
-                        />
-                      </Col>
-                    </Row>
-                  </Panel>
-                </Col>
-
-                <Col flex={12}>
-                  <Panel title="Description" defaultExpanded={!!api.description}>
+          <Row gutter={5}>
+            {editMode && api.id &&
+              <Col flex={12}>
+                <Panel title="Resource Details">
+                  <DetailsPane model={api} />
+                </Panel>
+              </Col>}
+            <Col flex={12}>
+              <Panel title="General" expandable={false}>
+                <Row gutter={5}>
+                  <Col flex={6} xs={12}>
+                    <Field
+                      id="select-provider"
+                      component={SelectField}
+                      name="properties.provider.locations"
+                      required
+                      label="Provider"
+                      itemLabel="name"
+                      itemValue="id"
+                      menuItems={props.providersKongByGateway}
+                      async
+                      disabled={editMode}
+                    />
+                  </Col>
+                  <Col flex={6} xs={12}>
                     <Field
                       component={TextField}
-                      name="description"
-                      placeholder="Description"
+                      name="name"
+                      label="Name"
                       type="text"
-                      rows={1}
+                      required
+                      disabled={editMode}
                     />
-                  </Panel>
-                </Col>
-              </Row>
-            </CardText>
-          </Col>
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
 
-          {editMode && api.id &&
-            <Row gutter={5} center>
-              <Col flex={10} xs={12} sm={12} md={12}>
-                <APIEndpoints {...props} />
-              </Col>
-            </Row>}
-        </Row>
-      </Form>
-    </div>
+            <Col flex={12}>
+              <Panel title="Description" defaultExpanded={!!api.description}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  placeholder="Description"
+                  type="text"
+                  rows={1}
+                />
+              </Panel>
+            </Col>
+          </Row>
+        </Form>
+
+        {editMode && api.id &&
+          <Row gutter={5}>
+            <Col flex={12}>
+              <APIEndpoints {...props} />
+            </Col>
+          </Row>}
+
+      </Col>
+    </Row>
   );
 };
 

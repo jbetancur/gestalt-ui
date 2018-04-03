@@ -9,7 +9,8 @@ import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCel
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { ProviderIcon } from 'components/Icons';
-import { Card, Checkbox, FontIcon } from 'react-md';
+import { Card } from 'components/Cards';
+import { Checkbox, FontIcon } from 'react-md';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';

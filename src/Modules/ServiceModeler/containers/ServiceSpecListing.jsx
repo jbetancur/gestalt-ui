@@ -8,7 +8,8 @@ import { Name, Timestamp, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { ServiceIcon } from 'components/Icons';
-import { Card, FontIcon } from 'react-md';
+import { Card } from 'components/Cards';
+import { FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 
 class PolicyListing extends PureComponent {

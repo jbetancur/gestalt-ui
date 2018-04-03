@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray, getFormValues } from 'redux-form';
-import { Card, CardTitle, CardText } from 'react-md';
+import { Title } from 'components/Typography';
 import { metaModels } from 'Modules/MetaResource';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
@@ -40,15 +40,9 @@ const SecretForm = (props) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={secretPending}>
-      {secret.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <DetailsPane model={secret} />
-          </Col>
-        </Row>}
       <Row gutter={5} center>
-        <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-          <CardTitle title={title} />
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <Title>{title}</Title>
           <ActionsToolbar>
             <Row>
               <Col flex={12}>
@@ -85,66 +79,70 @@ const SecretForm = (props) => {
 
           {secretPending && <ActivityContainer id="secret-form-loading" />}
 
-          <CardText>
-            <Row gutter={5}>
+          <Row gutter={5}>
+            {secret.id &&
               <Col flex={12}>
-                <Panel title="General" expandable={false}>
-                  <Row gutter={5}>
-                    <Col flex={6} xs={12}>
-                      <Field
-                        id="select-provider"
-                        component={SelectField}
-                        name="properties.provider.id"
-                        label="Provider"
-                        itemLabel="name"
-                        itemValue="id"
-                        menuItems={providerTypes}
-                        disabled={secret.id}
-                        onChange={reset}
-                        required
-                        async
-                      />
-                    </Col>
-
-                    <Col flex={6} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="name"
-                        label="Name"
-                        type="text"
-                        required
-                        autoComplete="none"
-                      />
-                    </Col>
-                  </Row>
+                <Panel title="Resource Details">
+                  <DetailsPane model={secret} />
                 </Panel>
-              </Col>
+              </Col>}
+            <Col flex={12}>
+              <Panel title="General" expandable={false}>
+                <Row gutter={5}>
+                  <Col flex={6} xs={12}>
+                    <Field
+                      id="select-provider"
+                      component={SelectField}
+                      name="properties.provider.id"
+                      label="Provider"
+                      itemLabel="name"
+                      itemValue="id"
+                      menuItems={providerTypes}
+                      disabled={secret.id}
+                      onChange={reset}
+                      required
+                      async
+                    />
+                  </Col>
 
+                  <Col flex={6} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      required
+                      autoComplete="none"
+                    />
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
+
+            <Col flex={12}>
+              <Panel title="Description" defaultExpanded={!!secret.description}>
+                <Field
+                  component={TextField}
+                  name="description"
+                  placeholder="Description"
+                  type="text"
+                  rows={1}
+                />
+              </Panel>
+            </Col>
+
+            {selectedProvider.id &&
               <Col flex={12}>
-                <Panel title="Description" defaultExpanded={!!secret.description}>
-                  <Field
-                    component={TextField}
-                    name="description"
-                    placeholder="Description"
-                    type="text"
-                    rows={1}
+                <Panel title="Secret Items" noPadding>
+                  <FieldArray
+                    component={SecretItemsForm}
+                    name="properties.items"
+                    disabled={secret.id}
+                    multiPart={isMultiPartSecret}
                   />
                 </Panel>
-              </Col>
-
-              {selectedProvider.id &&
-                <Col flex={12}>
-                  <Panel title="Secret Items" noPadding>
-                    <FieldArray
-                      component={SecretItemsForm}
-                      name="properties.items"
-                      disabled={secret.id}
-                      multiPart={isMultiPartSecret}
-                    />
-                  </Panel>
-                </Col>}
-            </Row>
-          </CardText>
+              </Col>}
+          </Row>
         </Col>
       </Row>
     </Form>
