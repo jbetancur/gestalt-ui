@@ -1,7 +1,7 @@
 import styled, { withTheme } from 'styled-components';
 import { media } from 'util/helpers/media';
 
-const LI = styled.li`
+const FieldItem = styled.div`
   position: relative;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -9,7 +9,7 @@ const LI = styled.li`
   padding-right: 8px;
 
   &:nth-child(odd) {
-    background-color: ${props => props.theme.colors['$md-grey-50']};
+    background-color: ${props => props.theme.colors['$md-grey-100']};
   }
 
   &:nth-child(even) {
@@ -19,8 +19,8 @@ const LI = styled.li`
   &:first-child {
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
-    background-color: white;
     padding-left: 16px;
+    background-color: ${props => (props.noBackground ? 'transparent' : props.theme.colors['$md-white'])};
   }
 
   &:nth-child(n+2) {
@@ -35,4 +35,4 @@ const LI = styled.li`
   }
 `;
 
-export default withTheme(LI);
+export default withTheme(FieldItem);

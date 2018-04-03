@@ -10,7 +10,7 @@ import validate from './resourceTypeValidations';
 
 const ResourceTypePage = ({ handleSubmit, previousPage, resourceTypes }) => (
   <Form onSubmit={handleSubmit}>
-    <Row>
+    <Row gutter={5}>
       <Col flex={12}>
         <FieldArray
           name="properties.supported_resources"

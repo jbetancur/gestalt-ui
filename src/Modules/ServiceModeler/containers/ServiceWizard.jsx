@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Stepper } from 'components/Stepper';
 import { Col, Row } from 'react-flexybox';
-import { Card, CardContent } from 'components/Cards';
+import { FullPage } from 'components/FullPage';
 import ProviderTypePage from './ProviderTypePage';
 import ResourceTypePage from './ResourceTypePage';
 import ActionsPage from './ActionsPage';
 
 class ServiceWizardForm extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     resourceTypesDropDown: PropTypes.array,
     lambdasDropDown: PropTypes.array,
@@ -72,21 +74,19 @@ class ServiceWizardForm extends PureComponent {
     ];
 
     return (
-      <Row center gutter={5}>
-        <Col flex={10}>
-          <Card>
-            <CardContent>
-              <Stepper
-                steps={steps}
-                onSubmit={onSubmit}
-                activeStep={this.state.step}
-              />
-            </CardContent>
-          </Card>
-        </Col>
-      </Row>
+      <FullPage title="Create a Service Specification" backURL={`/${this.props.match.params.fqon}/servicespecs`}>
+        <Row justifyContent="center">
+          <Col flex={8}>
+            <Stepper
+              steps={steps}
+              onSubmit={onSubmit}
+              activeStep={this.state.step}
+            />
+          </Col>
+        </Row>
+      </FullPage>
     );
   }
 }
 
-export default ServiceWizardForm;
+export default withRouter(ServiceWizardForm);

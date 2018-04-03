@@ -8,7 +8,7 @@ const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {..
   color: ${props => props.theme.colors['$md-red-500']};
   ${props => props.absoluteTopRight && css`
     position: absolute;
-    top: 4px;
+    top: -15px;
     right: 2px;
   `};
   ${() => media.xs`
