@@ -24,7 +24,7 @@ import acceptHeaders from '../lists/acceptHeaders';
 const timezones = moment.tz.names();
 
 const LambdaForm = (props) => {
-  const { values, match, lambda } = props;
+  const { values, match, lambda, editMode } = props;
 
   // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
   const getRuntime = () => runTimes.find((runtime) => {
@@ -63,7 +63,7 @@ const LambdaForm = (props) => {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={props.title}
-            hideActions={!!lambda.id}
+            showActions={editMode}
             actions={[
               <Button
                 key="lambda--log"
@@ -98,7 +98,7 @@ const LambdaForm = (props) => {
           {props.lambdaPending && <ActivityContainer id="lambda-form" />}
 
           <Row gutter={5}>
-            {lambda.id &&
+            {editMode &&
               <Col flex={12}>
                 <Panel title="Resource Details" defaultExpanded={false}>
                   <DetailsPane model={lambda} />
@@ -107,20 +107,20 @@ const LambdaForm = (props) => {
             <Col flex={12}>
               <Panel title="General" expandable={false} >
                 <Row gutter={5}>
-                  <Col flex={6} xs={12} sm={12}>
-                    <Field
-                      id="select-provider"
-                      component={SelectField}
-                      name="properties.provider.id"
-                      required
-                      label="Lambda Provider"
-                      itemLabel="name"
-                      itemValue="id"
-                      menuItems={props.providersByType}
-                      async
-                      disabled={props.editMode}
-                    />
-                  </Col>
+                  {editMode &&
+                    <Col flex={6} xs={12} sm={12}>
+                      <Field
+                        id="select-provider"
+                        component={SelectField}
+                        name="properties.provider.id"
+                        required
+                        label="Lambda Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={props.providersByType}
+                        async
+                      />
+                    </Col>}
                   <Col flex={6} xs={12} sm={12}>
                     <Field
                       component={TextField}

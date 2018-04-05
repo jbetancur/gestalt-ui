@@ -34,7 +34,7 @@ const APIForm = (props) => {
         <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiPending}>
           <ActionsToolbar
             title={title}
-            hideActions={editMode && api.id}
+            showActions={editMode && api.id}
             actions={[
               <Button
                 key="add-endpoint"

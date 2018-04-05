@@ -27,7 +27,7 @@ const ActionStyle = styled.div`
   flex: 1 1 auto;
 `;
 
-const ActionsHeader = ({ title, subtitle, titleIcon, actions, hideActions }) => (
+const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => (
   <ActionHeaderStyle>
     <TitleStyle>
       <Title>
@@ -40,7 +40,7 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, hideActions }) => 
       {!!subtitle &&
         <Subtitle>{subtitle}</Subtitle>}
     </TitleStyle>
-    {actions.length > 0 && hideActions &&
+    {actions.length > 0 && showActions &&
       <ActionStyle>
         {actions}
       </ActionStyle>}
@@ -52,14 +52,14 @@ ActionsHeader.propTypes = {
   subtitle: PropTypes.string,
   titleIcon: PropTypes.node,
   actions: PropTypes.arrayOf(PropTypes.node),
-  hideActions: PropTypes.bool,
+  showActions: PropTypes.bool,
 };
 
 ActionsHeader.defaultProps = {
   subtitle: null,
   actions: [],
   titleIcon: null,
-  hideActions: false,
+  showActions: true,
 };
 
 export default withTheme(ActionsHeader);

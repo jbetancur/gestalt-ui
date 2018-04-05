@@ -57,6 +57,7 @@ class SecretEdit extends Component {
             title={secret.name}
             submitLabel="Update"
             cancelLabel="Secrets"
+            editMode
             onSubmit={values => this.updateSecret(values)}
             {...this.props}
           />}

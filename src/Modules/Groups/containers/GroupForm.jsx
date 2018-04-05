@@ -21,7 +21,6 @@ const MembersList = styled(List)`
   height: 20em;
   box-shadow: none;
   overflow: auto;
-  border: 1px solid #F5F5F5;
 `;
 
 const GroupForm = (props) => {
@@ -160,7 +159,7 @@ const GroupForm = (props) => {
         {editMode &&
           <Row gutter={5}>
             <Col flex={6} xs={12}>
-              <Panel title="Available Users" expandable={false}>
+              <Panel title="Available Users" expandable={false} noPadding>
                 <MembersList>
                   <CardSubHeader
                     primaryText={<TextFieldMD
@@ -179,7 +178,7 @@ const GroupForm = (props) => {
             </Col>
 
             <Col flex={6} xs={12}>
-              <Panel title="Members" expandable={false}>
+              <Panel title="Members" expandable={false} noPadding>
                 <MembersList>
                   <CardSubHeader
                     primaryText={<TextFieldMD
