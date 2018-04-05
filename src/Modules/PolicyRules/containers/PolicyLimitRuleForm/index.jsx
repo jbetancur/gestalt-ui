@@ -4,12 +4,12 @@ import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
-import { Card, CardTitle, CardText } from 'react-md';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
+import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import { Checkbox as CheckboxForm, SelectField, TextField } from 'components/ReduxFormFields';
-import Fieldset from 'components/Fieldset';
 import DetailsPane from 'components/DetailsPane';
 import Form from 'components/Form';
 import policyResourceTypes from '../../lists/policyResourceTypes';
@@ -58,120 +58,114 @@ const PolicyLimitRuleForm = (props) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRuleUpdatePending || policyRulePending}>
-      {policyRule.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <DetailsPane model={policyRule} />
-          </Col>
-        </Row>}
-      <Row gutter={5} center>
-        <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-          <CardTitle title={title} />
-          <ActionsToolbar>
-            <Row>
-              <Col flex={12}>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  disabled={policyRulePending || submitting}
-                  component={Link}
-                  to={backLink}
-                >
-                  {cancelLabel}
-                </Button>
-                <Button
-                  raised
-                  iconChildren="save"
-                  type="submit"
-                  disabled={pristine || policyRulePending || submitting}
-                  primary
-                >
-                  {submitLabel}
-                </Button>
-                {policyRule.id &&
-                <Button
-                  key="eventRule--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
-                >
-                  Rule Entitlements
-                </Button>}
-              </Col>
-            </Row>
-          </ActionsToolbar>
+    <Row gutter={5} center>
+      <Col flex={10} xs={12} sm={12} md={12}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRuleUpdatePending || policyRulePending}>
+          <ActionsToolbar
+            title={title}
+            hideActions={policyRule.id}
+            actions={[
+              <Button
+                key="eventRule--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
+              >
+                Entitlements
+              </Button>
+            ]}
+          />
+
           {(policyRuleUpdatePending || policyRulePending) && <ActivityContainer id="policyRule-form" />}
-          <CardText>
-            <Row gutter={5}>
-              <Col flex={4} xs={12}>
-                <Field
-                  component={TextField}
-                  name="name"
-                  label="Name"
-                  type="text"
-                  required
-                />
-              </Col>
-              <Col flex={8} xs={12}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  rows={1}
-                />
-              </Col>
-              <Row gutter={5}>
-                <Col flex={3} xs={12}>
-                  <Field
-                    id="rule-eval-property"
-                    component={SelectField}
-                    menuItems={policyLimiters}
-                    name="properties.eval_logic.property"
-                    itemLabel="name"
-                    itemValue="name"
-                    required
-                    label="Limit"
-                    onChange={handleEvalFields}
-                  />
-                </Col>
-                {values.properties.eval_logic.property &&
+
+          <Row gutter={5}>
+            {policyRule.id &&
+              <Col flex={12}>
+                <Panel title="Resource Details" defaultExpanded={false}>
+                  <DetailsPane model={policyRule} />
+                </Panel>
+              </Col>}
+
+            <Col flex={12}>
+              <Panel title="General" expandable={false}>
+                <Row gutter={5}>
+                  <Col flex={4} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      required
+                    />
+                  </Col>
+                  <Col flex={8} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                    />
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
+
+            <Col flex={12}>
+              <Panel title="Evaluation Logic" expandable={false}>
+                <Row gutter={5}>
                   <Col flex={3} xs={12}>
                     <Field
-                      id="rule-eval-operator"
+                      id="rule-eval-property"
                       component={SelectField}
-                      menuItems={filteredPolicyOperators}
-                      name="properties.eval_logic.operator"
+                      menuItems={policyLimiters}
+                      name="properties.eval_logic.property"
                       itemLabel="name"
                       itemValue="name"
                       required
-                      label="Operator"
+                      label="Limit"
+                      onChange={handleEvalFields}
                     />
-                  </Col>}
-                {values.properties.eval_logic.operator &&
+                  </Col>
+                  {values.properties.eval_logic.property &&
+                    <Col flex={3} xs={12}>
+                      <Field
+                        id="rule-eval-operator"
+                        component={SelectField}
+                        menuItems={filteredPolicyOperators}
+                        name="properties.eval_logic.operator"
+                        itemLabel="name"
+                        itemValue="name"
+                        required
+                        label="Operator"
+                      />
+                    </Col>}
+                  {values.properties.eval_logic.operator &&
+                    <Col flex={3} xs={12}>
+                      <Field
+                        id="rule-eval-value"
+                        component={TextField}
+                        name="properties.eval_logic.value"
+                        label="Value"
+                        type={valueType}
+                        parse={valueType === 'number' ? (value => Number(value)) : null} // redux form formats everything as string, so force number
+                        required
+                      />
+                    </Col>}
                   <Col flex={3} xs={12}>
                     <Field
-                      id="rule-eval-value"
-                      component={TextField}
-                      name="properties.eval_logic.value"
-                      label="Value"
-                      type={valueType}
-                      parse={valueType === 'number' ? (value => Number(value)) : null} // redux form formats everything as string, so force number
-                      required
+                      id="rule-strict"
+                      component={CheckboxForm}
+                      name="properties.strict"
+                      checked={values.properties.strict}
+                      label="Strict"
                     />
-                  </Col>}
-                <Col flex={3} xs={12}>
-                  <Field
-                    id="rule-strict"
-                    component={CheckboxForm}
-                    name="properties.strict"
-                    checked={values.properties.strict}
-                    label="Strict"
-                  />
-                </Col>
-              </Row>
-              <Fieldset legend="Match Actions">
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
+
+            <Col flex={12}>
+              <Panel title="Match Actions" expandable={false}>
                 <Row>
                   {policyActions.map(action => (
                     <Col flex={2} xs={12} sm={6} md={4} key={action.id}>
@@ -187,12 +181,33 @@ const PolicyLimitRuleForm = (props) => {
                       />
                     </Col>))}
                 </Row>
-              </Fieldset>
-            </Row>
-          </CardText>
-        </Col>
-      </Row>
-    </Form>
+              </Panel>
+            </Col>
+          </Row>
+
+          <FullPageFooter>
+            <Button
+              flat
+              iconChildren="arrow_back"
+              disabled={policyRulePending || submitting}
+              component={Link}
+              to={backLink}
+            >
+              {cancelLabel}
+            </Button>
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={pristine || policyRulePending || submitting}
+              primary
+            >
+              {submitLabel}
+            </Button>
+          </FullPageFooter>
+        </Form>
+      </Col>
+    </Row>
   );
 };
 

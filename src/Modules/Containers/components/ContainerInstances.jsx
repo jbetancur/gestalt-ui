@@ -65,7 +65,7 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
 ContainerInstances.propTypes = {
   instances: PropTypes.array,
   containerModel: PropTypes.object.isRequired,
-  fqon: PropTypes.object.isRequired,
+  fqon: PropTypes.string.isRequired,
 };
 
 ContainerInstances.defaultProps = {

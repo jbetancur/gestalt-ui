@@ -70,7 +70,7 @@ class EnvironmentContext extends Component {
     return (
       <Div>
         <EnvironmentNav />
-        <Div paddingLeft="5em">
+        <Div paddingLeft="5em" paddingBottom="64px">
           <EnvironmentHeader
             model={environment}
             {...this.props}

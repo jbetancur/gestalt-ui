@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { Col, Row } from 'react-flexybox';
 import { UnixVariablesListing } from 'Modules/Variables';
-import { DeleteIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 import { getParentFQON } from 'util/helpers/strings';
@@ -21,7 +22,15 @@ class OrganizationDetails extends PureComponent {
     deleteOrg: PropTypes.func.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
+
+  showEntitlements = () => {
+    const { organizationSet, match, entitlementActions } = this.props;
+
+    const name = organizationSet.description || organizationSet.name;
+    entitlementActions.showEntitlementsModal(name, match.params.fqon, null, null, 'Organization');
+  }
 
   delete = (e) => {
     e.stopPropagation();
@@ -67,6 +76,13 @@ class OrganizationDetails extends PureComponent {
             >
               Edit
             </Button>
+            <Button
+              flat
+              iconChildren={<EntitlementIcon size={20} />}
+              onClick={this.showEntitlements}
+            >
+              Entitlements
+            </Button>
           </Col>
         </Row>
       </Div>,
@@ -77,5 +93,6 @@ class OrganizationDetails extends PureComponent {
 export default compose(
   withMetaResource,
   withHierarchy,
+  withEntitlements,
 )(OrganizationDetails);
 

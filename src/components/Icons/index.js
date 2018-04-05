@@ -22,3 +22,5 @@ export { default as EntitlementIcon } from './EntitlementIcon';
 export { default as EnvironmentIcon } from './EnvironmentIcon';
 export { default as OrganizationIcon } from './OrganizationIcon';
 export { default as WorkspaceIcon } from './WorkspaceIcon';
+export { default as StreamIcon } from './StreamIcon';
+export { default as DataFeedIcon } from './DataFeedIcon';

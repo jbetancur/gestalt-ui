@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled, { withTheme } from 'styled-components';
+import styled, { withTheme, css } from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -18,13 +18,11 @@ import actionCreators from '../actions';
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`
   display: inline-block;
-
-  &.action--title {
-    padding-left: 0.3em;
-    position: absolute;
-    right: 0.3em;
-    top: 0.7em;
-  }
+  ${props => props.inContainerView && css`
+    .md-btn--text {
+      margin-top: -4px;
+    }
+  `};
 
   .button--start * {
     color: ${props => props.theme.colors['$md-green-500']};
@@ -284,7 +282,7 @@ class ContainerActions extends PureComponent {
 
     return (
       containerModel.id ?
-        <ActionsWrapper className={inContainerView && 'action--title'}>
+        <ActionsWrapper inContainerView={inContainerView}>
           <MenuButton
             id="container-actions-menu"
             icon={!inContainerView}

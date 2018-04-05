@@ -9,14 +9,15 @@ import { SelectField as MDSelectField } from 'react-md';
 import Form from 'components/Form';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
-import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { Title, Subtitle } from 'components/Typography';
+import { Subtitle } from 'components/Typography';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { ActionsMenu } from 'Modules/Actions';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
 import runTimes from '../lists/runTimes';
 import acceptHeaders from '../lists/acceptHeaders';
 
@@ -60,68 +61,46 @@ const LambdaForm = (props) => {
     >
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
-          <Title>{props.title}</Title>
-          <ActionsToolbar>
-            <Row>
-              <Col flex={12}>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  disabled={props.lambdaPending || props.submitting}
-                  component={Link}
-                  to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/lambdas`}
-                >
-                  {props.cancelLabel}
-                </Button>
-                <Button
-                  raised
-                  iconChildren="save"
-                  type="submit"
-                  disabled={props.pristine || props.lambdaPending || props.submitting}
-                  primary
-                >
-                  {props.submitLabel}
-                </Button>
-                {lambda.id &&
-                  [
-                    <Button
-                      key="lambda--log"
-                      flat
-                      iconChildren="subject"
-                      to={{
-                        pathname: '/logs',
-                        search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
-                      }}
-                      target="_blank"
-                      component={Link}
-                    >
-                      View Log
-                    </Button>,
-                    <ActionsMenu
-                      key="lambda--actions"
-                      model={props.lambda}
-                      actionList={props.actions}
-                      pending={props.actionsPending}
-                    />,
-                    <Button
-                      key="lambda--entitlements"
-                      flat
-                      iconChildren="security"
-                      onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, lambda.id, 'lambdas', 'Lambda')}
-                    >
-                      Lambda Entitlements
-                    </Button>
-                  ]}
-              </Col>
-            </Row>
-          </ActionsToolbar>
+          <ActionsToolbar
+            title={props.title}
+            hideActions={!!lambda.id}
+            actions={[
+              <Button
+                key="lambda--log"
+                flat
+                iconChildren="subject"
+                to={{
+                  pathname: '/logs',
+                  search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
+                }}
+                target="_blank"
+                component={Link}
+              >
+                View Log
+              </Button>,
+              <ActionsMenu
+                key="lambda--actions"
+                model={props.lambda}
+                actionList={props.actions}
+                pending={props.actionsPending}
+              />,
+              <Button
+                key="lambda--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, lambda.id, 'lambdas', 'Lambda')}
+              >
+                Entitlements
+              </Button>
+            ]}
+          />
 
           {props.lambdaPending && <ActivityContainer id="lambda-form" />}
 
           <Row gutter={5}>
             {lambda.id &&
               <Col flex={12}>
-                <Panel title="Resource Details">
+                <Panel title="Resource Details" defaultExpanded={false}>
                   <DetailsPane model={lambda} />
                 </Panel>
               </Col>}
@@ -151,19 +130,17 @@ const LambdaForm = (props) => {
                       required
                     />
                   </Col>
-                </Row>
-              </Panel>
-            </Col>
 
-            <Col flex={12}>
-              <Panel title="Description" defaultExpanded={!!lambda.description}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  placeholder="Description"
-                  type="text"
-                  rows={1}
-                />
+                  <Col flex={12}>
+                    <Field
+                      id="description"
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      rows={1}
+                    />
+                  </Col>
+                </Row>
               </Panel>
             </Col>
 
@@ -393,6 +370,27 @@ const LambdaForm = (props) => {
           </Row>
         </Col>
       </Row>
+
+      <FullPageFooter>
+        <Button
+          flat
+          iconChildren="arrow_back"
+          disabled={props.lambdaPending || props.submitting}
+          component={Link}
+          to={`/${props.match.params.fqon}/hierarchy/${props.match.params.workspaceId}/environment/${props.match.params.environmentId}/lambdas`}
+        >
+          {props.cancelLabel}
+        </Button>
+        <Button
+          raised
+          iconChildren="save"
+          type="submit"
+          disabled={props.pristine || props.lambdaPending || props.submitting}
+          primary
+        >
+          {props.submitLabel}
+        </Button>
+      </FullPageFooter>
     </Form>
   );
 };

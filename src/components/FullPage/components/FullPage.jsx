@@ -25,7 +25,7 @@ const PageWrapper = styled.div`
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 9999;
+  z-index: 99;
   overflow: scroll;
   padding-bottom: 16px;
   /* animation: ${fadeIn} 0.05s linear; */

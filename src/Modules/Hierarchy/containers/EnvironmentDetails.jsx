@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { Col, Row } from 'react-flexybox';
 import { UnixVariablesListing } from 'Modules/Variables';
-import { DeleteIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 import ResourceProperties from './ResourceProperties';
@@ -19,7 +20,16 @@ class EnvironmentDetails extends PureComponent {
     history: PropTypes.object.isRequired,
     deleteEnvironment: PropTypes.func.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
+
+  showEntitlements = () => {
+    const { environment, match, entitlementActions } = this.props;
+
+    const name = environment.description || environment.name;
+    entitlementActions.showEntitlementsModal(name, match.params.fqon, environment.id, 'environments', 'Environment');
+  }
+
 
   delete = () => {
     const { match, history, environment, deleteEnvironment, hierarchyActions } = this.props;
@@ -62,6 +72,13 @@ class EnvironmentDetails extends PureComponent {
             >
               Edit
             </Button>
+            <Button
+              flat
+              iconChildren={<EntitlementIcon size={20} />}
+              onClick={this.showEntitlements}
+            >
+              Entitlements
+            </Button>
           </Col>
         </Row>
       </Div>,
@@ -72,4 +89,5 @@ class EnvironmentDetails extends PureComponent {
 export default compose(
   withMetaResource,
   withHierarchy,
+  withEntitlements,
 )(EnvironmentDetails);

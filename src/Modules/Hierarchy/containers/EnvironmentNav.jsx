@@ -1,8 +1,10 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'components/Navigation';
-import { LambdaIcon, ContainerIcon, ProviderIcon, APIIcon, PolicyIcon, SecretIcon } from 'components/Icons';
+import { LambdaIcon, ContainerIcon, ProviderIcon, APIIcon, PolicyIcon, SecretIcon, StreamIcon, DataFeedIcon } from 'components/Icons';
+import withApp from 'App/withApp';
 
 const renderNavItems = props => (
   [
@@ -48,9 +50,28 @@ const renderNavItems = props => (
       to={`${props.match.url}/secrets`}
       activeClassName="active-link"
     />,
+    <NavItem
+      key="environment--streams"
+      icon={<StreamIcon />}
+      title="Streams"
+      to={`${props.match.url}/streams`}
+      activeClassName="active-link"
+      isVisible={props.appState.enableExperimental}
+    />,
+    <NavItem
+      key="environment--datafeeds"
+      icon={<DataFeedIcon />}
+      title="Data"
+      to={`${props.match.url}/datafeeds`}
+      activeClassName="active-link"
+      isVisible={props.appState.enableExperimental}
+    />,
   ]
 );
 
 const EnvironmentNav = props => <Navbar vertical items={renderNavItems(props)} />;
 
-export default withRouter(EnvironmentNav);
+export default compose(
+  withRouter,
+  withApp,
+)(EnvironmentNav);
