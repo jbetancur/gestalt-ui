@@ -63,7 +63,7 @@ const PolicyLimitRuleForm = (props) => {
         <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRuleUpdatePending || policyRulePending}>
           <ActionsToolbar
             title={title}
-            hideActions={policyRule.id}
+            showActions={policyRule.id}
             actions={[
               <Button
                 key="eventRule--entitlements"
