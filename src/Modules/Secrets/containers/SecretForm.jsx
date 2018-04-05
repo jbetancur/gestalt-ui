@@ -30,6 +30,7 @@ const SecretForm = (props) => {
     title,
     values,
     reset,
+    editMode,
   } = props;
 
   const filteredProviderTypes = () => props.providersByType
@@ -44,7 +45,7 @@ const SecretForm = (props) => {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={title}
-            hideActions={!!secret.id}
+            showActions={editMode}
             actions={[
               <Button
                 key="secret--entitlements"
@@ -162,6 +163,7 @@ SecretForm.propTypes = {
   cancelLabel: PropTypes.string,
   values: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
   entitlementActions: PropTypes.object,
 };
 
@@ -169,6 +171,7 @@ SecretForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
+  editMode: false,
   entitlementActions: {},
 };
 

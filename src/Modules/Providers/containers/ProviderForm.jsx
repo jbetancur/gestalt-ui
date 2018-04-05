@@ -76,7 +76,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
               <ActionsToolbar
                 title={!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.displayName}` : props.title}
                 subtitle={provider.id && selectedProviderType.displayName}
-                hideActions={editMode}
+                showActions={editMode}
                 actions={[
                   <Button
                     key="provider--entitlements"
@@ -124,6 +124,12 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
 
               {selectedProviderType.name &&
                 <Row gutter={5}>
+                  {provider.id &&
+                    <Col flex={12}>
+                      <Panel title="Resource Details" defaultExpanded={false}>
+                        <DetailsPane model={provider} />
+                      </Panel>
+                    </Col>}
                   <Col flex={12}>
                     <Panel title="General" expandable={false}>
                       <Row gutter={5}>
@@ -154,12 +160,6 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
 
               {selectedProviderType.name &&
                 <Row gutter={5}>
-                  {provider.id &&
-                    <Col flex={12}>
-                      <Panel title="Resource Details" defaultExpanded={false}>
-                        <DetailsPane model={provider} />
-                      </Panel>
-                    </Col>}
                   {selectedProviderType.DCOSConfig &&
                     <Col flex={12}>
                       <Panel title="Configuration" expandable={false}>

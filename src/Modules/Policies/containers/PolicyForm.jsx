@@ -46,7 +46,7 @@ const PolicyForm = (props) => {
         <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyPending}>
           <ActionsToolbar
             title={title}
-            hideActions={editMode && policy.id}
+            showActions={editMode}
             actions={[
               <MenuButton
                 id="add-policyRule"

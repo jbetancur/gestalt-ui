@@ -72,11 +72,11 @@ const APIEndpointForm = (props) => {
   return (
     <Row gutter={5} center>
       <Col flex={10} xs={12} sm={12} md={12}>
-        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointUpdatePending || apiEndpointPending}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointUpdatePending || apiEndpointPending} paddingBottom="64px">
           <ActionsToolbar
             title={title}
             subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null}
-            hideActions={apiEndpoint.id}
+            showActions={apiEndpoint.id}
             actions={[
               <Button
                 key="apiEndpoint--entitlements"

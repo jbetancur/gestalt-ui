@@ -82,7 +82,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
             <ActionsToolbar
               title={editMode ? `${props.title}::${selectedProvider.name}` : `${props.title}`}
               titleIcon={<ContainerIcon resourceType={providerType} />}
-              hideActions={editMode}
+              showActions={editMode}
               actions={[
                 !inlineMode &&
                 <Button
