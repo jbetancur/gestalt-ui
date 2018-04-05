@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Col, Row } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray, getFormValues } from 'redux-form';
-import { Title } from 'components/Typography';
 import { metaModels } from 'Modules/MetaResource';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
@@ -42,47 +42,27 @@ const SecretForm = (props) => {
     <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={secretPending}>
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
-          <Title>{title}</Title>
-          <ActionsToolbar>
-            <Row>
-              <Col flex={12}>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  disabled={secretPending || submitting}
-                  component={Link}
-                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
-                >
-                  {cancelLabel}
-                </Button>
-                <Button
-                  raised
-                  iconChildren="save"
-                  type="submit"
-                  disabled={pristine || secretPending || submitting}
-                  primary
-                >
-                  {submitLabel}
-                </Button>
-                {/* {secret.id &&
-                <Button
-                  key="secret--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, secret.id, 'secrets', 'Secret')}
-                >
-                  Secret Entitlements
-                </Button>} */}
-              </Col>
-            </Row>
-          </ActionsToolbar>
+          <ActionsToolbar
+            title={title}
+            hideActions={!!secret.id}
+            actions={[
+              <Button
+                key="secret--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, secret.id, 'secrets', 'Secret')}
+              >
+                Entitlements
+              </Button>]
+            }
+          />
 
           {secretPending && <ActivityContainer id="secret-form-loading" />}
 
           <Row gutter={5}>
             {secret.id &&
               <Col flex={12}>
-                <Panel title="Resource Details">
+                <Panel title="Resource Details" defaultExpanded={false}>
                   <DetailsPane model={secret} />
                 </Panel>
               </Col>}
@@ -115,19 +95,18 @@ const SecretForm = (props) => {
                       autoComplete="none"
                     />
                   </Col>
-                </Row>
-              </Panel>
-            </Col>
 
-            <Col flex={12}>
-              <Panel title="Description" defaultExpanded={!!secret.description}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  placeholder="Description"
-                  type="text"
-                  rows={1}
-                />
+                  <Col flex={12}>
+                    <Field
+                      id="description"
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                      rows={1}
+                    />
+                  </Col>
+                </Row>
               </Panel>
             </Col>
 
@@ -145,6 +124,26 @@ const SecretForm = (props) => {
           </Row>
         </Col>
       </Row>
+      <FullPageFooter>
+        <Button
+          flat
+          iconChildren="arrow_back"
+          disabled={secretPending || submitting}
+          component={Link}
+          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
+        >
+          {cancelLabel}
+        </Button>
+        <Button
+          raised
+          iconChildren="save"
+          type="submit"
+          disabled={pristine || secretPending || submitting}
+          primary
+        >
+          {submitLabel}
+        </Button>
+      </FullPageFooter>
     </Form>
   );
 };
@@ -163,14 +162,14 @@ SecretForm.propTypes = {
   cancelLabel: PropTypes.string,
   values: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
-  // entitlementActions: PropTypes.object,
+  entitlementActions: PropTypes.object,
 };
 
 SecretForm.defaultProps = {
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
-  // entitlementActions: {},
+  entitlementActions: {},
 };
 
 export default connect(

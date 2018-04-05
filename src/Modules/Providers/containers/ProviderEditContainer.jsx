@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withMetaResource } from 'Modules/MetaResource';
+import { withEntitlements } from 'Modules/Entitlements';
 import { containerActionCreators } from 'Modules/Containers';
 import { generateContextEntityState } from 'util/helpers/context';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -155,6 +156,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
+  withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),
   reduxForm({
     form: 'providerEdit',

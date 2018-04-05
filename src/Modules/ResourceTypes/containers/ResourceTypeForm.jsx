@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
-import { Title, Subtitle } from 'components/Typography';
 import { Panel } from 'components/Panels';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 import Form from 'components/Form';
 import DetailsPane from 'components/DetailsPane';
@@ -23,39 +23,17 @@ const ResourceTypeForm = (props) => {
     <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={resourceTypePending}>
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
-          <Title>
-            {title}
-          </Title>
-          <Subtitle>
-            {resourceType.extend && `extends: ${resourceType.extend}`}
-          </Subtitle>
-          <ActionsToolbar>
-            <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={resourceTypePending || props.submitting}
-              component={Link}
-              to={`/${match.params.fqon}/resourcetypes`}
-            >
-              Resource Types
-            </Button>
-            <Button
-              primary
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={submitting || pristine || resourceTypePending}
-            >
-              {editMode ? 'Update' : 'Create'}
-            </Button>
-          </ActionsToolbar>
+          <ActionsToolbar
+            title={title}
+            subtitl={resourceType.extend && `extends: ${resourceType.extend}`}
+          />
 
           {resourceTypePending && <ActivityContainer id="resourceType-form" />}
 
           <Row gutter={5}>
             {editMode &&
             <Col flex={12}>
-              <Panel title="Resource Details">
+              <Panel title="Resource Details" defaultExpanded={false}>
                 <DetailsPane model={resourceType} />
               </Panel>
             </Col>}
@@ -96,18 +74,18 @@ const ResourceTypeForm = (props) => {
                       label="Abstract"
                     />
                   </Col>
-                </Row>
-              </Panel>
-            </Col>
 
-            <Col flex={12}>
-              <Panel title="Description" defaultExpanded={!!resourceType.description}>
-                <Field
-                  component={TextField}
-                  name="description"
-                  placeholder="Description"
-                  rows={1}
-                />
+                  <Col flex={12}>
+                    <Field
+                      id="description"
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                      rows={1}
+                    />
+                  </Col>
+                </Row>
               </Panel>
             </Col>
 
@@ -185,6 +163,27 @@ const ResourceTypeForm = (props) => {
           </Row>
         </Col>
       </Row>
+
+      <FullPageFooter>
+        <Button
+          flat
+          iconChildren="arrow_back"
+          disabled={resourceTypePending || props.submitting}
+          component={Link}
+          to={`/${match.params.fqon}/resourcetypes`}
+        >
+          Resource Types
+        </Button>
+        <Button
+          primary
+          raised
+          iconChildren="save"
+          type="submit"
+          disabled={submitting || pristine || resourceTypePending}
+        >
+          {editMode ? 'Update' : 'Create'}
+        </Button>
+      </FullPageFooter>
     </Form>
   );
 };

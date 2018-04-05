@@ -4,13 +4,12 @@ exports[`(Navigation) NavHeader renders a NavHeader 1`] = `
 .c0 {
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  padding: 13px 8px 13px 8px;
+  padding: 13px 16px 16px 8px;
   text-align: left;
   min-height: 64px;
   overflow: visible;
   width: 100%;
   z-index: 4;
-  top: 64px;
 }
 
 .c0 .md-btn--icon {

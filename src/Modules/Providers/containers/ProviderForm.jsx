@@ -7,11 +7,12 @@ import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import Div from 'components/Div';
 import { Panel } from 'components/Panels';
-import { Title, Caption, Error, P } from 'components/Typography';
+import { Caption, Error, P } from 'components/Typography';
 import { ContainerCreate, ContainerEdit, ContainerActions } from 'Modules/Containers';
 import LinkedProviders from '../components/LinkedProviders';
 import EnvironmentTypes from '../components/EnvironmentTypes';
@@ -33,7 +34,7 @@ const isSubmitDisabled = (props, selectedProviderType) => {
   return props.envSchemaPending || props.providerPending || props.submitting;
 };
 
-const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, fetchEnvSchema, container, onRedeploy, ...props }) => {
+const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, fetchEnvSchema, container, onRedeploy, match, ...props }) => {
   const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
   const showContainer = () => {
@@ -70,58 +71,31 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
       >
         <Form onSubmit={props.handleSubmit(props.onSubmit)} disabled={props.providerPending} autoComplete="off">
           <Row gutter={5} center>
-            <Col
-              flex={12}
-              xs={12}
-              sm={12}
-              md={12}
-            >
-              <Title>
-                <div>
-                  {!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.displayName}` : props.title}
-                  {provider.id && `::${selectedProviderType.displayName}`}
-                </div>
-              </Title>
-
+            <Col flex={12}>
               {editMode && showContainer() && props.containerInvalid && <P><Error>Invalid Container Specification</Error></P>}
-              <ActionsToolbar>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  disabled={props.providerPending || props.submitting}
-                  onClick={props.goBack}
-                >
-                  {props.cancelLabel}
-                </Button>
-                {selectedProviderType.name &&
+              <ActionsToolbar
+                title={!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.displayName}` : props.title}
+                subtitle={provider.id && selectedProviderType.displayName}
+                hideActions={editMode}
+                actions={[
                   <Button
-                    raised
-                    iconChildren="save"
-                    type="submit"
-                    disabled={submitDisabled}
-                    primary
+                    key="provider--entitlements"
+                    flat
+                    iconChildren="security"
+                    onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, provider.id, 'providers', 'Provider')}
                   >
-                    {props.submitLabel}
-                  </Button>}
-                {editMode && showContainer() &&
-                <Button
-                  raised
-                  iconChildren="refresh"
-                  type="submit"
-                  onClick={handleRedeploy}
-                  disabled={props.containerInvalid}
-                  primary
-                >
-                Redeploy
-                </Button>}
-                {editMode && showContainer() &&
+                    Entitlements
+                  </Button>,
+                  showContainer() &&
                   <ContainerActions
+                    key="provider-container-actions"
                     inContainerView
                     containerModel={container}
                     disableDestroy
                     disablePromote
-                  />}
-              </ActionsToolbar>
+                  />
+                ]}
+              />
 
               {props.providerPending && <ActivityContainer id="provider-form" />}
 
@@ -129,7 +103,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                 <Row gutter={5}>
                   {/* only allow the provider type to be selected once - this prevents redux-form errors */}
                   <Col flex={12}>
-                    <Panel title="Select a Providern Type" expandable={false}>
+                    <Panel title="Select a Provider Type" expandable={false}>
                       <Field
                         id="select-provider-type"
                         component={SelectField}
@@ -147,18 +121,30 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                   </Col>
                 </Row>}
 
-              {!provider.id && selectedProviderType.name &&
+
+              {selectedProviderType.name &&
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Panel title="General" expandable={false}>
                       <Row gutter={5}>
-                        <Col flex={6} xs={12}>
+                        {!provider.id &&
+                          <Col flex={6} xs={12}>
+                            <Field
+                              component={TextField}
+                              name="name"
+                              label="Name"
+                              type="text"
+                              required
+                            />
+                          </Col>}
+                        <Col flex={12}>
                           <Field
+                            id="description"
                             component={TextField}
-                            name="name"
-                            label="Name"
+                            name="description"
+                            label="Description"
                             type="text"
-                            required
+                            rows={1}
                           />
                         </Col>
                       </Row>
@@ -170,7 +156,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                 <Row gutter={5}>
                   {provider.id &&
                     <Col flex={12}>
-                      <Panel title="Resource Details">
+                      <Panel title="Resource Details" defaultExpanded={false}>
                         <DetailsPane model={provider} />
                       </Panel>
                     </Col>}
@@ -195,18 +181,6 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                       <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />
                     </Col>}
 
-                  <Col flex={12}>
-                    <Panel title="Description" defaultExpanded={!!provider.description}>
-                      <Field
-                        component={TextField}
-                        name="description"
-                        label="Description"
-                        type="text"
-                        rows={1}
-                        maxRows={4}
-                      />
-                    </Panel>
-                  </Col>
 
                   {selectedProviderType.allowEnvVariables && <VariablesSection {...props} />}
 
@@ -247,7 +221,40 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                 </Row>}
             </Col>
           </Row>
+          <FullPageFooter>
+            <Button
+              flat
+              iconChildren="arrow_back"
+              disabled={props.providerPending || props.submitting}
+              onClick={props.goBack}
+            >
+              {props.cancelLabel}
+            </Button>
+            {selectedProviderType.name &&
+              <Button
+                raised
+                iconChildren="save"
+                type="submit"
+                disabled={submitDisabled}
+                primary
+              >
+                {props.submitLabel}
+              </Button>}
+            {editMode && showContainer() &&
+              <Button
+                key="provider-container-redeploy"
+                raised
+                iconChildren="refresh"
+                type="submit"
+                onClick={handleRedeploy}
+                disabled={props.containerInvalid}
+                primary
+              >
+                Redeploy Container
+              </Button>}
+          </FullPageFooter>
         </Form>
+
         {showContainer() &&
           <Row gutter={10} component={Div} pending={props.providerPending}>
             <Col flex={12}>
@@ -264,6 +271,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
 };
 
 ProviderForm.propTypes = {
+  match: PropTypes.object.isRequired,
   providerPending: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
   containerFormErrors: PropTypes.object,
@@ -286,6 +294,7 @@ ProviderForm.propTypes = {
   resourceTypes: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
   goBack: PropTypes.func.isRequired,
+  entitlementActions: PropTypes.object,
 };
 
 ProviderForm.defaultProps = {
@@ -298,6 +307,7 @@ ProviderForm.defaultProps = {
   editMode: false,
   containerInvalid: false,
   containerFormErrors: {},
+  entitlementActions: {},
 };
 
 // Connect to this forms state in the store so we can enum the values

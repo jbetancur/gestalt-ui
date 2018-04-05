@@ -81,16 +81,15 @@ class ContextNavigation extends PureComponent {
 
           {actionsComponent &&
             <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
-              {detailsComponent &&
-              <Button
-                flat
-                iconChildren={this.state.expanded ? 'expand_more' : 'expand_less'}
-                onClick={this.toggle}
-                tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
-                disabled={pending}
-              >
-                Details
-              </Button>}
+              {detailsComponent && !pending &&
+                <Button
+                  flat
+                  iconChildren={this.state.expanded ? 'expand_more' : 'expand_less'}
+                  onClick={this.toggle}
+                  tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
+                >
+                  {`${model.description || model.name} Details`}
+                </Button>}
 
               <ActionsMenu
                 actionList={actionsList}

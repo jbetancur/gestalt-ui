@@ -1,34 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource } from 'Modules/MetaResource';
-import { withEntitlements } from 'Modules/Entitlements';
 import withApp from 'App/withApp';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { ListItem, MenuButton } from 'react-md';
-import { Button } from 'components/Buttons';
 import Div from 'components/Div';
-import { MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon, EntitlementIcon, WorkspaceIcon, OrganizationIcon } from 'components/Icons';
+import { MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon, WorkspaceIcon, OrganizationIcon } from 'components/Icons';
 
 const listItemStyle = { textAlign: 'left' };
 
 class HierarchyActions extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     t: PropTypes.func.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     appState: PropTypes.object.isRequired,
   };
-
-  showEntitlements = () => {
-    const { organizationSet, match, entitlementActions } = this.props;
-
-    const name = organizationSet.description || organizationSet.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, null, null, 'Organization');
-  }
 
   render() {
     const { organizationSet, pending, t, appState } = this.props;
@@ -90,22 +78,26 @@ class HierarchyActions extends PureComponent {
         to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
         style={listItemStyle}
       />,
-      appState.enableExperimental ? <ListItem
-        id="orgs-settings-menu--serviceSpecs-create"
-        key="orgs-settings-menu--serviceSpecs-create"
-        primaryText="Service Specification"
-        component={Link}
-        leftIcon={<ServiceIcon />}
-        to={`/${organizationSet.properties.fqon}/servicespecs/create`}
-        style={listItemStyle}
-      /> : <div key="orgs-settings-menu--groups-create" />
+      appState.enableExperimental ?
+        <ListItem
+          id="orgs-settings-menu--serviceSpecs-create"
+          key="orgs-settings-menu--serviceSpecs-create"
+          primaryText="Service Specification"
+          component={Link}
+          leftIcon={<ServiceIcon />}
+          to={`/${organizationSet.properties.fqon}/servicespecs/create`}
+          style={listItemStyle}
+        /> : <div key="orgs-settings-menu--groups-create" />
     ];
 
     return (
       <Div display="inline" disabled={pending}>
         <MenuButton
           id="orgs-settings-menu"
-          position="below"
+          anchor={{
+            x: MenuButton.HorizontalAnchors.CENTER,
+            y: MenuButton.VerticalAnchors.CENTER,
+          }}
           iconChildren="add"
           flat
           sameWidth={false}
@@ -114,13 +106,6 @@ class HierarchyActions extends PureComponent {
         >
           Create
         </MenuButton>
-        <Button
-          flat
-          iconChildren={<EntitlementIcon size={20} />}
-          onClick={this.showEntitlements}
-        >
-          Entitlements
-        </Button>
       </Div>
     );
   }
@@ -128,7 +113,5 @@ class HierarchyActions extends PureComponent {
 
 export default compose(
   translate(),
-  withMetaResource,
-  withEntitlements,
   withApp,
 )(HierarchyActions);

@@ -2,31 +2,22 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ListItem, MenuButton } from 'react-md';
-import { LambdaIcon, ContainerIcon, APIIcon, PolicyIcon, ProviderIcon, SecretIcon, EntitlementIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
+import { LambdaIcon, ContainerIcon, APIIcon, PolicyIcon, ProviderIcon, SecretIcon, StreamIcon, DataFeedIcon } from 'components/Icons';
 import Div from 'components/Div';
+import withApp from 'App/withApp';
 
 const listItemStyle = { textAlign: 'left' };
 
 class EnvironmentActions extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    environment: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
   };
 
-  showEntitlements = () => {
-    const { environment, match, entitlementActions } = this.props;
-
-    const name = environment.description || environment.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, environment.id, 'environments', 'Environment');
-  }
-
   render() {
-    const { pending, match } = this.props;
+    const { pending, match, appState } = this.props;
 
     const menuItems = [
       <ListItem
@@ -82,14 +73,37 @@ class EnvironmentActions extends PureComponent {
         leftIcon={<SecretIcon />}
         to={`${match.url}/secrets/create`}
         style={listItemStyle}
-      />
+      />,
+      appState.enableExperimental ?
+        <ListItem
+          id="environment-settings-menu--stream-create"
+          key="environment-settings-menu--stream-create"
+          primaryText="Stream"
+          component={Link}
+          leftIcon={<StreamIcon />}
+          to={`${match.url}/streams/create`}
+          style={listItemStyle}
+        /> : <div key="environment-settings-menu--stream-create" />,
+      appState.enableExperimental ?
+        <ListItem
+          id="environment-settings-menu--datafeed-create"
+          key="environment-settings-menu--datafeed-create"
+          primaryText="Data Feed"
+          component={Link}
+          leftIcon={<DataFeedIcon />}
+          to={`${match.url}/datafeeds/create`}
+          style={listItemStyle}
+        /> : <div key="environment-settings-menu--datafeed-create" />,
     ];
 
     return (
       <Div display="inline" disabled={pending}>
         <MenuButton
-          id="workspace-settings-menu"
-          position="below"
+          id="environment-settings-menu"
+          anchor={{
+            x: MenuButton.HorizontalAnchors.CENTER,
+            y: MenuButton.VerticalAnchors.CENTER,
+          }}
           iconChildren="add"
           flat
           sameWidth={false}
@@ -97,18 +111,11 @@ class EnvironmentActions extends PureComponent {
         >
           Create
         </MenuButton>
-        <Button
-          flat
-          iconChildren={<EntitlementIcon size={20} />}
-          onClick={this.showEntitlements}
-        >
-          Entitlements
-        </Button>
       </Div>
     );
   }
 }
 
 export default compose(
-  withEntitlements
+  withApp,
 )(EnvironmentActions);

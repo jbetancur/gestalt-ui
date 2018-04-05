@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource } from 'Modules/MetaResource';
-import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
-import { ProviderIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
+import { ProviderIcon, EnvironmentIcon } from 'components/Icons';
 import { ListItem, MenuButton } from 'react-md';
-import { Button } from 'components/Buttons';
 import Div from 'components/Div';
 
 const listItemStyle = { textAlign: 'left' };
@@ -14,17 +11,8 @@ const listItemStyle = { textAlign: 'left' };
 class WorkspaceActions extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    workspace: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
-
-  showEntitlements = () => {
-    const { workspace, match, entitlementActions } = this.props;
-
-    const name = workspace.description || workspace.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, workspace.id, 'workspaces', 'Workspace');
-  }
 
   render() {
     const { pending, match } = this.props;
@@ -54,7 +42,10 @@ class WorkspaceActions extends PureComponent {
       <Div display="inline" disabled={pending}>
         <MenuButton
           id="workspace-settings-menu"
-          position="below"
+          anchor={{
+            x: MenuButton.HorizontalAnchors.CENTER,
+            y: MenuButton.VerticalAnchors.CENTER,
+          }}
           iconChildren="add"
           flat
           sameWidth={false}
@@ -63,19 +54,10 @@ class WorkspaceActions extends PureComponent {
         >
           Create
         </MenuButton>
-        <Button
-          flat
-          iconChildren={<EntitlementIcon size={20} />}
-          onClick={this.showEntitlements}
-        >
-        Entitlements
-        </Button>
       </Div>
     );
   }
 }
 
 export default compose(
-  withMetaResource,
-  withEntitlements,
 )(WorkspaceActions);

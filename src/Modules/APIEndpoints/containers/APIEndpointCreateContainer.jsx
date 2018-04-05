@@ -29,7 +29,7 @@ class APIEndpointCreate extends Component {
       <APIEndpointForm
         title="Create Endpoint"
         submitLabel="Create"
-        cancelLabel="API"
+        cancelLabel="Cancel"
         onSubmit={this.create}
         {...this.props}
       />

@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import styled from 'styled-components';
-import { Card, CardTitle, CardText, List, ListItem, FontIcon, TextField as TextFieldMD } from 'react-md';
+import { List, ListItem, FontIcon, TextField as TextFieldMD } from 'react-md';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import DetailsPane from 'components/DetailsPane';
+import { Panel } from 'components/Panels';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
 import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import Form from 'components/Form';
@@ -92,65 +95,72 @@ const GroupForm = (props) => {
   );
 
   return (
-    <div>
-      <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={groupUpdatePending || groupPending}>
-        <Row gutter={5} center>
-          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-            <CardTitle title={props.title} />
-            <ActionsToolbar>
-              <Button
-                flat
-                iconChildren="arrow_back"
-                disabled={groupUpdatePending || groupPending || submitting}
-                component={Link}
-                to={`/${match.params.fqon}/groups`}
-              >
-                {cancelLabel}
-              </Button>
-              <Button
-                raised
-                iconChildren="save"
-                type="submit"
-                disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
-                primary
-              >
-                {submitLabel}
-              </Button>
-            </ActionsToolbar>
-            {(groupUpdatePending || groupPending) && <ActivityContainer id="group-form" />}
-            <CardText>
-              <Row gutter={5}>
-                <Col flex={4} xs={12}>
-                  <Field
-                    component={TextField}
-                    name="name"
-                    label="Name"
-                    type="text"
-                    required
-                    maxLength={nameMaxLen}
-                  />
-                </Col>
-                <Col flex={8} xs={12}>
-                  <Field
-                    component={TextField}
-                    name="description"
-                    label="Description"
-                    type="text"
-                  />
-                </Col>
-              </Row>
-            </CardText>
-          </Col>
-        </Row>
-      </Form>
+    <Row gutter={5} center>
+      <Col flex={10} xs={12} sm={12} md={12}>
+        <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={groupUpdatePending || groupPending}>
+          <ActionsToolbar title={props.title} />
+          {(groupUpdatePending || groupPending) && <ActivityContainer id="group-form" />}
+          <Row gutter={5}>
+            {editMode &&
+              <Col flex={12}>
+                <Panel title="Resource Details" defaultExpanded={false}>
+                  <DetailsPane model={group} />
+                </Panel>
+              </Col>}
+            <Col flex={12}>
+              <Panel title="General" expandable={false}>
+                <Row gutter={5}>
+                  <Col flex={4} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      required
+                      maxLength={nameMaxLen}
+                    />
+                  </Col>
+                  <Col flex={8} xs={12}>
+                    <Field
+                      component={TextField}
+                      name="description"
+                      label="Description"
+                      type="text"
+                    />
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
+          </Row>
 
-      {editMode &&
-        <Row gutter={5} center>
-          <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-            {props.groupMembersPending && <ActivityContainer id="group-members" />}
-            <Row gutter={5}>
-              <Col flex={6} xs={12}>
-                <h3>Available Users</h3>
+          <FullPageFooter>
+            <Button
+              flat
+              iconChildren="arrow_back"
+              disabled={groupUpdatePending || groupPending || submitting}
+              component={Link}
+              to={`/${match.params.fqon}/groups`}
+            >
+              {cancelLabel}
+            </Button>
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
+              primary
+            >
+              {submitLabel}
+            </Button>
+          </FullPageFooter>
+        </Form>
+
+        {props.groupMembersPending && <ActivityContainer id="group-members" />}
+
+        {editMode &&
+          <Row gutter={5}>
+            <Col flex={6} xs={12}>
+              <Panel title="Available Users" expandable={false}>
                 <MembersList>
                   <CardSubHeader
                     primaryText={<TextFieldMD
@@ -165,9 +175,11 @@ const GroupForm = (props) => {
                   />
                   {generateAvailableUsers()}
                 </MembersList>
-              </Col>
-              <Col flex={6} xs={12}>
-                <h3>Members</h3>
+              </Panel>
+            </Col>
+
+            <Col flex={6} xs={12}>
+              <Panel title="Members" expandable={false}>
                 <MembersList>
                   <CardSubHeader
                     primaryText={<TextFieldMD
@@ -182,11 +194,11 @@ const GroupForm = (props) => {
                   />
                   {generateMemberUsers()}
                 </MembersList>
-              </Col>
-            </Row>
-          </Col>
-        </Row>}
-    </div>
+              </Panel>
+            </Col>
+          </Row>}
+      </Col>
+    </Row>
   );
 };
 

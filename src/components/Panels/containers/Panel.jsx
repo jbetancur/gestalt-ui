@@ -18,7 +18,7 @@ const PanelWrapper = styled.div`
 
 class Panel extends PureComponent {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
@@ -35,6 +35,7 @@ class Panel extends PureComponent {
   };
 
   static defaultProps = {
+    title: null,
     defaultExpanded: true,
     noPadding: false,
     minHeight: false,
@@ -56,6 +57,7 @@ class Panel extends PureComponent {
 
     return (
       <PanelWrapper error={error} noShadow={noShadow}>
+        {!!title &&
         <Header
           title={title}
           onClick={expandable ? this.toggle : null}
@@ -63,7 +65,7 @@ class Panel extends PureComponent {
           expanded={this.state.isExpanded}
           count={count}
           icon={icon}
-        />
+        />}
         <Content
           isExpanded={this.state.isExpanded}
           noPadding={noPadding}

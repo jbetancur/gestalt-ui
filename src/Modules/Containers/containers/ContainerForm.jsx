@@ -14,9 +14,10 @@ import { SecretsPanelForm } from 'Modules/Secrets';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
+import { FullPageFooter } from 'components/FullPage';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Title, H2, Caption, Error } from 'components/Typography';
+import { Caption, Error } from 'components/Typography';
 import Div from 'components/Div';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerInstances from '../components/ContainerInstances';
@@ -78,54 +79,29 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
             sm={12}
             md={12}
           >
-            <Title>{props.title}</Title>
-            {selectedProvider.id &&
-              <H2>
-                <ContainerIcon resourceType={providerType} /> {selectedProvider.name}
-              </H2>}
-            {!inlineMode &&
-              <ActionsToolbar>
-                <Row>
-                  <Col flex={12}>
-                    <Button
-                      flat
-                      iconChildren="arrow_back"
-                      disabled={containerPending || props.submitting}
-                      component={Link}
-                      to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-                    >
-                      {props.cancelLabel}
-                    </Button>
-
-                    {selectedProvider.id &&
-                      <Button
-                        raised
-                        iconChildren="save"
-                        type="submit"
-                        disabled={isSubmitDisabled}
-                        primary
-                      >
-                        {props.submitLabel}
-                      </Button>}
-                    {editMode &&
-                      <Button
-                        key="container--entitlements"
-                        flat
-                        iconChildren="security"
-                        onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, container.id, 'containers', 'Container')}
-                      >
-                        Container Entitlements
-                      </Button>}
-                    {editMode &&
-                      <ContainerActions
-                        inContainerView
-                        containerModel={container}
-                        disableDestroy={inlineMode}
-                        disablePromote={inlineMode}
-                      />}
-                  </Col>
-                </Row>
-              </ActionsToolbar>}
+            <ActionsToolbar
+              title={editMode ? `${props.title}::${selectedProvider.name}` : `${props.title}`}
+              titleIcon={<ContainerIcon resourceType={providerType} />}
+              hideActions={editMode}
+              actions={[
+                !inlineMode &&
+                <Button
+                  key="container--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, container.id, 'containers', 'Container')}
+                >
+                  Entitlements
+                </Button>,
+                <ContainerActions
+                  key="container--actions"
+                  inContainerView
+                  containerModel={container}
+                  disableDestroy={inlineMode}
+                  disablePromote={inlineMode}
+                />,
+              ]}
+            />
 
             {isPending && <ActivityContainer id="container-form-loading" />}
 
@@ -153,7 +129,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
               <Row gutter={5}>
                 {editMode && container.id &&
                   <Col flex={12}>
-                    <Panel title="Resource Details">
+                    <Panel title="Resource Details" defaultExpanded={false}>
                       <DetailsPane model={container} />
                     </Panel>
                   </Col>}
@@ -288,6 +264,18 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                           label="Force Pull"
                         />
                       </Col>
+
+                      <Col flex={12}>
+                        <Field
+                          id="description"
+                          component={TextField}
+                          name="description"
+                          label="Description"
+                          placeholder="Description"
+                          type="text"
+                          rows={1}
+                        />
+                      </Col>
                     </Row>
                   </Panel>
                 </Col>
@@ -322,19 +310,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                         change={change}
                       />
                     </Panel>}
-                  </Panel>
-                </Col>
-
-                <Col flex={12}>
-                  <Panel title="Description" defaultExpanded={!!container.description}>
-                    <Field
-                      id="container-description"
-                      component={TextField}
-                      name="description"
-                      placeholder="Description"
-                      type="text"
-                      rows={1}
-                    />
                   </Panel>
                 </Col>
 
@@ -458,6 +433,29 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
               </Row>}
           </Col>
         </Row>
+        {!inlineMode &&
+        <FullPageFooter>
+          <Button
+            flat
+            iconChildren="arrow_back"
+            disabled={containerPending || props.submitting}
+            component={Link}
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+          >
+            {props.cancelLabel}
+          </Button>
+
+          {selectedProvider.id &&
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={isSubmitDisabled}
+              primary
+            >
+              {props.submitLabel}
+            </Button>}
+        </FullPageFooter>}
       </Form>
     </div>
   );

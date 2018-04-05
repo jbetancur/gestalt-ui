@@ -4,16 +4,17 @@ import { Field, formValueSelector, change } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Card, CardTitle, CardText, Autocomplete } from 'react-md';
+import { Autocomplete } from 'react-md';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 import { Caption } from 'components/Typography';
 import DetailsPane from 'components/DetailsPane';
-import Fieldset from 'components/Fieldset';
 import Form from 'components/Form';
 import A from 'components/A';
+import { Panel } from 'components/Panels';
 // import authTypes from '../../lists/authTypes';
 import RateLimit from '../../components/RateLimit';
 import Security from '../../components/Security';
@@ -69,158 +70,166 @@ const APIEndpointForm = (props) => {
   const disabledSubmit = pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting;
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointUpdatePending || apiEndpointPending}>
-      {apiEndpoint.id &&
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <DetailsPane model={apiEndpoint} />
-          </Col>
-        </Row>}
-      <Row gutter={5} center>
-        <Col component={Card} flex={10} xs={12} sm={12} md={12}>
-          <CardTitle title={title} subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null} />
-          <ActionsToolbar>
-            <Row>
-              <Col flex={12}>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
-                  component={Link}
-                  to={backLink}
-                >
-                  {cancelLabel}
-                </Button>
-                <Button
-                  raised
-                  iconChildren="save"
-                  type="submit"
-                  disabled={disabledSubmit}
-                  primary
-                >
-                  {submitLabel}
-                </Button>
-                {apiEndpoint.id &&
-                <Button
-                  key="apiEndpoint--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, apiEndpoint.id, 'apiendpoints', 'API Endpoint')}
-                >
-                  Endpoint Entitlements
-                </Button>}
-              </Col>
-            </Row>
-          </ActionsToolbar>
-          {(apiEndpointUpdatePending || apiEndpointPending) && <ActivityContainer id="apiEndpoint-form" />}
-          <CardText>
-            <Row gutter={5}>
-              <Col flex={2} xs={12} lg={1}>
-                <Field
-                  id="endpoint-type"
-                  component={SelectField}
-                  name="properties.implementation_type"
-                  menuItems={implementationTypes}
-                  itemLabel="name"
-                  itemValue="value"
-                  label="Type"
-                  onChange={resetForm}
-                  required
-                />
-              </Col>
-              <Col flex>
-                <Field
-                  component={TextField}
-                  name="properties.resource"
-                  label="Resource Path"
-                  type="text"
-                  required
-                  helpText="ex: /path or /path1/path2"
-                />
-              </Col>
-              {values.properties.implementation_type === 'container' &&
-              <Col flex={3} xs={12} sm={6} md={6}>
-                <Field
-                  id="containers-dropdown"
-                  component={SelectField}
-                  name="properties.implementation_id"
-                  menuItems={containersDropDown}
-                  itemLabel="name"
-                  itemValue="id"
-                  required
-                  label="Container"
-                  onFocus={fetchContainers}
-                  async
-                  helpText="container from the current environment"
-                />
-              </Col>}
-              {values.properties.implementation_type === 'container' &&
-              <Col flex={2} xs={12} sm={6} md={6}>
-                <Field
-                  id="container-ports-dropdown"
-                  component={SelectField}
-                  name="properties.container_port_name"
-                  menuItems={containerPorts()}
-                  itemLabel="name"
-                  itemValue="name"
-                  required
-                  label="Container Port Name"
-                />
-              </Col>}
-              {values.properties.implementation_type === 'lambda' &&
-                <Col flex={4} xs={12} sm={12}>
-                  <Autocomplete
-                    id="lambdas-dropdown"
-                    data={lambdasDropDown}
-                    dataLabel="name"
-                    dataValue="id"
-                    label="Search Lambdas"
-                    clearOnAutocomplete
-                    onClick={() => fetchLambdasDropDown(match.params.fqon)}
-                    onAutocomplete={handleAutoComplete}
-                    helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
-                  />
-                  {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
-                  {(values.properties.implementation_type === 'lambda') &&
+    <Row gutter={5} center>
+      <Col flex={10} xs={12} sm={12} md={12}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointUpdatePending || apiEndpointPending}>
+          <ActionsToolbar
+            title={title}
+            subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null}
+            hideActions={apiEndpoint.id}
+            actions={[
+              <Button
+                key="apiEndpoint--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, apiEndpoint.id, 'apiendpoints', 'API Endpoint')}
+              >
+                Entitlements
+              </Button>]
+            }
+          />
+
+          <Row gutter={5}>
+            {apiEndpoint.id &&
+            <Col flex={12}>
+              <Panel title="Resource Details" defaultExpanded={false}>
+                <DetailsPane model={apiEndpoint} />
+              </Panel>
+            </Col>}
+
+            {(apiEndpointUpdatePending || apiEndpointPending) && <ActivityContainer id="apiEndpoint-form" />}
+
+            <Col flex={12}>
+              <Panel title="General" expandable={false}>
+                <Row gutter={5}>
+                  <Col flex={2} xs={12} lg={1}>
+                    <Field
+                      id="endpoint-type"
+                      component={SelectField}
+                      name="properties.implementation_type"
+                      menuItems={implementationTypes}
+                      itemLabel="name"
+                      itemValue="value"
+                      label="Type"
+                      onChange={resetForm}
+                      required
+                    />
+                  </Col>
+                  <Col flex>
                     <Field
                       component={TextField}
+                      name="properties.resource"
+                      label="Resource Path"
+                      type="text"
+                      required
+                      helpText="ex: /path or /path1/path2"
+                    />
+                  </Col>
+                  {values.properties.implementation_type === 'container' &&
+                  <Col flex={3} xs={12} sm={6} md={6}>
+                    <Field
+                      id="containers-dropdown"
+                      component={SelectField}
                       name="properties.implementation_id"
-                      label="Lambda UUID"
-                    />}
-                </Col>}
-              {values.properties.implementation_type === 'lambda' &&
-                <Col flex={1} xs={12} sm={6} md={6}>
-                  <Field
-                    id="synchronous"
-                    component={Checkbox}
-                    name="properties.synchronous"
-                    // TODO: Find out why redux-form state for bool doesn't apply
-                    checked={values.properties.synchronous}
-                    label="Sync"
-                  />
-                  <Caption light>sync waits for a return response</Caption>
-                </Col>}
-              <Col flex={2} xs={12} sm={6} md={6}>
-                <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
-              </Col>
-            </Row>
+                      menuItems={containersDropDown}
+                      itemLabel="name"
+                      itemValue="id"
+                      required
+                      label="Container"
+                      onFocus={fetchContainers}
+                      async
+                      helpText="container from the current environment"
+                    />
+                  </Col>}
+                  {values.properties.implementation_type === 'container' &&
+                  <Col flex={2} xs={12} sm={6} md={6}>
+                    <Field
+                      id="container-ports-dropdown"
+                      component={SelectField}
+                      name="properties.container_port_name"
+                      menuItems={containerPorts()}
+                      itemLabel="name"
+                      itemValue="name"
+                      required
+                      label="Container Port Name"
+                    />
+                  </Col>}
+                  {values.properties.implementation_type === 'lambda' &&
+                    <Col flex={4} xs={12} sm={12}>
+                      <Autocomplete
+                        id="lambdas-dropdown"
+                        data={lambdasDropDown}
+                        dataLabel="name"
+                        dataValue="id"
+                        label="Search Lambdas"
+                        clearOnAutocomplete
+                        onClick={() => fetchLambdasDropDown(match.params.fqon)}
+                        onAutocomplete={handleAutoComplete}
+                        helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
+                      />
+                      {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
+                      {(values.properties.implementation_type === 'lambda') &&
+                        <Field
+                          component={TextField}
+                          name="properties.implementation_id"
+                          label="Lambda UUID"
+                        />}
+                    </Col>}
+                  {values.properties.implementation_type === 'lambda' &&
+                    <Col flex={1} xs={12} sm={6} md={6}>
+                      <Field
+                        id="synchronous"
+                        component={Checkbox}
+                        name="properties.synchronous"
+                        // TODO: Find out why redux-form state for bool doesn't apply
+                        checked={values.properties.synchronous}
+                        label="Sync"
+                      />
+                      <Caption light>sync waits for a return response</Caption>
+                    </Col>}
+                  <Col flex={2} xs={12} sm={6} md={6}>
+                    <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
+                  </Col>
+                </Row>
+              </Panel>
+            </Col>
 
-            <Row gutter={5}>
-              <Col flex={6} xs={12} sm={6}>
-                <Fieldset legend="Allowed HTTP Methods">
-                  <HTTPMethods />
-                </Fieldset>
-              </Col>
-              <Col flex={6} xs={12} sm={6}>
-                <Fieldset legend="Security">
-                  <Security isEnabled={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled} />
-                </Fieldset>
-              </Col>
-            </Row>
-          </CardText>
-        </Col>
-      </Row>
-    </Form>
+            <Col flex={12}>
+              <Panel title="Allowed HTTP Methods">
+                <HTTPMethods />
+              </Panel>
+            </Col>
+
+            <Col flex={12}>
+              <Panel title="Security">
+                <Security isEnabled={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled} />
+              </Panel>
+            </Col>
+          </Row>
+
+          <FullPageFooter>
+            <Button
+              flat
+              iconChildren={!apiEndpoint.id ? null : 'arrow_back'}
+              disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
+              component={Link}
+              to={backLink}
+            >
+              {cancelLabel}
+            </Button>
+            <Button
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={disabledSubmit}
+              primary
+            >
+              {submitLabel}
+            </Button>
+          </FullPageFooter>
+        </Form>
+      </Col>
+    </Row>
   );
 };
 

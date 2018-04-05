@@ -1,11 +1,65 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
+import { Title, Subtitle } from 'components/Typography';
 
-const ActionsBar = styled.div`
+const ActionHeaderStyle = styled.header`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  text-align: left;
-  min-height: 3em;
-  padding: 0.3em;
+  min-height: 48px;
+  width: 100%;
+  padding-left: 8px;
 `;
 
-export default withTheme(ActionsBar);
+const TitleStyle = styled.div`
+  flex: 1 1 auto;
+`;
+
+const IconStyle = styled.div`
+  padding-right: 8px;
+  display: inline-block;
+`;
+
+const ActionStyle = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex: 1 1 auto;
+`;
+
+const ActionsHeader = ({ title, subtitle, titleIcon, actions, hideActions }) => (
+  <ActionHeaderStyle>
+    <TitleStyle>
+      <Title>
+        {!!titleIcon &&
+        <IconStyle>
+          {titleIcon}
+        </IconStyle>}
+        {title}
+      </Title>
+      {!!subtitle &&
+        <Subtitle>{subtitle}</Subtitle>}
+    </TitleStyle>
+    {actions.length > 0 && hideActions &&
+      <ActionStyle>
+        {actions}
+      </ActionStyle>}
+  </ActionHeaderStyle>
+);
+
+ActionsHeader.propTypes = {
+  title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+  subtitle: PropTypes.string,
+  titleIcon: PropTypes.node,
+  actions: PropTypes.arrayOf(PropTypes.node),
+  hideActions: PropTypes.bool,
+};
+
+ActionsHeader.defaultProps = {
+  subtitle: null,
+  actions: [],
+  titleIcon: null,
+  hideActions: false,
+};
+
+export default withTheme(ActionsHeader);
