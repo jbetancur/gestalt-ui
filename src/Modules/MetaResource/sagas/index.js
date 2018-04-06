@@ -1,3 +1,4 @@
+import { all } from 'redux-saga/effects';
 import orgSagas from './organizations';
 import workspaceSagas from './workspaces';
 import environmentSagas from './environments';
@@ -23,7 +24,7 @@ import syncSagas from './sync';
 import serviceSpecSagas from './serviceSpecs';
 
 export default function* metaSagas() {
-  yield [
+  yield all([
     orgSagas(),
     workspaceSagas(),
     environmentSagas(),
@@ -47,5 +48,5 @@ export default function* metaSagas() {
     typePropertySagas(),
     syncSagas(),
     serviceSpecSagas(),
-  ];
+  ]);
 }

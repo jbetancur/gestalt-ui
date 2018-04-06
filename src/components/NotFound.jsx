@@ -30,6 +30,11 @@ const SVGWrapper = styled.div`
   text-align: center;
 `;
 
+const ButtonStyle = styled(Button) `
+  margin-right: 1px;
+  margin-left: 1px;
+`;
+
 const quotes = [
   'Hey, laser lips, your mama was a snow blower.',
   'Number 5 is alive.',
@@ -98,20 +103,20 @@ const NotFound = props => (
       <MessageTitle>The resource you are looking for was not found or was deleted!</MessageTitle>
       <Row justifyContent="center">
         {props.match.params.fqon &&
-          <Button
+          <ButtonStyle
             primary
             raised
             onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
           >
             {`Navigate back to ${props.match.params.fqon}`}
-          </Button>}
-        <Button
+          </ButtonStyle>}
+        <ButtonStyle
           primary
           raised
           onClick={() => props.history.goBack()}
         >
           Previous Page
-        </Button>
+        </ButtonStyle>
       </Row>
     </Row>
     <Row justifyContent="center">
