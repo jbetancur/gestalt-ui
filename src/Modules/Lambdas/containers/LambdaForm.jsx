@@ -118,6 +118,7 @@ const LambdaForm = (props) => {
                         itemLabel="name"
                         itemValue="id"
                         menuItems={props.providersByType}
+                        disabled={editMode}
                         async
                       />
                     </Col>}
