@@ -5,7 +5,6 @@ import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { Subtitle } from 'components/Typography';
 
 const required = value => (value ? undefined : 'required');
 
@@ -61,8 +60,6 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
 
       return (
         <FieldItem key={`sercret-${index}`}>
-          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
-          <Subtitle>Secret {index + 1}</Subtitle>
           {/* hidden field */}
           <Field
             id={`${member}.secret_name`}
@@ -124,6 +121,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
                 />
               </Col>}
           </Row>
+          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
         </FieldItem>
       );
     })}
