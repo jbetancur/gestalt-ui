@@ -20,6 +20,7 @@ const common = merge([
   {
     context: __dirname,
     resolve: {
+      symlinks: false,
       extensions: ['.jsx', '.scss', '.js', '.json'],
       modules: [
         path.resolve(__dirname, PATHS.srcPath),
@@ -132,7 +133,7 @@ module.exports = (env) => {
       })),
     common,
     parts.externals(),
-    parts.sourceMaps('inline-source-map'),
+    parts.sourceMaps('cheap-module-eval-source-map'),
     parts.scssConfig(
       Object.assign(PATHS, {
         options: {

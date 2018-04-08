@@ -24,7 +24,7 @@ exports.appEntryProduction = ({ srcPath }) => (
 
 exports.sourceMaps = sourcemap => (
   {
-    devtool: sourcemap || 'cheap-module-eval-source-map',
+    devtool: sourcemap,
   }
 );
 
