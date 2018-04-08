@@ -7,7 +7,7 @@ describe('Lambda Actions', () => {
       type: types.UNLOAD_LAMBDAS,
     };
 
-    expect(actions.unloadLambdas()).to.deep.equal(expectedAction);
+    expect(actions.unloadLambdas()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_LAMBDA', () => {
@@ -15,7 +15,7 @@ describe('Lambda Actions', () => {
       type: types.UNLOAD_LAMBDA,
     };
 
-    expect(actions.unloadLambda()).to.deep.equal(expectedAction);
+    expect(actions.unloadLambda()).toEqual(expectedAction);
   });
 
   it('should request FETCH_LAMBDAS_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Lambda Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchLambdas('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchLambdas('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_LAMBDAS_DROPDOWN_REQUEST', () => {
@@ -35,7 +35,7 @@ describe('Lambda Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchLambdasDropDown('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchLambdasDropDown('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_LAMBDA_REQUEST', () => {
@@ -45,7 +45,7 @@ describe('Lambda Actions', () => {
       lambdaId: '1',
     };
 
-    expect(actions.fetchLambda('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchLambda('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_LAMBDA_REQUEST', () => {
@@ -57,7 +57,7 @@ describe('Lambda Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createLambda('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createLambda('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_LAMBDA_REQUEST', () => {
@@ -69,7 +69,7 @@ describe('Lambda Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateLambda('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateLambda('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_LAMBDA_REQUEST', () => {
@@ -80,7 +80,7 @@ describe('Lambda Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteLambda('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteLambda('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_LAMBDAS_REQUEST', () => {
@@ -91,7 +91,7 @@ describe('Lambda Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteLambdas([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteLambdas([], 'iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_LAMBDA_PROVIDER_REQUEST', () => {
@@ -101,6 +101,6 @@ describe('Lambda Actions', () => {
       lambdaId: '1',
     };
 
-    expect(actions.fetchLambdaProvider('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchLambdaProvider('iamfqon', '1')).toEqual(expectedAction);
   });
 });

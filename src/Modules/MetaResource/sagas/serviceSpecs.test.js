@@ -16,14 +16,14 @@ describe('ServiceSpec Sagas', () => {
 
     it('should make an ServiceSpec call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/servicespecs?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_SERVICESPECS_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -34,7 +34,7 @@ describe('ServiceSpec Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_SERVICESPECS_REJECTED, payload: error })
       );
     });
@@ -47,14 +47,14 @@ describe('ServiceSpec Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/servicespecs?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: '1', name: 'morty' }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_SERVICESPECS_DROPDOWN_FULFILLED, payload: [{ id: '1', name: 'morty' }] })
         );
       });
@@ -65,7 +65,7 @@ describe('ServiceSpec Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_SERVICESPECS_DROPDOWN_REJECTED, payload: error })
         );
       });
@@ -77,14 +77,14 @@ describe('ServiceSpec Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/servicespecs?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_SERVICESPECS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Service Specs' }] })
         );
       });
@@ -98,14 +98,14 @@ describe('ServiceSpec Sagas', () => {
 
     it('should make an ServiceSpec call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/servicespecs', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_SERVICESPEC_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -126,7 +126,7 @@ describe('ServiceSpec Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_SERVICESPEC_REJECTED, payload: error })
       );
     });
@@ -138,21 +138,21 @@ describe('ServiceSpec Sagas', () => {
 
     it('should fork a watcher for fetchServiceSpecs', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SERVICESPECS_REQUEST, fetchServiceSpecs)
       );
     });
 
     it('should fork a watcher for fetchServiceSpecsDropdown', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SERVICESPECS_DROPDOWN_REQUEST, fetchServiceSpecsDropdown)
       );
     });
 
     it('should fork a watcher for createServiceSpec', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_SERVICESPEC_REQUEST, createServiceSpec)
       );
     });

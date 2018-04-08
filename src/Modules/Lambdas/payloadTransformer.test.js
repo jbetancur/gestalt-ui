@@ -22,7 +22,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.env).to.deep.equal({ test: 'this', this: 'test' });
+        expect(payload.properties.env).toEqual({ test: 'this', this: 'test' });
       });
     });
 
@@ -153,7 +153,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         { op: 'add', path: '/properties/code', value: 'YQ==' }
       ];
 
-      expect(payload).to.deep.equal(expectedPatches);
+      expect(payload).toEqual(expectedPatches);
     });
 
     it('should generate the correct patch payload code_type is changed frm code to package', () => {
@@ -180,7 +180,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         { op: 'add', path: '/properties/package_url', value: 'https://' }
       ];
 
-      expect(payload).to.deep.equal(expectedPatches);
+      expect(payload).toEqual(expectedPatches);
     });
   });
 });

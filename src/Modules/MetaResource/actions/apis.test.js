@@ -7,7 +7,7 @@ describe('API Actions', () => {
       type: types.UNLOAD_APIS,
     };
 
-    expect(actions.unloadAPIs()).to.deep.equal(expectedAction);
+    expect(actions.unloadAPIs()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_API', () => {
@@ -15,7 +15,7 @@ describe('API Actions', () => {
       type: types.UNLOAD_API,
     };
 
-    expect(actions.unloadAPI()).to.deep.equal(expectedAction);
+    expect(actions.unloadAPI()).toEqual(expectedAction);
   });
 
   it('should request FETCH_APIS_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('API Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchAPIs('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchAPIs('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_API_REQUEST', () => {
@@ -35,7 +35,7 @@ describe('API Actions', () => {
       apiId: '1',
     };
 
-    expect(actions.fetchAPI('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchAPI('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_API_REQUEST', () => {
@@ -47,7 +47,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createAPI('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createAPI('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_API_REQUEST', () => {
@@ -60,7 +60,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateAPI('iamfqon', '2', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateAPI('iamfqon', '2', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_API_REQUEST', () => {
@@ -71,7 +71,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteAPI('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteAPI('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_APIS_REQUEST', () => {
@@ -82,6 +82,6 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteAPIs([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteAPIs([], 'iamfqon')).toEqual(expectedAction);
   });
 });

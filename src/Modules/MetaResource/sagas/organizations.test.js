@@ -22,14 +22,14 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'orgs?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ALLORGS_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -40,7 +40,7 @@ describe('Organization Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ALLORGS_REJECTED, payload: error })
       );
     });
@@ -52,14 +52,14 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/orgs?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ORGS_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -70,7 +70,7 @@ describe('Organization Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ORGS_REJECTED, payload: error })
       );
     });
@@ -82,14 +82,14 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ORG_FULFILLED, payload: { id: 1 } })
       );
     });
@@ -99,7 +99,7 @@ describe('Organization Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ORG_REJECTED, payload: error })
       );
     });
@@ -112,7 +112,7 @@ describe('Organization Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.get('iamfqon'), axios.get('iamfqon/orgs?expand=true'), axios.get('iamfqon/workspaces?expand=true')])
       );
     });
@@ -122,7 +122,7 @@ describe('Organization Sagas', () => {
       const expectedPayload = { id: 1, subOrganizations: [{ id: 1 }], workspaces: [{ id: 3 }] };
 
       result = saga.next(promiseArray);
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ORGSET_FULFILLED, payload: expectedPayload })
       );
     });
@@ -132,7 +132,7 @@ describe('Organization Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ORGSET_REJECTED, payload: error })
       );
     });
@@ -145,14 +145,14 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, action.fqon, action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_ORG_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -173,7 +173,7 @@ describe('Organization Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_ORG_REJECTED, payload: error })
       );
     });
@@ -186,14 +186,14 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, action.fqon, action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_ORG_FULFILLED, payload: { id: 1 } })
       );
 
@@ -215,7 +215,7 @@ describe('Organization Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_ORG_REJECTED, payload: error })
       );
     });
@@ -228,14 +228,14 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_ORG_FULFILLED })
       );
 
@@ -258,7 +258,7 @@ describe('Organization Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_ORG_REJECTED, payload: error })
       );
     });
@@ -270,7 +270,7 @@ describe('Organization Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.get('iamfqon'), axios.get('iamfqon/orgs?expand=true')])
       );
     });
@@ -292,7 +292,7 @@ describe('Organization Sagas', () => {
       ];
 
       result = saga.next(promiseArray);
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ALLORGS_DROPDOWN_FULFILLED, payload: expectedPayload })
       );
     });
@@ -303,7 +303,7 @@ describe('Organization Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ALLORGS_DROPDOWN_REJECTED, payload: error })
       );
     });
@@ -315,56 +315,56 @@ describe('Organization Sagas', () => {
 
     it('should fork a watcher for fetchAllOrgs', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ALLORGS_REQUEST, fetchAllOrgs)
       );
     });
 
     it('should fork a watcher for fetchOrgs', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ORGS_REQUEST, fetchOrgs)
       );
     });
 
     it('should fork a watcher for fetchOrg', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ORG_REQUEST, fetchOrg)
       );
     });
 
     it('should fork a watcher for fetchOrgSet', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ORGSET_REQUEST, fetchOrgSet)
       );
     });
 
     it('should fork a watcher for createOrg', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_ORG_REQUEST, createOrg)
       );
     });
 
     it('should fork a watcher for updateOrg', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_ORG_REQUEST, updateOrg)
       );
     });
 
     it('should fork a watcher for deleteOrg', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_ORG_REQUEST, deleteOrg)
       );
     });
 
     it('should fork a watcher for fetchAllOrgsDropDown', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ALLORGS_DROPDOWN_REQUEST, fetchAllOrgsDropDown)
       );
     });

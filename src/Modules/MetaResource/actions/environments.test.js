@@ -7,7 +7,7 @@ describe('Environment Actions', () => {
       type: types.UNLOAD_ENVIRONMENTS,
     };
 
-    expect(actions.unloadEnvironments()).to.deep.equal(expectedAction);
+    expect(actions.unloadEnvironments()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_ENVIRONMENT', () => {
@@ -15,7 +15,7 @@ describe('Environment Actions', () => {
       type: types.UNLOAD_ENVIRONMENT,
     };
 
-    expect(actions.unloadEnvironment()).to.deep.equal(expectedAction);
+    expect(actions.unloadEnvironment()).toEqual(expectedAction);
   });
 
   it('should request FETCH_ENVIRONMENTS_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Environment Actions', () => {
       workspaceId: undefined,
     };
 
-    expect(actions.fetchEnvironments('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchEnvironments('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_ENVIRONMENT_REQUEST', () => {
@@ -35,7 +35,7 @@ describe('Environment Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchEnvironment('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchEnvironment('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_ENVIRONMENT_REQUEST', () => {
@@ -47,7 +47,7 @@ describe('Environment Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createEnvironment('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createEnvironment('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_ENVIRONMENT_REQUEST', () => {
@@ -59,7 +59,7 @@ describe('Environment Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateEnvironment('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateEnvironment('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_ENVIRONMENT_REQUEST', () => {
@@ -70,6 +70,6 @@ describe('Environment Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteEnvironment('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteEnvironment('iamfqon', '1')).toEqual(expectedAction);
   });
 });

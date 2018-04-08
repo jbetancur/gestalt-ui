@@ -7,7 +7,7 @@ describe('API Actions', () => {
       type: types.UNLOAD_APIENDPOINTS,
     };
 
-    expect(actions.unloadAPIEndpoints()).to.deep.equal(expectedAction);
+    expect(actions.unloadAPIEndpoints()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_APIENDPOINT', () => {
@@ -15,7 +15,7 @@ describe('API Actions', () => {
       type: types.UNLOAD_APIENDPOINT,
     };
 
-    expect(actions.unloadAPIEndpoint()).to.deep.equal(expectedAction);
+    expect(actions.unloadAPIEndpoint()).toEqual(expectedAction);
   });
 
   it('should request FETCH_APIENDPOINTS_REQUEST', () => {
@@ -26,7 +26,7 @@ describe('API Actions', () => {
       entityKey: 'apis',
     };
 
-    expect(actions.fetchAPIEndpoints('iamfqon', '1', 'apis')).to.deep.equal(expectedAction);
+    expect(actions.fetchAPIEndpoints('iamfqon', '1', 'apis')).toEqual(expectedAction);
   });
 
   it('should request FETCH_APIENDPOINT_REQUEST', () => {
@@ -37,7 +37,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.fetchAPIEndpoint('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchAPIEndpoint('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_APIENDPOINT_REQUEST', () => {
@@ -49,7 +49,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createAPIEndpoint('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createAPIEndpoint('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_APIENDPOINT_REQUEST', () => {
@@ -61,7 +61,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateAPIEndpoint('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateAPIEndpoint('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_APIENDPOINT_REQUEST', () => {
@@ -72,7 +72,7 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteAPIEndpoint('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteAPIEndpoint('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_APIENDPOINTS_REQUEST', () => {
@@ -83,6 +83,6 @@ describe('API Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteAPIEndpoints([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteAPIEndpoints([], 'iamfqon')).toEqual(expectedAction);
   });
 });

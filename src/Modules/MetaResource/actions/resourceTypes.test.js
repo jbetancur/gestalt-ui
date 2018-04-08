@@ -7,7 +7,7 @@ describe('Resource Type Actions', () => {
       type: types.UNLOAD_RESOURCETYPES,
     };
 
-    expect(actions.unloadResourceTypes()).to.deep.equal(expectedAction);
+    expect(actions.unloadResourceTypes()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_RESOURCETYPE', () => {
@@ -15,7 +15,7 @@ describe('Resource Type Actions', () => {
       type: types.UNLOAD_RESOURCETYPE,
     };
 
-    expect(actions.unloadResourceType()).to.deep.equal(expectedAction);
+    expect(actions.unloadResourceType()).toEqual(expectedAction);
   });
 
   it('should request FETCH_RESOURCETYPES_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Resource Type Actions', () => {
       filter: undefined,
     };
 
-    expect(actions.fetchResourceTypes('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchResourceTypes('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_RESOURCETYPES_DROPDOWN_REQUEST', () => {
@@ -34,7 +34,7 @@ describe('Resource Type Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchResourceTypesDropDown('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchResourceTypesDropDown('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_RESOURCETYPE_REQUEST', () => {
@@ -44,7 +44,7 @@ describe('Resource Type Actions', () => {
       resourceTypeId: '1',
     };
 
-    expect(actions.fetchResourceType('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchResourceType('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request CREATE_RESOURCETYPE_REQUEST', () => {
@@ -55,7 +55,7 @@ describe('Resource Type Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createResourceType('iamfqon', { name: 'woop woop!' })).to.deep.equal(expectedAction);
+    expect(actions.createResourceType('iamfqon', { name: 'woop woop!' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_RESOURCETYPE_REQUEST', () => {
@@ -67,7 +67,7 @@ describe('Resource Type Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateResourceType('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateResourceType('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_RESOURCETYPE_REQUEST', () => {
@@ -78,7 +78,7 @@ describe('Resource Type Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteResourceType('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteResourceType('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_RESOURCETYPES_REQUEST', () => {
@@ -89,6 +89,6 @@ describe('Resource Type Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteResourceTypes([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteResourceTypes([], 'iamfqon')).toEqual(expectedAction);
   });
 });

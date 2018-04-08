@@ -22,14 +22,14 @@ describe('Secret Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/1/secrets?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [secretMock] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_SECRETS_FULFILLED,
           payload: [secretMock],
@@ -43,7 +43,7 @@ describe('Secret Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_SECRETS_REJECTED, payload: error })
       );
     });
@@ -56,14 +56,14 @@ describe('Secret Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/secrets?expand=true&providerId=2')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: [{ id: 1 }] })
         );
       });
@@ -74,7 +74,7 @@ describe('Secret Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_SECRETS_DROPDOWN_REJECTED, payload: error })
         );
       });
@@ -86,14 +86,14 @@ describe('Secret Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/secrets?expand=true&providerId=2')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Secrets' }] })
         );
       });
@@ -106,7 +106,7 @@ describe('Secret Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/secrets/1')
       );
     });
@@ -114,7 +114,7 @@ describe('Secret Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: secretMock });
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_SECRET_FULFILLED, payload: secretMock })
       );
     });
@@ -125,7 +125,7 @@ describe('Secret Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_SECRET_REJECTED, payload: error })
       );
     });
@@ -140,14 +140,14 @@ describe('Secret Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/environments/1/secrets', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: createMock });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_SECRET_FULFILLED, payload: createMock })
       );
       // Finish the iteration
@@ -168,7 +168,7 @@ describe('Secret Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_SECRET_REJECTED, payload: error })
       );
     });
@@ -181,14 +181,14 @@ describe('Secret Sagas', () => {
 
     it('should make an api call to PATCH the secret', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/secrets/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: secretMock });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_SECRET_FULFILLED, payload: secretMock })
       );
 
@@ -211,7 +211,7 @@ describe('Secret Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_SECRET_REJECTED, payload: error })
       );
     });
@@ -224,14 +224,14 @@ describe('Secret Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/secrets/1')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_SECRET_FULFILLED })
       );
 
@@ -254,7 +254,7 @@ describe('Secret Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_SECRET_REJECTED, payload: error })
       );
     });
@@ -267,14 +267,14 @@ describe('Secret Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/secrets/1')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_SECRETS_FULFILLED })
       );
 
@@ -297,7 +297,7 @@ describe('Secret Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_SECRETS_REJECTED, payload: error })
       );
     });
@@ -309,49 +309,49 @@ describe('Secret Sagas', () => {
 
     it('should fork a watcher for fetchSecrets', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SECRETS_REQUEST, fetchSecrets)
       );
     });
 
     it('should fork a watcher for fetchSecretsDropDown', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SECRETS_DROPDOWN_REQUEST, fetchSecretsDropDown)
       );
     });
 
     it('should fork a watcher for fetchSecret', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SECRET_REQUEST, fetchSecret)
       );
     });
 
     it('should fork a watcher for createSecret', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_SECRET_REQUEST, createSecret)
       );
     });
 
     it('should fork a watcher for updateSecret', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_SECRET_REQUEST, updateSecret)
       );
     });
 
     it('should fork a watcher for deleteSecret', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_SECRET_REQUEST, deleteSecret)
       );
     });
 
     it('should fork a watcher for deleteSecrets', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_SECRETS_REQUEST, deleteSecrets)
       );
     });

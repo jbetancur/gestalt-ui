@@ -7,7 +7,7 @@ describe('Container Actions', () => {
       type: types.UNLOAD_CONTAINERS,
     };
 
-    expect(actions.unloadContainers()).to.deep.equal(expectedAction);
+    expect(actions.unloadContainers()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_CONTAINER', () => {
@@ -15,7 +15,7 @@ describe('Container Actions', () => {
       type: types.UNLOAD_CONTAINER,
     };
 
-    expect(actions.unloadContainer()).to.deep.equal(expectedAction);
+    expect(actions.unloadContainer()).toEqual(expectedAction);
   });
 
   it('should request FETCH_CONTAINERS_REQUEST', () => {
@@ -27,7 +27,7 @@ describe('Container Actions', () => {
       isPolling: false,
     };
 
-    expect(actions.fetchContainers('iamfqon', '1', 'environments', false)).to.deep.equal(expectedAction);
+    expect(actions.fetchContainers('iamfqon', '1', 'environments', false)).toEqual(expectedAction);
   });
 
   it('should request FETCH_CONTAINERS_DROPDOWN_REQUEST', () => {
@@ -37,7 +37,7 @@ describe('Container Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchContainersDropDown('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchContainersDropDown('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_CONTAINER_REQUEST', () => {
@@ -50,7 +50,7 @@ describe('Container Actions', () => {
       isPolling: false,
     };
 
-    expect(actions.fetchContainer('iamfqon', '1', '2', 'environments', false)).to.deep.equal(expectedAction);
+    expect(actions.fetchContainer('iamfqon', '1', '2', 'environments', false)).toEqual(expectedAction);
   });
 
   it('should handle CREATE_CONTAINER_REQUEST', () => {
@@ -62,7 +62,7 @@ describe('Container Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createContainer('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createContainer('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_CONTAINER_REQUEST', () => {
@@ -74,7 +74,7 @@ describe('Container Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateContainer('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateContainer('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_CONTAINER_REQUEST', () => {
@@ -85,7 +85,7 @@ describe('Container Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteContainer('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteContainer('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle SCALE_CONTAINER_REQUEST', () => {
@@ -97,7 +97,7 @@ describe('Container Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.scaleContainer('iamfqon', '2', 42)).to.deep.equal(expectedAction);
+    expect(actions.scaleContainer('iamfqon', '2', 42)).toEqual(expectedAction);
   });
 
   it('should handle MIGRATE_CONTAINER_REQUEST', () => {
@@ -109,7 +109,7 @@ describe('Container Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.migrateContainer('iamfqon', '2', '3')).to.deep.equal(expectedAction);
+    expect(actions.migrateContainer('iamfqon', '2', '3')).toEqual(expectedAction);
   });
 
   it('should handle PROMOTE_CONTAINER_REQUEST', () => {
@@ -121,7 +121,7 @@ describe('Container Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.promoteContainer('iamfqon', '2', '3')).to.deep.equal(expectedAction);
+    expect(actions.promoteContainer('iamfqon', '2', '3')).toEqual(expectedAction);
   });
 
   it('should request FETCH_PROVIDER_CONTAINER_REQUEST', () => {
@@ -131,6 +131,6 @@ describe('Container Actions', () => {
       providerId: '1',
     };
 
-    expect(actions.fetchProviderContainer('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchProviderContainer('iamfqon', '1')).toEqual(expectedAction);
   });
 });

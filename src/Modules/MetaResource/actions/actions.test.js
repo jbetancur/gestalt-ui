@@ -7,7 +7,7 @@ describe('Provider Actions', () => {
       type: types.UNLOAD_ACTIONS,
     };
 
-    expect(actions.unloadActions()).to.deep.equal(expectedAction);
+    expect(actions.unloadActions()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_CONTEXT_ACTIONS', () => {
@@ -15,7 +15,7 @@ describe('Provider Actions', () => {
       type: types.UNLOAD_CONTEXT_ACTIONS,
     };
 
-    expect(actions.unloadContextActions()).to.deep.equal(expectedAction);
+    expect(actions.unloadContextActions()).toEqual(expectedAction);
   });
 
 
@@ -28,7 +28,7 @@ describe('Provider Actions', () => {
       filters: {},
     };
 
-    expect(actions.fetchActions('iamfqon', '1', 'environments', {})).to.deep.equal(expectedAction);
+    expect(actions.fetchActions('iamfqon', '1', 'environments', {})).toEqual(expectedAction);
   });
 
   it('should request FETCH_CONTEXT_ACTIONS_REQUEST', () => {
@@ -40,6 +40,6 @@ describe('Provider Actions', () => {
       filters: {},
     };
 
-    expect(actions.fetchContextActions('iamfqon', '1', 'environments', {})).to.deep.equal(expectedAction);
+    expect(actions.fetchContextActions('iamfqon', '1', 'environments', {})).toEqual(expectedAction);
   });
 });

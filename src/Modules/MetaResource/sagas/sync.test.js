@@ -15,14 +15,14 @@ describe('sync Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'sync')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: syncMock });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_SYNC_FULFILLED,
           payload: [{ start: '' }],
@@ -36,7 +36,7 @@ describe('sync Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_SYNC_REJECTED, payload: error })
       );
     });
@@ -48,7 +48,7 @@ describe('sync Sagas', () => {
 
     it('should fork a watcher for sync', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SYNC_REQUEST, sync)
       );
     });

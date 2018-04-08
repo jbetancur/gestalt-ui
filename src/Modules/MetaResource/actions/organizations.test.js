@@ -7,7 +7,7 @@ describe('Organization Actions', () => {
       type: actionTypes.UNLOAD_ORGANIZATION,
     };
 
-    expect(actions.unloadOrganization()).to.deep.equal(expectedAction);
+    expect(actions.unloadOrganization()).toEqual(expectedAction);
   });
 
 
@@ -16,7 +16,7 @@ describe('Organization Actions', () => {
       type: actionTypes.FETCH_ALLORGS_REQUEST,
     };
 
-    expect(actions.fetchAllOrgs()).to.deep.equal(expectedAction);
+    expect(actions.fetchAllOrgs()).toEqual(expectedAction);
   });
 
   it('should request FETCH_ALLORGS_DROPDOWN_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Organization Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchAllOrgsDropDown('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchAllOrgsDropDown('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_ORGS_REQUEST', () => {
@@ -34,7 +34,7 @@ describe('Organization Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchOrgs('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchOrgs('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_ORG_REQUEST', () => {
@@ -43,7 +43,7 @@ describe('Organization Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchOrg('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchOrg('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_ORGSET_REQUEST', () => {
@@ -52,7 +52,7 @@ describe('Organization Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchOrgSet('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchOrgSet('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request CREATE_ORG_REQUEST', () => {
@@ -63,7 +63,7 @@ describe('Organization Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createOrg('iamfqon', { id: 1 })).to.deep.equal(expectedAction);
+    expect(actions.createOrg('iamfqon', { id: 1 })).toEqual(expectedAction);
   });
 
   it('should request UPDATE_ORG_REQUEST', () => {
@@ -74,7 +74,7 @@ describe('Organization Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateOrg('iamfqon', [])).to.deep.equal(expectedAction);
+    expect(actions.updateOrg('iamfqon', [])).toEqual(expectedAction);
   });
 
   it('should request DELETE_ORG_REQUEST', () => {
@@ -84,6 +84,6 @@ describe('Organization Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteOrg('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteOrg('iamfqon')).toEqual(expectedAction);
   });
 });

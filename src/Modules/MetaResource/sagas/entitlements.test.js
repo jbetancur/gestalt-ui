@@ -20,7 +20,7 @@ describe('Entitlement Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/entitlements?expand=true')
         );
       });
@@ -44,7 +44,7 @@ describe('Entitlement Sagas', () => {
           },
         ];
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENTITLEMENTS_FULFILLED, payload: expectedPayload })
         );
       });
@@ -57,7 +57,7 @@ describe('Entitlement Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/entitlements?expand=true')
         );
       });
@@ -81,7 +81,7 @@ describe('Entitlement Sagas', () => {
           },
         ];
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENTITLEMENTS_FULFILLED, payload: expectedPayload })
         );
       });
@@ -91,7 +91,7 @@ describe('Entitlement Sagas', () => {
       const saga = fetchEntitlements({ fqon: 'iamfqon', selectedIdentityId: { id: 1 } });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/entitlements?expand=true')
         );
       });
@@ -115,7 +115,7 @@ describe('Entitlement Sagas', () => {
           },
         ];
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENTITLEMENTS_FULFILLED, payload: expectedPayload })
         );
       });
@@ -127,7 +127,7 @@ describe('Entitlement Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ENTITLEMENTS_REJECTED, payload: error })
       );
     });
@@ -139,14 +139,14 @@ describe('Entitlement Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.get('iamfqon/users'), axios.get('iamfqon/groups')])
       );
     });
 
     it('should return a sorted and combined payload and dispatch a success status', () => {
       result = saga.next([{ data: [{ id: 2, name: 'apple' }] }, { data: [{ id: 1, name: 'zebra' }] }]);
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_IDENTITIES_FULFILLED, payload: [{ id: 2, name: 'apple' }, { id: 1, name: 'zebra' }] })
       );
     });
@@ -157,7 +157,7 @@ describe('Entitlement Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_IDENTITIES_REJECTED, payload: error })
       );
     });
@@ -171,7 +171,7 @@ describe('Entitlement Sagas', () => {
 
       it('should return dispatch a success status', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.UPDATE_ENTITLEMENT_FULFILLED })
         );
       });
@@ -193,14 +193,14 @@ describe('Entitlement Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.all, [axios.put('iamfqon/entitlements/42')])
         );
       });
 
       it('should return dispatch a success status', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.UPDATE_ENTITLEMENT_FULFILLED })
         );
       });
@@ -222,14 +222,14 @@ describe('Entitlement Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.all, [axios.put('iamfqon/entitlements/42')])
         );
       });
 
       it('should return dispatch a success status', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.UPDATE_ENTITLEMENT_FULFILLED })
         );
       });
@@ -251,7 +251,7 @@ describe('Entitlement Sagas', () => {
 
       it('should return dispatch a success status', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.UPDATE_ENTITLEMENT_FULFILLED })
         );
       });
@@ -283,7 +283,7 @@ describe('Entitlement Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_ENTITLEMENT_REJECTED, payload: error })
       );
     });
@@ -295,21 +295,21 @@ describe('Entitlement Sagas', () => {
 
     it('should fork a watcher for fetchEntitlements', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements)
       );
     });
 
     it('should fork a watcher for fetchIdentities', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_IDENTITIES_REQUEST, fetchIdentities)
       );
     });
 
     it('should fork a watcher for updateEntitlements', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_ENTITLEMENT_REQUEST, updateEntitlements)
       );
     });

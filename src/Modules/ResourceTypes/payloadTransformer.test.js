@@ -16,7 +16,7 @@ describe('(Payload Transformer) generatePayload', () => {
       });
       const payload = generatePayload(sourcePayload);
 
-      expect(payload).to.deep.equal(sourcePayload);
+      expect(payload).toEqual(sourcePayload);
     });
   });
 
@@ -82,7 +82,7 @@ describe('(Payload Transformer) generatePayload', () => {
         { op: 'POST', resourceTypeId: '999', payload: { name: 'lightsaber', data_type: 'string', requirement_type: 'required' } },
       ];
 
-      expect(batchOps).to.deep.equal(results);
+      expect(batchOps).toEqual(results);
     });
 
     it('should correctly map an array of property_defs update operations', () => {
@@ -122,7 +122,7 @@ describe('(Payload Transformer) generatePayload', () => {
         { op: 'PATCH', id: '321', patches: [{ op: 'replace', path: '/data_type', value: 'int' }] },
       ];
 
-      expect(batchOps).to.deep.equal(results);
+      expect(batchOps).toEqual(results);
     });
 
     it('should correctly map an array of property_defs delete operations', () => {
@@ -149,7 +149,7 @@ describe('(Payload Transformer) generatePayload', () => {
         { op: 'DELETE', id: '321' },
       ];
 
-      expect(batchOps).to.deep.equal(results);
+      expect(batchOps).toEqual(results);
     });
 
     it('should correctly map an array of property_defs for combined update add and delete operations', () => {
@@ -189,7 +189,7 @@ describe('(Payload Transformer) generatePayload', () => {
         { op: 'DELETE', id: '456' },
       ];
 
-      expect(batchOps).to.deep.equal(results);
+      expect(batchOps).toEqual(results);
     });
 
     it('should return items with [] patch ops if the source and updated properties are the same', () => {
@@ -228,7 +228,7 @@ describe('(Payload Transformer) generatePayload', () => {
         { op: 'PATCH', id: '321', patches: [] },
         { op: 'PATCH', id: '123', patches: [] },
       ];
-      expect(batchOps).to.deep.equal(results);
+      expect(batchOps).toEqual(results);
     });
   });
 });

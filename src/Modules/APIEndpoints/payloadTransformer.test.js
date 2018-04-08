@@ -25,7 +25,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.methods).to.deep.equal(['GET', 'POST']);
+        expect(payload.properties.methods).toEqual(['GET', 'POST']);
       });
 
       it('should convert properties.methods to [] if there no methods defined', () => {
@@ -36,7 +36,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.methods).to.deep.equal([]);
+        expect(payload.properties.methods).toEqual([]);
       });
     });
 

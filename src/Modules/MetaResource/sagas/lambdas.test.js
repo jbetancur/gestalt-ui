@@ -21,14 +21,14 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/1/lambdas?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 2 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_LAMBDAS_FULFILLED,
           payload: [{ id: 2 }] })
@@ -42,14 +42,14 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/lambdas?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 2 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_LAMBDAS_FULFILLED,
           payload: [{ id: 2 }] })
@@ -64,7 +64,7 @@ describe('Lambda Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_LAMBDAS_REJECTED, payload: error })
       );
     });
@@ -77,14 +77,14 @@ describe('Lambda Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/lambdas')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1, name: 'morty' }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LAMBDAS_DROPDOWN_FULFILLED, payload: [{ id: 1, name: 'morty (1)' }] })
         );
       });
@@ -95,7 +95,7 @@ describe('Lambda Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_LAMBDAS_DROPDOWN_REJECTED, payload: error })
         );
       });
@@ -107,14 +107,14 @@ describe('Lambda Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/lambdas')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LAMBDAS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Lambdas' }] })
         );
       });
@@ -127,14 +127,14 @@ describe('Lambda Sagas', () => {
       let result;
       it('should make an api call for the lambda by id', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/lambdas/1')
         );
       });
 
       it('should make an api call for the environment envs', () => {
         result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/2/env')
         );
       });
@@ -143,7 +143,7 @@ describe('Lambda Sagas', () => {
         result = saga.next({ data: { test: 'testvar' } });
 
         const expectedPayload = { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }] } };
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LAMBDA_FULFILLED, payload: expectedPayload })
         );
       });
@@ -154,14 +154,14 @@ describe('Lambda Sagas', () => {
       let result;
       it('should make an api call for the lambda by id', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/lambdas/1')
         );
       });
 
       it('should make an api call for the environment envs', () => {
         result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: { rick: 'morty' } } } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/2/env')
         );
       });
@@ -170,7 +170,7 @@ describe('Lambda Sagas', () => {
         result = saga.next({ data: { test: 'testvar' } });
 
         const expectedPayload = { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }, { name: 'rick', value: 'morty', inherited: false }] } };
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LAMBDA_FULFILLED, payload: expectedPayload })
         );
       });
@@ -183,7 +183,7 @@ describe('Lambda Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_LAMBDA_REJECTED, payload: error })
         );
       });
@@ -198,14 +198,14 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call for the lambda by id', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/environments/1/lambdas', action.payload)
       );
     });
 
     it('should make an api call for the environment envs', () => {
       result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/2/env')
       );
     });
@@ -213,7 +213,7 @@ describe('Lambda Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { test: 'testvar' } });
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_LAMBDA_FULFILLED, payload: expectedPayload })
       );
       // Finish the iteration
@@ -236,7 +236,7 @@ describe('Lambda Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_LAMBDA_REJECTED, payload: error })
       );
     });
@@ -250,14 +250,14 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call to PATCH the lambda', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/lambdas/1', action.payload)
       );
     });
 
     it('should make an api call for the environment envs', () => {
       result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/2/env')
       );
     });
@@ -265,7 +265,7 @@ describe('Lambda Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { test: 'testvar' } });
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_LAMBDA_FULFILLED, payload: expectedPayload })
       );
       // Finish the iteration
@@ -288,7 +288,7 @@ describe('Lambda Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_LAMBDA_REJECTED, payload: error })
       );
     });
@@ -301,14 +301,14 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/lambdas/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_LAMBDA_FULFILLED })
       );
 
@@ -331,7 +331,7 @@ describe('Lambda Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_LAMBDA_REJECTED, payload: error })
       );
     });
@@ -344,14 +344,14 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/lambdas/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_LAMBDA_FULFILLED })
       );
 
@@ -374,7 +374,7 @@ describe('Lambda Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_LAMBDA_REJECTED, payload: error })
       );
     });
@@ -386,21 +386,21 @@ describe('Lambda Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/lambdas/1')
       );
     });
 
     it('should make an api call for the provider', () => {
       result = saga.next({ data: { id: 2, properties: { provider: { id: 42 } } } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/providers/42')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 2 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_LAMBDA_PROVIDER_FULFILLED, payload: { id: 2 } })
       );
 
@@ -414,7 +414,7 @@ describe('Lambda Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_LAMBDA_PROVIDER_REJECTED, payload: error })
       );
     });
@@ -427,56 +427,56 @@ describe('Lambda Sagas', () => {
 
     it('should fork a watcher for fetchLambdas', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_LAMBDAS_REQUEST, fetchLambdas)
       );
     });
 
     it('should fork a watcher for fetchLambdasDropDown', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_LAMBDAS_DROPDOWN_REQUEST, fetchLambdasDropDown)
       );
     });
 
     it('should fork a watcher for fetchLambda', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_LAMBDA_REQUEST, fetchLambda)
       );
     });
 
     it('should fork a watcher for createLambda', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_LAMBDA_REQUEST, createLambda)
       );
     });
 
     it('should fork a watcher for updateLambda', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_LAMBDA_REQUEST, updateLambda)
       );
     });
 
     it('should fork a watcher for deleteLambda', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_LAMBDA_REQUEST, deleteLambda)
       );
     });
 
     it('should fork a watcher for deleteLambdas', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_LAMBDAS_REQUEST, deleteLambdas)
       );
     });
 
     it('should fork a watcher for fetchLambdaProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_LAMBDA_PROVIDER_REQUEST, fetchLambdaProvider)
       );
     });

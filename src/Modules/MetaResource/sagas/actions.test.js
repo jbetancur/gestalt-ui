@@ -13,14 +13,14 @@ describe('Action Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/workspaces/1/actions?expand=true&compact=false&filter=workspace.list&filter=workspace.detail')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1, properties: { } }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_ACTIONS_FULFILLED,
           payload: [
@@ -36,14 +36,14 @@ describe('Action Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/workspaces/1/actions?expand=true&compact=false')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1, properties: { } }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_ACTIONS_FULFILLED,
           payload: [
@@ -59,14 +59,14 @@ describe('Action Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/actions?expand=true&compact=false')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1, properties: { } }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_ACTIONS_FULFILLED,
           payload: [
@@ -85,7 +85,7 @@ describe('Action Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ACTIONS_REJECTED, payload: error })
       );
     });
@@ -98,14 +98,14 @@ describe('Action Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/workspaces/1/actions?expand=true&compact=false&filter=workspace.list&filter=workspace.detail')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1, properties: { } }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTEXT_ACTIONS_FULFILLED,
           payload: [
@@ -121,14 +121,14 @@ describe('Action Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/workspaces/1/actions?expand=true&compact=false')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1, properties: { } }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTEXT_ACTIONS_FULFILLED,
           payload: [
@@ -144,14 +144,14 @@ describe('Action Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/actions?expand=true&compact=false')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1, properties: { } }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTEXT_ACTIONS_FULFILLED,
           payload: [
@@ -170,7 +170,7 @@ describe('Action Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_CONTEXT_ACTIONS_REJECTED, payload: error })
       );
     });
@@ -182,14 +182,14 @@ describe('Action Sagas', () => {
 
     it('should fork a watcher for fetchActions', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ACTIONS_REQUEST, fetchActions)
       );
     });
 
     it('should fork a watcher for fetchContextActions', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_CONTEXT_ACTIONS_REQUEST, fetchContextActions)
       );
     });

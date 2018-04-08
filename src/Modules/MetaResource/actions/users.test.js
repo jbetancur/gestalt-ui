@@ -7,7 +7,7 @@ describe('User Actions', () => {
       type: types.UNLOAD_USERS,
     };
 
-    expect(actions.unloadUsers()).to.deep.equal(expectedAction);
+    expect(actions.unloadUsers()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_USER', () => {
@@ -15,7 +15,7 @@ describe('User Actions', () => {
       type: types.UNLOAD_USER,
     };
 
-    expect(actions.unloadUser()).to.deep.equal(expectedAction);
+    expect(actions.unloadUser()).toEqual(expectedAction);
   });
 
   it('should request FETCH_USERS_REQUEST', () => {
@@ -24,7 +24,7 @@ describe('User Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchUsers('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchUsers('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_USER_REQUEST', () => {
@@ -34,7 +34,7 @@ describe('User Actions', () => {
       userId: '1',
     };
 
-    expect(actions.fetchUser('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchUser('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_USER_REQUEST', () => {
@@ -45,7 +45,7 @@ describe('User Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createUser('iamfqon', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createUser('iamfqon', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_USER_REQUEST', () => {
@@ -57,7 +57,7 @@ describe('User Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateUser('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateUser('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_USER_REQUEST', () => {
@@ -68,7 +68,7 @@ describe('User Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteUser('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteUser('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_USERS_REQUEST', () => {
@@ -79,6 +79,6 @@ describe('User Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteUsers([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteUsers([], 'iamfqon')).toEqual(expectedAction);
   });
 });

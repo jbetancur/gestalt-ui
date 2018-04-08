@@ -10,6 +10,6 @@ describe('Logging Actions', () => {
       logType: 'poopy',
     };
 
-    expect(actions.fetchLogProvider('iamfqon', '1', 'poopy')).to.deep.equal(expectedAction);
+    expect(actions.fetchLogProvider('iamfqon', '1', 'poopy')).toEqual(expectedAction);
   });
 });

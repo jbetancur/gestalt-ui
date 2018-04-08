@@ -7,7 +7,7 @@ describe('Entitlements Actions', () => {
       type: types.UNLOAD_ENTITLEMENTS,
     };
 
-    expect(actions.unloadEntitlements()).to.deep.equal(expectedAction);
+    expect(actions.unloadEntitlements()).toEqual(expectedAction);
   });
 
   it('should request FETCH_ENTITLEMENTS_REQUEST', () => {
@@ -19,7 +19,7 @@ describe('Entitlements Actions', () => {
       selectedIdentityId: '2',
     };
 
-    expect(actions.fetchEntitlements('iamfqon', '1', 'workspaces', '2')).to.deep.equal(expectedAction);
+    expect(actions.fetchEntitlements('iamfqon', '1', 'workspaces', '2')).toEqual(expectedAction);
   });
 
   it('should request FETCH_IDENTITIES_REQUEST', () => {
@@ -28,7 +28,7 @@ describe('Entitlements Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchIdentities('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchIdentities('iamfqon')).toEqual(expectedAction);
   });
 
 
@@ -43,6 +43,6 @@ describe('Entitlements Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateEntitlements('iamfqon', '2', [{ id: 1 }], '1', 'workspaces')).to.deep.equal(expectedAction);
+    expect(actions.updateEntitlements('iamfqon', '2', [{ id: 1 }], '1', 'workspaces')).toEqual(expectedAction);
   });
 });

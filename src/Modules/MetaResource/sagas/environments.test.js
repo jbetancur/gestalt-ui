@@ -19,7 +19,7 @@ describe('Environment Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/workspaces/1/environments?expand=true')
         );
       });
@@ -27,7 +27,7 @@ describe('Environment Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         const model = { id: 1, properties: { workspace: { id: '123' } } };
         result = saga.next({ data: [model] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [model] })
         );
       });
@@ -39,7 +39,7 @@ describe('Environment Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments?expand=true')
         );
       });
@@ -47,7 +47,7 @@ describe('Environment Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         const model = { id: 1, properties: { workspace: { id: '123' } } };
         result = saga.next({ data: [model] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [model] })
         );
       });
@@ -59,7 +59,7 @@ describe('Environment Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments?expand=true')
         );
       });
@@ -67,7 +67,7 @@ describe('Environment Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         const model = { id: 1, properties: { workspace: null } };
         result = saga.next({ data: [model] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENVIRONMENTS_FULFILLED, payload: [] })
         );
       });
@@ -79,7 +79,7 @@ describe('Environment Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ENVIRONMENTS_REJECTED, payload: error })
       );
     });
@@ -91,14 +91,14 @@ describe('Environment Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/1')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ENVIRONMENT_FULFILLED, payload: { id: 1 } })
       );
     });
@@ -109,7 +109,7 @@ describe('Environment Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ENVIRONMENT_REJECTED, payload: error })
       );
     });
@@ -122,14 +122,14 @@ describe('Environment Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, `${action.fqon}/workspaces/${action.workspaceId}/environments`, action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_ENVIRONMENT_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -150,7 +150,7 @@ describe('Environment Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_ENVIRONMENT_REJECTED, payload: error })
       );
     });
@@ -163,14 +163,14 @@ describe('Environment Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, `${action.fqon}/environments/${action.environmentId}`, action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_ENVIRONMENT_FULFILLED, payload: { id: 1 } })
       );
 
@@ -192,7 +192,7 @@ describe('Environment Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_ENVIRONMENT_REJECTED, payload: error })
       );
     });
@@ -205,14 +205,14 @@ describe('Environment Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, `${action.fqon}/environments/${action.environmentId}?force=true`)
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_ENVIRONMENT_FULFILLED })
       );
 
@@ -235,7 +235,7 @@ describe('Environment Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_ENVIRONMENT_REJECTED, payload: error })
       );
     });
@@ -247,35 +247,35 @@ describe('Environment Sagas', () => {
 
     it('should fork a watcher for fetchEnvironments', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ENVIRONMENTS_REQUEST, fetchEnvironments)
       );
     });
 
     it('should fork a watcher for fetchEnvironment', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ENVIRONMENT_REQUEST, fetchEnvironment)
       );
     });
 
     it('should fork a watcher for createEnvironment', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_ENVIRONMENT_REQUEST, createEnvironment)
       );
     });
 
     it('should fork a watcher for updateEnvironment', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_ENVIRONMENT_REQUEST, updateEnvironment)
       );
     });
 
     it('should fork a watcher for deleteEnvironment', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_ENVIRONMENT_REQUEST, deleteEnvironment)
       );
     });

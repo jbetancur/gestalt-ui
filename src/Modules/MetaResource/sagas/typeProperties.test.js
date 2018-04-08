@@ -18,14 +18,14 @@ describe('TypeProperty Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/resourcetypes/1/typeproperties', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_TYPEPROPERTY_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -46,7 +46,7 @@ describe('TypeProperty Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_TYPEPROPERTY_REJECTED, payload: error })
       );
     });
@@ -59,14 +59,14 @@ describe('TypeProperty Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/typeproperties/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_TYPEPROPERTY_FULFILLED, payload: { id: 1 } })
       );
 
@@ -88,7 +88,7 @@ describe('TypeProperty Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_TYPEPROPERTY_REJECTED, payload: error })
       );
     });
@@ -101,14 +101,14 @@ describe('TypeProperty Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/typeproperties/1')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_TYPEPROPERTY_FULFILLED })
       );
 
@@ -131,7 +131,7 @@ describe('TypeProperty Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_TYPEPROPERTY_REJECTED, payload: error })
       );
     });
@@ -146,12 +146,12 @@ describe('TypeProperty Sagas', () => {
         const saga = batchUpdateTypeProperties(action);
         let result = saga.next();
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(updateTypeProperty, { fqon: 'iamfqon', typePropertyId: '1', payload: patches })
         );
 
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.BATCH_UPDATE_TYPEPROPERTY_FULFILLED })
         );
 
@@ -167,7 +167,7 @@ describe('TypeProperty Sagas', () => {
         const saga = batchUpdateTypeProperties(action);
         let result = saga.next();
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.BATCH_UPDATE_TYPEPROPERTY_FULFILLED })
         );
 
@@ -183,12 +183,12 @@ describe('TypeProperty Sagas', () => {
         const saga = batchUpdateTypeProperties(action);
         let result = saga.next();
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(createTypeProperty, { fqon: 'iamfqon', resourceTypeId: '1', payload: { name: 'test' } })
         );
 
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.BATCH_UPDATE_TYPEPROPERTY_FULFILLED })
         );
 
@@ -204,12 +204,12 @@ describe('TypeProperty Sagas', () => {
         const saga = batchUpdateTypeProperties(action);
         let result = saga.next();
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(deleteTypeProperty, { fqon: 'iamfqon', typePropertyId: '1' })
         );
 
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.BATCH_UPDATE_TYPEPROPERTY_FULFILLED })
         );
 
@@ -233,7 +233,7 @@ describe('TypeProperty Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.BATCH_UPDATE_TYPEPROPERTY_REJECTED, payload: error })
       );
     });
@@ -245,28 +245,28 @@ describe('TypeProperty Sagas', () => {
 
     it('should fork a watcher for createTypeProperty', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_TYPEPROPERTY_REQUEST, createTypeProperty)
       );
     });
 
     it('should fork a watcher for updateTypeProperty', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_TYPEPROPERTY_REQUEST, updateTypeProperty)
       );
     });
 
     it('should fork a watcher for deleteTypeProperty', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_TYPEPROPERTY_REQUEST, deleteTypeProperty)
       );
     });
 
     it('should fork a watcher for batchUpdateTypeProperties', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.BATCH_UPDATE_TYPEPROPERTY_REQUEST, batchUpdateTypeProperties)
       );
     });

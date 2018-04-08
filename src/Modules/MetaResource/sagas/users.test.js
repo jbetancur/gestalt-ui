@@ -19,14 +19,14 @@ describe('User Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/users?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_USERS_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -37,7 +37,7 @@ describe('User Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_USERS_REJECTED, payload: error })
       );
     });
@@ -49,7 +49,7 @@ describe('User Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/users/1')
       );
     });
@@ -57,7 +57,7 @@ describe('User Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_USER_FULFILLED, payload: { id: 1 } })
       );
     });
@@ -68,7 +68,7 @@ describe('User Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_USER_REJECTED, payload: error })
       );
     });
@@ -81,14 +81,14 @@ describe('User Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/users', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_USER_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -109,7 +109,7 @@ describe('User Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_USER_REJECTED, payload: error })
       );
     });
@@ -122,14 +122,14 @@ describe('User Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/users/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_USER_FULFILLED, payload: { id: 1 } })
       );
 
@@ -151,7 +151,7 @@ describe('User Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_USER_REJECTED, payload: error })
       );
     });
@@ -164,14 +164,14 @@ describe('User Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/users/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_USER_FULFILLED })
       );
 
@@ -194,7 +194,7 @@ describe('User Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_USER_REJECTED, payload: error })
       );
     });
@@ -207,14 +207,14 @@ describe('User Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/users/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_USER_FULFILLED })
       );
 
@@ -237,7 +237,7 @@ describe('User Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_USER_REJECTED, payload: error })
       );
     });
@@ -249,42 +249,42 @@ describe('User Sagas', () => {
 
     it('should fork a watcher for fetchUsers', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_USERS_REQUEST, fetchUsers)
       );
     });
 
     it('should fork a watcher for fetchUser', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_USER_REQUEST, fetchUser)
       );
     });
 
     it('should fork a watcher for createUser', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_USER_REQUEST, createUser)
       );
     });
 
     it('should fork a watcher for updateUser', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_USER_REQUEST, updateUser)
       );
     });
 
     it('should fork a watcher for deleteUser', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_USER_REQUEST, deleteUser)
       );
     });
 
     it('should fork a watcher for deleteUsers', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_USERS_REQUEST, deleteUsers)
       );
     });
