@@ -7,6 +7,6 @@ describe('Sync Actions', () => {
       type: actionTypes.FETCH_SYNC_REQUEST
     };
 
-    expect(actions.sync()).to.deep.equal(expectedAction);
+    expect(actions.sync()).toEqual(expectedAction);
   });
 });

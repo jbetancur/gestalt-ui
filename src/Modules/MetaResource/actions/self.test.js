@@ -7,6 +7,6 @@ describe('Self Actions', () => {
       type: actionTypes.FETCH_SELF_REQUEST
     };
 
-    expect(actions.fetchSelf()).to.deep.equal(expectedAction);
+    expect(actions.fetchSelf()).toEqual(expectedAction);
   });
 });

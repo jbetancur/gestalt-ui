@@ -26,7 +26,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isFQON({})).to.deep.equal({});
+      expect(isFQON({})).toEqual({});
     });
   });
 
@@ -40,7 +40,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isPhoneNumber({})).to.deep.equal({});
+      expect(isPhoneNumber({})).toEqual({});
     });
   });
 
@@ -78,7 +78,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isUsername({})).to.deep.equal({});
+      expect(isUsername({})).toEqual({});
     });
   });
 
@@ -92,7 +92,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isLambdaName({})).to.deep.equal({});
+      expect(isLambdaName({})).toEqual({});
     });
   });
 
@@ -114,7 +114,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isContainerName({})).to.deep.equal({});
+      expect(isContainerName({})).toEqual({});
     });
 
     it('should validate if is a valid container where it contains a number in the name', () => {
@@ -144,7 +144,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isContainerServicePortName({})).to.deep.equal({});
+      expect(isContainerServicePortName({})).toEqual({});
     });
 
     it('should validate if lambda name contains --', () => {
@@ -174,7 +174,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isCommaDelimited({})).to.deep.equal({});
+      expect(isCommaDelimited({})).toEqual({});
     });
   });
 
@@ -192,7 +192,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isCommaDelimitedConstraints({})).to.deep.equal({});
+      expect(isCommaDelimitedConstraints({})).toEqual({});
     });
   });
 
@@ -214,7 +214,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isKubernetesVolumeName({})).to.deep.equal({});
+      expect(isKubernetesVolumeName({})).toEqual({});
     });
   });
 
@@ -244,7 +244,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isUnixVariable({})).to.deep.equal({});
+      expect(isUnixVariable({})).toEqual({});
     });
   });
 
@@ -274,7 +274,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isSecretKeyValidation({})).to.deep.equal({});
+      expect(isSecretKeyValidation({})).toEqual({});
     });
   });
 
@@ -304,7 +304,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isSecretNameValidation({})).to.deep.equal({});
+      expect(isSecretNameValidation({})).toEqual({});
     });
   });
 
@@ -331,7 +331,7 @@ describe('Validations', () => {
     });
 
     it('should return the original value if arg is not a string', () => {
-      expect(isBase64({})).to.deep.equal({});
+      expect(isBase64({})).toEqual({});
     });
   });
 });

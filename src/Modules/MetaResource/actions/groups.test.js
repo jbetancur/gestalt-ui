@@ -7,7 +7,7 @@ describe('Group Actions', () => {
       type: types.UNLOAD_GROUPS,
     };
 
-    expect(actions.unloadGroups()).to.deep.equal(expectedAction);
+    expect(actions.unloadGroups()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_GROUP', () => {
@@ -15,7 +15,7 @@ describe('Group Actions', () => {
       type: types.UNLOAD_GROUP,
     };
 
-    expect(actions.unloadGroup()).to.deep.equal(expectedAction);
+    expect(actions.unloadGroup()).toEqual(expectedAction);
   });
 
   it('should request FETCH_GROUPS_REQUEST', () => {
@@ -24,7 +24,7 @@ describe('Group Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchGroups('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchGroups('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_GROUP_REQUEST', () => {
@@ -34,7 +34,7 @@ describe('Group Actions', () => {
       groupId: '1',
     };
 
-    expect(actions.fetchGroup('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchGroup('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_GROUP_REQUEST', () => {
@@ -45,7 +45,7 @@ describe('Group Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createGroup('iamfqon', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createGroup('iamfqon', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_GROUP_REQUEST', () => {
@@ -57,7 +57,7 @@ describe('Group Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateGroup('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateGroup('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_GROUP_REQUEST', () => {
@@ -68,7 +68,7 @@ describe('Group Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteGroup('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteGroup('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_GROUPS_REQUEST', () => {
@@ -79,7 +79,7 @@ describe('Group Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteGroups([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteGroups([], 'iamfqon')).toEqual(expectedAction);
   });
 
   it('should request ADD_GROUP_MEMBER_REQUEST', () => {
@@ -91,7 +91,7 @@ describe('Group Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.addGroupMember('iamfqon', '1', '2')).to.deep.equal(expectedAction);
+    expect(actions.addGroupMember('iamfqon', '1', '2')).toEqual(expectedAction);
   });
 
   it('should request REMOVE_GROUP_MEMBER_REQUEST', () => {
@@ -103,6 +103,6 @@ describe('Group Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.removeGroupMember('iamfqon', '1', '2')).to.deep.equal(expectedAction);
+    expect(actions.removeGroupMember('iamfqon', '1', '2')).toEqual(expectedAction);
   });
 });

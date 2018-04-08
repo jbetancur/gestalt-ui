@@ -16,14 +16,14 @@ describe('Search Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/users/search?name=morty')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: searchMock });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_SEARCH_FULFILLED,
           payload: [{ id: '1', name: 'morty' }],
@@ -37,7 +37,7 @@ describe('Search Sagas', () => {
       sagaSuccess.next();
       sagaSuccess.next({ data: searchMock });
       sagaSuccess.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_SEARCH_FULFILLED,
           payload: [{ id: '1', name: 'morty' }],
@@ -61,7 +61,7 @@ describe('Search Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_SEARCH_REJECTED, payload: error })
       );
     });
@@ -73,7 +73,7 @@ describe('Search Sagas', () => {
 
     it('should fork a watcher for doSearch', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SEARCH_REQUEST, doSearch)
       );
     });

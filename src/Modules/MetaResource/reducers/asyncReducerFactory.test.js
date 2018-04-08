@@ -14,7 +14,7 @@ describe('reducerFactory', () => {
 
     expect(
       reducer(undefined, {})
-    ).to.deep.equal(initialState);
+    ).toEqual(initialState);
   });
 
   describe('with basic options', () => {
@@ -25,7 +25,7 @@ describe('reducerFactory', () => {
         reducer({}, {
           type: 'metaResource/FETCH_YOUWANT_REQUEST',
         })
-      ).to.deep.equal({
+      ).toEqual({
         pending: true,
       });
     });
@@ -38,7 +38,7 @@ describe('reducerFactory', () => {
           type: 'metaResource/FETCH_YOUWANT_FULFILLED',
           payload: [...initialState.whatever, { id: 1 }],
         })
-      ).to.deep.equal({
+      ).toEqual({
         pending: false,
         completed: true,
         whatever: [...initialState.whatever, { id: 1 }],
@@ -52,7 +52,7 @@ describe('reducerFactory', () => {
         reducer({}, {
           type: 'metaResource/DELETE_YOUWANT_FULFILLED',
         })
-      ).to.deep.equal({
+      ).toEqual({
         pending: false,
         completed: true,
       });
@@ -66,7 +66,7 @@ describe('reducerFactory', () => {
           type: 'metaResource/FETCH_YOUWANT_REJECTED',
           payload: 'doh!',
         })
-      ).to.deep.equal({
+      ).toEqual({
         pending: false,
         error: 'doh!',
       });
@@ -79,7 +79,7 @@ describe('reducerFactory', () => {
         reducer({}, {
           type: 'metaResource/UNLOAD_YOUWANT',
         })
-      ).to.deep.equal(initialState);
+      ).toEqual(initialState);
     });
   });
 
@@ -91,7 +91,7 @@ describe('reducerFactory', () => {
         reducer({}, {
           type: LOCATION_CHANGE,
         })
-      ).to.deep.equal(initialState);
+      ).toEqual(initialState);
     });
   });
 
@@ -103,7 +103,7 @@ describe('reducerFactory', () => {
         reducer({}, {
           type: 'metaResource/FETCH_YOUWANT_REQUEST',
         })
-      ).to.deep.equal({
+      ).toEqual({
         pending: true,
         whatever: [{ name: 'test' }],
       });

@@ -7,7 +7,7 @@ describe('Env Actions', () => {
       type: types.UNLOAD_ENV_SCHEMA,
     };
 
-    expect(actions.unloadEnvSchema()).to.deep.equal(expectedAction);
+    expect(actions.unloadEnvSchema()).toEqual(expectedAction);
   });
 
   it('should request FETCH_ENV_REQUEST', () => {
@@ -18,7 +18,7 @@ describe('Env Actions', () => {
       entityKey: 'whatevs',
     };
 
-    expect(actions.fetchEnv('iamfqon', '1', 'whatevs')).to.deep.equal(expectedAction);
+    expect(actions.fetchEnv('iamfqon', '1', 'whatevs')).toEqual(expectedAction);
   });
 
   it('should request FETCH_ENV_SCHEMA_REQUEST', () => {
@@ -27,6 +27,6 @@ describe('Env Actions', () => {
       resourceTypeId: '1',
     };
 
-    expect(actions.fetchEnvSchema('1')).to.deep.equal(expectedAction);
+    expect(actions.fetchEnvSchema('1')).toEqual(expectedAction);
   });
 });

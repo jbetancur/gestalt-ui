@@ -24,14 +24,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/1/containers?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 2 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTAINERS_FULFILLED,
           payload: [{ id: 2 }] })
@@ -45,14 +45,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/containers?expand=true&embed=apiendpoints')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 2 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTAINERS_FULFILLED,
           payload: [{ id: 2 }] })
@@ -67,7 +67,7 @@ describe('Container Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_CONTAINERS_REJECTED, payload: error })
       );
     });
@@ -80,14 +80,14 @@ describe('Container Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/containers?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINERS_DROPDOWN_FULFILLED, payload: [{ id: 1 }] })
         );
       });
@@ -98,7 +98,7 @@ describe('Container Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_CONTAINERS_DROPDOWN_REJECTED, payload: error })
         );
       });
@@ -110,14 +110,14 @@ describe('Container Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/containers?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINERS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Containers' }] })
         );
       });
@@ -130,7 +130,7 @@ describe('Container Sagas', () => {
       let result;
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.all, [axios.get('iamfqon/containers/1'), axios.get('iamfqon/environments/2/env')])
         );
       });
@@ -139,7 +139,7 @@ describe('Container Sagas', () => {
         const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
         result = saga.next(promiseArray);
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
         );
       });
@@ -150,7 +150,7 @@ describe('Container Sagas', () => {
       let result;
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.all, [axios.get('iamfqon/containers/1'), axios.get('iamfqon/environments/2/env')])
         );
       });
@@ -159,7 +159,7 @@ describe('Container Sagas', () => {
         const promiseArray = [{ data: { id: 1, properties: { env: { test: 'morty' } } } }, { data: { test: 'rick' } }];
         result = saga.next(promiseArray);
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' } } } })
         );
       });
@@ -173,14 +173,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/environments/1/containers', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_CONTAINER_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -201,7 +201,7 @@ describe('Container Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_CONTAINER_REJECTED, payload: error })
       );
     });
@@ -214,14 +214,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.put, 'iamfqon/containers/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: { id: 1 } })
       );
 
@@ -243,7 +243,7 @@ describe('Container Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_CONTAINER_REJECTED, payload: error })
       );
     });
@@ -256,14 +256,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/containers/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_CONTAINER_FULFILLED })
       );
 
@@ -286,7 +286,7 @@ describe('Container Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_CONTAINER_REJECTED, payload: error })
       );
     });
@@ -299,14 +299,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/containers/2/scale?numInstances=42')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.SCALE_CONTAINER_FULFILLED })
       );
 
@@ -329,7 +329,7 @@ describe('Container Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.SCALE_CONTAINER_REJECTED, payload: error })
       );
     });
@@ -342,14 +342,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/containers/2/migrate?provider=42')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: { id: 1 } })
       );
 
@@ -372,7 +372,7 @@ describe('Container Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.MIGRATE_CONTAINER_REJECTED, payload: error })
       );
     });
@@ -385,14 +385,14 @@ describe('Container Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/containers/2/promote?target=42')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next({});
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.PROMOTE_CONTAINER_FULFILLED })
       );
 
@@ -415,7 +415,7 @@ describe('Container Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.PROMOTE_CONTAINER_REJECTED, payload: error })
       );
     });
@@ -431,21 +431,21 @@ describe('Container Sagas', () => {
 
       it('should make an api call to get containers', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1/containers')
         );
       });
 
       it('should make an api call to get container', () => {
         result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/containers/1')
         );
       });
 
       it('should return dispatch a success status', () => {
         result = saga.next({ data: { id: 1, name: 'yay' } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, name: 'yay' } })
         );
 
@@ -458,7 +458,7 @@ describe('Container Sagas', () => {
         let resultError = sagaError.next();
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
         );
       });
@@ -469,14 +469,14 @@ describe('Container Sagas', () => {
 
       it('should make an api call to get containers', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1/containers')
         );
       });
 
       it('should make an api call to get container', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get() })
         );
 
@@ -489,7 +489,7 @@ describe('Container Sagas', () => {
         let resultError = sagaError.next();
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
         );
       });
@@ -502,70 +502,70 @@ describe('Container Sagas', () => {
 
     it('should fork a watcher for fetchContainers', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_CONTAINERS_REQUEST, fetchContainers)
       );
     });
 
     it('should fork a watcher for fetchContainersDropDown', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_CONTAINERS_DROPDOWN_REQUEST, fetchContainersDropDown)
       );
     });
 
     it('should fork a watcher for fetchContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_CONTAINER_REQUEST, fetchContainer)
       );
     });
 
     it('should fork a watcher for createContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_CONTAINER_REQUEST, createContainer)
       );
     });
 
     it('should fork a watcher for updateContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_CONTAINER_REQUEST, updateContainer)
       );
     });
 
     it('should fork a watcher for deleteContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_CONTAINER_REQUEST, deleteContainer)
       );
     });
 
     it('should fork a watcher for scaleContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.SCALE_CONTAINER_REQUEST, scaleContainer)
       );
     });
 
     it('should fork a watcher for migrateContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer)
       );
     });
 
     it('should fork a watcher for promoteContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer)
       );
     });
 
     it('should fork a watcher for fetchProviderContainer', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDER_CONTAINER_REQUEST, fetchProviderContainer)
       );
     });

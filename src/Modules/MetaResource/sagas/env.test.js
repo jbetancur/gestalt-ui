@@ -16,14 +16,14 @@ describe('Env Sagas', () => {
       const saga = fetchEnv({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/env')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { var: 'test' } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENV_FULFILLED, payload: { var: 'test' } })
         );
       });
@@ -33,14 +33,14 @@ describe('Env Sagas', () => {
       const saga = fetchEnv({ fqon: 'iamfqon' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/env')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { var: 'test' } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_ENV_FULFILLED, payload: { var: 'test' } })
         );
       });
@@ -52,7 +52,7 @@ describe('Env Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ENV_REJECTED, payload: error })
       );
     });
@@ -64,14 +64,14 @@ describe('Env Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'root/resourcetypes/25acb32c-6635-49d1-ba19-4cf317003ff6/schema?filter=config')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ name: 'PUBLIC', value: 'yup', public: true }, { name: 'PRIVATE', value: 'nope', public: false }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_ENV_SCHEMA_FULFILLED, payload: { public: [{ name: 'PUBLIC', value: 'yup', public: true }], private: [{ name: 'PRIVATE', value: 'nope', public: false }] } })
       );
     });
@@ -82,7 +82,7 @@ describe('Env Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_ENV_SCHEMA_REJECTED, payload: error })
       );
     });
@@ -94,14 +94,14 @@ describe('Env Sagas', () => {
 
     it('should fork a watcher for fetchEnv', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ENV_REQUEST, fetchEnv)
       );
     });
 
     it('should fork a watcher for fetchEnvSchema', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ENV_SCHEMA_REQUEST, fetchEnvSchema)
       );
     });

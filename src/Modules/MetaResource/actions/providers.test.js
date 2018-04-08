@@ -7,7 +7,7 @@ describe('Provider Actions', () => {
       type: types.UNLOAD_PROVIDERS,
     };
 
-    expect(actions.unloadProviders()).to.deep.equal(expectedAction);
+    expect(actions.unloadProviders()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_PROVIDER', () => {
@@ -15,7 +15,7 @@ describe('Provider Actions', () => {
       type: types.UNLOAD_PROVIDER,
     };
 
-    expect(actions.unloadProvider()).to.deep.equal(expectedAction);
+    expect(actions.unloadProvider()).toEqual(expectedAction);
   });
 
   it('should request FETCH_PROVIDERS_REQUEST', () => {
@@ -26,7 +26,7 @@ describe('Provider Actions', () => {
       entityKey: 'environments',
     };
 
-    expect(actions.fetchProviders('iamfqon', '1', 'environments')).to.deep.equal(expectedAction);
+    expect(actions.fetchProviders('iamfqon', '1', 'environments')).toEqual(expectedAction);
   });
 
   it('should request FETCH_PROVIDERS_BYTYPE_REQUEST', () => {
@@ -39,7 +39,7 @@ describe('Provider Actions', () => {
       expand: false,
     };
 
-    expect(actions.fetchProvidersByType('iamfqon', '1', 'environments', 'whateverType', false)).to.deep.equal(expectedAction);
+    expect(actions.fetchProvidersByType('iamfqon', '1', 'environments', 'whateverType', false)).toEqual(expectedAction);
   });
 
   it('should request FETCH_PROVIDERS_KONG_GATEWAY_REQUEST', () => {
@@ -50,7 +50,7 @@ describe('Provider Actions', () => {
       entityKey: 'environments',
     };
 
-    expect(actions.fetchProviderKongsByGateway('iamfqon', '1', 'environments')).to.deep.equal(expectedAction);
+    expect(actions.fetchProviderKongsByGateway('iamfqon', '1', 'environments')).toEqual(expectedAction);
   });
 
   it('should request FETCH_EXECUTORS_REQUEST', () => {
@@ -62,7 +62,7 @@ describe('Provider Actions', () => {
       executorType: 'whateverType',
     };
 
-    expect(actions.fetchExecutors('iamfqon', '1', 'environments', 'whateverType')).to.deep.equal(expectedAction);
+    expect(actions.fetchExecutors('iamfqon', '1', 'environments', 'whateverType')).toEqual(expectedAction);
   });
 
   it('should request FETCH_PROVIDER_REQUEST', () => {
@@ -72,7 +72,7 @@ describe('Provider Actions', () => {
       providerId: '1',
     };
 
-    expect(actions.fetchProvider('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchProvider('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_PROVIDER_REQUEST', () => {
@@ -85,7 +85,7 @@ describe('Provider Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createProvider('iamfqon', '1', 'environments', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createProvider('iamfqon', '1', 'environments', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_PROVIDER_REQUEST', () => {
@@ -97,7 +97,7 @@ describe('Provider Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateProvider('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateProvider('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_PROVIDER_REQUEST', () => {
@@ -108,7 +108,7 @@ describe('Provider Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteProvider('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteProvider('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_PROVIDERS_REQUEST', () => {
@@ -119,7 +119,7 @@ describe('Provider Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteProviders([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteProviders([], 'iamfqon')).toEqual(expectedAction);
   });
 
   it('should handle REDEPLOY_PROVIDER_REQUEST', () => {
@@ -130,6 +130,6 @@ describe('Provider Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.redeployProvider('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.redeployProvider('iamfqon', '1')).toEqual(expectedAction);
   });
 });

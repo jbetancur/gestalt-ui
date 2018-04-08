@@ -30,7 +30,7 @@ describe('Logging Sagas', () => {
       const saga = fetchLogProvider({ fqon: 'iamfqon', providerId: '1', logType: 'container' });
       it('should make an api call for the "CAAS" provider', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1')
         );
       });
@@ -38,7 +38,7 @@ describe('Logging Sagas', () => {
       it('should make an api call for the "Logging" provider', () => {
         const caasProviderResponse = { data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } };
         result = saga.next(caasProviderResponse);
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/2')
         );
       });
@@ -52,7 +52,7 @@ describe('Logging Sagas', () => {
           url: 'https://whatever/container',
         };
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LOGPROVIDER_FULFILLED, payload })
         );
       });
@@ -72,7 +72,7 @@ describe('Logging Sagas', () => {
           url: 'poopy://whatever/container',
         };
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LOGPROVIDER_FULFILLED, payload })
         );
       });
@@ -82,7 +82,7 @@ describe('Logging Sagas', () => {
       const saga = fetchLogProvider({ fqon: 'iamfqon', providerId: '1', logType: 'lambda' });
       it('should make an api call for the "Lambda" provider', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1')
         );
       });
@@ -91,7 +91,7 @@ describe('Logging Sagas', () => {
         const providerResponse = merge(genericMock, { data: { id: '1', properties: { config: { env: { public: { META_COMPUTE_PROVIDER_ID: '123' } } } } } });
 
         result = saga.next(providerResponse);
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/123')
         );
       });
@@ -99,7 +99,7 @@ describe('Logging Sagas', () => {
       it('should make an api call for the "Logging" provider', () => {
         const caasProviderResponse = merge(genericMock, { data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } });
         result = saga.next(caasProviderResponse);
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/2')
         );
       });
@@ -112,7 +112,7 @@ describe('Logging Sagas', () => {
           url: 'https://whatever/lambda',
         };
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LOGPROVIDER_FULFILLED, payload })
         );
       });
@@ -131,7 +131,7 @@ describe('Logging Sagas', () => {
           url: '',
         };
 
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_LOGPROVIDER_FULFILLED, payload })
         );
       });
@@ -145,7 +145,7 @@ describe('Logging Sagas', () => {
           const caasProviderResponse = { data: { id: '1', name: 'poopy', properties: { linked_providers: [] } } };
           result = saga.next();
           result = saga.next(caasProviderResponse);
-          expect(result.value).to.deep.equal(
+          expect(result.value).toEqual(
             put({ type: types.FETCH_LOGPROVIDER_REJECTED, payload: 'A Logging Provided does not appear to be Linked to poopy' })
           );
         });
@@ -157,7 +157,7 @@ describe('Logging Sagas', () => {
           let resultError = sagaError.next();
           resultError = sagaError.throw({ message: error });
 
-          expect(resultError.value).to.deep.equal(
+          expect(resultError.value).toEqual(
             put({ type: types.FETCH_LOGPROVIDER_REJECTED, payload: error })
           );
         });
@@ -171,7 +171,7 @@ describe('Logging Sagas', () => {
 
     it('should fork a watcher for fetchLogProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_LOGPROVIDER_REQUEST, fetchLogProvider)
       );
     });

@@ -18,21 +18,21 @@ describe('Self Sagas', () => {
 
     it('should make an api call for the user/self', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'users/self')
       );
     });
 
     it('should make an api call for the organization', () => {
       result = saga.next({ data: { id: 1, properties: { gestalt_home: 'iamfqon' } } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon')
       );
     });
 
     it('should return a payload', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal({ id: 1, properties: { gestalt_home: { id: 1 } } });
+      expect(result.value).toEqual({ id: 1, properties: { gestalt_home: { id: 1 } } });
 
       // Finish the iteration
       result = saga.next();
@@ -45,7 +45,7 @@ describe('Self Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           call(delay, 2000)
         );
       });
@@ -57,14 +57,14 @@ describe('Self Sagas', () => {
 
     it('should call the function handleSelf', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(handleSelf, API_RETRIES)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1, properties: { gestalt_home: { id: 1 } } } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_SELF_FULFILLED, payload: { data: { id: 1, properties: { gestalt_home: { id: 1 } } } } })
       );
 
@@ -78,7 +78,7 @@ describe('Self Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_SELF_REJECTED, payload: error })
       );
     });
@@ -90,7 +90,7 @@ describe('Self Sagas', () => {
 
     it('should fork a watcher for fetchSelf', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SELF_REQUEST, fetchSelf)
       );
     });

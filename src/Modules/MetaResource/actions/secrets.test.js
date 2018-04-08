@@ -7,7 +7,7 @@ describe('Secrets Actions', () => {
       type: types.UNLOAD_SECRETS,
     };
 
-    expect(actions.unloadSecrets()).to.deep.equal(expectedAction);
+    expect(actions.unloadSecrets()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_SECRET', () => {
@@ -15,7 +15,7 @@ describe('Secrets Actions', () => {
       type: types.UNLOAD_SECRET,
     };
 
-    expect(actions.unloadSecret()).to.deep.equal(expectedAction);
+    expect(actions.unloadSecret()).toEqual(expectedAction);
   });
 
   it('should request FETCH_SECRETS_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Secrets Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchSecrets('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchSecrets('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_SECRETS_DROPDOWN_REQUEST', () => {
@@ -36,7 +36,7 @@ describe('Secrets Actions', () => {
       providerId: '2',
     };
 
-    expect(actions.fetchSecretsDropDown('iamfqon', '1', '2')).to.deep.equal(expectedAction);
+    expect(actions.fetchSecretsDropDown('iamfqon', '1', '2')).toEqual(expectedAction);
   });
 
   it('should request FETCH_SECRET_REQUEST', () => {
@@ -46,7 +46,7 @@ describe('Secrets Actions', () => {
       secretId: '1',
     };
 
-    expect(actions.fetchSecret('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchSecret('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_SECRET_REQUEST', () => {
@@ -58,7 +58,7 @@ describe('Secrets Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createSecret('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createSecret('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_SECRET_REQUEST', () => {
@@ -70,7 +70,7 @@ describe('Secrets Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateSecret('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateSecret('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_SECRET_REQUEST', () => {
@@ -81,7 +81,7 @@ describe('Secrets Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteSecret('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteSecret('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_SECRETS_REQUEST', () => {
@@ -92,6 +92,6 @@ describe('Secrets Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteSecrets([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deleteSecrets([], 'iamfqon')).toEqual(expectedAction);
   });
 });

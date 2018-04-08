@@ -7,7 +7,7 @@ describe('Services Actions', () => {
       type: types.UNLOAD_SERVICESPECS,
     };
 
-    expect(actions.unloadServiceSpecs()).to.deep.equal(expectedAction);
+    expect(actions.unloadServiceSpecs()).toEqual(expectedAction);
   });
 
   it('should request FETCH_SERVICESPECS_REQUEST', () => {
@@ -16,7 +16,7 @@ describe('Services Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchServiceSpecs('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchServiceSpecs('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_SERVICESPECS_DROPDOWN_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Services Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchServiceSpecsDropdown('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchServiceSpecsDropdown('iamfqon')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_SERVICESPEC_REQUEST', () => {
@@ -36,6 +36,6 @@ describe('Services Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createServiceSpec('iamfqon', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createServiceSpec('iamfqon', { name: 'test' })).toEqual(expectedAction);
   });
 });

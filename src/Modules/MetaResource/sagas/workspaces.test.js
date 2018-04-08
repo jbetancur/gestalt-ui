@@ -18,14 +18,14 @@ describe('Workspace Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/workspaces?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_WORKSPACES_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -36,7 +36,7 @@ describe('Workspace Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_WORKSPACES_REJECTED, payload: error })
       );
     });
@@ -48,14 +48,14 @@ describe('Workspace Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/workspaces/1')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_WORKSPACE_FULFILLED, payload: { id: 1 } })
       );
     });
@@ -66,7 +66,7 @@ describe('Workspace Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_WORKSPACE_REJECTED, payload: error })
       );
     });
@@ -79,14 +79,14 @@ describe('Workspace Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, `${action.fqon}/workspaces`, action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_WORKSPACE_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -107,7 +107,7 @@ describe('Workspace Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_WORKSPACE_REJECTED, payload: error })
       );
     });
@@ -120,14 +120,14 @@ describe('Workspace Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, `${action.fqon}/workspaces/${action.workspaceId}`, action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_WORKSPACE_FULFILLED, payload: { id: 1 } })
       );
 
@@ -149,7 +149,7 @@ describe('Workspace Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_WORKSPACE_REJECTED, payload: error })
       );
     });
@@ -162,14 +162,14 @@ describe('Workspace Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, `${action.fqon}/workspaces/${action.workspaceId}?force=true`)
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_WORKSPACE_FULFILLED })
       );
 
@@ -192,7 +192,7 @@ describe('Workspace Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_WORKSPACE_REJECTED, payload: error })
       );
     });
@@ -204,7 +204,7 @@ describe('Workspace Sagas', () => {
 
     it('should fork a watcher for fetchWorkspaces', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_WORKSPACES_REQUEST, fetchWorkspaces)
       );
     });
@@ -212,28 +212,28 @@ describe('Workspace Sagas', () => {
 
     it('should fork a watcher for fetchWorkspace', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_WORKSPACE_REQUEST, fetchWorkspace)
       );
     });
 
     it('should fork a watcher for createWorkspace', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_WORKSPACE_REQUEST, createWorkspace)
       );
     });
 
     it('should fork a watcher for updateWorkspace', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_WORKSPACE_REQUEST, updateWorkspace)
       );
     });
 
     it('should fork a watcher for deleteWorkspace', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_WORKSPACE_REQUEST, deleteWorkspace)
       );
     });

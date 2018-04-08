@@ -7,7 +7,7 @@ describe('Policy Actions', () => {
       type: types.UNLOAD_POLICIES,
     };
 
-    expect(actions.unloadPolicies()).to.deep.equal(expectedAction);
+    expect(actions.unloadPolicies()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_POLICY', () => {
@@ -15,7 +15,7 @@ describe('Policy Actions', () => {
       type: types.UNLOAD_POLICY,
     };
 
-    expect(actions.unloadPolicy()).to.deep.equal(expectedAction);
+    expect(actions.unloadPolicy()).toEqual(expectedAction);
   });
 
   it('should request FETCH_POLICIES_REQUEST', () => {
@@ -25,7 +25,7 @@ describe('Policy Actions', () => {
       environmentId: '1',
     };
 
-    expect(actions.fetchPolicies('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchPolicies('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should request FETCH_POLICY_REQUEST', () => {
@@ -35,7 +35,7 @@ describe('Policy Actions', () => {
       policyId: '1',
     };
 
-    expect(actions.fetchPolicy('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchPolicy('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_POLICY_REQUEST', () => {
@@ -47,7 +47,7 @@ describe('Policy Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createPolicy('iamfqon', '1', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createPolicy('iamfqon', '1', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_POLICY_REQUEST', () => {
@@ -59,7 +59,7 @@ describe('Policy Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updatePolicy('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updatePolicy('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_POLICY_REQUEST', () => {
@@ -70,7 +70,7 @@ describe('Policy Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deletePolicy('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deletePolicy('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle DELETE_POLICIES_REQUEST', () => {
@@ -81,6 +81,6 @@ describe('Policy Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deletePolicies([], 'iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.deletePolicies([], 'iamfqon')).toEqual(expectedAction);
   });
 });

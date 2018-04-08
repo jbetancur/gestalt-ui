@@ -11,7 +11,7 @@ describe('Type Properties Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createTypeProperty('iamfqon', '1', { name: 'woop woop!' })).to.deep.equal(expectedAction);
+    expect(actions.createTypeProperty('iamfqon', '1', { name: 'woop woop!' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_TYPEPROPERTY_REQUEST', () => {
@@ -23,7 +23,7 @@ describe('Type Properties Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateTypeProperty('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateTypeProperty('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_TYPEPROPERTY_REQUEST', () => {
@@ -34,7 +34,7 @@ describe('Type Properties Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteTypeProperty('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteTypeProperty('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle BATCH_UPDATE_TYPEPROPERTY_REQUEST', () => {
@@ -45,6 +45,6 @@ describe('Type Properties Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.batchUpdateTypeProperties('iamfqon', [])).to.deep.equal(expectedAction);
+    expect(actions.batchUpdateTypeProperties('iamfqon', [])).toEqual(expectedAction);
   });
 });

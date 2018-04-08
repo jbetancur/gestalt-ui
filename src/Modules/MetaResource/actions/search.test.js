@@ -7,7 +7,7 @@ describe('Search Actions', () => {
       type: types.UNLOAD_SEARCH,
     };
 
-    expect(actions.unloadSearch()).to.deep.equal(expectedAction);
+    expect(actions.unloadSearch()).toEqual(expectedAction);
   });
 
   it('should request FETCH_SEARCH_REQUEST', () => {
@@ -19,6 +19,6 @@ describe('Search Actions', () => {
       field: 'name',
     };
 
-    expect(actions.doSearch('iamfqon', 'user', 'morty', 'name')).to.deep.equal(expectedAction);
+    expect(actions.doSearch('iamfqon', 'user', 'morty', 'name')).toEqual(expectedAction);
   });
 });

@@ -19,14 +19,14 @@ describe('Resource Type Sagas', () => {
     const saga = fetchResourceType({ fqon: 'iamfqon', resourceTypeId: '1' });
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/resourcetypes/1?withprops=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: '1' } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_RESOURCETYPE_FULFILLED, payload: { id: '1' } })
       );
     });
@@ -39,7 +39,7 @@ describe('Resource Type Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_RESOURCETYPE_REJECTED, payload: error })
       );
     });
@@ -51,14 +51,14 @@ describe('Resource Type Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/resourcetypes?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: '1' }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload: [{ id: '1' }] })
       );
     });
@@ -70,7 +70,7 @@ describe('Resource Type Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_RESOURCETYPES_REJECTED, payload: error })
         );
       });
@@ -83,14 +83,14 @@ describe('Resource Type Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/resourcetypes?expand=true&type=morty')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: '1' }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_RESOURCETYPES_FULFILLED, payload: [{ id: '1' }] })
       );
     });
@@ -103,14 +103,14 @@ describe('Resource Type Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/resourcetypes?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: '1', name: 'morty' }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_FULFILLED, payload: [{ id: '1', name: 'morty' }] })
         );
       });
@@ -121,7 +121,7 @@ describe('Resource Type Sagas', () => {
 
         resultError = sagaError.throw({ message: error });
 
-        expect(resultError.value).to.deep.equal(
+        expect(resultError.value).toEqual(
           put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_REJECTED, payload: error })
         );
       });
@@ -133,14 +133,14 @@ describe('Resource Type Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/resourcetypes?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_RESOURCETYPES_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Resource Types' }] })
         );
       });
@@ -154,14 +154,14 @@ describe('Resource Type Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/resourcetypes', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_RESOURCETYPE_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -182,7 +182,7 @@ describe('Resource Type Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_RESOURCETYPE_REJECTED, payload: error })
       );
     });
@@ -195,14 +195,14 @@ describe('Resource Type Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/resourcetypes/1?withprops=true', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_RESOURCETYPE_FULFILLED, payload: { id: 1 } })
       );
 
@@ -224,7 +224,7 @@ describe('Resource Type Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_RESOURCETYPE_REJECTED, payload: error })
       );
     });
@@ -237,14 +237,14 @@ describe('Resource Type Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/resourcetypes/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_RESOURCETYPE_FULFILLED })
       );
 
@@ -267,7 +267,7 @@ describe('Resource Type Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_RESOURCETYPE_REJECTED, payload: error })
       );
     });
@@ -280,14 +280,14 @@ describe('Resource Type Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/resourcetypes/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_RESOURCETYPE_FULFILLED })
       );
 
@@ -310,7 +310,7 @@ describe('Resource Type Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_RESOURCETYPE_REJECTED, payload: error })
       );
     });
@@ -322,49 +322,49 @@ describe('Resource Type Sagas', () => {
 
     it('should fork a watcher for fetchResourceType', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_RESOURCETYPE_REQUEST, fetchResourceType)
       );
     });
 
     it('should fork a watcher for fetchResourceTypes', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_RESOURCETYPES_REQUEST, fetchResourceTypes)
       );
     });
 
     it('should fork a watcher for fetchResourceTypesDropDown', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_RESOURCETYPES_DROPDOWN_REQUEST, fetchResourceTypesDropDown)
       );
     });
 
     it('should fork a watcher for createResourceType', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_RESOURCETYPE_REQUEST, createResourceType)
       );
     });
 
     it('should fork a watcher for updateResourceType', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_RESOURCETYPE_REQUEST, updateResourceType)
       );
     });
 
     it('should fork a watcher for deleteResourceType', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_RESOURCETYPE_REQUEST, deleteResourceType)
       );
     });
 
     it('should fork a watcher for deleteResourceTypes', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_RESOURCETYPES_REQUEST, deleteResourceTypes)
       );
     });

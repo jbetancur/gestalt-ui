@@ -25,14 +25,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProviders({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/providers?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDERS_FULFILLED, payload: [{ id: 1 }] })
         );
       });
@@ -42,14 +42,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProviders({ fqon: 'iamfqon' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers?expand=true')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDERS_FULFILLED, payload: [{ id: 1 }] })
         );
       });
@@ -61,7 +61,7 @@ describe('Provider Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_PROVIDERS_REJECTED, payload: error })
       );
     });
@@ -74,14 +74,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvidersByType({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', providerType: 'chillout' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ id: 1 }] })
         );
       });
@@ -91,14 +91,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvidersByType({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', providerType: 'chillout' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [providerModel.get({ id: '', name: 'No Available Providers' })] })
         );
       });
@@ -108,14 +108,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvidersByType({ fqon: 'iamfqon', providerType: 'chillout' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers?expand=true&type=chillout')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [providerModel.get({ id: '', name: 'No Available Providers' })] })
         );
       });
@@ -127,7 +127,7 @@ describe('Provider Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_PROVIDERS_BYTYPE_REJECTED, payload: error })
       );
     });
@@ -140,14 +140,14 @@ describe('Provider Sagas', () => {
       const saga = fetchExecutors({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', executorType: 'chillout' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [{ id: 1, name: 'test', resource_type: 'TEST::NODEJS', properties: { config: { env: { public: { RUNTIME: 'nodejs' } } } } }] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ name: 'test (NODEJS)', runtime: 'nodejs' }] })
         );
       });
@@ -157,14 +157,14 @@ describe('Provider Sagas', () => {
       const saga = fetchExecutors({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', executorType: 'chillout' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ id: '', name: 'No Available Executors' }] })
         );
       });
@@ -174,14 +174,14 @@ describe('Provider Sagas', () => {
       const saga = fetchExecutors({ fqon: 'iamfqon', executorType: 'chillout' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers?expand=true&type=chillout')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: [] });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ id: '', name: 'No Available Executors' }] })
         );
       });
@@ -193,7 +193,7 @@ describe('Provider Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_EXECUTORS_REJECTED, payload: error })
       );
     });
@@ -206,14 +206,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvider({ fqon: 'iamfqon', providerId: '1' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { id: 1, properties: { linked_providers: [], config: { randomProp: 'shoudbehere' } } } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDER_FULFILLED, payload: { id: 1, properties: { linked_providers: [], config: { randomProp: 'shoudbehere', env: { public: {}, private: {} } } } } })
         );
       });
@@ -223,14 +223,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvider({ fqon: 'iamfqon', providerId: '1' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { id: 1, properties: {} } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDER_FULFILLED, payload: { id: 1, properties: { linked_providers: [], config: { env: { public: {}, private: {} } } } } })
         );
       });
@@ -240,14 +240,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvider({ fqon: 'iamfqon', providerId: '1' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { id: 1, properties: { config: { env: { public: {}, private: {} } }, linked_providers: [] } } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDER_FULFILLED, payload: { id: 1, properties: { config: { env: { public: {}, private: {} } }, linked_providers: [] } } })
         );
       });
@@ -257,14 +257,14 @@ describe('Provider Sagas', () => {
       const saga = fetchProvider({ fqon: 'iamfqon', providerId: '1' });
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.get, 'iamfqon/providers/1')
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { id: 1, properties: { config: {}, linked_providers: [] } } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.FETCH_PROVIDER_FULFILLED, payload: { id: 1, properties: { config: { env: { public: {}, private: {} } }, linked_providers: [] } } })
         );
       });
@@ -276,7 +276,7 @@ describe('Provider Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_PROVIDER_REJECTED, payload: error })
       );
     });
@@ -291,14 +291,14 @@ describe('Provider Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.post, 'iamfqon/environments/1/providers', action.payload)
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { id: 1 } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.CREATE_PROVIDER_FULFILLED, payload: { id: 1 } })
         );
         // Finish the iteration
@@ -312,14 +312,14 @@ describe('Provider Sagas', () => {
 
       it('should make an api call', () => {
         result = saga.next();
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           call(axios.post, 'iamfqon/providers', action.payload)
         );
       });
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next({ data: { id: 1 } });
-        expect(result.value).to.deep.equal(
+        expect(result.value).toEqual(
           put({ type: types.CREATE_PROVIDER_FULFILLED, payload: { id: 1 } })
         );
         // Finish the iteration
@@ -341,7 +341,7 @@ describe('Provider Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_PROVIDER_REJECTED, payload: error })
       );
     });
@@ -354,14 +354,14 @@ describe('Provider Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/providers/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_PROVIDER_FULFILLED, payload: { id: 1 } })
       );
 
@@ -383,7 +383,7 @@ describe('Provider Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_PROVIDER_REJECTED, payload: error })
       );
     });
@@ -396,14 +396,14 @@ describe('Provider Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/providers/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_PROVIDER_FULFILLED })
       );
 
@@ -426,7 +426,7 @@ describe('Provider Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_PROVIDER_REJECTED, payload: error })
       );
     });
@@ -439,14 +439,14 @@ describe('Provider Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/providers/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_PROVIDERS_FULFILLED })
       );
 
@@ -469,7 +469,7 @@ describe('Provider Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_PROVIDERS_REJECTED, payload: error })
       );
     });
@@ -482,14 +482,14 @@ describe('Provider Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/providers/2/redeploy')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.REDEPLOY_PROVIDER_FULFILLED })
       );
 
@@ -512,7 +512,7 @@ describe('Provider Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.REDEPLOY_PROVIDER_REJECTED, payload: error })
       );
     });
@@ -524,70 +524,70 @@ describe('Provider Sagas', () => {
 
     it('should fork a watcher for fetchProviders', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDERS_REQUEST, fetchProviders)
       );
     });
 
     it('should fork a watcher for fetchProvidersByType', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDERS_BYTYPE_REQUEST, fetchProvidersByType)
       );
     });
 
     it('should fork a watcher for fetchProviderKongsByGateway', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fetchProviderKongsByGateway)
       );
     });
 
     it('should fork a watcher for fetchExecutors', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_EXECUTORS_REQUEST, fetchExecutors)
       );
     });
 
     it('should fork a watcher for fetchProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDER_REQUEST, fetchProvider)
       );
     });
 
     it('should fork a watcher for createProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_PROVIDER_REQUEST, createProvider)
       );
     });
 
     it('should fork a watcher for updateProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_PROVIDER_REQUEST, updateProvider)
       );
     });
 
     it('should fork a watcher for deleteProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_PROVIDER_REQUEST, deleteProvider)
       );
     });
 
     it('should fork a watcher for deleteProviders', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_PROVIDERS_REQUEST, deleteProviders)
       );
     });
 
     it('should fork a watcher for redeployProvider', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.REDEPLOY_PROVIDER_REQUEST, redeployProvider)
       );
     });

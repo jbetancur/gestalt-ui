@@ -14,7 +14,7 @@ describe('(Secret Payload Transformer) generatePayload', () => {
         const payload = generatePayload(sourcePayload);
         const expectedPayload = { ...sourcePayload, properties: { ...sourcePayload.properties, items: [{ key: 'k', value: 'YQ==' }] } };
 
-        expect(payload).to.deep.equal(expectedPayload);
+        expect(payload).toEqual(expectedPayload);
       });
     });
   });

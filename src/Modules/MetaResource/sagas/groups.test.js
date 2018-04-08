@@ -21,14 +21,14 @@ describe('Group Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/groups?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_GROUPS_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -39,7 +39,7 @@ describe('Group Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_GROUPS_REJECTED, payload: error })
       );
     });
@@ -51,7 +51,7 @@ describe('Group Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/groups/1')
       );
     });
@@ -59,7 +59,7 @@ describe('Group Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_GROUP_FULFILLED, payload: { id: 1 } })
       );
     });
@@ -70,7 +70,7 @@ describe('Group Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_GROUP_REJECTED, payload: error })
       );
     });
@@ -83,14 +83,14 @@ describe('Group Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/groups', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_GROUP_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -111,7 +111,7 @@ describe('Group Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_GROUP_REJECTED, payload: error })
       );
     });
@@ -124,14 +124,14 @@ describe('Group Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/groups/1', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_GROUP_FULFILLED, payload: { id: 1 } })
       );
 
@@ -153,7 +153,7 @@ describe('Group Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_GROUP_REJECTED, payload: error })
       );
     });
@@ -166,14 +166,14 @@ describe('Group Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/groups/1?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_GROUP_FULFILLED })
       );
 
@@ -196,7 +196,7 @@ describe('Group Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_GROUP_REJECTED, payload: error })
       );
     });
@@ -209,14 +209,14 @@ describe('Group Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/groups/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_GROUP_FULFILLED })
       );
 
@@ -239,7 +239,7 @@ describe('Group Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_GROUP_REJECTED, payload: error })
       );
     });
@@ -252,21 +252,21 @@ describe('Group Sagas', () => {
 
     it('should make an api call to patch', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/groups/1/users?id=2', [])
       );
     });
 
     it('should make an api call to get the updated group', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/groups/1?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.ADD_GROUP_MEMBER_FULFILLED, payload: { id: 1 } })
       );
 
@@ -289,7 +289,7 @@ describe('Group Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.ADD_GROUP_MEMBER_REJECTED, payload: error })
       );
     });
@@ -302,21 +302,21 @@ describe('Group Sagas', () => {
 
     it('should make an api call to delete', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/groups/1/users?id=2', [])
       );
     });
 
     it('should make an api call to get the updated group', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/groups/1?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.REMOVE_GROUP_MEMBER_FULFILLED, payload: { id: 1 } })
       );
 
@@ -339,7 +339,7 @@ describe('Group Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.REMOVE_GROUP_MEMBER_REJECTED, payload: error })
       );
     });
@@ -351,56 +351,56 @@ describe('Group Sagas', () => {
 
     it('should fork a watcher for fetchGroups', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_GROUPS_REQUEST, fetchGroups)
       );
     });
 
     it('should fork a watcher for fetchGroup', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_GROUP_REQUEST, fetchGroup)
       );
     });
 
     it('should fork a watcher for createGroup', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_GROUP_REQUEST, createGroup)
       );
     });
 
     it('should fork a watcher for updateGroup', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_GROUP_REQUEST, updateGroup)
       );
     });
 
     it('should fork a watcher for deleteGroup', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_GROUP_REQUEST, deleteGroup)
       );
     });
 
     it('should fork a watcher for deleteGroups', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_GROUPS_REQUEST, deleteGroups)
       );
     });
 
     it('should fork a watcher for addGroupMember', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.ADD_GROUP_MEMBER_REQUEST, addGroupMember)
       );
     });
 
     it('should fork a watcher for removeGroupMember', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.REMOVE_GROUP_MEMBER_REQUEST, removeGroupMember)
       );
     });

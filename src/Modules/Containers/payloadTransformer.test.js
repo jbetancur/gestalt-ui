@@ -12,7 +12,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.env).to.deep.equal({ test: 'this', this: 'test' });
+        expect(payload.properties.env).toEqual({ test: 'this', this: 'test' });
       });
     });
 
@@ -25,7 +25,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.labels).to.deep.equal({ test: 'this', this: 'test' });
+        expect(payload.properties.labels).toEqual({ test: 'this', this: 'test' });
       });
     });
 
@@ -74,7 +74,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
           }
         });
         const payload = generatePayload(sourcePayload);
-        expect(payload.properties.accepted_resource_roles).to.deep.equal(['testrole', 'roletest']);
+        expect(payload.properties.accepted_resource_roles).toEqual(['testrole', 'roletest']);
       });
 
       it('should handle accepted_resource_roles if it is a comma delimited string', () => {
@@ -84,7 +84,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
           }
         });
         const payload = generatePayload(sourcePayload);
-        expect(payload.properties.accepted_resource_roles).to.deep.equal(['testrole', 'roletest']);
+        expect(payload.properties.accepted_resource_roles).toEqual(['testrole', 'roletest']);
       });
 
       it('should set remove accepted_resource_roles if it is \'\'', () => {
@@ -107,7 +107,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
           }
         });
         const payload = generatePayload(sourcePayload);
-        expect(payload.properties.constraints).to.deep.equal(['testrole', 'roletest']);
+        expect(payload.properties.constraints).toEqual(['testrole', 'roletest']);
       });
 
       it('should handle constraints if it is a comma delimited string', () => {
@@ -117,7 +117,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
           }
         });
         const payload = generatePayload(sourcePayload);
-        expect(payload.properties.constraints).to.deep.equal(['testrole', 'roletest']);
+        expect(payload.properties.constraints).toEqual(['testrole', 'roletest']);
       });
 
       it('should set remove constraints if it is \'\'', () => {
@@ -141,7 +141,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.port_mappings).to.deep.equal([{ expose_endpoint: true, virtual_hosts: ['tick', 'tock'] }]);
+        expect(payload.properties.port_mappings).toEqual([{ expose_endpoint: true, virtual_hosts: ['tick', 'tock'] }]);
       });
 
       it('should correctly format a port_mapping if it is enabled has virtual_hosts is an Array', () => {
@@ -152,7 +152,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.port_mappings).to.deep.equal([{ expose_endpoint: true, virtual_hosts: ['tick, tock'] }]);
+        expect(payload.properties.port_mappings).toEqual([{ expose_endpoint: true, virtual_hosts: ['tick, tock'] }]);
       });
 
       it('should correctly format a port_mapping if it is disabled or there are no virtual_hosts', () => {
@@ -163,7 +163,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.port_mappings).to.deep.equal([{ expose_endpoint: false, virtual_hosts: '' }]);
+        expect(payload.properties.port_mappings).toEqual([{ expose_endpoint: false, virtual_hosts: '' }]);
       });
     });
 
@@ -176,7 +176,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.volumes).to.deep.equal([{ type: 'persistent' }]);
+        expect(payload.properties.volumes).toEqual([{ type: 'persistent' }]);
       });
 
       it('should correctly format a volume if it is not persistent', () => {
@@ -187,7 +187,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.volumes).to.deep.equal([{ type: 'RO', host_path: '/lalala' }]);
+        expect(payload.properties.volumes).toEqual([{ type: 'RO', host_path: '/lalala' }]);
       });
     });
 
@@ -200,7 +200,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'HTTP', port_type: 'index' }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', port_type: 'index' }]);
       });
 
       it('should remove port_index it the port_type = number', () => {
@@ -211,7 +211,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'HTTP', port_type: 'number' }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', port_type: 'number' }]);
       });
 
       it('should remove the correct properties it the protocol is TCP', () => {
@@ -222,7 +222,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'TCP' }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'TCP' }]);
       });
 
       it('should remove the correct properties it the protocol is HTTP', () => {
@@ -233,7 +233,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'HTTP', path: '/wahoo', ignore_http_1xx: true }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', path: '/wahoo', ignore_http_1xx: true }]);
       });
 
       it('should remove the correct properties it the protocol is HTTPS', () => {
@@ -244,7 +244,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'HTTPS', path: '/wahoo', ignore_http_1xx: true }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTPS', path: '/wahoo', ignore_http_1xx: true }]);
       });
 
 
@@ -256,7 +256,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).to.deep.equal([{ protocol: 'COMMAND', command: 'oxford comma' }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'COMMAND', command: 'oxford comma' }]);
       });
     });
 

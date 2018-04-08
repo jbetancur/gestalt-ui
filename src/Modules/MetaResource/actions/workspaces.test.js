@@ -7,7 +7,7 @@ describe('Workspace Actions', () => {
       type: actionTypes.UNLOAD_WORKSPACES,
     };
 
-    expect(actions.unloadWorkspaces()).to.deep.equal(expectedAction);
+    expect(actions.unloadWorkspaces()).toEqual(expectedAction);
   });
 
   it('should request UNLOAD_WORKSPACE', () => {
@@ -15,7 +15,7 @@ describe('Workspace Actions', () => {
       type: actionTypes.UNLOAD_WORKSPACE,
     };
 
-    expect(actions.unloadWorkspace()).to.deep.equal(expectedAction);
+    expect(actions.unloadWorkspace()).toEqual(expectedAction);
   });
 
   it('should request FETCH_WORKSPACES_REQUEST', () => {
@@ -24,7 +24,7 @@ describe('Workspace Actions', () => {
       fqon: 'iamfqon',
     };
 
-    expect(actions.fetchWorkspaces('iamfqon')).to.deep.equal(expectedAction);
+    expect(actions.fetchWorkspaces('iamfqon')).toEqual(expectedAction);
   });
 
   it('should request FETCH_WORKSPACE_REQUEST', () => {
@@ -34,7 +34,7 @@ describe('Workspace Actions', () => {
       workspaceId: '1',
     };
 
-    expect(actions.fetchWorkspace('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.fetchWorkspace('iamfqon', '1')).toEqual(expectedAction);
   });
 
   it('should handle CREATE_WORKSPACE_REQUEST', () => {
@@ -45,7 +45,7 @@ describe('Workspace Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.createWorkspace('iamfqon', { name: 'test' })).to.deep.equal(expectedAction);
+    expect(actions.createWorkspace('iamfqon', { name: 'test' })).toEqual(expectedAction);
   });
 
   it('should handle UPDATE_WORKSPACE_REQUEST', () => {
@@ -57,7 +57,7 @@ describe('Workspace Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.updateWorkspace('iamfqon', '1', [])).to.deep.equal(expectedAction);
+    expect(actions.updateWorkspace('iamfqon', '1', [])).toEqual(expectedAction);
   });
 
   it('should handle DELETE_WORKSPACE_REQUEST', () => {
@@ -68,6 +68,6 @@ describe('Workspace Actions', () => {
       onSuccess: undefined,
     };
 
-    expect(actions.deleteWorkspace('iamfqon', '1')).to.deep.equal(expectedAction);
+    expect(actions.deleteWorkspace('iamfqon', '1')).toEqual(expectedAction);
   });
 });

@@ -19,14 +19,14 @@ describe('PolicyRule Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/policies/1/rules?expand=true')
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ id: 1 }] });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_POLICYRULES_FULFILLED, payload: [{ id: 1 }] })
       );
     });
@@ -37,7 +37,7 @@ describe('PolicyRule Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_POLICYRULES_REJECTED, payload: error })
       );
     });
@@ -49,7 +49,7 @@ describe('PolicyRule Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.get, 'iamfqon/policies/1/rules/2')
       );
     });
@@ -57,7 +57,7 @@ describe('PolicyRule Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
 
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.FETCH_POLICYRULE_FULFILLED, payload: { id: 1 } })
       );
     });
@@ -68,7 +68,7 @@ describe('PolicyRule Sagas', () => {
 
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.FETCH_POLICYRULE_REJECTED, payload: error })
       );
     });
@@ -81,14 +81,14 @@ describe('PolicyRule Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.post, 'iamfqon/policies/1/rules', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.CREATE_POLICYRULE_FULFILLED, payload: { id: 1 } })
       );
       // Finish the iteration
@@ -109,7 +109,7 @@ describe('PolicyRule Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.CREATE_POLICYRULE_REJECTED, payload: error })
       );
     });
@@ -122,14 +122,14 @@ describe('PolicyRule Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.patch, 'iamfqon/policies/1/rules/2', action.payload)
       );
     });
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: { id: 1 } });
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.UPDATE_POLICYRULE_FULFILLED, payload: { id: 1 } })
       );
 
@@ -151,7 +151,7 @@ describe('PolicyRule Sagas', () => {
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.UPDATE_POLICYRULE_REJECTED, payload: error })
       );
     });
@@ -164,14 +164,14 @@ describe('PolicyRule Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.delete, 'iamfqon/policies/1/rules/2?force=true')
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_POLICYRULE_FULFILLED })
       );
 
@@ -194,7 +194,7 @@ describe('PolicyRule Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_POLICYRULE_REJECTED, payload: error })
       );
     });
@@ -207,14 +207,14 @@ describe('PolicyRule Sagas', () => {
 
     it('should make an api call', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         call(axios.all, [axios.delete('iamfqon/policies/2/rules/1?force=true')])
       );
     });
 
     it('should return dispatch a success status', () => {
       result = saga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         put({ type: types.DELETE_POLICYRULE_FULFILLED })
       );
 
@@ -237,7 +237,7 @@ describe('PolicyRule Sagas', () => {
       let resultError = sagaError.next();
       resultError = sagaError.throw({ message: error });
 
-      expect(resultError.value).to.deep.equal(
+      expect(resultError.value).toEqual(
         put({ type: types.DELETE_POLICYRULE_REJECTED, payload: error })
       );
     });
@@ -249,42 +249,42 @@ describe('PolicyRule Sagas', () => {
 
     it('should fork a watcher for fetchPolicyRules', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_POLICYRULES_REQUEST, fetchPolicyRules)
       );
     });
 
     it('should fork a watcher for fetchPolicyRule', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_POLICYRULE_REQUEST, fetchPolicyRule)
       );
     });
 
     it('should fork a watcher for createPolicyRule', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.CREATE_POLICYRULE_REQUEST, createPolicyRule)
       );
     });
 
     it('should fork a watcher for updatePolicyRule', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.UPDATE_POLICYRULE_REQUEST, updatePolicyRule)
       );
     });
 
     it('should fork a watcher for deletePolicyRule', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_POLICYRULE_REQUEST, deletePolicyRule)
       );
     });
 
     it('should fork a watcher for deletePolicyRules', () => {
       result = rootSaga.next();
-      expect(result.value).to.deep.equal(
+      expect(result.value).toEqual(
         fork(takeLatest, types.DELETE_POLICYRULES_REQUEST, deletePolicyRules)
       );
     });
