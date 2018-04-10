@@ -23,7 +23,7 @@ AddButton.defaultProps = {
 const UnixVariablesForm = ({ fields, disabled }) => (
   <FieldContainer>
     <FieldItem>
-      <AddButton label="Add Variable" onAddItem={() => fields.push({})} />
+      <AddButton label="Add Variable" onAddItem={() => fields.unshift({})} />
     </FieldItem>
     {fields.map((member, index, allFields) => {
       const field = allFields.get(index);

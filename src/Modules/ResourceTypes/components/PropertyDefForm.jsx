@@ -14,7 +14,7 @@ const PropertyDefForm = ({ fields, resourceTypes, addLabel }) => (
         flat
         primary
         iconChildren="add"
-        onClick={() => fields.push({ data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true })}
+        onClick={() => fields.unshift({ data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true })}
       >
         {addLabel}
       </Button>

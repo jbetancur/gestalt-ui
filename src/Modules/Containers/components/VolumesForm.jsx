@@ -16,7 +16,7 @@ const initialValues = {
 const VolumesForm = ({ fields, providerType }) => (
   <FieldContainer>
     <FieldItem>
-      <AddButton label="Add Volume" onAddItem={() => fields.push(initialValues)} />
+      <AddButton label="Add Volume" onAddItem={() => fields.unshift(initialValues)} />
     </FieldItem>
     {fields.map((member, index) => {
       const field = fields.get(index);

@@ -12,7 +12,7 @@ const renderLinkedProviders = ({ fields, touched, error, providersModel }) => (
       flat
       iconChildren="add"
       primary
-      onClick={() => fields.push({})}
+      onClick={() => fields.unshift({})}
     >
       Linked Provider
     </Button>
