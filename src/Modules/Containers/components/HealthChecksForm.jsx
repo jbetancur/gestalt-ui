@@ -20,7 +20,7 @@ const initialValues = {
 const HealthChecksForm = ({ fields, healthCheckvalues }) => (
   <FieldContainer>
     <FieldItem>
-      <AddButton label="Add Health Check" onAddItem={() => fields.push(initialValues)} />
+      <AddButton label="Add Health Check" onAddItem={() => fields.unshift(initialValues)} />
     </FieldItem>
     {fields.map((member, index) => {
       const field = healthCheckvalues[index];

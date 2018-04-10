@@ -41,7 +41,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
         flat
         primary
         iconChildren="add"
-        onClick={() => fields.push({})}
+        onClick={() => fields.unshift({})}
       >
         Secret
       </Button>
