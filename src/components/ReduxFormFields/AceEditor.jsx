@@ -11,6 +11,7 @@ import 'brace/mode/ruby';
 import 'brace/mode/yaml';
 import 'brace/mode/json';
 import 'brace/mode/scala';
+import 'brace/mode/text';
 import 'brace/theme/chrome';
 import 'brace/theme/monokai';
 import 'brace/ext/language_tools';
@@ -21,7 +22,7 @@ const aceOnBlur = onBlur => (_event, editor) => {
 };
 
 /* eslint-disable react/prop-types */
-export default ({ input, className, ...others }) => (
+export default ({ input, className, theme, ...others }) => (
   <AceEditor
     name={input.name}
     onBlur={aceOnBlur(input.onBlur)}
@@ -41,6 +42,7 @@ export default ({ input, className, ...others }) => (
       enableLiveAutocompletion: true,
     }}
     editorProps={{ $blockScrolling: Infinity }}
+    theme={theme || 'chrome'}
     {...others}
   />
 );

@@ -1,4 +1,7 @@
-import { all } from 'redux-saga/effects';
+import { all, takeLatest } from 'redux-saga/effects';
+import { fetchAll, fetchOne, create, update, deleteOne, deleteMany } from '../lib/factory';
+import * as types from '../actionTypes';
+
 import orgSagas from './organizations';
 import workspaceSagas from './workspaces';
 import environmentSagas from './environments';
@@ -22,6 +25,7 @@ import resourceTypeSagas from './resourceTypes';
 import typePropertySagas from './typeProperties';
 import syncSagas from './sync';
 import serviceSpecSagas from './serviceSpecs';
+// import datafeedSagas from './datafeeds';
 
 export default function* metaSagas() {
   yield all([
@@ -48,5 +52,17 @@ export default function* metaSagas() {
     typePropertySagas(),
     syncSagas(),
     serviceSpecSagas(),
+    yield takeLatest(types.FETCH_DATAFEEDS_REQUEST, fetchAll('DATAFEEDS', 'datafeeds')),
+    yield takeLatest(types.FETCH_DATAFEED_REQUEST, fetchOne('DATAFEED', 'datafeeds')),
+    yield takeLatest(types.CREATE_DATAFEED_REQUEST, create('DATAFEED', 'datafeeds')),
+    yield takeLatest(types.UPDATE_DATAFEED_REQUEST, update('DATAFEED', 'datafeeds')),
+    yield takeLatest(types.DELETE_DATAFEED_REQUEST, deleteOne('DATAFEED', 'datafeeds')),
+    yield takeLatest(types.DELETE_DATAFEEDS_REQUEST, deleteMany('DATAFEEDS', 'datafeeds')),
+    yield takeLatest(types.FETCH_STREAMS_REQUEST, fetchAll('STREAMS', 'streams')),
+    yield takeLatest(types.FETCH_STREAM_REQUEST, fetchOne('STREAM', 'streams')),
+    yield takeLatest(types.CREATE_STREAM_REQUEST, create('STREAM', 'streams')),
+    yield takeLatest(types.UPDATE_STREAM_REQUEST, update('STREAM', 'streams')),
+    yield takeLatest(types.DELETE_STREAM_REQUEST, deleteOne('STREAM', 'streams')),
+    yield takeLatest(types.DELETE_STREAMS_REQUEST, deleteMany('STREAMS', 'streams')),
   ]);
 }

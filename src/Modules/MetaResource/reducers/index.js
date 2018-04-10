@@ -18,6 +18,8 @@ import envSchemaModel from '../models/envSchema';
 import secretModel from '../models/secret';
 import resourceTypeModel from '../models/resourceType';
 import serviceSpecModel from '../models/serviceSpec';
+import datafeedModel from '../models/dataFeed';
+import streamModel from '../models/stream';
 
 export default combineReducers({
   envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel),
@@ -79,4 +81,8 @@ export default combineReducers({
   serviceSpecs: reducerFactory(['fetch', 'delete'], 'serviceSpecs', 'serviceSpecs', []),
   serviceSpec: reducerFactory(['create'], 'serviceSpec', 'serviceSpec', serviceSpecModel.get()),
   serviceSpecsDropDown: reducerFactory(['fetch'], 'serviceSpecs', 'serviceSpecs_dropdown', [], true, []),
+  datafeeds: reducerFactory(['fetch', 'delete'], 'datafeeds', 'datafeeds', []),
+  datafeed: reducerFactory(['fetch', 'create', 'update'], 'datafeed', 'datafeed', datafeedModel.get()),
+  streams: reducerFactory(['fetch', 'delete'], 'streams', 'streams', []),
+  stream: reducerFactory(['fetch', 'create', 'update'], 'stream', 'stream', streamModel.get()),
 });

@@ -108,6 +108,7 @@ class EnvironmentActions extends PureComponent {
           flat
           sameWidth={false}
           menuItems={menuItems}
+          listHeightRestricted={false}
         >
           Create
         </MenuButton>
