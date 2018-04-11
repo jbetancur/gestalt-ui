@@ -445,16 +445,15 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
             {props.cancelLabel}
           </Button>
 
-          {selectedProvider.id &&
-            <Button
-              raised
-              iconChildren="save"
-              type="submit"
-              disabled={isSubmitDisabled}
-              primary
-            >
-              {props.submitLabel}
-            </Button>}
+          <Button
+            raised
+            iconChildren="save"
+            type="submit"
+            disabled={isSubmitDisabled || !selectedProvider.id}
+            primary
+          >
+            {props.submitLabel}
+          </Button>
         </FullPageFooter>}
       </Form>
     </div>

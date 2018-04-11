@@ -107,21 +107,20 @@ const LambdaForm = (props) => {
             <Col flex={12}>
               <Panel title="General" expandable={false} >
                 <Row gutter={5}>
-                  {editMode &&
-                    <Col flex={6} xs={12} sm={12}>
-                      <Field
-                        id="select-provider"
-                        component={SelectField}
-                        name="properties.provider.id"
-                        required
-                        label="Lambda Provider"
-                        itemLabel="name"
-                        itemValue="id"
-                        menuItems={props.providersByType}
-                        disabled={editMode}
-                        async
-                      />
-                    </Col>}
+                  <Col flex={6} xs={12} sm={12}>
+                    <Field
+                      id="select-provider"
+                      component={SelectField}
+                      name="properties.provider.id"
+                      required
+                      label="Lambda Provider"
+                      itemLabel="name"
+                      itemValue="id"
+                      menuItems={props.providersByType}
+                      disabled={editMode}
+                      async
+                    />
+                  </Col>
                   <Col flex={6} xs={12} sm={12}>
                     <Field
                       component={TextField}
