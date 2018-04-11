@@ -11,6 +11,7 @@ import { DataFeedIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withDatafeed } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -39,8 +40,9 @@ class DataFeedList extends PureComponent {
 
   populateFeeds() {
     const { match, datafeedActions } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    datafeedActions.fetchDatafeeds({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
+    datafeedActions.fetchDatafeeds({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
@@ -110,8 +112,18 @@ class DataFeedList extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        grow: 3,
+        grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
+      },
+      {
+        name: 'Type',
+        selector: 'properties.kind',
+        sortable: true,
+      },
+      {
+        name: 'Format',
+        selector: 'properties.data.format',
+        sortable: true,
       },
       {
         name: 'Owner',

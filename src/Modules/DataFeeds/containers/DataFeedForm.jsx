@@ -48,6 +48,7 @@ const DataFeedForm = ({ handleSubmit, submitting, values, match, loading, editMo
                 name="name"
                 label="Name"
                 component={TextField}
+                required
               />
             </Col>
           </Row>
@@ -76,6 +77,7 @@ const DataFeedForm = ({ handleSubmit, submitting, values, match, loading, editMo
                 itemLabel="displayName"
                 itemValue="type"
                 menuItems={feedTypes}
+                required
               />
             </Col>
 
@@ -92,6 +94,22 @@ const DataFeedForm = ({ handleSubmit, submitting, values, match, loading, editMo
               <Field
                 name="properties.data.endpoint"
                 label="URI"
+                component={TextField}
+              />
+            </Col>
+
+            <Col flex={6} xs={12}>
+              <Field
+                name="properties.data.topic"
+                label="Topic"
+                component={TextField}
+                required
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                name="properties.data.group"
+                label="Group"
                 component={TextField}
               />
             </Col>

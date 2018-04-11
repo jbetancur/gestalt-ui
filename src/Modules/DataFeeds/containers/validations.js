@@ -9,5 +9,13 @@ export default (values) => {
     errors = { ...errors, properties: { kind: 'required' } };
   }
 
+  if (!values.properties.data.format) {
+    errors = { ...errors, properties: { data: { format: 'required' } } };
+  }
+
+  if (!values.properties.data.topic) {
+    errors = { ...errors, properties: { data: { topic: 'required' } } };
+  }
+
   return errors;
 };
