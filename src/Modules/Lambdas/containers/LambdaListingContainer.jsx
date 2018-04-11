@@ -12,6 +12,7 @@ import { Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { LambdaIcon } from 'components/Icons';
 import LambdaMenuActions from '../components/LambdaMenuActions';
+import ListIcon from '../components/ListIcon';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import actions from '../actions';
 
@@ -128,7 +129,8 @@ class LambdaListing extends PureComponent {
         name: 'Runtime',
         selector: 'properties.runtime',
         sortable: true,
-
+        compact: true,
+        cell: row => <ListIcon runtime={row.properties.runtime} />,
       },
       {
         name: 'Owner',

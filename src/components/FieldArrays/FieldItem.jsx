@@ -3,8 +3,8 @@ import { media } from 'util/helpers/media';
 
 const FieldItem = styled.div`
   position: relative;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 16px;
   padding-right: 8px;
 
