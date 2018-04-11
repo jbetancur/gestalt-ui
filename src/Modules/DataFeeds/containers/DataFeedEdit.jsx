@@ -4,10 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed } from 'Modules/MetaResource';
+import { withDatafeed, withPickerData } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { withSecretsPicker } from 'Modules/Secrets';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 import { getDatafeed } from '../selectors';
@@ -20,7 +19,7 @@ class DataFeedEdit extends Component {
     datafeedActions: PropTypes.object.isRequired,
     datafeed: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
-    secrets: PropTypes.array.isRequired,
+    secretsData: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -34,11 +33,12 @@ class DataFeedEdit extends Component {
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/datafeeds/${response.id}`);
     const payload = generatePatches(datafeed, values);
+
     datafeedActions.updateDatafeed({ fqon: match.params.fqon, id: match.params.datafeedId, payload, onSuccess });
   };
 
   render() {
-    const { datafeedPending, datafeed, secrets } = this.props;
+    const { datafeedPending, datafeed, secretsData } = this.props;
 
     return (
       datafeedPending && !datafeed.id ?
@@ -52,7 +52,7 @@ class DataFeedEdit extends Component {
               validate={validate}
               loading={datafeedPending}
               editMode
-              secrets={secrets}
+              secrets={secretsData}
             />
           </Col>
         </Row>
@@ -65,7 +65,7 @@ const mapStatetoProps = state => ({
 });
 
 export default compose(
-  withSecretsPicker,
+  withPickerData({ entity: 'secrets', label: 'Secrets' }),
   withDatafeed,
   withRouter,
   connect(mapStatetoProps)
