@@ -17,7 +17,7 @@ import user from './user';
 import workspace from './workspace';
 import serviceSpec from './serviceSpec';
 import datafeed from './dataFeed';
-import streams from './stream';
+import streamSpec from './streamSpec';
 
 export default {
   api,
@@ -39,5 +39,5 @@ export default {
   workspace,
   serviceSpec,
   datafeed,
-  streams,
+  streamSpec,
 };

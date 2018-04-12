@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../actions/streams';
+import actions from '../actions/streamSpecs';
 
 export default function withstream(BaseComponent) {
   class Stream extends Component {
     static propTypes = {
-      streamActions: PropTypes.object.isRequired,
+      streamSpecActions: PropTypes.object.isRequired,
     };
 
     componentWillUnmount() {
-      const { streamActions } = this.props;
+      const { streamSpecActions } = this.props;
 
-      streamActions.unloadStream();
+      streamSpecActions.unloadStreamSpec();
     }
 
     render() {
@@ -22,14 +22,14 @@ export default function withstream(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    stream: state.metaResource.stream.stream,
-    streamPending: state.metaResource.stream.pending,
-    streams: state.metaResource.streams.streams,
-    streamsPending: state.metaResource.streams.pending,
+    streamSpec: state.metaResource.streamSpec.streamSpec,
+    streamSpecPending: state.metaResource.streamSpec.pending,
+    streamSpecs: state.metaResource.streamSpecs.streamSpecs,
+    streamSpecsPending: state.metaResource.streamSpecs.pending,
   });
 
   const mapDispatchToProps = dispatch => ({
-    streamActions: bindActionCreators(actions, dispatch)
+    streamSpecActions: bindActionCreators(actions, dispatch)
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(Stream);
