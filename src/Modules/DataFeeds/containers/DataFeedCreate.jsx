@@ -49,7 +49,7 @@ class DataFeedCreate extends Component {
       <Row justifyContent="center">
         <Col flex={8} xs={12} sm={12} md={10}>
           <Form
-            title="Create"
+            title="Create Data Feed"
             onSubmit={this.onSubmit}
             initialValues={initialValues}
             render={DataFeedForm}

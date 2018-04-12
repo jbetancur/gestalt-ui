@@ -20,7 +20,7 @@ const ActivityIndicator = () => (
 );
 
 /* eslint-disable react/prop-types */
-export default ({ input, required, meta: { touched, error }, menuItems, async, ...others }) => {
+export default ({ input, meta: { touched, error }, menuItems, async, ...others }) => {
   const compileMenuItems = () => (
     menuItems.length ?
       menuItems :

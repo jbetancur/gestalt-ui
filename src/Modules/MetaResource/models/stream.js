@@ -16,9 +16,27 @@ const get = (model = {}) => {
     name: '',
     description: '',
     properties: {
-      kind: '',
-      data: {}
-    }
+      cpus: 1,
+      mem: 512,
+      parallelization: 1,
+      processor: {
+        type: 'map',
+        lambda_id: null,
+        input_stream_config: {
+          name: null,
+          feed_id: null,
+          partition: {
+            partition: 0,
+            start_offset: -1,
+            end_offset: -1,
+          },
+        },
+        output_stream_config: {
+          name: null,
+          feed_id: null,
+        }
+      },
+    },
   }, safeModel);
 };
 
@@ -33,12 +51,34 @@ const create = (model = {}) => {
     name: '',
     description: '',
     properties: {
-      kind: '',
-      data: {}
-    }
+      cpus: 1,
+      mem: 512,
+      parallelization: 1,
+      processor: {
+        type: 'map',
+        lambda_id: null,
+        input_stream_config: {
+          name: null,
+          feed_id: null,
+          partition: {
+            partition: 0,
+            start_offset: -1,
+            end_offset: -1,
+          },
+        },
+        output_stream_config: {
+          name: null,
+          feed_id: null,
+        }
+      },
+    },
   }, safeModel), [
     'name',
     'description',
+    'properties.cpus',
+    'properties.mem',
+    'properties.parallelization',
+    'properties.processor',
   ]);
 };
 

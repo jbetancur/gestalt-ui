@@ -44,3 +44,13 @@ export function convertFromMaps(own = {}, inherited = {}, keyName = 'name', valu
 
   return orderBy(unionBy(ownVars, inheritedVars, keyName), 'inherited', 'desc');
 }
+
+/**
+ * Builds an object from a delimited string
+ * @param {String} string
+ * @param {String} delimiter
+ */
+export function nestedObjectFromString(string, value = null, delimeter = '.') {
+  const [last, ...paths] = string.split(delimeter).reverse();
+  return paths.reduce((acc, el) => ({ [el]: acc }), { [last]: value });
+}
