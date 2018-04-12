@@ -2,9 +2,9 @@ import * as types from '../actionTypes';
 import * as actions from './streamSpecs';
 
 describe('Stream Actions', () => {
-  it('should request UNLOAD_STREAMSPECS', () => {
+  it('should request UNLOAD_STREASPECS', () => {
     const expectedAction = {
-      type: types.UNLOAD_STREAMSPECS,
+      type: types.UNLOAD_STREASPECS,
     };
 
     expect(actions.unloadStreamSpecs()).toEqual(expectedAction);

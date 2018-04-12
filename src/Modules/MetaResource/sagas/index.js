@@ -58,11 +58,11 @@ export default function* metaSagas() {
     yield takeLatest(types.UPDATE_DATAFEED_REQUEST, update('DATAFEED', 'datafeeds')),
     yield takeLatest(types.DELETE_DATAFEED_REQUEST, deleteOne('DATAFEED', 'datafeeds')),
     yield takeLatest(types.DELETE_DATAFEEDS_REQUEST, deleteMany('DATAFEEDS', 'datafeeds')),
-    yield takeLatest(types.FETCH_STREAMSPECS_REQUEST, fetchAll('STREAMS', 'streamspecs')),
-    yield takeLatest(types.FETCH_STREAMSPEC_REQUEST, fetchOne('STREAM', 'streamspecs')),
-    yield takeLatest(types.CREATE_STREAMSPEC_REQUEST, create('STREAM', 'streamspecs')),
-    yield takeLatest(types.UPDATE_STREAMSPEC_REQUEST, update('STREAM', 'streamspecs')),
-    yield takeLatest(types.DELETE_STREAMSPEC_REQUEST, deleteOne('STREAM', 'streamspecs')),
-    yield takeLatest(types.DELETE_STREAMSPECS_REQUEST, deleteMany('STREAMS', 'streamspecs')),
+    yield takeLatest(types.FETCH_STREAMSPECS_REQUEST, fetchAll('STREAMSPECS', 'streamspecs')),
+    yield takeLatest(types.FETCH_STREAMSPEC_REQUEST, fetchOne('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(types.CREATE_STREAMSPEC_REQUEST, create('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(types.UPDATE_STREAMSPEC_REQUEST, update('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(types.DELETE_STREAMSPEC_REQUEST, deleteOne('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(types.DELETE_STREAMSPECS_REQUEST, deleteMany('STREAMSPECS', 'streamspecs')),
   ]);
 }

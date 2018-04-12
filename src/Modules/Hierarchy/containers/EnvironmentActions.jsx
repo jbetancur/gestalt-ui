@@ -78,7 +78,7 @@ class EnvironmentActions extends PureComponent {
         <ListItem
           id="environment-settings-menu--stream-create"
           key="environment-settings-menu--stream-create"
-          primaryText="Stream"
+          primaryText="Stream Spec"
           component={Link}
           leftIcon={<StreamIcon />}
           to={`${match.url}/streamspecs/create`}
