@@ -40,7 +40,6 @@ const create = (model = {}) => {
       }
     }
   }, safeModel), [
-    'id',
     'name',
     'description',
     'properties.kind',

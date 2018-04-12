@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { urlmapper } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
+import { buildAllURL } from '../lib/urlmapper';
 
 export default ({ entity, label, params }) => (WrapperComponent) => {
   class DataPicker extends Component {
@@ -25,7 +25,7 @@ export default ({ entity, label, params }) => (WrapperComponent) => {
       const { match } = this.props;
       const entiryParams = generateContextEntityState(match.params);
       const urlConfig = { fqon: match.params.fqon, entityId: entiryParams.id, entityKey: entiryParams.key, params };
-      const url = urlmapper.buildAllURL(entity, urlConfig, true);
+      const url = buildAllURL(entity, urlConfig, true);
 
       this.setState({ [`${entity}Loading`]: true });
       const res = await axios.get(url);

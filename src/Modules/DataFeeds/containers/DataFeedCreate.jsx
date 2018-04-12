@@ -10,16 +10,16 @@ import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 
 const initialValues = {
-  name: '',
+  name: null,
   properties: {
     kind: 'Kafka',
     data: {
       format: 'JSON',
-      endpoint: '//KafkaService/Queue',
-      data: '{ "some": "json" }',
-      classification: ''
-    }
-  }
+      endpoint: null,
+      data: null,
+      classification: null
+    },
+  },
 };
 
 class DataFeedCreate extends Component {
@@ -29,6 +29,7 @@ class DataFeedCreate extends Component {
     datafeedActions: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
     secretsData: PropTypes.array.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
 
   onSubmit = (values) => {
@@ -42,18 +43,20 @@ class DataFeedCreate extends Component {
 
 
   render() {
-    const { datafeedPending, secretsData } = this.props;
+    const { datafeedPending, secretsData, entitlementActions } = this.props;
 
     return (
       <Row justifyContent="center">
         <Col flex={8} xs={12} sm={12} md={10}>
           <Form
+            title="Create"
             onSubmit={this.onSubmit}
             initialValues={initialValues}
             render={DataFeedForm}
             validate={validate}
             loading={datafeedPending}
             secrets={secretsData}
+            entitlementActions={entitlementActions}
           />
         </Col>
       </Row>
