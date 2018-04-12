@@ -27,13 +27,13 @@ const get = (model = {}) => {
           feed_id: null,
           partition: {
             partition: 0,
-            startOffset: -1,
-            endOffset: -1
+            start_offset: -1,
+            end_offset: -1,
           },
         },
         output_stream_config: {
           name: null,
-          feedID: null,
+          feed_id: null,
         }
       },
     },
@@ -62,13 +62,13 @@ const create = (model = {}) => {
           feed_id: null,
           partition: {
             partition: 0,
-            startOffset: -1,
-            endOffset: -1
+            start_offset: -1,
+            end_offset: -1,
           },
         },
         output_stream_config: {
           name: null,
-          feedID: null,
+          feed_id: null,
         }
       },
     },

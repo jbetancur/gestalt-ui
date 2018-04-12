@@ -17,7 +17,7 @@ const get = (model = {}) => {
     description: null,
     properties: {
       kind: null,
-      data: {}
+      data: {},
     }
   }, safeModel);
 };
@@ -40,7 +40,6 @@ const create = (model = {}) => {
       }
     }
   }, safeModel), [
-    'id',
     'name',
     'description',
     'properties.kind',

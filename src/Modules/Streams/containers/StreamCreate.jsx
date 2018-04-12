@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import { withStream, withPickerData } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
+import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
+import validate from '../validations';
 
 const initialValues = {
   name: null,
@@ -21,13 +22,13 @@ const initialValues = {
         feed_id: null,
         partition: {
           partition: 0,
-          startOffset: -1,
-          endOffset: -1
+          start_offset: -1,
+          end_offset: -1,
         },
       },
       output_stream_config: {
         name: null,
-        feedID: null,
+        feed_id: null,
       }
     },
   },
@@ -35,13 +36,20 @@ const initialValues = {
 
 class StreamCreate extends Component {
   static propTypes = {
-    // match: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     lambdasData: PropTypes.array.isRequired,
     datafeedsData: PropTypes.array.isRequired,
+    streamActions: PropTypes.object.isRequired,
   };
+
   onSubmit = (values) => {
-    // eslint-disable-next-line no-alert
-    window.alert(JSON.stringify(values, 0, 2));
+    const { match, history, streamActions } = this.props;
+    const onSuccess = response =>
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streams/${response.id}`);
+    const entity = generateContextEntityState(match.params);
+
+    streamActions.createStream({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
   };
 
   render() {
@@ -51,8 +59,10 @@ class StreamCreate extends Component {
       <Row center>
         <Col flex={8}>
           <Form
+            title="Create a Stream Specification"
             onSubmit={this.onSubmit}
             initialValues={initialValues}
+            validate={validate}
             render={StreamForm}
             lambdas={lambdasData}
             datafeeds={datafeedsData}
@@ -63,15 +73,9 @@ class StreamCreate extends Component {
   }
 }
 
-/* eslint-disable-next-line */
-const mapStateToProps = state => ({
-  // stream: selectStream(state),
-});
-
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withStream,
-  connect(mapStateToProps),
 )(StreamCreate);

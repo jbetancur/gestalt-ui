@@ -3,6 +3,7 @@ import {
   mapTo2DArray,
   convertFromMaps,
   stringDemiltedToArray,
+  nestedObjectFromString,
 } from './transformations';
 
 describe('Util Transformations', () => {
@@ -67,6 +68,23 @@ describe('Util Transformations', () => {
       const string = 'luke,skywalker,is,,awesome';
 
       expect(stringDemiltedToArray(string)).toEqual(['luke', 'skywalker', 'is', 'awesome']);
+    });
+  });
+
+  describe('nestedObjectFromString function', () => {
+    it('should create create a nested object from a string', () => {
+      const string = 'luke.skywalker.is.awesome';
+      expect(nestedObjectFromString(string)).toEqual({ luke: { skywalker: { is: { awesome: null } } } });
+    });
+
+    it('should create create a nested object from a string with a value', () => {
+      const string = 'luke.skywalker.is.awesome';
+      expect(nestedObjectFromString(string, 'with the force')).toEqual({ luke: { skywalker: { is: { awesome: 'with the force' } } } });
+    });
+
+    it('should create create a nested object with an overriden delimiter', () => {
+      const string = 'luke:skywalker:is:awesome';
+      expect(nestedObjectFromString(string, null, ':')).toEqual({ luke: { skywalker: { is: { awesome: null } } } });
     });
   });
 });
