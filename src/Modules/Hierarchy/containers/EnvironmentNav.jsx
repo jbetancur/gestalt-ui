@@ -54,7 +54,7 @@ const renderNavItems = props => (
       key="environment--streams"
       icon={<StreamIcon />}
       title="Streams"
-      to={`${props.match.url}/streams`}
+      to={`${props.match.url}/streamspecs`}
       activeClassName="active-link"
       isVisible={props.appState.enableExperimental}
     />,

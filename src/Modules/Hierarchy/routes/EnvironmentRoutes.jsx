@@ -52,8 +52,8 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/secrets/create" component={SecretCreate} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/secrets/:secretId" component={SecretEdit} />
 
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streams" component={StreamList} />
-    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streams/create" component={StreamCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streamspecs" component={StreamList} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streamspecs/create" component={StreamCreate} />
     {/* <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streams/:streamId" component={StreamEdit} /> */}
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/datafeeds" component={DataFeedList} />

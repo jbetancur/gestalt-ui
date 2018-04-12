@@ -216,7 +216,7 @@ const StreamForm = ({ title, stream, editMode, handleSubmit, submitting, match, 
 
         <FullPageFooter>
           <Button
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streams`}
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
             flat
             component={Link}
             iconChildren="arrow_back"

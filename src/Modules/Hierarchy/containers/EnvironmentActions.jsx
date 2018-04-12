@@ -81,7 +81,7 @@ class EnvironmentActions extends PureComponent {
           primaryText="Stream"
           component={Link}
           leftIcon={<StreamIcon />}
-          to={`${match.url}/streams/create`}
+          to={`${match.url}/streamspecs/create`}
           style={listItemStyle}
         /> : <div key="environment-settings-menu--stream-create" />,
       appState.enableExperimental ?

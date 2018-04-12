@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withStream, withPickerData } from 'Modules/MetaResource';
+import { withStreamSpec, withPickerData } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
 import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
@@ -11,6 +11,7 @@ import validate from '../validations';
 const initialValues = {
   name: null,
   properties: {
+    provider: 'aa0e4ff3-9744-4f41-bb31-917216826da8',
     cpus: 1,
     mem: 512,
     parallelization: 1,
@@ -40,16 +41,16 @@ class StreamCreate extends Component {
     history: PropTypes.object.isRequired,
     lambdasData: PropTypes.array.isRequired,
     datafeedsData: PropTypes.array.isRequired,
-    streamActions: PropTypes.object.isRequired,
+    streamSpecActions: PropTypes.object.isRequired,
   };
 
   onSubmit = (values) => {
-    const { match, history, streamActions } = this.props;
+    const { match, history, streamSpecActions } = this.props;
     const onSuccess = response =>
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streams/${response.id}`);
+      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs/${response.id}`);
     const entity = generateContextEntityState(match.params);
 
-    streamActions.createStream({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
+    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
   };
 
   render() {
@@ -74,8 +75,8 @@ class StreamCreate extends Component {
 }
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  // withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
-  withStream,
+  withStreamSpec,
 )(StreamCreate);
