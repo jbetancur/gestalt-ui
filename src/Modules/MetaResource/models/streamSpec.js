@@ -16,6 +16,7 @@ const get = (model = {}) => {
     name: '',
     description: '',
     properties: {
+      streams: [],
       cpus: 1,
       mem: 512,
       parallelization: 1,
@@ -51,6 +52,7 @@ const create = (model = {}) => {
     name: '',
     description: '',
     properties: {
+      streams: [],
       cpus: 1,
       mem: 512,
       parallelization: 1,

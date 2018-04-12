@@ -4,7 +4,7 @@ import * as types from '../actionTypes';
  * unloadStreamSpecs
  */
 export function unloadStreamSpecs() {
-  return { type: types.UNLOAD_STREAMSPECS };
+  return { type: types.UNLOAD_STREASPECS };
 }
 
 /**
