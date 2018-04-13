@@ -20,24 +20,6 @@ export function* fetchSecrets(action) {
 }
 
 /**
- * fetchSecretsDropDown
- * @param {Object} action { fqon, environmentId, providerId }
- */
-export function* fetchSecretsDropDown(action) {
-  try {
-    const response = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/secrets?expand=true&providerId=${action.providerId}`);
-
-    if (!response.data.length) {
-      yield put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Secrets' }] });
-    } else {
-      yield put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: response.data });
-    }
-  } catch (e) {
-    yield put({ type: types.FETCH_SECRETS_DROPDOWN_REJECTED, payload: e.message });
-  }
-}
-
-/**
  * fetchSecret
  * @param {Object} action { fqon, secretId, environmentId }
  */
@@ -123,7 +105,6 @@ export function* deleteSecrets(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_SECRETS_REQUEST, fetchSecrets);
-  yield fork(takeLatest, types.FETCH_SECRETS_DROPDOWN_REQUEST, fetchSecretsDropDown);
   yield fork(takeLatest, types.FETCH_SECRET_REQUEST, fetchSecret);
   yield fork(takeLatest, types.CREATE_SECRET_REQUEST, createSecret);
   yield fork(takeLatest, types.UPDATE_SECRET_REQUEST, updateSecret);

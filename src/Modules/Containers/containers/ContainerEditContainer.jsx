@@ -8,7 +8,6 @@ import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
-import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -30,7 +29,7 @@ class ContainerEdit extends Component {
     unloadAPIEndpoints: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
-    fetchSecretsDropDown: PropTypes.func.isRequired,
+    fetchsecretsData: PropTypes.func.isRequired,
     fetchActions: PropTypes.func.isRequired,
     unloadContainer: PropTypes.func.isRequired,
     inlineMode: PropTypes.bool,
@@ -62,12 +61,6 @@ class ContainerEdit extends Component {
       // stop polling if the container is destroyed
       if (!nextProps.container.id) {
         clearTimeout(this.timeout);
-      }
-
-      // TODO: temporary until we support all providers
-      if (!this.secretsPolled && getLastFromSplit(nextProps.container.properties.provider.resource_type) !== 'Docker') {
-        this.secretsPolled = true;
-        this.props.fetchSecretsDropDown(nextProps.match.params.fqon, nextProps.match.params.environmentId, nextProps.container.properties.provider.id);
       }
     }
   }
@@ -134,8 +127,7 @@ export default compose(
   withMetaResource,
   withEntitlements,
   withRouter,
-  connect(mapStateToProps,
-    Object.assign({}, actions)),
+  connect(mapStateToProps, actions),
   reduxForm({
     form: formName,
     enableReinitialize: true,

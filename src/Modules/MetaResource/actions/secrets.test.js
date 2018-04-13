@@ -28,17 +28,6 @@ describe('Secrets Actions', () => {
     expect(actions.fetchSecrets('iamfqon', '1')).toEqual(expectedAction);
   });
 
-  it('should request FETCH_SECRETS_DROPDOWN_REQUEST', () => {
-    const expectedAction = {
-      type: types.FETCH_SECRETS_DROPDOWN_REQUEST,
-      fqon: 'iamfqon',
-      environmentId: '1',
-      providerId: '2',
-    };
-
-    expect(actions.fetchSecretsDropDown('iamfqon', '1', '2')).toEqual(expectedAction);
-  });
-
   it('should request FETCH_SECRET_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_SECRET_REQUEST,

@@ -16,14 +16,6 @@ export function fetchServiceSpecs(fqon) {
 }
 
 /**
- * fetchServiceSpecsDropdown
- * @param {string} fqon
- */
-export function fetchServiceSpecsDropdown(fqon) {
-  return { type: types.FETCH_SERVICESPECS_DROPDOWN_REQUEST, fqon };
-}
-
-/**
  * createServiceSpec
  * @param {string} fqon
  * @param {Object} payload
@@ -36,6 +28,5 @@ export function createServiceSpec(fqon, payload, onSuccess) {
 export default {
   unloadServiceSpecs,
   fetchServiceSpecs,
-  fetchServiceSpecsDropdown,
   createServiceSpec,
 };

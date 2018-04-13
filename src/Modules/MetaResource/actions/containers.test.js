@@ -30,16 +30,6 @@ describe('Container Actions', () => {
     expect(actions.fetchContainers('iamfqon', '1', 'environments', false)).toEqual(expectedAction);
   });
 
-  it('should request FETCH_CONTAINERS_DROPDOWN_REQUEST', () => {
-    const expectedAction = {
-      type: types.FETCH_CONTAINERS_DROPDOWN_REQUEST,
-      fqon: 'iamfqon',
-      environmentId: '1',
-    };
-
-    expect(actions.fetchContainersDropDown('iamfqon', '1')).toEqual(expectedAction);
-  });
-
   it('should request FETCH_CONTAINER_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_CONTAINER_REQUEST,

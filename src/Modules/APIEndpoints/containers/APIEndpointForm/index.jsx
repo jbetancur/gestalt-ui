@@ -38,25 +38,25 @@ const APIEndpointForm = (props) => {
     submitLabel,
     title,
     apiEndpoint,
-    fetchLambdasDropDown,
-    fetchContainersDropDown,
-    lambdasDropDown,
-    containersDropDown,
-    lambdasDropDownPending,
-    containersDropDownPending,
+    fetchlambdasData,
+    fetchcontainersData,
+    lambdasData,
+    containersData,
+    lambdasDataPending,
+    containersDataPending,
   } = props;
 
   const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`;
 
   // TODO: implement selectors
   const containerPorts = () => {
-    const container = containersDropDown.find(cont => cont.id === values.properties.implementation_id);
+    const container = containersData.find(cont => cont.id === values.properties.implementation_id);
     return container && container.properties && container.properties.port_mappings;
   };
 
   const fetchContainers = () => {
     dispatch(change(form, 'properties.container_port_name', ''));
-    fetchContainersDropDown(match.params.fqon, match.params.environmentId);
+    fetchcontainersData();
   };
 
   const handleAutoComplete = (value) => {
@@ -67,7 +67,7 @@ const APIEndpointForm = (props) => {
     dispatch(change(form, 'properties.implementation_id', ''));
   };
 
-  const disabledSubmit = pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDropDownPending || containersDropDownPending || invalid || submitting;
+  const disabledSubmit = pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDataPending || containersDataPending || invalid || submitting;
 
   return (
     <Row gutter={5} center>
@@ -131,7 +131,7 @@ const APIEndpointForm = (props) => {
                       id="containers-dropdown"
                       component={SelectField}
                       name="properties.implementation_id"
-                      menuItems={containersDropDown}
+                      menuItems={containersData}
                       itemLabel="name"
                       itemValue="id"
                       required
@@ -158,12 +158,12 @@ const APIEndpointForm = (props) => {
                     <Col flex={4} xs={12} sm={12}>
                       <Autocomplete
                         id="lambdas-dropdown"
-                        data={lambdasDropDown}
+                        data={lambdasData}
                         dataLabel="name"
                         dataValue="id"
                         label="Search Lambdas"
                         clearOnAutocomplete
-                        onClick={() => fetchLambdasDropDown(match.params.fqon)}
+                        onClick={() => fetchlambdasData()}
                         onAutocomplete={handleAutoComplete}
                         helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                       />
@@ -246,12 +246,12 @@ APIEndpointForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   apiEndpointUpdatePending: PropTypes.bool,
-  fetchLambdasDropDown: PropTypes.func.isRequired,
-  fetchContainersDropDown: PropTypes.func.isRequired,
-  lambdasDropDown: PropTypes.array.isRequired,
-  containersDropDown: PropTypes.array.isRequired,
-  lambdasDropDownPending: PropTypes.bool,
-  containersDropDownPending: PropTypes.bool,
+  fetchlambdasData: PropTypes.func.isRequired,
+  fetchcontainersData: PropTypes.func.isRequired,
+  lambdasData: PropTypes.array.isRequired,
+  containersData: PropTypes.array.isRequired,
+  lambdasDataPending: PropTypes.bool,
+  containersDataPending: PropTypes.bool,
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
@@ -259,8 +259,8 @@ APIEndpointForm.propTypes = {
 };
 
 APIEndpointForm.defaultProps = {
-  lambdasDropDownPending: false,
-  containersDropDownPending: false,
+  lambdasDataPending: false,
+  containersDataPending: false,
   apiEndpointUpdatePending: false,
   title: '',
   submitLabel: '',
