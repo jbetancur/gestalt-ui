@@ -18,11 +18,11 @@ const UserForm = (props) => {
   };
 
   return (
-    <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.userUpdatePending || props.userPending}>
+    <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.userPending}>
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar title={props.title} />
-          {(props.userUpdatePending || props.userPending) && <ActivityContainer id="user-form" />}
+          {props.userPending && <ActivityContainer id="user-form" />}
           <Row gutter={5}>
             {props.user.id &&
               <Col flex={12}>
@@ -131,7 +131,7 @@ const UserForm = (props) => {
           raised
           iconChildren="save"
           type="submit"
-          disabled={props.pristine || props.userPending || props.userUpdatePending || props.invalid || props.submitting}
+          disabled={props.pristine || props.userPending || props.invalid || props.submitting}
           primary
         >
           {props.submitLabel}
@@ -156,11 +156,9 @@ UserForm.propTypes = {
   title: PropTypes.string,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
-  userUpdatePending: PropTypes.bool,
 };
 
 UserForm.defaultProps = {
-  userUpdatePending: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',

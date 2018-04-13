@@ -28,7 +28,6 @@ const APIEndpointForm = (props) => {
     dispatch,
     match,
     apiEndpointPending,
-    apiEndpointUpdatePending,
     onSubmit,
     invalid,
     pristine,
@@ -67,12 +66,12 @@ const APIEndpointForm = (props) => {
     dispatch(change(form, 'properties.implementation_id', ''));
   };
 
-  const disabledSubmit = pristine || apiEndpointPending || apiEndpointUpdatePending || lambdasDataPending || containersDataPending || invalid || submitting;
+  const disabledSubmit = pristine || apiEndpointPending || lambdasDataPending || containersDataPending || invalid || submitting;
 
   return (
     <Row gutter={5} center>
       <Col flex={10} xs={12} sm={12} md={12}>
-        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointUpdatePending || apiEndpointPending} paddingBottom="64px">
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={apiEndpointPending} paddingBottom="64px">
           <ActionsToolbar
             title={title}
             subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null}
@@ -97,7 +96,7 @@ const APIEndpointForm = (props) => {
               </Panel>
             </Col>}
 
-            {(apiEndpointUpdatePending || apiEndpointPending) && <ActivityContainer id="apiEndpoint-form" />}
+            {(apiEndpointPending) && <ActivityContainer id="apiEndpoint-form" />}
 
             <Col flex={12}>
               <Panel title="General" expandable={false}>
@@ -211,7 +210,7 @@ const APIEndpointForm = (props) => {
             <Button
               flat
               iconChildren={!apiEndpoint.id ? null : 'arrow_back'}
-              disabled={apiEndpointUpdatePending || apiEndpointPending || submitting}
+              disabled={apiEndpointPending || submitting}
               component={Link}
               to={backLink}
             >
@@ -245,7 +244,6 @@ APIEndpointForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  apiEndpointUpdatePending: PropTypes.bool,
   fetchlambdasData: PropTypes.func.isRequired,
   fetchcontainersData: PropTypes.func.isRequired,
   lambdasData: PropTypes.array.isRequired,
@@ -261,7 +259,6 @@ APIEndpointForm.propTypes = {
 APIEndpointForm.defaultProps = {
   lambdasDataPending: false,
   containersDataPending: false,
-  apiEndpointUpdatePending: false,
   title: '',
   submitLabel: '',
   cancelLabel: 'Cancel',
