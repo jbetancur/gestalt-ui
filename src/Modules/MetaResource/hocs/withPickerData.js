@@ -44,9 +44,10 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
       const url = buildAllURL(entity.toLowerCase(), urlConfig, true);
 
       this.setState({ [`${name}Loading`]: true });
-      const res = await axios.get(url);
 
       try {
+        const res = await axios.get(url);
+
         if (res.data.length) {
           this.setState({ [`${name}Data`]: orderBy(res.data, sortKey, sortDirection), [`${name}Loading`]: false });
         } else {

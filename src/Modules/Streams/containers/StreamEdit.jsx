@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { withStreamSpec, withPickerData } from 'Modules/MetaResource';
+import { withProviderActions } from 'Modules/Actions';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -24,6 +25,7 @@ class StreamSpecEdit extends Component {
     match: PropTypes.object.isRequired,
     lambdasData: PropTypes.array.isRequired,
     datafeedsData: PropTypes.array.isRequired,
+    providerActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -48,7 +50,7 @@ class StreamSpecEdit extends Component {
   };
 
   render() {
-    const { streamSpecPending, streamSpec, lambdasData, datafeedsData, initialFormValues } = this.props;
+    const { streamSpecPending, streamSpec, lambdasData, datafeedsData, initialFormValues, providerActions } = this.props;
 
     return (
       streamSpecPending && !streamSpec.id ?
@@ -67,6 +69,7 @@ class StreamSpecEdit extends Component {
               lambdas={lambdasData}
               datafeeds={datafeedsData}
               streamSpec={streamSpec}
+              providerActions={providerActions}
             />
           </Col>
         </Row>
@@ -80,6 +83,7 @@ const mapStatetoProps = state => ({
 
 export default compose(
   // withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  withProviderActions({ filters: 'streamspecs.edit' }),
   withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withStreamSpec,

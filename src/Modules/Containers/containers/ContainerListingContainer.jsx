@@ -28,7 +28,6 @@ class ContainerListing extends PureComponent {
     history: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
-    fetchActions: PropTypes.func.isRequired,
     providerContext: PropTypes.bool.isRequired,
   };
 
@@ -37,11 +36,7 @@ class ContainerListing extends PureComponent {
   };
 
   componentDidMount() {
-    const { fetchActions, match } = this.props;
-    const entity = generateContextEntityState(match.params);
-
     this.init();
-    fetchActions(match.params.fqon, entity.id, entity.key, { filter: 'container.detail' });
   }
 
   componentWillReceiveProps(nextProps) {

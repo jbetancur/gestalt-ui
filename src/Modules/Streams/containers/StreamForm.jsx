@@ -11,8 +11,9 @@ import { Panel } from 'components/Panels';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
+import { ActionsMenu } from 'Modules/Actions';
 
-const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submitting, match, lambdas, datafeeds, onShowEntitlements }) => (
+const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submitting, match, lambdas, datafeeds, onShowEntitlements, providerActions }) => (
   <div>
     {loading && <ActivityContainer id="streamspec-form" />}
     <ActionsToolbar
@@ -26,7 +27,12 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
           onClick={onShowEntitlements}
         >
           Entitlements
-        </Button>
+        </Button>,
+        <ActionsMenu
+          model={streamSpec}
+          actionList={providerActions.providerActions}
+          pending={providerActions.providerActionsLoading}
+        />
       ]}
     />
     <Form onSubmit={handleSubmit} disabled={loading}>
@@ -67,6 +73,7 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
             <Row gutter={5}>
               <Col flex={6}>
                 <Field
+                  id="InputFeed"
                   name="properties.processor.input_stream_config.feed_id"
                   label="Feed"
                   component={SelectField}
@@ -171,6 +178,7 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
               <Row gutter={5}>
                 <Col flex={6}>
                   <Field
+                    id="Lambda"
                     name="properties.processor.lambda_id"
                     label="Lambda"
                     component={SelectField}
@@ -192,6 +200,7 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
               <Row gutter={5}>
                 <Col flex={6}>
                   <Field
+                    id="OutputFeed"
                     name="properties.processor.output_stream_config.feed_id"
                     label="Feed"
                     component={SelectField}
@@ -251,11 +260,13 @@ StreamForm.propTypes = {
   title: PropTypes.string.isRequired,
   streamSpec: PropTypes.object,
   loading: PropTypes.bool.isRequired,
+  providerActions: PropTypes.object,
 };
 
 StreamForm.defaultProps = {
   editMode: false,
   streamSpec: {},
+  providerActions: {},
 };
 
 export default withRouter(StreamForm);
