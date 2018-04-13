@@ -46,12 +46,12 @@ export default (values) => {
   }
 
   const startOffset = values.properties.processor.input_stream_config.partition.start_offset;
-  if (!startOffset) {
+  if (!startOffset && !Number.isInteger(startOffset)) {
     merge(errors, nestedObjectFromString('properties.processor.input_stream_config.partition.start_offset', 'required'));
   }
 
   const endOffset = values.properties.processor.input_stream_config.partition.end_offset;
-  if (!endOffset) {
+  if (!endOffset && !Number.isInteger(endOffset)) {
     merge(errors, nestedObjectFromString('properties.processor.input_stream_config.partition.end_offset', 'required'));
   }
 

@@ -28,7 +28,7 @@ describe('Stream Actions', () => {
       }
     };
 
-    expect(actions.fetchStreamSpecSpecs({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' })).toEqual(expectedAction);
+    expect(actions.fetchStreamSpec({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' })).toEqual(expectedAction);
   });
 
   it('should request FETCH_STREAMSPEC_REQUEST', () => {

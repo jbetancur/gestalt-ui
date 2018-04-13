@@ -42,7 +42,7 @@ class StreamList extends PureComponent {
     const { match, streamSpecActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    streamSpecActions.fetchStreamSpecSpecs({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
+    streamSpecActions.fetchStreamSpecs({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {

@@ -40,6 +40,7 @@ const showEditor = (values) => {
 
 const DataFeedForm = ({ title, datafeed, handleSubmit, submitting, values, match, loading, editMode, secrets, onShowEntitlements }) => (
   <div>
+    {loading && <ActivityContainer id="datafeed-form" />}
     <ActionsToolbar
       title={title}
       showActions={editMode}
@@ -55,7 +56,6 @@ const DataFeedForm = ({ title, datafeed, handleSubmit, submitting, values, match
       ]}
     />
     <Form onSubmit={handleSubmit} disabled={loading}>
-      {loading && <ActivityContainer id="datafeed-form" />}
       <Row gutter={5}>
         {editMode &&
           <Col flex={12}>
