@@ -50,10 +50,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       identitiesPending: metaResource.entitlementIdentities.pending,
       entitlements: metaResource.entitlements.entitlements,
       entitlementsPending: metaResource.entitlements.pending,
-      entitlementsUpdatePending: metaResource.entitlementUpdate.pending,
-
-      // integrations: state.integrations.fetchAll.integrations,
-      // integrationsPending: state.integrations.fetchAll.pending,
 
       // Subscriptions for Env
       env: metaResource.env.env,
@@ -91,15 +87,12 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       apiEndpointPending: metaResource.apiEndpoint.pending,
       apiEndpoints: metaResource.apiEndpoints.apiEndpoints,
       apiEndpointsPending: metaResource.apiEndpoints.pending,
-      apiEndpointUpdatePending: metaResource.apiEndpointUpdate.pending,
-      apiEndpointUpdated: metaResource.apiEndpointUpdate.apiEndpoint,
 
       // Subscriptions for Groups
       groups: metaResource.groups.groups,
       groupsPending: metaResource.groups.pending,
       group: metaResource.group.group,
       groupPending: metaResource.group.pending,
-      groupUpdatePending: metaResource.groupUpdate.pending,
       groupUpdated: metaResource.groupMembers.group,
       groupMembersPending: metaResource.groupMembers.pending,
 
@@ -108,7 +101,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       usersPending: metaResource.users.pending,
       user: metaResource.user.user,
       userPending: metaResource.user.pending,
-      userUpdatePending: metaResource.userUpdate.pending,
 
       // Subscriptions for Policy
       policies: metaResource.policies.policies,

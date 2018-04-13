@@ -29,14 +29,12 @@ const GroupForm = (props) => {
     cancelLabel,
     match,
     group,
-    groupUpdated,
     users,
     addGroupMember,
     removeGroupMember,
     clearAvailableUsersFilter,
     clearMemberUsersFilter,
     editMode,
-    groupUpdatePending,
     pristine,
     invalid,
     groupPending,
@@ -44,6 +42,7 @@ const GroupForm = (props) => {
     availableUsersFilter,
     filterAvailableUsers,
     filterMemberUsers,
+    groupUpdated,
   } = props;
   // replace the group context if the groupMembers (properties.users) has been updated
   // we have to be tricksy due to reacts immutable nature
@@ -75,7 +74,7 @@ const GroupForm = (props) => {
         primaryText={user.name}
         rightIcon={<FontIcon>add_circle</FontIcon>}
         inkDisabled
-        disabled={groupUpdatePending}
+        disabled={groupPending}
         onClick={() => addUserDebounced(user)}
       />))
   );
@@ -87,7 +86,7 @@ const GroupForm = (props) => {
         primaryText={user.name}
         rightIcon={<FontIcon>remove_circle</FontIcon>}
         inkDisabled
-        disabled={groupUpdatePending}
+        disabled={groupPending}
         onClick={() => removeUserDebounced(user)}
       />)
     )
@@ -95,10 +94,10 @@ const GroupForm = (props) => {
 
   return (
     <Row gutter={5} center>
+      {groupPending && <ActivityContainer id="group-form" />}
       <Col flex={10} xs={12} sm={12} md={12}>
-        <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={groupUpdatePending || groupPending}>
-          <ActionsToolbar title={props.title} />
-          {(groupUpdatePending || groupPending) && <ActivityContainer id="group-form" />}
+        <ActionsToolbar title={props.title} />
+        <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={groupPending}>
           <Row gutter={5}>
             {editMode &&
               <Col flex={12}>
@@ -136,7 +135,7 @@ const GroupForm = (props) => {
             <Button
               flat
               iconChildren="arrow_back"
-              disabled={groupUpdatePending || groupPending || submitting}
+              disabled={groupPending || groupPending || submitting}
               component={Link}
               to={`/${match.params.fqon}/groups`}
             >
@@ -146,7 +145,7 @@ const GroupForm = (props) => {
               raised
               iconChildren="save"
               type="submit"
-              disabled={pristine || groupUpdatePending || groupPending || invalid || submitting}
+              disabled={pristine || groupPending || groupPending || invalid || submitting}
               primary
             >
               {submitLabel}
@@ -215,7 +214,6 @@ GroupForm.propTypes = {
   memberUsersFilter: PropTypes.object,
   match: PropTypes.object.isRequired,
   groupPending: PropTypes.bool.isRequired,
-  groupUpdatePending: PropTypes.bool.isRequired,
   groupMembersPending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
