@@ -32,7 +32,7 @@ import HealthChecksForm from '../components/HealthChecksForm';
 const fixInputNumber = value => value && parseInt(value, 10);
 
 const ContainerForm = ({ match, values, container, containerPending, editMode, inlineMode, change, ...props }) => {
-  const selectedProvider = metaModels.provider.get(props.providersByType
+  const selectedProvider = metaModels.provider.get(props.providersData
     .find(provider => values.properties.provider.id === provider.id));
 
   // TODO: Remove when Kubernetes/Docker when api is ready
@@ -117,7 +117,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                       label="Provider"
                       itemLabel="name"
                       itemValue="id"
-                      menuItems={props.providersByType}
+                      menuItems={props.providersData}
                       onChange={getSecrets}
                       async
                     />
@@ -470,7 +470,7 @@ ContainerForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  providersByType: PropTypes.array.isRequired,
+  providersData: PropTypes.array.isRequired,
   container: PropTypes.object.isRequired,
   entitlementActions: PropTypes.object,
   title: PropTypes.string,

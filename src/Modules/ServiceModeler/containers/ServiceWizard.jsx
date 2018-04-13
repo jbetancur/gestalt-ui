@@ -12,13 +12,13 @@ class ServiceWizardForm extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    resourceTypesDropDown: PropTypes.array,
-    lambdasDropDown: PropTypes.array,
+    resourcetypesData: PropTypes.array,
+    lambdasData: PropTypes.array,
   };
 
   static defaultProps = {
-    resourceTypesDropDown: [],
-    lambdasDropDown: [],
+    resourcetypesData: [],
+    lambdasData: [],
   };
 
   constructor(props) {
@@ -40,9 +40,9 @@ class ServiceWizardForm extends PureComponent {
   }
 
   render() {
-    const { onSubmit, resourceTypesDropDown } = this.props;
-    const providerFilteredTypes = resourceTypesDropDown;
-    const resourceFilteredTypes = resourceTypesDropDown;
+    const { onSubmit, resourcetypesData } = this.props;
+    const providerFilteredTypes = resourcetypesData;
+    const resourceFilteredTypes = resourcetypesData;
 
     const steps = [
       {
@@ -50,7 +50,7 @@ class ServiceWizardForm extends PureComponent {
         component: <ProviderTypePage
           onSubmit={this.nextPage}
           providerTypes={providerFilteredTypes}
-          resourceTypesDropDown={resourceFilteredTypes}
+          resourcetypesData={resourceFilteredTypes}
         />,
       },
       {
@@ -60,7 +60,7 @@ class ServiceWizardForm extends PureComponent {
           removeStep={this.removeStep}
           previousPage={this.previousPage}
           onSubmit={this.nextPage}
-          resourceTypesDropDown={resourceFilteredTypes}
+          resourcetypesData={resourceFilteredTypes}
         />
       },
       {
@@ -68,7 +68,7 @@ class ServiceWizardForm extends PureComponent {
         component: <ActionsPage
           previousPage={this.previousPage}
           onSubmit={this.props.onSubmit}
-          lambdas={this.props.lambdasDropDown}
+          lambdas={this.props.lambdasData}
         />
       }
     ];

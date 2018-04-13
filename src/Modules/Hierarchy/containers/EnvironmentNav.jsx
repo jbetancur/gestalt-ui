@@ -56,7 +56,7 @@ const renderNavItems = props => (
       title="Streams"
       to={`${props.match.url}/streamspecs`}
       activeClassName="active-link"
-      isVisible={props.appState.enableExperimental}
+      // isVisible={props.appState.enableExperimental}
     />,
     <NavItem
       key="environment--datafeeds"
@@ -64,7 +64,7 @@ const renderNavItems = props => (
       title="Data"
       to={`${props.match.url}/datafeeds`}
       activeClassName="active-link"
-      isVisible={props.appState.enableExperimental}
+      // isVisible={props.appState.enableExperimental}
     />,
   ]
 );

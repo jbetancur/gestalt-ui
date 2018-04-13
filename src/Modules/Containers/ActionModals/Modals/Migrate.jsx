@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import Dialog from 'react-md/lib/Dialogs';
 import { SelectField } from 'react-md';
 import { DotActivity } from 'components/ProgressIndicators';
@@ -14,7 +13,7 @@ import actions from '../actions';
 
 const EnhancedDialog = styled(Dialog)`
   .md-dialog {
-    min-width: 24em;
+    min-width: 29em;
   }
 
   /* Fix Scrolling issue in dialogs with drop downs */
@@ -30,27 +29,14 @@ class MigrateModal extends PureComponent {
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     sourceProvider: PropTypes.object.isRequired,
-    providersByType: PropTypes.array.isRequired,
-    providersByTypePending: PropTypes.bool.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    inContainerView: PropTypes.bool,
+    providersData: PropTypes.array.isRequired,
+    providersLoading: PropTypes.bool.isRequired,
   };
-
-  static defaultProps = {
-    inContainerView: false,
-  }
 
   constructor(props) {
     super(props);
 
     this.state = { provider: '' };
-  }
-
-  componentDidMount() {
-    if (!this.props.inContainerView) {
-      this.props.fetchProvidersByType(this.props.match.params.fqon, this.props.match.params.environmentId, 'environments', 'CaaS');
-    }
   }
 
   doIt = () => {
@@ -63,7 +49,7 @@ class MigrateModal extends PureComponent {
   }
 
   render() {
-    const providers = this.props.providersByType
+    const providers = this.props.providersData
       .filter(provider => provider.id !== this.props.sourceProvider.id)
       .map(provider => ({ id: provider.id, name: `${provider.name} (${getLastFromSplit(provider.resource_type)})` }));
 
@@ -89,7 +75,7 @@ class MigrateModal extends PureComponent {
             disabled: !this.state.provider,
           }]}
       >
-        {this.props.providersByTypePending ?
+        {this.props.providersLoading ?
           <DotActivity size={1} primary /> :
           <div>
             {providers.length ?
@@ -116,14 +102,12 @@ class MigrateModal extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    actionsModal: state.containers.actionsModals,
-  };
-}
+const mapStateToProps = state => ({
+  actionsModal: state.containers.actionsModals,
+});
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
-  withRouter,
-  connect(mapStateToProps, Object.assign({}, actions)),
+  connect(mapStateToProps, actions),
 )(MigrateModal);

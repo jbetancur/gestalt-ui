@@ -16,6 +16,10 @@ export default (values) => {
     merge(errors, nestedObjectFromString('properties.data.format', 'required'));
   }
 
+  if (!values.properties.data.endpoint) {
+    merge(errors, nestedObjectFromString('properties.data.endpoin', 'required'));
+  }
+
   if (!values.properties.data.topic) {
     merge(errors, nestedObjectFromString('properties.data.topic', 'required'));
   }

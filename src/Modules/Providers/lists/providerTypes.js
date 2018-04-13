@@ -189,7 +189,7 @@ const blacklistAbstracts = [
   'Gestalt::Resource::ResourceContainer',
 ];
 
-export const generateResourceTypeSchema = (resourceTypes) => {
+export const generateResourceTypeSchema = (resourceTypes = []) => {
   // Ideally instead of blacklisting use properties.abstract, however it is always true.
   const list = resourceTypes
     .filter(r => r.name !== blacklistAbstracts.find(bl => bl === r.name))

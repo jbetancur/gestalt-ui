@@ -17,7 +17,6 @@ export default function withstream(BaseComponent) {
     }
 
     render() {
-      console.log(this.props);
       return <BaseComponent {...this.props} />;
     }
   }

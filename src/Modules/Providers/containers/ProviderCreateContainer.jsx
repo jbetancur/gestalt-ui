@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
-import { generateContextEntityState } from 'util/helpers/context';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -18,28 +17,14 @@ class ProviderCreate extends Component {
     createProvider: PropTypes.func.isRequired,
     /* container related */
     containerValues: PropTypes.object,
-    fetchResourceTypes: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
     unloadEnvSchema: PropTypes.func.isRequired,
-    unloadProviders: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     containerValues: {},
   };
 
-  componentDidMount() {
-    const { match, fetchResourceTypes, fetchProvidersByType, fetchProviders } = this.props;
-    const entity = generateContextEntityState(match.params);
-
-    fetchResourceTypes('root', 'Gestalt::Configuration::Provider');
-    fetchProvidersByType(match.params.fqon, entity.id, entity.key, null, false);
-    fetchProviders(match.params.fqon, entity.id, entity.key);
-  }
-
   componentWillUnmount() {
-    this.props.unloadProviders();
     this.props.unloadEnvSchema();
   }
 
@@ -108,6 +93,8 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
+  withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
   withMetaResource,
   connect(mapStateToProps, { ...actions }),
   reduxForm({

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
@@ -21,7 +21,6 @@ class ContainerCreate extends Component {
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
     fetchActions: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -30,9 +29,8 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchEnv, fetchActions } = this.props;
+    const { match, fetchEnv, fetchActions } = this.props;
 
-    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
@@ -73,6 +71,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
   withRouter,
   connect(mapStateToProps, Object.assign({}, actions)),

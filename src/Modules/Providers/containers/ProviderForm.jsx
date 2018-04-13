@@ -35,7 +35,7 @@ const isSubmitDisabled = (props, selectedProviderType) => {
 };
 
 const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, fetchEnvSchema, container, onRedeploy, match, ...props }) => {
-  const compiledProviderTypes = generateResourceTypeSchema(props.resourceTypes);
+  const compiledProviderTypes = generateResourceTypeSchema(props.resourcetypesData);
   const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
   const showContainer = () => {
     if (editMode) {
@@ -59,7 +59,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
 
   const handleRedeploy = () => onRedeploy && onRedeploy();
   const submitDisabled = isSubmitDisabled(props, selectedProviderType);
-  const linkedProviders = props.providers.filter(p => p.id !== provider.id);
+  const linkedProviders = props.providersData.filter(p => p.id !== provider.id);
 
   return (
     <Row center gutter={5}>
@@ -275,7 +275,7 @@ ProviderForm.propTypes = {
   providerPending: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
   containerFormErrors: PropTypes.object,
-  providers: PropTypes.array.isRequired,
+  providersData: PropTypes.array.isRequired,
   provider: PropTypes.object,
   envSchemaPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -291,7 +291,7 @@ ProviderForm.propTypes = {
   containerInvalid: PropTypes.bool,
   container: PropTypes.object,
   onRedeploy: PropTypes.func,
-  resourceTypes: PropTypes.array.isRequired,
+  resourcetypesData: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
   goBack: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object,

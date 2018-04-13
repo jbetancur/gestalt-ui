@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { containerActionCreators } from 'Modules/Containers';
-import { generateContextEntityState } from 'util/helpers/context';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
@@ -20,19 +19,15 @@ class ProviderEdit extends PureComponent {
     history: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     fetchProvider: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
     fetchProviderContainer: PropTypes.func.isRequired,
-    fetchResourceTypes: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
     redeployProvider: PropTypes.func.isRequired,
-    resourceTypesPending: PropTypes.bool.isRequired,
     unloadProvider: PropTypes.func.isRequired,
-    unloadProviders: PropTypes.func.isRequired,
     containerValues: PropTypes.object,
     containerPending: PropTypes.bool.isRequired,
+    resourcetypesLoading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -42,10 +37,6 @@ class ProviderEdit extends PureComponent {
   state = { redeploy: false };
 
   componentDidMount() {
-    const { match, fetchResourceTypes, fetchProvidersByType } = this.props;
-
-    fetchResourceTypes('root', 'Gestalt::Configuration::Provider');
-    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     this.populateProvider();
     this.populateContainer();
   }
@@ -63,9 +54,8 @@ class ProviderEdit extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadProviders, unloadProvider } = this.props;
+    const { unloadProvider } = this.props;
 
-    unloadProviders();
     unloadProvider();
     clearTimeout(this.timeout);
   }
@@ -75,10 +65,8 @@ class ProviderEdit extends PureComponent {
   }
 
   populateProvider() {
-    const { match, fetchProvider, fetchProviders } = this.props;
-    const entity = generateContextEntityState(match.params);
+    const { match, fetchProvider } = this.props;
 
-    fetchProviders(match.params.fqon, entity.id, entity.key);
     fetchProvider(match.params.fqon, match.params.providerId);
   }
 
@@ -127,10 +115,10 @@ class ProviderEdit extends PureComponent {
   }
 
   render() {
-    const { provider, providerPending, resourceTypesPending } = this.props;
+    const { provider, providerPending, resourcetypesLoading } = this.props;
     return (
       <div>
-        {(providerPending || resourceTypesPending) ?
+        {(providerPending || resourcetypesLoading) ?
           <ActivityContainer id="provider-loading" /> :
           <ProviderForm
             editMode
@@ -155,6 +143,8 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
+  withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
   withMetaResource,
   withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),

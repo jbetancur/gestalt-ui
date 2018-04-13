@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules//MetaResource';
+import { withMetaResource, withPickerData } from 'Modules//MetaResource';
 import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
 import { generatePayload } from '../payloadTransformer';
@@ -11,17 +11,10 @@ import { getCreateResourceTypeModel } from '../selectors';
 
 class CreateResourceType extends PureComponent {
   static propTypes = {
-    fetchResourceTypesDropDown: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
   };
-
-  componentDidMount() {
-    const { match, fetchResourceTypesDropDown } = this.props;
-
-    fetchResourceTypesDropDown(match.params.fqon);
-  }
 
   create = (values) => {
     const { history, match, createResourceType } = this.props;
@@ -47,6 +40,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   withMetaResource,
   connect(mapStateToProps),
   reduxForm({

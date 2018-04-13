@@ -33,10 +33,10 @@ const SecretForm = (props) => {
     editMode,
   } = props;
 
-  const filteredProviderTypes = () => props.providersByType
+  const filteredprovidersData = () => props.providersData
     .filter(provider => getLastFromSplit(provider.resource_type) === 'Kubernetes' || metaModels.provider.get(provider).properties.config.secret_support);
-  const providerTypes = filteredProviderTypes().length > 0 ? filteredProviderTypes() : props.providersByType;
-  const selectedProvider = Object.assign({}, props.providersByType.find(p => p.id === values.properties.provider.id));
+  const providersData = filteredprovidersData().length > 0 ? filteredprovidersData() : props.providersData;
+  const selectedProvider = Object.assign({}, props.providersData.find(p => p.id === values.properties.provider.id));
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
 
   return (
@@ -61,7 +61,7 @@ const SecretForm = (props) => {
           {secretPending && <ActivityContainer id="secret-form-loading" />}
 
           <Row gutter={5}>
-            {secret.id &&
+            {editMode &&
               <Col flex={12}>
                 <Panel title="Resource Details" defaultExpanded={false}>
                   <DetailsPane model={secret} />
@@ -78,8 +78,8 @@ const SecretForm = (props) => {
                       label="Provider"
                       itemLabel="name"
                       itemValue="id"
-                      menuItems={providerTypes}
-                      disabled={secret.id}
+                      menuItems={providersData}
+                      disabled={editMode}
                       onChange={reset}
                       required
                       async
@@ -117,7 +117,7 @@ const SecretForm = (props) => {
                   <FieldArray
                     component={SecretItemsForm}
                     name="properties.items"
-                    disabled={secret.id}
+                    disabled={editMode}
                     multiPart={isMultiPartSecret}
                   />
                 </Panel>
@@ -158,7 +158,7 @@ SecretForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
-  providersByType: PropTypes.array.isRequired,
+  providersData: PropTypes.array.isRequired,
   submitLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   values: PropTypes.object.isRequired,

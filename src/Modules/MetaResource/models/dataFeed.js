@@ -37,6 +37,7 @@ const create = (model = {}) => {
       data: {
         format: null,
         data: null,
+        secret: null,
       }
     }
   }, safeModel), [

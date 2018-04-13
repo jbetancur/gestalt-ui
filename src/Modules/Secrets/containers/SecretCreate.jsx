@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import SecretForm from './SecretForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -15,14 +15,7 @@ class SecretCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createSecret: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
   };
-
-  componentDidMount() {
-    const { match, fetchProvidersByType } = this.props;
-
-    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
-  }
 
   create(values) {
     const { match, history, createSecret } = this.props;
@@ -54,6 +47,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
   connect(mapStateToProps, actions),
   reduxForm({
