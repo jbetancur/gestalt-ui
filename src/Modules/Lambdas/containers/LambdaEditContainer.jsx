@@ -22,15 +22,13 @@ class LambdaEdit extends PureComponent {
     fetchAPIEndpoints: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    fetchActions: PropTypes.func.isRequired,
     unloadLambda: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchLambda, fetchAPIEndpoints, fetchActions } = this.props;
+    const { match, fetchLambda, fetchAPIEndpoints } = this.props;
 
-    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
     fetchLambda(match.params.fqon, match.params.lambdaId);
     fetchAPIEndpoints(match.params.fqon, match.params.lambdaId, 'lambda');
   }

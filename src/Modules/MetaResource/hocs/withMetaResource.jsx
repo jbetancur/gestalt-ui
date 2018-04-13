@@ -125,12 +125,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       logProviderPending: metaResource.logProvider.pending,
       logProviderURL: metaResource.logProvider.logProvider.url,
 
-      // Subscriptions for Logging
-      actions: metaResource.actions.actions,
-      actionsPending: metaResource.actions.pending,
-      contextActions: metaResource.contextActions.contextActions,
-      contextActionsPending: metaResource.contextActions.pending,
-
       // Subscriptions for Secrets
       secrets: metaResource.secrets.secrets,
       secretsPending: metaResource.secrets.pending,

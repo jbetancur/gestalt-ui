@@ -12,8 +12,6 @@ class WorkspaceContext extends PureComponent {
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
-    fetchContextActions: PropTypes.func.isRequired,
-    unloadActions: PropTypes.func.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
@@ -23,13 +21,11 @@ class WorkspaceContext extends PureComponent {
     const {
       match,
       fetchWorkspace,
-      fetchContextActions,
       fetchOrgSet,
       organizationSet
     } = this.props;
 
     fetchWorkspace(match.params.fqon, match.params.workspaceId);
-    fetchContextActions(match.params.fqon, match.params.workspaceId, 'workspaces', { filter: ['workspace.list', 'workspace.detail'] });
 
     // Keep org context synced in case of refresh
     if (match.params.fqon && !organizationSet.id) {

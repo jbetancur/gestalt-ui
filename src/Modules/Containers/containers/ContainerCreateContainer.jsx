@@ -20,7 +20,6 @@ class ContainerCreate extends Component {
     fetchEnv: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
-    fetchActions: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -29,10 +28,9 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchEnv, fetchActions } = this.props;
+    const { match, fetchEnv } = this.props;
 
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
-    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'container.detail' });
   }
 
   create = (values) => {

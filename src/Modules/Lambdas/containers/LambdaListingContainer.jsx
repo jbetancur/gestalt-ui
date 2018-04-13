@@ -29,16 +29,14 @@ class LambdaListing extends PureComponent {
     fetchLambdas: PropTypes.func.isRequired,
     unloadLambdas: PropTypes.func.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
-    fetchActions: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchLambdas, fetchActions } = this.props;
+    const { match, fetchLambdas } = this.props;
 
     fetchLambdas(match.params.fqon, match.params.environmentId);
-    fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
   }
 
   componentWillUnmount() {

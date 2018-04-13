@@ -30,7 +30,6 @@ class ContainerEdit extends Component {
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
     fetchsecretsData: PropTypes.func.isRequired,
-    fetchActions: PropTypes.func.isRequired,
     unloadContainer: PropTypes.func.isRequired,
     inlineMode: PropTypes.bool,
   };
@@ -40,12 +39,10 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchAPIEndpoints, fetchActions } = this.props;
-    const entity = generateContextEntityState(match.params);
+    const { match, fetchAPIEndpoints } = this.props;
 
     if (!this.props.inlineMode) {
       this.populateContainer();
-      fetchActions(match.params.fqon, entity.id, entity.key, { filter: 'container.detail' });
       fetchAPIEndpoints(match.params.fqon, match.params.containerId, 'container');
     }
   }

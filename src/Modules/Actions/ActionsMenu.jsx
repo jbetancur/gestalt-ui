@@ -78,34 +78,32 @@ class ActionsMenu extends PureComponent {
     const { pending, actionList, listItem, icon } = this.props;
 
     return (
-      actionList && actionList.length > 0 &&
-      <Div display="inline">
-        {!listItem ?
-          <MenuButton
-            id="orgs-actions-menu"
-            disabled={pending}
-            iconChildren="more_vert"
-            flat={!icon}
-            label={!icon && 'Actions'}
-            icon={icon}
-            position={icon ? MenuButton.Positions.BOTTOM_LEFT : MenuButton.Positions.BELOW}
-            tooltipLabel={icon && 'Actions'}
-          >
-            {this.renderActions()}
-          </MenuButton > :
-          this.renderActions()}
-      </Div>
+      actionList && actionList.length > 0 ?
+        <Div display="inline">
+          {!listItem ?
+            <MenuButton
+              id="orgs-actions-menu"
+              disabled={pending}
+              iconChildren="more_vert"
+              flat={!icon}
+              label={!icon && 'Actions'}
+              icon={icon}
+              position={icon ? MenuButton.Positions.BOTTOM_LEFT : MenuButton.Positions.BELOW}
+              tooltipLabel={icon && 'Actions'}
+            >
+              {this.renderActions()}
+            </MenuButton > :
+            this.renderActions()}
+        </Div> : null
     );
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleActionsModal: (body, isFullScreen) => {
-      dispatch({ type: 'SHOW_MODAL', modalType: 'IFRAME', modalProps: { body, isFullScreen } });
-    }
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  toggleActionsModal: (body, isFullScreen) => {
+    dispatch({ type: 'SHOW_MODAL', modalType: 'IFRAME', modalProps: { body, isFullScreen } });
+  }
+});
 
 export default compose(
   withMetaResource,

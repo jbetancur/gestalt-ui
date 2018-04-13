@@ -13,7 +13,6 @@ class EnvironmentContext extends Component {
     fetchOrgSet: PropTypes.func.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
-    fetchContextActions: PropTypes.func.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
@@ -30,7 +29,6 @@ class EnvironmentContext extends Component {
     const {
       match,
       fetchEnvironment,
-      fetchContextActions,
       organizationSet,
       workspace,
       fetchOrgSet,
@@ -38,7 +36,6 @@ class EnvironmentContext extends Component {
     } = this.props;
 
     fetchEnvironment(match.params.fqon, match.params.environmentId);
-    fetchContextActions(match.params.fqon, match.params.environmentId, 'environments', { filter: ['environment.list', 'environment.detail'] });
 
     // Keep org context synced in case of refresh
     if (match.params.fqon && !organizationSet.id) {

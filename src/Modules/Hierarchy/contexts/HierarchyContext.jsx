@@ -17,19 +17,16 @@ class HierarchyContext extends PureComponent {
     unloadWorkspaces: PropTypes.func.isRequired,
     unloadWorkspace: PropTypes.func.isRequired,
     unloadEnvironments: PropTypes.func.isRequired,
-    fetchContextActions: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchOrgSet, fetchContextActions, unloadWorkspace } = this.props;
+    const { match, fetchOrgSet, unloadWorkspace } = this.props;
     fetchOrgSet(match.params.fqon);
-    fetchContextActions(match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
     unloadWorkspace();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.fqon && nextProps.match.params.fqon !== this.props.match.params.fqon) {
-      this.props.fetchContextActions(nextProps.match.params.fqon, null, null, { filter: ['org.detail', 'org.list'] });
       this.props.unloadWorkspace();
       this.props.unloadEnvironments();
     }

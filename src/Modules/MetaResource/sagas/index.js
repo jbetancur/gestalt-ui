@@ -18,7 +18,6 @@ import userSagas from './users';
 import groupSagas from './groups';
 import env from './env';
 import loggingSagas from './logging';
-import actionSagas from './actions';
 import secretSagas from './secrets';
 import searchSagas from './search';
 import resourceTypeSagas from './resourceTypes';
@@ -45,7 +44,6 @@ export default function* metaSagas() {
     groupSagas(),
     env(),
     loggingSagas(),
-    actionSagas(),
     secretSagas(),
     searchSagas(),
     resourceTypeSagas(),
