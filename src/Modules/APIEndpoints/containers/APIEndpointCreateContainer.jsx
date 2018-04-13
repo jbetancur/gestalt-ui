@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './APIEndpointForm/validations';
 import actions from '../actions';
@@ -43,7 +44,13 @@ const mapStateToProps = state => ({
   enableReinitialize: true,
 });
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'apiEndpointCreate',
-  validate
-})(APIEndpointCreate)));
+export default compose(
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
+  withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
+  withMetaResource,
+  connect(mapStateToProps, actions),
+  reduxForm({
+    form: 'apiEndpointCreate',
+    validate,
+  }),
+)(APIEndpointCreate);

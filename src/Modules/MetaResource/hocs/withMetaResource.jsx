@@ -128,8 +128,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
 
       // Subscriptions for DropDowns
       allOrganizationsDropDown: metaResource.allOrganizationsDropDown.organizations,
-      lambdasDropDown: metaResource.lambdasDropDown.lambdas,
-      containersDropDown: metaResource.containersDropDown.containers,
       secretsDropDown: metaResource.secretsDropDown.secrets,
 
       // Subscriptions for Logging

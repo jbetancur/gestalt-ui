@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import APIEndpointForm from './APIEndpointForm';
@@ -19,8 +19,8 @@ class APIEndpointEdit extends PureComponent {
     apiEndpoint: PropTypes.object.isRequired,
     fetchAPIEndpoint: PropTypes.func.isRequired,
     updateAPIEndpoint: PropTypes.func.isRequired,
-    fetchContainersDropDown: PropTypes.func.isRequired,
-    fetchLambdasDropDown: PropTypes.func.isRequired,
+    fetchcontainersData: PropTypes.func.isRequired,
+    fetchlambdasData: PropTypes.func.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
     unloadAPIEndpoint: PropTypes.func.isRequired,
   };
@@ -32,14 +32,14 @@ class APIEndpointEdit extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match, fetchContainersDropDown, fetchLambdasDropDown } = nextProps;
+    const { fetchcontainersData, fetchlambdasData } = nextProps;
 
     // update the ui to the correct api type
     if (nextProps.apiEndpoint.id !== this.props.apiEndpoint.id) {
       if (nextProps.apiEndpoint.properties.implementation_type === 'container') {
-        fetchContainersDropDown(match.params.fqon, match.params.environmentId);
+        fetchcontainersData();
       } else {
-        fetchLambdasDropDown(match.params.fqon);
+        fetchlambdasData();
       }
     }
   }
@@ -50,7 +50,7 @@ class APIEndpointEdit extends PureComponent {
     unloadAPIEndpoint();
   }
 
-  updateAPIEndpoint(values) {
+  update = (values) => {
     const { match, history, apiEndpoint, updateAPIEndpoint } = this.props;
     const patches = generatePatches(apiEndpoint, values);
 
@@ -72,7 +72,7 @@ class APIEndpointEdit extends PureComponent {
             title={apiEndpoint.properties.resource}
             submitLabel="Update"
             cancelLabel={`${apiEndpoint.properties.parent && apiEndpoint.properties.parent.name} API`}
-            onSubmit={values => this.updateAPIEndpoint(values)}
+            onSubmit={this.update}
             {...this.props}
           />}
       </div>
@@ -86,9 +86,11 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
+  withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
   withMetaResource,
   withEntitlements,
-  connect(mapStateToProps, Object.assign({}, actions)),
+  connect(mapStateToProps, actions),
   reduxForm({
     form: 'apiEndpointEdit',
     enableReinitialize: true,

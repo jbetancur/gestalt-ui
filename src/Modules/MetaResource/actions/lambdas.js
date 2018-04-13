@@ -24,15 +24,6 @@ export function fetchLambdas(fqon, environmentId) {
 }
 
 /**
- * fetchLambdasDropDown
- * @param {string} fqon
- * @param {string} environmentId
- */
-export function fetchLambdasDropDown(fqon, environmentId) {
-  return { type: types.FETCH_LAMBDAS_DROPDOWN_REQUEST, fqon, environmentId };
-}
-
-/**
  * fetchLambda
  * @param {string} fqon
  * @param {string} lambdaId
@@ -96,7 +87,6 @@ export default {
   unloadLambdas,
   unloadLambda,
   fetchLambdas,
-  fetchLambdasDropDown,
   fetchLambda,
   createLambda,
   updateLambda,

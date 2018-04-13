@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues, change } from 'redux-form';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import { Link } from 'react-router-dom';
 import { Autocomplete } from 'react-md';
+import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
@@ -31,9 +33,9 @@ const PolicyEventRuleForm = (props) => {
     selectedActions,
     editMode,
     policyRule,
-    lambdasDropDown,
-    lambdasDropDownPending,
-    fetchLambdasDropDown,
+    lambdasData,
+    lambdasLoading,
+    fetchlambdasData,
     handleSelectedActions,
     dispatch,
     form,
@@ -107,11 +109,11 @@ const PolicyEventRuleForm = (props) => {
                       <Fieldset legend="Lambda">
                         <Autocomplete
                           id="lambdas-dropdown"
-                          data={lambdasDropDown}
+                          data={lambdasData}
                           dataLabel="name"
                           dataValue="id"
                           clearOnAutocomplete
-                          onClick={() => fetchLambdasDropDown(match.params.fqon)}
+                          onClick={() => fetchlambdasData()}
                           onAutocomplete={value => handleAutoComplete(value)}
                           placeholder="Search"
                           helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
@@ -164,7 +166,7 @@ const PolicyEventRuleForm = (props) => {
               raised
               iconChildren="save"
               type="submit"
-              disabled={pristine || lambdasDropDownPending || policyRulePending || submitting}
+              disabled={pristine || lambdasLoading || policyRulePending || submitting}
               primary
             >
               {submitLabel}
@@ -183,7 +185,7 @@ PolicyEventRuleForm.propTypes = {
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   policyRulePending: PropTypes.bool.isRequired,
-  policyRuleUpdatePending: PropTypes.bool.isRequired,
+  policyRuleUpdatePending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -193,9 +195,9 @@ PolicyEventRuleForm.propTypes = {
   cancelLabel: PropTypes.string,
   selectedActions: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
-  fetchLambdasDropDown: PropTypes.func.isRequired,
-  lambdasDropDown: PropTypes.array.isRequired,
-  lambdasDropDownPending: PropTypes.bool.isRequired,
+  fetchlambdasData: PropTypes.func.isRequired,
+  lambdasData: PropTypes.array.isRequired,
+  lambdasLoading: PropTypes.bool.isRequired,
   entitlementActions: PropTypes.object,
 };
 
@@ -205,10 +207,14 @@ PolicyEventRuleForm.defaultProps = {
   cancelLabel: 'Cancel',
   editMode: false,
   entitlementActions: {},
+  policyRuleUpdatePending: false,
 };
 
-export default connect(
-  (state, props) => ({
-    values: getFormValues(props.form)(state)
-  })
+export default compose(
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
+  connect(
+    (state, props) => ({
+      values: getFormValues(props.form)(state)
+    })
+  )
 )(PolicyEventRuleForm);

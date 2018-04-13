@@ -2,7 +2,6 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import lambdaSagas, {
   fetchLambdas,
-  fetchLambdasDropDown,
   fetchLambda,
   createLambda,
   updateLambda,
@@ -67,57 +66,6 @@ describe('Lambda Sagas', () => {
       expect(resultError.value).toEqual(
         put({ type: types.FETCH_LAMBDAS_REJECTED, payload: error })
       );
-    });
-  });
-
-  describe('fetchLambdasDropDown Sequence', () => {
-    describe('fetchLambdasDropDown when there are lambdas', () => {
-      const saga = fetchLambdasDropDown({ fqon: 'iamfqon', environmentId: '1' });
-      let result;
-
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/lambdas')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [{ id: 1, name: 'morty' }] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_LAMBDAS_DROPDOWN_FULFILLED, payload: [{ id: 1, name: 'morty (1)' }] })
-        );
-      });
-
-      it('should return a payload and dispatch a reject status when there is an error', () => {
-        const sagaError = fetchLambdasDropDown({ fqon: 'iamfqon' });
-        let resultError = sagaError.next();
-
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          put({ type: types.FETCH_LAMBDAS_DROPDOWN_REJECTED, payload: error })
-        );
-      });
-    });
-
-    describe('fetchLambdasDropDown when there are NO providers', () => {
-      const saga = fetchLambdasDropDown({ fqon: 'iamfqon', environmentId: 1 });
-      let result;
-
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/lambdas')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_LAMBDAS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Lambdas' }] })
-        );
-      });
     });
   });
 
@@ -429,13 +377,6 @@ describe('Lambda Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_LAMBDAS_REQUEST, fetchLambdas)
-      );
-    });
-
-    it('should fork a watcher for fetchLambdasDropDown', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_LAMBDAS_DROPDOWN_REQUEST, fetchLambdasDropDown)
       );
     });
 

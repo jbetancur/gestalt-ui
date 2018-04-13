@@ -26,16 +26,6 @@ export function fetchContainers(fqon, entityId, entityKey, isPolling) {
 }
 
 /**
- * fetchContainersDropDown
- * @param {string} fqon
- * @param {string} environmentId
- */
-export function fetchContainersDropDown(fqon, environmentId) {
-  return { type: types.FETCH_CONTAINERS_DROPDOWN_REQUEST, fqon, environmentId };
-}
-
-
-/**
  * fetchContainer
  * @param {string} fqon
  * @param {string} containerId
@@ -125,7 +115,6 @@ export default {
   unloadContainers,
   unloadContainer,
   fetchContainers,
-  fetchContainersDropDown,
   fetchContainer,
   createContainer,
   updateContainer,

@@ -19,26 +19,6 @@ export function* fetchLambdas(action) {
 }
 
 /**
- * fetchLambdasDropDown
- * @param {*} action { fqon, environmentId }
- */
-export function* fetchLambdasDropDown(action) {
-  try {
-    const url = action.environmentId ? `${action.fqon}/environments/${action.environmentId}/lambdas` : `${action.fqon}/lambdas`;
-    const response = yield call(axios.get, `${url}`);
-
-    if (!response.data.length) {
-      yield put({ type: types.FETCH_LAMBDAS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Lambdas' }] });
-    } else {
-      const payload = response.data.map(lambda => ({ ...lambda, name: `${lambda.name} (${lambda.id})` }));
-      yield put({ type: types.FETCH_LAMBDAS_DROPDOWN_FULFILLED, payload });
-    }
-  } catch (e) {
-    yield put({ type: types.FETCH_LAMBDAS_DROPDOWN_REJECTED, payload: e.message });
-  }
-}
-
-/**
  * fetchLambda
  * @param {*} action { fqon, lambdaId }
  */
@@ -153,7 +133,6 @@ export function* fetchLambdaProvider(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_LAMBDAS_REQUEST, fetchLambdas);
-  yield fork(takeLatest, types.FETCH_LAMBDAS_DROPDOWN_REQUEST, fetchLambdasDropDown);
   yield fork(takeLatest, types.FETCH_LAMBDA_REQUEST, fetchLambda);
   yield fork(takeLatest, types.CREATE_LAMBDA_REQUEST, createLambda);
   yield fork(takeLatest, types.UPDATE_LAMBDA_REQUEST, updateLambda);

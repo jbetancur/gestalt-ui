@@ -19,24 +19,6 @@ export function* fetchContainers(action) {
 }
 
 /**
- * fetchContainersDropDown
- * @param {*} action { fqon, environmentId }
- */
-export function* fetchContainersDropDown(action) {
-  try {
-    const response = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/containers?expand=true`);
-
-    if (!response.data.length) {
-      yield put({ type: types.FETCH_CONTAINERS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Containers' }] });
-    } else {
-      yield put({ type: types.FETCH_CONTAINERS_DROPDOWN_FULFILLED, payload: response.data });
-    }
-  } catch (e) {
-    yield put({ type: types.FETCH_CONTAINERS_DROPDOWN_REJECTED, payload: e.message });
-  }
-}
-
-/**
  * fetchContainer
  * @param {*} action { fqon, containerId, entityKey, entityId }
  */
@@ -201,7 +183,6 @@ export function* fetchProviderContainer(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_CONTAINERS_REQUEST, fetchContainers);
-  yield fork(takeLatest, types.FETCH_CONTAINERS_DROPDOWN_REQUEST, fetchContainersDropDown);
   yield fork(takeLatest, types.FETCH_CONTAINER_REQUEST, fetchContainer);
   yield fork(takeLatest, types.CREATE_CONTAINER_REQUEST, createContainer);
   yield fork(takeLatest, types.UPDATE_CONTAINER_REQUEST, updateContainer);
