@@ -10,7 +10,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.name).to.be.empty;
+    expect(doValidate.name).toBeUndefined();
   });
 
   it('should have an error when name is blank', () => {
@@ -21,7 +21,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.name).to.not.be.empty;
+    expect(doValidate.name).toBeDefined();
   });
 
   it('should have an error when name is too long', () => {
@@ -32,7 +32,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.name).to.not.be.empty;
+    expect(doValidate.name).toBeDefined();
   });
 
   it('should have an error when name has spaces', () => {
@@ -43,7 +43,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.name).to.not.be.empty;
+    expect(doValidate.name).toBeDefined();
   });
 
   it('should have an error when description is too long', () => {
@@ -54,7 +54,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.description).to.not.be.empty;
+    expect(doValidate.description).toBeDefined();
   });
 
   it('should have not an error when extend is present', () => {
@@ -65,7 +65,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.extend).to.be.empty;
+    expect(doValidate.extend).toBeUndefined();
   });
 
   it('should have an error when extend is blank', () => {
@@ -76,7 +76,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.extend).to.not.be.empty;
+    expect(doValidate.extend).toBeDefined();
   });
 
   it('should have an error for the prefix field if empty and verbs are defined', () => {
@@ -93,7 +93,7 @@ describe('(ResourceTypes) Form Validations', () => {
     const doValidate = validate(values);
 
 
-    expect(doValidate.properties.actions.prefix).to.not.be.empty;
+    expect(doValidate.properties.actions.prefix).toBeDefined();
   });
 
   it('should have not have any error for property_defs name, data_type, or refers_to if the values are present', () => {
@@ -106,7 +106,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.property_defs[0]).to.be.empty;
+    expect(doValidate.property_defs[0]).toBeUndefined();
   });
 
   it('should have an error for property_defs name if there is a space', () => {
@@ -119,7 +119,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.property_defs[0].name).to.not.be.empty;
+    expect(doValidate.property_defs[0].name).toBeDefined();
   });
 
   it('should have an error for property_defs name, data_type, or refers_to properties are not present', () => {
@@ -132,8 +132,8 @@ describe('(ResourceTypes) Form Validations', () => {
 
     const doValidate = validate(values);
 
-    expect(doValidate.property_defs[0].name).to.not.be.empty;
-    expect(doValidate.property_defs[0].data_type).to.not.be.empty;
-    expect(doValidate.property_defs[0].refers_to).to.not.be.empty;
+    expect(doValidate.property_defs[0].name).toBeDefined();
+    expect(doValidate.property_defs[0].data_type).toBeDefined();
+    expect(doValidate.property_defs[0].refers_to).toBeDefined();
   });
 });
