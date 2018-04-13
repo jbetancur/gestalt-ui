@@ -19,15 +19,6 @@ describe('Services Actions', () => {
     expect(actions.fetchServiceSpecs('iamfqon')).toEqual(expectedAction);
   });
 
-  it('should request FETCH_SERVICESPECS_DROPDOWN_REQUEST', () => {
-    const expectedAction = {
-      type: types.FETCH_SERVICESPECS_DROPDOWN_REQUEST,
-      fqon: 'iamfqon',
-    };
-
-    expect(actions.fetchServiceSpecsDropdown('iamfqon')).toEqual(expectedAction);
-  });
-
   it('should handle CREATE_SERVICESPEC_REQUEST', () => {
     const expectedAction = {
       type: types.CREATE_SERVICESPEC_REQUEST,

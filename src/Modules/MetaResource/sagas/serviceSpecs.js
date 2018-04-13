@@ -19,26 +19,6 @@ export function* fetchServiceSpecs(action) {
 }
 
 /**
- * fetchServiceSpecsDropdown
- * @param {*} action { fqon, environmentId }
- */
-export function* fetchServiceSpecsDropdown(action) {
-  try {
-    const response = yield call(axios.get, `${action.fqon}/servicespecs?expand=true`);
-
-    if (!response.data.length) {
-      yield put({ type: types.FETCH_SERVICESPECS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Service Specs' }] });
-    } else {
-      const payload = orderBy(response.data, 'name', 'asc');
-
-      yield put({ type: types.FETCH_SERVICESPECS_DROPDOWN_FULFILLED, payload });
-    }
-  } catch (e) {
-    yield put({ type: types.FETCH_SERVICESPECS_DROPDOWN_REJECTED, payload: e.message });
-  }
-}
-
-/**
  * createServiceSpec
  * @param {*} action - { fqon, payload, onSuccess {returns response.data} }
  */
@@ -58,6 +38,5 @@ export function* createServiceSpec(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_SERVICESPECS_REQUEST, fetchServiceSpecs);
-  yield fork(takeLatest, types.FETCH_SERVICESPECS_DROPDOWN_REQUEST, fetchServiceSpecsDropdown);
   yield fork(takeLatest, types.CREATE_SERVICESPEC_REQUEST, createServiceSpec);
 }

@@ -2,7 +2,6 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import serviceSagas, {
   fetchServiceSpecs,
-  fetchServiceSpecsDropdown,
   createServiceSpec,
 } from './serviceSpecs';
 import * as types from '../actionTypes';
@@ -37,57 +36,6 @@ describe('ServiceSpec Sagas', () => {
       expect(resultError.value).toEqual(
         put({ type: types.FETCH_SERVICESPECS_REJECTED, payload: error })
       );
-    });
-  });
-
-  describe('fetchServiceSpecsDropdown Sequence', () => {
-    describe('fetchServiceSpecsDropdown when there are servicespecs', () => {
-      const saga = fetchServiceSpecsDropdown({ fqon: 'iamfqon', environmentId: '1' });
-      let result;
-
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/servicespecs?expand=true')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [{ id: '1', name: 'morty' }] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_SERVICESPECS_DROPDOWN_FULFILLED, payload: [{ id: '1', name: 'morty' }] })
-        );
-      });
-
-      it('should return a payload and dispatch a reject status when there is an error', () => {
-        const sagaError = fetchServiceSpecsDropdown({ fqon: 'iamfqon' });
-        let resultError = sagaError.next();
-
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          put({ type: types.FETCH_SERVICESPECS_DROPDOWN_REJECTED, payload: error })
-        );
-      });
-    });
-
-    describe('fetchServiceSpecsDropdown when there are NO providers', () => {
-      const saga = fetchServiceSpecsDropdown({ fqon: 'iamfqon', environmentId: 1 });
-      let result;
-
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/servicespecs?expand=true')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_SERVICESPECS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Service Specs' }] })
-        );
-      });
     });
   });
 
@@ -140,13 +88,6 @@ describe('ServiceSpec Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SERVICESPECS_REQUEST, fetchServiceSpecs)
-      );
-    });
-
-    it('should fork a watcher for fetchServiceSpecsDropdown', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_SERVICESPECS_DROPDOWN_REQUEST, fetchServiceSpecsDropdown)
       );
     });
 

@@ -3,7 +3,6 @@ import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import secretsModel from '../models/secret';
 import secretSagas, {
   fetchSecrets,
-  fetchSecretsDropDown,
   fetchSecret,
   createSecret,
   updateSecret,
@@ -46,57 +45,6 @@ describe('Secret Sagas', () => {
       expect(resultError.value).toEqual(
         put({ type: types.FETCH_SECRETS_REJECTED, payload: error })
       );
-    });
-  });
-
-  describe('fetchSecretsDropDown Sequence', () => {
-    describe('fetchSecretsDropDown when there are secrets', () => {
-      const saga = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1', providerId: '2' });
-      let result;
-
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/secrets?expand=true&providerId=2')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: [{ id: 1 }] })
-        );
-      });
-
-      it('should return a payload and dispatch a reject status when there is an error', () => {
-        const sagaError = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1' });
-        let resultError = sagaError.next();
-
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          put({ type: types.FETCH_SECRETS_DROPDOWN_REJECTED, payload: error })
-        );
-      });
-    });
-
-    describe('fetchSecretsDropDown when there are NO providers', () => {
-      const saga = fetchSecretsDropDown({ fqon: 'iamfqon', environmentId: '1', providerId: '2' });
-      let result;
-
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/secrets?expand=true&providerId=2')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_SECRETS_DROPDOWN_FULFILLED, payload: [{ id: '', name: 'No Available Secrets' }] })
-        );
-      });
     });
   });
 
@@ -311,13 +259,6 @@ describe('Secret Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_SECRETS_REQUEST, fetchSecrets)
-      );
-    });
-
-    it('should fork a watcher for fetchSecretsDropDown', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_SECRETS_DROPDOWN_REQUEST, fetchSecretsDropDown)
       );
     });
 

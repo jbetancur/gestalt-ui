@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withPickerData } from 'Modules/MetaResource';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { getLastFromSplit } from 'util/helpers/strings';
 
 const required = value => (value ? undefined : 'required');
 
-const setSecretMountTypes = (providerType) => {
-  if (providerType === 'Kubernetes') {
+const setSecretMountTypes = (provider) => {
+  if (getLastFromSplit(provider.resourceType) === 'Kubernetes') {
     return ['env', 'directory', 'file'];
   }
 
@@ -34,7 +36,13 @@ const getSecretKeys = (id, secrets) => {
   return (item && item.properties && item.properties.items) || [];
 };
 
-const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) => (
+const getMenuItems = (secrets, provider) => {
+  const items = secrets.filter(p => p.properties.provider.id === provider.id);
+
+  return items.length ? items : [{ id: null, name: 'No Available Secrets' }];
+};
+
+const SecretsPanelForm = ({ fields, provider, secretsData, secretFormValues }) => (
   <FieldContainer>
     <FieldItem>
       <Button
@@ -49,7 +57,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
     {fields.map((member, index) => {
       const field = secretFormValues[index];
       const handleSecretNamePopulation = (dummy, secretId) => {
-        const secret = secrets.find(i => i.id === secretId);
+        const secret = secretsData.find(i => i.id === secretId);
         Object.assign(field, { secret_name: secret.name });
       };
 
@@ -74,7 +82,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
                 component={SelectField}
                 label="Mount Type"
                 onChange={reset}
-                menuItems={setSecretMountTypes(providerType)}
+                menuItems={setSecretMountTypes(provider)}
                 required
               />
             </Col>
@@ -87,7 +95,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
                 itemLabel="name"
                 itemValue="id"
                 required
-                menuItems={secrets}
+                menuItems={getMenuItems(secretsData, provider)}
                 onChange={handleSecretNamePopulation}
                 async
                 validate={[required]}
@@ -103,7 +111,7 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
                 itemLabel="key"
                 itemValue="key"
                 required
-                menuItems={getSecretKeys(field.secret_id, secrets)}
+                menuItems={getSecretKeys(field.secret_id, secretsData)}
                 validate={[required]}
               />
             </Col>}
@@ -130,14 +138,13 @@ const SecretsPanelForm = ({ fields, providerType, secrets, secretFormValues }) =
 
 SecretsPanelForm.propTypes = {
   fields: PropTypes.object.isRequired,
-  providerType: PropTypes.string.isRequired,
+  provider: PropTypes.object.isRequired,
   secretFormValues: PropTypes.array,
-  secrets: PropTypes.array,
+  secretsData: PropTypes.array.isRequired,
 };
 
 SecretsPanelForm.defaultProps = {
-  secrets: [],
   secretFormValues: [],
 };
 
-export default SecretsPanelForm;
+export default withPickerData({ entity: 'secrets', label: 'Secrets' })(SecretsPanelForm);

@@ -62,10 +62,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
   };
 
   const isHealthChecksEnabled = providerType !== 'Docker';
-  // TODO: Fix "dummy" param - react-md passes busted data in first parram probably conflicting with onChange event of Refux Form Field
-  const getSecrets = (dummy, id) => {
-    props.fetchSecretsDropDown(match.params.fqon, match.params.environmentId, id);
-  };
   const setNetworks = () => (providerType === 'Kubernetes' ? [{ name: 'default' }] : selectedProvider.properties.config.networks);
 
   return (
@@ -118,7 +114,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                       itemLabel="name"
                       itemValue="id"
                       menuItems={props.providersData}
-                      onChange={getSecrets}
                       async
                     />
                   </Panel>
@@ -381,8 +376,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                     <FieldArray
                       name="properties.secrets"
                       component={SecretsPanelForm}
-                      secrets={props.secretsDropDown}
-                      providerType={providerType}
+                      provider={selectedProvider}
                       secretFormValues={values.properties.secrets}
                     />
                   </Panel>
@@ -461,7 +455,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
 };
 
 ContainerForm.propTypes = {
-  fetchSecretsDropDown: PropTypes.func.isRequired,
+  fetchsecretsData: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   containerPending: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
@@ -482,7 +476,7 @@ ContainerForm.propTypes = {
   apiEndpointsPending: PropTypes.bool.isRequired,
   containerInstances: PropTypes.array,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
-  secretsDropDown: PropTypes.array.isRequired,
+  secretsData: PropTypes.array.isRequired,
   change: PropTypes.func.isRequired,
 };
 

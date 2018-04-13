@@ -24,16 +24,6 @@ export function fetchSecrets(fqon, environmentId) {
 }
 
 /**
- * fetchSecretsDropDown
- * @param {string} fqon
- * @param {string} environmentId
- * @param {string} providerId
- */
-export function fetchSecretsDropDown(fqon, environmentId, providerId) {
-  return { type: types.FETCH_SECRETS_DROPDOWN_REQUEST, fqon, environmentId, providerId };
-}
-
-/**
  * fetchSecret
  * @param {string} fqon
  * @param {string} secretId
@@ -88,7 +78,6 @@ export default {
   unloadSecrets,
   unloadSecret,
   fetchSecrets,
-  fetchSecretsDropDown,
   fetchSecret,
   createSecret,
   updateSecret,
