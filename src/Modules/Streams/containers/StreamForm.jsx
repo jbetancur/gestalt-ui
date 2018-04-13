@@ -8,17 +8,19 @@ import Form from 'components/Form';
 import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 
-const StreamForm = ({ title, stream, editMode, handleSubmit, submitting, match, lambdas, datafeeds, onShowEntitlements }) => (
+const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submitting, match, lambdas, datafeeds, onShowEntitlements }) => (
   <div>
+    {loading && <ActivityContainer id="streamspec-form" />}
     <ActionsToolbar
       title={title}
       showActions={editMode}
       actions={[
         <Button
-          key="datafeed--entitlements"
+          key="streamspec--entitlements"
           flat
           iconChildren="security"
           onClick={onShowEntitlements}
@@ -27,12 +29,12 @@ const StreamForm = ({ title, stream, editMode, handleSubmit, submitting, match, 
         </Button>
       ]}
     />
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} disabled={loading}>
       <Row gutter={5}>
         {editMode &&
           <Col flex={12}>
             <Panel title="Resource Details" defaultExpanded={false}>
-              <DetailsPane model={stream} />
+              <DetailsPane model={streamSpec} />
             </Panel>
           </Col>}
         <Col flex={12}>
@@ -247,12 +249,13 @@ StreamForm.propTypes = {
   editMode: PropTypes.bool,
   onShowEntitlements: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  stream: PropTypes.object,
+  streamSpec: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
 };
 
 StreamForm.defaultProps = {
   editMode: false,
-  stream: {},
+  streamSpec: {},
 };
 
 export default withRouter(StreamForm);

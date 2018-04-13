@@ -14,7 +14,7 @@ export function unloadStreamSpec() {
   return { type: types.UNLOAD_STREAMSPEC };
 }
 
-export function fetchStreamSpecSpecs({ fqon, entityId, entityKey }) {
+export function fetchStreamSpecs({ fqon, entityId, entityKey }) {
   return { type: types.FETCH_STREAMSPECS_REQUEST, payload: { fqon, entityId, entityKey } };
 }
 
@@ -42,7 +42,7 @@ export function deleteStreamSpecs({ ids, fqon, onSuccess }) {
 export default {
   unloadStreamSpecs,
   unloadStreamSpec,
-  fetchStreamSpecSpecs,
+  fetchStreamSpecs,
   fetchStreamSpec,
   createStreamSpec,
   updateStreamSpec,

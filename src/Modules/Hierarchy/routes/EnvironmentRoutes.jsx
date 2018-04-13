@@ -10,7 +10,7 @@ import { Secrets, SecretCreate, SecretEdit } from 'Modules/Secrets';
 import { APIs, APICreate, APIEdit } from 'Modules/APIs';
 import { APIEndpoints, APIEndpointCreate, APIEndpointEdit } from 'Modules/APIEndpoints';
 import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRuleCreate, PolicyEventRuleEdit } from 'Modules/PolicyRules';
-import { StreamList, StreamCreate } from 'Modules/Streams';
+import { StreamList, StreamCreate, StreamEdit } from 'Modules/Streams';
 import { DataFeedList, DataFeedCreate, DataFeedEdit } from 'Modules/DataFeeds';
 import EnvironmentHome from '../containers/EnvironmentHome';
 import withModalRouter from './withModalRouter';
@@ -54,7 +54,7 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streamspecs" component={StreamList} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streamspecs/create" component={StreamCreate} />
-    {/* <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streams/:streamId" component={StreamEdit} /> */}
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/streamspecs/:streamId" component={StreamEdit} />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/datafeeds" component={DataFeedList} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/datafeeds/create" component={DataFeedCreate} />
