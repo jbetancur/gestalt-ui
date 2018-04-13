@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import LambdaForm from './LambdaForm';
@@ -20,8 +20,6 @@ class LambdaEdit extends PureComponent {
     lambda: PropTypes.object.isRequired,
     fetchLambda: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
-    fetchExecutors: PropTypes.func.isRequired,
     updateLambda: PropTypes.func.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
     fetchActions: PropTypes.func.isRequired,
@@ -30,10 +28,8 @@ class LambdaEdit extends PureComponent {
   };
 
   componentDidMount() {
-    const { match, fetchLambda, fetchAPIEndpoints, fetchProvidersByType, fetchExecutors, fetchActions } = this.props;
+    const { match, fetchLambda, fetchAPIEndpoints, fetchActions } = this.props;
 
-    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
-    fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchActions(match.params.fqon, match.params.environmentId, 'environments', { filter: 'lambda.detail' });
     fetchLambda(match.params.fqon, match.params.lambdaId);
     fetchAPIEndpoints(match.params.fqon, match.params.lambdaId, 'lambda');
@@ -83,6 +79,8 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
+  withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
   withMetaResource,
   withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions)),

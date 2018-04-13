@@ -17,7 +17,7 @@ import PropertyDefForm from '../components/PropertyDefForm';
 import LineageForm from '../components/LineageForm';
 
 const ResourceTypeForm = (props) => {
-  const { title, match, handleSubmit, submitting, pristine, resourceTypesDropDown, onSubmit, resourceType, resourceTypePending, editMode } = props;
+  const { title, match, handleSubmit, submitting, pristine, resourcetypesData, onSubmit, resourceType, resourceTypePending, editMode } = props;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={resourceTypePending}>
@@ -55,7 +55,7 @@ const ResourceTypeForm = (props) => {
                         id="select-extends"
                         component={SelectField}
                         name="extend"
-                        menuItems={resourceTypesDropDown}
+                        menuItems={resourcetypesData}
                         itemLabel="name"
                         itemValue="id"
                         required
@@ -133,7 +133,7 @@ const ResourceTypeForm = (props) => {
                 <FieldArray
                   name="property_defs"
                   component={PropertyDefForm}
-                  resourceTypes={resourceTypesDropDown}
+                  resourceTypes={resourcetypesData}
                   rerenderOnEveryChange
                 />
               </Panel>
@@ -144,7 +144,7 @@ const ResourceTypeForm = (props) => {
                 <FieldArray
                   name="properties.lineage.parent_types"
                   component={LineageForm}
-                  resourceTypes={resourceTypesDropDown}
+                  resourceTypes={resourcetypesData}
                   addLabel="Add Parent"
                 />
               </Panel>
@@ -155,7 +155,7 @@ const ResourceTypeForm = (props) => {
                 <FieldArray
                   name="properties.lineage.child_types"
                   component={LineageForm}
-                  resourceTypes={resourceTypesDropDown}
+                  resourceTypes={resourcetypesData}
                   addLabel="Add Child"
                 />
               </Panel>
@@ -192,7 +192,7 @@ ResourceTypeForm.propTypes = {
   title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  resourceTypesDropDown: PropTypes.array.isRequired,
+  resourcetypesData: PropTypes.array.isRequired,
   resourceTypePending: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,

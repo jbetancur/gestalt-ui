@@ -3,23 +3,16 @@ import PropTypes from 'prop-types';
 import { destroy } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import ServiceWizard from './ServiceWizard';
 
 class ServiceModeler extends PureComponent {
   static propTypes = {
-    fetchResourceTypesDropDown: PropTypes.func.isRequired,
     createServiceSpec: PropTypes.func.isRequired,
-    fetchLambdasDropDown: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     destroyForm: PropTypes.func.isRequired,
   };
-
-  componentDidMount() {
-    this.props.fetchResourceTypesDropDown('root');
-    this.props.fetchLambdasDropDown(this.props.match.params.fqon);
-  }
 
   componentWillUnmount() {
     this.props.destroyForm('ServiceModelerWizard');
@@ -46,6 +39,8 @@ const actions = dispatch => ({
 });
 
 export default compose(
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
+  withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withMetaResource,
   connect(null, actions),
 )(ServiceModeler);

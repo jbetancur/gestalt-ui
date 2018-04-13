@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -27,7 +27,6 @@ class ContainerEdit extends Component {
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
@@ -42,10 +41,8 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchAPIEndpoints, fetchActions } = this.props;
+    const { match, fetchAPIEndpoints, fetchActions } = this.props;
     const entity = generateContextEntityState(match.params);
-
-    fetchProvidersByType(match.params.fqon, entity.id, entity.key, 'CaaS');
 
     if (!this.props.inlineMode) {
       this.populateContainer();
@@ -133,6 +130,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
   withEntitlements,
   withRouter,

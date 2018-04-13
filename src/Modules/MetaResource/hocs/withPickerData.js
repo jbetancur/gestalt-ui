@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import { generateContextEntityState } from 'util/helpers/context';
 import { buildAllURL } from '../lib/urlmapper';
 
-export default ({ entity, label, params }) => (WrapperComponent) => {
+export default ({ entity, alias, label, context = true, params }) => (WrapperComponent) => {
   class DataPicker extends Component {
     static displayName = 'DataPicker(HOC)';
     static propTypes = {
@@ -13,8 +14,9 @@ export default ({ entity, label, params }) => (WrapperComponent) => {
 
     constructor(props) {
       super(props);
+      const name = alias || entity;
 
-      this.state = { [`${entity}Data`]: [], [`${entity}Loading`]: false };
+      this.state = { [`${name}Data`]: [], [`${name}Loading`]: false };
     }
 
     componentDidMount() {
@@ -22,22 +24,23 @@ export default ({ entity, label, params }) => (WrapperComponent) => {
     }
 
     async get() {
+      const name = alias || entity;
       const { match } = this.props;
       const entiryParams = generateContextEntityState(match.params);
-      const urlConfig = { fqon: match.params.fqon, entityId: entiryParams.id, entityKey: entiryParams.key, params };
+      const urlConfig = context ? { fqon: match.params.fqon, entityId: entiryParams.id, entityKey: entiryParams.key, params } : { fqon: match.params.fqon, params };
       const url = buildAllURL(entity, urlConfig, true);
 
-      this.setState({ [`${entity}Loading`]: true });
+      this.setState({ [`${name}Loading`]: true });
       const res = await axios.get(url);
 
       try {
         if (res.data.length) {
-          this.setState({ [`${entity}Data`]: res.data, [`${entity}Loading`]: false });
+          this.setState({ [`${name}Data`]: res.data, [`${name}Loading`]: false });
         } else {
-          this.setState({ [`${entity}Data`]: [{ id: '', name: `No Available ${label}` }], [`${entity}Loading`]: false });
+          this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], [`${name}Loading`]: false });
         }
       } catch (e) {
-        this.setState({ [`${entity}Data`]: [{ id: '', name: `No Available ${label}` }], [`${entity}Loading`]: false });
+        this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], [`${name}Loading`]: false });
       }
     }
 
@@ -51,5 +54,5 @@ export default ({ entity, label, params }) => (WrapperComponent) => {
     }
   }
 
-  return DataPicker;
+  return withRouter(DataPicker);
 };

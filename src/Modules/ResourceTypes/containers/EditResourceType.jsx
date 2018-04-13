@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules//MetaResource';
+import { withMetaResource, withPickerData } from 'Modules//MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
@@ -12,7 +12,6 @@ import { getEditResourceTypeModel } from '../selectors';
 
 class EditResourceType extends PureComponent {
   static propTypes = {
-    fetchResourceTypesDropDown: PropTypes.func.isRequired,
     fetchResourceType: PropTypes.func.isRequired,
     updateResourceType: PropTypes.func.isRequired,
     createResourceType: PropTypes.func.isRequired,
@@ -25,9 +24,8 @@ class EditResourceType extends PureComponent {
   };
 
   componentDidMount() {
-    const { match, fetchResourceTypesDropDown, fetchResourceType } = this.props;
+    const { match, fetchResourceType } = this.props;
 
-    fetchResourceTypesDropDown(match.params.fqon);
     fetchResourceType(match.params.fqon, match.params.resourceTypeId);
   }
 
@@ -69,6 +67,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   withMetaResource,
   connect(mapStateToProps),
   reduxForm({

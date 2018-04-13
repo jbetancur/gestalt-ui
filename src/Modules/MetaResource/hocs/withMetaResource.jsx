@@ -70,8 +70,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       providersPending: metaResource.providers.pending,
       provider: metaResource.provider.provider,
       providerPending: metaResource.provider.pending,
-      providersByType: metaResource.providersByType.providers,
-      providersByTypePending: metaResource.providersByType.pending,
       providersKongByGateway: metaResource.fetchProviderKongsByGateway.providers,
       providersKongByGatewayPending: metaResource.fetchProviderKongsByGateway.pending,
 
@@ -130,7 +128,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
 
       // Subscriptions for DropDowns
       allOrganizationsDropDown: metaResource.allOrganizationsDropDown.organizations,
-      executorsDropDown: metaResource.executors.executors,
       lambdasDropDown: metaResource.lambdasDropDown.lambdas,
       containersDropDown: metaResource.containersDropDown.containers,
       secretsDropDown: metaResource.secretsDropDown.secrets,
@@ -160,7 +157,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       resourceTypesPending: metaResource.resourceTypes.pending,
       resourceType: metaResource.resourceType.resourceType,
       resourceTypePending: metaResource.resourceType.pending,
-      resourceTypesDropDown: metaResource.resourceTypesDropDown.resourceTypes,
 
       // Subscriptions for sync
       sync: metaResource.sync.sync,

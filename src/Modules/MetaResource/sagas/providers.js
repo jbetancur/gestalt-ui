@@ -1,7 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import { flatten, merge, orderBy } from 'lodash';
-import providerModel from '../models/provider';
 import * as types from '../actionTypes';
 
 
@@ -41,27 +40,6 @@ export function* fetchProviders(action) {
 }
 
 /**
- * fetchProvidersByType
- * @param {*} action { fqon, entityKey, entityId, providerType, expand }
- */
-export function* fetchProvidersByType(action) {
-  const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
-  const urlHasType = action.providerType ? `${url}?expand=true&type=${action.providerType}` : `${url}?expand=${action.expand}`;
-
-  try {
-    const response = yield call(axios.get, urlHasType);
-
-    if (!response.data.length) {
-      yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [providerModel.get({ id: '', name: 'No Available Providers' })] });
-    } else {
-      yield put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: response.data });
-    }
-  } catch (e) {
-    yield put({ type: types.FETCH_PROVIDERS_BYTYPE_REJECTED, payload: e.message });
-  }
-}
-
-/**
  * fetchProviderKongsByGateway
  * @param {*} action { fqon, entityKey, entityId, providerType }
  */
@@ -81,27 +59,6 @@ export function* fetchProviderKongsByGateway(action) {
     }
   } catch (e) {
     yield put({ type: types.FETCH_PROVIDERS_KONG_GATEWAY_REJECTED, payload: e.message });
-  }
-}
-
-/**
- * fetchExecutors
- * @param {*} action { fqon, entityKey, entityId, executorType }
- */
-export function* fetchExecutors(action) {
-  const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
-
-  try {
-    const response = yield call(axios.get, `${url}?expand=true&type=${action.executorType}`);
-
-    if (!response.data.length) {
-      yield put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ id: '', name: 'No Available Executors' }] });
-    } else {
-      const payload = response.data.map(executor => ({ name: `${executor.name} (${executor.resource_type.split(/[::]+/).pop()})`, runtime: executor.properties.config.env.public.RUNTIME }));
-      yield put({ type: types.FETCH_EXECUTORS_FULFILLED, payload, });
-    }
-  } catch (e) {
-    yield put({ type: types.FETCH_EXECUTORS_REJECTED, payload: e.message });
   }
 }
 
@@ -211,9 +168,7 @@ export function* redeployProvider(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_PROVIDERS_REQUEST, fetchProviders);
-  yield fork(takeLatest, types.FETCH_PROVIDERS_BYTYPE_REQUEST, fetchProvidersByType);
   yield fork(takeLatest, types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fetchProviderKongsByGateway);
-  yield fork(takeLatest, types.FETCH_EXECUTORS_REQUEST, fetchExecutors);
   yield fork(takeLatest, types.FETCH_PROVIDER_REQUEST, fetchProvider);
   yield fork(takeLatest, types.CREATE_PROVIDER_REQUEST, createProvider);
   yield fork(takeLatest, types.UPDATE_PROVIDER_REQUEST, updateProvider);

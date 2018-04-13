@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import LambdaForm from './LambdaForm';
 import validate from '../validations';
@@ -18,15 +18,11 @@ class LambdaCreate extends PureComponent {
     createLambda: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
-    fetchExecutors: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchProvidersByType, fetchExecutors, fetchEnv } = this.props;
+    const { match, fetchEnv } = this.props;
 
-    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'Lambda');
-    fetchExecutors(match.params.fqon, match.params.environmentId, 'environments', 'Executor');
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
   }
 
@@ -67,6 +63,8 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
+  withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
   withMetaResource,
   connect(mapStateToProps, Object.assign({}, actions)),
   reduxForm({

@@ -50,7 +50,7 @@ const LambdaForm = (props) => {
   };
 
   // Since runtime values can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
-  const uniqueExecutors = props.executorsDropDown.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
+  const uniqueExecutors = props.executorsData.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
   const lambdaPaneTitle = props.editMode ? `Function: ${values.properties.runtime}` : 'Function';
 
   return (
@@ -116,7 +116,7 @@ const LambdaForm = (props) => {
                       label="Lambda Provider"
                       itemLabel="name"
                       itemValue="id"
-                      menuItems={props.providersByType}
+                      menuItems={props.providersData}
                       disabled={editMode}
                       async
                     />
@@ -405,10 +405,10 @@ LambdaForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
-  providersByType: PropTypes.array.isRequired,
+  providersData: PropTypes.array.isRequired,
   handleTheme: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
-  executorsDropDown: PropTypes.array.isRequired,
+  executorsData: PropTypes.array.isRequired,
   lambda: PropTypes.object.isRequired,
   apiEndpoints: PropTypes.array.isRequired,
   title: PropTypes.string,

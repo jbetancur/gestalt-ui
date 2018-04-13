@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import SecretForm from './SecretForm';
@@ -18,16 +18,14 @@ class SecretEdit extends Component {
     history: PropTypes.object.isRequired,
     secret: PropTypes.object.isRequired,
     fetchSecret: PropTypes.func.isRequired,
-    fetchProvidersByType: PropTypes.func.isRequired,
     updateSecret: PropTypes.func.isRequired,
     secretPending: PropTypes.bool.isRequired,
     unloadSecret: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchSecret, fetchProvidersByType } = this.props;
+    const { match, fetchSecret } = this.props;
 
-    fetchProvidersByType(match.params.fqon, match.params.environmentId, 'environments', 'CaaS');
     fetchSecret(match.params.fqon, match.params.secretId);
   }
 
@@ -37,7 +35,7 @@ class SecretEdit extends Component {
     unloadSecret();
   }
 
-  updateSecret(values) {
+  update = (values) => {
     const { match, history, secret, updateSecret } = this.props;
     const patches = generatePatches(secret, values);
     const onSuccess = () =>
@@ -58,7 +56,7 @@ class SecretEdit extends Component {
             submitLabel="Update"
             cancelLabel="Secrets"
             editMode
-            onSubmit={values => this.updateSecret(values)}
+            onSubmit={this.update}
             {...this.props}
           />}
       </div>
@@ -73,6 +71,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
   withEntitlements,
   connect(mapStateToProps, actions),

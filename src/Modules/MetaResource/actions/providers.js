@@ -25,18 +25,6 @@ export function fetchProviders(fqon, entityId, entityKey) {
 }
 
 /**
- * fetchProvidersByType
- * @param {string} fqon
- * @param {string} entityId
- * @param {string} entityKey oneOf(workspaces || environments || null)
- * @param {string} providerType oneOf(CaaS || Lambda || GatewayManager)
- * @param {boolean} expand
- */
-export function fetchProvidersByType(fqon, entityId, entityKey, providerType, expand = true) {
-  return { type: types.FETCH_PROVIDERS_BYTYPE_REQUEST, fqon, entityId, entityKey, providerType, expand };
-}
-
-/**
  * fetchProviderKongsByGateway
  * @param {string} fqon
  * @param {string} entityId
@@ -44,17 +32,6 @@ export function fetchProvidersByType(fqon, entityId, entityKey, providerType, ex
  */
 export function fetchProviderKongsByGateway(fqon, entityId, entityKey) {
   return { type: types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fqon, entityId, entityKey };
-}
-
-/**
- * fetchExecutors
- * @param {string} fqon
- * @param {string} entityId
- * @param {string} entityKey oneOf(workspaces || environments || null)
- * @param {*} executorType oneOf(Executors)
- */
-export function fetchExecutors(fqon, entityId, entityKey, executorType) {
-  return { type: types.FETCH_EXECUTORS_REQUEST, fqon, entityId, entityKey, executorType };
 }
 
 /**
@@ -123,9 +100,7 @@ export default {
   unloadProviders,
   unloadProvider,
   fetchProviders,
-  fetchProvidersByType,
   fetchProviderKongsByGateway,
-  fetchExecutors,
   fetchProvider,
   createProvider,
   updateProvider,

@@ -120,6 +120,7 @@ const DataFeedForm = ({ title, datafeed, handleSubmit, submitting, values, match
                   name="properties.data.endpoint"
                   label="URI"
                   component={TextField}
+                  required
                 />
               </Col>
 

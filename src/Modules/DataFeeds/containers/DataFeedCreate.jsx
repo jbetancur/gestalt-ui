@@ -17,7 +17,8 @@ const initialValues = {
       format: 'JSON',
       endpoint: null,
       data: null,
-      classification: null
+      classification: null,
+      secret: null,
     },
   },
 };

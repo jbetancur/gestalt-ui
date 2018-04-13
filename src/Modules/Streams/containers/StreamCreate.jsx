@@ -11,7 +11,9 @@ import validate from '../validations';
 const initialValues = {
   name: null,
   properties: {
-    provider: 'aa0e4ff3-9744-4f41-bb31-917216826da8',
+    provider: {
+      id: 'aa0e4ff3-9744-4f41-bb31-917216826da8',
+    },
     cpus: 1,
     mem: 512,
     parallelization: 1,

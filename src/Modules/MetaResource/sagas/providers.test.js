@@ -2,9 +2,7 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import providersagas, {
   fetchProviders,
-  fetchProvidersByType,
   fetchProviderKongsByGateway,
-  fetchExecutors,
   fetchProvider,
   createProvider,
   updateProvider,
@@ -63,138 +61,6 @@ describe('Provider Sagas', () => {
 
       expect(resultError.value).toEqual(
         put({ type: types.FETCH_PROVIDERS_REJECTED, payload: error })
-      );
-    });
-  });
-
-  describe('fetchProvidersByType Sequence', () => {
-    let result;
-
-    describe('fetchProvidersByType when there are providers', () => {
-      const saga = fetchProvidersByType({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', providerType: 'chillout' });
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [{ id: 1 }] })
-        );
-      });
-    });
-
-    describe('fetchProvidersByType when there are NO providers', () => {
-      const saga = fetchProvidersByType({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', providerType: 'chillout' });
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [providerModel.get({ id: '', name: 'No Available Providers' })] })
-        );
-      });
-    });
-
-    describe('fetchProvidersByType without an entityId/entityKey', () => {
-      const saga = fetchProvidersByType({ fqon: 'iamfqon', providerType: 'chillout' });
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers?expand=true&type=chillout')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_PROVIDERS_BYTYPE_FULFILLED, payload: [providerModel.get({ id: '', name: 'No Available Providers' })] })
-        );
-      });
-    });
-
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchProvidersByType({ fqon: 'iamfqon' });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).toEqual(
-        put({ type: types.FETCH_PROVIDERS_BYTYPE_REJECTED, payload: error })
-      );
-    });
-  });
-
-  describe('fetchExecutors Sequence', () => {
-    let result;
-
-    describe('fetchExecutors when there are providers', () => {
-      const saga = fetchExecutors({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', executorType: 'chillout' });
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [{ id: 1, name: 'test', resource_type: 'TEST::NODEJS', properties: { config: { env: { public: { RUNTIME: 'nodejs' } } } } }] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ name: 'test (NODEJS)', runtime: 'nodejs' }] })
-        );
-      });
-    });
-
-    describe('fetchExecutors when there are NO providers', () => {
-      const saga = fetchExecutors({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', executorType: 'chillout' });
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/providers?expand=true&type=chillout')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ id: '', name: 'No Available Executors' }] })
-        );
-      });
-    });
-
-    describe('fetchExecutors without an entityId/entityKey', () => {
-      const saga = fetchExecutors({ fqon: 'iamfqon', executorType: 'chillout' });
-      it('should make an api call', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers?expand=true&type=chillout')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_EXECUTORS_FULFILLED, payload: [{ id: '', name: 'No Available Executors' }] })
-        );
-      });
-    });
-
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchExecutors({ fqon: 'iamfqon' });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).toEqual(
-        put({ type: types.FETCH_EXECUTORS_REJECTED, payload: error })
       );
     });
   });
@@ -529,24 +395,10 @@ describe('Provider Sagas', () => {
       );
     });
 
-    it('should fork a watcher for fetchProvidersByType', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_PROVIDERS_BYTYPE_REQUEST, fetchProvidersByType)
-      );
-    });
-
     it('should fork a watcher for fetchProviderKongsByGateway', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fetchProviderKongsByGateway)
-      );
-    });
-
-    it('should fork a watcher for fetchExecutors', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_EXECUTORS_REQUEST, fetchExecutors)
       );
     });
 
