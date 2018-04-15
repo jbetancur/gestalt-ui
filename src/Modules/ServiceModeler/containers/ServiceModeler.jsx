@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { destroy } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withServiceSpec, withPickerData } from 'Modules/MetaResource';
 import ServiceWizard from './ServiceWizard';
 
 class ServiceModeler extends PureComponent {
   static propTypes = {
-    createServiceSpec: PropTypes.func.isRequired,
+    serviceSpecActions: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     destroyForm: PropTypes.func.isRequired,
@@ -19,12 +19,12 @@ class ServiceModeler extends PureComponent {
   }
 
   create = (values) => {
-    const { history, match, createServiceSpec } = this.props;
+    const { history, match, serviceSpecActions } = this.props;
     const onSuccess = () => {
       history.replace(`/${match.params.fqon}/servicespecs`);
     };
 
-    createServiceSpec(this.props.match.params.fqon, values, onSuccess);
+    serviceSpecActions.createServiceSpec({ fqon: match.params.fqon, payload: values, onSuccess });
   }
 
   render() {
@@ -41,6 +41,6 @@ const actions = dispatch => ({
 export default compose(
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
-  withMetaResource,
+  withServiceSpec,
   connect(null, actions),
 )(ServiceModeler);

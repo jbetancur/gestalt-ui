@@ -65,7 +65,7 @@ export default combineReducers({
   resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel.get()),
   sync: reducerFactory(['fetch'], 'sync', 'sync', {}),
   serviceSpecs: reducerFactory(['fetch', 'delete'], 'serviceSpecs', 'serviceSpecs', []),
-  serviceSpec: reducerFactory(['create'], 'serviceSpec', 'serviceSpec', serviceSpecModel.get()),
+  serviceSpec: reducerFactory(['create', 'update', 'delete'], 'serviceSpec', 'serviceSpec', serviceSpecModel.get()),
   datafeeds: reducerFactory(['fetch', 'delete'], 'datafeeds', 'datafeeds', []),
   datafeed: reducerFactory(['fetch', 'create', 'update'], 'datafeed', 'datafeed', datafeedModel.get()),
   streamSpecs: reducerFactory(['fetch', 'delete'], 'streamSpecs', 'streamSpecs', []),

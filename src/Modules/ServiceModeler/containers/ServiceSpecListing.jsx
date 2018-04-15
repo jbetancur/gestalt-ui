@@ -4,48 +4,41 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Name, Timestamp, NoData } from 'components/TableCells';
+import { Name, Timestamp, NoData, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { ServiceIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withServiceSpecs } from 'Modules/MetaResource';
+import actions from '../actions';
 
 class ServiceSpecListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     serviceSpecs: PropTypes.array.isRequired,
-    deleteServiceSpec: PropTypes.func.isRequired,
     serviceSpecsPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchServiceSpecs: PropTypes.func.isRequired,
-    unloadServiceSpecs: PropTypes.func.isRequired,
+    serviceSpecsActions: PropTypes.object.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchServiceSpecs } = this.props;
+    const { match, serviceSpecsActions } = this.props;
 
-    fetchServiceSpecs(match.params.fqon);
-  }
-
-  componentWillUnmount() {
-    const { unloadServiceSpecs } = this.props;
-
-    unloadServiceSpecs();
+    serviceSpecsActions.fetchServiceSpecs({ fqon: match.params.fqon });
   }
 
   deleteOne = (row) => {
-    const { match, deleteServiceSpec, fetchServiceSpecs } = this.props;
+    const { match, serviceSpecsActions } = this.props;
 
     const onSuccess = () => {
-      fetchServiceSpecs(match.params.fqon);
+      serviceSpecsActions.fetchServiceSpecs({ fqon: match.params.fqon });
     };
 
     this.props.confirmDelete(() => {
-      deleteServiceSpec(match.params.fqon, row.id, onSuccess);
+      serviceSpecsActions.deleteServiceSpec({ fqon: match.params.fqon, id: row.id, onSuccess });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -61,6 +54,21 @@ class ServiceSpecListing extends PureComponent {
 
   defineColumns() {
     return [
+      {
+        width: '56px',
+        allowOverflow: true,
+        ignoreRowClick: true,
+        cell: row => (
+          <GenericMenuActions
+            row={row}
+            fqon={this.props.match.params.fqon}
+            onDelete={this.deleteOne}
+            // editURL={`${this.props.match.url}/${row.id}`}
+            entityKey="servicespecs"
+            {...this.props}
+          />
+        ),
+      },
       {
         name: 'Name',
         selector: 'name',
@@ -85,22 +93,6 @@ class ServiceSpecListing extends PureComponent {
         sortable: true,
         cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
-      // {
-      //   name: 'Actions',
-      //   width: '42px',
-      //   compact: true,
-      //   cell: row => (
-      //     <GenericMenuActions
-      //       row={row}
-      //       fqon={this.props.match.params.fqon}
-      //       onDelete={this.deleteOne}
-      //       editURL={`${this.props.match.url}/${row.id}`}
-      //       entityKey="serviceSpecs"
-      //       disableEntitlements
-      //       {...this.props}
-      //     />
-      //   ),
-      // }
     ];
   }
 
@@ -129,6 +121,6 @@ class ServiceSpecListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
-  connect(null),
+  withServiceSpecs,
+  connect(null, actions),
 )(ServiceSpecListing);

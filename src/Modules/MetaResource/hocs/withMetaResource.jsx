@@ -144,12 +144,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       // Subscriptions for sync
       sync: metaResource.sync.sync,
       syncPending: metaResource.sync.pending,
-
-      // Subscriptions for services
-      serviceSpecs: metaResource.serviceSpecs.serviceSpecs,
-      serviceSpecsPending: metaResource.serviceSpecs.pending,
-      serviceSpec: metaResource.serviceSpec.serviceSpec,
-      serviceSpecPending: metaResource.serviceSpec.pending,
     };
   }
 

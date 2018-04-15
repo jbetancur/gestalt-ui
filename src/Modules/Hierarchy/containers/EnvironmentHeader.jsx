@@ -6,13 +6,13 @@ import EnvironmentActions from './EnvironmentActions';
 import EnvironmentDetails from './EnvironmentDetails';
 
 const EnvironmentHeader = (props) => {
-  const { environment, environmentPending, contextActions, contextActionsPending } = props;
+  const { environment, environmentPending, contextActions, contextActionsLoading } = props;
 
   return (
     <ContextNavigation
       model={environment}
       pending={environmentPending}
-      pendingContextActions={contextActionsPending}
+      pendingContextActions={contextActionsLoading}
       breadcrumbComponent={<Breadcrumbs lastIsActive />}
       actionsComponent={<EnvironmentActions environment={environment} pending={environmentPending} {...props} />}
       detailsComponent={<EnvironmentDetails workspace={environment} pending={environmentPending} {...props} />}
@@ -25,7 +25,7 @@ EnvironmentHeader.propTypes = {
   environment: PropTypes.object.isRequired,
   environmentPending: PropTypes.bool.isRequired,
   contextActions: PropTypes.array.isRequired,
-  contextActionsPending: PropTypes.bool.isRequired,
+  contextActionsLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
 };
 

@@ -14,7 +14,7 @@ export default function withstreamSpecs(BaseComponent) {
     componentWillUnmount() {
       const { streamSpecsActions } = this.props;
 
-      streamSpecsActions.unloadStreamSpecs();
+      streamSpecsActions.unload();
     }
 
     render() {
@@ -30,6 +30,7 @@ export default function withstreamSpecs(BaseComponent) {
   const mapDispatchToProps = dispatch => ({
     streamSpecsActions: bindActionCreators(Object.assign({},
       createRequestAction(['fetch', 'delete'], 'StreamSpecs'),
+      createRequestAction(['delete'], 'StreamSpec'),
     ), dispatch)
   });
 

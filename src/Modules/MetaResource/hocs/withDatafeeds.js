@@ -14,7 +14,7 @@ export default function withDataFeeds(BaseComponent) {
     componentWillUnmount() {
       const { datafeedsActions } = this.props;
 
-      datafeedsActions.unloadDatafeeds();
+      datafeedsActions.unload();
     }
 
     render() {
@@ -30,6 +30,7 @@ export default function withDataFeeds(BaseComponent) {
   const mapDispatchToProps = dispatch => ({
     datafeedsActions: bindActionCreators(Object.assign({},
       createRequestAction(['fetch', 'delete'], 'Datafeeds'),
+      createRequestAction(['delete'], 'Datafeed'),
     ), dispatch)
   });
 
