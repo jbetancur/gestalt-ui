@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { generateContextEntityState } from 'util/helpers/context';
-import { urlmapper } from 'Modules/MetaResource';
+import { buildAllURL } from '../lib/urlmapper';
 
 const setPropName = asContext => (asContext ? 'contextProviderActions' : 'providerActions');
 
@@ -42,7 +42,7 @@ export default ({ asContext, fetchOnMount = true, filters, params = {} }) => (Wr
       const name = setPropName(asContext);
       const entityParams = generateContextEntityState(match.params);
       const queryParams = Object.assign(params, { expand: true, compact: false, filters });
-      const url = urlmapper.buildAllURL('actions', { fqon: match.params.fqon, entityId: entityParams.id, entityKey: entityParams.key, params: queryParams }, true);
+      const url = buildAllURL('actions', { fqon: match.params.fqon, entityId: entityParams.id, entityKey: entityParams.key, params: queryParams }, true);
 
       this.setState({ [`${name}Loading`]: true });
 

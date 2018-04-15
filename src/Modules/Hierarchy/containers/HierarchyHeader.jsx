@@ -6,13 +6,13 @@ import HierarchyActions from './HierarchyActions';
 import OrganizationDetails from './OrganizationDetails';
 
 const HierarchyHeader = (props) => {
-  const { model, organizationSetPending, contextActions, contextActionsPending } = props;
+  const { model, organizationSetPending, contextActions, contextActionsLoading } = props;
 
   return (
     <ContextNavigation
       model={model}
       pending={organizationSetPending}
-      pendingContextActions={contextActionsPending}
+      pendingContextActions={contextActionsLoading}
       breadcrumbComponent={<Breadcrumbs lastIsActive />}
       actionsComponent={<HierarchyActions organization={model} pending={organizationSetPending} {...props} />}
       detailsComponent={<OrganizationDetails organization={model} pending={organizationSetPending} {...props} />}
@@ -25,7 +25,7 @@ HierarchyHeader.propTypes = {
   organizationSetPending: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   contextActions: PropTypes.array.isRequired,
-  contextActionsPending: PropTypes.bool.isRequired,
+  contextActionsLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
 };
 

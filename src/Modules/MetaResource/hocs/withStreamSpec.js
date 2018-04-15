@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { createRequestAction } from '../lib/actionFactory';
 
 export default function withStreamSpec(BaseComponent) {
-  class Stream extends Component {
-    static displayName = 'SreamSpec(HOC)';
+  class StreamSpec extends Component {
+    static displayName = 'StreamSpec(HOC)';
     static propTypes = {
       streamSpecActions: PropTypes.object.isRequired,
     };
@@ -14,7 +14,7 @@ export default function withStreamSpec(BaseComponent) {
     componentWillUnmount() {
       const { streamSpecActions } = this.props;
 
-      streamSpecActions.unloadStreamSpec();
+      streamSpecActions.unload();
     }
 
     render() {
@@ -33,5 +33,5 @@ export default function withStreamSpec(BaseComponent) {
     ), dispatch)
   });
 
-  return connect(mapStateToProps, mapDispatchToProps)(Stream);
+  return connect(mapStateToProps, mapDispatchToProps)(StreamSpec);
 }

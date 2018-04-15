@@ -8,9 +8,8 @@ import { PREFIX } from '../actionTypes';
 export const createRequestAction = (verbs, name) => {
   const actions = {};
 
-  const unloadFuncName = `unload${name}`;
   Object.assign(actions, {
-    [unloadFuncName]() {
+    unload() {
       return { type: `${PREFIX}UNLOAD_${name.toUpperCase()}` };
     }
   });

@@ -14,7 +14,7 @@ export default function withDataFeed(BaseComponent) {
     componentWillUnmount() {
       const { datafeedActions } = this.props;
 
-      datafeedActions.unloadDatafeed();
+      datafeedActions.unload();
     }
 
     render() {

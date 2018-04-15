@@ -22,8 +22,6 @@ import secretSagas from './secrets';
 import searchSagas from './search';
 import resourceTypeSagas from './resourceTypes';
 import typePropertySagas from './typeProperties';
-import serviceSpecSagas from './serviceSpecs';
-// import datafeedSagas from './datafeeds';
 
 export default function* metaSagas() {
   yield all([
@@ -47,14 +45,22 @@ export default function* metaSagas() {
     searchSagas(),
     resourceTypeSagas(),
     typePropertySagas(),
-    serviceSpecSagas(),
+    yield takeLatest(types.FETCH_SERVICESPECS_REQUEST, fetchAll('SERVICESPECS', 'servicespecs')),
+    yield takeLatest(types.FETCH_SERVICESPEC_REQUEST, fetchOne('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(types.CREATE_SERVICESPEC_REQUEST, create('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(types.UPDATE_SERVICESPEC_REQUEST, update('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(types.DELETE_SERVICESPEC_REQUEST, deleteOne('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(types.DELETE_SERVICESPECS_REQUEST, deleteMany('SERVICESPECS', 'servicespecs')),
+
     yield takeLatest(types.CREATE_SYNC_REQUEST, create('SYNC', 'sync')),
+
     yield takeLatest(types.FETCH_DATAFEEDS_REQUEST, fetchAll('DATAFEEDS', 'datafeeds')),
     yield takeLatest(types.FETCH_DATAFEED_REQUEST, fetchOne('DATAFEED', 'datafeeds')),
     yield takeLatest(types.CREATE_DATAFEED_REQUEST, create('DATAFEED', 'datafeeds')),
     yield takeLatest(types.UPDATE_DATAFEED_REQUEST, update('DATAFEED', 'datafeeds')),
     yield takeLatest(types.DELETE_DATAFEED_REQUEST, deleteOne('DATAFEED', 'datafeeds')),
     yield takeLatest(types.DELETE_DATAFEEDS_REQUEST, deleteMany('DATAFEEDS', 'datafeeds')),
+
     yield takeLatest(types.FETCH_STREAMSPECS_REQUEST, fetchAll('STREAMSPECS', 'streamspecs')),
     yield takeLatest(types.FETCH_STREAMSPEC_REQUEST, fetchOne('STREAMSPEC', 'streamspecs')),
     yield takeLatest(types.CREATE_STREAMSPEC_REQUEST, create('STREAMSPEC', 'streamspecs')),
