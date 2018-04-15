@@ -3,7 +3,7 @@ import axios from 'axios';
 import { buildAllURL, buildOneURL } from './urlmapper';
 import { PREFIX } from '../actionTypes';
 
-export const fetchAll = (name, entity) => function* getAll({ payload }) {
+export const fetchAll = (name, entity) => function* getAll(payload) {
   try {
     const response = yield call(axios.get, buildAllURL(entity, payload, true));
 
@@ -13,15 +13,15 @@ export const fetchAll = (name, entity) => function* getAll({ payload }) {
       payload.onSuccess(response.data);
     }
   } catch (error) {
-    yield put({ type: `${PREFIX}FETCH_${name}_REJECTED`, payload: error });
-
     if (typeof payload.onError === 'function') {
       payload.onError(error);
     }
+
+    yield put({ type: `${PREFIX}FETCH_${name}_REJECTED`, payload: error });
   }
 };
 
-export const fetchOne = (name, entity) => function* getOne({ payload }) {
+export const fetchOne = (name, entity) => function* getOne(payload) {
   try {
     const response = yield call(axios.get, buildOneURL(entity, payload));
 
@@ -31,15 +31,15 @@ export const fetchOne = (name, entity) => function* getOne({ payload }) {
       payload.onSuccess(response.data);
     }
   } catch (error) {
-    yield put({ type: `${PREFIX}FETCH_${name}_REJECTED`, payload: error });
-
     if (typeof payload.onError === 'function') {
       payload.onError(error);
     }
+
+    yield put({ type: `${PREFIX}FETCH_${name}_REJECTED`, payload: error });
   }
 };
 
-export const create = (name, entity) => function* createOne({ payload }) {
+export const create = (name, entity) => function* createOne(payload) {
   try {
     let response;
 
@@ -55,15 +55,15 @@ export const create = (name, entity) => function* createOne({ payload }) {
       payload.onSuccess(response.data);
     }
   } catch (error) {
-    yield put({ type: `${PREFIX}CREATE_${name}_REJECTED`, payload: error });
-
     if (typeof payload.onError === 'function') {
       payload.onError(error);
     }
+
+    yield put({ type: `${PREFIX}CREATE_${name}_REJECTED`, payload: error });
   }
 };
 
-export const update = (name, entity) => function* updateOne({ payload }) {
+export const update = (name, entity) => function* updateOne(payload) {
   try {
     const response = yield call(axios.patch, buildOneURL(entity, payload), payload.payload);
 
@@ -73,35 +73,34 @@ export const update = (name, entity) => function* updateOne({ payload }) {
       payload.onSuccess(response.data);
     }
   } catch (error) {
-    yield put({ type: `${PREFIX}UPDATE_${name}_REJECTED`, payload: error });
-
     if (typeof payload.onError === 'function') {
       payload.onError(error);
     }
+
+    yield put({ type: `${PREFIX}UPDATE_${name}_REJECTED`, payload: error });
   }
 };
 
-export const deleteOne = (name, entity) => function* deleteSingle({ payload }) {
+export const deleteOne = (name, entity) => function* deleteSingle(payload) {
   try {
-    const response = yield call(axios.delete, buildOneURL(entity, payload));
-
-    yield put({ type: `${PREFIX}DELETE_${name}_FULFILLED`, payload: response.data });
+    yield call(axios.delete, buildOneURL(entity, payload));
+    yield put({ type: `${PREFIX}DELETE_${name}_FULFILLED` });
 
     if (typeof payload.onSuccess === 'function') {
-      payload.onSuccess(response.data);
+      payload.onSuccess();
     }
   } catch (error) {
-    yield put({ type: `${PREFIX}DELETE_${name}_REJECTED`, payload: error });
-
     if (typeof payload.onError === 'function') {
       payload.onError(error);
     }
+
+    yield put({ type: `${PREFIX}DELETE_${name}_REJECTED`, payload: error });
   }
 };
 
-export const deleteMany = (name, entity) => function* deleteBulk({ payload }) {
+export const deleteMany = (name, entity) => function* deleteBulk(payload) {
   try {
-    const all = payload.ids.map(id => axios.delete(`${payload.fqon}/${entity}/${id}`));
+    const all = payload.ids.map(id => axios.delete(buildOneURL(entity, Object.assign(payload, { id }))));
 
     yield call(axios.all, all);
     yield put({ type: `${PREFIX}DELETE_${name}_FULFILLED` });
@@ -110,10 +109,10 @@ export const deleteMany = (name, entity) => function* deleteBulk({ payload }) {
       payload.onSuccess();
     }
   } catch (error) {
-    yield put({ type: `${PREFIX}DELETE_${name}_REJECTED`, payload: error.message });
-
     if (typeof payload.onError === 'function') {
       payload.onError(error);
     }
+
+    yield put({ type: `${PREFIX}DELETE_${name}_REJECTED`, payload: error });
   }
 };

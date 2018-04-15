@@ -21,11 +21,9 @@ describe('Datafeed Actions', () => {
   it('should request FETCH_DATAFEEDS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_DATAFEEDS_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        entityId: '1',
-        entityKey: 'environments',
-      }
+      fqon: 'iamfqon',
+      entityId: '1',
+      entityKey: 'environments',
     };
 
     expect(actions.fetchDatafeeds({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' })).toEqual(expectedAction);
@@ -34,10 +32,8 @@ describe('Datafeed Actions', () => {
   it('should request FETCH_DATAFEED_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_DATAFEED_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        id: '1',
-      }
+      fqon: 'iamfqon',
+      id: '1',
     };
 
     expect(actions.fetchDatafeed({ fqon: 'iamfqon', id: '1' })).toEqual(expectedAction);
@@ -46,13 +42,11 @@ describe('Datafeed Actions', () => {
   it('should handle CREATE_DATAFEED_REQUEST', () => {
     const expectedAction = {
       type: types.CREATE_DATAFEED_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        entityId: '1',
-        entityKey: 'environments',
-        payload: { name: 'test' },
-        onSuccess: undefined,
-      }
+      fqon: 'iamfqon',
+      entityId: '1',
+      entityKey: 'environments',
+      payload: { name: 'test' },
+      onSuccess: undefined,
     };
 
     expect(actions.createDatafeed({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', payload: { name: 'test' } })).toEqual(expectedAction);
@@ -61,12 +55,10 @@ describe('Datafeed Actions', () => {
   it('should handle UPDATE_DATAFEED_REQUEST', () => {
     const expectedAction = {
       type: types.UPDATE_DATAFEED_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        id: '1',
-        payload: [],
-        onSuccess: undefined,
-      }
+      fqon: 'iamfqon',
+      id: '1',
+      payload: [],
+      onSuccess: undefined,
     };
 
     expect(actions.updateDatafeed({ fqon: 'iamfqon', id: '1', payload: [] })).toEqual(expectedAction);
@@ -75,12 +67,10 @@ describe('Datafeed Actions', () => {
   it('should handle DELETE_DATAFEED_REQUEST', () => {
     const expectedAction = {
       type: types.DELETE_DATAFEED_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        id: '1',
-        onSuccess: undefined,
-        params: { force: true },
-      }
+      fqon: 'iamfqon',
+      id: '1',
+      onSuccess: undefined,
+      params: { force: true },
     };
 
     expect(actions.deleteDatafeed({ fqon: 'iamfqon', id: '1' })).toEqual(expectedAction);
@@ -89,12 +79,10 @@ describe('Datafeed Actions', () => {
   it('should handle DELETE_DATAFEEDS_REQUEST', () => {
     const expectedAction = {
       type: types.DELETE_DATAFEEDS_REQUEST,
-      payload: {
-        ids: [],
-        fqon: 'iamfqon',
-        onSuccess: undefined,
-        params: { force: true },
-      }
+      ids: [],
+      fqon: 'iamfqon',
+      onSuccess: undefined,
+      params: { force: true },
     };
 
     expect(actions.deleteDatafeeds({ fqon: 'iamfqon', ids: [] })).toEqual(expectedAction);

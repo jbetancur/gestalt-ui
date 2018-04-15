@@ -21,11 +21,9 @@ describe('Stream Actions', () => {
   it('should request FETCH_STREAMSPECS_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_STREAMSPECS_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        entityId: '1',
-        entityKey: 'environments',
-      }
+      fqon: 'iamfqon',
+      entityId: '1',
+      entityKey: 'environments',
     };
 
     expect(actions.fetchStreamSpecs({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments' })).toEqual(expectedAction);
@@ -34,10 +32,8 @@ describe('Stream Actions', () => {
   it('should request FETCH_STREAMSPEC_REQUEST', () => {
     const expectedAction = {
       type: types.FETCH_STREAMSPEC_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        id: '1',
-      }
+      fqon: 'iamfqon',
+      id: '1',
     };
 
     expect(actions.fetchStreamSpec({ fqon: 'iamfqon', id: '1' })).toEqual(expectedAction);
@@ -46,13 +42,11 @@ describe('Stream Actions', () => {
   it('should handle CREATE_STREAMSPEC_REQUEST', () => {
     const expectedAction = {
       type: types.CREATE_STREAMSPEC_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        entityId: '1',
-        entityKey: 'environments',
-        payload: { name: 'test' },
-        onSuccess: undefined,
-      }
+      fqon: 'iamfqon',
+      entityId: '1',
+      entityKey: 'environments',
+      payload: { name: 'test' },
+      onSuccess: undefined,
     };
 
     expect(actions.createStreamSpec({ fqon: 'iamfqon', entityId: '1', entityKey: 'environments', payload: { name: 'test' } })).toEqual(expectedAction);
@@ -61,12 +55,10 @@ describe('Stream Actions', () => {
   it('should handle UPDATE_STREAMSPEC_REQUEST', () => {
     const expectedAction = {
       type: types.UPDATE_STREAMSPEC_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        id: '1',
-        payload: [],
-        onSuccess: undefined,
-      }
+      fqon: 'iamfqon',
+      id: '1',
+      payload: [],
+      onSuccess: undefined,
     };
 
     expect(actions.updateStreamSpec({ fqon: 'iamfqon', id: '1', payload: [] })).toEqual(expectedAction);
@@ -75,11 +67,9 @@ describe('Stream Actions', () => {
   it('should handle DELETE_STREAMSPEC_REQUEST', () => {
     const expectedAction = {
       type: types.DELETE_STREAMSPEC_REQUEST,
-      payload: {
-        fqon: 'iamfqon',
-        id: '1',
-        onSuccess: undefined,
-      }
+      fqon: 'iamfqon',
+      id: '1',
+      onSuccess: undefined,
     };
 
     expect(actions.deleteStreamSpec({ fqon: 'iamfqon', id: '1' })).toEqual(expectedAction);
@@ -88,11 +78,9 @@ describe('Stream Actions', () => {
   it('should handle DELETE_STREAMSPECS_REQUEST', () => {
     const expectedAction = {
       type: types.DELETE_STREAMSPECS_REQUEST,
-      payload: {
-        ids: [],
-        fqon: 'iamfqon',
-        onSuccess: undefined,
-      }
+      ids: [],
+      fqon: 'iamfqon',
+      onSuccess: undefined,
     };
 
     expect(actions.deleteStreamSpecs({ fqon: 'iamfqon', ids: [] })).toEqual(expectedAction);

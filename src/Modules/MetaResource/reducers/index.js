@@ -60,7 +60,7 @@ export default combineReducers({
   logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }, true),
   secrets: reducerFactory(['fetch', 'delete'], 'secrets', 'secrets', []),
   secret: reducerFactory(['fetch', 'create', 'update'], 'secret', 'secret', secretModel.get()),
-  search: reducerFactory(['fetch'], 'search', 'search', [], true),
+  search: reducerFactory(['fetch'], 'search', 'search', []),
   resourceTypes: reducerFactory(['fetch', 'delete'], 'resourceTypes', 'resourceTypes', []),
   resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel.get()),
   sync: reducerFactory(['fetch'], 'sync', 'sync', {}),

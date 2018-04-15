@@ -1,5 +1,5 @@
 import { all, takeLatest } from 'redux-saga/effects';
-import { fetchAll, fetchOne, create, update, deleteOne, deleteMany } from '../lib/factory';
+import { fetchAll, fetchOne, create, update, deleteOne, deleteMany } from '../lib/sagaFactory';
 import * as types from '../actionTypes';
 
 import orgSagas from './organizations';
@@ -22,7 +22,6 @@ import secretSagas from './secrets';
 import searchSagas from './search';
 import resourceTypeSagas from './resourceTypes';
 import typePropertySagas from './typeProperties';
-import syncSagas from './sync';
 import serviceSpecSagas from './serviceSpecs';
 // import datafeedSagas from './datafeeds';
 
@@ -48,8 +47,8 @@ export default function* metaSagas() {
     searchSagas(),
     resourceTypeSagas(),
     typePropertySagas(),
-    syncSagas(),
     serviceSpecSagas(),
+    yield takeLatest(types.CREATE_SYNC_REQUEST, create('SYNC', 'sync')),
     yield takeLatest(types.FETCH_DATAFEEDS_REQUEST, fetchAll('DATAFEEDS', 'datafeeds')),
     yield takeLatest(types.FETCH_DATAFEED_REQUEST, fetchOne('DATAFEED', 'datafeeds')),
     yield takeLatest(types.CREATE_DATAFEED_REQUEST, create('DATAFEED', 'datafeeds')),
