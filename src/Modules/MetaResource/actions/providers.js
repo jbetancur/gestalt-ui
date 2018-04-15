@@ -87,7 +87,7 @@ export function deleteProviders(providerIds, fqon, onSuccess) {
 }
 
 /**
- * createProvider
+ * redeployProvider
  * @param {string} fqon
  * @param {string} providerId
  * @callback {*} onSuccess

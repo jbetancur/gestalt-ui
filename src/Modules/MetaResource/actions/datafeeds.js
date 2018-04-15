@@ -15,28 +15,28 @@ export function unloadDatafeed() {
 }
 
 export function fetchDatafeeds({ fqon, entityId, entityKey }) {
-  return { type: types.FETCH_DATAFEEDS_REQUEST, payload: { fqon, entityId, entityKey } };
+  return { type: types.FETCH_DATAFEEDS_REQUEST, fqon, entityId, entityKey };
 }
 
 export function fetchDatafeed({ fqon, id }) {
   return {
-    type: types.FETCH_DATAFEED_REQUEST, payload: { fqon, id } };
+    type: types.FETCH_DATAFEED_REQUEST, fqon, id };
 }
 
 export function createDatafeed({ fqon, entityId, entityKey, payload, onSuccess }) {
-  return { type: types.CREATE_DATAFEED_REQUEST, payload: { fqon, entityId, entityKey, payload, onSuccess } };
+  return { type: types.CREATE_DATAFEED_REQUEST, fqon, entityId, entityKey, payload, onSuccess };
 }
 
 export function updateDatafeed({ fqon, id, payload, onSuccess }) {
-  return { type: types.UPDATE_DATAFEED_REQUEST, payload: { fqon, id, payload, onSuccess } };
+  return { type: types.UPDATE_DATAFEED_REQUEST, fqon, id, payload, onSuccess };
 }
 
 export function deleteDatafeed({ fqon, id, onSuccess }) {
-  return { type: types.DELETE_DATAFEED_REQUEST, payload: { fqon, id, onSuccess, params: { force: true } } };
+  return { type: types.DELETE_DATAFEED_REQUEST, fqon, id, onSuccess, params: { force: true } };
 }
 
 export function deleteDatafeeds({ ids, fqon, onSuccess }) {
-  return { type: types.DELETE_DATAFEEDS_REQUEST, payload: { ids, fqon, onSuccess, params: { force: true } } };
+  return { type: types.DELETE_DATAFEEDS_REQUEST, ids, fqon, onSuccess, params: { force: true } };
 }
 
 export default {
