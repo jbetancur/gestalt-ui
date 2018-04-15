@@ -10,7 +10,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { StreamIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withStreamSpec } from 'Modules/MetaResource';
+import { withStreamSpecs } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -23,7 +23,7 @@ class StreamList extends PureComponent {
     confirmDelete: PropTypes.func.isRequired,
     streamSpecs: PropTypes.array.isRequired,
     streamSpecsPending: PropTypes.bool.isRequired,
-    streamSpecActions: PropTypes.object.isRequired,
+    streamSpecsActions: PropTypes.object.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
@@ -32,33 +32,27 @@ class StreamList extends PureComponent {
     this.populateStreams();
   }
 
-  componentWillUnmount() {
-    const { streamSpecActions } = this.props;
-
-    streamSpecActions.unloadStreamSpecs();
-  }
-
   populateStreams() {
-    const { match, streamSpecActions } = this.props;
+    const { match, streamSpecsActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    streamSpecActions.fetchStreamSpecs({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
+    streamSpecsActions.fetchStreamSpecs({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
-    const { match, streamSpecActions } = this.props;
+    const { match, streamSpecsActions } = this.props;
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
       this.populateStreams();
     };
 
     this.props.confirmDelete(() => {
-      streamSpecActions.deleteStreamSpec({ fqon: match.params.fqon, id: row.id, onSuccess });
+      streamSpecsActions.deleteStreamSpec({ fqon: match.params.fqon, id: row.id, onSuccess });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
-    const { match, streamSpecActions } = this.props;
+    const { match, streamSpecsActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -70,7 +64,7 @@ class StreamList extends PureComponent {
     };
 
     this.props.confirmDelete(() => {
-      streamSpecActions.deleteStreamSpecs({ fqon: match.params.fqon, ids: IDs, onSuccess });
+      streamSpecsActions.deleteStreamSpecs({ fqon: match.params.fqon, ids: IDs, onSuccess });
     }, 'Confirm Delete Streams Specifications', names);
   }
 
@@ -167,7 +161,7 @@ class StreamList extends PureComponent {
 }
 
 export default compose(
-  withStreamSpec,
+  withStreamSpecs,
   connect(null, actions),
 )(StreamList);
 

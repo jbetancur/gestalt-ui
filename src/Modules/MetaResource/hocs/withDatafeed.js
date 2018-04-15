@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../actions/datafeeds';
+import { createRequestAction } from '../lib/actionFactory';
 
 export default function withDataFeed(BaseComponent) {
   class DataFeed extends Component {
+    static displayName = 'DataFeed(HOC)';
     static propTypes = {
       datafeedActions: PropTypes.object.isRequired,
     };
@@ -24,12 +25,12 @@ export default function withDataFeed(BaseComponent) {
   const mapStateToProps = state => ({
     datafeed: state.metaResource.datafeed.datafeed,
     datafeedPending: state.metaResource.datafeed.pending,
-    datafeeds: state.metaResource.datafeeds.datafeeds,
-    datafeedsPending: state.metaResource.datafeeds.pending,
   });
 
   const mapDispatchToProps = dispatch => ({
-    datafeedActions: bindActionCreators(actions, dispatch)
+    datafeedActions: bindActionCreators(Object.assign({},
+      createRequestAction(['fetch', 'create', 'update', 'delete'], 'Datafeed'),
+    ), dispatch)
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(DataFeed);

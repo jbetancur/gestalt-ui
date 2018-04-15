@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../actions/streamSpecs';
+import { createRequestAction } from '../lib/actionFactory';
 
-export default function withstream(BaseComponent) {
+export default function withStreamSpec(BaseComponent) {
   class Stream extends Component {
+    static displayName = 'SreamSpec(HOC)';
     static propTypes = {
       streamSpecActions: PropTypes.object.isRequired,
     };
@@ -24,12 +25,12 @@ export default function withstream(BaseComponent) {
   const mapStateToProps = state => ({
     streamSpec: state.metaResource.streamSpec.streamSpec,
     streamSpecPending: state.metaResource.streamSpec.pending,
-    streamSpecs: state.metaResource.streamSpecs.streamSpecs,
-    streamSpecsPending: state.metaResource.streamSpecs.pending,
   });
 
   const mapDispatchToProps = dispatch => ({
-    streamSpecActions: bindActionCreators(actions, dispatch)
+    streamSpecActions: bindActionCreators(Object.assign({},
+      createRequestAction(['fetch', 'create', 'update', 'delete'], 'StreamSpec'),
+    ), dispatch)
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(Stream);

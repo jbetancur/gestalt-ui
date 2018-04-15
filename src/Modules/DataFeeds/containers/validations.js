@@ -17,7 +17,7 @@ export default (values) => {
   }
 
   if (!values.properties.data.endpoint) {
-    merge(errors, nestedObjectFromString('properties.data.endpoin', 'required'));
+    merge(errors, nestedObjectFromString('properties.data.endpoint', 'required'));
   }
 
   if (!values.properties.data.topic) {

@@ -1,25 +1,25 @@
 import { combineReducers } from 'redux';
-import reducerFactory from './asyncReducerFactory';
-import selfModel from '../models/self';
-import organizationModel from '../models/organization';
-import organizationSetModel from '../models/organizationSet';
-import workspaceModel from '../models/workspace';
-import environmentModel from '../models/environment';
-import userModel from '../models/user';
-import groupModel from '../models/group';
-import lambdaModel from '../models/lambda';
-import policyModel from '../models/policy';
-import policyRuleModel from '../models/policyRule';
-import apiModel from '../models/api';
-import apiEndpointModel from '../models/apiEndpoint';
-import providerModel from '../models/provider';
-import containerModel from '../models/container';
-import envSchemaModel from '../models/envSchema';
-import secretModel from '../models/secret';
-import resourceTypeModel from '../models/resourceType';
-import serviceSpecModel from '../models/serviceSpec';
-import datafeedModel from '../models/dataFeed';
-import streamSpecModel from '../models/streamSpec';
+import reducerFactory from './lib/reducerFactory';
+import selfModel from './models/self';
+import organizationModel from './models/organization';
+import organizationSetModel from './models/organizationSet';
+import workspaceModel from './models/workspace';
+import environmentModel from './models/environment';
+import userModel from './models/user';
+import groupModel from './models/group';
+import lambdaModel from './models/lambda';
+import policyModel from './models/policy';
+import policyRuleModel from './models/policyRule';
+import apiModel from './models/api';
+import apiEndpointModel from './models/apiEndpoint';
+import providerModel from './models/provider';
+import containerModel from './models/container';
+import envSchemaModel from './models/envSchema';
+import secretModel from './models/secret';
+import resourceTypeModel from './models/resourceType';
+import serviceSpecModel from './models/serviceSpec';
+import datafeedModel from './models/dataFeed';
+import streamSpecModel from './models/streamSpec';
 
 export default combineReducers({
   envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel),
@@ -41,7 +41,7 @@ export default combineReducers({
   apiEndpoint: reducerFactory(['fetch', 'create', 'update'], 'apiEndpoint', 'apiEndpoint', apiEndpointModel.get()),
   providers: reducerFactory(['fetch', 'delete'], 'providers', 'providers', []),
   provider: reducerFactory(['fetch', 'create', 'update'], 'provider', 'provider', providerModel.get()),
-  fetchProviderKongsByGateway: reducerFactory(['fetch'], 'providers', 'providers_kong_gateway', [], false, []),
+  fetchProviderKongsByGateway: reducerFactory(['fetch'], 'providers', 'providers_kong_gateway', [], []),
   containers: reducerFactory(['fetch'], 'containers', 'containers', []),
   container: reducerFactory(['fetch', 'create', 'update'], 'container', 'container', containerModel.get()),
   policies: reducerFactory(['fetch', 'delete'], 'policies', 'policies', []),
@@ -54,10 +54,10 @@ export default combineReducers({
   user: reducerFactory(['fetch', 'create', 'update'], 'user', 'user', userModel),
   groups: reducerFactory(['fetch', 'delete'], 'groups', 'groups', []),
   group: reducerFactory(['fetch', 'create', 'update'], 'group', 'group', groupModel),
-  groupMembers: reducerFactory(['add', 'remove'], 'group', 'group_member', groupModel, true),
+  groupMembers: reducerFactory(['add', 'remove'], 'group', 'group_member', groupModel),
   env: reducerFactory(['fetch'], 'env', 'env', {}),
   self: reducerFactory(['fetch'], 'self', 'self', selfModel),
-  logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }, true),
+  logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }),
   secrets: reducerFactory(['fetch', 'delete'], 'secrets', 'secrets', []),
   secret: reducerFactory(['fetch', 'create', 'update'], 'secret', 'secret', secretModel.get()),
   search: reducerFactory(['fetch'], 'search', 'search', []),
