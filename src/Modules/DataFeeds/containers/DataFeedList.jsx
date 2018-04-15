@@ -10,7 +10,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { DataFeedIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withDatafeed } from 'Modules/MetaResource';
+import { withDatafeeds } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -20,7 +20,7 @@ class DataFeedList extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    datafeedActions: PropTypes.object.isRequired,
+    datafeedsActions: PropTypes.object.isRequired,
     datafeeds: PropTypes.array.isRequired,
     datafeedsPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
@@ -32,33 +32,27 @@ class DataFeedList extends PureComponent {
     this.populateFeeds();
   }
 
-  componentWillUnmount() {
-    const { datafeedActions } = this.props;
-
-    datafeedActions.unloadDatafeeds();
-  }
-
   populateFeeds() {
-    const { match, datafeedActions } = this.props;
+    const { match, datafeedsActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    datafeedActions.fetchDatafeeds({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
+    datafeedsActions.fetchDatafeeds({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
-    const { match, datafeedActions } = this.props;
+    const { match, datafeedsActions } = this.props;
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
       this.populateFeeds();
     };
 
     this.props.confirmDelete(() => {
-      datafeedActions.deleteDatafeed({ fqon: match.params.fqon, id: row.id, onSuccess });
+      datafeedsActions.deleteDatafeed({ fqon: match.params.fqon, id: row.id, onSuccess });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
-    const { match, datafeedActions } = this.props;
+    const { match, datafeedsActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -70,7 +64,7 @@ class DataFeedList extends PureComponent {
     };
 
     this.props.confirmDelete(() => {
-      datafeedActions.deleteDatafeeds({ ids: IDs, fqon: match.params.fqon, onSuccess });
+      datafeedsActions.deleteDatafeeds({ ids: IDs, fqon: match.params.fqon, onSuccess });
     }, 'Confirm Delete Data Feeds', names);
   }
 
@@ -177,7 +171,7 @@ class DataFeedList extends PureComponent {
 }
 
 export default compose(
-  withDatafeed,
+  withDatafeeds,
   connect(null, actions),
 )(DataFeedList);
 

@@ -1,5 +1,5 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
 import { insertItem, removeItemById } from 'util/helpers/lists';
+import { PREFIX } from '../actionTypes';
 
 /**
  * Creates Async API Reducers so we don't have to...
@@ -7,10 +7,9 @@ import { insertItem, removeItemById } from 'util/helpers/lists';
  * @param {string} key - the key, usually the name of your model
  * @param {string} category - the category to be included in the dispatch type (FETCH_SOMETIME_...)
  * @param {*} model - an Object or an []
- * @param {boolean} clearStateOnRouteChange - whether to clear the state on redux-router change
  * @param {*} customRequestState - optional placeholder to populate whn in a REQUEST state
  */
-export default function createAsyncReducer(verbs, key, category, model, clearStateOnRouteChange = false, customRequestState) {
+export default function createAsyncReducer(verbs, key, category, model, customRequestState) {
   const categoryUpper = category.toUpperCase();
   const initialState = {
     pending: false,
@@ -25,7 +24,7 @@ export default function createAsyncReducer(verbs, key, category, model, clearSta
     verbs.forEach((verb) => {
       const verbUpper = verb.toUpperCase();
       Object.assign(actions, {
-        [`metaResource/${verbUpper}_${categoryUpper}_REQUEST`]: () => {
+        [`${PREFIX}${verbUpper}_${categoryUpper}_REQUEST`]: () => {
           const payload = {
             ...state,
             // eslint-disable-next-line no-unneeded-ternary
@@ -38,7 +37,7 @@ export default function createAsyncReducer(verbs, key, category, model, clearSta
 
           return payload;
         },
-        [`metaResource/${verbUpper}_${categoryUpper}_FULFILLED`]: () => {
+        [`${PREFIX}${verbUpper}_${categoryUpper}_FULFILLED`]: () => {
           const payload = {
             ...state,
             pending: false,
@@ -65,7 +64,7 @@ export default function createAsyncReducer(verbs, key, category, model, clearSta
 
           return payload;
         },
-        [`metaResource/${verbUpper}_${categoryUpper}_REJECTED`]: () => (
+        [`${PREFIX}${verbUpper}_${categoryUpper}_REJECTED`]: () => (
           {
             ...state,
             pending: false,
@@ -75,12 +74,8 @@ export default function createAsyncReducer(verbs, key, category, model, clearSta
       });
     });
 
-    if (clearStateOnRouteChange) {
-      Object.assign(actions, { [LOCATION_CHANGE]: () => initialState });
-    }
-
     Object.assign(actions, {
-      [`metaResource/UNLOAD_${categoryUpper}`]: () => initialState,
+      [`${PREFIX}UNLOAD_${categoryUpper}`]: () => initialState,
       default: () => state,
     });
 

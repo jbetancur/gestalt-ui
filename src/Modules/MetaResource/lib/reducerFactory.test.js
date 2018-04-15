@@ -1,5 +1,4 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
-import reducerFactory from './asyncReducerFactory';
+import reducerFactory from './reducerFactory';
 
 const initialState = {
   pending: false,
@@ -73,7 +72,7 @@ describe('reducerFactory', () => {
     });
 
     it('should handle UNLOAD_...', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', [], true);
+      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', []);
 
       expect(
         reducer({}, {
@@ -83,21 +82,9 @@ describe('reducerFactory', () => {
     });
   });
 
-  describe('with clearStateOnRouteChange options', () => {
-    it('should handle LOCATION_CHANGE', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', [], true);
-
-      expect(
-        reducer({}, {
-          type: LOCATION_CHANGE,
-        })
-      ).toEqual(initialState);
-    });
-  });
-
   describe('with customRequestState options', () => {
     it('should handle LOCATION_CHANGE', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', [], false, [{ name: 'test' }]);
+      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', [], [{ name: 'test' }]);
 
       expect(
         reducer({}, {
