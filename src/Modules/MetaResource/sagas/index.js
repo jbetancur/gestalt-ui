@@ -26,7 +26,6 @@ import env from './env';
 import loggingSagas from './logging';
 import secretSagas from './secrets';
 import searchSagas from './search';
-import resourceTypeSagas from './resourceTypes';
 import typePropertySagas from './typeProperties';
 
 export default function* metaSagas() {
@@ -49,7 +48,6 @@ export default function* metaSagas() {
     loggingSagas(),
     secretSagas(),
     searchSagas(),
-    resourceTypeSagas(),
     typePropertySagas(),
     yield takeLatest(...generateFetchAll('SERVICESPECS', 'servicespecs')),
     yield takeLatest(...generateFetchOne('SERVICESPEC', 'servicespecs')),
@@ -73,5 +71,12 @@ export default function* metaSagas() {
     yield takeLatest(...generateUpdate('STREAMSPEC', 'streamspecs')),
     yield takeLatest(...generateDelete('STREAMSPEC', 'streamspecs')),
     yield takeLatest(...generateDeleteMany('STREAMSPECS', 'streamspecs')),
+
+    yield takeLatest(...generateFetchAll('RESOURCETYPES', 'resourcetypes')),
+    yield takeLatest(...generateFetchOne('RESOURCETYPE', 'resourcetypes')),
+    yield takeLatest(...generateCreate('RESOURCETYPE', 'resourcetypes')),
+    yield takeLatest(...generateUpdate('RESOURCETYPE', 'resourcetypes')),
+    yield takeLatest(...generateDelete('RESOURCETYPE', 'resourcetypes')),
+    yield takeLatest(...generateDeleteMany('RESOURCETYPES', 'resourcetypes')),
   ]);
 }

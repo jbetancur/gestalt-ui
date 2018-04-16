@@ -16,7 +16,6 @@ import self from './self';
 import logging from './logging';
 import secrets from './secrets';
 import search from './search';
-import resourceTypes from './resourceTypes';
 import typeProperties from './typeProperties';
 
 export default Object.assign({},
@@ -38,6 +37,5 @@ export default Object.assign({},
   logging,
   secrets,
   search,
-  resourceTypes,
   typeProperties,
 );
