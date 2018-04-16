@@ -27,19 +27,7 @@ const LambdaForm = (props) => {
   const { values, match, lambda, editMode } = props;
 
   // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
-  const getRuntime = () => runTimes.find((runtime) => {
-    if (values.properties.runtime) {
-      const rindex = values.properties.runtime.indexOf('---');
-
-      if (rindex > -1) {
-        return runtime.value === values.properties.runtime.substring(0, rindex);
-      }
-
-      return runtime.value;
-    }
-
-    return {};
-  }) || '';
+  const getRuntime = () => runTimes.find(runtime => runtime.value === values.properties.runtime) || {};
 
   // if doesn't support inline set back to package
   const handleSupportsInline = () => {
@@ -49,8 +37,6 @@ const LambdaForm = (props) => {
     }
   };
 
-  // Since runtime values can be a dupes - we need to make each item unique. We will strip this off in the payload transforner
-  const uniqueExecutors = props.executorsData.map((exec, i) => ({ ...exec, runtime: `${exec.runtime}---${i}` }));
   const lambdaPaneTitle = props.editMode ? `Function: ${values.properties.runtime}` : 'Function';
 
   return (
@@ -163,14 +149,13 @@ const LambdaForm = (props) => {
                       id="select-runtime"
                       component={SelectField}
                       name="properties.runtime"
-                      menuItems={uniqueExecutors}
+                      menuItems={props.executorsData}
                       itemLabel="name"
-                      itemValue="runtime"
+                      itemValue="id"
                       required
                       label="Runtime"
                       async
                       onChange={handleSupportsInline}
-                      disabled={props.editMode}
                     />
                   </Col>}
                   {!props.editMode &&

@@ -18,6 +18,7 @@ class LambdaCreate extends PureComponent {
     createLambda: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
+    executorsData: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -27,8 +28,13 @@ class LambdaCreate extends PureComponent {
   }
 
   create(values) {
-    const { match, history, createLambda } = this.props;
+    const { match, history, createLambda, executorsData } = this.props;
     const payload = generatePayload(values);
+
+    if (payload.properties.runtime && executorsData.length) {
+      payload.properties.runtime = executorsData.find(exec => exec.id === payload.properties.runtime)
+        .properties.config.env.public.RUNTIME;
+    }
 
     const onSuccess = (response) => {
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas/${response.id}`);
