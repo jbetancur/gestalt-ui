@@ -68,10 +68,33 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
           </Panel>
         </Col>
 
-        <Col flex={12}>
-          <Panel title="Input Feed" expandable={false}>
+        <Row gutter={5}>
+          <Col flex={12}>
+            <Panel title="Lambda" expandable={false}>
+              <Row gutter={5}>
+                <Col flex={6}>
+                  <Field
+                    id="Lambda"
+                    name="properties.processor.lambda_id"
+                    label="Lambda"
+                    component={SelectField}
+                    menuItems={lambdas}
+                    itemLabel="name"
+                    itemValue="id"
+                    helpText="Select a lamnda to transform the stream"
+                    async
+                    required
+                  />
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
+        </Row>
+
+        <Col flex={6}>
+          <Panel title="Input Feed" expandable={false} minHeight="270px">
             <Row gutter={5}>
-              <Col flex={6}>
+              <Col flex={12}>
                 <Field
                   id="InputFeed"
                   name="properties.processor.input_stream_config.feed_id"
@@ -80,12 +103,13 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
                   menuItems={datafeeds}
                   itemLabel="name"
                   itemValue="id"
+                  helpText="Specify and Input Feed"
                   async
                   required
                 />
               </Col>
 
-              <Col flex={6}>
+              <Col flex={12}>
                 <Field
                   name="properties.processor.input_stream_config.name"
                   component={TextField}
@@ -172,58 +196,35 @@ const StreamForm = ({ title, streamSpec, loading, editMode, handleSubmit, submit
           </Panel>
         </Col>
 
-        <Row gutter={5}>
-          <Col flex={12}>
-            <Panel title="Lambda" expandable={false}>
-              <Row gutter={5}>
-                <Col flex={6}>
-                  <Field
-                    id="Lambda"
-                    name="properties.processor.lambda_id"
-                    label="Lambda"
-                    component={SelectField}
-                    menuItems={lambdas}
-                    itemLabel="name"
-                    itemValue="id"
-                    async
-                    required
-                  />
-                </Col>
-              </Row>
-            </Panel>
-          </Col>
-        </Row>
+        <Col flex={6}>
+          <Panel title="Output Feed" expandable={false} minHeight="270px">
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Field
+                  id="OutputFeed"
+                  name="properties.processor.output_stream_config.feed_id"
+                  label="Feed"
+                  component={SelectField}
+                  menuItems={datafeeds}
+                  itemLabel="name"
+                  itemValue="id"
+                  helpText="Specify and Output Feed"
+                  async
+                  required
+                />
+              </Col>
 
-        <Row gutter={5}>
-          <Col flex={12}>
-            <Panel title="Output Feed" expandable={false}>
-              <Row gutter={5}>
-                <Col flex={6}>
-                  <Field
-                    id="OutputFeed"
-                    name="properties.processor.output_stream_config.feed_id"
-                    label="Feed"
-                    component={SelectField}
-                    menuItems={datafeeds}
-                    itemLabel="name"
-                    itemValue="id"
-                    async
-                    required
-                  />
-                </Col>
-
-                <Col flex={6}>
-                  <Field
-                    name="properties.processor.output_stream_config.name"
-                    component={TextField}
-                    label="Feed Name"
-                    required
-                  />
-                </Col>
-              </Row>
-            </Panel>
-          </Col>
-        </Row>
+              <Col flex={12}>
+                <Field
+                  name="properties.processor.output_stream_config.name"
+                  component={TextField}
+                  label="Feed Name"
+                  required
+                />
+              </Col>
+            </Row>
+          </Panel>
+        </Col>
 
         <FullPageFooter>
           <Button
