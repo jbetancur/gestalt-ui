@@ -9,7 +9,7 @@ import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import OrgNavMenu from 'Modules/OrgNavMenu';
 import { loginActions } from 'Modules/Authorization';
-import { metaActions } from 'Modules/MetaResource';
+import { metaActions, withSync } from 'Modules/MetaResource';
 import Main from './components/Main';
 import AppError from './components/AppError';
 import AppLogo from './components/AppLogo';
@@ -23,13 +23,13 @@ class App extends Component {
     meta: PropTypes.object.isRequired,
     license: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
-    // actions: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
     syncPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     browser: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
+    syncActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -48,7 +48,7 @@ class App extends Component {
     if (nextProps.self.id && nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
       // TODO: routing here must be moved to auth once we refactor Auth/JWT
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
-      this.props.meta.sync();
+      this.props.syncActions.createSync();
       this.props.license.fetchLicense('root');
     }
   }
@@ -99,26 +99,20 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { browser, metaResource } = state;
+const mapStateToProps = state => ({
+  self: state.metaResource.self.self,
+  selfPending: state.metaResource.self.pending,
+  browser: state.browser,
+});
 
-  return {
-    self: metaResource.self.self,
-    selfPending: metaResource.self.pending,
-    syncPending: metaResource.sync.pending,
-    browser,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    license: bindActionCreators(licenseActions, dispatch),
-    auth: bindActionCreators(loginActions, dispatch),
-    meta: bindActionCreators(metaActions, dispatch),
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  license: bindActionCreators(licenseActions, dispatch),
+  auth: bindActionCreators(loginActions, dispatch),
+  meta: bindActionCreators(metaActions, dispatch),
+});
 
 export default compose(
   withApp,
+  withSync,
   connect(mapStateToProps, mapDispatchToProps),
 )(App);
