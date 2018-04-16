@@ -14,7 +14,7 @@ export default function withserviceSpecs(BaseComponent) {
     componentWillUnmount() {
       const { serviceSpecsActions } = this.props;
 
-      serviceSpecsActions.unload();
+      serviceSpecsActions.unloadServiceSpecs();
     }
 
     render() {
