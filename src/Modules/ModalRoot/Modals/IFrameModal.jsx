@@ -61,7 +61,7 @@ class ActionsModal extends PureComponent {
         closeOnEsc
         defaultVisibleTransitionable
         autosizeContent={false}
-        onHide={() => this.props.hideModal()}
+        onHide={this.props.hideModal}
         fullPage={this.props.isFullScreen}
       >
         <Frame
@@ -74,7 +74,7 @@ class ActionsModal extends PureComponent {
         <button
           id="close-parent-modal"
           style={{ visibility: 'hidden', position: 'absolute' }}
-          onClick={() => this.props.hideModal()}
+          onClick={this.props.hideModal}
         />
       </EnhancedDialog>
     );
