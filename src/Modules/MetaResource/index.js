@@ -6,6 +6,7 @@ export { default as withPickerData } from './hocs/withPickerData';
 export { default as urlmapper } from './lib/urlmapper';
 
 // HOCs
+export { default as withSync } from './hocs/withSync';
 export { default as withDatafeed } from './hocs/withDatafeed';
 export { default as withDatafeeds } from './hocs/withDatafeeds';
 export { default as withStreamSpec } from './hocs/withStreamSpec';

@@ -18,7 +18,6 @@ import secrets from './secrets';
 import search from './search';
 import resourceTypes from './resourceTypes';
 import typeProperties from './typeProperties';
-import syncMeta from './sync';
 
 export default Object.assign({},
   organizations,
@@ -41,5 +40,4 @@ export default Object.assign({},
   search,
   resourceTypes,
   typeProperties,
-  syncMeta,
 );
