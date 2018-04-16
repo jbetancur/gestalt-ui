@@ -7,7 +7,7 @@ import { buildAllURL } from '../lib/urlmapper';
 
 const setPropName = asContext => (asContext ? 'contextProviderActions' : 'providerActions');
 
-export default ({ asContext, fetchOnMount = true, filters, params = {} }) => (WrapperComponent) => {
+export default ({ asContext, fetchOnMount = true, filter, params = {} }) => (WrapperComponent) => {
   class ProviderActions extends Component {
     static displayName = 'ProviderActions(HOC)';
     static propTypes = {
@@ -41,7 +41,7 @@ export default ({ asContext, fetchOnMount = true, filters, params = {} }) => (Wr
       const { match } = this.props;
       const name = setPropName(asContext);
       const entityParams = generateContextEntityState(match.params);
-      const queryParams = Object.assign(params, { expand: true, compact: false, filters });
+      const queryParams = Object.assign(params, { expand: true, compact: false, filter });
       const url = buildAllURL('actions', { fqon: match.params.fqon, entityId: entityParams.id, entityKey: entityParams.key, params: queryParams }, true);
 
       this.setState({ [`${name}Loading`]: true });

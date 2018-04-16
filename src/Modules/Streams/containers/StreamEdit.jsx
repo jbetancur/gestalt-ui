@@ -82,7 +82,7 @@ const mapStatetoProps = state => ({
 
 export default compose(
   // withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-  withProviderActions({ filters: 'streamspecs.edit' }),
+  withProviderActions({ filter: 'streamspec.edit' }),
   withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withStreamSpec,
