@@ -106,19 +106,6 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
     });
 
-    describe('properties.runtime uniqueness is removed', () => {
-      it('should generate the correct payload when a runtime needs to have the name normalized', () => {
-        const sourcePayload = metaModels.lambda.get({
-          properties: {
-            runtime: 'nodejs---1'
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.runtime).to.equal('nodejs');
-      });
-    });
-
     describe('updateMode', () => {
       it('should generate the correct payload when updateMode is specified as an argument', () => {
         const sourcePayload = metaModels.lambda.get({
