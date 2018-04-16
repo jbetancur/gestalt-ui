@@ -5,7 +5,7 @@ describe('actionFactory: createRequestAction', () => {
   test('it creates an unloadAction action creator', () => {
     const action = createRequestAction(['goto'], 'Jupiter');
 
-    expect(action.unload()).toEqual({ type: `${PREFIX}UNLOAD_JUPITER` });
+    expect(action.unloadJupiter()).toEqual({ type: `${PREFIX}UNLOAD_JUPITER` });
   });
 
   test('it creates the requested action creator', () => {

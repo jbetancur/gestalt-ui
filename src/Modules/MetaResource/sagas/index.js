@@ -1,6 +1,12 @@
 import { all, takeLatest } from 'redux-saga/effects';
-import { fetchAll, fetchOne, create, update, deleteOne, deleteMany } from '../lib/sagaFactory';
-import * as types from '../actionTypes';
+import {
+  generateFetchAll,
+  generateFetchOne,
+  generateCreate,
+  generateUpdate,
+  generateDelete,
+  generateDeleteMany,
+} from '../lib/sagaFactory';
 
 import orgSagas from './organizations';
 import workspaceSagas from './workspaces';
@@ -45,27 +51,27 @@ export default function* metaSagas() {
     searchSagas(),
     resourceTypeSagas(),
     typePropertySagas(),
-    yield takeLatest(types.FETCH_SERVICESPECS_REQUEST, fetchAll('SERVICESPECS', 'servicespecs')),
-    yield takeLatest(types.FETCH_SERVICESPEC_REQUEST, fetchOne('SERVICESPEC', 'servicespecs')),
-    yield takeLatest(types.CREATE_SERVICESPEC_REQUEST, create('SERVICESPEC', 'servicespecs')),
-    yield takeLatest(types.UPDATE_SERVICESPEC_REQUEST, update('SERVICESPEC', 'servicespecs')),
-    yield takeLatest(types.DELETE_SERVICESPEC_REQUEST, deleteOne('SERVICESPEC', 'servicespecs')),
-    yield takeLatest(types.DELETE_SERVICESPECS_REQUEST, deleteMany('SERVICESPECS', 'servicespecs')),
+    yield takeLatest(...generateFetchAll('SERVICESPECS', 'servicespecs')),
+    yield takeLatest(...generateFetchOne('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(...generateCreate('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(...generateUpdate('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(...generateDelete('SERVICESPEC', 'servicespecs')),
+    yield takeLatest(...generateDeleteMany('SERVICESPECS', 'servicespecs')),
 
-    yield takeLatest(types.CREATE_SYNC_REQUEST, create('SYNC', 'sync')),
+    yield takeLatest(...generateCreate('SYNC', 'sync')),
 
-    yield takeLatest(types.FETCH_DATAFEEDS_REQUEST, fetchAll('DATAFEEDS', 'datafeeds')),
-    yield takeLatest(types.FETCH_DATAFEED_REQUEST, fetchOne('DATAFEED', 'datafeeds')),
-    yield takeLatest(types.CREATE_DATAFEED_REQUEST, create('DATAFEED', 'datafeeds')),
-    yield takeLatest(types.UPDATE_DATAFEED_REQUEST, update('DATAFEED', 'datafeeds')),
-    yield takeLatest(types.DELETE_DATAFEED_REQUEST, deleteOne('DATAFEED', 'datafeeds')),
-    yield takeLatest(types.DELETE_DATAFEEDS_REQUEST, deleteMany('DATAFEEDS', 'datafeeds')),
+    yield takeLatest(...generateFetchAll('DATAFEEDS', 'datafeeds')),
+    yield takeLatest(...generateFetchOne('DATAFEED', 'datafeeds')),
+    yield takeLatest(...generateCreate('DATAFEED', 'datafeeds')),
+    yield takeLatest(...generateUpdate('DATAFEED', 'datafeeds')),
+    yield takeLatest(...generateDelete('DATAFEED', 'datafeeds')),
+    yield takeLatest(...generateDeleteMany('DATAFEEDS', 'datafeeds')),
 
-    yield takeLatest(types.FETCH_STREAMSPECS_REQUEST, fetchAll('STREAMSPECS', 'streamspecs')),
-    yield takeLatest(types.FETCH_STREAMSPEC_REQUEST, fetchOne('STREAMSPEC', 'streamspecs')),
-    yield takeLatest(types.CREATE_STREAMSPEC_REQUEST, create('STREAMSPEC', 'streamspecs')),
-    yield takeLatest(types.UPDATE_STREAMSPEC_REQUEST, update('STREAMSPEC', 'streamspecs')),
-    yield takeLatest(types.DELETE_STREAMSPEC_REQUEST, deleteOne('STREAMSPEC', 'streamspecs')),
-    yield takeLatest(types.DELETE_STREAMSPECS_REQUEST, deleteMany('STREAMSPECS', 'streamspecs')),
+    yield takeLatest(...generateFetchAll('STREAMSPECS', 'streamspecs')),
+    yield takeLatest(...generateFetchOne('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(...generateCreate('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(...generateUpdate('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(...generateDelete('STREAMSPEC', 'streamspecs')),
+    yield takeLatest(...generateDeleteMany('STREAMSPECS', 'streamspecs')),
   ]);
 }

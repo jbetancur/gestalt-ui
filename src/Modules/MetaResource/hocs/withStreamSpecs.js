@@ -14,7 +14,7 @@ export default function withstreamSpecs(BaseComponent) {
     componentWillUnmount() {
       const { streamSpecsActions } = this.props;
 
-      streamSpecsActions.unload();
+      streamSpecsActions.unloadStreamSpecs();
     }
 
     render() {
