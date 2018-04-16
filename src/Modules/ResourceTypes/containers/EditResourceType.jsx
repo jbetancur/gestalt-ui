@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, withPickerData } from 'Modules//MetaResource';
+import { withResourceType, withPickerData, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
@@ -12,34 +12,25 @@ import { getEditResourceTypeModel } from '../selectors';
 
 class EditResourceType extends PureComponent {
   static propTypes = {
-    fetchResourceType: PropTypes.func.isRequired,
-    updateResourceType: PropTypes.func.isRequired,
-    createResourceType: PropTypes.func.isRequired,
+    resourceTypeActions: PropTypes.func.isRequired,
     batchUpdateTypeProperties: PropTypes.func.isRequired,
     resourceType: PropTypes.object.isRequired,
-    unloadResourceType: PropTypes.func.isRequired,
     resourceTypePending: PropTypes.bool.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchResourceType } = this.props;
+    const { match, resourceTypeActions } = this.props;
 
-    fetchResourceType(match.params.fqon, match.params.resourceTypeId);
-  }
-
-  componentWillUnmount() {
-    const { unloadResourceType } = this.props;
-
-    unloadResourceType();
+    resourceTypeActions.fetchResourceType({ fqon: match.params.fqon, id: match.params.resourceTypeId, params: { withprops: true } });
   }
 
   update = (values) => {
-    const { match, resourceType, updateResourceType, batchUpdateTypeProperties } = this.props;
-    const patches = generatePatches(resourceType, values);
+    const { match, resourceType, resourceTypeActions, batchUpdateTypeProperties } = this.props;
+    const payload = generatePatches(resourceType, values);
     const batchOps = batchTypeProps(resourceType.id, resourceType.property_defs, values.property_defs);
-    const onSuccessTypePropsUpdate = () => updateResourceType(match.params.fqon, resourceType.id, patches);
+    const onSuccessTypePropsUpdate = () => resourceTypeActions.updateResourceType({ fqon: match.params.fqon, id: match.params.resourceTypeId, payload, params: { withprops: true } });
 
     batchUpdateTypeProperties(match.params.fqon, batchOps, onSuccessTypePropsUpdate);
   }
@@ -67,8 +58,9 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
+  withResourceType,
   withMetaResource,
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   connect(mapStateToProps),
   reduxForm({
     form: 'editResourceTypeForm',

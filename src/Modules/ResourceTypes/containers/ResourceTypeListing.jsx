@@ -10,7 +10,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withResourceTypes } from 'Modules/MetaResource';
 import actions from '../actions';
 
 class ResourceTypeListing extends PureComponent {
@@ -18,36 +18,28 @@ class ResourceTypeListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     resourceTypes: PropTypes.array.isRequired,
-    deleteResourceType: PropTypes.func.isRequired,
+    resourceTypesActions: PropTypes.func.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchResourceTypes: PropTypes.func.isRequired,
-    unloadResourceTypes: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchResourceTypes } = this.props;
+    const { match, resourceTypesActions } = this.props;
 
-    fetchResourceTypes(match.params.fqon);
-  }
-
-  componentWillUnmount() {
-    const { unloadResourceTypes } = this.props;
-
-    unloadResourceTypes();
+    resourceTypesActions.fetchResourceTypes({ fqon: match.params.fqon });
   }
 
   deleteOne = (row) => {
-    const { match, deleteResourceType, fetchResourceTypes } = this.props;
+    const { match, resourceTypesActions } = this.props;
 
     const onSuccess = () => {
-      fetchResourceTypes(match.params.fqon);
+      resourceTypesActions.fetchResourceTypes({ fqon: match.params.fqon });
     };
 
     this.props.confirmDelete(() => {
-      deleteResourceType(match.params.fqon, row.id, onSuccess);
+      resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, id: row.id, onSuccess });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -79,7 +71,7 @@ class ResourceTypeListing extends PureComponent {
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
             editURL={`${this.props.match.url}/${row.id}`}
-            entityKey="resourceTypes"
+            entityKey="resourcetypes"
             disableEntitlements
             {...this.props}
           />
@@ -143,6 +135,6 @@ class ResourceTypeListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withResourceTypes,
   connect(null, actions),
 )(ResourceTypeListing);
