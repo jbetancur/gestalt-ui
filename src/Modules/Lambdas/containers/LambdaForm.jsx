@@ -25,13 +25,20 @@ const timezones = moment.tz.names();
 
 const LambdaForm = (props) => {
   const { values, match, lambda, editMode } = props;
+  const getRuntime = () => {
+    const executor = props.executorsData.find(exec => exec.id === values.properties.runtime);
 
-  // TODO: Since we dont have ui specific props from the ui just use a lookup list for now
-  const getRuntime = () => runTimes.find(runtime => runtime.value === values.properties.runtime) || {};
+    if (executor && executor.properties) {
+      return runTimes.find(runtime => runtime.value === executor.properties.config.env.public.RUNTIME);
+    }
+
+    return {};
+  };
 
   // if doesn't support inline set back to package
   const handleSupportsInline = () => {
     const items = getRuntime().codeOptions;
+
     if (items && items.some(opt => opt.value !== 'code')) {
       props.change('properties.code_type', 'package');
     }
@@ -196,29 +203,6 @@ const LambdaForm = (props) => {
                     />
                   </Col>
 
-                  {values.properties.code_type === 'code' &&
-                    <Row>
-                      <Col flex={2} xs={12} sm={6} md={6}>
-                        <MDSelectField
-                          id="select-code-theme"
-                          label="Editor Theme"
-                          menuItems={['monokai', 'chrome']}
-                          defaultValue={props.theme}
-                          onChange={props.handleTheme}
-                        />
-                      </Col>
-                      <Col flex={12}>
-                        <Field
-                          component={AceEditor}
-                          mode={getRuntime().codeFormat}
-                          theme={props.theme}
-                          name="properties.code"
-                          maxLines={75}
-                          minLines={25}
-                        />
-                      </Col>
-                    </Row>}
-
                   {values.properties.code_type === 'package' &&
                   <Col flex={10} xs={12} sm={12}>
                     <Field
@@ -244,6 +228,37 @@ const LambdaForm = (props) => {
                 </Row>
               </Panel>
             </Col>
+
+            {values.properties.code_type === 'code' &&
+              <Col flex={12}>
+                <Panel title="Source Code" noPadding>
+                  <Row gutter={10}>
+                    <Col flex={3} xs={12} sm={6} md={6}>
+                      <MDSelectField
+                        id="select-code-theme"
+                        label="Editor Theme"
+                        menuItems={['monokai', 'chrome']}
+                        defaultValue={props.theme}
+                        onChange={props.handleTheme}
+                        fullWidth
+                      />
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col flex={12}>
+                      <Field
+                        component={AceEditor}
+                        mode={getRuntime().codeFormat}
+                        theme={props.theme}
+                        name="properties.code"
+                        maxLines={75}
+                        minLines={25}
+                      />
+                    </Col>
+                  </Row>
+                </Panel>
+              </Col>}
 
             <Col flex={12}>
               <Panel title="Environment Variables" noPadding count={values.properties.env.length}>
