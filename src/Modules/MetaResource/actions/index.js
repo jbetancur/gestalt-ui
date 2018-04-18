@@ -12,7 +12,6 @@ import entitlements from './entitlements';
 import users from './users';
 import groups from './groups';
 import env from './env';
-import self from './self';
 import logging from './logging';
 import secrets from './secrets';
 import search from './search';
@@ -33,7 +32,6 @@ export default Object.assign({},
   users,
   groups,
   env,
-  self,
   logging,
   secrets,
   search,

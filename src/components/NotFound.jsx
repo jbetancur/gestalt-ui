@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from 'react-flexybox';
-import { connect } from 'react-redux';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
+import { withSelf } from 'Modules/MetaResource';
 
 const Title = styled.h1`
   font-family: 'lovelo';
@@ -134,11 +134,4 @@ NotFound.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
-
-function mapStateToProps(state) {
-  return {
-    self: state.metaResource.self.self,
-  };
-}
-
-export default connect(mapStateToProps)(NotFound);
+export default withSelf(NotFound);

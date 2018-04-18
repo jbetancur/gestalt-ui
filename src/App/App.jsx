@@ -9,7 +9,7 @@ import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import OrgNavMenu from 'Modules/OrgNavMenu';
 import { loginActions } from 'Modules/Authorization';
-import { metaActions, withSync } from 'Modules/MetaResource';
+import { withSync, withSelf } from 'Modules/MetaResource';
 import Main from './components/Main';
 import AppError from './components/AppError';
 import AppLogo from './components/AppLogo';
@@ -20,7 +20,7 @@ import withApp from './withApp';
 class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    meta: PropTypes.object.isRequired,
+    selfActions: PropTypes.object.isRequired,
     license: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
@@ -33,11 +33,11 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const { self, meta } = this.props;
+    const { self, selfActions } = this.props;
     // sets our current logged in users home org
     // this can go away when we implement JWT
     if (!self.id) {
-      meta.fetchSelf();
+      selfActions.fetchSelf();
     }
 
     // demo konami for showing expermimental features
@@ -100,19 +100,17 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  self: state.metaResource.self.self,
-  selfPending: state.metaResource.self.pending,
   browser: state.browser,
 });
 
 const mapDispatchToProps = dispatch => ({
   license: bindActionCreators(licenseActions, dispatch),
   auth: bindActionCreators(loginActions, dispatch),
-  meta: bindActionCreators(metaActions, dispatch),
 });
 
 export default compose(
   withApp,
+  withSelf,
   withSync,
   connect(mapStateToProps, mapDispatchToProps),
 )(App);
