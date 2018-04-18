@@ -15,15 +15,15 @@ export default function AuthWrapper(BaseComponent) {
     static propTypes = {
       history: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
-      auth: PropTypes.object.isRequired,
+      authActions: PropTypes.object.isRequired,
     };
 
     checkAuthentication() {
-      const { history, location, auth } = this.props;
+      const { history, location, authActions } = this.props;
       const validCookie = cookies.get('auth_token') || false;
 
       if (!validCookie) {
-        auth.logoutOnTokenExpiration();
+        authActions.logoutOnTokenExpiration();
         history.replace({
           pathname: '/login',
           state: { nextPathname: location.pathname },
@@ -39,7 +39,7 @@ export default function AuthWrapper(BaseComponent) {
   }
 
   const mapDispatchToProps = dispatch => ({
-    auth: bindActionCreators(actions, dispatch)
+    authActions: bindActionCreators(actions, dispatch)
   });
 
   return compose(

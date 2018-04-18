@@ -56,7 +56,7 @@ export default function* metaSagas() {
     yield takeLatest(...generateDelete('SERVICESPEC', 'servicespecs')),
     yield takeLatest(...generateDeleteMany('SERVICESPECS', 'servicespecs')),
 
-    yield takeLatest(...generateCreate('SYNC', 'sync')),
+    yield takeLatest(...generateCreate('SYNC', 'sync', 'DO')),
 
     yield takeLatest(...generateFetchAll('DATAFEEDS', 'datafeeds')),
     yield takeLatest(...generateFetchOne('DATAFEED', 'datafeeds')),

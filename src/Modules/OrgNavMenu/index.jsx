@@ -116,20 +116,19 @@ class OrgNavMenu extends PureComponent {
     return (
       <EnhancedMenuButton
         id="orgs-nav"
-        label={name}
         position={MenuButton.Positions.BELOW}
         iconChildren="expand_more"
         flat
         iconBefore={false}
         onClick={this.fetchOrgList}
-      >
-        {/* https://github.com/mlaursen/react-md/issues/259 */}
-        {[
+        menuItems={[
           <div key="orgs-nav-menu">
             {this.renderSearch()}
             {!allOrganizationsPending && this.props.allOrganizations.map(this.renderOrgMenuItems, this)}
           </div>
         ]}
+      >
+        {name}
       </EnhancedMenuButton>
     );
   }

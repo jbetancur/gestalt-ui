@@ -24,10 +24,8 @@ function parseLicense(response) {
 /**
  * Unload the license from the state store
  */
-export function onUnloadLicense() {
-  return (dispatch) => {
-    dispatch({ type: LICENSE_UNLOADED });
-  };
+export function unloadLicense() {
+  return { type: LICENSE_UNLOADED };
 }
 
 /**
@@ -98,9 +96,8 @@ export function hideLicenseModal() {
   return { type: 'HIDE_MODAL' };
 }
 
-
 export default {
-  onUnloadLicense,
+  unloadLicense,
   fetchLicense,
   updateLicense,
   showLicenseModal,

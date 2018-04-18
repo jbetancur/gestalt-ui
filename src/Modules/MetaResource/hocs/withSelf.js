@@ -8,7 +8,7 @@ export default function withSelf(BaseComponent) {
   class Self extends Component {
     static displayName = 'Self(HOC)';
     static propTypes = {
-      syncActions: PropTypes.object.isRequired,
+      selfActions: PropTypes.object.isRequired,
     };
 
     render() {
