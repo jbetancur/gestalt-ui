@@ -28,7 +28,12 @@ const LambdaForm = (props) => {
   const getRuntime = () => {
     if (!editMode) {
       const executor = props.executorsData.find(exec => exec.id === values.properties.runtime);
-      return (executor && runTimes.find(runtime => runtime.value === executor.properties.config.env.public.RUNTIME)) || {};
+
+      return (executor &&
+        executor.properties &&
+        executor.properties.config &&
+        executor.properties.config.env &&
+        runTimes.find(runtime => runtime.value === executor.properties.config.env.public.RUNTIME)) || {};
     }
 
     return runTimes.find(runtime => runtime.value === values.properties.runtime) || {};
