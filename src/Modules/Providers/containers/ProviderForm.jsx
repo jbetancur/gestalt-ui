@@ -145,7 +145,7 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
                           </Col>}
                         <Col flex={12}>
                           <Field
-                            id="description"
+                            id="provider-description"
                             component={TextField}
                             name="description"
                             label="Description"
