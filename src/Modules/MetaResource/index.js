@@ -17,3 +17,5 @@ export { default as withServiceSpec } from './hocs/withServiceSpec';
 export { default as withServiceSpecs } from './hocs/withServiceSpecs';
 export { default as withResourceType } from './hocs/withResourceType';
 export { default as withResourceTypes } from './hocs/withResourceTypes';
+export { default as withLambda } from './hocs/withLambda';
+export { default as withLambdas } from './hocs/withLambdas';

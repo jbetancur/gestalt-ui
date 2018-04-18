@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withLambda, withPickerData, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import LambdaForm from './LambdaForm';
 import validate from '../validations';
@@ -15,7 +15,7 @@ class LambdaCreate extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createLambda: PropTypes.func.isRequired,
+    lambdaActions: PropTypes.object.isRequired,
     envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
     executorsData: PropTypes.object.isRequired,
@@ -28,7 +28,7 @@ class LambdaCreate extends PureComponent {
   }
 
   create(values) {
-    const { match, history, createLambda, executorsData } = this.props;
+    const { match, history, lambdaActions, executorsData } = this.props;
     const payload = generatePayload(values);
 
     if (payload.properties.runtime && executorsData.length) {
@@ -40,7 +40,7 @@ class LambdaCreate extends PureComponent {
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas/${response.id}`);
     };
 
-    createLambda(match.params.fqon, match.params.environmentId, payload, onSuccess);
+    lambdaActions.createLambda({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload, onSuccess });
   }
 
   render() {
@@ -71,6 +71,7 @@ function mapStateToProps(state) {
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
   withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
+  withLambda,
   withMetaResource,
   connect(mapStateToProps, Object.assign({}, actions)),
   reduxForm({

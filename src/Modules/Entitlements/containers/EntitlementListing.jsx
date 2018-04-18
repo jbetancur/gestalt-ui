@@ -24,7 +24,6 @@ class EntitlementListing extends PureComponent {
     fetchEntitlements: PropTypes.func.isRequired,
     unloadEntitlements: PropTypes.func.isRequired,
     entitlementsPending: PropTypes.bool.isRequired,
-    entitlementsUpdatePending: PropTypes.bool.isRequired,
     updateEntitlements: PropTypes.func.isRequired,
     unloadSearch: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
@@ -91,9 +90,8 @@ class EntitlementListing extends PureComponent {
   }
 
   render() {
-    const { entitlements, entitlementsPending, entitlementsUpdatePending } = this.props;
-    const isPending = entitlementsPending || entitlementsUpdatePending;
-    const showEntitlementTree = entitlements.length > 0 && !isPending;
+    const { entitlements, entitlementsPending } = this.props;
+    const showEntitlementTree = entitlements.length > 0 && !entitlementsPending;
     const isUserQuery = this.state.selectedSearchFieldValue === 'users';
     const searchLabel = isUserQuery ? 'Search username' : 'Search group name';
     const searchField = isUserQuery ? 'username' : 'name';
@@ -147,7 +145,7 @@ class EntitlementListing extends PureComponent {
                   </Row>
                 </Row>}
 
-              {isPending &&
+              {entitlementsPending &&
               <Row center fill>
                 <Col flex>
                   <DotActivity
@@ -159,7 +157,7 @@ class EntitlementListing extends PureComponent {
                 </Col>
               </Row>}
 
-              {!showEntitlementTree && !isPending &&
+              {!showEntitlementTree && !entitlementsPending &&
               <Row center fill>
                 <Col flex style={{ textAlign: 'center' }}>
                   <H3>You do not have permissions to view these Entitlements</H3>

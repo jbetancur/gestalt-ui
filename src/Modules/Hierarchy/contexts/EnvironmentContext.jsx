@@ -18,7 +18,6 @@ class EnvironmentContext extends Component {
     environment: PropTypes.object.isRequired,
     unloadEnvironment: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
-    unloadLambdas: PropTypes.func.isRequired,
     unloadAPIs: PropTypes.func.isRequired,
     unloadPolicies: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
@@ -50,11 +49,10 @@ class EnvironmentContext extends Component {
 
   componentWillUnmount() {
     // only clear state when the Environment Context changes - this acts as a cache
-    const { unloadEnvironment, unloadContainers, unloadLambdas, unloadAPIs, unloadPolicies, unloadProviders, unloadSecrets } = this.props;
+    const { unloadEnvironment, unloadContainers, unloadAPIs, unloadPolicies, unloadProviders, unloadSecrets } = this.props;
 
     unloadEnvironment();
     unloadContainers();
-    unloadLambdas();
     unloadAPIs();
     unloadPolicies();
     unloadProviders();
