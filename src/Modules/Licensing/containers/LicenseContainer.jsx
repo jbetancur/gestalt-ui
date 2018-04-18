@@ -27,7 +27,7 @@ class License extends Component {
     updateLicense: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     updatedLicenseInfoPending: PropTypes.bool.isRequired,
-    onUnloadLicense: PropTypes.func.isRequired,
+    unloadLicense: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     modal: PropTypes.object.isRequired,
     hideLicenseModal: PropTypes.func.isRequired,
@@ -39,8 +39,8 @@ class License extends Component {
   }
 
   componentWillUnmount() {
-    const { onUnloadLicense } = this.props;
-    onUnloadLicense();
+    const { unloadLicense } = this.props;
+    unloadLicense();
   }
 
   update(values) {

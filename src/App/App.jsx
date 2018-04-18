@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
 import { ContextRoutes } from 'Modules/Hierarchy';
-import { licenseActions } from 'Modules/Licensing';
+import { withLicense } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import OrgNavMenu from 'Modules/OrgNavMenu';
-import { loginActions } from 'Modules/Authorization';
+import { withRestricted } from 'Modules/Authorization';
 import { withSync, withSelf } from 'Modules/MetaResource';
 import Main from './components/Main';
 import AppError from './components/AppError';
@@ -17,12 +17,14 @@ import AppToolbarUserMenu from './components/AppToolbarUserMenu';
 import AppToolbarInfoMenu from './components/AppToolbarInfoMenu';
 import withApp from './withApp';
 
+const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
+
 class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     selfActions: PropTypes.object.isRequired,
-    license: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
+    licenseActions: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
     syncPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
@@ -40,54 +42,54 @@ class App extends Component {
       selfActions.fetchSelf();
     }
 
-    // demo konami for showing expermimental features
-    Mousetrap.bind(['ctrl+shift+g', 'up up down down left right left right b a enter'], this.showExperimental);
+    // demo konami for showing experimental features
+    Mousetrap.bind(konamiCode, this.showExperimental);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.self.id && nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
       // TODO: routing here must be moved to auth once we refactor Auth/JWT
       this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
-      this.props.syncActions.createSync();
-      this.props.license.fetchLicense('root');
+      this.props.syncActions.doSync();
+      this.props.licenseActions.fetchLicense('root');
     }
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind(['ctrl+shift+g', 'up up down down left right left right b a enter'], this.showExperimental);
+    Mousetrap.unbind(konamiCode, this.showExperimental);
   }
-
 
   showExperimental = () => {
     this.props.appActions.showExperimental(true);
   }
 
   logout = () => {
-    const { history, auth } = this.props;
+    const { history, authActions } = this.props;
 
-    auth.logout();
+    authActions.logout();
     history.replace('/login');
   }
 
   renderMain() {
-    const { self, license, browser } = this.props;
+    const { self, licenseActions, browser } = this.props;
 
     return (
       self.id ?
-        <Main id="app-main">
+        <Main>
           <Header
             colored
             fixed
             title={<OrgNavMenu />}
             actions={[
               <AppToolbarUserMenu self={self} browser={browser} onLogout={this.logout} />,
-              <AppToolbarInfoMenu onShowLicenseModal={license.showLicenseModal} />
+              <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
             ]}
           >
             <AppLogo visible={browser.greaterThan.sm} />
           </Header>
           <ContextRoutes />
-        </Main> : <AppError onLogout={this.logout} {...this.props} />
+        </Main> :
+        <AppError onLogout={this.logout} {...this.props} />
     );
   }
 
@@ -103,14 +105,11 @@ const mapStateToProps = state => ({
   browser: state.browser,
 });
 
-const mapDispatchToProps = dispatch => ({
-  license: bindActionCreators(licenseActions, dispatch),
-  auth: bindActionCreators(loginActions, dispatch),
-});
-
 export default compose(
+  withRestricted,
   withApp,
   withSelf,
   withSync,
-  connect(mapStateToProps, mapDispatchToProps),
+  withLicense,
+  connect(mapStateToProps),
 )(App);

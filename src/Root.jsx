@@ -16,7 +16,7 @@ import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
 import App from './App/App';
-import { LoginContainer, restricted } from './Modules/Authorization';
+import { LoginContainer, withRestricted } from './Modules/Authorization';
 import Logging from './Modules/Logging';
 import lightTheme from './themes/light';
 import './scss/style.scss';
@@ -53,21 +53,21 @@ const Root = () => (
     <Provider store={store}>
       <IntlProvider locale={language}>
         <I18nextProvider i18n={i18n}>
-          <div id="app-wrapper">
+          <React.Fragment>
             <ModalRoot />
             <ErrorNotifications />
             <ConnectedRouter history={history}>
               <Switch>
                 <Route exact path="/login" component={LoginContainer} />
-                <Route exact path="/logs" component={restricted(Logging)} />
-                <Route exact path="/" component={restricted(App)} />
+                <Route exact path="/logs" component={withRestricted(Logging)} />
+                <Route exact path="/" component={App} />
                 <Route exact path="/404" component={NotFound} />
-                <Route path="/:fqon" component={restricted(App)} />
+                <Route path="/:fqon" component={App} />
                 <Route exact path="/:fqon/404" component={NotFound} />
-                <Route path="/notfound" component={restricted(App)} />
+                <Route path="/notfound" component={App} />
               </Switch>
             </ConnectedRouter>
-          </div>
+          </React.Fragment>
         </I18nextProvider>
       </IntlProvider>
     </Provider>

@@ -23,7 +23,7 @@ export default function withSync(BaseComponent) {
 
   const mapDispatchToProps = dispatch => ({
     syncActions: bindActionCreators(Object.assign({},
-      createRequestAction(['create'], 'Sync'),
+      createRequestAction(['do'], 'Sync'),
     ), dispatch)
   });
 

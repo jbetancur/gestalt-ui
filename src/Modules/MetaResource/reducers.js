@@ -62,7 +62,7 @@ export default combineReducers({
   search: reducerFactory(['fetch'], 'search', 'search', []),
   resourceTypes: reducerFactory(['fetch', 'delete'], 'resourceTypes', 'resourceTypes', []),
   resourceType: reducerFactory(['fetch', 'create', 'update'], 'resourceType', 'resourceType', resourceTypeModel.get()),
-  sync: reducerFactory(['create'], 'sync', 'sync', {}),
+  sync: reducerFactory(['do'], 'sync', 'sync', {}),
   serviceSpecs: reducerFactory(['fetch', 'delete'], 'serviceSpecs', 'serviceSpecs', []),
   serviceSpec: reducerFactory(['create', 'update', 'delete'], 'serviceSpec', 'serviceSpec', serviceSpecModel.get()),
   datafeeds: reducerFactory(['fetch', 'delete'], 'datafeeds', 'datafeeds', []),
