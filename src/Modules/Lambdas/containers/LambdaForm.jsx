@@ -26,13 +26,12 @@ const timezones = moment.tz.names();
 const LambdaForm = (props) => {
   const { values, match, lambda, editMode } = props;
   const getRuntime = () => {
-    const executor = props.executorsData.find(exec => exec.id === values.properties.runtime);
-
-    if (executor && executor.properties) {
-      return runTimes.find(runtime => runtime.value === executor.properties.config.env.public.RUNTIME);
+    if (!editMode) {
+      const executor = props.executorsData.find(exec => exec.id === values.properties.runtime);
+      return (executor && runTimes.find(runtime => runtime.value === executor.properties.config.env.public.RUNTIME)) || {};
     }
 
-    return {};
+    return runTimes.find(runtime => runtime.value === values.properties.runtime) || {};
   };
 
   // if doesn't support inline set back to package
@@ -253,7 +252,7 @@ const LambdaForm = (props) => {
                         theme={props.theme}
                         name="properties.code"
                         maxLines={75}
-                        minLines={25}
+                        minLines={15}
                       />
                     </Col>
                   </Row>
