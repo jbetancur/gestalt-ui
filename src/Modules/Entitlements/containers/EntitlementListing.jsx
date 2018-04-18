@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { compose } from 'redux';
+import { withMetaResource, withSelf } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
@@ -171,11 +172,10 @@ class EntitlementListing extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    self: state.metaResource.self.self,
-  };
-}
 
-export default withMetaResource(connect(mapStateToProps, actions)(EntitlementListing));
+export default compose(
+  withSelf,
+  withMetaResource,
+  connect(null, actions)
+)(EntitlementListing);
 

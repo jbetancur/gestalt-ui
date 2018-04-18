@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withSelf } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Col, Row } from 'react-flexybox';
 import { UnixVariablesListing } from 'Modules/Variables';
@@ -91,6 +91,7 @@ class OrganizationDetails extends PureComponent {
 }
 
 export default compose(
+  withSelf,
   withMetaResource,
   withHierarchy,
   withEntitlements,

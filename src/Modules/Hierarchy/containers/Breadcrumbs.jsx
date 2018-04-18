@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withSelf } from 'Modules/MetaResource';
 import { FontIcon } from 'react-md';
 import { truncate, getParentFQON } from 'util/helpers/strings';
 import { Button } from 'components/Buttons';
@@ -174,6 +174,7 @@ class Breadcrumbs extends PureComponent {
 }
 
 export default compose(
+  withSelf,
   withMetaResource,
   withRouter,
 )(Breadcrumbs);
