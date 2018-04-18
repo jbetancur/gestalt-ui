@@ -9,8 +9,9 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withLambdas } from 'Modules/MetaResource';
 import { LambdaIcon } from 'components/Icons';
+import { generateContextEntityState } from 'util/helpers/context';
 import LambdaMenuActions from '../components/LambdaMenuActions';
 import ListIcon from '../components/ListIcon';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
@@ -23,44 +24,40 @@ class LambdaListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
-    deleteLambdas: PropTypes.func.isRequired,
-    deleteLambda: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchLambdas: PropTypes.func.isRequired,
-    unloadLambdas: PropTypes.func.isRequired,
+    lambdasActions: PropTypes.object.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchLambdas } = this.props;
-
-    fetchLambdas(match.params.fqon, match.params.environmentId);
+    this.populateLambdas();
   }
 
-  componentWillUnmount() {
-    const { unloadLambdas } = this.props;
+  populateLambdas() {
+    const { match, lambdasActions } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    unloadLambdas();
+    lambdasActions.fetchLambdas({ fqon: match.params.fqon, environmentId: entity.id });
   }
 
   deleteOne = (row) => {
-    const { match, deleteLambda, fetchLambdas } = this.props;
+    const { match, lambdasActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchLambdas(match.params.fqon, match.params.environmentId);
+      this.populateLambdas();
     };
 
     this.props.confirmDelete(() => {
-      deleteLambda(match.params.fqon, row.id, onSuccess);
+      lambdasActions.deleteLambda({ fqon: match.params.fqon, lambdaId: row.id, onSuccess });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deleteLambdas, fetchLambdas } = this.props;
+    const { match, lambdasActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -68,11 +65,11 @@ class LambdaListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchLambdas(match.params.fqon, match.params.environmentId);
+      this.populateLambdas();
     };
 
     this.props.confirmDelete(() => {
-      deleteLambdas(IDs, match.params.fqon, onSuccess);
+      lambdasActions.deleteLambdas({ lambdaIds: IDs, fqon: match.params.fqon, onSuccess });
     }, 'Confirm Delete Lambdas', names);
   }
 
@@ -184,7 +181,7 @@ class LambdaListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withLambdas,
   connect(null, actions),
 )(LambdaListing);
 

@@ -34,7 +34,6 @@ export default combineReducers({
   environment: reducerFactory(['fetch', 'create', 'update', 'delete'], 'environment', 'environment', environmentModel),
   lambdas: reducerFactory(['fetch', 'delete'], 'lambdas', 'lambdas', []),
   lambda: reducerFactory(['fetch', 'create', 'update'], 'lambda', 'lambda', lambdaModel.get()),
-  lambdaProvider: reducerFactory(['fetch', 'create'], 'provider', 'lambda_provider', providerModel.get()),
   apis: reducerFactory(['fetch', 'delete'], 'apis', 'apis', []),
   api: reducerFactory(['fetch', 'create', 'update'], 'api', 'api', apiModel.get()),
   apiEndpoints: reducerFactory(['fetch', 'delete'], 'apiEndpoints', 'apiEndpoints', []),

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withMetaResource, withLambda, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import LambdaForm from './LambdaForm';
@@ -18,34 +18,31 @@ class LambdaEdit extends PureComponent {
     reset: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
-    fetchLambda: PropTypes.func.isRequired,
+    lambdaActions: PropTypes.object.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
-    updateLambda: PropTypes.func.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    unloadLambda: PropTypes.func.isRequired,
     unloadAPIEndpoints: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchLambda, fetchAPIEndpoints } = this.props;
+    const { match, lambdaActions, fetchAPIEndpoints } = this.props;
 
-    fetchLambda(match.params.fqon, match.params.lambdaId);
+    lambdaActions.fetchLambda({ fqon: match.params.fqon, lambdaId: match.params.lambdaId });
     fetchAPIEndpoints(match.params.fqon, match.params.lambdaId, 'lambda');
   }
 
   componentWillUnmount() {
-    const { unloadLambda, unloadAPIEndpoints } = this.props;
+    const { unloadAPIEndpoints } = this.props;
 
-    unloadLambda();
     unloadAPIEndpoints();
   }
 
   updateLambda(values) {
-    const { lambda, match, dispatch, reset, updateLambda } = this.props;
-    const patches = generatePatches(lambda, values);
+    const { lambda, match, dispatch, reset, lambdaActions } = this.props;
+    const payload = generatePatches(lambda, values);
     const onSuccess = () => dispatch(reset());
 
-    updateLambda(match.params.fqon, lambda.id, patches, onSuccess);
+    lambdaActions.updateLambda({ fqon: match.params.fqon, lambdaId: lambda.id, payload, onSuccess });
   }
 
   render() {
@@ -79,6 +76,7 @@ function mapStateToProps(state) {
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
   withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
+  withLambda,
   withMetaResource,
   withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions)),

@@ -1,7 +1,6 @@
 import organizations from './organizations';
 import workspaces from './workspaces';
 import environments from './environments';
-import lambdas from './lambdas';
 import apis from './apis';
 import apiEndpoints from './apiEndpoints';
 import providers from './providers';
@@ -21,7 +20,6 @@ export default Object.assign({},
   organizations,
   workspaces,
   environments,
-  lambdas,
   apis,
   apiEndpoints,
   providers,
