@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CardText from 'react-md/lib/Cards/CardText';
+import { CardText } from 'react-md';
 
 const GFCardText = styled(CardText)`
   height: 4em;

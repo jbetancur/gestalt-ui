@@ -45,7 +45,7 @@ class WorkspaceContext extends PureComponent {
     return (
       <Div>
         <WorkspaceNav />
-        <Div paddingLeft="5em" paddingBottom="64px">
+        <Div paddingLeft="5em" paddingBottom="56px">
           <WorkspaceHeader
             model={workspace}
             {...this.props}

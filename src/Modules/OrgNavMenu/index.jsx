@@ -16,12 +16,20 @@ import { withMetaResource } from 'Modules/MetaResource';
 import actions from './actions';
 
 const EnhancedMenuButton = styled(MenuButton)`
-  min-width: 21em;
+  width: 17em;
   z-index: 99;
   margin-top: 0 !important;
   height: 100%;
   border-radius: 0;
   border-right: 1px solid ${props => props.theme.colors['$md-grey-800']};
+  text-transform: none;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+ &.md-menu-container--menu-below {
+    height: 100%;
+  }
 `;
 
 const ListWrapper = styled.div`

@@ -45,6 +45,7 @@ const AppToolbarUserMenu = (props) => {
   return (
     <MenuButton
       id="main--user--menu"
+      style={{ textTransform: 'none' }}
       flat={browser.greaterThan.xs}
       icon={browser.lessThan.sm}
       iconChildren={browser.lessThan.sm ? <UserIcon /> : 'expand_more'}
