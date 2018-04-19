@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import Mousetrap from 'mousetrap';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
@@ -10,14 +11,18 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import OrgNavMenu from 'Modules/OrgNavMenu';
 import { withRestricted } from 'Modules/Authorization';
 import { withSync, withSelf } from 'Modules/MetaResource';
-import Main from './components/Main';
+import { GestaltIcon } from 'components/Icons';
 import AppError from './components/AppError';
-import AppLogo from './components/AppLogo';
 import AppToolbarUserMenu from './components/AppToolbarUserMenu';
 import AppToolbarInfoMenu from './components/AppToolbarInfoMenu';
 import withApp from './withApp';
 
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
+
+const Main = styled.main`
+  height: 100%;
+  padding-top: 4.3em;
+`;
 
 class App extends Component {
   static propTypes = {
@@ -78,15 +83,16 @@ class App extends Component {
         <Main>
           <Header
             colored
-            fixed
-            title={<OrgNavMenu />}
-            actions={[
-              <AppToolbarUserMenu self={self} browser={browser} onLogout={this.logout} />,
-              <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
-            ]}
-          >
-            <AppLogo visible={browser.greaterThan.sm} />
-          </Header>
+            leftContent={<OrgNavMenu />}
+            logo={<GestaltIcon size={36} />}
+            logoVisible={browser.greaterThan.sm}
+            rightContent={
+              <React.Fragment>
+                <AppToolbarUserMenu self={self} browser={browser} onLogout={this.logout} />
+                <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
+              </React.Fragment>
+            }
+          />
           <ContextRoutes />
         </Main> :
         <AppError onLogout={this.logout} {...this.props} />

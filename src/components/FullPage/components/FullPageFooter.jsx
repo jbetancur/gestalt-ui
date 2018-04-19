@@ -5,7 +5,7 @@ const FullPageFooter = styled.footer`
   background-color: ${props => props.theme.colors['$md-white']};
   bottom: 0;
   right: 0;
-  min-height: 64px;
+  min-height: 56px;
   width: calc(100% - 72px);
   padding: 8px 24px 8px 24px;
   display: flex;

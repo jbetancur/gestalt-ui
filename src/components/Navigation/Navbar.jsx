@@ -19,11 +19,7 @@ const NavbarContainer = styled.nav`
   height: 100%;
   overflow: visible;
   z-index: 5;
-  top: 4.6em;
-
-  @media (min-width: 0) and (max-width: 768px) {
-    top: 3.8em;
-  }
+  top: 4.3em;
 `;
 
 const List = styled.div`

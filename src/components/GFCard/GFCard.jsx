@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Card from 'react-md/lib/Cards/Card';
+import { Card } from 'react-md';
 
 // black list non compliance typeColor, typeSymbol from DOM
 const EnhancedCard = styled(Card)`

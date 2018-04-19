@@ -4,7 +4,7 @@ import colors from './colors.json';
 export default {
   ...base,
   mainBackgroundColor: colors['$md-grey-100'],
-  appHeaderColor: colors['$gf-deeper-blue'],
+  // appHeaderColor: colors['$russian-black-100'],
   mainNavBackgroundColor: colors['$gf-deep-blue'],
   cardBackgroundColor: colors['$md-white'],
   fontColor: colors['$md-black'],

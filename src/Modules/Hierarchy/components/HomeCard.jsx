@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardTitle, CardText, CardActions } from 'react-md';
+import { Button, CardTitle, CardText, CardActions } from 'react-md';
+import { Card } from 'components/Cards';
 import { P } from 'components/Typography';
 
 const HomeCardBase = styled(Card) `

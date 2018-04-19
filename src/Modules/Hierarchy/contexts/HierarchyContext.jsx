@@ -42,7 +42,7 @@ class HierarchyContext extends PureComponent {
     return (
       <Div>
         <HierarchyNav showOnRootOnly={match.params.fqon === 'root'} />
-        <Div paddingLeft="5em" paddingBottom="64px">
+        <Div paddingLeft="5em" paddingBottom="56px">
           <HierarchyHeader
             model={organizationSet}
             {...this.props}

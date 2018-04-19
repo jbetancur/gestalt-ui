@@ -1,11 +1,13 @@
 import styled, { withTheme } from 'styled-components';
 
 const NavHeader = styled.div`
+  display: flex;
+  align-items: center;
   background-color: ${props => props.theme.colors['$md-white']};
   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  padding: 13px 16px 16px 8px;
+  padding: 10px;
   text-align: left;
-  min-height: 64px;
+  min-height: 56px;
   overflow: visible;
   width: 100%;
   z-index: 4;
