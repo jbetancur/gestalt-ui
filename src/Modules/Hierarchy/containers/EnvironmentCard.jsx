@@ -5,11 +5,11 @@ import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { FormattedRelative } from 'react-intl';
-import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { EntitlementIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
 import { Subtitle } from 'components/Typography';
+import { FormattedRelative } from 'react-intl';
+import { FontIcon } from 'react-md';
+import { Card, CardTitle } from '../components/GFCard';
 import withHierarchy from '../withHierarchy';
 
 class EnvironmentCard extends PureComponent {
@@ -31,15 +31,13 @@ class EnvironmentCard extends PureComponent {
     history.push(`/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}`);
   }
 
-  edit = (e) => {
+  edit = () => {
     const { model, match, history } = this.props;
 
-    e.stopPropagation();
     history.push({ pathname: `/${match.params.fqon}/hierarchy/${model.properties.workspace.id}/environment/${model.id}/edit`, state: { modal: true, card: true } });
   }
 
-  delete = (e) => {
-    e.stopPropagation();
+  delete = () => {
     const { model, match, deleteEnvironment, fetchEnvironments, hierarchyActions } = this.props;
     const name = model.description || model.name;
     const onDeleteSuccess = () => fetchEnvironments(match.params.fqon, match.params.workspaceId);
@@ -49,8 +47,7 @@ class EnvironmentCard extends PureComponent {
     }, name, 'Environment');
   }
 
-  showEntitlements = (e) => {
-    e.stopPropagation();
+  showEntitlements = () => {
     const { entitlementActions, model, match } = this.props;
     const name = model.description || model.name;
 
@@ -60,7 +57,6 @@ class EnvironmentCard extends PureComponent {
   render() {
     const { model, t, theme } = this.props;
     const title = model.description || model.name;
-    const owner = t('general.nouns.owner').toLowerCase();
     const created = t('general.verbs.created').toLowerCase();
     const modified = t('general.verbs.modified').toLowerCase();
 
@@ -72,39 +68,35 @@ class EnvironmentCard extends PureComponent {
         raise
         typeColor={theme.environmentCard}
         typeSymbol="E"
+        menuActions={[
+          {
+            title: t('general.verbs.edit'),
+            icon: <FontIcon>edit</FontIcon>,
+            onClick: this.edit,
+          },
+          {
+            title: 'Entitlements',
+            icon: <EntitlementIcon size={20} />,
+            onClick: this.showEntitlements,
+          },
+          {
+            title: t('general.verbs.delete'),
+            icon: <FontIcon>delete_sweep</FontIcon>,
+            onClick: this.delete,
+          }
+        ]}
       >
         <CardTitle
           title={title}
-          subtitle={
+          subTitle={
             [
-              <Subtitle key="environment--type">type: {model.properties.environment_type}</Subtitle>,
-              <Subtitle key="environment--workspace">workspace: {model.properties.workspace && model.properties.workspace.name}</Subtitle>,
-              <Subtitle key="environment--owner">{owner}: {model.owner.name}</Subtitle>,
+              <Subtitle key="environment--type">{model.properties.environment_type}</Subtitle>,
+              <Subtitle key="environment--owner">owner: {model.owner.name}</Subtitle>,
               <Subtitle key="environment--created">{created}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
               <Subtitle key="environment--modified">{modified}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
             ]
           }
         />
-        <CardActions>
-          <Button
-            tooltipLabel={t('general.verbs.delete')}
-            icon
-            iconChildren="delete_sweep"
-            onClick={this.delete}
-          />
-          <Button
-            tooltipLabel={t('general.verbs.edit')}
-            icon
-            iconChildren="edit"
-            onClick={this.edit}
-          />
-          <Button
-            tooltipLabel="Entitlements"
-            icon
-            iconChildren={<EntitlementIcon size={20} />}
-            onClick={this.showEntitlements}
-          />
-        </CardActions>
       </Card>
     );
   }

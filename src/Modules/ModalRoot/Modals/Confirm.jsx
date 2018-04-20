@@ -98,7 +98,7 @@ class ConfirmModal extends PureComponent {
       >
         <div>
           {this.props.body && <p id="confirmation-modal-content" className="md-color--secondary-text">{this.props.body}</p>}
-          {this.props.requireConfirm && <TextField placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
+          {this.props.requireConfirm && <TextField id="confirmation-modal-verify" placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
           <div>
             {this.props.multipleItems.length > 0 && <List>{items}</List>}
           </div>

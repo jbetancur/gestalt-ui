@@ -5,11 +5,11 @@ import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { Button } from 'components/Buttons';
 import { EntitlementIcon } from 'components/Icons';
-import { Card, CardTitle, CardActions } from 'components/GFCard';
 import { FormattedRelative } from 'react-intl';
 import { Subtitle } from 'components/Typography';
+import { FontIcon } from 'react-md';
+import { Card, CardTitle } from '../components/GFCard';
 import withHierarchy from '../withHierarchy';
 
 class WorkspaceCard extends PureComponent {
@@ -25,22 +25,19 @@ class WorkspaceCard extends PureComponent {
     entitlementActions: PropTypes.object.isRequired,
   };
 
-  navWorkspaceDetails = (e) => {
-    e.stopPropagation();
+  navWorkspaceDetails = () => {
     const { model, match, history } = this.props;
 
     history.push(`/${match.params.fqon}/hierarchy/${model.id}/environments`);
   }
 
-  edit = (e) => {
-    e.stopPropagation();
+  edit = () => {
     const { model, match, history } = this.props;
 
     history.push({ pathname: `/${match.params.fqon}/hierarchy/${model.id}/edit`, state: { modal: true, card: true } });
   }
 
-  delete = (e) => {
-    e.stopPropagation();
+  delete = () => {
     const { model, match, deleteWorkspace, fetchOrgSet, hierarchyActions } = this.props;
     const name = model.description || model.name;
     const onDeleteSuccess = () => fetchOrgSet(match.params.fqon);
@@ -50,8 +47,7 @@ class WorkspaceCard extends PureComponent {
     }, name, 'Workspace');
   }
 
-  showEntitlements = (e) => {
-    e.stopPropagation();
+  showEntitlements = () => {
     const { entitlementActions, model, match } = this.props;
     const name = model.description || model.name;
 
@@ -61,43 +57,45 @@ class WorkspaceCard extends PureComponent {
   render() {
     const { t, model, theme } = this.props;
     const title = model.description || model.name;
-    const owner = t('general.nouns.owner').toLowerCase();
     const created = t('general.verbs.created').toLowerCase();
     const modified = t('general.verbs.modified').toLowerCase();
 
     return (
-      <Card id={`${model.name}--workspace`} key={model.id} onClick={this.navWorkspaceDetails} raise typeSymbol="W" typeColor={theme.workspaceCard}>
+      <Card
+        id={`${model.name}--workspace`}
+        key={model.id}
+        onClick={this.navWorkspaceDetails}
+        raise
+        typeSymbol="W"
+        typeColor={theme.workspaceCard}
+        menuActions={[
+          {
+            title: t('general.verbs.edit'),
+            icon: <FontIcon>edit</FontIcon>,
+            onClick: this.edit,
+          },
+          {
+            title: 'Entitlements',
+            icon: <EntitlementIcon size={20} />,
+            onClick: this.showEntitlements,
+          },
+          {
+            title: t('general.verbs.delete'),
+            icon: <FontIcon>delete_sweep</FontIcon>,
+            onClick: this.delete,
+          }
+        ]}
+      >
         <CardTitle
           title={title}
-          subtitle={
+          subTitle={
             [
-              <Subtitle key="workspace--ownser">{owner}: {model.owner.name}</Subtitle>,
+              <Subtitle key="workspace--ownser">owner: {model.owner.name}</Subtitle>,
               <Subtitle key="workspace--created">{created}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
               <Subtitle key="workspace--modified">{modified}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
             ]
           }
         />
-        <CardActions>
-          <Button
-            tooltipLabel={t('general.verbs.delete')}
-            icon
-            iconChildren="delete_sweep"
-            onClick={this.delete}
-          />
-          <Button
-            tooltipLabel={t('general.verbs.edit')}
-            icon
-            onClick={this.edit}
-          >
-            edit
-          </Button>
-          <Button
-            tooltipLabel="Entitlements"
-            icon
-            iconChildren={<EntitlementIcon size={20} />}
-            onClick={this.showEntitlements}
-          />
-        </CardActions>
       </Card>
     );
   }
