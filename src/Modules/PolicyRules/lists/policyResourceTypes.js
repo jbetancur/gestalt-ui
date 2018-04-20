@@ -108,6 +108,10 @@ export default {
     ],
     limits: [
       {
+        name: 'containers.count',
+        inputType: 'number'
+      },
+      {
         name: 'container.name',
         inputType: 'text'
       },
