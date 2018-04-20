@@ -48,7 +48,7 @@ Fieldset.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
-  legend: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  legend: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.node]),
   legendFontSize: PropTypes.string,
   maxHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

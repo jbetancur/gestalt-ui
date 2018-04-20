@@ -22,7 +22,7 @@ class ActionsMenu extends PureComponent {
     listItem: PropTypes.bool,
     model: PropTypes.object.isRequired,
     icon: PropTypes.bool,
-
+    onActionComplete: PropTypes.func,
   };
 
   static defaultProps = {
@@ -31,6 +31,7 @@ class ActionsMenu extends PureComponent {
     style: { textAlign: 'left' },
     listItem: false,
     icon: false,
+    onActionComplete: () => {},
   };
 
   constructor() {
@@ -56,7 +57,7 @@ class ActionsMenu extends PureComponent {
 
     contentAPI.get().then((response) => {
       this.setState({ actionContentPending: false });
-      this.props.toggleActionsModal(response.data, action.full_screen);
+      this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
     }).catch(() => this.setState({ actionContentPending: false }));
   }
 
@@ -100,8 +101,8 @@ class ActionsMenu extends PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleActionsModal: (body, isFullScreen) => {
-    dispatch({ type: 'SHOW_MODAL', modalType: 'IFRAME', modalProps: { body, isFullScreen } });
+  toggleActionsModal: (body, isFullScreen, onComplete) => {
+    dispatch({ type: 'SHOW_MODAL', modalType: 'IFRAME', modalProps: { body, isFullScreen, onComplete } });
   }
 });
 

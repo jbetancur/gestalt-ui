@@ -23,7 +23,7 @@ const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {..
 const AddButton = ({ onAddItem, label }) => (
   <ButtonStyle
     icon={!label}
-    flat={label}
+    flat={!!label}
     onClick={onAddItem}
     iconChildren="add"
   >

@@ -23,7 +23,7 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
 
 <withInk(withTooltip(Button))
   className="c0"
-  flat={null}
+  flat={false}
   icon={true}
   iconChildren="add"
   inkTransitionEnterTimeout={450}
@@ -42,7 +42,7 @@ exports[`(Components) AddButton renders correctly with label 1`] = `
 
 <withInk(withTooltip(Button))
   className="c0"
-  flat="Wow"
+  flat={true}
   icon={false}
   iconChildren="add"
   inkTransitionEnterTimeout={450}
