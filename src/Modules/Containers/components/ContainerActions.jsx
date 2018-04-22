@@ -278,7 +278,8 @@ class ContainerActions extends PureComponent {
     ];
 
     const icon = inContainerView ? null : 'more_vert';
-    const positionX = inContainerView ? 'INNER_RIGHT' : 'INNER_LEFT';
+    const anchorX = inContainerView ? 'INNER_RIGHT' : 'INNER_LEFT';
+    const positionX = inContainerView ? 'TOP_RIGHT' : 'TOP_LEFT';
 
     return (
       containerModel.id ?
@@ -294,8 +295,9 @@ class ContainerActions extends PureComponent {
             listHeightRestricted={false}
             simplifiedMenu={false}
             repositionOnScroll={false}
+            position={MenuButton.Positions[positionX]}
             anchor={{
-              x: MenuButton.HorizontalAnchors[positionX],
+              x: MenuButton.HorizontalAnchors[anchorX],
               y: MenuButton.VerticalAnchors.OVERLAP,
             }}
             primary

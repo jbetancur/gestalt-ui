@@ -23,6 +23,7 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
       icon
       simplifiedMenu={false}
       repositionOnScroll={false}
+      position={MenuButton.Positions.TOP_LEFT}
       anchor={{
         x: MenuButton.HorizontalAnchors.INNER_LEFT,
         y: MenuButton.VerticalAnchors.OVERLAP,
