@@ -4,6 +4,8 @@ import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { withStreamSpec, withPickerData } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
 import validate from '../validations';
@@ -11,27 +13,29 @@ import validate from '../validations';
 const initialValues = {
   name: null,
   properties: {
-    provider: {
-      id: 'aa0e4ff3-9744-4f41-bb31-917216826da8',
-    },
+    streams: [],
+    provider: null,
     cpus: 1,
     mem: 512,
     parallelization: 1,
+    lambda_provider: {
+      url: null,
+    },
     processor: {
       type: 'map',
-      lambda_id: null,
-      input_stream_config: {
+      lambdaId: null,
+      inputStreamConfig: {
         name: null,
-        feed_id: null,
+        feedID: null,
         partition: {
           partition: 0,
-          start_offset: -1,
-          end_offset: -1,
+          startOffset: -1,
+          endOffset: -1,
         },
       },
-      output_stream_config: {
+      outputStreamConfig: {
         name: null,
-        feed_id: null,
+        feedID: null,
       }
     },
   },
@@ -43,7 +47,9 @@ class StreamCreate extends Component {
     history: PropTypes.object.isRequired,
     lambdasData: PropTypes.array.isRequired,
     datafeedsData: PropTypes.array.isRequired,
+    providersData: PropTypes.array.isRequired,
     streamSpecActions: PropTypes.object.isRequired,
+    streamSpecPending: PropTypes.bool.isRequired,
   };
 
   onSubmit = (values) => {
@@ -56,19 +62,24 @@ class StreamCreate extends Component {
   };
 
   render() {
-    const { lambdasData, datafeedsData } = this.props;
+    const { lambdasData, datafeedsData, providersData, streamSpecPending } = this.props;
 
     return (
       <Row center>
-        <Col flex={8}>
+        <Col flex={8} xs={12} sm={12} md={10}>
+          <ActionsToolbar title="Create a Stream Specification" />
+
+          {streamSpecPending && <ActivityContainer id="datafeed-form" />}
+
           <Form
-            title="Create a Stream Specification"
             onSubmit={this.onSubmit}
             initialValues={initialValues}
             validate={validate}
             render={StreamForm}
+            loading={streamSpecPending}
             lambdas={lambdasData}
             datafeeds={datafeedsData}
+            providers={providersData}
           />
         </Col>
       </Row>
@@ -77,7 +88,7 @@ class StreamCreate extends Component {
 }
 
 export default compose(
-  // withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  withPickerData({ entity: 'providers', label: 'Stream Providers', params: { type: 'StreamProvider' } }),
   withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withStreamSpec,

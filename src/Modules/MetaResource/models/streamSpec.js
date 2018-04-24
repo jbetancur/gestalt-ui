@@ -16,28 +16,29 @@ const get = (model = {}) => {
     name: '',
     description: '',
     properties: {
-      provider: {
-        id: null,
-      },
+      provider: null,
       streams: [],
       cpus: 1,
       mem: 512,
       parallelization: 1,
+      lambda_provider: {
+        url: null,
+      },
       processor: {
         type: 'map',
-        lambda_id: null,
-        input_stream_config: {
+        lambdaId: null,
+        inputStreamConfig: {
           name: null,
-          feed_id: null,
+          feedID: null,
           partition: {
             partition: 0,
-            start_offset: -1,
-            end_offset: -1,
+            startOffset: -1,
+            endOffset: -1,
           },
         },
-        output_stream_config: {
+        outputStreamConfig: {
           name: null,
-          feed_id: null,
+          feedID: null,
         }
       },
     },
@@ -55,34 +56,37 @@ const create = (model = {}) => {
     name: '',
     description: '',
     properties: {
-      provider: {
-        id: null,
-      },
+      provider: {},
       streams: [],
       cpus: 1,
       mem: 512,
       parallelization: 1,
+      lambda_provider: {
+        url: null,
+      },
       processor: {
         type: 'map',
-        lambda_id: null,
-        input_stream_config: {
+        lambdaId: null,
+        inputStreamConfig: {
           name: null,
-          feed_id: null,
+          feedID: null,
           partition: {
             partition: 0,
-            start_offset: -1,
-            end_offset: -1,
+            startOffset: -1,
+            endOffset: -1,
           },
         },
-        output_stream_config: {
+        outputStreamConfig: {
           name: null,
-          feed_id: null,
+          feedID: null,
         }
       },
     },
   }, safeModel), [
     'name',
     'description',
+    'properties.lambda_provider',
+    'properties.provider',
     'properties.cpus',
     'properties.mem',
     'properties.parallelization',

@@ -20,39 +20,47 @@ export default (values) => {
     merge(errors, nestedObjectFromString('properties.parallelization', 'required'));
   }
 
-  if (!values.properties.processor.lambda_id) {
-    merge(errors, nestedObjectFromString('properties.processor.lambda_id', 'required'));
+  if (!values.properties.provider) {
+    merge(errors, nestedObjectFromString('properties.provider', 'required'));
   }
 
-  if (!values.properties.processor.input_stream_config.feed_id) {
-    merge(errors, nestedObjectFromString('properties.processor.input_stream_config.feed_id', 'required'));
+  if (!values.properties.lambda_provider.url) {
+    merge(errors, nestedObjectFromString('properties.lambda_provider.url', 'required'));
   }
 
-  if (!values.properties.processor.input_stream_config.name) {
-    merge(errors, nestedObjectFromString('properties.processor.input_stream_config.name', 'required'));
+  if (!values.properties.processor.lambdaId) {
+    merge(errors, nestedObjectFromString('properties.processor.lambdaId', 'required'));
   }
 
-  if (!values.properties.processor.output_stream_config.feed_id) {
-    merge(errors, nestedObjectFromString('properties.processor.output_stream_config.feed_id', 'required'));
+  if (!values.properties.processor.inputStreamConfig.feedID) {
+    merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.feedID', 'required'));
   }
 
-  if (!values.properties.processor.output_stream_config.name) {
-    merge(errors, nestedObjectFromString('properties.processor.output_stream_config.name', 'required'));
+  if (!values.properties.processor.inputStreamConfig.name) {
+    merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.name', 'required'));
   }
 
-  const partition = values.properties.processor.input_stream_config.partition.partition;
+  if (!values.properties.processor.outputStreamConfig.feedID) {
+    merge(errors, nestedObjectFromString('properties.processor.outputStreamConfig.feedID', 'required'));
+  }
+
+  if (!values.properties.processor.outputStreamConfig.name) {
+    merge(errors, nestedObjectFromString('properties.processor.outputStreamConfig.name', 'required'));
+  }
+
+  const partition = values.properties.processor.inputStreamConfig.partition.partition;
   if (!partition && !Number.isInteger(partition)) {
-    merge(errors, nestedObjectFromString('properties.processor.input_stream_config.partition.partition', 'required'));
+    merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partition.partition', 'required'));
   }
 
-  const startOffset = values.properties.processor.input_stream_config.partition.start_offset;
+  const startOffset = values.properties.processor.inputStreamConfig.partition.startOffset;
   if (!startOffset && !Number.isInteger(startOffset)) {
-    merge(errors, nestedObjectFromString('properties.processor.input_stream_config.partition.start_offset', 'required'));
+    merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partition.startOffset', 'required'));
   }
 
-  const endOffset = values.properties.processor.input_stream_config.partition.end_offset;
+  const endOffset = values.properties.processor.inputStreamConfig.partition.endOffset;
   if (!endOffset && !Number.isInteger(endOffset)) {
-    merge(errors, nestedObjectFromString('properties.processor.input_stream_config.partition.end_offset', 'required'));
+    merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partition.endOffset', 'required'));
   }
 
   return errors;

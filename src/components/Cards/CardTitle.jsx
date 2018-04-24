@@ -23,14 +23,20 @@ CardTitle.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
+  subTitle: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
 };
 
 CardTitle.defaultProps = {
   children: null,
-  title: '',
-  subTitle: '',
+  title: null,
+  subTitle: null,
 };
 
 export default withTheme(CardTitle);

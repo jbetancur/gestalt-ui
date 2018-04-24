@@ -4,11 +4,18 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
+import { Button } from 'components/Buttons';
 import { withStreamSpec, withPickerData, withProviderActions } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import streamspecForm from './StreamForm';
+import { ActionsMenu } from 'Modules/Actions';
+import ActionsToolbar from 'components/ActionsToolbar';
+import DetailsPane from 'components/DetailsPane';
+import { Panel } from 'components/Panels';
+import { Tabs, Tab } from 'components/Tabs';
+import StreamSpecForm from './StreamForm';
+import StreamInstances from '../components/StreamInstances';
 import validate from '../validations';
 import { getStreamSpec } from '../selectors';
 import { generatePatches } from '../payloadTransformer';
@@ -19,11 +26,12 @@ class StreamSpecEdit extends Component {
     streamSpec: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     streamSpecPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.func.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     lambdasData: PropTypes.array.isRequired,
     datafeedsData: PropTypes.array.isRequired,
+    providersData: PropTypes.array.isRequired,
     providerActions: PropTypes.object.isRequired,
   };
 
@@ -48,28 +56,78 @@ class StreamSpecEdit extends Component {
     streamSpecActions.updateStreamSpec({ fqon: match.params.fqon, id: match.params.streamId, payload, onSuccess });
   };
 
+  handleAction = (data) => {
+    // eslint-disable-next-line
+    console.log(data);
+  }
+
   render() {
-    const { streamSpecPending, streamSpec, lambdasData, datafeedsData, initialFormValues, providerActions } = this.props;
+    const {
+      streamSpecPending,
+      streamSpec,
+      lambdasData,
+      datafeedsData,
+      providersData,
+      initialFormValues,
+      providerActions,
+    } = this.props;
 
     return (
       streamSpecPending && !streamSpec.id ?
         <ActivityContainer id="streamspec-loading" /> :
-        <Row justifyContent="center">
+        <Row center>
           <Col flex={8} xs={12} sm={12} md={10}>
-            <Form
+            <ActionsToolbar
               title={streamSpec.name}
-              editMode
-              onSubmit={this.onSubmit}
-              initialValues={initialFormValues}
-              render={streamspecForm}
-              validate={validate}
-              loading={streamSpecPending}
-              onShowEntitlements={this.onShowEntitlements}
-              lambdas={lambdasData}
-              datafeeds={datafeedsData}
-              streamSpec={streamSpec}
-              providerActions={providerActions}
+              actions={[
+                <Button
+                  key="streamspec--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={this.onShowEntitlements}
+                >
+                  Entitlements
+                </Button>,
+                <ActionsMenu
+                  key="streamspec--actions"
+                  model={streamSpec}
+                  actionList={providerActions.providerActions}
+                  pending={providerActions.providerActionsLoading}
+                  onActionComplete={this.handleAction}
+                />
+              ]}
             />
+
+            {streamSpecPending && <ActivityContainer id="streamspec-form" />}
+
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Panel title="Resource Details" defaultExpanded={false}>
+                  <DetailsPane model={streamSpec} />
+                </Panel>
+              </Col>
+            </Row>
+
+            <Tabs>
+              <Tab title="Activity">
+                <StreamInstances streamSpec={streamSpec} />
+              </Tab>
+              <Tab title="Specification">
+                <Form
+                  editMode
+                  onSubmit={this.onSubmit}
+                  initialValues={initialFormValues}
+                  render={StreamSpecForm}
+                  validate={validate}
+                  loading={streamSpecPending}
+                  lambdas={lambdasData}
+                  datafeeds={datafeedsData}
+                  providers={providersData}
+                  streamSpec={streamSpec}
+                  providerActions={providerActions}
+                />
+              </Tab>
+            </Tabs>
           </Col>
         </Row>
     );
@@ -81,7 +139,7 @@ const mapStatetoProps = state => ({
 });
 
 export default compose(
-  // withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  withPickerData({ entity: 'providers', label: 'Stream Providers', params: { type: 'StreamProvider' } }),
   withProviderActions({ filter: 'streamspec.edit' }),
   withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
   withPickerData({ entity: 'lambdas', label: 'Lambdas' }),

@@ -4,10 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData } from 'Modules/MetaResource';
+import { withDatafeed, withPickerData, withProviderActions } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import { ActionsMenu } from 'Modules/Actions';
+import ActionsToolbar from 'components/ActionsToolbar';
+import DetailsPane from 'components/DetailsPane';
+import { Button } from 'components/Buttons';
+import { Panel } from 'components/Panels';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 import { getDatafeed } from '../selectors';
@@ -19,10 +24,11 @@ class DataFeedEdit extends Component {
     datafeed: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.func.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     secretsData: PropTypes.array.isRequired,
+    providerActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -47,15 +53,44 @@ class DataFeedEdit extends Component {
   };
 
   render() {
-    const { datafeedPending, datafeed, secretsData, initialFormValues } = this.props;
+    const { datafeedPending, datafeed, secretsData, providerActions, initialFormValues } = this.props;
 
     return (
       datafeedPending && !datafeed.id ?
         <ActivityContainer id="datafeed-loading" /> :
-        <Row justifyContent="center">
+        <Row center>
           <Col flex={8} xs={12} sm={12} md={10}>
-            <Form
+            <ActionsToolbar
               title={datafeed.name}
+              actions={[
+                <Button
+                  key="datafeed--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={this.onShowEntitlements}
+                >
+                  Entitlements
+                </Button>,
+                <ActionsMenu
+                  key="streamspec--actions"
+                  model={datafeed}
+                  actionList={providerActions.providerActions}
+                  pending={providerActions.providerActionsLoading}
+                />
+              ]}
+            />
+
+            {datafeedPending && <ActivityContainer id="datafeed-form" />}
+
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Panel title="Resource Details" defaultExpanded={false}>
+                  <DetailsPane model={datafeed} />
+                </Panel>
+              </Col>
+            </Row>
+
+            <Form
               editMode
               onSubmit={this.onSubmit}
               initialValues={initialFormValues}
@@ -63,8 +98,6 @@ class DataFeedEdit extends Component {
               validate={validate}
               loading={datafeedPending}
               secrets={secretsData}
-              onShowEntitlements={this.onShowEntitlements}
-              datafeed={datafeed}
             />
           </Col>
         </Row>
@@ -77,6 +110,7 @@ const mapStatetoProps = state => ({
 });
 
 export default compose(
+  withProviderActions({ filter: 'datafeed.edit' }),
   withPickerData({ entity: 'secrets', label: 'Secrets' }),
   withEntitlements,
   withDatafeed,
