@@ -3651,9 +3651,9 @@ final-form-arrays@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/final-form-arrays/-/final-form-arrays-1.0.4.tgz#74330cb4d64ce07bb1c4a9084d0b65afdac6bf72"
 
-final-form@^4.5.2:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.5.2.tgz#f8a9518784bdc2f72e71548a42b04c640963ca49"
+final-form@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.6.1.tgz#e3f3058524c2eb8b950be452087ffe124e39554d"
 
 finalhandler@1.1.0:
   version "1.1.0"
@@ -7652,9 +7652,9 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-ace@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-6.0.0.tgz#c211c21825f27343a7392f102493dc3ae099886d"
+react-ace@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-6.1.0.tgz#ddd53ce63776ec262e5501af2ef37ad2e5d7f18b"
   dependencies:
     brace "^0.11.0"
     diff-match-patch "^1.0.0"
@@ -7707,9 +7707,9 @@ react-final-form-arrays@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-1.0.4.tgz#888b9b81a806844cf66d73f4e8b60e5f18fa2a11"
 
-react-final-form@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.3.1.tgz#dbe40eec853a9c451e5a8deb3b02d948a2fb7e3c"
+react-final-form@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.4.0.tgz#8ed2268d00bce5a1d328e75c1dee4ba18c023b24"
 
 react-flexybox@^2.0.1:
   version "2.0.1"
