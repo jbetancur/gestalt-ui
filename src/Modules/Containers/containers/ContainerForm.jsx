@@ -186,18 +186,18 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                 <Col flex={12}>
                   <Panel title="General" expandable={false}>
                     <Row gutter={5}>
-                      <Col flex={6} xs={12}>
-                        <Field
-                          id="container-name"
-                          component={TextField}
-                          name="name"
-                          label="Name"
-                          type="text"
-                          required
-                          disabled={editMode}
-                          helpText="the name of the container"
-                        />
-                      </Col>
+                      {!editMode &&
+                        <Col flex={6} xs={12}>
+                          <Field
+                            id="container-name"
+                            component={TextField}
+                            name="name"
+                            label="Name"
+                            type="text"
+                            required
+                            helpText="the name of the container"
+                          />
+                        </Col>}
 
                       <Col flex={2} xs={12}>
                         <Field
