@@ -7,7 +7,7 @@ import Frame from 'react-frame-component';
 
 const iframeStyle = {
   width: '100%',
-  height: 'calc(100vh - 300px)',
+  height: 'calc(100vh - 500px)',
   boxSizing: 'border-box',
 };
 
@@ -42,11 +42,15 @@ class ActionsModal extends PureComponent {
     isFullScreen: false,
   };
 
-  constructor(props, context) {
-    super(props, context);
+  componentDidMount() {
+    window.addEventListener('message', this.onPostMessage);
   }
 
-  onComplete = (eventData) => {
+  componentWillUnmount() {
+    window.removeEventListener('message', this.onPostMessage);
+  }
+
+  onPostMessage = (eventData) => {
     // console.log('onCompleted', eventData);
     this.props.onComplete({ eventData });
     this.props.hideModal();
@@ -77,11 +81,6 @@ class ActionsModal extends PureComponent {
           id="close-parent-modal"
           style={{ visibility: 'hidden', position: 'absolute' }}
           onClick={this.props.hideModal}
-        />
-        <button
-          id="execute-parent-modal"
-          style={{ visibility: 'hidden', position: 'absolute' }}
-          onClick={this.onComplete}
         />
       </EnhancedDialog>
     );

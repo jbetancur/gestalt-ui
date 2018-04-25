@@ -4,15 +4,13 @@ import styled from 'styled-components';
 
 const TabStyle = styled.div`
   cursor: pointer;
-  padding: 5px 30px;
-  color: #16A2D7;
   border-bottom: 2px solid ${props => (props.active ? `${props.theme.colors['$md-blue-500']}` : 'transparent')};
 `;
 
 const TabTitle = styled.div`
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 42px;
   padding-left: 24px;
   padding-right: 24px;
   white-space: nowrap;
