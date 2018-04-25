@@ -61,7 +61,7 @@ class StreamSpecEdit extends Component {
   }
 
   handleActionComplete = () => {
-    setInterval(() => this.populateStreamSpecs(), 1000);
+    setTimeout(() => this.populateStreamSpecs(), 1500);
   }
 
   render() {
