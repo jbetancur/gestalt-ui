@@ -1,6 +1,6 @@
 export default [
   {
-    type: 'Kafka',
+    type: 'kafka',
     displayName: 'Kafka',
     formats: [
       'JSON',
@@ -11,7 +11,7 @@ export default [
     ]
   },
   {
-    type: 'RAW',
+    type: 'raw',
     displayName: 'RAW',
     formats: [
       'JSON',
@@ -23,7 +23,7 @@ export default [
     ]
   },
   {
-    type: 'Database',
+    type: 'database',
     displayName: 'Database',
     formats: [
       'Postgres',
@@ -36,7 +36,7 @@ export default [
     ]
   },
   {
-    type: 'Queue',
+    type: 'queue',
     displayName: 'Queue',
     formats: [
       'Rabbit',
@@ -47,14 +47,14 @@ export default [
     ]
   },
   {
-    type: 'Object Store',
+    type: 'object-store',
     displayName: 'Object Store',
     formats: [
       'S3',
     ]
   },
   {
-    type: 'File System',
+    type: 'fs',
     displayName: 'File System',
     formats: [
       'NFS',

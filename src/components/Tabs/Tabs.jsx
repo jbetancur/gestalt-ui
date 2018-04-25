@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
-const UL = styled.ul`
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 0;
-  background-color: transparent;
-  white-space: nowrap;
-  overflow-x: auto;
+const TabsStyle = styled.div`
+  display: flex;
+  /* border-bottom: 1px solid ${props => props.theme.colors['$md-grey-300']}; */
+  margin-left: 5px;
+  margin-right: 5px;
 `;
 
 const Content = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 `;
 
 class Tabs extends Component {
@@ -47,14 +48,16 @@ class Tabs extends Component {
     if (children[activeTabIndex]) {
       return children[activeTabIndex].props.children;
     }
+
+    return activeTabIndex;
   }
 
   render() {
     return (
       <div>
-        <UL>
+        <TabsStyle>
           {this.renderChildrenWithTabsApiAsProps()}
-        </UL>
+        </TabsStyle>
         <Content>
           {this.renderActiveTabContent()}
         </Content>
@@ -64,11 +67,15 @@ class Tabs extends Component {
 }
 
 Tabs.propTypes = {
-  defaultActiveTabIndex: PropTypes.number
+  defaultActiveTabIndex: PropTypes.number,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
 };
 
 Tabs.defaultProps = {
-  defaultActiveTabIndex: 0
+  defaultActiveTabIndex: 0,
 };
 
-export default Tabs;
+export default withTheme(Tabs);

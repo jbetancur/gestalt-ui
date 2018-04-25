@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { withDatafeed, withPickerData } from 'Modules/MetaResource';
-import { Form } from 'react-final-form';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
@@ -13,6 +15,9 @@ const initialValues = {
   name: null,
   properties: {
     kind: 'Kafka',
+    // provider: {
+    //   id: null,
+    // },
     data: {
       format: 'JSON',
       endpoint: null,
@@ -30,7 +35,6 @@ class DataFeedCreate extends Component {
     datafeedActions: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
     secretsData: PropTypes.array.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
 
   onSubmit = (values) => {
@@ -44,20 +48,21 @@ class DataFeedCreate extends Component {
 
 
   render() {
-    const { datafeedPending, secretsData, entitlementActions } = this.props;
-
+    const { datafeedPending, secretsData } = this.props;
     return (
-      <Row justifyContent="center">
+      <Row center>
         <Col flex={8} xs={12} sm={12} md={10}>
+          <ActionsToolbar title="Create a Data Feed" />
+
+          {datafeedPending && <ActivityContainer id="datafeed-form" />}
+
           <Form
-            title="Create Data Feed"
             onSubmit={this.onSubmit}
             initialValues={initialValues}
             render={DataFeedForm}
             validate={validate}
             loading={datafeedPending}
             secrets={secretsData}
-            entitlementActions={entitlementActions}
           />
         </Col>
       </Row>

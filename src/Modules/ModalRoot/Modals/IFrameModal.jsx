@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Dialog from 'react-md/lib/Dialogs';
+import { DialogContainer } from 'react-md';
 import Frame from 'react-frame-component';
 
 const iframeStyle = {
@@ -11,7 +11,7 @@ const iframeStyle = {
   boxSizing: 'border-box',
 };
 
-const EnhancedDialog = styled(Dialog)`
+const EnhancedDialog = styled(DialogContainer)`
 .md-dialog {
   ${props => !props.fullPage && 'position: relative'};
   ${props => !props.fullPage && 'min-width: 45em'};
@@ -23,7 +23,6 @@ const EnhancedDialog = styled(Dialog)`
   .md-dialog-content {
     width: 100%;
     overflow: scroll;
-    padding: 0;
   }
 }
 `;
@@ -31,24 +30,25 @@ const EnhancedDialog = styled(Dialog)`
 class ActionsModal extends PureComponent {
   static propTypes = {
     modal: PropTypes.object.isRequired,
-    onProceed: PropTypes.func,
+    onComplete: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
     body: PropTypes.string,
     isFullScreen: PropTypes.bool,
   };
 
   static defaultProps = {
-    onProceed: () => { },
+    onComplete: () => { },
     body: '',
     isFullScreen: false,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
   }
 
-  doIt() {
-    this.props.onProceed();
+  onComplete = (eventData) => {
+    // console.log('onCompleted', eventData);
+    this.props.onComplete({ eventData });
     this.props.hideModal();
   }
 
@@ -58,11 +58,13 @@ class ActionsModal extends PureComponent {
         id="confirmation-modal"
         visible={this.props.modal.visible}
         modal={false}
+        autopadContent={false}
         closeOnEsc
         defaultVisibleTransitionable
-        autosizeContent={false}
+        // autosizeContent={false}
         onHide={this.props.hideModal}
         fullPage={this.props.isFullScreen}
+        aria-label="external-actions-modal"
       >
         <Frame
           initialContent={this.props.body}
@@ -76,23 +78,24 @@ class ActionsModal extends PureComponent {
           style={{ visibility: 'hidden', position: 'absolute' }}
           onClick={this.props.hideModal}
         />
+        <button
+          id="execute-parent-modal"
+          style={{ visibility: 'hidden', position: 'absolute' }}
+          onClick={this.onComplete}
+        />
       </EnhancedDialog>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    modal: state.modal
-  };
-}
+const mapStateToProps = state => ({
+  modal: state.modal
+});
 
-function actions(dispatch) {
-  return {
-    hideModal: () => {
-      dispatch({ type: 'HIDE_MODAL' });
-    }
-  };
-}
+const actions = dispatch => ({
+  hideModal: () => {
+    dispatch({ type: 'HIDE_MODAL' });
+  }
+});
 
 export default connect(mapStateToProps, actions)(ActionsModal);

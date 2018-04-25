@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { LambdaIcon, ContainerIcon, APIIcon, SecretIcon, PolicyIcon } from 'components/Icons';
+import { LambdaIcon, ContainerIcon, APIIcon, SecretIcon, PolicyIcon, DataFeedIcon, StreamIcon } from 'components/Icons';
+import withApp from 'App/withApp';
 import HomeCard from '../components/HomeCard';
 // import { DOCUMENTATION_URL } from '../../../constants';
 
 class EnvironmentHome extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
   };
 
   render() {
@@ -80,9 +82,37 @@ class EnvironmentHome extends PureComponent {
             Secret are intended to hold sensitive information: passwords, OAuth tokens, and ssh keys
           </HomeCard>
         </Col>
+
+        {this.props.appState.enableExperimental &&
+          <Col flex={5} xs={25} sm={20} md={10}>
+            <HomeCard
+              title="Data Feeds"
+              icon={<DataFeedIcon size={42} />}
+              iconColor="pink"
+              iconGradient="300"
+              createURL={`${this.props.match.url}/datafeeds/create`}
+              manageURL={`${this.props.match.url}/datafeeds`}
+            >
+              Real-time data feeds
+            </HomeCard>
+          </Col>}
+
+        {this.props.appState.enableExperimental &&
+          <Col flex={5} xs={25} sm={20} md={10}>
+            <HomeCard
+              title="Stream Specifications"
+              icon={<StreamIcon size={42} />}
+              iconColor="light-blue"
+              iconGradient="500"
+              createURL={`${this.props.match.url}/streamspecs/create`}
+              manageURL={`${this.props.match.url}/streamspecs`}
+            >
+              Transform Data Feeds using a Lambda
+            </HomeCard>
+          </Col>}
       </Row>
     );
   }
 }
 
-export default EnvironmentHome;
+export default withApp(EnvironmentHome);
