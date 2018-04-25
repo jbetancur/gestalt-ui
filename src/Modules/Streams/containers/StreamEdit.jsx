@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
@@ -14,6 +14,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
+import { FullPageFooter } from 'components/FullPage';
 import StreamSpecForm from './StreamForm';
 import StreamInstances from '../components/StreamInstances';
 import validate from '../validations';
@@ -36,9 +37,7 @@ class StreamSpecEdit extends Component {
   };
 
   componentDidMount() {
-    const { streamSpecActions, match } = this.props;
-
-    streamSpecActions.fetchStreamSpec({ fqon: match.params.fqon, id: match.params.streamId });
+    this.populateStreamSpecs();
   }
 
   onShowEntitlements = () => {
@@ -56,13 +55,18 @@ class StreamSpecEdit extends Component {
     streamSpecActions.updateStreamSpec({ fqon: match.params.fqon, id: match.params.streamId, payload, onSuccess });
   };
 
-  handleAction = (data) => {
-    // eslint-disable-next-line
-    console.log(data);
+  populateStreamSpecs() {
+    const { streamSpecActions, match } = this.props;
+    streamSpecActions.fetchStreamSpec({ fqon: match.params.fqon, id: match.params.streamId });
+  }
+
+  handleActionComplete = () => {
+    this.populateStreamSpecs();
   }
 
   render() {
     const {
+      match,
       streamSpecPending,
       streamSpec,
       lambdasData,
@@ -93,7 +97,7 @@ class StreamSpecEdit extends Component {
                   model={streamSpec}
                   actionList={providerActions.providerActions}
                   pending={providerActions.providerActionsLoading}
-                  onActionComplete={this.handleAction}
+                  onActionComplete={this.handleActionComplete}
                 />
               ]}
             />
@@ -109,8 +113,18 @@ class StreamSpecEdit extends Component {
             </Row>
 
             <Tabs>
-              <Tab title="Activity">
+              <Tab title="Streams">
                 <StreamInstances streamSpec={streamSpec} />
+                <FullPageFooter>
+                  <Button
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
+                    flat
+                    component={Link}
+                    iconChildren="arrow_back"
+                  >
+                    Stream Specs
+                  </Button>
+                </FullPageFooter>
               </Tab>
               <Tab title="Specification">
                 <Form
