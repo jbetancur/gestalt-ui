@@ -47,6 +47,7 @@ const ToolbarControls = styled.div`
 
 const LogOutputWrapper = styled.div`
   display: inline-block;
+  padding-top: 8px;
   padding-left: 16px;
 `;
 
@@ -97,11 +98,13 @@ class Logging extends PureComponent {
     logProviderURL: PropTypes.string.isRequired,
     logProviderPending: PropTypes.bool.isRequired,
     fullPage: PropTypes.bool,
+    showTitle: PropTypes.bool,
   };
 
   static defaultProps = {
     providerType: null,
     fullPage: false,
+    showTitle: true,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -109,7 +112,6 @@ class Logging extends PureComponent {
       if (nextProps.logProviderURL) {
         return {
           logProviderURL: nextProps.logProviderURL,
-          logs: [`${nextProps.name} ${nextProps.logType} has not logged any messages yet...`],
         };
       }
     }
@@ -130,13 +132,21 @@ class Logging extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchLogProvider, fqon, logType, providerId } = this.props;
-    if (!this.props.logProviderURL) {
+    const { fetchLogProvider, fqon, logType, providerId, logProviderURL } = this.props;
+    if (!logProviderURL) {
       fetchLogProvider(fqon, providerId, logType);
+    }
+
+    if (logProviderURL) {
+      this.fetchLogs(this.props, this.state);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevState.logProviderURL !== this.state.logProviderURL && this.state.logProviderURL) {
+      this.fetchLogs(this.props, this.state);
+    }
+
     if (prevState.logTimespan !== this.state.logTimespan) {
       this.fetchLogs(this.props, this.state);
     }
@@ -180,9 +190,11 @@ class Logging extends PureComponent {
     logAPI.get(`${logId}${time}`).then((response) => {
       this.setState({ logPending: false });
 
-      if (response.data && response.data.length) {
+      if (response.data && response.data.length && response.data[0]) {
         this.setState({ logs: response.data });
         this.scrollToBottom();
+      } else {
+        this.setState({ logs: [`${this.props.name} has not logged any messages yet...`] });
       }
     }).catch((error) => {
       this.setState({ logPending: false, logs: ['unable to contact the log api', `${error}`] });
@@ -190,16 +202,17 @@ class Logging extends PureComponent {
   }
 
   render() {
-    const { logProviderPending, logProviderURL, logType, providerType, name, fullPage } = this.props;
+    const { logProviderPending, logProviderURL, logType, providerType, name, fullPage, showTitle } = this.props;
     const { logs, logPending, logTimespan } = this.state;
     const showLogOutputs = logType === 'container' && providerType === 'DCOS';
+    const disableControls = logProviderPending || logPending || !logProviderURL;
 
     return (
       <PageWrapper>
         <Toolbar fullPage={fullPage}>
           <Row gutter={5} alignItems="center">
             <Col xs={12} sm={4} md={6} lg={8}>
-              <Title small>Logs for {name} ({logType})</Title>
+              {showTitle && <Title small>Logs for {name} ({logType})</Title>}
             </Col>
             <Col xs={12} sm={8} md={6} lg={4}>
               <ToolbarActions>
@@ -211,8 +224,15 @@ class Logging extends PureComponent {
                     itemValue="value"
                     defaultValue={logTimespan}
                     lineDirection="center"
-                    position="below"
                     onChange={this.setLogTimespan}
+                    simplifiedMenu={false}
+                    repositionOnScroll={false}
+                    position={SelectField.Positions.BELOW}
+                    anchor={{
+                      x: SelectField.HorizontalAnchors.CENTER,
+                      y: SelectField.VerticalAnchors.BOTTOM,
+                    }}
+                    disabled={disableControls}
                   />
                 </ToolbarControls>
                 <Button
@@ -220,14 +240,14 @@ class Logging extends PureComponent {
                   iconChildren="refresh"
                   tooltipLabel="Refresh Log"
                   onClick={() => this.fetchLogs(this.props, this.state)}
-                  disabled={logProviderPending || logPending || !logProviderURL}
+                  disabled={disableControls}
                 />
                 <FileDownloadButton
                   icon
                   data={logs.length && logs.join('\n')}
                   tooltipLabel="Download Log"
                   fileName={`${name}-${logType}.log`}
-                  disabled={logProviderPending || logPending || !logProviderURL}
+                  disabled={disableControls}
                 />
                 {fullPage &&
                   <Button
