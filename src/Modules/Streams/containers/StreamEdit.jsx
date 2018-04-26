@@ -104,14 +104,6 @@ class StreamSpecEdit extends Component {
 
             {streamSpecPending && <ActivityContainer id="streamspec-form" />}
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={streamSpec} />
-                </Panel>
-              </Col>
-            </Row>
-
             <Tabs>
               <Tab title="Streams">
                 <StreamInstances streamSpec={streamSpec} />
@@ -127,6 +119,14 @@ class StreamSpecEdit extends Component {
                 </FullPageFooter>
               </Tab>
               <Tab title="Specification">
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Panel title="Resource Details" defaultExpanded={false}>
+                      <DetailsPane model={streamSpec} />
+                    </Panel>
+                  </Col>
+                </Row>
+
                 <Form
                   editMode
                   onSubmit={this.onSubmit}
