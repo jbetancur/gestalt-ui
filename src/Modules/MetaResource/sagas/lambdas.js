@@ -29,6 +29,7 @@ export function* fetchLambda(action) {
     const payload = { ...lambdaResponse.data };
 
     payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
+
     yield put({ type: types.FETCH_LAMBDA_FULFILLED, payload });
   } catch (e) {
     yield put({ type: types.FETCH_LAMBDA_REJECTED, payload: e.message });

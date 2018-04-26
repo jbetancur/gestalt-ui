@@ -11,15 +11,6 @@ import { checkIfPassword } from 'util/helpers/strings';
 const validatePattern = value => (value && !isUnixVariable(value)) && 'Invalid Unix Variable';
 const required = value => (value ? undefined : 'Required');
 
-AddButton.propTypes = {
-  onAddItem: PropTypes.func.isRequired,
-  label: PropTypes.string,
-};
-
-AddButton.defaultProps = {
-  label: null,
-};
-
 const UnixVariablesForm = ({ fields, disabled }) => (
   <FieldContainer>
     <FieldItem>

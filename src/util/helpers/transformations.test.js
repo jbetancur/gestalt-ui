@@ -46,6 +46,17 @@ describe('Util Transformations', () => {
       ]);
     });
 
+    it('should return the correct values with multiple inherits', () => {
+      const own = { luke_skywalker: 'jedi' };
+      const inherited = { darth_vadar: 'sith', anakin_skywalker: 'jedi' };
+
+      expect(convertFromMaps(own, inherited)).toEqual([
+        { name: 'anakin_skywalker', value: 'jedi', inherited: true },
+        { name: 'darth_vadar', value: 'sith', inherited: true },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false }
+      ]);
+    });
+
     it('should return the correct values when own and inherited have the same values', () => {
       const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
       const inherited = { darth_vadar: 'sith' };

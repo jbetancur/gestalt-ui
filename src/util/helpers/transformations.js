@@ -42,7 +42,7 @@ export function convertFromMaps(own = {}, inherited = {}, keyName = 'name', valu
   const inheritedVars = mapTo2DArray(inherited, keyName, valueName, { inherited: true });
   const ownVars = mapTo2DArray(own, keyName, valueName, { inherited: false });
 
-  return orderBy(unionBy(ownVars, inheritedVars, keyName), 'inherited', 'desc');
+  return orderBy(unionBy(ownVars, inheritedVars, keyName), ['inherited', keyName], 'desc');
 }
 
 /**

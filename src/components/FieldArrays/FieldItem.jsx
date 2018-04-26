@@ -9,7 +9,7 @@ const FieldItem = styled.div`
   padding-right: 8px;
 
   &:nth-child(odd) {
-    background-color: ${props => props.theme.colors['$md-grey-100']};
+    background-color: ${props => props.theme.colors['$md-grey-50']};
   }
 
   &:nth-child(even) {
