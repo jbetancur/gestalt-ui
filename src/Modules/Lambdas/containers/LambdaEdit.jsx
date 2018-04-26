@@ -122,7 +122,7 @@ class LambdaEdit extends PureComponent {
                   target="_blank"
                   component={Link}
                 >
-                  Full Page Log
+                  Expand Log
                 </Button>,
                 <ActionsMenu
                   key="lambda--actions"

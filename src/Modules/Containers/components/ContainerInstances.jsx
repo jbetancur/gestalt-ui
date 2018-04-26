@@ -6,24 +6,28 @@ import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
 import { FontIcon, Button } from 'react-md';
 import { getLastFromSplit } from 'util/helpers/strings';
+import ExpandableLogs from './ExpandableLogs';
 
 const ContainerInstances = ({ instances, containerModel, fqon }) => {
+  const providerType = getLastFromSplit(containerModel.properties.provider.resource_type);
+
   const columns = [
     {
-      width: '200px',
+      width: '225px',
       ignoreRowClick: true,
       cell: row => (
         <Button
           flat
           primary
+          iconChildren="subject"
           to={{
             pathname: '/logs',
-            search: `?name=${containerModel.name} - ${row.host}&fqon=${fqon}&providerId=${containerModel.properties.provider.id}&providerType=${getLastFromSplit(containerModel.properties.provider.resource_type)}&logType=container&logId=${row.id}`
+            search: `?name=${containerModel.name} - ${row.host}&fqon=${fqon}&providerId=${containerModel.properties.provider.id}&providerType=${providerType}&logType=container&logId=${row.id}`
           }}
           target="_blank"
           component={Link}
         >
-          View Log
+          Expand Log
         </Button>
       ),
     },
@@ -60,6 +64,10 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
       sortIcon={<FontIcon>arrow_downward</FontIcon>}
       defaultSortField="startedAt"
       noDataComponent={<Title light>There are no instances running</Title>}
+      expandableRows
+      expandableRowsComponent={
+        <ExpandableLogs providerType={providerType} containerModel={containerModel} fqon={fqon} />
+      }
       noHeader
     />
   );
@@ -76,4 +84,3 @@ ContainerInstances.defaultProps = {
 };
 
 export default ContainerInstances;
-
