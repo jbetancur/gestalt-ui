@@ -2,23 +2,31 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { Row, Col } from 'react-flexybox';
 import { withLambda, withPickerData, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
+import withLambdaState from '../hoc/withLambdaState';
 
 class LambdaCreate extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     lambdaActions: PropTypes.object.isRequired,
+    lambdaPending: PropTypes.bool.isRequired,
     envPending: PropTypes.bool.isRequired,
     fetchEnv: PropTypes.func.isRequired,
-    executorsData: PropTypes.object.isRequired,
+    executorsData: PropTypes.array.isRequired,
+    providersData: PropTypes.array.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
+    lambdaStateActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -27,7 +35,13 @@ class LambdaCreate extends PureComponent {
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
   }
 
-  create(values) {
+  componentWillUnmount() {
+    const { lambdaStateActions } = this.props;
+
+    lambdaStateActions.setRunTime({});
+  }
+
+  create = (values) => {
     const { match, history, lambdaActions, executorsData } = this.props;
     const payload = generatePayload(values);
 
@@ -44,18 +58,36 @@ class LambdaCreate extends PureComponent {
   }
 
   render() {
+    const {
+      lambdaPending,
+      envPending,
+      providersData,
+      executorsData,
+      initialFormValues,
+    } = this.props;
+
     return (
-      <div>
-        {this.props.envPending ?
-          <ActivityContainer id="container-load" /> :
-          <LambdaForm
-            title="Create Lambda"
-            submitLabel="Create"
-            cancelLabel="Lambdas"
-            onSubmit={values => this.create(values)}
-            {...this.props}
-          />}
-      </div>
+      envPending ?
+        <ActivityContainer id="container-load" /> :
+
+        <Row center>
+          <Col flex={10} xs={12} sm={12} md={10}>
+            <ActionsToolbar title="Create a Lambda" />
+
+            {lambdaPending && <ActivityContainer id="lambda-form" />}
+
+            <Form
+              onSubmit={this.create}
+              initialValues={initialFormValues}
+              render={LambdaForm}
+              validate={validate}
+              mutators={{ ...arrayMutators }}
+              loading={lambdaPending}
+              providers={providersData}
+              executors={executorsData}
+            />
+          </Col>
+        </Row>
     );
   }
 }
@@ -63,7 +95,7 @@ class LambdaCreate extends PureComponent {
 function mapStateToProps(state) {
   return {
     lambda: getCreateLambdaModel(state),
-    initialValues: getCreateLambdaModel(state),
+    initialFormValues: getCreateLambdaModel(state),
     theme: state.lambdas.theme,
   };
 }
@@ -72,11 +104,7 @@ export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
   withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
   withLambda,
+  withLambdaState,
   withMetaResource,
-  connect(mapStateToProps, Object.assign({}, actions)),
-  reduxForm({
-    form: 'lambdaCreate',
-    enableReinitialize: true,
-    validate,
-  })
+  connect(mapStateToProps, actions),
 )(LambdaCreate);

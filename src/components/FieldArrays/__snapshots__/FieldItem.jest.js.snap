@@ -10,7 +10,7 @@ exports[`(Components) FieldItem mounts with basic props 1`] = `
 }
 
 .c0:nth-child(odd) {
-  background-color: #f5f5f5;
+  background-color: #fafafa;
 }
 
 .c0:nth-child(even) {

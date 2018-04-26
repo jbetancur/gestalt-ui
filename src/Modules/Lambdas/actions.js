@@ -1,5 +1,6 @@
 import {
   CHANGE_EDITOR_THEME,
+  SELECT_RUNTIME,
 } from './actionTypes';
 
 export function confirmDelete(action, title, multipleItems) {
@@ -36,8 +37,14 @@ export function showAPIEndpointWizardModal(params, implementationId, implementat
   };
 }
 
+export function setRunTime(runtime = {}) {
+  return { type: SELECT_RUNTIME, runtime };
+}
+
+
 export default {
   confirmDelete,
   handleTheme,
   showAPIEndpointWizardModal,
+  setRunTime,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NodejsIcon, JavaIcon, ScalaIcon, PythonIcon, CSharpIcon, GoLangIcon, RubyIcon } from 'components/Icons';
+import { NodejsIcon, JavaIcon, ScalaIcon, PythonIcon, CSharpIcon, GoLangIcon, RubyIcon, RhinoJSIcon } from 'components/Icons';
 
 const IconWrapper = styled.div`
   display: flex;
@@ -25,13 +25,14 @@ const iconTypes = {
   'csharp;dotnet': <CSharpIcon />,
   golang: <GoLangIcon />,
   ruby: <RubyIcon />,
+  nashorn: <RhinoJSIcon />,
 };
 
-const ListIcon = (props) => {
-  const icon = iconTypes[props.runtime];
+const ListIcon = ({ runtime, label }) => {
+  const icon = iconTypes[runtime];
 
   if (!icon) {
-    return <span>{props.runtime}</span>;
+    return <span>{label || runtime}</span>;
   }
 
   return (
@@ -40,7 +41,7 @@ const ListIcon = (props) => {
         {icon}
       </span>
       <Runtime>
-        {props.runtime}
+        {label || runtime}
       </Runtime>
     </IconWrapper>
   );
@@ -48,6 +49,11 @@ const ListIcon = (props) => {
 
 ListIcon.propTypes = {
   runtime: PropTypes.string.isRequired,
+  label: PropTypes.string,
+};
+
+ListIcon.defaultProps = {
+  label: null,
 };
 
 export default ListIcon;
