@@ -49,19 +49,19 @@ class Tabs extends Component {
       return children[activeTabIndex].props.children;
     }
 
-    return activeTabIndex;
+    return children.props.children;
   }
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <TabsStyle>
           {this.renderChildrenWithTabsApiAsProps()}
         </TabsStyle>
         <Content>
           {this.renderActiveTabContent()}
         </Content>
-      </div>
+      </React.Fragment>
     );
   }
 }

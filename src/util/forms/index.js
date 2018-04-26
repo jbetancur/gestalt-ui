@@ -16,3 +16,5 @@ export const unixPattern =
 
 export const required =
   (message = 'required') => value => (value ? undefined : message);
+
+export const fixInputNumber = value => value && parseInt(value, 10);
