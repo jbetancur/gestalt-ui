@@ -30,6 +30,7 @@ import {
   getEditContainerModelAsSpec,
   selectContainer,
   getContainerInstances,
+  getContainerServiceAddresses,
 } from '../selectors';
 import ActionsModals from '../ActionModals';
 
@@ -47,6 +48,7 @@ class ContainerEdit extends Component {
     inlineMode: PropTypes.bool,
     entitlementActions: PropTypes.object.isRequired,
     containerInstances: PropTypes.array.isRequired,
+    containerServiceAddresses: PropTypes.array.isRequired,
     fetchprovidersData: PropTypes.func.isRequired,
     providersData: PropTypes.array.isRequired,
   };
@@ -115,7 +117,7 @@ class ContainerEdit extends Component {
   }
 
   render() {
-    const { match, container, containerPending, containerInstances, providersData, inlineMode } = this.props;
+    const { match, container, containerPending, containerInstances, containerServiceAddresses, providersData, inlineMode } = this.props;
     // TODO: Implemented this way due to container provider missing properties.provider.resource_type
     const selectedProvider = providersData.find(p => p.id === container.properties.provider.id) || {};
     const providerType = getLastFromSplit(selectedProvider.resource_type);
@@ -206,7 +208,7 @@ class ContainerEdit extends Component {
                   <Col flex={12}>
                     <Card>
                       <ContainerServiceAddresses
-                        portMappings={container.properties.port_mappings}
+                        portMappings={containerServiceAddresses}
                       />
                     </Card>
                   </Col>
@@ -235,6 +237,7 @@ const formName = 'containerEdit';
 const mapStateToProps = (state, ownProps) => ({
   container: ownProps.containerSpec || selectContainer(state),
   containerInstances: getContainerInstances(state),
+  containerServiceAddresses: getContainerServiceAddresses(state),
   initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(state, ownProps.containerSpec) : getEditContainerModel(state),
 });
 
