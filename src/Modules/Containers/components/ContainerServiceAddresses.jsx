@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DataTable from 'react-data-table-component';
+import { Title } from 'components/Typography';
 import { FontIcon } from 'react-md';
 
 const columns = [
@@ -37,6 +38,7 @@ const ContainerServiceAddresses = ({ portMappings }) => (
     columns={columns}
     sortIcon={<FontIcon>arrow_downward</FontIcon>}
     defaultSortField="name"
+    noDataComponent={<Title light>There are no port mappings configured</Title>}
     noHeader
   />
 );

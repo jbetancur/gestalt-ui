@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { Timestamp } from 'components/TableCells';
+import { Title } from 'components/Typography';
 import { FontIcon, Button } from 'react-md';
 import { getLastFromSplit } from 'util/helpers/strings';
 
 const ContainerInstances = ({ instances, containerModel, fqon }) => {
   const columns = [
     {
+      width: '200px',
       ignoreRowClick: true,
       cell: row => (
         <Button
@@ -57,6 +59,7 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
       columns={columns}
       sortIcon={<FontIcon>arrow_downward</FontIcon>}
       defaultSortField="startedAt"
+      noDataComponent={<Title light>There are no instances running</Title>}
       noHeader
     />
   );

@@ -201,7 +201,7 @@ class Logging extends PureComponent {
             <Col xs={12} sm={4} md={6} lg={8}>
               <Title small>Logs for {name} ({logType})</Title>
             </Col>
-            <Col component={Div} xs={12} sm={8} md={6} lg={4} disabled={logProviderPending || logPending || !logProviderURL}>
+            <Col xs={12} sm={8} md={6} lg={4}>
               <ToolbarActions>
                 <ToolbarControls>
                   <SelectField
@@ -220,12 +220,14 @@ class Logging extends PureComponent {
                   iconChildren="refresh"
                   tooltipLabel="Refresh Log"
                   onClick={() => this.fetchLogs(this.props, this.state)}
+                  disabled={logProviderPending || logPending || !logProviderURL}
                 />
                 <FileDownloadButton
                   icon
                   data={logs.length && logs.join('\n')}
                   tooltipLabel="Download Log"
                   fileName={`${name}-${logType}.log`}
+                  disabled={logProviderPending || logPending || !logProviderURL}
                 />
                 {fullPage &&
                   <Button

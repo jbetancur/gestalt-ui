@@ -4,13 +4,17 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { Col, Row } from 'react-flexybox';
 import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateContainerModel } from '../selectors';
+import ContainerIcon from '../components/ContainerIcon';
 
 class ContainerCreate extends Component {
   static propTypes = {
@@ -20,6 +24,7 @@ class ContainerCreate extends Component {
     fetchEnv: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
+    containerPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -27,10 +32,16 @@ class ContainerCreate extends Component {
     history: {},
   };
 
+  state = { providerType: {} };
+
   componentDidMount() {
     const { match, fetchEnv } = this.props;
 
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
+  }
+
+  setProviderType = (providerType) => {
+    this.setState({ providerType });
   }
 
   create = (values) => {
@@ -45,19 +56,34 @@ class ContainerCreate extends Component {
   }
 
   render() {
+    const { containerPending, envPending, inlineMode } = this.props;
+
     return (
-      <div>
-        {this.props.envPending ?
-          <ActivityContainer id="container-load" /> :
-          <ContainerForm
-            inlineMode={this.props.inlineMode}
-            title="Deploy Container"
-            submitLabel="Deploy"
-            cancelLabel="Containers"
-            onSubmit={this.create}
-            {...this.props}
-          />}
-      </div>
+      envPending ?
+        <ActivityContainer id="container-loading" /> :
+        <Row gutter={5} center>
+          <Col
+            flex={inlineMode ? 12 : 10}
+            xs={12}
+            sm={12}
+            md={12}
+          >
+
+            <ActionsToolbar
+              title="Deploy a Container"
+              titleIcon={<ContainerIcon resourceType={getLastFromSplit(this.state.providerType.resource_type)} />}
+            />
+
+            {containerPending && <ActivityContainer id="container-form" />}
+
+            <ContainerForm
+              inlineMode={inlineMode}
+              onSubmit={this.create}
+              onSelectedProvider={this.setProviderType}
+              {...this.props}
+            />
+          </Col>
+        </Row>
     );
   }
 }
