@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Button from 'react-md/lib/Buttons/Button';
+import { Button } from 'react-md';
 import PropTypes from 'prop-types';
 
 function download(data, filename, mime) {
@@ -16,7 +16,7 @@ function download(data, filename, mime) {
     const tempLink = document.createElement('a');
     tempLink.href = blobURL;
     tempLink.setAttribute('download', filename);
-    tempLink.setAttribute('target', '_blank');
+    // tempLink.setAttribute('target', '_blank');
     document.body.appendChild(tempLink);
     tempLink.click();
     document.body.removeChild(tempLink);

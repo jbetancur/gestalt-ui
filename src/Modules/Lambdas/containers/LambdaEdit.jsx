@@ -15,6 +15,10 @@ import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import { Row, Col } from 'react-flexybox';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
+import { Tabs, Tab } from 'components/Tabs';
+import { Logging } from 'Modules/Logging';
+import { Card } from 'components/Cards';
+import { FullPageFooter } from 'components/FullPage';
 import LambdaForm from './LambdaForm';
 import validate from '../validations';
 import { generatePatches } from '../payloadTransformer';
@@ -118,7 +122,7 @@ class LambdaEdit extends PureComponent {
                   target="_blank"
                   component={Link}
                 >
-                  View Log
+                  Full Page Log
                 </Button>,
                 <ActionsMenu
                   key="lambda--actions"
@@ -139,39 +143,68 @@ class LambdaEdit extends PureComponent {
 
             {lambdaPending && <ActivityContainer id="lambda-form" />}
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={lambda} />
-                </Panel>
-              </Col>
-            </Row>
+            <Tabs>
+              <Tab title="Lambda">
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Panel title="Resource Details" defaultExpanded={false}>
+                      <DetailsPane model={lambda} />
+                    </Panel>
+                  </Col>
+                </Row>
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Public Endpoints" pending={apiEndpointsPending} noPadding count={apiEndpoints.length}>
-                  <APIEndpointInlineList
-                    endpoints={apiEndpoints}
-                    onAddEndpoint={() => lambdaStateActions.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
-                  />
-                </Panel>
-              </Col>
-            </Row>
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Panel title="Public Endpoints" pending={apiEndpointsPending && !apiEndpoints.length} noPadding count={apiEndpoints.length}>
+                      <APIEndpointInlineList
+                        onAddEndpoint={() => lambdaStateActions.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
+                      />
+                    </Panel>
+                  </Col>
+                </Row>
 
-            <Form
-              editMode
-              onSubmit={this.update}
-              initialValues={initialFormValues}
-              render={LambdaForm}
-              validate={validate}
-              mutators={{ ...arrayMutators }}
-              loading={lambdaPending}
-              providers={providersData}
-              executors={executorsData}
-              lambda={lambda}
-              apiEndpoints={apiEndpoints}
-              apiEndpointsPending={apiEndpointsPending}
-            />
+                <Form
+                  editMode
+                  onSubmit={this.update}
+                  initialValues={initialFormValues}
+                  render={LambdaForm}
+                  validate={validate}
+                  mutators={{ ...arrayMutators }}
+                  loading={lambdaPending}
+                  providers={providersData}
+                  executors={executorsData}
+                  lambda={lambda}
+                  apiEndpoints={apiEndpoints}
+                  apiEndpointsPending={apiEndpointsPending}
+                />
+              </Tab>
+              <Tab title="Log">
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Card>
+                      <Logging
+                        name={lambda.name}
+                        logType="lambda"
+                        logId={lambda.id}
+                        providerId={lambda.properties.provider.id}
+                        fqon={match.params.fqon}
+                      />
+                    </Card>
+                  </Col>
+                </Row>
+
+                <FullPageFooter>
+                  <Button
+                    flat
+                    iconChildren="arrow_back"
+                    component={Link}
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
+                  >
+                    Lambdas
+                  </Button>
+                </FullPageFooter>
+              </Tab>
+            </Tabs>
           </Col>
         </Row>
     );

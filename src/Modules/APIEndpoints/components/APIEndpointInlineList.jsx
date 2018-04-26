@@ -9,6 +9,7 @@ import { Title } from 'components/Typography';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Timestamp, GenericMenuActions } from 'components/TableCells';
+import { LinearProgress } from 'components/ProgressIndicators';
 import StatusBubble from 'components/StatusBubble';
 import Div from 'components/Div';
 import A from 'components/A';
@@ -17,10 +18,11 @@ import { getLastFromSplit } from 'util/helpers/strings';
 class APIEndpointInlineList extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    endpoints: PropTypes.array.isRequired,
+    apiEndpoints: PropTypes.array.isRequired,
     onAddEndpoint: PropTypes.func.isRequired,
     deleteAPIEndpoint: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    apiEndpointsPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -107,7 +109,7 @@ class APIEndpointInlineList extends PureComponent {
   }
 
   render() {
-    const { endpoints, onAddEndpoint, disabled } = this.props;
+    const { onAddEndpoint, disabled, apiEndpoints, apiEndpointsPending } = this.props;
 
     return (
       <div>
@@ -127,12 +129,15 @@ class APIEndpointInlineList extends PureComponent {
           <Col flex={12}>
             <DataTable
               noHeader
-              data={endpoints}
+              data={apiEndpoints}
               highlightOnHover
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no endpoints to display</Title>}
+              progressPending={apiEndpointsPending}
+              progressComponent={<LinearProgress id="apiendpoints-listing" />}
+              progressCentered
             />
           </Col>
         </Row>
