@@ -2,17 +2,38 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { formValueSelector, destroy } from 'redux-form';
 import { DialogContainer } from 'react-md';
-import { Stepper } from 'components/Stepper';
-import { withMetaResource } from 'Modules/MetaResource';
+import { Stepper } from 'components/Form';
+import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import { generatePayload } from '../payloadTransformer';
-import APIForm from './APIForm';
-import APIEndpointForm from './APIEndpointForm';
+import APIPage from './APIPage';
+import APIEndpointPage from './APIEndpointPage';
+import page1Validations from './page1Validations';
+import page2Validations from './page2Validations';
+
+const initialValues = metaModels.apiEndpoint.create({
+  properties: {
+    methods: 'GET', // converts to array
+    plugins: {
+      rateLimit: {
+        enabled: false,
+        perMinute: 60,
+      },
+      gestaltSecurity: {
+        enabled: false,
+        users: [],
+        groups: [],
+      },
+    },
+    implementation_type: '',
+    implementation_id: '',
+    resource: '',
+    synchronous: true,
+  }
+});
 
 class APIEndpointWizard extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func,
     modal: PropTypes.object.isRequired,
     hideModal: PropTypes.func.isRequired,
     fetchAPIs: PropTypes.func.isRequired,
@@ -24,17 +45,12 @@ class APIEndpointWizard extends PureComponent {
     params: PropTypes.object.isRequired,
     implementationId: PropTypes.string.isRequired,
     implementationType: PropTypes.string.isRequired,
-    formValues: PropTypes.object.isRequired,
     portMappings: PropTypes.array,
-    destroyForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     portMappings: [],
-    onSubmit: null,
   };
-
-  state = { step: 0 };
 
   componentDidMount() {
     const { params, fetchAPIs } = this.props;
@@ -44,7 +60,6 @@ class APIEndpointWizard extends PureComponent {
 
   componentWillUnmount() {
     this.props.unloadAPIs();
-    this.props.destroyForm('APIEndpointMappingWizard');
   }
 
   nextPage = () => {
@@ -80,33 +95,7 @@ class APIEndpointWizard extends PureComponent {
   }
 
   render() {
-    const { onSubmit, apis, implementationId, implementationType, portMappings, formValues, apiEndpointPending } = this.props;
-
-    const steps = [
-      {
-        label: 'Select an API',
-        component: <APIForm
-          onSubmit={this.nextPage}
-          cancel={this.props.hideModal}
-          apis={apis}
-          implementationId={implementationId}
-          implementationType={implementationType}
-        />,
-      },
-      {
-        label: 'Define the Endpoint',
-        component: <APIEndpointForm
-          onSubmit={this.finish}
-          cancel={this.props.hideModal}
-          previousPage={this.previousPage}
-          implementationId={implementationId}
-          implementationType={implementationType}
-          formValues={formValues}
-          portMappings={portMappings}
-          pending={apiEndpointPending}
-        />
-      },
-    ];
+    const { apis, implementationId, implementationType, portMappings, apiEndpointPending, hideModal } = this.props;
 
     return (
       <DialogContainer
@@ -120,31 +109,39 @@ class APIEndpointWizard extends PureComponent {
         modal
       >
         <Stepper
-          steps={steps}
-          onSubmit={onSubmit}
-          activeStep={this.state.step}
-        />
+          initialValues={initialValues}
+          onFinish={this.finish}
+          onCancel={hideModal}
+          pending={apiEndpointPending}
+        >
+          <Stepper.Page validate={page1Validations} title="Select an API">
+            <APIPage
+              apis={apis}
+            />
+          </Stepper.Page>
+          <Stepper.Page validate={page2Validations({ implementationType })} title="Define the Endpoint">
+            <APIEndpointPage
+              implementationId={implementationId}
+              implementationType={implementationType}
+              portMappings={portMappings}
+              pending={apiEndpointPending}
+              initialValues={initialValues}
+            />
+          </Stepper.Page>
+        </Stepper>
       </DialogContainer>
     );
   }
 }
 
-const selector = form => formValueSelector(form);
 const mapStateToProps = state => ({
   modal: state.modal,
-  formValues: selector('APIEndpointMappingWizard')(state,
-    'properties.plugins',
-    'properties.synchronous',
-  ),
 });
 
 const actions = dispatch => ({
   hideModal: () => {
     dispatch({ type: 'HIDE_MODAL' });
   },
-  destroyForm: (form) => {
-    dispatch(destroy(form));
-  }
 });
 
 export default compose(

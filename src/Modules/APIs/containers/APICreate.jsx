@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import { Col, Row } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
+import { ActivityContainer } from 'components/ProgressIndicators';
+import ActionsToolbar from 'components/ActionsToolbar';
 import APIForm from './APIForm';
-import validate from '../validations';
+import validate from './validations';
 import actions from '../actions';
 import { generateAPIPayload } from '../payloadTransformer';
+
+const initialFormValues = {
+  name: null,
+  description: null,
+  properties: {
+    provider: {},
+  }
+};
 
 class APICreate extends Component {
   static propTypes = {
@@ -16,6 +28,8 @@ class APICreate extends Component {
     createAPI: PropTypes.func.isRequired,
     providersKongByGateway: PropTypes.array.isRequired,
     fetchProviderKongsByGateway: PropTypes.func.isRequired,
+    apiPending: PropTypes.bool.isRequired,
+    throwError: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -24,48 +38,46 @@ class APICreate extends Component {
     fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
   }
 
-  create(values) {
-    const { match, history, createAPI, providersKongByGateway } = this.props;
+  create = (values) => {
+    const { match, history, createAPI, providersKongByGateway, throwError } = this.props;
     const payload = generateAPIPayload(values, providersKongByGateway);
 
     // providerid must be the linked_gateway manager
     if (!payload.properties.provider.id) {
-      this.props.dispatch({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create API. You must create and link a gateway manager provider type first' });
+      throwError({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create an API. You must create and link a gateway manager provider type first' });
     } else {
       const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${response.id}`);
+
       createAPI(match.params.fqon, match.params.environmentId, payload, onSuccess);
     }
   }
 
   render() {
+    const { apiPending } = this.props;
+
     return (
-      <APIForm
-        title="Create API"
-        submitLabel="Create"
-        cancelLabel="APIs"
-        onSubmit={values => this.create(values)}
-        {...this.props}
-      />
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+
+          <ActionsToolbar title="Create an API" />
+
+          {apiPending && <ActivityContainer id="api-loading" />}
+
+          <Form
+            onSubmit={this.create}
+            initialValues={initialFormValues}
+            render={APIForm}
+            validate={validate}
+            loading={apiPending}
+            {...this.props}
+          />
+        </Col>
+      </Row>
     );
   }
 }
 
-function mapStateToProps() {
-  const model = {
-    name: '',
-    description: '',
-    properties: {
-      provider: {},
-    }
-  };
-
-  return {
-    api: model,
-    initialValues: model,
-  };
-}
-
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'APICreate',
-  validate
-})(APICreate)));
+export default compose(
+  withMetaResource,
+  connect(null, actions),
+)(APICreate);

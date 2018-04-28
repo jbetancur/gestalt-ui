@@ -1,3 +1,7 @@
+export function throwError(payload) {
+  return payload;
+}
+
 export function confirmDelete(action, title, multipleItems) {
   return {
     type: 'SHOW_MODAL',
@@ -11,5 +15,6 @@ export function confirmDelete(action, title, multipleItems) {
 }
 
 export default {
+  throwError,
   confirmDelete,
 };

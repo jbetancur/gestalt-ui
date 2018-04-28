@@ -3,6 +3,7 @@
 exports[`(Panels) Header renders with a title 1`] = `
 <Header__HeaderStyle
   expandable={true}
+  noShadow={false}
   onClick={null}
 >
   <Row

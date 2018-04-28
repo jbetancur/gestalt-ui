@@ -43,7 +43,7 @@ const HeaderStyle = styled.header`
   ${props => !props.expandable && 'padding-left: 8px'};
   height: 48px;
   background-color: ${props => props.theme.colors['$md-white']};
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-top: ${props => (props.noShadow ? 'none' : `1px solid ${props.theme.colors['$md-grey-200']}`)};
   font-weight: bold;
   user-select: none;
 
@@ -60,6 +60,7 @@ class Header extends PureComponent {
     onClick: PropTypes.func,
     count: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     icon: PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool]),
+    noShadow: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -68,14 +69,15 @@ class Header extends PureComponent {
     onClick: null,
     count: false,
     icon: false,
+    noShadow: false,
   };
 
   render() {
-    const { title, count, expandable, expanded, onClick, icon } = this.props;
+    const { title, count, expandable, expanded, onClick, icon, noShadow } = this.props;
     const showCount = (count || count !== 0) && !expanded;
 
     return (
-      <HeaderStyle expandable={expandable} onClick={onClick}>
+      <HeaderStyle expandable={expandable} onClick={onClick} noShadow={noShadow}>
         <Row gutter={1} center fill wrap="nowrap">
           <TitleSection flex={showCount ? 10 : 12}>
             {expandable && <ExpanderIcon isExpanded={expanded}>expand_more</ExpanderIcon>}

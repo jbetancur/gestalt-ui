@@ -25,6 +25,7 @@ const ContentStyle = styled(({ height, overflow, maxHeight, ...rest }) => <div {
   ${props => props.maxHeight && `max-height: ${props.maxHeight}`};
   ${props => props.height && `height: ${props.height}`};
   ${props => props.overflow && `overflow: ${props.overflow}`};
+  ${props => (props.minHeight && `min-height: ${props.minHeight}`)};
 `;
 
 const Fieldset = props => (
@@ -34,6 +35,7 @@ const Fieldset = props => (
         {props.legend}
       </LegendStyle>}
     <ContentStyle
+      minHeight={props.minHeight}
       maxHeight={props.maxHeight}
       height={props.height}
       overflow={props.overflow}
@@ -51,6 +53,7 @@ Fieldset.propTypes = {
   legend: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.node]),
   legendFontSize: PropTypes.string,
   maxHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  minHeight: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   overflow: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   style: PropTypes.object,
@@ -64,6 +67,7 @@ Fieldset.defaultProps = {
   legend: false,
   legendFontSize: '1em',
   maxHeight: false,
+  minHeight: false,
   height: false,
   overflow: false,
   style: {},
