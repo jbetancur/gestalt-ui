@@ -23,6 +23,7 @@ class ActionsMenu extends PureComponent {
     model: PropTypes.object.isRequired,
     icon: PropTypes.bool,
     onActionComplete: PropTypes.func,
+    keyField: PropTypes.string,
   };
 
   static defaultProps = {
@@ -31,7 +32,8 @@ class ActionsMenu extends PureComponent {
     style: { textAlign: 'left' },
     listItem: false,
     icon: false,
-    onActionComplete: () => {},
+    onActionComplete: () => { },
+    keyField: 'id',
   };
 
   constructor() {
@@ -44,9 +46,10 @@ class ActionsMenu extends PureComponent {
 
   fetchContent(action) {
     const tokenId = cookies.get('auth_token');
+    const url = `${API_URL}/${this.props.model.org.properties.fqon}/actions/${action.id}/ui?resource=${this.props.model[this.props.keyField]}`;
 
     const contentAPI = axios.create({
-      baseURL: `${API_URL}/${this.props.model.org.properties.fqon}/actions/${action.id}/ui?resource=${this.props.model.id}`,
+      baseURL: url,
       timeout: API_TIMEOUT,
       headers: {
         Authorization: `Bearer ${tokenId}`,
@@ -57,7 +60,12 @@ class ActionsMenu extends PureComponent {
 
     contentAPI.get().then((response) => {
       this.setState({ actionContentPending: false });
-      this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
+
+      if (action.headless) {
+        this.props.onActionComplete();
+      } else {
+        this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
+      }
     }).catch(() => this.setState({ actionContentPending: false }));
   }
 
@@ -89,8 +97,9 @@ class ActionsMenu extends PureComponent {
               flat={!icon}
               label={!icon && 'Actions'}
               icon={icon}
-              position={icon ? MenuButton.Positions.BOTTOM_LEFT : MenuButton.Positions.BELOW}
-              tooltipLabel={icon && 'Actions'}
+              position={MenuButton.Positions.BELOW}
+              simplifiedMenu={false}
+              repositionOnScroll={false}
             >
               {this.renderActions()}
             </MenuButton > :

@@ -18,13 +18,14 @@ import { FullPageFooter } from 'components/FullPage';
 import StreamSpecForm from './StreamForm';
 import StreamInstances from '../components/StreamInstances';
 import validate from '../validations';
-import { getStreamSpec } from '../selectors';
+import { getStreamSpec, getStreamInstances } from '../selectors';
 import { generatePatches } from '../payloadTransformer';
 
 class StreamSpecEdit extends Component {
   static propTypes = {
     streamSpecActions: PropTypes.object.isRequired,
     streamSpec: PropTypes.object.isRequired,
+    streamInstances: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     streamSpecPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
@@ -69,6 +70,7 @@ class StreamSpecEdit extends Component {
       match,
       streamSpecPending,
       streamSpec,
+      streamInstances,
       lambdasData,
       datafeedsData,
       providersData,
@@ -106,7 +108,7 @@ class StreamSpecEdit extends Component {
 
             <Tabs>
               <Tab title="Streams">
-                <StreamInstances streamSpec={streamSpec} />
+                <StreamInstances streamInstances={streamInstances} />
                 <FullPageFooter>
                   <Button
                     to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
@@ -150,6 +152,7 @@ class StreamSpecEdit extends Component {
 
 const mapStatetoProps = state => ({
   initialFormValues: getStreamSpec(state),
+  streamInstances: getStreamInstances(state),
 });
 
 export default compose(
