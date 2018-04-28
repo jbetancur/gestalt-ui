@@ -65,6 +65,7 @@ class Panel extends PureComponent {
           expanded={this.state.isExpanded}
           count={count}
           icon={icon}
+          noShadow={noShadow}
         />}
         <Content
           isExpanded={this.state.isExpanded}

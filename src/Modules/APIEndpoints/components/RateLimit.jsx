@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { Checkbox, TextField } from 'components/ReduxFormFields';
 import { Caption } from 'components/Typography';
+import { Conditional } from 'components/Form';
 
 export default class RateLimit extends PureComponent {
   static propTypes = {
@@ -22,28 +23,29 @@ export default class RateLimit extends PureComponent {
         <Col flex={8}>
           <Field
             id="show-rate-limits"
+            label="Rate Limit"
             component={Checkbox}
             name="properties.plugins.rateLimit.enabled"
-            checked={this.props.isToggled}
-            label="Rate Limit"
+            defaultChecked={this.props.isToggled}
           />
         </Col>
-        {this.props.isToggled &&
-        <Col flex={4}>
-          <Field
-            component={TextField}
-            name="properties.plugins.rateLimit.perMinute"
-            min={1}
-            max={65536}
-            step={1}
-            label="Per Minute"
-            type="number"
-            required
-            parse={value => Number(value)} // redux form formats everything as string, so force number
-            style={{ paddingLeft: '5px' }}
-          />
-        </Col>}
-        <Caption light>Allowed Accesses per minute</Caption>
+        <Conditional when="properties.plugins.rateLimit.enabled" is={true}>
+          <Col flex={4}>
+            <Field
+              component={TextField}
+              name="properties.plugins.rateLimit.perMinute"
+              min={1}
+              max={65536}
+              step={1}
+              label="Per Minute"
+              type="number"
+              required
+              parse={value => Number(value)} // redux form formats everything as string, so force number
+              style={{ paddingLeft: '5px' }}
+            />
+          </Col>
+          <Caption light>Allowed Accesses per minute</Caption>
+        </Conditional>
       </Row>
     );
   }

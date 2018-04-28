@@ -18,5 +18,9 @@ export default [
   {
     label: 'PATCH',
     value: 'PATCH',
+  },
+  {
+    label: 'OPTIONS',
+    value: 'OPTIONS',
   }
 ];

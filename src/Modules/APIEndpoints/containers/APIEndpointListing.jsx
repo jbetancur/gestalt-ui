@@ -180,7 +180,7 @@ class APIEndpointListing extends PureComponent {
       <Row>
         <Col component={Card} flex={12}>
           <DataTable
-            title="Endpoints"
+            title="API Endpoints"
             data={this.props.apiEndpoints}
             highlightOnHover
             pointerOnHover

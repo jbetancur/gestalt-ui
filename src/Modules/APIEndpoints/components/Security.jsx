@@ -1,24 +1,18 @@
 import React, { PureComponent } from 'react';
-// import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-// import FontIcon from 'react-md/lib/FontIcons';
 import { Checkbox } from 'components/ReduxFormFields';
-// import Autocomplete from 'react-md/lib/Autocompletes';
-// import List from 'react-md/lib/Lists/List';
-// import ListItem from 'react-md/lib/Lists/ListItem';
 
 export default class APIEndpointSecurity extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    isEnabled: PropTypes.bool.isRequired,
-    // identities: PropTypes.array.isRequired,
-    // fetchIdentities: PropTypes.func.isRequired,
+    isToggled: PropTypes.bool,
   };
 
   static defaultProps = {
     className: '',
+    isToggled: false,
   };
 
   constructor(props) {
@@ -29,26 +23,8 @@ export default class APIEndpointSecurity extends PureComponent {
     };
   }
 
-  // setInput(autocomplete) {
-  //   if (autocomplete) {
-  //     // eslint-disable-next-line react/no-find-dom-node
-  //     this.selectedItem = findDOMNode(autocomplete).querySelector('api-endpoints-security-dropdown');
-  //   }
-  // }
-
-  // removeIdentity(value) {
-  //   const index = this.state.items.indexOf(value);
-  //   this.setState({ items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)] });
-  // }
-
-  // handleAutoComplete(value) {
-  //   if (this.selectedItem) {
-  //     this.setState({ items: [...this.state.items, { id: this.selectedItem.id, name: this.selectedItem.name }] });
-  //   }
-  // }
-
   render() {
-    const { isEnabled } = this.props;
+    const { isToggled } = this.props;
 
     return (
       <Row gutter={5} className={this.props.className}>
@@ -57,42 +33,11 @@ export default class APIEndpointSecurity extends PureComponent {
             id="show-api-endpoints-security"
             component={Checkbox}
             name="properties.plugins.gestaltSecurity.enabled"
-            checked={isEnabled}
+            defaultChecked={isToggled}
             label="Require Authentication"
             style={{ marginTop: 0 }}
           />
         </Col>
-        {/* {securityEnabled &&
-        <Col>
-          <Col flex={12} sm={6} xs={12}>
-            <Autocomplete
-              id="api-endpoints-security-dropdown"
-              data={this.props.identities}
-              dataLabel="name"
-              dataValue="id"
-              type="search"
-              label="Whitelist a User/Group"
-              clearOnAutocomplete
-              onClick={() => fetchIdentities('root')}
-              onAutocomplete={value => this.handleAutoComplete(value)}
-              ref={value => this.setInput(value)}
-              helpText="search for a user or group to whitelist"
-            />
-          </Col>
-          <Col flex={12} sm={6} xs={12}>
-            {this.state.items.length > 0 && <h4>Whitelisted Users/Groups</h4>}
-            <List>
-              {this.state.items.map(item => (
-                <ListItem
-                  key={item.id}
-                  primaryText={item.name}
-                  rightIcon={<FontIcon style={{ color: 'red' }}>remove_circle</FontIcon>}
-                  onClick={() => this.removeIdentity(item)}
-                />
-              ))}
-            </List>
-          </Col>
-        </div>} */}
       </Row>
     );
   }

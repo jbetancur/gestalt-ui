@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import { Col, Row } from 'react-flexybox';
+import { ActivityContainer } from 'components/ProgressIndicators';
+import ActionsToolbar from 'components/ActionsToolbar';
 import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import APIEndpointForm from './APIEndpointForm';
-import validate from './APIEndpointForm/validations';
+import validate from './validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateEndpointModel } from '../selectors';
@@ -15,6 +18,8 @@ class APIEndpointCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
+    apiEndpointPending: PropTypes.bool.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
   };
 
   create = (values) => {
@@ -26,22 +31,32 @@ class APIEndpointCreate extends Component {
   }
 
   render() {
+    const { initialFormValues, apiEndpointPending } = this.props;
+
     return (
-      <APIEndpointForm
-        title="Create Endpoint"
-        submitLabel="Create"
-        cancelLabel="Cancel"
-        onSubmit={this.create}
-        {...this.props}
-      />
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ActionsToolbar title="Create an Endpoint" />
+
+          {apiEndpointPending && <ActivityContainer id="apiEndpoint-form" />}
+
+          <Form
+            onSubmit={this.create}
+            initialValues={initialFormValues}
+            render={APIEndpointForm}
+            validate={validate}
+            loading={apiEndpointPending}
+            {...this.props}
+          />
+        </Col>
+      </Row>
     );
   }
 }
 
 const mapStateToProps = state => ({
   apiEndpoint: getCreateEndpointModel(state),
-  initialValues: getCreateEndpointModel(state),
-  enableReinitialize: true,
+  initialFormValues: getCreateEndpointModel(state),
 });
 
 export default compose(
@@ -49,8 +64,4 @@ export default compose(
   withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
   withMetaResource,
   connect(mapStateToProps, actions),
-  reduxForm({
-    form: 'apiEndpointCreate',
-    validate,
-  }),
 )(APIEndpointCreate);
