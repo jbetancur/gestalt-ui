@@ -4,8 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import MenuButton from 'react-md/lib/Menus/MenuButton';
-import ListItem from 'react-md/lib/Lists/ListItem';
+import { ListItem, MenuButton } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import { API_URL, API_TIMEOUT } from '../../constants';
@@ -24,6 +23,7 @@ class ActionsMenu extends PureComponent {
     icon: PropTypes.bool,
     onActionComplete: PropTypes.func,
     keyField: PropTypes.string,
+    fqon: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -46,7 +46,7 @@ class ActionsMenu extends PureComponent {
 
   fetchContent(action) {
     const tokenId = cookies.get('auth_token');
-    const url = `${API_URL}/${this.props.model.org.properties.fqon}/actions/${action.id}/ui?resource=${this.props.model[this.props.keyField]}`;
+    const url = `${API_URL}/${this.props.fqon}/actions/${action.id}/ui?resource=${this.props.model[this.props.keyField]}`;
 
     const contentAPI = axios.create({
       baseURL: url,

@@ -100,6 +100,7 @@ class StreamSpecEdit extends Component {
                   actionList={providerActions.providerActions}
                   pending={providerActions.providerActionsLoading}
                   onActionComplete={this.handleActionComplete}
+                  fqon={match.params.fqon}
                 />
               ]}
             />
@@ -108,7 +109,10 @@ class StreamSpecEdit extends Component {
 
             <Tabs>
               <Tab title="Streams">
-                <StreamInstances streamInstances={streamInstances} />
+                <StreamInstances
+                  streamInstances={streamInstances}
+                  fqon={match.params.fqon}
+                />
                 <FullPageFooter>
                   <Button
                     to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}

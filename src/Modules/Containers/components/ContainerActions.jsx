@@ -214,6 +214,7 @@ class ContainerActions extends PureComponent {
       disableDestroy,
       actions,
       actionsPending,
+      match,
     } = this.props;
 
     const menuItems = [
@@ -271,6 +272,7 @@ class ContainerActions extends PureComponent {
               model={containerModel}
               actionList={actions}
               pending={actionsPending}
+              fqon={match.params.fqon}
             />
           </Col>
         </Row>
