@@ -51,7 +51,6 @@ class ActionsModal extends PureComponent {
   }
 
   onPostMessage = (eventData) => {
-    // console.log('onCompleted', eventData);
     this.props.onComplete({ eventData });
     this.props.hideModal();
   }

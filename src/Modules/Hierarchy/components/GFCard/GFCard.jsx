@@ -70,33 +70,6 @@ const Actions = styled.div`
   right: 8px;
 `;
 
-// const Bottom = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-//   left: 0;
-//   font-size: 12px;
-//   padding: 8px;
-//   color: ${props => props.theme.colors['$md-grey-500']};
-// `;
-
-// const Left = styled.div`
-
-// `;
-
-// const Right = styled.div`
-
-// `;
-
-// const stopPropogation = (e) => {
-//   console.log(e.target.closet('div'));
-//   // if (e.target.getAttribute('id')) {
-//     e.stopPropagation();
-//   // }
-// };
-
 const GFCard = ({ id, typeColor, typeSymbol, menuActions, onClick, noShadow, children, ...rest }) => (
   <CardStyle raise noShadow={noShadow} {...rest}>
     <ClickMask1 onClick={onClick} />

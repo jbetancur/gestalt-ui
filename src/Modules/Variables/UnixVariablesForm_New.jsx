@@ -24,7 +24,7 @@ const UnixVariablesFormNew = ({ disabled, fieldName, formValues }) => (
           const fieldValueStr = isInherited ? 'value (overridable)' : 'value';
           const isDisabled = isInherited || disabled;
           const isPasswordField = checkIfPassword(field.name);
-          // console.log(field)
+
           return (
             <FieldItem key={`variable-${member}`}>
               <Row gutter={5}>

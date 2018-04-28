@@ -7,3 +7,8 @@ export const getStreamSpec = createSelector(
   [selectStreamSpec],
   streamSpec => metaModels.streamSpec.create(streamSpec),
 );
+
+export const getStreamInstances = createSelector(
+  [selectStreamSpec],
+  streamSpec => metaModels.streamSpec.get(streamSpec).properties.streams,
+);
