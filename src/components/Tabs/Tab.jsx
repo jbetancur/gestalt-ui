@@ -40,9 +40,14 @@ const Tab = ({ title, isActive, tabIndex, onClick }) => {
 
 Tab.propTypes = {
   title: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
+  tabIndex: PropTypes.number,
+  isActive: PropTypes.bool,
 };
 
+Tab.defaultProps = {
+  tabIndex: 0,
+  isActive: false,
+  onClick: () => { }
+};
 export default Tab;

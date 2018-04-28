@@ -23,7 +23,7 @@ const aceOnBlur = onBlur => (_event, editor) => {
 };
 
 /* eslint-disable react/prop-types */
-export default ({ input, className, theme, meta: { touched, error }, ...others }) => (
+export default ({ input, className, theme, mode, meta: { touched, error }, ...others }) => (
   <React.Fragment>
     <AceEditor
       name={input.name}
@@ -45,6 +45,7 @@ export default ({ input, className, theme, meta: { touched, error }, ...others }
       }}
       editorProps={{ $blockScrolling: Infinity }}
       theme={theme || 'chrome'}
+      mode={mode || 'javascript'}
       {...others}
     />
     {touched && !!error &&

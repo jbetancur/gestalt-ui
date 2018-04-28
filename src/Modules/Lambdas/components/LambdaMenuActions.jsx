@@ -67,6 +67,7 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, a
           model={row}
           actionList={actions}
           pending={actionsPending}
+          fqon={fqon}
         />,
         <Divider key="lambda--divider-1" />,
         <ListItem key="lambda--delete" primaryText="Delete" leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>} onClick={handleDelete} />,

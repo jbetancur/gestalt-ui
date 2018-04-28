@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
@@ -35,6 +36,7 @@ const ActionsPanel = styled.div`
 
 class ContextNavigation extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     children: PropTypes.any,
     breadcrumbComponent: PropTypes.object.isRequired,
     // eslint-disable-next-line react/require-default-props
@@ -70,7 +72,7 @@ class ContextNavigation extends PureComponent {
   }
 
   render() {
-    const { breadcrumbComponent, actionsComponent, detailsComponent, pending, pendingContextActions, actionsList, model } = this.props;
+    const { match, breadcrumbComponent, actionsComponent, detailsComponent, pending, pendingContextActions, actionsList, model } = this.props;
 
     return (
       <NavHeader>
@@ -95,6 +97,7 @@ class ContextNavigation extends PureComponent {
                 actionList={actionsList}
                 pending={pendingContextActions}
                 model={model}
+                fqon={match.params.fqon}
               />
 
               {actionsComponent}
@@ -114,4 +117,5 @@ class ContextNavigation extends PureComponent {
 
 export default compose(
   withTheme,
+  withRouter,
 )(ContextNavigation);

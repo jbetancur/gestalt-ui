@@ -23,11 +23,11 @@ const CardActions = styled.div`
   padding: 8px;
 `;
 
-const StreamInstances = ({ streamInstances, providerActions }) => (
+const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
   <Row gutter={5}>
     {streamInstances.length > 0 ?
       orderBy(streamInstances, ['startTime'], 'asc').map(stream => (
-        <Col flex={4} xs={12} sm={12}>
+        <Col flex={12} xs={12} sm={12} key={stream.persistenceId}>
           <Card>
             <CardTitle
               title={stream.status}
@@ -46,6 +46,7 @@ const StreamInstances = ({ streamInstances, providerActions }) => (
                 actionList={providerActions.providerActions}
                 pending={providerActions.providerActionsLoading}
                 keyField="persistenceId"
+                fqon={fqon}
               />
             </CardActions>
 
@@ -67,10 +68,11 @@ const StreamInstances = ({ streamInstances, providerActions }) => (
 );
 
 StreamInstances.propTypes = {
+  fqon: PropTypes.string.isRequired,
   streamInstances: PropTypes.array.isRequired,
-  providerActions: PropTypes.array.isRequired,
+  providerActions: PropTypes.object.isRequired,
 };
 
 export default compose(
-  withProviderActions({ filter: 'streamspec.instances' }),
+  withProviderActions({ filter: 'streamspec.edit' }),
 )(StreamInstances);

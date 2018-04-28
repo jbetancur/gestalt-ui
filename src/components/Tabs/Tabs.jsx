@@ -17,6 +17,18 @@ const Content = styled.div`
 `;
 
 class Tabs extends Component {
+  static propTypes = {
+    defaultActiveTabIndex: PropTypes.number,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
+    ]).isRequired,
+  };
+
+  static defaultProps = {
+    defaultActiveTabIndex: 0,
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -65,17 +77,5 @@ class Tabs extends Component {
     );
   }
 }
-
-Tabs.propTypes = {
-  defaultActiveTabIndex: PropTypes.number,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-};
-
-Tabs.defaultProps = {
-  defaultActiveTabIndex: 0,
-};
 
 export default withTheme(Tabs);

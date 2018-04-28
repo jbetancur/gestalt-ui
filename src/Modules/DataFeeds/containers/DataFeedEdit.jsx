@@ -53,7 +53,7 @@ class DataFeedEdit extends Component {
   };
 
   render() {
-    const { datafeedPending, datafeed, secretsData, providerActions, initialFormValues } = this.props;
+    const { datafeedPending, datafeed, secretsData, providerActions, initialFormValues, match } = this.props;
 
     return (
       datafeedPending && !datafeed.id ?
@@ -76,6 +76,7 @@ class DataFeedEdit extends Component {
                   model={datafeed}
                   actionList={providerActions.providerActions}
                   pending={providerActions.providerActionsLoading}
+                  fqon={match.params.fqon}
                 />
               ]}
             />

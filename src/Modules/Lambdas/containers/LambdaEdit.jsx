@@ -127,6 +127,7 @@ class LambdaEdit extends PureComponent {
                 <ActionsMenu
                   key="lambda--actions"
                   model={lambda}
+                  fqon={match.params.fqon}
                   // actionList={[]}
                   // pending={actionsPending}
                 />,
