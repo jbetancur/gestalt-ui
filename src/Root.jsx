@@ -16,7 +16,7 @@ import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
 import App from './App/App';
-import { LoginContainer, withRestricted } from './Modules/Authorization';
+import { Login, withRestricted } from './Modules/Authentication';
 import { LoggingNewPage } from './Modules/Logging';
 import lightTheme from './themes/light';
 import './scss/style.scss';
@@ -58,7 +58,7 @@ const Root = () => (
             <ErrorNotifications />
             <ConnectedRouter history={history}>
               <Switch>
-                <Route exact path="/login" component={LoginContainer} />
+                <Route exact path="/login" component={Login} />
                 <Route exact path="/logs" component={withRestricted(LoggingNewPage)} />
                 <Route exact path="/" component={App} />
                 <Route exact path="/404" component={NotFound} />
