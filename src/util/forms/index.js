@@ -17,4 +17,8 @@ export const unixPattern =
 export const required =
   (message = 'required') => value => (value ? undefined : message);
 
+export const hasSpaces =
+  (message = 'spaces not allowed') => value => (value ? value.indexOf(' ') >= 0 : message);
+
+
 export const fixInputNumber = value => value && parseInt(value, 10);

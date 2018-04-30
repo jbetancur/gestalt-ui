@@ -95,45 +95,4 @@ describe('(ResourceTypes) Form Validations', () => {
 
     expect(doValidate.properties.actions.prefix).toBeDefined();
   });
-
-  it('should have not have any error for property_defs name, data_type, or refers_to if the values are present', () => {
-    const values = {
-      ...metaModels.resourceType,
-      property_defs: [
-        { name: 'not', data_type: 'gonna', refers_to: 'doit' },
-      ],
-    };
-
-    const doValidate = validate(values);
-
-    expect(doValidate.property_defs[0]).toBeUndefined();
-  });
-
-  it('should have an error for property_defs name if there is a space', () => {
-    const values = {
-      ...metaModels.resourceType,
-      property_defs: [
-        { name: 'spaces hah hah hah', data_type: 'string' },
-      ],
-    };
-
-    const doValidate = validate(values);
-
-    expect(doValidate.property_defs[0].name).toBeDefined();
-  });
-
-  it('should have an error for property_defs name, data_type, or refers_to properties are not present', () => {
-    const values = {
-      ...metaModels.resourceType,
-      property_defs: [
-        { name: '', data_type: '', refers_to: '' },
-      ],
-    };
-
-    const doValidate = validate(values);
-
-    expect(doValidate.property_defs[0].name).toBeDefined();
-    expect(doValidate.property_defs[0].data_type).toBeDefined();
-    expect(doValidate.property_defs[0].refers_to).toBeDefined();
-  });
 });
