@@ -6,7 +6,7 @@ import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
 import { FontIcon, Button } from 'react-md';
 import { getLastFromSplit } from 'util/helpers/strings';
-import ExpandableLogs from './ExpandableLogs';
+// import ExpandableLogs from './ExpandableLogs';
 
 const ContainerInstances = ({ instances, containerModel, fqon }) => {
   const providerType = getLastFromSplit(containerModel.properties.provider.resource_type);
@@ -64,10 +64,10 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
       sortIcon={<FontIcon>arrow_downward</FontIcon>}
       defaultSortField="startedAt"
       noDataComponent={<Title light>There are no instances running</Title>}
-      expandableRows
-      expandableRowsComponent={
-        <ExpandableLogs providerType={providerType} containerModel={containerModel} fqon={fqon} />
-      }
+      // expandableRows
+      // expandableRowsComponent={
+      //   <ExpandableLogs providerType={providerType} containerModel={containerModel} fqon={fqon} />
+      // }
       noHeader
     />
   );
