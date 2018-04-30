@@ -9,7 +9,7 @@ import { withLicense } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import OrgNavMenu from 'Modules/OrgNavMenu';
-import { withRestricted } from 'Modules/Authorization';
+import { withRestricted } from 'Modules/Authentication';
 import { withSync, withSelf } from 'Modules/MetaResource';
 import { GestaltIcon } from 'components/Icons';
 import AppError from './components/AppError';
