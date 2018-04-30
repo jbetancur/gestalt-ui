@@ -51,15 +51,20 @@ FullPageFooter.propTypes = {
   leftActions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired,
+  ]),
   rightActions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired,
+  ]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
+};
+
+FullPageFooter.defaultProps = {
+  leftActions: null,
+  rightActions: null,
 };
 
 export default withTheme(FullPageFooter);

@@ -2,8 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { Row, Col } from 'react-flexybox';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { withResourceType, withPickerData } from 'Modules/MetaResource';
+import { ActivityContainer } from 'components/ProgressIndicators';
+import ActionsToolbar from 'components/ActionsToolbar';
 import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
 import { generatePayload } from '../payloadTransformer';
@@ -11,9 +15,10 @@ import { getCreateResourceTypeModel } from '../selectors';
 
 class CreateResourceType extends PureComponent {
   static propTypes = {
-    resourceTypeActions: PropTypes.func.isRequired,
+    resourceTypeActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    resourceTypePending: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
@@ -25,12 +30,26 @@ class CreateResourceType extends PureComponent {
   }
 
   render() {
+    const { resourceTypePending } = this.props;
+
     return (
-      <ResourceTypeForm
-        title="Create Resource Type"
-        onSubmit={this.create}
-        {...this.props}
-      />
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+
+          <ActionsToolbar title="Create a Resource Type" />
+
+          {resourceTypePending && <ActivityContainer id="resourceType-form" />}
+
+          <Form
+            render={ResourceTypeForm}
+            onSubmit={this.create}
+            mutators={{ ...arrayMutators }}
+            validate={validate}
+            pending={resourceTypePending}
+            {...this.props}
+          />
+        </Col>
+      </Row>
     );
   }
 }
@@ -43,8 +62,4 @@ export default compose(
   withResourceType,
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   connect(mapStateToProps),
-  reduxForm({
-    form: 'createResourceTypeForm',
-    validate,
-  }),
 )(CreateResourceType);

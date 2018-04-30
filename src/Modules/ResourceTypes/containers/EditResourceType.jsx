@@ -2,9 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { Row, Col } from 'react-flexybox';
 import { withResourceType, withPickerData, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import { Panel } from 'components/Panels';
+import ActionsToolbar from 'components/ActionsToolbar';
+import DetailsPane from 'components/DetailsPane';
 import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
 import { generatePatches, batchTypeProps } from '../payloadTransformer';
@@ -12,7 +17,7 @@ import { getEditResourceTypeModel } from '../selectors';
 
 class EditResourceType extends PureComponent {
   static propTypes = {
-    resourceTypeActions: PropTypes.func.isRequired,
+    resourceTypeActions: PropTypes.object.isRequired,
     batchUpdateTypeProperties: PropTypes.func.isRequired,
     resourceType: PropTypes.object.isRequired,
     resourceTypePending: PropTypes.bool.isRequired,
@@ -39,16 +44,37 @@ class EditResourceType extends PureComponent {
     const { resourceTypePending, resourceType } = this.props;
 
     return (
-      <div>
-        {resourceTypePending && !resourceType.id ?
-          <ActivityContainer id="resourceType-loading" /> :
-          <ResourceTypeForm
-            title={resourceType.name}
-            onSubmit={this.update}
-            editMode
-            {...this.props}
-          />}
-      </div>
+      resourceTypePending && !resourceType.id ?
+        <ActivityContainer id="resourceType-loading" /> :
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12} md={12}>
+
+            <ActionsToolbar
+              title={resourceType.name}
+              subtitle={resourceType.extend && `extends: ${resourceType.extend}`}
+            />
+
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Panel title="Resource Details" defaultExpanded={false}>
+                  <DetailsPane model={resourceType} />
+                </Panel>
+              </Col>
+            </Row>
+
+            {resourceTypePending && <ActivityContainer id="resourceType-form" />}
+
+            <Form
+              editMode
+              render={ResourceTypeForm}
+              onSubmit={this.update}
+              mutators={{ ...arrayMutators }}
+              validate={validate}
+              pending={resourceTypePending}
+              {...this.props}
+            />
+          </Col>
+        </Row>
     );
   }
 }
@@ -62,9 +88,4 @@ export default compose(
   withMetaResource,
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   connect(mapStateToProps),
-  reduxForm({
-    form: 'editResourceTypeForm',
-    enableReinitialize: true,
-    validate,
-  }),
 )(EditResourceType);

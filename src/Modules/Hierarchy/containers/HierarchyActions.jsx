@@ -87,7 +87,7 @@ class HierarchyActions extends PureComponent {
           leftIcon={<ServiceIcon />}
           to={`/${organizationSet.properties.fqon}/servicespecs/create`}
           style={listItemStyle}
-        /> : <div key="orgs-settings-menu--groups-create" />
+        /> : <div key="orgs-settings-menu--serviceSpecs-create" />
     ];
 
     return (
