@@ -6,14 +6,10 @@ import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
-import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
-import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
-import Div from 'components/Div';
 import { Panel } from 'components/Panels';
-import { Caption, Error, P } from 'components/Typography';
-import { ContainerCreate, ContainerEdit, ContainerActions } from 'Modules/Containers';
+import { Error, P } from 'components/Typography';
 import LinkedProviders from '../components/LinkedProviders';
 import EnvironmentTypes from '../components/EnvironmentTypes';
 import VariablesSection from '../components/VariablesSection';
@@ -34,18 +30,8 @@ const isSubmitDisabled = (props, selectedProviderType) => {
   return props.envSchemaPending || props.providerPending || props.submitting;
 };
 
-const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, fetchEnvSchema, container, onRedeploy, match, ...props }) => {
+const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, fetchEnvSchema, container, onRedeploy, match, showContainer, selectedProviderType, ...props }) => {
   const compiledProviderTypes = generateResourceTypeSchema(props.resourcetypesData);
-  const selectedProviderType = compiledProviderTypes.find(type => type.name === values.resource_type) || {};
-  const showContainer = () => {
-    if (editMode) {
-      return selectedProviderType.allowContainer &&
-        provider.properties.services &&
-        provider.properties.services.length > 0;
-    }
-
-    return selectedProviderType.allowContainer;
-  };
 
   // TODO: there is a bug with the first param which should be the value
   const handleProviderChange = (a, value) => {
@@ -62,211 +48,167 @@ const ProviderForm = ({ provider, reset, containerFormErrors, editMode, values, 
   const linkedProviders = props.providersData.filter(p => p.id !== provider.id);
 
   return (
-    <Row center gutter={5}>
-      <Col
-        flex={10}
-        xs={12}
-        sm={12}
-        md={12}
-      >
-        <Form onSubmit={props.handleSubmit(props.onSubmit)} disabled={props.providerPending} autoComplete="off">
-          <Row gutter={5} center>
-            <Col flex={12}>
-              {editMode && showContainer() && props.containerInvalid && <P><Error>Invalid Container Specification</Error></P>}
-              <ActionsToolbar
-                title={!provider.id && selectedProviderType.name ? `Create Provider: ${selectedProviderType.displayName}` : props.title}
-                subtitle={provider.id && selectedProviderType.displayName}
-                showActions={editMode}
-                actions={[
-                  <Button
-                    key="provider--entitlements"
-                    flat
-                    iconChildren="security"
-                    onClick={() => props.entitlementActions.showEntitlementsModal(props.title, match.params.fqon, provider.id, 'providers', 'Provider')}
-                  >
-                    Entitlements
-                  </Button>,
-                  showContainer() &&
-                  <ContainerActions
-                    key="provider-container-actions"
-                    inContainerView
-                    containerModel={container}
-                    disableDestroy
-                    disablePromote
-                  />
-                ]}
-              />
+    <React.Fragment>
+      <Form onSubmit={props.handleSubmit(props.onSubmit)} disabled={props.providerPending} autoComplete="off">
+        <Row gutter={5} center>
+          <Col flex={12}>
+            {editMode && showContainer && props.containerInvalid && <P><Error>Invalid Container Specification</Error></P>}
 
-              {props.providerPending && <ActivityContainer id="provider-form" />}
+            {!selectedProviderType.name &&
+              <Row gutter={5}>
+                {/* only allow the provider type to be selected once - this prevents redux-form errors */}
+                <Col flex={12}>
+                  <Panel title="Select a Provider Type" expandable={false}>
+                    <Field
+                      id="select-provider-type"
+                      component={SelectField}
+                      name="resource_type"
+                      menuItems={compiledProviderTypes}
+                      itemLabel="displayName"
+                      itemValue="name"
+                      label="Provider Type"
+                      onChange={handleProviderChange}
+                      disabled={provider.id}
+                      required
+                      async
+                    />
+                  </Panel>
+                </Col>
+              </Row>}
 
-              {!selectedProviderType.name &&
-                <Row gutter={5}>
-                  {/* only allow the provider type to be selected once - this prevents redux-form errors */}
+            {selectedProviderType.name &&
+              <Row gutter={5}>
+                {provider.id &&
                   <Col flex={12}>
-                    <Panel title="Select a Provider Type" expandable={false}>
-                      <Field
-                        id="select-provider-type"
-                        component={SelectField}
-                        name="resource_type"
-                        menuItems={compiledProviderTypes}
-                        itemLabel="displayName"
-                        itemValue="name"
-                        label="Provider Type"
-                        onChange={handleProviderChange}
-                        disabled={provider.id}
-                        required
-                        async
+                    <Panel title="Resource Details" defaultExpanded={false}>
+                      <DetailsPane model={provider} />
+                    </Panel>
+                  </Col>}
+                <Col flex={12}>
+                  <Panel title="General" expandable={false}>
+                    <Row gutter={5}>
+                      {!provider.id &&
+                        <Col flex={6} xs={12}>
+                          <Field
+                            component={TextField}
+                            name="name"
+                            label="Name"
+                            type="text"
+                            required
+                          />
+                        </Col>}
+                      <Col flex={12}>
+                        <Field
+                          id="provider-description"
+                          component={TextField}
+                          name="description"
+                          label="Description"
+                          type="text"
+                          rows={1}
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Col>
+              </Row>}
+
+            {selectedProviderType.name &&
+              <Row gutter={5}>
+                {selectedProviderType.DCOSConfig &&
+                  <Col flex={12}>
+                    <Panel title="Configuration" expandable={false}>
+                      <URLConfigSection {...props} />
+
+                      {selectedProviderType.DCOSSecurity &&
+                        <SecuritySection authScheme={values.properties.config.auth && values.properties.config.auth.scheme} {...props} />}
+                    </Panel>
+                  </Col>}
+
+                {selectedProviderType.DCOSEnterprise &&
+                  <Col flex={12}>
+                    <DCOSEESection values={values} />
+                  </Col>}
+
+                {/* do not show on edit mode */}
+                {selectedProviderType.uploadConfig && !provider.id &&
+                  <Col flex={12}>
+                    <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />
+                  </Col>}
+
+
+                {selectedProviderType.allowEnvVariables && <VariablesSection {...props} />}
+
+                {selectedProviderType.allowLinkedProviders &&
+                  <Col flex={12}>
+                    <LinkedProviders providersModel={linkedProviders} />
+                  </Col>}
+                {selectedProviderType.allowedRestrictEnvironments &&
+                  <Col flex={12}>
+                    <EnvironmentTypes />
+                  </Col>}
+
+                {selectedProviderType.allowAdvanced &&
+                  <Col flex={12}>
+                    <Panel title="Advanced" defaultExpanded={false}>
+                      {selectedProviderType.externalProtocol &&
+                        <Row gutter={5}>
+                          <Col flex={2} xs={12} sm={4}>
+                            <Field
+                              id="select-external-protocol"
+                              component={SelectField}
+                              name="properties.config.external_protocol"
+                              menuItems={httpProtocols}
+                              itemLabel="name"
+                              itemValue="value"
+                              label="External Protocol"
+                              helpText="The protocol used to reach any externally exposed endpoints"
+                            />
+                          </Col>
+                        </Row>}
+                      <OtherConfigSection
+                        selectedProviderType={selectedProviderType}
+                        showJSON={provider.id}
+                        provider={provider}
                       />
                     </Panel>
-                  </Col>
-                </Row>}
-
-
-              {selectedProviderType.name &&
-                <Row gutter={5}>
-                  {provider.id &&
-                    <Col flex={12}>
-                      <Panel title="Resource Details" defaultExpanded={false}>
-                        <DetailsPane model={provider} />
-                      </Panel>
-                    </Col>}
-                  <Col flex={12}>
-                    <Panel title="General" expandable={false}>
-                      <Row gutter={5}>
-                        {!provider.id &&
-                          <Col flex={6} xs={12}>
-                            <Field
-                              component={TextField}
-                              name="name"
-                              label="Name"
-                              type="text"
-                              required
-                            />
-                          </Col>}
-                        <Col flex={12}>
-                          <Field
-                            id="provider-description"
-                            component={TextField}
-                            name="description"
-                            label="Description"
-                            type="text"
-                            rows={1}
-                          />
-                        </Col>
-                      </Row>
-                    </Panel>
-                  </Col>
-                </Row>}
-
-              {selectedProviderType.name &&
-                <Row gutter={5}>
-                  {selectedProviderType.DCOSConfig &&
-                    <Col flex={12}>
-                      <Panel title="Configuration" expandable={false}>
-                        <URLConfigSection {...props} />
-
-                        {selectedProviderType.DCOSSecurity &&
-                          <SecuritySection authScheme={values.properties.config.auth && values.properties.config.auth.scheme} {...props} />}
-                      </Panel>
-                    </Col>}
-
-                  {selectedProviderType.DCOSEnterprise &&
-                    <Col flex={12}>
-                      <DCOSEESection values={values} />
-                    </Col>}
-
-                  {/* do not show on edit mode */}
-                  {selectedProviderType.uploadConfig && !provider.id &&
-                    <Col flex={12}>
-                      <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />
-                    </Col>}
-
-
-                  {selectedProviderType.allowEnvVariables && <VariablesSection {...props} />}
-
-                  {selectedProviderType.allowLinkedProviders &&
-                    <Col flex={12}>
-                      <LinkedProviders providersModel={linkedProviders} />
-                    </Col>}
-                  {selectedProviderType.allowedRestrictEnvironments &&
-                    <Col flex={12}>
-                      <EnvironmentTypes />
-                    </Col>}
-
-                  {selectedProviderType.allowAdvanced &&
-                    <Col flex={12}>
-                      <Panel title="Advanced" defaultExpanded={false}>
-                        {selectedProviderType.externalProtocol &&
-                          <Row gutter={5}>
-                            <Col flex={2} xs={12} sm={4}>
-                              <Field
-                                id="select-external-protocol"
-                                component={SelectField}
-                                name="properties.config.external_protocol"
-                                menuItems={httpProtocols}
-                                itemLabel="name"
-                                itemValue="value"
-                                label="External Protocol"
-                                helpText="The protocol used to reach any externally exposed endpoints"
-                              />
-                            </Col>
-                          </Row>}
-                        <OtherConfigSection
-                          selectedProviderType={selectedProviderType}
-                          showJSON={provider.id}
-                          provider={provider}
-                        />
-                      </Panel>
-                    </Col>}
-                </Row>}
-            </Col>
-          </Row>
-          <FullPageFooter>
+                  </Col>}
+              </Row>}
+          </Col>
+        </Row>
+        <FullPageFooter>
+          <Button
+            flat
+            iconChildren="arrow_back"
+            disabled={props.providerPending || props.submitting}
+            onClick={props.goBack}
+          >
+            Providers
+          </Button>
+          {selectedProviderType.name &&
             <Button
-              flat
-              iconChildren="arrow_back"
-              disabled={props.providerPending || props.submitting}
-              onClick={props.goBack}
+              raised
+              iconChildren="save"
+              type="submit"
+              disabled={submitDisabled}
+              primary
             >
-              {props.cancelLabel}
-            </Button>
-            {selectedProviderType.name &&
-              <Button
-                raised
-                iconChildren="save"
-                type="submit"
-                disabled={submitDisabled}
-                primary
-              >
-                {props.submitLabel}
-              </Button>}
-            {editMode && showContainer() &&
-              <Button
-                key="provider-container-redeploy"
-                raised
-                iconChildren="refresh"
-                type="submit"
-                onClick={handleRedeploy}
-                disabled={props.containerInvalid}
-                primary
-              >
-                Redeploy Container
-              </Button>}
-          </FullPageFooter>
-        </Form>
-
-        {showContainer() &&
-          <Row gutter={10} component={Div} pending={props.providerPending}>
-            <Col flex={12}>
-              <Panel title="Container Specification" defaultExpanded={showContainer()}>
-                <Caption light>{`The provider type ${selectedProviderType.displayName} requires a container`}</Caption>
-                {editMode ?
-                  <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode /> : <ContainerCreate inlineMode />}
-              </Panel>
-            </Col>
-          </Row>}
-      </Col>
-    </Row>
+              {editMode ? 'Update' : 'Create'}
+            </Button>}
+          {editMode && showContainer &&
+            <Button
+              key="provider-container-redeploy"
+              raised
+              iconChildren="refresh"
+              type="submit"
+              onClick={handleRedeploy}
+              disabled={props.containerInvalid}
+              primary
+            >
+              Redeploy Container
+            </Button>}
+        </FullPageFooter>
+      </Form>
+    </React.Fragment>
   );
 };
 
@@ -294,7 +236,8 @@ ProviderForm.propTypes = {
   resourcetypesData: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
   goBack: PropTypes.func.isRequired,
-  entitlementActions: PropTypes.object,
+  showContainer: PropTypes.bool,
+  selectedProviderType: PropTypes.object,
 };
 
 ProviderForm.defaultProps = {
@@ -307,7 +250,8 @@ ProviderForm.defaultProps = {
   editMode: false,
   containerInvalid: false,
   containerFormErrors: {},
-  entitlementActions: {},
+  showContainer: false,
+  selectedProviderType: {},
 };
 
 // Connect to this forms state in the store so we can enum the values
