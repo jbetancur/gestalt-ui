@@ -4,9 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withAPI, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { generateContextEntityState } from 'util/helpers/context';
 import APIForm from './APIForm';
 import validate from './validations';
 import actions from '../actions';
@@ -22,10 +23,9 @@ const initialFormValues = {
 
 class APICreate extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createAPI: PropTypes.func.isRequired,
+    apiActions: PropTypes.object.isRequired,
     providersKongByGateway: PropTypes.array.isRequired,
     fetchProviderKongsByGateway: PropTypes.func.isRequired,
     apiPending: PropTypes.bool.isRequired,
@@ -39,16 +39,16 @@ class APICreate extends Component {
   }
 
   create = (values) => {
-    const { match, history, createAPI, providersKongByGateway, throwError } = this.props;
+    const { match, history, apiActions, providersKongByGateway, throwError } = this.props;
     const payload = generateAPIPayload(values, providersKongByGateway);
-
+    const entity = generateContextEntityState(match.params);
     // providerid must be the linked_gateway manager
     if (!payload.properties.provider.id) {
       throwError({ type: 'APP_ERROR_GENERAL', payload: 'Unable to create an API. You must create and link a gateway manager provider type first' });
     } else {
       const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${response.id}`);
 
-      createAPI(match.params.fqon, match.params.environmentId, payload, onSuccess);
+      apiActions.createAPI({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload, onSuccess });
     }
   }
 
@@ -78,6 +78,7 @@ class APICreate extends Component {
 }
 
 export default compose(
+  withAPI,
   withMetaResource,
   connect(null, actions),
 )(APICreate);

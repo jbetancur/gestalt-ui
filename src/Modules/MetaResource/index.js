@@ -19,3 +19,5 @@ export { default as withResourceType } from './hocs/withResourceType';
 export { default as withResourceTypes } from './hocs/withResourceTypes';
 export { default as withLambda } from './hocs/withLambda';
 export { default as withLambdas } from './hocs/withLambdas';
+export { default as withAPI } from './hocs/withAPI';
+export { default as withAPIs } from './hocs/withAPIs';

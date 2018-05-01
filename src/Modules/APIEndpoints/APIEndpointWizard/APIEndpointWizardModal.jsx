@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Form';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource, withAPIs, metaModels } from 'Modules/MetaResource';
 import { generatePayload } from '../payloadTransformer';
 import APIPage from './APIPage';
 import APIEndpointPage from './APIEndpointPage';
@@ -36,12 +36,11 @@ class APIEndpointWizard extends PureComponent {
   static propTypes = {
     modal: PropTypes.object.isRequired,
     hideModal: PropTypes.func.isRequired,
-    fetchAPIs: PropTypes.func.isRequired,
+    apisActions: PropTypes.object.isRequired,
     fetchAPIEndpoints: PropTypes.func.isRequired,
     createAPIEndpoint: PropTypes.func.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
     apis: PropTypes.array.isRequired,
-    unloadAPIs: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     implementationId: PropTypes.string.isRequired,
     implementationType: PropTypes.string.isRequired,
@@ -53,13 +52,13 @@ class APIEndpointWizard extends PureComponent {
   };
 
   componentDidMount() {
-    const { params, fetchAPIs } = this.props;
+    const { params, apisActions } = this.props;
 
-    fetchAPIs(params.fqon, params.environmentId);
+    apisActions.fetchAPIs({ fqon: params.fqon, environmentId: params.environmentId });
   }
 
   componentWillUnmount() {
-    this.props.unloadAPIs();
+    this.props.apisActions.unloadAPIs();
   }
 
   nextPage = () => {
@@ -146,6 +145,7 @@ const actions = dispatch => ({
 
 export default compose(
   withMetaResource,
+  withAPIs,
   connect(mapStateToProps, actions),
 )(APIEndpointWizard);
 

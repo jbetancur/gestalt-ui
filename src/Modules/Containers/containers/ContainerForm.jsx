@@ -388,19 +388,21 @@ ContainerForm.propTypes = {
   apiEndpoints: PropTypes.array.isRequired,
   apiEndpointsPending: PropTypes.bool.isRequired,
   showAPIEndpointWizardModal: PropTypes.func.isRequired,
-  secretsData: PropTypes.array.isRequired,
+  secretsData: PropTypes.array,
   change: PropTypes.func.isRequired,
-  providerType: PropTypes.string.isRequired,
+  providerType: PropTypes.string,
   onSelectedProvider: PropTypes.func,
 };
 
 ContainerForm.defaultProps = {
-  title: '',
-  submitLabel: '',
+  title: null,
+  submitLabel: null,
   cancelLabel: 'Cancel',
   editMode: false,
   inlineMode: false,
+  providerType: null,
   onSelectedProvider: () => { },
+  secretsData: [],
 };
 
 // Connect to this forms state in the store so we can enum the values
