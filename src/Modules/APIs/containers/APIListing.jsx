@@ -10,7 +10,8 @@ import { DeleteIconButton } from 'components/Buttons';
 import { APIIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withAPIs } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -20,43 +21,39 @@ class APIListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     apis: PropTypes.array.isRequired,
-    deleteAPIs: PropTypes.func.isRequired,
-    deleteAPI: PropTypes.func.isRequired,
     apisPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchAPIs: PropTypes.func.isRequired,
-    unloadAPIs: PropTypes.func.isRequired,
+    apisActions: PropTypes.object.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchAPIs } = this.props;
-
-    fetchAPIs(match.params.fqon, match.params.environmentId);
+    this.populateAPIs();
   }
 
-  componentWillUnmount() {
-    const { unloadAPIs } = this.props;
+  populateAPIs() {
+    const { match, apisActions } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    unloadAPIs();
+    apisActions.fetchAPIs({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
-    const { match, deleteAPI, fetchAPIs } = this.props;
+    const { match, apisActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchAPIs(match.params.fqon, match.params.environmentId);
+      this.populateAPIs();
     };
 
     this.props.confirmDelete(() => {
-      deleteAPI(match.params.fqon, row.id, onSuccess);
+      apisActions.deleteAPI({ fqon: match.params.fqon, id: row.id, onSuccess });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
-    const { match, deleteAPIs, fetchAPIs } = this.props;
+    const { match, apisActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -64,11 +61,11 @@ class APIListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchAPIs(match.params.fqon, match.params.environmentId);
+      this.populateAPIs();
     };
 
     this.props.confirmDelete(() => {
-      deleteAPIs(IDs, match.params.fqon, onSuccess);
+      apisActions.deleteAPIs({ ids: IDs, fqon: match.params.fqon, onSuccess });
     }, 'Confirm Delete APIs', names);
   }
 
@@ -165,7 +162,7 @@ class APIListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withAPIs,
   connect(null, actions),
 )(APIListing);
 

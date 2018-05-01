@@ -1,7 +1,6 @@
 import organizations from './organizations';
 import workspaces from './workspaces';
 import environments from './environments';
-import apis from './apis';
 import apiEndpoints from './apiEndpoints';
 import providers from './providers';
 import containers from './containers';
@@ -20,7 +19,6 @@ export default Object.assign({},
   organizations,
   workspaces,
   environments,
-  apis,
   apiEndpoints,
   providers,
   containers,

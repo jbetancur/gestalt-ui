@@ -24,8 +24,6 @@ import { getEditPolicyModel } from '../selectors';
 
 class PolicyEdit extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     policy: PropTypes.object.isRequired,
     fetchPolicy: PropTypes.func.isRequired,
@@ -48,11 +46,10 @@ class PolicyEdit extends Component {
   }
 
   udpate = (values) => {
-    const { dispatch, reset, match, policy, updatePolicy } = this.props;
+    const { match, policy, updatePolicy } = this.props;
     const patches = generatePolicyPatches(policy, values);
-    const onSuccess = () => dispatch(reset());
 
-    updatePolicy(match.params.fqon, policy.id, patches, onSuccess);
+    updatePolicy(match.params.fqon, policy.id, patches);
   }
 
   showEntitlements = () => {

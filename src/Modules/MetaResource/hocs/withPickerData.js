@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
+import { orderBy } from 'lodash';
 import { generateContextEntityState } from 'util/helpers/context';
 import { buildAllURL } from '../lib/urlmapper';
 
@@ -39,8 +39,8 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
     async get() {
       const name = alias || entity;
       const { match } = this.props;
-      const entiryParams = generateContextEntityState(match.params);
-      const urlConfig = context ? { fqon: match.params.fqon, entityId: entiryParams.id, entityKey: entiryParams.key, params } : { fqon: match.params.fqon, params };
+      const resolvedContext = generateContextEntityState(match.params);
+      const urlConfig = context ? { fqon: match.params.fqon, entityId: resolvedContext.id, entityKey: resolvedContext.key, params } : { fqon: match.params.fqon, params };
       const url = buildAllURL(entity.toLowerCase(), urlConfig, true);
 
       this.setState({ [`${name}Loading`]: true });

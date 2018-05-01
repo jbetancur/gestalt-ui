@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withAPI, withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -23,40 +23,32 @@ import { getEditAPIModel } from '../selectors';
 
 class APIEdit extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
+    apiActions: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired,
-    fetchAPI: PropTypes.func.isRequired,
-    fetchProviderKongsByGateway: PropTypes.func.isRequired,
-    updateAPI: PropTypes.func.isRequired,
     apiPending: PropTypes.bool.isRequired,
-    unloadAPI: PropTypes.func.isRequired,
+    fetchProviderKongsByGateway: PropTypes.func.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchAPI, fetchProviderKongsByGateway } = this.props;
+    const { match, apiActions, fetchProviderKongsByGateway } = this.props;
 
     fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
-    fetchAPI(match.params.fqon, match.params.apiId);
-  }
-
-  componentWillUnmount() {
-    const { unloadAPI } = this.props;
-
-    unloadAPI();
+    apiActions.fetchAPI({ fqon: match.params.fqon, id: match.params.apiId });
   }
 
   update = (values) => {
-    const { match, api, updateAPI } = this.props;
-    const patches = generateAPIPatches(api, values);
+    const { match, api, apiActions } = this.props;
+    const payload = generateAPIPatches(api, values);
 
-    updateAPI(match.params.fqon, match.params.environmentId, api.id, patches);
+    apiActions.updateAPI({ fqon: match.params.fqon, id: match.params.apiId, payload });
   }
 
   showEntitlements = () => {
     const { match, api, entitlementActions } = this.props;
+
     entitlementActions.showEntitlementsModal(api.name, match.params.fqon, api.id, 'apis', 'API');
   }
 
@@ -149,6 +141,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withAPI,
   withMetaResource,
   withEntitlements,
   connect(mapStateToProps, actions),
