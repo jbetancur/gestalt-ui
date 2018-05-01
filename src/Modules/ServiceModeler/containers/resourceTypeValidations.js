@@ -1,4 +1,3 @@
-import { propertyDefValidations } from 'Modules/ResourceTypes/validations';
 import { isURL } from 'validator';
 
 export default (values) => {
@@ -46,14 +45,6 @@ export default (values) => {
           if (resource.properties.api && resource.properties.api.rest_name && !isURL(resource.properties.api.rest_name, { require_protocol: false, require_host: false, allow_trailing_dot: false })) {
             resourceError.properties.api.rest_name = 'must be relative url path (e.g. /todos)';
             resourceErrors[index] = resourceError;
-          }
-        }
-
-        if (!resource || resource.property_defs) {
-          const properyDefErrors = propertyDefValidations(resource.property_defs);
-
-          if (properyDefErrors.length) {
-            resourceErrors[index] = { ...resourceError, property_defs: properyDefErrors };
           }
         }
       });

@@ -1,6 +1,6 @@
-export { default as Containers } from './containers/ContainerListingContainer';
-export { default as ContainerCreate } from './containers/ContainerCreateContainer';
-export { default as ContainerEdit } from './containers/ContainerEditContainer';
+export { default as Containers } from './containers/ContainerListing';
+export { default as ContainerCreate } from './containers/ContainerCreate';
+export { default as ContainerEdit } from './containers/ContainerEdit';
 export { default as ContainerInstances } from './components/ContainerInstances';
 export { default as ContainerServiceAddresses } from './components/ContainerServiceAddresses';
 export { default as ContainerActions } from './components/ContainerActions';

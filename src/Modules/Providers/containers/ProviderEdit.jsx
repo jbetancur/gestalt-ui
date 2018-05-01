@@ -3,15 +3,22 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
+import { Col, Row } from 'react-flexybox';
 import { withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { containerActionCreators } from 'Modules/Containers';
+import { ContainerEdit, ContainerActions, containerActionCreators } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import { Button } from 'components/Buttons';
+import Div from 'components/Div';
+import { Panel } from 'components/Panels';
+import { Caption } from 'components/Typography';
+import ActionsToolbar from 'components/ActionsToolbar';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
 import { getEditProviderModel } from '../selectors';
+import { generateResourceTypeSchema } from '../lists/providerTypes';
 
 class ProviderEdit extends PureComponent {
   static propTypes = {
@@ -28,6 +35,9 @@ class ProviderEdit extends PureComponent {
     containerValues: PropTypes.object,
     containerPending: PropTypes.bool.isRequired,
     resourcetypesLoading: PropTypes.bool.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
+    container: PropTypes.object.isRequired,
+    resourcetypesData: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -114,23 +124,76 @@ class ProviderEdit extends PureComponent {
     this.setState({ hasError: true, error, info });
   }
 
+  showContainer(selectedProviderType) {
+    return selectedProviderType.allowContainer &&
+      this.props.provider.properties.services &&
+      this.props.provider.properties.services.length > 0;
+  }
+
+  showEntitlements = () => {
+    const { entitlementActions, provider, match } = this.props;
+
+    entitlementActions.showEntitlementsModal(provider.name, match.params.fqon, provider.id, 'providers', 'Provider');
+  }
+
   render() {
-    const { provider, providerPending, resourcetypesLoading } = this.props;
+    const { provider, container, resourcetypesData, providerPending, resourcetypesLoading } = this.props;
+    const compiledProviderTypes = generateResourceTypeSchema(resourcetypesData);
+    const selectedProviderType = compiledProviderTypes.find(type => type.name === provider.resource_type) || {};
+    const showContainer = selectedProviderType.allowContainer;
+
     return (
-      <div>
-        {(providerPending || resourcetypesLoading) ?
-          <ActivityContainer id="provider-loading" /> :
-          <ProviderForm
-            editMode
-            title={provider.name}
-            submitLabel="Update"
-            cancelLabel="Providers"
-            onSubmit={this.update}
-            onRedeploy={this.flagForRedeploy}
-            goBack={this.goBack}
-            {...this.props}
-          />}
-      </div>
+      (providerPending || resourcetypesLoading) ?
+        <ActivityContainer id="provider-loading" /> :
+        <Row center gutter={5}>
+          <Col flex={10} xs={12} sm={12} md={12}>
+            <ActionsToolbar
+              title={provider.name}
+              subtitle={selectedProviderType.displayName}
+              actions={[
+                <Button
+                  key="provider--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={this.showEntitlements}
+                >
+                  Entitlements
+                </Button>,
+                showContainer &&
+                <ContainerActions
+                  key="provider-container-actions"
+                  inContainerView
+                  containerModel={container}
+                  disableDestroy
+                  disablePromote
+                />
+              ]}
+            />
+
+            {providerPending && <ActivityContainer id="provider-form" />}
+
+            <ProviderForm
+              editMode
+              showContainer={showContainer}
+              onSubmit={this.update}
+              onRedeploy={this.flagForRedeploy}
+              goBack={this.goBack}
+              selectedProviderType={selectedProviderType}
+              {...this.props}
+            />
+
+            {showContainer &&
+              <Row gutter={10} component={Div} pending={providerPending}>
+                <Col flex={12}>
+                  <Panel title="Container Specification" defaultExpanded={showContainer}>
+                    <Caption light>{`The provider type ${selectedProviderType.displayName} requires a container`}</Caption>
+                    <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode />
+                  </Panel>
+                </Col>
+              </Row>}
+
+          </Col>
+        </Row>
     );
   }
 }
