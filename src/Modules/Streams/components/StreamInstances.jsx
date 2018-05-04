@@ -74,5 +74,5 @@ StreamInstances.propTypes = {
 };
 
 export default compose(
-  withProviderActions({ filter: 'streamspec.edit' }),
+  withProviderActions({ filter: 'streamspec.instances' }),
 )(StreamInstances);

@@ -27,9 +27,16 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
     }
 
     componentDidMount() {
+      // isMounted is Required wsince this is a dynamically named component
+      this.$isMounted = true;
+
       if (fetchOnMount) {
         this.get();
       }
+    }
+
+    componentWillUnmount() {
+      this.$isMounted = false;
     }
 
     manualFetch = () => {
@@ -43,18 +50,21 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
       const urlConfig = context ? { fqon: match.params.fqon, entityId: resolvedContext.id, entityKey: resolvedContext.key, params } : { fqon: match.params.fqon, params };
       const url = buildAllURL(entity.toLowerCase(), urlConfig, true);
 
-      this.setState({ [`${name}Loading`]: true });
+      if (this.$isMounted) this.setState({ [`${name}Loading`]: true });
 
       try {
         const res = await axios.get(url);
 
         if (res.data.length) {
-          this.setState({ [`${name}Data`]: orderBy(res.data, sortKey, sortDirection), [`${name}Loading`]: false });
+          if (this.$isMounted) this.setState({ [`${name}Data`]: orderBy(res.data, sortKey, sortDirection) });
         } else {
-          this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], [`${name}Loading`]: false });
+          // eslint-disable-next-line
+          if (this.$isMounted) this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }] });
         }
       } catch (error) {
-        this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], [`${name}Loading`]: false, error });
+        if (this.$isMounted) this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], error });
+      } finally {
+        if (this.$isMounted) this.setState({ [`${name}Loading`]: false });
       }
     }
 
