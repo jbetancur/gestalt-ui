@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
-import PreventAutoFill from 'components/PreventAutoFill';
 import { Field } from 'react-final-form';
 import { getIn } from 'final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -44,7 +43,6 @@ const UnixVariablesFormNew = ({ disabled, fieldName, formValues }) => (
                   />
                 </Col>
                 <Col flex={8} xs={12} sm={12}>
-                  {isPasswordField && <PreventAutoFill key={`${member}--preventautofill`} />}
                   <Field
                     id={`${member}.value`}
                     name={`${member}.value`}
@@ -53,11 +51,11 @@ const UnixVariablesFormNew = ({ disabled, fieldName, formValues }) => (
                     component={TextField}
                     rows={isPasswordField ? undefined : 1}
                     maxRows={isPasswordField ? undefined : 4}
-                    autoComplete="off"
                     required={field.required}
                     passwordIcon={null}
                     helpText={isInherited ? 'overridable' : null}
                     validate={field.required ? composeValidators(required()) : null}
+                    autoComplete={isPasswordField ? 'new-password' : null}
                   />
                 </Col>
               </Row>

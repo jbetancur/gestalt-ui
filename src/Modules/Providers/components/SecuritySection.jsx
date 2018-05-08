@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import PreventAutoFill from 'components/PreventAutoFill';
 
 const SecuritySection = props => (
   <Row gutter={5}>
@@ -57,13 +56,13 @@ const SecuritySection = props => (
           />
         </Col>,
         <Col key="config-auth--password" flex={2} xs={12} sm={4} md={4}>
-          <PreventAutoFill />
           <Field
             component={TextField}
             name="properties.config.auth.password"
             label="Password"
             type="password"
             required
+            autoComplete="new-password"
           />
         </Col>
       ]}
