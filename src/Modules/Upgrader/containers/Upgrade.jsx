@@ -8,6 +8,7 @@ import { H1 } from 'components/Typography';
 import { FullPageFooter } from 'components/FullPage';
 import Label from 'components/Label';
 import Log from 'components/Log';
+import Div from 'components/Div';
 
 class Upgrade extends Component {
   static propTypes = {
@@ -21,6 +22,7 @@ class Upgrade extends Component {
     upgraderInstance: PropTypes.func.isRequired,
     clearPollLog: PropTypes.func.isRequired,
     clearAllPolling: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -66,8 +68,8 @@ class Upgrade extends Component {
 
   render() {
     return (
-      <Row center gutter={10}>
-        <Col flex={6} xs={12} sm={12}>
+      <div>
+        <Div disabled={this.props.loading}>
           <Card>
             <CardContent>
               <Row gutter={5}>
@@ -110,21 +112,21 @@ class Upgrade extends Component {
               </Col>
             </Row>
           </Card>
+        </Div>
 
-          <FullPageFooter
-            fullWidth
-            leftActions={
-              <Button flat primary onClick={this.props.deleteUpgrade}>
-                Remove Upgrader
-              </Button>}
-            rightActions={
-              <Button raised primary onClick={this.handleStop}>
-                Abort Upgrade
-              </Button>
-            }
-          />
-        </Col>
-      </Row>
+        <FullPageFooter
+          fullWidth
+          leftActions={
+            <Button flat primary onClick={this.props.deleteUpgrade}>
+              Remove Upgrader
+            </Button>}
+          rightActions={
+            <Button raised primary onClick={this.handleStop}>
+              Abort Upgrade
+            </Button>
+          }
+        />
+      </div>
     );
   }
 }
