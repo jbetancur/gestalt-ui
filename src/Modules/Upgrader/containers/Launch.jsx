@@ -11,7 +11,7 @@ import { TextField, SelectField } from 'components/ReduxFormFields';
 import { H1 } from 'components/Typography';
 import Label from 'components/Label';
 import Form from 'components/Form';
-// import { getLastFromSplit } from 'util/helpers/strings';
+import Div from 'components/Div';
 
 class Launch extends Component {
   static propTypes = {
@@ -23,6 +23,7 @@ class Launch extends Component {
     gatewayProvidersData: PropTypes.array.isRequired,
     upgrade: PropTypes.object.isRequired,
     launchUpgrade: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   launch = (values) => {
@@ -35,110 +36,108 @@ class Launch extends Component {
         onSubmit={this.launch}
         // validate={validate}
         render={({ handleSubmit, pristine }) => (
-          <Row center gutter={10}>
-            <Col flex={6} xs={12} sm={12}>
-              <Card>
-                <CardContent>
-                  <Form onSubmit={handleSubmit}>
-                    <Row gutter={5}>
-                      <H1>Launch Upgrader</H1>
+          <Card>
+            <CardContent>
+              <Form onSubmit={handleSubmit}>
+                <Div disabled={this.props.loading}>
+                  <Row gutter={5}>
+                    <H1>Launch Upgrader</H1>
 
-                      <Col flex={12}>
-                        <Label>Status: </Label>
-                        <span>{this.props.upgrade.active ? 'Initializing' : 'Uninitialized'}</span>
-                      </Col>
+                    <Col flex={12}>
+                      <Label>Status: </Label>
+                      <span>{this.props.upgrade.active ? 'Initializing' : 'Uninitialized'}</span>
+                    </Col>
 
-                      <Col flex={12}>
-                        <Field
-                          name="image"
-                          label="Upgrader Image"
-                          component={TextField}
-                        />
-                      </Col>
+                    <Col flex={12}>
+                      <Field
+                        name="image"
+                        label="Upgrader Image"
+                        component={TextField}
+                      />
+                    </Col>
 
-                      <Col flex={12}>
-                        <Field
-                          id="dbProviderId"
-                          name="dbProviderId"
-                          label="Database Provider"
-                          itemLabel="name"
-                          itemValue="id"
-                          menuItems={this.props.databaseProvidersData}
-                          component={SelectField}
-                          async
-                        />
-                      </Col>
+                    <Col flex={12}>
+                      <Field
+                        id="dbProviderId"
+                        name="dbProviderId"
+                        label="Database Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={this.props.databaseProvidersData}
+                        component={SelectField}
+                        async
+                      />
+                    </Col>
 
-                      <Col flex={12}>
-                        <Field
-                          id="secProviderId"
-                          name="secProviderId"
-                          label="Security Provider"
-                          itemLabel="name"
-                          itemValue="id"
-                          menuItems={this.props.securityProvidersData}
-                          component={SelectField}
-                          async
-                        />
-                      </Col>
+                    <Col flex={12}>
+                      <Field
+                        id="secProviderId"
+                        name="secProviderId"
+                        label="Security Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={this.props.securityProvidersData}
+                        component={SelectField}
+                        async
+                      />
+                    </Col>
 
-                      <Col flex={12}>
-                        <Field
-                          id="caasProviderId"
-                          name="caasProviderId"
-                          label="CaaS Provider"
-                          itemLabel="name"
-                          itemValue="id"
-                          menuItems={this.props.caasProvidersData}
-                          component={SelectField}
-                          async
-                        />
-                      </Col>
+                    <Col flex={12}>
+                      <Field
+                        id="caasProviderId"
+                        name="caasProviderId"
+                        label="CaaS Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={this.props.caasProvidersData}
+                        component={SelectField}
+                        async
+                      />
+                    </Col>
 
-                      <Col flex={12}>
-                        <Field
-                          id="kongProviderId"
-                          name="kongProviderId"
-                          label="Kong Provider"
-                          itemLabel="name"
-                          itemValue="id"
-                          menuItems={this.props.kongProvidersData}
-                          component={SelectField}
-                          async
-                        />
-                      </Col>
-                      <Col flex={12}>
-                        <Field
-                          id="gwmProviderId"
-                          name="gwmProviderId"
-                          label="Gateway Provider"
-                          itemLabel="name"
-                          itemValue="id"
-                          menuItems={this.props.gatewayProvidersData}
-                          component={SelectField}
-                          async
-                        />
-                      </Col>
-                    </Row>
+                    <Col flex={12}>
+                      <Field
+                        id="kongProviderId"
+                        name="kongProviderId"
+                        label="Kong Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={this.props.kongProvidersData}
+                        component={SelectField}
+                        async
+                      />
+                    </Col>
+                    <Col flex={12}>
+                      <Field
+                        id="gwmProviderId"
+                        name="gwmProviderId"
+                        label="Gateway Provider"
+                        itemLabel="name"
+                        itemValue="id"
+                        menuItems={this.props.gatewayProvidersData}
+                        component={SelectField}
+                        async
+                      />
+                    </Col>
+                  </Row>
+                </Div>
 
-                    <FullPageFooter
-                      fullWidth
-                      leftActions={
-                        <Button flat iconChildren="arrow_back" onClick={() => this.props.history.goBack()}>
-                          Back to Gestalt
-                        </Button>
-                      }
-                      rightActions={
-                        <Button raised primary type="submit" disabled={pristine}>
-                          Launch Upgrader
-                        </Button>
-                      }
-                    />
-                  </Form>
-                </CardContent>
-              </Card>
-            </Col>
-          </Row>
+                <FullPageFooter
+                  fullWidth
+                  leftActions={
+                    <Button flat iconChildren="arrow_back" onClick={() => this.props.history.goBack()} disabled={this.props.loading}>
+                      Back to Gestalt
+                    </Button>
+                  }
+                  rightActions={
+                    <Button raised primary type="submit" disabled={pristine || this.props.loading}>
+                      Launch Upgrader
+                    </Button>
+                  }
+                />
+              </Form>
+            </CardContent>
+          </Card>
         )}
       />
     );

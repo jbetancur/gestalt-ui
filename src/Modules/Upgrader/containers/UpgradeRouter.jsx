@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import Div from 'components/Div';
+import { Row, Col } from 'react-flexybox';
 import { ErrorMessage } from 'components/Error';
 import withUpgraderAPI from '../withUpgraderAPI';
 import Launch from './Launch';
@@ -16,6 +17,7 @@ class UpgradeRouter extends Component {
     loading: PropTypes.bool.isRequired,
     init: PropTypes.bool.isRequired,
     error: PropTypes.string,
+    deleteUpgrade: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -43,10 +45,14 @@ class UpgradeRouter extends Component {
   render() {
     return (
       <React.Fragment>
+        <ErrorMessage visible={!!this.props.error} message={this.props.error} />
         {this.props.loading && <ActivityContainer id="uprader-loading" primary />}
-        <Div paddingTop="64px" disabled={this.props.loading}>
-          <ErrorMessage visible={!!this.props.error} message={this.props.error} />
-          {this.renderView()}
+        <Div paddingTop="64px">
+          <Row center gutter={10}>
+            <Col flex={6} xs={12} sm={12} md={10}>
+              {this.renderView()}
+            </Col>
+          </Row>
         </Div>
       </React.Fragment>
     );

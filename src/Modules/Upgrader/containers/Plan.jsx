@@ -7,6 +7,7 @@ import { H1 } from 'components/Typography';
 import { FullPageFooter } from 'components/FullPage';
 import Label from 'components/Label';
 import Log from 'components/Log';
+import Div from 'components/Div';
 
 class Plan extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class Plan extends Component {
     plan: PropTypes.array.isRequired,
     recomputePlan: PropTypes.func.isRequired,
     upgraderInstance: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -49,8 +51,8 @@ class Plan extends Component {
 
   render() {
     return (
-      <Row center gutter={10}>
-        <Col flex={6} xs={12} sm={12}>
+      <div>
+        <Div disabled={this.props.loading}>
           <Card>
             <CardContent>
               <Row gutter={5}>
@@ -67,34 +69,34 @@ class Plan extends Component {
               </Row>
             </CardContent>
 
-
             <Row>
               <Col flex={12}>
                 <Log logItems={this.props.plan} />
               </Col>
             </Row>
           </Card>
-          <FullPageFooter
-            fullWidth
-            leftActions={
-              <Button primary flat onClick={this.props.deleteUpgrade}>
-                Remove Upgrader
-              </Button>
-            }
-            rightActions={
-              <React.Fragment>
-                <Button primary flat onClick={() => this.handleRecompute()}>
-                  Recompute Plan
-                </Button>
+        </Div>
 
-                <Button raised primary onClick={this.handleStart}>
-                  Start Upgrade
-                </Button>
-              </React.Fragment>
-            }
-          />
-        </Col>
-      </Row>
+        <FullPageFooter
+          fullWidth
+          leftActions={
+            <Button primary flat onClick={this.props.deleteUpgrade}>
+              Remove Upgrader
+            </Button>
+          }
+          rightActions={
+            <React.Fragment>
+              <Button primary flat onClick={() => this.handleRecompute()} disabled={this.props.loading}>
+                Recompute Plan
+              </Button>
+
+              <Button raised primary onClick={this.handleStart} disabled={this.props.loading}>
+                Start Upgrade
+              </Button>
+            </React.Fragment>
+          }
+        />
+      </div>
     );
   }
 }
