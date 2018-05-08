@@ -12,6 +12,7 @@ import { I18nextProvider } from 'react-i18next';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import ModalRoot from 'Modules/ModalRoot';
 import NotFound from 'components/NotFound';
+import { UpgradeRouter } from 'Modules/Upgrader';
 import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
 import configureHTTP from './config/configureHTTP';
@@ -60,6 +61,7 @@ const Root = () => (
               <Switch>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/logs" component={withRestricted(LoggingNewPage)} />
+                <Route exact path="/upgrade" component={withRestricted(UpgradeRouter)} />
                 <Route exact path="/" component={App} />
                 <Route exact path="/404" component={NotFound} />
                 <Route path="/:fqon" component={App} />

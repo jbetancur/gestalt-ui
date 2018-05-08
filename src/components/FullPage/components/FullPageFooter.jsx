@@ -8,7 +8,7 @@ const Footer = styled.footer`
   bottom: 0;
   right: 0;
   min-height: 56px;
-  width: calc(100% - 72px);
+  width: ${props => (props.fullWidth ? '100%' : 'calc(100% - 72px)')};
   padding: 8px 24px 8px 24px;
   display: flex;
   flex-wrap: wrap;
@@ -34,8 +34,8 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
-const FullPageFooter = ({ leftActions, rightActions, children }) => (
-  <Footer>
+const FullPageFooter = ({ leftActions, rightActions, fullWidth, children }) => (
+  <Footer fullWidth={fullWidth}>
     <Left>
       {leftActions}
     </Left>
@@ -59,12 +59,15 @@ FullPageFooter.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired,
+  ]),
+  fullWidth: PropTypes.bool,
 };
 
 FullPageFooter.defaultProps = {
   leftActions: null,
   rightActions: null,
+  fullWidth: false,
+  children: null,
 };
 
 export default withTheme(FullPageFooter);

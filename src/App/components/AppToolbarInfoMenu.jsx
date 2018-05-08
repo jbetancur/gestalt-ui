@@ -1,19 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
 import A from 'components/A';
 import { UI_VERSION, DOCUMENTATION_URL } from '../../constants';
+import withApp from '../withApp';
 
 const AppToolbarInfoMenu = (props) => {
   const menuItems = [
     <ListItem
       id="main--info--menu--version"
       key="main--info--menu--version"
-      primaryText={`Ui v${UI_VERSION}`}
+      primaryText={`v${UI_VERSION}`}
       leftIcon={<FontIcon>info_outline</FontIcon>}
       inkDisabled
     />,
+    props.appState.enableExperimental ?
+      <ListItem
+        id="main--info--menu--upgrade"
+        key="main--info--menu--upgrade"
+        primaryText="Upgrade Gestalt"
+        leftIcon={<FontIcon>system_update_alt</FontIcon>}
+        component={Link}
+        to="/upgrade"
+      /> : <div />,
     <Divider key="main--info--menu--divider" />,
     <ListItem
       id="main--info--menu--documentation"
@@ -50,6 +61,7 @@ const AppToolbarInfoMenu = (props) => {
 AppToolbarInfoMenu.propTypes = {
   t: PropTypes.func.isRequired,
   onShowLicenseModal: PropTypes.func.isRequired,
+  appState: PropTypes.object.isRequired,
 };
 
-export default translate()(AppToolbarInfoMenu);
+export default translate()(withApp(AppToolbarInfoMenu));

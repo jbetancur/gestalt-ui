@@ -8,11 +8,11 @@ import { withMetaResource } from 'Modules/MetaResource';
 import axios from 'axios';
 import { SelectField } from 'react-md';
 import Div from 'components/Div';
+import Log from 'components/Log';
 import { DotActivity } from 'components/ProgressIndicators';
 import { Button, FileDownloadButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { API_TIMEOUT } from '../../constants';
-import Log from './components/Log';
 import { timeSpans } from './constants';
 
 
