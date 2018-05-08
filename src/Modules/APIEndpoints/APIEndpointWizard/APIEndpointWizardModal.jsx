@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Form';
 import { withMetaResource, withAPIs, metaModels } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/context';
 import { generatePayload } from '../payloadTransformer';
 import APIPage from './APIPage';
 import APIEndpointPage from './APIEndpointPage';
@@ -53,8 +54,9 @@ class APIEndpointWizard extends PureComponent {
 
   componentDidMount() {
     const { params, apisActions } = this.props;
+    const entity = generateContextEntityState(params);
 
-    apisActions.fetchAPIs({ fqon: params.fqon, environmentId: params.environmentId });
+    apisActions.fetchAPIs({ fqon: params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   componentWillUnmount() {
