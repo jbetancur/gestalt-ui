@@ -4,7 +4,6 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { isUnixVariable } from 'util/validations';
 import { TextField } from 'components/ReduxFormFields';
-import PreventAutoFill from 'components/PreventAutoFill';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { checkIfPassword } from 'util/helpers/strings';
 
@@ -43,7 +42,6 @@ const UnixVariablesForm = ({ fields, disabled }) => (
               />
             </Col>
             <Col flex={8} xs={12} sm={12}>
-              {isPasswordField && <PreventAutoFill key={`${member}--preventautofill`} />}
               <Field
                 id={`${member}.value`}
                 name={`${member}.value`}
@@ -52,11 +50,11 @@ const UnixVariablesForm = ({ fields, disabled }) => (
                 component={TextField}
                 rows={isPasswordField ? undefined : 1}
                 maxRows={isPasswordField ? undefined : 4}
-                autoComplete="off"
                 validate={field.required ? required : []}
                 required={field.required}
                 passwordIcon={null}
                 helpText={isInherited ? 'overridable' : null}
+                autoComplete={isPasswordField ? 'new-password' : null}
               />
             </Col>
           </Row>

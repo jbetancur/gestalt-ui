@@ -10,7 +10,6 @@ import { Panel } from 'components/Panels';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
-import PreventAutoFill from 'components/PreventAutoFill';
 
 const UserForm = (props) => {
   const goBack = () => {
@@ -44,7 +43,6 @@ const UserForm = (props) => {
                     />
                   </Col>
                   <Col flex={6} xs={12}>
-                    <PreventAutoFill />
                     <Field
                       component={TextField}
                       name="properties.password"
@@ -52,6 +50,7 @@ const UserForm = (props) => {
                       label={props.user.id ? 'Reset Password' : 'New Password'}
                       type="password"
                       required={!props.user.id}
+                      autoComplete="new-password"
                     />
                   </Col>
                   <Col flex={6} xs={12}>

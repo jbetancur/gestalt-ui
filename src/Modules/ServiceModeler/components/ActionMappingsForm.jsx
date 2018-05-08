@@ -10,7 +10,6 @@ import { Panel } from 'components/Panels';
 import Fieldset from 'components/Fieldset';
 import { ListTable } from 'components/Lists';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import PreventAutoFill from 'components/PreventAutoFill';
 
 const ActionsMappingForm = ({ fields, lambdas, values }) => {
   const supportedResources = values.map(v => ({ name: v.properties.actions.prefix }));
@@ -104,7 +103,6 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                           />
                         </Col>
                         <Col flex={4}>
-                          <PreventAutoFill />
                           <Field
                             component={TextField}
                             name={`${member}.authentication.username`}
@@ -112,12 +110,12 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                           />
                         </Col>
                         <Col flex={4}>
-                          <PreventAutoFill />
                           <Field
                             component={TextField}
                             type="password"
                             name={`${member}.authentication.password`}
                             label="Password"
+                            autoComplete="new-password"
                           />
                         </Col>
                       </Row>

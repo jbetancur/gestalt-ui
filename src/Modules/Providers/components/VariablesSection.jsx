@@ -5,11 +5,9 @@ import { Col, Row } from 'react-flexybox';
 import { UnixVariablesForm } from 'Modules/Variables';
 import Div from 'components/Div';
 import { Panel } from 'components/Panels';
-import PreventAutoFill from 'components/PreventAutoFill';
 
 const ProviderVariablesSection = ({ envSchemaPending }) => (
   <Row gutter={5}>
-    <PreventAutoFill />
     <Col flex={12} component={Div} disabled={envSchemaPending}>
       <Panel title="Public Variables" noPadding>
         <FieldArray
