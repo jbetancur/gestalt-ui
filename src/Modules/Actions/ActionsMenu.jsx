@@ -7,9 +7,12 @@ import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
+import queryString from 'query-string';
 import { API_URL, API_TIMEOUT } from '../../constants';
 
 const cookies = new Cookies();
+
+const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryString.stringify(params)}` : baseURL);
 
 class ActionsMenu extends PureComponent {
   static propTypes = {
@@ -20,6 +23,7 @@ class ActionsMenu extends PureComponent {
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    instance: PropTypes.bool,
     icon: PropTypes.bool,
     onActionComplete: PropTypes.func,
     keyField: PropTypes.string,
@@ -34,6 +38,7 @@ class ActionsMenu extends PureComponent {
     icon: false,
     onActionComplete: () => { },
     keyField: 'id',
+    instance: false,
   };
 
   constructor() {
@@ -46,7 +51,19 @@ class ActionsMenu extends PureComponent {
 
   fetchContent(action) {
     const tokenId = cookies.get('auth_token');
-    const url = `${API_URL}/${this.props.fqon}/actions/${action.id}/ui?resource=${this.props.model[this.props.keyField]}`;
+
+    const setParams = () => {
+      if (this.props.instance) {
+        return {
+          resource: this.props.model.properties.parent.id,
+          pid: this.props.model[this.props.keyField],
+        };
+      }
+
+      return { resource: this.props.model[this.props.keyField] };
+    };
+
+    const url = buildParams(`${API_URL}/${this.props.fqon}/actions/${action.id}/ui`, setParams());
 
     const contentAPI = axios.create({
       baseURL: url,

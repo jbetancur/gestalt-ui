@@ -43,6 +43,7 @@ const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
               <ActionsMenu
                 icon
                 model={stream}
+                instance
                 actionList={providerActions.providerActions}
                 pending={providerActions.providerActionsLoading}
                 keyField="persistenceId"
