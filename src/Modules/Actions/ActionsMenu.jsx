@@ -4,11 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, urlmapper } from 'Modules/MetaResource';
 import Div from 'components/Div';
-import queryString from 'query-string';
-
-const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryString.stringify(params)}` : baseURL);
 
 class ActionsMenu extends PureComponent {
   static propTypes = {
@@ -37,14 +34,6 @@ class ActionsMenu extends PureComponent {
     instance: false,
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      actionContentPending: false,
-    };
-  }
-
   setParams() {
     if (this.props.instance) {
       return {
@@ -57,21 +46,13 @@ class ActionsMenu extends PureComponent {
   }
 
   async fetchContent(action) {
-    const url = buildParams(`${this.props.fqon}/actions/${action.id}/ui`, this.setParams());
+    const url = urlmapper.buildParams(`${this.props.fqon}/actions/${action.id}/ui`, this.setParams());
+    const response = await axios.get(url);
 
-    this.setState({ actionContentPending: true });
-
-    try {
-      const response = await axios.get(url);
-      this.setState({ actionContentPending: false });
-
-      if (action.headless) {
-        this.props.onActionComplete();
-      } else {
-        this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
-      }
-    } catch (error) {
-      this.setState({ actionContentPending: false });
+    if (action.headless) {
+      this.props.onActionComplete();
+    } else {
+      this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
     }
   }
 
@@ -97,7 +78,7 @@ class ActionsMenu extends PureComponent {
         <Div display="inline">
           {!listItem ?
             <MenuButton
-              id="orgs-actions-menu"
+              id="provider-actions-menu"
               disabled={pending}
               iconChildren="more_vert"
               flat={!icon}
