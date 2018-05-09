@@ -1,6 +1,9 @@
 import queryString from 'query-string';
 
-const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryString.stringify(params)}` : baseURL);
+/**
+ * builds a valid url with query strings
+ */
+export const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryString.stringify(params)}` : baseURL);
 
 /**
  * Generates a dynamic meta URL for array listing
@@ -39,6 +42,7 @@ export const buildOneURL = (entity, config) => {
 };
 
 export default {
+  buildParams,
   buildAllURL,
   buildOneURL,
 };

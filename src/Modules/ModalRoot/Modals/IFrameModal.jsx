@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { DialogContainer } from 'react-md';
 import Frame from 'react-frame-component';
+import { ActivityContainer } from 'components/ProgressIndicators';
 
 const iframeStyle = {
   width: '100%',
@@ -38,7 +39,7 @@ class ActionsModal extends PureComponent {
 
   static defaultProps = {
     onComplete: () => { },
-    body: '',
+    body: null,
     isFullScreen: false,
   };
 
@@ -69,13 +70,16 @@ class ActionsModal extends PureComponent {
         fullPage={this.props.isFullScreen}
         aria-label="external-actions-modal"
       >
-        <Frame
-          initialContent={this.props.body}
-          frameBorder="0"
-          mountTarget="#container-root"
-          style={iframeStyle}
-          scrolling="yes"
-        />
+        {!this.props.body ?
+          <ActivityContainer id="iframe-loading" /> :
+          <Frame
+            initialContent={this.props.body}
+            frameBorder="0"
+            mountTarget="#container-root"
+            style={iframeStyle}
+            scrolling="yes"
+          />}
+
         <button
           id="close-parent-modal"
           style={{ visibility: 'hidden', position: 'absolute' }}

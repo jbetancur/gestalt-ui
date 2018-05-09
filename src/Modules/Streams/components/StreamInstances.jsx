@@ -4,12 +4,39 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { withProviderActions } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
-import { Card, CardTitle, CardContent } from 'components/Cards';
+import { Card, CardTitle } from 'components/Cards';
 import { FormattedRelative, FormattedTime } from 'react-intl';
 import { Title } from 'components/Typography';
-import { FontIcon } from 'react-md';
 import { orderBy } from 'lodash';
 import { ActionsMenu } from 'Modules/Actions';
+import { Line } from 'react-chartjs-2';
+
+const sampleData = {
+  labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+  datasets: [
+    {
+      label: 'Throughput',
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: 'rgba(75,192,192,0.4)',
+      borderColor: 'rgba(75,192,192,1)',
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: 'rgba(75,192,192,1)',
+      pointBackgroundColor: '#fff',
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+      pointHoverBorderColor: 'rgba(220,220,220,1)',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)),
+    }
+  ]
+};
 
 const TitleContent = styled(Col) `
   padding: 24px;
@@ -51,9 +78,7 @@ const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
               />
             </CardActions>
 
-            <CardContent style={{ textAlign: 'center', borderTop: '1px dotted #757575', background: '#eceff1' }}>
-              <FontIcon style={{ fontSize: '50px', color: '#bdbdbd' }}>insert_chart</FontIcon>
-            </CardContent>
+            <Line data={sampleData} />
           </Card>
         </Col>
       )) :
