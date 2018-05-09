@@ -11,7 +11,7 @@ import { orderBy } from 'lodash';
 import { ActionsMenu } from 'Modules/Actions';
 import { Line } from 'react-chartjs-2';
 
-const sampleData = {
+const generateSampleData = () => ({
   labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
   datasets: [
     {
@@ -36,7 +36,7 @@ const sampleData = {
       data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)),
     }
   ]
-};
+});
 
 const TitleContent = styled(Col) `
   padding: 24px;
@@ -78,7 +78,7 @@ const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
               />
             </CardActions>
 
-            <Line data={sampleData} />
+            <Line data={generateSampleData()} />
           </Card>
         </Col>
       )) :
