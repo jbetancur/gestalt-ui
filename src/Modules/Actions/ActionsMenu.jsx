@@ -2,15 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import queryString from 'query-string';
-import { API_URL, API_TIMEOUT } from '../../constants';
-
-const cookies = new Cookies();
 
 const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryString.stringify(params)}` : baseURL);
 
@@ -49,33 +45,24 @@ class ActionsMenu extends PureComponent {
     };
   }
 
-  fetchContent(action) {
-    const tokenId = cookies.get('auth_token');
+  setParams() {
+    if (this.props.instance) {
+      return {
+        resource: this.props.model.properties.parent.id,
+        pid: this.props.model[this.props.keyField],
+      };
+    }
 
-    const setParams = () => {
-      if (this.props.instance) {
-        return {
-          resource: this.props.model.properties.parent.id,
-          pid: this.props.model[this.props.keyField],
-        };
-      }
+    return { resource: this.props.model[this.props.keyField] };
+  }
 
-      return { resource: this.props.model[this.props.keyField] };
-    };
-
-    const url = buildParams(`${API_URL}/${this.props.fqon}/actions/${action.id}/ui`, setParams());
-
-    const contentAPI = axios.create({
-      baseURL: url,
-      timeout: API_TIMEOUT,
-      headers: {
-        Authorization: `Bearer ${tokenId}`,
-      }
-    });
+  async fetchContent(action) {
+    const url = buildParams(`${this.props.fqon}/actions/${action.id}/ui`, this.setParams());
 
     this.setState({ actionContentPending: true });
 
-    contentAPI.get().then((response) => {
+    try {
+      const response = await axios.get(url);
       this.setState({ actionContentPending: false });
 
       if (action.headless) {
@@ -83,7 +70,9 @@ class ActionsMenu extends PureComponent {
       } else {
         this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
       }
-    }).catch(() => this.setState({ actionContentPending: false }));
+    } catch (error) {
+      this.setState({ actionContentPending: false });
+    }
   }
 
   renderActions() {
