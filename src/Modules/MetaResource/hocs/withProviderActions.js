@@ -28,9 +28,15 @@ export default ({ asContext, fetchOnMount = true, filter, params = {} }) => (Wra
     }
 
     componentDidMount() {
+      this.$isMounted = true;
+
       if (fetchOnMount) {
         this.get();
       }
+    }
+
+    componentWillUnmount() {
+      this.$isMounted = false;
     }
 
     manualFetch = () => {
@@ -44,13 +50,13 @@ export default ({ asContext, fetchOnMount = true, filter, params = {} }) => (Wra
       const queryParams = Object.assign(params, { expand: true, compact: false, filter });
       const url = buildAllURL('actions', { fqon: match.params.fqon, entityId: entityParams.id, entityKey: entityParams.key, params: queryParams }, true);
 
-      this.setState({ [`${name}Loading`]: true });
+      if (this.$isMounted) this.setState({ [`${name}Loading`]: true });
 
       try {
         const res = await axios.get(url);
-        this.setState({ [`${name}`]: res.data, [`${name}Loading`]: false });
+        if (this.$isMounted) this.setState({ [`${name}`]: res.data, [`${name}Loading`]: false });
       } catch (error) {
-        this.setState({ [`${name}Loading`]: false, error });
+        if (this.$isMounted) this.setState({ [`${name}Loading`]: false, error });
       }
     }
 

@@ -26,8 +26,8 @@ const CardActions = styled.div`
 const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
   <Row gutter={5}>
     {streamInstances.length > 0 ?
-      orderBy(streamInstances, ['startTime'], 'asc').map(stream => (
-        <Col flex={12} xs={12} sm={12} key={stream.persistenceId}>
+      orderBy(streamInstances, ['startTime'], 'desc').map(stream => (
+        <Col flex={4} xs={12} sm={12} key={stream.persistenceId}>
           <Card>
             <CardTitle
               title={stream.status}
