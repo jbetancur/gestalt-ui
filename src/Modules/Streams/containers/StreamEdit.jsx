@@ -112,6 +112,7 @@ class StreamSpecEdit extends Component {
                 <StreamInstances
                   streamInstances={streamInstances}
                   fqon={match.params.fqon}
+                  onActionComplete={this.handleActionComplete}
                 />
                 <FullPageFooter>
                   <Button

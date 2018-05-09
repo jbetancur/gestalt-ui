@@ -50,7 +50,7 @@ const CardActions = styled.div`
   padding: 8px;
 `;
 
-const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
+const StreamInstances = ({ fqon, streamInstances, providerActions, onActionComplete }) => (
   <Row gutter={5}>
     {streamInstances.length > 0 ?
       orderBy(streamInstances, ['startTime'], 'desc').map(stream => (
@@ -69,17 +69,20 @@ const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
             <CardActions>
               <ActionsMenu
                 icon
+                onActionComplete={onActionComplete}
                 model={stream}
                 actionList={providerActions.providerActions}
                 pending={providerActions.providerActionsLoading}
-                isInstance
+                isChildResource
                 keyField="persistenceId"
-                parentKeyField="definitionId"
+                parentKeyField="persistenceId"
                 fqon={fqon}
               />
             </CardActions>
 
-            <Line data={generateSampleData()} />
+            <div style={{ padding: '4px' }}>
+              <Line data={generateSampleData()} />
+            </div>
           </Card>
         </Col>
       )) :
@@ -98,6 +101,11 @@ StreamInstances.propTypes = {
   fqon: PropTypes.string.isRequired,
   streamInstances: PropTypes.array.isRequired,
   providerActions: PropTypes.object.isRequired,
+  onActionComplete: PropTypes.func,
+};
+
+StreamInstances.defaultProps = {
+  onActionComplete: () => {},
 };
 
 export default compose(
