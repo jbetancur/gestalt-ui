@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
 import { withMetaResource, urlmapper } from 'Modules/MetaResource';
@@ -16,10 +17,11 @@ class ActionsMenu extends PureComponent {
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
     model: PropTypes.object.isRequired,
-    instance: PropTypes.bool,
+    isInstance: PropTypes.bool,
     icon: PropTypes.bool,
     onActionComplete: PropTypes.func,
     keyField: PropTypes.string,
+    parentKeyField: PropTypes.string,
     fqon: PropTypes.string.isRequired,
   };
 
@@ -31,18 +33,21 @@ class ActionsMenu extends PureComponent {
     icon: false,
     onActionComplete: () => { },
     keyField: 'id',
-    instance: false,
+    parentKeyField: 'properties.parent.id',
+    isInstance: false,
   };
 
   setParams() {
-    if (this.props.instance) {
+    if (this.props.isInstance) {
+      const parentId = get(this.props.model, this.props.parentKeyField);
+
       return {
-        resource: this.props.model.properties.parent.id,
-        pid: this.props.model[this.props.keyField],
+        resource: parentId,
+        pid: get(this.props.model, this.props.keyField),
       };
     }
 
-    return { resource: this.props.model[this.props.keyField] };
+    return { resource: get(this.props.model, this.props.keyField) };
   }
 
   async fetchContent(action) {
