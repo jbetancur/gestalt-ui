@@ -70,10 +70,11 @@ const StreamInstances = ({ fqon, streamInstances, providerActions }) => (
               <ActionsMenu
                 icon
                 model={stream}
-                instance
                 actionList={providerActions.providerActions}
                 pending={providerActions.providerActionsLoading}
+                isInstance
                 keyField="persistenceId"
+                parentKeyField="definitionId"
                 fqon={fqon}
               />
             </CardActions>
