@@ -20,6 +20,7 @@ const LicenseForm = (props) => {
     handleSubmit,
     onSubmit,
     licenseInfo,
+    isPending,
   } = props;
 
   const close = () => {
@@ -52,13 +53,13 @@ const LicenseForm = (props) => {
   );
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={isPending}>
       <Row gutter={5}>
         <Col flex={5} xs={12}>
           <Field
             component={TextField}
             name="properties.data"
-            label="License Key"
+            placeholder="License Key"
             type="text"
             rows={4}
             required
@@ -116,6 +117,7 @@ LicenseForm.propTypes = {
   hideLicenseModal: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   licenseInfo: PropTypes.object.isRequired,
+  isPending: PropTypes.bool.isRequired,
 };
 
 LicenseForm.defaultProps = {

@@ -2,23 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const WrapperDiv = styled.div`
-  height: 32px;
+const Wrapper = styled.div`
+  height: 42px;
 `;
 
-const FooterDiv = styled.div`
-  position: absolute;
-  right: 0;
-  padding: 16px;
+const FooterDiv = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   bottom: 0;
+  height: px;
+
+  * {
+    margin: 5px;
+  }
 `;
 
-const ModalFooter = props => (
-  <WrapperDiv>
+const ModalFooter = ({ children }) => (
+  <Wrapper>
     <FooterDiv>
-      {props.children}
+      {children}
     </FooterDiv>
-  </WrapperDiv>
+  </Wrapper>
 );
 
 ModalFooter.propTypes = {

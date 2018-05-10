@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 
 const Wrapper = styled.div`
-  padding-top: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
   word-break: break-all;
   max-width: 285px;
 `;
 
 const Title = styled.div`
+  padding-top: 8px;
+  padding-left: 24px;
+  padding-right: 16px;
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 16px;
@@ -18,8 +18,13 @@ const Title = styled.div`
 `;
 
 const Subtitle = styled.div`
-  font-size: 15px;
-  color: ${props => props.theme.colors['$md-grey-700']};
+  padding-left: 8px;
+  padding-left: 24px;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: ${props => props.theme.colors['$md-grey-600']};
 `;
 
 const CardTitle = ({ title, subTitle, children }) => (

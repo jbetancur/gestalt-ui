@@ -5,9 +5,7 @@ import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { EntitlementIcon } from 'components/Icons';
-import { Subtitle } from 'components/Typography';
-import { FormattedRelative } from 'react-intl';
+import { EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import { Card, CardTitle } from '../components/GFCard';
 import withHierarchy from '../withHierarchy';
@@ -57,8 +55,6 @@ class EnvironmentCard extends PureComponent {
   render() {
     const { model, t, theme } = this.props;
     const title = model.description || model.name;
-    const created = t('general.verbs.created').toLowerCase();
-    const modified = t('general.verbs.modified').toLowerCase();
 
     return (
       <Card
@@ -66,8 +62,10 @@ class EnvironmentCard extends PureComponent {
         key={model.id}
         onClick={this.navEnvironmentDetails}
         raise
-        typeColor={theme.environmentCard}
-        typeSymbol="E"
+        cardColor={theme.environmentCard}
+        cardIcon={<EnvironmentIcon size={14} />}
+        environmentType={model.properties.environment_type}
+        created={model.created.timestamp}
         menuActions={[
           {
             title: t('general.verbs.edit'),
@@ -88,14 +86,7 @@ class EnvironmentCard extends PureComponent {
       >
         <CardTitle
           title={title}
-          subTitle={
-            [
-              <Subtitle key="environment--type">{model.properties.environment_type}</Subtitle>,
-              <Subtitle key="environment--owner">owner: {model.owner.name}</Subtitle>,
-              <Subtitle key="environment--created">{created}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
-              <Subtitle key="environment--modified">{modified}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
-            ]
-          }
+          subTitle={model.owner.name}
         />
       </Card>
     );

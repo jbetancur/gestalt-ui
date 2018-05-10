@@ -5,9 +5,7 @@ import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { EntitlementIcon } from 'components/Icons';
-import { FormattedRelative } from 'react-intl';
-import { Subtitle } from 'components/Typography';
+import { EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import { Card, CardTitle } from '../components/GFCard';
 import withHierarchy from '../withHierarchy';
@@ -57,8 +55,6 @@ class OrganizationCard extends PureComponent {
   render() {
     const { t, model, theme } = this.props;
     const title = model.description || model.name;
-    const created = t('general.verbs.created').toLowerCase();
-    const modified = t('general.verbs.modified').toLowerCase();
 
     return (
       <Card
@@ -66,8 +62,9 @@ class OrganizationCard extends PureComponent {
         key={model.id}
         onClick={this.navTo}
         raise
-        typeSymbol="O"
-        typeColor={theme.organizationCard}
+        cardIcon={<OrganizationIcon size={14} />}
+        cardColor={theme.organizationCard}
+        created={model.created.timestamp}
         menuActions={[
           {
             title: t('general.verbs.edit'),
@@ -88,13 +85,7 @@ class OrganizationCard extends PureComponent {
       >
         <CardTitle
           title={title}
-          subTitle={
-            [
-              <Subtitle key="organization--fqon">{model.properties.fqon}</Subtitle>,
-              model.owner.name && <Subtitle key="organization--owner" block>owner: {model.owner.name}</Subtitle>,
-              <Subtitle key="organization--created">{created}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
-              <Subtitle key="organization--modified">{modified}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
-            ]}
+          subTitle={model.owner.name}
         />
       </Card>
     );

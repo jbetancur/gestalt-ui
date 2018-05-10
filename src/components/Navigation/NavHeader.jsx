@@ -5,7 +5,7 @@ const NavHeader = styled.div`
   align-items: center;
   background-color: ${props => props.theme.colors['$md-white']};
   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  padding: 10px;
+  padding: 12px;
   text-align: left;
   min-height: 56px;
   overflow: visible;

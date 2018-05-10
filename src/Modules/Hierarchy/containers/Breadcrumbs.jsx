@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import base64 from 'base-64';
@@ -6,12 +6,26 @@ import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { withMetaResource, withSelf } from 'Modules/MetaResource';
 import { FontIcon } from 'react-md';
-import { truncate, getParentFQON } from 'util/helpers/strings';
+import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
+import { truncate, getParentFQON } from 'util/helpers/strings';
 
 const EnhancedLink = styled(Link)`
   color: inherit;
   text-decoration: none;
+
+  i, svg {
+    color: inherit;
+    margin-top: 2px;
+  }
+
+  svg {
+    margin-top: -2px;
+  }
+
+  i.seperator {
+    color: ${props => props.theme.colors['$md-grey-500']};
+  }
 
   &:hover {
     text-decoration: none;
@@ -19,10 +33,9 @@ const EnhancedLink = styled(Link)`
   }
 `;
 
-const Icon = styled(FontIcon)`
-  font-size: ${props => `${props.size}px !important`};
-  line-height: 33px;
-  padding: 1px;
+const Icon = styled.div`
+  display: inline-block;
+  padding-right: 1px;
 `;
 
 const BreadIcon = Icon.extend`
@@ -32,36 +45,28 @@ const BreadIcon = Icon.extend`
 `;
 
 const IconSeparator = styled(({ size, ...rest }) => <FontIcon {...rest} />)`
-  font-size: ${props => `${props.size}px`};
-  line-height: 35px;
+  font-size: ${props => `${props.size}px !important`};
+`;
+
+const NavArrow = styled(Button)`
+  i {
+    font-size: 16px !important;
+    margin-top: 7px;
+  }
+
+  @media (min-width: 0) and (max-width: 659px) {
+    display: none;
+  }
 `;
 
 const Wrapper = styled.div`
-  display: inline;
+  display: flex;
+  align-items: center;
   font-size: ${props => `${props.size}px`};
   color: ${props => props.theme.colors['$md-grey-500']};
-  line-height: 32px;
-  padding-left: 3px;
 
   @media (min-width: 0) and (max-width: 659px) {
     font-size: ${props => `${props.size - 2}px`};
-  }
-
-  span {
-    line-height: 35px;
-  }
-
-  i {
-    color: inherit;
-  }
-
-  a {
-    margin: 0;
-    height: 35px !important;
-  }
-
-  i.seperator {
-    color: ${props => props.theme.colors['$md-grey-500']};
   }
 
   ${props => props.lastIsActive && css`
@@ -75,24 +80,21 @@ const Wrapper = styled.div`
   `};
 `;
 
-class Breadcrumbs extends PureComponent {
+class Breadcrumbs extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    self: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
-    className: PropTypes.string,
     size: PropTypes.number,
     lastIsActive: PropTypes.bool,
-    pending: PropTypes.bool,
+    pending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     pending: false,
-    className: '',
-    size: 16,
+    size: 14,
     lastIsActive: false,
   }
 
@@ -107,12 +109,10 @@ class Breadcrumbs extends PureComponent {
 
   render() {
     const {
-      self,
       organizationSet,
       workspace,
       environment,
       match,
-      className,
       size,
       lastIsActive,
       pending,
@@ -128,45 +128,47 @@ class Breadcrumbs extends PureComponent {
     const environmentName = truncate(environment.description || environment.name, 30);
     const isWorkspaceCtx = workspace.id && match.params.workspaceId;
     const isEnvironmentCtx = environment.id && match.params.environmentId;
-    const isGestaltHome = match.params.fqon === self.properties.gestalt_home.properties.fqon;
+    const orgNavDisabled = organizationSet.properties.fqon === 'root';
 
     return (
-      <Wrapper className={className} size={size} lastIsActive={lastIsActive}>
-        {!isGestaltHome &&
-        <Button
-          icon
-          iconChildren={<Icon size={size}>arrow_upward</Icon>}
-          disabled={pending}
-          component={Link}
-          to={parentOrgRoute}
-          tooltipLabel="Up one org level"
-          tooltipPosition="right"
-        />}
+      <Wrapper size={size} lastIsActive={lastIsActive}>
+        {organizationSet.properties.fqon &&
+          <NavArrow
+            icon
+            disabled={pending || orgNavDisabled}
+            component={Link}
+            to={parentOrgRoute}
+            tooltipLabel="Up one org level"
+            tooltipPosition="right"
+            inkDisabled
+          >
+            arrow_upward
+          </NavArrow>}
 
         {orgName &&
         <EnhancedLink
           onClick={e => this.checkIfShouldNav(e, orgsRoute)}
           to={orgsRoute}
         >
-          <span><BreadIcon size={size}>domain</BreadIcon>{orgName}</span>
+          <span><BreadIcon><OrganizationIcon size={size} /></BreadIcon>{orgName}</span>
         </EnhancedLink>}
 
-        {isWorkspaceCtx &&
+        {isWorkspaceCtx && orgName &&
           <EnhancedLink
             onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
             to={workspaceRoute}
           >
             <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
-            <span><BreadIcon size={size}>work</BreadIcon>{workspaceName}</span>
+            <span><BreadIcon><WorkspaceIcon size={size} /></BreadIcon>{workspaceName}</span>
           </EnhancedLink>}
 
-        {isEnvironmentCtx &&
+        {isEnvironmentCtx && isWorkspaceCtx && orgName &&
           <EnhancedLink
             onClick={e => this.checkIfShouldNav(e, environmentRoute)}
             to={environmentRoute}
           >
             <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
-            <span><BreadIcon size={size}>folder</BreadIcon>{environmentName}</span>
+            <span><BreadIcon><EnvironmentIcon size={size} /></BreadIcon>{environmentName}</span>
           </EnhancedLink>}
       </Wrapper>
     );

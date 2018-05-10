@@ -7,7 +7,7 @@ const OrganizationIconStyle = styled(FontIcon)`
   font-size: ${props => `${props.size}px !important`};
 `;
 
-const OrganizationIcon = ({ size }) => <OrganizationIconStyle size={size}>domain</OrganizationIconStyle>;
+const OrganizationIcon = ({ size }) => <OrganizationIconStyle size={size}>business</OrganizationIconStyle>;
 
 OrganizationIcon.propTypes = {
   size: PropTypes.number

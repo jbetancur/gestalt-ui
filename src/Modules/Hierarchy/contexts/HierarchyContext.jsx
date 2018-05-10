@@ -25,8 +25,8 @@ class HierarchyContext extends PureComponent {
     unloadWorkspace();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.fqon && nextProps.match.params.fqon !== this.props.match.params.fqon) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.fqon && prevProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.unloadWorkspace();
       this.props.unloadEnvironments();
     }
