@@ -49,14 +49,14 @@ class HierarchyListing extends PureComponent {
     fetchOrgSet(match.params.fqon);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { showEnvironments } = this.state;
 
-    if (nextProps.match.params.fqon && nextProps.match.params.fqon !== this.props.match.params.fqon) {
-      this.props.fetchOrgSet(nextProps.match.params.fqon);
+    if (this.props.match.params.fqon && prevProps.match.params.fqon !== this.props.match.params.fqon) {
+      this.props.fetchOrgSet(this.props.match.params.fqon);
 
       if (showEnvironments) {
-        this.props.fetchEnvironments(nextProps.match.params.fqon);
+        this.props.fetchEnvironments(this.props.match.params.fqon);
       }
     }
   }
@@ -144,9 +144,9 @@ class HierarchyListing extends PureComponent {
               </Button>
             </Col>
           </Row>,
-          <Row key={`${organizationSet.id}--cards`} gutter={5} minColWidths={315}>
+          <Row key={`${organizationSet.id}--cards`} gutter={5} minColWidths={310}>
             {sortedOrgs.map(item => (
-              <Col key={item.id} flex={3} xs={12}>
+              <Col key={item.id} flex={2} xs={12}>
                 {this.renderCard(item)}
               </Col>
             ))}

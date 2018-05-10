@@ -8,19 +8,6 @@ import LicenseForm from './LicenseForm';
 import validate from '../validations';
 import actions from '../actions';
 
-// const EnhancedDialog = styled(Dialog)`
-//   .md-dialog {
-//     width: 100%;
-//     max-width: 55em;
-//     min-height: 32em;
-
-//     .md-dialog-content {
-//       max-height: 40em;
-//       overflow: scroll;
-//     }
-//   }
-// `;
-
 class License extends Component {
   static propTypes = {
     fetchLicense: PropTypes.func.isRequired,
@@ -70,15 +57,16 @@ class License extends Component {
         closeOnEsc
         onHide={this.props.hideLicenseModal}
         width="60%"
+        height="45em"
       >
-        {isPending ?
-          <ActivityContainer id="license-load" /> :
-          <LicenseForm
-            submitLabel="Update"
-            cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-            onSubmit={values => this.update(values)}
-            {...this.props}
-          />}
+        {isPending && <ActivityContainer id="license-load" />}
+        <LicenseForm
+          submitLabel="Update"
+          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
+          onSubmit={values => this.update(values)}
+          pending={isPending}
+          {...this.props}
+        />
       </DialogContainer>
     );
   }

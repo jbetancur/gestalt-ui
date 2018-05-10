@@ -32,9 +32,9 @@ class EnvironmentListing extends Component {
     this.init(match.params.fqon, match.params.workspaceId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.workspaceId !== this.props.match.params.workspaceId) {
-      this.init(nextProps.match.params.fqon, nextProps.match.params.workspaceId);
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.workspaceId !== this.props.match.params.workspaceId) {
+      this.init(this.props.match.params.fqon, this.props.match.params.workspaceId);
     }
   }
 
@@ -67,9 +67,9 @@ class EnvironmentListing extends Component {
           />
         </Col>
       </Row>,
-      <Row key="environment--cards" gutter={5} minColWidths={315}>
+      <Row key="environment--cards" gutter={5} minColWidths={310}>
         {sortedEnvironments.map(item => (
-          <Col key={item.id} flex={3} xs={12}>
+          <Col key={item.id} flex={2} xs={12}>
             <EnvironmentCard
               model={item}
               {...this.props}

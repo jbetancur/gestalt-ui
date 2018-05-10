@@ -5,9 +5,7 @@ import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { EntitlementIcon } from 'components/Icons';
-import { FormattedRelative } from 'react-intl';
-import { Subtitle } from 'components/Typography';
+import { EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import { Card, CardTitle } from '../components/GFCard';
 import withHierarchy from '../withHierarchy';
@@ -57,8 +55,6 @@ class WorkspaceCard extends PureComponent {
   render() {
     const { t, model, theme } = this.props;
     const title = model.description || model.name;
-    const created = t('general.verbs.created').toLowerCase();
-    const modified = t('general.verbs.modified').toLowerCase();
 
     return (
       <Card
@@ -66,8 +62,9 @@ class WorkspaceCard extends PureComponent {
         key={model.id}
         onClick={this.navWorkspaceDetails}
         raise
-        typeSymbol="W"
-        typeColor={theme.workspaceCard}
+        cardIcon={<WorkspaceIcon size={14} />}
+        cardColor={theme.workspaceCard}
+        created={model.created.timestamp}
         menuActions={[
           {
             title: t('general.verbs.edit'),
@@ -88,13 +85,7 @@ class WorkspaceCard extends PureComponent {
       >
         <CardTitle
           title={title}
-          subTitle={
-            [
-              <Subtitle key="workspace--ownser">owner: {model.owner.name}</Subtitle>,
-              <Subtitle key="workspace--created">{created}: <FormattedRelative value={model.created.timestamp} /></Subtitle>,
-              <Subtitle key="workspace--modified">{modified}: <FormattedRelative value={model.modified.timestamp} /></Subtitle>,
-            ]
-          }
+          subTitle={model.owner.name}
         />
       </Card>
     );

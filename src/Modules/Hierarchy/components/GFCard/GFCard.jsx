@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css, withTheme } from 'styled-components';
 // import { FormattedRelative } from 'react-intl';
-import { MenuButton, ListItem } from 'react-md';
+import { MenuButton, ListItem, FontIcon } from 'react-md';
+import { FormattedRelative } from 'react-intl';
 
-// black list non compliance typeColor, typeSymbol from DOM
+// black list non compliance cardColor, cardIcon from DOM
 const CardStyle = styled.div`
   position: relative;
   background: white;
-  height: 10.5em;
-  border-radius: 2px;
+  height: 8.5em;
+  border-radius: 1px;
   cursor: pointer;
   ${props => !props.noShadow && 'box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 0 1px -3px rgba(0, 0, 0, 0.2)'};
 
@@ -25,6 +26,7 @@ const CardStyle = styled.div`
 
 const ClickMask1 = styled.div`
   position: absolute;
+  z-index: 1;
   width: 85%;
   height: 100%;
   top: 0;
@@ -32,10 +34,12 @@ const ClickMask1 = styled.div`
   /* clip-path: polygon(0% 15%, 0 0, 15% 0%, 85% 0%, 85% 33%, 100% 33%, 100% 85%, 100% 100%, 85% 100%, 15% 100%, 0% 100%, 0% 85%); */
 `;
 
+// Height must be adjusted if changing CardStyle Hieght
 const ClickMask2 = styled.div`
   position: absolute;
+  z-index: 1;
   width: 15%;
-  height: 7em;
+  height: 64px;
   bottom: 0;
   right: 0;
 `;
@@ -45,21 +49,15 @@ const Type = styled.div`
   /* fixes chrome issue where on zoom in where there is a gap in the logo */
   top: 0;
   left: 0;
-  font-size: 1em;
   width: 0;
   height: 0;
-  border-top: 25px solid ${props => props.typeColor};
-  border-right: 25px solid transparent;
+  border-top: 35px solid ${props => props.cardColor};
+  border-right: 35px solid transparent;
 
-  span {
-    text-align: center;
-    height: 12px;
-    width: 12px;
-    font-family: 'lovelo';
-    font-size: 0.6em;
+  i, svg {
     position: absolute;
-    top: -21px;
-    left: 1.5px;
+    top: -31px;
+    left: 3px;
     color: white;
   }
 `;
@@ -70,11 +68,48 @@ const Actions = styled.div`
   right: 8px;
 `;
 
-const GFCard = ({ id, typeColor, typeSymbol, menuActions, onClick, noShadow, children, ...rest }) => (
+
+const EnvironmentType = styled.div`
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  line-height: 12px;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &, i {
+    font-size: 12px !important;
+    color: ${props => props.theme.colors['$md-grey-600']};
+  }
+
+  i {
+    padding-right: 3px;
+  }
+`;
+
+const Created = styled.div`
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  line-height: 12px;
+
+  &, i {
+    font-size: 12px !important;
+    color: ${props => props.theme.colors['$md-grey-500']};
+  }
+
+  i {
+    padding-right: 3px;
+  }
+`;
+
+const GFCard = ({ id, environmentType, created, cardColor, cardIcon, menuActions, onClick, noShadow, children, ...rest }) => (
   <CardStyle raise noShadow={noShadow} {...rest}>
     <ClickMask1 onClick={onClick} />
     <ClickMask2 onClick={onClick} />
-    <Type typeSymbol={typeSymbol} typeColor={typeColor}><span>{typeSymbol}</span></Type>
+    <Type cardIcon={cardIcon} cardColor={cardColor}>{cardIcon}</Type>
     <Actions>
       <MenuButton
         id={`${id}--actions`}
@@ -90,23 +125,30 @@ const GFCard = ({ id, typeColor, typeSymbol, menuActions, onClick, noShadow, chi
         more_vert
       </MenuButton>
     </Actions>
-    {/* <Bottom>
-      <Right>
-        <div>{owner}</div>
-        created <FormattedRelative value={created} />
-      </Right>
-      <Left>
-      </Left>
-    </Bottom> */}
+
     {children}
+
+    {environmentType &&
+      <EnvironmentType>
+        {environmentType}
+      </EnvironmentType>}
+
+    <Created>
+      <FontIcon>date_range</FontIcon>
+      <FormattedRelative value={created} />
+    </Created>
   </CardStyle>
 );
 
 GFCard.propTypes = {
   id: PropTypes.string.isRequired,
+  environmentType: PropTypes.string,
+  created: PropTypes.string.isRequired,
   children: PropTypes.array,
-  typeSymbol: PropTypes.string,
-  typeColor: PropTypes.string,
+  cardIcon: PropTypes.oneOfType([
+    PropTypes.node
+  ]),
+  cardColor: PropTypes.string,
   menuActions: PropTypes.array,
   onClick: PropTypes.func,
   noShadow: PropTypes.bool,
@@ -114,11 +156,12 @@ GFCard.propTypes = {
 
 GFCard.defaultProps = {
   children: [],
-  typeSymbol: '',
-  typeColor: '#b0bec5',
+  cardIcon: '',
+  cardColor: '#b0bec5',
   menuActions: [],
   onClick: () => { },
   noShadow: false,
+  environmentType: null,
 };
 
 export default withTheme(GFCard);

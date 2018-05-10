@@ -5,7 +5,6 @@ import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
 import Form from 'components/Form';
-import { ModalFooter } from 'components/Modal';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm } from 'Modules/Variables';
@@ -18,15 +17,34 @@ const HierarchyForm = (props) => {
   const submitDisabled = props.pristine || props.pending || props.invalid || props.submitting;
   const isPending = props.pending;
 
+  const modalActions = [
+    <Button
+      key="contextform--cancel"
+      flat
+      disabled={props.submitting}
+      onClick={props.history.goBack}
+    >
+      {props.cancelLabel}
+    </Button>,
+    <Button
+      key="contextform--create"
+      raised
+      disabled={submitDisabled}
+      primary
+      onClick={() => document.getElementById('contextform').dispatchEvent(new Event('submit'))}
+    >
+      {props.submitLabel}
+    </Button>
+  ];
   return (
     <DialogContainer
       id="context-form-dialog"
       title={!props.pending && props.title}
       visible
-      width="60em"
-      actions={null}
+      width="64em"
+      actions={modalActions}
     >
-      <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.pending}>
+      <Form id="contextform" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.pending}>
         {isPending && <ActivityContainer primary centered id="context-form--loading" />}
         <Row gutter={5}>
           <Col flex={6} xs={12}>
@@ -74,27 +92,6 @@ const HierarchyForm = (props) => {
             </Panel>
           </Col>
         </Row>
-
-        <ModalFooter>
-          <Button
-            key="contextform--cancel"
-            flat
-            disabled={props.submitting}
-            onClick={props.history.goBack}
-          >
-            {props.cancelLabel}
-          </Button>
-
-          <Button
-            key="contextform--create"
-            raised
-            type="submit"
-            disabled={submitDisabled}
-            primary
-          >
-            {props.submitLabel}
-          </Button>
-        </ModalFooter>
       </Form>
     </DialogContainer>
   );

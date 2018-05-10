@@ -51,10 +51,10 @@ class App extends Component {
     Mousetrap.bind(konamiCode, this.showExperimental);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.self.id && nextProps.self.id !== this.props.self.id && !this.props.match.params.fqon) {
+  componentDidUpdate(prevProps) {
+    if (!this.props.match.params.fqon && this.props.self.id && this.props.self.id !== prevProps.self.id) {
       // TODO: routing here must be moved to auth once we refactor Auth/JWT
-      this.props.history.replace(`/${nextProps.self.properties.gestalt_home.properties.fqon}/hierarchy`);
+      this.props.history.replace(`/${this.props.self.properties.gestalt_home.properties.fqon}/hierarchy`);
       this.props.syncActions.doSync();
       this.props.licenseActions.fetchLicense('root');
     }

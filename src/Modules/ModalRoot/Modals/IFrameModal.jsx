@@ -73,6 +73,7 @@ class ActionsModal extends PureComponent {
         {!this.props.body ?
           <ActivityContainer id="iframe-loading" /> :
           <Frame
+            id="ui-provider-actions-iframe"
             initialContent={this.props.body}
             frameBorder="0"
             mountTarget="#container-root"
