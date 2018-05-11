@@ -8,7 +8,6 @@ import modalReducer from '../Modules/ModalRoot/reducers';
 import errorNotificationReducer from '../Modules/ErrorNotifications/reducers';
 import loginReducer from '../Modules/Authentication/reducers';
 // import organizationsReducer from '../Modules/Organizations/reducers';
-import oranizationNavMenu from '../Modules/OrgNavMenu/reducers';
 // import hierarchyReducer from '../Modules/Hierarchy/reducers';
 // import providersReducer from '../Modules/Providers/reducers';
 import lambdasReducer from '../Modules/Lambdas/reducers';
@@ -39,7 +38,6 @@ export default combineReducers({
   app: appReducers,
   metaResource: metaResourceReducers,
   login: loginReducer,
-  orgnavmenu: oranizationNavMenu,
   // hierarchy: hierarchyReducer,
   // providers: providersReducer,
   lambdas: lambdasReducer,

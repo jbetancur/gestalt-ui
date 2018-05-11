@@ -4,6 +4,7 @@ import {
   convertFromMaps,
   stringDemiltedToArray,
   nestedObjectFromString,
+  getRoutePattern,
 } from './transformations';
 
 describe('Util Transformations', () => {
@@ -96,6 +97,36 @@ describe('Util Transformations', () => {
     it('should create create a nested object with an overriden delimiter', () => {
       const string = 'luke:skywalker:is:awesome';
       expect(nestedObjectFromString(string, null, ':')).toEqual({ luke: { skywalker: { is: { awesome: null } } } });
+    });
+  });
+
+  describe('getRoutePattern function', () => {
+    it('should create a valid url path with no props', () => {
+      const pattern = '/smuggler';
+
+      expect(getRoutePattern({}, pattern)).toBe('/smuggler');
+    });
+
+    it('should create a valid url path with non nested props', () => {
+      const pattern = '/:han/:solo/smuggler';
+      const object = {
+        han: 'nerf',
+        solo: 'herding',
+      };
+
+      expect(getRoutePattern(object, pattern)).toBe('/nerf/herding/smuggler');
+    });
+
+    it('should create a valid url path with nested props', () => {
+      const pattern = '/:hero.han/:hero.solo/smuggler';
+      const object = {
+        hero: {
+          han: 'nerf',
+          solo: 'herding',
+        }
+      };
+
+      expect(getRoutePattern(object, pattern)).toBe('/nerf/herding/smuggler');
     });
   });
 });

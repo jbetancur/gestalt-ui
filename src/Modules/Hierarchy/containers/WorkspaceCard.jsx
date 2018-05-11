@@ -67,18 +67,21 @@ class WorkspaceCard extends PureComponent {
         created={model.created.timestamp}
         menuActions={[
           {
+            id: 'workspace-card--edit',
             title: t('general.verbs.edit'),
             icon: <FontIcon>edit</FontIcon>,
             onClick: this.edit,
           },
           {
+            id: 'workspace-card--entitlements',
             title: 'Entitlements',
             icon: <EntitlementIcon size={20} />,
             onClick: this.showEntitlements,
           },
           {
+            id: 'workspace-card--delete',
             title: t('general.verbs.delete'),
-            icon: <FontIcon>delete_sweep</FontIcon>,
+            icon: <FontIcon>delete_forever</FontIcon>,
             onClick: this.delete,
           }
         ]}

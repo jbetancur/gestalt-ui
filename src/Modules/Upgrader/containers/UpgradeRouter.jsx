@@ -49,7 +49,7 @@ class UpgradeRouter extends Component {
         {this.props.loading && <ActivityContainer id="uprader-loading" primary />}
         <Div paddingTop="64px">
           <Row center gutter={10}>
-            <Col flex={6} xs={12} sm={12} md={10}>
+            <Col flex={7} xs={12} sm={12} md={10}>
               {this.renderView()}
             </Col>
           </Row>

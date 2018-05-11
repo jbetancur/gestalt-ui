@@ -78,10 +78,11 @@ const EnvironmentType = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-transform: uppercase;
 
   &, i {
     font-size: 12px !important;
-    color: ${props => props.theme.colors['$md-grey-600']};
+    color: ${props => props.theme.colors['$md-grey-700']};
   }
 
   i {
@@ -115,7 +116,14 @@ const GFCard = ({ id, environmentType, created, cardColor, cardIcon, menuActions
         id={`${id}--actions`}
         icon
         primary
-        menuItems={menuActions.map(action => <ListItem key={action.id} primaryText={action.title} onClick={action.onClick} leftIcon={action.icon} />)}
+        menuItems={menuActions.map(action => (
+          <ListItem
+            key={action.id}
+            primaryText={action.title}
+            onClick={action.onClick}
+            leftIcon={action.icon}
+          />)
+        )}
         centered
         anchor={{
           x: MenuButton.HorizontalAnchors.CENTER,
@@ -144,7 +152,10 @@ GFCard.propTypes = {
   id: PropTypes.string.isRequired,
   environmentType: PropTypes.string,
   created: PropTypes.string.isRequired,
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
   cardIcon: PropTypes.oneOfType([
     PropTypes.node
   ]),

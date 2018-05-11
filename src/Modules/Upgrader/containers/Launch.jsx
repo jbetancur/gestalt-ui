@@ -39,7 +39,7 @@ class Launch extends Component {
           <Card>
             <CardContent>
               <Form onSubmit={handleSubmit}>
-                <Div disabled={this.props.loading}>
+                <Div disabled={this.props.loading} paddingBottom="56px">
                   <Row gutter={5}>
                     <H1>Launch Upgrader</H1>
 
