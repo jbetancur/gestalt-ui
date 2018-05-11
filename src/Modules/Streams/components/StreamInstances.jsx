@@ -75,7 +75,7 @@ const StreamInstances = ({ fqon, streamInstances, providerActions, onActionCompl
                 pending={providerActions.providerActionsLoading}
                 isChildResource
                 keyField="persistenceId"
-                parentKeyField="persistenceId"
+                parentKeyField="definitionId"
                 fqon={fqon}
               />
             </CardActions>
