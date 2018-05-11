@@ -69,7 +69,7 @@ class Upgrade extends Component {
   render() {
     return (
       <div>
-        <Div disabled={this.props.loading}>
+        <Div disabled={this.props.loading} paddingBottom="56px">
           <Card>
             <CardContent>
               <Row gutter={5}>

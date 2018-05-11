@@ -8,7 +8,7 @@ import { ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import OrgNavMenu from 'Modules/OrgNavMenu';
+import { OrganizationMenu } from 'Modules/NavigationMenus';
 import { withRestricted } from 'Modules/Authentication';
 import { withSync, withSelf } from 'Modules/MetaResource';
 import { GestaltIcon } from 'components/Icons';
@@ -83,7 +83,11 @@ class App extends Component {
         <Main>
           <Header
             colored
-            leftContent={<OrgNavMenu />}
+            leftContent={
+              <React.Fragment>
+                <OrganizationMenu />
+              </React.Fragment>
+            }
             logo={<GestaltIcon size={36} />}
             logoVisible={browser.greaterThan.sm}
             rightContent={

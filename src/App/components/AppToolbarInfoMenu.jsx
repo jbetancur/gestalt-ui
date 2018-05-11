@@ -24,7 +24,7 @@ const AppToolbarInfoMenu = (props) => {
         leftIcon={<FontIcon>system_update_alt</FontIcon>}
         component={Link}
         to="/upgrade"
-      /> : <div />,
+      /> : <div key="main--info--menu--upgrade" />,
     <Divider key="main--info--menu--divider" />,
     <ListItem
       id="main--info--menu--documentation"
@@ -48,7 +48,7 @@ const AppToolbarInfoMenu = (props) => {
 
   return (
     <MenuButton
-      id="info-menu"
+      id="main--info--menu"
       icon
       position={MenuButton.Positions.TOP_RIGHT}
       menuItems={menuItems}

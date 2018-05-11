@@ -19,9 +19,6 @@ const EnhancedLink = styled(Link)`
     margin-top: 2px;
   }
 
-  svg {
-    margin-top: -2px;
-  }
 
   i.seperator {
     color: ${props => props.theme.colors['$md-grey-500']};
@@ -31,6 +28,12 @@ const EnhancedLink = styled(Link)`
     text-decoration: none;
     color: ${props => props.theme.colors['$md-grey-800']};
   }
+`;
+
+const IconWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
 `;
 
 const Icon = styled.div`
@@ -66,7 +69,7 @@ const Wrapper = styled.div`
   color: ${props => props.theme.colors['$md-grey-500']};
 
   @media (min-width: 0) and (max-width: 659px) {
-    font-size: ${props => `${props.size - 2}px`};
+    font-size: ${props => `${props.size - 1}px`};
   }
 
   ${props => props.lastIsActive && css`
@@ -150,7 +153,9 @@ class Breadcrumbs extends Component {
           onClick={e => this.checkIfShouldNav(e, orgsRoute)}
           to={orgsRoute}
         >
-          <span><BreadIcon><OrganizationIcon size={size} /></BreadIcon>{orgName}</span>
+          <IconWrapper>
+            <BreadIcon><OrganizationIcon size={size} /></BreadIcon>{orgName}
+          </IconWrapper>
         </EnhancedLink>}
 
         {isWorkspaceCtx && orgName &&
@@ -158,8 +163,10 @@ class Breadcrumbs extends Component {
             onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
             to={workspaceRoute}
           >
-            <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
-            <span><BreadIcon><WorkspaceIcon size={size} /></BreadIcon>{workspaceName}</span>
+            <IconWrapper>
+              <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
+              <BreadIcon><WorkspaceIcon size={size} /></BreadIcon>{workspaceName}
+            </IconWrapper>
           </EnhancedLink>}
 
         {isEnvironmentCtx && isWorkspaceCtx && orgName &&
@@ -167,8 +174,10 @@ class Breadcrumbs extends Component {
             onClick={e => this.checkIfShouldNav(e, environmentRoute)}
             to={environmentRoute}
           >
-            <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
-            <span><BreadIcon><EnvironmentIcon size={size} /></BreadIcon>{environmentName}</span>
+            <IconWrapper>
+              <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
+              <BreadIcon><EnvironmentIcon size={size} /></BreadIcon>{environmentName}
+            </IconWrapper>
           </EnhancedLink>}
       </Wrapper>
     );

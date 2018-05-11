@@ -1,4 +1,4 @@
-import { map, sortBy, compact, unionBy, orderBy } from 'lodash';
+import { map, sortBy, compact, unionBy, orderBy, get } from 'lodash';
 
 /**
  * arrayToMap
@@ -54,3 +54,20 @@ export function nestedObjectFromString(string, value = null, delimeter = '.') {
   const [last, ...paths] = string.split(delimeter).reverse();
   return paths.reduce((acc, el) => ({ [el]: acc }), { [last]: value });
 }
+
+
+export const getRoutePattern = (object, urlPattern) => {
+  const keys = [];
+
+  urlPattern.split('/').forEach((item) => {
+    const search = item.startsWith(':');
+
+    if (search) {
+      keys.push(get(object, item.slice(1)));
+    } else {
+      keys.push(item);
+    }
+  });
+
+  return keys.join('/');
+};

@@ -24,7 +24,7 @@ const Subtitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${props => props.theme.colors['$md-grey-600']};
+  color: ${props => props.theme.colors['$md-grey-500']};
 `;
 
 const CardTitle = ({ title, subTitle, children }) => (

@@ -68,18 +68,21 @@ class EnvironmentCard extends PureComponent {
         created={model.created.timestamp}
         menuActions={[
           {
+            id: 'environment-card--edit',
             title: t('general.verbs.edit'),
             icon: <FontIcon>edit</FontIcon>,
             onClick: this.edit,
           },
           {
+            id: 'environment-card--entitlements',
             title: 'Entitlements',
             icon: <EntitlementIcon size={20} />,
             onClick: this.showEntitlements,
           },
           {
+            id: 'environment-card--delete',
             title: t('general.verbs.delete'),
-            icon: <FontIcon>delete_sweep</FontIcon>,
+            icon: <FontIcon>delete_forever</FontIcon>,
             onClick: this.delete,
           }
         ]}
