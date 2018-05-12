@@ -1,27 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Navbar, NavItem } from 'components/Navigation';
+import { Navbar } from 'components/Navigation';
 import { ProviderIcon, EnvironmentIcon } from 'components/Icons';
 
-const renderNavItems = props => (
-  [
-    <NavItem
-      key="workspace--environments"
-      title="Environments"
-      icon={<EnvironmentIcon />}
-      to={`${props.match.url}/environments`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="workspace--providers"
-      title="Providers"
-      icon={<ProviderIcon />}
-      to={`${props.match.url}/providers`}
-      activeClassName="active-link"
-    />,
-  ]
-);
+const WorkspaceNav = ({ match }) => {
+  const navItems = [
+    {
+      key: 'workspace--environments',
+      title: 'Environments',
+      icon: <EnvironmentIcon size={28} />,
+      to: `${match.url}/environments`,
+    },
+    {
+      key: 'workspace--providers',
+      title: 'Providers',
+      icon: <ProviderIcon size={28} />,
+      to: `${match.url}/providers`,
+    },
+  ];
 
-const WorkspaceNav = props => <Navbar vertical items={renderNavItems(props)} />;
+  return (
+    <Navbar vertical items={navItems} />
+  );
+};
+
+WorkspaceNav.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default withRouter(WorkspaceNav);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from 'components/Buttons';
-import A from 'components/A';
+import { A } from 'components/Links';
 import { removeHostFromURL } from 'util/helpers/strings';
 
 const CopyLink = styled(Button)`

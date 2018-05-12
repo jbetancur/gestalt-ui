@@ -1,6 +1,6 @@
 import React from 'react';
 import A from './A';
-import { shallowWithTheme } from '../../test/helpers';
+import { shallowWithTheme } from '../../../test/helpers';
 
 describe('(Component) A', () => {
   it('renders component without exploding', () => {

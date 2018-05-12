@@ -1,55 +1,59 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
+import NavItem from './NavItem';
 
 const NavbarContainer = styled.nav`
   position: fixed;
   left: 0;
+  top: 60px;
   bottom: 0;
   background-color: white;
-  ${props => (props.vertical && 'bottom: 0')};
-  width: ${props => (props.vertical ? '72px' : '100%')};
+  width: 70px;
   border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  padding-left: 0;
   display: flex;
-  flex-direction: ${props => (props.vertical ? 'column' : 'row')};
+  flex-direction: column;
   justify-content: start;
   align-items: start;
   padding-top: 16px;
   height: 100%;
   overflow: visible;
   z-index: 5;
-  top: 4.3em;
 `;
 
 const List = styled.div`
-  list-style-type: none;
   margin: 0;
   padding: 0;
-  align-self: center;
+  text-align: center;
+  width: 100%;
 `;
 
 class Navbar extends PureComponent {
   static propTypes = {
     items: PropTypes.array,
-    vertical: PropTypes.bool,
   };
 
   static defaultProps = {
     items: [],
-    vertical: false,
   };
 
   render() {
-    const { items, vertical } = this.props;
+    const { items } = this.props;
 
     return (
-      <NavbarContainer vertical={vertical}>
+      <NavbarContainer>
         <List>
-          {items.map((item, i) => (
-            <div key={i}>
+          {items.map(item => (
+            <NavItem
+              title={item.title}
+              key={item.key}
+              icon={item.icon}
+              to={item.to}
+              isVisible={item.isVisible}
+              activeClassName="active-link"
+            >
               {item}
-            </div>
+            </NavItem>
           ))}
         </List>
       </NavbarContainer>

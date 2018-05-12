@@ -25,9 +25,8 @@ const A = styled.a`
   }
 
   svg {
-    margin-top: -0.05em;
-    height: 2em;
-    width: 2em;
+    margin-top: -2px;
+    color: white;
   }
 `;
 
@@ -47,7 +46,7 @@ const LoginFooter = () => (
         rel="noopener noreferrer"
         flex={12}
       >
-        <GalacticFogIcon /><CompanyName>{COMPANY_TITLE}</CompanyName>
+        <GalacticFogIcon size={36} /><CompanyName>{COMPANY_TITLE}</CompanyName>
       </Col>
     </Row>
   </Wrapper>

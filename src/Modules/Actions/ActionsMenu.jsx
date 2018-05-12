@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
-import { withMetaResource, urlmapper } from 'Modules/MetaResource';
+import { urlmapper } from 'Modules/MetaResource';
 import Div from 'components/Div';
 
 class ActionsMenu extends PureComponent {
@@ -106,6 +106,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  withMetaResource,
   connect(null, mapDispatchToProps),
 )(ActionsMenu);
