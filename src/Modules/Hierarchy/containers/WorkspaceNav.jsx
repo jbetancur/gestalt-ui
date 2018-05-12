@@ -9,13 +9,13 @@ const WorkspaceNav = ({ match }) => {
     {
       key: 'workspace--environments',
       title: 'Environments',
-      icon: <EnvironmentIcon size={28} />,
+      icon: <EnvironmentIcon size={26} />,
       to: `${match.url}/environments`,
     },
     {
       key: 'workspace--providers',
       title: 'Providers',
-      icon: <ProviderIcon size={28} />,
+      icon: <ProviderIcon size={26} />,
       to: `${match.url}/providers`,
     },
   ];
