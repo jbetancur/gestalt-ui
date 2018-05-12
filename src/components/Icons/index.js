@@ -32,3 +32,4 @@ export { default as RubyIcon } from './RubyIcon';
 export { default as CSharpIcon } from './CSharpIcon';
 export { default as GoLangIcon } from './GoLangIcon';
 export { default as RhinoJSIcon } from './RhinoJSIcon';
+export { default as MainframeIcon } from './MainframeIcon';

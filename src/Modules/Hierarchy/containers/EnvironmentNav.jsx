@@ -1,75 +1,75 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Navbar, NavItem } from 'components/Navigation';
+import { Navbar } from 'components/Navigation';
 import { LambdaIcon, ContainerIcon, ProviderIcon, APIIcon, PolicyIcon, SecretIcon, StreamIcon, DataFeedIcon } from 'components/Icons';
 import withApp from 'App/withApp';
 
-const renderNavItems = props => (
-  [
-    <NavItem
-      key="environment--containers"
-      icon={<ContainerIcon />}
-      title="Containers"
-      to={`${props.match.url}/containers`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="environment--lambdas"
-      icon={<LambdaIcon />}
-      title="Lambdas"
-      to={`${props.match.url}/lambdas`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="environment--apis"
-      icon={<APIIcon />}
-      title="APIs"
-      to={`${props.match.url}/apis`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="environment--policies"
-      icon={<PolicyIcon />}
-      title="Policies"
-      to={`${props.match.url}/policies`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="environment--providers"
-      icon={<ProviderIcon />}
-      title="Providers"
-      to={`${props.match.url}/providers`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="environment--secrets"
-      icon={<SecretIcon />}
-      title="Secrets"
-      to={`${props.match.url}/secrets`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="environment--streams"
-      icon={<StreamIcon />}
-      title="Streams"
-      to={`${props.match.url}/streamspecs`}
-      activeClassName="active-link"
-      isVisible={props.appState.enableExperimental}
-    />,
-    <NavItem
-      key="environment--datafeeds"
-      icon={<DataFeedIcon />}
-      title="Data"
-      to={`${props.match.url}/datafeeds`}
-      activeClassName="active-link"
-      isVisible={props.appState.enableExperimental}
-    />,
-  ]
-);
+const EnvironmentNav = ({ match, appState }) => {
+  const navItems = [
+    {
+      key: 'environment--containers',
+      icon: <ContainerIcon size={28} />,
+      title: 'Containers',
+      to: `${match.url}/containers`,
+    },
+    {
+      key: 'environment--lambdas',
+      icon: <LambdaIcon size={28} />,
+      title: 'Lambdas',
+      to: `${match.url}/lambdas`,
+    },
+    {
+      key: 'environment--apis',
+      icon: <APIIcon size={28} />,
+      title: 'APIs',
+      to: `${match.url}/apis`,
+    },
+    {
+      key: 'environment--policies',
+      icon: <PolicyIcon size={28} />,
+      title: 'Policies',
+      to: `${match.url}/policies`,
+    },
+    {
+      key: 'environment--providers',
+      icon: <ProviderIcon size={28} />,
+      title: 'Providers',
+      to: `${match.url}/providers`,
+    },
+    {
+      key: 'environment--secrets',
+      icon: <SecretIcon size={28} />,
+      title: 'Secrets',
+      to: `${match.url}/secrets`,
+    },
+    {
+      key: 'environment--streams',
+      icon: <StreamIcon size={28} />,
+      title: 'Streams',
+      to: `${match.url}/streamspecs`,
+      isVisible: appState.enableExperimental,
+    },
+    {
+      key: 'environment--datafeeds',
+      icon: <DataFeedIcon size={28} />,
+      title: 'Data',
+      to: `${match.url}/datafeeds`,
+      isVisible: appState.enableExperimental,
+    },
+  ];
 
-const EnvironmentNav = props => <Navbar vertical items={renderNavItems(props)} />;
+  return (
+    <Navbar vertical items={navItems} />
+  );
+};
+
+EnvironmentNav.propTypes = {
+
+  appState: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
 
 export default compose(
   withRouter,

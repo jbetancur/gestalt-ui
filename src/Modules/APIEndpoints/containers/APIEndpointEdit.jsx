@@ -10,7 +10,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import A from 'components/A';
+import { A } from 'components/Links';
 import { Button } from 'components/Buttons';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';

@@ -29,7 +29,6 @@ const LeftContent = styled.div`
 
 const Logo = styled.div`
   position: absolute;
-  line-height: 4.4em;
   text-align: center;
   width: 100%;
 `;

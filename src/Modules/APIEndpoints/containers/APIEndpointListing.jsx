@@ -12,7 +12,7 @@ import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
-import A from 'components/A';
+import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 

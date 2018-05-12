@@ -3,77 +3,63 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { Navbar, NavItem } from 'components/Navigation';
+import { Navbar } from 'components/Navigation';
 import { HierarchyIcon, MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon } from 'components/Icons';
 import withApp from 'App/withApp';
 
-const renderNavItems = (showOnRootOnly, t, props) => (
-  [
-    <NavItem
-      key="hierarchy--organizations"
-      title={t('organizations.title')}
-      icon={<HierarchyIcon />}
-      to={`/${props.match.params.fqon}/hierarchy`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="hierarchy--providers"
-      title={t('providers.title')}
-      icon={<ProviderIcon />}
-      to={`/${props.match.params.fqon}/providers`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="hierarchy--users"
-      title={t('users.title')}
-      icon={<UserIcon />}
-      to={`/${props.match.params.fqon}/users`}
-      activeClassName="active-link"
-      isVisible={showOnRootOnly}
-    />,
-    <NavItem
-      key="hierarchy--users"
-      title={t('groups.title')}
-      icon={<GroupIcon />}
-      to={`/${props.match.params.fqon}/groups`}
-      activeClassName="active-link"
-      isVisible={showOnRootOnly}
-    />,
-    // <NavItem
-    //   key="hierarchy--micromodeler"
-    //   icon={<MetamodelIcon />}
-    //   title={<div><div>Micro</div><div>Modeler</div></div>}
-    //   to={`/${props.match.params.fqon}/micromodeler`}
-    //   activeClassName="active-link"
-    //   isVisible={showOnRootOnly}
-    // />,
-    <NavItem
-      key="hierarchy--resourceTypes"
-      icon={<MetamodelIcon />}
-      title="Resource Types"
-      to={`/${props.match.params.fqon}/resourcetypes`}
-      activeClassName="active-link"
-    />,
-    <NavItem
-      key="hierarchy--servicemodeler"
-      icon={<ServiceIcon size={24} />}
-      title={<div><div>Service</div><div>Specs</div></div>}
-      to={`/${props.match.params.fqon}/servicespecs`}
-      activeClassName="active-link"
-      isVisible={props.appState.enableExperimental}
-    />,
-  ]
-);
-
 const HierarchyNav = (props) => {
-  const { showOnRootOnly, t } = props;
+  const { match, appState, showOnRootOnly, t } = props;
 
-  return <Navbar vertical items={renderNavItems(showOnRootOnly, t, props)} />;
+  const navItems = [
+    {
+      key: 'hierarchy--organizations',
+      title: t('organizations.title'),
+      icon: <HierarchyIcon size={28} />,
+      to: `/${match.params.fqon}/hierarchy`,
+    },
+    {
+      key: 'hierarchy--providers',
+      title: t('providers.title'),
+      icon: <ProviderIcon size={28} />,
+      to: `/${match.params.fqon}/providers`,
+    },
+    {
+      key: 'hierarchy--users',
+      title: t('users.title'),
+      icon: <UserIcon size={28} />,
+      to: `/${match.params.fqon}/users`,
+      isVisible: showOnRootOnly,
+    },
+    {
+      key: 'hierarchy--groups',
+      title: t('groups.title'),
+      icon: <GroupIcon size={28} />,
+      to: `/${match.params.fqon}/groups`,
+      isVisible: showOnRootOnly,
+    },
+    {
+      key: 'hierarchy--resourceTypes',
+      icon: <MetamodelIcon size={28} />,
+      title: 'Resource Types',
+      to: `/${match.params.fqon}/resourcetypes`,
+    },
+    {
+      key: 'hierarchy--servicemodeler',
+      icon: <ServiceIcon size={28} />,
+      title: <div><div>Service</div><div>Specs</div></div>,
+      to: `/${match.params.fqon}/servicespecs`,
+      isVisible: appState.enableExperimental,
+    },
+  ];
+
+  return <Navbar vertical items={navItems} />;
 };
 
 HierarchyNav.propTypes = {
   t: PropTypes.func.isRequired,
   showOnRootOnly: PropTypes.bool.isRequired,
+  appState: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default compose(

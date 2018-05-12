@@ -3,24 +3,26 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
-import A from 'components/A';
-import { UI_VERSION, DOCUMENTATION_URL } from '../../constants';
+import { A } from 'components/Links';
+import { GalacticFogIcon } from 'components/Icons';
+import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../constants';
 import withApp from '../withApp';
 
 const AppToolbarInfoMenu = (props) => {
   const menuItems = [
     <ListItem
-      id="main--info--menu--version"
-      key="main--info--menu--version"
-      primaryText={`v${UI_VERSION}`}
-      leftIcon={<FontIcon>info_outline</FontIcon>}
+      id="main--info--menu--product"
+      key="main--info--menu--product"
+      primaryText={APP_TITLE}
+      secondaryText={`v${UI_VERSION}`}
+      leftAvatar={<GalacticFogIcon size={40} />}
       inkDisabled
     />,
     props.appState.enableExperimental ?
       <ListItem
         id="main--info--menu--upgrade"
         key="main--info--menu--upgrade"
-        primaryText="Upgrade Gestalt"
+        primaryText="Upgrade"
         leftIcon={<FontIcon>system_update_alt</FontIcon>}
         component={Link}
         to="/upgrade"

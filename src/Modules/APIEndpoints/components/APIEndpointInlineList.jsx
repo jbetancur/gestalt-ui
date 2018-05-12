@@ -12,7 +12,7 @@ import { Timestamp, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import StatusBubble from 'components/StatusBubble';
 import Div from 'components/Div';
-import A from 'components/A';
+import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
 
 class APIEndpointInlineList extends PureComponent {
