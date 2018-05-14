@@ -21,3 +21,5 @@ export { default as withLambda } from './hocs/withLambda';
 export { default as withLambdas } from './hocs/withLambdas';
 export { default as withAPI } from './hocs/withAPI';
 export { default as withAPIs } from './hocs/withAPIs';
+export { default as withPolicy } from './hocs/withPolicy';
+export { default as withPolicies } from './hocs/withPolicies';

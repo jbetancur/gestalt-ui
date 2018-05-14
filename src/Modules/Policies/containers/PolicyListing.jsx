@@ -10,7 +10,8 @@ import { DeleteIconButton } from 'components/Buttons';
 import { PolicyIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withPolicies } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -20,44 +21,40 @@ class PolicyListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     policies: PropTypes.array.isRequired,
-    deletePolicies: PropTypes.func.isRequired,
-    deletePolicy: PropTypes.func.isRequired,
     policiesPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchPolicies: PropTypes.func.isRequired,
-    unloadPolicies: PropTypes.func.isRequired,
+    policiesActions: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchPolicies } = this.props;
-
-    fetchPolicies(match.params.fqon, match.params.environmentId);
+    this.init();
   }
 
-  componentWillUnmount() {
-    const { unloadPolicies } = this.props;
+  init() {
+    const { match, policiesActions } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    unloadPolicies();
+    policiesActions.fetchPolicies({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
-    const { match, deletePolicy, fetchPolicies } = this.props;
+    const { match, policiesActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchPolicies(match.params.fqon, match.params.environmentId);
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deletePolicy(match.params.fqon, row.id, onSuccess);
+      policiesActions.deletePolicy({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deletePolicies, fetchPolicies } = this.props;
+    const { match, policiesActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -65,11 +62,11 @@ class PolicyListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchPolicies(match.params.fqon, match.params.environmentId);
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deletePolicies(IDs, match.params.fqon, onSuccess);
+      policiesActions.deletePolicies({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete Policies', names);
   }
 
@@ -173,7 +170,7 @@ class PolicyListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withPolicies,
   connect(null, actions),
 )(PolicyListing);
 
