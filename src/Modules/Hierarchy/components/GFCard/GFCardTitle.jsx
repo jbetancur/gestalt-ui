@@ -20,7 +20,7 @@ const Title = styled.div`
 const Subtitle = styled.div`
   padding-left: 8px;
   padding-left: 24px;
-  font-size: 13px;
+  font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

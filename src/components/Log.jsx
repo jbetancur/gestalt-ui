@@ -11,7 +11,7 @@ const CodeWrapper = styled.div`
   word-wrap: break-word;
   background-color: #222;
   clear: left;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   ${props => props.fullPage && css`
     padding-top: 4.5em;
