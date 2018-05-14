@@ -48,7 +48,7 @@ class APIListing extends PureComponent {
     };
 
     this.props.confirmDelete(() => {
-      apisActions.deleteAPI({ fqon: match.params.fqon, id: row.id, onSuccess });
+      apisActions.deleteAPI({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -65,7 +65,7 @@ class APIListing extends PureComponent {
     };
 
     this.props.confirmDelete(() => {
-      apisActions.deleteAPIs({ ids: IDs, fqon: match.params.fqon, onSuccess });
+      apisActions.deleteAPIs({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete APIs', names);
   }
 
