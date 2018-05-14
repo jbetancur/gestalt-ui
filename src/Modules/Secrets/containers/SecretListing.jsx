@@ -10,7 +10,8 @@ import { DeleteIconButton } from 'components/Buttons';
 import { SecretIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withSecrets } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -20,44 +21,40 @@ class SecretListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     secrets: PropTypes.array.isRequired,
-    deleteSecrets: PropTypes.func.isRequired,
-    deleteSecret: PropTypes.func.isRequired,
+    secretsActions: PropTypes.object.isRequired,
     secretsPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchSecrets: PropTypes.func.isRequired,
-    unloadSecrets: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchSecrets } = this.props;
-
-    fetchSecrets(match.params.fqon, match.params.environmentId);
+    this.init();
   }
 
-  componentWillUnmount() {
-    const { unloadSecrets } = this.props;
+  init() {
+    const { match, secretsActions } = this.props;
+    const entity = generateContextEntityState(match.params);
 
-    unloadSecrets();
+    secretsActions.fetchSecrets({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
-    const { match, deleteSecret, fetchSecrets } = this.props;
+    const { match, secretsActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchSecrets(match.params.fqon, match.params.environmentId);
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deleteSecret(match.params.fqon, row.id, onSuccess);
+      secretsActions.deleteSecret({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deleteSecrets, fetchSecrets } = this.props;
+    const { match, secretsActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => item.id);
@@ -65,11 +62,11 @@ class SecretListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchSecrets(match.params.fqon, match.params.environmentId);
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deleteSecrets(IDs, match.params.fqon, onSuccess);
+      secretsActions.deleteSecrets({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete Secrets', names);
   }
 
@@ -171,6 +168,6 @@ class SecretListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withSecrets,
   connect(null, actions),
 )(SecretListing);

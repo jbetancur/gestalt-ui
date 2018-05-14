@@ -23,7 +23,7 @@ class PolicyCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    policyActions: PropTypes.func.isRequired,
+    policyActions: PropTypes.object.isRequired,
     policyPending: PropTypes.bool.isRequired,
   };
 

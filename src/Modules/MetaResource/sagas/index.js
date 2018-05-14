@@ -22,7 +22,6 @@ import userSagas from './users';
 import groupSagas from './groups';
 import env from './env';
 import loggingSagas from './logging';
-import secretSagas from './secrets';
 import searchSagas from './search';
 import typePropertySagas from './typeProperties';
 
@@ -42,7 +41,6 @@ export default function* metaSagas() {
     groupSagas(),
     env(),
     loggingSagas(),
-    secretSagas(),
     searchSagas(),
     typePropertySagas(),
 
@@ -59,6 +57,13 @@ export default function* metaSagas() {
     yield takeLatest(...generateUpdate('API', 'apis')),
     yield takeLatest(...generateDelete('API', 'apis')),
     yield takeLatest(...generateDeleteMany('APIS', 'apis')),
+
+    yield takeLatest(...generateFetchAll('SECRETS', 'secrets')),
+    yield takeLatest(...generateFetchOne('SECRET', 'secrets')),
+    yield takeLatest(...generateCreate('SECRET', 'secrets')),
+    yield takeLatest(...generateUpdate('SECRET', 'secrets')),
+    yield takeLatest(...generateDelete('SECRET', 'secrets')),
+    yield takeLatest(...generateDeleteMany('SECRETS', 'secrets')),
 
     yield takeLatest(...generateFetchAll('SERVICESPECS', 'servicespecs')),
     yield takeLatest(...generateFetchOne('SERVICESPEC', 'servicespecs')),
