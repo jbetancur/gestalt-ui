@@ -2,19 +2,16 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Row, Col } from 'react-flexybox';
 import styled, { css } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
 import axios from 'axios';
 import { SelectField } from 'react-md';
-import Div from 'components/Div';
 import Log from 'components/Log';
-import { DotActivity } from 'components/ProgressIndicators';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button, FileDownloadButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { API_TIMEOUT } from '../../constants';
 import { timeSpans } from './constants';
-
 
 const PageWrapper = styled.div`
   height: 100%;
@@ -24,35 +21,28 @@ const PageWrapper = styled.div`
 const Toolbar = styled.header`
   display: flex;
   align-items: center;
-  min-height: 3.5em;
+  min-height: 52px;
   width: 100%;
   position: ${props => (props.fullPage ? 'fixed' : 'relative')};
   background-color: white;
   padding-left: 16px;
+  padding-right: 16px;
 
   ${props => props.fullPage && css`
     z-index: 1;
   `};
 `;
 
-const ToolbarActions = styled.div`
-  text-align: right;
+const TitleSection = styled.div`
+  flex: 1 1 auto;
 `;
 
 const ToolbarControls = styled.div`
-  text-align: left;
-  display: inline-block;
-  vertical-align: top;
-`;
-
-const LogOutputWrapper = styled.div`
-  display: inline-block;
-  padding-top: 8px;
-  padding-left: 16px;
-`;
-
-const LogOutputButton = styled(Button)`
-  color: white;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 `;
 
 const ScrollButtons = styled.div`
@@ -71,18 +61,6 @@ const TopScrollButton = styled(Button)`
 const BottomScrollButton = styled(Button)`
   ${props => props.fullPage && 'color: white'};
   display: block;
-`;
-
-const Activity = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
 `;
 
 class Logging extends PureComponent {
@@ -210,56 +188,73 @@ class Logging extends PureComponent {
     return (
       <PageWrapper>
         <Toolbar fullPage={fullPage}>
-          <Row gutter={5} alignItems="center">
-            <Col xs={12} sm={4} md={6} lg={8}>
-              {showTitle && <Title small>Logs for {name} ({logType})</Title>}
-            </Col>
-            <Col xs={12} sm={8} md={6} lg={4}>
-              <ToolbarActions>
-                <ToolbarControls>
-                  <SelectField
-                    id="log--timespan"
-                    menuItems={timeSpans}
-                    itemLabel="name"
-                    itemValue="value"
-                    defaultValue={logTimespan}
-                    lineDirection="center"
-                    onChange={this.setLogTimespan}
-                    simplifiedMenu={false}
-                    repositionOnScroll={false}
-                    position={SelectField.Positions.BELOW}
-                    anchor={{
-                      x: SelectField.HorizontalAnchors.CENTER,
-                      y: SelectField.VerticalAnchors.BOTTOM,
-                    }}
-                    disabled={disableControls}
-                  />
-                </ToolbarControls>
+          <TitleSection>
+            {showTitle && <Title small>Logs for {name} ({logType})</Title>}
+          </TitleSection>
+          <ToolbarControls>
+            {showLogOutputs &&
+              <React.Fragment>
                 <Button
-                  icon
-                  iconChildren="refresh"
-                  tooltipLabel="Refresh Log"
-                  onClick={() => this.fetchLogs(this.props, this.state)}
+                  raised={!this.state.stderr}
+                  primary={!this.state.stderr}
+                  onClick={() => this.showStdErr(false)}
                   disabled={disableControls}
-                />
-                <FileDownloadButton
-                  icon
-                  data={logs.length && logs.join('\n')}
-                  tooltipLabel="Download Log"
-                  fileName={`${name}-${logType}.log`}
+                >
+                  STDOUT
+                </Button>
+                <Button
+                  raised={this.state.stderr}
+                  primary={this.state.stderr}
+                  onClick={() => this.showStdErr(true)}
                   disabled={disableControls}
-                />
-                {fullPage &&
-                  <Button
-                    icon
-                    iconChildren="close"
-                    tooltipLabel="Close"
-                    onClick={() => window.close()}
-                  />}
-              </ToolbarActions>
-            </Col>
-          </Row>
+                >
+                  STDERR
+                </Button>
+              </React.Fragment>}
+            <SelectField
+              id="log--timespan"
+              menuItems={timeSpans}
+              itemLabel="name"
+              itemValue="value"
+              defaultValue={logTimespan}
+              lineDirection="center"
+              onChange={this.setLogTimespan}
+              simplifiedMenu={false}
+              repositionOnScroll={false}
+              position={SelectField.Positions.BELOW}
+              anchor={{
+                x: SelectField.HorizontalAnchors.CENTER,
+                y: SelectField.VerticalAnchors.BOTTOM,
+              }}
+              disabled={disableControls}
+              toolbar
+            />
+            <Button
+              icon
+              iconChildren="refresh"
+              tooltipLabel="Refresh Log"
+              onClick={() => this.fetchLogs(this.props, this.state)}
+              disabled={disableControls}
+            />
+            <FileDownloadButton
+              icon
+              data={logs.length && logs.join('\n')}
+              tooltipLabel="Download Log"
+              fileName={`${name}-${logType}.log`}
+              disabled={disableControls}
+            />
+            {fullPage &&
+              <Button
+                icon
+                iconChildren="close"
+                tooltipLabel="Close"
+                onClick={() => window.close()}
+              />}
+          </ToolbarControls>
         </Toolbar>
+
+        {(logProviderPending || logPending) &&
+          <ActivityContainer id="log-loading" primary centered size={2} />}
 
         {fullPage &&
           <ScrollButtons>
@@ -283,31 +278,7 @@ class Logging extends PureComponent {
             />
           </ScrollButtons>}
 
-        <Log fullPage={fullPage} logItems={this.state.logs}>
-          {(logProviderPending || logPending) &&
-            <Activity>
-              <DotActivity id="log-loading" primary centered size={2} />
-            </Activity>}
-          <Div disabled={logProviderPending || logPending}>
-            {showLogOutputs &&
-              <LogOutputWrapper>
-                <LogOutputButton
-                  raised
-                  primary={!this.state.stderr}
-                  onClick={() => this.showStdErr(false)}
-                >
-                  STDOUT
-                </LogOutputButton>
-                <LogOutputButton
-                  raised
-                  primary={this.state.stderr}
-                  onClick={() => this.showStdErr(true)}
-                >
-                  STDERR
-                </LogOutputButton>
-              </LogOutputWrapper>}
-          </Div>
-        </Log>
+        <Log fullPage={fullPage} logItems={this.state.logs} />
       </PageWrapper>
     );
   }
