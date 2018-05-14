@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withPolicy } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { PolicyRules } from 'Modules/PolicyRules';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -26,30 +26,23 @@ class PolicyEdit extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     policy: PropTypes.object.isRequired,
-    fetchPolicy: PropTypes.func.isRequired,
-    updatePolicy: PropTypes.func.isRequired,
+    policyActions: PropTypes.func.isRequired,
     policyPending: PropTypes.bool.isRequired,
-    unloadPolicy: PropTypes.func.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchPolicy } = this.props;
-    fetchPolicy(match.params.fqon, match.params.policyId);
-  }
+    const { match, policyActions } = this.props;
 
-  componentWillUnmount() {
-    const { unloadPolicy } = this.props;
-
-    unloadPolicy();
+    policyActions.fetchPolicy({ fqon: match.params.fqon, id: match.params.policyId });
   }
 
   udpate = (values) => {
-    const { match, policy, updatePolicy } = this.props;
-    const patches = generatePolicyPatches(policy, values);
+    const { match, policy, policyActions } = this.props;
+    const payload = generatePolicyPatches(policy, values);
 
-    updatePolicy(match.params.fqon, policy.id, patches);
+    policyActions.updatePolicy({ fqon: match.params.fqon, id: policy.id, payload });
   }
 
   showEntitlements = () => {
@@ -133,7 +126,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withPolicy,
   withEntitlements,
   connect(mapStateToProps, actions),
 )(PolicyEdit);

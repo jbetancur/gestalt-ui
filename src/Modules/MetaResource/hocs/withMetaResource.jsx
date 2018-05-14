@@ -86,12 +86,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       user: metaResource.user.user,
       userPending: metaResource.user.pending,
 
-      // Subscriptions for Policy
-      policies: metaResource.policies.policies,
-      policiesPending: metaResource.policies.pending,
-      policy: metaResource.policy.policy,
-      policyPending: metaResource.policy.pending,
-
       // Subscriptions for Policy Rules
       policyRules: metaResource.policyRules.policyRules,
       policyRulesPending: metaResource.policyRules.pending,
