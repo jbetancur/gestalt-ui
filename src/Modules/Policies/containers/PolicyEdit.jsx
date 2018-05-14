@@ -26,7 +26,7 @@ class PolicyEdit extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     policy: PropTypes.object.isRequired,
-    policyActions: PropTypes.func.isRequired,
+    policyActions: PropTypes.object.isRequired,
     policyPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,

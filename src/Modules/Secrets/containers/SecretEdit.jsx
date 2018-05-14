@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withSecret, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import SecretForm from './SecretForm';
@@ -15,33 +15,22 @@ import { getEditSecretModel } from '../selectors';
 class SecretEdit extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
     secret: PropTypes.object.isRequired,
-    fetchSecret: PropTypes.func.isRequired,
-    updateSecret: PropTypes.func.isRequired,
+    secretActions: PropTypes.object.isRequired,
     secretPending: PropTypes.bool.isRequired,
-    unloadSecret: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchSecret } = this.props;
+    const { match, secretActions } = this.props;
 
-    fetchSecret(match.params.fqon, match.params.secretId);
-  }
-
-  componentWillUnmount() {
-    const { unloadSecret } = this.props;
-
-    unloadSecret();
+    secretActions.fetchSecret({ fqon: match.params.fqon, id: match.params.secretId });
   }
 
   update = (values) => {
-    const { match, history, secret, updateSecret } = this.props;
-    const patches = generatePatches(secret, values);
-    const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`);
+    const { match, secret, secretActions } = this.props;
+    const payload = generatePatches(secret, values);
 
-    updateSecret(match.params.fqon, secret.id, patches, onSuccess);
+    secretActions.updateSecret({ fqon: match.params.fqon, id: secret.id, payload });
   }
 
   render() {
@@ -72,7 +61,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-  withMetaResource,
+  withSecret,
   withEntitlements,
   connect(mapStateToProps, actions),
   reduxForm({

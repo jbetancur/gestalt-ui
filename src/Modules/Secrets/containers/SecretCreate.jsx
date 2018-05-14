@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withSecret, withPickerData } from 'Modules/MetaResource';
+import { generateContextEntityState } from 'util/helpers/context';
 import SecretForm from './SecretForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -14,16 +15,17 @@ class SecretCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createSecret: PropTypes.func.isRequired,
+    secretActions: PropTypes.object.isRequired,
   };
 
   create(values) {
-    const { match, history, createSecret } = this.props;
+    const { match, history, secretActions } = this.props;
     const payload = generatePayload(values);
+    const entity = generateContextEntityState(match.params);
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets/${response.id}`);
 
-    createSecret(match.params.fqon, match.params.environmentId, payload, onSuccess);
+    secretActions.createSecret({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload, onSuccess });
   }
 
   render() {
@@ -48,7 +50,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-  withMetaResource,
+  withSecret,
   connect(mapStateToProps, actions),
   reduxForm({
     form: 'secretCreate',

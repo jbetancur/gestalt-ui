@@ -23,7 +23,7 @@ class PolicyListing extends PureComponent {
     policies: PropTypes.array.isRequired,
     policiesPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    policiesActions: PropTypes.func.isRequired,
+    policiesActions: PropTypes.object.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
