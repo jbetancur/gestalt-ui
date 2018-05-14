@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { Navbar } from 'components/Navigation';
-import { HierarchyIcon, MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon } from 'components/Icons';
+import { HierarchyIcon, MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon, MainframeIcon } from 'components/Icons';
 import withApp from 'App/withApp';
 
 const HierarchyNav = (props) => {
@@ -48,6 +48,13 @@ const HierarchyNav = (props) => {
       icon: <ServiceIcon size={26} />,
       title: <div><div>Service</div><div>Specs</div></div>,
       to: `/${match.params.fqon}/servicespecs`,
+      isVisible: appState.enableExperimental,
+    },
+    {
+      key: 'hierarchy--mainframe',
+      icon: <MainframeIcon size={26} />,
+      title: 'Cloud Frame',
+      to: 'https://gtw1.test.galacticfog.com/cloud-frame-demo/ui/CloudFrame',
       isVisible: appState.enableExperimental,
     },
   ];
