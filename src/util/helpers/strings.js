@@ -61,4 +61,10 @@ export default {
   checkIfPassword
 };
 
-export const removeHostFromURL = url => url.replace(/^.*\/\/[^/]+:?[0-9]?\//i, '');
+export const removeHostFromURL = (url) => {
+  if (url) {
+    return url.replace(/^.*\/\/[^/]+:?[0-9]?\//i, '');
+  }
+
+  return url;
+};
