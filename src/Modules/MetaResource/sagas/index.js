@@ -15,7 +15,6 @@ import lambdaSagas from './lambdas';
 import apiEndpointSagas from './apiEndpoints';
 import providerSagas from './providers';
 import containerSagas from './containers';
-import policyRuleSagas from './policyRules';
 import selfSagas from './self';
 import entitlementSagas from './entitlements';
 import userSagas from './users';
@@ -34,7 +33,6 @@ export default function* metaSagas() {
     apiEndpointSagas(),
     providerSagas(),
     containerSagas(),
-    policyRuleSagas(),
     selfSagas(),
     entitlementSagas(),
     userSagas(),
@@ -50,6 +48,13 @@ export default function* metaSagas() {
     yield takeLatest(...generateUpdate('POLICY', 'policies')),
     yield takeLatest(...generateDelete('POLICY', 'policies')),
     yield takeLatest(...generateDeleteMany('POLICIES', 'policies')),
+
+    yield takeLatest(...generateFetchAll('POLICYRULES', 'rules')),
+    yield takeLatest(...generateFetchOne('POLICYRULE', 'rules')),
+    yield takeLatest(...generateCreate('POLICYRULE', 'rules')),
+    yield takeLatest(...generateUpdate('POLICYRULE', 'rules')),
+    yield takeLatest(...generateDelete('POLICYRULE', 'rules')),
+    yield takeLatest(...generateDeleteMany('POLICYRULES', 'rules')),
 
     yield takeLatest(...generateFetchAll('APIS', 'apis')),
     yield takeLatest(...generateFetchOne('API', 'apis')),

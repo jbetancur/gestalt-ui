@@ -4,7 +4,6 @@ import environments from './environments';
 import apiEndpoints from './apiEndpoints';
 import providers from './providers';
 import containers from './containers';
-import policyRules from './policyRules';
 import entitlements from './entitlements';
 import users from './users';
 import groups from './groups';
@@ -20,7 +19,6 @@ export default Object.assign({},
   apiEndpoints,
   providers,
   containers,
-  policyRules,
   entitlements,
   users,
   groups,

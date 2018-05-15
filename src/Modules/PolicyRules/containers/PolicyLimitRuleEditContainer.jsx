@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withPolicyRule } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import PolicyLimitRuleForm from './PolicyLimitRuleForm';
@@ -17,18 +17,17 @@ class PolicyLimitRuleEdit extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     policyRule: PropTypes.object.isRequired,
-    fetchPolicyRule: PropTypes.func.isRequired,
-    updatePolicyRule: PropTypes.func.isRequired,
+    policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
     selectedActions: PropTypes.array.isRequired,
     clearSelectedActions: PropTypes.func.isRequired,
     handleSelectedActions: PropTypes.func.isRequired,
-    unloadPolicyRule: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchPolicyRule } = this.props;
-    fetchPolicyRule(match.params.fqon, match.params.policyId, match.params.ruleId);
+    const { match, policyRuleActions } = this.props;
+
+    policyRuleActions.fetchPolicyRule({ fqon: match.params.fqon, id: match.params.ruleId });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,20 +39,20 @@ class PolicyLimitRuleEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { clearSelectedActions, unloadPolicyRule } = this.props;
+    const { clearSelectedActions } = this.props;
 
-    unloadPolicyRule();
     clearSelectedActions();
   }
 
   update = (values) => {
-    const { match, history, selectedActions, policyRule, updatePolicyRule } = this.props;
+    const { match, history, selectedActions, policyRule, policyRuleActions } = this.props;
 
-    const patches = generatePatches(policyRule, values, selectedActions, 'limit');
+    const payload = generatePatches(policyRule, values, selectedActions, 'limit');
 
-    if (patches.length) {
+    if (payload.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
-      updatePolicyRule(match.params.fqon, match.params.policyId, policyRule.id, patches, onSuccess);
+
+      policyRuleActions.updatePolicyRule({ fqon: match.params.fqon, id: policyRule.id, payload, onSuccess });
     }
   }
 
@@ -83,7 +82,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withPolicyRule,
   withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions)),
   reduxForm({

@@ -19,7 +19,6 @@ const PolicyLimitRuleForm = (props) => {
   const {
     match,
     policyRulePending,
-    policyRuleUpdatePending,
     onSubmit,
     pristine,
     submitting,
@@ -60,7 +59,7 @@ const PolicyLimitRuleForm = (props) => {
   return (
     <Row gutter={5} center>
       <Col flex={10} xs={12} sm={12} md={12}>
-        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRuleUpdatePending || policyRulePending}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRulePending}>
           <ActionsToolbar
             title={title}
             showActions={policyRule.id}
@@ -76,7 +75,7 @@ const PolicyLimitRuleForm = (props) => {
             ]}
           />
 
-          {(policyRuleUpdatePending || policyRulePending) && <ActivityContainer id="policyRule-form" />}
+          {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
           <Row gutter={5}>
             {policyRule.id &&
@@ -217,7 +216,6 @@ PolicyLimitRuleForm.propTypes = {
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   policyRulePending: PropTypes.bool.isRequired,
-  policyRuleUpdatePending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

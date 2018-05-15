@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
@@ -10,7 +11,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withPolicyRules } from 'Modules/MetaResource';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
@@ -22,44 +23,39 @@ class PolicyRuleListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     policyRules: PropTypes.array.isRequired,
-    deletePolicyRules: PropTypes.func.isRequired,
-    deletePolicyRule: PropTypes.func.isRequired,
+    policyRulesActions: PropTypes.object.isRequired,
     policyRulesPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchPolicyRules: PropTypes.func.isRequired,
-    unloadPolicyRules: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchPolicyRules } = this.props;
-
-    fetchPolicyRules(match.params.fqon, match.params.policyId);
+    this.init();
   }
 
-  componentWillUnmount() {
-    const { unloadPolicyRules } = this.props;
+  init() {
+    const { match, policyRulesActions } = this.props;
 
-    unloadPolicyRules();
+    policyRulesActions.fetchPolicyRules({ fqon: match.params.fqon, entityId: match.params.policyId, entityKey: 'policies' });
   }
 
   deleteOne = (row) => {
-    const { match, deletePolicyRule, fetchPolicyRules } = this.props;
+    const { match, policyRulesActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchPolicyRules(match.params.fqon, match.params.policyId);
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deletePolicyRule(match.params.fqon, match.params.policyId, row.id, onSuccess);
+      policyRulesActions.deletePolicyRule({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deletePolicyRules, fetchPolicyRules } = this.props;
+    const { match, policyRulesActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => item.id);
@@ -67,11 +63,11 @@ class PolicyRuleListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchPolicyRules(match.params.fqon, match.params.policyId);
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deletePolicyRules(IDs, match.params.fqon, match.params.policyId, onSuccess);
+      policyRulesActions.deletePolicyRules({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete Rules', names);
   }
 
@@ -176,7 +172,8 @@ class PolicyRuleListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withPolicyRules,
+  withRouter,
   connect(null, actions),
 )(PolicyRuleListing);
 
