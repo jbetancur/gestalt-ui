@@ -22,7 +22,6 @@ const PolicyEventRuleForm = (props) => {
   const {
     match,
     policyRulePending,
-    policyRuleUpdatePending,
     onSubmit,
     pristine,
     submitting,
@@ -58,7 +57,7 @@ const PolicyEventRuleForm = (props) => {
   return (
     <Row gutter={5} center>
       <Col flex={10} xs={12} sm={12} md={12}>
-        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRuleUpdatePending || policyRulePending}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={policyRulePending}>
           <ActionsToolbar
             title={title}
             showActions={editMode && policyRule.id}
@@ -74,7 +73,7 @@ const PolicyEventRuleForm = (props) => {
             ]}
           />
 
-          {(policyRuleUpdatePending || policyRulePending) && <ActivityContainer id="policyRule-form" />}
+          {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
           <Row gutter={5}>
             {editMode && policyRule.id &&
@@ -137,7 +136,6 @@ const PolicyEventRuleForm = (props) => {
                   {policyTriggers.map(action => (
                     <Col flex={6} xs={24} sm={12} md={12} key={action.id}>
                       <Field
-                        key={action.name}
                         id={action.name}
                         component={Checkbox}
                         label={action.name}
@@ -185,7 +183,6 @@ PolicyEventRuleForm.propTypes = {
   policyRule: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   policyRulePending: PropTypes.bool.isRequired,
-  policyRuleUpdatePending: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -207,7 +204,6 @@ PolicyEventRuleForm.defaultProps = {
   cancelLabel: 'Cancel',
   editMode: false,
   entitlementActions: {},
-  policyRuleUpdatePending: false,
 };
 
 export default compose(

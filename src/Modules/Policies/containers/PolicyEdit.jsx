@@ -80,7 +80,7 @@ class PolicyEdit extends Component {
               <Tab title="Rules">
                 <Row gutter={5}>
                   <Col flex={12}>
-                    <PolicyRules {...this.props} />
+                    {policy.id && <PolicyRules />}
                   </Col>
                 </Row>
                 <FullPageFooter>

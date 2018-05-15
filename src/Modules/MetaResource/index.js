@@ -25,3 +25,5 @@ export { default as withPolicy } from './hocs/withPolicy';
 export { default as withPolicies } from './hocs/withPolicies';
 export { default as withSecret } from './hocs/withSecret';
 export { default as withSecrets } from './hocs/withSecrets';
+export { default as withPolicyRule } from './hocs/withPolicyRule';
+export { default as withPolicyRules } from './hocs/withPolicyRules';
