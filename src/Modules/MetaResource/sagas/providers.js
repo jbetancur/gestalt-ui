@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
 import axios from 'axios';
-import { merge, orderBy } from 'lodash';
+import { merge } from 'lodash';
 import * as types from '../actionTypes';
 
 
@@ -31,9 +31,8 @@ export function* fetchProviders(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
   try {
     const response = yield call(axios.get, `${url}?expand=true`);
-    const payload = orderBy(response.data, 'name', 'asc');
 
-    yield put({ type: types.FETCH_PROVIDERS_FULFILLED, payload });
+    yield put({ type: types.FETCH_PROVIDERS_FULFILLED, payload: response.data });
   } catch (e) {
     yield put({ type: types.FETCH_PROVIDERS_REJECTED, payload: e.message });
   }
