@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withAPIEndpoint, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -23,20 +23,18 @@ class APIEndpointEdit extends PureComponent {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     apiEndpoint: PropTypes.object.isRequired,
-    fetchAPIEndpoint: PropTypes.func.isRequired,
-    updateAPIEndpoint: PropTypes.func.isRequired,
+    apiEndpointActions: PropTypes.object.isRequired,
     fetchcontainersData: PropTypes.func.isRequired,
     fetchlambdasData: PropTypes.func.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
-    unloadAPIEndpoint: PropTypes.func.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchAPIEndpoint } = this.props;
+    const { match, apiEndpointActions } = this.props;
 
-    fetchAPIEndpoint(match.params.fqon, match.params.apiEndpointId);
+    apiEndpointActions.fetchAPIEndpoint({ fqon: match.params.fqon, id: match.params.apiEndpointId });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,19 +50,14 @@ class APIEndpointEdit extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    const { unloadAPIEndpoint } = this.props;
-
-    unloadAPIEndpoint();
-  }
-
   update = (values) => {
-    const { match, history, apiEndpoint, updateAPIEndpoint } = this.props;
-    const patches = generatePatches(apiEndpoint, values);
+    const { match, history, apiEndpoint, apiEndpointActions } = this.props;
+    const payload = generatePatches(apiEndpoint, values);
 
-    if (patches.length) {
+    if (payload.length) {
       const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`);
-      updateAPIEndpoint(match.params.fqon, apiEndpoint.id, patches, onSuccess);
+
+      apiEndpointActions.updateAPIEndpoint({ fqon: match.params.fqon, id: apiEndpoint.id, payload, onSuccess });
     }
   }
 
@@ -130,7 +123,7 @@ const mapStateToProps = state => ({
 export default compose(
   withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
   withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
-  withMetaResource,
+  withAPIEndpoint(),
   withEntitlements,
   connect(mapStateToProps, actions),
 )(APIEndpointEdit);

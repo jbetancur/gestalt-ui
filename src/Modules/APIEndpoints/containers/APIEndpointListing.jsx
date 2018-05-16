@@ -11,7 +11,7 @@ import StatusBubble from 'components/StatusBubble';
 import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withAPIEndpoints } from 'Modules/MetaResource';
 import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
@@ -25,47 +25,38 @@ class APIEndpointListing extends PureComponent {
     history: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
-    deleteAPIEndpoint: PropTypes.func.isRequired,
-    deleteAPIEndpoints: PropTypes.func.isRequired,
+    apiEndpointsActions: PropTypes.object.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchAPIEndpoints: PropTypes.func.isRequired,
-    unloadAPIEndpoints: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    this.populalateEndpoints();
+    this.init();
   }
 
-  componentWillUnmount() {
-    const { unloadAPIEndpoints } = this.props;
+  init() {
+    const { match, apiEndpointsActions } = this.props;
 
-    unloadAPIEndpoints();
-  }
-
-  populalateEndpoints() {
-    const { match, fetchAPIEndpoints } = this.props;
-
-    fetchAPIEndpoints(match.params.fqon, match.params.apiId, 'apis');
+    apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, entityId: match.params.apiId, entityKey: 'apis' });
   }
 
   deleteOne = (row) => {
-    const { match, deleteAPIEndpoint } = this.props;
+    const { match, apiEndpointsActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      this.populalateEndpoints();
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deleteAPIEndpoint(match.params.fqon, row.id, onSuccess);
+      apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deleteAPIEndpoints } = this.props;
+    const { match, apiEndpointsActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => item.id);
@@ -73,11 +64,11 @@ class APIEndpointListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      this.populalateEndpoints();
+      this.init();
     };
 
     this.props.confirmDelete(() => {
-      deleteAPIEndpoints(IDs, match.params.fqon, onSuccess);
+      apiEndpointsActions.deleteAPIEndpoints({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete apiEndpoints', names);
   }
 
@@ -205,7 +196,7 @@ class APIEndpointListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withAPIEndpoints(),
   connect(null, actions),
 )(APIEndpointListing);
 

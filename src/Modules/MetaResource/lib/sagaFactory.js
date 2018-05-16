@@ -86,10 +86,14 @@ export const update = (name, entity, verb = 'UPDATE') => function* updateOne(pay
 };
 
 // Exported for testability
-export const deleteOne = (name, entity, verb = 'DELETE') => function* deleteSingle(payload) {
+export const deleteOne = (name, entity, parentName, verb = 'DELETE') => function* deleteSingle(payload) {
   try {
     yield call(axios.delete, buildOneURL(entity, payload));
-    yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED` });
+    yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: payload.id });
+
+    if (parentName) {
+      yield put({ type: `${PREFIX}${verb}_${parentName}_FULFILLED`, payload: payload.id });
+    }
 
     if (typeof payload.onSuccess === 'function') {
       payload.onSuccess();
@@ -131,7 +135,7 @@ export const generateCreate = (name, entity, verb = 'CREATE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, create(name, entity, verb)];
 export const generateUpdate = (name, entity, verb = 'UPDATE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, update(name, entity, verb)];
-export const generateDelete = (name, entity, verb = 'DELETE') =>
-  [`${PREFIX}${verb}_${name}_REQUEST`, deleteOne(name, entity, verb)];
+export const generateDelete = (name, entity, parentName, verb = 'DELETE') =>
+  [`${PREFIX}${verb}_${name}_REQUEST`, deleteOne(name, entity, parentName, verb)];
 export const generateDeleteMany = (name, entity, verb = 'DELETE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, deleteMany(name, entity, verb)];

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Form';
-import { withMetaResource, withAPIs, metaModels } from 'Modules/MetaResource';
+import { withAPIEndpoint, withAPIEndpoints, withAPIs, metaModels } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import { generatePayload } from '../payloadTransformer';
 import APIPage from './APIPage';
@@ -38,8 +38,8 @@ class APIEndpointWizard extends PureComponent {
     modal: PropTypes.object.isRequired,
     hideModal: PropTypes.func.isRequired,
     apisActions: PropTypes.object.isRequired,
-    fetchAPIEndpoints: PropTypes.func.isRequired,
-    createAPIEndpoint: PropTypes.func.isRequired,
+    apiEndpointActions: PropTypes.object.isRequired,
+    apiEndpointsActions: PropTypes.object.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
     apis: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
@@ -75,7 +75,7 @@ class APIEndpointWizard extends PureComponent {
 
   finish = (values) => {
     const { apiId, name } = values;
-    const { createAPIEndpoint, fetchAPIEndpoints, implementationType, implementationId, params, hideModal } = this.props;
+    const { apiEndpointActions, apiEndpointsActions, implementationType, implementationId, params, hideModal } = this.props;
 
     const model = {
       name,
@@ -88,11 +88,11 @@ class APIEndpointWizard extends PureComponent {
 
     const payload = generatePayload(model);
     const onSuccess = () => {
-      fetchAPIEndpoints(params.fqon, implementationId, implementationType);
+      apiEndpointsActions.fetchAPIEndpoints({ fqon: params.fqon, params: { implementation_type: implementationType, implementation_id: implementationId } });
       hideModal();
     };
 
-    createAPIEndpoint(params.fqon, apiId, payload, onSuccess);
+    apiEndpointActions.createAPIEndpoint({ fqon: params.fqon, entityId: apiId, entityKey: 'apis', payload, onSuccess });
   }
 
   render() {
@@ -146,7 +146,8 @@ const actions = dispatch => ({
 });
 
 export default compose(
-  withMetaResource,
+  withAPIEndpoint(),
+  withAPIEndpoints({ unload: false }),
   withAPIs,
   connect(mapStateToProps, actions),
 )(APIEndpointWizard);
