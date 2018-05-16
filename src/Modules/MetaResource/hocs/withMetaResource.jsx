@@ -63,8 +63,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       providersPending: metaResource.providers.pending,
       provider: metaResource.provider.provider,
       providerPending: metaResource.provider.pending,
-      providersKongByGateway: metaResource.fetchProviderKongsByGateway.providers,
-      providersKongByGatewayPending: metaResource.fetchProviderKongsByGateway.pending,
 
       // Subscriptions for Groups
       groups: metaResource.groups.groups,

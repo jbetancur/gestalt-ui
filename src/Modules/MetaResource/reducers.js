@@ -40,7 +40,6 @@ export default combineReducers({
   apiEndpoint: reducerFactory(['fetch', 'create', 'update'], 'apiEndpoint', 'apiEndpoint', apiEndpointModel.get()),
   providers: reducerFactory(['fetch', 'delete'], 'providers', 'providers', []),
   provider: reducerFactory(['fetch', 'create', 'update'], 'provider', 'provider', providerModel.get()),
-  fetchProviderKongsByGateway: reducerFactory(['fetch'], 'providers', 'providers_kong_gateway', []),
   containers: reducerFactory(['fetch'], 'containers', 'containers', []),
   container: reducerFactory(['fetch', 'create', 'update'], 'container', 'container', containerModel.get()),
   policies: reducerFactory(['fetch', 'delete'], 'policies', 'policies', []),

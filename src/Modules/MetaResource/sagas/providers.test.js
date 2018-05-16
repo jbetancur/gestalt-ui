@@ -2,7 +2,6 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import providersagas, {
   fetchProviders,
-  fetchProviderKongsByGateway,
   fetchProvider,
   createProvider,
   updateProvider,
@@ -10,7 +9,6 @@ import providersagas, {
   deleteProviders,
   redeployProvider,
 } from './providers';
-import providerModel from '../models/provider';
 import * as types from '../actionTypes';
 
 describe('Provider Sagas', () => {
@@ -392,13 +390,6 @@ describe('Provider Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_PROVIDERS_REQUEST, fetchProviders)
-      );
-    });
-
-    it('should fork a watcher for fetchProviderKongsByGateway', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_PROVIDERS_KONG_GATEWAY_REQUEST, fetchProviderKongsByGateway)
       );
     });
 

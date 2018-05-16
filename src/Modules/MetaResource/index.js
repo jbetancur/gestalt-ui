@@ -29,3 +29,4 @@ export { default as withPolicyRule } from './hocs/withPolicyRule';
 export { default as withPolicyRules } from './hocs/withPolicyRules';
 export { default as withAPIEndpoint } from './hocs/withAPIEndpoint';
 export { default as withAPIEndpoints } from './hocs/withAPIEndpoints';
+export { default as withProviderKongsByGatewayPicker } from './hocs/withProviderKongsByGatewayPicker';
