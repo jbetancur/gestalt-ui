@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withAPI, withMetaResource } from 'Modules/MetaResource';
+import { withAPI, withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -27,15 +27,13 @@ class APIEdit extends Component {
     apiActions: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired,
     apiPending: PropTypes.bool.isRequired,
-    fetchProviderKongsByGateway: PropTypes.func.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, apiActions, fetchProviderKongsByGateway } = this.props;
+    const { match, apiActions } = this.props;
 
-    fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
     apiActions.fetchAPI({ fqon: match.params.fqon, id: match.params.apiId });
   }
 
@@ -142,7 +140,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withAPI,
-  withMetaResource,
+  withProviderKongsByGatewayPicker(),
   withEntitlements,
   connect(mapStateToProps, actions),
 )(APIEdit);

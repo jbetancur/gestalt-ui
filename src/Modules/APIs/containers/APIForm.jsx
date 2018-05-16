@@ -16,7 +16,7 @@ const APIForm = ({
   submitting,
   handleSubmit,
   editMode,
-  providersKongByGateway,
+  providerKongsByGatewayData,
 }) => (
   <Form onSubmit={handleSubmit} autoComplete="off" disabled={apiPending}>
     <Row gutter={5}>
@@ -32,7 +32,7 @@ const APIForm = ({
                 label="Provider"
                 itemLabel="name"
                 itemValue="id"
-                menuItems={providersKongByGateway}
+                menuItems={providerKongsByGatewayData}
                 async
                 disabled={editMode}
               />
@@ -87,7 +87,7 @@ const APIForm = ({
 
 APIForm.propTypes = {
   // values: PropTypes.object.isRequired,
-  providersKongByGateway: PropTypes.array.isRequired,
+  providerKongsByGatewayData: PropTypes.array.isRequired,
   match: PropTypes.object.isRequired,
   apiPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,

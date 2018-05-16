@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withAPI, withMetaResource } from 'Modules/MetaResource';
+import { withAPI, withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -26,21 +26,14 @@ class APICreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     apiActions: PropTypes.object.isRequired,
-    providersKongByGateway: PropTypes.array.isRequired,
-    fetchProviderKongsByGateway: PropTypes.func.isRequired,
+    providerKongsByGatewayData: PropTypes.array.isRequired,
     apiPending: PropTypes.bool.isRequired,
     throwError: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    const { fetchProviderKongsByGateway, match } = this.props;
-
-    fetchProviderKongsByGateway(match.params.fqon, match.params.environmentId, 'environments');
-  }
-
   create = (values) => {
-    const { match, history, apiActions, providersKongByGateway, throwError } = this.props;
-    const payload = generateAPIPayload(values, providersKongByGateway);
+    const { match, history, apiActions, providerKongsByGatewayData, throwError } = this.props;
+    const payload = generateAPIPayload(values, providerKongsByGatewayData);
     const entity = generateContextEntityState(match.params);
     // providerid must be the linked_gateway manager
     if (!payload.properties.provider.id) {
@@ -79,6 +72,6 @@ class APICreate extends Component {
 
 export default compose(
   withAPI,
-  withMetaResource,
+  withProviderKongsByGatewayPicker(),
   connect(null, actions),
 )(APICreate);
