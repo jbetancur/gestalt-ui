@@ -5,11 +5,10 @@ import { PREFIX } from '../actionTypes';
  * Creates Async API Reducers so we don't have to...
  * @param {Array} verbs - an array of actions (will generate a request, fulfilled and rejected reducer set). this is also the prefix (FETCH_...)
  * @param {string} key - the key, usually the name of your model
- * @param {string} category - the category to be included in the dispatch type (FETCH_SOMETIME_...)
- * @param {*} model - an Object or an []
- * @param {*} customRequestState - optional placeholder to populate whn in a REQUEST state
+ * @param {string} category - the category to be included in the dispatch type (FETCH_SOMETHING_...)
+ * @param {*} model - an {} or an []
  */
-export default function createAsyncReducer(verbs, key, category, model, customRequestState) {
+export default function createAsyncReducer(verbs = [], key, category, model) {
   const categoryUpper = category.toUpperCase();
   const initialState = {
     pending: false,
@@ -30,10 +29,6 @@ export default function createAsyncReducer(verbs, key, category, model, customRe
             // eslint-disable-next-line no-unneeded-ternary
             pending: action.isPolling ? false : true, // TODO: polling will be removed when we have SSE,
           };
-
-          if (customRequestState) {
-            Object.assign(payload, { [key]: customRequestState });
-          }
 
           return payload;
         },

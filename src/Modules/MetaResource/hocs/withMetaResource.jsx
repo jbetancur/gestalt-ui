@@ -66,12 +66,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       providersKongByGateway: metaResource.fetchProviderKongsByGateway.providers,
       providersKongByGatewayPending: metaResource.fetchProviderKongsByGateway.pending,
 
-      // Subscriptions for apiEndpoints
-      apiEndpoint: metaResource.apiEndpoint.apiEndpoint,
-      apiEndpointPending: metaResource.apiEndpoint.pending,
-      apiEndpoints: metaResource.apiEndpoints.apiEndpoints,
-      apiEndpointsPending: metaResource.apiEndpoints.pending,
-
       // Subscriptions for Groups
       groups: metaResource.groups.groups,
       groupsPending: metaResource.groups.pending,

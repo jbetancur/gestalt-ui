@@ -12,7 +12,6 @@ import orgSagas from './organizations';
 import workspaceSagas from './workspaces';
 import environmentSagas from './environments';
 import lambdaSagas from './lambdas';
-import apiEndpointSagas from './apiEndpoints';
 import providerSagas from './providers';
 import containerSagas from './containers';
 import selfSagas from './self';
@@ -30,7 +29,6 @@ export default function* metaSagas() {
     workspaceSagas(),
     environmentSagas(),
     lambdaSagas(),
-    apiEndpointSagas(),
     providerSagas(),
     containerSagas(),
     selfSagas(),
@@ -62,6 +60,13 @@ export default function* metaSagas() {
     yield takeLatest(...generateUpdate('API', 'apis')),
     yield takeLatest(...generateDelete('API', 'apis')),
     yield takeLatest(...generateDeleteMany('APIS', 'apis')),
+
+    yield takeLatest(...generateFetchAll('APIENDPOINTS', 'apiendpoints')),
+    yield takeLatest(...generateFetchOne('APIENDPOINT', 'apiendpoints')),
+    yield takeLatest(...generateCreate('APIENDPOINT', 'apiendpoints')),
+    yield takeLatest(...generateUpdate('APIENDPOINT', 'apiendpoints')),
+    yield takeLatest(...generateDelete('APIENDPOINT', 'apiendpoints', 'APIENDPOINTS')),
+    yield takeLatest(...generateDeleteMany('APIENDPOINTS', 'apiendpoints')),
 
     yield takeLatest(...generateFetchAll('SECRETS', 'secrets')),
     yield takeLatest(...generateFetchOne('SECRET', 'secrets')),

@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Button, FontIcon, Checkbox } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withAPIEndpoints } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Timestamp, GenericMenuActions } from 'components/TableCells';
-import { LinearProgress } from 'components/ProgressIndicators';
 import StatusBubble from 'components/StatusBubble';
 import Div from 'components/Div';
 import { A } from 'components/Links';
@@ -20,9 +19,8 @@ class APIEndpointInlineList extends PureComponent {
     match: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     onAddEndpoint: PropTypes.func.isRequired,
-    deleteAPIEndpoint: PropTypes.func.isRequired,
+    apiEndpointsActions: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
-    apiEndpointsPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -30,9 +28,9 @@ class APIEndpointInlineList extends PureComponent {
   };
 
   deleteOne = (endpoint) => {
-    const { match, deleteAPIEndpoint } = this.props;
+    const { match, apiEndpointsActions } = this.props;
 
-    deleteAPIEndpoint(match.params.fqon, endpoint.id);
+    apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, id: endpoint.id, params: { force: true } });
   }
 
   defineColumns() {
@@ -109,7 +107,7 @@ class APIEndpointInlineList extends PureComponent {
   }
 
   render() {
-    const { onAddEndpoint, disabled, apiEndpoints, apiEndpointsPending } = this.props;
+    const { onAddEndpoint, disabled, apiEndpoints } = this.props;
 
     return (
       <div>
@@ -135,9 +133,6 @@ class APIEndpointInlineList extends PureComponent {
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no endpoints to display</Title>}
-              progressPending={apiEndpointsPending}
-              progressComponent={<LinearProgress id="apiendpoints-listing" />}
-              progressCentered
             />
           </Col>
         </Row>
@@ -147,6 +142,6 @@ class APIEndpointInlineList extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withAPIEndpoints({ unload: false }),
   withRouter,
 )(APIEndpointInlineList);

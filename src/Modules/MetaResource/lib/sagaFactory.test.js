@@ -35,7 +35,7 @@ describe('Saga Factory', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const successPayload = {...payload, onSuccess: jest.fn() };
+      const successPayload = { ...payload, onSuccess: jest.fn() };
       const sagaSuccess = fetchAll('TESTS', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
@@ -80,7 +80,7 @@ describe('Saga Factory', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const successPayload = {...payload, onSuccess: jest.fn() };
+      const successPayload = { ...payload, onSuccess: jest.fn() };
       const sagaSuccess = fetchOne('TEST', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
@@ -125,7 +125,7 @@ describe('Saga Factory', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const successPayload = {...payload, onSuccess: jest.fn() };
+      const successPayload = { ...payload, onSuccess: jest.fn() };
       const sagaSuccess = create('TEST', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
@@ -170,7 +170,7 @@ describe('Saga Factory', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const successPayload = {...payload, onSuccess: jest.fn() };
+      const successPayload = { ...payload, onSuccess: jest.fn() };
       const sagaSuccess = update('TEST', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
@@ -209,12 +209,12 @@ describe('Saga Factory', () => {
       result = saga.next();
 
       expect(result.value).toEqual(
-        put({ type: `${PREFIX}DELETE_TEST_FULFILLED` })
+        put({ type: `${PREFIX}DELETE_TEST_FULFILLED`, payload: '1' })
       );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const successPayload = {...payload, onSuccess: jest.fn() };
+      const successPayload = { ...payload, onSuccess: jest.fn() };
       const sagaSuccess = deleteOne('TEST', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next();

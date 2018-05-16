@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource, withLambda, withPickerData } from 'Modules/MetaResource';
+import { withAPIEndpoints, withLambda, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -32,9 +32,8 @@ class LambdaEdit extends PureComponent {
     match: PropTypes.object.isRequired,
     lambda: PropTypes.object.isRequired,
     lambdaActions: PropTypes.object.isRequired,
-    fetchAPIEndpoints: PropTypes.func.isRequired,
+    apiEndpointsActions: PropTypes.object.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    unloadAPIEndpoints: PropTypes.func.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     providersData: PropTypes.array.isRequired,
@@ -59,10 +58,10 @@ class LambdaEdit extends PureComponent {
   state = { runtime: null };
 
   componentDidMount() {
-    const { match, lambdaActions, fetchAPIEndpoints } = this.props;
+    const { match, lambdaActions, apiEndpointsActions } = this.props;
 
     lambdaActions.fetchLambda({ fqon: match.params.fqon, lambdaId: match.params.lambdaId });
-    fetchAPIEndpoints(match.params.fqon, match.params.lambdaId, 'lambda');
+    apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'lambda', implementation_id: match.params.lambdaId } });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -72,10 +71,9 @@ class LambdaEdit extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { unloadAPIEndpoints, lambdaStateActions } = this.props;
+    const { lambdaStateActions } = this.props;
 
     lambdaStateActions.setRunTime({});
-    unloadAPIEndpoints();
   }
 
   update = (values) => {
@@ -222,7 +220,7 @@ export default compose(
   withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
   withLambdaState,
   withLambda,
-  withMetaResource,
+  withAPIEndpoints(),
   withEntitlements,
   connect(mapStateToProps),
 )(LambdaEdit);

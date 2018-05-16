@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withMetaResource, withAPIEndpoints, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -40,8 +40,7 @@ class ContainerEdit extends Component {
     match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     fetchContainer: PropTypes.func.isRequired,
-    fetchAPIEndpoints: PropTypes.func.isRequired,
-    unloadAPIEndpoints: PropTypes.func.isRequired,
+    apiEndpointsActions: PropTypes.object.isRequired,
     updateContainer: PropTypes.func.isRequired,
     containerPending: PropTypes.bool.isRequired,
     unloadContainer: PropTypes.func.isRequired,
@@ -58,11 +57,11 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchAPIEndpoints } = this.props;
+    const { match, apiEndpointsActions } = this.props;
 
     if (!this.props.inlineMode) {
       this.populateContainer();
-      fetchAPIEndpoints(match.params.fqon, match.params.containerId, 'container');
+      apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
     }
   }
 
@@ -82,10 +81,9 @@ class ContainerEdit extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadContainer, unloadAPIEndpoints } = this.props;
+    const { unloadContainer } = this.props;
 
     unloadContainer();
-    unloadAPIEndpoints();
     clearTimeout(this.timeout);
   }
 
@@ -244,6 +242,7 @@ const mapStateToProps = (state, ownProps) => ({
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
+  withAPIEndpoints(),
   withEntitlements,
   withRouter,
   connect(mapStateToProps, actions),

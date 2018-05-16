@@ -81,19 +81,4 @@ describe('reducerFactory', () => {
       ).toEqual(initialState);
     });
   });
-
-  describe('with customRequestState options', () => {
-    it('should handle LOCATION_CHANGE', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', [], [{ name: 'test' }]);
-
-      expect(
-        reducer({}, {
-          type: 'metaResource/FETCH_YOUWANT_REQUEST',
-        })
-      ).toEqual({
-        pending: true,
-        whatever: [{ name: 'test' }],
-      });
-    });
-  });
 });

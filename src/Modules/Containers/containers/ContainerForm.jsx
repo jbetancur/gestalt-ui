@@ -81,7 +81,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
           <Col flex={12}>
             <Panel
               title="Public Endpoints"
-              pending={props.apiEndpointsPending}
+              pending={props.apiEndpointsPending && !props.apiEndpoints.length}
               noPadding
               count={props.apiEndpoints.length}
             >
