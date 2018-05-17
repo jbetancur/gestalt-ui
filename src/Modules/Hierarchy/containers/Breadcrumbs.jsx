@@ -92,7 +92,7 @@ class Breadcrumbs extends Component {
     environment: PropTypes.object.isRequired,
     size: PropTypes.number,
     lastIsActive: PropTypes.bool,
-    pending: PropTypes.bool.isRequired,
+    pending: PropTypes.bool,
   };
 
   static defaultProps = {

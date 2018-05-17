@@ -13,7 +13,7 @@ const EnhancedDialog = styled(DialogContainer)`
   }
 `;
 
-const ConfirmButton = styled(Button) `
+const ConfirmButton = styled(Button)`
   &:not([disabled]) {
     color: ${props => props.theme.colors['$md-red-500']};
   }

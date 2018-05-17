@@ -47,7 +47,6 @@ StreamForm.propTypes = {
 
 StreamForm.defaultProps = {
   editMode: false,
-  streamSpec: {},
 };
 
 export default withRouter(StreamForm);

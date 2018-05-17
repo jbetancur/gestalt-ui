@@ -48,17 +48,17 @@ export default (values) => {
     merge(errors, nestedObjectFromString('properties.processor.outputStreamConfig.name', 'required'));
   }
 
-  const partition = values.properties.processor.inputStreamConfig.partition.partition;
+  const { partition } = values.properties.processor.inputStreamConfig.partition;
   if (!partition && !Number.isInteger(partition)) {
     merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partition.partition', 'required'));
   }
 
-  const startOffset = values.properties.processor.inputStreamConfig.partition.startOffset;
+  const { startOffset } = values.properties.processor.inputStreamConfig.partition;
   if (!startOffset && !Number.isInteger(startOffset)) {
     merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partition.startOffset', 'required'));
   }
 
-  const endOffset = values.properties.processor.inputStreamConfig.partition.endOffset;
+  const { endOffset } = values.properties.processor.inputStreamConfig.partition;
   if (!endOffset && !Number.isInteger(endOffset)) {
     merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partition.endOffset', 'required'));
   }

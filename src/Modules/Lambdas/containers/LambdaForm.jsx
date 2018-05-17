@@ -80,9 +80,6 @@ LambdaForm.propTypes = {
 };
 
 LambdaForm.defaultProps = {
-  title: '',
-  submitLabel: '',
-  cancelLabel: 'Cancel',
   editMode: false,
 };
 

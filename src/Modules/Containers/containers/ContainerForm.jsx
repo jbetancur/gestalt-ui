@@ -183,7 +183,6 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                     component={TextField}
                     name="description"
                     label="Description"
-                    placeholder="Description"
                     type="text"
                     rows={1}
                   />

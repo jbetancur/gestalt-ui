@@ -63,6 +63,11 @@ class ProviderEdit extends PureComponent {
     }
   }
 
+  componentDidCatch(error, info) {
+    // TODO: Eat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
+    this.setState({ hasError: true, error, info });
+  }
+
   componentWillUnmount() {
     const { unloadProvider } = this.props;
 
@@ -118,11 +123,6 @@ class ProviderEdit extends PureComponent {
       history.push(`/${match.params.fqon}/providers`);
     }
   };
-
-  componentDidCatch(error, info) {
-    // TODO: Eat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
-    this.setState({ hasError: true, error, info });
-  }
 
   showContainer(selectedProviderType) {
     return selectedProviderType.allowContainer &&

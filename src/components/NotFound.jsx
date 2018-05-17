@@ -30,7 +30,7 @@ const SVGWrapper = styled.div`
   text-align: center;
 `;
 
-const ButtonStyle = styled(Button) `
+const ButtonStyle = styled(Button)`
   margin-right: 1px;
   margin-left: 1px;
 `;

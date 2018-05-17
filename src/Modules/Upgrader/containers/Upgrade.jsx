@@ -25,10 +25,6 @@ class Upgrade extends Component {
     loading: PropTypes.bool.isRequired,
   };
 
-  static defaultProps = {
-    error: {},
-  };
-
   state = {
     debug: false,
     rollback: false,

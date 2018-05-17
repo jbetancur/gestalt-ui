@@ -133,13 +133,12 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
 
 ActionsMappingForm.propTypes = {
   fields: PropTypes.object.isRequired,
-  lambdas: PropTypes.array.isRequired,
+  lambdas: PropTypes.array,
   values: PropTypes.object.isRequired,
 };
 
 ActionsMappingForm.defaultProps = {
   lambdas: [],
-  supportedResources: [],
 };
 
 const selector = form => formValueSelector(form);

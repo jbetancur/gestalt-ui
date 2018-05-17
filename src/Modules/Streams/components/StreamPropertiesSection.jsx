@@ -179,7 +179,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => (
 StreamPropertiesSection.propTypes = {
   lambdas: PropTypes.array.isRequired,
   datafeeds: PropTypes.array.isRequired,
-  editMode: PropTypes.bool.isRequired,
+  editMode: PropTypes.bool,
 };
 
 StreamPropertiesSection.defaultProps = {

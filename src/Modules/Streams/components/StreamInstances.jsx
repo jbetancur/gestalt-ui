@@ -38,7 +38,7 @@ const generateSampleData = () => ({
   ]
 });
 
-const TitleContent = styled(Col) `
+const TitleContent = styled(Col)`
   padding: 24px;
   text-align: center;
 `;
