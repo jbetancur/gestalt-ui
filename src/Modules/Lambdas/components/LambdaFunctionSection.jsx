@@ -13,7 +13,7 @@ class LambdaFunctionSection extends PureComponent {
     form: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
     executors: PropTypes.array.isRequired,
-    editMode: PropTypes.bool.isRequired,
+    editMode: PropTypes.bool,
     lambdaStateActions: PropTypes.object.isRequired,
     selectedRuntime: PropTypes.object.isRequired,
   };

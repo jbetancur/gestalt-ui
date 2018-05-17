@@ -6,7 +6,7 @@ import { Button, CardTitle, CardText, CardActions } from 'react-md';
 import { Card } from 'components/Cards';
 import { P } from 'components/Typography';
 
-const HomeCardBase = styled(Card) `
+const HomeCardBase = styled(Card)`
   background-image: radial-gradient(circle,  ${props => props.theme.colors['$md-grey-100']} 0, white 100%);
   border-radius: 2px;
 `;
@@ -63,7 +63,7 @@ HomeCard.propTypes = {
   ]),
   iconColor: PropTypes.string,
   iconGradient: PropTypes.string,
-  documentationURL: PropTypes.string.isRequired,
+  documentationURL: PropTypes.string,
   createURL: PropTypes.string,
   manageURL: PropTypes.string,
 };

@@ -30,7 +30,7 @@ const ResourceTypePage = ({ handleSubmit, previousPage, resourceTypes }) => (
 ResourceTypePage.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   previousPage: PropTypes.func.isRequired,
-  resourceTypes: PropTypes.array.isRequired,
+  resourceTypes: PropTypes.array,
 };
 
 ResourceTypePage.defaultProps = {

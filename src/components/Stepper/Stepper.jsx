@@ -65,7 +65,7 @@ const Steps = styled.div`
 
 export default class Stepper extends Component {
   static propTypes = {
-    steps: PropTypes.array.isRequired,
+    steps: PropTypes.array,
     className: PropTypes.string,
     activeStep: PropTypes.number,
   };

@@ -43,6 +43,7 @@ const HierarchyForm = (props) => {
       visible
       width="64em"
       actions={modalActions}
+      onHide={() => { }}
     >
       <Form id="contextform" onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.pending}>
         {isPending && <ActivityContainer primary centered id="context-form--loading" />}
@@ -119,7 +120,7 @@ HierarchyForm.defaultProps = {
   cancelLabel: 'Cancel',
   isEnvironment: false,
   pending: false,
-  editMode: false,
+  // editMode: false,
 };
 
 export default translate()(HierarchyForm);

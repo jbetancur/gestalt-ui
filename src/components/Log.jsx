@@ -76,8 +76,8 @@ const Log = ({ children, fullPage, logItems }) => (
     <Div>
       {children}
       <Pre>
-        {logItems.map((log, i) =>
-          (<LogLine key={i}>
+        {logItems.map((log, i) => (
+          <LogLine key={i}>
             <LogNumber />
             <span>{log}</span>
           </LogLine>))}

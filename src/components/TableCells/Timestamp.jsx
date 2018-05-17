@@ -5,7 +5,7 @@ import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import { Caption } from 'components/Typography';
 import { media } from 'util/helpers/media';
 
-const DateCaption = styled(Caption) `
+const DateCaption = styled(Caption)`
   ${() => media.xs`
     display: none;
   `};

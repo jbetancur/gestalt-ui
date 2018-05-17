@@ -49,7 +49,6 @@ class WorkspaceActions extends PureComponent {
           iconChildren="add"
           flat
           sameWidth={false}
-          label="Create"
           menuItems={menuItems}
         >
           Create

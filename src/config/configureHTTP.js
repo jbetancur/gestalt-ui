@@ -52,6 +52,7 @@ export default function configureInterceptors(store, history) {
 
     // "Robust" Fallback Routing -_-
     if (response.message && typeof response.message === 'string') {
+      // eslint-disable-next-line prefer-destructuring
       const fqon = store.getState().metaResource.self.self.properties.gestalt_home.properties.fqon;
 
       if ((response.code === 404 || response.code === 400) &&

@@ -7,7 +7,7 @@ import { DotActivity } from 'components/ProgressIndicators';
 import { H3 } from 'components/Typography';
 import { getRoutePattern } from 'util/helpers/transformations';
 
-const EnhancedMenuButton = styled(MenuButton) `
+const EnhancedMenuButton = styled(MenuButton)`
   width: 17em;
   z-index: 99;
   margin-top: 0 !important;

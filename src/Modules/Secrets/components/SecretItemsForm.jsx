@@ -58,8 +58,8 @@ const SecretItemsForm = ({ fields, multiPart, disabled }) => (
 
 SecretItemsForm.propTypes = {
   fields: PropTypes.object.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  multiPart: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
+  multiPart: PropTypes.bool,
 };
 
 SecretItemsForm.defaultProps = {

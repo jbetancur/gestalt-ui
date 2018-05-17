@@ -35,6 +35,11 @@ class ProviderCreate extends Component {
     containerValues: {},
   };
 
+  componentDidCatch(error, info) {
+    // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
+    this.setState({ hasError: true, error, info });
+  }
+
   componentWillUnmount() {
     this.props.unloadEnvSchema();
   }
@@ -73,11 +78,6 @@ class ProviderCreate extends Component {
       history.push(`/${match.params.fqon}/providers`);
     }
   };
-
-  componentDidCatch(error, info) {
-    // TODO: Eeat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
-    this.setState({ hasError: true, error, info });
-  }
 
   render() {
     const { providerPending, resourcetypesData, providerValues } = this.props;

@@ -28,7 +28,7 @@ class ContainerListing extends PureComponent {
     history: PropTypes.object.isRequired,
     fetchContainers: PropTypes.func.isRequired,
     unloadContainers: PropTypes.func.isRequired,
-    providerContext: PropTypes.bool.isRequired,
+    providerContext: PropTypes.bool,
   };
 
   static defaultProps = {

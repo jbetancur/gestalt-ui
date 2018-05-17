@@ -74,7 +74,7 @@ class ErrorNotifications extends PureComponent {
   }
 
   checkDupeToasts(errorPayload) {
-    const toasts = this.state.toasts;
+    const { toasts } = this.state;
 
     return isEqual(toasts[toasts.length - 1], errorPayload);
   }

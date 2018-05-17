@@ -23,10 +23,6 @@ class Plan extends Component {
     loading: PropTypes.bool.isRequired,
   };
 
-  static defaultProps = {
-    error: {},
-  };
-
   async componentDidMount() {
     await this.props.pollInitUpgraderStatus();
     await this.props.getPlan();

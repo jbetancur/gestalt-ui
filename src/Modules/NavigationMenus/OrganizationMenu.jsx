@@ -60,7 +60,7 @@ class OrgMenu extends PureComponent {
         pending={allOrganizationsPending}
         onFetchItems={this.fetchOrgList}
         onFilterChange={this.handleFilter}
-        routePattern={'/:properties.fqon/hierarchy'}
+        routePattern="/:properties.fqon/hierarchy"
       />
     );
   }

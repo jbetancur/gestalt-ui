@@ -173,7 +173,7 @@ const ResourceTypeForm = ({ match,
 ResourceTypeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   resourcetypesData: PropTypes.array.isRequired,
-  pending: PropTypes.bool.isRequired,
+  pending: PropTypes.bool,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   resourceType: PropTypes.object.isRequired,
