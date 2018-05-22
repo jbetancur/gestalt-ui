@@ -61,9 +61,9 @@ export default (values) => {
     errors.properties.memory = 'memory is required';
   }
 
-  if (values.properties.accepted_resource_roles && !isCommaDelimited(values.properties.accepted_resource_roles)) {
-    errors.properties.accepted_resource_roles = 'Must be a comma delimited list';
-  }
+  // if (values.properties.accepted_resource_roles && !isCommaDelimited(values.properties.accepted_resource_roles)) {
+  //   errors.properties.accepted_resource_roles = 'Must be a comma delimited list';
+  // }
 
   if (values.properties.constraints && !isCommaDelimitedConstraints(values.properties.constraints)) {
     errors.properties.constraints = 'Must be a comma delimited list';
