@@ -110,7 +110,7 @@ class LambdaListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        grow: 3,
+        grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
@@ -118,6 +118,7 @@ class LambdaListing extends PureComponent {
         selector: 'lambda.properties.apiendpoints',
         compact: true,
         ignoreRowClick: true,
+        grow: 2,
         cell: row => <Endpoints endpoints={row.properties.apiendpoints} />
       },
       {

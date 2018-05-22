@@ -97,13 +97,14 @@ class ContainerListing extends PureComponent {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        grow: 3,
+        grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
         name: 'Endpoints',
         selector: 'properties.apiendpoints',
         ignoreRowClick: true,
+        grow: 2,
         cell: row => <Endpoints endpoints={row.properties.apiendpoints} />
       },
       {

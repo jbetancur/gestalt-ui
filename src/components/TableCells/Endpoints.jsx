@@ -24,12 +24,16 @@ const ALink = styled(A)`
   display: inline-block;
   max-width: 250px;
   font-size: 11px;
-  line-height: 20px;
+  line-height: 14px;
   height: 18px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding: 2px 0 2px 2px;
+  padding: 2px;
+
+  div {
+    max-width: 240px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 
 const Endpoints = ({ endpoints }) => (
@@ -41,7 +45,7 @@ const Endpoints = ({ endpoints }) => (
         <CopyLink icon>content_copy</CopyLink>
       </CopyToClipboard>
       <ALink href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>
-        <span>{removeHostFromURL(endpoint.properties.public_url)}</span>
+        <div>{removeHostFromURL(endpoint.properties.public_url)}</div>
       </ALink>
     </div>
   ))
