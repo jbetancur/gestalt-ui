@@ -14,7 +14,10 @@ import 'brace/mode/scala';
 import 'brace/mode/text';
 import 'brace/theme/chrome';
 import 'brace/theme/monokai';
+import 'brace/theme/dracula';
 import 'brace/ext/language_tools';
+import 'brace/keybinding/emacs';
+import 'brace/keybinding/vim';
 import { Error } from 'components/Typography';
 
 const aceOnBlur = onBlur => (_event, editor) => {
