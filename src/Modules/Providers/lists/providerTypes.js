@@ -125,7 +125,7 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::Lambda',
     allowContainer: true,
-    externalProtocol: false,
+    externalProtocol: true,
     allowLinkedProviders: true,
     allowedRestrictEnvironments: true,
   },

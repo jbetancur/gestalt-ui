@@ -13,7 +13,7 @@ import LambdaPeriodicSection from '../components/LambdaPeriodicSection';
 import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
 
-const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, executors, editMode, pristine, submitting }) => (
+const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, executors, editMode, pristine, submitting, onSaveInlineCode }) => (
   <Form
     onSubmit={handleSubmit}
     autoComplete="off"
@@ -29,7 +29,7 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
     />
 
     {values.properties.code_type === 'code' &&
-      <LambdaSourceSection />}
+      <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />}
 
     <Row gutter={5}>
       <Col flex={12}>
@@ -77,10 +77,12 @@ LambdaForm.propTypes = {
   editMode: PropTypes.bool,
   providers: PropTypes.array.isRequired,
   executors: PropTypes.array.isRequired,
+  onSaveInlineCode: PropTypes.func,
 };
 
 LambdaForm.defaultProps = {
   editMode: false,
+  onSaveInlineCode: null,
 };
 
 export default withRouter(LambdaForm);

@@ -89,6 +89,13 @@ class LambdaEdit extends PureComponent {
     entitlementActions.showEntitlementsModal(lambda.name, match.params.fqon, lambda.id, 'lambdas', 'Lambda');
   }
 
+  handleSaveInlineCode = (values) => {
+    const { lambda, match, lambdaActions } = this.props;
+    const payload = generatePatches(lambda, values);
+
+    lambdaActions.updateLambda({ fqon: match.params.fqon, lambdaId: lambda.id, payload, isPolling: true });
+  }
+
   render() {
     const { match,
       lambda,
@@ -175,6 +182,7 @@ class LambdaEdit extends PureComponent {
                   lambda={lambda}
                   apiEndpoints={apiEndpoints}
                   apiEndpointsPending={apiEndpointsPending}
+                  onSaveInlineCode={this.handleSaveInlineCode}
                 />
               </Tab>
               <Tab title="Log">
