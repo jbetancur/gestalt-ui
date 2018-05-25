@@ -13,6 +13,7 @@ import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
 import StatusBubble from 'components/StatusBubble';
 import { ContainerIcon as CIcon } from 'components/Icons';
+import { withPoller } from 'components/UtilityHOC';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
@@ -35,34 +36,8 @@ class ContainerListing extends PureComponent {
     providerContext: false,
   };
 
-  componentDidMount() {
-    this.init();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.containers !== nextProps.containers) {
-      clearTimeout(this.timeout);
-
-      if (!nextProps.containersPending) {
-        this.startPoll();
-      }
-    }
-  }
-
   componentWillUnmount() {
     this.props.unloadContainers();
-    clearTimeout(this.timeout);
-  }
-
-  startPoll() {
-    this.timeout = setInterval(() => this.init(true), 5000);
-  }
-
-  init(isPolling) {
-    const { match, fetchContainers } = this.props;
-    const entity = generateContextEntityState(match.params);
-
-    fetchContainers(match.params.fqon, entity.id, entity.key, isPolling);
   }
 
   handleRowClicked = (row) => {
@@ -195,8 +170,16 @@ class ContainerListing extends PureComponent {
   }
 }
 
+const onPollInterval = (props) => {
+  const { match, fetchContainers, isPolling } = props;
+  const entity = generateContextEntityState(match.params);
+
+  return fetchContainers(match.params.fqon, entity.id, entity.key, isPolling);
+};
+
 export default compose(
   withMetaResource,
   withRouter,
   connect(null, actions),
+  withPoller(5000, onPollInterval),
 )(ContainerListing);

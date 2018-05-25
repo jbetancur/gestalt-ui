@@ -24,12 +24,14 @@ const ActionsWrapper = styled.div`
     }
   `};
 
-  .button--start * {
-    color: ${props => props.theme.colors['$md-green-500']};
+  .container-action-button {
+    .md-text--disabled {
+      color: ${props => props.theme.colors['$md-grey-500']}!important;
+    }
   }
 
-  .button--start[disabled] * {
-    color: ${props => props.theme.colors['$md-grey-500']};
+  .button--start * {
+    color: ${props => props.theme.colors['$md-green-500']};
   }
 
   .button--suspend * {
@@ -87,6 +89,12 @@ class ContainerActions extends PureComponent {
     actionsPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     editURL: PropTypes.string,
+    onStart: PropTypes.func,
+    onDestroy: PropTypes.func,
+    onSuspend: PropTypes.func,
+    onScale: PropTypes.func,
+    onMigrate: PropTypes.func,
+    onPromote: PropTypes.func,
   }
 
   static defaultProps = {
@@ -94,6 +102,12 @@ class ContainerActions extends PureComponent {
     disableDestroy: false,
     disablePromote: false,
     editURL: null,
+    onStart: () => {},
+    onDestroy: () => {},
+    onSuspend: () => {},
+    onScale: () => {},
+    onMigrate: () => {},
+    onPromote: () => {},
   }
 
   handleEntitlements = () => {
@@ -117,8 +131,7 @@ class ContainerActions extends PureComponent {
   }
 
   destroy = () => {
-    const { match, history, confirmContainerDelete, deleteContainer, containerModel, inContainerView } = this.props;
-
+    const { match, history, confirmContainerDelete, deleteContainer, containerModel, inContainerView, onDestroy } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
@@ -127,13 +140,20 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    confirmContainerDelete(() => {
+    const modalAction = () => {
       deleteContainer(match.params.fqon, containerModel.id, onSuccess);
-    }, containerModel.name);
+      onDestroy();
+    };
+
+    confirmContainerDelete(modalAction, containerModel.name);
   }
 
   start = () => {
-    const { match, scaleContainer, containerModel, inContainerView } = this.props;
+    const { match, scaleContainer, containerModel, inContainerView, onStart } = this.props;
+
+    if (onStart) {
+      onStart();
+    }
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -147,7 +167,11 @@ class ContainerActions extends PureComponent {
   }
 
   suspend = () => {
-    const { match, scaleContainer, containerModel, inContainerView } = this.props;
+    const { match, scaleContainer, containerModel, inContainerView, onSuspend } = this.props;
+
+    if (onSuspend) {
+      onSuspend();
+    }
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -161,7 +185,8 @@ class ContainerActions extends PureComponent {
   }
 
   scale = () => {
-    const { match, scaleContainer, scaleContainerModal, containerModel, inContainerView } = this.props;
+    const { match, scaleContainer, scaleContainerModal, containerModel, inContainerView, onScale } = this.props;
+
     const onSuccess = () => {
       if (inContainerView) {
         this.populateContainer();
@@ -170,15 +195,19 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    scaleContainerModal((numInstances) => {
+    const modalAction = (numInstances) => {
       if (numInstances !== containerModel.properties.num_instances) {
         scaleContainer(match.params.fqon, containerModel.id, numInstances, onSuccess);
+        onScale();
       }
-    }, containerModel.name, containerModel.properties.num_instances);
+    };
+
+    scaleContainerModal(modalAction, containerModel.name, containerModel.properties.num_instances);
   }
 
   migrate = () => {
-    const { match, migrateContainer, migrateContainerModal, containerModel, inContainerView } = this.props;
+    const { match, migrateContainer, migrateContainerModal, containerModel, inContainerView, onMigrate } = this.props;
+
     const onSuccess = () => {
       if (inContainerView) {
         this.props.history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
@@ -187,13 +216,17 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    migrateContainerModal((providerId) => {
+    const modalAction = (providerId) => {
       migrateContainer(match.params.fqon, containerModel.id, providerId, onSuccess);
-    }, containerModel.name, containerModel.properties.provider, inContainerView);
+      onMigrate();
+    };
+
+    migrateContainerModal(modalAction, containerModel.name, containerModel.properties.provider, inContainerView);
   }
 
   promote = () => {
-    const { match, promoteContainer, promoteContainerModal, containerModel, fetchEnvironment } = this.props;
+    const { match, promoteContainer, promoteContainerModal, containerModel, fetchEnvironment, onPromote } = this.props;
+
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
@@ -201,9 +234,12 @@ class ContainerActions extends PureComponent {
       this.populateContainers();
     };
 
-    promoteContainerModal((environment) => {
+    const modalAction = (environment) => {
       promoteContainer(match.params.fqon, containerModel.id, environment.id, onSuccess(environment));
-    }, containerModel.name, match.params);
+      onPromote();
+    };
+
+    promoteContainerModal(modalAction, containerModel.name, match.params);
   }
 
   render() {
@@ -231,14 +267,14 @@ class ContainerActions extends PureComponent {
           </Col>
 
           <Col flex={6} style={dividerStyle}>
-            <ListItem className="button--start" primaryText="Start" onClick={this.start} />
-            <ListItem className="button--suspend" primaryText="Suspend" onClick={this.suspend} />
-            <ListItem className="button--scale" primaryText="Scale" onClick={this.scale} />
+            <ListItem className="container-action-button button--start" primaryText="Start" onClick={this.start} disabled={containerModel.properties.num_instances > 0} />
+            <ListItem className="container-action-button button--suspend" primaryText="Suspend" onClick={this.suspend} disabled={containerModel.properties.num_instances === 0} />
+            <ListItem className="container-action-button button--scale" primaryText="Scale" onClick={this.scale} />
             <ListItem primaryText="Migrate" onClick={this.migrate} />
             {!disablePromote &&
               <ListItem primaryText="Promote" onClick={this.promote} />}
             {!disableDestroy &&
-              <ListItem className="button--destroy" primaryText="Destroy" onClick={this.destroy} />}
+              <ListItem className="container-action-button button--destroy" primaryText="Destroy" onClick={this.destroy} />}
 
           </Col>
 

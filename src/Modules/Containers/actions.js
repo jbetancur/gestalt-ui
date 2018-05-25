@@ -1,10 +1,11 @@
-export function confirmContainerDelete(action, item) {
+export function confirmContainerDelete(action, item, cancelAction = () => { }) {
   return {
     type: 'SHOW_MODAL',
     modalType: 'CONFIRM',
     modalProps: {
       title: `Are you sure you want to destroy ${item}?`,
       onProceed: action,
+      onClose: cancelAction,
       proceedLabel: 'Destroy',
     }
   };

@@ -70,7 +70,7 @@ class ConfirmModal extends PureComponent {
 
   doIt = () => {
     this.props.onProceed();
-    this.close();
+    this.props.hideModal();
   }
 
   render() {
