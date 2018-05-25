@@ -49,8 +49,10 @@ const ScrollButtons = styled.div`
   position: fixed;
   z-index: 9999;
   top: 46%;
-  height: 100px;
   right: 1em;
+  padding: 3px;
+  background: rgb(33, 150, 243, 0.14);
+  border-radius: 5px;
 `;
 
 const TopScrollButton = styled(Button)`
