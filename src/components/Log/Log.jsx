@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled, { css, withTheme } from 'styled-components';
 import Div from 'components/Div';
+import LogFormatter from './components/LogFormatter';
 
 const CodeWrapper = styled.div`
   position: relative;
@@ -79,7 +80,7 @@ const Log = ({ children, fullPage, logItems }) => (
         {logItems.map((log, i) => (
           <LogLine key={i}>
             <LogNumber />
-            <span>{log}</span>
+            <LogFormatter item={log} />
           </LogLine>))}
       </Pre>
     </Div>
@@ -101,4 +102,4 @@ Log.defaultProps = {
   logItems: [],
 };
 
-export default Log;
+export default withTheme(Log);
