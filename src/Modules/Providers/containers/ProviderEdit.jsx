@@ -13,6 +13,7 @@ import Div from 'components/Div';
 import { Panel } from 'components/Panels';
 import { Caption } from 'components/Typography';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { withPoller } from 'components/UtilityHOC';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -38,6 +39,8 @@ class ProviderEdit extends PureComponent {
     entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     resourcetypesData: PropTypes.array.isRequired,
+    startPolling: PropTypes.func.isRequired,
+    stopPolling: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -48,17 +51,14 @@ class ProviderEdit extends PureComponent {
 
   componentDidMount() {
     this.populateProvider();
-    this.populateContainer();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.provider.id !== this.props.provider.id) {
-      if (nextProps.provider.properties.services && nextProps.provider.properties.services.length > 0) {
-        clearTimeout(this.timeout);
+  componentDidUpdate(prevProps) {
+    if (prevProps.provider.id !== this.props.provider.id) {
+      this.props.stopPolling();
 
-        if (!nextProps.containerPending) {
-          this.startPoll();
-        }
+      if (this.showContainer && !this.props.containerPending) {
+        this.props.startPolling();
       }
     }
   }
@@ -72,7 +72,6 @@ class ProviderEdit extends PureComponent {
     const { unloadProvider } = this.props;
 
     unloadProvider();
-    clearTimeout(this.timeout);
   }
 
   flagForRedeploy = () => {
@@ -83,16 +82,6 @@ class ProviderEdit extends PureComponent {
     const { match, fetchProvider } = this.props;
 
     fetchProvider(match.params.fqon, match.params.providerId);
-  }
-
-  populateContainer() {
-    const { match, fetchProviderContainer } = this.props;
-
-    fetchProviderContainer(match.params.fqon, match.params.providerId);
-  }
-
-  startPoll() {
-    this.timeout = setInterval(() => this.populateContainer(true), 5000);
   }
 
   update = (formValues) => {
@@ -205,6 +194,13 @@ function mapStateToProps(state) {
   };
 }
 
+const onPollInterval = (props) => {
+  const { match, fetchProviderContainer } = props;
+
+  fetchProviderContainer(match.params.fqon, match.params.providerId);
+};
+
+
 export default compose(
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
   withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
@@ -215,5 +211,6 @@ export default compose(
     form: 'providerEdit',
     enableReinitialize: true,
     validate,
-  })
+  }),
+  withPoller(5000, onPollInterval),
 )(ProviderEdit);
