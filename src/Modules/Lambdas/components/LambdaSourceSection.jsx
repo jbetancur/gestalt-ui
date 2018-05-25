@@ -12,8 +12,6 @@ import withLambdaState from '../hoc/withLambdaState';
 
 const themes = ['chrome', 'dracula', 'monokai'];
 const keyBindings = [{ name: 'default', value: 'ace' }, { name: 'vim', value: 'vim' }, { name: 'emacs', value: 'emacs' }];
-const storedTheme = localStorage.getItem('gf-editor-theme') || 'chrome';
-const storedBinding = localStorage.getItem('gf-editor-keybinding') || 'ace';
 
 const FullScreenWrapper = styled(({ isFullScreen, ...rest }) => <div {...rest} />)`
   ${props => props.isFullScreen && css`
@@ -79,11 +77,18 @@ class LambdaSourceSection extends PureComponent {
     onSave: null,
   };
 
-  state = {
-    fullscreen: false,
-    theme: storedTheme,
-    keyBinding: storedBinding,
-  };
+  constructor() {
+    super();
+
+    const storedTheme = localStorage.getItem('gf-editor-theme') || 'chrome';
+    const storedBinding = localStorage.getItem('gf-editor-keybinding') || 'ace';
+
+    this.state = {
+      fullscreen: false,
+      theme: storedTheme,
+      keyBinding: storedBinding,
+    };
+  }
 
   handleFullScreen = () => {
     this.setState({ fullscreen: !this.state.fullscreen });
