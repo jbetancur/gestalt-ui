@@ -9,12 +9,12 @@ const ListStyled = styled.li`
   height: 42px;
 
   &:not(:first-child) {
-    border-left: 1px solid ${props => props.theme.colors['$md-grey-200']};
-    border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
-    border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
+    border-left: 1px solid ${props => props.theme.colors['$md-grey-100']};
+    border-right: 1px solid ${props => props.theme.colors['$md-grey-100']};
+    border-bottom: 1px solid ${props => props.theme.colors['$md-grey-100']};
   }
   &:first-child {
-    border: 1px solid ${props => props.theme.colors['$md-grey-200']};
+    border: 1px solid ${props => props.theme.colors['$md-grey-100']};
   }
 `;
 
@@ -35,7 +35,7 @@ const RemoveButton = styled(Button)`
   color: ${props => props.theme.colors['$md-red-500']};
 
   &:hover {
-    border-radius 0;
+    border-radius: 0;
   }
 `;
 

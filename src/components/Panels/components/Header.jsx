@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import styled, { withTheme } from 'styled-components';
+import styled, { withTheme, css } from 'styled-components';
 import ExpanderIcon from '../components/ExpanderIcon';
 
 const TitleSection = styled(Col)`
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  ${props => !props.noShadow && css`
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  `};
   height: 100%;
 `;
 
@@ -40,7 +42,7 @@ const Bubble = styled.div`
 `;
 
 const HeaderStyle = styled.header`
-  ${props => !props.expandable && 'padding-left: 8px'};
+  ${props => !props.expandable && !props.noShadow && 'padding-left: 8px'};
   height: 48px;
   background-color: ${props => props.theme.colors['$md-white']};
   border-top: ${props => (props.noShadow ? 'none' : `1px solid ${props.theme.colors['$md-grey-200']}`)};

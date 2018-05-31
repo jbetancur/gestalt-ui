@@ -12,7 +12,8 @@ const StepActions = styled.div`
   padding-right: 32px;
   padding-bottom: 8px;
 
-  button, a {
+  button,
+  a {
     margin: 5px;
   }
 `;

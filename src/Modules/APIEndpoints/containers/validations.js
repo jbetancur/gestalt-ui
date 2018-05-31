@@ -7,9 +7,14 @@ export const nameMaxLen = 45;
 export default (values) => {
   const errors = {};
 
+  if (!values.name) {
+    errors.name = 'endpoint name is required';
+  }
+
   if (values && values.properties) {
-    if (!values.properties.resource) {
-      merge(errors, nestedObjectFromString('properties.resource', 'a url path is required'));
+    if (!values.properties.resource && !values.properties.hosts.length) {
+      merge(errors, nestedObjectFromString('properties.resource', 'a relative path is required if no hosts are specified'));
+      merge(errors, nestedObjectFromString('properties.hosts', 'at least 1 host or a relative path is required'));
     }
 
     if (values.properties.resource && !isURL(values.properties.resource, { require_protocol: false, require_host: false, allow_trailing_dot: false })) {

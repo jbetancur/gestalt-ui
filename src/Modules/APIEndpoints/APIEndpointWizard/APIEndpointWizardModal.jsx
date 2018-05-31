@@ -12,26 +12,7 @@ import APIEndpointPage from './APIEndpointPage';
 import page1Validations from './page1Validations';
 import page2Validations from './page2Validations';
 
-const initialValues = metaModels.apiEndpoint.create({
-  properties: {
-    methods: 'GET', // converts to array
-    plugins: {
-      rateLimit: {
-        enabled: false,
-        perMinute: 60,
-      },
-      gestaltSecurity: {
-        enabled: false,
-        users: [],
-        groups: [],
-      },
-    },
-    implementation_type: '',
-    implementation_id: '',
-    resource: '',
-    synchronous: true,
-  }
-});
+const initialValues = metaModels.apiEndpoint.get();
 
 class APIEndpointWizard extends PureComponent {
   static propTypes = {

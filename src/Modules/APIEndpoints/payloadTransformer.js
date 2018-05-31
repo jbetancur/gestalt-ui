@@ -9,7 +9,6 @@ import { metaModels } from 'Modules/MetaResource';
  */
 export function generatePayload(sourcePayload, updateMode = false) {
   const payload = metaModels.apiEndpoint.create(sourcePayload);
-  payload.name = payload.properties.resource;
 
   if (updateMode) {
     if (payload.properties.implementation_type === 'lambda') {
