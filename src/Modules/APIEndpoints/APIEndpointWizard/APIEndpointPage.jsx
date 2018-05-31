@@ -14,31 +14,33 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
   <React.Fragment>
     {pending && <ActivityContainer primary centered id="apiendpoint-wizard--loading" />}
 
-    <Row gutter={5}>
-      <Col flex={6} xs={12}>
-        <Panel title="General" noShadow noPadding expandable={false}>
-          <Field
-            label="Endpoint Name"
-            component={TextField}
-            name="name"
-            required
-          />
-        </Panel>
-      </Col>
-      {implementationType === 'container' &&
-        <Col flex={6} xs={12}>
-          <Field
-            id="container--properties.container_port_name"
-            component={SelectField}
-            name="properties.container_port_name"
-            menuItems={portMappings}
-            itemLabel="name"
-            itemValue="name"
-            label="Container Port Name"
-            required
-            helpText="the service mapping name"
-          />
-        </Col>}
+    <Row>
+      <Panel title="General" noShadow noPadding expandable={false}>
+        <Row gutter={5}>
+          <Col flex={6} xs={12}>
+            <Field
+              label="Endpoint Name"
+              component={TextField}
+              name="name"
+              required
+            />
+          </Col>
+          {implementationType === 'container' &&
+            <Col flex={6} xs={12}>
+              <Field
+                id="container--properties.container_port_name"
+                component={SelectField}
+                name="properties.container_port_name"
+                menuItems={portMappings}
+                itemLabel="name"
+                itemValue="name"
+                label="Container Port Name"
+                required
+                helpText="the service mapping name"
+              />
+            </Col>}
+        </Row>
+      </Panel>
     </Row>
 
     <Row>

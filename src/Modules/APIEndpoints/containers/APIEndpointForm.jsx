@@ -121,7 +121,7 @@ const APIEndpointForm = ({
                   />
                 </Col>}
               {values.properties.implementation_type === 'container' &&
-                <Col flex={2} xs={12} sm={6} md={6}>
+                <Col flex={3} xs={12} sm={6} md={6}>
                   <Field
                     id="container-ports-dropdown"
                     component={SelectField}
@@ -167,6 +167,7 @@ const APIEndpointForm = ({
 
         <Col flex={6} xs={12} sm={12}>
           <Panel title="Allowed HTTP Methods" minHeight="135px" expandable={false}>
+            <Caption light>* at least one http method is required</Caption>
             <HTTPMethods />
           </Panel>
         </Col>
@@ -195,7 +196,7 @@ const APIEndpointForm = ({
                     label="Synchronous"
                     hasMargin={false}
                   />
-                  <Caption light>sync waits for a return response</Caption>
+                  <Caption light>wait for a return response</Caption>
                 </Col>}
               <Col flex={12} xs={12} sm={6} md={6}>
                 <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
