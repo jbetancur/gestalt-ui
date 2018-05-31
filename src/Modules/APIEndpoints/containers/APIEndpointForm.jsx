@@ -9,10 +9,9 @@ import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import { Caption } from 'components/Typography';
 import Form from 'components/Form';
+import { ListTable } from 'components/Lists';
 import { Panel } from 'components/Panels';
-// import authTypes from '../../lists/authTypes';
 import RateLimit from '../components/RateLimit';
-import Security from '../components/Security';
 import HTTPMethods from '../components/HTTPMethods';
 import implementationTypes from '../lists/implementationTypes';
 
@@ -76,45 +75,14 @@ const APIEndpointForm = ({
                   required
                 />
               </Col>
-              <Col flex>
+              <Col flex={4}>
                 <Field
+                  label="Endpoint Name"
                   component={TextField}
-                  name="properties.resource"
-                  label="Resource Path"
-                  type="text"
+                  name="name"
                   required
-                  helpText="ex: /path or /path1/path2"
                 />
               </Col>
-              {values.properties.implementation_type === 'container' &&
-              <Col flex={3} xs={12} sm={6} md={6}>
-                <Field
-                  id="containers-dropdown"
-                  component={SelectField}
-                  name="properties.implementation_id"
-                  menuItems={containersData}
-                  itemLabel="name"
-                  itemValue="id"
-                  required
-                  label="Container"
-                  onFocus={fetchContainers}
-                  async
-                  helpText="container from the current environment"
-                />
-              </Col>}
-              {values.properties.implementation_type === 'container' &&
-              <Col flex={2} xs={12} sm={6} md={6}>
-                <Field
-                  id="container-ports-dropdown"
-                  component={SelectField}
-                  name="properties.container_port_name"
-                  menuItems={containerPorts()}
-                  itemLabel="name"
-                  itemValue="name"
-                  required
-                  label="Container Port Name"
-                />
-              </Col>}
               {values.properties.implementation_type === 'lambda' &&
                 <Col flex={4} xs={12} sm={12}>
                   <Autocomplete
@@ -136,34 +104,103 @@ const APIEndpointForm = ({
                       label="Lambda UUID"
                     />}
                 </Col>}
-              {values.properties.implementation_type === 'lambda' &&
-                <Col flex={1} xs={12} sm={6} md={6}>
+              {values.properties.implementation_type === 'container' &&
+                <Col flex={3} xs={12} sm={6} md={6}>
                   <Field
-                    id="synchronous"
-                    component={Checkbox}
-                    name="properties.synchronous"
-                    // TODO: Find out why redux-form state for bool doesn't apply
-                    defaultChecked={values.properties.synchronous}
-                    label="Sync"
+                    id="containers-dropdown"
+                    component={SelectField}
+                    name="properties.implementation_id"
+                    menuItems={containersData}
+                    itemLabel="name"
+                    itemValue="id"
+                    required
+                    label="Container"
+                    onFocus={fetchContainers}
+                    async
+                    helpText="container from the current environment"
                   />
-                  <Caption light>sync waits for a return response</Caption>
                 </Col>}
-              <Col flex={2} xs={12} sm={6} md={6}>
-                <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
+              {values.properties.implementation_type === 'container' &&
+                <Col flex={2} xs={12} sm={6} md={6}>
+                  <Field
+                    id="container-ports-dropdown"
+                    component={SelectField}
+                    name="properties.container_port_name"
+                    menuItems={containerPorts()}
+                    itemLabel="name"
+                    itemValue="name"
+                    required
+                    label="Container Port Name"
+                  />
+                </Col>}
+            </Row>
+          </Panel>
+        </Col>
+
+        <Col flex={12}>
+          <Panel title="Route Filtering" expandable={false}>
+            <Row gutter={5} alignItems="baseline">
+              <Col flex={6}>
+                <Field
+                  component={TextField}
+                  name="properties.resource"
+                  label="Resource Path"
+                  type="text"
+                  required={values.properties.hosts && !values.properties.hosts.length}
+                  helpText="a relative path is only required if there are no hosts: e.g. /path or /path1/path2"
+                />
+              </Col>
+
+              <Col flex={6}>
+                <Field
+                  label="Hostname"
+                  addLabel="Add Host"
+                  component={ListTable}
+                  name="properties.hosts"
+                  ignorePrefixValidation
+                  helpText="at least 1 host is required if a relative path is not specified: e.g. galacticfog.com"
+                />
               </Col>
             </Row>
           </Panel>
         </Col>
 
         <Col flex={6} xs={12} sm={12}>
-          <Panel title="Allowed HTTP Methods" minHeight="105px" expandable={false}>
+          <Panel title="Allowed HTTP Methods" minHeight="135px" expandable={false}>
             <HTTPMethods />
           </Panel>
         </Col>
 
         <Col flex={6} xs={12} sm={12}>
-          <Panel title="Security" minHeight="105px" expandable={false}>
-            <Security isToggled={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled} />
+          <Panel title="Options" minHeight="135px" expandable={false}>
+            <Row>
+              <Col flex={6} xs={12} sm={6} md={6}>
+                <Field
+                  id="show-api-endpoints-security"
+                  component={Checkbox}
+                  name="properties.plugins.gestaltSecurity.enabled"
+                  defaultChecked={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled}
+                  label="Require Authentication"
+                  hasMargin={false}
+                />
+              </Col>
+              {values.properties.implementation_type === 'lambda' &&
+                <Col flex={6} xs={12} sm={6} md={6}>
+                  <Field
+                    id="synchronous"
+                    component={Checkbox}
+                    name="properties.synchronous"
+                    // TODO: Find out why redux-form state for bool doesn't apply
+                    defaultChecked={values.properties.synchronous}
+                    label="Syncronous"
+                    hasMargin={false}
+                  />
+                  <Caption light>sync waits for a return response</Caption>
+                </Col>}
+              <Col flex={12} xs={12} sm={6} md={6}>
+                <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
+              </Col>
+            </Row>
           </Panel>
         </Col>
       </Row>

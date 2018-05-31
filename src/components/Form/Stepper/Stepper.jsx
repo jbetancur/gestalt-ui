@@ -20,6 +20,7 @@ const Indicators = styled.ol`
   align-items: center;
   padding-left: 64px;
   padding-right: 64px;
+  margin: 0;
 `;
 
 const Indicator = styled.li`
@@ -80,7 +81,8 @@ const StepActions = styled.div`
   padding-right: 32px;
   padding-bottom: 8px;
 
-  button, a {
+  button,
+  a {
     margin: 5px;
   }
 `;

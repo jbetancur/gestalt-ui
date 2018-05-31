@@ -4,24 +4,32 @@ import {
   TextField,
   Button,
 } from 'react-md';
+import { Error } from 'components/Typography';
 import { insertItem, removeItem } from 'util/helpers/lists';
 import List from './components/List';
 import ListItem from './components/ListItem';
 
 class ListTable extends PureComponent {
   static propTypes = {
+    meta: PropTypes.object.isRequired,
     prefix: PropTypes.string,
     input: PropTypes.object,
     ignorePrefixValidation: PropTypes.bool,
+    label: PropTypes.string,
+    addLabel: PropTypes.string,
+    helpText: PropTypes.string,
   };
 
   static defaultProps = {
     input: {},
     prefix: null,
     ignorePrefixValidation: false,
+    label: 'Action',
+    addLabel: 'Add',
+    helpText: null,
   };
 
-  state = { items: [], item: '' };
+  state = { items: [], item: '', touched: false, };
 
   componentWillMount() {
     if (this.props.input.value) {
@@ -59,23 +67,33 @@ class ListTable extends PureComponent {
     this.setState({ item: value.toLowerCase().trim() });
   }
 
+  handleTouched = () => {
+    this.setState({ touched: true });
+  }
+
   render() {
+    const { label, meta: { error } } = this.props;
+
     return (
-      <div>
+      <React.Fragment>
         <TextField
-          label="Action"
+          id={`${label}-list-table`}
+          placeholder={this.props.label}
           type="text"
-          rightIcon={<Button icon primary onClick={this.addItem}>add</Button>}
+          rightIcon={<Button style={{ marginTop: 0, marginBottom: 0 }} flat primary onClick={this.addItem}>{this.props.addLabel}</Button>}
           fullWidth
           onChange={this.handleChange}
           value={this.state.item}
           lineDirection="center"
           disabled={!this.props.prefix && !this.props.ignorePrefixValidation}
+          helpText={this.props.helpText}
+          onFocus={this.handleTouched}
         />
-        <List>
+        <List maxHeight="168px">
           {this.state.items.map((item, i) => <ListItem key={`${item}--${i}`} item={item} onRemove={this.removeItem} />)}
         </List>
-      </div>
+        {(this.state.touched && !!error) && <Error>{error}</Error>}
+      </React.Fragment>
     );
   }
 }

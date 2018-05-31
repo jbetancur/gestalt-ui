@@ -112,14 +112,22 @@ class APIEndpointListing extends PureComponent {
         sortable: true,
         allowOverflow: true,
         center: true,
+        maxWidth: '120px',
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
+      },
+      {
+        name: 'Name',
+        selector: 'name',
+        sortable: true,
+        maxWidth: '175px',
       },
       {
         name: 'Public URL',
         selector: 'properties.public_url',
         sortable: true,
         ignoreRowClick: true,
-        grow: 3,
+        maxWidth: '350px',
+        grow: 2,
         cell: row => [
           <ClipboardButton
             key={`public-url-copy-${row.id}`}
@@ -141,12 +149,14 @@ class APIEndpointListing extends PureComponent {
         name: 'Type',
         selector: 'properties.implementation_type',
         sortable: true,
+        maxWidth: '120px',
       },
       {
         name: 'Auth',
         selector: 'properties.plugins.gestaltSecurity.enabled',
         sortable: true,
         center: true,
+        maxWidth: '85px',
         cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
       },
       {
@@ -154,6 +164,7 @@ class APIEndpointListing extends PureComponent {
         selector: 'properties.plugins.rateLimit.perMinute',
         sortable: true,
         right: true,
+        maxWidth: '85px',
         format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
       },
       {

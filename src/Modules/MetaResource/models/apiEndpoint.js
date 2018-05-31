@@ -18,6 +18,7 @@ const get = (model = {}) => {
     properties: {
       implementation_type: 'lambda',
       resource: '',
+      hosts: [],
       implementation_id: '',
       synchronous: true,
       methods: 'GET',
@@ -46,6 +47,7 @@ const create = (model = {}) => {
   return pick(merge({
     properties: {
       methods: [],
+      hosts: [],
       synchronous: true,
       plugins: {
         rateLimit: {},
@@ -56,6 +58,7 @@ const create = (model = {}) => {
     'name',
     'description',
     'properties.resource',
+    'properties.hosts',
     'properties.methods',
     'properties.plugins',
     'properties.synchronous',

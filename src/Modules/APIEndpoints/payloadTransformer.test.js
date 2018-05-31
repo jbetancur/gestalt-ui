@@ -3,19 +3,6 @@ import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('(APIEndpoint Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
-    describe('properties.name', () => {
-      it('should be the same as properties.resource', () => {
-        const sourcePayload = metaModels.apiEndpoint.get({
-          properties: {
-            resource: '/thisbeatest'
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.name).to.equal('/thisbeatest');
-      });
-    });
-
     describe('properties.methods', () => {
       it('should convert properties.methods to an Array if there are methods defined', () => {
         const sourcePayload = metaModels.apiEndpoint.get({
@@ -80,10 +67,10 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
         { op: 'replace', path: '/properties/methods', value: ['GET'] }
       ];
 
-      expect(payload).to.have.deep.members(expectedPatches);
+      expect(payload).toEqual(expectedPatches);
     });
 
-    it('should generate 2 patch ops if there is a change to properties.resource', () => {
+    it('should generate the corrent patch ops if there is a change to properties.resource', () => {
       const originalPayload = metaModels.apiEndpoint.get();
       const updatedPayload = metaModels.apiEndpoint.get({
         properties: {
@@ -94,10 +81,9 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
       const expectedPatches = [
         { op: 'replace', path: '/properties/methods', value: ['GET'] },
         { op: 'replace', path: '/properties/resource', value: '/wahoo' },
-        { op: 'replace', path: '/name', value: '/wahoo' }
       ];
 
-      expect(payload).to.have.deep.members(expectedPatches);
+      expect(payload).toEqual(expectedPatches);
     });
   });
 });

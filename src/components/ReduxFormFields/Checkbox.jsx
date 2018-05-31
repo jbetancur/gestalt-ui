@@ -3,10 +3,16 @@ import styled from 'styled-components';
 import { Checkbox } from 'react-md';
 
 const CheckboxStyle = styled(Checkbox)`
-    margin-top: 19px;
+  ${props => props.hasMargin && ' margin-top: 19px'};
 `;
 
 /* eslint-disable react/prop-types */
-export default ({ input, ...others }) => (
-  <CheckboxStyle id={input.name} {...input} {...others} />
+const CheckboxFormControl = ({ input, hasMargin, ...others }) => (
+  <CheckboxStyle id={input.name} {...input} hasMargin={hasMargin} {...others} />
 );
+
+CheckboxFormControl.defaultProps = {
+  hasMargin: true,
+};
+
+export default CheckboxFormControl;
