@@ -192,7 +192,7 @@ const APIEndpointForm = ({
                     name="properties.synchronous"
                     // TODO: Find out why redux-form state for bool doesn't apply
                     defaultChecked={values.properties.synchronous}
-                    label="Syncronous"
+                    label="Synchronous"
                     hasMargin={false}
                   />
                   <Caption light>sync waits for a return response</Caption>

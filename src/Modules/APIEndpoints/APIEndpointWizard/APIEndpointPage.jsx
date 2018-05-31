@@ -87,7 +87,7 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
                       component={Checkbox}
                       name="properties.synchronous"
                       defaultChecked={initialValues.properties.synchronous}
-                      label="Syncronous"
+                      label="Synchronous"
                       hasMargin={false}
                     />
                   </Col>}

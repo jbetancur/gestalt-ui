@@ -35,6 +35,12 @@ export function generatePayload(sourcePayload, updateMode = false) {
 export function generatePatches(originalPayload, updatedPayload) {
   const model = metaModels.apiEndpoint.create(originalPayload);
 
+  // we need to remove hosts in cases where it does not exist so patch works correctly,
+  // otherwise patch assumes hosts exists since the metaModels.apiEndpoint enforces it
+  if (!originalPayload.properties.hosts) {
+    delete model.properties.hosts;
+  }
+
   return jsonPatch.compare(model, generatePayload(updatedPayload, true));
 }
 
