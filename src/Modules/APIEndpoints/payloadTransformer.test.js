@@ -70,7 +70,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
       expect(payload).toEqual(expectedPatches);
     });
 
-    it('should generate the corrent patch ops if there is a change to properties.resource', () => {
+    it('should generate the correct patch ops if there is a change to properties.resource', () => {
       const originalPayload = metaModels.apiEndpoint.get();
       const updatedPayload = metaModels.apiEndpoint.get({
         properties: {
@@ -85,5 +85,40 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
 
       expect(payload).toEqual(expectedPatches);
     });
+  });
+
+  it('should generate the correct patch when hosts is present on the original payload', () => {
+    const originalPayload = metaModels.apiEndpoint.get();
+    const updatedPayload = metaModels.apiEndpoint.get({
+      properties: {
+        hosts: ['wahoo']
+      }
+    });
+    const payload = generatePatches(originalPayload, updatedPayload);
+
+    const expectedPatches = [
+      { op: 'replace', path: '/properties/methods', value: ['GET'] },
+      { op: 'add', path: '/properties/hosts/0', value: 'wahoo' },
+    ];
+
+    expect(payload).toEqual(expectedPatches);
+  });
+
+  it('should generate the correct patch when hosts is NOT present on the original payload', () => {
+    const originalPayload = metaModels.apiEndpoint.get();
+    delete originalPayload.properties.hosts;
+    const updatedPayload = metaModels.apiEndpoint.get({
+      properties: {
+        hosts: ['wahoo']
+      }
+    });
+    const payload = generatePatches(originalPayload, updatedPayload);
+
+    const expectedPatches = [
+      { op: 'replace', path: '/properties/methods', value: ['GET'] },
+      { op: 'add', path: '/properties/hosts', value: ['wahoo'] },
+    ];
+
+    expect(payload).toEqual(expectedPatches);
   });
 });
