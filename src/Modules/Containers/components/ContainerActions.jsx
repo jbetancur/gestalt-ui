@@ -9,7 +9,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MenuButton, ListItem, Divider, FontIcon } from 'react-md';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { ActionsMenu } from 'Modules/Actions';
+// import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
 import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -26,7 +26,7 @@ const ActionsWrapper = styled.div`
 
   .container-action-button {
     .md-text--disabled {
-      color: ${props => props.theme.colors['$md-grey-500']}!important;
+      color: ${props => props.theme.colors['$md-grey-500']} !important;
     }
   }
 
@@ -85,8 +85,8 @@ class ContainerActions extends PureComponent {
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
-    actions: PropTypes.array.isRequired,
-    actionsPending: PropTypes.bool.isRequired,
+    // actions: PropTypes.array.isRequired,
+    // actionsPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     editURL: PropTypes.string,
     onStart: PropTypes.func,
@@ -248,9 +248,9 @@ class ContainerActions extends PureComponent {
       containerModel,
       disablePromote,
       disableDestroy,
-      actions,
-      actionsPending,
-      match,
+      // actions,
+      // actionsPending,
+      // match,
     } = this.props;
 
     const menuItems = [
@@ -303,13 +303,13 @@ class ContainerActions extends PureComponent {
               />
             </CopyToClipboard>
 
-            <ActionsMenu
+            {/* <ActionsMenu
               listItem
               model={containerModel}
               actionList={actions}
               pending={actionsPending}
               fqon={match.params.fqon}
-            />
+            /> */}
           </Col>
         </Row>
       </ListWrapper>

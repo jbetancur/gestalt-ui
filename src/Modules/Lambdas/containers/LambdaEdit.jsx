@@ -43,6 +43,8 @@ class LambdaEdit extends PureComponent {
     lambdaStateActions: PropTypes.object.isRequired,
   };
 
+  state = { runtime: null };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.lambda.properties.runtime !== prevState.runtime) {
       const runtime = runTimes.find(rt => rt.value === nextProps.lambda.properties.runtime) || {};
@@ -54,8 +56,6 @@ class LambdaEdit extends PureComponent {
 
     return null;
   }
-
-  state = { runtime: null };
 
   componentDidMount() {
     const { match, lambdaActions, apiEndpointsActions } = this.props;

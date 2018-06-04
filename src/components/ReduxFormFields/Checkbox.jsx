@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Checkbox } from 'react-md';
 
-const CheckboxStyle = styled(Checkbox)`
+const CheckboxStyle = styled(({ hasMargin, ...rest }) => <Checkbox {...rest} />)`
   ${props => props.hasMargin && ' margin-top: 19px'};
 `;
 
