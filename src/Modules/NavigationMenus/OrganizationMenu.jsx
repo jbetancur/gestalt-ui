@@ -15,6 +15,11 @@ class OrgMenu extends PureComponent {
     onUnloadAllOrgs: PropTypes.func.isRequired,
   };
 
+  state = {
+    organizations: [],
+    filterText: '',
+  };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.allOrganizations !== prevState.organizations) {
       return {
@@ -24,11 +29,6 @@ class OrgMenu extends PureComponent {
 
     return null;
   }
-
-  state = {
-    organizations: [],
-    filterText: '',
-  };
 
   componentWillUnmount() {
     this.props.onUnloadAllOrgs();

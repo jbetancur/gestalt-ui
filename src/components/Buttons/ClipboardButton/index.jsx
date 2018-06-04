@@ -7,18 +7,17 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 const EnhancedButton = styled(({ inLink, ...rest }) => <Button {...rest} />)`
   text-transform: none;
   vertical-align: middle;
-
   ${props => props.inLink && css`
     height: 20px;
     width: 24px;
     padding: 1px;
 
     i {
-      font-size: 16px!important;
+      font-size: 16px !important;
     }
 
     &:hover {
-      background: none!important;
+      background: none !important;
     }
   `};
 `;

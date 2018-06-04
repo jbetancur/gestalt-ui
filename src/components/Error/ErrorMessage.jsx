@@ -34,6 +34,8 @@ class ErrorMessage extends Component {
     message: null,
   };
 
+  state = { visible: this.props.visible };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.visible !== prevState.visible) {
       return {
@@ -43,8 +45,6 @@ class ErrorMessage extends Component {
 
     return null;
   }
-
-  state = { visible: this.props.visible };
 
   // componentDidMount() {
   //   if (this.state.visible) {

@@ -88,6 +88,7 @@ const StepActions = styled.div`
 `;
 
 export default class Stepper extends Component {
+  static Page = ({ children }) => children;
   static propTypes = {
     onFinish: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -101,7 +102,6 @@ export default class Stepper extends Component {
     debug: PropTypes.bool,
     pending: PropTypes.bool,
   };
-
   static defaultProps = {
     className: '',
     page: 0,
@@ -109,8 +109,6 @@ export default class Stepper extends Component {
     debug: false,
     pending: false,
   };
-
-  static Page = ({ children }) => children;
 
   state = {
     page: this.props.page,

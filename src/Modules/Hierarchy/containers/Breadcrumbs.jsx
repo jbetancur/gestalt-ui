@@ -41,7 +41,7 @@ const Icon = styled.div`
   padding-right: 1px;
 `;
 
-const BreadIcon = Icon.extend`
+const BreadIcon = styled(Icon)`
   @media (min-width: 0) and (max-width: 659px) {
     display: none;
   }

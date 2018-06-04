@@ -25,8 +25,9 @@ const CardActionsStyle = styled(CardActions)`
   justify-content: center;
 `;
 
-const CardStyle = HomeCardBase.extend`
-  svg, i {
+const CardStyle = styled(HomeCardBase)`
+  svg,
+  i {
     color: ${props => props.theme.colors[`$md-${props.color}-${props.gradient}`]};
   }
 `;

@@ -87,18 +87,6 @@ class Logging extends PureComponent {
     showTitle: true,
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.logProviderURL !== prevState.logProviderURL) {
-      if (nextProps.logProviderURL) {
-        return {
-          logProviderURL: nextProps.logProviderURL,
-        };
-      }
-    }
-
-    return null;
-  }
-
   constructor(props) {
     super(props);
 
@@ -109,6 +97,18 @@ class Logging extends PureComponent {
       stderr: false,
       logProviderURL: null,
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.logProviderURL !== prevState.logProviderURL) {
+      if (nextProps.logProviderURL) {
+        return {
+          logProviderURL: nextProps.logProviderURL,
+        };
+      }
+    }
+
+    return null;
   }
 
   componentDidMount() {
