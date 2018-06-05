@@ -1,16 +1,16 @@
-
-export function confirmDelete(action, title, multipleItems) {
+/**
+ * showStreamMetricsModal
+ * @param {Object} props
+ */
+export function showModal(props = {}) {
   return {
     type: 'SHOW_MODAL',
-    modalType: 'CONFIRM',
-    modalProps: {
-      title,
-      multipleItems,
-      onProceed: action,
-    }
+    title: 'Stream',
+    modalType: 'StreamInstanceModal',
+    modalProps: props,
   };
 }
 
 export default {
-  confirmDelete,
+  showModal,
 };

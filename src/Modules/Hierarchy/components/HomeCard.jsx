@@ -7,7 +7,7 @@ import { Card } from 'components/Cards';
 import { P } from 'components/Typography';
 
 const HomeCardBase = styled(Card)`
-  background-image: radial-gradient(circle,  ${props => props.theme.colors['$md-grey-100']} 0, white 100%);
+  background-image: radial-gradient(circle, ${props => props.theme.colors['$md-grey-100']} 0, white 100%);
   border-radius: 2px;
 `;
 

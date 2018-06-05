@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { compose } from 'redux';
 import { withProviderActions } from 'Modules/MetaResource';
@@ -7,36 +8,10 @@ import { Row, Col } from 'react-flexybox';
 import { Card, CardTitle } from 'components/Cards';
 import { FormattedRelative, FormattedTime } from 'react-intl';
 import { Title } from 'components/Typography';
+import { Button } from 'components/Buttons';
 import { orderBy } from 'lodash';
 import { ActionsMenu } from 'Modules/Actions';
-import { Line } from 'react-chartjs-2';
-
-const generateSampleData = () => ({
-  labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-  datasets: [
-    {
-      label: 'Throughput',
-      fill: false,
-      lineTension: 0.1,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)),
-    }
-  ]
-});
+import actions from '../actions';
 
 const TitleContent = styled(Col)`
   padding: 24px;
@@ -50,7 +25,11 @@ const CardActions = styled.div`
   padding: 8px;
 `;
 
-const StreamInstances = ({ fqon, streamInstances, providerActions, onActionComplete }) => (
+const CardFooter = styled.div`
+  padding: 4px;
+`;
+
+const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, onActionComplete, showModal }) => (
   <Row gutter={5}>
     {streamInstances.length > 0 ?
       orderBy(streamInstances, ['startTime'], 'desc').map(stream => (
@@ -60,8 +39,8 @@ const StreamInstances = ({ fqon, streamInstances, providerActions, onActionCompl
               title={stream.status}
               subTitle={
                 <React.Fragment>
-                  <div>Started: <FormattedRelative value={stream.startTime} /> @<FormattedTime value={stream.startTime} /></div>
-                  Retries: {stream.retries}
+                  <div>started: <FormattedRelative value={stream.startTime} /> @<FormattedTime value={stream.startTime} /></div>
+                  retries: {stream.retries}
                 </React.Fragment>
               }
             />
@@ -80,9 +59,15 @@ const StreamInstances = ({ fqon, streamInstances, providerActions, onActionCompl
               />
             </CardActions>
 
-            <div style={{ padding: '4px' }}>
-              <Line data={generateSampleData()} />
-            </div>
+            <CardFooter>
+              <Button
+                flat
+                primary
+                onClick={() => showModal({ fqon, streamId: streamSpec.id, persistenceId: stream.persistenceId })}
+              >
+                View Stream
+              </Button>
+            </CardFooter>
           </Card>
         </Col>
       )) :
@@ -99,9 +84,11 @@ const StreamInstances = ({ fqon, streamInstances, providerActions, onActionCompl
 
 StreamInstances.propTypes = {
   fqon: PropTypes.string.isRequired,
+  streamSpec: PropTypes.object.isRequired,
   streamInstances: PropTypes.array.isRequired,
   providerActions: PropTypes.object.isRequired,
   onActionComplete: PropTypes.func,
+  showModal: PropTypes.func.isRequired,
 };
 
 StreamInstances.defaultProps = {
@@ -110,4 +97,5 @@ StreamInstances.defaultProps = {
 
 export default compose(
   withProviderActions({ filter: 'streamspec.instances' }),
+  connect(null, actions)
 )(StreamInstances);

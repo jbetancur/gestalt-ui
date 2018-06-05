@@ -13,11 +13,11 @@ class EnvironmentActions extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
-    appState: PropTypes.object.isRequired,
+    // appState: PropTypes.object.isRequired,
   };
 
   render() {
-    const { pending, match, appState } = this.props;
+    const { pending, match } = this.props;
 
     const menuItems = [
       <ListItem
@@ -74,26 +74,24 @@ class EnvironmentActions extends PureComponent {
         to={`${match.url}/secrets/create`}
         style={listItemStyle}
       />,
-      appState.enableExperimental ?
-        <ListItem
-          id="environment-settings-menu--stream-create"
-          key="environment-settings-menu--stream-create"
-          primaryText="Stream Spec"
-          component={Link}
-          leftIcon={<StreamIcon />}
-          to={`${match.url}/streamspecs/create`}
-          style={listItemStyle}
-        /> : <div key="environment-settings-menu--stream-create" />,
-      appState.enableExperimental ?
-        <ListItem
-          id="environment-settings-menu--datafeed-create"
-          key="environment-settings-menu--datafeed-create"
-          primaryText="Data Feed"
-          component={Link}
-          leftIcon={<DataFeedIcon />}
-          to={`${match.url}/datafeeds/create`}
-          style={listItemStyle}
-        /> : <div key="environment-settings-menu--datafeed-create" />,
+      <ListItem
+        id="environment-settings-menu--stream-create"
+        key="environment-settings-menu--stream-create"
+        primaryText="Stream Spec"
+        component={Link}
+        leftIcon={<StreamIcon />}
+        to={`${match.url}/streamspecs/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="environment-settings-menu--datafeed-create"
+        key="environment-settings-menu--datafeed-create"
+        primaryText="Data Feed"
+        component={Link}
+        leftIcon={<DataFeedIcon />}
+        to={`${match.url}/datafeeds/create`}
+        style={listItemStyle}
+      />,
     ];
 
     return (
