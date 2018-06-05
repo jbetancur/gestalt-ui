@@ -68,7 +68,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => (
 
           <Col flex={2} xs={6} sm={6}>
             <Field
-              name="properties.processor.inputStreamConfig.partition.partition"
+              name="properties.processor.inputStreamConfig.partitions[0].partition"
               label="Partition"
               component={TextField}
               type="number"
@@ -80,7 +80,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => (
 
           <Col flex={2} xs={6} sm={6}>
             <Field
-              name="properties.processor.inputStreamConfig.partition.startOffset"
+              name="properties.processor.inputStreamConfig.partitions[0].startOffset"
               label="Start Offset"
               component={TextField}
               type="number"
@@ -92,7 +92,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => (
 
           <Col flex={2} xs={6} sm={6}>
             <Field
-              name="properties.processor.inputStreamConfig.partition.endOffset"
+              name="properties.processor.inputStreamConfig.partitions[0].endOffset"
               label="End Offset"
               component={TextField}
               type="number"

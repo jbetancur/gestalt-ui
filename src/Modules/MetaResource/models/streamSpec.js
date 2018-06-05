@@ -30,11 +30,11 @@ const get = (model = {}) => {
         inputStreamConfig: {
           name: null,
           feedID: null,
-          partition: {
+          partitions: [{
             partition: 0,
             startOffset: -1,
             endOffset: -1,
-          },
+          }],
         },
         outputStreamConfig: {
           name: null,
@@ -70,11 +70,11 @@ const create = (model = {}) => {
         inputStreamConfig: {
           name: null,
           feedID: null,
-          partition: {
+          partitions: [{
             partition: 0,
             startOffset: -1,
             endOffset: -1,
-          },
+          }],
         },
         outputStreamConfig: {
           name: null,
