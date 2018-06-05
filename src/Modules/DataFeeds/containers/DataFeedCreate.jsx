@@ -4,29 +4,21 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData } from 'Modules/MetaResource';
+import { withDatafeed, withPickerData, metaModels } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 
-const initialValues = {
-  name: null,
+const initialValues = metaModels.datafeed.create({
   properties: {
-    kind: 'Kafka',
-    // provider: {
-    //   id: null,
-    // },
+    kind: 'kafka',
     data: {
       format: 'JSON',
-      endpoint: null,
-      data: null,
-      classification: null,
-      secret: null,
     },
   },
-};
+});
 
 class DataFeedCreate extends Component {
   static propTypes = {

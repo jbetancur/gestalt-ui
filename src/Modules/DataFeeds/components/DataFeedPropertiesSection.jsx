@@ -31,7 +31,7 @@ const showEditor = (values) => {
   return false;
 };
 
-const DataFeedPropertiesSection = ({ formValues, secrets }) => (
+const DataFeedPropertiesSection = ({ formValues }) => (
   <Row gutter={5}>
     <Col flex={12}>
       <Panel title="Data" expandable={false}>
@@ -62,7 +62,7 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
           <Col flex={6} xs={12}>
             <Field
               name="properties.data.endpoint"
-              label="URI"
+              label="URI/Endpoint"
               component={TextField}
               required
             />
@@ -118,7 +118,7 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
       </Panel>
     </Col>
 
-    <Col flex={12}>
+    {/* <Col flex={12}>
       <Panel title="Secret" defaultExpanded={!!formValues.properties.data.secret}>
         <Row gutter={5}>
           <Col flex={6} xs={12}>
@@ -135,13 +135,13 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
           </Col>
         </Row>
       </Panel>
-    </Col>
+    </Col> */}
   </Row>
 );
 
 DataFeedPropertiesSection.propTypes = {
   formValues: PropTypes.object.isRequired,
-  secrets: PropTypes.array.isRequired,
+  // secrets: PropTypes.array.isRequired,
 };
 
 export default DataFeedPropertiesSection;

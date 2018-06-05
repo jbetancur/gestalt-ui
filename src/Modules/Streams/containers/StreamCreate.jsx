@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withStreamSpec, withPickerData } from 'Modules/MetaResource';
+import { withStreamSpec, withPickerData, metaModels } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -10,36 +10,23 @@ import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
 import validate from '../validations';
 
-const initialValues = {
-  name: null,
+const initialValues = metaModels.streamSpec.create({
   properties: {
-    streams: [],
-    provider: null,
     cpus: 1,
     mem: 512,
     parallelization: 1,
-    lambda_provider: {
-      url: null,
-    },
     processor: {
       type: 'map',
-      lambdaId: null,
       inputStreamConfig: {
-        name: null,
-        feedID: null,
-        partition: {
+        partitions: [{
           partition: 0,
           startOffset: -1,
           endOffset: -1,
-        },
+        }]
       },
-      outputStreamConfig: {
-        name: null,
-        feedID: null,
-      }
     },
   },
-};
+});
 
 class StreamCreate extends Component {
   static propTypes = {
