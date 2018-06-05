@@ -64,6 +64,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, o
                 flat
                 primary
                 onClick={() => showModal({ fqon, streamId: streamSpec.id, persistenceId: stream.persistenceId })}
+                disabled={stream.status === 'stopped'}
               >
                 View Stream
               </Button>
