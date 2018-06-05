@@ -17,8 +17,9 @@ const get = (model = {}) => {
     description: null,
     properties: {
       kind: null,
-      data: {},
-      credentials: {},
+      data: {
+        credentials: {},
+      },
     }
   }, safeModel);
 };
@@ -41,15 +42,14 @@ const create = (model = {}) => {
         secret: null,
         group: null,
         target: null,
+        credentials: {},
       },
-      credentials: {},
     }
   }, safeModel), [
     'name',
     'description',
     'properties.kind',
     'properties.data',
-    'properties.credentials',
   ]);
 };
 
