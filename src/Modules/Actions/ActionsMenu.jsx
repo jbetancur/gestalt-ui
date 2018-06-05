@@ -85,13 +85,13 @@ class ActionsMenu extends PureComponent {
               disabled={pending}
               iconChildren="more_vert"
               flat={!icon}
-              label={!icon && 'Actions'}
               icon={icon}
               position={MenuButton.Positions.BELOW}
               simplifiedMenu={false}
               repositionOnScroll={false}
+              menuItems={this.renderActions()}
             >
-              {this.renderActions()}
+              {!icon && 'Actions'}
             </MenuButton > :
             this.renderActions()}
         </Div> : null

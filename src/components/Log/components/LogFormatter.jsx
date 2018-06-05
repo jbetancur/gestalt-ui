@@ -11,13 +11,15 @@ const colorMapper = {
 
 const Span = styled.span`
   ${props => props.match && css`
-    color: ${props.theme.colors[`${colorMapper[props.match]}`]}!important;
-  `}
+    color: ${props.theme.colors[`${colorMapper[props.match]}`]} !important;
+ `}
 `;
 
 const caseIM = (string, predicate) => string.match(new RegExp(`${predicate}`, 'i'));
 
 const format = (string) => {
+  if (typeof string === 'object') return JSON.stringify(string);
+
   if (caseIM(string, ' error ')
     || caseIM(string, 'error: ')
     || caseIM(string, ' exception ')
@@ -48,7 +50,7 @@ const format = (string) => {
 const LogFormatter = ({ item }) => format(item);
 
 LogFormatter.propTypes = {
-  item: PropTypes.string,
+  item: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 LogFormatter.defaulProps = {

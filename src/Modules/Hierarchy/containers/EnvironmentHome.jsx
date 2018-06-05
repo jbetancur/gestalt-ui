@@ -9,13 +9,13 @@ import HomeCard from '../components/HomeCard';
 class EnvironmentHome extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    appState: PropTypes.object.isRequired,
+    // appState: PropTypes.object.isRequired,
   };
 
   render() {
     return (
       <Row gutter={5} columnDivisions={25} center>
-        <Col flex={5} xs={25} sm={20} md={10}>
+        <Col flex={6} xs={25} sm={20} md={10}>
           <HomeCard
             title="Lambdas"
             icon={<LambdaIcon size={42} />}
@@ -29,7 +29,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={5} xs={25} sm={20} md={10}>
+        <Col flex={6} xs={25} sm={20} md={10}>
           <HomeCard
             title="Containers"
             icon={<ContainerIcon size={42} />}
@@ -43,7 +43,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={5} xs={25} sm={20} md={10}>
+        <Col flex={6} xs={25} sm={20} md={10}>
           <HomeCard
             title="Policies"
             icon={<PolicyIcon size={42} />}
@@ -57,7 +57,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={5} xs={25} sm={20} md={10}>
+        <Col flex={6} xs={25} sm={20} md={10}>
           <HomeCard
             title="APIs"
             icon={<APIIcon size={42} />}
@@ -70,7 +70,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={5} xs={25} sm={20} md={10}>
+        <Col flex={6} xs={25} sm={20} md={10}>
           <HomeCard
             title="Secrets"
             icon={<SecretIcon size={42} />}
@@ -83,33 +83,31 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        {this.props.appState.enableExperimental &&
-          <Col flex={5} xs={25} sm={20} md={10}>
-            <HomeCard
-              title="Data Feeds"
-              icon={<DataFeedIcon size={42} />}
-              iconColor="pink"
-              iconGradient="300"
-              createURL={`${this.props.match.url}/datafeeds/create`}
-              manageURL={`${this.props.match.url}/datafeeds`}
-            >
-              Real-time data feeds
-            </HomeCard>
-          </Col>}
+        <Col flex={6} xs={25} sm={20} md={10}>
+          <HomeCard
+            title="Data Feeds"
+            icon={<DataFeedIcon size={42} />}
+            iconColor="pink"
+            iconGradient="300"
+            createURL={`${this.props.match.url}/datafeeds/create`}
+            manageURL={`${this.props.match.url}/datafeeds`}
+          >
+            Real-time data feeds
+          </HomeCard>
+        </Col>
 
-        {this.props.appState.enableExperimental &&
-          <Col flex={5} xs={25} sm={20} md={10}>
-            <HomeCard
-              title="Stream Specifications"
-              icon={<StreamIcon size={42} />}
-              iconColor="light-blue"
-              iconGradient="500"
-              createURL={`${this.props.match.url}/streamspecs/create`}
-              manageURL={`${this.props.match.url}/streamspecs`}
-            >
-              Transform Data Feeds using a Lambda
-            </HomeCard>
-          </Col>}
+        <Col flex={6} xs={25} sm={20} md={10}>
+          <HomeCard
+            title="Stream Specifications"
+            icon={<StreamIcon size={42} />}
+            iconColor="light-blue"
+            iconGradient="500"
+            createURL={`${this.props.match.url}/streamspecs/create`}
+            manageURL={`${this.props.match.url}/streamspecs`}
+          >
+            Transform Data Feeds using a Lambda
+          </HomeCard>
+        </Col>
       </Row>
     );
   }

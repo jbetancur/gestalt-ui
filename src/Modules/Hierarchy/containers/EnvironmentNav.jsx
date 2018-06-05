@@ -6,7 +6,7 @@ import { Navbar } from 'components/Navigation';
 import { LambdaIcon, ContainerIcon, ProviderIcon, APIIcon, PolicyIcon, SecretIcon, StreamIcon, DataFeedIcon } from 'components/Icons';
 import withApp from 'App/withApp';
 
-const EnvironmentNav = ({ match, appState }) => {
+const EnvironmentNav = ({ match }) => {
   const navItems = [
     {
       key: 'environment--containers',
@@ -49,14 +49,12 @@ const EnvironmentNav = ({ match, appState }) => {
       icon: <StreamIcon size={26} />,
       title: 'Streams',
       to: `${match.url}/streamspecs`,
-      isVisible: appState.enableExperimental,
     },
     {
       key: 'environment--datafeeds',
       icon: <DataFeedIcon size={26} />,
       title: 'Data',
       to: `${match.url}/datafeeds`,
-      isVisible: appState.enableExperimental,
     },
   ];
 
@@ -66,8 +64,7 @@ const EnvironmentNav = ({ match, appState }) => {
 };
 
 EnvironmentNav.propTypes = {
-
-  appState: PropTypes.object.isRequired,
+  // appState: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 

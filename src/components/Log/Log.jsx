@@ -18,7 +18,7 @@ const CodeWrapper = styled.div`
     padding-top: 4.5em;
 
     @media screen and (max-width: 599px) {
-      padding-top: 7.5em
+      padding-top: 7.5em;
     }
   `};
 `;

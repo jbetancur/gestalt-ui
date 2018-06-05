@@ -13,19 +13,19 @@ const iframeStyle = {
 };
 
 const EnhancedDialog = styled(DialogContainer)`
-.md-dialog {
-  ${props => !props.fullPage && 'position: relative'};
-  ${props => !props.fullPage && 'min-width: 45em'};
+  .md-dialog {
+    ${props => !props.fullPage && 'position: relative'};
+    ${props => !props.fullPage && 'min-width: 45em'};
 
-  @media (min-width: 0) and (max-width: 768px) {
-    ${props => !props.fullPage && 'min-width: 25em'};
-  }
+    @media (min-width: 0) and (max-width: 768px) {
+      ${props => !props.fullPage && 'min-width: 25em'};
+    }
 
-  .md-dialog-content {
-    width: 100%;
-    overflow: scroll;
+    .md-dialog-content {
+      width: 100%;
+      overflow: scroll;
+    }
   }
-}
 `;
 
 class ActionsModal extends PureComponent {

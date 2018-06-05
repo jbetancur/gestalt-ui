@@ -110,6 +110,7 @@ class StreamSpecEdit extends Component {
             <Tabs>
               <Tab title="Streams">
                 <StreamInstances
+                  streamSpec={streamSpec}
                   streamInstances={streamInstances}
                   fqon={match.params.fqon}
                   onActionComplete={this.handleActionComplete}
