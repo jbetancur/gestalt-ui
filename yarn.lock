@@ -652,12 +652,12 @@ autoprefixer@^8.0.0:
     postcss "^6.0.19"
     postcss-value-parser "^3.2.3"
 
-autoprefixer@^8.5.2:
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-8.5.2.tgz#52d86a5ea51a6191024d843f88f2748ce3ab39e5"
+autoprefixer@^8.6.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-8.6.0.tgz#6da6b0791e15cb0ebf33c3f299414afd340672c0"
   dependencies:
     browserslist "^3.2.8"
-    caniuse-lite "^1.0.30000846"
+    caniuse-lite "^1.0.30000847"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
     postcss "^6.0.22"
@@ -1736,9 +1736,13 @@ caniuse-lite@^1.0.30000835:
   version "1.0.30000841"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000841.tgz#200079f853ca2839cb80852348d09a551f92f70a"
 
-caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000846:
+caniuse-lite@^1.0.30000844:
   version "1.0.30000847"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000847.tgz#be77f439be29bbc57ae08004b1e470b653b1ec1d"
+
+caniuse-lite@^1.0.30000847:
+  version "1.0.30000849"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000849.tgz#7e1aa48e6d58917dcd70aabf7e7a33514a258f91"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -3431,9 +3435,9 @@ final-form-arrays@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/final-form-arrays/-/final-form-arrays-1.0.4.tgz#74330cb4d64ce07bb1c4a9084d0b65afdac6bf72"
 
-final-form@^4.7.3:
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.7.3.tgz#8442c7f243afce64e43305cf6b239316a0b252d3"
+final-form@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.8.0.tgz#5c46d42e71d05827fc750d034d0cb26cf64451bb"
 
 finalhandler@1.1.0:
   version "1.1.0"
@@ -4310,6 +4314,12 @@ intl-relativeformat@^2.0.0:
 invariant@^2.0.0, invariant@^2.1.1, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.3.tgz#1a827dfde7dcbd7c323f0ca826be8fa7c5e9d688"
+  dependencies:
+    loose-envify "^1.0.0"
+
+invariant@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
     loose-envify "^1.0.0"
 
@@ -7123,17 +7133,21 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-final-form-arrays@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-1.0.4.tgz#888b9b81a806844cf66d73f4e8b60e5f18fa2a11"
+react-final-form-arrays@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-1.0.6.tgz#cf845f99965cbf8200f28ccb4cba471f25655691"
+  dependencies:
+    react-lifecycles-compat "^3.0.4"
 
-react-final-form@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.5.1.tgz#5d66dc4af5c2063608176c5a206782c8b1dbb07b"
+react-final-form@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.5.2.tgz#82deed6cdd7ac1bc7c5e04224fd2545133e55ada"
+  dependencies:
+    react-lifecycles-compat "^3.0.4"
 
-react-flexybox@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-2.0.1.tgz#e15ba44d6fecc1d89267c3fa74e48b02c1c49d47"
+react-flexybox@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-2.0.2.tgz#5f8a0433ba37732275fda7b91038a8be277e47a5"
   dependencies:
     lodash.omit "^4.5.0"
 
@@ -7238,16 +7252,15 @@ react-redux@^5.0.7:
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
 
-react-router-dom@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"
+react-router-dom@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.0.tgz#89b6cbb94f570c6e7e08faaa98962cc1635ab7cf"
   dependencies:
     history "^4.7.2"
-    invariant "^2.2.2"
+    invariant "^2.2.4"
     loose-envify "^1.3.1"
-    prop-types "^15.5.4"
-    react-router "^4.2.0"
-    warning "^3.0.0"
+    prop-types "^15.6.1"
+    react-router "^4.3.0"
 
 react-router-redux@5.0.0-alpha.9:
   version "5.0.0-alpha.9"
@@ -7268,6 +7281,17 @@ react-router@^4.2.0:
     path-to-regexp "^1.7.0"
     prop-types "^15.5.4"
     warning "^3.0.0"
+
+react-router@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.0.tgz#23939cb228df17bd1a2403c55f35f46f0e47fa24"
+  dependencies:
+    history "^4.7.2"
+    hoist-non-react-statics "^2.5.0"
+    invariant "^2.2.4"
+    loose-envify "^1.3.1"
+    path-to-regexp "^1.7.0"
+    prop-types "^15.6.1"
 
 react-swipeable-views-core@^0.12.11:
   version "0.12.11"
@@ -8088,9 +8112,9 @@ sinon-chai@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-3.1.0.tgz#e8c18dd72624eb0aeb95eeee2de809a9859be2cd"
 
-sinon@^5.0.10:
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-5.0.10.tgz#a282b36a7475664c9f98719108e5546907129023"
+sinon@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-5.1.0.tgz#65f463422978638fadf750c026719697feb0dca5"
   dependencies:
     "@sinonjs/formatio" "^2.0.0"
     diff "^3.5.0"
@@ -9328,9 +9352,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.11.0.tgz#b7b68b4fe8a8963a18370a05f84d38d59ada4fbf"
+webpack@^4.11.1:
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.11.1.tgz#1aa0b936f7ae93a52cf38d2ad0d0f46dcf3c2723"
   dependencies:
     "@webassemblyjs/ast" "1.5.10"
     "@webassemblyjs/helper-module-context" "1.5.10"
