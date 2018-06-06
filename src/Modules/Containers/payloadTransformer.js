@@ -33,19 +33,6 @@ export function generatePayload(sourcePayload, updateMode = false) {
     delete payload.properties.cmd;
   }
 
-  // these will be in a string format as a result of redux-form limitations - superced by a future chips component
-  if (source.properties.accepted_resource_roles && source.properties.accepted_resource_roles.length) {
-    // convert to string if an array (updateMode)
-    if (Array.isArray(source.properties.accepted_resource_roles)) {
-      payload.properties.accepted_resource_roles = source.properties.accepted_resource_roles.join();
-      payload.properties.accepted_resource_roles = arrayifyish(payload.properties.accepted_resource_roles);
-    } else {
-      payload.properties.accepted_resource_roles = arrayifyish(source.properties.accepted_resource_roles);
-    }
-  } else {
-    delete payload.properties.accepted_resource_roles;
-  }
-
   // Same idea as above
   if (source.properties.constraints && source.properties.constraints.length) {
     // convert to string if an array (updateMode)
@@ -58,24 +45,6 @@ export function generatePayload(sourcePayload, updateMode = false) {
   } else {
     delete payload.properties.constraints;
   }
-
-  // re-format port mappings
-  payload.properties.port_mappings = payload.properties.port_mappings.map((port) => {
-    const portPayload = { ...port };
-
-    if (port.expose_endpoint && port.virtual_hosts) {
-      if (typeof port.virtual_hosts === 'string') {
-        let hosts = port.virtual_hosts;
-
-        hosts = hosts.replace(/[\s,]+/g, ',');
-        portPayload.virtual_hosts = hosts.split(',');
-      } else {
-        portPayload.virtual_hosts = port.virtual_hosts;
-      }
-    }
-
-    return portPayload;
-  });
 
   // re-format volumes
   payload.properties.volumes = payload.properties.volumes.map((volume) => {

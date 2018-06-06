@@ -4,6 +4,7 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
+import { Chips } from 'components/Lists';
 import networkProtocols from '../lists/networkProtocols';
 import { portMappingServiceNameMaxLen } from '../validations';
 
@@ -28,7 +29,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
 
       return (
         <FieldItem key={`portmapping-${member}`}>
-          <Row gutter={5}>
+          <Row gutter={5} alignItems="baseline">
             <Col flex={1} xs={12} sm={12} md={12} style={{ minWidth: '90px' }}>
               <Field
                 id={`${member}.expose_endpoint`}
@@ -90,10 +91,11 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
             {field.expose_endpoint &&
             <Col flex>
               <Field
+                label="Hostname"
+                addLabel="Add Host"
+                component={Chips}
                 name={`${member}.virtual_hosts`}
-                component={TextField}
-                label="Virtual Hosts"
-                helpText="comma delimited set of virtual host names or addresses"
+                ignorePrefixValidation
               />
             </Col>}
           </Row>

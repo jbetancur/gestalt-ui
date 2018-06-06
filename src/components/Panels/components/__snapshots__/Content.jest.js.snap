@@ -2,7 +2,6 @@
 
 exports[`(Panels) Content renders that is collapsed 1`] = `
 .c0 {
-  background-color: #fff;
   width: 100%;
   display: none;
   padding: 1em;
@@ -15,7 +14,6 @@ exports[`(Panels) Content renders that is collapsed 1`] = `
 
 exports[`(Panels) Content renders that is expanded 1`] = `
 .c0 {
-  background-color: #fff;
   width: 100%;
   display: block;
   padding: 1em;
@@ -28,7 +26,6 @@ exports[`(Panels) Content renders that is expanded 1`] = `
 
 exports[`(Panels) Content renders with minHeight 1`] = `
 .c0 {
-  background-color: #fff;
   width: 100%;
   display: none;
   padding: 1em;
@@ -42,7 +39,6 @@ exports[`(Panels) Content renders with minHeight 1`] = `
 
 exports[`(Panels) Content renders with noPadding 1`] = `
 .c0 {
-  background-color: #fff;
   width: 100%;
   display: none;
   padding: 0;

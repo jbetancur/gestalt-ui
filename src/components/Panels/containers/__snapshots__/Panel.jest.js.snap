@@ -4,11 +4,16 @@ exports[`(Panels) Panel renders component activity status when pending 1`] = `
 .c0 {
   position: relative;
   width: 100%;
+  background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
-<div
+<Component
   className="c0"
+  error={false}
+  expanded={true}
+  fill={false}
+  noShadow={false}
 >
   <WithTheme(Header)
     count={0}
@@ -31,18 +36,23 @@ exports[`(Panels) Panel renders component activity status when pending 1`] = `
       visible={true}
     />
   </WithTheme(Content)>
-</div>
+</Component>
 `;
 
 exports[`(Panels) Panel renders component with basic props 1`] = `
 .c0 {
   position: relative;
   width: 100%;
+  background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
-<div
+<Component
   className="c0"
+  error={false}
+  expanded={true}
+  fill={false}
+  noShadow={false}
 >
   <WithTheme(Header)
     count={0}
@@ -58,18 +68,23 @@ exports[`(Panels) Panel renders component with basic props 1`] = `
     minHeight={false}
     noPadding={false}
   />
-</div>
+</Component>
 `;
 
 exports[`(Panels) Panel renders component with children 1`] = `
 .c0 {
   position: relative;
   width: 100%;
+  background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
-<div
+<Component
   className="c0"
+  error={false}
+  expanded={true}
+  fill={false}
+  noShadow={false}
 >
   <WithTheme(Header)
     count={0}
@@ -89,18 +104,23 @@ exports[`(Panels) Panel renders component with children 1`] = `
       this is a test
     </span>
   </WithTheme(Content)>
-</div>
+</Component>
 `;
 
 exports[`(Panels) Panel renders component with minHeight prop 1`] = `
 .c0 {
   position: relative;
   width: 100%;
+  background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
-<div
+<Component
   className="c0"
+  error={false}
+  expanded={true}
+  fill={false}
+  noShadow={false}
 >
   <WithTheme(Header)
     count={0}
@@ -116,18 +136,23 @@ exports[`(Panels) Panel renders component with minHeight prop 1`] = `
     minHeight="10em"
     noPadding={false}
   />
-</div>
+</Component>
 `;
 
 exports[`(Panels) Panel renders component with noPadding prop 1`] = `
 .c0 {
   position: relative;
   width: 100%;
+  background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
 }
 
-<div
+<Component
   className="c0"
+  error={false}
+  expanded={true}
+  fill={false}
+  noShadow={false}
 >
   <WithTheme(Header)
     count={0}
@@ -143,5 +168,5 @@ exports[`(Panels) Panel renders component with noPadding prop 1`] = `
     minHeight={false}
     noPadding={true}
   />
-</div>
+</Component>
 `;

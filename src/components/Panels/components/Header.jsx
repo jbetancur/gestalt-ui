@@ -44,7 +44,6 @@ const Bubble = styled.div`
 const HeaderStyle = styled.header`
   ${props => !props.expandable && !props.noShadow && 'padding-left: 8px'};
   height: 48px;
-  background-color: ${props => props.theme.colors['$md-white']};
   border-top: ${props => (props.noShadow ? 'none' : `1px solid ${props.theme.colors['$md-grey-200']}`)};
   font-weight: bold;
   user-select: none;

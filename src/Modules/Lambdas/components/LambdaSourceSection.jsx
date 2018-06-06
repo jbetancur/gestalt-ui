@@ -39,7 +39,7 @@ const HeaderControls = styled.div`
 const Options = styled.div`
   flex: 1 1 auto;
 
-  >:first-child {
+  > :first-child {
     margin-right: 10px;
   }
 `;
@@ -48,18 +48,21 @@ const Buttons = styled(({ isFullScreen, ...rest }) => <div {...rest} />)`
   flex: 1 1 auto;
   display: flex;
   justify-content: flex-end;
+
   button {
     margin-left: 5px;
+    margin-right: 5px;
   }
+
   ${props => props.isFullScreen && css`
-  position: fixed;
-  top: 8px;
-  right: 16px;
-  padding: 3px;
-  background: rgb(33, 150, 243, 0.14);
-  border-radius: 5px;
-  z-index: 21;
-`};
+    position: fixed;
+    top: 8px;
+    right: 16px;
+    padding: 3px;
+    background: rgb(33, 150, 243, 0.14);
+    border-radius: 5px;
+    z-index: 21;
+  `};
 `;
 
 const Editor = styled.div`

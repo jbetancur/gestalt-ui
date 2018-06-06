@@ -7,10 +7,10 @@ import { Panel } from 'components/Panels';
 
 const LambdaSection = ({ providers, editMode }) => (
   <Row gutter={5}>
-    <Col flex={12}>
-      <Panel title="General" expandable={false}>
+    <Col flex={6} xs={12} sm={12} md={12}>
+      <Panel title="General" expandable={false} fill>
         <Row gutter={5}>
-          <Col flex={6} xs={12} sm={12}>
+          <Col flex={12}>
             <Field
               id="lambda-provider"
               component={SelectField}
@@ -24,7 +24,7 @@ const LambdaSection = ({ providers, editMode }) => (
               async
             />
           </Col>
-          <Col flex={6} xs={12} sm={12}>
+          <Col flex={12}>
             <Field
               component={TextField}
               name="name"
@@ -33,14 +33,21 @@ const LambdaSection = ({ providers, editMode }) => (
               required
             />
           </Col>
+        </Row>
+      </Panel>
+    </Col>
 
+    <Col flex={6} xs={12} sm={12} md={12}>
+      <Panel title="Description" expandable={false} fill>
+        <Row gutter={5}>
           <Col flex={12}>
             <Field
               id="description"
               component={TextField}
               name="description"
-              label="Description"
+              placeholder="Description"
               rows={1}
+              maxRows={6}
             />
           </Col>
         </Row>

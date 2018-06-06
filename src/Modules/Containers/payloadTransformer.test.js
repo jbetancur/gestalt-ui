@@ -66,39 +66,6 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
     });
 
-    describe('properties.accepted_resource_roles', () => {
-      it('should handle accepted_resource_roles if it is an Array', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            accepted_resource_roles: ['testrole', 'roletest']
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-        expect(payload.properties.accepted_resource_roles).toEqual(['testrole', 'roletest']);
-      });
-
-      it('should handle accepted_resource_roles if it is a comma delimited string', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            accepted_resource_roles: 'testrole, roletest'
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-        expect(payload.properties.accepted_resource_roles).toEqual(['testrole', 'roletest']);
-      });
-
-      it('should set remove accepted_resource_roles if it is \'\'', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            accepted_resource_roles: ''
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.accepted_resource_roles).to.not.exist;
-      });
-    });
-
     describe('properties.constraints', () => {
       it('should handle constraints if it is an Array', () => {
         const sourcePayload = metaModels.container.get({
@@ -129,41 +96,6 @@ describe('(Container Payload Transformer) generatePayload', () => {
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties.constraints).to.not.exist;
-      });
-    });
-
-    describe('properties.port_mappings', () => {
-      it('should correctly format a port_mapping if it is enabled has virtual_hosts that comma delimited strings', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            port_mappings: [{ expose_endpoint: true, virtual_hosts: 'tick, tock' }]
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.port_mappings).toEqual([{ expose_endpoint: true, virtual_hosts: ['tick', 'tock'] }]);
-      });
-
-      it('should correctly format a port_mapping if it is enabled has virtual_hosts is an Array', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            port_mappings: [{ expose_endpoint: true, virtual_hosts: ['tick, tock'] }]
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.port_mappings).toEqual([{ expose_endpoint: true, virtual_hosts: ['tick, tock'] }]);
-      });
-
-      it('should correctly format a port_mapping if it is disabled or there are no virtual_hosts', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            port_mappings: [{ expose_endpoint: false, virtual_hosts: '' }]
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.port_mappings).toEqual([{ expose_endpoint: false, virtual_hosts: '' }]);
       });
     });
 

@@ -7,25 +7,33 @@ import { Panel } from 'components/Panels';
 
 const DataFeedSection = () => (
   <Row gutter={5}>
-    <Col flex={12}>
-      <Panel title="General" expandable={false}>
+    <Col flex={6} xs={12} sm={12}>
+      <Panel title="General" expandable={false} fill>
         <Row gutter={5}>
-          <Col flex={6} xs={12}>
+          <Col flex={12}>
             <Field
               id="name"
               component={TextField}
               name="name"
-              label="Name"
+              label="Data Feed Name"
               required
             />
           </Col>
+        </Row>
+      </Panel>
+    </Col>
 
-          <Col flex={12} xs={12}>
+    <Col flex={6} xs={12} sm={12}>
+      <Panel title="Description" expandable={false} fill>
+        <Row gutter={5}>
+          <Col flex={12}>
             <Field
               id="description"
               component={TextField}
               name="description"
-              label="Description"
+              placeholder="Description"
+              rows={1}
+              maxRows={6}
             />
           </Col>
         </Row>

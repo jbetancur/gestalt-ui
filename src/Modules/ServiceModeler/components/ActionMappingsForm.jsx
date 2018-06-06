@@ -8,7 +8,7 @@ import { SelectField as MDSelectField } from 'react-md';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 import Fieldset from 'components/Fieldset';
-import { ListTable } from 'components/Lists';
+import { Chips } from 'components/Lists';
 import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 
 const ActionsMappingForm = ({ fields, lambdas, values }) => {
@@ -74,7 +74,8 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                   <Col flex={6}>
                     <Fieldset legend="Action Verbs">
                       <Field
-                        component={ListTable}
+                        label="Verb"
+                        component={Chips}
                         prefix={fields.get(index).prefix}
                         name={`${member}.actions`}
                       />

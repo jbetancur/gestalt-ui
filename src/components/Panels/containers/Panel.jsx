@@ -5,9 +5,11 @@ import { DotActivity } from 'components/ProgressIndicators';
 import Header from '../components/Header';
 import Content from '../components/Content';
 
-const PanelWrapper = styled.div`
+const PanelWrapper = styled(({ fill, noShadow, error, expanded, ...rest }) => <div {...rest} />)`
   position: relative;
   width: 100%;
+  ${props => props.fill && props.expanded && 'height: 100%'};
+  background-color: ${props => props.theme.colors['$md-white']};
   ${props => !props.error && !props.noShadow && 'box-shadow: 0 1px 1px 0 rgba(0,0,0,.1), 0 1px 1px 0 rgba(0,0,0,.1), 0 0 1px -4px rgba(0,0,0,.2)'};
   ${props => props.error && css`
     box-shadow: 0 0 3px 0 ${props.theme.colors['$md-red-500']},
@@ -32,6 +34,7 @@ class Panel extends PureComponent {
     error: PropTypes.bool,
     noShadow: PropTypes.bool,
     icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    fill: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -46,6 +49,7 @@ class Panel extends PureComponent {
     error: false,
     noShadow: false,
     icon: false,
+    fill: false,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -53,10 +57,10 @@ class Panel extends PureComponent {
   toggle = () => this.setState({ isExpanded: !this.state.isExpanded });
 
   render() {
-    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow, icon } = this.props;
+    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow, icon, fill } = this.props;
 
     return (
-      <PanelWrapper error={error} noShadow={noShadow}>
+      <PanelWrapper error={error} noShadow={noShadow} fill={fill} expanded={this.state.isExpanded}>
         {!!title &&
         <Header
           title={title}
