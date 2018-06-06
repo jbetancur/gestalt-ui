@@ -1,1 +1,1 @@
-export { default as ListTable } from './ListTable';
+export { default as Chips } from './Chips';

@@ -8,7 +8,7 @@ import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 import Form from 'components/Form';
-import { ListTable } from 'components/Lists';
+import { Chips } from 'components/Lists';
 import Fieldset from 'components/Fieldset';
 import PropertyDefForm from '../components/PropertyDefFormNew';
 import LineageForm from '../components/LineageFormNew';
@@ -106,7 +106,8 @@ const ResourceTypeForm = ({ match,
             <Col flex={12}>
               <Fieldset legend="Verbs">
                 <Field
-                  component={ListTable}
+                  label="Verb"
+                  component={Chips}
                   name="properties.actions.verbs"
                   ignorePrefixValidation
                 />

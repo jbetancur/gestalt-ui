@@ -15,6 +15,7 @@ import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
 import { Caption, Error } from 'components/Typography';
 import Div from 'components/Div';
+import { Chips } from 'components/Lists';
 import { getLastFromSplit } from 'util/helpers/strings';
 import { fixInputNumber } from 'util/forms';
 import PortMappingsForm from '../components/PortMappingsForm';
@@ -100,8 +101,8 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
             </Panel>
           </Col>}
 
-          <Col flex={12}>
-            <Panel title="General" expandable={false}>
+          <Col flex={7} xs={12} sm={12} md={12}>
+            <Panel title="Compute" expandable={false} fill>
               <Row gutter={5}>
                 {!editMode &&
                   <Col flex={6} xs={12}>
@@ -109,7 +110,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                       id="container-name"
                       component={TextField}
                       name="name"
-                      label="Name"
+                      label="Container Name"
                       type="text"
                       required
                       helpText="the name of the container"
@@ -176,15 +177,22 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                     label="Force Pull"
                   />
                 </Col>
+              </Row>
+            </Panel>
+          </Col>
 
+          <Col flex={5} xs={12} sm={12} md={12}>
+            <Panel title="Description" expandable={false} fill>
+              <Row gutter={5}>
                 <Col flex={12}>
                   <Field
                     id="description"
                     component={TextField}
                     name="description"
-                    label="Description"
+                    placeholder="Description"
                     type="text"
                     rows={1}
+                    maxRows={6}
                   />
                 </Col>
               </Row>
@@ -195,8 +203,9 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
             <Panel
               title="Networking"
               expandable={false}
+              noPadding
             >
-              <Row gutter={5}>
+              <Row gutter={5} paddingLeft="16px">
                 <Col flex={6} xs={12}>
                   <Field
                     id="select-network"
@@ -212,7 +221,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                 </Col>
               </Row>
               {values.properties.network &&
-              <Panel title="Service Mappings" noPadding count={values.properties.port_mappings.length}>
+              <Panel title="Service Mappings" noPadding noShadow count={values.properties.port_mappings.length}>
                 <FieldArray
                   name="properties.port_mappings"
                   component={PortMappingsForm}
@@ -317,27 +326,35 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
 
           <Col flex={12}>
             <Panel title="Advanced" defaultExpanded={false}>
-              <Field
-                component={TextField}
-                name="properties.constraints"
-                label="Constraints"
-                type="text"
-                helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
-              />
-              <Field
-                component={TextField}
-                name="properties.accepted_resource_roles"
-                label="Resource Roles"
-                type="text"
-                helpText="Comma delimited set of resource roles"
-              />
-              <Field
-                component={TextField}
-                name="properties.user"
-                label="User"
-                type="text"
-                helpText="unix formatted username"
-              />
+              <Row gutter={5} alignItems="baseline">
+                <Col flex={12}>
+                  <Field
+                    component={TextField}
+                    name="properties.constraints"
+                    label="Constraints"
+                    type="text"
+                    helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="properties.user"
+                    label="User"
+                    type="text"
+                    helpText="unix formatted username"
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    label="Role"
+                    addLabel="Add Role"
+                    component={Chips}
+                    name="properties.accepted_resource_roles"
+                    ignorePrefixValidation
+                  />
+                </Col>
+              </Row>
             </Panel>
           </Col>
         </Row>}

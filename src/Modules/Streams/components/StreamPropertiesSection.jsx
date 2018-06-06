@@ -6,8 +6,9 @@ import { TextField, SelectField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 
 const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
+  // TODO: Remove when we have a Search/Filter query api
   const lambdasFiltered =
-    lambdas.filter(l => l.properties.runtime === 'java' || l.properties.runtime === 'java;scala');
+    lambdas.filter(l => l.properties && l.properties.runtime && (l.properties.runtime === 'java' || l.properties.runtime === 'java;scala'));
 
   return (
     <Row gutter={5}>
@@ -44,7 +45,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
       </Col>
 
       <Col flex={6} xs={12} sm={12}>
-        <Panel title="Input Feed" expandable={false} minHeight="270px">
+        <Panel title="Input Feed" expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
               <Field
@@ -149,7 +150,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
       </Col>
 
       <Col flex={6} xs={12} sm={12}>
-        <Panel title="Output Feed" expandable={false} minHeight="270px">
+        <Panel title="Output Feed" expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
               <Field

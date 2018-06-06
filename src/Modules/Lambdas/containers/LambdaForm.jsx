@@ -39,8 +39,15 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
       </Col>
     </Row>
 
-    <LambdaPeriodicSection />
-    <LambdaAdvancedSection formValues={values} />
+    <Row gutter={5}>
+      <Col flex={6}>
+        <LambdaPeriodicSection />
+      </Col>
+
+      <Col flex={6}>
+        <LambdaAdvancedSection formValues={values} />
+      </Col>
+    </Row>
 
     <FullPageFooter>
       <Button

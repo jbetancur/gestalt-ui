@@ -9,7 +9,7 @@ import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import { Caption } from 'components/Typography';
 import Form from 'components/Form';
-import { ListTable } from 'components/Lists';
+import { Chips } from 'components/Lists';
 import { Panel } from 'components/Panels';
 import RateLimit from '../components/RateLimit';
 import HTTPMethods from '../components/HTTPMethods';
@@ -155,7 +155,7 @@ const APIEndpointForm = ({
                 <Field
                   label="Hostname"
                   addLabel="Add Host"
-                  component={ListTable}
+                  component={Chips}
                   name="properties.hosts"
                   ignorePrefixValidation
                   helpText="at least 1 host is required if a relative path is not specified: e.g. galacticfog.com"

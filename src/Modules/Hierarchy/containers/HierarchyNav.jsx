@@ -40,7 +40,7 @@ const HierarchyNav = (props) => {
     {
       key: 'hierarchy--resourceTypes',
       icon: <MetamodelIcon size={26} />,
-      title: 'Resource Types',
+      title: <div><div>Resource</div><div>Types</div></div>,
       to: `/${match.params.fqon}/resourcetypes`,
     },
     {

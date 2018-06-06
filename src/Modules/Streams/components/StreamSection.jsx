@@ -7,10 +7,10 @@ import { Panel } from 'components/Panels';
 
 const StreamSection = ({ providers, editMode }) => (
   <Row gutter={5}>
-    <Col flex={12}>
-      <Panel title="General" expandable={false}>
+    <Col flex={6} xs={12} sm={12}>
+      <Panel title="General" expandable={false} fill>
         <Row gutter={5}>
-          <Col flex={6} xs={12} sm={12}>
+          <Col flex={12}>
             <Field
               id="stream-provider"
               name={`${editMode ? 'properties.provider.id' : 'properties.provider'}`}
@@ -25,22 +25,30 @@ const StreamSection = ({ providers, editMode }) => (
               disabled={editMode}
             />
           </Col>
-          <Col flex={6} xs={12} sm={12}>
+          <Col flex={12}>
             <Field
               id="name"
               component={TextField}
               name="name"
-              label="Name"
+              label="Stream Name"
               required
             />
           </Col>
+        </Row>
+      </Panel>
+    </Col>
 
+    <Col flex={6} xs={12} sm={12}>
+      <Panel title="Description" expandable={false} fill>
+        <Row gutter={5}>
           <Col flex={12}>
             <Field
               id="description"
               component={TextField}
               name="description"
-              label="Description"
+              placeholder="Description"
+              rows={1}
+              maxRows={6}
             />
           </Col>
         </Row>

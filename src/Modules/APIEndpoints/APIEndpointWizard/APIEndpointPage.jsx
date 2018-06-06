@@ -6,7 +6,7 @@ import { Col, Row } from 'react-flexybox';
 import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 import { Caption } from 'components/Typography';
-import { ListTable } from 'components/Lists';
+import { Chips } from 'components/Lists';
 import HTTPMethods from '../components/HTTPMethods';
 import RateLimit from '../components/RateLimit';
 
@@ -64,7 +64,7 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
                   <Field
                     label="Hostname"
                     addLabel="Add Host"
-                    component={ListTable}
+                    component={Chips}
                     name="properties.hosts"
                     ignorePrefixValidation
                     helpText="at least 1 host is required if a relative path is not specified: e.g. galacticfog.com"

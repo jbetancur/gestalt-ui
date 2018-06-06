@@ -223,7 +223,6 @@ ProviderForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
   fetchEnvSchema: PropTypes.func.isRequired,
