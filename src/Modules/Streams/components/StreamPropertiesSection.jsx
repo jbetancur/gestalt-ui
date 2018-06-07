@@ -5,46 +5,14 @@ import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 
-const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
+const StreamPropertiesSection = ({ lambdas, datafeeds }) => {
   // TODO: Remove when we have a Search/Filter query api
   const lambdasFiltered =
     lambdas.filter(l => l.properties && l.properties.runtime && (l.properties.runtime === 'java' || l.properties.runtime === 'java;scala'));
 
   return (
     <Row gutter={5}>
-      <Col flex={12}>
-        <Panel title="Lambda" expandable={false}>
-          <Row gutter={5}>
-            {!editMode &&
-              <Col flex={6} xs={12} sm={12}>
-                <Field
-                  id="Lambda"
-                  name="properties.processor.lambdaId"
-                  label="Lambda"
-                  component={SelectField}
-                  menuItems={lambdasFiltered.length ? lambdasFiltered : [{ id: null, name: 'No JVM Lambdas were found' }]}
-                  itemLabel="name"
-                  itemValue="id"
-                  helpText="Select a lambda to transform the stream. Note: only JVM based lambdas are supported at this time"
-                  async
-                  required
-                />
-              </Col>}
-
-            <Col flex={6} xs={12} sm={12}>
-              <Field
-                name="properties.lambda_provider.url"
-                label="Laser Provider URL"
-                component={TextField}
-                helpText="The laser provider url"
-                required
-              />
-            </Col>
-          </Row>
-        </Panel>
-      </Col>
-
-      <Col flex={6} xs={12} sm={12}>
+      <Col flex={4} xs={12} sm={12}>
         <Panel title="Input Feed" expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
@@ -71,7 +39,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
               />
             </Col>
 
-            <Col flex={2} xs={6} sm={6}>
+            <Col flex={4} xs={6} sm={6}>
               <Field
                 name="properties.processor.inputStreamConfig.partitions[0].partition"
                 label="Partition"
@@ -83,7 +51,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
               />
             </Col>
 
-            <Col flex={2} xs={6} sm={6}>
+            <Col flex={4} xs={6} sm={6}>
               <Field
                 name="properties.processor.inputStreamConfig.partitions[0].startOffset"
                 label="Start Offset"
@@ -95,7 +63,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
               />
             </Col>
 
-            <Col flex={2} xs={6} sm={6}>
+            <Col flex={4} xs={6} sm={6}>
               <Field
                 name="properties.processor.inputStreamConfig.partitions[0].endOffset"
                 label="End Offset"
@@ -107,7 +75,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
               />
             </Col>
 
-            <Col flex={2} xs={6} sm={6}>
+            <Col flex={4} xs={6} sm={6}>
               <Field
                 component={TextField}
                 name="properties.cpus"
@@ -120,7 +88,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
                 required
               />
             </Col>
-            <Col flex={2} xs={6} sm={6}>
+            <Col flex={4} xs={6} sm={6}>
               <Field
                 component={TextField}
                 name="properties.mem"
@@ -133,7 +101,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
                 required
               />
             </Col>
-            <Col flex={2} xs={6} sm={6}>
+            <Col flex={4} xs={6} sm={6}>
               <Field
                 component={TextField}
                 name="properties.parallelization"
@@ -149,7 +117,28 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
         </Panel>
       </Col>
 
-      <Col flex={6} xs={12} sm={12}>
+      <Col flex={4} xs={12} sm={12}>
+        <Panel title="Transform Feed" expandable={false} fill>
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Field
+                id="Lambda"
+                name="properties.processor.lambdaId"
+                label="Lambda"
+                component={SelectField}
+                menuItems={lambdasFiltered.length ? lambdasFiltered : [{ id: null, name: 'No JVM Lambdas were found' }]}
+                itemLabel="name"
+                itemValue="id"
+                helpText="Note: only JVM based lambdas are supported at this time"
+                async
+                required
+              />
+            </Col>
+          </Row>
+        </Panel>
+      </Col>
+
+      <Col flex={4} xs={12} sm={12}>
         <Panel title="Output Feed" expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
@@ -185,11 +174,10 @@ const StreamPropertiesSection = ({ lambdas, datafeeds, editMode }) => {
 StreamPropertiesSection.propTypes = {
   lambdas: PropTypes.array.isRequired,
   datafeeds: PropTypes.array.isRequired,
-  editMode: PropTypes.bool,
 };
 
 StreamPropertiesSection.defaultProps = {
-  editMode: false,
+  // editMode: false,
 };
 
 export default StreamPropertiesSection;

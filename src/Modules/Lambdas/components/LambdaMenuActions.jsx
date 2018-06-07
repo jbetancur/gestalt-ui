@@ -27,51 +27,46 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, a
         x: MenuButton.HorizontalAnchors.INNER_LEFT,
         y: MenuButton.VerticalAnchors.OVERLAP,
       }}
-      menuItems={[
-        <ListItem
-          key="lambda--edit"
-          primaryText="Edit"
-          leftIcon={<FontIcon>edit</FontIcon>}
-          to={editURL}
-          component={Link}
-        />,
-        <ListItem
-          key="lambda--log"
-          primaryText="View Log"
-          leftIcon={<FontIcon>subject</FontIcon>}
-          to={{
-            pathname: '/logs',
-            search: `?name=${row.name}&fqon=${fqon}&providerId=${row.properties.provider.id}&logType=lambda&logId=${row.id}`
-          }}
-          target="_blank"
-          component={Link}
-        />,
-        <ListItem
-          key="lambda--entitlements"
-          primaryText="Entitlements"
-          leftIcon={<FontIcon>security</FontIcon>}
-          onClick={handleEntitlements}
-        />,
-        <CopyToClipboard
-          key="lambda--copyuuid"
-          text={row.id}
-        >
+      menuItems={
+        <React.Fragment>
           <ListItem
-            primaryText="Copy uuid"
-            leftIcon={<FontIcon>content_copy</FontIcon>}
+            primaryText="Edit"
+            leftIcon={<FontIcon>edit</FontIcon>}
+            to={editURL}
+            component={Link}
           />
-        </CopyToClipboard>,
-        <ActionsMenu
-          key="lambda--actions"
-          icon
-          model={row}
-          actionList={actions}
-          pending={actionsPending}
-          fqon={fqon}
-        />,
-        <Divider key="lambda--divider-1" />,
-        <ListItem key="lambda--delete" primaryText="Delete" leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>} onClick={handleDelete} />,
-      ]}
+          <ListItem
+            primaryText="View Log"
+            leftIcon={<FontIcon>subject</FontIcon>}
+            to={{
+              pathname: '/logs',
+              search: `?name=${row.name}&fqon=${fqon}&providerId=${row.properties.provider.id}&logType=lambda&logId=${row.id}`
+            }}
+            target="_blank"
+            component={Link}
+          />
+          <ListItem
+            primaryText="Entitlements"
+            leftIcon={<FontIcon>security</FontIcon>}
+            onClick={handleEntitlements}
+          />
+          <CopyToClipboard text={row.id}>
+            <ListItem
+              primaryText="Copy uuid"
+              leftIcon={<FontIcon>content_copy</FontIcon>}
+            />
+          </CopyToClipboard>
+          <ActionsMenu
+            icon
+            model={row}
+            actionList={actions}
+            pending={actionsPending}
+            fqon={fqon}
+          />
+          <Divider />
+          <ListItem primaryText="Delete" leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>} onClick={handleDelete} />
+        </React.Fragment>
+      }
       centered
     >
       more_vert

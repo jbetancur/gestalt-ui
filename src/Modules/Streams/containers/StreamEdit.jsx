@@ -82,7 +82,7 @@ class StreamSpecEdit extends Component {
       streamSpecPending && !streamSpec.id ?
         <ActivityContainer id="streamspec-loading" /> :
         <Row center>
-          <Col flex={8} xs={12} sm={12} md={10}>
+          <Col flex={10} xs={12} sm={12} md={10}>
             <ActionsToolbar
               title={streamSpec.name}
               actions={[

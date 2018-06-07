@@ -21,9 +21,6 @@ const get = (model = {}) => {
       cpus: 1,
       mem: 512,
       parallelization: 1,
-      lambda_provider: {
-        url: null,
-      },
       processor: {
         type: 'map',
         lambdaId: null,
@@ -61,9 +58,6 @@ const create = (model = {}) => {
       cpus: 1,
       mem: 512,
       parallelization: 1,
-      lambda_provider: {
-        url: null,
-      },
       processor: {
         type: 'map',
         lambdaId: null,
