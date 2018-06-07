@@ -1,94 +1,95 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { compose } from 'redux';
 import { withProviderActions } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
-import { FontIcon } from 'react-md';
-import { Card } from 'components/Cards';
-import { Timestamp } from 'components/TableCells';
-import { Button } from 'components/Buttons';
-import DataTable from 'react-data-table-component';
-import { ActionsMenu } from 'Modules/Actions';
+import { Card, CardTitle } from 'components/Cards';
+import { FormattedRelative, FormattedTime } from 'react-intl';
 import { Title } from 'components/Typography';
+import { Button } from 'components/Buttons';
+import { orderBy } from 'lodash';
+import { ActionsMenu } from 'Modules/Actions';
 import actions from '../actions';
 
-class StreamInstances extends Component {
-  defineColumns() {
-    const { fqon, streamSpec, providerActions, onActionComplete, showModal } = this.props;
+const TitleContent = styled(Col)`
+  padding: 24px;
+  text-align: center;
+`;
 
-    return [
-      {
-        width: '56px',
-        allowOverflow: true,
-        ignoreRowClick: true,
-        cell: row => (
-          <ActionsMenu
-            icon
-            onActionComplete={onActionComplete}
-            model={row}
-            actionList={providerActions.providerActions}
-            pending={providerActions.providerActionsLoading}
-            isChildResource
-            keyField="persistenceId"
-            parentKeyField="definitionId"
-            fqon={fqon}
-          />
-        )
-      },
-      {
-        minWidth: '170px',
-        ignoreRowClick: true,
-        compact: true,
-        cell: row => (
-          <Button
-            flat
-            primary
-            onClick={() => showModal({ fqon, streamId: streamSpec.id, persistenceId: row.persistenceId })}
-            disabled={row.status === 'stopped'}
-          >
-            View Stream
-          </Button>
-        )
-      },
-      {
-        name: 'Status',
-        selector: 'status',
-        sortable: true,
-      },
-      {
-        name: 'Started',
-        selector: 'startTime',
-        sortable: true,
-        cell: row => <Timestamp timestamp={row.startTime} />
-      },
-      {
-        name: 'Retries',
-        selector: 'retries',
-        sortable: true,
-      },
-    ];
+const CardActions = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+`;
+
+const CardFooter = styled.div`
+  padding: 4px;
+`;
+
+const translateRetries = (value) => {
+  if (value === -1) {
+    return '∞';
   }
 
-  render() {
-    const { streamInstances } = this.props;
+  return value;
+};
 
-    return (
-      <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            noHeader
-            data={streamInstances}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="status"
-            columns={this.defineColumns()}
-            noDataComponent={<Title light>No streams have been started</Title>}
-          />
+const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, onActionComplete, showModal }) => (
+  <Row gutter={5}>
+    {streamInstances.length > 0 ?
+      orderBy(streamInstances, ['startTime'], 'desc').map(stream => (
+        <Col flex={4} xs={12} sm={12} key={stream.persistenceId}>
+          <Card>
+            <CardTitle
+              title={stream.status}
+              subTitle={
+                <React.Fragment>
+                  <div>started: <FormattedRelative value={stream.startTime} /> @<FormattedTime value={stream.startTime} /></div>
+                  retries: {translateRetries(stream.retries)}
+                </React.Fragment>
+              }
+            />
+
+            <CardActions>
+              <ActionsMenu
+                icon
+                onActionComplete={onActionComplete}
+                model={stream}
+                actionList={providerActions.providerActions}
+                pending={providerActions.providerActionsLoading}
+                isChildResource
+                keyField="persistenceId"
+                parentKeyField="definitionId"
+                fqon={fqon}
+              />
+            </CardActions>
+
+            <CardFooter>
+              <Button
+                flat
+                primary
+                onClick={() => showModal({ fqon, streamId: streamSpec.id, persistenceId: stream.persistenceId })}
+                disabled={stream.status === 'stopped'}
+              >
+                View Stream
+              </Button>
+            </CardFooter>
+          </Card>
         </Col>
-      </Row>
-    );
-  }
-}
+      )) :
+      <Col flex={12}>
+        <Row center fill>
+          <TitleContent flex={12}>
+            <Title light>No streams have been started</Title>
+          </TitleContent>
+        </Row>
+      </Col>
+    }
+  </Row>
+);
 
 StreamInstances.propTypes = {
   fqon: PropTypes.string.isRequired,
@@ -100,7 +101,7 @@ StreamInstances.propTypes = {
 };
 
 StreamInstances.defaultProps = {
-  onActionComplete: () => {},
+  onActionComplete: () => { },
 };
 
 export default compose(
