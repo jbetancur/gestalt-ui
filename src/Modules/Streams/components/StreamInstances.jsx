@@ -17,7 +17,25 @@ class StreamInstances extends Component {
   defineColumns() {
     const { fqon, streamSpec, providerActions, onActionComplete, showModal } = this.props;
 
-    const columns = [
+    return [
+      {
+        width: '56px',
+        allowOverflow: true,
+        ignoreRowClick: true,
+        cell: row => (
+          <ActionsMenu
+            icon
+            onActionComplete={onActionComplete}
+            model={row}
+            actionList={providerActions.providerActions}
+            pending={providerActions.providerActionsLoading}
+            isChildResource
+            keyField="persistenceId"
+            parentKeyField="definitionId"
+            fqon={fqon}
+          />
+        )
+      },
       {
         minWidth: '170px',
         ignoreRowClick: true,
@@ -50,30 +68,6 @@ class StreamInstances extends Component {
         sortable: true,
       },
     ];
-
-
-    if (providerActions.providerActions && providerActions.providerActions.length > 0) {
-      columns.unshift({
-        width: '56px',
-        allowOverflow: true,
-        ignoreRowClick: true,
-        cell: row => (
-          <ActionsMenu
-            icon
-            onActionComplete={onActionComplete}
-            model={row}
-            actionList={providerActions.providerActions}
-            pending={providerActions.providerActionsLoading}
-            isChildResource
-            keyField="persistenceId"
-            parentKeyField="definitionId"
-            fqon={fqon}
-          />
-        )
-      });
-    }
-
-    return columns;
   }
 
   render() {
