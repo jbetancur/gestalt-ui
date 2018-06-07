@@ -28,39 +28,35 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
         x: MenuButton.HorizontalAnchors.INNER_LEFT,
         y: MenuButton.VerticalAnchors.OVERLAP,
       }}
-      menuItems={[
-        editURL ?
+      menuItems={
+        <React.Fragment>
+          {editURL ?
+            <ListItem
+              primaryText="Edit"
+              leftIcon={<FontIcon>edit</FontIcon>}
+              to={editURL}
+              component={Link}
+            /> : <div />}
+          {!disableEntitlements ?
+            <ListItem
+              primaryText="Entitlements"
+              leftIcon={<FontIcon>security</FontIcon>}
+              onClick={handleEntitlements}
+            /> : <div />}
+          <CopyToClipboard text={row.id}>
+            <ListItem
+              primaryText="Copy uuid"
+              leftIcon={<FontIcon>content_copy</FontIcon>}
+            />
+          </CopyToClipboard>
+          <Divider />
           <ListItem
-            key={`${entityKey}--edit`}
-            primaryText="Edit"
-            leftIcon={<FontIcon>edit</FontIcon>}
-            to={editURL}
-            component={Link}
-          /> : <div />,
-        !disableEntitlements ?
-          <ListItem
-            key={`${entityKey}--entitlements`}
-            primaryText="Entitlements"
-            leftIcon={<FontIcon>security</FontIcon>}
-            onClick={handleEntitlements}
-          /> : <div />,
-        <CopyToClipboard
-          key={`${entityKey}--copyuuid`}
-          text={row.id}
-        >
-          <ListItem
-            primaryText="Copy uuid"
-            leftIcon={<FontIcon>content_copy</FontIcon>}
+            primaryText="Delete"
+            leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>}
+            onClick={handleDelete}
           />
-        </CopyToClipboard>,
-        <Divider key={`${entityKey}--divider-1`} />,
-        <ListItem
-          key={`${entityKey}--delete`}
-          primaryText="Delete"
-          leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>}
-          onClick={handleDelete}
-        />,
-      ]}
+        </React.Fragment>
+      }
       centered
     >
       more_vert

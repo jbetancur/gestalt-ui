@@ -25,10 +25,6 @@ export default (values) => {
       merge(errors, nestedObjectFromString('properties.provider', 'required'));
     }
 
-    if (!values.properties.lambda_provider || !values.properties.lambda_provider.url) {
-      merge(errors, nestedObjectFromString('properties.lambda_provider.url', 'required'));
-    }
-
     if (!values.properties.processor || !values.properties.processor.lambdaId) {
       merge(errors, nestedObjectFromString('properties.processor.lambdaId', 'required'));
     }

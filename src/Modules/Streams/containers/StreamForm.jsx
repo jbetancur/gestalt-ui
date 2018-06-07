@@ -10,7 +10,7 @@ import StreamPropertiesSection from '../components/StreamPropertiesSection';
 const StreamForm = ({ loading, editMode, handleSubmit, pristine, submitting, match, lambdas, datafeeds, providers }) => (
   <Form onSubmit={handleSubmit} disabled={loading}>
     <StreamSection providers={providers} editMode={editMode} />
-    <StreamPropertiesSection lambdas={lambdas} datafeeds={datafeeds} />
+    <StreamPropertiesSection lambdas={lambdas} datafeeds={datafeeds} editMode={editMode} />
     <FullPageFooter>
       <Button
         to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
