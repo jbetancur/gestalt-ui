@@ -507,7 +507,7 @@ describe('Container Sagas', () => {
     it('should fork a watcher for fetchProviderContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_PROVIDER_CONTAINER_REQUEST, fetchProviderContainer)
+        fork(takeLatest, types.FETCH_PROVIDERCONTAINER_REQUEST, fetchProviderContainer)
       );
     });
   });

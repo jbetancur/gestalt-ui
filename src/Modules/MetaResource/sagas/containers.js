@@ -190,5 +190,5 @@ export default function* () {
   yield fork(takeLatest, types.SCALE_CONTAINER_REQUEST, scaleContainer);
   yield fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer);
   yield fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer);
-  yield fork(takeLatest, types.FETCH_PROVIDER_CONTAINER_REQUEST, fetchProviderContainer);
+  yield fork(takeLatest, types.FETCH_PROVIDERCONTAINER_REQUEST, fetchProviderContainer);
 }

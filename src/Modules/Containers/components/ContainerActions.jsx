@@ -7,7 +7,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MenuButton, ListItem, Divider, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withContainer, withContainers } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 // import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
@@ -71,14 +71,10 @@ class ContainerActions extends PureComponent {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     containerModel: PropTypes.object.isRequired,
-    deleteContainer: PropTypes.func.isRequired,
-    scaleContainer: PropTypes.func.isRequired,
     scaleContainerModal: PropTypes.func.isRequired,
-    migrateContainer: PropTypes.func.isRequired,
-    fetchContainers: PropTypes.func.isRequired,
-    fetchContainer: PropTypes.func.isRequired,
+    containerActions: PropTypes.object.isRequired,
+    containersActions: PropTypes.object.isRequired,
     migrateContainerModal: PropTypes.func.isRequired,
-    promoteContainer: PropTypes.func.isRequired,
     promoteContainerModal: PropTypes.func.isRequired,
     confirmContainerDelete: PropTypes.func.isRequired,
     fetchEnvironment: PropTypes.func.isRequired,
@@ -117,21 +113,22 @@ class ContainerActions extends PureComponent {
   };
 
   populateContainers() {
-    const { match, fetchContainers } = this.props;
+    const { match, containersActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    fetchContainers(match.params.fqon, entity.id, entity.key);
+    containersActions.fetchContainers({
+      fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'apiendpoints' }, isPolling: true
+    });
   }
 
   populateContainer() {
-    const { match, fetchContainer, containerModel } = this.props;
-    const entity = generateContextEntityState(match.params);
+    const { match, containerActions, containerModel } = this.props;
 
-    fetchContainer(match.params.fqon, containerModel.id, entity.id, entity.key, true);
+    containerActions.fetchContainer({ fqon: match.params.fqon, containerId: containerModel.id, isPolling: true });
   }
 
   destroy = () => {
-    const { match, history, confirmContainerDelete, deleteContainer, containerModel, inContainerView, onDestroy } = this.props;
+    const { match, history, confirmContainerDelete, containerActions, containerModel, inContainerView, onDestroy } = this.props;
     const onSuccess = () => {
       if (inContainerView) {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
@@ -141,7 +138,7 @@ class ContainerActions extends PureComponent {
     };
 
     const modalAction = () => {
-      deleteContainer(match.params.fqon, containerModel.id, onSuccess);
+      containerActions.deleteContainer({ fqon: match.params.fqon, containerId: containerModel.id, onSuccess });
       onDestroy();
     };
 
@@ -149,7 +146,7 @@ class ContainerActions extends PureComponent {
   }
 
   start = () => {
-    const { match, scaleContainer, containerModel, inContainerView, onStart } = this.props;
+    const { match, containerActions, containerModel, inContainerView, onStart } = this.props;
 
     if (onStart) {
       onStart();
@@ -163,11 +160,11 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    scaleContainer(match.params.fqon, containerModel.id, 1, onSuccess);
+    containerActions.scaleContainer({ fqon: match.params.fqon, containerId: containerModel.id, numInstances: 1, onSuccess });
   }
 
   suspend = () => {
-    const { match, scaleContainer, containerModel, inContainerView, onSuspend } = this.props;
+    const { match, containerActions, containerModel, inContainerView, onSuspend } = this.props;
 
     if (onSuspend) {
       onSuspend();
@@ -181,11 +178,11 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    scaleContainer(match.params.fqon, containerModel.id, 0, onSuccess);
+    containerActions.scaleContainer({ fqon: match.params.fqon, containerId: containerModel.id, numInstances: 0, onSuccess });
   }
 
   scale = () => {
-    const { match, scaleContainer, scaleContainerModal, containerModel, inContainerView, onScale } = this.props;
+    const { match, containerActions, scaleContainerModal, containerModel, inContainerView, onScale } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -197,7 +194,7 @@ class ContainerActions extends PureComponent {
 
     const modalAction = (numInstances) => {
       if (numInstances !== containerModel.properties.num_instances) {
-        scaleContainer(match.params.fqon, containerModel.id, numInstances, onSuccess);
+        containerActions.scaleContainer({ fqon: match.params.fqon, containerId: containerModel.id, numInstances, onSuccess });
         onScale();
       }
     };
@@ -206,7 +203,7 @@ class ContainerActions extends PureComponent {
   }
 
   migrate = () => {
-    const { match, migrateContainer, migrateContainerModal, containerModel, inContainerView, onMigrate } = this.props;
+    const { match, containerActions, migrateContainerModal, containerModel, inContainerView, onMigrate } = this.props;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -217,7 +214,7 @@ class ContainerActions extends PureComponent {
     };
 
     const modalAction = (providerId) => {
-      migrateContainer(match.params.fqon, containerModel.id, providerId, onSuccess);
+      containerActions.migrateContainer({ fqon: match.params.fqon, containerId: containerModel.id, providerId, onSuccess });
       onMigrate();
     };
 
@@ -225,7 +222,7 @@ class ContainerActions extends PureComponent {
   }
 
   promote = () => {
-    const { match, promoteContainer, promoteContainerModal, containerModel, fetchEnvironment, onPromote } = this.props;
+    const { match, containerActions, promoteContainerModal, containerModel, fetchEnvironment, onPromote } = this.props;
 
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
@@ -235,7 +232,7 @@ class ContainerActions extends PureComponent {
     };
 
     const modalAction = (environment) => {
-      promoteContainer(match.params.fqon, containerModel.id, environment.id, onSuccess(environment));
+      containerActions.promoteContainer({ fqon: match.params.fqon, containerId: containerModel.id, environmentId: environment.id, onSuccess: onSuccess(environment) });
       onPromote();
     };
 
@@ -348,6 +345,8 @@ class ContainerActions extends PureComponent {
 }
 
 export default compose(
+  withContainer({ unload: false }),
+  withContainers({ unload: false }),
   withMetaResource,
   withEntitlements,
   withTheme,

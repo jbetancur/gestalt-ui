@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withContainers, withPickerData } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
@@ -14,6 +14,7 @@ import { FontIcon } from 'react-md';
 import StatusBubble from 'components/StatusBubble';
 import { ContainerIcon as CIcon } from 'components/Icons';
 import { withPoller } from 'components/UtilityHOC';
+import { Button } from 'components/Buttons';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
@@ -27,18 +28,14 @@ class ContainerListing extends PureComponent {
     containers: PropTypes.array.isRequired,
     containersPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
-    fetchContainers: PropTypes.func.isRequired,
-    unloadContainers: PropTypes.func.isRequired,
+    containersActions: PropTypes.object.isRequired,
     providerContext: PropTypes.bool,
+    showImportModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     providerContext: false,
   };
-
-  componentWillUnmount() {
-    this.props.unloadContainers();
-  }
 
   handleRowClicked = (row) => {
     const { history, match } = this.props;
@@ -161,6 +158,7 @@ class ContainerListing extends PureComponent {
             columns={this.defineColumns()}
             noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={[<Button key="show-import-modal" flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>]}
             // expandableRows
             // expandableRowsComponent={<ContainerListingExpandable />}
           />
@@ -171,15 +169,18 @@ class ContainerListing extends PureComponent {
 }
 
 const onPollInterval = (props) => {
-  const { match, fetchContainers, isPolling } = props;
+  const { match, containersActions, isPolling } = props;
   const entity = generateContextEntityState(match.params);
 
-  return fetchContainers(match.params.fqon, entity.id, entity.key, isPolling);
+  return containersActions.fetchContainers({
+    fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'apiendpoints' }, isPolling
+  });
 };
 
 export default compose(
-  withMetaResource,
+  withContainers(),
   withRouter,
   connect(null, actions),
   withPoller(5000, onPollInterval),
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
 )(ContainerListing);

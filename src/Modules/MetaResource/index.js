@@ -30,3 +30,5 @@ export { default as withPolicyRules } from './hocs/withPolicyRules';
 export { default as withAPIEndpoint } from './hocs/withAPIEndpoint';
 export { default as withAPIEndpoints } from './hocs/withAPIEndpoints';
 export { default as withProviderKongsByGatewayPicker } from './hocs/withProviderKongsByGatewayPicker';
+export { default as withContainer } from './hocs/withContainer';
+export { default as withContainers } from './hocs/withContainers';

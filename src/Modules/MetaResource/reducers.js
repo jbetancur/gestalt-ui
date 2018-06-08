@@ -42,6 +42,7 @@ export default combineReducers({
   provider: reducerFactory(['fetch', 'create', 'update'], 'provider', 'provider', providerModel.get()),
   containers: reducerFactory(['fetch'], 'containers', 'containers', []),
   container: reducerFactory(['fetch', 'create', 'update'], 'container', 'container', containerModel.get()),
+  containerImport: reducerFactory(['import'], 'container', 'container', containerModel.get()),
   policies: reducerFactory(['fetch', 'delete'], 'policies', 'policies', []),
   policy: reducerFactory(['fetch', 'create', 'update'], 'policy', 'policy', policyModel.get()),
   policyRules: reducerFactory(['fetch', 'delete'], 'policyRules', 'policyRules', []),
