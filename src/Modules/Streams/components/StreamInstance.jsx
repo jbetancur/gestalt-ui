@@ -2,26 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
-import Log from 'components/Log';
+// import Log from 'components/Log';
 import { Line } from 'react-chartjs-2';
 import { Caption } from 'components/Typography';
 // import { Button } from 'components/Buttons';
 // import moment from 'moment';
 
+
 const Metrics = styled.div`
-  width: 100%;
-  height: 190px;
   display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Metric = styled.div`
-  font-size: 48px;
   text-align: center;
   padding: 8px;
-  margin-top: 32px;
   width: 100%;
+  font-size: 24px;
+  word-break: break-word;
 
   &:first-child {
     border-right: 1px solid #E0E0E0;
@@ -43,65 +40,46 @@ class StreamInstance extends Component {
     persistenceId: PropTypes.string.isRequired,
   };
 
-  state = {
-    isPolling: false,
-    // logItems: [{ topic: 'avro-output', partition: 0, offset: 0, value: 'DHJlY29yZAAB', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 1, value: 'DHJlY29yZAIA', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 2, value: 'DHJlY29yZAQB', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 3, value: 'DHJlY29yZAYA', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 4, value: 'DHJlY29yZAgB', key: 'test-key' }],
-    logItems: [],
-    metrics: {
-      numProcessed: 0,
-      numPerMinute: 0,
-    },
-    numProcessedData: {
-      labels: Array.from({ length: 9 }),
-      datasets: [
-        {
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: '#2196f3',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: '#2196f3',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: '#2196f3',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: Array.from({ length: 9 }),
-        }
-      ]
-    },
-    numPerMinuteData: {
-      labels: Array.from({ length: 9 }),
-      datasets: [
-        {
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: '#ffc107',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: '#ffc107',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: '#ffc107',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: Array.from({ length: 9 }),
-        }
-      ]
-    },
-  };
+  constructor(props) {
+    super(props);
+
+    this.maxChart = 10;
+    this.state = {
+      isPolling: false,
+      // logItems: [{ topic: 'avro-output', partition: 0, offset: 0, value: 'DHJlY29yZAAB', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 1, value: 'DHJlY29yZAIA', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 2, value: 'DHJlY29yZAQB', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 3, value: 'DHJlY29yZAYA', key: 'test-key' }, { topic: 'avro-output', partition: 0, offset: 4, value: 'DHJlY29yZAgB', key: 'test-key' }],
+      logItems: [],
+      metrics: {
+        numProcessed: 0,
+        numPerMinute: 0,
+      },
+      numPerMinuteData: {
+        labels: Array.from({ length: this.maxChart }),
+        datasets: [
+          {
+            fill: true,
+            backgroundColor: 'rgba(33,150,243,.4)',
+            lineTension: 0.1,
+            borderColor: '#2196f3',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: '#2196f3',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#2196f3',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 2,
+            pointHitRadius: 10,
+            label: 'Per Minute',
+            data: Array.from({ length: this.maxChart }),
+          }
+        ]
+      },
+    };
+  }
 
   componentDidMount() {
     this.getStreamMetric();
@@ -118,7 +96,8 @@ class StreamInstance extends Component {
         display: false
       },
       tooltips: {
-        enabled: false
+        enabled: false,
+        mode: 'single',
       },
       title: {
         display: true,
@@ -172,7 +151,6 @@ class StreamInstance extends Component {
         metrics: response.data,
       });
 
-      this.incrementChart('numProcessedData', response.data.numProcessed);
       this.incrementChart('numPerMinuteData', response.data.numPerMinute);
 
       this.pollStreamMetric();
@@ -198,11 +176,11 @@ class StreamInstance extends Component {
     const datasetsCopy = this.state[report].datasets.slice(0);
     // const labelsCopy = this.state[report].labels.slice(0);
     const dataCopy = datasetsCopy[0].data.slice(0);
-    // dataCopy.push(num + Math.floor(Math.random() * 100));
+    // dataCopy.push(num + Math.floor(Math.random() * 4000));
     dataCopy.push(num);
     // labelsCopy.push(moment().format('hh:mm:ss'));
 
-    if (datasetsCopy[0].data.length >= 9) {
+    if (datasetsCopy[0].data.length >= this.maxChart) {
       dataCopy.shift();
       // labelsCopy.shift();
     }
@@ -221,42 +199,26 @@ class StreamInstance extends Component {
     return (
       <React.Fragment>
         <Charts>
-          <div>
-            <Line
-              data={this.state.numProcessedData}
-              options={this.setChartOptions('Processed')}
-              width={325}
-            />
-          </div>
-
-          <Metrics>
-            <Metric>
-              {this.state.metrics.numProcessed}
-              <Caption block>Current</Caption>
-            </Metric>
-            <Metric>
-              {this.state.metrics.numPerMinute}
-              <Caption block>Current</Caption>
-            </Metric>
-
-            {/* <div>
-              <Button flat onClick={this.pollStreamMetric} disabled={this.state.isPolling}>Start</Button>
-            </div>
-            <div>
-              <Button flat onClick={this.stopPolling} disabled={!this.state.isPolling}>Stop</Button>
-            </div> */}
-          </Metrics>
-
-          <div>
-            <Line
-              data={this.state.numPerMinuteData}
-              options={this.setChartOptions('Per Minute')}
-              width={325}
-            />
-          </div>
+          <Line
+            data={this.state.numPerMinuteData}
+            options={this.setChartOptions('Per Minute')}
+          />
         </Charts>
 
-        <Log logItems={this.state.logItems} />
+        <Metrics>
+          <Metric>
+            {Math.round(this.state.metrics.numProcessed)}
+            <Caption block>Processed</Caption>
+          </Metric>
+
+
+          <Metric>
+            {Math.round(this.state.metrics.numPerMinute)}
+            <Caption block>Current Per Minute</Caption>
+          </Metric>
+        </Metrics>
+
+        {/* <Log logItems={this.state.logItems} /> */}
       </React.Fragment>
     );
   }
