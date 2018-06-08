@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { StreamInstanceModal } from 'Modules/Streams';
+import { ContainerImportModal } from 'Modules/Containers';
 import LicenseModal from 'Modules/Licensing';
 import CONFIRM from './Modals/Confirm';
 import IFRAME from './Modals/IFrameModal';
@@ -16,7 +17,8 @@ const MODAL_COMPONENTS = {
   EntitlementModal,
   LicenseModal,
   APIEndpointWizardModal,
-  StreamInstanceModal
+  StreamInstanceModal,
+  ContainerImportModal,
   /* other modals */
 };
 

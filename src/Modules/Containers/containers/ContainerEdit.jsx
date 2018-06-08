@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource, withAPIEndpoints, withPickerData } from 'Modules/MetaResource';
+import { withContainer, withAPIEndpoints, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -15,7 +15,6 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
-import { generateContextEntityState } from 'util/helpers/context';
 import { withPoller } from 'components/UtilityHOC';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from './ContainerForm';
@@ -40,11 +39,9 @@ class ContainerEdit extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
-    fetchContainer: PropTypes.func.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
-    updateContainer: PropTypes.func.isRequired,
+    containerActions: PropTypes.object.isRequired,
     containerPending: PropTypes.bool.isRequired,
-    unloadContainer: PropTypes.func.isRequired,
     inlineMode: PropTypes.bool,
     entitlementActions: PropTypes.object.isRequired,
     containerInstances: PropTypes.array.isRequired,
@@ -82,19 +79,13 @@ class ContainerEdit extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { unloadContainer } = this.props;
-
-    unloadContainer();
-  }
-
   redeployContainer = (values) => {
-    const { match, container, updateContainer, inlineMode } = this.props;
+    const { match, container, containerActions, inlineMode } = this.props;
 
     if (!inlineMode) {
       const payload = generatePayload(values, true);
 
-      updateContainer(match.params.fqon, container.id, payload);
+      containerActions.updateContainer({ fqon: match.params.fqon, containerId: container.id, payload });
     }
   }
 
@@ -236,16 +227,15 @@ const mapStateToProps = (state, ownProps) => ({
 
 const onPollInterval = (props) => {
   if (!props.inlineMode) {
-    const { match, fetchContainer, isPolling } = props;
-    const entity = generateContextEntityState(match.params);
+    const { match, containerActions, isPolling } = props;
 
-    fetchContainer(match.params.fqon, match.params.containerId, entity.id, entity.key, isPolling);
+    containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, isPolling });
   }
 };
 
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-  withMetaResource,
+  withContainer(),
   withAPIEndpoints(),
   withEntitlements,
   withRouter,

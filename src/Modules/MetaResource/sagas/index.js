@@ -40,6 +40,9 @@ export default function* metaSagas() {
     searchSagas(),
     typePropertySagas(),
 
+    yield takeLatest(...generateCreate('CONTAINER', 'containers', 'IMPORT')),
+    yield takeLatest(...generateCreate('CONTAINER', 'containers', 'DETACH')),
+
     yield takeLatest(...generateFetchAll('POLICIES', 'policies')),
     yield takeLatest(...generateFetchOne('POLICY', 'policies')),
     yield takeLatest(...generateCreate('POLICY', 'policies')),

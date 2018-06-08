@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withContainer, withMetaResource, withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -20,7 +20,7 @@ class ContainerCreate extends Component {
   static propTypes = {
     history: PropTypes.object,
     match: PropTypes.object.isRequired,
-    createContainer: PropTypes.func.isRequired,
+    containerActions: PropTypes.object.isRequired,
     fetchEnv: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
@@ -45,13 +45,13 @@ class ContainerCreate extends Component {
   }
 
   create = (values) => {
-    const { match, history, createContainer, inlineMode } = this.props;
+    const { match, history, containerActions, inlineMode } = this.props;
 
     if (!inlineMode) {
       const payload = generatePayload(values);
       const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
 
-      createContainer(match.params.fqon, match.params.environmentId, payload, onSuccess);
+      containerActions.createContainer({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload, onSuccess });
     }
   }
 
@@ -96,6 +96,7 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  withContainer(),
   withMetaResource,
   withRouter,
   connect(mapStateToProps, Object.assign({}, actions)),

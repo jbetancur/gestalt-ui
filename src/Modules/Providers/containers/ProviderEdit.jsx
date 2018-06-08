@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withMetaResource, withContainer, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ContainerEdit, ContainerActions, containerActionCreators } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -27,7 +27,7 @@ class ProviderEdit extends PureComponent {
     history: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     fetchProvider: PropTypes.func.isRequired,
-    fetchProviderContainer: PropTypes.func.isRequired,
+    containerActions: PropTypes.object.isRequired,
     updateProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
@@ -195,15 +195,16 @@ function mapStateToProps(state) {
 }
 
 const onPollInterval = (props) => {
-  const { match, fetchProviderContainer } = props;
+  const { match, containerActions } = props;
 
-  fetchProviderContainer(match.params.fqon, match.params.providerId);
+  containerActions.fetchProviderContainer({ fqon: match.params.fqon, providerId: match.params.providerId });
 };
 
 
 export default compose(
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
   withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
+  withContainer(),
   withMetaResource,
   withEntitlements,
   connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),

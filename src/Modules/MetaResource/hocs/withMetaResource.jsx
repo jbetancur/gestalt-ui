@@ -52,12 +52,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       env: metaResource.env.env,
       envPending: metaResource.env.pending,
 
-      // Subscriptions for Containers
-      containers: metaResource.containers.containers,
-      containersPending: metaResource.containers.pending,
-      container: metaResource.container.container,
-      containerPending: metaResource.container.pending,
-
       // Subscriptions for Providers
       providers: metaResource.providers.providers,
       providersPending: metaResource.providers.pending,

@@ -7,3 +7,4 @@ export { default as ContainerActions } from './components/ContainerActions';
 export { default as ContainerActionsModal } from './ActionModals';
 export { default as containerActionCreators } from './actions';
 export { default as payloadTransformer } from './payloadTransformer';
+export { default as ContainerImportModal } from './containers/ContainerImportModal';
