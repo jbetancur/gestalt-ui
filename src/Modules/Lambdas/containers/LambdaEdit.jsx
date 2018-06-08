@@ -93,7 +93,7 @@ class LambdaEdit extends PureComponent {
     const { lambda, match, lambdaActions } = this.props;
     const payload = generatePatches(lambda, values);
 
-    lambdaActions.updateLambda({ fqon: match.params.fqon, lambdaId: lambda.id, payload, isPolling: true });
+    lambdaActions.updateLambda({ fqon: match.params.fqon, lambdaId: lambda.id, payload });
   }
 
   render() {

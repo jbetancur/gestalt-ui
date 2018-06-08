@@ -18,7 +18,8 @@ describe('Container Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchContainers Sequence with an environmentId', () => {
-    const saga = fetchContainers({ fqon: 'iamfqon', entityKey: 'environments', entityId: '1' });
+    const action = { fqon: 'iamfqon', entityKey: 'environments', entityId: '1' }
+    const saga = fetchContainers(action);
     let result;
 
     it('should make an api call', () => {
@@ -33,13 +34,16 @@ describe('Container Sagas', () => {
       expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTAINERS_FULFILLED,
-          payload: [{ id: 2 }] })
+          payload: [{ id: 2 }],
+          action,
+        }),
       );
     });
   });
 
   describe('fetchContainers Sequence with no environmentId', () => {
-    const saga = fetchContainers({ fqon: 'iamfqon' });
+    const action = { fqon: 'iamfqon' };
+    const saga = fetchContainers(action);
     let result;
 
     it('should make an api call', () => {
@@ -54,7 +58,9 @@ describe('Container Sagas', () => {
       expect(result.value).toEqual(
         put({
           type: types.FETCH_CONTAINERS_FULFILLED,
-          payload: [{ id: 2 }] })
+          payload: [{ id: 2 }],
+          action,
+        }),
       );
     });
   });
@@ -74,7 +80,8 @@ describe('Container Sagas', () => {
 
   describe('fetchContainer Sequence', () => {
     describe('when there are NO env variables to merge', () => {
-      const saga = fetchContainer({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+      const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 }
+      const saga = fetchContainer(action);
       let result;
       it('should make an api call', () => {
         result = saga.next();
@@ -88,13 +95,14 @@ describe('Container Sagas', () => {
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } } })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } }, action })
         );
       });
     });
 
     describe('when there ARE env variables to merge from the parent', () => {
-      const saga = fetchContainer({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
+      const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 };
+      const saga = fetchContainer(action);
       let result;
       it('should make an api call', () => {
         result = saga.next();
@@ -108,7 +116,7 @@ describe('Container Sagas', () => {
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' } } } })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' } } }, action })
         );
       });
     });
@@ -394,7 +402,7 @@ describe('Container Sagas', () => {
       it('should return dispatch a success status', () => {
         result = saga.next({ data: { id: 1, name: 'yay' } });
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, name: 'yay' } })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, name: 'yay' }, action })
         );
 
         // Finish the iteration
@@ -425,7 +433,7 @@ describe('Container Sagas', () => {
       it('should make an api call to get container', () => {
         result = saga.next({ data: [] });
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get() })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get(), action })
         );
 
         // Finish the iteration
