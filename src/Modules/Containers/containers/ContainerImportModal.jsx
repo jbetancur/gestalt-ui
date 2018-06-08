@@ -34,8 +34,11 @@ class ContainerImportFormModal extends Component {
 
   import = (values) => {
     const { containerActions, match } = this.props;
+    const onSuccess = () => this.props.hideModal();
 
-    containerActions.importContainer({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments', payload: values, params: { action: 'import' } });
+    containerActions.importContainer({
+      fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments', payload: values, params: { action: 'import' }, onSuccess
+    });
   }
 
   render() {
