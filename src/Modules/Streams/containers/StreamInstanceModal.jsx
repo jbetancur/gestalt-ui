@@ -26,10 +26,9 @@ class StreamInstanceModal extends Component {
         onHide={this.props.hideModal}
         actions={<Button flat primary onClick={this.props.hideModal}>Close</Button>}
         defaultVisibleTransitionable
-        modal
         initialFocus="div"
         autopadContent={false}
-        width="65em"
+        width="40em"
       >
         <StreamInstance fqon={fqon} streamId={streamId} persistenceId={persistenceId} />
       </DialogContainer>
