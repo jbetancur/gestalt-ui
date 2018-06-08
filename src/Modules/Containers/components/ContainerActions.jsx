@@ -117,7 +117,7 @@ class ContainerActions extends PureComponent {
     const entity = generateContextEntityState(match.params);
 
     containersActions.fetchContainers({
-      fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'apiendpoints' }, isPolling: true
+      fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'apiendpoints' }, isPolling: true,
     });
   }
 

@@ -33,7 +33,7 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     containerActions: bindActionCreators(Object.assign({},
-      createRequestAction(['fetch', 'create', 'update', 'delete', 'promote', 'migrate', 'scale', 'import', 'detach'], 'Container'),
+      createRequestAction(['fetch', 'create', 'update', 'delete', 'promote', 'migrate', 'scale', 'import', 'detach', 'poll'], 'Container'),
       createRequestAction(['fetch'], 'ProviderContainer'),
     ), dispatch)
   });

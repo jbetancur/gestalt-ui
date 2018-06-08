@@ -13,7 +13,6 @@ import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
 import StatusBubble from 'components/StatusBubble';
 import { ContainerIcon as CIcon } from 'components/Icons';
-import { withPoller } from 'components/UtilityHOC';
 import { Button } from 'components/Buttons';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import actions from '../actions';
@@ -36,6 +35,15 @@ class ContainerListing extends PureComponent {
   static defaultProps = {
     providerContext: false,
   };
+
+  componentDidMount() {
+    const { match, containersActions } = this.props;
+    const entity = generateContextEntityState(match.params);
+
+    containersActions.fetchContainers({
+      fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'apiendpoints' }, enablePolling: true
+    });
+  }
 
   handleRowClicked = (row) => {
     const { history, match } = this.props;
@@ -168,19 +176,9 @@ class ContainerListing extends PureComponent {
   }
 }
 
-const onPollInterval = (props) => {
-  const { match, containersActions, isPolling } = props;
-  const entity = generateContextEntityState(match.params);
-
-  return containersActions.fetchContainers({
-    fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'apiendpoints' }, isPolling
-  });
-};
-
 export default compose(
   withContainers(),
   withRouter,
   connect(null, actions),
-  withPoller(5000, onPollInterval),
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
 )(ContainerListing);

@@ -1,6 +1,7 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call, fork, race, take } from 'redux-saga/effects';
 import axios from 'axios';
 import containerModel from '../models/container';
+import { poll } from '../lib/polling';
 import * as types from '../actionTypes';
 
 /**
@@ -12,7 +13,7 @@ export function* fetchContainers(action) {
     const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/containers` : `${action.fqon}/containers`;
     const response = yield call(axios.get, `${url}?expand=true&embed=apiendpoints`);
 
-    yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload: response.data });
+    yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload: response.data, action });
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINERS_REJECTED, payload: e.message });
   }
@@ -43,7 +44,7 @@ export function* fetchContainer(action) {
     const payload = { ...response[0].data };
     payload.properties.env = Object.assign(response[1].data, payload.properties.env);
 
-    yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload });
+    yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload, action });
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINER_REJECTED, payload: e.message });
   }
@@ -171,12 +172,42 @@ export function* fetchProviderContainer(action) {
 
     if (response.data.length) {
       const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}`);
-      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data });
+      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data, action });
     } else {
-      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get() });
+      yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get(), action });
     }
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINER_REJECTED, payload: e.message });
+  }
+}
+
+// Wait for successful response, then fire another request
+// Cancel polling on unload
+function* watchContainerPoll() {
+  while (true) {
+    const { action } = yield take(types.FETCH_CONTAINER_FULFILLED);
+
+    const method = action.providerContainer ? fetchProviderContainer : fetchContainer;
+
+    if (action.enablePolling) {
+      yield race({
+        task: call(poll, method, action),
+        cancel: take(types.UNLOAD_CONTAINER),
+      });
+    }
+  }
+}
+
+function* watchContainersPoll() {
+  while (true) {
+    const { action } = yield take(types.FETCH_CONTAINERS_FULFILLED);
+
+    if (action.enablePolling) {
+      yield race({
+        task: call(poll, fetchContainers, action),
+        cancel: take(types.UNLOAD_CONTAINERS),
+      });
+    }
   }
 }
 
@@ -191,4 +222,6 @@ export default function* () {
   yield fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer);
   yield fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer);
   yield fork(takeLatest, types.FETCH_PROVIDERCONTAINER_REQUEST, fetchProviderContainer);
+  yield fork(watchContainerPoll);
+  yield fork(watchContainersPoll);
 }

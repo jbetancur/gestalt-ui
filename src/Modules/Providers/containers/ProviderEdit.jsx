@@ -13,7 +13,6 @@ import Div from 'components/Div';
 import { Panel } from 'components/Panels';
 import { Caption } from 'components/Typography';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { withPoller } from 'components/UtilityHOC';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -39,8 +38,6 @@ class ProviderEdit extends PureComponent {
     entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     resourcetypesData: PropTypes.array.isRequired,
-    startPolling: PropTypes.func.isRequired,
-    stopPolling: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -50,17 +47,12 @@ class ProviderEdit extends PureComponent {
   state = { redeploy: false };
 
   componentDidMount() {
+    const { match, containerActions } = this.props;
+
+    containerActions.fetchProviderContainer({
+      fqon: match.params.fqon, providerId: match.params.providerId, providerContainer: true, enablePolling: true
+    });
     this.populateProvider();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.provider.id !== this.props.provider.id) {
-      this.props.stopPolling();
-
-      if (this.showContainer && !this.props.containerPending) {
-        this.props.startPolling();
-      }
-    }
   }
 
   componentDidCatch(error, info) {
@@ -194,13 +186,6 @@ function mapStateToProps(state) {
   };
 }
 
-const onPollInterval = (props) => {
-  const { match, containerActions } = props;
-
-  containerActions.fetchProviderContainer({ fqon: match.params.fqon, providerId: match.params.providerId });
-};
-
-
 export default compose(
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
   withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
@@ -213,5 +198,4 @@ export default compose(
     enableReinitialize: true,
     validate,
   }),
-  withPoller(5000, onPollInterval),
 )(ProviderEdit);

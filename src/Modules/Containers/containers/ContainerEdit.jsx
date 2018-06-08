@@ -15,7 +15,6 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
-import { withPoller } from 'components/UtilityHOC';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from './ContainerForm';
 import ContainerActions from '../components/ContainerActions';
@@ -48,8 +47,6 @@ class ContainerEdit extends Component {
     containerServiceAddresses: PropTypes.array.isRequired,
     fetchprovidersData: PropTypes.func.isRequired,
     providersData: PropTypes.array.isRequired,
-    startPolling: PropTypes.func.isRequired,
-    stopPolling: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -57,25 +54,11 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { match, apiEndpointsActions } = this.props;
+    const { match, apiEndpointsActions, containerActions } = this.props;
 
     if (!this.props.inlineMode) {
-      // this.populateContainer();
+      containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, enablePolling: true, });
       apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.container.id !== prevProps.container.id) {
-      this.props.stopPolling();
-      if (!this.props.containerPending) {
-        this.props.startPolling();
-      }
-
-      // stop polling if the container is destroyed
-      if (!this.props.container.id) {
-        this.props.stopPolling();
-      }
     }
   }
 
@@ -93,10 +76,6 @@ class ContainerEdit extends Component {
     const { entitlementActions, container, match } = this.props;
 
     entitlementActions.showEntitlementsModal(container.name, match.params.fqon, container.id, 'containers', 'Container');
-  }
-
-  handleDestroyAction = () => {
-    this.props.stopPolling();
   }
 
   render() {
@@ -135,7 +114,6 @@ class ContainerEdit extends Component {
                   containerModel={container}
                   disableDestroy={inlineMode}
                   disablePromote={inlineMode}
-                  onDestroy={this.handleDestroyAction}
                 />,
               ]}
             />
@@ -225,13 +203,6 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(state, ownProps.containerSpec) : getEditContainerModel(state),
 });
 
-const onPollInterval = (props) => {
-  if (!props.inlineMode) {
-    const { match, containerActions, isPolling } = props;
-
-    containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, isPolling });
-  }
-};
 
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
@@ -245,6 +216,5 @@ export default compose(
     enableReinitialize: true,
     validate,
   }),
-  withPoller(5000, onPollInterval),
 )(ContainerEdit);
 
