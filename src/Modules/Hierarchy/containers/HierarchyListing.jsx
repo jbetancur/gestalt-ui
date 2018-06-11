@@ -4,13 +4,11 @@ import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
-import { DotActivity, ActivityContainer } from 'components/ProgressIndicators';
-import { Button } from 'components/Buttons';
-import { EnvironmentIcon } from 'components/Icons';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import Sort from '../components/Sort';
 import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
-import EnvironmentCard from './EnvironmentCard';
+// import EnvironmentCard from './EnvironmentCard';
 
 class HierarchyListing extends PureComponent {
   static propTypes = {
@@ -19,29 +17,18 @@ class HierarchyListing extends PureComponent {
     organizationSet: PropTypes.object.isRequired,
     workspacesSet: PropTypes.array,
     fetchOrgSet: PropTypes.func.isRequired,
-    fetchEnvironments: PropTypes.func.isRequired,
-    environments: PropTypes.array,
-    environmentsPending: PropTypes.bool,
     organizationSetPending: PropTypes.bool.isRequired,
-    unloadEnvironments: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     organizationsSet: [],
     workspacesSet: [],
-    environments: [],
-    environmentsPending: false,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sortKey: 'description',
-      order: 'asc',
-      showEnvironments: false,
-    };
-  }
+  state = {
+    sortKey: 'description',
+    order: 'asc',
+  };
 
   componentDidMount() {
     const { match, fetchOrgSet } = this.props;
@@ -50,14 +37,8 @@ class HierarchyListing extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { showEnvironments } = this.state;
-
     if (this.props.match.params.fqon && prevProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.fetchOrgSet(this.props.match.params.fqon);
-
-      if (showEnvironments) {
-        this.props.fetchEnvironments(this.props.match.params.fqon);
-      }
     }
   }
 
@@ -68,20 +49,6 @@ class HierarchyListing extends PureComponent {
   setSortOrder = (order) => {
     this.setState({ order });
   }
-
-  toggleEnvironments = () => {
-    const { match, fetchEnvironments, unloadEnvironments } = this.props;
-    const { showEnvironments } = this.state;
-
-    if (!showEnvironments) {
-      this.setState({ showEnvironments: true });
-      fetchEnvironments(match.params.fqon);
-    } else {
-      this.setState({ showEnvironments: false });
-      unloadEnvironments();
-    }
-  }
-
 
   renderCard(item) {
     const cardTypes = {
@@ -95,63 +62,42 @@ class HierarchyListing extends PureComponent {
         return <OrganizationCard model={item} {...this.props} />;
       case 'workspace':
         return <WorkspaceCard model={item} {...this.props} />;
-      case 'environment':
-        return <EnvironmentCard model={item} {...this.props} />;
+      // case 'environment':
+      //   return <EnvironmentCard model={item} {...this.props} />;
       default:
         return <OrganizationCard model={item} {...this.props} />;
     }
   }
 
   render() {
-    const { organizationSetPending, organizationsSet, organizationSet, workspacesSet, environmentsPending, environments } = this.props;
+    const { organizationSetPending, organizationsSet, workspacesSet } = this.props;
     // only show environments that have a workspace parent
-    const cardItems = organizationsSet
-      .concat(workspacesSet)
-      .concat(environments.filter(env => env.properties.workspace));
+    const cardItems = organizationsSet.concat(workspacesSet);
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
-    const environmentToggleName = this.state.showEnvironments ? 'Hide Environments' : 'Show Environments';
 
     return (
       organizationSetPending ? <ActivityContainer id="hierarchy-listing--loading" /> :
-        [
-          <Row key={`${organizationSet.id}--toolbar`} gutter={5} paddingLeft="1em" alignItems="center">
-            <Col flex={2} xs={12} sm={6} md={6}>
-              <Sort
-                visible={sortedOrgs.length > 0}
-                sortKey={this.state.sortKey}
-                order={this.state.order}
-                setKey={this.setSortKey}
-                setOrder={this.setSortOrder}
-              />
+      <React.Fragment>
+        <Row gutter={5} paddingLeft="1em" alignItems="center">
+          <Col flex={2} xs={12} sm={6} md={6}>
+            <Sort
+              visible={sortedOrgs.length > 0}
+              sortKey={this.state.sortKey}
+              order={this.state.order}
+              setKey={this.setSortKey}
+              setOrder={this.setSortOrder}
+            />
+          </Col>
+        </Row>
+        <Row gutter={5} minColWidths={310}>
+          {sortedOrgs.map(item => (
+            <Col key={item.id} flex={2} xs={12}>
+              {this.renderCard(item)}
             </Col>
-            <Col flex={10} xs={12} sm={6} md={6} style={{ textAlign: 'right' }}>
-              <Button
-                flat
-                inkDisabled
-                iconChildren={<EnvironmentIcon size={20} />}
-                primary={this.state.showEnvironments}
-                onClick={this.toggleEnvironments}
-                disabled={environmentsPending}
-                style={{ minWidth: '17em' }}
-              >
-                {environmentsPending ?
-                  <DotActivity
-                    size={1.2}
-                    id="hierarchy-environments--progress"
-                    centered
-                  /> :
-                  environmentToggleName}
-              </Button>
-            </Col>
-          </Row>,
-          <Row key={`${organizationSet.id}--cards`} gutter={5} minColWidths={310}>
-            {sortedOrgs.map(item => (
-              <Col key={item.id} flex={2} xs={12}>
-                {this.renderCard(item)}
-              </Col>
-            ))}
-          </Row>
-        ]
+          ))
+          }
+        </Row>
+      </React.Fragment>
     );
   }
 }
