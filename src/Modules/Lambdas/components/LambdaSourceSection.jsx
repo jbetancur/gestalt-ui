@@ -22,7 +22,6 @@ const FullScreenWrapper = styled(({ isFullScreen, ...rest }) => <div {...rest} /
     right: 0;
     bottom: 0;
     background-color: white;
-    padding-top: 8px;
     height: 100vh;
     overflow: scroll;
     padding: 0;

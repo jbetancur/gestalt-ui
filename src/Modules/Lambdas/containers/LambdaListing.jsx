@@ -55,7 +55,6 @@ class LambdaListing extends PureComponent {
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
-
   deleteMultiple = () => {
     const { match, lambdasActions } = this.props;
     const { selectedRows } = this.state;

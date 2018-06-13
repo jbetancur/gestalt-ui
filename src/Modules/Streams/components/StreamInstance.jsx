@@ -171,7 +171,6 @@ class StreamInstance extends Component {
     this.setState({ isPolling: false });
   }
 
-
   incrementChart(report, num) {
     const datasetsCopy = this.state[report].datasets.slice(0);
     // const labelsCopy = this.state[report].labels.slice(0);
@@ -214,7 +213,7 @@ class StreamInstance extends Component {
 
           <Metric>
             {Math.round(this.state.metrics.numPerMinute)}
-            <Caption block>Current Per Minute</Caption>
+            <Caption block>Estimated Per Minute</Caption>
           </Metric>
         </Metrics>
 

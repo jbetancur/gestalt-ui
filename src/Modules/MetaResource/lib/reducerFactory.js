@@ -27,7 +27,7 @@ export default function createAsyncReducer(verbs = [], key, category, model) {
           const payload = {
             ...state,
             // eslint-disable-next-line no-unneeded-ternary
-            pending: action.isPolling ? false : true, // TODO: polling will be removed when we have SSE,
+            pending: action.isPolling || action.noPending ? false : true, // TODO: polling will be removed when we have SSE,
           };
 
           return payload;
