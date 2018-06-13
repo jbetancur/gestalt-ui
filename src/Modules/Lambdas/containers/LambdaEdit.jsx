@@ -20,6 +20,7 @@ import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
 import LambdaForm from './LambdaForm';
+import LambdaStats from '../components/LambdaStats';
 import validate from '../validations';
 import { generatePatches } from '../payloadTransformer';
 import { getEditLambdaModel, selectLambda } from '../selectors';
@@ -199,6 +200,33 @@ class LambdaEdit extends PureComponent {
                     </Card>
                   </Col>
                 </Row>
+
+
+                <FullPageFooter>
+                  <Button
+                    flat
+                    iconChildren="arrow_back"
+                    component={Link}
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
+                  >
+                    Lambdas
+                  </Button>
+                </FullPageFooter>
+              </Tab>
+
+              <Tab title="Statistics">
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Card>
+                      <LambdaStats
+                        fqon={match.params.fqon}
+                        providerId={lambda.properties.provider.id}
+                        lambdaId={lambda.id}
+                      />
+                    </Card>
+                  </Col>
+                </Row>
+
 
                 <FullPageFooter>
                   <Button
