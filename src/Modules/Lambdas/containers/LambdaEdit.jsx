@@ -201,7 +201,6 @@ class LambdaEdit extends PureComponent {
                   </Col>
                 </Row>
 
-
                 <FullPageFooter>
                   <Button
                     flat
@@ -226,7 +225,6 @@ class LambdaEdit extends PureComponent {
                     </Card>
                   </Col>
                 </Row>
-
 
                 <FullPageFooter>
                   <Button

@@ -27,7 +27,6 @@ const Toolbar = styled.header`
   background-color: white;
   padding-left: 16px;
   padding-right: 16px;
-
   ${props => props.fullPage && css`
     z-index: 1;
   `};
@@ -240,7 +239,7 @@ class Logging extends PureComponent {
             />
             <FileDownloadButton
               icon
-              data={logs.length && logs.join('\n')}
+              data={(logs.length > 0 && logs.join('\n')) || ''}
               tooltipLabel="Download Log"
               fileName={`${name}-${logType}.log`}
               disabled={disableControls}

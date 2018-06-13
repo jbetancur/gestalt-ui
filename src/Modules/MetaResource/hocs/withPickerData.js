@@ -29,7 +29,7 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
     componentDidMount() {
       // isMounted is Required wsince this is a dynamically named component
       this.$isMounted = true;
-
+      this.cancelSource = axios.CancelToken.source();
       if (fetchOnMount) {
         this.get();
       }
@@ -37,10 +37,18 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
 
     componentWillUnmount() {
       this.$isMounted = false;
+      this.cancelSource.cancel();
     }
 
     manualFetch = () => {
       this.get();
+    }
+
+    // we need to be extra vigilant! -_-
+    safeSetState(state) {
+      if (this.$isMounted) {
+        this.setState(state);
+      }
     }
 
     async get() {
@@ -50,21 +58,23 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
       const urlConfig = context ? { fqon: match.params.fqon, entityId: resolvedContext.id, entityKey: resolvedContext.key, params } : { fqon: match.params.fqon, params };
       const url = buildAllURL(entity.toLowerCase(), urlConfig, true);
 
-      if (this.$isMounted) this.setState({ [`${name}Loading`]: true });
+      this.safeSetState({ [`${name}Loading`]: true });
 
       try {
-        const res = await axios.get(url);
+        const res = await axios.get(url, {
+          cancelToken: this.cancelSource.token
+        });
 
         if (res.data.length) {
-          if (this.$isMounted) this.setState({ [`${name}Data`]: orderBy(res.data, sortKey, sortDirection) });
+          this.safeSetState({ [`${name}Data`]: orderBy(res.data, sortKey, sortDirection) });
         } else {
           // eslint-disable-next-line
-          if (this.$isMounted) this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }] });
+          this.safeSetState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }] });
         }
       } catch (error) {
-        if (this.$isMounted) this.setState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], error });
+        this.safeSetState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], error });
       } finally {
-        if (this.$isMounted) this.setState({ [`${name}Loading`]: false });
+        this.safeSetState({ [`${name}Loading`]: false });
       }
     }
 

@@ -35,12 +35,13 @@ class FileDownloadButton extends PureComponent {
   }
 
   render() {
+    const { fileName, data, mimeType, ...rest } = this.props;
     return (
       <Button
         icon
         iconChildren="file_download"
         onClick={() => download(this.props.data, this.props.fileName, this.props.mimeType)}
-        {...this.props}
+        {...rest}
       />
     );
   }

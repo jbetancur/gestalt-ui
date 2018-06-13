@@ -33,3 +33,5 @@ export { default as CSharpIcon } from './CSharpIcon';
 export { default as GoLangIcon } from './GoLangIcon';
 export { default as RhinoJSIcon } from './RhinoJSIcon';
 export { default as MainframeIcon } from './MainframeIcon';
+export { default as DigitalOceanIcon } from './DigitalOceanIcon';
+export { default as AWSIcon } from './AWSIcon';

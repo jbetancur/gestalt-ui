@@ -10,7 +10,6 @@ import { SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
-import { nameMaxLen, shortNameMaxLen } from '../validations';
 
 const HierarchyForm = (props) => {
   const { t } = props;
@@ -54,7 +53,6 @@ const HierarchyForm = (props) => {
               name="description"
               label={t('containment.fields.description.label')}
               type="text"
-              maxLength={nameMaxLen}
               required
               disabled={props.pending}
             />
@@ -65,7 +63,6 @@ const HierarchyForm = (props) => {
               name="name"
               label={t('containment.fields.name.label')}
               type="text"
-              maxLength={shortNameMaxLen}
               required
               helpText={t('containment.fields.name.helpText')}
               disabled={props.pending}

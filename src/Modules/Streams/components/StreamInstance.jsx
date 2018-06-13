@@ -82,11 +82,13 @@ class StreamInstance extends Component {
   }
 
   componentDidMount() {
+    this.cancelSource = axios.CancelToken.source();
     this.getStreamMetric();
   }
 
   componentWillUnmount() {
     clearInterval(this.streamMetricPoll);
+    this.cancelSource.cancel();
   }
 
   setChartOptions(title) {
@@ -134,7 +136,9 @@ class StreamInstance extends Component {
       }
     });
 
-    const response = await logAPI.get('https://gtw1.test.galacticfog.com/test/consume?startOffset=59007&numResults=5');
+    const response = await logAPI.get('https://gtw1.test.galacticfog.com/test/consume?startOffset=59007&numResults=5', null, {
+      cancelToken: this.cancelSource.token
+    });
     this.setState({
       logItems: response.data,
     });
@@ -146,7 +150,9 @@ class StreamInstance extends Component {
     this.setState({ error: null });
 
     try {
-      const response = await axios.post(`${fqon}/streamspecs/${streamId}?action=viewstatus&persistenceId=${persistenceId}`);
+      const response = await axios.post(`${fqon}/streamspecs/${streamId}?action=viewstatus&persistenceId=${persistenceId}`, null, {
+        cancelToken: this.cancelSource.token
+      });
       this.setState({
         metrics: response.data,
       });
