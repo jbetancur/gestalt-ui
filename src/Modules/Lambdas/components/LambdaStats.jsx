@@ -13,6 +13,7 @@ const calculateMetrics = (metricData, id) => {
     numExecutors: metrics.length,
     numProcessed: metrics
       .reduce((a, b) => a + b.lambdasProcessed, 0),
+    averageRuntime: metrics.length > 0 && metrics[0].lambdasPerSecond ? (1 / metrics[0].lambdasPerSecond).toPrecision(3) : 0
     // lambdasPerSecond: metrics.length && metrics[0].lambdasPerSecond ? metrics[0].lambdasPerSecond.toFixed(3) : 0,
   };
 
@@ -96,12 +97,12 @@ class LambdaStats extends Component {
             pointHoverBorderWidth: 2,
             pointRadius: 2,
             pointHitRadius: 10,
-            label: 'Lambdas/Second',
+            label: 'Processed',
             data: Array.from({ length: this.maxChart }),
           }
         ]
       },
-      lambdasPerSecondData: {
+      averageRuntimeData: {
         labels: Array.from({ length: this.maxChart }),
         datasets: [
           {
@@ -123,7 +124,7 @@ class LambdaStats extends Component {
             pointHoverBorderWidth: 2,
             pointRadius: 2,
             pointHitRadius: 10,
-            label: 'Processed',
+            label: 'Average Runtime',
             data: Array.from({ length: this.maxChart }),
           }
         ]
@@ -194,7 +195,7 @@ class LambdaStats extends Component {
 
       this.incrementChart('numExecutorsData', metrics.numExecutors);
       this.incrementChart('numProcessedData', metrics.numProcessed);
-      // this.incrementChart('lambdasPerSecondData', metrics.lambdasPerSecond);
+      this.incrementChart('averageRuntimeData', metrics.averageRuntime);
 
       this.pollMetrics();
     } catch (error) {
@@ -265,19 +266,19 @@ class LambdaStats extends Component {
           </Metric>
         </Col>
 
-        {/* <Col flex={8} xs={12} sm={12}>
+        <Col flex={8} xs={12} sm={12}>
           <Line
-            data={this.state.lambdasPerSecondData}
-            options={this.setChartOptions('Lambdas/Second')}
+            data={this.state.averageRuntimeData}
+            options={this.setChartOptions('Average Runtime/Seconds', 1)}
           />
         </Col>
 
         <Col flex={4} xs={12} sm={12}>
           <Metric>
-            {this.state.metrics.lambdasPerSecond || 0}
-            <Caption block>Current Lambdas/Second</Caption>
+            {this.state.metrics.averageRuntime || 0}
+            <Caption block>Current Average Runtime/Seconds</Caption>
           </Metric>
-        </Col> */}
+        </Col>
       </Row>
     );
   }
