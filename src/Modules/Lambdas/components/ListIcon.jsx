@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NodejsIcon, JavaIcon, ScalaIcon, PythonIcon, CSharpIcon, GoLangIcon, RubyIcon, RhinoJSIcon } from 'components/Icons';
+import { NodejsIcon, JavaIcon, PythonIcon, CSharpIcon, GoLangIcon, RubyIcon, RhinoJSIcon } from 'components/Icons';
 
 const IconWrapper = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const Runtime = styled.span`
 const iconTypes = {
   nodejs: <NodejsIcon />,
   java: <JavaIcon />,
-  'java;scala': <ScalaIcon />,
+  'java;scala': <JavaIcon />,
   python: <PythonIcon />,
   'csharp;dotnet': <CSharpIcon />,
   golang: <GoLangIcon />,
