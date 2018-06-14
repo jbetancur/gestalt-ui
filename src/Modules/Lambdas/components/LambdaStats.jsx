@@ -50,7 +50,7 @@ class LambdaStats extends Component {
       isPolling: false,
       metrics: {},
       numExecutorsData: {
-        labels: Array.from({ length: this.maxChart }),
+        labels: new Array(this.maxChart).fill('executors'),
         datasets: [
           {
             fill: true,
@@ -76,7 +76,7 @@ class LambdaStats extends Component {
         ]
       },
       numProcessedData: {
-        labels: Array.from({ length: this.maxChart }),
+        labels: new Array(this.maxChart).fill('invoked'),
         datasets: [
           {
             cubicInterpolationMode: 'monotone',
@@ -97,13 +97,13 @@ class LambdaStats extends Component {
             pointHoverBorderWidth: 2,
             pointRadius: 2,
             pointHitRadius: 10,
-            label: 'Processed',
+            label: 'Invoked',
             data: Array.from({ length: this.maxChart }),
           }
         ]
       },
       averageRuntimeData: {
-        labels: Array.from({ length: this.maxChart }),
+        labels: new Array(this.maxChart).fill('runtime'),
         datasets: [
           {
             cubicInterpolationMode: 'monotone',
@@ -142,14 +142,14 @@ class LambdaStats extends Component {
     this.cancelSource.cancel();
   }
 
-  setChartOptions(title, suggestedMax = 100) {
+  setChartOptions(title, { max = 10, type = 'logarithmic' } = {}) {
     return {
       maintainAspectRatio: false,
       legend: {
         display: false
       },
       tooltips: {
-        enabled: false,
+        enabled: true,
         mode: 'single',
       },
       title: {
@@ -166,9 +166,13 @@ class LambdaStats extends Component {
           position: 'right',
           ticks: {
             beginAtZero: true,
+            // suggestedMax: max,
             min: 0,
-            suggestedMax,
-            // stepSize: 100,
+            type,
+            ticks: {
+              min: 0,
+              max,
+            }
           },
         }],
         xAxes: [{
@@ -240,7 +244,7 @@ class LambdaStats extends Component {
         <Col flex={8} xs={12} sm={12}>
           <Line
             data={this.state.numExecutorsData}
-            options={this.setChartOptions('Total Executors', 5)}
+            options={this.setChartOptions('Total Executors', { type: 'linear', max: 5 })}
           />
         </Col>
 
@@ -255,21 +259,21 @@ class LambdaStats extends Component {
         <Col flex={8} xs={12} sm={12}>
           <Line
             data={this.state.numProcessedData}
-            options={this.setChartOptions('Total Processed')}
+            options={this.setChartOptions('Total Invocations')}
           />
         </Col>
 
         <Col flex={4} xs={12} sm={12}>
           <Metric>
             {this.state.metrics.numProcessed || 0}
-            <Caption block>Current Total Processed</Caption>
+            <Caption block>Current Total Invocations</Caption>
           </Metric>
         </Col>
 
         <Col flex={8} xs={12} sm={12}>
           <Line
             data={this.state.averageRuntimeData}
-            options={this.setChartOptions('Average Runtime/Seconds', 1)}
+            options={this.setChartOptions('Average Runtime/Seconds', { max: 1 })}
           />
         </Col>
 
