@@ -4177,9 +4177,9 @@ i18next-xhr-backend@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/i18next-xhr-backend/-/i18next-xhr-backend-1.5.1.tgz#50282610780c6a696d880dfa7f4ac1d01e8c3ad5"
 
-i18next@^11.3.2:
-  version "11.3.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-11.3.2.tgz#4a1a7bb14383ba6aed4abca139b03681fc96e023"
+i18next@^11.3.3:
+  version "11.3.3"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-11.3.3.tgz#a6ca3c2a93237c94e242bda7df3411588ac37ea1"
 
 iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
@@ -7140,9 +7140,9 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-data-table-component@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-0.9.0.tgz#419c9f9a428058847f8a4ab36af081c75444f24b"
+react-data-table-component@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-0.9.1.tgz#07b34e16514e92ce366791647c580552fb79312e"
   dependencies:
     lodash "^4.17.5"
     react-lifecycles-compat "^3.0.4"
@@ -7172,11 +7172,9 @@ react-final-form-arrays@^1.0.6:
   dependencies:
     react-lifecycles-compat "^3.0.4"
 
-react-final-form@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.0.tgz#1d96b7a8cd1d399a6b70ae7dcfe73f06053f9f4b"
-  dependencies:
-    react-lifecycles-compat "^3.0.4"
+react-final-form@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.2.tgz#fc61b5abfc8e4afb0fd4dea1a4b70cca07aa3e05"
 
 react-flexybox@^2.0.2:
   version "2.0.2"
@@ -7515,9 +7513,9 @@ redux-devtools-extension@^2.13.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.2.tgz#e0f9a8e8dfca7c17be92c7124958a3b94eb2911d"
 
-redux-form@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.4.0.tgz#5772f152b808954f0debcf918cb78f055c279717"
+redux-form@^7.4.2:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.4.2.tgz#d6061088fb682eb9fc5fb9749bd8b102f03154b0"
   dependencies:
     es6-error "^4.1.1"
     hoist-non-react-statics "^2.5.4"
@@ -7526,6 +7524,7 @@ redux-form@^7.4.0:
     lodash "^4.17.10"
     lodash-es "^4.17.10"
     prop-types "^15.6.1"
+    react-lifecycles-compat "^3.0.4"
 
 redux-logger@^3.0.6:
   version "3.0.6"
@@ -9313,9 +9312,9 @@ webpack-bundle-analyzer@^2.13.1:
     opener "^1.4.3"
     ws "^4.0.0"
 
-webpack-cli@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.0.6.tgz#5d414e66c6576d4050c1e6b7ab3ecf9969106525"
+webpack-cli@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.0.7.tgz#d4171aa6a52f28d3a40048db3d0764e1c601c029"
   dependencies:
     chalk "^2.4.1"
     cross-spawn "^6.0.5"
