@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  width: 100%;
   ${() => media.xs`
     display: none;
   `};
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Search = styled(TextField)`
-  width: 300px;
+  max-width: 400px;
   margin-left: 10px;
 `;
 

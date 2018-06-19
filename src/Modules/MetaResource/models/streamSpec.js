@@ -25,7 +25,6 @@ const get = (model = {}) => {
         type: 'map',
         lambdaId: null,
         inputStreamConfig: {
-          name: null,
           feedID: null,
           partitions: [{
             partition: 0,
@@ -34,7 +33,6 @@ const get = (model = {}) => {
           }],
         },
         outputStreamConfig: {
-          name: null,
           feedID: null,
         }
       },
@@ -62,7 +60,6 @@ const create = (model = {}) => {
         type: 'map',
         lambdaId: null,
         inputStreamConfig: {
-          name: null,
           feedID: null,
           partitions: [{
             partition: 0,
@@ -71,7 +68,6 @@ const create = (model = {}) => {
           }],
         },
         outputStreamConfig: {
-          name: null,
           feedID: null,
         }
       },

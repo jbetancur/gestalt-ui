@@ -30,15 +30,6 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => {
               />
             </Col>
 
-            <Col flex={12}>
-              <Field
-                name="properties.processor.inputStreamConfig.name"
-                component={TextField}
-                label="Feed Name"
-                required
-              />
-            </Col>
-
             <Col flex={4} xs={6} sm={6}>
               <Field
                 name="properties.processor.inputStreamConfig.partitions[0].partition"
@@ -152,15 +143,6 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => {
                 itemValue="id"
                 helpText="Specify and Output Feed"
                 async
-                required
-              />
-            </Col>
-
-            <Col flex={12}>
-              <Field
-                name="properties.processor.outputStreamConfig.name"
-                component={TextField}
-                label="Feed Name"
                 required
               />
             </Col>

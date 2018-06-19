@@ -33,16 +33,8 @@ export default (values) => {
       merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.feedID', 'required'));
     }
 
-    if (!values.properties.processor || !values.properties.processor.inputStreamConfig || !values.properties.processor.inputStreamConfig.name) {
-      merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.name', 'required'));
-    }
-
     if (!values.properties.processor || !values.properties.processor.outputStreamConfig || !values.properties.processor.outputStreamConfig.feedID) {
       merge(errors, nestedObjectFromString('properties.processor.outputStreamConfig.feedID', 'required'));
-    }
-
-    if (!values.properties.processor || !values.properties.processor.outputStreamConfig || !values.properties.processor.outputStreamConfig.name) {
-      merge(errors, nestedObjectFromString('properties.processor.outputStreamConfig.name', 'required'));
     }
 
     const { partition } = values.properties.processor.inputStreamConfig.partitions[0];
@@ -60,7 +52,6 @@ export default (values) => {
       merge(errors, nestedObjectFromString('properties.processor.inputStreamConfig.partitions[0].endOffset', 'required'));
     }
   }
-
 
   return errors;
 };
