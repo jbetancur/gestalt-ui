@@ -40,7 +40,7 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => 
       {!!subtitle &&
         <Subtitle>{subtitle}</Subtitle>}
     </TitleStyle>
-    {actions.length > 0 && showActions &&
+    {actions && showActions &&
       <ActionStyle>
         {actions}
       </ActionStyle>}
@@ -48,16 +48,20 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => 
 );
 
 ActionsHeader.propTypes = {
-  title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   subtitle: PropTypes.string,
   titleIcon: PropTypes.node,
-  actions: PropTypes.arrayOf(PropTypes.node),
+  actions: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   showActions: PropTypes.bool,
 };
 
 ActionsHeader.defaultProps = {
+  title: null,
   subtitle: null,
-  actions: [],
+  actions: null,
   titleIcon: null,
   showActions: true,
 };

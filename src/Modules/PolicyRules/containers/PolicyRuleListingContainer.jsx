@@ -12,6 +12,7 @@ import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withPolicyRules } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
@@ -164,6 +165,7 @@ class PolicyRuleListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<Title light>There are no rules to display</Title>}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.policyRulesPending} />}
           />
         </Col>
       </Row>
@@ -171,9 +173,13 @@ class PolicyRuleListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  policyRules: listSelectors.filterItems()(state, 'policyRules', 'policyRules'),
+});
+
 export default compose(
   withPolicyRules,
   withRouter,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(PolicyRuleListing);
 

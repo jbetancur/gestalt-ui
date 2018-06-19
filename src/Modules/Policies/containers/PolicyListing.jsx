@@ -11,6 +11,7 @@ import { PolicyIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withPolicies } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -162,6 +163,7 @@ class PolicyListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.policiesPending} />}
           />
         </Col>
       </Row>
@@ -169,8 +171,12 @@ class PolicyListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  policies: listSelectors.filterItems()(state, 'policies', 'policies'),
+});
+
 export default compose(
   withPolicies,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(PolicyListing);
 

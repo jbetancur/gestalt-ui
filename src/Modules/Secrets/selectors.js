@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { metaModels } from 'Modules/MetaResource';
 
+export const selectSecrets = state => state.metaResource.secrets.secrets;
 export const selectSecret = state => state.metaResource.secret.secret;
 
 export const getCreateSecretModel = createSelector(

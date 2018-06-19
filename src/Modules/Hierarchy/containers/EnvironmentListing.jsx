@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import { EnvironmentIcon } from 'components/Icons';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { NoData } from 'components/TableCells';
 import Sort from '../components/Sort';
+import ListingHeader from '../components/ListingHeader';
 import EnvironmentCard from './EnvironmentCard';
 
 class EnvironmentListing extends Component {
@@ -53,34 +58,53 @@ class EnvironmentListing extends Component {
   render() {
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
-    return [
-      this.props.environmentsPending && <ActivityContainer key="environments-listing--loading" id="environments-listing--loading" />,
-      <Row key="environment--listing" gutter={5} paddingLeft="1em" alignItems="center">
-        <Col flex={2} xs={9} sm={3}>
-          <Sort
-            visible={sortedEnvironments.length > 0}
-            sortKey={this.state.sortKey}
-            order={this.state.order}
-            setKey={this.setSortKey}
-            setOrder={this.setSortOrder}
-            isEnvironment
-          />
-        </Col>
-      </Row>,
-      <Row key="environment--cards" gutter={5} minColWidths={310}>
-        {sortedEnvironments.map(item => (
-          <Col key={item.id} flex={2} xs={12}>
-            <EnvironmentCard
-              model={item}
-              {...this.props}
+    return (
+      <React.Fragment>
+        {this.props.environmentsPending && <ActivityContainer key="environments-listing--loading" id="environments-listing--loading" />}
+        <ListingHeader
+          leftItems={
+            <Sort
+              disabled={!this.props.environments.length}
+              sortKey={this.state.sortKey}
+              order={this.state.order}
+              setKey={this.setSortKey}
+              setOrder={this.setSortOrder}
+              isEnvironment
             />
-          </Col>)
-        )}
-      </Row>
-    ];
+          }
+          rightItems={
+            <SelectFilter disabled={this.props.environmentsPending} />
+          }
+        />
+        <Row gutter={5} minColWidths={310}>
+          {sortedEnvironments.map(item => (
+            <Col key={item.id} flex={2} xs={12}>
+              <EnvironmentCard
+                model={item}
+                {...this.props}
+              />
+            </Col>)
+          )}
+
+          {!this.props.environmentsPending && !this.props.environments.length &&
+          <Row center fill paddingTop="120px">
+            <NoData
+              message="There are no environments to display"
+              icon={<EnvironmentIcon size={150} />}
+              showCreate={false}
+            />
+          </Row>}
+        </Row>
+      </React.Fragment>
+    );
   }
 }
 
+const mapStateToProps = state => ({
+  environments: listSelectors.filterItems(['name', 'description'])(state, 'environments', 'environments'),
+});
+
 export default compose(
-  withMetaResource
+  withMetaResource,
+  connect(mapStateToProps)
 )(EnvironmentListing);

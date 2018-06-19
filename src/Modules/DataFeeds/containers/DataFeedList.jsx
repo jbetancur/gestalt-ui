@@ -11,6 +11,7 @@ import { DataFeedIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withDatafeeds } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -163,6 +164,7 @@ class DataFeedList extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no data feeds to display" icon={<DataFeedIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.datafeedsPending} />}
           />
         </Col>
       </Row>
@@ -170,8 +172,12 @@ class DataFeedList extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  datafeeds: listSelectors.filterItems()(state, 'datafeeds', 'datafeeds'),
+});
+
 export default compose(
   withDatafeeds,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(DataFeedList);
 

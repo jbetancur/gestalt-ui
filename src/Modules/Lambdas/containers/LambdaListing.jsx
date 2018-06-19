@@ -11,6 +11,7 @@ import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withLambdas } from 'Modules/MetaResource';
 import { LambdaIcon } from 'components/Icons';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import LambdaMenuActions from '../components/LambdaMenuActions';
 import ListIcon from '../components/ListIcon';
@@ -173,6 +174,7 @@ class LambdaListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.lambdasPending} />}
           />
         </Col>
       </Row>
@@ -180,8 +182,12 @@ class LambdaListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  lambdas: listSelectors.filterItems()(state, 'lambdas', 'lambdas'),
+});
+
 export default compose(
   withLambdas,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(LambdaListing);
 

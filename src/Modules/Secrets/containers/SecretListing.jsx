@@ -11,6 +11,7 @@ import { SecretIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withSecrets } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -160,6 +161,7 @@ class SecretListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no secrets to display" icon={<SecretIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.secretsPending} />}
           />
         </Col>
       </Row>
@@ -167,7 +169,11 @@ class SecretListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  secrets: listSelectors.filterItems()(state, 'secrets', 'secrets'),
+});
+
 export default compose(
   withSecrets,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(SecretListing);

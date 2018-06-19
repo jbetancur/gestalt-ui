@@ -11,6 +11,7 @@ import { StreamIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withStreamSpecs } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -153,6 +154,7 @@ class StreamList extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no stream specifications to display" icon={<StreamIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.streamSpecsPending} />}
           />
         </Col>
       </Row>
@@ -160,8 +162,12 @@ class StreamList extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  streamSpecs: listSelectors.filterItems()(state, 'streamSpecs', 'streamSpecs'),
+});
+
 export default compose(
   withStreamSpecs,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(StreamList);
 

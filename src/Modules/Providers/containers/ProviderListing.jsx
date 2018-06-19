@@ -10,6 +10,7 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { ProviderIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { Checkbox, FontIcon } from 'react-md';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -181,6 +182,7 @@ class ProviderListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.providersPending} />}
           />
         </Col>
       </Row>
@@ -188,8 +190,12 @@ class ProviderListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  providers: listSelectors.filterItems()(state, 'providers', 'providers'),
+});
+
 export default compose(
   withMetaResource,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(ProviderListing);
 

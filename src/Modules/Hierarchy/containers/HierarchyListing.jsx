@@ -8,6 +8,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import Sort from '../components/Sort';
 import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
+import ListingHeader from '../components/ListingHeader';
 // import EnvironmentCard from './EnvironmentCard';
 
 class HierarchyListing extends PureComponent {
@@ -78,17 +79,17 @@ class HierarchyListing extends PureComponent {
     return (
       organizationSetPending ? <ActivityContainer id="hierarchy-listing--loading" /> :
       <React.Fragment>
-        <Row gutter={5} paddingLeft="1em" alignItems="center">
-          <Col flex={2} xs={12} sm={6} md={6}>
+        <ListingHeader
+          leftItems={
             <Sort
-              visible={sortedOrgs.length > 0}
+              disabled={!sortedOrgs.length}
               sortKey={this.state.sortKey}
               order={this.state.order}
               setKey={this.setSortKey}
               setOrder={this.setSortOrder}
             />
-          </Col>
-        </Row>
+          }
+        />
         <Row gutter={5} minColWidths={310}>
           {sortedOrgs.map(item => (
             <Col key={item.id} flex={2} xs={12}>

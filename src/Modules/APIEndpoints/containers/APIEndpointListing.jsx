@@ -12,6 +12,7 @@ import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withAPIEndpoints } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
@@ -199,6 +200,7 @@ class APIEndpointListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<Title light>There are no endpoints to display</Title>}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.apiEndpointsPending} />}
           />
         </Col>
       </Row>
@@ -206,8 +208,12 @@ class APIEndpointListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  apiEndpoints: listSelectors.filterItems()(state, 'apiEndpoints', 'apiEndpoints'),
+});
+
 export default compose(
   withAPIEndpoints(),
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(APIEndpointListing);
 

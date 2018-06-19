@@ -94,4 +94,3 @@ export const getContainerServiceAddresses = createSelector(
   [selectContainer],
   container => metaModels.container.get(container).properties.port_mappings
 );
-

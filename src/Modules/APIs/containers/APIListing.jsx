@@ -11,6 +11,7 @@ import { APIIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withAPIs } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 
@@ -154,6 +155,7 @@ class APIListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.apisPending} />}
           />
         </Col>
       </Row>
@@ -161,8 +163,12 @@ class APIListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  apis: listSelectors.filterItems()(state, 'apis', 'apis'),
+});
+
 export default compose(
   withAPIs,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(APIListing);
 

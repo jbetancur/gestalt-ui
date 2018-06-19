@@ -6,6 +6,7 @@ import { Title } from 'components/Typography';
 import { Button } from 'components/Buttons';
 
 const NoDataContainer = styled.div`
+  text-align: center;
   position: relative;
 `;
 
@@ -24,7 +25,7 @@ const TitleStyled = styled(Title)`
   padding-top: 16px;
 `;
 
-const NoData = ({ match, message, icon }) => (
+const NoData = ({ match, message, icon, createPath, showCreate }) => (
   <NoDataContainer>
     <IconWaterMark>
       {icon}
@@ -32,16 +33,17 @@ const NoData = ({ match, message, icon }) => (
     <TitleStyled light>
       {message}
     </TitleStyled>
+    {showCreate &&
     <NoDataWrapper>
       <Button
         raised
         primary
         component={Link}
-        to={`${match.url}/create`}
+        to={createPath || `${match.url}/create`}
       >
         Create One
       </Button>
-    </NoDataWrapper>
+    </NoDataWrapper>}
   </NoDataContainer>
 
 );
@@ -54,6 +56,13 @@ NoData.propTypes = {
     PropTypes.node,
     PropTypes.func,
   ]).isRequired,
+  createPath: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  showCreate: PropTypes.bool,
+};
+
+NoData.defaultProps = {
+  createPath: null,
+  showCreate: true,
 };
 
 export default withRouter(NoData);

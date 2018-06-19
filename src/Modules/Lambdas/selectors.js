@@ -4,6 +4,7 @@ import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
 
 export const selectLambda = state => state.metaResource.lambda.lambda;
+export const selectLambdas = state => state.metaResource.lambdas.lambdas;
 export const selectEnv = state => state.metaResource.env.env;
 
 export const getCreateLambdaModel = createSelector(

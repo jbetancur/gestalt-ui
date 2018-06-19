@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
 import { DEBUG } from '../constants';
+import debounce from './middlewares/debounce';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,6 +26,7 @@ export default function configureStore(history) {
   let middlewares = [
     sagaMiddleware,
     thunk,
+    debounce(),
     routerMiddleware(history),
   ];
 

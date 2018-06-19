@@ -8,6 +8,7 @@ import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
@@ -166,7 +167,12 @@ class ContainerListing extends PureComponent {
             columns={this.defineColumns()}
             noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
-            actions={[<Button key="show-import-modal" flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>]}
+            actions={
+              <React.Fragment>
+                <SelectFilter disabled={this.props.containersPending} />
+                <Button flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>
+              </React.Fragment>
+            }
             // expandableRows
             // expandableRowsComponent={<ContainerListingExpandable />}
           />
@@ -176,9 +182,13 @@ class ContainerListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  containers: listSelectors.filterItems()(state, 'containers', 'containers'),
+});
+
 export default compose(
   withContainers(),
   withRouter,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
 )(ContainerListing);

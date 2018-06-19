@@ -11,6 +11,7 @@ import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withResourceTypes } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import actions from '../actions';
 
 class ResourceTypeListing extends PureComponent {
@@ -18,7 +19,7 @@ class ResourceTypeListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     resourceTypes: PropTypes.array.isRequired,
-    resourceTypesActions: PropTypes.func.isRequired,
+    resourceTypesActions: PropTypes.object.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
   };
@@ -127,6 +128,7 @@ class ResourceTypeListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.resourceTypesPending} />}
           />
         </Col>
       </Row>
@@ -134,7 +136,11 @@ class ResourceTypeListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  resourceTypes: listSelectors.filterItems()(state, 'resourceTypes', 'resourceTypes'),
+});
+
 export default compose(
   withResourceTypes,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(ResourceTypeListing);
