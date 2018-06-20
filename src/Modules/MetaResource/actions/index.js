@@ -2,7 +2,6 @@ import organizations from './organizations';
 import workspaces from './workspaces';
 import environments from './environments';
 import providers from './providers';
-import entitlements from './entitlements';
 import users from './users';
 import groups from './groups';
 import env from './env';
@@ -15,7 +14,6 @@ export default Object.assign({},
   workspaces,
   environments,
   providers,
-  entitlements,
   users,
   groups,
   env,

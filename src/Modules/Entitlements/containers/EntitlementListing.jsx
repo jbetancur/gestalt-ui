@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withMetaResource, withSelf } from 'Modules/MetaResource';
+import { withMetaResource, withEntitlements, withSelf } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
@@ -21,10 +21,8 @@ class EntitlementListing extends PureComponent {
     entityId: PropTypes.string,
     entityKey: PropTypes.string,
     entitlements: PropTypes.array.isRequired,
-    fetchEntitlements: PropTypes.func.isRequired,
-    unloadEntitlements: PropTypes.func.isRequired,
     entitlementsPending: PropTypes.bool.isRequired,
-    updateEntitlements: PropTypes.func.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
     unloadSearch: PropTypes.func.isRequired,
     self: PropTypes.object.isRequired,
   };
@@ -48,32 +46,23 @@ class EntitlementListing extends PureComponent {
   }
 
   componentDidMount() {
-    const { fqon, fetchEntitlements, entityId, entityKey } = this.props;
+    const { fqon, entitlementActions, entityId, entityKey } = this.props;
 
-    fetchEntitlements(fqon, entityId, entityKey, this.state.selectedIdentityId);
-  }
-
-  componentWillUnmount() {
-    this.props.unloadEntitlements();
+    entitlementActions.fetchEntitlements({ fqon, entityId, entityKey, identityId: this.state.selectedIdentityId });
   }
 
   update = () => {
-    const { fqon, fetchEntitlements, updateEntitlements, entitlements, entityId, entityKey } = this.props;
-    const identity = this.state.selectedIdentityId;
+    const { fqon, entitlementActions, entitlements, entityId, entityKey } = this.props;
+    const identityId = this.state.selectedIdentityId;
 
-    const entitlementActions = [];
-    entitlements.forEach((entitlement) => {
-      entitlement.actions.forEach((action) => {
-        entitlementActions.push(action);
-      });
-    });
+    const compiledActions = entitlements.flatMap(entitlement => entitlement.actions.map(action => action));
 
-    const onSuccess = () => fetchEntitlements(fqon, entityId, entityKey, identity);
-    updateEntitlements(fqon, identity, entitlementActions, entityId, entityKey, onSuccess);
+    const onSuccess = () => entitlementActions.fetchEntitlements({ fqon, entityId, entityKey, identityId });
+    entitlementActions.updateEntitlement({ fqon, identityId, actions: compiledActions, entitlementActions, onSuccess });
   }
 
   handleSelectedIdentity = (selectedIdentityId, selectedIdentity) => {
-    const { fqon, fetchEntitlements, entityId, entityKey } = this.props;
+    const { fqon, entitlementActions, entityId, entityKey } = this.props;
 
     this.setState({
       selectedIdentityId,
@@ -81,7 +70,7 @@ class EntitlementListing extends PureComponent {
       selectedIdentityType: selectedIdentity.typeId,
     });
 
-    fetchEntitlements(fqon, entityId, entityKey, selectedIdentityId);
+    entitlementActions.fetchEntitlements({ fqon, entityId, entityKey, identityId: selectedIdentityId });
   }
 
   handleFieldNameChange = (selectedSearchFieldValue) => {
@@ -170,9 +159,9 @@ class EntitlementListing extends PureComponent {
   }
 }
 
-
 export default compose(
   withSelf,
+  withEntitlements(),
   withMetaResource,
   connect(null, actions)
 )(EntitlementListing);

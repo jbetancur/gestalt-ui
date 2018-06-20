@@ -2,7 +2,6 @@ import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import entitlementSagas, {
   fetchEntitlements,
-  fetchIdentities,
   updateEntitlements,
 } from './entitlements';
 import * as types from '../actionTypes';
@@ -15,7 +14,7 @@ describe('Entitlement Sagas', () => {
 
     describe('fetchEntitlements with an entityId/entityKey when the identity matches', () => {
       const saga = fetchEntitlements({
-        fqon: 'iamfqon', entityId: '1', entityKey: 'environments', selectedIdentityId: '2',
+        fqon: 'iamfqon', entityId: '1', entityKey: 'environments', identityId: '2',
       });
 
       it('should make an api call', () => {
@@ -52,7 +51,7 @@ describe('Entitlement Sagas', () => {
 
     describe('fetchEntitlements with an entityId/entityKey when identity DOES NOT match', () => {
       const saga = fetchEntitlements({
-        fqon: 'iamfqon', entityId: '1', entityKey: 'environments', selectedIdentityId: { id: 42 }
+        fqon: 'iamfqon', entityId: '1', entityKey: 'environments', identityId: { id: 42 }
       });
 
       it('should make an api call', () => {
@@ -88,7 +87,7 @@ describe('Entitlement Sagas', () => {
     });
 
     describe('fetchEntitlements without an entityId/entityKey', () => {
-      const saga = fetchEntitlements({ fqon: 'iamfqon', selectedIdentityId: { id: 1 } });
+      const saga = fetchEntitlements({ fqon: 'iamfqon', identityId: { id: 1 } });
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
@@ -133,40 +132,10 @@ describe('Entitlement Sagas', () => {
     });
   });
 
-  describe('fetchIdentities Sequence', () => {
-    const saga = fetchIdentities({ fqon: 'iamfqon' });
-    let result;
-
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).toEqual(
-        call(axios.all, [axios.get('iamfqon/users'), axios.get('iamfqon/groups')])
-      );
-    });
-
-    it('should return a sorted and combined payload and dispatch a success status', () => {
-      result = saga.next([{ data: [{ id: 2, name: 'apple' }] }, { data: [{ id: 1, name: 'zebra' }] }]);
-      expect(result.value).toEqual(
-        put({ type: types.FETCH_IDENTITIES_FULFILLED, payload: [{ id: 2, name: 'apple' }, { id: 1, name: 'zebra' }] })
-      );
-    });
-
-    it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchIdentities({ fqon: 'iamfqon' });
-      let resultError = sagaError.next();
-
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).toEqual(
-        put({ type: types.FETCH_IDENTITIES_REJECTED, payload: error })
-      );
-    });
-  });
-
   // TODO: Finish Tests - this may all change COMPLETELY in the api so keeping tests minimal for now
   describe('updateEntitlements Sequence ', () => {
-    describe('updateEntitlements with an entityId/entityKey and no actions', () => {
-      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions: [], entityId: '1', entityKey: 'environments' });
+    describe('updateEntitlements with no actions', () => {
+      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions: [] });
       let result;
 
       it('should return dispatch a success status', () => {
@@ -177,7 +146,7 @@ describe('Entitlement Sagas', () => {
       });
     });
 
-    describe('updateEntitlements with an entityId/entityKey and there are actions and toggled is true', () => {
+    describe('updateEntitlements when there are actions and toggled is true', () => {
       const entitlementMock = { id: 1, properties: { action: 'workspace.create', identities: [{ id: 1 }] } };
       const actions = [
         {
@@ -188,7 +157,7 @@ describe('Entitlement Sagas', () => {
           toggled: true,
         }
       ];
-      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions, entityId: '1', entityKey: 'environments' });
+      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions });
       let result;
 
       it('should make an api call', () => {
@@ -206,7 +175,7 @@ describe('Entitlement Sagas', () => {
       });
     });
 
-    describe('updateEntitlements with an entityId/entityKey and there are actions and toggled is true', () => {
+    describe('updateEntitlements when there are actions and toggled is true', () => {
       const entitlementMock = { id: 1, properties: { action: 'workspace.create', identities: [{ id: 42 }] } };
       const actions = [
         {
@@ -217,7 +186,7 @@ describe('Entitlement Sagas', () => {
           toggled: true,
         }
       ];
-      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions, entityId: '1', entityKey: 'environments' });
+      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions });
       let result;
 
       it('should make an api call', () => {
@@ -235,7 +204,7 @@ describe('Entitlement Sagas', () => {
       });
     });
 
-    describe('updateEntitlements with an entityId/entityKey and there are actions and toggled is false', () => {
+    describe('updateEntitlements when there are actions and toggled is false', () => {
       const entitlementMock = { id: 1, properties: { action: 'workspace.create', identities: [{ id: 1 }] } };
       const actions = [
         {
@@ -246,7 +215,7 @@ describe('Entitlement Sagas', () => {
           toggled: false,
         }
       ];
-      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions, entityId: '1', entityKey: 'environments' });
+      const saga = updateEntitlements({ fqon: 'iamfqon', newIdentityId: '42', actions });
       let result;
 
       it('should return dispatch a success status', () => {
@@ -257,7 +226,7 @@ describe('Entitlement Sagas', () => {
       });
     });
 
-    describe('when updateEntitlements is valud and we pass the onSuccess callback', () => {
+    describe('when updateEntitlements is valid and we pass the onSuccess callback', () => {
       const entitlementMock = { id: 1, properties: { action: 'workspace.create', identities: [] } };
       const actions = [
         {
@@ -269,7 +238,7 @@ describe('Entitlement Sagas', () => {
         }
       ];
 
-      const onSuccessAction = { fqon: 'iamfqon', newIdentityId: '42', actions, entityId: '1', entityKey: 'environments', onSuccess: sinon.stub() };
+      const onSuccessAction = { fqon: 'iamfqon', newIdentityId: '42', actions, onSuccess: sinon.stub() };
       const saga = updateEntitlements(onSuccessAction);
       saga.next();
       saga.next();
@@ -297,13 +266,6 @@ describe('Entitlement Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements)
-      );
-    });
-
-    it('should fork a watcher for fetchIdentities', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_IDENTITIES_REQUEST, fetchIdentities)
       );
     });
 

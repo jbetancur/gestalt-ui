@@ -10,7 +10,7 @@ import * as types from '../actionTypes';
 
 /**
  * fetchEntitlements
- * @param {*} action { fqon, entityId, entityKey, selectedIdentityId }
+ * @param {*} action { fqon, entityId, entityKey, identityId }
  */
 export function* fetchEntitlements(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/entitlements` : `${action.fqon}/entitlements`;
@@ -34,7 +34,7 @@ export function* fetchEntitlements(action) {
           action: a.action.split('.')[1],
           entitlement: a.entitlement,
           identities: a.identities,
-          toggled: a.identities.some(item => item.id === action.selectedIdentityId),
+          toggled: a.identities.some(item => item.id === action.identityId),
         })
       );
       groupedActions[key] = sortBy(prettyActions, 'action');
@@ -50,55 +50,31 @@ export function* fetchEntitlements(action) {
 }
 
 /**
- * fetchIdentities
- * @param {*} action { fqon }
- */
-export function* fetchIdentities(action) {
-  function getUsers() {
-    return axios.get(`${action.fqon}/users`);
-  }
-
-  function getGroups() {
-    return axios.get(`${action.fqon}/groups`);
-  }
-
-  try {
-    const response = yield call(axios.all, [getUsers(), getGroups()]);
-    const payload = sortBy(response[0].data.concat(response[1].data || []), 'name');
-
-    yield put({ type: types.FETCH_IDENTITIES_FULFILLED, payload });
-  } catch (e) {
-    yield put({ type: types.FETCH_IDENTITIES_REJECTED, payload: e.message });
-  }
-}
-
-/**
  * updateEntitlements
- * @param {*} action { fqon, newIdentity, actions, entityId, entityKey }
+ * @param {*} action { fqon, identityId, actions, entityId, entityKey }
  */
 export function* updateEntitlements(action) {
-  const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/entitlements` : `${action.fqon}/entitlements`;
   const actionParam = action.actions || [];
 
   try {
     const all = actionParam.map((actionItem) => {
       const originalIdentifies = [...actionItem.identities.map(ident => ident.id)];
       let clonedIdenities = [...actionItem.identities.map(ident => ident.id)];
-      const hasIdentity = actionItem.identities.some(ident => ident.id === action.newIdentityId);
+      const hasIdentity = actionItem.identities.some(ident => ident.id === action.identityId);
 
       if (actionItem.toggled) {
         if (hasIdentity) {
           clonedIdenities = uniq(clonedIdenities);
         } else {
-          clonedIdenities.push(action.newIdentityId);
+          clonedIdenities.push(action.identityId);
         }
-      } else if (clonedIdenities.indexOf(action.newIdentityId) > -1) {
-        clonedIdenities.splice(clonedIdenities.indexOf(action.newIdentityId), 1);
+      } else if (clonedIdenities.indexOf(action.identityId) > -1) {
+        clonedIdenities.splice(clonedIdenities.indexOf(action.identityId), 1);
       }
 
       // check if identities have changed to prevent unnecessary PUTS
       if (clonedIdenities.length !== originalIdentifies.length) {
-        return axios.put(`${url}/${actionItem.entitlement.id}`, {
+        return axios.put(`${action.fqon}/entitlements/${actionItem.entitlement.id}`, {
           id: actionItem.entitlement.id,
           name: actionItem.entitlement.name,
           properties: {
@@ -131,7 +107,6 @@ export function* updateEntitlements(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, types.FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements);
-  yield fork(takeLatest, types.FETCH_IDENTITIES_REQUEST, fetchIdentities);
   yield fork(takeLatest, types.UPDATE_ENTITLEMENT_REQUEST, updateEntitlements);
 }
 

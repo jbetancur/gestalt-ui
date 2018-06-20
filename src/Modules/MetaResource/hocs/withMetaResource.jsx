@@ -42,12 +42,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       workspaces: metaResource.workspaces.workspaces,
       workspacesPending: metaResource.workspaces.pending,
 
-      // Subscriptions for Entitlements
-      identities: metaResource.entitlementIdentities.identities,
-      identitiesPending: metaResource.entitlementIdentities.pending,
-      entitlements: metaResource.entitlements.entitlements,
-      entitlementsPending: metaResource.entitlements.pending,
-
       // Subscriptions for Env
       env: metaResource.env.env,
       envPending: metaResource.env.pending,

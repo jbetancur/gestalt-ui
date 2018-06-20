@@ -32,3 +32,4 @@ export { default as withAPIEndpoints } from './hocs/withAPIEndpoints';
 export { default as withProviderKongsByGatewayPicker } from './hocs/withProviderKongsByGatewayPicker';
 export { default as withContainer } from './hocs/withContainer';
 export { default as withContainers } from './hocs/withContainers';
+export { default as withEntitlements } from './hocs/withEntitlements';
