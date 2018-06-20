@@ -149,13 +149,14 @@ class ContainerEdit extends Component {
               </Tab>
 
               <Tab title={inlineMode ? 'Container Spec' : 'Container'}>
+                {!this.props.inlineMode &&
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Panel title="Resource Details" defaultExpanded={false}>
                       <DetailsPane model={container} />
                     </Panel>
                   </Col>
-                </Row>
+                </Row>}
 
                 <ContainerForm
                   editMode
