@@ -2,18 +2,28 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { API_URL, API_TIMEOUT } from '../constants';
 
+
 // Axios Defaults
 axios.defaults.baseURL = API_URL;
 axios.defaults.timeout = API_TIMEOUT;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common.Accept = 'application/json';
 
+const join = require('url-join');
+
 const cookies = new Cookies();
+const isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 
 export default function configureInterceptors(store, history) {
   axios.interceptors.request.use((config) => {
     const newConfig = { ...config };
     newConfig.headers.Authorization = `Bearer ${cookies.get('auth_token')}`;
+
+    if (isAbsoluteURLRegex.test(API_URL)) {
+      newConfig.headers.GESTALT_META_BASE_URL = API_URL;
+    } else if (window.location.origin) {
+      newConfig.headers.GESTALT_META_BASE_URL = join(window.location.origin, API_URL);
+    }
 
     return newConfig;
   }, error => Promise.reject(error));
