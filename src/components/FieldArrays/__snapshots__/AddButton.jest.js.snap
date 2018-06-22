@@ -2,6 +2,7 @@
 
 exports[`(Components) AddButton renders correctly with basic required props 1`] = `
 .c0 {
+  margin: 4px 16px 4px 16px;
   color: #2196f3;
 }
 
@@ -37,6 +38,7 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
 
 exports[`(Components) AddButton renders correctly with label 1`] = `
 .c0 {
+  margin: 4px 16px 4px 16px;
   color: #2196f3;
 }
 

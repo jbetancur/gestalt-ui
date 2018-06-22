@@ -9,9 +9,7 @@ const OutputsArray = () => (
   <FieldArray name="outputs">
     {({ fields }) => (
       <FieldContainer>
-        <FieldItem>
-          <AddButton label="Add Output Feed" onAddItem={() => fields.push({})} />
-        </FieldItem>
+        <AddButton label="Add Output Feed" onClick={() => fields.push({})} />
         {fields.map((name, index) => (
           <FieldItem key={`variable-${name}`}>
             <Row gutter={5}>

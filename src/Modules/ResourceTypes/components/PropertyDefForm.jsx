@@ -3,22 +3,14 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { Button } from 'components/Buttons';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import dataTypes from '../lists/dataTypes';
+
+const initialValues = { data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true };
 
 const PropertyDefForm = ({ fields, resourceTypes, addLabel }) => (
   <FieldContainer>
-    <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={() => fields.unshift({ data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true })}
-      >
-        {addLabel}
-      </Button>
-    </FieldItem>
+    <AddButton label={addLabel} onClick={() => fields.unshift(initialValues)} />
     {fields.map((member, index) => (
       <FieldItem key={member}>
         <Row gutter={5}>

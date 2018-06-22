@@ -5,6 +5,7 @@ import { Button } from 'react-md';
 import { media } from 'util/helpers/media';
 
 const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {...rest} />)`
+  margin: 4px 16px 4px 16px;
   color: ${props => props.theme.colors['$md-blue-500']};
   ${props => props.icon && css`
     ${() => media.xs`
@@ -20,11 +21,11 @@ const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {..
   `};
 `;
 
-const AddButton = ({ onAddItem, label }) => (
+const AddButton = ({ onClick, label }) => (
   <ButtonStyle
     icon={!label}
     flat={!!label}
-    onClick={onAddItem}
+    onClick={onClick}
     iconChildren="add"
   >
     {label || 'add'}
@@ -32,7 +33,7 @@ const AddButton = ({ onAddItem, label }) => (
 );
 
 AddButton.propTypes = {
-  onAddItem: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   label: PropTypes.string,
 };
 

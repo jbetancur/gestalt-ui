@@ -12,9 +12,7 @@ const required = value => (value ? undefined : 'Required');
 
 const UnixVariablesForm = ({ fields, disabled }) => (
   <FieldContainer>
-    <FieldItem>
-      <AddButton label="Add Variable" onAddItem={() => fields.unshift({})} />
-    </FieldItem>
+    <AddButton label="Add Variable" onClick={() => fields.unshift({})} />
     {fields.map((member, index, allFields) => {
       const field = allFields.get(index);
       const isInherited = field.inherited;

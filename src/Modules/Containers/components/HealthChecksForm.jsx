@@ -19,9 +19,7 @@ const initialValues = {
 
 const HealthChecksForm = ({ fields, healthCheckvalues }) => (
   <FieldContainer>
-    <FieldItem>
-      <AddButton label="Add Health Check" onAddItem={() => fields.unshift(initialValues)} />
-    </FieldItem>
+    <AddButton label="Add Health Check" onClick={() => fields.unshift(initialValues)} />
     {fields.map((member, index) => {
       const field = healthCheckvalues[index];
       const selectedHCProtocol = healthCheckProtocols.find(item => field.protocol === item.value);

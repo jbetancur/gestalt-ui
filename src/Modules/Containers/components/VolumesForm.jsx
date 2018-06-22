@@ -15,9 +15,7 @@ const initialValues = {
 
 const VolumesForm = ({ fields, providerType }) => (
   <FieldContainer>
-    <FieldItem>
-      <AddButton label="Add Volume" onAddItem={() => fields.unshift(initialValues)} />
-    </FieldItem>
+    <AddButton label="Add Volume" onClick={() => fields.unshift(initialValues)} />
     {fields.map((member, index) => {
       const field = fields.get(index);
       const selectedVolumeType = volumeTypes[providerType] && volumeTypes[providerType].find(type => field.type === type.type);

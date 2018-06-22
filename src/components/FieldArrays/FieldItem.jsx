@@ -26,7 +26,7 @@ const FieldItem = styled.div`
   &:nth-child(n+2) {
     display: flex;
     align-items: center;
-    ${() => media.xs || media.xs`
+    ${() => media.xs`
       padding-top: 32px;
     `};
     ${() => media.sm`

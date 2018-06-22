@@ -16,9 +16,7 @@ const initialValues = {
 
 const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }) => (
   <FieldContainer>
-    <FieldItem>
-      <AddButton label="Add Mapping" onAddItem={() => fields.unshift(initialValues)} />
-    </FieldItem>
+    <AddButton label="Add Mapping" onClick={() => fields.unshift(initialValues)} />
     {fields.map((member, index) => {
       const field = portMappingFormValues[index];
       const handleLBPort = (dummy, value) => {

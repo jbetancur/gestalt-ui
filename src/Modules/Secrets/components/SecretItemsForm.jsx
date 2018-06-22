@@ -4,26 +4,14 @@ import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
 import { TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 
 const validatePattern = value => (value && !isSecretKeyValidation(value)) && `Allowed format: ${secretKeyValidationPattern}`;
 const required = value => (value ? undefined : 'Required');
 
 const SecretItemsForm = ({ fields, multiPart, disabled }) => (
   <FieldContainer>
-    <FieldItem>
-      {multiPart &&
-        <Button
-          flat
-          primary
-          iconChildren="add"
-          onClick={fields.push}
-          disabled={disabled}
-        >
-          Add Secret Item
-        </Button>}
-    </FieldItem>
+    {multiPart && <AddButton label="Add Secret" onClick={() => fields.unshift({})} disabled={disabled} />}
     {fields.map((member, index) => (
       <FieldItem key={`secrets-${member}`}>
         <Row gutter={5}>

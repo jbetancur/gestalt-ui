@@ -4,13 +4,13 @@ import { shallowWithTheme } from '../../../test/helpers';
 
 describe('(Components) AddButton', () => {
   it('renders correctly with basic required props', () => {
-    const wrapper = shallowWithTheme(<AddButton onAddItem={sinon.spy()} />);
+    const wrapper = shallowWithTheme(<AddButton onClick={sinon.spy()} />);
 
     expect(wrapper.dive().dive().dive()).toMatchSnapshot();
   });
 
   it('renders correctly with label', () => {
-    const wrapper = shallowWithTheme(<AddButton onAddItem={sinon.spy()} label="Wow" />);
+    const wrapper = shallowWithTheme(<AddButton onClick={sinon.spy()} label="Wow" />);
 
     expect(wrapper.dive().dive().dive()).toMatchSnapshot();
   });

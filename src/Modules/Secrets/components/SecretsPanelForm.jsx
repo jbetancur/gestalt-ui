@@ -4,8 +4,7 @@ import { withPickerData } from 'Modules/MetaResource';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { getLastFromSplit } from 'util/helpers/strings';
 
 const required = value => (value ? undefined : 'required');
@@ -44,16 +43,7 @@ const getMenuItems = (secrets, provider) => {
 
 const SecretsPanelForm = ({ fields, provider, secretsData, secretFormValues }) => (
   <FieldContainer>
-    <FieldItem>
-      <Button
-        flat
-        primary
-        iconChildren="add"
-        onClick={() => fields.unshift({})}
-      >
-        Secret
-      </Button>
-    </FieldItem>
+    <AddButton label="Add Secret" onClick={() => fields.unshift({})} />
     {fields.map((member, index) => {
       const field = secretFormValues[index];
       const handleSecretNamePopulation = (dummy, secretId) => {

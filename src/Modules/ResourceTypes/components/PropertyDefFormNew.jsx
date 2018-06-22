@@ -5,25 +5,17 @@ import { FieldArray } from 'react-final-form-arrays';
 import { getIn } from 'final-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
-import { Button } from 'components/Buttons';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required, hasSpaces } from 'util/forms';
 import dataTypes from '../lists/dataTypes';
+
+const initialValues = { data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true };
 
 const PropertyDefForm = ({ name, resourceTypes, addLabel, formValues }) => (
   <FieldArray name={name}>
     {({ fields }) => (
       <FieldContainer>
-        <FieldItem>
-          <Button
-            flat
-            primary
-            iconChildren="add"
-            onClick={() => fields.unshift({ data_type: 'string', visibility_type: 'plain', requirement_type: 'optional', public: true })}
-          >
-            {addLabel}
-          </Button>
-        </FieldItem>
+        <AddButton label={addLabel} onClick={() => fields.unshift(initialValues)} />
         {fields.map((member, index) => {
           const field = getIn(formValues, member) || {};
           const isResourceType = field.data_type && field.data_type.includes('resource::uuid');

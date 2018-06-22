@@ -12,7 +12,7 @@ const required = value => (value ? undefined : 'Required');
 const LabelsForm = ({ fields }) => (
   <FieldContainer>
     <FieldItem>
-      <AddButton label="Add Label" onAddItem={() => fields.unshift({})} />
+      <AddButton label="Add Label" onClick={() => fields.unshift({})} />
     </FieldItem>
     {fields.map((member, index) => (
       <FieldItem key={`label-${member}`}>

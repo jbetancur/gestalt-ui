@@ -10,9 +10,7 @@ const LambdasArray = () => (
   <FieldArray name="lambdas">
     {({ fields }) => (
       <FieldContainer>
-        <FieldItem>
-          <AddButton label="Add Lambda" onAddItem={() => fields.unshift({})} />
-        </FieldItem>
+        <AddButton label="Add Lambda" onClick={() => fields.unshift({})} />
         {fields.map((name, index) => (
           <FieldItem key={`variable-${name}`}>
             <Row gutter={5}>

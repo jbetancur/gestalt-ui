@@ -13,9 +13,7 @@ const UnixVariablesFormNew = ({ disabled, fieldName, formValues }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        <FieldItem>
-          <AddButton label="Add Variable" onAddItem={() => fields.unshift({})} />
-        </FieldItem>
+        <AddButton label="Add Variable" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => {
           const field = getIn(formValues, member) || {};
           const isInherited = field.inherited;

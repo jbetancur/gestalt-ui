@@ -4,16 +4,13 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
 import { SelectField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 
 const LineageForm = ({ name, resourceTypes, addLabel }) => (
   <FieldArray name={name}>
     {({ fields }) => (
       <FieldContainer>
-        <FieldItem>
-          <Button flat primary iconChildren="add" onClick={() => fields.unshift({})}>{addLabel}</Button>
-        </FieldItem>
+        <AddButton label={addLabel} onClick={() => fields.unshift({})} />
         {fields.map((member, index) => (
           <FieldItem key={member}>
             <Row gutter={5}>

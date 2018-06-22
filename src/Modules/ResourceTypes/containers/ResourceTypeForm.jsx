@@ -78,7 +78,7 @@ const ResourceTypeForm = ({ match,
       </Col>
 
       <Col flex={6} xs={12}>
-        <Panel title="API" minHeight="145px">
+        <Panel title="API" minHeight="145px" fill>
           <Row gutter={5}>
             <Col flex={12}>
               <Field
@@ -93,7 +93,7 @@ const ResourceTypeForm = ({ match,
       </Col>
 
       <Col flex={6} xs={12}>
-        <Panel title="Actions" noPadding>
+        <Panel title="Actions" noPadding fill>
           <Row gutter={10}>
             <Col flex={12}>
               <Field
