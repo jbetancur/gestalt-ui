@@ -5,7 +5,7 @@ import { Button } from 'react-md';
 import { media } from 'util/helpers/media';
 
 const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {...rest} />)`
-  margin: 4px 16px 4px 16px;
+  margin: 4px 16px 8px 16px;
   color: ${props => props.theme.colors['$md-blue-500']};
   ${props => props.icon && css`
     ${() => media.xs`

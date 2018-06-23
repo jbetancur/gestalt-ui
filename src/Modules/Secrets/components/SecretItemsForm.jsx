@@ -14,11 +14,11 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        {multiPart && <AddButton label="Add Item" onClick={() => fields.unshift({})} disabled={disabled} />}
+        {multiPart && !disabled && <AddButton label="Add Item" onClick={() => fields.unshift({})} disabled={disabled} />}
         {fields.map((member, index) => (
           <FieldItem key={`secrets-${member}`}>
             <Row gutter={5}>
-              <Col flex={12}>
+              <Col flex={4} xs={12}>
                 <Field
                   name={`${member}.key`}
                   label="key"
@@ -27,20 +27,21 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled }) => (
                   validate={composeValidators(validatePattern, required())}
                   autoComplete="off"
                   disabled={disabled}
+                  rows={1}
                 />
               </Col>
               {!disabled &&
-              <Col flex={12}>
-                <Field
-                  name={`${member}.value`}
-                  label="value"
-                  type="text"
-                  component={TextField}
-                  autoComplete="off"
-                  rows={1}
-                  validate={composeValidators(required())}
-                />
-              </Col>}
+                <Col flex={8} xs={12}>
+                  <Field
+                    name={`${member}.value`}
+                    label="value"
+                    type="text"
+                    component={TextField}
+                    autoComplete="off"
+                    rows={1}
+                    validate={composeValidators(required())}
+                  />
+                </Col>}
             </Row>
             {(!disabled && multiPart) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
           </FieldItem>

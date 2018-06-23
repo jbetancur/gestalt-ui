@@ -1,6 +1,6 @@
 //
 import React from 'react';
-import { TextField, FontIcon } from 'react-md';
+import { TextField } from 'react-md';
 
 /* eslint-disable react/prop-types */
 const InputField = ({ input, meta: { touched, error }, ...others }) => (
@@ -8,7 +8,7 @@ const InputField = ({ input, meta: { touched, error }, ...others }) => (
     id={input.name}
     error={touched && !!error}
     errorText={error}
-    rightIcon={touched && !!error ? <FontIcon>feedback</FontIcon> : null}
+    // rightIcon={touched && !!error ? <FontIcon>feedback</FontIcon> : null}
     {...input}
     {...others}
   />
