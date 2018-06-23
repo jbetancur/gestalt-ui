@@ -22,8 +22,13 @@ const LeftContent = styled.div`
   align-items: center;
   height: 100%;
 
-  button, i * {
+  button,
+  i * {
     color: white;
+  }
+
+  #orgs-nav {
+    height: 100%;
   }
 `;
 

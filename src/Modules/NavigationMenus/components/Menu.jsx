@@ -19,7 +19,7 @@ const EnhancedMenuButton = styled(MenuButton)`
   overflow: hidden;
   text-overflow: ellipsis;
 
- &.md-menu-container--menu-below {
+  &.md-menu-container--menu-below {
     height: 100%;
   }
 `;
