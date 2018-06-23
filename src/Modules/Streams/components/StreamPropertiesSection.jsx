@@ -24,7 +24,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => {
                 menuItems={datafeeds}
                 itemLabel="name"
                 itemValue="id"
-                helpText="Specify and Input Feed"
+                helpText="Specify an Input Feed"
                 async
                 required
               />
@@ -141,7 +141,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => {
                 menuItems={datafeeds}
                 itemLabel="name"
                 itemValue="id"
-                helpText="Specify and Output Feed"
+                helpText="Specify an Output Feed"
                 async
                 required
               />

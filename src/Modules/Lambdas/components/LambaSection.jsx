@@ -7,7 +7,7 @@ import { Panel } from 'components/Panels';
 
 const LambdaSection = ({ providers, editMode }) => (
   <Row gutter={5}>
-    <Col flex={6} xs={12} sm={12} md={12}>
+    <Col flex={7} xs={12} sm={12} md={12}>
       <Panel title="General" expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>
@@ -37,7 +37,7 @@ const LambdaSection = ({ providers, editMode }) => (
       </Panel>
     </Col>
 
-    <Col flex={6} xs={12} sm={12} md={12}>
+    <Col flex={5} xs={12} sm={12} md={12}>
       <Panel title="Description" expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>

@@ -1,148 +1,110 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Col, Row } from 'react-flexybox';
-import { Link } from 'react-router-dom';
-import { Field, FieldArray, getFormValues } from 'redux-form';
+import { Link, withRouter } from 'react-router-dom';
+import { Field } from 'react-final-form';
 import { metaModels } from 'Modules/MetaResource';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
-import DetailsPane from 'components/DetailsPane';
-import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
-import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from '../components/SecretItemsForm';
 
-const SecretForm = (props) => {
-  const {
-    match,
-    secretPending,
-    secret,
-    onSubmit,
-    pristine,
-    submitting,
-    handleSubmit,
-    cancelLabel,
-    submitLabel,
-    title,
-    values,
-    reset,
-    editMode,
-  } = props;
-
-  const filteredprovidersData = () => props.providersData
-    .filter(provider => getLastFromSplit(provider.resource_type) === 'Kubernetes' || metaModels.provider.get(provider).properties.config.secret_support);
-  const providersData = filteredprovidersData().length > 0 ? filteredprovidersData() : props.providersData;
-  const selectedProvider = Object.assign({}, props.providersData.find(p => p.id === values.properties.provider.id));
+const SecretForm = ({ match, loading, pristine, submitting, handleSubmit, providers, values, form, editMode }) => {
+  const filteredprovidersData = providers.filter(provider => getLastFromSplit(provider.resource_type) === 'Kubernetes' || metaModels.provider.get(provider).properties.config.secret_support);
+  const providersFiltered = filteredprovidersData.length > 0 ? filteredprovidersData : providers;
+  const selectedProvider = Object.assign({}, providers.length ? providers.find(p => p.id === values.properties.provider.id) : {});
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
+  const handleProviderChange = (value) => {
+    form.change('properties.provider.id', value);
+    form.change('properties.items', values.properties.items.slice(-1));
+  };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={secretPending}>
-      <Row gutter={5} center>
-        <Col flex={10} xs={12} sm={12} md={12}>
-          <ActionsToolbar
-            title={title}
-            showActions={editMode}
-            actions={[
-              <Button
-                key="secret--entitlements"
-                flat
-                iconChildren="security"
-                onClick={() => props.entitlementActions.showEntitlementsModal(props.title, props.match.params.fqon, secret.id, 'secrets', 'Secret')}
-              >
-                Entitlements
-              </Button>]
-            }
-          />
-
-          {secretPending && <ActivityContainer id="secret-form-loading" />}
-
-          <Row gutter={5}>
-            {editMode &&
+    <Form onSubmit={handleSubmit} autoComplete="off" disabled={loading}>
+      <Row gutter={5}>
+        <Col flex={7} xs={12} sm={12} md={12}>
+          <Panel title="General" expandable={false} fill>
+            <Row gutter={5}>
               <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={secret} />
-                </Panel>
-              </Col>}
-            <Col flex={12}>
-              <Panel title="General" expandable={false}>
-                <Row gutter={5}>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      id="select-provider"
-                      component={SelectField}
-                      name="properties.provider.id"
-                      label="Provider"
-                      itemLabel="name"
-                      itemValue="id"
-                      menuItems={providersData}
-                      disabled={editMode}
-                      onChange={reset}
-                      required
-                      async
-                    />
-                  </Col>
-
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="name"
-                      label="Name"
-                      type="text"
-                      required
-                      autoComplete="none"
-                    />
-                  </Col>
-
-                  <Col flex={12}>
-                    <Field
-                      id="description"
-                      component={TextField}
-                      name="description"
-                      label="Description"
-                      type="text"
-                      rows={1}
-                    />
-                  </Col>
-                </Row>
-              </Panel>
-            </Col>
-
-            {selectedProvider.id &&
+                <Field
+                  id="caas-provider"
+                  component={SelectField}
+                  name="properties.provider.id"
+                  required
+                  label="CaaS Provider"
+                  itemLabel="name"
+                  itemValue="id"
+                  menuItems={providersFiltered}
+                  disabled={editMode}
+                  onChange={handleProviderChange}
+                  async
+                />
+              </Col>
               <Col flex={12}>
-                <Panel title="Secret Items" noPadding>
-                  <FieldArray
-                    component={SecretItemsForm}
-                    name="properties.items"
-                    disabled={editMode}
-                    multiPart={isMultiPartSecret}
-                  />
-                </Panel>
-              </Col>}
-          </Row>
+                <Field
+                  component={TextField}
+                  name="name"
+                  label="Secret Name"
+                  type="text"
+                  required
+                />
+              </Col>
+            </Row>
+          </Panel>
+        </Col>
+
+        <Col flex={5} xs={12} sm={12} md={12}>
+          <Panel title="Description" expandable={false} fill>
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Field
+                  id="description"
+                  component={TextField}
+                  name="description"
+                  placeholder="Description"
+                  rows={1}
+                  maxRows={6}
+                />
+              </Col>
+            </Row>
+          </Panel>
         </Col>
       </Row>
+
+      <Row gutter={5}>
+        {selectedProvider.id &&
+        <Col flex={12}>
+          <Panel title="Secret Items" noPadding expandable={false}>
+            <SecretItemsForm
+              fieldName="properties.items"
+              disabled={editMode}
+              multiPart={isMultiPartSecret}
+            />
+          </Panel>
+        </Col>}
+      </Row>
+
       <FullPageFooter>
         <Button
           flat
           iconChildren="arrow_back"
-          disabled={secretPending || submitting}
+          disabled={loading || submitting}
           component={Link}
           to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
         >
-          {cancelLabel}
+          Secrets
         </Button>
         <Button
           raised
           iconChildren="save"
           type="submit"
-          disabled={pristine || secretPending || submitting}
+          disabled={pristine || loading || submitting}
           primary
         >
-          {submitLabel}
+          {editMode ? 'Update' : 'Create'}
         </Button>
       </FullPageFooter>
     </Form>
@@ -151,32 +113,18 @@ const SecretForm = (props) => {
 
 SecretForm.propTypes = {
   match: PropTypes.object.isRequired,
-  secret: PropTypes.object.isRequired,
-  secretPending: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  title: PropTypes.string,
-  providersData: PropTypes.array.isRequired,
-  submitLabel: PropTypes.string,
-  cancelLabel: PropTypes.string,
+  providers: PropTypes.array.isRequired,
   values: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
   editMode: PropTypes.bool,
-  entitlementActions: PropTypes.object,
 };
 
 SecretForm.defaultProps = {
-  title: '',
-  submitLabel: '',
-  cancelLabel: 'Cancel',
   editMode: false,
-  entitlementActions: {},
 };
 
-export default connect(
-  (state, props) => ({
-    values: getFormValues(props.form)(state)
-  })
-)(SecretForm);
+export default withRouter(SecretForm);
