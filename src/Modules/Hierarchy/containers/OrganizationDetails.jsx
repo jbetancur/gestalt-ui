@@ -9,7 +9,6 @@ import { UnixVariablesListing } from 'Modules/Variables';
 import { DeleteIcon, EntitlementIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import Div from 'components/Div';
-import { getParentFQON } from 'util/helpers/strings';
 import ResourceProperties from './ResourceProperties';
 import withHierarchy from '../withHierarchy';
 
@@ -36,7 +35,7 @@ class OrganizationDetails extends PureComponent {
     e.stopPropagation();
     const { history, organizationSet, deleteOrg, hierarchyActions } = this.props;
     const name = organizationSet.description || organizationSet.name;
-    const parentFQON = getParentFQON(organizationSet);
+    const parentFQON = organizationSet.org.properties.fqon;
     const onSuccess = () => history.replace(`/${parentFQON}/hierarchy`);
 
     hierarchyActions.confirmDelete(() => {

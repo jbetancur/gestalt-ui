@@ -60,7 +60,7 @@ class EnvironmentListing extends Component {
 
     return (
       <React.Fragment>
-        {this.props.environmentsPending && <ActivityContainer key="environments-listing--loading" id="environments-listing--loading" />}
+        {this.props.environmentsPending && <ActivityContainer id="environments-listing--loading" />}
         <ListingHeader
           leftItems={
             <Sort

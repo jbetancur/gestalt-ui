@@ -1,18 +1,6 @@
 import { startCase, toLower } from 'lodash';
 
 /**
- * getParentFQON
- * Extracts the fqon from an meta resource
- * @param {string} - meta resource
- */
-export function getParentFQON(organization) {
-  const urlParser = document.createElement('a');
-  urlParser.href = organization.org.href;
-
-  return urlParser.pathname.replace('/', '').split('/')[0];
-}
-
-/**
  * getLastFromSplit
  * Parses and returns the last item in a structure like GrandPareng::Parent::Child
  * @param {String} string
@@ -54,7 +42,6 @@ export const checkIfPassword = field =>
   field && field.length && (field.toUpperCase().includes('PASSWORD') || field.toUpperCase().includes('SECRET') || field.toUpperCase().includes('KEY'));
 
 export default {
-  getParentFQON,
   getLastFromSplit,
   truncate,
   toTitleCase,

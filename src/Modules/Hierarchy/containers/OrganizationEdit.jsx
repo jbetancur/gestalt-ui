@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
-import { getParentFQON } from 'util/helpers/strings';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPatches } from '../payloadTransformer';
@@ -34,7 +33,7 @@ class OrgEdit extends Component {
     const { match, history, location, organization, updateOrg, fetchOrgSet } = this.props;
     const patches = generateOrganizationPatches(organization, values);
     const onSuccess = (response) => {
-      const fqon = location.state.card ? getParentFQON(response) : match.params.fqon;
+      const fqon = location.state.card ? response.org.properties.fqon : match.params.fqon;
       history.replace(`/${fqon}/hierarchy`);
       fetchOrgSet(fqon);
     };

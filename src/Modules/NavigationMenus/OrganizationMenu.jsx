@@ -46,7 +46,7 @@ class OrgMenu extends PureComponent {
 
   render() {
     const { organizationSet, allOrganizationsPending } = this.props;
-    const name = this.props.organizationSet.description || organizationSet.name;
+    const name = organizationSet.description || organizationSet.name;
     const allOrganizations =
       this.state.organizations.filter(val => val.name.includes(this.state.filterText)
         || (val.description && val.description.includes(this.state.filterText)));

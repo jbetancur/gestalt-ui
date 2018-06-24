@@ -1,5 +1,4 @@
 import {
-  getParentFQON,
   getLastFromSplit,
   truncate,
   toTitleCase,
@@ -7,14 +6,6 @@ import {
 } from './strings';
 
 describe('Util Transformations', () => {
-  describe('getParentFQON function', () => {
-    it('should return an fqon from a url string', () => {
-      const obj = { org: { href: 'http://test.com:8080/whatever' } };
-
-      expect(getParentFQON(obj)).to.equal('whatever');
-    });
-  });
-
   describe('getLastFromSplit function', () => {
     it('should return the last split item of a delmited string with the default "::" delimiter', () => {
       const string = 'This::is::a::String!';

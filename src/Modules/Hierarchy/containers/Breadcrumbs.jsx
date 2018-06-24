@@ -8,17 +8,17 @@ import { withMetaResource, withSelf } from 'Modules/MetaResource';
 import { FontIcon } from 'react-md';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
-import { truncate, getParentFQON } from 'util/helpers/strings';
+import { truncate } from 'util/helpers/strings';
 
 const EnhancedLink = styled(Link)`
   color: inherit;
   text-decoration: none;
 
-  i, svg {
+  i,
+  svg {
     color: inherit;
     margin-top: 2px;
   }
-
 
   i.seperator {
     color: ${props => props.theme.colors['$md-grey-500']};
@@ -121,8 +121,7 @@ class Breadcrumbs extends Component {
       pending,
     } = this.props;
 
-    const parentFQON = getParentFQON(organizationSet);
-    const parentOrgRoute = `/${parentFQON}/hierarchy`;
+    const parentOrgRoute = `/${organizationSet.org.properties.fqon}/hierarchy`;
     const orgsRoute = `/${organizationSet.properties.fqon}/hierarchy`;
     const workspaceRoute = `/${organizationSet.properties.fqon}/hierarchy/${workspace.id}/environments`;
     const environmentRoute = `${match.url}`;
