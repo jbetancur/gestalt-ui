@@ -109,7 +109,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => {
       </Col>
 
       <Col flex={4} xs={12} sm={12}>
-        <Panel title="Transform Feed" expandable={false} fill>
+        <Panel title="Transform Lambda" expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
               <Field
