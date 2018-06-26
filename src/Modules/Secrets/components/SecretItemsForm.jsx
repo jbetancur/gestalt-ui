@@ -3,21 +3,44 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
+import { FileInput } from 'react-md';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
 import { TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required } from 'util/forms';
 
 const validatePattern = value => (value && !isSecretKeyValidation(value)) && `Allowed format: ${secretKeyValidationPattern}`;
+const initialValues = { key: '', value: '' };
+const supportedFormats = '';
+const maxSize = 128000;
+const maxSizeMB = maxSize / 1000;
 
-const SecretItemsForm = ({ fieldName, multiPart, disabled }) => (
+const onFile = (file, index, form, formValues) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    if (file.size > maxSize) {
+      // eslint-disable-next-line no-alert
+      window.alert(`Maximum file size allowed: ${maxSizeMB}MB`);
+    } else {
+      form.change('properties.items', Object.assign([], formValues.properties.items, { [index]: { key: formValues.properties.items[index].key, value: reader.result.split(',')[1] } }));
+    }
+  };
+
+  reader.onerror = (error) => {
+    // eslint-disable-next-line no-alert
+    window.alert(error);
+  };
+};
+
+const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        {multiPart && !disabled && <AddButton label="Add Item" onClick={() => fields.unshift({})} disabled={disabled} />}
+        {multiPart && !disabled && <AddButton label="Add Item" onClick={() => fields.unshift(initialValues)} disabled={disabled} />}
         {fields.map((member, index) => (
           <FieldItem key={`secrets-${member}`}>
-            <Row gutter={5}>
+            <Row gutter={5} alignItems="center">
               <Col flex={4} xs={12}>
                 <Field
                   name={`${member}.key`}
@@ -28,10 +51,11 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled }) => (
                   autoComplete="off"
                   disabled={disabled}
                   rows={1}
+                  maxRows={4}
                 />
               </Col>
               {!disabled &&
-                <Col flex={8} xs={12}>
+                <Col flex={6} xs={12}>
                   <Field
                     name={`${member}.value`}
                     label="value"
@@ -39,11 +63,24 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled }) => (
                     component={TextField}
                     autoComplete="off"
                     rows={1}
+                    maxRows={4}
                     validate={composeValidators(required())}
+                    helpText={`file uploads will be base64 encoded. max size allowed ${maxSizeMB}MB`}
+                  />
+                </Col>}
+
+              {!disabled &&
+                <Col flex={2}>
+                  <FileInput
+                    id={`${member}-upload`}
+                    label="Upload File"
+                    onChange={file => onFile(file, index, form, formValues)}
+                    accept={supportedFormats}
+                    primary
                   />
                 </Col>}
             </Row>
-            {(!disabled && multiPart) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
+            {(!disabled && multiPart && fields.length > 1) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
           </FieldItem>
         ))}
       </FieldContainer>
@@ -53,6 +90,8 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled }) => (
 
 SecretItemsForm.propTypes = {
   fieldName: PropTypes.string.isRequired,
+  formValues: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
   multiPart: PropTypes.bool,
 };

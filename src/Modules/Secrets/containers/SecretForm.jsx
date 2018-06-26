@@ -12,7 +12,7 @@ import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from '../components/SecretItemsForm';
 
-const SecretForm = ({ match, loading, pristine, submitting, handleSubmit, providers, values, form, editMode }) => {
+const SecretForm = ({ match, loading, submitting, handleSubmit, providers, values, form, editMode }) => {
   const filteredprovidersData = providers.filter(provider => getLastFromSplit(provider.resource_type) === 'Kubernetes' || metaModels.provider.get(provider).properties.config.secret_support);
   const providersFiltered = filteredprovidersData.length > 0 ? filteredprovidersData : providers;
   const selectedProvider = Object.assign({}, providers.length ? providers.find(p => p.id === values.properties.provider.id) : {});
@@ -82,6 +82,8 @@ const SecretForm = ({ match, loading, pristine, submitting, handleSubmit, provid
               fieldName="properties.items"
               disabled={editMode}
               multiPart={isMultiPartSecret}
+              formValues={values}
+              form={form}
             />
           </Panel>
         </Col>}
@@ -101,7 +103,7 @@ const SecretForm = ({ match, loading, pristine, submitting, handleSubmit, provid
           raised
           iconChildren="save"
           type="submit"
-          disabled={pristine || loading || submitting}
+          disabled={loading || submitting}
           primary
         >
           {editMode ? 'Update' : 'Create'}
@@ -115,7 +117,6 @@ SecretForm.propTypes = {
   match: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
   values: PropTypes.object.isRequired,
