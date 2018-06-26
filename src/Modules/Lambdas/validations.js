@@ -26,9 +26,9 @@ export default (values) => {
   }
 
   if (values.properties) {
-    if (values.properties.provider && !values.properties.provider.id) {
-      merge(errors, nestedObjectFromString('properties.provider.id', 'a lambda provider type is required'));
-    }
+    // if (values.properties.provider && !values.properties.provider.id) {
+    //   merge(errors, nestedObjectFromString('properties.provider.id', 'a lambda provider type is required'));
+    // }
 
     if (!values.properties.runtime) {
       merge(errors, nestedObjectFromString('properties.runtime', 'runtime is required'));

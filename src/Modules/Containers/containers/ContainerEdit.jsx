@@ -96,7 +96,8 @@ class ContainerEdit extends Component {
           >
             <ActionsModals />
             <ActionsToolbar
-              title={`${container.name}::${providerType}`}
+              title={container.name}
+              subtitle={selectedProvider.name}
               titleIcon={<ContainerIcon resourceType={providerType} />}
               actions={[
                 !inlineMode &&

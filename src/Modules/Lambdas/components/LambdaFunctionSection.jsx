@@ -49,7 +49,7 @@ class LambdaFunctionSection extends PureComponent {
     return (
       <Row gutter={5}>
         <Col flex={12}>
-          <Panel title={lambdaPaneTitle}>
+          <Panel title={lambdaPaneTitle} expandable={false}>
             <Row gutter={5}>
               {!editMode &&
                 <Col flex={3} xs={12} sm={12}>
@@ -105,6 +105,7 @@ class LambdaFunctionSection extends PureComponent {
               </Col>
 
               {formValues.properties.code_type === 'package' &&
+              <React.Fragment>
                 <Col flex={10} xs={12} sm={12}>
                   <Field
                     component={TextField}
@@ -114,8 +115,8 @@ class LambdaFunctionSection extends PureComponent {
                     helpText="The url to the package directory or file (if it is zipped)"
                     required
                   />
-                </Col>}
-              {formValues.properties.code_type === 'package' &&
+                </Col>
+
                 <Col flex={2} xs={12} sm={12}>
                   <Field
                     id="compressed-packageurl"
@@ -125,7 +126,8 @@ class LambdaFunctionSection extends PureComponent {
                     // TODO: Find out why redux-form state for bool doesn't apply
                     checked={formValues.properties.compressed}
                   />
-                </Col>}
+                </Col>
+              </React.Fragment>}
             </Row>
           </Panel>
         </Col>

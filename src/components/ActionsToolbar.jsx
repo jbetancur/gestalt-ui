@@ -10,6 +10,8 @@ const ActionHeaderStyle = styled.header`
   min-height: 48px;
   width: 100%;
   padding-left: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 `;
 
 const TitleStyle = styled.div`
@@ -35,7 +37,7 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => 
         <IconStyle>
           {titleIcon}
         </IconStyle>}
-        {title}
+        <span>{title}</span>
       </Title>
       {!!subtitle &&
         <Subtitle>{subtitle}</Subtitle>}

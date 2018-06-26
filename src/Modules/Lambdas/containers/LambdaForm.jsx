@@ -6,12 +6,16 @@ import { Button } from 'components/Buttons';
 import { Row, Col } from 'react-flexybox';
 import { Panel } from 'components/Panels';
 import { UnixVariablesFormNew } from 'Modules/Variables';
+import { SecretsPanelFormNew } from 'Modules/Secrets';
 import { FullPageFooter } from 'components/FullPage';
 import LambdaSection from '../components/LambaSection';
 import LambdaFunctionSection from '../components/LambdaFunctionSection';
 import LambdaPeriodicSection from '../components/LambdaPeriodicSection';
 import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
+import SelectProvider from '../components/SelectProvider';
+
+const getSelectedProvider = (values, providers) => providers.find(p => p.id === values.properties.provider.id);
 
 const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, executors, editMode, pristine, submitting, onSaveInlineCode }) => (
   <Form
@@ -19,35 +23,65 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
     autoComplete="off"
     disabled={loading}
   >
-    <LambdaSection providers={providers} editMode={editMode} />
+    {!values.properties.provider.id
+      ?
+        <SelectProvider providers={providers} />
+      :
+        <React.Fragment>
+          <LambdaSection providers={providers} editMode={editMode} />
 
-    <LambdaFunctionSection
-      executors={executors}
-      formValues={values}
-      editMode={editMode}
-      form={form}
-    />
+          <LambdaFunctionSection
+            executors={executors}
+            formValues={values}
+            editMode={editMode}
+            form={form}
+          />
 
-    {values.properties.code_type === 'code' &&
-      <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />}
+          {values.properties.code_type === 'code' &&
+            <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />}
 
-    <Row gutter={5}>
-      <Col flex={12}>
-        <Panel title="Environment Variables" noPadding count={values.properties.env.length}>
-          <UnixVariablesFormNew fieldName="properties.env" formValues={values} />
-        </Panel>
-      </Col>
-    </Row>
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Panel
+                title="Environment Variables"
+                noPadding
+                count={values.properties.env.length}
+                defaultExpanded={values.properties.env.length > 0}
+              >
+                <UnixVariablesFormNew fieldName="properties.env" formValues={values} />
+              </Panel>
+            </Col>
+          </Row>
 
-    <Row gutter={5}>
-      <Col flex={6}>
-        <LambdaPeriodicSection />
-      </Col>
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Panel
+                title="Secrets"
+                noPadding
+                count={values.properties.secrets.length}
+                defaultExpanded={values.properties.secrets.length > 0}
+              >
+                <SecretsPanelFormNew
+                  fieldName="properties.secrets"
+                  formValues={values}
+                  provider={getSelectedProvider(values, providers)}
+                  type="lambda"
+                  form={form}
+                />
+              </Panel>
+            </Col>
+          </Row>
 
-      <Col flex={6}>
-        <LambdaAdvancedSection formValues={values} />
-      </Col>
-    </Row>
+          <Row gutter={5}>
+            <Col flex={12}>
+              <LambdaPeriodicSection />
+            </Col>
+
+            <Col flex={12}>
+              <LambdaAdvancedSection formValues={values} />
+            </Col>
+          </Row>
+        </React.Fragment>}
 
     <FullPageFooter>
       <Button

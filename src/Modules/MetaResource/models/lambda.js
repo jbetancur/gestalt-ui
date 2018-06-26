@@ -33,6 +33,7 @@ const get = (model = {}) => {
       // Providers is really an array of {id, locations[]}
       provider: {},
       periodic_info: {},
+      secrets: [],
       apiendpoints: [],
     }
   }, safeModel);
@@ -58,6 +59,7 @@ const create = (model = {}) => {
       cpus: 0.1,
       memory: 512,
       timeout: 30,
+      secrets: [],
     }
   }, safeModel), [
     'name',
@@ -76,6 +78,7 @@ const create = (model = {}) => {
     'properties.runtime',
     'properties.provider',
     'properties.periodic_info',
+    'properties.secrets',
     'properties.apiendpoints',
   ]);
 };

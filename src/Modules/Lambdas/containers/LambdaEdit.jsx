@@ -109,13 +109,17 @@ class LambdaEdit extends PureComponent {
       lambdaStateActions,
     } = this.props;
 
+    const selectedProvider = providersData.find(p => p.id === lambda.properties.provider.id) || {};
+
     return (
       lambdaPending && !lambda.id ?
         <ActivityContainer id="lambda-load" /> :
         <Row center>
           <Col flex={10} xs={12} sm={12} md={10}>
             <ActionsToolbar
-              title={<ListIcon runtime={lambda.properties.runtime} label={lambda.name} />}
+              title={lambda.name}
+              titleIcon={<ListIcon runtime={lambda.properties.runtime} />}
+              subtitle={selectedProvider.name}
               actions={[
                 <Button
                   key="lambda--log"

@@ -10,7 +10,7 @@ import { getLastFromSplit } from 'util/helpers/strings';
 const required = value => (value ? undefined : 'required');
 
 const setSecretMountTypes = (provider) => {
-  if (getLastFromSplit(provider.resourceType) === 'Kubernetes') {
+  if (getLastFromSplit(provider.resource_type) === 'Kubernetes') {
     return ['env', 'directory', 'file'];
   }
 
