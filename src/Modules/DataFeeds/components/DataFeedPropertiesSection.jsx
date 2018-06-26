@@ -103,7 +103,7 @@ const DataFeedPropertiesSection = ({ formValues }) => (
     <Col flex={12}>
       <Panel title="Classification" expandable={false}>
         <Row gutter={5}>
-          {['Client Data', 'PII', 'HIPPA'].map(item => (
+          {['Client Data', 'PII', 'HIPAA'].map(item => (
             <Col flex={2} xs={12} sm={6} md={4} key={item}>
               <Field
                 key={item}
