@@ -13,7 +13,7 @@ const validatePattern = value => (value && !isSecretKeyValidation(value)) && `Al
 const initialValues = { key: '', value: '' };
 const supportedFormats = '';
 const maxSize = 128000;
-const maxSizeMB = maxSize / 1000;
+const maxSizeKB = maxSize / 1000;
 
 const onFile = (file, index, form, formValues) => {
   const reader = new FileReader();
@@ -21,7 +21,7 @@ const onFile = (file, index, form, formValues) => {
   reader.onload = () => {
     if (file.size > maxSize) {
       // eslint-disable-next-line no-alert
-      window.alert(`Maximum file size allowed: ${maxSizeMB}MB`);
+      window.alert(`Maximum file size allowed: ${maxSizeKB}KB`);
     } else {
       form.change('properties.items', Object.assign([], formValues.properties.items, { [index]: { key: formValues.properties.items[index].key, value: reader.result.split(',')[1] } }));
     }
@@ -65,7 +65,7 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) =
                     rows={1}
                     maxRows={4}
                     validate={composeValidators(required())}
-                    helpText={`file uploads will be base64 encoded. max size allowed ${maxSizeMB}MB`}
+                    helpText={`file uploads will be base64 encoded. max size allowed ${maxSizeKB}KB`}
                   />
                 </Col>}
 
