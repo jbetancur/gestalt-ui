@@ -23,7 +23,7 @@ const onFile = (file, index, form, formValues) => {
       // eslint-disable-next-line no-alert
       window.alert(`Maximum file size allowed: ${maxSizeKB}KB`);
     } else {
-      form.change('properties.items', Object.assign([], formValues.properties.items, { [index]: { key: formValues.properties.items[index].key, value: reader.result.split(',')[1] } }));
+      form.change('properties.items', Object.assign([], formValues.properties.items, { [index]: { key: formValues.properties.items[index].key, value: reader.result.split(',')[1], isFile: true, } }));
     }
   };
 

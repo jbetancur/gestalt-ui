@@ -17,6 +17,21 @@ describe('(Secret Payload Transformer) generatePayload', () => {
         expect(payload).toEqual(expectedPayload);
       });
     });
+
+    describe('when item is file', () => {
+      it('should not base64 encode', () => {
+        const sourcePayload = metaModels.secret.create({
+          properties: {
+            provider: { id: '123' },
+            items: [{ key: 'k', value: 'apple', isFile: true }]
+          }
+        });
+        const payload = generatePayload(sourcePayload);
+        const expectedPayload = { ...sourcePayload, properties: { ...sourcePayload.properties, items: [{ key: 'k', value: 'apple' }] } };
+
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
   });
 
   describe('generatePatches', () => {

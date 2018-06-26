@@ -18,7 +18,7 @@ export function generatePayload(sourcePayload, updateMode = false) {
     };
   }
 
-  payload.properties.items = payload.properties.items.map(item => ({ key: item.key, value: base64.encode(item.value) }));
+  payload.properties.items = payload.properties.items.map(item => ({ key: item.key, value: item.isFile ? item.value : base64.encode(item.value) }));
 
   return payload;
 }
