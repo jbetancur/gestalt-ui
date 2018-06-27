@@ -102,8 +102,8 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
     </Col>
 
     {formValues.properties.kind === 'kafka' &&
-      <Col flex={6} xs={12} sm={12}>
-        <Panel title="Secret" expandable={false} fill>
+      <Col flex={12}>
+        <Panel title="Credentials" expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
               <Field
@@ -123,11 +123,11 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
         </Panel>
       </Col>}
 
-    <Col flex={6} xs={12} sm={12}>
-      <Panel title="Classification" expandable={false} fill>
+    <Col flex={12}>
+      <Panel title="Data Classification" expandable={false} fill>
         <Row gutter={5}>
           <Field
-            label="Data Classification"
+            label="Classification"
             addLabel="Add Classification"
             component={Chips}
             name="properties.data.classification"
