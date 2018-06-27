@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField, SelectField, AceEditor, Checkbox } from 'components/ReduxFormFields';
+import { TextField, SelectField, AceEditor } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { Chips } from 'components/Lists';
 import feedTypes from '../lists/feedTypes';
 
 const getFormats = (values) => {
@@ -31,7 +32,7 @@ const showEditor = (values) => {
   return false;
 };
 
-const DataFeedPropertiesSection = ({ formValues }) => (
+const DataFeedPropertiesSection = ({ formValues, secrets }) => (
   <Row gutter={5}>
     <Col flex={12}>
       <Panel title="Data" expandable={false}>
@@ -100,48 +101,47 @@ const DataFeedPropertiesSection = ({ formValues }) => (
       </Panel>
     </Col>
 
-    <Col flex={12}>
-      <Panel title="Classification" expandable={false}>
-        <Row gutter={5}>
-          {['Client Data', 'PII', 'HIPAA'].map(item => (
-            <Col flex={2} xs={12} sm={6} md={4} key={item}>
+    {formValues.properties.kind === 'kafka' &&
+      <Col flex={6} xs={12} sm={12}>
+        <Panel title="Secret" expandable={false} fill>
+          <Row gutter={5}>
+            <Col flex={12}>
               <Field
-                key={item}
-                id={item}
-                label={item}
-                component={Checkbox}
-                name="properties.data.classification"
-                style={{ margin: 0 }}
+                id="datafeed-secret"
+                name="properties.credentials.secret_id"
+                label="Secret"
+                itemLabel="name"
+                itemValue="id"
+                component={SelectField}
+                menuItems={['', ...secrets]}
+                simplifiedMenu={false}
+                async
+                helpText="select an optional secret for authentication"
               />
-            </Col>))}
+            </Col>
+          </Row>
+        </Panel>
+      </Col>}
+
+    <Col flex={6} xs={12} sm={12}>
+      <Panel title="Classification" expandable={false} fill>
+        <Row gutter={5}>
+          <Field
+            label="Data Classification"
+            addLabel="Add Classification"
+            component={Chips}
+            name="properties.data.classification"
+            ignorePrefixValidation
+          />
         </Row>
       </Panel>
     </Col>
-
-    {/* <Col flex={12}>
-      <Panel title="Secret" defaultExpanded={!!formValues.properties.data.secret}>
-        <Row gutter={5}>
-          <Col flex={6} xs={12}>
-            <Field
-              id="datafeed-secret"
-              name="properties.data.secret"
-              label="Secret"
-              itemLabel="name"
-              itemValue="id"
-              component={SelectField}
-              menuItems={secrets}
-              async
-            />
-          </Col>
-        </Row>
-      </Panel>
-    </Col> */}
   </Row>
 );
 
 DataFeedPropertiesSection.propTypes = {
   formValues: PropTypes.object.isRequired,
-  // secrets: PropTypes.array.isRequired,
+  secrets: PropTypes.array.isRequired,
 };
 
 export default DataFeedPropertiesSection;
