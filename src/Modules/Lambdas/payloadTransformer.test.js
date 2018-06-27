@@ -137,7 +137,8 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         { op: 'remove', path: '/properties/package_url' },
         { op: 'remove', path: '/properties/compressed' },
         { op: 'replace', path: '/properties/code_type', value: 'code' },
-        { op: 'add', path: '/properties/code', value: 'YQ==' }
+        { op: 'add', path: '/properties/code', value: 'YQ==' },
+        { op: 'add', path: '/properties/secrets', value: [] },
       ];
 
       expect(payload).toEqual(expectedPatches);
@@ -164,7 +165,8 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
           value: 'package' },
         { op: 'remove', path: '/properties/code' },
         { op: 'add', path: '/properties/compressed', value: false },
-        { op: 'add', path: '/properties/package_url', value: 'https://' }
+        { op: 'add', path: '/properties/package_url', value: 'https://' },
+        { op: 'add', path: '/properties/secrets', value: [] },
       ];
 
       expect(payload).toEqual(expectedPatches);

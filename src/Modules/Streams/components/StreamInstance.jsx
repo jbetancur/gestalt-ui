@@ -212,13 +212,13 @@ class StreamInstance extends Component {
 
         <Metrics>
           <Metric>
-            {Math.round(this.state.metrics.numProcessed)}
+            {Math.round(this.state.metrics.numProcessed || 0)}
             <Caption block>Processed</Caption>
           </Metric>
 
 
           <Metric>
-            {Math.round(this.state.metrics.numPerMinute)}
+            {Math.round(this.state.metrics.numPerMinute || 0)}
             <Caption block>Estimated Per Minute</Caption>
           </Metric>
         </Metrics>

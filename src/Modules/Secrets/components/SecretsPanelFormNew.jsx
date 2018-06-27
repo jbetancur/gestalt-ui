@@ -8,11 +8,10 @@ import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { getLastFromSplit } from 'util/helpers/strings';
-import { composeValidators, required } from 'util/forms';
+import { composeValidators, required, unixPattern } from 'util/forms';
 
 const setSecretMountTypes = (provider) => {
-  if (getLastFromSplit(provider.resource_type) === 'Kubernetes'
-    || getLastFromSplit(provider.resource_type) === 'Lambda') {
+  if (getLastFromSplit(provider.resource_type) === 'Kubernetes') {
     return ['env', 'directory', 'file'];
   }
 
@@ -45,10 +44,11 @@ const getMenuItems = (secrets, provider, type) => {
       providerId = provider.properties.config.env.public.META_COMPUTE_PROVIDER_ID;
     } else {
       const { id } = provider;
+
       providerId = id;
     }
 
-    return p.properties.provider.id === providerId;
+    return p.id ? p.properties.provider.id === providerId : null;
   });
 
   return items.length ? items : [{ id: null, name: 'No Available Secrets' }];
@@ -64,7 +64,9 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, 
 
           const handleSecretNamePopulation = (value) => {
             const secret = secretsData.find(i => i.id === value);
-            form.change('properties.secrets', Object.assign([], formValues.properties.secrets, { [index]: { ...field, secret_id: value, secret_name: secret.name } }));
+            if (value) {
+              form.change('properties.secrets', Object.assign([], formValues.properties.secrets, { [index]: { ...field, secret_id: value, secret_name: secret.name } }));
+            }
           };
 
           const reset = (value) => {
@@ -130,7 +132,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, 
                       component={TextField}
                       type="text"
                       required
-                      validate={composeValidators(required())}
+                      validate={composeValidators(required(), field.mount_type === 'env' && unixPattern())}
                       helpText={getHelpText(field.mount_type)}
                     />
                   </Col>}

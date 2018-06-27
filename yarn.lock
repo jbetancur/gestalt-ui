@@ -7191,9 +7191,9 @@ react-final-form-arrays@^1.0.6:
   dependencies:
     react-lifecycles-compat "^3.0.4"
 
-react-final-form@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.3.tgz#cf5627897e77bb6ab9e392fda0a4113ae541005a"
+react-final-form@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.4.tgz#1ca37935c2af0bc659a53b293dd84a75d2381548"
 
 react-flexybox@^2.0.2:
   version "2.0.2"
@@ -9418,9 +9418,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.12.1:
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.12.1.tgz#9108078c67fdd72c2609cea22af87d7aed2acb08"
+webpack@^4.12.2:
+  version "4.12.2"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.12.2.tgz#d2b8418eb40cedcbf2c1f5905d23a99546011ce9"
   dependencies:
     "@webassemblyjs/ast" "1.5.12"
     "@webassemblyjs/helper-module-context" "1.5.12"

@@ -103,9 +103,10 @@ class LambdaFunctionSection extends PureComponent {
                   required
                 />
               </Col>
+            </Row>
 
-              {formValues.properties.code_type === 'package' &&
-              <React.Fragment>
+            {formValues.properties.code_type === 'package' &&
+              <Row gutter={5}>
                 <Col flex={10} xs={12} sm={12}>
                   <Field
                     component={TextField}
@@ -127,8 +128,7 @@ class LambdaFunctionSection extends PureComponent {
                     checked={formValues.properties.compressed}
                   />
                 </Col>
-              </React.Fragment>}
-            </Row>
+              </Row>}
           </Panel>
         </Col>
       </Row>

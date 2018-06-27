@@ -69,10 +69,10 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
           this.safeSetState({ [`${name}Data`]: orderBy(res.data, sortKey, sortDirection) });
         } else {
           // eslint-disable-next-line
-          this.safeSetState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }] });
+          this.safeSetState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}`, properties: {} }] });
         }
       } catch (error) {
-        this.safeSetState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}` }], error });
+        this.safeSetState({ [`${name}Data`]: [{ id: '', name: `No Available ${label}`, properties: {} }], error });
       } finally {
         this.safeSetState({ [`${name}Loading`]: false });
       }

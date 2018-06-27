@@ -58,6 +58,11 @@ export function generatePatches(originalPayload, updatedPayload) {
     delete model.properties.compressed;
   }
 
+  // TODO: Deal with Patch array issues
+  if (updatedPayload.properties.secrets) {
+    delete model.properties.secrets;
+  }
+
   return jsonPatch.compare(model, generatePayload(updatedPayload, true));
 }
 

@@ -6,8 +6,19 @@ import { Checkbox, TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 
 const LambdaAdvancedSection = ({ formValues }) => (
-  <Panel title="Advanced" fill>
+  <Panel title="Options" fill>
     <Row gutter={5}>
+      <Col flex={3} xs={6} sm={6}>
+        <Field
+          id="public"
+          component={Checkbox}
+          name="properties.public"
+          // TODO: Find out why redux-form state for bool doesn't apply
+          checked={formValues.properties.public}
+          label="Public"
+        />
+      </Col>
+
       <Col flex={3} xs={6} sm={6}>
         <Field
           component={TextField}
@@ -44,16 +55,6 @@ const LambdaAdvancedSection = ({ formValues }) => (
           type="number"
           required
           parse={value => Number(value)} // redux form formats everything as string, so force number
-        />
-      </Col>
-      <Col flex={3} xs={6} sm={6}>
-        <Field
-          id="public"
-          component={Checkbox}
-          name="properties.public"
-          // TODO: Find out why redux-form state for bool doesn't apply
-          checked={formValues.properties.public}
-          label="Public"
         />
       </Col>
     </Row>

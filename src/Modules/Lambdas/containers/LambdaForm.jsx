@@ -74,11 +74,11 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
 
           <Row gutter={5}>
             <Col flex={12}>
-              <LambdaPeriodicSection />
+              <LambdaAdvancedSection formValues={values} />
             </Col>
 
             <Col flex={12}>
-              <LambdaAdvancedSection formValues={values} />
+              <LambdaPeriodicSection />
             </Col>
           </Row>
         </React.Fragment>}
