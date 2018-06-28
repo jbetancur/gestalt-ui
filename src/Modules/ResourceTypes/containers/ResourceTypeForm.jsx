@@ -110,6 +110,7 @@ const ResourceTypeForm = ({ match,
                   component={Chips}
                   name="properties.actions.verbs"
                   ignorePrefixValidation
+                  forceLowerCase
                 />
               </Fieldset>
             </Col>

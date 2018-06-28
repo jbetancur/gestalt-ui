@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chips mounts with basic props 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+<Chips
+  forceLowerCase={false}
+  ignorePrefixValidation={false}
+  input={Object {}}
+  label="Entry"
+  meta={
+    Object {
+      "error": null,
+      "touched": false,
+    }
+  }
+  prefix={null}
+>
+  <TextField
+    disabled={true}
+    fullWidth={true}
+    helpText="press ENTER to add a new entry"
+    id="Entry-list-table"
+    leftIconStateful={true}
+    lineDirection="center"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    passwordIcon={
+      <FontIcon
+        iconClassName="material-icons"
+      >
+        remove_red_eye
+      </FontIcon>
+    }
+    placeholder="Entry"
+    rightIconStateful={true}
+    type="text"
+    value=""
+  >
+    <div
+      className="md-text-field-container md-full-width md-text-field-container--disabled md-text-field-container--input"
+      onClick={[Function]}
+    >
+      <FloatingLabel
+        active={false}
+        disabled={true}
+        error={false}
+        floating={false}
+        htmlFor="Entry-list-table"
+        iconOffset={false}
+        key="label"
+      />
+      <InputField
+        className=""
+        disabled={true}
+        fullWidth={true}
+        id="Entry-list-table"
+        inlineIndicator={false}
+        key="field"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Entry"
+        type="text"
+        value=""
+      >
+        <input
+          className="md-text-field md-text-field--margin md-full-width md-text--disabled"
+          disabled={true}
+          id="Entry-list-table"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          placeholder="Entry"
+          type="text"
+          value=""
+        />
+      </InputField>
+      <TextFieldDivider
+        active={false}
+        error={false}
+        key="text-divider"
+        lineDirection="center"
+      >
+        <Divider
+          className="md-divider--text-field md-divider--expand-from-center"
+        >
+          <hr
+            className="md-divider md-divider--text-field md-divider--expand-from-center"
+          />
+        </Divider>
+      </TextFieldDivider>
+      <TextFieldMessage
+        active={false}
+        currentLength={0}
+        error={false}
+        helpText="press ENTER to add a new entry"
+        key="message"
+        leftIcon={false}
+        rightIcon={false}
+      >
+        <div
+          className="md-text-field-message-container md-full-width md-text--disabled"
+        >
+          <Message
+            active={true}
+            key="message"
+          >
+            <div
+              aria-hidden={false}
+              className="md-text-field-message md-text-field-message--active"
+            >
+              press ENTER to add a new entry
+            </div>
+          </Message>
+          <Message
+            active={false}
+            className="md-text-field-message--counter"
+            key="counter"
+          />
+        </div>
+      </TextFieldMessage>
+    </div>
+  </TextField>
+  <Chips__List
+    maxHeight="184px"
+  >
+    <div
+      className="c0"
+    />
+  </Chips__List>
+</Chips>
+`;

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Chips) Chip mounts with basic props 1`] = `
+.c0 {
+  position: relative;
+  height: 32px;
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  margin: 5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+<div
+  className="c0"
+>
+  <Chip__Tag>
+    test
+  </Chip__Tag>
+  <Chip__Remove
+    onClick={[Function]}
+  >
+    close
+  </Chip__Remove>
+</div>
+`;

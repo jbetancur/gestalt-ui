@@ -78,6 +78,7 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                         component={Chips}
                         prefix={fields.get(index).prefix}
                         name={`${member}.actions`}
+                        forceLowerCase
                       />
                     </Fieldset>
                   </Col>

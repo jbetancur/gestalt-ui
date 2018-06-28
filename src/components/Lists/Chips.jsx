@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { TextField } from 'react-md';
 import { Error } from 'components/Typography';
 import { insertItem, removeItem } from 'util/helpers/lists';
-import Chip from './components/Chip';
+import Chip from './Chip';
 
 const List = styled.div`
   display: flex;
@@ -18,6 +18,7 @@ class Chips extends Component {
     input: PropTypes.object,
     ignorePrefixValidation: PropTypes.bool,
     label: PropTypes.string,
+    forceLowerCase: PropTypes.bool
   };
 
   static defaultProps = {
@@ -25,6 +26,7 @@ class Chips extends Component {
     prefix: null,
     ignorePrefixValidation: false,
     label: 'Entry',
+    forceLowerCase: false,
   };
 
   state = { item: '', touched: false };
@@ -51,7 +53,11 @@ class Chips extends Component {
   }
 
   handleChange = (value) => {
-    this.setState({ item: value.toLowerCase().trim() });
+    if (this.props.forceLowerCase) {
+      this.setState({ item: value.toLowerCase().trim() });
+    } else {
+      this.setState({ item: value.trim() });
+    }
   }
 
   handleTouched = () => {
