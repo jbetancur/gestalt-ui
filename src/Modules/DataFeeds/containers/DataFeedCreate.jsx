@@ -4,12 +4,13 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData, metaModels } from 'Modules/MetaResource';
+import { withDatafeed, withPickerData, withResourceType, metaModels } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
+import { DATA_CLASSIFICATION } from '../../../constants';
 
 const initialValues = metaModels.datafeed.create({
   properties: {
@@ -27,7 +28,15 @@ class DataFeedCreate extends Component {
     datafeedActions: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
     secretsData: PropTypes.array.isRequired,
+    resourceTypeActions: PropTypes.object.isRequired,
+    resourceType: PropTypes.object.isRequired,
   };
+
+  componentDidMount() {
+    const { resourceTypeActions } = this.props;
+
+    resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
+  }
 
   onSubmit = (values) => {
     const { match, history, datafeedActions } = this.props;
@@ -40,7 +49,7 @@ class DataFeedCreate extends Component {
 
 
   render() {
-    const { datafeedPending, secretsData } = this.props;
+    const { datafeedPending, secretsData, resourceType } = this.props;
     return (
       <Row center>
         <Col flex={8} xs={12} sm={12} md={10}>
@@ -55,6 +64,7 @@ class DataFeedCreate extends Component {
             validate={validate}
             loading={datafeedPending}
             secrets={secretsData}
+            tags={resourceType.tags}
           />
         </Col>
       </Row>
@@ -65,5 +75,6 @@ class DataFeedCreate extends Component {
 export default compose(
   withPickerData({ entity: 'secrets', label: 'Secrets' }),
   withDatafeed,
+  withResourceType,
   withRouter,
 )(DataFeedCreate);

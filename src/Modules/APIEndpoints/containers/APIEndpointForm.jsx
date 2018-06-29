@@ -158,6 +158,7 @@ const APIEndpointForm = ({
                   component={Chips}
                   name="properties.hosts"
                   ignorePrefixValidation
+                  forceLowerCase
                   helpText="at least 1 host is required if a relative path is not specified: e.g. galacticfog.com"
                 />
               </Col>

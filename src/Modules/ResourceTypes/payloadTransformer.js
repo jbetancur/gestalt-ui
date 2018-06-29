@@ -17,7 +17,8 @@ export function generatePayload(sourcePayload) {
  */
 export function generatePatches(original, updated) {
   // we need to strip these properties off the model as they are not pached directly
-  const originalPayload = omit(metaModels.resourceType.create(original), ['extend', 'property_defs']);
+  // TODO: omit tags to force PATCH
+  const originalPayload = omit(metaModels.resourceType.create(original), ['extend', 'property_defs', 'tags']);
   const updatedPayload = omit(generatePayload(updated), ['extend', 'property_defs']);
 
   return jsonPatch.compare(originalPayload, updatedPayload);

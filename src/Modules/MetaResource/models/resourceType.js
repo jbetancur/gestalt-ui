@@ -11,6 +11,7 @@ const get = (model = {}) => {
     org: {
       properties: {},
     },
+    tags: [],
     created: {},
     modified: {},
     name: '',
@@ -44,6 +45,7 @@ const create = (model = {}) => {
     org: {
       properties: {},
     },
+    tags: [],
     created: {},
     modified: {},
     name: '',
@@ -66,6 +68,7 @@ const create = (model = {}) => {
     'name',
     'description',
     'extend',
+    'tags',
     'properties.abstract',
     'properties.api',
     'properties.actions',

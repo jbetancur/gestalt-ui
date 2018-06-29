@@ -23,10 +23,6 @@ export default (values) => {
     errors.description = `description must be less than ${descriptionMaxLen} characters`;
   }
 
-  if (!values.extend) {
-    errors.extend = 'extend is required';
-  }
-
   if (values.properties && values.properties.actions && !values.properties.actions.prefix) {
     merge(errors, nestedObjectFromString('properties.actions.prefix', 'a prefix is required'));
   }

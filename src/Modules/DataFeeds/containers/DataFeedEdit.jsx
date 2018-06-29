@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData, withProviderActions } from 'Modules/MetaResource';
+import { withDatafeed, withPickerData, withProviderActions, withResourceType } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -17,6 +17,7 @@ import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 import { getDatafeed } from '../selectors';
 import { generatePatches } from '../payloadTransformer';
+import { DATA_CLASSIFICATION } from '../../../constants';
 
 class DataFeedEdit extends Component {
   static propTypes = {
@@ -29,12 +30,15 @@ class DataFeedEdit extends Component {
     match: PropTypes.object.isRequired,
     secretsData: PropTypes.array.isRequired,
     providerActions: PropTypes.object.isRequired,
+    resourceTypeActions: PropTypes.object.isRequired,
+    resourceType: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { datafeedActions, match } = this.props;
+    const { datafeedActions, resourceTypeActions, match } = this.props;
 
     datafeedActions.fetchDatafeed({ fqon: match.params.fqon, id: match.params.datafeedId });
+    resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
   }
 
   onShowEntitlements = () => {
@@ -53,7 +57,7 @@ class DataFeedEdit extends Component {
   };
 
   render() {
-    const { datafeedPending, datafeed, secretsData, providerActions, initialFormValues, match } = this.props;
+    const { datafeedPending, datafeed, secretsData, providerActions, resourceType, initialFormValues, match } = this.props;
 
     return (
       datafeedPending && !datafeed.id ?
@@ -99,6 +103,7 @@ class DataFeedEdit extends Component {
               validate={validate}
               loading={datafeedPending}
               secrets={secretsData}
+              tags={resourceType.tags}
             />
           </Col>
         </Row>
@@ -115,6 +120,7 @@ export default compose(
   withPickerData({ entity: 'secrets', label: 'Secrets' }),
   withEntitlements,
   withDatafeed,
+  withResourceType,
   withRouter,
   connect(mapStatetoProps)
 )(DataFeedEdit);

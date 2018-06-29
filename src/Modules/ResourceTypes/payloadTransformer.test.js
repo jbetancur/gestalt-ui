@@ -26,7 +26,11 @@ describe('(Payload Transformer) generatePayload', () => {
       const updatedPayload = metaModels.resourceType.create();
       const payload = generatePatches(originalPayload, updatedPayload);
 
-      expect(payload).to.be.an('array').that.is.empty;
+      const expectedPatches = [
+        { op: 'add', path: '/tags', value: [] },
+      ];
+
+      expect(payload).toEqual(expectedPatches);
     });
 
     it('should generate the correct patches if there is a difference', () => {
@@ -40,10 +44,11 @@ describe('(Payload Transformer) generatePayload', () => {
       const payload = generatePatches(originalPayload, updatedPayload);
       const expectedPatches = [
         { op: 'add', path: '/properties/actions/prefix', value: 'imma-prefix' },
-        { op: 'replace', path: '/properties/abstract', value: true }
+        { op: 'replace', path: '/properties/abstract', value: true },
+        { op: 'add', path: '/tags', value: [] },
       ];
 
-      expect(payload).to.have.deep.members(expectedPatches);
+      expect(payload).toEqual(expectedPatches);
     });
 
     it('should not patch extends or property_defs', () => {
@@ -54,7 +59,12 @@ describe('(Payload Transformer) generatePayload', () => {
       });
       const payload = generatePatches(originalPayload, updatedPayload);
 
-      expect(payload).to.be.an('array').that.is.empty;
+
+      const expectedPatches = [
+        { op: 'add', path: '/tags', value: [] },
+      ];
+
+      expect(payload).toEqual(expectedPatches);
     });
   });
 

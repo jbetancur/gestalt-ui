@@ -7,12 +7,13 @@ import { FullPageFooter } from 'components/FullPage';
 import DataFeedSection from '../components/DataFeedSection';
 import DataFeedPropertiesSection from '../components/DataFeedPropertiesSection';
 
-const DataFeedForm = ({ handleSubmit, values, submitting, pristine, match, loading, editMode, secrets }) => (
+const DataFeedForm = ({ handleSubmit, values, submitting, pristine, match, loading, editMode, secrets, tags }) => (
   <Form onSubmit={handleSubmit} disabled={loading}>
     <DataFeedSection />
     <DataFeedPropertiesSection
       secrets={secrets}
       formValues={values}
+      tags={tags}
     />
 
     <FullPageFooter>
@@ -46,6 +47,7 @@ DataFeedForm.propTypes = {
   loading: PropTypes.bool.isRequired,
   editMode: PropTypes.bool,
   secrets: PropTypes.array.isRequired,
+  tags: PropTypes.array.isRequired,
 };
 
 DataFeedForm.defaultProps = {

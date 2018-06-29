@@ -18,9 +18,11 @@ export const ANALYTICS_TRACKING_ACCT = $$ANALYTICS_TRACKING_ACCT$$;
 export const USER = '58b6775d-37a5-44bc-9115-7331fc4964b7';
 export const GROUP = 'ad4c7258-1896-45bf-8ec8-c875dcc7654e';
 export const LOGGING = 'e1782fef-4b7c-4f75-b8b8-6e6e2ecd82b2';
+export const DATA_CLASSIFICATION = '4f9a4d64-513c-4f2f-a372-8a90dd41de31';
 
 export default {
   USER,
   GROUP,
   LOGGING,
+  DATA_CLASSIFICATION,
 };

@@ -25,35 +25,34 @@ const ResourceTypeForm = ({ match,
 }) => (
   <Form onSubmit={handleSubmit} autoComplete="off" disabled={pending}>
     <Row gutter={5}>
-      <Col flex={12}>
-        <Panel title="General" expandable={false}>
+      <Col flex={7}>
+        <Panel title="General" expandable={false} fill>
           <Row gutter={5}>
-            <Col flex={6} xs={12} sm={12}>
+            <Col flex={12}>
               <Field
                 component={TextField}
                 name="name"
-                label="Name"
+                label="Resource Name"
                 required
               />
             </Col>
 
             {!editMode &&
-              <Col flex>
+              <Col flex={12}>
                 <Field
                   id="select-extends"
                   component={SelectField}
                   name="extend"
-                  menuItems={resourcetypesData}
+                  menuItems={['', ...resourcetypesData]}
                   itemLabel="name"
                   itemValue="id"
-                  required
                   label="Extend Resource"
                   async
                   helpText="Resource Type to extend"
                 />
               </Col>}
 
-            <Col flex={1} xs={12} sm={12}>
+            <Col flex={12}>
               <Field
                 id="abstract"
                 component={Checkbox}
@@ -62,18 +61,36 @@ const ResourceTypeForm = ({ match,
                 label="Abstract"
               />
             </Col>
+          </Row>
+        </Panel>
+      </Col>
 
+      <Col flex={5} xs={12} sm={12} md={12}>
+        <Panel title="Description" expandable={false} fill>
+          <Row gutter={5}>
             <Col flex={12}>
               <Field
                 id="description"
                 component={TextField}
                 name="description"
-                label="Description"
-                type="text"
+                placeholder="Description"
                 rows={1}
+                maxRows={6}
               />
             </Col>
           </Row>
+        </Panel>
+      </Col>
+
+
+      <Col flex={12}>
+        <Panel title="Tags">
+          <Field
+            label="Add a Tag"
+            component={Chips}
+            name="tags"
+            ignorePrefixValidation
+          />
         </Panel>
       </Col>
 
@@ -128,7 +145,7 @@ const ResourceTypeForm = ({ match,
         </Panel>
       </Col>
 
-      <Col flex={6} xs={12} sm={12}>
+      <Col flex={12}>
         <Panel title="Parent Lineage" noPadding>
           <LineageForm
             name="properties.lineage.parent_types"
@@ -138,7 +155,7 @@ const ResourceTypeForm = ({ match,
         </Panel>
       </Col>
 
-      <Col flex={6} xs={12} sm={12}>
+      <Col flex={12}>
         <Panel title="Child Lineage" noPadding>
           <LineageForm
             name="properties.lineage.child_types"

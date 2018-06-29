@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField, AceEditor } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
-import { Chips } from 'components/Lists';
+import { ChipsAuto } from 'components/Lists';
 import feedTypes from '../lists/feedTypes';
 
 const getFormats = (values) => {
@@ -32,7 +32,7 @@ const showEditor = (values) => {
   return false;
 };
 
-const DataFeedPropertiesSection = ({ formValues, secrets }) => (
+const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
   <Row gutter={5}>
     <Col flex={12}>
       <Panel title="Data" expandable={false}>
@@ -129,9 +129,9 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
           <Field
             label="Classification"
             addLabel="Add Classification"
-            component={Chips}
+            component={ChipsAuto}
             name="properties.data.classification"
-            ignorePrefixValidation
+            data={tags}
           />
         </Row>
       </Panel>
@@ -142,6 +142,11 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
 DataFeedPropertiesSection.propTypes = {
   formValues: PropTypes.object.isRequired,
   secrets: PropTypes.array.isRequired,
+  tags: PropTypes.array,
+};
+
+DataFeedPropertiesSection.defaultProps = {
+  tags: [],
 };
 
 export default DataFeedPropertiesSection;

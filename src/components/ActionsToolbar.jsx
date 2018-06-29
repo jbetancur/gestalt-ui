@@ -14,16 +14,15 @@ const ActionHeaderStyle = styled.header`
   padding-bottom: 6px;
 `;
 
-const TitleStyle = styled.div`
+const Left = styled.div`
   flex: 1 1 auto;
 `;
 
-const IconStyle = styled.div`
+const IconStyle = styled.span`
   padding-right: 8px;
-  display: inline-block;
 `;
 
-const ActionStyle = styled.div`
+const Right = styled.div`
   display: flex;
   justify-content: flex-end;
   flex: 1 1 auto;
@@ -31,7 +30,7 @@ const ActionStyle = styled.div`
 
 const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => (
   <ActionHeaderStyle>
-    <TitleStyle>
+    <Left>
       <Title>
         {!!titleIcon &&
         <IconStyle>
@@ -39,13 +38,12 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => 
         </IconStyle>}
         <span>{title}</span>
       </Title>
-      {!!subtitle &&
-        <Subtitle>{subtitle}</Subtitle>}
-    </TitleStyle>
+      {!!subtitle && <Subtitle>{subtitle}</Subtitle>}
+    </Left>
     {actions && showActions &&
-      <ActionStyle>
+      <Right>
         {actions}
-      </ActionStyle>}
+      </Right>}
   </ActionHeaderStyle>
 );
 

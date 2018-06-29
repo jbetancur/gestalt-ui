@@ -68,17 +68,6 @@ describe('(ResourceTypes) Form Validations', () => {
     expect(doValidate.extend).toBeUndefined();
   });
 
-  it('should have an error when extend is blank', () => {
-    const values = {
-      ...metaModels.resourceType,
-      extend: '',
-    };
-
-    const doValidate = validate(values);
-
-    expect(doValidate.extend).toBeDefined();
-  });
-
   it('should have an error for the prefix field if empty and verbs are defined', () => {
     const values = {
       ...metaModels.resourceType,
