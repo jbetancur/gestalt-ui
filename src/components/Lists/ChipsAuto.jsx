@@ -17,12 +17,14 @@ class Chips extends Component {
     input: PropTypes.object,
     label: PropTypes.string,
     data: PropTypes.array,
+    helpText: PropTypes.string,
   };
 
   static defaultProps = {
     input: {},
     label: 'Entry',
     data: [],
+    helpText: null,
   };
 
   state = { touched: false };
@@ -44,7 +46,7 @@ class Chips extends Component {
   }
 
   render() {
-    const { label, data, input, meta: { error } } = this.props;
+    const { label, data, helpText, input, meta: { error } } = this.props;
 
     return (
       <React.Fragment>
@@ -60,6 +62,7 @@ class Chips extends Component {
           clearOnAutocomplete
           focusInputOnAutocomplete
           listInline
+          helpText={helpText}
         />
         <List maxHeight="184px">
           {Array.isArray(input.value) && input.value.map((item, i) => <Chip key={`${item}--${i}`} item={item} onRemove={this.removeItem} />)}

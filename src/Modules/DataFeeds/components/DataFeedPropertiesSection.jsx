@@ -128,10 +128,10 @@ const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
         <Row gutter={5}>
           <Field
             label="Classification"
-            addLabel="Add Classification"
             component={ChipsAuto}
             name="properties.data.classification"
             data={tags}
+            helpText="type to search for a classification"
           />
         </Row>
       </Panel>
