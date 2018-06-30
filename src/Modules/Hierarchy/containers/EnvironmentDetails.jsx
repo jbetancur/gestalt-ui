@@ -7,7 +7,6 @@ import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
-import { H4 } from 'components/Typography';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../withHierarchy';
 
@@ -80,7 +79,7 @@ class EnvironmentDetails extends PureComponent {
         <ActionsToolbar
           title={environment.description || environment.name}
           titleIcon={<EnvironmentIcon />}
-          subtitle={<H4>Environment Type: {environmentType}</H4>}
+          subtitle={`Environment Type: ${environmentType}`}
           actions={this.renderActions()}
           disabled={environmentPending}
         />

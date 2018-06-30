@@ -81,6 +81,7 @@ class OrganizationDetails extends PureComponent {
       <React.Fragment>
         <ActionsToolbar
           title={organizationSet.description || organizationSet.name}
+          subtitle={`FQON: ${organizationSet.properties.fqon}`}
           titleIcon={<OrganizationIcon />}
           actions={this.renderActions()}
           disabled={organizationSetPending}

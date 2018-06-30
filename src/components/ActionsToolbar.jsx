@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
-import { Title, Subtitle } from 'components/Typography';
+import { Title, Caption } from 'components/Typography';
 
 const ActionHeaderStyle = styled.header`
   display: flex;
@@ -56,7 +56,7 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, disab
             {title}
           </Title>}
       </TitleSection>
-      {!!subtitle && <Subtitle>{subtitle}</Subtitle>}
+      {!!subtitle && <Caption>{subtitle}</Caption>}
     </Left>
     {actions && showActions &&
       <Right>
