@@ -52,9 +52,12 @@ const IconSeparator = styled(({ size, ...rest }) => <FontIcon {...rest} />)`
 `;
 
 const NavArrow = styled(Button)`
+  height: 32px;
+  width: 32px;
+  padding: 7px;
+
   i {
-    font-size: 16px !important;
-    margin-top: 7px;
+    font-size: 18px !important;
   }
 
   @media (min-width: 0) and (max-width: 659px) {

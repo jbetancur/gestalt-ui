@@ -25,7 +25,7 @@ class EnvironmentHome extends PureComponent {
             manageURL={`${this.props.match.url}/lambdas`}
             // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#lambdas`}
           >
-            Create, manage and deploy lambdas with support for a wide array of languages
+            Create, manage and deploy Lambdas with support for a wide array of languages
           </HomeCard>
         </Col>
 
@@ -39,7 +39,7 @@ class EnvironmentHome extends PureComponent {
             manageURL={`${this.props.match.url}/containers`}
             // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#containers`}
           >
-            Create, manage and migrate containers across Kubernetes, Swarm or DCOS
+            Create, manage and migrate Containers across Kubernetes, Swarm or DCOS
           </HomeCard>
         </Col>
 
@@ -66,7 +66,7 @@ class EnvironmentHome extends PureComponent {
             createURL={`${this.props.match.url}/apis/create`}
             manageURL={`${this.props.match.url}/apis`}
           >
-            Upstream access to lambdas/containers can be defined through API endpoints
+            Upstream access to Lambdas/Containers can be defined through API endpoints
           </HomeCard>
         </Col>
 
@@ -92,7 +92,7 @@ class EnvironmentHome extends PureComponent {
             createURL={`${this.props.match.url}/datafeeds/create`}
             manageURL={`${this.props.match.url}/datafeeds`}
           >
-            Real-time data feeds
+            Real-time Data Feeds
           </HomeCard>
         </Col>
 

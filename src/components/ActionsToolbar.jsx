@@ -12,10 +12,13 @@ const ActionHeaderStyle = styled.header`
   padding-left: 8px;
   padding-top: 6px;
   padding-bottom: 6px;
+  ${props => props.disabled && 'pointer-events: none'};
+  ${props => props.disabled && 'opacity: 0.5'};
 `;
 
 const Left = styled.div`
   flex: 1 1 auto;
+  height: 100%;
 `;
 
 const IconStyle = styled.span`
@@ -26,18 +29,33 @@ const Right = styled.div`
   display: flex;
   justify-content: flex-end;
   flex: 1 1 auto;
+
+  button,
+  a {
+    margin-left: 3px;
+    font-size: 11px;
+  }
 `;
 
-const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => (
-  <ActionHeaderStyle>
+const TitleSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, disabled }) => (
+  <ActionHeaderStyle disabled={disabled}>
     <Left>
-      <Title>
+      <TitleSection>
         {!!titleIcon &&
         <IconStyle>
           {titleIcon}
         </IconStyle>}
-        <span>{title}</span>
-      </Title>
+
+        {!!title &&
+          <Title>
+            {title}
+          </Title>}
+      </TitleSection>
       {!!subtitle && <Subtitle>{subtitle}</Subtitle>}
     </Left>
     {actions && showActions &&
@@ -48,14 +66,21 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions }) => 
 );
 
 ActionsHeader.propTypes = {
-  title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  subtitle: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string,
+  ]),
+  subtitle: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string,
+  ]),
   titleIcon: PropTypes.node,
   actions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
   showActions: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 ActionsHeader.defaultProps = {
@@ -64,6 +89,7 @@ ActionsHeader.defaultProps = {
   actions: null,
   titleIcon: null,
   showActions: true,
+  disabled: false,
 };
 
 export default withTheme(ActionsHeader);

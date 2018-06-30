@@ -10,20 +10,14 @@ exports[`(Navigation) NavHeader renders a NavHeader 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  background-color: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
   padding: 12px;
   text-align: left;
   min-height: 56px;
   overflow: visible;
   width: 100%;
   z-index: 4;
-}
-
-.c0 .md-btn--icon {
-  height: 32px;
-  padding: 0;
-  width: 32px;
 }
 
 <div

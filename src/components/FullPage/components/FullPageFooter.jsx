@@ -4,22 +4,21 @@ import styled, { withTheme } from 'styled-components';
 
 const Footer = styled.footer`
   position: fixed;
-  background-color: ${props => props.theme.colors['$md-white']};
   bottom: 0;
   right: 0;
   min-height: 56px;
-  width: ${props => (props.fullWidth ? '100%' : 'calc(100% - 72px)')};
+  width: ${props => (props.fullWidth ? '100%' : 'calc(100% - 70px)')};
+  background-color: ${props => props.theme.colors['$md-grey-50']};
+  border-top: 1px solid ${props => props.theme.colors['$md-grey-300']};
   padding: 8px 24px 8px 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
   z-index: 19;
 
   button,
   a {
-    margin-left: 0.1em;
-    margin-right: 0.1em;
+    margin-left: 3px;
   }
 `;
 

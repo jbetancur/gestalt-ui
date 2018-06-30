@@ -4,12 +4,10 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { Col, Row } from 'react-flexybox';
-import { UnixVariablesListing } from 'Modules/Variables';
-import { DeleteIcon, EntitlementIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
-import Div from 'components/Div';
-import ResourceProperties from './ResourceProperties';
+import DetailsPane from 'components/DetailsPane';
+import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../withHierarchy';
 
 class WorkspaceDetails extends PureComponent {
@@ -40,47 +38,52 @@ class WorkspaceDetails extends PureComponent {
       deleteWorkspace(match.params.fqon, workspace.id, onSuccess);
     }, name, 'Workspace');
   }
-  render() {
-    const { match, workspace, workspacePending } = this.props;
 
-    return [
-      <Row key="workspace-details">
-        <Col flex={6} xs={12}>
-          <ResourceProperties model={workspace} />
-        </Col>
-        <Col flex={6} xs={12}>
-          <UnixVariablesListing envMap={workspace.properties.env} />
-        </Col>
-      </Row>,
-      <Div key="workspace-details--actions" disabled={workspacePending} textAlign="right">
-        <Row>
-          <Col flex={12}>
-            <Button
-              flat
-              iconChildren={<DeleteIcon />}
-              onClick={this.delete}
-            >
-              Delete
-            </Button>
-            <Button
-              flat
-              iconChildren="edit"
-              component={Link}
-              to={{ pathname: `${match.url}/edit`, state: { modal: true } }}
-            >
-              Edit
-            </Button>
-            <Button
-              flat
-              iconChildren={<EntitlementIcon size={20} />}
-              onClick={this.showEntitlements}
-            >
-              Entitlements
-            </Button>
-          </Col>
-        </Row>
-      </Div>,
-    ];
+  renderActions() {
+    const { match } = this.props;
+
+    return (
+      <React.Fragment>
+        <Button
+          flat
+          iconChildren={<DeleteIcon />}
+          onClick={this.delete}
+        >
+          Delete
+        </Button>
+        <Button
+          flat
+          iconChildren="edit"
+          component={Link}
+          to={{ pathname: `${match.url}/edit`, state: { modal: true } }}
+        >
+          Edit
+        </Button>
+        <Button
+          flat
+          iconChildren={<EntitlementIcon size={20} />}
+          onClick={this.showEntitlements}
+        >
+          Entitlements
+        </Button>
+      </React.Fragment>
+    );
+  }
+
+  render() {
+    const { workspace, workspacePending } = this.props;
+
+    return (
+      <React.Fragment>
+        <ActionsToolbar
+          title={workspace.description || workspace.name}
+          titleIcon={<WorkspaceIcon />}
+          actions={this.renderActions()}
+          disabled={workspacePending}
+        />
+        <DetailsPane model={workspace} />
+      </React.Fragment>
+    );
   }
 }
 

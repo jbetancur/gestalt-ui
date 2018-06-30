@@ -4,12 +4,10 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { withMetaResource, withSelf } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { Col, Row } from 'react-flexybox';
-import { UnixVariablesListing } from 'Modules/Variables';
-import { DeleteIcon, EntitlementIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
-import Div from 'components/Div';
-import ResourceProperties from './ResourceProperties';
+import DetailsPane from 'components/DetailsPane';
+import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../withHierarchy';
 
 class OrganizationDetails extends PureComponent {
@@ -43,49 +41,53 @@ class OrganizationDetails extends PureComponent {
     }, name, 'Organization');
   }
 
-  render() {
-    const { match, organizationSet, organizationSetPending, self } = this.props;
-    const deleteDisabled = organizationSetPending || (match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root');
+  renderActions() {
+    const { match, organizationSet, self } = this.props;
+    const deleteDisabled = match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root';
 
-    return [
-      <Row key="hierarchy-details">
-        <Col flex={6} xs={12}>
-          <ResourceProperties model={organizationSet} isOrganization />
-        </Col>
-        <Col flex={6} xs={12}>
-          <UnixVariablesListing envMap={organizationSet.properties.env} />
-        </Col>
-      </Row>,
-      <Div key="hierarchy-details--actions" disabled={organizationSetPending} textAlign="right">
-        <Row>
-          <Col flex={12}>
-            <Button
-              disabled={deleteDisabled}
-              flat
-              iconChildren={<DeleteIcon />}
-              onClick={this.delete}
-            >
-              Delete
-            </Button>
-            <Button
-              flat
-              iconChildren="edit"
-              component={Link}
-              to={{ pathname: `/${organizationSet.properties.fqon}/editOrganization`, state: { modal: true } }}
-            >
-              Edit
-            </Button>
-            <Button
-              flat
-              iconChildren={<EntitlementIcon size={20} />}
-              onClick={this.showEntitlements}
-            >
-              Entitlements
-            </Button>
-          </Col>
-        </Row>
-      </Div>,
-    ];
+    return (
+      <React.Fragment>
+        <Button
+          flat
+          iconChildren={<DeleteIcon />}
+          onClick={this.delete}
+          disabled={deleteDisabled}
+        >
+          Delete
+        </Button>
+        <Button
+          flat
+          iconChildren="edit"
+          component={Link}
+          to={{ pathname: `/${organizationSet.properties.fqon}/editOrganization`, state: { modal: true } }}
+        >
+          Edit
+        </Button>
+        <Button
+          flat
+          iconChildren={<EntitlementIcon size={20} />}
+          onClick={this.showEntitlements}
+        >
+          Entitlements
+        </Button>
+      </React.Fragment>
+    );
+  }
+
+  render() {
+    const { organizationSet, organizationSetPending } = this.props;
+
+    return (
+      <React.Fragment>
+        <ActionsToolbar
+          title={organizationSet.description || organizationSet.name}
+          titleIcon={<OrganizationIcon />}
+          actions={this.renderActions()}
+          disabled={organizationSetPending}
+        />
+        <DetailsPane model={organizationSet} />
+      </React.Fragment>
+    );
   }
 }
 
