@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { mapTo2DArray } from 'util/helpers/transformations';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { withMetaResource } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateEnvironmentPatches } from '../payloadTransformer';
+import { getEditEnvironmentModel } from '../selectors';
 
 class EnvironmentEdit extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class EnvironmentEdit extends Component {
     fetchEnvironments: PropTypes.func.isRequired,
     updateEnvironment: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -43,46 +45,29 @@ class EnvironmentEdit extends Component {
   }
 
   render() {
-    const { environment } = this.props;
+    const { environment, environmentPending, initialFormValues } = this.props;
 
     return (
-      <HierarchyForm
+      <Form
+        component={HierarchyForm}
         title={environment.description || environment.name}
-        submitLabel="Update"
-        cancelLabel="Cancel"
-        onSubmit={this.update}
-        envMap={environment.properties.env}
-        isEnvironment
+        loading={environmentPending}
         editMode
-        pending={this.props.environmentPending}
-        {...this.props}
+        isEnvironment
+        onSubmit={this.update}
+        initialValues={initialFormValues}
+        validate={validate}
+        mutators={{ ...arrayMutators }}
       />
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { environment } = state.metaResource.environment;
-
-  return {
-    initialValues: {
-      ...metaModels.environment,
-      name: environment.name,
-      description: environment.description,
-      properties: {
-        ...environment.properties,
-        env: mapTo2DArray(environment.properties.env),
-      },
-    },
-    enableReinitialize: true
-  };
-}
+const mapStateToProps = state => ({
+  initialFormValues: getEditEnvironmentModel(state),
+});
 
 export default compose(
   withMetaResource,
   connect(mapStateToProps),
-  reduxForm({
-    form: 'environmentEdit',
-    validate,
-  }),
 )(EnvironmentEdit);

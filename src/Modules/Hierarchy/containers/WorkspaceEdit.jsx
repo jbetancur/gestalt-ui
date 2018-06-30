@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { mapTo2DArray } from 'util/helpers/transformations';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { withMetaResource } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
+import { getEditWorkspaceModel } from '../selectors';
 
 class WorkspaceEdit extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class WorkspaceEdit extends Component {
     fetchOrgSet: PropTypes.func.isRequired,
     updateWorkspace: PropTypes.func.isRequired,
     workspacePending: PropTypes.bool.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -50,43 +52,28 @@ class WorkspaceEdit extends Component {
   }
 
   render() {
+    const { workspace, workspacePending, initialFormValues } = this.props;
+
     return (
-      <HierarchyForm
-        title={this.props.workspace.description || this.props.workspace.nam}
-        submitLabel="Update"
-        cancelLabel="Cancel"
-        onSubmit={this.update}
-        envMap={this.props.workspace.properties.env}
+      <Form
+        component={HierarchyForm}
+        title={workspace.description || workspace.name}
+        loading={workspacePending}
         editMode
-        pending={this.props.workspacePending}
-        {...this.props}
+        onSubmit={this.update}
+        initialValues={initialFormValues}
+        validate={validate}
+        mutators={{ ...arrayMutators }}
       />
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { workspace } = state.metaResource.workspace;
-
-  return {
-    initialValues: {
-      ...metaModels.workspace,
-      name: workspace.name,
-      description: workspace.description,
-      properties: {
-        ...workspace.properties,
-        env: mapTo2DArray(workspace.properties.env),
-      },
-    },
-    enableReinitialize: true,
-  };
-}
+const mapStateToProps = state => ({
+  initialFormValues: getEditWorkspaceModel(state),
+});
 
 export default compose(
   withMetaResource,
   connect(mapStateToProps),
-  reduxForm({
-    form: 'workspaceEdit',
-    validate
-  })
 )(WorkspaceEdit);

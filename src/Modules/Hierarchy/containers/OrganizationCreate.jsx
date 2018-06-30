@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { translate } from 'react-i18next';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { withMetaResource, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPayload } from '../payloadTransformer';
 
-class OrgCreate extends Component {
+const initialFormValues = metaModels.organization.get();
+
+class OrganizationCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createOrg: PropTypes.func.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
     organizationPending: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
   };
 
-  create(values) {
+  create = (values) => {
     const { match, history, createOrg, fetchOrgSet } = this.props;
     const payload = generateOrganizationPayload(values);
     const onSuccess = () => {
@@ -31,15 +31,17 @@ class OrgCreate extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { organizationPending } = this.props;
+
     return (
-      <HierarchyForm
-        title={t('organizations.actions.create')}
-        submitLabel={t('general.verbs.create')}
-        cancelLabel="Cancel"
-        onSubmit={values => this.create(values)}
-        pending={this.props.organizationPending}
-        {...this.props}
+      <Form
+        component={HierarchyForm}
+        title="Create an Organization"
+        loading={organizationPending}
+        onSubmit={this.create}
+        initialValues={initialFormValues}
+        validate={validate}
+        mutators={{ ...arrayMutators }}
       />
     );
   }
@@ -47,15 +49,4 @@ class OrgCreate extends Component {
 
 export default compose(
   withMetaResource,
-  translate(),
-  reduxForm({
-    form: 'organizationCreate',
-    initialValues: {
-      ...metaModels.organization,
-      properties: {
-        env: [],
-      }
-    },
-    validate,
-  }),
-)(OrgCreate);
+)(OrganizationCreate);

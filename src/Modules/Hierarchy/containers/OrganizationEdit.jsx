@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { mapTo2DArray } from 'util/helpers/transformations';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { withMetaResource } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPatches } from '../payloadTransformer';
+import { getEditOrganizationModel } from '../selectors';
 
 class OrgEdit extends Component {
   static propTypes = {
@@ -19,8 +19,8 @@ class OrgEdit extends Component {
     fetchOrg: PropTypes.func.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
     updateOrg: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
     organizationPending: PropTypes.bool.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class OrgEdit extends Component {
     fetchOrg(match.params.fqon);
   }
 
-  update(values) {
+  update = (values) => {
     const { match, history, location, organization, updateOrg, fetchOrgSet } = this.props;
     const patches = generateOrganizationPatches(organization, values);
     const onSuccess = (response) => {
@@ -42,45 +42,28 @@ class OrgEdit extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { organization, organizationPending, initialFormValues } = this.props;
+
     return (
-      <HierarchyForm
-        title={this.props.organization.description || this.props.organization.name}
-        submitLabel={t('general.verbs.update')}
-        cancelLabel={t('general.verbs.cancel')}
-        onSubmit={values => this.update(values)}
-        envMap={this.props.organization.properties.env}
+      <Form
+        component={HierarchyForm}
+        title={organization.description || organization.name}
+        loading={organizationPending}
         editMode
-        pending={this.props.organizationPending}
-        {...this.props}
+        onSubmit={this.update}
+        initialValues={initialFormValues}
+        validate={validate}
+        mutators={{ ...arrayMutators }}
       />
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { organization } = state.metaResource.organization;
-
-  return {
-    initialValues: {
-      ...metaModels.organization,
-      name: organization.name,
-      description: organization.description,
-      properties: {
-        ...organization.properties,
-        env: mapTo2DArray(organization.properties.env),
-      },
-    },
-    enableReinitialize: true,
-  };
-}
+const mapStateToProps = state => ({
+  initialFormValues: getEditOrganizationModel(state),
+});
 
 export default compose(
   withMetaResource,
-  translate(),
   connect(mapStateToProps),
-  reduxForm({
-    form: 'organizationEdit',
-    validate
-  }),
 )(OrgEdit);

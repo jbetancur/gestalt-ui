@@ -12,7 +12,7 @@ export const getCreateLambdaModel = createSelector(
   (env) => {
     const model = {
       properties: {
-        env: mapTo2DArray(env, 'name', 'value', { inherited: true })
+        env: mapTo2DArray(env, 'name', 'value')
       }
     };
 

@@ -1,49 +1,18 @@
 import i18next from 'i18next';
-import { isFQON } from 'util/validations';
+import { isFQON, fqonPattern } from 'util/validations';
 
 export const nameMaxLen = 45;
 export const shortNameMaxLen = 45;
 
-export default (values, props) => {
-  const errors = {
-    properties: {
-      environment_type: '',
-      env: [],
-    },
-  };
-
-  let valPatternFunction;
-  let errorPattern;
-
-  switch (props.form) {
-    case 'organizationCreate':
-    case 'organizationEdit':
-      valPatternFunction = isFQON;
-      errorPattern = i18next.t('containment.fields.name.errorText.pattern');
-      break;
-    case 'workspaceCreate':
-    case 'workspaceEdit':
-      valPatternFunction = isFQON;
-      errorPattern = i18next.t('containment.fields.name.errorText.pattern');
-      break;
-    case 'environmentCreate':
-    case 'environmentEdit':
-      valPatternFunction = isFQON;
-      errorPattern = i18next.t('containment.fields.name.errorText.pattern');
-      if (values.properties && !values.properties.environment_type) {
-        errors.properties.environment_type = ' ';
-      }
-      break;
-    default:
-      valPatternFunction = isFQON;
-      errorPattern = 'not an fqon pattern';
-      break;
-  }
+export default (values) => {
+  const errors = {};
 
   if (!values.name) {
-    errors.name = ' ';
-  } else if (!valPatternFunction(values.name)) {
-    errors.name = errorPattern;
+    errors.name = 'a short name is required';
+  }
+
+  if (values.name && !isFQON(values.name)) {
+    errors.name = `only alphanumeric and dashes (-) are allowed: ${fqonPattern}`;
   }
 
   if (values.name && values.name.length > shortNameMaxLen) {
@@ -51,7 +20,7 @@ export default (values, props) => {
   }
 
   if (!values.description) {
-    errors.description = ' ';
+    errors.description = 'a name is required';
   }
 
   if (values.description && values.description.length > nameMaxLen) {

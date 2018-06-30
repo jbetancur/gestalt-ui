@@ -22,11 +22,11 @@ general:
 containment:
  fields:
     name:
-      label: short-name
+      label: Short Name
       errorText:
         pattern: not a valid short-name pattern
         length: short-name is is too long
-      helpText: allowed characters (a-z 0-9  - )
+      helpText:
     description:
       label: Name
       errorText:
