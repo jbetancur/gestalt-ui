@@ -52,7 +52,7 @@ class OrgEdit extends Component {
         editMode
         onSubmit={this.update}
         initialValues={initialFormValues}
-        validate={validate}
+        validate={validate()}
         mutators={{ ...arrayMutators }}
       />
     );

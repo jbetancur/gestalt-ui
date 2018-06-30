@@ -39,7 +39,7 @@ class OrgCreate extends Component {
         loading={workspacePending}
         onSubmit={this.create}
         initialValues={initialFormValues}
-        validate={validate}
+        validate={validate()}
         mutators={{ ...arrayMutators }}
       />
     );

@@ -56,7 +56,7 @@ class EnvironmentEdit extends Component {
         isEnvironment
         onSubmit={this.update}
         initialValues={initialFormValues}
-        validate={validate}
+        validate={validate(true)}
         mutators={{ ...arrayMutators }}
       />
     );

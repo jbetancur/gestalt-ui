@@ -40,7 +40,7 @@ class OrganizationCreate extends Component {
         loading={organizationPending}
         onSubmit={this.create}
         initialValues={initialFormValues}
-        validate={validate}
+        validate={validate()}
         mutators={{ ...arrayMutators }}
       />
     );

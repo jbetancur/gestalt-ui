@@ -1,10 +1,12 @@
 import i18next from 'i18next';
+import { merge } from 'lodash';
+import { nestedObjectFromString } from 'util/helpers/transformations';
 import { isFQON, fqonPattern } from 'util/validations';
 
 export const nameMaxLen = 45;
 export const shortNameMaxLen = 45;
 
-export default (values) => {
+export default isEnvironment => (values) => {
   const errors = {};
 
   if (!values.name) {
@@ -25,6 +27,10 @@ export default (values) => {
 
   if (values.description && values.description.length > nameMaxLen) {
     errors.description = i18next.t('containment.fields.description.errorText.length');
+  }
+
+  if (isEnvironment && values.properties && !values.properties.environment_type) {
+    merge(errors, nestedObjectFromString('properties.environment_type', 'an environment type is required'));
   }
 
   return errors;
