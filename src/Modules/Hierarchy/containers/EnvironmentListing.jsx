@@ -58,7 +58,7 @@ class EnvironmentListing extends Component {
   }
 
   render() {
-    const { environments, environmentsPending } = this.props;
+    const { match, environments, environmentsPending } = this.props;
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
     return (
@@ -93,8 +93,9 @@ class EnvironmentListing extends Component {
           <Row center fill paddingTop="120px">
             <NoData
               message="There are no environments to display"
-              icon={<EnvironmentIcon size={150} />}
-              showCreate={false}
+              icon={<EnvironmentIcon size={180} />}
+              createPath={{ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/createEnvironment`, state: { modal: true } }}
+              createLabel="Create an Environment"
             />
           </Row>}
         </Row>

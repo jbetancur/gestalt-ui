@@ -37,3 +37,5 @@ export { default as withEnvironment } from './hocs/withEnvironment';
 export { default as withEnvironments } from './hocs/withEnvironments';
 export { default as withWorkspace } from './hocs/withWorkspace';
 export { default as withWorkspaces } from './hocs/withWorkspaces';
+export { default as withOrganization } from './hocs/withOrganization';
+export { default as withOrganizations } from './hocs/withOrganizations';

@@ -36,6 +36,12 @@ export default function* metaSagas() {
     searchSagas(),
     typePropertySagas(),
 
+    yield takeLatest(...generateFetchAll('ORGS')),
+    yield takeLatest(...generateFetchOne('ORG')),
+    yield takeLatest(...generateCreate('ORG')),
+    yield takeLatest(...generateUpdate('ORG')),
+    yield takeLatest(...generateDelete('ORG')),
+
     yield takeLatest(...generateFetchAll('WORKSPACES', 'workspaces')),
     yield takeLatest(...generateFetchOne('WORKSPACE', 'workspaces')),
     yield takeLatest(...generateCreate('WORKSPACE', 'workspaces')),

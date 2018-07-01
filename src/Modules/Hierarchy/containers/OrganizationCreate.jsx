@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withOrganization, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPayload } from '../payloadTransformer';
@@ -14,20 +14,19 @@ class OrganizationCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createOrg: PropTypes.func.isRequired,
-    fetchOrgSet: PropTypes.func.isRequired,
+    organizationActions: PropTypes.object.isRequired,
     organizationPending: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
-    const { match, history, createOrg, fetchOrgSet } = this.props;
+    const { match, history, organizationActions } = this.props;
     const payload = generateOrganizationPayload(values);
     const onSuccess = () => {
-      fetchOrgSet(match.params.fqon);
+      organizationActions.fetchOrgSet({ fqon: match.params.fqon });
       history.replace(`/${match.params.fqon}/hierarchy`);
     };
 
-    createOrg(match.params.fqon, payload, onSuccess);
+    organizationActions.createOrg({ fqon: match.params.fqon, payload, onSuccess });
   }
 
   render() {
@@ -48,5 +47,5 @@ class OrganizationCreate extends Component {
 }
 
 export default compose(
-  withMetaResource,
+  withOrganization(),
 )(OrganizationCreate);

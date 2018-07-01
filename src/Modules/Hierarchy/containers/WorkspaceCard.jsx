@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { withMetaResource, withWorkspace } from 'Modules/MetaResource';
+import { withOrganization, withWorkspace } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
@@ -18,7 +18,7 @@ class WorkspaceCard extends PureComponent {
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     workspaceActions: PropTypes.object.isRequired,
-    fetchOrgSet: PropTypes.func.isRequired,
+    organizationActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -36,12 +36,12 @@ class WorkspaceCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, workspaceActions, fetchOrgSet, hierarchyActions } = this.props;
+    const { model, match, workspaceActions, organizationActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
-    const onSuccess = () => fetchOrgSet(match.params.fqon);
+    const onSuccess = () => organizationActions.fetchOrgSet({ fqon: match.params.fqon });
 
     hierarchyActions.confirmDelete(() => {
-      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: model.id, onSuccess });
+      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: model.id, onSuccess, params: { force: true } });
     }, name, 'Workspace');
   }
 
@@ -96,7 +96,7 @@ class WorkspaceCard extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withOrganization(),
   withWorkspace(),
   withHierarchy,
   withEntitlements,

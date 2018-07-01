@@ -13,6 +13,14 @@ const DetailsPanel = styled.div`
   padding: 16px;
 `;
 
+const Name = styled.div`
+  display: inline-block;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
 const ActionsPanel = styled.div`
   display: inline;
   text-align: right;
@@ -90,7 +98,7 @@ class ContextNavigation extends PureComponent {
                   onClick={this.toggle}
                   tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
                 >
-                  {`${model.description || model.name} Details`}
+                  <Name>{model.description || model.name}</Name>
                 </Button>}
 
               <ActionsMenu

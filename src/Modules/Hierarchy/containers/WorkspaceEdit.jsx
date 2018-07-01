@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource, withWorkspace } from 'Modules/MetaResource';
+import { withOrganization, withWorkspace } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
@@ -18,7 +18,7 @@ class WorkspaceEdit extends Component {
     workspace: PropTypes.object.isRequired,
     workspacePending: PropTypes.bool.isRequired,
     workspaceActions: PropTypes.object.isRequired,
-    fetchOrgSet: PropTypes.func.isRequired,
+    organizationActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
@@ -35,13 +35,13 @@ class WorkspaceEdit extends Component {
       location,
       workspace,
       workspaceActions,
-      fetchOrgSet,
+      organizationActions,
     } = this.props;
 
     const payload = generateWorkspacePatches(workspace, values);
     const onSuccess = () => {
       if (location.state.card) {
-        fetchOrgSet(match.params.fqon);
+        organizationActions.fetchOrgSet({ fqon: match.params.fqon });
       }
 
       history.goBack();
@@ -73,7 +73,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withOrganization(),
   withWorkspace(),
   connect(mapStateToProps),
 )(WorkspaceEdit);

@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import reducerFactory from './lib/reducerFactory';
 import selfModel from './models/self';
 import organizationModel from './models/organization';
-import organizationSetModel from './models/organizationSet';
 import workspaceModel from './models/workspace';
 import environmentModel from './models/environment';
 import userModel from './models/user';
@@ -27,7 +26,7 @@ export default combineReducers({
   allOrganizationsDropDown: reducerFactory(['fetch'], 'organizations', 'allorgs_dropdown', []),
   organizations: reducerFactory(['fetch'], 'organizations', 'orgs', []),
   organization: reducerFactory(['fetch', 'create', 'update', 'delete'], 'organization', 'org', organizationModel.get()),
-  organizationSet: reducerFactory(['fetch', 'create', 'update', 'delete'], 'organization', 'orgset', organizationSetModel),
+  organizationSet: reducerFactory(['fetch', 'create', 'update', 'delete'], 'organization', 'orgset', organizationModel.get()),
   workspaces: reducerFactory(['fetch'], 'workspaces', 'workspaces', []),
   workspace: reducerFactory(['fetch', 'create', 'update', 'delete'], 'workspace', 'workspace', workspaceModel.get()),
   environments: reducerFactory(['fetch'], 'environments', 'environments', []),

@@ -11,17 +11,20 @@ export const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryStr
  * @param {*} config
  */
 export const buildAllURL = (entity, config, expand) => {
-  let baseURL;
-
   const params = expand ? Object.assign({ expand: true }, config.params) : config.params;
 
-  if (config.fqon) {
-    baseURL = config.entityId && config.entityKey ? `${config.fqon}/${config.entityKey}/${config.entityId}/${entity}` : `${config.fqon}/${entity}`;
-  } else {
-    baseURL = entity;
+  // e.g /fqon style requests
+  if (!entity) {
+    return buildParams(config.fqon, params);
   }
 
-  return buildParams(baseURL, params);
+  // e.g /fqon/workspaces  style requests with an entity
+  if (config.fqon && entity) {
+    const baseURL = config.entityId && config.entityKey ? `${config.fqon}/${config.entityKey}/${config.entityId}/${entity}` : `${config.fqon}/${entity}`;
+    return buildParams(baseURL, params);
+  }
+
+  return buildParams(entity, params);
 };
 
 /**
@@ -30,15 +33,16 @@ export const buildAllURL = (entity, config, expand) => {
  * @param {*} config
  */
 export const buildOneURL = (entity, config) => {
-  let baseURL;
-
-  if (config.fqon) {
-    baseURL = `${config.fqon}/${entity}/${config.id}`;
-  } else {
-    baseURL = entity;
+  if (!entity) {
+    return buildParams(config.fqon, config.params);
   }
 
-  return buildParams(baseURL, config.params);
+  if (config.fqon && entity) {
+    const baseURL = `${config.fqon}/${entity}/${config.id}`;
+    return buildParams(baseURL, config.params);
+  }
+
+  return buildParams(entity, config.params);
 };
 
 export default {

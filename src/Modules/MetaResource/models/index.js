@@ -6,7 +6,6 @@ import envSchema from './envSchema';
 import group from './group';
 import lambda from './lambda';
 import organization from './organization';
-import organizationSet from './organizationSet';
 import policy from './policy';
 import policyRule from './policyRule';
 import provider from './provider';
@@ -28,7 +27,6 @@ export default {
   group,
   lambda,
   organization,
-  organizationSet,
   policy,
   policyRule,
   provider,

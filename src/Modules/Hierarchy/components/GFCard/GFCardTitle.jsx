@@ -4,7 +4,7 @@ import styled, { withTheme } from 'styled-components';
 
 const Wrapper = styled.div`
   word-break: break-all;
-  max-width: 285px;
+  max-width: 280px;
 `;
 
 const Title = styled.div`

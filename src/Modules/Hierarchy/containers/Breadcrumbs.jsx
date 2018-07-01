@@ -4,15 +4,17 @@ import { compose } from 'redux';
 import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { withMetaResource, withEnvironment, withWorkspace, withSelf, } from 'Modules/MetaResource';
+import { withOrganization, withEnvironment, withWorkspace, withSelf, } from 'Modules/MetaResource';
 import { FontIcon } from 'react-md';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
-import { truncate } from 'util/helpers/strings';
 
 const EnhancedLink = styled(Link)`
   color: inherit;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
 
   i,
   svg {
@@ -30,12 +32,6 @@ const EnhancedLink = styled(Link)`
   }
 `;
 
-const IconWrapper = styled.div`
-  display: inline-flex;
-  align-items: center;
-  height: 32px;
-`;
-
 const Icon = styled.div`
   display: inline-block;
   padding-right: 1px;
@@ -44,6 +40,18 @@ const Icon = styled.div`
 const BreadIcon = styled(Icon)`
   @media (min-width: 0) and (max-width: 659px) {
     display: none;
+  }
+`;
+
+const Name = styled.div`
+  display: inline-block;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  @media (min-width: 0) and (max-width: 659px) {
+    max-width: 100px;
   }
 `;
 
@@ -128,9 +136,9 @@ class Breadcrumbs extends Component {
     const orgsRoute = `/${organizationSet.properties.fqon}/hierarchy`;
     const workspaceRoute = `/${organizationSet.properties.fqon}/hierarchy/${workspace.id}/environments`;
     const environmentRoute = `${match.url}`;
-    const orgName = truncate(organizationSet.description || organizationSet.name, 30);
-    const workspaceName = truncate(workspace.description || workspace.name, 30);
-    const environmentName = truncate(environment.description || environment.name, 30);
+    const orgName = organizationSet.description || organizationSet.name;
+    const workspaceName = workspace.description || workspace.name;
+    const environmentName = environment.description || environment.name;
     const isWorkspaceCtx = workspace.id && match.params.workspaceId;
     const isEnvironmentCtx = environment.id && match.params.environmentId;
     const orgNavDisabled = organizationSet.properties.fqon === 'root';
@@ -155,32 +163,36 @@ class Breadcrumbs extends Component {
           onClick={e => this.checkIfShouldNav(e, orgsRoute)}
           to={orgsRoute}
         >
-          <IconWrapper>
-            <BreadIcon><OrganizationIcon size={size} /></BreadIcon>{orgName}
-          </IconWrapper>
+          <BreadIcon>
+            <OrganizationIcon size={size} />
+          </BreadIcon>
+          <Name>{orgName}</Name>
         </EnhancedLink>}
 
         {isWorkspaceCtx && orgName &&
-          <EnhancedLink
-            onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
-            to={workspaceRoute}
-          >
-            <IconWrapper>
-              <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
-              <BreadIcon><WorkspaceIcon size={size} /></BreadIcon>{workspaceName}
-            </IconWrapper>
-          </EnhancedLink>}
+        <EnhancedLink
+          onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
+          to={workspaceRoute}
+        >
+
+          <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
+          <BreadIcon>
+            <WorkspaceIcon size={size} />
+          </BreadIcon>
+          <Name>{workspaceName}</Name>
+        </EnhancedLink>}
 
         {isEnvironmentCtx && isWorkspaceCtx && orgName &&
-          <EnhancedLink
-            onClick={e => this.checkIfShouldNav(e, environmentRoute)}
-            to={environmentRoute}
-          >
-            <IconWrapper>
-              <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
-              <BreadIcon><EnvironmentIcon size={size} /></BreadIcon>{environmentName}
-            </IconWrapper>
-          </EnhancedLink>}
+        <EnhancedLink
+          onClick={e => this.checkIfShouldNav(e, environmentRoute)}
+          to={environmentRoute}
+        >
+          <IconSeparator className="seperator" size={size}>chevron_right</IconSeparator>
+          <BreadIcon>
+            <EnvironmentIcon size={size} />
+          </BreadIcon>
+          <Name>{environmentName}</Name>
+        </EnhancedLink>}
       </Wrapper>
     );
   }
@@ -189,7 +201,7 @@ class Breadcrumbs extends Component {
 export default compose(
   withEnvironment(),
   withWorkspace(),
+  withOrganization(),
   withSelf,
-  withMetaResource,
   withRouter,
 )(Breadcrumbs);

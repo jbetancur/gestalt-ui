@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { sortBy } from 'lodash';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withOrganizations, withOrganization } from 'Modules/MetaResource';
 import Menu from './components/Menu';
 
 class OrgMenu extends PureComponent {
   static propTypes = {
-    fetchAllOrgs: PropTypes.func.isRequired,
     // allOrganizations: PropTypes.array.isRequired,
     allOrganizationsPending: PropTypes.bool.isRequired,
     organizationSet: PropTypes.object.isRequired,
-    onUnloadAllOrgs: PropTypes.func.isRequired,
+    organizationsActions: PropTypes.object.isRequired,
   };
 
   state = {
@@ -31,13 +30,17 @@ class OrgMenu extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.onUnloadAllOrgs();
+    const { organizationsActions } = this.props;
+
+    organizationsActions.unloadAllOrgs();
   }
 
   fetchOrgList = (e) => {
+    const { organizationsActions } = this.props;
     e.preventDefault();
-    this.props.onUnloadAllOrgs();
-    this.props.fetchAllOrgs();
+
+    organizationsActions.unloadAllOrgs();
+    organizationsActions.fetchAllOrgs();
   }
 
   handleFilter = (filterText) => {
@@ -67,6 +70,7 @@ class OrgMenu extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withOrganizations(),
+  withOrganization(),
   withRouter,
 )(OrgMenu);

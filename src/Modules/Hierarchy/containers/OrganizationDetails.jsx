@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withMetaResource, withSelf } from 'Modules/MetaResource';
+import { withOrganization, withSelf } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -16,7 +16,7 @@ class OrganizationDetails extends PureComponent {
     organizationSet: PropTypes.object.isRequired,
     organizationSetPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
-    deleteOrg: PropTypes.func.isRequired,
+    organizationActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
@@ -31,13 +31,13 @@ class OrganizationDetails extends PureComponent {
 
   delete = (e) => {
     e.stopPropagation();
-    const { history, organizationSet, deleteOrg, hierarchyActions } = this.props;
+    const { history, organizationSet, organizationActions, hierarchyActions } = this.props;
     const name = organizationSet.description || organizationSet.name;
     const parentFQON = organizationSet.org.properties.fqon;
     const onSuccess = () => history.replace(`/${parentFQON}/hierarchy`);
 
     hierarchyActions.confirmDelete(() => {
-      deleteOrg(organizationSet.properties.fqon, onSuccess);
+      organizationActions.deleteOrg({ fqon: organizationSet.properties.fqon, onSuccess, params: { force: true } });
     }, name, 'Organization');
   }
 
@@ -94,7 +94,7 @@ class OrganizationDetails extends PureComponent {
 
 export default compose(
   withSelf,
-  withMetaResource,
+  withOrganization(),
   withHierarchy,
   withEntitlements,
 )(OrganizationDetails);

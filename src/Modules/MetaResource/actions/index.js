@@ -1,4 +1,3 @@
-import organizations from './organizations';
 import providers from './providers';
 import users from './users';
 import groups from './groups';
@@ -8,7 +7,6 @@ import search from './search';
 import typeProperties from './typeProperties';
 
 export default Object.assign({},
-  organizations,
   providers,
   users,
   groups,

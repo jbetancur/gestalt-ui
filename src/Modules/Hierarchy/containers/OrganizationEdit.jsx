@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withOrganization } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPatches } from '../payloadTransformer';
@@ -16,29 +16,27 @@ class OrgEdit extends Component {
     location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
-    fetchOrg: PropTypes.func.isRequired,
-    fetchOrgSet: PropTypes.func.isRequired,
-    updateOrg: PropTypes.func.isRequired,
     organizationPending: PropTypes.bool.isRequired,
+    organizationActions: PropTypes.func.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, fetchOrg } = this.props;
+    const { match, organizationActions } = this.props;
 
-    fetchOrg(match.params.fqon);
+    organizationActions.fetchOrg({ fqon: match.params.fqon });
   }
 
   update = (values) => {
-    const { match, history, location, organization, updateOrg, fetchOrgSet } = this.props;
-    const patches = generateOrganizationPatches(organization, values);
+    const { match, history, location, organization, organizationActions } = this.props;
+    const payload = generateOrganizationPatches(organization, values);
     const onSuccess = (response) => {
       const fqon = location.state.card ? response.org.properties.fqon : match.params.fqon;
       history.replace(`/${fqon}/hierarchy`);
-      fetchOrgSet(fqon);
+      organizationActions.fetchOrgSet({ fqon });
     };
 
-    updateOrg(organization.properties.fqon, patches, onSuccess);
+    organizationActions.updateOrg({ fqon: organization.properties.fqon, payload, onSuccess });
   }
 
   render() {
@@ -64,6 +62,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withOrganization(),
   connect(mapStateToProps),
 )(OrgEdit);

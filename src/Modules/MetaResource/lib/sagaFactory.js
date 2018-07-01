@@ -127,15 +127,15 @@ export const deleteMany = (name, entity, verb = 'DELETE') => function* deleteBul
   }
 };
 
-export const generateFetchAll = (name, entity, verb = 'FETCH') =>
+export const generateFetchAll = (name, entity = '', verb = 'FETCH') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, fetchAll(name, entity, verb)];
-export const generateFetchOne = (name, entity, verb = 'FETCH') =>
+export const generateFetchOne = (name, entity = '', verb = 'FETCH') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, fetchOne(name, entity, verb)];
-export const generateCreate = (name, entity, verb = 'CREATE') =>
+export const generateCreate = (name, entity = '', verb = 'CREATE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, create(name, entity, verb)];
-export const generateUpdate = (name, entity, verb = 'UPDATE') =>
+export const generateUpdate = (name, entity = '', verb = 'UPDATE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, update(name, entity, verb)];
-export const generateDelete = (name, entity, parentName, verb = 'DELETE') =>
+export const generateDelete = (name, entity = '', parentName, verb = 'DELETE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, deleteOne(name, entity, parentName, verb)];
-export const generateDeleteMany = (name, entity, verb = 'DELETE') =>
+export const generateDeleteMany = (name, entity = '', verb = 'DELETE') =>
   [`${PREFIX}${verb}_${name}_REQUEST`, deleteMany(name, entity, verb)];

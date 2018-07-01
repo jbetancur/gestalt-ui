@@ -16,20 +16,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
     const { metaResource } = state;
 
     return {
-      // Subscriptions for an organization and its workspaces and sub orgs
-      organizationSet: metaResource.organizationSet.organization,
-      organizationSetPending: metaResource.organizationSet.pending,
-      organizationsSet: metaResource.organizationSet.organization.subOrganizations,
-      workspacesSet: metaResource.organizationSet.organization.workspaces,
-
-      // Subscriptions for organizations
-      organization: metaResource.organization.organization,
-      organizationPending: metaResource.organization.pending,
-      organizations: metaResource.organizations.organizations,
-      organizationsPending: metaResource.organizations.pending,
-      allOrganizations: metaResource.allOrganizations.organizations,
-      allOrganizationsPending: metaResource.allOrganizations.pending,
-
       // Subscriptions for Env
       env: metaResource.env.env,
       envPending: metaResource.env.pending,

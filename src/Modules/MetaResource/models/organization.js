@@ -14,6 +14,8 @@ const get = (model = {}) => {
     created: {},
     modified: {},
     owner: {},
+    organizations: [],
+    workspaces: [],
     properties: {
       env: [],
     }

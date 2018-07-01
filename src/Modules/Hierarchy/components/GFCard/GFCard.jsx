@@ -13,13 +13,12 @@ const CardStyle = styled.div`
   border-radius: 1px;
   cursor: pointer;
   ${props => !props.noShadow && 'box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 0 1px -3px rgba(0, 0, 0, 0.2)'};
-
   ${props => props.raise && css`
-    transition-duration: .3s;
+    transition-duration: 0.3s;
     transition-property: box-shadow;
 
     &:hover {
-      box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.14), 0 3px 6px 2px rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.2)
+      box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.14), 0 3px 6px 2px rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.2);
     }
   `};
 `;
@@ -31,6 +30,7 @@ const ClickMask1 = styled.div`
   height: 100%;
   top: 0;
   left: 0;
+
   /* clip-path: polygon(0% 15%, 0 0, 15% 0%, 85% 0%, 85% 33%, 100% 33%, 100% 85%, 100% 100%, 85% 100%, 15% 100%, 0% 100%, 0% 85%); */
 `;
 
@@ -46,6 +46,7 @@ const ClickMask2 = styled.div`
 
 const Type = styled.div`
   position: absolute;
+
   /* fixes chrome issue where on zoom in where there is a gap in the logo */
   top: 0;
   left: 0;
@@ -54,7 +55,8 @@ const Type = styled.div`
   border-top: 35px solid ${props => props.cardColor};
   border-right: 35px solid transparent;
 
-  i, svg {
+  i,
+  svg {
     position: absolute;
     top: -31px;
     left: 3px;
@@ -80,7 +82,8 @@ const EnvironmentType = styled.div`
   white-space: nowrap;
   text-transform: uppercase;
 
-  &, i {
+  &,
+  i {
     font-size: 12px !important;
     color: ${props => props.theme.colors['$md-grey-700']};
   }
@@ -96,7 +99,8 @@ const Created = styled.div`
   bottom: 6px;
   line-height: 12px;
 
-  &, i {
+  &,
+  i {
     font-size: 12px !important;
     color: ${props => props.theme.colors['$md-grey-500']};
   }

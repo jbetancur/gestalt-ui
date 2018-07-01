@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withOrganization } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
@@ -17,8 +17,7 @@ class OrganizationCard extends PureComponent {
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
-    deleteOrg: PropTypes.func.isRequired,
-    fetchOrgSet: PropTypes.func.isRequired,
+    organizationActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
   };
@@ -36,12 +35,12 @@ class OrganizationCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, deleteOrg, fetchOrgSet, hierarchyActions } = this.props;
+    const { model, match, organizationActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
-    const onDeleteSuccess = () => fetchOrgSet(match.params.fqon);
+    const onSuccess = () => organizationActions.fetchOrgSet({ fqon: match.params.fqon });
 
     hierarchyActions.confirmDelete(() => {
-      deleteOrg(model.properties.fqon, onDeleteSuccess);
+      organizationActions.deleteOrg({ fqon: model.properties.fqon, onSuccess, params: { force: true } });
     }, name, 'Organization');
   }
 
@@ -96,7 +95,7 @@ class OrganizationCard extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withOrganization(),
   withHierarchy,
   withEntitlements,
   withTheme,

@@ -19,13 +19,17 @@ const IconWaterMark = styled.div`
 const NoDataWrapper = styled.div`
   text-align: center;
   padding: 24px;
+
+  > [type=button] {
+    margin: 5px;
+  }
 `;
 
 const TitleStyled = styled(Title)`
   padding-top: 16px;
 `;
 
-const NoData = ({ match, message, icon, createPath, showCreate }) => (
+const NoData = ({ match, message, icon, createPath, createLabel, showCreate, showSecondaryCreate, secondaryCreateLabel, secondaryCreatePath }) => (
   <NoDataContainer>
     <IconWaterMark>
       {icon}
@@ -41,8 +45,17 @@ const NoData = ({ match, message, icon, createPath, showCreate }) => (
         component={Link}
         to={createPath || `${match.url}/create`}
       >
-        Create One
+        {createLabel}
       </Button>
+      {showSecondaryCreate &&
+        <Button
+          raised
+          primary
+          component={Link}
+          to={secondaryCreatePath || `${match.url}/create`}
+        >
+          {secondaryCreateLabel}
+        </Button>}
     </NoDataWrapper>}
   </NoDataContainer>
 
@@ -58,11 +71,19 @@ NoData.propTypes = {
   ]).isRequired,
   createPath: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   showCreate: PropTypes.bool,
+  createLabel: PropTypes.string,
+  showSecondaryCreate: PropTypes.bool,
+  secondaryCreateLabel: PropTypes.string,
+  secondaryCreatePath: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 NoData.defaultProps = {
   createPath: null,
   showCreate: true,
+  createLabel: 'Create One',
+  showSecondaryCreate: false,
+  secondaryCreateLabel: 'Create One',
+  secondaryCreatePath: null,
 };
 
 export default withRouter(NoData);
