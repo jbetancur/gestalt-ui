@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource, withEnvironment } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironment, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
 import EnvironmentNav from '../containers/EnvironmentNav';
@@ -11,7 +11,7 @@ class EnvironmentContext extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    fetchWorkspace: PropTypes.func.isRequired,
+    workspaceActions: PropTypes.object.isRequired,
     environmentActions: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
@@ -26,7 +26,7 @@ class EnvironmentContext extends Component {
       organizationSet,
       workspace,
       fetchOrgSet,
-      fetchWorkspace
+      workspaceActions,
     } = this.props;
 
     environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
@@ -38,7 +38,7 @@ class EnvironmentContext extends Component {
 
     // do the same for workspaces
     if ((match.params.fqon && match.params.workspaceId) && !workspace.id) {
-      fetchWorkspace(match.params.fqon, match.params.workspaceId);
+      workspaceActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
     }
   }
 
@@ -71,4 +71,5 @@ class EnvironmentContext extends Component {
 export default compose(
   withMetaResource,
   withEnvironment(),
+  withWorkspace(),
 )(EnvironmentContext);

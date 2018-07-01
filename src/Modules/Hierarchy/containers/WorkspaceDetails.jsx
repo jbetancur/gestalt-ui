@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withWorkspace } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -15,8 +15,8 @@ class WorkspaceDetails extends PureComponent {
     match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     workspacePending: PropTypes.bool.isRequired,
+    workspaceActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    deleteWorkspace: PropTypes.func.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -29,13 +29,13 @@ class WorkspaceDetails extends PureComponent {
   }
 
   delete = () => {
-    const { match, history, workspace, deleteWorkspace, hierarchyActions } = this.props;
+    const { match, history, workspace, workspaceActions, hierarchyActions } = this.props;
     const name = workspace.description || workspace.name;
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy`);
 
     hierarchyActions.confirmDelete(() => {
-      deleteWorkspace(match.params.fqon, workspace.id, onSuccess);
+      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: workspace.id, onSuccess });
     }, name, 'Workspace');
   }
 
@@ -88,7 +88,7 @@ class WorkspaceDetails extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withWorkspace(),
   withHierarchy,
   withEntitlements,
 )(WorkspaceDetails);

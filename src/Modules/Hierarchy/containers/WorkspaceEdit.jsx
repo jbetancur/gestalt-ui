@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withWorkspace } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
@@ -16,17 +16,16 @@ class WorkspaceEdit extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
-    fetchWorkspace: PropTypes.func.isRequired,
-    fetchOrgSet: PropTypes.func.isRequired,
-    updateWorkspace: PropTypes.func.isRequired,
     workspacePending: PropTypes.bool.isRequired,
+    workspaceActions: PropTypes.object.isRequired,
+    fetchOrgSet: PropTypes.func.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, fetchWorkspace } = this.props;
+    const { match, workspaceActions } = this.props;
 
-    fetchWorkspace(match.params.fqon, match.params.workspaceId);
+    workspaceActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
   }
 
   update = (values) => {
@@ -35,11 +34,11 @@ class WorkspaceEdit extends Component {
       history,
       location,
       workspace,
-      updateWorkspace,
+      workspaceActions,
       fetchOrgSet,
     } = this.props;
 
-    const patches = generateWorkspacePatches(workspace, values);
+    const payload = generateWorkspacePatches(workspace, values);
     const onSuccess = () => {
       if (location.state.card) {
         fetchOrgSet(match.params.fqon);
@@ -48,7 +47,7 @@ class WorkspaceEdit extends Component {
       history.goBack();
     };
 
-    updateWorkspace(match.params.fqon, workspace.id, patches, onSuccess);
+    workspaceActions.updateWorkspace({ fqon: match.params.fqon, id: workspace.id, payload, onSuccess });
   }
 
   render() {
@@ -75,5 +74,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withMetaResource,
+  withWorkspace(),
   connect(mapStateToProps),
 )(WorkspaceEdit);

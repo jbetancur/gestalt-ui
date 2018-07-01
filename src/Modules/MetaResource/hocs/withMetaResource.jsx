@@ -30,12 +30,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       allOrganizations: metaResource.allOrganizations.organizations,
       allOrganizationsPending: metaResource.allOrganizations.pending,
 
-      // Subscriptions for Workspaces
-      workspace: metaResource.workspace.workspace,
-      workspacePending: metaResource.workspace.pending,
-      workspaces: metaResource.workspaces.workspaces,
-      workspacesPending: metaResource.workspaces.pending,
-
       // Subscriptions for Env
       env: metaResource.env.env,
       envPending: metaResource.env.pending,

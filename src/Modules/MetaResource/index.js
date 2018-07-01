@@ -35,3 +35,5 @@ export { default as withContainers } from './hocs/withContainers';
 export { default as withEntitlements } from './hocs/withEntitlements';
 export { default as withEnvironment } from './hocs/withEnvironment';
 export { default as withEnvironments } from './hocs/withEnvironments';
+export { default as withWorkspace } from './hocs/withWorkspace';
+export { default as withWorkspaces } from './hocs/withWorkspaces';

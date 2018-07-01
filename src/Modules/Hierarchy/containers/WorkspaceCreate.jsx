@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource, withWorkspace, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePayload } from '../payloadTransformer';
@@ -14,19 +14,20 @@ class OrgCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createWorkspace: PropTypes.func.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
+    workspaceActions: PropTypes.object.isRequired,
     workspacePending: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
-    const { match, history, createWorkspace, fetchOrgSet } = this.props;
+    const { match, history, workspaceActions, fetchOrgSet } = this.props;
     const payload = generateWorkspacePayload(values);
     const onSuccess = () => {
       fetchOrgSet(match.params.fqon);
       history.replace(`/${match.params.fqon}/hierarchy`);
     };
-    createWorkspace(match.params.fqon, payload, onSuccess);
+
+    workspaceActions.createWorkspace({ fqon: match.params.fqon, payload, onSuccess });
   }
 
   render() {
@@ -48,4 +49,5 @@ class OrgCreate extends Component {
 
 export default compose(
   withMetaResource,
+  withWorkspace(),
 )(OrgCreate);

@@ -58,6 +58,7 @@ class EnvironmentListing extends Component {
   }
 
   render() {
+    const { environments, environmentsPending } = this.props;
     const sortedEnvironments = orderBy(this.props.environments, this.state.sortKey, this.state.order);
 
     return (
@@ -75,7 +76,7 @@ class EnvironmentListing extends Component {
             />
           }
           rightItems={
-            <SelectFilter disabled={this.props.environmentsPending} />
+            <SelectFilter disabled={environmentsPending} />
           }
         />
         <Row gutter={5} minColWidths={310}>
@@ -88,7 +89,7 @@ class EnvironmentListing extends Component {
             </Col>)
           )}
 
-          {!this.props.environmentsPending && !this.props.environments.length &&
+          {!environmentsPending && !environments.length &&
           <Row center fill paddingTop="120px">
             <NoData
               message="There are no environments to display"

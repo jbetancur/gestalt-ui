@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource, withEnvironments } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironments, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
 import WorkspaceNav from '../containers/WorkspaceNav';
@@ -11,7 +11,7 @@ class WorkspaceContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
-    fetchWorkspace: PropTypes.func.isRequired,
+    workspaceActions: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
   };
@@ -19,12 +19,12 @@ class WorkspaceContext extends PureComponent {
   componentDidMount() {
     const {
       match,
-      fetchWorkspace,
+      workspaceActions,
       fetchOrgSet,
       organizationSet
     } = this.props;
 
-    fetchWorkspace(match.params.fqon, match.params.workspaceId);
+    workspaceActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
 
     // Keep org context synced in case of refresh
     if (match.params.fqon && !organizationSet.id) {
@@ -53,5 +53,6 @@ class WorkspaceContext extends PureComponent {
 export default compose(
   withMetaResource,
   withEnvironments(),
+  withWorkspace(),
 )(WorkspaceContext);
 

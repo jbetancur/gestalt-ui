@@ -17,7 +17,7 @@ class EnvironmentCard extends PureComponent {
     theme: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    environmentActions: PropTypes.func.isRequired,
+    environmentActions: PropTypes.object.isRequired,
     environmentsActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
@@ -38,12 +38,12 @@ class EnvironmentCard extends PureComponent {
   delete = () => {
     const { model, match, environmentsActions, environmentActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
-    const onDeleteSuccess = () => {
+    const onSuccess = () => {
       environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
     };
 
     hierarchyActions.confirmDelete(() => {
-      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: model.id, onSuccess: onDeleteSuccess });
+      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: model.id, onSuccess });
     }, name, 'Environment');
   }
 

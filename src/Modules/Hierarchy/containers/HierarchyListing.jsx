@@ -77,28 +77,31 @@ class HierarchyListing extends PureComponent {
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
 
     return (
-      organizationSetPending ? <ActivityContainer id="hierarchy-listing--loading" /> :
-      <React.Fragment>
-        <ListingHeader
-          leftItems={
-            <Sort
-              disabled={!sortedOrgs.length}
-              sortKey={this.state.sortKey}
-              order={this.state.order}
-              setKey={this.setSortKey}
-              setOrder={this.setSortOrder}
+      organizationSetPending
+        ?
+          <ActivityContainer id="hierarchy-listing--loading" />
+        :
+          <React.Fragment>
+            <ListingHeader
+              leftItems={
+                <Sort
+                  disabled={!sortedOrgs.length}
+                  sortKey={this.state.sortKey}
+                  order={this.state.order}
+                  setKey={this.setSortKey}
+                  setOrder={this.setSortOrder}
+                />
+              }
             />
-          }
-        />
-        <Row gutter={5} minColWidths={310}>
-          {sortedOrgs.map(item => (
-            <Col key={item.id} flex={2} xs={12}>
-              {this.renderCard(item)}
-            </Col>
-          ))
-          }
-        </Row>
-      </React.Fragment>
+
+            <Row gutter={5} minColWidths={310}>
+              {sortedOrgs.map(item => (
+                <Col key={item.id} flex={2} xs={12}>
+                  {this.renderCard(item)}
+                </Col>
+              ))}
+            </Row>
+          </React.Fragment>
     );
   }
 }

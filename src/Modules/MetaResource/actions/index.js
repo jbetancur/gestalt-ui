@@ -1,5 +1,4 @@
 import organizations from './organizations';
-import workspaces from './workspaces';
 import providers from './providers';
 import users from './users';
 import groups from './groups';
@@ -10,7 +9,6 @@ import typeProperties from './typeProperties';
 
 export default Object.assign({},
   organizations,
-  workspaces,
   providers,
   users,
   groups,

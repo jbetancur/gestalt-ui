@@ -9,7 +9,6 @@ import {
 } from '../lib/sagaFactory';
 
 import orgSagas from './organizations';
-import workspaceSagas from './workspaces';
 import lambdaSagas from './lambdas';
 import providerSagas from './providers';
 import containerSagas from './containers';
@@ -25,7 +24,6 @@ import typePropertySagas from './typeProperties';
 export default function* metaSagas() {
   yield all([
     orgSagas(),
-    workspaceSagas(),
     lambdaSagas(),
     providerSagas(),
     containerSagas(),
@@ -37,6 +35,12 @@ export default function* metaSagas() {
     loggingSagas(),
     searchSagas(),
     typePropertySagas(),
+
+    yield takeLatest(...generateFetchAll('WORKSPACES', 'workspaces')),
+    yield takeLatest(...generateFetchOne('WORKSPACE', 'workspaces')),
+    yield takeLatest(...generateCreate('WORKSPACE', 'workspaces')),
+    yield takeLatest(...generateUpdate('WORKSPACE', 'workspaces')),
+    yield takeLatest(...generateDelete('WORKSPACE', 'workspaces')),
 
     yield takeLatest(...generateFetchAll('ENVIRONMENTS', 'environments')),
     yield takeLatest(...generateFetchOne('ENVIRONMENT', 'environments')),

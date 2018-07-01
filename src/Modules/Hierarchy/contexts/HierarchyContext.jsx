@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource, withEnvironments } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironments, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
 import HierarchyNav from '../containers/HierarchyNav';
@@ -14,21 +14,21 @@ class HierarchyContext extends PureComponent {
     organizationSetPending: PropTypes.bool.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
     onUnloadOrgSet: PropTypes.func.isRequired,
-    unloadWorkspaces: PropTypes.func.isRequired,
-    unloadWorkspace: PropTypes.func.isRequired,
+    workspaceActions: PropTypes.object.isRequired,
     environmentsActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchOrgSet, unloadWorkspace } = this.props;
+    const { match, fetchOrgSet, workspaceActions } = this.props;
     fetchOrgSet(match.params.fqon);
-    unloadWorkspace();
+    workspaceActions.unloadWorkspace();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.match.params.fqon && prevProps.match.params.fqon !== this.props.match.params.fqon) {
-      this.props.unloadWorkspace();
-      this.props.environmentsActions.unloadEnvironments();
+    const { match, workspaceActions, environmentsActions } = this.props;
+    if (prevProps.match.params.fqon && prevProps.match.params.fqon !== match.params.fqon) {
+      workspaceActions.unloadWorkspace();
+      environmentsActions.unloadEnvironments();
     }
   }
 
@@ -59,4 +59,5 @@ class HierarchyContext extends PureComponent {
 export default compose(
   withMetaResource,
   withEnvironments(),
+  withWorkspace(),
 )(HierarchyContext);
