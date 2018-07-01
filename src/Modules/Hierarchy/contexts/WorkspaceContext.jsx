@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironments } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
 import WorkspaceNav from '../containers/WorkspaceNav';
@@ -14,7 +14,6 @@ class WorkspaceContext extends PureComponent {
     fetchWorkspace: PropTypes.func.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
-    unloadEnvironments: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -31,12 +30,6 @@ class WorkspaceContext extends PureComponent {
     if (match.params.fqon && !organizationSet.id) {
       fetchOrgSet(match.params.fqon);
     }
-  }
-
-  componentWillUnmount() {
-    const { unloadEnvironments } = this.props;
-
-    unloadEnvironments();
   }
 
   render() {
@@ -59,5 +52,6 @@ class WorkspaceContext extends PureComponent {
 
 export default compose(
   withMetaResource,
+  withEnvironments(),
 )(WorkspaceContext);
 

@@ -30,12 +30,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       allOrganizations: metaResource.allOrganizations.organizations,
       allOrganizationsPending: metaResource.allOrganizations.pending,
 
-      // Subscriptions for environments
-      environment: metaResource.environment.environment,
-      environmentPending: metaResource.environment.pending,
-      environments: metaResource.environments.environments,
-      environmentsPending: metaResource.environments.pending,
-
       // Subscriptions for Workspaces
       workspace: metaResource.workspace.workspace,
       workspacePending: metaResource.workspace.pending,
@@ -76,12 +70,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       // Subscriptions for Logging
       logProviderPending: metaResource.logProvider.pending,
       logProviderURL: metaResource.logProvider.logProvider.url,
-
-      // Subscriptions for Secrets
-      secrets: metaResource.secrets.secrets,
-      secretsPending: metaResource.secrets.pending,
-      secret: metaResource.secret.secret,
-      secretPending: metaResource.secret.pending,
 
       // Subscriptions for Search
       searchResults: metaResource.search.search,

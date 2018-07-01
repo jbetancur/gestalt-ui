@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withEnvironment } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -13,10 +13,10 @@ import withHierarchy from '../withHierarchy';
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    environmentActions: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
     environmentPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
-    deleteEnvironment: PropTypes.func.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -29,13 +29,13 @@ class EnvironmentDetails extends PureComponent {
   }
 
   delete = () => {
-    const { match, history, environment, deleteEnvironment, hierarchyActions } = this.props;
+    const { match, history, environment, environmentActions, hierarchyActions } = this.props;
     const name = environment.description || environment.name;
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
     hierarchyActions.confirmDelete(() => {
-      deleteEnvironment(match.params.fqon, environment.id, onSuccess);
+      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: environment.id, onSuccess });
     }, name, 'Environment');
   }
 
@@ -90,7 +90,7 @@ class EnvironmentDetails extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withEnvironment(),
   withHierarchy,
   withEntitlements,
 )(EnvironmentDetails);

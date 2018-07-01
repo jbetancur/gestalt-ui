@@ -5,7 +5,7 @@ import { PREFIX } from '../actionTypes';
  * @param {Array} verbs
  * @param {String} name
  */
-export const createRequestAction = (verbs, name) => {
+export const createRequestAction = (verbs, name, defaults = {}) => {
   const actions = {};
 
   const unloadFuncName = `unload${name}`;
@@ -20,7 +20,7 @@ export const createRequestAction = (verbs, name) => {
 
     Object.assign(actions, {
       [funcName]({ ...args }) {
-        return { type: `${PREFIX}${verb.toUpperCase()}_${name.toUpperCase()}_REQUEST`, ...args };
+        return { type: `${PREFIX}${verb.toUpperCase()}_${name.toUpperCase()}_REQUEST`, ...args, ...defaults };
       }
     });
   });

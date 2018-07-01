@@ -4,21 +4,22 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withEnvironments } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { EnvironmentIcon } from 'components/Icons';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { NoData } from 'components/TableCells';
+import { generateContextEntityState } from 'util/helpers/context';
 import Sort from '../components/Sort';
 import ListingHeader from '../components/ListingHeader';
 import EnvironmentCard from './EnvironmentCard';
 
 class EnvironmentListing extends Component {
   static propTypes = {
-    environments: PropTypes.array.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    fetchEnvironments: PropTypes.func.isRequired,
+    environmentsActions: PropTypes.object.isRequired,
+    environments: PropTypes.array.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
   };
 
@@ -32,14 +33,12 @@ class EnvironmentListing extends Component {
   }
 
   componentDidMount() {
-    const { match } = this.props;
-
-    this.init(match.params.fqon, match.params.workspaceId);
+    this.init();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.workspaceId !== this.props.match.params.workspaceId) {
-      this.init(this.props.match.params.fqon, this.props.match.params.workspaceId);
+      this.init();
     }
   }
 
@@ -51,8 +50,11 @@ class EnvironmentListing extends Component {
     this.setState({ order });
   }
 
-  init(fqon, workspaceId) {
-    this.props.fetchEnvironments(fqon, workspaceId);
+  init() {
+    const { match, environmentsActions } = this.props;
+    const entity = generateContextEntityState(match.params);
+
+    environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   render() {
@@ -105,6 +107,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withEnvironments(),
   connect(mapStateToProps)
 )(EnvironmentListing);

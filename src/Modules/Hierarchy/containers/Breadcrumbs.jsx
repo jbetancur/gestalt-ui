@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { withMetaResource, withSelf } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironment, withSelf, } from 'Modules/MetaResource';
 import { FontIcon } from 'react-md';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -187,6 +187,7 @@ class Breadcrumbs extends Component {
 }
 
 export default compose(
+  withEnvironment(),
   withSelf,
   withMetaResource,
   withRouter,

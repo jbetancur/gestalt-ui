@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withEnvironments, withEnvironment } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
@@ -17,8 +17,8 @@ class EnvironmentCard extends PureComponent {
     theme: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    deleteEnvironment: PropTypes.func.isRequired,
-    fetchEnvironments: PropTypes.func.isRequired,
+    environmentActions: PropTypes.func.isRequired,
+    environmentsActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -36,12 +36,14 @@ class EnvironmentCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, deleteEnvironment, fetchEnvironments, hierarchyActions } = this.props;
+    const { model, match, environmentsActions, environmentActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
-    const onDeleteSuccess = () => fetchEnvironments(match.params.fqon, match.params.workspaceId);
+    const onDeleteSuccess = () => {
+      environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
+    };
 
     hierarchyActions.confirmDelete(() => {
-      deleteEnvironment(match.params.fqon, model.id, onDeleteSuccess);
+      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: model.id, onSuccess: onDeleteSuccess });
     }, name, 'Environment');
   }
 
@@ -97,7 +99,8 @@ class EnvironmentCard extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withEnvironments(),
+  withEnvironment(),
   withHierarchy,
   withEntitlements,
   withTheme,

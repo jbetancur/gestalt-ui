@@ -33,3 +33,5 @@ export { default as withProviderKongsByGatewayPicker } from './hocs/withProvider
 export { default as withContainer } from './hocs/withContainer';
 export { default as withContainers } from './hocs/withContainers';
 export { default as withEntitlements } from './hocs/withEntitlements';
+export { default as withEnvironment } from './hocs/withEnvironment';
+export { default as withEnvironments } from './hocs/withEnvironments';

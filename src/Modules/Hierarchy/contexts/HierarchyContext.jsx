@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironments } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
 import HierarchyNav from '../containers/HierarchyNav';
@@ -16,7 +16,7 @@ class HierarchyContext extends PureComponent {
     onUnloadOrgSet: PropTypes.func.isRequired,
     unloadWorkspaces: PropTypes.func.isRequired,
     unloadWorkspace: PropTypes.func.isRequired,
-    unloadEnvironments: PropTypes.func.isRequired,
+    environmentsActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -28,12 +28,14 @@ class HierarchyContext extends PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.fqon && prevProps.match.params.fqon !== this.props.match.params.fqon) {
       this.props.unloadWorkspace();
-      this.props.unloadEnvironments();
+      this.props.environmentsActions.unloadEnvironments();
     }
   }
 
   componentWillUnmount() {
-    this.props.unloadEnvironments();
+    const { environmentsActions } = this.props;
+
+    environmentsActions.unloadEnvironments();
   }
 
   render() {
@@ -56,4 +58,5 @@ class HierarchyContext extends PureComponent {
 
 export default compose(
   withMetaResource,
+  withEnvironments(),
 )(HierarchyContext);

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withEnvironments, withEnvironment } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateEnvironmentPatches } from '../payloadTransformer';
@@ -16,32 +16,31 @@ class EnvironmentEdit extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
-    fetchEnvironment: PropTypes.func.isRequired,
-    fetchEnvironments: PropTypes.func.isRequired,
-    updateEnvironment: PropTypes.func.isRequired,
     environmentPending: PropTypes.bool.isRequired,
+    environmentActions: PropTypes.object.isRequired,
+    environmentsActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, environmentActions } = this.props;
 
-    this.props.fetchEnvironment(match.params.fqon, match.params.environmentId);
+    environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
   }
 
   update = (values) => {
-    const { match, history, location, environment, updateEnvironment, fetchEnvironments } = this.props;
-    const patches = generateEnvironmentPatches(environment, values);
+    const { match, history, location, environment, environmentActions, environmentsActions } = this.props;
+    const payload = generateEnvironmentPatches(environment, values);
     const onSuccess = () => {
       if (location.state.card) {
         // note that if the match.params.workspaceId dosnt exist (and it will not in the heirarchy views) the call for re-pop will be made against /fqon/environments
-        fetchEnvironments(match.params.fqon, match.params.workspaceId);
+        environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: environment.properties.workspace.id });
       }
 
       history.goBack();
     };
 
-    updateEnvironment(match.params.fqon, environment.id, patches, onSuccess);
+    environmentActions.updateEnvironment({ fqon: match.params.fqon, id: environment.id, payload, onSuccess });
   }
 
   render() {
@@ -68,6 +67,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withEnvironments(),
+  withEnvironment(),
   connect(mapStateToProps),
 )(EnvironmentEdit);

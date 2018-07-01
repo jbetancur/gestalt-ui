@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withEnvironment } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
 import EnvironmentNav from '../containers/EnvironmentNav';
@@ -12,25 +12,24 @@ class EnvironmentContext extends Component {
     match: PropTypes.object.isRequired,
     fetchOrgSet: PropTypes.func.isRequired,
     fetchWorkspace: PropTypes.func.isRequired,
-    fetchEnvironment: PropTypes.func.isRequired,
+    environmentActions: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
-    unloadEnvironment: PropTypes.func.isRequired,
     unloadProviders: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const {
       match,
-      fetchEnvironment,
+      environmentActions,
       organizationSet,
       workspace,
       fetchOrgSet,
       fetchWorkspace
     } = this.props;
 
-    fetchEnvironment(match.params.fqon, match.params.environmentId);
+    environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
 
     // Keep org context synced in case of refresh
     if (match.params.fqon && !organizationSet.id) {
@@ -45,10 +44,10 @@ class EnvironmentContext extends Component {
 
   componentWillUnmount() {
     // only clear state when the Environment Context changes - this acts as a cache
-    const { unloadEnvironment, unloadProviders } = this.props;
+    const { unloadProviders, environmentActions } = this.props;
 
-    unloadEnvironment();
     unloadProviders();
+    environmentActions.unloadEnvironment();
   }
 
   render() {
@@ -71,4 +70,5 @@ class EnvironmentContext extends Component {
 
 export default compose(
   withMetaResource,
+  withEnvironment(),
 )(EnvironmentContext);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withEnvironments, withEnvironment, metaModels } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateEnvironmentPayload } from '../payloadTransformer';
@@ -14,20 +14,20 @@ class OrgCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createEnvironment: PropTypes.func.isRequired,
-    fetchEnvironments: PropTypes.func.isRequired,
+    environmentActions: PropTypes.object.isRequired,
+    environmentsActions: PropTypes.object.isRequired,
     environmentPending: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
-    const { match, history, createEnvironment, fetchEnvironments } = this.props;
+    const { match, history, environmentActions, environmentsActions } = this.props;
     const payload = generateEnvironmentPayload(values);
     const onSuccess = (response) => {
-      fetchEnvironments(match.params.fqon, response.properties.workspace.id);
+      environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: response.properties.workspace.id });
       history.replace(`/${match.params.fqon}/hierarchy/${response.properties.workspace.id}/environments`);
     };
 
-    createEnvironment(match.params.fqon, match.params.workspaceId, payload, onSuccess);
+    environmentActions.createEnvironment({ fqon: match.params.fqon, entityId: match.params.workspaceId, entityKey: 'workspaces', payload, onSuccess });
   }
 
   render() {
@@ -47,5 +47,6 @@ class OrgCreate extends Component {
 }
 
 export default compose(
-  withMetaResource,
+  withEnvironments(),
+  withEnvironment(),
 )(OrgCreate);
