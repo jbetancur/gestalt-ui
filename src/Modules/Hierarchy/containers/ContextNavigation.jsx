@@ -32,7 +32,8 @@ const ActionsPanel = styled.div`
     padding: 4px 8px;
     font-size: 10px;
 
-    span:last-child {
+    span:last-child,
+    div:last-child {
       padding-left: 6px;
     }
 
