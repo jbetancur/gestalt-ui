@@ -20,10 +20,10 @@ export default function AuthWrapper(BaseComponent) {
 
     checkAuthentication() {
       const { history, location, authActions } = this.props;
-      const validCookie = cookies.get('auth_token') || false;
+      const validCookie = !!cookies.get('auth_token');
 
       if (!validCookie) {
-        authActions.logoutOnTokenExpiration();
+        authActions.logout(true);
         history.replace({
           pathname: '/login',
           state: { nextPathname: location.pathname },

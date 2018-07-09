@@ -1,6 +1,7 @@
 import axios from 'axios';
 import join from 'url-join';
 import Cookies from 'universal-cookie';
+import { authActions } from 'Modules/Authentication';
 import { API_URL, API_TIMEOUT } from '../constants';
 
 // Axios Defaults
@@ -28,12 +29,12 @@ export default function configureInterceptors(store, history) {
 
   // Dispatch App Wide Errors via response interceptor for whatever component is listening
   axios.interceptors.response.use(config => config, (error) => {
-    const validCookie = !!cookies.get('auth_token') || false;
+    const validCookie = !!cookies.get('auth_token');
 
     if (!validCookie) {
       // fall back for missing token & Eat any 401 errors
       history.replace('/login');
-      store.dispatch({ type: 'auth/LOG_OUT' });
+      store.dispatch(authActions.logout(true));
 
       return Promise.resolve();
     }
@@ -54,6 +55,8 @@ export default function configureInterceptors(store, history) {
       'user.view',
       'group.view',
       'secret.view',
+      'datafeed.view',
+      'streamspec.view',
     ];
 
     const response = error.response.data;

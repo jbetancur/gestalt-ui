@@ -17,7 +17,7 @@ class OrgEdit extends Component {
     match: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
     organizationPending: PropTypes.bool.isRequired,
-    organizationActions: PropTypes.func.isRequired,
+    organizationActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 

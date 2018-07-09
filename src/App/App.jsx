@@ -10,7 +10,7 @@ import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { OrganizationMenu } from 'Modules/NavigationMenus';
 import { withRestricted } from 'Modules/Authentication';
-import { withSync, withSelf } from 'Modules/MetaResource';
+import { withSelf } from 'Modules/MetaResource';
 import { GestaltIcon } from 'components/Icons';
 import AppError from './components/AppError';
 import AppToolbarUserMenu from './components/AppToolbarUserMenu';
@@ -31,12 +31,10 @@ class App extends Component {
     licenseActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
-    syncPending: PropTypes.bool.isRequired,
     self: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     browser: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
-    syncActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -52,11 +50,12 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!this.props.match.params.fqon && this.props.self.id && this.props.self.id !== prevProps.self.id) {
+    const { match, self, history, licenseActions } = this.props;
+
+    if (!match.params.fqon && self.id && self.id !== prevProps.self.id) {
       // TODO: routing here must be moved to auth once we refactor Auth/JWT
-      this.props.history.replace(`/${this.props.self.properties.gestalt_home.properties.fqon}/hierarchy`);
-      this.props.syncActions.doSync();
-      this.props.licenseActions.fetchLicense('root');
+      history.replace(`/${self.properties.gestalt_home.properties.fqon}/hierarchy`);
+      licenseActions.fetchLicense('root');
     }
   }
 
@@ -65,7 +64,9 @@ class App extends Component {
   }
 
   showExperimental = () => {
-    this.props.appActions.showExperimental(true);
+    const { appActions } = this.props;
+
+    appActions.showExperimental(true);
   }
 
   logout = () => {
@@ -104,10 +105,9 @@ class App extends Component {
   }
 
   render() {
-    const { selfPending, syncPending } = this.props;
-    const isPending = selfPending || syncPending;
+    const { selfPending } = this.props;
 
-    return isPending ? <ActivityContainer id="app-main-progess" /> : this.renderMain();
+    return selfPending ? <ActivityContainer id="app-main-progess" /> : this.renderMain();
   }
 }
 
@@ -119,7 +119,6 @@ export default compose(
   withRestricted,
   withApp,
   withSelf,
-  withSync,
   withLicense,
   connect(mapStateToProps),
 )(App);

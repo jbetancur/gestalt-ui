@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Container, Col, Row } from 'react-flexybox';
 import { Form } from 'react-final-form';
 import { GestaltIcon } from 'components/Icons';
-import { loadStorage } from 'util/helpers/localstorage';
+import { getItem } from 'util/helpers/localstorage';
 import actions from '../actions';
 import LoginForm from './LoginForm';
 import LoginFooter from '../components/LoginFooter';
@@ -30,6 +30,7 @@ const Wrapper = styled(Container)`
   position: relative;
   padding-bottom: 72px;
   background-image: radial-gradient(circle, ${props => props.theme.colors['$russian-black-50']} 0, ${props => props.theme.colors['$russian-black-300']} 100%);
+
   /* background-image: radial-gradient(circle, ${props => props.theme.colors['$md-blue-500']} 0, ${props => props.theme.colors['$md-blue-900']} 100%); */
   height: 100%;
 `;
@@ -73,9 +74,14 @@ class LoginContainer extends Component {
 
   submitLogin = (values) => {
     const { history, login, location } = this.props;
-    const path = (location.state && location.state.nextPathname) || JSON.parse(loadStorage('lastVisitedRoute')) || '/';
+    /*
+    location is used when pasting in an address into he address bar
+    if last lastVisitedRoute location object is present in localstorage then that path will be redirected upon logon
+    */
+    const path = (location.state && location.state.nextPathname) || JSON.parse(getItem('lastVisitedRoute')) || '/';
+    const onSuccess = () => history.replace(path);
 
-    login(values.username, values.password).then(() => history.replace(path));
+    login(values.username, values.password, onSuccess);
   };
 
   render() {

@@ -4,6 +4,7 @@ import { responsiveStoreEnhancer } from 'redux-responsive';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 // import { composeWithDevTools } from 'redux-devtools-extension';
+import { authActionTypes } from 'Modules/Authentication';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
 import { DEBUG } from '../constants';
@@ -13,8 +14,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Compose all reducers to clear their state on logout
 const composeRootReducer = reducer => (state, action) => {
-  // Clear the srore except for browser state
-  if (action.type === 'auth/LOG_OUT') {
+  // Clear the store except for browser state
+  if (action.type === authActionTypes.LOGOUT_REQUEST) {
     return reducer(Object.assign({}, { browser: state.browser }), action);
   }
 

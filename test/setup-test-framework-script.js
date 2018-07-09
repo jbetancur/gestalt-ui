@@ -31,15 +31,10 @@ global.expect = (actual) => {
   return combinedMatchers;
 };
 
-global.context = describe;
-global.before = beforeAll;
-global.after = afterEach;
-
 global.mount = mount;
 global.shallow = shallow;
 chai.use(sinonChai);
 global.sinon = sinon;
-global.expect = expect;
 
 /**
  * This set of beforeEach/afterEach functions serve to prevent code from
@@ -73,3 +68,27 @@ afterEach(() => {
   global.setTimeout = originalSetTimeout;
   global.setInterval = originalSetInterval;
 });
+
+// localstorage mock
+const localStorageMock = (() => {
+  let store = {};
+  return {
+    getItem(key) {
+      return store[key] || null;
+    },
+    setItem(key, value) {
+      store[key] = value.toString();
+    },
+    removeItem(key) {
+      delete store[key];
+    },
+    clear() {
+      store = {};
+    },
+  };
+})();
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+

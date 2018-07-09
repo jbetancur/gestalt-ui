@@ -8,19 +8,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.REQUEST_TOKEN_PENDING:
+    case types.LOGOUT_FULFILLED:
+      return initialState;
+    case types.AUTH_TOKEN_REQUEST:
       return {
         ...state,
         isAuthenticating: true,
         statusText: null
       };
-    case types.REQUEST_TOKEN_FULFILLED:
+    case types.AUTH_TOKEN_FULFILLED:
       return {
         ...state,
         isAuthenticating: false,
         token: action.payload,
       };
-    case types.REQUEST_TOKEN_REJECTED:
+    case types.AUTH_TOKEN_REJECTED:
       return {
         ...state,
         isAuthenticating: false,

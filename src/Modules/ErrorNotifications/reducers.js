@@ -8,7 +8,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   // Ignore login REJECTIONS
-  if (action.type.includes('REQUEST_TOKEN_REJECTED')) {
+  if (action.type.includes('AUTH_TOKEN_REJECTED')) {
     return state;
   }
 

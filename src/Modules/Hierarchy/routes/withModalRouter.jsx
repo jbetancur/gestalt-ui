@@ -4,9 +4,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withMetaResource } from 'Modules/MetaResource';
-import { loadStorage, saveStorage } from 'util/helpers/localstorage';
+import { getItem, saveItem } from 'util/helpers/localstorage';
 
-const getPreviousRoute = () => JSON.parse(loadStorage('lastVisitedRoute'));
+const getPreviousRoute = () => JSON.parse(getItem('lastVisitedRoute'));
 
 export default function modalRouting(BaseComponent) {
   class ModalRouting extends Component {
@@ -17,10 +17,9 @@ export default function modalRouting(BaseComponent) {
     componentWillUpdate(nextProps) {
       const { location } = this.props;
       // set previousLocation if props.location is not modal
-      saveStorage('lastVisitedRoute', JSON.stringify(location));
+      saveItem('lastVisitedRoute', JSON.stringify(location));
 
-      if (
-        nextProps.history.action !== 'POP' &&
+      if (nextProps.history.action !== 'POP' &&
         (!location.state || !location.state.modal)
       ) {
         this.previousLocation = getPreviousRoute();

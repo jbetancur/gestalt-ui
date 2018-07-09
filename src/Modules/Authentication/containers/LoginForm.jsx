@@ -8,7 +8,6 @@ import Form from 'components/Form';
 import LoginButton from '../components/LoginButton';
 import TextField from '../components/TextField';
 
-
 const LoginCardText = styled.div`
   padding: 18px;
 

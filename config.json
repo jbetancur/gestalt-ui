@@ -12,7 +12,8 @@
     "ANALYTICS_TRACKING_ACCT": "",
     "ANALYTICS_TRACKING": false,
     "DEBUG": true,
-    "DOCUMENTATION_URL": "http://docs.galacticfog.com"
+    "DOCUMENTATION_URL": "http://docs.galacticfog.com",
+    "REQUIRE_HTTPS_COOKIE": false
   },
   "production": {
     "API_URL": "/meta",
@@ -27,6 +28,7 @@
     "ANALYTICS_TRACKING_ACCT": "UA-68192914-2",
     "ANALYTICS_TRACKING": true,
     "DEBUG": false,
-    "DOCUMENTATION_URL": "http://docs.galacticfog.com"
+    "DOCUMENTATION_URL": "http://docs.galacticfog.com",
+    "REQUIRE_HTTPS_COOKIE": true
   }
 }

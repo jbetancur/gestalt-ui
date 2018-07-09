@@ -1,8 +1,8 @@
 /**
- * loadStorage
+ * getItem
  * @param {*} key
  */
-export const loadStorage = (key) => {
+export const getItem = (key) => {
   try {
     return localStorage.getItem(key);
   } catch (err) {
@@ -11,11 +11,11 @@ export const loadStorage = (key) => {
 };
 
 /**
- * saveStorage
+ * saveItem
  * @param {*} key
  * @param {*} value
  */
-export const saveStorage = (key, value) => {
+export const saveItem = (key, value) => {
   try {
     localStorage.setItem(key, value);
   } catch (err) {
@@ -39,4 +39,3 @@ export const removeItem = (key) => {
 
   return undefined;
 };
-
