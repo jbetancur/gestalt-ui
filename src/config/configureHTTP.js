@@ -16,7 +16,11 @@ const isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 export default function configureInterceptors(store, history) {
   axios.interceptors.request.use((config) => {
     const newConfig = { ...config };
-    newConfig.headers.Authorization = `Bearer ${cookies.get('auth_token')}`;
+    const token = cookies.get('auth_token');
+
+    if (token) {
+      newConfig.headers.Authorization = `Bearer ${token}`;
+    }
 
     if (isAbsoluteURLRegex.test(API_URL)) {
       newConfig.headers['GESTALT-META-BASE-URL'] = API_URL;
@@ -36,7 +40,7 @@ export default function configureInterceptors(store, history) {
       history.replace('/login');
       store.dispatch(authActions.logout(true));
 
-      return Promise.resolve();
+      return Promise.reject();
     }
 
     const permissions = [

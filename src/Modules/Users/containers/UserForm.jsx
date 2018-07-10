@@ -11,7 +11,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 
-const UserForm = (props) => {
+const UserForm = ({ organizationsActions, ...props }) => {
   const goBack = () => {
     props.history.push(`/${props.match.params.fqon}/users`);
   };
@@ -99,7 +99,7 @@ const UserForm = (props) => {
                       itemValue="value"
                       label="Gestalt Home"
                       async
-                      onFocus={() => props.fetchAllOrgsDropDown(props.match.params.fqon)}
+                      onFocus={() => organizationsActions.fetchAllOrgsDropDown({ fqon: props.match.params.fqon })}
                     />
                   </Col>
                   <Col flex={6} xs={12}>
@@ -148,7 +148,7 @@ UserForm.propTypes = {
   userPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  fetchAllOrgsDropDown: PropTypes.func.isRequired,
+  organizationsActions: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,

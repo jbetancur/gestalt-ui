@@ -64,9 +64,9 @@ export function* fetchAllOrgsDropDown(action) {
     const payload = response[1].data.map(item => ({ name: item.name, value: item.properties.fqon }));
     payload.unshift({ name: response[0].data.name, value: response[0].data.properties.fqon });
 
-    yield put({ type: types.FETCH_ALLORGS_DROPDOWN_FULFILLED, payload });
+    yield put({ type: types.FETCH_ALLORGSDROPDOWN_FULFILLED, payload });
   } catch (e) {
-    yield put({ type: types.FETCH_ALLORGS_DROPDOWN_REJECTED, payload: e.message });
+    yield put({ type: types.FETCH_ALLORGSDROPDOWN_REJECTED, payload: e.message });
   }
 }
 
@@ -74,6 +74,6 @@ export function* fetchAllOrgsDropDown(action) {
 export default function* () {
   yield fork(takeLatest, types.FETCH_ALLORGS_REQUEST, fetchAllOrgs);
   yield fork(takeLatest, types.FETCH_ORGSET_REQUEST, fetchOrgSet);
-  yield fork(takeLatest, types.FETCH_ALLORGS_DROPDOWN_REQUEST, fetchAllOrgsDropDown);
+  yield fork(takeLatest, types.FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown);
 }
 

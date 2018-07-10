@@ -26,11 +26,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAuthenticating: false,
-        statusText: (action.payload.response
+        statusText: (action.payload
+          && action.payload.response
           && action.payload.response.data
           && action.payload.response.data.error === 'invalid_grant'
           && action.payload.response.data.code === 400)
-          ? 'Invalid username or password' : `Something went wrong... ${action.payload}`
+          ? 'Invalid username or password' : `Something went wrong... ${action.payload || 'unknown error'}`
       };
     default:
       return state;

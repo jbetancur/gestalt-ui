@@ -23,7 +23,7 @@ import streamSpecModel from './models/streamSpec';
 export default combineReducers({
   envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel),
   allOrganizations: reducerFactory(['fetch'], 'organizations', 'allorgs', []),
-  allOrganizationsDropDown: reducerFactory(['fetch'], 'organizations', 'allorgs_dropdown', []),
+  allOrganizationsDropDown: reducerFactory(['fetch'], 'organizations', 'ALLORGSDROPDOWN', []),
   organizations: reducerFactory(['fetch'], 'organizations', 'orgs', []),
   organization: reducerFactory(['fetch', 'create', 'update', 'delete'], 'organization', 'org', organizationModel.get()),
   organizationSet: reducerFactory(['fetch', 'create', 'update', 'delete'], 'organization', 'orgset', organizationModel.get()),

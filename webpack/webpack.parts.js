@@ -205,6 +205,7 @@ exports.devServer = function devServer({ host, port, contentBase, compress }) {
       // unlike default `localhost`.
       host, // Defaults to `localhost`
       port, // Defaults to 8080
+      https: false,
     }
   };
 };

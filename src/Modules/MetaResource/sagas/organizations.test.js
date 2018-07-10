@@ -103,7 +103,7 @@ describe('Organization Sagas', () => {
 
       result = saga.next(promiseArray);
       expect(result.value).toEqual(
-        put({ type: types.FETCH_ALLORGS_DROPDOWN_FULFILLED, payload: expectedPayload })
+        put({ type: types.FETCH_ALLORGSDROPDOWN_FULFILLED, payload: expectedPayload })
       );
     });
 
@@ -114,7 +114,7 @@ describe('Organization Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).toEqual(
-        put({ type: types.FETCH_ALLORGS_DROPDOWN_REJECTED, payload: error })
+        put({ type: types.FETCH_ALLORGSDROPDOWN_REJECTED, payload: error })
       );
     });
   });
@@ -140,7 +140,7 @@ describe('Organization Sagas', () => {
     it('should fork a watcher for fetchAllOrgsDropDown', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_ALLORGS_DROPDOWN_REQUEST, fetchAllOrgsDropDown)
+        fork(takeLatest, types.FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown)
       );
     });
   });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withOrganizations } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import jsonPatch from 'fast-json-patch';
 import UserForm from './UserForm';
@@ -15,16 +15,16 @@ class GroupEdit extends Component {
     match: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
-    fetchAllOrgsDropDown: PropTypes.func.isRequired,
+    organizationsActions: PropTypes.object.isRequired,
     updateUser: PropTypes.func.isRequired,
     userPending: PropTypes.bool.isRequired,
     unloadUser: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchUser, fetchAllOrgsDropDown } = this.props;
+    const { match, fetchUser, organizationsActions } = this.props;
 
-    fetchAllOrgsDropDown(match.params.fqon);
+    organizationsActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
     fetchUser(match.params.fqon, match.params.userId);
   }
 
@@ -99,6 +99,7 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
+  withOrganizations(),
   connect(mapStateToProps, Object.assign({}, actions)),
   reduxForm({
     form: 'userEdit',
