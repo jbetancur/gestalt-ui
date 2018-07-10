@@ -47,6 +47,7 @@ module.exports = {
     $$DOCUMENTATION_URL$$: 'bingbangboom',
     $$ANALYTICS_TRACKING$$: 'bingbangboom',
     $$ANALYTICS_TRACKING_ACCT$$: 'bingbangboom',
+    $$REQUIRE_HTTPS_COOKIE$$: 'bingbangboom',
     $$UI_VERSION$$: 'bingbangboom',
   }
 };
