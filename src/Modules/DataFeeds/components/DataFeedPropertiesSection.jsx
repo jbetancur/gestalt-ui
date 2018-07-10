@@ -35,7 +35,7 @@ const showEditor = (values) => {
 const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
   <Row gutter={5}>
     <Col flex={12}>
-      <Panel title="Data" expandable={false}>
+      <Panel title="Configuration" expandable={false}>
         <Row gutter={5}>
           <Col flex={3} xs={12}>
             <Field

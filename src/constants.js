@@ -13,6 +13,7 @@ export const COMPANY_TITLE = $$COMPANY_TITLE$$;
 export const COMPANY_URL = $$COMPANY_URL$$;
 export const ANALYTICS_TRACKING = $$ANALYTICS_TRACKING$$;
 export const ANALYTICS_TRACKING_ACCT = $$ANALYTICS_TRACKING_ACCT$$;
+export const REQUIRE_HTTPS_COOKIE = $$REQUIRE_HTTPS_COOKIE$$;
 
 // General Enums - TODO: make dynamic (requires a resourceTypes call)
 export const USER = '58b6775d-37a5-44bc-9115-7331fc4964b7';
