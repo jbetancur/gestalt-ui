@@ -14,7 +14,6 @@ class OrganizationDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
-    organizationSetPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     organizationActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
@@ -75,7 +74,7 @@ class OrganizationDetails extends PureComponent {
   }
 
   render() {
-    const { organizationSet, organizationSetPending } = this.props;
+    const { organizationSet } = this.props;
 
     return (
       <React.Fragment>
@@ -84,7 +83,6 @@ class OrganizationDetails extends PureComponent {
           subtitle={`FQON: ${organizationSet.properties.fqon}`}
           titleIcon={<OrganizationIcon />}
           actions={this.renderActions()}
-          disabled={organizationSetPending}
         />
         <DetailsPane model={organizationSet} />
       </React.Fragment>

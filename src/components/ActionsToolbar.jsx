@@ -12,8 +12,6 @@ const ActionHeaderStyle = styled.header`
   padding-left: 8px;
   padding-top: 6px;
   padding-bottom: 6px;
-  ${props => props.disabled && 'pointer-events: none'};
-  ${props => props.disabled && 'opacity: 0.5'};
 `;
 
 const Left = styled.div`
@@ -29,6 +27,8 @@ const Right = styled.div`
   display: flex;
   justify-content: flex-end;
   flex: 1 1 auto;
+  ${props => props.disabled && 'pointer-events: none'};
+  ${props => props.disabled && 'opacity: 0.5'};
 
   button,
   a {
@@ -43,7 +43,7 @@ const TitleSection = styled.div`
 `;
 
 const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, disabled }) => (
-  <ActionHeaderStyle disabled={disabled}>
+  <ActionHeaderStyle>
     <Left>
       <TitleSection>
         {!!titleIcon &&
@@ -59,7 +59,7 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, disab
       {!!subtitle && <Caption>{subtitle}</Caption>}
     </Left>
     {actions && showActions &&
-      <Right>
+      <Right disabled={disabled}>
         {actions}
       </Right>}
   </ActionHeaderStyle>

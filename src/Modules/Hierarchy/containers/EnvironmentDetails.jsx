@@ -15,7 +15,6 @@ class EnvironmentDetails extends PureComponent {
     match: PropTypes.object.isRequired,
     environmentActions: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
-    environmentPending: PropTypes.bool.isRequired,
     history: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
@@ -71,7 +70,7 @@ class EnvironmentDetails extends PureComponent {
   }
 
   render() {
-    const { environment, environmentPending } = this.props;
+    const { environment } = this.props;
     const environmentType = environment.id && environment.properties ? environment.properties.environment_type.toUpperCase() : null;
 
     return (
@@ -81,7 +80,6 @@ class EnvironmentDetails extends PureComponent {
           titleIcon={<EnvironmentIcon />}
           subtitle={`Environment Type: ${environmentType}`}
           actions={this.renderActions()}
-          disabled={environmentPending}
         />
         <DetailsPane model={environment} />
       </React.Fragment>

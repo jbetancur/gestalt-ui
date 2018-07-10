@@ -14,7 +14,6 @@ class WorkspaceDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
-    workspacePending: PropTypes.bool.isRequired,
     workspaceActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
@@ -71,7 +70,7 @@ class WorkspaceDetails extends PureComponent {
   }
 
   render() {
-    const { workspace, workspacePending } = this.props;
+    const { workspace } = this.props;
 
     return (
       <React.Fragment>
@@ -79,7 +78,6 @@ class WorkspaceDetails extends PureComponent {
           title={workspace.description || workspace.name}
           titleIcon={<WorkspaceIcon />}
           actions={this.renderActions()}
-          disabled={workspacePending}
         />
         <DetailsPane model={workspace} />
       </React.Fragment>
