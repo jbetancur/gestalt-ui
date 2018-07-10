@@ -21,6 +21,7 @@ export default () => (BaseComponent) => {
     organizationsPending: state.metaResource.organizations.pending,
     allOrganizations: state.metaResource.allOrganizations.organizations,
     allOrganizationsPending: state.metaResource.allOrganizations.pending,
+    allOrganizationsDropDown: state.metaResource.allOrganizationsDropDown.organizations,
   });
 
   const mapDispatchToProps = dispatch => ({

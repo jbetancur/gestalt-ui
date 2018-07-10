@@ -34,18 +34,9 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       groupUpdated: metaResource.groupMembers.group,
       groupMembersPending: metaResource.groupMembers.pending,
 
-      // Subscriptions for Users
-      users: metaResource.users.users,
-      usersPending: metaResource.users.pending,
-      user: metaResource.user.user,
-      userPending: metaResource.user.pending,
-
       // Subscriptions for Schema
       envSchema: metaResource.envSchema.schema,
       envSchemaPending: metaResource.envSchema.pending,
-
-      // Subscriptions for DropDowns
-      allOrganizationsDropDown: metaResource.allOrganizationsDropDown.organizations,
 
       // Subscriptions for Logging
       logProviderPending: metaResource.logProvider.pending,

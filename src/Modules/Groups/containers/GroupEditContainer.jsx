@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, metaModels } from 'Modules/MetaResource';
+import { withMetaResource, withUsers, metaModels } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from './GroupForm';
@@ -16,18 +16,19 @@ class GroupEdit extends Component {
     reset: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
+    usersActions: PropTypes.object.isRequired,
     fetchGroup: PropTypes.func.isRequired,
-    fetchUsers: PropTypes.func.isRequired,
     updateGroup: PropTypes.func.isRequired,
     unloadGroup: PropTypes.func.isRequired,
     groupPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchGroup, fetchUsers } = this.props;
+    const { match, fetchGroup, usersActions } = this.props;
 
     fetchGroup(match.params.fqon, match.params.groupId);
-    fetchUsers(match.params.fqon);
+
+    usersActions.fetchUsers({ fqon: match.params.fqon });
   }
 
   componentWillUnmount() {
@@ -36,7 +37,7 @@ class GroupEdit extends Component {
     unloadGroup();
   }
 
-  update(values) {
+  update = (values) => {
     const { match, dispatch, reset, group, updateGroup } = this.props;
     const { name, description } = group;
     const onSuccess = () => dispatch(reset());
@@ -65,7 +66,7 @@ class GroupEdit extends Component {
             title={group.name}
             submitLabel="Update"
             cancelLabel="Groups"
-            onSubmit={values => this.update(values)}
+            onSubmit={this.update}
             {...this.props}
           />}
       </div>
@@ -95,7 +96,8 @@ function mapStateToProps(state) {
 
 export default compose(
   withMetaResource,
-  connect(mapStateToProps, Object.assign({}, actions)),
+  withUsers(),
+  connect(mapStateToProps, actions),
   reduxForm({
     form: 'groupEdit',
     enableReinitialize: true,

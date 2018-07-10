@@ -14,7 +14,6 @@ import providerSagas from './providers';
 import containerSagas from './containers';
 import selfSagas from './self';
 import entitlementSagas from './entitlements';
-import userSagas from './users';
 import groupSagas from './groups';
 import env from './env';
 import loggingSagas from './logging';
@@ -29,7 +28,6 @@ export default function* metaSagas() {
     containerSagas(),
     selfSagas(),
     entitlementSagas(),
-    userSagas(),
     groupSagas(),
     env(),
     loggingSagas(),
@@ -53,6 +51,13 @@ export default function* metaSagas() {
     yield takeLatest(...generateCreate('ENVIRONMENT', 'environments')),
     yield takeLatest(...generateUpdate('ENVIRONMENT', 'environments')),
     yield takeLatest(...generateDelete('ENVIRONMENT', 'environments')),
+
+    yield takeLatest(...generateFetchAll('USERS', 'users')),
+    yield takeLatest(...generateFetchOne('USER', 'users')),
+    yield takeLatest(...generateCreate('USER', 'users')),
+    yield takeLatest(...generateUpdate('USER', 'users')),
+    yield takeLatest(...generateDelete('USER', 'users', 'USERS')),
+    yield takeLatest(...generateDeleteMany('USERS', 'users')),
 
     yield takeLatest(...generateCreate('CONTAINER', 'containers', 'IMPORT')),
     yield takeLatest(...generateCreate('CONTAINER', 'containers', 'DETACH')),

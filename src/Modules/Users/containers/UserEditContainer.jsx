@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource, withOrganizations } from 'Modules/MetaResource';
+import { withUser, withOrganizations } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import jsonPatch from 'fast-json-patch';
 import UserForm from './UserForm';
@@ -13,29 +13,21 @@ import actions from '../actions';
 class GroupEdit extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    fetchUser: PropTypes.func.isRequired,
     organizationsActions: PropTypes.object.isRequired,
-    updateUser: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
     userPending: PropTypes.bool.isRequired,
-    unloadUser: PropTypes.func.isRequired,
+    userActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, fetchUser, organizationsActions } = this.props;
+    const { match, userActions, organizationsActions } = this.props;
 
     organizationsActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
-    fetchUser(match.params.fqon, match.params.userId);
-  }
-
-  componentWillUnmount() {
-    const { unloadUser } = this.props;
-
-    unloadUser();
+    userActions.fetchUser({ fqon: match.params.fqon, id: match.params.userId });
   }
 
   update(values) {
-    const { match, user, updateUser } = this.props;
+    const { match, user, userActions } = this.props;
     const { name, description, properties: { password, firstName, lastName, phoneNumber, email, gestalt_home } } = user;
     const originalModel = {
       name,
@@ -55,9 +47,9 @@ class GroupEdit extends Component {
       delete originalModel.properties.password;
     }
 
-    const patches = jsonPatch.compare(originalModel, values);
+    const payload = jsonPatch.compare(originalModel, values);
 
-    updateUser(match.params.fqon, user.id, patches);
+    userActions.updateUser({ fqon: match.params.fqon, id: user.id, payload });
   }
 
   render() {
@@ -98,9 +90,9 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withMetaResource,
+  withUser(),
   withOrganizations(),
-  connect(mapStateToProps, Object.assign({}, actions)),
+  connect(mapStateToProps, actions),
   reduxForm({
     form: 'userEdit',
     enableReinitialize: true,

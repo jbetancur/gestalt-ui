@@ -11,22 +11,22 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 
-const UserForm = ({ organizationsActions, ...props }) => {
+const UserForm = ({ title, submitLabel, cancelLabel, match, handleSubmit, onSubmit, pristine, history, user, userPending, allOrganizationsDropDown, submitting }) => {
   const goBack = () => {
-    props.history.push(`/${props.match.params.fqon}/users`);
+    history.push(`/${match.params.fqon}/users`);
   };
 
   return (
-    <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={props.userPending}>
+    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={userPending}>
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
-          <ActionsToolbar title={props.title} />
-          {props.userPending && <ActivityContainer id="user-form" />}
+          <ActionsToolbar title={title} />
+          {userPending && <ActivityContainer id="user-form" />}
           <Row gutter={5}>
-            {props.user.id &&
+            {user.id &&
               <Col flex={12}>
                 <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={props.user} />
+                  <DetailsPane model={user} />
                 </Panel>
               </Col>}
 
@@ -46,10 +46,10 @@ const UserForm = ({ organizationsActions, ...props }) => {
                     <Field
                       component={TextField}
                       name="properties.password"
-                      placeholder={props.user.id && 'Reset Password'}
-                      label={props.user.id ? 'Reset Password' : 'New Password'}
+                      placeholder={user.id && 'Reset Password'}
+                      label={user.id ? 'Reset Password' : 'New Password'}
                       type="password"
-                      required={!props.user.id}
+                      required={!user.id}
                       autoComplete="new-password"
                     />
                   </Col>
@@ -93,13 +93,12 @@ const UserForm = ({ organizationsActions, ...props }) => {
                       id="select-gestalt-home"
                       component={SelectField}
                       name="properties.gestalt_home"
-                      menuItems={props.allOrganizationsDropDown}
+                      menuItems={allOrganizationsDropDown}
                       required
                       itemLabel="name"
                       itemValue="value"
                       label="Gestalt Home"
                       async
-                      onFocus={() => organizationsActions.fetchAllOrgsDropDown({ fqon: props.match.params.fqon })}
                     />
                   </Col>
                   <Col flex={6} xs={12}>
@@ -121,19 +120,19 @@ const UserForm = ({ organizationsActions, ...props }) => {
         <Button
           flat
           iconChildren="arrow_back"
-          disabled={props.userPending || props.submitting}
+          disabled={userPending || submitting}
           onClick={goBack}
         >
-          {props.cancelLabel}
+          {cancelLabel}
         </Button>
         <Button
           raised
           iconChildren="save"
           type="submit"
-          disabled={props.pristine || props.userPending || props.invalid || props.submitting}
+          disabled={pristine || userPending || submitting}
           primary
         >
-          {props.submitLabel}
+          {submitLabel}
         </Button>
       </FullPageFooter>
     </Form>
@@ -148,9 +147,7 @@ UserForm.propTypes = {
   userPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  organizationsActions: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   title: PropTypes.string,
   submitLabel: PropTypes.string,

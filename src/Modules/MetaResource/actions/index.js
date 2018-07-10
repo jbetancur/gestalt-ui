@@ -1,5 +1,4 @@
 import providers from './providers';
-import users from './users';
 import groups from './groups';
 import env from './env';
 import logging from './logging';
@@ -8,7 +7,6 @@ import typeProperties from './typeProperties';
 
 export default Object.assign({},
   providers,
-  users,
   groups,
   env,
   logging,

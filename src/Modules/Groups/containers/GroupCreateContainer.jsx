@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withMetaResource, withUsers } from 'Modules/MetaResource';
 import GroupForm from './GroupForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -12,11 +13,13 @@ class GroupCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     createGroup: PropTypes.func.isRequired,
-    fetchUsers: PropTypes.func.isRequired,
+    usersActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    this.props.fetchUsers(this.props.match.params.fqon);
+    const { match, usersActions } = this.props;
+
+    usersActions.fetchUsers({ fqon: match.params.fqon });
   }
 
   create = (values) => {
@@ -52,7 +55,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'groupCreate',
-  validate
-})(GroupCreate)));
+export default compose(
+  withUsers(),
+  withMetaResource,
+  connect(mapStateToProps, actions),
+  reduxForm({
+    form: 'groupCreate',
+    validate
+  })
+)(GroupCreate);

@@ -10,7 +10,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { UserIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withUsers } from 'Modules/MetaResource';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -19,45 +19,36 @@ class UserListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    usersActions: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
-    deleteUsers: PropTypes.func.isRequired,
-    deleteUser: PropTypes.func.isRequired,
     usersPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchUsers: PropTypes.func.isRequired,
-    unloadUsers: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchUsers } = this.props;
+    const { match, usersActions } = this.props;
 
-    fetchUsers(match.params.fqon);
-  }
-
-  componentWillUnmount() {
-    const { unloadUsers } = this.props;
-
-    unloadUsers();
+    usersActions.fetchUsers({ fqon: match.params.fqon });
   }
 
   deleteOne = (row) => {
-    const { match, deleteUser, fetchUsers } = this.props;
+    const { match, usersActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchUsers(match.params.fqon);
+      usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
     this.props.confirmDelete(() => {
-      deleteUser(match.params.fqon, row.id, onSuccess);
+      usersActions.deleteUser({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deleteUsers, fetchUsers } = this.props;
+    const { match, usersActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -65,11 +56,11 @@ class UserListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchUsers(match.params.fqon);
+      usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
     this.props.confirmDelete(() => {
-      deleteUsers(IDs, match.params.fqon, onSuccess);
+      usersActions.deleteUsers({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete Users', names);
   }
 
@@ -184,6 +175,6 @@ class UserListing extends PureComponent {
 }
 
 export default compose(
-  withMetaResource,
+  withUsers(),
   connect(null, actions),
 )(UserListing);

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withOrganizations, withUser, withUsers } from 'Modules/MetaResource';
 import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -11,14 +12,21 @@ class UserCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createUser: PropTypes.func.isRequired,
+    userActions: PropTypes.object.isRequired,
+    organizationsActions: PropTypes.object.isRequired,
   };
 
+  componentDidMount() {
+    const { match, organizationsActions } = this.props;
+
+    organizationsActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
+  }
+
   create = (values) => {
-    const { history, match, createUser } = this.props;
+    const { history, match, userActions } = this.props;
     const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
 
-    createUser(match.params.fqon, values, onSuccess);
+    userActions.createUser({ fqon: match.params.fqon, payload: values, onSuccess });
   }
 
   render() {
@@ -53,7 +61,13 @@ function mapStateToProps() {
   };
 }
 
-export default withMetaResource(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'userCreate',
-  validate
-})(UserCreate)));
+export default compose(
+  withOrganizations(),
+  withUser(),
+  withUsers(),
+  connect(mapStateToProps, actions),
+  reduxForm({
+    form: 'userCreate',
+    validate
+  })
+)(UserCreate);
