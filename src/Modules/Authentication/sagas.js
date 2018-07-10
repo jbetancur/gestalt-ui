@@ -83,7 +83,6 @@ export function* login(action) {
       yield call(setToken, data),
       yield call(axios.post, 'sync'),
       yield put({ type: AUTH_TOKEN_FULFILLED, payload: data }),
-      yield call(setAnalytics, action.username),
     ]);
 
     if (typeof action.onSuccess === 'function') {
@@ -91,6 +90,8 @@ export function* login(action) {
     }
   } catch (e) {
     yield put({ type: AUTH_TOKEN_REJECTED, payload: e });
+  } finally {
+    yield call(setAnalytics, action.username);
   }
 }
 
