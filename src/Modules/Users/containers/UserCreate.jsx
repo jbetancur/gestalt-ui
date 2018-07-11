@@ -6,6 +6,7 @@ import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { withOrganizations, withUser, withUsers, metaModels } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -42,6 +43,7 @@ class UserCreate extends Component {
       <Row center>
         <Col flex={8} xs={12} sm={12} md={12}>
           <ActionsToolbar title="Create a User" />
+          {userPending && <ActivityContainer id="user-loading" />}
           <Form
             render={UserForm}
             onSubmit={this.create}

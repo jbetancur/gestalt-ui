@@ -26,14 +26,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       provider: metaResource.provider.provider,
       providerPending: metaResource.provider.pending,
 
-      // Subscriptions for Groups
-      groups: metaResource.groups.groups,
-      groupsPending: metaResource.groups.pending,
-      group: metaResource.group.group,
-      groupPending: metaResource.group.pending,
-      groupUpdated: metaResource.groupMembers.group,
-      groupMembersPending: metaResource.groupMembers.pending,
-
       // Subscriptions for Schema
       envSchema: metaResource.envSchema.schema,
       envSchemaPending: metaResource.envSchema.pending,

@@ -1,3 +1,3 @@
-export { default as Groups } from './containers/GroupListingContainer';
-export { default as GroupCreate } from './containers/GroupCreateContainer';
-export { default as GroupEdit } from './containers/GroupEditContainer';
+export { default as Groups } from './containers/GroupListing';
+export { default as GroupCreate } from './containers/GroupCreate';
+export { default as GroupEdit } from './containers/GroupEdit';

@@ -10,7 +10,8 @@ import { DeleteIconButton } from 'components/Buttons';
 import { GroupIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withGroups } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -19,45 +20,36 @@ class GroupListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    groups: PropTypes.array.isRequired,
-    deleteGroups: PropTypes.func.isRequired,
-    deleteGroup: PropTypes.func.isRequired,
-    groupsPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchGroups: PropTypes.func.isRequired,
-    unloadGroups: PropTypes.func.isRequired,
+    groups: PropTypes.array.isRequired,
+    groupsPending: PropTypes.bool.isRequired,
+    groupsActions: PropTypes.object.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, fetchGroups } = this.props;
+    const { match, groupsActions } = this.props;
 
-    fetchGroups(match.params.fqon);
-  }
-
-  componentWillUnmount() {
-    const { unloadGroups } = this.props;
-
-    unloadGroups();
+    groupsActions.fetchGroups({ fqon: match.params.fqon });
   }
 
   deleteOne = (row) => {
-    const { match, deleteGroup, fetchGroups } = this.props;
+    const { match, groupsActions } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchGroups(match.params.fqon);
+      groupsActions.fetchGroups({ fqon: match.params.fqon });
     };
 
     this.props.confirmDelete(() => {
-      deleteGroup(match.params.fqon, row.id, onSuccess);
+      groupsActions.deleteGroup({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deleteGroups, fetchGroups } = this.props;
+    const { match, groupsActions } = this.props;
     const { selectedRows } = this.state;
 
     const IDs = selectedRows.map(item => (item.id));
@@ -65,11 +57,11 @@ class GroupListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
-      fetchGroups(match.params.fqon);
+      groupsActions.fetchGroups({ fqon: match.params.fqon });
     };
 
     this.props.confirmDelete(() => {
-      deleteGroups(IDs, match.params.fqon, onSuccess);
+      groupsActions.deleteGroups({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
     }, 'Confirm Delete Groups', names);
   }
 
@@ -116,6 +108,13 @@ class GroupListing extends PureComponent {
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
+        name: 'Members',
+        selector: 'properties.users',
+        sortable: true,
+        right: true,
+        format: row => row.properties.users.length,
+      },
+      {
         name: 'Owner',
         selector: 'owner.name',
         sortable: true,
@@ -159,6 +158,7 @@ class GroupListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no groups to display" icon={<GroupIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.groupsPending} />}
           />
         </Col>
       </Row>
@@ -166,7 +166,11 @@ class GroupListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  groups: listSelectors.filterItems()(state, 'groups', 'groups'),
+});
+
 export default compose(
-  withMetaResource,
-  connect(null, actions),
+  withGroups(),
+  connect(mapStateToProps, actions),
 )(GroupListing);

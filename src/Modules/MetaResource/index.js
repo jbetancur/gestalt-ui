@@ -41,3 +41,5 @@ export { default as withOrganization } from './hocs/withOrganization';
 export { default as withOrganizations } from './hocs/withOrganizations';
 export { default as withUser } from './hocs/withUser';
 export { default as withUsers } from './hocs/withUsers';
+export { default as withGroup } from './hocs/withGroup';
+export { default as withGroups } from './hocs/withGroups';

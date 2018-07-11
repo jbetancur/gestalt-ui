@@ -21,6 +21,7 @@ const Remove = styled(FontIcon)`
   height: 32px;
   width: 32px;
   line-height: 32px;
+  transform: rotate(45deg);
 
   &:hover {
     cursor: pointer;
@@ -39,7 +40,7 @@ class Chip extends PureComponent {
     return (
       <ItemStyled>
         <Tag>{this.props.item}</Tag>
-        <Remove onClick={this.remove}>close</Remove>
+        <Remove onClick={this.remove}>add_circle</Remove>
       </ItemStyled>
     );
   }

@@ -59,6 +59,13 @@ export default function* metaSagas() {
     yield takeLatest(...generateDelete('USER', 'users', 'USERS')),
     yield takeLatest(...generateDeleteMany('USERS', 'users')),
 
+    yield takeLatest(...generateFetchAll('GROUPS', 'groups')),
+    yield takeLatest(...generateFetchOne('GROUP', 'groups')),
+    yield takeLatest(...generateCreate('GROUP', 'groups')),
+    yield takeLatest(...generateUpdate('GROUP', 'groups')),
+    yield takeLatest(...generateDelete('GROUP', 'groups', 'GROUPS')),
+    yield takeLatest(...generateDeleteMany('GROUPS', 'groups')),
+
     yield takeLatest(...generateCreate('CONTAINER', 'containers', 'IMPORT')),
     yield takeLatest(...generateCreate('CONTAINER', 'containers', 'DETACH')),
 
