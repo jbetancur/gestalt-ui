@@ -49,7 +49,7 @@ export default combineReducers({
   entitlements: reducerFactory(['fetch', 'update'], 'entitlements', 'entitlements', []),
   entitlementIdentities: reducerFactory(['fetch'], 'identities', 'identities', []),
   users: reducerFactory(['fetch', 'delete'], 'users', 'users', []),
-  user: reducerFactory(['fetch', 'create', 'update'], 'user', 'user', userModel),
+  user: reducerFactory(['fetch', 'create', 'update'], 'user', 'user', userModel.get()),
   groups: reducerFactory(['fetch', 'delete'], 'groups', 'groups', []),
   group: reducerFactory(['fetch', 'create', 'update'], 'group', 'group', groupModel),
   groupMembers: reducerFactory(['add', 'remove'], 'group', 'group_member', groupModel),

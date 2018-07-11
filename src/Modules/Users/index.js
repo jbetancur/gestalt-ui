@@ -1,3 +1,3 @@
-export { default as Users } from './containers/UserListingContainer';
-export { default as UserCreate } from './containers/UserCreateContainer';
-export { default as UserEdit } from './containers/UserEditContainer';
+export { default as Users } from './containers/UserListing';
+export { default as UserCreate } from './containers/UserCreate';
+export { default as UserEdit } from './containers/UserEdit';

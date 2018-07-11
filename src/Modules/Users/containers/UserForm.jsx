@@ -1,163 +1,143 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Link, withRouter } from 'react-router-dom';
+import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { ActivityContainer } from 'components/ProgressIndicators';
 import Form from 'components/Form';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import ActionsToolbar from 'components/ActionsToolbar';
 import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 
-const UserForm = ({ title, submitLabel, cancelLabel, match, handleSubmit, onSubmit, pristine, history, user, userPending, allOrganizationsDropDown, submitting }) => {
-  const goBack = () => {
-    history.push(`/${match.params.fqon}/users`);
-  };
-
-  return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={userPending}>
-      <Row gutter={5} center>
-        <Col flex={10} xs={12} sm={12} md={12}>
-          <ActionsToolbar title={title} />
-          {userPending && <ActivityContainer id="user-form" />}
+const UserForm = ({
+  editMode,
+  match,
+  handleSubmit,
+  pristine,
+  loading,
+  organizations,
+  submitting,
+}) => (
+  <Form onSubmit={handleSubmit} autoComplete="off" disabled={loading}>
+    <Row gutter={5}>
+      <Col flex={12}>
+        <Panel expandable={false}>
           <Row gutter={5}>
-            {user.id &&
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={user} />
-                </Panel>
-              </Col>}
-
-            <Col flex={12}>
-              <Panel title="General" expandable={false}>
-                <Row gutter={5}>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="name"
-                      label="Username"
-                      type="text"
-                      required
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="properties.password"
-                      placeholder={user.id && 'Reset Password'}
-                      label={user.id ? 'Reset Password' : 'New Password'}
-                      type="password"
-                      required={!user.id}
-                      autoComplete="new-password"
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="properties.firstName"
-                      label="First Name"
-                      type="text"
-                      required
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="properties.lastName"
-                      label="Last Name"
-                      type="text"
-                      required
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="properties.email"
-                      label="Email"
-                      type="email"
-                      required
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="properties.phoneNumber"
-                      label="Phone Number"
-                      type="text"
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      id="select-gestalt-home"
-                      component={SelectField}
-                      name="properties.gestalt_home"
-                      menuItems={allOrganizationsDropDown}
-                      required
-                      itemLabel="name"
-                      itemValue="value"
-                      label="Gestalt Home"
-                      async
-                    />
-                  </Col>
-                  <Col flex={6} xs={12}>
-                    <Field
-                      component={TextField}
-                      name="description"
-                      label="Description"
-                      type="text"
-                    />
-                  </Col>
-                </Row>
-              </Panel>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="name"
+                label="Username"
+                type="text"
+                required
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="properties.password"
+                placeholder={editMode && 'Reset Password'}
+                label={editMode ? 'Reset Password' : 'New Password'}
+                type="password"
+                required={!editMode}
+                autoComplete="new-password"
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="properties.firstName"
+                label="First Name"
+                type="text"
+                required
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="properties.lastName"
+                label="Last Name"
+                type="text"
+                required
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="properties.email"
+                label="Email"
+                type="email"
+                required
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="properties.phoneNumber"
+                label="Phone Number"
+                type="text"
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                id="select-gestalt-home"
+                component={SelectField}
+                name="properties.gestalt_home"
+                menuItems={organizations}
+                required
+                itemLabel="name"
+                itemValue="value"
+                label="Gestalt Home"
+                async
+              />
+            </Col>
+            <Col flex={6} xs={12}>
+              <Field
+                component={TextField}
+                name="description"
+                label="Description"
+                type="text"
+              />
             </Col>
           </Row>
-        </Col>
-      </Row>
+        </Panel>
+      </Col>
+    </Row>
 
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren="arrow_back"
-          disabled={userPending || submitting}
-          onClick={goBack}
-        >
-          {cancelLabel}
-        </Button>
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={pristine || userPending || submitting}
-          primary
-        >
-          {submitLabel}
-        </Button>
-      </FullPageFooter>
-    </Form>
-  );
-};
+    <FullPageFooter>
+      <Button
+        flat
+        component={Link}
+        iconChildren="arrow_back"
+        to={`/${match.params.fqon}/users`}
+      >
+        Users
+      </Button>
+      <Button
+        raised
+        iconChildren="save"
+        type="submit"
+        disabled={pristine || loading || submitting}
+        primary
+      >
+        {editMode ? 'Update' : 'Create'}
+      </Button>
+    </FullPageFooter>
+  </Form>
+);
 
 UserForm.propTypes = {
-  user: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  allOrganizationsDropDown: PropTypes.array.isRequired,
-  userPending: PropTypes.bool.isRequired,
+  organizations: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  title: PropTypes.string,
-  submitLabel: PropTypes.string,
-  cancelLabel: PropTypes.string,
+  editMode: PropTypes.bool,
 };
 
 UserForm.defaultProps = {
-  title: '',
-  submitLabel: '',
-  cancelLabel: 'Cancel',
+  editMode: false,
 };
 
-export default UserForm;
+export default withRouter(UserForm);

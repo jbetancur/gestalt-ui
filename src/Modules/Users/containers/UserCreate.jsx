@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { withOrganizations, withUser, withUsers } from 'Modules/MetaResource';
+import { Form } from 'react-final-form';
+import { Row, Col } from 'react-flexybox';
+import { withOrganizations, withUser, withUsers, metaModels } from 'Modules/MetaResource';
+import ActionsToolbar from 'components/ActionsToolbar';
 import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
+
+const initialValues = metaModels.user.create();
 
 class UserCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    userPending: PropTypes.bool.isRequired,
     userActions: PropTypes.object.isRequired,
+    allOrganizationsDropDown: PropTypes.array.isRequired,
     organizationsActions: PropTypes.object.isRequired,
   };
 
@@ -30,44 +36,29 @@ class UserCreate extends Component {
   }
 
   render() {
+    const { userPending, allOrganizationsDropDown } = this.props;
+
     return (
-      <UserForm
-        title="Create User"
-        submitLabel="Create"
-        cancelLabel="Users"
-        onSubmit={this.create}
-        {...this.props}
-      />
+      <Row center>
+        <Col flex={8} xs={12} sm={12} md={12}>
+          <ActionsToolbar title="Create a User" />
+          <Form
+            render={UserForm}
+            onSubmit={this.create}
+            initialValues={initialValues}
+            validate={validate()}
+            loading={userPending}
+            organizations={allOrganizationsDropDown}
+          />
+        </Col>
+      </Row>
     );
   }
-}
-
-function mapStateToProps() {
-  const model = {
-    name: '',
-    properties: {
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      gestalt_home: ''
-    }
-  };
-
-  return {
-    user: model,
-    initialValues: model
-  };
 }
 
 export default compose(
   withOrganizations(),
   withUser(),
   withUsers(),
-  connect(mapStateToProps, actions),
-  reduxForm({
-    form: 'userCreate',
-    validate
-  })
+  connect(null, actions),
 )(UserCreate);

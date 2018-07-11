@@ -11,6 +11,7 @@ import { UserIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { withUsers } from 'Modules/MetaResource';
+import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import actions from '../actions';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -167,6 +168,7 @@ class UserListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no users to display" icon={<UserIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
+            actions={<SelectFilter disabled={this.props.usersPending} />}
           />
         </Col>
       </Row>
@@ -174,7 +176,11 @@ class UserListing extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  users: listSelectors.filterItems()(state, 'users', 'users'),
+});
+
 export default compose(
   withUsers(),
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(UserListing);
