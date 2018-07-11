@@ -94,7 +94,7 @@ export function* updateProvider(action) {
  */
 export function* deleteProvider(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/providers/${action.providerId}?force=true`);
+    yield call(axios.delete, `${action.fqon}/providers/${action.providerId}?force=${action.force || false}`);
     yield put({ type: types.DELETE_PROVIDER_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
@@ -111,7 +111,7 @@ export function* deleteProvider(action) {
  */
 export function* deleteProviders(action) {
   try {
-    const all = action.providerIds.map(id => axios.delete(`${action.fqon}/providers/${id}?force=true`));
+    const all = action.providerIds.map(id => axios.delete(`${action.fqon}/providers/${id}?force=${action.force || false}`));
 
     yield call(axios.all, all);
     yield put({ type: types.DELETE_PROVIDERS_FULFILLED });

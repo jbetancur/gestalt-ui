@@ -47,8 +47,8 @@ class DataFeedList extends PureComponent {
       this.populateFeeds();
     };
 
-    this.props.confirmDelete(() => {
-      datafeedsActions.deleteDatafeed({ fqon: match.params.fqon, id: row.id, onSuccess });
+    this.props.confirmDelete(({ force }) => {
+      datafeedsActions.deleteDatafeed({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -64,8 +64,8 @@ class DataFeedList extends PureComponent {
       this.populateFeeds();
     };
 
-    this.props.confirmDelete(() => {
-      datafeedsActions.deleteDatafeeds({ ids: IDs, fqon: match.params.fqon, onSuccess });
+    this.props.confirmDelete(({ force }) => {
+      datafeedsActions.deleteDatafeeds({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Data Feeds', names);
   }
 

@@ -33,8 +33,8 @@ class EnvironmentDetails extends PureComponent {
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
-    hierarchyActions.confirmDelete(() => {
-      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: environment.id, onSuccess, params: { force: true } });
+    hierarchyActions.confirmDelete(({ force }) => {
+      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: environment.id, onSuccess, params: { force } });
     }, name, 'Environment');
   }
 

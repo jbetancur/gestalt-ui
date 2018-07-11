@@ -86,7 +86,7 @@ export function* updateLambda(action) {
  */
 export function* deleteLambda(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/lambdas/${action.lambdaId}?force=true`);
+    yield call(axios.delete, `${action.fqon}/lambdas/${action.lambdaId}?force=${action.force || false}`);
     yield put({ type: types.DELETE_LAMBDA_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
@@ -103,7 +103,7 @@ export function* deleteLambda(action) {
  */
 export function* deleteLambdas(action) {
   try {
-    const all = action.lambdaIds.map(id => axios.delete(`${action.fqon}/lambdas/${id}?force=true`));
+    const all = action.lambdaIds.map(id => axios.delete(`${action.fqon}/lambdas/${id}?${action.force || false}`));
 
     yield call(axios.all, all);
     yield put({ type: types.DELETE_LAMBDA_FULFILLED });

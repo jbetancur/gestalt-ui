@@ -2,14 +2,26 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
-import { DialogContainer, List, ListItem, TextField } from 'react-md';
+import { DialogContainer, List, ListItem, TextField, Checkbox } from 'react-md';
 import { Button } from 'components/Buttons';
+import { Error } from 'components/Typography';
+
+const ForceSection = styled.div`
+  display: inline-block;
+  position: absolute;
+  left: 0;
+`;
 
 const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {
     width: 100%;
-    max-width: 26em;
+    max-width: 28em;
     word-wrap: break-word;
+  }
+
+  .md-dialog-footer--inline {
+    position: relative;
+    align-items: center;
   }
 `;
 
@@ -32,6 +44,7 @@ class ConfirmModal extends PureComponent {
     proceedLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
     onClose: PropTypes.func,
+    forceOption: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -43,12 +56,13 @@ class ConfirmModal extends PureComponent {
     proceedLabel: 'Delete',
     cancelLabel: 'Cancel',
     onClose: null,
+    forceOption: true,
   };
 
   constructor(props) {
     super(props);
 
-    this.state = { confirmName: '', disable: true };
+    this.state = { confirmName: '', disable: true, force: false, };
   }
 
   setConfirmName = (confirmName) => {
@@ -69,38 +83,76 @@ class ConfirmModal extends PureComponent {
   }
 
   doIt = () => {
-    this.props.onProceed();
+    const { force } = this.state;
+    this.props.onProceed({ force });
     this.props.hideModal();
   }
 
+  handleForceChecked = () => {
+    this.setState({ force: !this.state.force });
+  }
+
+  renderForceWarning() {
+    return (
+      <center>
+        <Error bold block>
+          Associated child resources will be Deleted!!!
+        </Error>
+      </center>
+    );
+  }
+
   render() {
-    const isConfirmDisabled = this.props.requireConfirm && this.state.disable;
-    const confirmLabel = `Please type in the name of the ${this.props.values.type} to confirm`;
-    const items = this.props.multipleItems.map((item, i) => (
+    const { force } = this.state;
+    const { title, body, modal, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
+    const isConfirmDisabled = requireConfirm && this.state.disable;
+    const confirmLabel = `Please type in the name of the ${values.type} to confirm`;
+    const items = multipleItems.map((item, i) => (
       <ListItem key={i} inkDisabled primaryText={item} />
     ));
 
     const actionButtons = [];
-    actionButtons.push(<ConfirmButton flat primary onClick={this.doIt} disabled={isConfirmDisabled}>{this.props.proceedLabel}</ConfirmButton>);
-    actionButtons.push({ primary: true, children: this.props.cancelLabel, onClick: this.close });
+    if (forceOption) {
+      actionButtons.push(
+        <ForceSection>
+          <Checkbox
+            id="confirmation-modal--force-delete"
+            name="confirmation-modal--force-delete"
+            label="Force Delete"
+            inline
+            onChange={this.handleForceChecked}
+            value={force}
+          />
+        </ForceSection>
+      );
+    }
+    actionButtons.push(<ConfirmButton flat primary onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</ConfirmButton>);
+    actionButtons.push({ primary: true, children: cancelLabel, onClick: this.close });
 
-    const title = this.props.multipleItems.length > 1 ? `${this.props.title} (${this.props.multipleItems.length})` : this.props.title;
+    const modalTitle = multipleItems.length > 1 ? `${title} (${multipleItems.length})` : title;
+
     return (
       <EnhancedDialog
         id="confirmation-modal"
-        contentStyle={{ maxHeight: '10em' }}
-        visible={this.props.modal.visible}
-        title={title}
+        contentStyle={{ maxHeight: '20em' }}
+        visible={modal.visible}
+        title={(
+          <div>
+            {modalTitle}
+            {forceOption && force && this.renderForceWarning()}
+          </div>
+        )}
         defaultVisibleTransitionable
         autosizeContent={false}
         onHide={this.close}
         actions={actionButtons}
       >
         <div>
-          {this.props.body && <p id="confirmation-modal-content" className="md-color--secondary-text">{this.props.body}</p>}
-          {this.props.requireConfirm && <TextField id="confirmation-modal-verify" placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
+          {body && <p id="confirmation-modal-content" className="md-color--secondary-text">{body}</p>}
+          {requireConfirm && <TextField id="confirmation-modal-verify" placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
+
           <div>
-            {this.props.multipleItems.length > 0 && <List>{items}</List>}
+            {multipleItems.length > 0 && <List>{items}</List>}
           </div>
         </div>
       </EnhancedDialog>

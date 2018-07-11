@@ -49,8 +49,8 @@ class PolicyRuleListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      policyRulesActions.deletePolicyRule({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      policyRulesActions.deletePolicyRule({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -67,8 +67,8 @@ class PolicyRuleListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      policyRulesActions.deletePolicyRules({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      policyRulesActions.deletePolicyRules({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Rules', names);
   }
 

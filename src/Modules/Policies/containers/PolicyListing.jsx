@@ -48,8 +48,8 @@ class PolicyListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      policiesActions.deletePolicy({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      policiesActions.deletePolicy({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -66,8 +66,8 @@ class PolicyListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      policiesActions.deletePolicies({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      policiesActions.deletePolicies({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Policies', names);
   }
 

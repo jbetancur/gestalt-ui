@@ -37,8 +37,8 @@ class ServiceSpecListing extends PureComponent {
       serviceSpecsActions.fetchServiceSpecs({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(() => {
-      serviceSpecsActions.deleteServiceSpec({ fqon: match.params.fqon, id: row.id, onSuccess });
+    this.props.confirmDelete(({ force }) => {
+      serviceSpecsActions.deleteServiceSpec({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 

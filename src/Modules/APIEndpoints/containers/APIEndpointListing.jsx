@@ -50,8 +50,8 @@ class APIEndpointListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -68,8 +68,8 @@ class APIEndpointListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      apiEndpointsActions.deleteAPIEndpoints({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      apiEndpointsActions.deleteAPIEndpoints({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete apiEndpoints', names);
   }
 

@@ -40,8 +40,8 @@ class WorkspaceCard extends PureComponent {
     const name = model.description || model.name;
     const onSuccess = () => organizationActions.fetchOrgSet({ fqon: match.params.fqon });
 
-    hierarchyActions.confirmDelete(() => {
-      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: model.id, onSuccess, params: { force: true } });
+    hierarchyActions.confirmDelete(({ force }) => {
+      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: model.id, onSuccess, params: { force } });
     }, name, 'Workspace');
   }
 

@@ -42,8 +42,8 @@ class EnvironmentCard extends PureComponent {
       environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
     };
 
-    hierarchyActions.confirmDelete(() => {
-      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: model.id, onSuccess, params: { force: true } });
+    hierarchyActions.confirmDelete(({ force }) => {
+      environmentActions.deleteEnvironment({ fqon: match.params.fqon, id: model.id, onSuccess, params: { force } });
     }, name, 'Environment');
   }
 

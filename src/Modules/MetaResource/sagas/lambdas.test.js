@@ -249,7 +249,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.delete, 'iamfqon/lambdas/1?force=true')
+        call(axios.delete, 'iamfqon/lambdas/1?force=false')
       );
     });
 
@@ -292,7 +292,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.all, [axios.delete('iamfqon/lambdas/1?force=true')])
+        call(axios.all, [axios.delete('iamfqon/lambdas/1?force=false')])
       );
     });
 

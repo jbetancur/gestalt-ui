@@ -42,8 +42,8 @@ class UserListing extends PureComponent {
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(() => {
-      usersActions.deleteUser({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      usersActions.deleteUser({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -60,8 +60,8 @@ class UserListing extends PureComponent {
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(() => {
-      usersActions.deleteUsers({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      usersActions.deleteUsers({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Users', names);
   }
 

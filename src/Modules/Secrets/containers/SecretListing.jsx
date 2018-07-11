@@ -48,8 +48,8 @@ class SecretListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      secretsActions.deleteSecret({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      secretsActions.deleteSecret({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -66,8 +66,8 @@ class SecretListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(() => {
-      secretsActions.deleteSecrets({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force: true } });
+    this.props.confirmDelete(({ force }) => {
+      secretsActions.deleteSecrets({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Secrets', names);
   }
 

@@ -33,8 +33,8 @@ class WorkspaceDetails extends PureComponent {
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy`);
 
-    hierarchyActions.confirmDelete(() => {
-      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: workspace.id, onSuccess, params: { force: true } });
+    hierarchyActions.confirmDelete(({ force }) => {
+      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, id: workspace.id, onSuccess, params: { force } });
     }, name, 'Workspace');
   }
 

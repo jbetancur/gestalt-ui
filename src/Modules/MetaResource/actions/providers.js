@@ -62,8 +62,8 @@ export function updateProvider(fqon, providerId, payload, onSuccess) {
  * @param {string} providerId
  * @callback {*} onSuccess
  */
-export function deleteProvider(fqon, providerId, onSuccess) {
-  return { type: types.DELETE_PROVIDER_REQUEST, fqon, providerId, onSuccess };
+export function deleteProvider(fqon, providerId, onSuccess, force) {
+  return { type: types.DELETE_PROVIDER_REQUEST, fqon, providerId, onSuccess, force };
 }
 
 /**
@@ -72,8 +72,8 @@ export function deleteProvider(fqon, providerId, onSuccess) {
  * @param {string} fqon
  * @callback {*} onSuccess
  */
-export function deleteProviders(providerIds, fqon, onSuccess) {
-  return { type: types.DELETE_PROVIDERS_REQUEST, providerIds, fqon, onSuccess };
+export function deleteProviders(providerIds, fqon, onSuccess, force) {
+  return { type: types.DELETE_PROVIDERS_REQUEST, providerIds, fqon, onSuccess, force };
 }
 
 /**

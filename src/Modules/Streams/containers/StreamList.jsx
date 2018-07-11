@@ -47,8 +47,8 @@ class StreamList extends PureComponent {
       this.populateStreams();
     };
 
-    this.props.confirmDelete(() => {
-      streamSpecsActions.deleteStreamSpec({ fqon: match.params.fqon, id: row.id, onSuccess });
+    this.props.confirmDelete(({ force }) => {
+      streamSpecsActions.deleteStreamSpec({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -64,8 +64,8 @@ class StreamList extends PureComponent {
       this.populateStreams();
     };
 
-    this.props.confirmDelete(() => {
-      streamSpecsActions.deleteStreamSpecs({ fqon: match.params.fqon, ids: IDs, onSuccess });
+    this.props.confirmDelete(({ force }) => {
+      streamSpecsActions.deleteStreamSpecs({ fqon: match.params.fqon, ids: IDs, onSuccess, params: { force } });
     }, 'Confirm Delete Streams Specifications', names);
   }
 

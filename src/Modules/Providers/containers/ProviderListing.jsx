@@ -58,8 +58,8 @@ class ProviderListing extends PureComponent {
       this.populateProviders();
     };
 
-    this.props.confirmDelete(() => {
-      deleteProvider(match.params.fqon, row.id, onSuccess);
+    this.props.confirmDelete(({ force }) => {
+      deleteProvider(match.params.fqon, row.id, onSuccess, force);
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -76,8 +76,8 @@ class ProviderListing extends PureComponent {
       this.populateProviders();
     };
 
-    confirmDelete(() => {
-      deleteProviders(IDs, match.params.fqon, onSuccess);
+    confirmDelete(({ force }) => {
+      deleteProviders(IDs, match.params.fqon, onSuccess, force);
     }, 'Confirm Delete Providers', names);
   }
 
