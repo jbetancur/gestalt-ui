@@ -7,7 +7,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MenuButton, ListItem, Divider, FontIcon } from 'react-md';
-import { withMetaResource, withContainer, withContainers } from 'Modules/MetaResource';
+import { withEnvironment, withContainer, withContainers } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 // import { ActionsMenu } from 'Modules/Actions';
 import StatusBubble from 'components/StatusBubble';
@@ -77,7 +77,7 @@ class ContainerActions extends PureComponent {
     migrateContainerModal: PropTypes.func.isRequired,
     promoteContainerModal: PropTypes.func.isRequired,
     confirmContainerDelete: PropTypes.func.isRequired,
-    fetchEnvironment: PropTypes.func.isRequired,
+    environmentActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
@@ -222,12 +222,12 @@ class ContainerActions extends PureComponent {
   }
 
   promote = () => {
-    const { match, containerActions, promoteContainerModal, containerModel, fetchEnvironment, onPromote } = this.props;
+    const { match, containerActions, promoteContainerModal, containerModel, environmentActions, onPromote } = this.props;
 
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
-      fetchEnvironment(match.params.fqon, environment.id);
+      environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: environment.id });
       this.populateContainers();
     };
 
@@ -347,7 +347,7 @@ class ContainerActions extends PureComponent {
 export default compose(
   withContainer({ unload: false }),
   withContainers({ unload: false }),
-  withMetaResource,
+  withEnvironment(),
   withEntitlements,
   withTheme,
   withRouter,
