@@ -10,7 +10,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
-import { DATA_CLASSIFICATION } from '../../../constants';
+// import { DATA_CLASSIFICATION } from '../../../constants';
 
 const initialValues = metaModels.datafeed.create({
   properties: {
@@ -28,15 +28,15 @@ class DataFeedCreate extends Component {
     datafeedActions: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
     secretsData: PropTypes.array.isRequired,
-    resourceTypeActions: PropTypes.object.isRequired,
+    // resourceTypeActions: PropTypes.object.isRequired,
     resourceType: PropTypes.object.isRequired,
   };
 
-  componentDidMount() {
-    const { resourceTypeActions } = this.props;
+  // componentDidMount() {
+  //   const { resourceTypeActions } = this.props;
 
-    resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
-  }
+  //   resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
+  // }
 
   onSubmit = (values) => {
     const { match, history, datafeedActions } = this.props;

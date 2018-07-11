@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField, AceEditor } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
-import { ChipsAuto } from 'components/Lists';
+// import { ChipsAuto } from 'components/Lists';
 import feedTypes from '../lists/feedTypes';
 
 const getFormats = (values) => {
@@ -32,7 +32,7 @@ const showEditor = (values) => {
   return false;
 };
 
-const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
+const DataFeedPropertiesSection = ({ formValues }) => (
   <Row gutter={5}>
     <Col flex={12}>
       <Panel title="Configuration" expandable={false}>
@@ -101,7 +101,7 @@ const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
       </Panel>
     </Col>
 
-    {formValues.properties.kind === 'kafka' &&
+    {/* {formValues.properties.kind === 'kafka' &&
       <Col flex={12}>
         <Panel title="Credentials" expandable={false} fill>
           <Row gutter={5}>
@@ -135,18 +135,18 @@ const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
           />
         </Row>
       </Panel>
-    </Col>
+    </Col> */}
   </Row>
 );
 
 DataFeedPropertiesSection.propTypes = {
   formValues: PropTypes.object.isRequired,
-  secrets: PropTypes.array.isRequired,
-  tags: PropTypes.array,
+  // secrets: PropTypes.array.isRequired,
+  // tags: PropTypes.array,
 };
 
-DataFeedPropertiesSection.defaultProps = {
-  tags: [],
-};
+// DataFeedPropertiesSection.defaultProps = {
+//   tags: [],
+// };
 
 export default DataFeedPropertiesSection;
