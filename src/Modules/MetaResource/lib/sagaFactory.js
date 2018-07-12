@@ -1,12 +1,13 @@
-import { put, call } from 'redux-saga/effects';
+import { put, call, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { buildAllURL, buildOneURL } from './urlmapper';
+import { fetchAPI } from '../lib/utility';
 import { PREFIX } from '../actionTypes';
 
 // Exported for testability
 export const fetchAll = (name, entity, verb = 'FETCH') => function* getAll(payload) {
   try {
-    const response = yield call(axios.get, buildAllURL(entity, payload, true));
+    const response = yield call(fetchAPI, buildAllURL(entity, payload, true));
 
     yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: response.data });
 
@@ -19,13 +20,17 @@ export const fetchAll = (name, entity, verb = 'FETCH') => function* getAll(paylo
     }
 
     yield put({ type: `${PREFIX}${verb}_${name}_REJECTED`, payload: error });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: `${PREFIX}${verb}_${name}_CANCELLED` });
+    }
   }
 };
 
 // Exported for testability
 export const fetchOne = (name, entity, verb = 'FETCH') => function* getOne(payload) {
   try {
-    const response = yield call(axios.get, buildOneURL(entity, payload));
+    const response = yield call(fetchAPI, buildOneURL(entity, payload));
 
     yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: response.data });
 
@@ -38,6 +43,10 @@ export const fetchOne = (name, entity, verb = 'FETCH') => function* getOne(paylo
     }
 
     yield put({ type: `${PREFIX}${verb}_${name}_REJECTED`, payload: error });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: `${PREFIX}${verb}_${name}_CANCELLED` });
+    }
   }
 };
 

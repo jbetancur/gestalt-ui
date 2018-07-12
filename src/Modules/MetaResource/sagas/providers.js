@@ -1,8 +1,8 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call, fork, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { merge } from 'lodash';
 import * as types from '../actionTypes';
-
+import { fetchAPI } from '../lib/utility';
 
 function fixProperties(data) {
   const payload = { ...data };
@@ -30,11 +30,15 @@ function fixProperties(data) {
 export function* fetchProviders(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/providers` : `${action.fqon}/providers`;
   try {
-    const response = yield call(axios.get, `${url}?expand=true`);
+    const response = yield call(fetchAPI, `${url}?expand=true`);
 
     yield put({ type: types.FETCH_PROVIDERS_FULFILLED, payload: response.data });
   } catch (e) {
     yield put({ type: types.FETCH_PROVIDERS_REJECTED, payload: e.message });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: types.FETCH_CONTAINERS_CANCELLED });
+    }
   }
 }
 

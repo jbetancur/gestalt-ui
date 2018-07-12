@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { call, put } from 'redux-saga/effects';
+import { fetchAPI } from '../lib/utility';
 import { PREFIX } from '../actionTypes';
 import {
   fetchAll,
@@ -22,7 +23,7 @@ describe('Saga Factory', () => {
       result = saga.next();
 
       expect(result.value).toEqual(
-        call(axios.get, 'iamfqon/environments/1/tests?expand=true')
+        call(fetchAPI, 'iamfqon/environments/1/tests?expand=true')
       );
     });
 
@@ -67,7 +68,7 @@ describe('Saga Factory', () => {
       result = saga.next();
 
       expect(result.value).toEqual(
-        call(axios.get, 'iamfqon/tests/1')
+        call(fetchAPI, 'iamfqon/tests/1')
       );
     });
 

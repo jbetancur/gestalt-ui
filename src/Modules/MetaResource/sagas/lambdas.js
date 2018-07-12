@@ -1,6 +1,7 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call, fork, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { convertFromMaps } from 'util/helpers/transformations';
+import { fetchAPI } from '../lib/utility';
 import * as types from '../actionTypes';
 
 /**
@@ -10,11 +11,15 @@ import * as types from '../actionTypes';
 export function* fetchLambdas(action) {
   try {
     const url = action.environmentId ? `${action.fqon}/environments/${action.environmentId}/lambdas` : `${action.fqon}/lambdas`;
-    const response = yield call(axios.get, `${url}?expand=true&embed=apiendpoints`);
+    const response = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints`);
 
     yield put({ type: types.FETCH_LAMBDAS_FULFILLED, payload: response.data });
   } catch (e) {
     yield put({ type: types.FETCH_LAMBDAS_REJECTED, payload: e.message });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: types.FETCH_CONTAINERS_CANCELLED });
+    }
   }
 }
 

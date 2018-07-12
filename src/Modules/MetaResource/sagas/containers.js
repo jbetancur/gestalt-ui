@@ -1,7 +1,8 @@
-import { takeLatest, put, call, fork, race, take } from 'redux-saga/effects';
+import { takeLatest, put, call, fork, race, take, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
+import { LOCATION_CHANGE } from 'react-router-redux';
 import containerModel from '../models/container';
-import { poll } from '../lib/polling';
+import { poll, fetchAPI } from '../lib/utility';
 import * as types from '../actionTypes';
 
 /**
@@ -11,11 +12,15 @@ import * as types from '../actionTypes';
 export function* fetchContainers(action) {
   try {
     const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/containers` : `${action.fqon}/containers`;
-    const response = yield call(axios.get, `${url}?expand=true&embed=apiendpoints`);
+    const response = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints`);
 
     yield put({ type: types.FETCH_CONTAINERS_FULFILLED, payload: response.data, action });
   } catch (e) {
     yield put({ type: types.FETCH_CONTAINERS_REJECTED, payload: e.message });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: types.FETCH_CONTAINERS_CANCELLED });
+    }
   }
 }
 
@@ -181,8 +186,10 @@ export function* fetchProviderContainer(action) {
   }
 }
 
-// Wait for successful response, then fire another request
-// Cancel polling on unload
+/* Note: to deal with RACE conditions when a user is navigating too quickly and the CONTAINER_FULLFILLED (starts poll)
+ channel happens after the UNLOAD_CONTAINERS (cancels poll), we need a failsafe to stop polling as soon as possible.
+ Here we use LOCATION_CHANGE so on any subsequent nav the polling is cancelled and the container state unloaded again.
+ This is a stop gap until we have real events that negate short polling */
 function* watchContainerPoll() {
   while (true) {
     const { action } = yield take(types.FETCH_CONTAINER_FULFILLED);
@@ -193,11 +200,17 @@ function* watchContainerPoll() {
       yield race({
         task: call(poll, method, action),
         cancel: take(types.UNLOAD_CONTAINER),
+        cancelled: take(types.FETCH_CONTAINER_CANCELLED),
+        cancelRoute: take(LOCATION_CHANGE),
       });
     }
   }
 }
 
+/* Note: to deal with RACE conditions when a user is navigating too quickly and the CONTAINER_FULLFILLED (starts poll)
+ channel happens after the UNLOAD_CONTAINERS (cancels poll), we need a failsafe to stop polling as soon as possible.
+ Here we use LOCATION_CHANGE so on any subsequent nav the polling is cancelled and the container state unloaded again.
+ This is a stop gap until we have real events that negate short polling */
 function* watchContainersPoll() {
   while (true) {
     const { action } = yield take(types.FETCH_CONTAINERS_FULFILLED);
@@ -206,8 +219,19 @@ function* watchContainersPoll() {
       yield race({
         task: call(poll, fetchContainers, action),
         cancel: take(types.UNLOAD_CONTAINERS),
+        cancelled: take(types.FETCH_CONTAINERS_CANCELLED),
+        cancelRoute: take(LOCATION_CHANGE),
       });
     }
+  }
+}
+// Deal with Clearing the container state
+function* watchClearContainer() {
+  while (true) {
+    yield take(types.UNLOAD_ENVIRONMENT);
+
+    yield put({ type: types.UNLOAD_CONTAINERS });
+    yield put({ type: types.UNLOAD_CONTAINER });
   }
 }
 
@@ -224,4 +248,5 @@ export default function* () {
   yield fork(takeLatest, types.FETCH_PROVIDERCONTAINER_REQUEST, fetchProviderContainer);
   yield fork(watchContainerPoll);
   yield fork(watchContainersPoll);
+  yield fork(watchClearContainer);
 }

@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork } from 'redux-saga/effects';
-import axios from 'axios';
 import { merge, cloneDeep } from 'lodash';
+import { fetchAPI } from '../lib/utility';
 import * as types from '../actionTypes';
 import { LOGGING } from '../../../constants';
 
@@ -30,12 +30,12 @@ export function* fetchLogProvider(action) {
 
     if (action.logType === 'container') {
       // container -> caas_provider -> log_provider -> [SERVICE_HOST,SERVICE_PORT]
-      merge(caasProviderRes, yield call(axios.get, `${action.fqon}/providers/${action.providerId}`));
+      merge(caasProviderRes, yield call(fetchAPI, `${action.fqon}/providers/${action.providerId}`));
     } else if (action.logType === 'lambda') {
       // lambda -> lambda_provider -> META_COMPUTE_PROVIDER_ID -> caas_provider -> log_provider -> [SERVICE_HOST, SERVICE_PORT]
-      merge(lambdaProviderRes, yield call(axios.get, `${action.fqon}/providers/${action.providerId}`));
+      merge(lambdaProviderRes, yield call(fetchAPI, `${action.fqon}/providers/${action.providerId}`));
       if (lambdaProviderRes.data.properties.config.env.public.META_COMPUTE_PROVIDER_ID) {
-        merge(caasProviderRes, yield call(axios.get, `${action.fqon}/providers/${lambdaProviderRes.data.properties.config.env.public.META_COMPUTE_PROVIDER_ID}`));
+        merge(caasProviderRes, yield call(fetchAPI, `${action.fqon}/providers/${lambdaProviderRes.data.properties.config.env.public.META_COMPUTE_PROVIDER_ID}`));
       } else {
         throw new Error('The Linked Lambda Provider is missing "properties.config.env.public.META_COMPUTE_PROVIDER_ID"');
       }
@@ -49,7 +49,7 @@ export function* fetchLogProvider(action) {
     }
 
     if (linkedLoggingProvider && linkedLoggingProvider.id) {
-      logProviderRes = yield call(axios.get, `${action.fqon}/providers/${linkedLoggingProvider.id}`);
+      logProviderRes = yield call(fetchAPI, `${action.fqon}/providers/${linkedLoggingProvider.id}`);
       const vHOSTUrl = logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0;
       const vHOSTProtocol = logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0_PROTOCOL || 'https';
       const payload = {

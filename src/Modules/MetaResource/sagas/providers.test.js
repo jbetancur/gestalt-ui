@@ -10,6 +10,7 @@ import providersagas, {
   redeployProvider,
 } from './providers';
 import * as types from '../actionTypes';
+import { fetchAPI } from '../lib/utility';
 
 describe('Provider Sagas', () => {
   const error = 'an error has occured';
@@ -22,7 +23,7 @@ describe('Provider Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/providers?expand=true')
+          call(fetchAPI, 'iamfqon/environments/1/providers?expand=true')
         );
       });
 
@@ -39,7 +40,7 @@ describe('Provider Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers?expand=true')
+          call(fetchAPI, 'iamfqon/providers?expand=true')
         );
       });
 
