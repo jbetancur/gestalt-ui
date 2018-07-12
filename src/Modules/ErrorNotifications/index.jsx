@@ -8,7 +8,7 @@ import { isEqual } from 'lodash';
 const EnhancedSnackBar = styled(Snackbar)`
   z-index: 9999;
   min-height: 5em;
-  min-width: 50%;
+  min-width: 60%;
   width: 100%;
   overflow: auto;
 

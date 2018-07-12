@@ -13,6 +13,7 @@ import containerSagas, {
 } from './containers';
 import containerModel from '../models/container';
 import * as types from '../actionTypes';
+import { fetchAPI } from '../lib/utility';
 
 describe('Container Sagas', () => {
   const error = 'an error has occured';
@@ -25,7 +26,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.get, 'iamfqon/environments/1/containers?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/environments/1/containers?expand=true&embed=apiendpoints')
       );
     });
 
@@ -49,7 +50,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.get, 'iamfqon/containers?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/containers?expand=true&embed=apiendpoints')
       );
     });
 

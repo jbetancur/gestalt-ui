@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import { merge } from 'lodash';
+import { fetchAPI } from '../lib/utility';
 import loggingSagas, {
   fetchLogProvider,
 } from './logging';
@@ -31,7 +31,7 @@ describe('Logging Sagas', () => {
       it('should make an api call for the "CAAS" provider', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/1')
+          call(fetchAPI, 'iamfqon/providers/1')
         );
       });
 
@@ -39,7 +39,7 @@ describe('Logging Sagas', () => {
         const caasProviderResponse = { data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } };
         result = saga.next(caasProviderResponse);
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/2')
+          call(fetchAPI, 'iamfqon/providers/2')
         );
       });
 
@@ -83,7 +83,7 @@ describe('Logging Sagas', () => {
       it('should make an api call for the "Lambda" provider', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/1')
+          call(fetchAPI, 'iamfqon/providers/1')
         );
       });
 
@@ -92,7 +92,7 @@ describe('Logging Sagas', () => {
 
         result = saga.next(providerResponse);
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/123')
+          call(fetchAPI, 'iamfqon/providers/123')
         );
       });
 
@@ -100,7 +100,7 @@ describe('Logging Sagas', () => {
         const caasProviderResponse = merge(genericMock, { data: { id: '1', properties: { linked_providers: [{ id: '2', typeId: LOGGING }] } } });
         result = saga.next(caasProviderResponse);
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/2')
+          call(fetchAPI, 'iamfqon/providers/2')
         );
       });
 

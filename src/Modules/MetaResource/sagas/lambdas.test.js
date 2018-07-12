@@ -9,6 +9,7 @@ import lambdaSagas, {
   deleteLambdas,
 } from './lambdas';
 import * as types from '../actionTypes';
+import { fetchAPI } from '../lib/utility';
 
 describe('Lambda Sagas', () => {
   const error = 'an error has occured';
@@ -20,7 +21,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.get, 'iamfqon/environments/1/lambdas?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/environments/1/lambdas?expand=true&embed=apiendpoints')
       );
     });
 
@@ -41,7 +42,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.get, 'iamfqon/lambdas?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/lambdas?expand=true&embed=apiendpoints')
       );
     });
 
