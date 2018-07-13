@@ -29,6 +29,6 @@
     "ANALYTICS_TRACKING": true,
     "DEBUG": false,
     "DOCUMENTATION_URL": "http://docs.galacticfog.com",
-    "REQUIRE_HTTPS_COOKIE": true
+    "REQUIRE_HTTPS_COOKIE": false
   }
 }
