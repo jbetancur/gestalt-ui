@@ -9,7 +9,7 @@ import { FormattedRelative } from 'react-intl';
 const CardStyle = styled.div`
   position: relative;
   background: white;
-  height: 8.5em;
+  height: 112px;
   border-radius: 1px;
   cursor: pointer;
   ${props => !props.noShadow && 'box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 0 1px -3px rgba(0, 0, 0, 0.2)'};
@@ -26,7 +26,7 @@ const CardStyle = styled.div`
 const ClickMask1 = styled.div`
   position: absolute;
   z-index: 1;
-  width: 85%;
+  width: 80%;
   height: 100%;
   top: 0;
   left: 0;
@@ -38,7 +38,7 @@ const ClickMask1 = styled.div`
 const ClickMask2 = styled.div`
   position: absolute;
   z-index: 1;
-  width: 15%;
+  width: 20%;
   height: 64px;
   bottom: 0;
   right: 0;

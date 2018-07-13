@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
+import { truncate } from 'util/helpers/strings';
 
 const Wrapper = styled.div`
   word-break: break-all;
-  max-width: 280px;
+  width: 80%;
 `;
 
 const Title = styled.div`
@@ -13,6 +14,7 @@ const Title = styled.div`
   padding-right: 16px;
   text-overflow: ellipsis;
   overflow: hidden;
+  word-break: break-word;
   font-size: 16px;
   color: ${props => props.theme.colors['$md-grey-800']};
 `;
@@ -24,6 +26,7 @@ const Subtitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  word-break: break-word;
   color: ${props => props.theme.colors['$md-grey-500']};
 `;
 
@@ -31,7 +34,7 @@ const CardTitle = ({ title, subTitle, children }) => (
   <Wrapper>
     {!children ?
       <div>
-        <Title>{title}</Title>
+        <Title>{truncate(title, 50)}</Title>
         <Subtitle>{subTitle}</Subtitle>
       </div>
       : children}
