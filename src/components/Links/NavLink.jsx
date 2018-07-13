@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { NavLink as ReactLink } from 'react-router-dom';
+
+const StyledNavLink = styled(({ staticContext, ...rest }) => <ReactLink {...rest} />)`
+  &.active-link * {
+    color: ${props => props.theme.colors['$md-blue-500']} !important;
+  }
+`;
 
 export default class Link extends Component {
   static propTypes = {
@@ -18,7 +25,7 @@ export default class Link extends Component {
 
   static defaultProps = {
     target: '_blank',
-    activeClassName: null,
+    activeClassName: 'active-link',
   };
 
   parseTo(to) {
@@ -41,7 +48,13 @@ export default class Link extends Component {
 
     if (isInternal) {
       return (
-        <ReactLink to={to} activeClassName={activeClassName} {...rest}>{children}</ReactLink>
+        <StyledNavLink
+          to={to}
+          activeClassName={activeClassName}
+          {...rest}
+        >
+          {children}
+        </StyledNavLink>
       );
     }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import base64 from 'base-64';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { withOrganization, withEnvironment, withWorkspace, withSelf, } from 'Modules/MetaResource';
@@ -96,7 +95,7 @@ const Wrapper = styled.div`
 
 class Breadcrumbs extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
@@ -113,10 +112,9 @@ class Breadcrumbs extends Component {
   }
 
   checkIfShouldNav(e, route) {
-    const hashedPath = base64.encode(this.props.location.pathname);
-    const hashedRoute = base64.encode(route);
+    const { history } = this.props;
 
-    if (hashedPath === hashedRoute) {
+    if (history.location.pathname === route) {
       e.preventDefault();
     }
   }
