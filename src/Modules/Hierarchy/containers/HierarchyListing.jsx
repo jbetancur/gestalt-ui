@@ -94,7 +94,7 @@ class HierarchyListing extends PureComponent {
 
             <Row gutter={5} minColWidths={310}>
               {sortedOrgs.map(item => (
-                <Col key={item.id} flex={2} xs={12}>
+                <Col key={item.id} flex={2} xs={12} sm={6} md={4}>
                   {this.renderCard(item)}
                 </Col>
               ))}

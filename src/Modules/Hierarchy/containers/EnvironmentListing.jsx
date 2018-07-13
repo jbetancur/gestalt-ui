@@ -81,7 +81,7 @@ class EnvironmentListing extends Component {
         />
         <Row gutter={5} minColWidths={310}>
           {sortedEnvironments.map(item => (
-            <Col key={item.id} flex={2} xs={12}>
+            <Col key={item.id} flex={2} xs={12} sm={6} md={4}>
               <EnvironmentCard
                 model={item}
                 {...this.props}
