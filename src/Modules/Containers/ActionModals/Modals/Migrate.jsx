@@ -5,13 +5,12 @@ import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { withMetaResource, withPickerData } from 'Modules/MetaResource';
-import Dialog from 'react-md/lib/Dialogs';
-import { SelectField } from 'react-md';
+import { DialogContainer, SelectField } from 'react-md';
 import { DotActivity } from 'components/ProgressIndicators';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
-const EnhancedDialog = styled(Dialog)`
+const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {
     min-width: 29em;
   }
