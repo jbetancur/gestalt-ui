@@ -5,13 +5,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import { withMetaResource } from 'Modules/MetaResource';
-import Dialog from 'react-md/lib/Dialogs';
-import SelectField from 'react-md/lib/SelectFields';
+import { withEnvironments } from 'Modules/MetaResource';
+import { DialogContainer, SelectField } from 'react-md';
 import { DotActivity } from 'components/ProgressIndicators';
 import actions from '../actions';
 
-const EnhancedDialog = styled(Dialog)`
+const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {
     min-width: 24em;
   }
@@ -28,11 +27,10 @@ class PromoteModal extends PureComponent {
     onProceed: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    fetchEnvironments: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     environments: PropTypes.array.isRequired,
     environmentsPending: PropTypes.bool.isRequired,
-    unloadEnvironments: PropTypes.func.isRequired,
+    environmentsActions: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -42,16 +40,16 @@ class PromoteModal extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchEnvironments(this.props.match.params.fqon, this.props.match.params.workspaceId);
-  }
+    const { environmentsActions } = this.props;
 
-  componentWillUnmount() {
-    this.props.unloadEnvironments();
+    environmentsActions.fetchEnvironments({ fqon: this.props.match.params.fqon, entityId: this.props.match.params.workspaceId });
   }
 
   doIt = () => {
-    this.props.onProceed(this.props.environments.find(env => env.id === this.state.environment));
-    this.props.hideModal();
+    const { environments, onProceed, hideModal } = this.props;
+
+    onProceed(environments.find(env => env.id === this.state.environment));
+    hideModal();
   }
 
   environmentChanged = (value) => {
@@ -120,7 +118,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withMetaResource,
+  withEnvironments({ unload: true }),
   withRouter,
-  connect(mapStateToProps, Object.assign({}, actions)),
+  connect(mapStateToProps, actions),
 )(PromoteModal);

@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withMetaResource } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
-import Dialog from 'react-md/lib/Dialogs';
-import TextField from 'react-md/lib/TextFields';
+import { DialogContainer, TextField } from 'react-md';
 import actions from '../actions';
 
 class ConfirmModal extends PureComponent {
@@ -36,7 +35,7 @@ class ConfirmModal extends PureComponent {
     const isDisabled = !this.state.numInstances || this.state.numInstances > this.state.maxInstances;
 
     return (
-      <Dialog
+      <DialogContainer
         id="container-actions-modal"
         visible={this.props.actionsModal.visible}
         title={this.props.title}
@@ -73,7 +72,7 @@ class ConfirmModal extends PureComponent {
             />
           </Col>
         </Row>
-      </Dialog>
+      </DialogContainer>
     );
   }
 }
