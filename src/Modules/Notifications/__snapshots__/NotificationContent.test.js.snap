@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Notifications) NotificationContent renders to correct snapshot when message has icon prop set to true 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 8px;
+  background-color: rgb(49,49,49);
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+<div
+  className="c0"
+>
+  <NotificationContent__Text>
+    morty
+  </NotificationContent__Text>
+  <NotificationContent__Action>
+    <WithTheme(Button__EnhancedButton)
+      icon={true}
+      id="close-1"
+      onClick={[Function]}
+    >
+      close
+    </WithTheme(Button__EnhancedButton)>
+  </NotificationContent__Action>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot when message status is error 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 8px;
+  background-color: #d32f2f;
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+<div
+  className="c0"
+>
+  <NotificationContent__Text>
+    morty
+  </NotificationContent__Text>
+  <NotificationContent__Action>
+    <WithTheme(Button__EnhancedButton)
+      icon={true}
+      id="close-1"
+      onClick={[Function]}
+    >
+      close
+    </WithTheme(Button__EnhancedButton)>
+  </NotificationContent__Action>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot when message status is info 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 8px;
+  background-color: #1976d2;
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+<div
+  className="c0"
+>
+  <NotificationContent__Text>
+    morty
+  </NotificationContent__Text>
+  <NotificationContent__Action>
+    <WithTheme(Button__EnhancedButton)
+      icon={true}
+      id="close-1"
+      onClick={[Function]}
+    >
+      close
+    </WithTheme(Button__EnhancedButton)>
+  </NotificationContent__Action>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot when message status is success 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 8px;
+  background-color: #388e3c;
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+<div
+  className="c0"
+>
+  <NotificationContent__Text>
+    morty
+  </NotificationContent__Text>
+  <NotificationContent__Action>
+    <WithTheme(Button__EnhancedButton)
+      icon={true}
+      id="close-1"
+      onClick={[Function]}
+    >
+      close
+    </WithTheme(Button__EnhancedButton)>
+  </NotificationContent__Action>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot when message status is warning 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 8px;
+  background-color: #ffa000;
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+<div
+  className="c0"
+>
+  <NotificationContent__Text>
+    morty
+  </NotificationContent__Text>
+  <NotificationContent__Action>
+    <WithTheme(Button__EnhancedButton)
+      icon={true}
+      id="close-1"
+      onClick={[Function]}
+    >
+      close
+    </WithTheme(Button__EnhancedButton)>
+  </NotificationContent__Action>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot with default message payload 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 8px;
+  background-color: rgb(49,49,49);
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+<div
+  className="c0"
+>
+  <NotificationContent__Text>
+    morty
+  </NotificationContent__Text>
+  <NotificationContent__Action>
+    <WithTheme(Button__EnhancedButton)
+      icon={true}
+      id="close-1"
+      onClick={[Function]}
+    >
+      close
+    </WithTheme(Button__EnhancedButton)>
+  </NotificationContent__Action>
+</div>
+`;

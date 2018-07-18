@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Notificationss) Notifications renders to correct snapshot with items in the queue 1`] = `
+exports[`(Notifications) Notifications renders to correct snapshot with items in the queue 1`] = `
 .c0 {
   position: fixed;
   bottom: 64px;
@@ -49,25 +49,21 @@ exports[`(Notificationss) Notifications renders to correct snapshot with items i
       key="1"
       timeout={200}
     >
-      <Notifications__Message>
-        <Notifications__Text>
-          hi ho
-        </Notifications__Text>
-        <Notifications__Action>
-          <WithTheme(Button__EnhancedButton)
-            icon={true}
-            onClick={[Function]}
-          >
-            close
-          </WithTheme(Button__EnhancedButton)>
-        </Notifications__Action>
-      </Notifications__Message>
+      <NotificationContent
+        message={
+          Object {
+            "id": 1,
+            "message": "hi ho",
+          }
+        }
+        onRemove={[MockFunction]}
+      />
     </CSSTransition>
   </TransitionGroup>
 </div>
 `;
 
-exports[`(Notificationss) Notifications renders to correct snapshot with no items in the queue 1`] = `
+exports[`(Notifications) Notifications renders to correct snapshot with no items in the queue 1`] = `
 .c0 {
   position: fixed;
   bottom: 64px;
