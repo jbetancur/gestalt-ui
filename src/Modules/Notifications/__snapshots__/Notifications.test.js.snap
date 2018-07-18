@@ -49,7 +49,7 @@ exports[`(Notifications) Notifications renders to correct snapshot with items in
       key="1"
       timeout={200}
     >
-      <NotificationContent
+      <WithTheme(NotificationContent)
         message={
           Object {
             "id": 1,
