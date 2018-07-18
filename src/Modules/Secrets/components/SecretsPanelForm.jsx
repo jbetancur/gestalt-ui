@@ -36,7 +36,7 @@ const getSecretKeys = (id, secrets) => {
 };
 
 const getMenuItems = (secrets, provider) => {
-  const items = secrets.filter(p => p.properties.provider.id === provider.id);
+  const items = secrets.filter(p => p.properties && p.properties.provider && p.properties.provider.id === provider.id);
 
   return items.length ? items : [{ id: null, name: 'No Available Secrets' }];
 };
@@ -76,21 +76,22 @@ const SecretsPanelForm = ({ fields, provider, secretsData, secretFormValues }) =
                 required
               />
             </Col>
-            <Col flex={3} xs={12} sm={12}>
-              <Field
-                id={`${member}.secret_id`}
-                name={`${member}.secret_id`}
-                component={SelectField}
-                label="Secret"
-                itemLabel="name"
-                itemValue="id"
-                required
-                menuItems={getMenuItems(secretsData, provider)}
-                onChange={handleSecretNamePopulation}
-                async
-                validate={[required]}
-              />
-            </Col>
+            {provider.id &&
+              <Col flex={3} xs={12} sm={12}>
+                <Field
+                  id={`${member}.secret_id`}
+                  name={`${member}.secret_id`}
+                  component={SelectField}
+                  label="Secret"
+                  itemLabel="name"
+                  itemValue="id"
+                  required
+                  menuItems={getMenuItems(secretsData, provider)}
+                  onChange={handleSecretNamePopulation}
+                  async
+                  validate={[required]}
+                />
+              </Col>}
             {field.secret_id && field.mount_type !== 'directory' &&
             <Col flex={3} xs={12} sm={12}>
               <Field
