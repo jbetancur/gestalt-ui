@@ -1,5 +1,7 @@
 import { put, call, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
+import { getLastFromSplit } from 'util/helpers/strings';
+import { notificationActions } from 'Modules/Notifications';
 import { buildAllURL, buildOneURL } from './urlmapper';
 import { fetchAPI } from '../lib/utility';
 import { PREFIX } from '../actionTypes';
@@ -62,6 +64,7 @@ export const create = (name, entity, verb = 'CREATE') => function* createOne(pay
     }
 
     yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: response.data });
+    yield put(notificationActions.addNotification({ message: `${response.data.name} ${getLastFromSplit(response.data.resource_type)} created` }));
 
     if (typeof payload.onSuccess === 'function') {
       payload.onSuccess(response.data);
@@ -81,6 +84,7 @@ export const update = (name, entity, verb = 'UPDATE') => function* updateOne(pay
     const response = yield call(axios.patch, buildOneURL(entity, payload), payload.payload);
 
     yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: response.data });
+    yield put(notificationActions.addNotification({ message: `${response.data.name} ${getLastFromSplit(response.data.resource_type)} updated` }));
 
     if (typeof payload.onSuccess === 'function') {
       payload.onSuccess(response.data);
@@ -97,12 +101,14 @@ export const update = (name, entity, verb = 'UPDATE') => function* updateOne(pay
 // Exported for testability
 export const deleteOne = (name, entity, parentName, verb = 'DELETE') => function* deleteSingle(payload) {
   try {
-    yield call(axios.delete, buildOneURL(entity, payload));
-    yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: payload.id });
+    yield call(axios.delete, buildOneURL(entity, Object.assign(payload, { id: payload.resource.id })));
+    yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED`, payload: payload.resource });
 
     if (parentName) {
-      yield put({ type: `${PREFIX}${verb}_${parentName}_FULFILLED`, payload: payload.id });
+      yield put({ type: `${PREFIX}${verb}_${parentName}_FULFILLED`, payload: payload.resource });
     }
+
+    yield put(notificationActions.addNotification({ message: `${payload.resource.name} ${getLastFromSplit(payload.resource.resource_type)} deleted` }));
 
     if (typeof payload.onSuccess === 'function') {
       payload.onSuccess();
@@ -119,10 +125,12 @@ export const deleteOne = (name, entity, parentName, verb = 'DELETE') => function
 // Exported for testability
 export const deleteMany = (name, entity, verb = 'DELETE') => function* deleteBulk(payload) {
   try {
-    const all = payload.ids.map(id => axios.delete(buildOneURL(entity, Object.assign(payload, { id }))));
+    const resources = payload.resources.map(resource => axios.delete(buildOneURL(entity, Object.assign(payload, { id: resource.id }))));
+    const names = payload.resources.map(item => (item.name)).join('\n');
 
-    yield call(axios.all, all);
+    yield call(axios.all, resources);
     yield put({ type: `${PREFIX}${verb}_${name}_FULFILLED` });
+    yield put(notificationActions.addNotification({ message: `${names} ${entity} deleted` }));
 
     if (typeof payload.onSuccess === 'function') {
       payload.onSuccess();

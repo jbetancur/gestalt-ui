@@ -21,7 +21,7 @@ import datafeedModel from './models/dataFeed';
 import streamSpecModel from './models/streamSpec';
 
 export default combineReducers({
-  envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel),
+  envSchema: reducerFactory(['fetch'], 'schema', 'env_schema', envSchemaModel.get()),
   allOrganizations: reducerFactory(['fetch'], 'organizations', 'allorgs', []),
   allOrganizationsDropDown: reducerFactory(['fetch'], 'organizations', 'ALLORGSDROPDOWN', []),
   organizations: reducerFactory(['fetch'], 'organizations', 'orgs', []),
@@ -52,9 +52,9 @@ export default combineReducers({
   user: reducerFactory(['fetch', 'create', 'update'], 'user', 'user', userModel.get()),
   groups: reducerFactory(['fetch', 'delete'], 'groups', 'groups', []),
   group: reducerFactory(['fetch', 'create', 'update'], 'group', 'group', groupModel.get()),
-  groupMembers: reducerFactory(['add', 'remove'], 'group', 'groupmember', groupModel),
+  groupMembers: reducerFactory(['add', 'remove'], 'group', 'groupmember', groupModel.get()),
   env: reducerFactory(['fetch'], 'env', 'env', {}),
-  self: reducerFactory(['fetch'], 'self', 'self', selfModel),
+  self: reducerFactory(['fetch'], 'self', 'self', selfModel.get()),
   logProvider: reducerFactory(['fetch'], 'logProvider', 'logprovider', { provider: {}, url: '' }),
   secrets: reducerFactory(['fetch', 'delete'], 'secrets', 'secrets', []),
   secret: reducerFactory(['fetch', 'create', 'update'], 'secret', 'secret', secretModel.get()),

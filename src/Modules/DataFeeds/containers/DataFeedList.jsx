@@ -48,15 +48,13 @@ class DataFeedList extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      datafeedsActions.deleteDatafeed({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      datafeedsActions.deleteDatafeed({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
     const { match, datafeedsActions } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => (item.id));
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -65,7 +63,7 @@ class DataFeedList extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      datafeedsActions.deleteDatafeeds({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
+      datafeedsActions.deleteDatafeeds({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Data Feeds', names);
   }
 

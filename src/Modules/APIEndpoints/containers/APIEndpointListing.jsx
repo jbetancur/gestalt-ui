@@ -51,7 +51,7 @@ class APIEndpointListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -59,8 +59,6 @@ class APIEndpointListing extends PureComponent {
   deleteMultiple = () => {
     const { match, apiEndpointsActions } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => item.id);
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
@@ -69,7 +67,7 @@ class APIEndpointListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      apiEndpointsActions.deleteAPIEndpoints({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
+      apiEndpointsActions.deleteAPIEndpoints({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete apiEndpoints', names);
   }
 

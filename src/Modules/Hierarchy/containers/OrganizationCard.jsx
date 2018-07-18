@@ -40,7 +40,7 @@ class OrganizationCard extends PureComponent {
     const onSuccess = () => organizationActions.fetchOrgSet({ fqon: match.params.fqon });
 
     hierarchyActions.confirmDelete(({ force }) => {
-      organizationActions.deleteOrg({ fqon: model.properties.fqon, onSuccess, params: { force } });
+      organizationActions.deleteOrg({ fqon: model.properties.fqon, resource: model, onSuccess, params: { force } });
     }, name, 'Organization');
   }
 

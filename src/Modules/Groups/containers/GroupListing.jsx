@@ -43,7 +43,7 @@ class GroupListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      groupsActions.deleteGroup({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      groupsActions.deleteGroup({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -51,8 +51,6 @@ class GroupListing extends PureComponent {
   deleteMultiple = () => {
     const { match, groupsActions } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => (item.id));
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -61,7 +59,7 @@ class GroupListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      groupsActions.deleteGroups({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
+      groupsActions.deleteGroups({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Groups', names);
   }
 

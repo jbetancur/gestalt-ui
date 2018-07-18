@@ -49,7 +49,7 @@ class PolicyListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      policiesActions.deletePolicy({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      policiesActions.deletePolicy({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -57,8 +57,6 @@ class PolicyListing extends PureComponent {
   deleteMultiple = () => {
     const { match, policiesActions } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => (item.id));
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -67,7 +65,7 @@ class PolicyListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      policiesActions.deletePolicies({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
+      policiesActions.deletePolicies({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Policies', names);
   }
 

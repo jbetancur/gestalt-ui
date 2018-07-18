@@ -40,7 +40,7 @@ class ResourceTypeListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 

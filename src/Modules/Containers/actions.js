@@ -7,6 +7,7 @@ export function confirmContainerDelete(action, item, cancelAction = () => { }) {
       onProceed: action,
       onClose: cancelAction,
       proceedLabel: 'Destroy',
+      forceOption: false,
     }
   };
 }

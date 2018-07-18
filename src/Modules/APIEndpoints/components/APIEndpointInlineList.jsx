@@ -30,7 +30,7 @@ class APIEndpointInlineList extends PureComponent {
   deleteOne = (endpoint) => {
     const { match, apiEndpointsActions } = this.props;
 
-    apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, id: endpoint.id, params: { force: true } });
+    apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, resource: endpoint, params: { force: true } });
   }
 
   defineColumns() {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { notificationActions } from 'Modules/Notifications';
 import containerSagas, {
   fetchContainers,
   fetchContainer,
@@ -19,7 +20,7 @@ describe('Container Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchContainers Sequence with an environmentId', () => {
-    const action = { fqon: 'iamfqon', entityKey: 'environments', entityId: '1' }
+    const action = { fqon: 'iamfqon', entityKey: 'environments', entityId: '1' };
     const saga = fetchContainers(action);
     let result;
 
@@ -81,7 +82,7 @@ describe('Container Sagas', () => {
 
   describe('fetchContainer Sequence', () => {
     describe('when there are NO env variables to merge', () => {
-      const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 }
+      const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 };
       const saga = fetchContainer(action);
       let result;
       it('should make an api call', () => {
@@ -124,6 +125,7 @@ describe('Container Sagas', () => {
   });
 
   describe('createContainer Sequence', () => {
+    const resource = { data: { id: 1, name: 'test' } };
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewContainer' } };
     const saga = createContainer(action);
     let result;
@@ -136,21 +138,28 @@ describe('Container Sagas', () => {
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+      result = saga.next(resource);
       expect(result.value).toEqual(
-        put({ type: types.CREATE_CONTAINER_FULFILLED, payload: { id: 1 } })
+        put({ type: types.CREATE_CONTAINER_FULFILLED, payload: resource.data })
       );
-      // Finish the iteration
+    });
+
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Container created' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = createContainer(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -165,6 +174,7 @@ describe('Container Sagas', () => {
   });
 
   describe('updateContainer Sequence', () => {
+    const resource = { data: { id: 1, name: 'test' } };
     const action = { fqon: 'iamfqon', containerId: '1', payload: [] };
     const saga = updateContainer(action);
     let result;
@@ -177,22 +187,28 @@ describe('Container Sagas', () => {
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+      result = saga.next(resource);
       expect(result.value).toEqual(
-        put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: { id: 1 } })
+        put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: resource.data })
       );
+    });
 
-      // Finish the iteration
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Container updated' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { fqon: 'iamfqon', environmentId: '1', payload: [], onSuccess: sinon.stub() };
+      const onSuccessAction = { fqon: 'iamfqon', environmentId: '1', payload: [], onSuccess: jest.fn() };
       const sagaSuccess = updateContainer(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -207,7 +223,8 @@ describe('Container Sagas', () => {
   });
 
   describe('deleteContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', containerId: '1' };
+    const resource = { id: '1', name: 'test' };
+    const action = { fqon: 'iamfqon', resource };
     const saga = deleteContainer(action);
     let result;
 
@@ -223,19 +240,25 @@ describe('Container Sagas', () => {
       expect(result.value).toEqual(
         put({ type: types.DELETE_CONTAINER_FULFILLED })
       );
+    });
 
-      // Finish the iteration
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Container destroyed' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = deleteContainer(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
+      sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {
@@ -272,13 +295,13 @@ describe('Container Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = scaleContainer(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {
@@ -315,13 +338,13 @@ describe('Container Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = migrateContainer(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({});
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {
@@ -358,13 +381,13 @@ describe('Container Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = promoteContainer(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({});
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {

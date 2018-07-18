@@ -49,7 +49,7 @@ class SecretListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      secretsActions.deleteSecret({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      secretsActions.deleteSecret({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -57,8 +57,6 @@ class SecretListing extends PureComponent {
   deleteMultiple = () => {
     const { match, secretsActions } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => item.id);
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
@@ -67,7 +65,7 @@ class SecretListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      secretsActions.deleteSecrets({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
+      secretsActions.deleteSecrets({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Secrets', names);
   }
 

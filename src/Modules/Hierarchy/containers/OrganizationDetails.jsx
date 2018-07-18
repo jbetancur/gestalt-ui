@@ -36,7 +36,7 @@ class OrganizationDetails extends PureComponent {
     const onSuccess = () => history.replace(`/${parentFQON}/hierarchy`);
 
     hierarchyActions.confirmDelete(({ force }) => {
-      organizationActions.deleteOrg({ fqon: organizationSet.properties.fqon, onSuccess, params: { force } });
+      organizationActions.deleteOrg({ fqon: organizationSet.properties.fqon, resource: organizationSet, onSuccess, params: { force } });
     }, name, 'Organization');
   }
 

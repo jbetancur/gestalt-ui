@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork, race, take, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { notificationActions } from 'Modules/Notifications';
 import containerModel from '../models/container';
 import { poll, fetchAPI } from '../lib/utility';
 import * as types from '../actionTypes';
@@ -61,11 +62,12 @@ export function* fetchContainer(action) {
  */
 export function* createContainer(action) {
   try {
-    const response = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers`, action.payload);
-    yield put({ type: types.CREATE_CONTAINER_FULFILLED, payload: response.data });
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers`, action.payload);
+    yield put({ type: types.CREATE_CONTAINER_FULFILLED, payload: data });
+    yield put(notificationActions.addNotification({ message: `${data.name} Container created` }));
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(response.data);
+      action.onSuccess(data);
     }
   } catch (e) {
     yield put({ type: types.CREATE_CONTAINER_REJECTED, payload: e.message });
@@ -78,11 +80,12 @@ export function* createContainer(action) {
  */
 export function* updateContainer(action) {
   try {
-    const response = yield call(axios.put, `${action.fqon}/containers/${action.containerId}`, action.payload);
-    yield put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: response.data });
+    const { data } = yield call(axios.put, `${action.fqon}/containers/${action.containerId}`, action.payload);
+    yield put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: data });
+    yield put(notificationActions.addNotification({ message: `${data.name} Container updated` }));
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(response.data);
+      action.onSuccess(data);
     }
   } catch (e) {
     yield put({ type: types.UPDATE_CONTAINER_REJECTED, payload: e.message });
@@ -95,8 +98,9 @@ export function* updateContainer(action) {
  */
 export function* deleteContainer(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/containers/${action.containerId}?force=true`);
+    yield call(axios.delete, `${action.fqon}/containers/${action.resource.id}?force=true`);
     yield put({ type: types.DELETE_CONTAINER_FULFILLED });
+    yield put(notificationActions.addNotification({ message: `${action.resource.name} Container destroyed` }));
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();

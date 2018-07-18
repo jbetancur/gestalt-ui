@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { call, put } from 'redux-saga/effects';
+import { notificationActions } from 'Modules/Notifications';
 import { fetchAPI } from '../lib/utility';
 import { PREFIX } from '../actionTypes';
 import {
@@ -118,10 +119,19 @@ describe('Saga Factory', () => {
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+      const resource = { data: { id: 1, name: 'test', resource_type: 'TEST::TESTY' } };
+      result = saga.next(resource);
 
       expect(result.value).toEqual(
-        put({ type: `${PREFIX}CREATE_TEST_FULFILLED`, payload: { id: 1 } })
+        put({ type: `${PREFIX}CREATE_TEST_FULFILLED`, payload: resource.data })
+      );
+    });
+
+    it('should dispatch a notification', () => {
+      result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test TESTY created' }))
       );
     });
 
@@ -130,6 +140,7 @@ describe('Saga Factory', () => {
       const sagaSuccess = create('TEST', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
       sagaSuccess.next();
 
       expect(successPayload.onSuccess).toBeCalledWith({ id: 1 });
@@ -151,6 +162,7 @@ describe('Saga Factory', () => {
 
   describe('update Sequence', () => {
     const payload = { fqon: 'iamfqon', id: '1', payload: [] };
+    const resource = { data: { id: 1, name: 'test', resource_type: 'TEST::TESTY' } };
     const saga = update('TEST', 'tests')(payload);
     let result;
 
@@ -163,10 +175,18 @@ describe('Saga Factory', () => {
     });
 
     it('should return a payload and dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+      result = saga.next(resource);
 
       expect(result.value).toEqual(
-        put({ type: `${PREFIX}UPDATE_TEST_FULFILLED`, payload: { id: 1 } })
+        put({ type: `${PREFIX}UPDATE_TEST_FULFILLED`, payload: resource.data })
+      );
+    });
+
+    it('should dispatch a notification', () => {
+      result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test TESTY updated' }))
       );
     });
 
@@ -175,6 +195,7 @@ describe('Saga Factory', () => {
       const sagaSuccess = update('TEST', 'tests')(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
       sagaSuccess.next();
 
       expect(successPayload.onSuccess).toBeCalledWith({ id: 1 });
@@ -194,7 +215,8 @@ describe('Saga Factory', () => {
   });
 
   describe('deleteOne Sequence', () => {
-    const payload = { fqon: 'iamfqon', id: '1' };
+    const resource = { id: '1', name: 'test', resource_type: 'TEST::TESTY' };
+    const payload = { fqon: 'iamfqon', resource };
     const saga = deleteOne('TEST', 'tests')(payload);
     let result;
 
@@ -210,7 +232,15 @@ describe('Saga Factory', () => {
       result = saga.next();
 
       expect(result.value).toEqual(
-        put({ type: `${PREFIX}DELETE_TEST_FULFILLED`, payload: '1' })
+        put({ type: `${PREFIX}DELETE_TEST_FULFILLED`, payload: resource })
+      );
+    });
+
+    it('should dispatch a notification', () => {
+      result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test TESTY deleted' }))
       );
     });
 
@@ -220,12 +250,13 @@ describe('Saga Factory', () => {
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
+      sagaSuccess.next();
 
       expect(successPayload.onSuccess).toHaveBeenCalled();
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const errorPayload = { onError: jest.fn() };
+      const errorPayload = { ...payload, onError: jest.fn() };
       const sagaError = deleteOne('TEST', 'tests')(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
@@ -238,7 +269,8 @@ describe('Saga Factory', () => {
   });
 
   describe('deleteMany Sequence', () => {
-    const payload = { ids: ['1'], fqon: 'iamfqon' };
+    const resource = { id: '1', name: 'test', resource_type: 'TEST::TESTY' };
+    const payload = { resources: [resource], fqon: 'iamfqon' };
     const saga = deleteMany('TESTS', 'tests')(payload);
     let result;
 
@@ -261,6 +293,7 @@ describe('Saga Factory', () => {
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
       const sagaSuccess = deleteMany('TESTS', 'tests')(successPayload);
+      sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();

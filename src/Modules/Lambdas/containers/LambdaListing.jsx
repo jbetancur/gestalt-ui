@@ -52,7 +52,7 @@ class LambdaListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      lambdasActions.deleteLambda({ fqon: match.params.fqon, lambdaId: row.id, onSuccess, force });
+      lambdasActions.deleteLambda({ fqon: match.params.fqon, resource: row, onSuccess, force });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
@@ -60,7 +60,6 @@ class LambdaListing extends PureComponent {
     const { match, lambdasActions } = this.props;
     const { selectedRows } = this.state;
 
-    const IDs = selectedRows.map(item => (item.id));
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -69,7 +68,7 @@ class LambdaListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      lambdasActions.deleteLambdas({ lambdaIds: IDs, fqon: match.params.fqon, onSuccess, force });
+      lambdasActions.deleteLambdas({ resources: selectedRows, fqon: match.params.fqon, onSuccess, force });
     }, 'Confirm Delete Lambdas', names);
   }
 

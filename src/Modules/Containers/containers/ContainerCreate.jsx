@@ -49,7 +49,9 @@ class ContainerCreate extends Component {
 
     if (!inlineMode) {
       const payload = generatePayload(values);
-      const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
+      const onSuccess = (response) => {
+        history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
+      };
 
       containerActions.createContainer({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload, onSuccess });
     }
@@ -68,7 +70,6 @@ class ContainerCreate extends Component {
             sm={12}
             md={12}
           >
-
             <ActionsToolbar
               title="Deploy a Container"
               titleIcon={<ContainerIcon resourceType={getLastFromSplit(this.state.providerType.resource_type)} />}

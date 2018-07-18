@@ -138,7 +138,7 @@ class ContainerActions extends PureComponent {
     };
 
     const modalAction = () => {
-      containerActions.deleteContainer({ fqon: match.params.fqon, containerId: containerModel.id, onSuccess });
+      containerActions.deleteContainer({ fqon: match.params.fqon, resource: containerModel, onSuccess });
       onDestroy();
     };
 

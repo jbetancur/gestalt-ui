@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { notificationActions } from 'Modules/Notifications';
 import lambdaSagas, {
   fetchLambdas,
   fetchLambda,
@@ -141,7 +142,7 @@ describe('Lambda Sagas', () => {
   describe('createLambda Sequence', () => {
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
     const saga = createLambda(action);
-    const expectedPayload = { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }] } };
+    const expectedPayload = { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }] } };
     let result;
 
     it('should make an api call for the lambda by id', () => {
@@ -152,7 +153,7 @@ describe('Lambda Sagas', () => {
     });
 
     it('should make an api call for the environment envs', () => {
-      result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
+      result = saga.next({ data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } });
       expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/2/env')
       );
@@ -164,19 +165,26 @@ describe('Lambda Sagas', () => {
       expect(result.value).toEqual(
         put({ type: types.CREATE_LAMBDA_FULFILLED, payload: expectedPayload })
       );
-      // Finish the iteration
+    });
+
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Lambda created' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = createLambda(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
+      sagaSuccess.next({ data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } });
       sagaSuccess.next({ data: { test: 'testvar' } });
       sagaSuccess.next();
+      sagaSuccess.next();
 
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith(expectedPayload);
+      expect(onSuccessAction.onSuccess).toBeCalledWith(expectedPayload);
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -193,7 +201,7 @@ describe('Lambda Sagas', () => {
   describe('updateLambda Sequence', () => {
     const action = { fqon: 'iamfqon', lambdaId: '1', environmentId: '2', payload: [] };
     const saga = updateLambda(action);
-    const expectedPayload = { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }] } };
+    const expectedPayload = { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }] } };
     let result;
 
     it('should make an api call to PATCH the lambda', () => {
@@ -204,7 +212,7 @@ describe('Lambda Sagas', () => {
     });
 
     it('should make an api call for the environment envs', () => {
-      result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
+      result = saga.next({ data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } });
       expect(result.value).toEqual(
         call(axios.get, 'iamfqon/environments/2/env')
       );
@@ -216,19 +224,26 @@ describe('Lambda Sagas', () => {
       expect(result.value).toEqual(
         put({ type: types.UPDATE_LAMBDA_FULFILLED, payload: expectedPayload })
       );
-      // Finish the iteration
+    });
+
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Lambda updated' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = createLambda(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
+      sagaSuccess.next({ data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } });
       sagaSuccess.next({ data: { test: 'testvar' } });
       sagaSuccess.next();
+      sagaSuccess.next();
 
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith(expectedPayload);
+      expect(onSuccessAction.onSuccess).toBeCalledWith(expectedPayload);
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -243,7 +258,8 @@ describe('Lambda Sagas', () => {
   });
 
   describe('deleteLambda Sequence', () => {
-    const action = { fqon: 'iamfqon', lambdaId: '1' };
+    const resource = { id: 1, name: 'test' };
+    const action = { fqon: 'iamfqon', resource };
     const saga = deleteLambda(action);
     let result;
 
@@ -259,19 +275,25 @@ describe('Lambda Sagas', () => {
       expect(result.value).toEqual(
         put({ type: types.DELETE_LAMBDA_FULFILLED })
       );
+    });
 
-      // Finish the iteration
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Lambda deleted' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = deleteLambda(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
+      sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {
@@ -286,7 +308,8 @@ describe('Lambda Sagas', () => {
   });
 
   describe('deleteLambdas Sequence', () => {
-    const action = { lambdaIds: ['1'], fqon: 'iamfqon' };
+    const resource = { id: 1, name: 'test' };
+    const action = { resources: [resource], fqon: 'iamfqon' };
     const saga = deleteLambdas(action);
     let result;
 
@@ -302,19 +325,25 @@ describe('Lambda Sagas', () => {
       expect(result.value).toEqual(
         put({ type: types.DELETE_LAMBDA_FULFILLED })
       );
+    });
 
-      // Finish the iteration
+    it('should dispatch a notification', () => {
       result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test lambdas deleted' }))
+      );
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = deleteLambdas(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
+      sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {

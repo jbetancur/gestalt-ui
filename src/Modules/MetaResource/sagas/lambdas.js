@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { convertFromMaps } from 'util/helpers/transformations';
+import { notificationActions } from 'Modules/Notifications';
 import { fetchAPI } from '../lib/utility';
 import * as types from '../actionTypes';
 
@@ -54,6 +55,7 @@ export function* createLambda(action) {
 
     payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
     yield put({ type: types.CREATE_LAMBDA_FULFILLED, payload });
+    yield put(notificationActions.addNotification({ message: `${payload.name} Lambda created` }));
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess(payload);
@@ -76,6 +78,7 @@ export function* updateLambda(action) {
 
     payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
     yield put({ type: types.UPDATE_LAMBDA_FULFILLED, payload });
+    yield put(notificationActions.addNotification({ message: `${payload.name} Lambda updated` }));
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess(payload);
@@ -91,8 +94,9 @@ export function* updateLambda(action) {
  */
 export function* deleteLambda(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/lambdas/${action.lambdaId}?force=${action.force || false}`);
+    yield call(axios.delete, `${action.fqon}/lambdas/${action.resource.id}?force=${action.force || false}`);
     yield put({ type: types.DELETE_LAMBDA_FULFILLED });
+    yield put(notificationActions.addNotification({ message: `${action.resource.name} Lambda deleted` }));
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();
@@ -108,10 +112,12 @@ export function* deleteLambda(action) {
  */
 export function* deleteLambdas(action) {
   try {
-    const all = action.lambdaIds.map(id => axios.delete(`${action.fqon}/lambdas/${id}?${action.force || false}`));
+    const all = action.resources.map(resource => axios.delete(`${action.fqon}/lambdas/${resource.id}?${action.force || false}`));
+    const names = action.resources.map(item => (item.name)).join('\n');
 
     yield call(axios.all, all);
     yield put({ type: types.DELETE_LAMBDA_FULFILLED });
+    yield put(notificationActions.addNotification({ message: `${names} lambdas deleted` }));
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();

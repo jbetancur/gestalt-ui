@@ -10,6 +10,7 @@ import en from 'react-intl/locale-data/en';
 // import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
 import ErrorNotifications from 'Modules/ErrorNotifications';
+import { Notifications } from 'Modules/Notifications';
 import ModalRoot from 'Modules/ModalRoot';
 import NotFound from 'components/NotFound';
 import { UpgradeRouter } from 'Modules/Upgrader';
@@ -57,6 +58,7 @@ const Root = () => (
           <React.Fragment>
             <ModalRoot />
             <ErrorNotifications />
+            <Notifications />
             <ConnectedRouter history={history}>
               <Switch>
                 <Route exact path="/login" component={Login} />

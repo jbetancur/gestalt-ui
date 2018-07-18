@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Notificationss) Notifications renders to correct snapshot with items in the queue 1`] = `
+.c0 {
+  position: fixed;
+  bottom: 64px;
+  right: 16px;
+  z-index: 999;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.c0 .fade-enter {
+  opacity: 0;
+}
+
+.c0 .fade-enter-active {
+  opacity: 1;
+  -webkit-transition: opacity 200ms ease-out;
+  transition: opacity 200ms ease-out;
+}
+
+.c0 .fade-exit {
+  opacity: 1;
+}
+
+.c0 .fade-exit-active {
+  opacity: 0;
+  -webkit-transition: opacity 200ms ease-in;
+  transition: opacity 200ms ease-in;
+}
+
+<div
+  className="c0"
+>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <CSSTransition
+      classNames="fade"
+      key="1"
+      timeout={200}
+    >
+      <Notifications__Message>
+        <Notifications__Text>
+          hi ho
+        </Notifications__Text>
+        <Notifications__Action>
+          <WithTheme(Button__EnhancedButton)
+            icon={true}
+            onClick={[Function]}
+          >
+            close
+          </WithTheme(Button__EnhancedButton)>
+        </Notifications__Action>
+      </Notifications__Message>
+    </CSSTransition>
+  </TransitionGroup>
+</div>
+`;
+
+exports[`(Notificationss) Notifications renders to correct snapshot with no items in the queue 1`] = `
+.c0 {
+  position: fixed;
+  bottom: 64px;
+  right: 16px;
+  z-index: 999;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.c0 .fade-enter {
+  opacity: 0;
+}
+
+.c0 .fade-enter-active {
+  opacity: 1;
+  -webkit-transition: opacity 200ms ease-out;
+  transition: opacity 200ms ease-out;
+}
+
+.c0 .fade-exit {
+  opacity: 1;
+}
+
+.c0 .fade-exit-active {
+  opacity: 0;
+  -webkit-transition: opacity 200ms ease-in;
+  transition: opacity 200ms ease-in;
+}
+
+<div
+  className="c0"
+>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  />
+</div>
+`;

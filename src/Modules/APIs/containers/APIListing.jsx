@@ -49,15 +49,13 @@ class APIListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      apisActions.deleteAPI({ fqon: match.params.fqon, id: row.id, onSuccess, params: { force } });
+      apisActions.deleteAPI({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
     const { match, apisActions } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => (item.id));
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -66,7 +64,7 @@ class APIListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      apisActions.deleteAPIs({ ids: IDs, fqon: match.params.fqon, onSuccess, params: { force } });
+      apisActions.deleteAPIs({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete APIs', names);
   }
 

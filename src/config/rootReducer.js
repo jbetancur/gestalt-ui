@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import { createResponsiveStateReducer } from 'redux-responsive';
+import { notifierReducer } from 'Modules/Notifications';
 import appReducers from '../App/reducers';
 import metaResourceReducers from '../Modules/MetaResource/reducers';
 import modalReducer from '../Modules/ModalRoot/reducers';
@@ -53,4 +54,5 @@ export default combineReducers({
   licensing: licensingReducer,
   // secrets: secretReducers,
   listfilter: listFilterReducer,
+  notifications: notifierReducer,
 });

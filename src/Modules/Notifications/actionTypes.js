@@ -1,0 +1,10 @@
+export const ADD_NOTIFICATION = 'notifications/ADD_NOTIFICATION';
+export const REMOVE_NOTIFICATION = 'notifications/REMOVE_NOTIFICATION';
+export const SHOW_NOTIFICATION = 'notifications/SHOW_NOTIFICATION';
+export const CLEAR_OLDEST_MESSAGE = 'notifications/CLEAR_OLDEST_MESSAGE';
+
+export default {
+  REMOVE_NOTIFICATION,
+  SHOW_NOTIFICATION,
+  CLEAR_OLDEST_MESSAGE,
+};
