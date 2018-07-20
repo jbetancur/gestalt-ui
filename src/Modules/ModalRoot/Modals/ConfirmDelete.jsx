@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { DialogContainer, List, ListItem, TextField, Checkbox } from 'react-md';
 import { Button } from 'components/Buttons';
 import { Error } from 'components/Typography';
@@ -25,11 +25,22 @@ const EnhancedDialog = styled(DialogContainer)`
   }
 `;
 
-const ConfirmButton = styled(Button)`
-  &:not([disabled]) {
-    color: ${props => props.theme.colors['$md-red-500']};
+const ListRow = styled.div`
+  max-height: 12em;
+  overflow: scroll;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
   }
 `;
+
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
@@ -126,34 +137,33 @@ class ConfirmModal extends PureComponent {
         </ForceSection>
       );
     }
-    actionButtons.push(<ConfirmButton flat primary onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</ConfirmButton>);
-    actionButtons.push({ primary: true, children: cancelLabel, onClick: this.close });
+    actionButtons.push(<Button flat important onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>);
+    actionButtons.push(<Button flat primary onClick={this.close}>{cancelLabel}</Button>);
 
     const modalTitle = multipleItems.length > 1 ? `${title} (${multipleItems.length})` : title;
 
     return (
       <EnhancedDialog
         id="confirmation-modal"
-        contentStyle={{ maxHeight: '20em' }}
+        contentStyle={{ maxHeight: '25em' }}
         visible={modal.visible}
         title={(
-          <div>
+          <React.Fragment>
             {modalTitle}
             {forceOption && force && this.renderForceWarning()}
-          </div>
+          </React.Fragment>
         )}
         defaultVisibleTransitionable
-        autosizeContent={false}
         onHide={this.close}
         actions={actionButtons}
       >
         <div>
           {body && <p id="confirmation-modal-content" className="md-color--secondary-text">{body}</p>}
           {requireConfirm && <TextField id="confirmation-modal-verify" placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
-
-          <div>
-            {multipleItems.length > 0 && <List>{items}</List>}
-          </div>
+          {multipleItems.length > 0 &&
+          <ListRow>
+            <List>{items}</List>
+          </ListRow>}
         </div>
       </EnhancedDialog>
     );
@@ -174,4 +184,4 @@ function actions(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, actions)(withTheme(ConfirmModal));
+export default connect(mapStateToProps, actions)(ConfirmModal);

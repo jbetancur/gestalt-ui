@@ -33,10 +33,6 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
       // Subscriptions for Logging
       logProviderPending: metaResource.logProvider.pending,
       logProviderURL: metaResource.logProvider.logProvider.url,
-
-      // Subscriptions for Search
-      searchResults: metaResource.search.search,
-      searchResultsPending: metaResource.search.pending,
     };
   }
 

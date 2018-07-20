@@ -8,6 +8,7 @@ export { default as urlmapper } from './lib/urlmapper';
 // HOCs
 export { default as withSelf } from './hocs/withSelf';
 export { default as withSync } from './hocs/withSync';
+export { default as withSearch } from './hocs/withSearch';
 export { default as withProviderActions } from './hocs/withProviderActions';
 export { default as withDatafeed } from './hocs/withDatafeed';
 export { default as withDatafeeds } from './hocs/withDatafeeds';

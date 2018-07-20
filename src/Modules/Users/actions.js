@@ -1,7 +1,7 @@
-export function confirmDelete(action, title, multipleItems) {
+export function showReparentModal(action, title, multipleItems) {
   return {
     type: 'SHOW_MODAL',
-    modalType: 'CONFIRM',
+    modalType: 'REPARENTUSER',
     modalProps: {
       title,
       multipleItems,
@@ -11,5 +11,5 @@ export function confirmDelete(action, title, multipleItems) {
 }
 
 export default {
-  confirmDelete,
+  showReparentModal,
 };

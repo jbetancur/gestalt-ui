@@ -1,21 +1,33 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withSearch } from 'Modules/MetaResource';
 import { debounce } from 'lodash';
 import { Autocomplete } from 'react-md';
 
 class Search extends PureComponent {
   static propTypes = {
-    searchResults: PropTypes.array.isRequired,
-    doSearch: PropTypes.func.isRequired,
-    unloadSearch: PropTypes.func.isRequired,
+    userSearchResults: PropTypes.array.isRequired,
+    assetSearchResults: PropTypes.array.isRequired,
+    searchActions: PropTypes.object.isRequired,
     onResult: PropTypes.func.isRequired,
-    fqon: PropTypes.string.isRequired,
-    entity: PropTypes.string.isRequired,
     searchLabel: PropTypes.string,
     clearOnAutocomplete: PropTypes.bool,
     helpText: PropTypes.string,
+    /**
+     * entity
+     * entity is the resourceType endpoint e.g. users, groups, workspaces, etc...
+     */
+    entity: PropTypes.string.isRequired,
+    /**
+     * searchField
+     * searchField is only required when userSearch: true
+     */
     searchField: PropTypes.string,
+    /**
+     * userSearch
+     * Searching for users is a different deal
+     */
+    userSearch: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -23,23 +35,23 @@ class Search extends PureComponent {
     searchLabel: 'Search',
     helpText: '',
     searchField: 'username',
+    userSearch: false,
   };
 
   componentWillMount() {
     this.handleSearch = debounce(this.handleSearch, 300);
   }
 
-  componentWillUnmount() {
-    this.props.unloadSearch();
-  }
-
   handleSearch = (value) => {
-    const { fqon, entity, doSearch, searchField } = this.props;
+    const { userSearch, entity, searchActions, searchField } = this.props;
 
     if (value) {
-      const searchValue = `*${value}*`;
-
-      doSearch(fqon, entity, searchValue, searchField);
+      if (userSearch) {
+        const searchValue = `*${value}*`;
+        searchActions.doSearchUsers({ entity, value: searchValue, field: searchField });
+      } else {
+        searchActions.doSearchAssets({ entity, value });
+      }
     }
   }
 
@@ -50,12 +62,12 @@ class Search extends PureComponent {
   }
 
   render() {
-    const { searchResults, clearOnAutocomplete, searchLabel, helpText } = this.props;
+    const { userSearch, userSearchResults, assetSearchResults, clearOnAutocomplete, searchLabel, helpText } = this.props;
 
     return (
       <Autocomplete
         id="search-dropdown"
-        data={searchResults}
+        data={userSearch ? userSearchResults : assetSearchResults}
         dataLabel="name"
         dataValue="id"
         placeholder={searchLabel}
@@ -70,4 +82,4 @@ class Search extends PureComponent {
 }
 
 
-export default withMetaResource(Search);
+export default withSearch()(Search);

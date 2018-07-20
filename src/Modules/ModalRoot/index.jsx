@@ -8,7 +8,8 @@ import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { StreamInstanceModal } from 'Modules/Streams';
 import { ContainerImportModal } from 'Modules/Containers';
 import LicenseModal from 'Modules/Licensing';
-import CONFIRM from './Modals/Confirm';
+import CONFIRM from './Modals/ConfirmDelete';
+import REPARENTUSER from './Modals/ReparentUser';
 import IFRAME from './Modals/IFrameModal';
 
 const MODAL_COMPONENTS = {
@@ -19,6 +20,7 @@ const MODAL_COMPONENTS = {
   APIEndpointWizardModal,
   StreamInstanceModal,
   ContainerImportModal,
+  REPARENTUSER,
   /* other modals */
 };
 

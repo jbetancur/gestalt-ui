@@ -24,6 +24,7 @@ class UserListing extends PureComponent {
     users: PropTypes.array.isRequired,
     usersPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
+    showReparentModal: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
@@ -35,21 +36,20 @@ class UserListing extends PureComponent {
   }
 
   deleteOne = (row) => {
-    const { match, usersActions } = this.props;
+    const { match, usersActions, showReparentModal } = this.props;
 
     const onSuccess = () => {
       this.setState({ clearSelected: !this.state.clearSelected });
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(({ force }) => {
-      usersActions.deleteUser({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
+    showReparentModal(({ force, parent }) => {
+      usersActions.deleteUser({ fqon: match.params.fqon, resource: row, onSuccess, params: { force, parent } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
-
   deleteMultiple = () => {
-    const { match, usersActions } = this.props;
+    const { match, usersActions, showReparentModal } = this.props;
     const { selectedRows } = this.state;
     const names = selectedRows.map(item => (item.name));
 
@@ -58,9 +58,15 @@ class UserListing extends PureComponent {
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(({ force }) => {
-      usersActions.deleteUsers({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
+    showReparentModal(({ force, parent }) => {
+      usersActions.deleteUsers({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force, parent } });
     }, 'Confirm Delete Users', names);
+  }
+
+  reparent = (row) => {
+    const { showReparentModal } = this.props;
+
+    showReparentModal(() => { }, `Reparent ${row.name}`);
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -90,6 +96,7 @@ class UserListing extends PureComponent {
             row={row}
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
+            onReparent={this.reparent}
             editURL={`${this.props.match.url}/${row.id}`}
             entityKey="users"
             disableEntitlements

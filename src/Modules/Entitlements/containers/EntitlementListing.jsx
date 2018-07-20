@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withMetaResource, withEntitlements, withSelf } from 'Modules/MetaResource';
+import { withEntitlements, withSelf, withSearch } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import Search from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
@@ -23,7 +23,7 @@ class EntitlementListing extends PureComponent {
     entitlements: PropTypes.array.isRequired,
     entitlementsPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
-    unloadSearch: PropTypes.func.isRequired,
+    searchActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
   };
 
@@ -74,7 +74,7 @@ class EntitlementListing extends PureComponent {
   }
 
   handleFieldNameChange = (selectedSearchFieldValue) => {
-    this.props.unloadSearch();
+    this.props.searchActions.unloadSearchUsers();
     this.setState({ selectedSearchFieldValue });
   }
 
@@ -99,6 +99,7 @@ class EntitlementListing extends PureComponent {
                   searchField={searchField}
                   onResult={this.handleSelectedIdentity}
                   helpText="search is case sensitive"
+                  userSearch
                 />
               </Col>
 
@@ -161,8 +162,8 @@ class EntitlementListing extends PureComponent {
 
 export default compose(
   withSelf,
+  withSearch({ unload: false }),
   withEntitlements(),
-  withMetaResource,
   connect(null, actions)
 )(EntitlementListing);
 
