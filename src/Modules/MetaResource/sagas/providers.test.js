@@ -193,12 +193,12 @@ describe('Provider Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { onSuccess: sinon.stub() };
+      const onSuccessAction = { onSuccess: jest.fn() };
       const sagaSuccess = createProvider(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -235,12 +235,12 @@ describe('Provider Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { fqon: 'iamfqon', providerId: '1', payload: [], onSuccess: sinon.stub() };
+      const onSuccessAction = { fqon: 'iamfqon', providerId: '1', payload: [], onSuccess: jest.fn() };
       const sagaSuccess = updateProvider(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -277,13 +277,13 @@ describe('Provider Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = deleteProvider(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {
@@ -320,13 +320,13 @@ describe('Provider Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = deleteProviders(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {
@@ -363,13 +363,13 @@ describe('Provider Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = redeployProvider(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should dispatch a reject status when there is an error', () => {

@@ -6,6 +6,6 @@ const wrapper = shallow(<RobotUprisingIcon />);
 
 describe('(Component) RobotUprisingIcon', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 });

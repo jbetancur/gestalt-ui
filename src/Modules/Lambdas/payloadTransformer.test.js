@@ -8,8 +8,8 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         const sourcePayload = metaModels.lambda.get();
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.provider).to.have.property('id');
-        expect(payload.properties.provider).to.have.property('locations').that.is.empty;
+        expect(payload.properties.provider).toHaveProperty('id');
+        expect(payload.properties.provider).toHaveProperty('locations', []);
       });
     });
 
@@ -31,9 +31,9 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         const sourcePayload = metaModels.lambda.get();
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties).to.include({ code_type: 'package' });
-        expect(payload.properties).to.have.property('compressed');
-        expect(payload.properties).to.not.have.property('code');
+        expect(payload.properties).toHaveProperty('code_type', 'package');
+        expect(payload.properties).toHaveProperty('compressed');
+        expect(payload.properties).not.toHaveProperty('code');
       });
 
       it('should generate the correct payload when it is inline code', () => {
@@ -45,9 +45,9 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties).to.include({ code_type: 'code' });
-        expect(payload.properties).to.include({ code: 'YQ==' });
-        expect(payload.properties).to.not.have.property('compressed');
+        expect(payload.properties).toHaveProperty('code_type', 'code');
+        expect(payload.properties).toHaveProperty('code', 'YQ==');
+        expect(payload.properties).not.toHaveProperty('compressed');
       });
     });
 
@@ -56,10 +56,10 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         const sourcePayload = metaModels.lambda.get();
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties).to.have.property('periodic_info');
-        expect(payload.properties.periodic_info).to.not.have.property('timezome');
-        expect(payload.properties.periodic_info).to.not.have.property('schedule');
-        expect(payload.properties.periodic_info).to.not.have.property('payload');
+        expect(payload.properties).toHaveProperty('periodic_info');
+        expect(payload.properties.periodic_info).not.toHaveProperty('timezome');
+        expect(payload.properties.periodic_info).not.toHaveProperty('schedule');
+        expect(payload.properties.periodic_info).not.toHaveProperty('payload');
       });
 
       it('should generate the correct payload when periodic_info is missing properties.schedule', () => {
@@ -72,7 +72,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.periodic_info).to.be.a('object').that.is.empty;
+        expect(payload.properties.periodic_info).toEqual({});
       });
 
       it('should generate the correct payload when periodic_info is provided properties.schedule', () => {
@@ -86,7 +86,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.periodic_info).to.be.a('object');
+        expect(payload.properties.periodic_info).toEqual({ payload: {}, schedule: 'ISO8601here' });
       });
 
       it('should generate the correct payload when periodic_info is provided properties.schedule a data payload is provided', () => {
@@ -102,7 +102,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.periodic_info.payload).to.include({ data: 'YQ==' });
+        expect(payload.properties.periodic_info.payload).toHaveProperty('data', 'YQ==');
       });
     });
 
@@ -117,8 +117,8 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload, true);
 
-        expect(payload.properties.provider).to.have.property('id').that.equals('1');
-        expect(payload.properties.provider).to.not.have.property('locations');
+        expect(payload.properties.provider).toHaveProperty('id', '1');
+        expect(payload.properties.provider).not.toHaveProperty('locations');
       });
     });
   });

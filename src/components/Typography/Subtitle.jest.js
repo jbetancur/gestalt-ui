@@ -6,7 +6,7 @@ describe('(Component) Subtitle', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<Subtitle />);
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('renders with basic props', () => {

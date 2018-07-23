@@ -38,7 +38,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.num_instances).to.equal(1);
+        expect(payload.properties.num_instances).toBe(1);
       });
     });
 
@@ -51,7 +51,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.cmd).to.equal('echo hello');
+        expect(payload.properties.cmd).toBe('echo hello');
       });
 
       it('should set remove cmd if it is \'\'', () => {
@@ -62,7 +62,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.cmd).to.not.exist;
+        expect(payload.properties).not.toHaveProperty('cmd');
       });
     });
 
@@ -95,7 +95,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.constraints).to.not.exist;
+        expect(payload.properties).not.toHaveProperty('contraints');
       });
     });
 
@@ -201,7 +201,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload, [], true);
 
-        expect(payload.properties.provider).to.not.exist;
+        expect(payload.properties).not.toHaveProperty('provider');
       });
     });
   });

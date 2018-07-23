@@ -6,6 +6,6 @@ const wrapper = shallow(<USEnglishLangIcon />);
 
 describe('(Component) USEnglishLangIcon', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 });

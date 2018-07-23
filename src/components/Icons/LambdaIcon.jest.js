@@ -6,6 +6,6 @@ const wrapper = shallow(<LambdaIcon />);
 
 describe('(Component) LambdaIcon', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 });

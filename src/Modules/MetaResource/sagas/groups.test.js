@@ -38,13 +38,13 @@ describe('Group Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = addGroupMember(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -89,13 +89,13 @@ describe('Group Sagas', () => {
     });
 
     it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: sinon.stub() };
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = removeGroupMember(onSuccessAction);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).to.have.been.calledWith({ id: 1 });
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {

@@ -30,7 +30,7 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
   inkTransitionEnterTimeout={450}
   inkTransitionLeaveTimeout={300}
   inkTransitionOverlap={150}
-  onClick={[Function]}
+  onClick={[MockFunction]}
 >
   add
 </withInk(withTooltip(Button))>
@@ -50,7 +50,7 @@ exports[`(Components) AddButton renders correctly with label 1`] = `
   inkTransitionEnterTimeout={450}
   inkTransitionLeaveTimeout={300}
   inkTransitionOverlap={150}
-  onClick={[Function]}
+  onClick={[MockFunction]}
 >
   Wow
 </withInk(withTooltip(Button))>

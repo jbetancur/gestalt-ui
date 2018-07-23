@@ -8,7 +8,7 @@ describe('(Panels) Content', () => {
       <Content />
     );
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('renders that is expanded', () => {

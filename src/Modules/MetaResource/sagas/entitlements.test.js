@@ -238,12 +238,12 @@ describe('Entitlement Sagas', () => {
         }
       ];
 
-      const onSuccessAction = { fqon: 'iamfqon', newIdentityId: '42', actions, onSuccess: sinon.stub() };
+      const onSuccessAction = { fqon: 'iamfqon', newIdentityId: '42', actions, onSuccess: jest.fn() };
       const saga = updateEntitlements(onSuccessAction);
       saga.next();
       saga.next();
       // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).to.have.been.called;
+      expect(onSuccessAction.onSuccess).toBeCalled();
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {

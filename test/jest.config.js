@@ -1,5 +1,7 @@
 module.exports = {
   rootDir: '../',
+  // prevents test warnings when testing XMLhttpRequests (i.e. axios)
+  testURL: 'http://gestalt',
   // note babelrc containers test exclusions for istanbul
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{js,jsx}',

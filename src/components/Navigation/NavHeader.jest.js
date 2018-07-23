@@ -6,7 +6,7 @@ describe('(Navigation) NavHeader', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<NavHeader />);
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('renders a NavHeader', () => {

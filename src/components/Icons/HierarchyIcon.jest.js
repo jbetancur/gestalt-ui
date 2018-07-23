@@ -6,6 +6,6 @@ const wrapper = shallow(<HierarchyIcon />);
 
 describe('(Component) HierarchyIcon', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 });

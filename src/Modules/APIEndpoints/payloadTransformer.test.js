@@ -36,7 +36,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload, true);
 
-        expect(payload.properties.container_port_name).to.not.exist;
+        expect(payload.properties).not.toHaveProperty('container_port_name');
       });
 
       it('should remove container related properties if the implementation_type = container', () => {
@@ -48,7 +48,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
         });
         const payload = generatePayload(sourcePayload, true);
 
-        expect(payload.properties.container_port_name).to.exist;
+        expect(payload.properties).toHaveProperty('container_port_name');
       });
     });
   });

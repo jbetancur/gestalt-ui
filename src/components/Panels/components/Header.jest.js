@@ -8,7 +8,7 @@ describe('(Panels) Header', () => {
       <Header title="gazobazorb" />
     );
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('renders with a title', () => {

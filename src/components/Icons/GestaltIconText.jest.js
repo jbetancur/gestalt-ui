@@ -6,6 +6,6 @@ const wrapper = shallow(<GestaltIconText />);
 
 describe('(Component) GestaltIconText', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 });

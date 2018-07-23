@@ -6,7 +6,7 @@ describe('(Component) P', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<P />);
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('renders with basic props', () => {

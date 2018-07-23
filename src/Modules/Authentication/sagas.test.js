@@ -10,6 +10,8 @@ import authSagas, {
 import * as types from './actionTypes';
 
 describe('Auth Sagas', () => {
+  const cookies = new Cookies();
+  cookies.set('auth_token', '123', { path: '/' });
   const tokenData = { access_token: '321', expires_in: '2018-07-10T06:57:27.000Z' };
 
   describe('login Sequence', () => {
@@ -33,7 +35,7 @@ describe('Auth Sagas', () => {
       );
     });
 
-    it('should trigget a sync', () => {
+    it('should trigger a sync', () => {
       result = saga.next();
 
       expect(result.value).toEqual(
@@ -81,11 +83,7 @@ describe('Auth Sagas', () => {
   });
 
   describe('logout Sequence', () => {
-    let cookies;
-
     beforeEach(() => {
-      cookies = new Cookies();
-      cookies.set('auth_token', '123', { path: '/' });
       saveItem('lastVisitedRoute', '/test');
     });
 
@@ -103,6 +101,8 @@ describe('Auth Sagas', () => {
       });
 
       it('should clean up cookies/localstorage when done', () => {
+        cookies.remove('auth_token', '123', { path: '/' });
+
         result = saga.next();
         result = saga.next();
 
@@ -116,7 +116,6 @@ describe('Auth Sagas', () => {
       const saga = logout(action);
 
       it('should clean up cookies/localstorage when done', () => {
-        cookies.remove('auth_token', '123', { path: '/' });
         saga.next();
         saga.next();
 
@@ -164,7 +163,7 @@ describe('Auth Sagas', () => {
     });
 
     describe('when there are rejections', () => {
-      it('should return a payload and dispatch a zreject status when there is an error', () => {
+      it('should return a payload and dispatch a reject status when there is an error', () => {
         const error = 'an error has occured';
         const sagaError = logout();
         let resultError = sagaError.next();

@@ -8,7 +8,7 @@ describe('(Panels) Panel', () => {
       <Panel title="gazobazorb" />
     );
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('renders component with basic props', () => {

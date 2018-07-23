@@ -7,7 +7,7 @@ describe('(Component) DeleteIcon', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<DeleteIcon />, baseTheme);
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   test('it mounts without additional props', () => {

@@ -48,7 +48,7 @@ describe('(Secret Payload Transformer) generatePayload', () => {
         { op: 'replace', path: '/name', value: 'change me' }
       ];
 
-      expect(payload).to.have.deep.members(expectedPatches);
+      expect(payload).toEqual(expectedPatches);
     });
   });
 });

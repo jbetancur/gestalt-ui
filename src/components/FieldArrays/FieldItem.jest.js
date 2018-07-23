@@ -6,7 +6,7 @@ describe('(Components) FieldItem', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<FieldItem />);
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('mounts with basic props', () => {

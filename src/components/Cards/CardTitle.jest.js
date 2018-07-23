@@ -6,7 +6,7 @@ describe('(Cards) CardTitle', () => {
   it('renders component without exploding', () => {
     const wrapper = shallowWithTheme(<CardTitle />);
 
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('mounts with basic props', () => {

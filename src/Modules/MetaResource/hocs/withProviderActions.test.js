@@ -9,7 +9,7 @@ describe('withProviderActions Hoc', () => {
   it('renders component without exploding', () => {
     // const wrapper = shallow(<Hoc match={{}} />);
     // console.log(wrapper.props().render().dive());
-    // expect(wrapper.dive().dive()).to.have.length(1);
+    // expect(wrapper.dive().dive()).toHaveLength(1);
     // expect(wrapper.props().render()).toMatchSnapshot();
   });
 });

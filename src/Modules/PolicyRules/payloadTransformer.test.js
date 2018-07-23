@@ -7,18 +7,18 @@ describe('(Policy Event Rule Payload Transformer)', () => {
       const sourcePayload = metaModels.policyRule.create();
       const payload = generatePayload(sourcePayload, [], false, 'limit');
 
-      expect(payload.resource_type).to.equal('Gestalt::Resource::Rule::Limit');
-      expect(payload.properties).to.not.have.property('lambda');
-      expect(payload.properties).to.have.property('eval_logic');
+      expect(payload.resource_type).toBe('Gestalt::Resource::Rule::Limit');
+      expect(payload.properties).not.toHaveProperty('lambda');
+      expect(payload.properties).toHaveProperty('eval_logic');
     });
 
     it('should generate the correct payload when it is a event policy', () => {
       const sourcePayload = metaModels.policyRule.create({ properties: { lambda: { id: '123' } } });
       const payload = generatePayload(sourcePayload, [], false, 'event');
 
-      expect(payload.resource_type).to.equal('Gestalt::Resource::Rule::Event');
-      expect(payload.properties).to.not.have.property('eval_logic');
-      expect(payload.properties.lambda).to.have.property('id').that.equals('123');
+      expect(payload.resource_type).toBe('Gestalt::Resource::Rule::Event');
+      expect(payload.properties).not.toHaveProperty('eval_logic');
+      expect(payload.properties.lambda).toHaveProperty('id', '123');
     });
   });
 
@@ -41,10 +41,10 @@ describe('(Policy Event Rule Payload Transformer)', () => {
         { op: 'add', path: '/properties/eval_logic', value: { operator: 'whoa' } },
       ];
 
-      expect(payload.length).to.equal(4);
-      expect(payload).to.deep.include(expectedPatches[0]);
-      expect(payload).to.deep.include(expectedPatches[1]);
-      expect(payload).to.deep.include(expectedPatches[2]);
+      expect(payload.length).toBe(4);
+      expect(payload).toContainEqual(expectedPatches[0]);
+      expect(payload).toContainEqual(expectedPatches[1]);
+      expect(payload).toContainEqual(expectedPatches[2]);
     });
 
     it('should generate the correct patches when it is a event policy', () => {
@@ -65,10 +65,10 @@ describe('(Policy Event Rule Payload Transformer)', () => {
         { op: 'add', path: '/properties/match_actions/0', value: 'takeaction' },
       ];
 
-      expect(payload.length).to.equal(4);
-      expect(payload).to.deep.include(expectedPatches[0]);
-      expect(payload).to.deep.include(expectedPatches[1]);
-      expect(payload).to.deep.include(expectedPatches[2]);
+      expect(payload.length).toBe(4);
+      expect(payload).toContainEqual(expectedPatches[0]);
+      expect(payload).toContainEqual(expectedPatches[1]);
+      expect(payload).toContainEqual(expectedPatches[2]);
     });
   });
 });
