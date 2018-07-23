@@ -6,6 +6,8 @@ const Clean = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // enable manually for bundle analysis
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
@@ -84,7 +86,11 @@ module.exports = (env) => {
           options: {
             sourceMap: false,
             outputStyle: 'compressed',
-          }
+          },
+          plugins: [
+            autoprefixer,
+            cssnano,
+          ],
         })),
       {
         entry: {
@@ -139,7 +145,10 @@ module.exports = (env) => {
         options: {
           sourceMap: false,
           outputStyle: 'expanded',
-        }
+        },
+        plugins: [
+          autoprefixer,
+        ],
       })),
     parts.devServer({
       port: 8081,

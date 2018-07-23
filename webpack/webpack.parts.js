@@ -1,7 +1,6 @@
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const execSync = require('child_process').execSync;
+const { execSync } = require('child_process');
 const pkg = require('../package.json');
 const config = require('../config.json');
 
@@ -63,7 +62,7 @@ exports.esLintConfig = () => (
   }
 );
 
-exports.scssConfig = ({ options, srcPath }) => (
+exports.scssConfig = ({ plugins = [], options = {}, srcPath }) => (
   {
     module: {
       rules: [{
@@ -76,16 +75,15 @@ exports.scssConfig = ({ options, srcPath }) => (
               loader: 'css-loader',
               options: {
                 modules: false,
-                minimize: true,
-                importLoaders: 1
+                importLoaders: 1,
               }
             },
             {
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss-loader',
-                plugins: [autoprefixer]
-              }
+                plugins,
+              },
             },
             {
               loader: 'sass-loader',
