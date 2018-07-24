@@ -21,7 +21,7 @@ variables:
 test:
   stage: test
   script:
-    - nvm use
+    - . ~/.nvm/nvm.sh && nvm use
     - yarn cache dir
     - yarn --frozen-lockfile install
     - yarn test:coverage
