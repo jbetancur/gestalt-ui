@@ -4,7 +4,7 @@
     "title": "Galactic Fog",
     "description": "gestalt ui",
     "engines": {
-        "node": ">=8.6.0"
+        "node": ">=8.11.3"
     },
     "repository": {
         "type": "git",
