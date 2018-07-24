@@ -20,6 +20,7 @@ variables:
 test:
   stage: test
   script:
+    - nvm use
     - yarn cache dir
     - yarn --frozen-lockfile install
     - yarn test:coverage
@@ -37,6 +38,7 @@ test:
     url: https://test.galacticfog.com
   allow_failure: false
   script:
+    - nvm use
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
@@ -65,6 +67,7 @@ publish-docker-image:
     - docker:dind
   allow_failure: false
   script:
+    - nvm use
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
@@ -100,6 +103,7 @@ review:
   services:
     - docker:dind
   script:
+    - nvm use
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
