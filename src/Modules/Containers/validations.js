@@ -74,6 +74,11 @@ export default (values) => {
     values.properties.port_mappings.forEach((port, index) => {
       const portMapError = {};
 
+      if (!port || !port.type) {
+        portMapError.type = 'required';
+        portMappingErrors[index] = portMapError;
+      }
+
       if (!port || !port.name) {
         portMapError.name = 'required';
         portMappingErrors[index] = portMapError;
@@ -94,11 +99,6 @@ export default (values) => {
         portMappingErrors[index] = portMapError;
       }
 
-      if (!port || !port.port_type) {
-        portMapError.port_type = 'required';
-        portMappingErrors[index] = portMapError;
-      }
-
       if (!port || !port.lb_port) {
         portMapError.lb_port = 'required';
         portMappingErrors[index] = portMapError;
@@ -111,11 +111,6 @@ export default (values) => {
 
       if (!port || !port.container_port) {
         portMapError.container_port = 'required';
-        portMappingErrors[index] = portMapError;
-      }
-
-      if (!port.container_port && !Number.isInteger(port.container_port)) {
-        portMapError.container_port = ' ';
         portMappingErrors[index] = portMapError;
       }
 

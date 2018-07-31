@@ -56,7 +56,8 @@ export const getEditContainerModel = createSelector(
         labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
-        port_mappings: container.properties.port_mappings,
+        port_mappings: container.properties.port_mappings
+          .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
         secrets: container.properties.secrets,
       },
     };
@@ -76,7 +77,8 @@ export const getEditContainerModelAsSpec = createSelector(
         labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
         volumes: fixVolumes(container.properties.volumes),
-        port_mappings: container.properties.port_mappings,
+        port_mappings: container.properties.port_mappings
+          .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
         secrets: container.properties.secrets
       },
     };

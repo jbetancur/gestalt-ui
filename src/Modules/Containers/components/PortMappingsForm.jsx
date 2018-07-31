@@ -6,10 +6,11 @@ import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { Chips } from 'components/Lists';
 import networkProtocols from '../lists/networkProtocols';
-import { portMappingServiceNameMaxLen } from '../validations';
+import exposureTypes from '../lists/exposureTypes';
 
 const fixInputNumber = value => value && parseInt(value, 10);
 const initialValues = {
+  type: 'internal',
   protocol: 'tcp',
   expose_endpoint: true,
 };
@@ -27,8 +28,8 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
 
       return (
         <FieldItem key={`portmapping-${member}`}>
-          <Row gutter={5} alignItems="baseline">
-            <Col flex={1} xs={12} sm={12} md={12} style={{ minWidth: '90px' }}>
+          <Row gutter={5} alignItems="baseline" columnDivisions={24}>
+            <Col flex={2} xs={24} sm={24} md={24} style={{ minWidth: '90px' }}>
               <Field
                 id={`${member}.expose_endpoint`}
                 name={`${member}.expose_endpoint`}
@@ -37,18 +38,43 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
                 label="Expose Service"
               />
             </Col>
-            <Col flex={2} xs={12} sm={12} md={6}>
+            {field.expose_endpoint &&
+              <Col flex={3} xs={24} sm={24} md={4}>
+                <Field
+                  id={`${member}.type`}
+                  name={`${member}.type`}
+                  component={SelectField}
+                  label="Exposure Type"
+                  itemLabel="displayName"
+                  itemValue="value"
+                  menuItems={exposureTypes}
+                  sameWidth={false}
+                  required
+                />
+              </Col>}
+            <Col flex={2} xs={24} sm={8} md={4}>
+              <Field
+                id={`${member}.protocol`}
+                name={`${member}.protocol`}
+                component={SelectField}
+                label="Protocol"
+                itemLabel="displayName"
+                itemValue="value"
+                menuItems={networkProtocols}
+                required
+              />
+            </Col>
+            <Col flex={3} xs={24} sm={24} md={12}>
               <Field
                 name={`${member}.name`}
                 type="text"
                 component={TextField}
-                label="Service Name"
-                maxLength={portMappingServiceNameMaxLen}
+                label="Service Label"
                 required
               />
             </Col>
             {(networkType !== 'HOST') &&
-              <Col flex={2} xs={12} sm={12} minWidth={100}>
+              <Col flex={3} xs={24} sm={8}s>
                 <Field
                   name={`${member}.container_port`}
                   type="number"
@@ -62,7 +88,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
                 />
               </Col>}
             {field.expose_endpoint &&
-              <Col flex={2} xs={12} sm={12}>
+              <Col flex={3} xs={24} sm={8}>
                 <Field
                   name={`${member}.lb_port`}
                   type="number"
@@ -74,18 +100,6 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
                   normalize={fixInputNumber}
                 />
               </Col>}
-            <Col flex={1} xs={12} sm={12} md={2}>
-              <Field
-                id={`${member}.protocol`}
-                name={`${member}.protocol`}
-                component={SelectField}
-                label="Protocol"
-                itemLabel="displayName"
-                itemValue="value"
-                menuItems={networkProtocols}
-                required
-              />
-            </Col>
             {field.expose_endpoint &&
             <Col flex>
               <Field

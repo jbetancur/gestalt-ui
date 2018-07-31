@@ -141,7 +141,7 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                       />
                     </Col>
 
-                    <Col flex={10} xs={12}>
+                    <Col flex={9} xs={12}>
                       <Field
                         component={TextField}
                         name="properties.image"
@@ -152,14 +152,14 @@ const ContainerForm = ({ match, values, container, containerPending, editMode, i
                       />
                     </Col>
 
-                    <Col flex={2} xs={12}>
+                    <Col flex={3} xs={12}>
                       <Field
                         id="force_pull"
                         component={Checkbox}
                         name="properties.force_pull"
                         // TODO: Find out why redux-form state for bool doesn't apply
                         checked={values.properties.force_pull}
-                        label="Force Pull"
+                        label="Force Pull Image"
                       />
                     </Col>
                   </Row>
