@@ -112,7 +112,7 @@ export function* deleteLambda(action) {
  */
 export function* deleteLambdas(action) {
   try {
-    const all = action.resources.map(resource => axios.delete(`${action.fqon}/lambdas/${resource.id}?${action.force || false}`));
+    const all = action.resources.map(resource => axios.delete(`${action.fqon}/lambdas/${resource.id}?force=${action.force || false}`));
     const names = action.resources.map(item => (item.name)).join('\n');
 
     yield call(axios.all, all);
