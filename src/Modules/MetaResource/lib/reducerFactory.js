@@ -1,14 +1,17 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import { insertItem, removeItemById } from 'util/helpers/lists';
 import { PREFIX } from '../actionTypes';
 
 /**
  * Creates Async API Reducers so we don't have to...
- * @param {Array} verbs - an array of actions (will generate a request, fulfilled and rejected reducer set). this is also the prefix (FETCH_...)
- * @param {string} key - the key, usually the name of your model
- * @param {string} category - the category to be included in the dispatch type (FETCH_SOMETHING_...)
- * @param {*} model - an {} or an []
+ * @param {Object}
+ * verbs - an array of actions (will generate a request, fulfilled and rejected reducer set). this is also the prefix (FETCH_...)
+ * key - the key, usually the name of your model
+ * category - the category to be included in the dispatch type (FETCH_SOMETHING_...)
+ * model - an {} or an []
+ * unloadOnRouteChange - if state should be unloaded when the route changes
  */
-export default function createAsyncReducer(verbs = [], key, category, model) {
+export default function createAsyncReducer({ verbs = [], key, category, model, unloadOnRouteChange }) {
   const categoryUpper = category.toUpperCase();
   const initialState = {
     pending: false,
@@ -68,6 +71,10 @@ export default function createAsyncReducer(verbs = [], key, category, model) {
         ),
       });
     });
+
+    if (unloadOnRouteChange) {
+      Object.assign(actions, { [LOCATION_CHANGE]: () => initialState });
+    }
 
     Object.assign(actions, {
       [`${PREFIX}UNLOAD_${categoryUpper}`]: () => initialState,

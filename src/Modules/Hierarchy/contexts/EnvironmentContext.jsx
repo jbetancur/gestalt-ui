@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withMetaResource, withOrganization, withEnvironment, withWorkspace } from 'Modules/MetaResource';
+import { withOrganization, withEnvironment, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
 import EnvironmentNav from '../containers/EnvironmentNav';
@@ -16,7 +16,6 @@ class EnvironmentContext extends Component {
     organizationSet: PropTypes.object.isRequired,
     workspace: PropTypes.object.isRequired,
     environment: PropTypes.object.isRequired,
-    unloadProviders: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -43,9 +42,8 @@ class EnvironmentContext extends Component {
   }
 
   componentWillUnmount() {
-    const { unloadProviders, environmentActions } = this.props;
+    const { environmentActions } = this.props;
 
-    unloadProviders();
     environmentActions.unloadEnvironment();
   }
 
@@ -68,7 +66,6 @@ class EnvironmentContext extends Component {
 }
 
 export default compose(
-  withMetaResource,
   withOrganization(),
   withEnvironment(),
   withWorkspace(),

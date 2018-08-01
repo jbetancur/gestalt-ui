@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import reducerFactory from './reducerFactory';
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
 
 describe('reducerFactory', () => {
   it('should return the default state when there is no matching Action Type', () => {
-    const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', []);
+    const reducer = reducerFactory({ verbs: ['fetch'], key: 'whatever', category: 'youwant', model: [] });
 
     expect(
       reducer(undefined, {})
@@ -18,7 +19,7 @@ describe('reducerFactory', () => {
 
   describe('with basic options', () => {
     it('should handle REQUEST', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', []);
+      const reducer = reducerFactory({ verbs: ['fetch'], key: 'whatever', category: 'youwant', model: [] });
 
       expect(
         reducer({}, {
@@ -30,7 +31,7 @@ describe('reducerFactory', () => {
     });
 
     it('should handle FULFILLED', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', []);
+      const reducer = reducerFactory({ verbs: ['fetch'], key: 'whatever', category: 'youwant', model: [] });
 
       expect(
         reducer({}, {
@@ -45,7 +46,7 @@ describe('reducerFactory', () => {
     });
 
     it('should handle FULFILLED when there is a delete verb', () => {
-      const reducer = reducerFactory(['delete'], 'whatever', 'youwant', []);
+      const reducer = reducerFactory({ verbs: ['delete'], key: 'whatever', category: 'youwant', model: [] });
 
       expect(
         reducer({}, {
@@ -58,7 +59,7 @@ describe('reducerFactory', () => {
     });
 
     it('should handle REJECTED', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', []);
+      const reducer = reducerFactory({ verbs: ['fetch'], key: 'whatever', category: 'youwant', model: [] });
 
       expect(
         reducer({}, {
@@ -72,11 +73,21 @@ describe('reducerFactory', () => {
     });
 
     it('should handle UNLOAD_...', () => {
-      const reducer = reducerFactory(['fetch'], 'whatever', 'youwant', []);
+      const reducer = reducerFactory({ verbs: ['fetch'], key: 'whatever', category: 'youwant', model: [] });
 
       expect(
         reducer({}, {
           type: 'metaResource/UNLOAD_YOUWANT',
+        })
+      ).toEqual(initialState);
+    });
+
+    it('should unload state on LOCATION_CHANGE when unloadOnRouteChange is true', () => {
+      const reducer = reducerFactory({ verbs: ['fetch'], key: 'whatever', category: 'youwant', model: [], unloadOnRouteChange: true });
+
+      expect(
+        reducer({}, {
+          type: LOCATION_CHANGE,
         })
       ).toEqual(initialState);
     });
