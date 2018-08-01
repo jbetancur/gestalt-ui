@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default ({ unload = false } = {}) => (BaseComponent) => {
   class Workspaces extends Component {
     static displayName = 'Workspaces (HOC)';
+
     static propTypes = {
       workspacesActions: PropTypes.object.isRequired,
     };

@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class Groups extends Component {
     static displayName = 'Groups (HOC)';
+
     static propTypes = {
       groupsActions: PropTypes.object.isRequired,
     };

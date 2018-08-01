@@ -12,7 +12,7 @@ import { H3 } from 'components/Typography';
 import { UserIcon, GroupIcon } from 'components/Icons';
 import SearchFields from '../components/SearchFields';
 import EntitlementTree from '../components/EntitlementTree';
-import actions from './../actions';
+import actions from '../actions';
 import { USER } from '../../../constants';
 
 class EntitlementListing extends PureComponent {
@@ -166,4 +166,3 @@ export default compose(
   withEntitlements(),
   connect(null, actions)
 )(EntitlementListing);
-

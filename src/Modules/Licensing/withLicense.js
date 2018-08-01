@@ -7,6 +7,7 @@ import actions from './actions';
 export default function withlicense(BaseComponent) {
   class License extends Component {
     static displayName = 'License(HOC)';
+
     static propTypes = {
       licenseActions: PropTypes.object.isRequired,
     };

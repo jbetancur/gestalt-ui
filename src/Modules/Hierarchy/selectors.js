@@ -53,4 +53,3 @@ export const getEditEnvironmentModel = createSelector(
     return metaModels.environment.create(model);
   }
 );
-

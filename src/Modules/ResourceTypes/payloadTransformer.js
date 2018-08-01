@@ -50,4 +50,3 @@ export function batchTypeProps(resourceTypeId, originalProps, currentProps) {
 
   return ops;
 }
-

@@ -54,25 +54,26 @@ class Panel extends PureComponent {
 
   state = { isExpanded: this.props.defaultExpanded };
 
-  toggle = () => this.setState({ isExpanded: !this.state.isExpanded });
+  toggle = () => this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
 
   render() {
     const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow, icon, fill } = this.props;
+    const { isExpanded } = this.state;
 
     return (
-      <PanelWrapper error={error} noShadow={noShadow} fill={fill} expanded={this.state.isExpanded}>
+      <PanelWrapper error={error} noShadow={noShadow} fill={fill} expanded={isExpanded}>
         {!!title &&
         <Header
           title={title}
           onClick={expandable ? this.toggle : null}
           expandable={expandable}
-          expanded={this.state.isExpanded}
+          expanded={isExpanded}
           count={count}
           icon={icon}
           noShadow={noShadow}
         />}
         <Content
-          isExpanded={this.state.isExpanded}
+          isExpanded={isExpanded}
           noPadding={noPadding}
           minHeight={minHeight}
         >

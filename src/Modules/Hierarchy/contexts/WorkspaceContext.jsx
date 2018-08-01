@@ -55,4 +55,3 @@ export default compose(
   withEnvironments(),
   withWorkspace(),
 )(WorkspaceContext);
-

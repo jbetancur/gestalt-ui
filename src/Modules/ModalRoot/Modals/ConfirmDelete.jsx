@@ -100,7 +100,7 @@ class ConfirmModal extends PureComponent {
   }
 
   handleForceChecked = () => {
-    this.setState({ force: !this.state.force });
+    this.setState(prevState => ({ force: !prevState.force }));
   }
 
   renderForceWarning() {

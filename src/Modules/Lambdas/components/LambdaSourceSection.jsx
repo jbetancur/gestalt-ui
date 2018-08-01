@@ -93,7 +93,7 @@ class LambdaSourceSection extends PureComponent {
   }
 
   handleFullScreen = () => {
-    this.setState({ fullscreen: !this.state.fullscreen });
+    this.setState(prevState => ({ fullscreen: !prevState.fullscreen }));
   }
 
   handleTheme = (theme) => {

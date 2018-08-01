@@ -219,4 +219,3 @@ export default compose(
     validate,
   }),
 )(ContainerEdit);
-

@@ -39,7 +39,7 @@ class UserListing extends PureComponent {
     const { match, usersActions, showReparentModal } = this.props;
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
@@ -54,7 +54,7 @@ class UserListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 

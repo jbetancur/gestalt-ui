@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getLastFromSplit } from 'util/helpers/strings';
 import { notificationActions } from 'Modules/Notifications';
 import { buildAllURL, buildOneURL } from './urlmapper';
-import { fetchAPI } from '../lib/utility';
+import { fetchAPI } from './utility';
 import { PREFIX } from '../actionTypes';
 
 // Exported for testability

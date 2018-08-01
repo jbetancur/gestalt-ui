@@ -9,6 +9,7 @@ import { buildAllURL } from '../lib/urlmapper';
 export default ({ fetchOnMount = true } = {}) => (WrapperComponent) => {
   class ProviderKongsByGateway extends Component {
     static displayName = 'ProviderKongsByGateway (HOC)';
+
     static propTypes = {
       match: PropTypes.object.isRequired,
     };

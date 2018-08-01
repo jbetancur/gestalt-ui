@@ -60,7 +60,7 @@ export class Notifications extends Component {
                 onRemove={removeNotification}
               />
             </CSSTransition>
-            ))}
+          ))}
         </TransitionGroup>
       </MessageGroup>
     );

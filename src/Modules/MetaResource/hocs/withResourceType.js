@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withresourceType(BaseComponent) {
   class ResourceType extends Component {
     static displayName = 'ResourceType(HOC)';
+
     static propTypes = {
       resourceTypeActions: PropTypes.object.isRequired,
     };

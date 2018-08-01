@@ -68,10 +68,11 @@ export default function withUpgrader(BaseComponent) {
     }
 
     getUpgraderStatus = async () => {
+      const { upgrade } = this.state;
       this.setState({ loading: true, error: null });
 
       try {
-        const response = await upgradeInstanceAPI.get(`${this.state.upgrade.endpoint}/status`);
+        const response = await upgradeInstanceAPI.get(`${upgrade.endpoint}/status`);
 
         this.setState({ status: response.data, loading: false });
       } catch (error) {
@@ -80,10 +81,11 @@ export default function withUpgrader(BaseComponent) {
     }
 
     getPlan = async () => {
+      const { upgrade } = this.state;
       this.setState({ loading: true, error: null });
 
       try {
-        const response = await upgradeInstanceAPI.get(`${this.state.upgrade.endpoint}/plan`);
+        const response = await upgradeInstanceAPI.get(`${upgrade.endpoint}/plan`);
 
         this.setState({ plan: response.data, loading: false });
       } catch (error) {
@@ -92,10 +94,11 @@ export default function withUpgrader(BaseComponent) {
     }
 
     getUpgraderLog = async () => {
+      const { upgrade } = this.state;
       this.setState({ loading: true, error: null, log: [], });
 
       try {
-        const response = await upgradeInstanceAPI.get(`${this.state.upgrade.endpoint}/log`);
+        const response = await upgradeInstanceAPI.get(`${upgrade.endpoint}/log`);
         this.setState({ loading: false, log: response.data });
       } catch (error) {
         this.setState({ error: determineError(error), loading: false });
@@ -188,13 +191,14 @@ export default function withUpgrader(BaseComponent) {
     }
 
     pollPlan = async () => {
+      const { upgrade } = this.state;
       clearInterval(this.timeoutPollPlan);
       this.setState({ error: null, loading: true });
 
       return new Promise((resolve, reject) => {
         try {
           this.timeoutPollPlan = setInterval(async () => {
-            const response = await upgradeInstanceAPI.get(`${this.state.upgrade.endpoint}/plan`);
+            const response = await upgradeInstanceAPI.get(`${upgrade.endpoint}/plan`);
             clearInterval(this.timeoutPollPlan);
             this.setState({ plan: response.data, loading: false });
             resolve(response.data);

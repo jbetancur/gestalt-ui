@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import styled, { withTheme, css } from 'styled-components';
-import ExpanderIcon from '../components/ExpanderIcon';
+import ExpanderIcon from './ExpanderIcon';
 
 const TitleSection = styled(Col)`
   ${props => !props.noShadow && css`

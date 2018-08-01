@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class Users extends Component {
     static displayName = 'Users (HOC)';
+
     static propTypes = {
       usersActions: PropTypes.object.isRequired,
     };

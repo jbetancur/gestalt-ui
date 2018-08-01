@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default () => (BaseComponent) => {
   class Organization extends Component {
     static displayName = 'Organization (HOC)';
+
     static propTypes = {
       organizationActions: PropTypes.object.isRequired,
     };

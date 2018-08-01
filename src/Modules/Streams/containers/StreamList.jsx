@@ -43,7 +43,7 @@ class StreamList extends PureComponent {
   deleteOne = (row) => {
     const { match, streamSpecsActions } = this.props;
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateStreams();
     };
 
@@ -58,7 +58,7 @@ class StreamList extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateStreams();
     };
 
@@ -168,4 +168,3 @@ export default compose(
   withStreamSpecs,
   connect(mapStateToProps, actions),
 )(StreamList);
-

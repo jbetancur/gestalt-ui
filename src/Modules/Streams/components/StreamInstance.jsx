@@ -178,25 +178,27 @@ class StreamInstance extends Component {
   }
 
   incrementChart(report, num) {
-    const datasetsCopy = this.state[report].datasets.slice(0);
-    // const labelsCopy = this.state[report].labels.slice(0);
-    const dataCopy = datasetsCopy[0].data.slice(0);
-    // dataCopy.push(num + Math.floor(Math.random() * 4000));
-    dataCopy.push(num);
-    // labelsCopy.push(moment().format('hh:mm:ss'));
+    this.setState((prevState) => {
+      const datasetsCopy = prevState[report].datasets.slice(0);
+      // const labelsCopy = prevState[report].labels.slice(0);
+      const dataCopy = datasetsCopy[0].data.slice(0);
+      // dataCopy.push(num + Math.floor(Math.random() * 4000));
+      dataCopy.push(num);
+      // labelsCopy.push(moment().format('hh:mm:ss'));
 
-    if (datasetsCopy[0].data.length >= this.maxChart) {
-      dataCopy.shift();
-      // labelsCopy.shift();
-    }
+      if (datasetsCopy[0].data.length >= this.maxChart) {
+        dataCopy.shift();
+        // labelsCopy.shift();
+      }
 
-    datasetsCopy[0].data = dataCopy;
+      datasetsCopy[0].data = dataCopy;
 
-    this.setState({
-      [report]: Object.assign({}, this.state[report], {
-        datasets: datasetsCopy,
-        // labels: labelsCopy,
-      })
+      return {
+        [report]: Object.assign({}, prevState[report], {
+          datasets: datasetsCopy,
+          // labels: labelsCopy,
+        })
+      };
     });
   }
 

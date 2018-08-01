@@ -74,7 +74,7 @@ const PortMappingsForm = ({ fields, networkType, portMappingFormValues, change }
               />
             </Col>
             {(networkType !== 'HOST') &&
-              <Col flex={3} xs={24} sm={8}s>
+              <Col flex={3} xs={24} sm={8}>
                 <Field
                   name={`${member}.container_port`}
                   type="number"

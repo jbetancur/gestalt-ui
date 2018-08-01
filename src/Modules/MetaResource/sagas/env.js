@@ -42,4 +42,3 @@ export default function* () {
   yield fork(takeLatest, types.FETCH_ENV_REQUEST, fetchEnv);
   yield fork(takeLatest, types.FETCH_ENV_SCHEMA_REQUEST, fetchEnvSchema);
 }
-

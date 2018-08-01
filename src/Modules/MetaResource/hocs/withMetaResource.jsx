@@ -38,4 +38,3 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
 
   return connect(mapStateToProps, actions)((Resource));
 }
-

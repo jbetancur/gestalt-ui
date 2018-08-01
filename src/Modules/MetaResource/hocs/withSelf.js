@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withSelf(BaseComponent) {
   class Self extends Component {
     static displayName = 'Self(HOC)';
+
     static propTypes = {
       selfActions: PropTypes.object.isRequired,
     };

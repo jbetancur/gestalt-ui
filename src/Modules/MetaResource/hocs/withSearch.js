@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default () => (BaseComponent) => {
   class Search extends Component {
     static displayName = 'Secret (HOC)';
+
     static propTypes = {
       searchActions: PropTypes.object.isRequired,
     };

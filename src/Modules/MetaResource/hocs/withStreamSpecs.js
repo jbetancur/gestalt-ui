@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withstreamSpecs(BaseComponent) {
   class StreamSpecs extends Component {
     static displayName = 'StreamSpecs(HOC)';
+
     static propTypes = {
       streamSpecsActions: PropTypes.object.isRequired,
     };

@@ -44,7 +44,7 @@ class PolicyListing extends PureComponent {
     const { match, policiesActions } = this.props;
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
@@ -60,7 +60,7 @@ class PolicyListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
@@ -177,4 +177,3 @@ export default compose(
   withPolicies,
   connect(mapStateToProps, actions),
 )(PolicyListing);
-

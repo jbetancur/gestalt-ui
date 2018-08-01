@@ -47,7 +47,7 @@ class LambdaListing extends PureComponent {
     const { match, lambdasActions } = this.props;
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateLambdas();
     };
 
@@ -63,7 +63,7 @@ class LambdaListing extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateLambdas();
     };
 
@@ -189,4 +189,3 @@ export default compose(
   withLambdas,
   connect(mapStateToProps, actions),
 )(LambdaListing);
-

@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withSync(BaseComponent) {
   class Sync extends Component {
     static displayName = 'Sync(HOC)';
+
     static propTypes = {
       syncActions: PropTypes.object.isRequired,
     };

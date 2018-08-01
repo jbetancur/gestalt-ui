@@ -89,7 +89,7 @@ class ReparentModal extends PureComponent {
   }
 
   handleForceChecked = () => {
-    this.setState({ force: !this.state.force });
+    this.setState(prevState => ({ force: !prevState.force }));
   }
 
   handleEntity = (value) => {
@@ -97,7 +97,7 @@ class ReparentModal extends PureComponent {
   }
 
   handleReparent = () => {
-    this.setState({ reparent: !this.state.reparent });
+    this.setState(prevState => ({ reparent: !prevState.reparent }));
   }
 
   handleReparentTarget = (value, item) => {
@@ -123,7 +123,7 @@ class ReparentModal extends PureComponent {
           />}
       </Options>
     );
-    actionButtons.push(<Button flat important disabled={reparent && !reparentTargetValue}onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>);
+    actionButtons.push(<Button flat important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>);
     actionButtons.push(<Button flat primary onClick={this.close}>Cancel</Button>);
 
     return actionButtons;

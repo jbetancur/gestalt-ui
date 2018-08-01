@@ -92,7 +92,7 @@ class ActionsMenu extends PureComponent {
               menuItems={this.renderActions()}
             >
               {!icon && 'Actions'}
-            </MenuButton > :
+            </MenuButton> :
             this.renderActions()}
         </Div> : null
     );

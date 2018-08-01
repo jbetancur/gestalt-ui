@@ -4,6 +4,7 @@ import styled, { withTheme } from 'styled-components';
 
 const TabsStyle = styled.div`
   display: flex;
+
   /* border-bottom: 1px solid ${props => props.theme.colors['$md-grey-300']}; */
   margin-left: 5px;
   margin-right: 5px;
@@ -38,9 +39,9 @@ class Tabs extends Component {
   }
 
   handleTabClick = (tabIndex) => {
-    this.setState({
-      activeTabIndex: tabIndex === this.state.activeTabIndex ? this.props.defaultActiveTabIndex : tabIndex
-    });
+    this.setState(prevState => ({
+      activeTabIndex: tabIndex === prevState.activeTabIndex ? this.props.defaultActiveTabIndex : tabIndex
+    }));
   }
 
   // Encapsulate <Tabs/> component API as props for <Tab/> children

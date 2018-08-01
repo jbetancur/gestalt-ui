@@ -45,7 +45,7 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
         />
       </Col>
     </Row>
-  </Form >
+  </Form>
 );
 
 ContainerImportForm.propTypes = {

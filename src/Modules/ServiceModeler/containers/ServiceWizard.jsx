@@ -30,12 +30,12 @@ class ServiceWizardForm extends PureComponent {
   }
 
   nextPage = () => {
-    this.setState({ step: this.state.step + 1 });
+    this.setState(prevState => ({ step: prevState.step + 1 }));
   }
 
   previousPage = () => {
     if (this.state.step > 0) {
-      this.setState({ step: this.state.step - 1 });
+      this.setState(prevState => ({ step: prevState.step - 1 }));
     }
   }
 

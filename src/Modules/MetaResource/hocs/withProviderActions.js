@@ -10,6 +10,7 @@ const setPropName = asContext => (asContext ? 'contextProviderActions' : 'provid
 export default ({ asContext, fetchOnMount = true, filter, params = {} }) => (WrapperComponent) => {
   class ProviderActions extends Component {
     static displayName = 'ProviderActions(HOC)';
+
     static propTypes = {
       match: PropTypes.object.isRequired,
     };

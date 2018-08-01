@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class APIEndpoints extends Component {
     static displayName = 'APIEndpoints (HOC)';
+
     static propTypes = {
       apiEndpointsActions: PropTypes.object.isRequired,
     };

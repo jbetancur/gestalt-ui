@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default () => (BaseComponent) => {
   class Entitlements extends Component {
     static displayName = 'Entitlements(HOC)';
+
     static propTypes = {
       entitlementActions: PropTypes.object.isRequired,
     };

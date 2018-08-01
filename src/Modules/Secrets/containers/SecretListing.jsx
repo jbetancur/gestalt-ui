@@ -44,7 +44,7 @@ class SecretListing extends PureComponent {
     const { match, secretsActions } = this.props;
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
@@ -60,7 +60,7 @@ class SecretListing extends PureComponent {
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 

@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withSecret(BaseComponent) {
   class Secret extends Component {
     static displayName = 'Secret (HOC)';
+
     static propTypes = {
       secretActions: PropTypes.object.isRequired,
     };

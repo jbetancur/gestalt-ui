@@ -90,4 +90,3 @@ export default compose(
   withHierarchy,
   withEntitlements,
 )(WorkspaceDetails);
-

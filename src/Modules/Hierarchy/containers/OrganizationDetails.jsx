@@ -96,4 +96,3 @@ export default compose(
   withHierarchy,
   withEntitlements,
 )(OrganizationDetails);
-

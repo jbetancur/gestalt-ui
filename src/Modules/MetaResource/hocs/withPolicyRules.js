@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withPolicyRules(BaseComponent) {
   class PolicyRules extends Component {
     static displayName = 'PolicyRules (HOC)';
+
     static propTypes = {
       policyRulesActions: PropTypes.object.isRequired,
     };

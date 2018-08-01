@@ -109,4 +109,3 @@ export default function* () {
   yield fork(takeLatest, types.FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements);
   yield fork(takeLatest, types.UPDATE_ENTITLEMENT_REQUEST, updateEntitlements);
 }
-

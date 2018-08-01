@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default ({ unload = false } = {}) => (BaseComponent) => {
   class Environment extends Component {
     static displayName = 'Environment (HOC)';
+
     static propTypes = {
       environmentActions: PropTypes.object.isRequired,
     };

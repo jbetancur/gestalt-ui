@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withDataFeed(BaseComponent) {
   class DataFeed extends Component {
     static displayName = 'DataFeed(HOC)';
+
     static propTypes = {
       datafeedActions: PropTypes.object.isRequired,
     };

@@ -83,6 +83,7 @@ class ActionsModal extends PureComponent {
 
         <button
           id="close-parent-modal"
+          type="button"
           style={{ visibility: 'hidden', position: 'absolute' }}
           onClick={this.props.hideModal}
         />

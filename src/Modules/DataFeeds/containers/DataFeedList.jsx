@@ -43,7 +43,7 @@ class DataFeedList extends PureComponent {
   deleteOne = (row) => {
     const { match, datafeedsActions } = this.props;
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateFeeds();
     };
 
@@ -58,7 +58,7 @@ class DataFeedList extends PureComponent {
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateFeeds();
     };
 
@@ -178,4 +178,3 @@ export default compose(
   withDatafeeds,
   connect(mapStateToProps, actions),
 )(DataFeedList);
-

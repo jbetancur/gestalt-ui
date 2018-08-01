@@ -46,7 +46,7 @@ class APIEndpointListing extends PureComponent {
     const { match, apiEndpointsActions } = this.props;
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
@@ -62,7 +62,7 @@ class APIEndpointListing extends PureComponent {
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
-      this.setState({ clearSelected: !this.state.clearSelected });
+      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
@@ -214,4 +214,3 @@ export default compose(
   withAPIEndpoints(),
   connect(mapStateToProps, actions),
 )(APIEndpointListing);
-

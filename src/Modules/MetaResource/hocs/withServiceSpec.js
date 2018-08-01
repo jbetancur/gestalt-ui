@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withServiceSpec(BaseComponent) {
   class ServiceSpec extends Component {
     static displayName = 'ServiceSpec(HOC)';
+
     static propTypes = {
       serviceSpecActions: PropTypes.object.isRequired,
     };

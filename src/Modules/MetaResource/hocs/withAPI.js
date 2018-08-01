@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withAPI(BaseComponent) {
   class API extends Component {
     static displayName = 'API(HOC)';
+
     static propTypes = {
       apiActions: PropTypes.object.isRequired,
     };

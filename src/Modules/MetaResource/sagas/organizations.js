@@ -76,4 +76,3 @@ export default function* () {
   yield fork(takeLatest, types.FETCH_ORGSET_REQUEST, fetchOrgSet);
   yield fork(takeLatest, types.FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown);
 }
-

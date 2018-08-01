@@ -9,6 +9,7 @@ import { buildAllURL } from '../lib/urlmapper';
 export default ({ entity, alias, label, context = true, params, sortKey = 'name', sortDirection = 'asc', fetchOnMount = true }) => (WrapperComponent) => {
   class DataPicker extends Component {
     static displayName = 'DataPicker(HOC)';
+
     static propTypes = {
       match: PropTypes.object.isRequired,
     };

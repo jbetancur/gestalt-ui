@@ -7,6 +7,7 @@ import { createRequestAction } from '../lib/actionFactory';
 export default function withlambdas(BaseComponent) {
   class lambdas extends Component {
     static displayName = 'Lambdas(HOC)';
+
     static propTypes = {
       lambdasActions: PropTypes.object.isRequired,
     };
