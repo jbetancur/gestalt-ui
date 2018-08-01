@@ -3,41 +3,53 @@ import PropTypes from 'prop-types';
 import DataTable from 'react-data-table-component';
 import { Title } from 'components/Typography';
 import { FontIcon } from 'react-md';
+import AddressCell from './AddressCell';
 
 const columns = [
+  {
+    name: 'Exposure Type',
+    selector: 'type',
+    sortable: true,
+  },
   {
     name: 'Port Name',
     selector: 'name',
     sortable: true,
   },
   {
+    name: 'Protocol',
+    selector: 'protocol',
+    sortable: true,
+  },
+  {
     name: 'Service Address',
     selector: 'service_address.host',
     sortable: true,
-    grow: 3,
+    grow: 5,
+    wrap: true,
+    cell: row => <AddressCell address={row.service_address} />
   },
   {
-    name: 'Port',
-    selector: 'lb_port',
+    name: 'Load Balancer',
+    selector: 'lb_address.host',
     sortable: true,
-    right: true,
-    grow: 0,
+    grow: 2,
+    cell: row => <AddressCell address={row.lb_address} />
   },
   {
-    name: 'Protocol',
-    selector: 'service_address.protocol',
+    name: 'Virtual Hosts',
+    selector: 'service_address.virtual_hosts',
     sortable: true,
-    grow: 0,
-    format: row => row.service_address && row.service_address.protocol.toUpperCase(),
+    cell: row => row.expose_endpoint && row.virtual_hosts && row.virtual_hosts.map(host => <div>{host}</div>),
   },
 ];
 
 const ContainerServiceAddresses = ({ portMappings }) => (
   <DataTable
-    data={portMappings.filter(p => p.service_address)}
+    data={portMappings.filter(port => port.service_address || (port.service_address && port.lb_address))}
     columns={columns}
     sortIcon={<FontIcon>arrow_downward</FontIcon>}
-    defaultSortField="name"
+    defaultSortField="type"
     noDataComponent={<Title light>There are no port mappings configured</Title>}
     noHeader
   />
