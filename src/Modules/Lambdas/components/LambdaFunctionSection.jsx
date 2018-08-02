@@ -128,6 +128,16 @@ class LambdaFunctionSection extends PureComponent {
                     checked={formValues.properties.compressed}
                   />
                 </Col>
+                <Col flex={2} xs={12} sm={12}>
+                  <Field
+                    id="public"
+                    component={Checkbox}
+                    name="properties.public"
+                    // TODO: Find out why redux-form state for bool doesn't apply
+                    checked={formValues.properties.public}
+                    label="Make Public"
+                  />
+                </Col>
               </Row>}
           </Panel>
         </Col>

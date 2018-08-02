@@ -1,25 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { Checkbox, TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { fixInputNumber } from 'util/forms';
 
-const LambdaAdvancedSection = ({ formValues }) => (
-  <Panel title="Options" fill>
+const LambdaAdvancedSection = () => (
+  <Panel title="Compute" fill>
     <Row gutter={5}>
-      <Col flex={3} xs={6} sm={6}>
-        <Field
-          id="public"
-          component={Checkbox}
-          name="properties.public"
-          // TODO: Find out why redux-form state for bool doesn't apply
-          checked={formValues.properties.public}
-          label="Public"
-        />
-      </Col>
-
-      <Col flex={3} xs={6} sm={6}>
+      <Col flex={2} xs={6} sm={6}>
         <Field
           component={TextField}
           name="properties.cpus"
@@ -29,10 +19,10 @@ const LambdaAdvancedSection = ({ formValues }) => (
           label="CPU"
           type="number"
           required
-          parse={value => parseFloat(value)} // redux form formats everything as string, so force number
+          normalize={fixInputNumber}
         />
       </Col>
-      <Col flex={3} xs={6} sm={6}>
+      <Col flex={2} xs={6} sm={6}>
         <Field
           component={TextField}
           name="properties.memory"
@@ -42,10 +32,10 @@ const LambdaAdvancedSection = ({ formValues }) => (
           label="Memory"
           type="number"
           required
-          parse={value => Number(value)} // redux form formats everything as string, so force number
+          normalize={fixInputNumber}
         />
       </Col>
-      <Col flex={3} xs={6} sm={6}>
+      <Col flex={2} xs={6} sm={6}>
         <Field
           component={TextField}
           name="properties.timeout"
@@ -54,15 +44,27 @@ const LambdaAdvancedSection = ({ formValues }) => (
           label="Timeout"
           type="number"
           required
-          parse={value => Number(value)} // redux form formats everything as string, so force number
+          normalize={fixInputNumber}
+        />
+      </Col>
+      <Col flex={2} xs={6} sm={6}>
+        <Field
+          component={TextField}
+          name="properties.pre_warm"
+          min={0}
+          step={1}
+          label="Pre Warm Executors"
+          type="number"
+          required
+          normalize={fixInputNumber}
         />
       </Col>
     </Row>
   </Panel>
 );
 
-LambdaAdvancedSection.propTypes = {
-  formValues: PropTypes.object.isRequired,
-};
+// LambdaAdvancedSection.propTypes = {
+//   formValues: PropTypes.object.isRequired,
+// };
 
 export default LambdaAdvancedSection;

@@ -26,6 +26,7 @@ const get = (model = {}) => {
       cpus: 0.1,
       memory: 512,
       timeout: 30,
+      pre_warm: 0,
       handler: '',
       package_url: '',
       public: true,
@@ -59,6 +60,7 @@ const create = (model = {}) => {
       cpus: 0.1,
       memory: 512,
       timeout: 30,
+      pre_warm: 0,
       secrets: [],
     }
   }, safeModel), [
@@ -72,6 +74,7 @@ const create = (model = {}) => {
     'properties.cpus',
     'properties.memory',
     'properties.timeout',
+    'properties.pre_warm',
     'properties.handler',
     'properties.package_url',
     'properties.public',

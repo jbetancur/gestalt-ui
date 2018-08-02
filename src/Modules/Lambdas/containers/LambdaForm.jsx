@@ -55,11 +55,16 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
 
           <Row gutter={5}>
             <Col flex={12}>
+              <LambdaAdvancedSection formValues={values} />
+            </Col>
+          </Row>
+
+          <Row gutter={5}>
+            <Col flex={12}>
               <Panel
                 title="Secrets"
                 noPadding
                 count={values.properties.secrets.length}
-                defaultExpanded={values.properties.secrets.length > 0}
               >
                 <SecretsPanelFormNew
                   fieldName="properties.secrets"
@@ -73,10 +78,6 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
           </Row>
 
           <Row gutter={5}>
-            <Col flex={12}>
-              <LambdaAdvancedSection formValues={values} />
-            </Col>
-
             <Col flex={12}>
               <LambdaPeriodicSection />
             </Col>

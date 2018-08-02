@@ -58,6 +58,15 @@ export default (values) => {
       merge(errors, nestedObjectFromString('properties.timeout', 'timeout is required'));
     }
 
+    // prevent validation if value is 0
+    if (values.properties.pre_warm !== 0 && !values.properties.pre_warm) {
+      merge(errors, nestedObjectFromString('properties.pre_warm', 'a value of 0 or greated is required'));
+    }
+
+    if (values.properties.pre_warm < 0) {
+      merge(errors, nestedObjectFromString('properties.pre_warm', 'cannot be negative'));
+    }
+
     if (values.properties.headers && !values.properties.headers.Accept) {
       merge(errors, nestedObjectFromString('properties.headers.Accept', 'accept header is required'));
     }
