@@ -42,6 +42,8 @@ test:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
     - yarn build
+    - yarn generate-disclaimer
+    - mv LICENSES.txt build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
     - |
@@ -107,6 +109,8 @@ review:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
     - yarn build
+    - yarn generate-disclaimer
+    - mv LICENSES.txt build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push                $DOCKER_IMG:$DOCKER_TAG
     - docker rmi      $DOCKER_IMG:$DOCKER_TAG
