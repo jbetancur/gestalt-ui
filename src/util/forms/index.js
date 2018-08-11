@@ -12,5 +12,8 @@ export const required =
 export const hasSpaces =
   (message = 'spaces not allowed') => value => (value ? value.indexOf(' ') >= 0 : message);
 
+export const lowercase = value => value && value.toLowerCase();
 
 export const fixInputNumber = value => value && parseInt(value, 10);
+
+export const fixInputDecimal = value => value && parseFloat(value.toFixed(1));

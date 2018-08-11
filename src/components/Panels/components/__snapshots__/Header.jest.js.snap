@@ -1,9 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Panels) Header renders with a title 1`] = `
-<Header__HeaderStyle
-  expandable={true}
-  noShadow={false}
+.c0 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c0:hover {
+  cursor: pointer;
+}
+
+<header
+  className="c0"
   onClick={null}
 >
   <Row
@@ -43,5 +55,5 @@ exports[`(Panels) Header renders with a title 1`] = `
       </Header__Title>
     </Header__TitleSection>
   </Row>
-</Header__HeaderStyle>
+</header>
 `;

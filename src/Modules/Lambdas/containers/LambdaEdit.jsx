@@ -26,7 +26,6 @@ import { generatePatches } from '../payloadTransformer';
 import { getEditLambdaModel, selectLambda } from '../selectors';
 import withLambdaState from '../hoc/withLambdaState';
 import runTimes from '../lists/runTimes';
-import ListIcon from '../components/ListIcon';
 
 class LambdaEdit extends PureComponent {
   static propTypes = {
@@ -118,7 +117,6 @@ class LambdaEdit extends PureComponent {
           <Col flex={10} xs={12} sm={12} md={10}>
             <ActionsToolbar
               title={lambda.name}
-              titleIcon={<ListIcon runtime={lambda.properties.runtime} />}
               subtitle={selectedProvider.name}
               actions={[
                 <Button

@@ -155,8 +155,9 @@ class APIEndpointListing extends PureComponent {
         selector: 'properties.plugins.gestaltSecurity.enabled',
         sortable: true,
         center: true,
+        compact: true,
         maxWidth: '85px',
-        cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
+        cell: row => row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled && <FontIcon>check</FontIcon>
       },
       {
         name: 'Limit (m)',

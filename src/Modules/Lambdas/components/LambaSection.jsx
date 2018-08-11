@@ -4,6 +4,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { lowercase } from 'util/forms';
 
 const LambdaSection = () => (
   <Row gutter={5}>
@@ -16,6 +17,7 @@ const LambdaSection = () => (
               name="name"
               label="Lambda Name"
               type="text"
+              parse={lowercase}
               required
             />
           </Col>

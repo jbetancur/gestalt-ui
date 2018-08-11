@@ -33,7 +33,7 @@ class Panel extends PureComponent {
     count: PropTypes.number,
     error: PropTypes.bool,
     noShadow: PropTypes.bool,
-    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.node, PropTypes.bool]),
     fill: PropTypes.bool,
   };
 

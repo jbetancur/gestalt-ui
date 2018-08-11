@@ -12,6 +12,7 @@ const TitleSection = styled(Col)`
     padding-bottom: 12px;
   `};
   height: 100%;
+  display: flex;
 `;
 
 const Title = styled.div`

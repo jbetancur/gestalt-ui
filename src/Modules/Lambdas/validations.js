@@ -67,10 +67,6 @@ export default (values) => {
       merge(errors, nestedObjectFromString('properties.pre_warm', 'cannot be negative'));
     }
 
-    if (values.properties.headers && !values.properties.headers.Accept) {
-      merge(errors, nestedObjectFromString('properties.headers.Accept', 'accept header is required'));
-    }
-
     // if (values.properties.periodic_info &&
     //     values.properties.periodic_info.schedule &&
     //     !isISO8601(values.properties.periodic_info.schedule)) {

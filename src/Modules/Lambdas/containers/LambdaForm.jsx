@@ -30,17 +30,25 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
         <React.Fragment>
           <LambdaSection providers={providers} editMode={editMode} />
 
-          <LambdaFunctionSection
-            executors={executors}
-            formValues={values}
-            editMode={editMode}
-            form={form}
-          />
-
-          {values.properties.code_type === 'code' &&
-            <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />}
-
           <Row gutter={5}>
+            <Col flex={7} xs={12} sm={12} md={12}>
+              <LambdaFunctionSection
+                executors={executors}
+                formValues={values}
+                editMode={editMode}
+                form={form}
+              />
+            </Col>
+
+            <Col flex={5} xs={12} sm={12} md={12}>
+              <LambdaAdvancedSection formValues={values} form={form} />
+            </Col>
+
+            {values.properties.code_type === 'code' &&
+              <Col flex={12}>
+                <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />
+              </Col>}
+
             <Col flex={12}>
               <Panel
                 title="Environment Variables"
@@ -53,11 +61,11 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
             </Col>
           </Row>
 
-          <Row gutter={5}>
+          {/* <Row gutter={5}>
             <Col flex={12}>
-              <LambdaAdvancedSection formValues={values} />
+              <LambdaAdvancedSection formValues={values} form={form} />
             </Col>
-          </Row>
+          </Row> */}
 
           <Row gutter={5}>
             <Col flex={12}>

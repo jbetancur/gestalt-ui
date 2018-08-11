@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Field } from 'react-final-form';
-import { Row, Col } from 'react-flexybox';
 import { AceEditor } from 'components/ReduxFormFields';
 import { SelectField } from 'react-md';
 import { Button } from 'components/Buttons';
@@ -116,71 +115,67 @@ class LambdaSourceSection extends PureComponent {
     const keyBinding = this.state.keyBinding === 'ace' ? null : this.state.keyBinding;
 
     return (
-      <Row gutter={5}>
-        <Col flex={12}>
-          <Panel title="Source Code" noPadding>
-            <FullScreenWrapper isFullScreen={this.state.fullscreen}>
-              <HeaderControls>
-                <Options>
-                  <SelectField
-                    id="select-code-theme"
-                    label="Editor Theme"
-                    menuItems={themes}
-                    onChange={this.handleTheme}
-                    value={this.state.theme}
-                  />
+      <Panel title="Source Code" noPadding>
+        <FullScreenWrapper isFullScreen={this.state.fullscreen}>
+          <HeaderControls>
+            <Options>
+              <SelectField
+                id="select-code-theme"
+                label="Editor Theme"
+                menuItems={themes}
+                onChange={this.handleTheme}
+                value={this.state.theme}
+              />
 
-                  <SelectField
-                    id="select-code-Keybinding"
-                    label="Key Binding"
-                    menuItems={keyBindings}
-                    onChange={this.handleKeyBinding}
-                    itemLabel="name"
-                    itemValue="value"
-                    value={this.state.keyBinding}
-                  />
-                </Options>
+              <SelectField
+                id="select-code-Keybinding"
+                label="Key Binding"
+                menuItems={keyBindings}
+                onChange={this.handleKeyBinding}
+                itemLabel="name"
+                itemValue="value"
+                value={this.state.keyBinding}
+              />
+            </Options>
 
-                <Buttons isFullScreen={this.state.fullscreen}>
-                  {onSave && this.state.fullscreen &&
-                    <Button
-                      icon
-                      primary
-                      onClick={this.handleOnSave}
-                      tooltipLabel="Save"
-                      tooltipPosition="left"
-                    >
-                      save
-                    </Button>}
+            <Buttons isFullScreen={this.state.fullscreen}>
+              {onSave && this.state.fullscreen &&
+                <Button
+                  icon
+                  primary
+                  onClick={this.handleOnSave}
+                  tooltipLabel="Save"
+                  tooltipPosition="left"
+                >
+                  save
+                </Button>}
 
-                  <Button
-                    icon
-                    primary
-                    onClick={this.handleFullScreen}
-                    tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
-                    tooltipPosition="left"
-                    // iconChildren={this.state.fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-                  >
-                    {this.state.fullscreen ? 'close' : 'fullscreen'}
-                  </Button>
-                </Buttons>
-              </HeaderControls>
+              <Button
+                icon
+                primary
+                onClick={this.handleFullScreen}
+                tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
+                tooltipPosition="left"
+                // iconChildren={this.state.fullscreen ? 'fullscreen_exit' : 'fullscreen'}
+              >
+                {this.state.fullscreen ? 'close' : 'fullscreen'}
+              </Button>
+            </Buttons>
+          </HeaderControls>
 
-              <Editor isFullScreen={this.state.fullscreen}>
-                <Field
-                  name="properties.code"
-                  component={AceEditor}
-                  maxLines={maxLines}
-                  minLines={15}
-                  mode={selectedRuntime.codeFormat}
-                  theme={this.state.theme}
-                  keyboardHandler={keyBinding}
-                />
-              </Editor>
-            </FullScreenWrapper>
-          </Panel>
-        </Col>
-      </Row>
+          <Editor isFullScreen={this.state.fullscreen}>
+            <Field
+              name="properties.code"
+              component={AceEditor}
+              maxLines={maxLines}
+              minLines={15}
+              mode={selectedRuntime.codeFormat}
+              theme={this.state.theme}
+              keyboardHandler={keyBinding}
+            />
+          </Editor>
+        </FullScreenWrapper>
+      </Panel>
     );
   }
 }

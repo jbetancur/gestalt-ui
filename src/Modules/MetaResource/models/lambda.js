@@ -18,14 +18,14 @@ const get = (model = {}) => {
     properties: {
       env: [],
       headers: {
-        Accept: 'text/plain'
+        'Content-Type': 'text/plain',
       },
       code: '',
       code_type: 'package',
       compressed: false,
       cpus: 0.1,
-      memory: 512,
-      timeout: 30,
+      memory: 128,
+      timeout: 60,
       pre_warm: 0,
       handler: '',
       package_url: '',

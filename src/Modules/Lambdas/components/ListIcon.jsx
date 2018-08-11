@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NodejsIcon, JavaIcon, PythonIcon, CSharpIcon, GoLangIcon, RubyIcon, RhinoJSIcon } from 'components/Icons';
+import { NodejsIcon, JavaIcon, PythonIcon, CSharpIcon, GoLangIcon, RubyIcon, RhinoJSIcon, BashIcon } from 'components/Icons';
 
 const iconTypes = {
   nodejs: <NodejsIcon />,
@@ -11,6 +11,7 @@ const iconTypes = {
   golang: <GoLangIcon />,
   ruby: <RubyIcon />,
   nashorn: <RhinoJSIcon />,
+  bash: <BashIcon />
 };
 
 const ListIcon = ({ runtime }) => {

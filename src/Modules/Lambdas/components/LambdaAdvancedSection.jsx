@@ -1,38 +1,28 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { Compute } from 'components/Form';
 import { fixInputNumber } from 'util/forms';
+import responseHeaders from '../lists/responseHeaders';
 
-const LambdaAdvancedSection = () => (
-  <Panel title="Compute" fill>
+const LambdaAdvancedSection = ({ formValues, form }) => (
+  <Panel title="Function Options" fill expandable={false}>
     <Row gutter={5}>
+      <Compute formValues={formValues} form={form} />
       <Col flex={2} xs={6} sm={6}>
         <Field
           component={TextField}
-          name="properties.cpus"
-          min={0.1}
-          max={4.0}
-          step={0.1}
-          label="CPU"
+          name="properties.pre_warm"
+          min={0}
+          step={1}
+          label="Pre Warm"
           type="number"
           required
-          normalize={fixInputNumber}
-        />
-      </Col>
-      <Col flex={2} xs={6} sm={6}>
-        <Field
-          component={TextField}
-          name="properties.memory"
-          min={256}
-          max={2048}
-          step={256}
-          label="Memory"
-          type="number"
-          required
-          normalize={fixInputNumber}
+          helpText="executors"
+          format={fixInputNumber}
         />
       </Col>
       <Col flex={2} xs={6} sm={6}>
@@ -44,27 +34,39 @@ const LambdaAdvancedSection = () => (
           label="Timeout"
           type="number"
           required
-          normalize={fixInputNumber}
+          helpText="in seconds"
+          format={fixInputNumber}
         />
       </Col>
-      <Col flex={2} xs={6} sm={6}>
+      <Col flex={5} xs={12} sm={12}>
         <Field
-          component={TextField}
-          name="properties.pre_warm"
-          min={0}
-          step={1}
-          label="Pre Warm Executors"
-          type="number"
+          id="select-return-type"
+          component={SelectField}
+          name="properties.headers.Content-Type"
+          menuItems={responseHeaders}
+          itemLabel="displayName"
+          itemValue="value"
           required
-          normalize={fixInputNumber}
+          label="Content Type"
+        />
+      </Col>
+      <Col flex={3} xs={12} sm={12}>
+        <Field
+          id="public"
+          component={Checkbox}
+          name="properties.public"
+          // TODO: Find out why redux-form state for bool doesn't apply
+          checked={formValues.properties.public}
+          label="Make Public"
         />
       </Col>
     </Row>
   </Panel>
 );
 
-// LambdaAdvancedSection.propTypes = {
-//   formValues: PropTypes.object.isRequired,
-// };
+LambdaAdvancedSection.propTypes = {
+  formValues: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+};
 
 export default LambdaAdvancedSection;

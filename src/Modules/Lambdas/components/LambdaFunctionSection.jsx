@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
-import acceptHeaders from '../lists/acceptHeaders';
+import ListIcon from './ListIcon';
 import runTimes from '../lists/runTimes';
 import withLambdaState from '../hoc/withLambdaState';
 
@@ -44,104 +44,84 @@ class LambdaFunctionSection extends PureComponent {
 
   render() {
     const { executors, formValues, editMode, selectedRuntime } = this.props;
-    const lambdaPaneTitle = editMode ? `Function: ${formValues.properties.runtime}` : 'Function';
+    const title = selectedRuntime.value ? `Function (${selectedRuntime.value})` : 'Function';
+    const icon = selectedRuntime.value ? <ListIcon runtime={selectedRuntime.value} /> : null;
 
     return (
-      <Row gutter={5}>
-        <Col flex={12}>
-          <Panel title={lambdaPaneTitle} expandable={false}>
-            <Row gutter={5}>
-              {!editMode &&
-                <Col flex={3} xs={12} sm={12}>
-                  <Field
-                    id="select-runtime"
-                    component={SelectField}
-                    name="properties.runtime"
-                    menuItems={executors}
-                    itemLabel="name"
-                    itemValue="id"
-                    required
-                    label="Runtime"
-                    async
-                    onChange={this.handleRuntimeProps}
-                  />
-                </Col>}
-              {!editMode &&
-                <Col flex={2} xs={12} sm={12}>
-                  <Field
-                    id="select-code-type"
-                    component={SelectField}
-                    name="properties.code_type"
-                    menuItems={selectedRuntime.codeOptions || [{ displayName: 'Package', value: 'package' }]}
-                    itemLabel="displayName"
-                    itemValue="value"
-                    required
-                    label="Code Type"
-                    disabled={editMode}
-                  />
-                </Col>}
+      <Panel
+        title={title}
+        icon={icon}
+        expandable={false}
+        fill
+      >
+        <Row gutter={5}>
+          {!editMode &&
+            <Col flex={4} xs={12} sm={12}>
+              <Field
+                id="select-runtime"
+                component={SelectField}
+                name="properties.runtime"
+                menuItems={executors}
+                itemLabel="name"
+                itemValue="id"
+                required
+                label="Runtime"
+                async
+                onChange={this.handleRuntimeProps}
+              />
+            </Col>}
+          {!editMode &&
+            <Col flex={2} xs={12} sm={12}>
+              <Field
+                id="select-code-type"
+                component={SelectField}
+                name="properties.code_type"
+                menuItems={selectedRuntime.codeOptions || [{ displayName: 'Package', value: 'package' }]}
+                itemLabel="displayName"
+                itemValue="value"
+                required
+                label="Code Type"
+                disabled={editMode}
+              />
+            </Col>}
 
-              <Col flex={2} xs={12} sm={12}>
-                <Field
-                  id="select-return-type"
-                  component={SelectField}
-                  name="properties.headers.Accept"
-                  menuItems={acceptHeaders}
-                  itemLabel="displayName"
-                  itemValue="value"
-                  required
-                  label="Accept Header"
-                />
-              </Col>
-              <Col flex>
-                <Field
-                  component={TextField}
-                  name="properties.handler"
-                  label="Handler"
-                  helpText={selectedRuntime.format}
-                  type="text"
-                  required
-                />
-              </Col>
-            </Row>
+          <Col flex>
+            <Field
+              component={TextField}
+              name="properties.handler"
+              label="Handler"
+              helpText={selectedRuntime.format}
+              type="text"
+              required
+            />
+          </Col>
+        </Row>
 
-            {formValues.properties.code_type === 'package' &&
-              <Row gutter={5}>
-                <Col flex={10} xs={12} sm={12}>
-                  <Field
-                    component={TextField}
-                    name="properties.package_url"
-                    label="Package URL"
-                    type="text"
-                    helpText="The url to the package directory or file (if it is zipped)"
-                    required
-                  />
-                </Col>
+        {formValues.properties.code_type === 'package' &&
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Field
+                component={TextField}
+                name="properties.package_url"
+                label="Package URL"
+                type="text"
+                helpText="The url to the package directory or file (if it is zipped)"
+                required
+              />
+            </Col>
 
-                <Col flex={2} xs={12} sm={12}>
-                  <Field
-                    id="compressed-packageurl"
-                    component={Checkbox}
-                    name="properties.compressed"
-                    label="Compressed Package"
-                    // TODO: Find out why redux-form state for bool doesn't apply
-                    checked={formValues.properties.compressed}
-                  />
-                </Col>
-                <Col flex={2} xs={12} sm={12}>
-                  <Field
-                    id="public"
-                    component={Checkbox}
-                    name="properties.public"
-                    // TODO: Find out why redux-form state for bool doesn't apply
-                    checked={formValues.properties.public}
-                    label="Make Public"
-                  />
-                </Col>
-              </Row>}
-          </Panel>
-        </Col>
-      </Row>
+            <Col flex={3} xs={12} sm={12}>
+              <Field
+                id="compressed-packageurl"
+                component={Checkbox}
+                name="properties.compressed"
+                label="Compressed Package"
+                // TODO: Find out why redux-form state for bool doesn't apply
+                checked={formValues.properties.compressed}
+              />
+            </Col>
+          </Row>}
+      </Panel>
     );
   }
 }

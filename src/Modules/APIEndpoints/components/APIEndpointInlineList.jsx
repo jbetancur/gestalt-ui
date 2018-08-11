@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Button, FontIcon, Checkbox } from 'react-md';
+import { Button, FontIcon } from 'react-md';
 import { withAPIEndpoints } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
@@ -101,7 +101,7 @@ class APIEndpointInlineList extends PureComponent {
         selector: 'properties.plugins.gestaltSecurity.enabled',
         sortable: true,
         center: true,
-        cell: row => <Checkbox disabled defaultChecked={row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled} />,
+        cell: row => row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled && <FontIcon>check</FontIcon>
       },
       {
         name: 'Created',

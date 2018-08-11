@@ -16,6 +16,6 @@ describe('(Panels) Header', () => {
       <Header title="gazobazorb" />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 });
