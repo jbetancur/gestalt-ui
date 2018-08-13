@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components::Form::Compute mounts with basic props 1`] = `
+.c0 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+}
+
+<Component
+  alignContent="stretch"
+  alignItems="stretch"
+  center={false}
+  className="c0"
+  columnDivisions={12}
+  component="div"
+  debug={false}
+  direction="row"
+  fill={false}
+  gutter={10}
+  height=""
+  justifyContent="flex-start"
+  minColWidths={false}
+  padding=""
+  paddingBottom=""
+  paddingLeft=""
+  paddingRight=""
+  paddingTop=""
+  style={Object {}}
+  wrap="wrap"
+>
+  <Col
+    alignSelf="auto"
+    className=""
+    columnDivisions={12}
+    component="div"
+    debug={false}
+    flex={10}
+    gutter={10}
+    key=".0"
+    lg={false}
+    md={false}
+    minWidth={false}
+    order={0}
+    sm={false}
+    style={Object {}}
+    xs={8}
+  >
+    <Slider
+      discrete={true}
+      discreteInkTransitionTime={300}
+      id="properties.cpus"
+      inputWidth={40}
+      label="CPU"
+      leftIcon={
+        <FontIcon
+          iconClassName="material-icons"
+        >
+          memory
+        </FontIcon>
+      }
+      max={4}
+      min={0.1}
+      onChange={[Function]}
+      step={0.1}
+      tickWidth={6}
+      value={1}
+      valuePrecision={1}
+    />
+  </Col>
+  <Col
+    alignSelf="center"
+    className=""
+    columnDivisions={12}
+    component="div"
+    debug={false}
+    flex={2}
+    gutter={10}
+    key=".1"
+    lg={false}
+    md={false}
+    minWidth={false}
+    order={0}
+    sm={false}
+    style={Object {}}
+    xs={4}
+  >
+    <Field
+      component={[Function]}
+      format={[Function]}
+      max={4}
+      min={0.1}
+      name="properties.cpus"
+      onChange={[Function]}
+      parse={[Function]}
+      placeholder="CPU"
+      required={true}
+      step={0.1}
+      type="number"
+      validate={[Function]}
+    />
+  </Col>
+  <Col
+    alignSelf="auto"
+    className=""
+    columnDivisions={12}
+    component="div"
+    debug={false}
+    flex={10}
+    gutter={10}
+    key=".2"
+    lg={false}
+    md={false}
+    minWidth={false}
+    order={0}
+    sm={false}
+    style={Object {}}
+    xs={8}
+  >
+    <Slider
+      discrete={true}
+      discreteInkTransitionTime={300}
+      discreteTicks={128}
+      id="properties.memory"
+      inputWidth={40}
+      label="Memory (MB)"
+      leftIcon={
+        <FontIcon
+          iconClassName="material-icons"
+        >
+          sd_card
+        </FontIcon>
+      }
+      max={2048}
+      min={128}
+      onChange={[Function]}
+      step={32}
+      tickWidth={6}
+      value={256}
+      valuePrecision={0}
+    />
+  </Col>
+  <Col
+    alignSelf="center"
+    className=""
+    columnDivisions={12}
+    component="div"
+    debug={false}
+    flex={2}
+    gutter={10}
+    key=".3"
+    lg={false}
+    md={false}
+    minWidth={false}
+    order={0}
+    sm={false}
+    style={Object {}}
+    xs={4}
+  >
+    <Field
+      component={[Function]}
+      format={[Function]}
+      max={2048}
+      min={128}
+      name="properties.memory"
+      onChange={[Function]}
+      parse={[Function]}
+      placeholder="Memory"
+      required={true}
+      step={1}
+      type="number"
+      validate={[Function]}
+    />
+  </Col>
+</Component>
+`;

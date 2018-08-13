@@ -4,6 +4,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { Caption } from 'components/Typography';
 import ListIcon from './ListIcon';
 import runTimes from '../lists/runTimes';
 import withLambdaState from '../hoc/withLambdaState';
@@ -33,6 +34,11 @@ class LambdaFunctionSection extends PureComponent {
 
     if (selectedRuntime && selectedRuntime.codeOptions.some(opt => opt.value !== 'code')) {
       form.change('properties.code_type', 'package');
+    }
+
+    // set memory to the default recommended values
+    if (!editMode && selectedRuntime && selectedRuntime.defaultMem) {
+      form.change('properties.memory', selectedRuntime.defaultMem);
     }
 
     if (!editMode) {
@@ -105,20 +111,21 @@ class LambdaFunctionSection extends PureComponent {
                 name="properties.package_url"
                 label="Package URL"
                 type="text"
-                helpText="The url to the package directory or file (if it is zipped)"
+                helpText="The url to the package directory or file"
                 required
               />
             </Col>
 
-            <Col flex={3} xs={12} sm={12}>
+            <Col flex={6} xs={12} sm={12}>
               <Field
                 id="compressed-packageurl"
                 component={Checkbox}
                 name="properties.compressed"
-                label="Compressed Package"
+                label="Zipped Package"
                 // TODO: Find out why redux-form state for bool doesn't apply
                 checked={formValues.properties.compressed}
               />
+              <Caption light>if the package URL contents are zipped</Caption>
             </Col>
           </Row>}
       </Panel>

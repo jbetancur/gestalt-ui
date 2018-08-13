@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components::Form::Form mounts with default props 1`] = `
+.c0 {
+  height: 100%;
+  width: 100%;
+}
+
+<form
+  className="c0"
+  noValidate={true}
+/>
+`;
+
+exports[`Components::Form::Form renders correctly when disabled 1`] = `
+.c0 {
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+<form
+  className="c0"
+  disabled={true}
+  noValidate={true}
+/>
+`;
