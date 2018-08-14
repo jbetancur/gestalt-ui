@@ -111,10 +111,9 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     <Field
       component={[Function]}
       format={[Function]}
-      max={4}
-      min={0.1}
       name="properties.cpus"
       onChange={[Function]}
+      onFocus={[Function]}
       parse={[Function]}
       placeholder="CPU"
       required={true}
@@ -183,10 +182,9 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     <Field
       component={[Function]}
       format={[Function]}
-      max={2048}
-      min={128}
       name="properties.memory"
       onChange={[Function]}
+      onFocus={[Function]}
       parse={[Function]}
       placeholder="Memory"
       required={true}

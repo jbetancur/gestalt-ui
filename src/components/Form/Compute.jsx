@@ -35,12 +35,11 @@ class ComputeForm extends Component {
     memStepSlider: 32,
   };
 
-  // roundUpMod(value, step) {
-  //   const num = value % step === 0
-  //     ? value
-  //     : Math.ceil(value / step) * step;
-  //   return Number(num);
-  // }
+  handleFocus = (event) => {
+    const { target } = event;
+
+    setTimeout(() => target.select());
+  }
 
   onChangeCPU = (value) => {
     const { form, cpuName, cpuMin } = this.props;
@@ -57,7 +56,7 @@ class ComputeForm extends Component {
     const { form, memName, memMin } = this.props;
     const formattedValue = value || value >= 0
       ? fixInputNumber(value)
-      : memMin || memMin;
+      : memMin;
 
     if (typeof formattedValue === 'number') {
       form.change(memName, formattedValue);
@@ -99,13 +98,12 @@ class ComputeForm extends Component {
           <Field
             component={TextField}
             name={cpuName}
-            min={cpuMin}
-            max={cpuMax}
             step={cpuStep}
             placeholder="CPU"
             type="number"
             required
             onChange={this.onChangeCPU}
+            onFocus={this.handleFocus}
             parse={fixInputDecimal}
             format={fixInputDecimal}
             validate={composeValidators(
@@ -127,19 +125,19 @@ class ComputeForm extends Component {
             onChange={this.onChangeMemory}
             discrete
             discreteTicks={memMin}
+            tickWidth={6}
           />
         </Col>
         <Col flex={2} xs={4} alignSelf="center">
           <Field
             component={TextField}
             name={memName}
-            min={memMin}
-            max={memMax}
             step={memStep}
             placeholder="Memory"
             type="number"
             required
             onChange={this.onChangeMemory}
+            onFocus={this.handleFocus}
             parse={fixInputNumber}
             format={fixInputNumber}
             validate={composeValidators(
