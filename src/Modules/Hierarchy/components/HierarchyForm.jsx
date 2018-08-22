@@ -89,7 +89,7 @@ class HierarchyForm extends Component {
         id="context-form-dialog"
         title={!loading && title}
         visible
-        width="70em"
+        width="75em"
         actions={modalActions}
         onHide={() => { }}
       >
