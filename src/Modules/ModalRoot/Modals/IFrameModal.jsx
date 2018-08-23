@@ -6,11 +6,22 @@ import { DialogContainer } from 'react-md';
 import Frame from 'react-frame-component';
 import { ActivityContainer } from 'components/ProgressIndicators';
 
-const iframeStyle = {
-  width: '100%',
-  height: 'calc(100vh - 500px)',
-  boxSizing: 'border-box',
-};
+const ResponsiveFrameContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+`;
+
+const ResponsiveFrame = styled(Frame)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+`;
 
 const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {
@@ -72,14 +83,15 @@ class ActionsModal extends PureComponent {
       >
         {!this.props.body ?
           <ActivityContainer id="iframe-loading" /> :
-          <Frame
-            id="ui-provider-actions-iframe"
-            initialContent={this.props.body}
-            frameBorder="0"
-            mountTarget="#container-root"
-            style={iframeStyle}
-            scrolling="yes"
-          />}
+          <ResponsiveFrameContainer>
+            <ResponsiveFrame
+              id="ui-provider-actions-iframe"
+              initialContent={this.props.body}
+              frameBorder="0"
+              mountTarget="#container-root"
+              // scrolling="yes"
+            />
+          </ResponsiveFrameContainer>}
 
         <button
           id="close-parent-modal"

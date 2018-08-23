@@ -1,5 +1,4 @@
 const path = require('path');
-const pkg = require('../package.json');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
@@ -11,6 +10,7 @@ const cssnano = require('cssnano');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // enable manually for bundle analysis
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
+const pkg = require('../package.json');
 
 const PATHS = {
   rootPath: path.join(__dirname, '../'),
