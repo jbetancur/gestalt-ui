@@ -24,7 +24,7 @@ export const mod =
 // Form Parsers
 export const lowercase = value => value && value.toLowerCase();
 
-export const formatName = value => value && value.replace(/[^-\w\s]/gi, '').toLowerCase().substring(0, 40).trim();
+export const formatName = value => value && value.replace(/[^-\w\s]/gi, '').toLowerCase().substring(0, 32).trim();
 
 export const fixInputNumber = value => value && Number(parseInt(value, 10));
 
