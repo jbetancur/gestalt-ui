@@ -12,6 +12,7 @@ import { APIEndpoints, APIEndpointCreate, APIEndpointEdit } from 'Modules/APIEnd
 import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRuleCreate, PolicyEventRuleEdit } from 'Modules/PolicyRules';
 import { StreamList, StreamCreate, StreamEdit } from 'Modules/Streams';
 import { DataFeedList, DataFeedCreate, DataFeedEdit } from 'Modules/DataFeeds';
+import { Volumes, VolumeCreate, VolumeEdit } from 'Modules/Volumes';
 import EnvironmentHome from '../containers/EnvironmentHome';
 import withModalRouter from './withModalRouter';
 
@@ -59,6 +60,10 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/datafeeds" component={DataFeedList} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/datafeeds/create" component={DataFeedCreate} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/datafeeds/:datafeedId" component={DataFeedEdit} />
+
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/volumes" component={Volumes} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/volumes/create" component={VolumeCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/volumes/:volumeId" component={VolumeEdit} />
 
     <Route component={NotFound} />
   </Switch>

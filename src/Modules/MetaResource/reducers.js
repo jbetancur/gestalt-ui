@@ -19,6 +19,7 @@ import resourceTypeModel from './models/resourceType';
 import serviceSpecModel from './models/serviceSpec';
 import datafeedModel from './models/dataFeed';
 import streamSpecModel from './models/streamSpec';
+import volume from './models/volume';
 
 export default combineReducers({
   envSchema: reducerFactory({
@@ -322,5 +323,18 @@ export default combineReducers({
     key: 'streamSpec',
     category: 'streamSpec',
     model: streamSpecModel.get(),
+  }),
+  volumes: reducerFactory({
+    verbs: ['fetch', 'delete'],
+    key: 'volumes',
+    category: 'volumes',
+    model: [],
+    unloadOnRouteChange: true,
+  }),
+  volume: reducerFactory({
+    verbs: ['fetch', 'create', 'update'],
+    key: 'volume',
+    category: 'volume',
+    model: volume.get(),
   }),
 });

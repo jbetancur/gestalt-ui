@@ -21,7 +21,10 @@ export const max =
 export const mod =
   (modNum = 64, message = `must be divisible by ${modNum}`) => value => (value % modNum === 0 ? undefined : message);
 
+// Form Parsers
 export const lowercase = value => value && value.toLowerCase();
+
+export const formatName = value => value && value.replace(/[^-\w\s]/gi, '').toLowerCase().substring(0, 40).trim();
 
 export const fixInputNumber = value => value && Number(parseInt(value, 10));
 

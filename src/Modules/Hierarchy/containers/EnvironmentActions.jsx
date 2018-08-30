@@ -3,7 +3,17 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { ListItem, MenuButton } from 'react-md';
-import { LambdaIcon, ContainerIcon, APIIcon, PolicyIcon, ProviderIcon, SecretIcon, StreamIcon, DataFeedIcon } from 'components/Icons';
+import {
+  LambdaIcon,
+  ContainerIcon,
+  APIIcon,
+  PolicyIcon,
+  ProviderIcon,
+  SecretIcon,
+  StreamIcon,
+  DataFeedIcon,
+  VolumeIcon
+} from 'components/Icons';
 import Div from 'components/Div';
 import withApp from 'App/withApp';
 
@@ -63,6 +73,15 @@ class EnvironmentActions extends PureComponent {
         component={Link}
         leftIcon={<ProviderIcon />}
         to={`${match.url}/providers/create`}
+        style={listItemStyle}
+      />,
+      <ListItem
+        id="environment-settings-menu--volume-create"
+        key="environment-settings-menu--volume-create"
+        primaryText="Volume"
+        component={Link}
+        leftIcon={<VolumeIcon />}
+        to={`${match.url}/volumes/create`}
         style={listItemStyle}
       />,
       <ListItem

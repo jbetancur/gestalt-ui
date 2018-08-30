@@ -3,7 +3,17 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Navbar } from 'components/Navigation';
-import { LambdaIcon, ContainerIcon, ProviderIcon, APIIcon, PolicyIcon, SecretIcon, StreamIcon, DataFeedIcon } from 'components/Icons';
+import {
+  LambdaIcon,
+  ContainerIcon,
+  ProviderIcon,
+  APIIcon,
+  PolicyIcon,
+  SecretIcon,
+  StreamIcon,
+  DataFeedIcon,
+  VolumeIcon
+} from 'components/Icons';
 import withApp from 'App/withApp';
 
 const EnvironmentNav = ({ match }) => {
@@ -39,6 +49,12 @@ const EnvironmentNav = ({ match }) => {
       to: `${match.url}/providers`,
     },
     {
+      key: 'environment--datavolumesfeeds',
+      icon: <VolumeIcon size={26} />,
+      title: 'Volumes',
+      to: `${match.url}/volumes`,
+    },
+    {
       key: 'environment--secrets',
       icon: <SecretIcon size={26} />,
       title: 'Secrets',
@@ -53,7 +69,7 @@ const EnvironmentNav = ({ match }) => {
     {
       key: 'environment--datafeeds',
       icon: <DataFeedIcon size={26} />,
-      title: 'Data',
+      title: 'Data Feeds',
       to: `${match.url}/datafeeds`,
     },
   ];

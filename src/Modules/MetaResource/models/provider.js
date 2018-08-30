@@ -26,6 +26,7 @@ const get = (model = {}) => {
           public: [],
         },
         networks: [],
+        storage_classes: [],
       },
       linked_providers: [],
       parent: {},
@@ -51,6 +52,7 @@ const create = (model) => {
           public: [],
         },
         networks: [],
+        storage_classes: [],
       },
       linked_providers: [],
       services: [],
@@ -63,6 +65,7 @@ const create = (model) => {
     'properties.linked_providers',
     'properties.services',
     'properties.environment_types',
+    'properties.storage_classes',
   ]);
 };
 

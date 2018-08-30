@@ -35,6 +35,7 @@ class Panel extends PureComponent {
     noShadow: PropTypes.bool,
     icon: PropTypes.oneOfType([PropTypes.func, PropTypes.node, PropTypes.bool]),
     fill: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -50,6 +51,7 @@ class Panel extends PureComponent {
     noShadow: false,
     icon: false,
     fill: false,
+    disabled: false,
   };
 
   state = { isExpanded: this.props.defaultExpanded };
@@ -57,7 +59,7 @@ class Panel extends PureComponent {
   toggle = () => this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
 
   render() {
-    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow, icon, fill } = this.props;
+    const { title, noPadding, minHeight, pending, children, expandable, count, error, noShadow, icon, fill, disabled } = this.props;
     const { isExpanded } = this.state;
 
     return (
@@ -76,6 +78,7 @@ class Panel extends PureComponent {
           isExpanded={isExpanded}
           noPadding={noPadding}
           minHeight={minHeight}
+          disabled={disabled}
         >
           {pending ? <DotActivity centered size={2} /> : children}
         </Content>

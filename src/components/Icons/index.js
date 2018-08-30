@@ -24,6 +24,7 @@ export { default as OrganizationIcon } from './OrganizationIcon';
 export { default as WorkspaceIcon } from './WorkspaceIcon';
 export { default as StreamIcon } from './StreamIcon';
 export { default as DataFeedIcon } from './DataFeedIcon';
+export { default as VolumeIcon } from './VolumeIcon';
 export { default as NodejsIcon } from './NodejsIcon';
 export { default as JavaIcon } from './JavaIcon';
 export { default as PythonIcon } from './PythonIcon';

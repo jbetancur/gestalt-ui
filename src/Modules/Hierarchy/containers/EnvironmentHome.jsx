@@ -1,7 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { LambdaIcon, ContainerIcon, APIIcon, SecretIcon, PolicyIcon, DataFeedIcon, StreamIcon } from 'components/Icons';
+import {
+  LambdaIcon,
+  ContainerIcon,
+  APIIcon,
+  SecretIcon,
+  PolicyIcon,
+  DataFeedIcon,
+  StreamIcon,
+  VolumeIcon
+} from 'components/Icons';
 import withApp from 'App/withApp';
 import HomeCard from '../components/HomeCard';
 // import { DOCUMENTATION_URL } from '../../../constants';
@@ -67,6 +76,19 @@ class EnvironmentHome extends PureComponent {
             manageURL={`${this.props.match.url}/apis`}
           >
             Upstream access to Lambdas/Containers can be defined through API endpoints
+          </HomeCard>
+        </Col>
+
+        <Col flex={6} xs={25} sm={20} md={10}>
+          <HomeCard
+            title="Volumes"
+            icon={<VolumeIcon size={42} />}
+            iconColor="teal"
+            iconGradient="500"
+            createURL={`${this.props.match.url}/volumes/create`}
+            manageURL={`${this.props.match.url}/volumes`}
+          >
+            Manage Container Storage Volumes
           </HomeCard>
         </Col>
 

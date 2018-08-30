@@ -1,3 +1,5 @@
+import yaml from 'js-yaml';
+
 export const fqonPattern = /^[a-z0-9]+(-[a-z0-9]+)*[a-z0-9]*$/;
 export const phoneNumberPattern = /^\+\d([. -]?\d){9,14}$/;
 export const usernamePattern = /^[a-z0-9]+([-._][a-z0-9]+)*[a-z0-9]*$/;
@@ -47,6 +49,15 @@ export const isSecretKeyValidation = string => doValidation(string, secretKeyVal
 export const isSecretNameValidation = string => doValidation(string, secretNameValidationPattern);
 export const isBase64 = string => doValidation(string, base64Pattern);
 
+export const isYAML = (yamlContent) => {
+  try {
+    yaml.safeLoad(yamlContent);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export default {
   isFQON,
   isPhoneNumber,
@@ -72,4 +83,5 @@ export default {
   secretKeyValidationPattern,
   secretNameValidationPattern,
   isBase64,
+  isYAML,
 };

@@ -133,5 +133,12 @@ export default function* metaSagas() {
     yield takeLatest(...generateUpdate('RESOURCETYPE', 'resourcetypes')),
     yield takeLatest(...generateDelete('RESOURCETYPE', 'resourcetypes')),
     yield takeLatest(...generateDeleteMany('RESOURCETYPES', 'resourcetypes')),
+
+    yield takeLatest(...generateFetchAll('VOLUMES', 'volumes')),
+    yield takeLatest(...generateFetchOne('VOLUME', 'volumes')),
+    yield takeLatest(...generateCreate('VOLUME', 'volumes')),
+    yield takeLatest(...generateUpdate('VOLUME', 'volumes')),
+    yield takeLatest(...generateDelete('VOLUME', 'volumes')),
+    yield takeLatest(...generateDeleteMany('VOLUMES', 'volumes')),
   ]);
 }

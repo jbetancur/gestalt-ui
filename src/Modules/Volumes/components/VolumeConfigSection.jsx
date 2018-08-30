@@ -1,0 +1,146 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Field } from 'react-final-form';
+import { Row, Col } from 'react-flexybox';
+import { SelectField, TextField, AceEditor, SelectionControlGroup } from 'components/ReduxFormFields';
+import { Panel } from 'components/Panels';
+import { fixInputNumber } from 'util/forms';
+import { volumeTypes, accessTypes, sizeUnits } from '../constants';
+
+class VolumeConfigSection extends Component {
+  static propTypes = {
+    selectedProvider: PropTypes.object.isRequired,
+    formValues: PropTypes.object.isRequired,
+    editMode: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    editMode: false,
+  };
+
+  renderConfig() {
+    const { formValues, selectedProvider, editMode } = this.props;
+
+    switch (formValues.properties.type) {
+      case 'dynamic':
+        return (
+          <Col flex>
+            <Field
+              id="storage_class-selection"
+              component={SelectField}
+              name="properties.config.storage_class"
+              label="Storage Class"
+              menuItems={(
+                editMode
+                  ? [formValues.properties.config.storage_class]
+                  : selectedProvider.provider.properties.config.storage_classes
+              )}
+              required
+              disabled={editMode}
+            />
+          </Col>
+        );
+      case 'host_path':
+        return (
+          <Col flex>
+            <Field
+              component={TextField}
+              name="properties.config.host_path"
+              label="Host Path"
+              type="text"
+              required
+              disabled={editMode}
+              helpText="absolute directory path"
+            />
+          </Col>
+        );
+      case 'external':
+        return (
+          <Col flex={12}>
+            <Field
+              // properties.yaml is a temp placeholder for yaml that wil be converted to config{}
+              name="properties.yaml"
+              component={AceEditor}
+              maxLines={15}
+              minLines={15}
+              mode="yaml"
+              theme="dracula"
+              readOnly={editMode}
+            />
+          </Col>
+        );
+      default:
+        return null;
+    }
+  }
+
+  render() {
+    const { formValues, selectedProvider, editMode } = this.props;
+    const menuItems = editMode
+      ? [{ type: formValues.properties.type || '' }]
+      : volumeTypes.filter(v => v.supported.some(p => p === selectedProvider.type));
+
+    return (
+      <Panel title="Configuration" expandable={false} fill>
+        <Row gutter={5}>
+          <Col flex={2} xs={12}>
+            <Field
+              id="type-selection"
+              component={SelectField}
+              name="properties.type"
+              label="Volume Type"
+              itemLabel="type"
+              itemValue="type"
+              menuItems={menuItems}
+              required
+              disabled={editMode}
+            />
+          </Col>
+
+          <Col flex={2} xs={6}>
+            <Field
+              component={TextField}
+              name="properties.size"
+              label="Size"
+              type="number"
+              format={fixInputNumber}
+              min={1}
+              step={1}
+              required
+              disabled={editMode}
+            />
+          </Col>
+
+          <Col flex={1} xs={6}>
+            <Field
+              id="size_unit-selection"
+              component={SelectField}
+              name="properties.size_unit"
+              label="Unit"
+              menuItems={sizeUnits}
+              disabled={editMode}
+            />
+          </Col>
+
+          {this.renderConfig()}
+
+          <Col flex={12}>
+            <Field
+              inline
+              component={SelectionControlGroup}
+              id="accessmode-selection"
+              name="properties.access_mode"
+              type="radio"
+              label="Access Mode"
+              controls={accessTypes}
+              defaultValue={formValues.properties.access_mode}
+              disabled={editMode}
+            />
+          </Col>
+        </Row>
+      </Panel>
+    );
+  }
+}
+
+export default VolumeConfigSection;

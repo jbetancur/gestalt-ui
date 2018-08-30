@@ -44,3 +44,5 @@ export { default as withUser } from './hocs/withUser';
 export { default as withUsers } from './hocs/withUsers';
 export { default as withGroup } from './hocs/withGroup';
 export { default as withGroups } from './hocs/withGroups';
+export { default as withVolume } from './hocs/withVolume';
+export { default as withVolumes } from './hocs/withVolumes';

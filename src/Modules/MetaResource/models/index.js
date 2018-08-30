@@ -17,6 +17,7 @@ import workspace from './workspace';
 import serviceSpec from './serviceSpec';
 import datafeed from './dataFeed';
 import streamSpec from './streamSpec';
+import volume from './volume';
 
 export default {
   api,
@@ -38,4 +39,5 @@ export default {
   serviceSpec,
   datafeed,
   streamSpec,
+  volume,
 };

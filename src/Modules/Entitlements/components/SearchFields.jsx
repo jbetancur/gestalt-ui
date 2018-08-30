@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SelectionControlGroup from 'react-md/lib/SelectionControls/SelectionControlGroup';
+import { SelectionControlGroup } from 'react-md';
 
 const SearchFields = props => (
   <SelectionControlGroup
