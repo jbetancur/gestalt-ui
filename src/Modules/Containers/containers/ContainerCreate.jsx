@@ -3,36 +3,37 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
+import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withContainer, withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withContainer, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
-import { getCreateContainerModel } from '../selectors';
+import { getCreateContainerModel, selectProvider } from '../selectors';
 import ContainerIcon from '../components/ContainerIcon';
 
 class ContainerCreate extends Component {
   static propTypes = {
-    history: PropTypes.object,
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     containerActions: PropTypes.object.isRequired,
     fetchEnv: PropTypes.func.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
     containerPending: PropTypes.bool.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
+    selectedProvider: PropTypes.object.isRequired,
+    providersData: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
     inlineMode: false,
-    history: {},
   };
-
-  state = { providerType: {} };
 
   componentDidMount() {
     const { match, fetchEnv } = this.props;
@@ -40,15 +41,12 @@ class ContainerCreate extends Component {
     fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
   }
 
-  setProviderType = (providerType) => {
-    this.setState({ providerType });
-  }
-
   create = (values) => {
     const { match, history, containerActions, inlineMode } = this.props;
 
     if (!inlineMode) {
       const payload = generatePayload(values);
+      // Since we hide the selected provider we need to get this from redux and patch it onto the payload
       const onSuccess = (response) => {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
       };
@@ -58,7 +56,15 @@ class ContainerCreate extends Component {
   }
 
   render() {
-    const { containerPending, envPending, inlineMode } = this.props;
+    const {
+      containerPending,
+      initialFormValues,
+      envPending,
+      inlineMode,
+      selectedProvider,
+    } = this.props;
+
+    const isPending = !inlineMode && containerPending;
 
     return (
       envPending ?
@@ -72,16 +78,24 @@ class ContainerCreate extends Component {
           >
             <ActionsToolbar
               title="Deploy a Container"
-              titleIcon={<ContainerIcon resourceType={getLastFromSplit(this.state.providerType.resource_type)} />}
+              titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
             />
 
             {containerPending && <ActivityContainer id="container-form" />}
 
-            <ContainerForm
-              inlineMode={inlineMode}
+            <FinalForm
               onSubmit={this.create}
-              onSelectedProvider={this.setProviderType}
-              {...this.props}
+              mutators={{ ...arrayMutators }}
+              loading={isPending}
+              initialValues={initialFormValues}
+              validate={validate}
+              inlineMode={inlineMode}
+              selectedProvider={selectedProvider}
+              render={({ handleSubmit, ...rest }) => (
+                <Form onSubmit={handleSubmit} autoComplete="off" disabled={isPending}>
+                  <ContainerForm {...rest} />
+                </Form>
+              )}
             />
           </Col>
         </Row>
@@ -89,21 +103,14 @@ class ContainerCreate extends Component {
   }
 }
 
-const formName = 'containerCreate';
 const mapStateToProps = state => ({
-  containerModel: {},
-  initialValues: getCreateContainerModel(state),
+  initialFormValues: getCreateContainerModel(state),
+  selectedProvider: selectProvider(state),
 });
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withContainer(),
   withMetaResource,
   withRouter,
-  connect(mapStateToProps, Object.assign({}, actions)),
-  reduxForm({
-    form: formName,
-    enableReinitialize: true,
-    validate,
-  })
+  connect(mapStateToProps, actions),
 )(ContainerCreate);

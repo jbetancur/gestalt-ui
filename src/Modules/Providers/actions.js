@@ -18,6 +18,7 @@ export function confirmUpdate(action, item, onClose) {
       title: `"${item}" provider container will be re-deployed. Are you sure you want to proceed?`,
       onProceed: action,
       proceedLabel: 'Redeploy',
+      forceOption: false,
       onClose,
     }
   };

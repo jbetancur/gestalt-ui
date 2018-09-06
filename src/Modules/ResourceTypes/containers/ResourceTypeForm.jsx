@@ -86,6 +86,7 @@ const ResourceTypeForm = ({ match,
       <Col flex={12}>
         <Panel title="Tags">
           <Field
+            id="resourcetypes--tags"
             label="Add a Tag"
             component={Chips}
             name="tags"
@@ -123,6 +124,7 @@ const ResourceTypeForm = ({ match,
             <Col flex={12}>
               <Fieldset legend="Verbs">
                 <Field
+                  id="resourcetypes--verbs"
                   label="Verb"
                   component={Chips}
                   name="properties.actions.verbs"

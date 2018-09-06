@@ -3,7 +3,7 @@ import Chips from './Chips';
 
 describe('Chips', () => {
   it('mounts with basic props', () => {
-    const wrapper = mount(<Chips meta={{ error: null, touched: false }} />);
+    const wrapper = mount(<Chips id="test" meta={{ error: null, touched: false }} />);
 
     expect(wrapper).toMatchSnapshot();
   });

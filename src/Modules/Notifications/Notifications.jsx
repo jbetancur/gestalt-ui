@@ -12,7 +12,7 @@ import actions from './actions';
 const MessageGroup = styled.div`
   position: fixed;
   bottom: 64px;
-  right: 16px;
+  left: 72px;
   z-index: 999;
   display: flex;
   align-items: center;

@@ -74,6 +74,7 @@ const ActionsMappingForm = ({ fields, lambdas, values }) => {
                   <Col flex={6}>
                     <Fieldset legend="Action Verbs">
                       <Field
+                        id="actions--verbs"
                         label="Verb"
                         component={Chips}
                         prefix={fields.get(index).prefix}

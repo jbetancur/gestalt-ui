@@ -56,7 +56,7 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, disab
             {title}
           </Title>}
       </TitleSection>
-      {!!subtitle && <Caption>{subtitle}</Caption>}
+      {!!subtitle && <Caption large>{subtitle}</Caption>}
     </Left>
     {actions && showActions &&
       <Right disabled={disabled}>

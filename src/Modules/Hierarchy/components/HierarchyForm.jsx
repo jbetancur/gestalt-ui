@@ -9,7 +9,7 @@ import { DialogContainer } from 'react-md';
 import Form from 'components/Form';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { UnixVariablesFormNew } from 'Modules/Variables';
+import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 
@@ -136,7 +136,7 @@ class HierarchyForm extends Component {
           <Row>
             <Col flex={12}>
               <Panel title="Environment Variables" noPadding noShadow expandable={false}>
-                <UnixVariablesFormNew
+                <UnixVariablesForm
                   fieldName="properties.env"
                   formValues={values}
                 />

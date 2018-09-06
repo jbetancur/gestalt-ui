@@ -1,429 +1,368 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Field, FieldArray, formValueSelector } from 'redux-form';
-import { Link } from 'react-router-dom';
+import { get } from 'lodash';
+import { Field } from 'react-final-form';
+import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
-import { metaModels } from 'Modules/MetaResource';
-import Form from 'components/Form';
-import { Checkbox, SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
+import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
-import { SecretsPanelForm } from 'Modules/Secrets';
-import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
-import { Caption, Error } from 'components/Typography';
-import Div from 'components/Div';
 import { Chips } from 'components/Lists';
-import { getLastFromSplit } from 'util/helpers/strings';
-import { fixInputNumber } from 'util/forms';
+import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
+import { SecretsPanelForm } from 'Modules/Secrets';
 import PortMappingsForm from '../components/PortMappingsForm';
-import VolumesForm from '../components/VolumesForm';
 import HealthChecksForm from '../components/HealthChecksForm';
-import SelectProvider from '../components/SelectProvider';
+import VolumesForm from '../components/VolumesForm';
+import SelectedProvider from './SelectedProvider';
+import actions from '../actions';
+import { selectContainer, selectProvider } from '../selectors';
 
-const ContainerForm = ({ match, values, container, containerPending, editMode, inlineMode, change, onSelectedProvider, ...props }) => {
-  const selectedProvider = metaModels.provider.get(props.providersData
-    .find(provider => values.properties.provider.id === provider.id));
+const ContainerForm = ({
+  form,
+  formName,
+  submitting,
+  match,
+  values,
+  loading,
+  editMode,
+  inlineMode,
+  selectedProvider,
+}) => {
+  const isSubmitDisabled = loading || submitting;
+  // Allow access to form values when a formName is applies
+  const formValues = formName
+    ? get(values, formName)
+    : values;
 
-  onSelectedProvider(selectedProvider);
-
-  const isSubmitDisabled =
-    editMode ? (containerPending || props.submitting)
-      : (props.pristine || containerPending || props.submitting);
-
-  const providerType = getLastFromSplit(selectedProvider.resource_type);
-  const isPending = !inlineMode && containerPending;
-  const enabledEndpoints = editMode && !inlineMode && container.properties.port_mappings.length > 0;
-  const isSecretsEnabled = () => {
-    if (providerType === 'Kubernetes') {
-      return true;
-    }
-
-    if (providerType === 'Docker') {
-      return false;
-    }
-
-    if (providerType === 'DCOS' && selectedProvider.properties.config.secret_support) {
-      return true;
-    }
-
-    return false;
-  };
-
-  const isHealthChecksEnabled = providerType !== 'Docker';
-  const setNetworks = () => (providerType === 'Kubernetes' ? [{ name: 'default' }] : selectedProvider.properties.config.networks);
+  const otherExpanded = Boolean(formValues.properties && (formValues.properties.constraints.length || formValues.properties.user || formValues.properties.accepted_resource_roles.length));
 
   return (
-    <Form onSubmit={props.handleSubmit(props.onSubmit)} autoComplete="off" disabled={isPending}>
-      {!values.properties.provider.id
-        ?
-          <SelectProvider providers={props.providersData} />
-        :
-          <React.Fragment>
-            <Row gutter={5}>
-              {editMode && !inlineMode &&
-              <Col flex={12}>
-                <Panel
-                  title="Public Endpoints"
-                  pending={props.apiEndpointsPending && !props.apiEndpoints.length}
-                  noPadding
-                  count={props.apiEndpoints.length}
-                >
-
-                  {!enabledEndpoints &&
-                    <Div padding="16px">
-                      {!enabledEndpoints && values.properties.port_mappings.length > 0 ?
-                        <Error block>* Save your changes to add an endpoint</Error> : <Caption>Add a Service Mapping to add a Public Endpoint</Caption>}
-                    </Div>}
-
-                  <APIEndpointInlineList
-                    endpoints={props.apiEndpoints}
-                    onAddEndpoint={() => props.showAPIEndpointWizardModal(match.params, container.id, 'container', values.properties.port_mappings)}
-                    disabled={!enabledEndpoints}
+    <React.Fragment>
+      {!selectedProvider.isSelected &&
+        <Row gutter={5} hide={selectedProvider.isSelected}>
+          <Col flex={12}>
+            <Panel title="Select a Provider" expandable={false}>
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <SelectedProvider
+                    label="CaaS Provider"
+                    form={form}
+                    name={`${formName}.properties.provider.id`}
                   />
-                </Panel>
-              </Col>}
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
+        </Row>}
 
-              <Col flex={7} xs={12} sm={12} md={12}>
-                <Panel title="Compute" expandable={false} fill>
-                  <Row gutter={5}>
-                    {!editMode &&
-                      <Col flex={6} xs={12}>
-                        <Field
-                          id="container-name"
-                          component={TextField}
-                          name="name"
-                          label="Container Name"
-                          type="text"
-                          required
-                          helpText="the name of the container"
-                        />
-                      </Col>}
-
-                    <Col flex={2} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.num_instances"
-                        min={0}
-                        max={999}
-                        step={1}
-                        label="Instances"
-                        type="number"
-                        normalize={fixInputNumber}
-                        helpText="0 = suspended"
-                      />
-                    </Col>
-                    <Col flex={2} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.cpus"
-                        min={0.1}
-                        max={10.0}
-                        step="any"
-                        label="CPU"
-                        type="number"
-                        required
-                        parse={value => parseFloat(value)} // redux form formats everything as string, so force number
-                      />
-                    </Col>
-                    <Col flex={2} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.memory"
-                        min={32}
-                        step={1}
-                        label="Memory"
-                        type="number"
-                        required
-                        normalize={fixInputNumber}
-                      />
-                    </Col>
-
-                    <Col flex={9} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.image"
-                        label="Image"
-                        type="text"
-                        required
-                        helpText="e.g. nginx:alpine"
-                      />
-                    </Col>
-
-                    <Col flex={3} xs={12}>
-                      <Field
-                        id="force_pull"
-                        component={Checkbox}
-                        name="properties.force_pull"
-                        // TODO: Find out why redux-form state for bool doesn't apply
-                        checked={values.properties.force_pull}
-                        label="Force Pull Image"
-                      />
-                    </Col>
-                  </Row>
-                </Panel>
-              </Col>
-
-              <Col flex={5} xs={12} sm={12} md={12}>
-                <Panel title="Description" expandable={false} fill>
-                  <Row gutter={5}>
-                    <Col flex={12}>
-                      <Field
-                        id="description"
-                        component={TextField}
-                        name="description"
-                        placeholder="Description"
-                        type="text"
-                        rows={1}
-                        maxRows={6}
-                      />
-                    </Col>
-                  </Row>
-                </Panel>
-              </Col>
-
-              <Col flex={12}>
-                <Panel
-                  title="Networking"
-                  expandable={false}
-                  noPadding
-                >
-                  <Row gutter={5} paddingLeft="16px">
-                    <Col flex={6} xs={12}>
-                      <Field
-                        id="select-network"
-                        component={SelectField}
-                        name="properties.network"
-                        menuItems={setNetworks()}
-                        disabled={!setNetworks().length}
-                        label={!setNetworks().length ? 'No Configured Network Types' : 'Network Type'}
-                        itemLabel="name"
-                        itemValue="name"
-                        required
-                      />
-                    </Col>
-                  </Row>
-                  {values.properties.network &&
-                  <Panel title="Service Mappings" noPadding noShadow count={values.properties.port_mappings.length}>
-                    <FieldArray
-                      name="properties.port_mappings"
-                      component={PortMappingsForm}
-                      networkType={values.properties.network}
-                      portMappingFormValues={values.properties.port_mappings}
-                      change={change}
+      {selectedProvider.isSelected &&
+        <Row gutter={5}>
+          <Col flex={7} xs={12} sm={12} md={12}>
+            <Panel title="General" expandable={false} fill>
+              <Row gutter={5}>
+                {!editMode &&
+                  <Col flex={6} xs={12}>
+                    <Field
+                      id="container-name"
+                      component={TextField}
+                      name={`${formName}.name`}
+                      label="Container Name"
+                      type="text"
+                      required
+                      parse={formatName}
+                      helpText="the name of the container"
                     />
-                  </Panel>}
-                </Panel>
-              </Col>
-
-              <Col flex={12}>
-                <Panel title="Command" noPadding defaultExpanded={!!container.properties.cmd}>
+                  </Col>}
+                <Col flex={2} xs={12}>
                   <Field
-                    component={AceEditor}
-                    mode="sh"
-                    theme="chrome"
-                    name="properties.cmd"
-                    maxLines={10}
-                    minLines={5}
+                    component={TextField}
+                    name={`${formName}.properties.num_instances`}
+                    min={0}
+                    max={999}
+                    step={1}
+                    label="Instances"
+                    type="number"
+                    parse={fixInputNumber}
+                    format={fixInputNumber}
+                    helpText="0 = suspended"
                   />
-                </Panel>
-              </Col>
-
-              <Col flex={12}>
-                <Panel
-                  title="Environment Variables"
-                  defaultExpanded={values.properties.env.length > 0}
-                  noPadding
-                  count={values.properties.env.length}
-                >
-                  <FieldArray
-                    component={UnixVariablesForm}
-                    name="properties.env"
+                </Col>
+                <Col flex={2} xs={12}>
+                  <Field
+                    component={TextField}
+                    name={`${formName}.properties.cpus`}
+                    min={0.1}
+                    max={10.0}
+                    step="any"
+                    label="CPU"
+                    type="number"
+                    required
+                    parse={fixInputDecimal}
+                    format={fixInputDecimal}
                   />
-                </Panel>
-              </Col>
-
-              <Col flex={12}>
-                <Panel
-                  title="Labels"
-                  defaultExpanded={values.properties.labels.length > 0}
-                  noPadding
-                  count={values.properties.labels.length}
-                >
-                  <FieldArray
-                    component={LabelsForm}
-                    name="properties.labels"
+                </Col>
+                <Col flex={2} xs={12}>
+                  <Field
+                    component={TextField}
+                    name={`${formName}.properties.memory`}
+                    min={32}
+                    step={1}
+                    label="Memory"
+                    type="number"
+                    required
+                    parse={fixInputNumber}
+                    format={fixInputNumber}
                   />
-                </Panel>
-              </Col>
-
-              <Col flex={12}>
-                <Panel
-                  title="Volumes"
-                  noPadding
-                  defaultExpanded={values.properties.volumes.length > 0}
-                  count={values.properties.volumes.length}
-                >
-                  <FieldArray
-                    name="properties.volumes"
-                    component={VolumesForm}
-                    providerType={providerType}
-                    volumeFormValues={values.properties.volumes}
+                </Col>
+                <Col flex={10}>
+                  <Field
+                    component={TextField}
+                    name={`${formName}.properties.image`}
+                    label="Image"
+                    type="text"
+                    required
+                    helpText="[registry-url]/[namespace]/[image]:[tag]"
+                  // rows={1}
+                  // maxRows={4}
                   />
-                </Panel>
-              </Col>
+                </Col>
 
-              {isSecretsEnabled() &&
-              <Col flex={12}>
-                <Panel
-                  title="Secrets"
-                  noPadding
-                  defaultExpanded={values.properties.secrets.length > 0}
-                  count={values.properties.secrets.length}
-                >
-                  <FieldArray
-                    name="properties.secrets"
-                    component={SecretsPanelForm}
-                    provider={selectedProvider}
-                    secretFormValues={values.properties.secrets}
+                <Col flex={2} xs={12}>
+                  <Field
+                    id="force_pull"
+                    component={Checkbox}
+                    name={`${formName}.properties.force_pull`}
+                    checked={formValues.properties.force_pull}
+                    label="Force Pull"
                   />
-                </Panel>
-              </Col>}
+                </Col>
 
-              {/* TODO: Implement for Kubernetes/Docker when api is ready */}
-              {isHealthChecksEnabled &&
-              <Col flex={12}>
-                <Panel
-                  title="Health Checks"
-                  noPadding
-                  defaultExpanded={values.properties.health_checks.length > 0}
-                  count={values.properties.health_checks.length}
-                >
-                  <FieldArray
-                    name="properties.health_checks"
-                    component={HealthChecksForm}
-                    healthCheckvalues={values.properties.health_checks}
+                <Col flex={12}>
+                  <Field
+                    id="select-network"
+                    component={SelectField}
+                    name={`${formName}.properties.network`}
+                    menuItems={selectedProvider.networks}
+                    disabled={!selectedProvider.networks.length}
+                    label={!selectedProvider.networks.length ? 'No Configured Network Types' : 'Network Type'}
+                    itemLabel="name"
+                    itemValue="name"
+                    required
                   />
-                </Panel>
-              </Col>}
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
 
-              <Col flex={12}>
-                <Panel title="Advanced" defaultExpanded={false}>
-                  <Row gutter={5} alignItems="baseline">
-                    <Col flex={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.constraints"
-                        label="Constraints"
-                        type="text"
-                        helpText="Comma delimited set of constraints e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>, ..."
-                      />
-                    </Col>
-                    <Col flex={6} xs={12}>
-                      <Field
-                        component={TextField}
-                        name="properties.user"
-                        label="User"
-                        type="text"
-                        helpText="unix formatted username"
-                      />
-                    </Col>
-                    <Col flex={6} xs={12}>
-                      <Field
-                        label="Role"
-                        addLabel="Add Role"
-                        component={Chips}
-                        name="properties.accepted_resource_roles"
-                        ignorePrefixValidation
-                      />
-                    </Col>
-                  </Row>
-                </Panel>
-              </Col>
-            </Row>
-          </React.Fragment>}
+          <Col flex={5} xs={12} sm={12} md={12}>
+            <Panel title="Description" expandable={false} fill>
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Field
+                    id="description"
+                    component={TextField}
+                    name={`${formName}.description`}
+                    placeholder="Description"
+                    type="text"
+                    rows={1}
+                    maxRows={12}
+                  />
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
+
+          <Col flex={12}>
+            <Panel
+              title="Service Port Mappings"
+              expandable={false}
+              noPadding
+            >
+              <PortMappingsForm
+                fieldName={`${formName}properties.port_mappings`}
+                form={form}
+                formValues={values}
+                networkType={formValues.properties.network}
+              />
+            </Panel>
+          </Col>
+
+          <Col flex={12}>
+            <Panel
+              title="Environment Variables"
+              defaultExpanded={formValues.properties.env.length > 0}
+              noPadding
+              count={formValues.properties.env.length}
+            >
+              <UnixVariablesForm fieldName={`${formName}.properties.env`} formValues={values} />
+            </Panel>
+          </Col>
+
+          <Col flex={12}>
+            <Panel
+              title="Labels"
+              defaultExpanded={formValues.properties.labels.length > 0}
+              noPadding
+              count={formValues.properties.labels.length}
+            >
+              <LabelsForm fieldName={`${formName}.properties.labels`} formValues={values} />
+            </Panel>
+          </Col>
+
+          <Col flex={12}>
+            <Panel
+              title="Volumes"
+              noPadding
+              defaultExpanded={formValues.properties.volumes.length > 0}
+              count={formValues.properties.volumes.length}
+            >
+              <VolumesForm
+                fieldName={`${formName}.properties.volumes`}
+              />
+            </Panel>
+          </Col>
+
+          {selectedProvider.supportsSecrets &&
+            <Col flex={12}>
+              <Panel
+                title="Secrets"
+                noPadding
+                defaultExpanded={formValues.properties.secrets.length > 0}
+                count={formValues.properties.secrets.length}
+              >
+                <SecretsPanelForm
+                  fieldName={`${formName}.properties.secrets`}
+                  formValues={values}
+                  provider={selectedProvider.provider}
+                  type="container"
+                  form={form}
+                />
+              </Panel>
+            </Col>}
+
+          {/* TODO: Implement for Kubernetes/Docker when api is ready */}
+          {selectedProvider.supportsHealth &&
+            <Col flex={12}>
+              <Panel
+                title="Health Checks"
+                noPadding
+                defaultExpanded={formValues.properties.health_checks.length > 0}
+                count={formValues.properties.health_checks.length}
+              >
+                <HealthChecksForm
+                  fieldName={`${formName}.properties.health_checks`}
+                  formValues={values}
+                />
+              </Panel>
+            </Col>}
+
+          <Col flex={12}>
+            <Panel title="Command" defaultExpanded={!!formValues.properties.cmd}>
+              <Field
+                name={`${formName}.properties.cmd`}
+                component={TextField}
+                label="Command"
+                type="text"
+                helpText="e.g. /usr/bin/myscript.sh arg1 arg2..."
+              />
+            </Panel>
+          </Col>
+
+          <Col flex={12}>
+            <Panel
+              title="Other"
+              defaultExpanded={otherExpanded}
+            >
+              <Row gutter={5} alignItems="baseline">
+                <Col flex={12}>
+                  <Field
+                    name={`${formName}.properties.constraints`}
+                    id="container--constraints"
+                    label="Constraints"
+                    addLabel="Add Constraint"
+                    component={Chips}
+                    helpText="e.g. <field name>:<LIKE | UNLIKE | UNIQUE | CLUSTER | GROUP_BY | MAX_PER>:<optional param>"
+                    ignorePrefixValidation
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    component={TextField}
+                    name={`${formName}.properties.user`}
+                    label="User"
+                    type="text"
+                    helpText="unix formatted username"
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    id="container--roles"
+                    label="Role"
+                    addLabel="Add Role"
+                    component={Chips}
+                    name={`${formName}.properties.accepted_resource_roles`}
+                    ignorePrefixValidation
+                  />
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
+        </Row>}
 
       {!inlineMode &&
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren="arrow_back"
-          disabled={containerPending || props.submitting}
-          component={Link}
-          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-        >
-          Containers
-        </Button>
+        <FullPageFooter>
+          <Button
+            flat
+            iconChildren="arrow_back"
+            disabled={isSubmitDisabled}
+            component={Link}
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+          >
+            Containers
+          </Button>
 
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={isSubmitDisabled || !selectedProvider.id}
-          primary
-        >
-          {editMode ? 'Update' : 'Create'}
-        </Button>
-      </FullPageFooter>}
-    </Form>
+          <Button
+            raised
+            iconChildren="save"
+            type="submit"
+            disabled={isSubmitDisabled || !selectedProvider.isSelected}
+            primary
+          >
+            {editMode ? 'Update' : 'Create'}
+          </Button>
+        </FullPageFooter>}
+    </React.Fragment>
   );
 };
 
 ContainerForm.propTypes = {
+  form: PropTypes.object.isRequired,
+  formName: PropTypes.string,
   values: PropTypes.object.isRequired,
-  containerPending: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  providersData: PropTypes.array.isRequired,
-  container: PropTypes.object.isRequired,
-  title: PropTypes.string,
-  submitLabel: PropTypes.string,
-  cancelLabel: PropTypes.string,
   editMode: PropTypes.bool,
   inlineMode: PropTypes.bool,
-  apiEndpoints: PropTypes.array,
-  apiEndpointsPending: PropTypes.bool,
-  showAPIEndpointWizardModal: PropTypes.func.isRequired,
-  secretsData: PropTypes.array,
-  change: PropTypes.func.isRequired,
-  providerType: PropTypes.string,
-  onSelectedProvider: PropTypes.func,
+  selectedProvider: PropTypes.object.isRequired,
 };
 
 ContainerForm.defaultProps = {
-  title: null,
-  submitLabel: null,
-  cancelLabel: 'Cancel',
   editMode: false,
   inlineMode: false,
-  providerType: null,
-  onSelectedProvider: () => { },
-  secretsData: [],
-  apiEndpoints: [],
-  apiEndpointsPending: false,
+  formName: '',
 };
 
-// Connect to this forms state in the store so we can enum the values
-const selector = form => formValueSelector(form);
-export default connect(
-  (state, props) => ({
-    values: selector(props.form)(state,
-      'properties.force_pull',
-      'properties.provider',
-      'properties.network',
-      'properties.secrets',
-      'properties.port_mappings',
-      'properties.volumes',
-      'properties.health_checks',
-      'properties.num_instances',
-      'properties.env',
-      'properties.labels',
-    ),
-  })
+const mapStateToProps = state => ({
+  container: selectContainer(state),
+  selectedProvider: selectProvider(state),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, actions),
 )(ContainerForm);

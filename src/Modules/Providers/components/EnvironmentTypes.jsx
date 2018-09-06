@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Row, Col } from 'react-flexybox';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { SelectionControlGroup } from 'components/ReduxFormFields';
 import { Caption } from 'components/Typography';
 import { Panel } from 'components/Panels';
@@ -11,11 +11,9 @@ class EnvironmentTypes extends PureComponent {
     return (
       <Panel title="Allowed Environments">
         <Row>
-          <Col flex={4} xs={12} sm={3}>
+          <Col flex={12}>
             <Caption light>Allowed Environments this Provider can be used with</Caption>
             <Field
-              inline
-              controlStyle={{ display: 'block' }}
               component={SelectionControlGroup}
               type="checkbox"
               id="restricted-environment-types"

@@ -5,8 +5,8 @@ import Form from 'components/Form';
 import { Button } from 'components/Buttons';
 import { Row, Col } from 'react-flexybox';
 import { Panel } from 'components/Panels';
-import { UnixVariablesFormNew } from 'Modules/Variables';
-import { SecretsPanelFormNew } from 'Modules/Secrets';
+import { UnixVariablesForm } from 'Modules/Variables';
+import { SecretsPanelForm } from 'Modules/Secrets';
 import { FullPageFooter } from 'components/FullPage';
 import LambdaSection from '../components/LambaSection';
 import LambdaFunctionSection from '../components/LambdaFunctionSection';
@@ -56,7 +56,7 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
                 count={values.properties.env.length}
                 defaultExpanded={values.properties.env.length > 0}
               >
-                <UnixVariablesFormNew fieldName="properties.env" formValues={values} />
+                <UnixVariablesForm fieldName="properties.env" formValues={values} />
               </Panel>
             </Col>
           </Row>
@@ -74,7 +74,7 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
                 noPadding
                 count={values.properties.secrets.length}
               >
-                <SecretsPanelFormNew
+                <SecretsPanelForm
                   fieldName="properties.secrets"
                   formValues={values}
                   provider={getSelectedProvider(values, providers)}

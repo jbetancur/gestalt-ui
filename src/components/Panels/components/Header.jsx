@@ -13,6 +13,7 @@ const TitleSection = styled(Col)`
   `};
   height: 100%;
   display: flex;
+  align-items: center;
 `;
 
 const Title = styled.div`

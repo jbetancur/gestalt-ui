@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { AceEditor } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 import { FileInput } from 'react-md';
+import { isYAML } from 'util/validations';
+import { composeValidators, required, validator } from 'util/forms';
 
 const KubeEditorSection = ({ dispatch, change }) => {
   const onFile = (file) => {
@@ -34,11 +36,15 @@ const KubeEditorSection = ({ dispatch, change }) => {
       <Field
         component={AceEditor}
         mode="yaml"
-        theme="chrome"
+        theme="dracula"
         name="properties.data"
         maxLines={50}
         minLines={15}
         fontSize={12}
+        validate={composeValidators(
+          required('yaml config is required'),
+          validator(isYAML, 'invalid yaml')
+        )}
       />
     </Panel>
   );

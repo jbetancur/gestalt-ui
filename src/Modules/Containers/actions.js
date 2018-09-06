@@ -1,3 +1,10 @@
+import { metaModels } from 'Modules/MetaResource';
+import { getLastFromSplit } from 'util/helpers/strings';
+import {
+  SELECTED_PROVIDER,
+  UNLOAD_SELECTED_PROVIDER,
+} from './constants';
+
 export function confirmContainerDelete(action, item, cancelAction = () => { }) {
   return {
     type: 'SHOW_MODAL',
@@ -82,6 +89,54 @@ export function showImportModal(props = {}) {
   };
 }
 
+/**
+ * setSelectedProvider
+ * @param {*} provider
+ */
+export function setSelectedProvider(provider = {}) {
+  const providerType = getLastFromSplit(provider.resource_type);
+  const providerModel = metaModels.provider.get(provider);
+  const supportsSecrets = () => {
+    switch (providerType) {
+      case 'Kubernetes':
+        return true;
+      case 'Docker':
+        return false;
+      case 'DCOS':
+        if (providerModel.properties.config.secret_support) {
+          return true;
+        }
+
+        return false;
+      default:
+        return false;
+    }
+  };
+
+  const networks = providerType === 'Kubernetes'
+    ? [{ name: 'default' }]
+    : providerModel.properties.config.networks;
+  const networksList = networks && networks.length ? networks : [{ name: 'BRIDGE' }];
+
+  return {
+    type: SELECTED_PROVIDER,
+    supportsSecrets: supportsSecrets(),
+    supportsHealth: providerType !== 'Docker',
+    networks: networksList,
+    providerType,
+    provider: providerModel,
+  };
+}
+
+/**
+ * clearSelectedProvider
+ */
+export function clearSelectedProvider() {
+  return {
+    type: UNLOAD_SELECTED_PROVIDER,
+  };
+}
+
 export default {
   confirmContainerDelete,
   scaleContainerModal,
@@ -89,4 +144,6 @@ export default {
   promoteContainerModal,
   showAPIEndpointWizardModal,
   showImportModal,
+  setSelectedProvider,
+  clearSelectedProvider,
 };

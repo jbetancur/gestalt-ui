@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { withRouter, Link } from 'react-router-dom';
-import { reduxForm } from 'redux-form';
 import { Col, Row } from 'react-flexybox';
-import { withContainer, withAPIEndpoints, withPickerData } from 'Modules/MetaResource';
+import arrayMutators from 'final-form-arrays';
+import { withContainer, withAPIEndpoints } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -15,7 +17,9 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
-import { getLastFromSplit } from 'util/helpers/strings';
+import { APIEndpointInlineList } from 'Modules/APIEndpoints';
+import { Caption } from 'components/Typography';
+import Div from 'components/Div';
 import ContainerForm from './ContainerForm';
 import ContainerActions from '../components/ContainerActions';
 import ContainerIcon from '../components/ContainerIcon';
@@ -26,27 +30,28 @@ import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import {
   getEditContainerModel,
-  getEditContainerModelAsSpec,
   selectContainer,
-  getContainerInstances,
-  getContainerServiceAddresses,
+  selectProvider,
 } from '../selectors';
 import ActionsModals from '../ActionModals';
 
 class ContainerEdit extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
+    apiEndpoints: PropTypes.array.isRequired,
+    apiEndpointsPending: PropTypes.bool.isRequired,
+    showAPIEndpointWizardModal: PropTypes.func.isRequired,
     containerActions: PropTypes.object.isRequired,
     containerPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
     entitlementActions: PropTypes.object.isRequired,
     containerInstances: PropTypes.array.isRequired,
     containerServiceAddresses: PropTypes.array.isRequired,
-    fetchprovidersData: PropTypes.func.isRequired,
-    providersData: PropTypes.array.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
+    selectedProvider: PropTypes.object.isRequired,
+    setSelectedProvider: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -54,11 +59,21 @@ class ContainerEdit extends Component {
   };
 
   componentDidMount() {
-    const { match, apiEndpointsActions, containerActions } = this.props;
+    const { match, apiEndpointsActions, containerActions, container, setSelectedProvider } = this.props;
 
+    setSelectedProvider(container.properties.provider);
     if (!this.props.inlineMode) {
       containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, enablePolling: true, });
       apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // only update chart if the data has changed
+    const { container, setSelectedProvider } = this.props;
+
+    if (prevProps.container.id !== container.id) {
+      setSelectedProvider(container.properties.provider);
     }
   }
 
@@ -79,10 +94,19 @@ class ContainerEdit extends Component {
   }
 
   render() {
-    const { match, container, containerPending, containerInstances, containerServiceAddresses, providersData, inlineMode } = this.props;
-    // TODO: Implemented this way due to container provider missing properties.provider.resource_type
-    const selectedProvider = providersData.find(p => p.id === container.properties.provider.id) || {};
-    const providerType = getLastFromSplit(selectedProvider.resource_type);
+    const {
+      match,
+      container,
+      containerPending,
+      inlineMode,
+      initialFormValues,
+      selectedProvider,
+      apiEndpoints,
+      apiEndpointsPending,
+      showAPIEndpointWizardModal,
+    } = this.props;
+
+    const enabledEndpoints = !inlineMode && container.properties.port_mappings.length > 0;
 
     return (
       containerPending && !container.id ?
@@ -98,7 +122,7 @@ class ContainerEdit extends Component {
             <ActionsToolbar
               title={container.name}
               subtitle={selectedProvider.name}
-              titleIcon={<ContainerIcon resourceType={providerType} />}
+              titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
               actions={[
                 !inlineMode &&
                 <Button
@@ -127,8 +151,7 @@ class ContainerEdit extends Component {
                   <Col flex={12}>
                     <Card>
                       <ContainerInstances
-                        instances={containerInstances}
-                        providerType={providerType}
+                        providerType={selectedProvider.type}
                         containerModel={container}
                         fqon={match.params.fqon}
                       />
@@ -150,7 +173,7 @@ class ContainerEdit extends Component {
               </Tab>
 
               <Tab title={inlineMode ? 'Container Spec' : 'Container'}>
-                {!this.props.inlineMode &&
+                {!inlineMode &&
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Panel title="Resource Details" defaultExpanded={false}>
@@ -159,11 +182,43 @@ class ContainerEdit extends Component {
                   </Col>
                 </Row>}
 
-                <ContainerForm
+                {!inlineMode &&
+                  <Row gutter={5}>
+                    <Col flex={12}>
+                      <Panel
+                        title="Public Endpoints"
+                        pending={apiEndpointsPending && !apiEndpoints.length}
+                        noPadding
+                        count={apiEndpoints.length}
+                      >
+                        {!enabledEndpoints &&
+                          <Div padding="16px">
+                            <Caption>Update this container with a Service Mapping to add a Public Endpoint</Caption>
+                          </Div>}
+
+                        <APIEndpointInlineList
+                          endpoints={apiEndpoints}
+                          onAddEndpoint={() => showAPIEndpointWizardModal(match.params, container.id, 'container', container.properties.port_mappings)}
+                          disabled={!enabledEndpoints}
+                        />
+                      </Panel>
+                    </Col>
+                  </Row>}
+
+                <FinalForm
                   editMode
-                  inlineMode={inlineMode}
                   onSubmit={this.redeployContainer}
-                  {...this.props}
+                  mutators={{ ...arrayMutators }}
+                  loading={containerPending}
+                  initialValues={initialFormValues}
+                  validate={validate}
+                  inlineMode={inlineMode}
+                  keepDirtyOnReinitialize
+                  render={({ handleSubmit, ...rest }) => (
+                    <Form onSubmit={handleSubmit} autoComplete="off" disabled={containerPending}>
+                      <ContainerForm {...rest} />
+                    </Form>
+                  )}
                 />
               </Tab>
 
@@ -172,7 +227,7 @@ class ContainerEdit extends Component {
                   <Col flex={12}>
                     <Card>
                       <ContainerServiceAddresses
-                        portMappings={containerServiceAddresses}
+                        portMappings={container.properties.port_mappings}
                       />
                     </Card>
                   </Col>
@@ -197,25 +252,16 @@ class ContainerEdit extends Component {
   }
 }
 
-const formName = 'containerEdit';
-const mapStateToProps = (state, ownProps) => ({
-  container: ownProps.containerSpec || selectContainer(state),
-  containerInstances: getContainerInstances(state),
-  containerServiceAddresses: getContainerServiceAddresses(state),
-  initialValues: ownProps.containerSpec ? getEditContainerModelAsSpec(state, ownProps.containerSpec) : getEditContainerModel(state),
+const mapStateToProps = state => ({
+  container: selectContainer(state),
+  initialFormValues: getEditContainerModel(state),
+  selectedProvider: selectProvider(state),
 });
 
-
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withContainer(),
   withAPIEndpoints(),
   withEntitlements,
   withRouter,
   connect(mapStateToProps, actions),
-  reduxForm({
-    form: formName,
-    enableReinitialize: true,
-    validate,
-  }),
 )(ContainerEdit);

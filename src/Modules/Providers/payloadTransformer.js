@@ -1,18 +1,16 @@
 import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
-import { arrayToMap, stringDemiltedToArray } from 'util/helpers/transformations';
-import { payloadTransformer as containerPayloadTransforder } from 'Modules/Containers';
+import { stringDemiltedToArray } from 'util/helpers/transformations';
+import { metaModels } from 'Modules/MetaResource';
 
-// import { mapTo2DArray } from 'util/helpers/transformations';
+
 /**
  * generateProviderPayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
- * @param {Object} containerValues
- * @param {Boolean} updateMode
  */
-export function generateProviderPayload(sourcePayload, containerValues = {}, updateMode = false) {
+export function generateProviderPayload(sourcePayload, hasContainer) {
   const {
     name,
     description,
@@ -25,16 +23,7 @@ export function generateProviderPayload(sourcePayload, containerValues = {}, upd
     description,
     resource_type,
     properties: {
-      config: {
-        ...properties.config,
-        env: {
-          public: arrayToMap(properties.config.env.public, 'name', 'value'),
-          private: arrayToMap(properties.config.env.private, 'name', 'value'),
-        },
-      },
-      services: [],
-      linked_providers: properties.linked_providers,
-      locations: properties.locations,
+      ...properties,
     },
   };
 
@@ -58,7 +47,7 @@ export function generateProviderPayload(sourcePayload, containerValues = {}, upd
     payload.properties.config.networks = JSON.parse(properties.config.networks);
   }
 
-  if (properties.environment_types) {
+  if (typeof properties.environment_types === 'string') {
     payload.properties.environment_types = stringDemiltedToArray(sourcePayload.properties.environment_types);
   }
 
@@ -67,32 +56,18 @@ export function generateProviderPayload(sourcePayload, containerValues = {}, upd
     payload.properties.environment_types = [];
   }
 
-  // Handle our container Form and map to the provider payload
-  if (Object.keys(containerValues).length && containerValues.properties.provider.id) {
-    const containerServicepayload = {
-      init: {
-        binding: 'eager',
-        singleton: true,
-      },
-      container_spec: {},
-    };
-
-    payload.properties.services.push(containerServicepayload);
-    payload.properties.services[0].container_spec = containerPayloadTransforder.generatePayload(containerValues);
+  if (properties.data) {
+    payload.properties.data = base64.encode(properties.data);
+    delete payload.properties.config.auth;
+    delete payload.properties.config.url;
   }
 
-  if (updateMode) {
-    delete payload.resource_type;
-  } else {
-    // eslint-disable-next-line no-lonely-if
-    if (properties.data) {
-      payload.properties.data = base64.encode(properties.data);
-      delete payload.properties.config.auth;
-      delete payload.properties.config.url;
-    }
+  if (!hasContainer) {
+    delete payload.properties.services;
+    return metaModels.provider.create(payload);
   }
 
-  return payload;
+  return metaModels.provider.createWithContainerSpec(payload);
 }
 
 /**
@@ -100,8 +75,8 @@ export function generateProviderPayload(sourcePayload, containerValues = {}, upd
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
  */
-export function generateProviderPatches(originalPayload, updatedPayload, containerValues = {}) {
-  const { name, description, properties: { config, locations, linked_providers, environment_types, services } } = cloneDeep(originalPayload);
+export function generateProviderPatches(originalPayload, updatedPayload) {
+  const { name, description, properties: { config, linked_providers, environment_types, services } } = cloneDeep(originalPayload);
   const model = {
     name,
     description,
@@ -109,7 +84,6 @@ export function generateProviderPatches(originalPayload, updatedPayload, contain
       config,
       linked_providers,
       environment_types,
-      locations,
       services,
     },
   };
@@ -129,12 +103,21 @@ export function generateProviderPatches(originalPayload, updatedPayload, contain
     delete model.properties.config.extra;
   }
 
-  // TODO: Deal with Patch array issues
-  if (updatedPayload.properties.services) {
-    delete model.properties.services;
+  // Ugh - check if there is a container - if so then "force" patch op\
+  let hasContainer = false;
+
+  if (updatedPayload.properties.services
+    && updatedPayload.properties.services.length
+    && Object.keys(updatedPayload.properties.services[0].container_spec).length) {
+    // TODO: Deal with Patch array issues
+    if (updatedPayload.properties.services) {
+      delete model.properties.services;
+    }
+
+    hasContainer = true;
   }
 
-  return jsonPatch.compare(model, generateProviderPayload(updatedPayload, containerValues, true));
+  return jsonPatch.compare(model, metaModels.provider.patch(generateProviderPayload(updatedPayload, hasContainer)));
 }
 
 export default {

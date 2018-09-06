@@ -3,39 +3,13 @@ import { generatePayload } from './payloadTransformer';
 
 describe('(Container Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
-    describe('properties.env', () => {
-      it('should convert properties.env array to a map', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            env: [{ name: 'test', value: 'this' }, { name: 'this', value: 'test' }],
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.env).toEqual({ test: 'this', this: 'test' });
-      });
-    });
-
-    describe('properties.labels', () => {
-      it('should convert properties.labels array to a map', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            labels: [{ name: 'test', value: 'this' }, { name: 'this', value: 'test' }],
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.labels).toEqual({ test: 'this', this: 'test' });
-      });
-    });
-
     describe('properties.num_instances', () => {
       it('should set properties.num_instances to 1 if it is \'\'', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = {
           properties: {
-            num_instances: ''
+            num_instances: '',
           }
-        });
+        };
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties.num_instances).toBe(1);
@@ -63,63 +37,6 @@ describe('(Container Payload Transformer) generatePayload', () => {
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties).not.toHaveProperty('cmd');
-      });
-    });
-
-    describe('properties.constraints', () => {
-      it('should handle constraints if it is an Array', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            constraints: ['testrole', 'roletest']
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-        expect(payload.properties.constraints).toEqual(['testrole', 'roletest']);
-      });
-
-      it('should handle constraints if it is a comma delimited string', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            constraints: 'testrole, roletest'
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-        expect(payload.properties.constraints).toEqual(['testrole', 'roletest']);
-      });
-
-      it('should set remove constraints if it is \'\'', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            constraints: ''
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties).not.toHaveProperty('contraints');
-      });
-    });
-
-    describe('properties.volumes', () => {
-      it('should correctly format a volume if it is persistent', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            volumes: [{ type: 'persistent', host_path: '/lalala' }]
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.volumes).toEqual([{ type: 'persistent' }]);
-      });
-
-      it('should correctly format a volume if it is not persistent', () => {
-        const sourcePayload = metaModels.container.get({
-          properties: {
-            volumes: [{ type: 'RO', host_path: '/lalala' }]
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.volumes).toEqual([{ type: 'RO', host_path: '/lalala' }]);
       });
     });
 

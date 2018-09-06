@@ -4,8 +4,6 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::CaaS::DCOS',
     DCOSConfig: true,
-    DCOSSecurity: true,
-    networking: true,
     extraConfig: true,
     uploadConfig: false,
     allowContainer: false,
@@ -18,7 +16,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
-    networking: false,
     extraConfig: false,
     uploadConfig: true,
     allowContainer: false,
@@ -30,7 +27,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
-    networking: true,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: false,
@@ -42,7 +38,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Kong',
-    networking: false,
     extraConfig: true,
     uploadConfig: false,
     allowContainer: true,
@@ -53,7 +48,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::GatewayManager',
-    networking: false,
     extraConfig: true,
     uploadConfig: false,
     allowContainer: true,
@@ -64,7 +58,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Security',
-    networking: false,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: false,
@@ -74,7 +67,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Data::PostgreSQL',
-    networking: false,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: false,
@@ -84,7 +76,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Messaging::RabbitMQ',
-    networking: false,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: false,
@@ -94,7 +85,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Policy',
-    networking: false,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
@@ -104,7 +94,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Logging',
-    networking: false,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
@@ -114,7 +103,6 @@ const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::GestaltFlink',
-    networking: false,
     extraConfig: false,
     uploadConfig: false,
     allowContainer: true,
@@ -198,7 +186,7 @@ export const generateResourceTypeSchema = (resourceTypes = []) => {
       displayName: r.name.replace('Gestalt::Configuration::Provider::', ''),
       name: r.name,
       type: r.name,
-      allowedRestrictEnvironments: true,
+      allowedRestrictEnvironments: false,
       allowLinkedProviders: false,
       allowEnvVariables: true,
       allowAdvanced: false,

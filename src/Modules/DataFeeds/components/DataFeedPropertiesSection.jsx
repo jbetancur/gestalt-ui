@@ -127,6 +127,7 @@ const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
       <Panel title="Data Classification" expandable={false} fill>
         <Row gutter={5}>
           <Field
+            id="datafeed--classification"
             label="Classification"
             component={ChipsAuto}
             name="properties.data.classification"

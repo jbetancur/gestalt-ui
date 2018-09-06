@@ -13,6 +13,8 @@ exports[`Chips mounts with basic props 1`] = `
 
 <Chips
   forceLowerCase={false}
+  helpText={null}
+  id="test"
   ignorePrefixValidation={false}
   input={Object {}}
   label="Entry"
@@ -28,7 +30,7 @@ exports[`Chips mounts with basic props 1`] = `
     disabled={true}
     fullWidth={true}
     helpText="press ENTER to add a new entry"
-    id="Entry-list-table"
+    id="test-list-table"
     leftIconStateful={true}
     lineDirection="center"
     onBlur={[Function]}
@@ -56,7 +58,7 @@ exports[`Chips mounts with basic props 1`] = `
         disabled={true}
         error={false}
         floating={false}
-        htmlFor="Entry-list-table"
+        htmlFor="test-list-table"
         iconOffset={false}
         key="label"
       />
@@ -64,7 +66,7 @@ exports[`Chips mounts with basic props 1`] = `
         className=""
         disabled={true}
         fullWidth={true}
-        id="Entry-list-table"
+        id="test-list-table"
         inlineIndicator={false}
         key="field"
         onBlur={[Function]}
@@ -78,7 +80,7 @@ exports[`Chips mounts with basic props 1`] = `
         <input
           className="md-text-field md-text-field--margin md-full-width md-text--disabled"
           disabled={true}
-          id="Entry-list-table"
+          id="test-list-table"
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}

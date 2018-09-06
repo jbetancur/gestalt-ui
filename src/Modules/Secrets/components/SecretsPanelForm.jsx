@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withPickerData } from 'Modules/MetaResource';
-import { Field } from 'redux-form';
+import { getIn } from 'final-form';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { getLastFromSplit } from 'util/helpers/strings';
-
-const required = value => (value ? undefined : 'required');
+import { composeValidators, required, unixPattern } from 'util/forms';
 
 const setSecretMountTypes = (provider) => {
   if (getLastFromSplit(provider.resource_type) === 'Kubernetes') {
@@ -35,107 +36,130 @@ const getSecretKeys = (id, secrets) => {
   return (item && item.properties && item.properties.items) || [];
 };
 
-const getMenuItems = (secrets, provider) => {
-  const items = secrets.filter(p => p.properties && p.properties.provider && p.properties.provider.id === provider.id);
+const getMenuItems = (secrets, provider, type) => {
+  const items = secrets.filter((p) => {
+    let providerId;
+
+    if (type === 'lambda' && provider.id && provider.properties && provider.properties.config && provider.properties.config.env) {
+      providerId = provider.properties.config.env.public.META_COMPUTE_PROVIDER_ID;
+    } else {
+      const { id } = provider;
+
+      providerId = id;
+    }
+
+    return p.id ? p.properties.provider.id === providerId : null;
+  });
 
   return items.length ? items : [{ id: null, name: 'No Available Secrets' }];
 };
 
-const SecretsPanelForm = ({ fields, provider, secretsData, secretFormValues }) => (
-  <FieldContainer>
-    <AddButton label="Add Secret" onClick={() => fields.unshift({})} />
-    {fields.map((member, index) => {
-      const field = secretFormValues[index];
-      const handleSecretNamePopulation = (dummy, secretId) => {
-        const secret = secretsData.find(i => i.id === secretId);
-        Object.assign(field, { secret_name: secret.name });
-      };
+const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, form }) => (
+  <FieldArray name={fieldName}>
+    {({ fields }) => (
+      <FieldContainer>
+        <AddButton label="Add Secret" onClick={() => fields.unshift({})} />
+        {fields.map((member, index) => {
+          const field = getIn(formValues, member) || {};
 
-      const reset = () => {
-        delete field.secret_key;
-        delete field.path;
-      };
+          const handleSecretNamePopulation = (value) => {
+            const secret = secretsData.find(i => i.id === value);
+            if (value) {
+              form.mutators.update(fieldName, index, { ...field, secret_id: value, secret_name: secret.name });
+            }
+          };
 
-      return (
-        <FieldItem key={`sercret-${index}`}>
-          {/* hidden field */}
-          <Field
-            id={`${member}.secret_name`}
-            name={`${member}.secret_name`}
-            component={() => null}
-          />
-          <Row gutter={5}>
-            <Col flex={1} xs={12} sm={12}>
+          const reset = (value) => {
+            form.mutators.update(fieldName, index, { ...field, mount_type: value, secret_key: '', path: '' });
+          };
+
+          return (
+            <FieldItem key={`sercret-${index}`}>
+              {/* hidden field */}
               <Field
-                id={`${member}.mount_type`}
-                name={`${member}.mount_type`}
-                component={SelectField}
-                label="Mount Type"
-                onChange={reset}
-                menuItems={setSecretMountTypes(provider)}
-                required
+                id={`${member}.secret_name`}
+                name={`${member}.secret_name`}
+                component={() => null}
               />
-            </Col>
-            {provider.id &&
-              <Col flex={3} xs={12} sm={12}>
-                <Field
-                  id={`${member}.secret_id`}
-                  name={`${member}.secret_id`}
-                  component={SelectField}
-                  label="Secret"
-                  itemLabel="name"
-                  itemValue="id"
-                  required
-                  menuItems={getMenuItems(secretsData, provider)}
-                  onChange={handleSecretNamePopulation}
-                  async
-                  validate={[required]}
-                />
-              </Col>}
-            {field.secret_id && field.mount_type !== 'directory' &&
-            <Col flex={3} xs={12} sm={12}>
-              <Field
-                id={`${member}.secret_key`}
-                name={`${member}.secret_key`}
-                component={SelectField}
-                label="Key"
-                itemLabel="key"
-                itemValue="key"
-                required
-                menuItems={getSecretKeys(field.secret_id, secretsData)}
-                validate={[required]}
-              />
-            </Col>}
-            {field.secret_id &&
-              <Col flex={5} xs={12} sm={12}>
-                <Field
-                  id={`${member}.path`}
-                  name={`${member}.path`}
-                  label={field.mount_type === 'env' ? 'Environment Variable' : 'Path'}
-                  component={TextField}
-                  type="text"
-                  required
-                  validate={[required]}
-                  helpText={getHelpText(field.mount_type)}
-                />
-              </Col>}
-          </Row>
-          <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
-        </FieldItem>
-      );
-    })}
-  </FieldContainer>
+              <Row gutter={5}>
+                <Col flex={1} xs={12} sm={12}>
+                  <Field
+                    id={`${member}.mount_type`}
+                    name={`${member}.mount_type`}
+                    component={SelectField}
+                    label="Mount Type"
+                    onChange={reset}
+                    menuItems={setSecretMountTypes(provider)}
+                    required
+                    validate={composeValidators(required())}
+                  />
+                </Col>
+                <Col flex={3} xs={12} sm={12}>
+                  <Field
+                    id={`${member}.secret_id`}
+                    name={`${member}.secret_id`}
+                    component={SelectField}
+                    label="Secret"
+                    itemLabel="name"
+                    itemValue="id"
+                    required
+                    menuItems={getMenuItems(secretsData, provider, type)}
+                    onChange={handleSecretNamePopulation}
+                    async
+                    validate={composeValidators(required())}
+                  />
+                </Col>
+                {field.secret_id && field.mount_type !== 'directory' &&
+                  <Col flex={3} xs={12} sm={12}>
+                    <Field
+                      id={`${member}.secret_key`}
+                      name={`${member}.secret_key`}
+                      component={SelectField}
+                      label="Key"
+                      itemLabel="key"
+                      itemValue="key"
+                      required
+                      menuItems={getSecretKeys(field.secret_id, secretsData)}
+                      validate={composeValidators(required())}
+                    />
+                  </Col>}
+                {field.secret_id &&
+                  <Col flex={5} xs={12} sm={12}>
+                    <Field
+                      id={`${member}.path`}
+                      name={`${member}.path`}
+                      label={field.mount_type === 'env' ? 'Environment Variable' : 'Path'}
+                      component={TextField}
+                      type="text"
+                      required
+                      validate={composeValidators(required(), field.mount_type === 'env' && unixPattern())}
+                      helpText={getHelpText(field.mount_type)}
+                    />
+                  </Col>}
+              </Row>
+              <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
+            </FieldItem>
+          );
+        })}
+      </FieldContainer>
+    )}
+  </FieldArray>
 );
 
 SecretsPanelForm.propTypes = {
-  fields: PropTypes.object.isRequired,
-  provider: PropTypes.object.isRequired,
-  secretFormValues: PropTypes.array,
+  fieldName: PropTypes.string.isRequired,
+  provider: PropTypes.object,
+  formValues: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   secretsData: PropTypes.array.isRequired,
+  type: PropTypes.oneOf([
+    'lambda', 'container'
+  ])
 };
 
 SecretsPanelForm.defaultProps = {
-  secretFormValues: [],
+  provider: {},
+  type: 'container'
 };
 
 export default withPickerData({ entity: 'secrets', label: 'Secrets' })(SecretsPanelForm);

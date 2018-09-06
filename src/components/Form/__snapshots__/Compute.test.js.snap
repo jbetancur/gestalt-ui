@@ -72,7 +72,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     <Slider
       discrete={true}
       discreteInkTransitionTime={300}
-      id="properties.cpus"
+      id="properties.cpus--cpu"
       inputWidth={40}
       label="CPU"
       leftIcon={
@@ -143,7 +143,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
       discrete={true}
       discreteInkTransitionTime={300}
       discreteTicks={128}
-      id="properties.memory"
+      id="properties.memory--memory"
       inputWidth={40}
       label="Memory (MB)"
       leftIcon={

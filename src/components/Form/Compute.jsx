@@ -20,6 +20,8 @@ class ComputeForm extends Component {
     memMax: PropTypes.number,
     memStep: PropTypes.number,
     memStepSlider: PropTypes.number,
+    cpuDiscrete: PropTypes.bool,
+    memDiscrete: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -33,6 +35,8 @@ class ComputeForm extends Component {
     memMax: 2048,
     memStep: 1,
     memStepSlider: 32,
+    cpuDiscrete: true,
+    memDiscrete: true,
   };
 
   handleFocus = (event) => {
@@ -76,13 +80,15 @@ class ComputeForm extends Component {
       memMax,
       memStep,
       memStepSlider,
+      cpuDiscrete,
+      memDiscrete,
     } = this.props;
 
     return (
       <Row gutter={10}>
         <Col flex={10} xs={8}>
           <Slider
-            id={cpuName}
+            id={`${cpuName}--cpu`}
             label="CPU"
             min={cpuMin}
             max={cpuMax}
@@ -90,7 +96,7 @@ class ComputeForm extends Component {
             leftIcon={<FontIcon>memory</FontIcon>}
             value={formValues.properties.cpus}
             onChange={this.onChangeCPU}
-            discrete
+            discrete={cpuDiscrete}
             valuePrecision={1}
           />
         </Col>
@@ -115,7 +121,7 @@ class ComputeForm extends Component {
         </Col>
         <Col flex={10} xs={8}>
           <Slider
-            id={memName}
+            id={`${memName}--memory`}
             label="Memory (MB)"
             min={memMin}
             max={memMax}
@@ -123,7 +129,7 @@ class ComputeForm extends Component {
             leftIcon={<FontIcon>sd_card</FontIcon>}
             value={formValues.properties.memory}
             onChange={this.onChangeMemory}
-            discrete
+            discrete={memDiscrete}
             discreteTicks={memMin}
             tickWidth={6}
           />

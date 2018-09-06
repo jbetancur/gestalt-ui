@@ -6,7 +6,7 @@ import {
   CLEAR_OLDEST_MESSAGE,
 } from './actionTypes';
 
-const TIMEOUT = 4000;
+const TIMEOUT = 3000;
 
 export function* showFlashMessage() {
   yield call(delay, TIMEOUT);

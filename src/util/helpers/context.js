@@ -16,10 +16,10 @@ export function generateContextEntityState(params) {
     entity.key = 'workspaces';
   }
 
-  if (params.workspaceId && params.environmentId && params.providerId) {
-    entity.id = params.providerId;
-    entity.key = 'providers';
-  }
+  // if (params.workspaceId && params.environmentId && params.providerId) {
+  //   entity.id = params.providerId;
+  //   entity.key = 'providers';
+  // }
 
   return entity;
 }

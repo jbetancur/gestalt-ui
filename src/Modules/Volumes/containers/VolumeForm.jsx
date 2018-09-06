@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Col, Row } from 'react-flexybox';
 import { Link, withRouter } from 'react-router-dom';
-import { withPickerData } from 'Modules/MetaResource';
 import { Field } from 'react-final-form';
 import { TextField } from 'components/ReduxFormFields';
 import { Button } from 'components/Buttons';
@@ -16,7 +15,7 @@ import VolumeConfigSection from '../components/VolumeConfigSection';
 
 const resetFields = [{ field: 'properties.type', value: '' }, { field: 'properties.config', value: {} }];
 
-const VolumeForm = ({ form, values, match, loading, submitting, handleSubmit, selectedProvider, providersData, editMode }) => (
+const VolumeForm = ({ form, values, match, loading, submitting, handleSubmit, selectedProvider, editMode }) => (
   <Form onSubmit={handleSubmit} autoComplete="off" disabled={loading}>
     <Row gutter={5}>
       {!editMode &&
@@ -28,7 +27,6 @@ const VolumeForm = ({ form, values, match, loading, submitting, handleSubmit, se
                   label="CaaS Provider"
                   form={form}
                   resetFields={resetFields}
-                  providers={providersData}
                 />
               </Col>
               <Col flex={12}>
@@ -107,7 +105,6 @@ VolumeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   selectedProvider: PropTypes.object.isRequired,
-  providersData: PropTypes.array.isRequired,
   editMode: PropTypes.bool,
 };
 
@@ -116,6 +113,5 @@ VolumeForm.defaultProps = {
 };
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-  withRouter
+  withRouter,
 )(VolumeForm);

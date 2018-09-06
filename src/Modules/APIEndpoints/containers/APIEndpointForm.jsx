@@ -153,6 +153,7 @@ const APIEndpointForm = ({
 
               <Col flex={6}>
                 <Field
+                  id="apiendpoints--hostnames"
                   label="Hostname"
                   addLabel="Add Host"
                   component={Chips}

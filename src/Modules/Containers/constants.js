@@ -1,0 +1,2 @@
+export const SELECTED_PROVIDER = 'containers/SELECTED_PROVIDER';
+export const UNLOAD_SELECTED_PROVIDER = 'containers/UNLOAD_SELECTED_PROVIDER';

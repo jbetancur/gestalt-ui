@@ -33,30 +33,20 @@ export default ({ input, meta: { touched, error }, menuItems, async, ...others }
       }]
   );
 
+  const items = async ? compileMenuItems() : menuItems;
+
   return (
-    menuItems ?
-      <SelectField
-        id={input.id}
-        error={touched && !!error}
-        errorText={error}
-        menuItems={async ? compileMenuItems() : menuItems}
-        lineDirection="center"
-        sameWidth
-        fullWidth
-        // dropdownIcon={getIcon(touched && !!error)}
-        {...input}
-        {...others}
-      /> :
-      <SelectField
-        id={input.name}
-        error={touched && !!error}
-        errorText={error}
-        lineDirection="center"
-        sameWidth
-        fullWidth
-        // dropdownIcon={getIcon(touched && !!error)}
-        {...input}
-        {...others}
-      />
+    <SelectField
+      {...input}
+      {...others}
+      id={input.id || input.name}
+      error={touched && !!error}
+      errorText={error}
+      menuItems={items}
+      lineDirection="center"
+      sameWidth
+      fullWidth
+      // dropdownIcon={getIcon(touched && !!error)}
+    />
   );
 };

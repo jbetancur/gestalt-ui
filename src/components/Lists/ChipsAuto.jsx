@@ -46,7 +46,7 @@ class Chips extends Component {
   }
 
   render() {
-    const { label, data, helpText, input, meta: { error } } = this.props;
+    const { label, data, helpText, input, meta: { error }, ...rest } = this.props;
 
     return (
       <React.Fragment>
@@ -63,6 +63,7 @@ class Chips extends Component {
           focusInputOnAutocomplete
           listInline
           helpText={helpText}
+          {...rest}
         />
         <List maxHeight="184px">
           {Array.isArray(input.value) && input.value.map((item, i) => <Chip key={`${item}--${i}`} item={item} onRemove={this.removeItem} />)}

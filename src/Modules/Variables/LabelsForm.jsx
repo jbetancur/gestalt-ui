@@ -1,50 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { FieldArray } from 'react-final-form-arrays';
+import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { isUnixVariable } from 'util/validations';
 import { TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
+import { composeValidators, required, unixPattern } from 'util/forms';
 
-const validatePattern = value => (value && !isUnixVariable(value)) && 'Invalid Label Name';
-const required = value => (value ? undefined : 'Required');
-
-const LabelsForm = ({ fields }) => (
-  <FieldContainer>
-    <FieldItem>
-      <AddButton label="Add Label" onClick={() => fields.unshift({})} />
-    </FieldItem>
-    {fields.map((member, index) => (
-      <FieldItem key={`label-${member}`}>
-        <Row gutter={5}>
-          <Col flex={4} xs={12} sm={12}>
-            <Field
-              name={`${member}.name`}
-              placeholder="name"
-              type="text"
-              component={TextField}
-              validate={[validatePattern, required]}
-              autoComplete="off"
-            />
-          </Col>
-          <Col flex={8} xs={12} sm={12}>
-            <Field
-              name={`${member}.value`}
-              placeholder="value"
-              type="text"
-              component={TextField}
-              autoComplete="off"
-            />
-          </Col>
-        </Row>
-        <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
-      </FieldItem>
-    ))}
-  </FieldContainer>
+const LabelsForm = ({ fieldName }) => (
+  <FieldArray name={fieldName}>
+    {({ fields }) => (
+      <FieldContainer>
+        <AddButton label="Add Label" onClick={() => fields.unshift({})} />
+        {fields.map((member, index) => (
+          <FieldItem key={`label-${member}`}>
+            <Row gutter={5}>
+              <Col flex={4} xs={12} sm={12}>
+                <Field
+                  name={`${member}.name`}
+                  placeholder="name"
+                  type="text"
+                  component={TextField}
+                  validate={composeValidators(unixPattern(), required())}
+                  autoComplete="off"
+                />
+              </Col>
+              <Col flex={8} xs={12} sm={12}>
+                <Field
+                  name={`${member}.value`}
+                  placeholder="value"
+                  type="text"
+                  component={TextField}
+                  autoComplete="off"
+                />
+              </Col>
+            </Row>
+            <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
+          </FieldItem>
+        ))}
+      </FieldContainer>
+    )}
+  </FieldArray>
 );
 
 LabelsForm.propTypes = {
-  fields: PropTypes.object.isRequired,
+  fieldName: PropTypes.string.isRequired,
 };
 
 export default LabelsForm;

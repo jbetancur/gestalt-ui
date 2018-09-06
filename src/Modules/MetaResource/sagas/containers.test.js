@@ -403,7 +403,7 @@ describe('Container Sagas', () => {
 
 
   describe('fetchProviderContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', providerId: '1' };
+    const action = { fqon: 'iamfqon', providerId: '1', params: { embed: 'provider' } };
     let result;
 
     describe('when there is a container', () => {
@@ -419,7 +419,7 @@ describe('Container Sagas', () => {
       it('should make an api call to get container', () => {
         result = saga.next({ data: [{ id: 1 }] });
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/containers/1')
+          call(axios.get, 'iamfqon/containers/1?embed=provider')
         );
       });
 

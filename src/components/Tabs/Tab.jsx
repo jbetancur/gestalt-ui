@@ -21,16 +21,16 @@ const TabTitle = styled.div`
   user-select: none;
 `;
 
-const Tab = ({ title, isActive, tabIndex, onClick }) => {
+const Tab = ({ title, selected, tabIndex, onClick }) => {
   const click = (event) => {
     event.preventDefault();
-    if (!isActive) {
+    if (!selected) {
       onClick(tabIndex);
     }
   };
 
   return (
-    <TabStyle active={isActive}>
+    <TabStyle active={selected}>
       <TabTitle onClick={click}>
         {title}
       </TabTitle>
@@ -42,12 +42,12 @@ Tab.propTypes = {
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   tabIndex: PropTypes.number,
-  isActive: PropTypes.bool,
+  selected: PropTypes.bool,
 };
 
 Tab.defaultProps = {
   tabIndex: 0,
-  isActive: false,
+  selected: false,
   onClick: () => { }
 };
 export default Tab;

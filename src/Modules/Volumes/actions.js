@@ -26,6 +26,7 @@ export function confirmDelete(action, title, multipleItems) {
     modalProps: {
       title,
       multipleItems,
+      forceOption: false,
       onProceed: action,
     }
   };

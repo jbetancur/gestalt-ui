@@ -49,7 +49,7 @@ class Tabs extends Component {
     return React.Children.map(this.props.children, (child, index) => React.cloneElement(child, {
       onClick: this.handleTabClick,
       tabIndex: index,
-      isActive: index === this.state.activeTabIndex
+      selected: index === this.state.activeTabIndex,
     }));
   }
 

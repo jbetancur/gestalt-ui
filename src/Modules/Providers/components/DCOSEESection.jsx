@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { Panel } from 'components/Panels';
 import { Checkbox, TextField } from 'components/ReduxFormFields';
+import { composeValidators, required } from 'util/forms';
 
 const DCOSEESection = ({ values }) => (
-  <Panel title="Enterprise Edition">
+  <React.Fragment>
     <Row gutter={5}>
       <Col key="config-auth--appGroupPrefix" flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.appGroupPrefix"
           label="App Group Prefix"
+          validate={composeValidators(required())}
           required
         />
       </Col>
@@ -21,6 +22,7 @@ const DCOSEESection = ({ values }) => (
           component={TextField}
           name="properties.config.dcos_cluster_name"
           label="DCOS Cluster Name"
+          validate={composeValidators(required())}
           required
         />
       </Col>
@@ -29,6 +31,7 @@ const DCOSEESection = ({ values }) => (
           component={TextField}
           name="properties.config.haproxyGroup"
           label="HAProxy Group"
+          validate={composeValidators(required())}
           required
         />
       </Col>
@@ -37,6 +40,7 @@ const DCOSEESection = ({ values }) => (
           component={TextField}
           name="properties.config.marathon_framework_name"
           label="Marathon Framework Name"
+          validate={composeValidators(required())}
           required
         />
       </Col>
@@ -67,6 +71,7 @@ const DCOSEESection = ({ values }) => (
           component={TextField}
           name="properties.config.secret_store"
           label="Secret Store"
+          validate={composeValidators(required())}
           required
         />
       </Col>
@@ -78,7 +83,7 @@ const DCOSEESection = ({ values }) => (
         />
       </Col>
     </Row>
-  </Panel>
+  </React.Fragment>
 );
 
 DCOSEESection.propTypes = {

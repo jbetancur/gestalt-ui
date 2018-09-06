@@ -1,47 +1,47 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, getFormValues } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
+import DetailsPane from 'components/DetailsPane';
+import { Panel } from 'components/Panels';
 import { withMetaResource, withContainer, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { ContainerEdit, ContainerActions, containerActionCreators } from 'Modules/Containers';
+import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses, containerActionCreators } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
-import Div from 'components/Div';
-import { Panel } from 'components/Panels';
-import { Caption } from 'components/Typography';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { Tabs, Tab } from 'components/Tabs';
+import { Card, CardTitle } from 'components/Cards';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
-import { getEditProviderModel } from '../selectors';
+import { getEditProviderModel, getProviderContainer } from '../selectors';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
 
-class ProviderEdit extends PureComponent {
+class ProviderEdit extends Component {
   static propTypes = {
+    initialValues: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    provider: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
+    providerContainer: PropTypes.object.isRequired,
     fetchProvider: PropTypes.func.isRequired,
     containerActions: PropTypes.object.isRequired,
     updateProvider: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
     redeployProvider: PropTypes.func.isRequired,
     unloadProvider: PropTypes.func.isRequired,
-    containerValues: PropTypes.object,
-    containerPending: PropTypes.bool.isRequired,
     resourcetypesLoading: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     resourcetypesData: PropTypes.array.isRequired,
-  };
-
-  static defaultProps = {
-    containerValues: {},
+    setSelectedProvider: PropTypes.func.isRequired,
+    caasProvidersData: PropTypes.array.isRequired,
   };
 
   state = { redeploy: false };
@@ -50,9 +50,22 @@ class ProviderEdit extends PureComponent {
     const { match, containerActions } = this.props;
 
     containerActions.fetchProviderContainer({
-      fqon: match.params.fqon, providerId: match.params.providerId, providerContainer: true, enablePolling: true
+      fqon: match.params.fqon, providerId: match.params.providerId, params: { embed: 'provider' }, providerContainer: true, enablePolling: true
     });
     this.populateProvider();
+  }
+
+  componentDidUpdate(prevProps) {
+    // only update chart if the data has changed
+    const { provider, providerContainer, setSelectedProvider, caasProvidersData } = this.props;
+    // make sure provider is loaded as well as provider data.
+    // Since we cannot embed = provider we need to find in a list of queried providers by type
+    if (prevProps.provider.id !== provider.id || prevProps.caasProvidersData !== caasProvidersData) {
+      if (caasProvidersData.length && provider.id) {
+        const selectedProvider = caasProvidersData.find(cp => providerContainer.properties.provider.id === cp.id);
+        setSelectedProvider(selectedProvider);
+      }
+    }
   }
 
   componentDidCatch(error, info) {
@@ -77,7 +90,7 @@ class ProviderEdit extends PureComponent {
   }
 
   update = (formValues) => {
-    const { match, confirmUpdate, provider, updateProvider, redeployProvider, containerValues } = this.props;
+    const { match, confirmUpdate, provider, updateProvider, redeployProvider } = this.props;
 
     if (this.state.redeploy) {
       const handleRedeploy = () => {
@@ -88,7 +101,7 @@ class ProviderEdit extends PureComponent {
 
       confirmUpdate(handleRedeploy, provider.name, onClose);
     } else {
-      const patches = generateProviderPatches(provider, formValues, containerValues);
+      const patches = generateProviderPatches(provider, formValues);
 
       updateProvider(match.params.fqon, provider.id, patches);
     }
@@ -105,12 +118,6 @@ class ProviderEdit extends PureComponent {
     }
   };
 
-  showContainer(selectedProviderType) {
-    return selectedProviderType.allowContainer &&
-      this.props.provider.properties.services &&
-      this.props.provider.properties.services.length > 0;
-  }
-
   showEntitlements = () => {
     const { entitlementActions, provider, match } = this.props;
 
@@ -118,19 +125,19 @@ class ProviderEdit extends PureComponent {
   }
 
   render() {
-    const { provider, container, resourcetypesData, providerPending, resourcetypesLoading } = this.props;
+    const { match, initialValues, provider, container, resourcetypesData, providerPending, resourcetypesLoading } = this.props;
     const compiledProviderTypes = generateResourceTypeSchema(resourcetypesData);
     const selectedProviderType = compiledProviderTypes.find(type => type.name === provider.resource_type) || {};
-    const showContainer = selectedProviderType.allowContainer;
 
     return (
       (providerPending || resourcetypesLoading) ?
         <ActivityContainer id="provider-loading" /> :
         <Row center gutter={5}>
+          <ContainerActionsModal />
           <Col flex={10} xs={12} sm={12} md={12}>
             <ActionsToolbar
               title={provider.name}
-              subtitle={selectedProviderType.displayName}
+              subtitle={`Provider Type: ${selectedProviderType.displayName}`}
               actions={[
                 <Button
                   key="provider--entitlements"
@@ -140,7 +147,7 @@ class ProviderEdit extends PureComponent {
                 >
                   Entitlements
                 </Button>,
-                showContainer &&
+                selectedProviderType.allowContainer &&
                 <ContainerActions
                   key="provider-container-actions"
                   inContainerView
@@ -153,49 +160,75 @@ class ProviderEdit extends PureComponent {
 
             {providerPending && <ActivityContainer id="provider-form" />}
 
-            <ProviderForm
-              editMode
-              showContainer={showContainer}
-              onSubmit={this.update}
-              onRedeploy={this.flagForRedeploy}
-              goBack={this.goBack}
-              selectedProviderType={selectedProviderType}
-              {...this.props}
-            />
+            <Tabs>
+              <Tab title="Configuration">
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Panel title="Resource Details" defaultExpanded={false}>
+                      <DetailsPane model={provider} />
+                    </Panel>
+                  </Col>
+                </Row>
 
-            {showContainer &&
-              <Row gutter={10} component={Div} pending={providerPending}>
-                <Col flex={12}>
-                  <Panel title="Container Specification" defaultExpanded={showContainer}>
-                    <Caption light>{`The provider type ${selectedProviderType.displayName} requires a container`}</Caption>
-                    <ContainerEdit containerSpec={provider.properties.services[0].container_spec} inlineMode />
-                  </Panel>
-                </Col>
-              </Row>}
+                <Form
+                  component={ProviderForm}
+                  initialValue={initialValues}
+                  validate={validate(selectedProviderType.allowContainer)}
+                  mutators={{ ...arrayMutators }}
+                  editMode
+                  onSubmit={this.update}
+                  onRedeploy={this.flagForRedeploy}
+                  goBack={this.goBack}
+                  selectedProviderType={selectedProviderType}
+                  // subscription={{ submitting: true, pristine: true }}
+                  {...this.props}
+                />
+              </Tab>
 
+              {selectedProviderType.allowContainer ?
+                <Tab title="Service Instance">
+                  <Row gutter={5}>
+                    <Col flex={12}>
+                      <Card>
+                        <CardTitle title="Instances" />
+                        <ContainerInstances
+                          containerModel={container}
+                          fqon={match.params.fqon}
+                        />
+                      </Card>
+                    </Col>
+                  </Row>
+
+                  <Row gutter={5}>
+                    <Col flex={12}>
+                      <Card>
+                        <CardTitle title="Service Addresses" />
+                        <ContainerServiceAddresses
+                          portMappings={container.properties.port_mappings}
+                        />
+                      </Card>
+                    </Col>
+                  </Row>
+                </Tab> : <div />
+              }
+            </Tabs>
           </Col>
         </Row>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    initialValues: getEditProviderModel(state),
-    containerValues: getFormValues('containerEdit')(state),
-  };
-}
+const mapStateToProps = state => ({
+  initialValues: getEditProviderModel(state),
+  providerContainer: getProviderContainer(state),
+});
 
 export default compose(
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
   withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
+  withPickerData({ entity: 'providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),
   withContainer(),
   withMetaResource,
   withEntitlements,
-  connect(mapStateToProps, Object.assign({}, actions, containerActionCreators)),
-  reduxForm({
-    form: 'providerEdit',
-    enableReinitialize: true,
-    validate,
-  }),
+  connect(mapStateToProps, { ...actions, ...containerActionCreators }),
 )(ProviderEdit);

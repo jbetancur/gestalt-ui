@@ -62,6 +62,7 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
 
                 <Col flex={12}>
                   <Field
+                    id="apiendpoints--hostnames"
                     label="Hostname"
                     addLabel="Add Host"
                     component={Chips}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { TextField } from 'react-md';
-import { Error } from 'components/Typography';
+import { Error, Caption } from 'components/Typography';
 import { insertItem, removeItem } from 'util/helpers/lists';
 import Chip from './Chip';
 
@@ -13,12 +13,14 @@ const List = styled.div`
 
 class Chips extends Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     meta: PropTypes.object.isRequired,
     prefix: PropTypes.string,
     input: PropTypes.object,
     ignorePrefixValidation: PropTypes.bool,
     label: PropTypes.string,
-    forceLowerCase: PropTypes.bool
+    forceLowerCase: PropTypes.bool,
+    helpText: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,6 +29,7 @@ class Chips extends Component {
     ignorePrefixValidation: false,
     label: 'Entry',
     forceLowerCase: false,
+    helpText: null,
   };
 
   state = { item: '', touched: false };
@@ -72,13 +75,13 @@ class Chips extends Component {
   }
 
   render() {
-    const { label, input, meta: { error } } = this.props;
+    const { id, label, input, meta: { error }, helpText } = this.props;
 
     return (
       <React.Fragment>
         <TextField
-          id={`${label}-list-table`}
-          placeholder={this.props.label}
+          id={`${id}-list-table`}
+          placeholder={label}
           type="text"
           fullWidth
           onChange={this.handleChange}
@@ -90,6 +93,7 @@ class Chips extends Component {
           onKeyDown={this.handleEnter}
           helpText="press ENTER to add a new entry"
         />
+        {helpText && <Caption light>{helpText}</Caption>}
         <List maxHeight="184px">
           {Array.isArray(input.value) && input.value.map((item, i) => <Chip key={`${item}--${i}`} item={item} onRemove={this.removeItem} />)}
         </List>

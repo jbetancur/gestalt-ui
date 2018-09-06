@@ -2,22 +2,10 @@ import { createSelector } from 'reselect';
 import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
 
+export const selectProvider = state => state.containers.selectedProvider;
 export const selectContainer = state => state.metaResource.container.container;
 export const selectContainerSpec = (state, containerSpec) => metaModels.container.get(containerSpec);
 export const selectEnv = state => state.metaResource.env.env;
-
-// TODO: deal with missing volume.type - https://gitlab.com/galacticfog/gestalt-meta/issues/416
-const fixVolumes = (volumes = []) => volumes.map((volume) => {
-  const newVolume = Object.assign({}, volume);
-  if (!volume.type) {
-    if (newVolume.persistent && newVolume.persistent.size) {
-      newVolume.type = 'persistent';
-    } else {
-      newVolume.type = 'host';
-    }
-  }
-  return newVolume;
-});
 
 const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
   const newcheck = Object.assign({}, check);
@@ -33,11 +21,12 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
 });
 
 export const getCreateContainerModel = createSelector(
-  [selectEnv],
-  (env) => {
+  [selectProvider, selectEnv],
+  (provider, env) => {
     const model = {
       properties: {
-        env: mapTo2DArray(env, 'name', 'value', { inherited: true })
+        env: mapTo2DArray(env, 'name', 'value', { inherited: true }),
+        network: provider.type === 'DCOS' ? 'BRIDGE' : 'default',
       }
     };
 
@@ -52,47 +41,13 @@ export const getEditContainerModel = createSelector(
       ...container,
       properties: {
         ...container.properties,
-        env: mapTo2DArray(container.properties.env),
-        labels: mapTo2DArray(container.properties.labels),
         health_checks: fixHealthChecks(container.properties.health_checks),
-        volumes: fixVolumes(container.properties.volumes),
         port_mappings: container.properties.port_mappings
           .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
         secrets: container.properties.secrets,
       },
     };
 
-    return metaModels.container.create(model);
+    return metaModels.container.get(model);
   }
-);
-
-export const getEditContainerModelAsSpec = createSelector(
-  [selectContainerSpec],
-  (container) => {
-    const model = {
-      ...container,
-      properties: {
-        ...container.properties,
-        env: mapTo2DArray(container.properties.env),
-        labels: mapTo2DArray(container.properties.labels),
-        health_checks: fixHealthChecks(container.properties.health_checks),
-        volumes: fixVolumes(container.properties.volumes),
-        port_mappings: container.properties.port_mappings
-          .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
-        secrets: container.properties.secrets
-      },
-    };
-
-    return metaModels.container.create(model);
-  }
-);
-
-export const getContainerInstances = createSelector(
-  [selectContainer],
-  container => metaModels.container.get(container).properties.instances
-);
-
-export const getContainerServiceAddresses = createSelector(
-  [selectContainer],
-  container => metaModels.container.get(container).properties.port_mappings
 );

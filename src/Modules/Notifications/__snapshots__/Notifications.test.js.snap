@@ -4,7 +4,7 @@ exports[`(Notifications) Notifications renders to correct snapshot with items in
 .c0 {
   position: fixed;
   bottom: 64px;
-  right: 16px;
+  left: 72px;
   z-index: 999;
   display: -webkit-box;
   display: -webkit-flex;
@@ -67,7 +67,7 @@ exports[`(Notifications) Notifications renders to correct snapshot with no items
 .c0 {
   position: fixed;
   bottom: 64px;
-  right: 16px;
+  left: 72px;
   z-index: 999;
   display: -webkit-box;
   display: -webkit-flex;

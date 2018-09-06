@@ -8,9 +8,8 @@ import { FontIcon, Button } from 'react-md';
 import { getLastFromSplit } from 'util/helpers/strings';
 // import ExpandableLogs from './ExpandableLogs';
 
-const ContainerInstances = ({ instances, containerModel, fqon }) => {
+const ContainerInstances = ({ containerModel, fqon }) => {
   const providerType = getLastFromSplit(containerModel.properties.provider.resource_type);
-
   const columns = [
     {
       width: '225px',
@@ -59,7 +58,7 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
 
   return (
     <DataTable
-      data={instances}
+      data={containerModel.properties.instances}
       columns={columns}
       sortIcon={<FontIcon>arrow_downward</FontIcon>}
       defaultSortField="startedAt"
@@ -74,13 +73,8 @@ const ContainerInstances = ({ instances, containerModel, fqon }) => {
 };
 
 ContainerInstances.propTypes = {
-  instances: PropTypes.array,
   containerModel: PropTypes.object.isRequired,
   fqon: PropTypes.string.isRequired,
-};
-
-ContainerInstances.defaultProps = {
-  instances: [],
 };
 
 export default ContainerInstances;

@@ -1,10 +1,14 @@
 import { isUnixVariable } from 'util/validations';
 
+// Validators
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined);
 
 export const unixPattern =
   (message = 'invalid unix variable') => value => (value && !isUnixVariable(value)) && message;
+
+export const validator =
+  (func, message = 'invalid pattern', options = {}) => value => (value && !func(value, options)) && message;
 
 export const required =
   (message = 'required') => value => (value ? undefined : message);
@@ -20,6 +24,9 @@ export const max =
 
 export const mod =
   (modNum = 64, message = `must be divisible by ${modNum}`) => value => (value % modNum === 0 ? undefined : message);
+
+export const maxLen =
+  (maxNum = 0, message = `must be less than ${maxNum} characters`) => value => (value.length > maxNum ? message : undefined);
 
 // Form Parsers
 export const lowercase = value => value && value.toLowerCase();
