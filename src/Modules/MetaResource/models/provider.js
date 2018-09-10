@@ -53,7 +53,6 @@ const schema = object().shape({
       external_protocol: string().default('https'),
       auth: object().default({}),
       storage_classes: array().default([]),
-      // extra: object().default({}), // can be sring or object - TODO: this needs to die in meta
       networks: array().default([]),
       env: object().shape({}),
     }),

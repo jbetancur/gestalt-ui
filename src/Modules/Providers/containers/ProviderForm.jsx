@@ -11,12 +11,12 @@ import { ContainerForm } from 'Modules/Containers';
 import { UnixVariablesForm } from 'Modules/Variables';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { formatName } from 'util/forms';
-// import LinkedProviders from '../components/LinkedProviders';
+import LinkedProviders from '../components/LinkedProviders';
 import EnvironmentTypes from '../components/EnvironmentTypes';
 import DCOSEESection from '../components/DCOSEESection';
-import OtherConfigSection from '../components/OtherConfigSection';
 import KubeEditorSection from '../components/KubeEditorSection';
 import DCOSSection from '../components/DCOSSection';
+import Networks from '../components/Networks';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
@@ -53,7 +53,7 @@ const ProviderForm = ({
 
   const handleRedeploy = () => onRedeploy && onRedeploy();
   const submitDisabled = envSchemaPending || providerPending || submitting;
-  // const linkedProviders = props.providersData.filter(p => p.id !== editMode);
+  const linkedProviders = props.providersData.filter(p => p.id !== provider.id);
 
   return (
     <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
@@ -131,10 +131,17 @@ const ProviderForm = ({
                   {...props}
                 />
 
-                {selectedProviderType.DCOSEnterprise &&
-                  <Panel title="Enterprise Configuration" expandable={false} noShadow noPadding>
-                    <DCOSEESection values={values} />
-                  </Panel>}
+                <Panel title="Enterprise Configuration" expandable={false} noShadow noPadding>
+                  <DCOSEESection values={values} />
+                </Panel>
+              </Panel>
+            </Col>}
+
+
+          {selectedProviderType.DCOSConfig &&
+            <Col flex={12}>
+              <Panel title="Networks" expandable={false} noPadding>
+                <Networks fieldName="properties.config.networks" />
               </Panel>
             </Col>}
 
@@ -164,40 +171,42 @@ const ProviderForm = ({
               </Col>
             </Row>}
 
-          {/* {selectedProviderType.allowLinkedProviders &&
+          {selectedProviderType.allowLinkedProviders &&
+          <Row gutter={5}>
             <Col flex={12}>
-              <LinkedProviders providersModel={linkedProviders} />
-            </Col>} */}
-          {selectedProviderType.allowedRestrictEnvironments &&
-            <Col flex={12}>
-              <EnvironmentTypes />
-            </Col>}
-
-          {selectedProviderType.allowAdvanced &&
-            <Col flex={12}>
-              <Panel title="Advanced" defaultExpanded={false}>
-                {selectedProviderType.externalProtocol &&
-                  <Row gutter={5}>
-                    <Col flex={2} xs={12} sm={4}>
-                      <Field
-                        id="select-external-protocol"
-                        component={SelectField}
-                        name="properties.config.external_protocol"
-                        menuItems={httpProtocols}
-                        itemLabel="name"
-                        itemValue="value"
-                        label="External Protocol"
-                        helpText="The protocol used to reach any externally exposed endpoints"
-                      />
-                    </Col>
-                  </Row>}
-                <OtherConfigSection
-                  selectedProviderType={selectedProviderType}
-                  showJSON={editMode}
-                  provider={provider}
+              <Panel title="Linked Providers" noPadding>
+                <LinkedProviders
+                  fieldName="properties.linked_providers"
+                  providers={linkedProviders}
                 />
               </Panel>
-            </Col>}
+            </Col>
+          </Row>}
+
+          <Col flex={6} xs={12} sm={12}>
+            <Panel title="Allowed Environments" fill>
+              <EnvironmentTypes />
+            </Panel>
+          </Col>
+
+          <Col flex={6} xs={12} sm={12}>
+            <Panel title="Advanced" fill>
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Field
+                    id="select-external-protocol"
+                    component={SelectField}
+                    name="properties.config.external_protocol"
+                    menuItems={httpProtocols}
+                    itemLabel="name"
+                    itemValue="value"
+                    label="External Protocol"
+                    helpText="The protocol used to reach any externally exposed endpoints"
+                  />
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
         </Row>}
 
       {selectedProviderType.allowContainer &&

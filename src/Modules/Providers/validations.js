@@ -1,4 +1,3 @@
-import { isJSON } from 'validator';
 import { isContainerName, containerNamePattern } from 'util/validations';
 import { merge } from 'lodash';
 import { nestedObjectFromString } from 'util/helpers/transformations';
@@ -23,23 +22,8 @@ export default hasContainer => (values) => {
   if (values.properties) {
     const { properties } = values;
 
-    if (properties.config.networks && typeof properties.config.networks === 'string' && !isJSON(properties.config.networks)) {
-      merge(errors, nestedObjectFromString('properties.config.networks', 'networks must be valid JSON'));
-    }
-
-    if (properties.config && properties.config.extra && typeof properties.config.extra === 'string') {
-      // hack to deal with just a "string"" that we want to set on extra, but still treat validation as JSON
-      if (!isJSON(properties.config.extra)) {
-        try {
-          JSON.parse(properties.config.extra);
-        } catch (e) {
-          merge(errors, nestedObjectFromString('properties.config.extra', 'extra config must be valid JSON'));
-        }
-      }
-    }
-
-    if (hasContainer && values.properties.services && values.properties.services.length && values.properties.services[0].container_spec) {
-      const { container_spec } = values.properties.services[0];
+    if (hasContainer && properties.services && properties.services.length && properties.services[0].container_spec) {
+      const { container_spec } = properties.services[0];
 
       if (!container_spec.name) {
         merge(errors, nestedObjectFromString('properties.services[0].container_spec.name', 'name is required'));

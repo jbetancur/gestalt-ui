@@ -31,11 +31,6 @@ export const getEditProviderModel = createSelector(
       ...provider,
       properties: {
         ...properties,
-        config: {
-          ...properties.config,
-          networks: JSON.stringify(properties.config.networks), // TODO: Convert to list control
-          extra: JSON.stringify(properties.config.extra),
-        },
         data: properties.data ? base64.decode(properties.data) : '',
       },
     };

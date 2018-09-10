@@ -39,14 +39,6 @@ export function generateProviderPayload(sourcePayload, hasContainer) {
     payload.properties.config.auth = properties.config.auth;
   }
 
-  if (properties.config.extra) {
-    payload.properties.config.extra = JSON.parse(properties.config.extra);
-  }
-
-  if (!Array.isArray(properties.config.networks)) {
-    payload.properties.config.networks = JSON.parse(properties.config.networks);
-  }
-
   if (typeof properties.environment_types === 'string') {
     payload.properties.environment_types = stringDemiltedToArray(sourcePayload.properties.environment_types);
   }
@@ -96,11 +88,6 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
   // TODO: Since we dont want to treat networks JSON as a patch array index
   if (updatedPayload.properties.config.networks) {
     delete model.properties.config.networks;
-  }
-
-  // TODO: Since we dont want to treat extra JSON as a patch array index
-  if (updatedPayload.properties.config.extra) {
-    delete model.properties.config.extra;
   }
 
   // Ugh - check if there is a container - if so then "force" patch op\

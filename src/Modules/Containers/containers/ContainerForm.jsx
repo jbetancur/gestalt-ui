@@ -345,7 +345,7 @@ ContainerForm.propTypes = {
   values: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
-  submitting: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool,
   editMode: PropTypes.bool,
   inlineMode: PropTypes.bool,
   selectedProvider: PropTypes.object.isRequired,
@@ -353,6 +353,7 @@ ContainerForm.propTypes = {
 
 ContainerForm.defaultProps = {
   editMode: false,
+  submitting: false,
   inlineMode: false,
   formName: '',
 };

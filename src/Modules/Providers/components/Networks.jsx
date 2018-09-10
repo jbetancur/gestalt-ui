@@ -3,40 +3,26 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required } from 'util/forms';
 
-const LinkedProviders = ({ fieldName, providers }) => (
+const Networks = ({ fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        <AddButton label="Add Linked Provider" onClick={() => fields.unshift({})} />
+        <AddButton label="Add Network" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => (
-          <FieldItem key={`linkedprovider-${member}`}>
+          <FieldItem key={`networks-${member}`}>
             <Row gutter={5}>
-              <Col flex={4} xs={12} sm={12}>
+              <Col flex={12}>
                 <Field
                   name={`${member}.name`}
                   type="text"
                   component={TextField}
-                  label="Prefix"
+                  label="Name"
                   validate={composeValidators(required())}
                   required
-                />
-              </Col>
-              <Col flex={8} xs={12} sm={12}>
-                <Field
-                  id={`${member}.id`}
-                  name={`${member}.id`}
-                  component={SelectField}
-                  label="Provider"
-                  itemLabel="name"
-                  itemValue="id"
-                  validate={composeValidators(required())}
-                  required
-                  async
-                  menuItems={providers}
                 />
               </Col>
             </Row>
@@ -48,9 +34,8 @@ const LinkedProviders = ({ fieldName, providers }) => (
   </FieldArray>
 );
 
-LinkedProviders.propTypes = {
+Networks.propTypes = {
   fieldName: PropTypes.string.isRequired,
-  providers: PropTypes.array.isRequired,
 };
 
-export default LinkedProviders;
+export default Networks;

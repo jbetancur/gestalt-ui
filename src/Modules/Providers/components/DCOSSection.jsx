@@ -80,18 +80,6 @@ const DCOSSection = ({ authScheme }) => (
           </Col>
         ]}
     </Row>
-
-    <Row gutter={5}>
-      <Col flex={6} xs={12}>
-        <Field
-          component={TextField}
-          name="properties.config.networks"
-          label="Networks (JSON)"
-          type="text"
-          rows={2}
-        />
-      </Col>
-    </Row>
   </React.Fragment>
 );
 
