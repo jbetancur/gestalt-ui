@@ -6,7 +6,6 @@ const config = require('../config.json');
 
 exports.appEntryDevelopment = ({ srcPath }) => (
   [
-    'babel-polyfill',
     // The main app entry point
     `${srcPath}/Root.jsx`
   ]
@@ -14,8 +13,6 @@ exports.appEntryDevelopment = ({ srcPath }) => (
 
 exports.appEntryProduction = ({ srcPath }) => (
   [
-    'babel-polyfill',
-
     // The main app entry point
     `${srcPath}/Root.jsx`
   ]
