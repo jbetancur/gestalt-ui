@@ -47,6 +47,7 @@ exports[`ChipsAuto mounts with basic props 1`] = `
     repositionOnResize={true}
     repositionOnScroll={true}
     sameWidth={true}
+    showUnfilteredData={false}
   >
     <Menu
       anchor={

@@ -7620,9 +7620,9 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-md@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.5.1.tgz#77316d769dcd8e127af257b49286a26193b1dd24"
+react-md@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.6.0.tgz#fcc841036a6f2d48c92dbd9691a7f3d72de44adc"
   dependencies:
     classnames "^2.2.5"
     prop-types "15.6.0"

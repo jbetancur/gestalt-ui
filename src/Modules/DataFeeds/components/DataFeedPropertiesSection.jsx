@@ -133,6 +133,7 @@ const DataFeedPropertiesSection = ({ formValues, secrets, tags }) => (
             name="properties.data.classification"
             data={tags}
             helpText="type to search for a classification"
+            showUnfilteredData
           />
         </Row>
       </Panel>

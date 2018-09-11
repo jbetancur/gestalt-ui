@@ -1,7 +1,6 @@
 import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
-import { stringDemiltedToArray } from 'util/helpers/transformations';
 import { metaModels } from 'Modules/MetaResource';
 
 
@@ -37,15 +36,6 @@ export function generateProviderPayload(sourcePayload, hasContainer) {
 
   if (properties.config.auth) {
     payload.properties.config.auth = properties.config.auth;
-  }
-
-  if (typeof properties.environment_types === 'string') {
-    payload.properties.environment_types = stringDemiltedToArray(sourcePayload.properties.environment_types);
-  }
-
-  // when the string is blank then convert to an empty array
-  if (properties.environment_types === '') {
-    payload.properties.environment_types = [];
   }
 
   if (properties.data) {

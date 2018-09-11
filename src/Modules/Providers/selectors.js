@@ -12,7 +12,6 @@ export const getCreateProviderModel = createSelector(
   (envSchema) => {
     const model = {
       properties: {
-        environment_types: '', // converted to Array on Create
         config: {
           env: envSchema,
         },
@@ -34,11 +33,6 @@ export const getEditProviderModel = createSelector(
         data: properties.data ? base64.decode(properties.data) : '',
       },
     };
-
-    // TODO: Make CheckBoxGroup accept arrays
-    if (model.properties.environment_types && Array.isArray(model.properties.environment_types)) {
-      model.properties.environment_types = model.properties.environment_types.join(',');
-    }
 
     // TODO: We could cast this in the model, but for some reason it does not cast this deep? - I don't feel like dealing with it.
     // We will eventually move to a service based provider making all this moot

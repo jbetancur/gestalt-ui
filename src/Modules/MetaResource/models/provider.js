@@ -57,7 +57,7 @@ const schema = object().shape({
       env: object().shape({}),
     }),
     linked_providers: array().default([]),
-    // environment_types: array().default([]), // TODO: disable until we can handle checkbox st4ring arrays
+    environment_types: array().default([]),
     services: array().default([
       {
         init: { binding: 'eager', singleton: true },

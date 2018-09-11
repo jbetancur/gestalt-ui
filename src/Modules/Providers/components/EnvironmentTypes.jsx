@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Field } from 'react-final-form';
-import { SelectionControlGroup } from 'components/ReduxFormFields';
+import { ChipsAuto } from 'components/Lists';
 import { Caption } from 'components/Typography';
 import environmentTypes from '../lists/environmentTypes';
 
@@ -10,12 +10,13 @@ class EnvironmentTypes extends PureComponent {
       <React.Fragment>
         <Caption light>Allowed Environments this Provider can be used with</Caption>
         <Field
-          inline
-          component={SelectionControlGroup}
-          type="checkbox"
           id="restricted-environment-types"
+          label="Allow Environments"
+          component={ChipsAuto}
           name="properties.environment_types"
-          controls={environmentTypes}
+          data={environmentTypes.map(e => e.value)}
+          helpText="type to search for an environment type"
+          showUnfilteredData
         />
       </React.Fragment>
     );
