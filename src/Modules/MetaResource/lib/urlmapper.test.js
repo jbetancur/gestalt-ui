@@ -38,6 +38,10 @@ describe('urlmapper: buildOneURL', () => {
     expect(buildOneURL('tests', { fqon: 'iamafqon', id: '123' })).toBe('iamafqon/tests/123');
   });
 
+  test('it builds a url correctly when an action is passed', () => {
+    expect(buildOneURL('tests', { fqon: 'iamafqon', id: '123' }, 'poop')).toBe('iamafqon/tests/123/poop');
+  });
+
   test('it builds a url when query params are passed', () => {
     const url = buildOneURL('tests', { fqon: 'iamafqon', id: '123', params: { cheeseburger: 'pepsi' } });
 

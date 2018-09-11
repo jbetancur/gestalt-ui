@@ -7,7 +7,7 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withContainer, withMetaResource } from 'Modules/MetaResource';
+import { withContainer, withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ContainerForm from './ContainerForm';
@@ -22,7 +22,7 @@ class ContainerCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     containerActions: PropTypes.object.isRequired,
-    fetchEnv: PropTypes.func.isRequired,
+    envActions: PropTypes.object.isRequired,
     envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
     containerPending: PropTypes.bool.isRequired,
@@ -36,9 +36,9 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, fetchEnv } = this.props;
+    const { match, envActions } = this.props;
 
-    fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
+    envActions.fetchEnv({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
   }
 
   create = (values) => {
@@ -110,7 +110,7 @@ const mapStateToProps = state => ({
 
 export default compose(
   withContainer(),
-  withMetaResource,
+  withEnv({ unloadEnvSchema: false }),
   withRouter,
   connect(mapStateToProps, actions),
 )(ContainerCreate);

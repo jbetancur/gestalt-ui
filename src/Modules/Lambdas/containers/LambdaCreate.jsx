@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { withLambda, withPickerData, withMetaResource } from 'Modules/MetaResource';
+import { withLambda, withPickerData, withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
@@ -22,7 +22,7 @@ class LambdaCreate extends PureComponent {
     lambdaActions: PropTypes.object.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
     envPending: PropTypes.bool.isRequired,
-    fetchEnv: PropTypes.func.isRequired,
+    envActions: PropTypes.object.isRequired,
     executorsData: PropTypes.array.isRequired,
     providersData: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
@@ -30,9 +30,9 @@ class LambdaCreate extends PureComponent {
   };
 
   componentDidMount() {
-    const { match, fetchEnv } = this.props;
+    const { match, envActions } = this.props;
 
-    fetchEnv(match.params.fqon, match.params.environmentId, 'environments');
+    envActions.fetchEnv({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
   }
 
   componentWillUnmount() {
@@ -105,6 +105,6 @@ export default compose(
   withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
   withLambda,
   withLambdaState,
-  withMetaResource,
+  withEnv({ unloadEnvSchema: false }),
   connect(mapStateToProps, actions),
 )(LambdaCreate);

@@ -213,9 +213,11 @@ const ProviderForm = ({
         <Row gutter={5}>
           <Col flex={12}>
             <Panel title="Container Specification" defaultExpanded={selectedProviderType.allowContainer}>
-              <ActionsToolbar
-                title={values.properties.services[0].container_spec.name}
-              />
+              {editMode &&
+                <ActionsToolbar
+                  title={values.properties.services[0].container_spec.name}
+                />
+              }
               <ContainerForm
                 loading={providerPending}
                 values={values}

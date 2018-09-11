@@ -60,7 +60,7 @@ describe('Env Sagas', () => {
 
   describe('fetchEnvSchema Sequence', () => {
     let result;
-    const saga = fetchEnvSchema({ resourceTypeId: '25acb32c-6635-49d1-ba19-4cf317003ff6' }); // TODO: Rewire this, but babel rewire plugin is borked
+    const saga = fetchEnvSchema({ fqon: 'root', id: '25acb32c-6635-49d1-ba19-4cf317003ff6' });
 
     it('should make an api call', () => {
       result = saga.next();
@@ -72,7 +72,7 @@ describe('Env Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: [{ name: 'PUBLIC', value: 'yup', public: true }, { name: 'PRIVATE', value: 'nope', public: false }] });
       expect(result.value).toEqual(
-        put({ type: types.FETCH_ENV_SCHEMA_FULFILLED, payload: { public: [{ name: 'PUBLIC', value: 'yup', public: true }], private: [{ name: 'PRIVATE', value: 'nope', public: false }] } })
+        put({ type: types.FETCH_ENVSCHEMA_FULFILLED, payload: { public: [{ name: 'PUBLIC', value: 'yup', public: true }], private: [{ name: 'PRIVATE', value: 'nope', public: false }] } })
       );
     });
 
@@ -83,7 +83,7 @@ describe('Env Sagas', () => {
       resultError = sagaError.throw({ message: error });
 
       expect(resultError.value).toEqual(
-        put({ type: types.FETCH_ENV_SCHEMA_REJECTED, payload: error })
+        put({ type: types.FETCH_ENVSCHEMA_REJECTED, payload: error })
       );
     });
   });
@@ -102,7 +102,7 @@ describe('Env Sagas', () => {
     it('should fork a watcher for fetchEnvSchema', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_ENV_SCHEMA_REQUEST, fetchEnvSchema)
+        fork(takeLatest, types.FETCH_ENVSCHEMA_REQUEST, fetchEnvSchema)
       );
     });
   });

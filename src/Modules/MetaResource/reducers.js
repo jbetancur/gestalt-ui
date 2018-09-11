@@ -25,7 +25,7 @@ export default combineReducers({
   envSchema: reducerFactory({
     verbs: ['fetch'],
     key: 'schema',
-    category: 'env_schema',
+    category: 'ENVSCHEMA',
     model: envSchemaModel.get(),
   }),
   allOrganizations: reducerFactory({

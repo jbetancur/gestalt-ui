@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { notificationActions } from 'Modules/Notifications';
-import { fetchAPI } from '../lib/utility';
+import { fetchAPI } from './utility';
 import { PREFIX } from '../actionTypes';
 import {
   fetchAll,
@@ -17,7 +17,7 @@ describe('Saga Factory', () => {
 
   describe('fetchAll Sequence', () => {
     const payload = { fqon: 'iamfqon', entityId: '1', entityKey: 'environments' };
-    const saga = fetchAll('TESTS', 'tests')(payload);
+    const saga = fetchAll({ name: 'TESTS', entity: 'tests' })(payload);
     let result;
 
     it('should make an api call', () => {
@@ -38,7 +38,7 @@ describe('Saga Factory', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
-      const sagaSuccess = fetchAll('TESTS', 'tests')(successPayload);
+      const sagaSuccess = fetchAll({ name: 'TESTS', entity: 'tests' })(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
@@ -49,7 +49,7 @@ describe('Saga Factory', () => {
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const errorPayload = { onError: jest.fn() };
-      const sagaError = fetchAll('TESTS', 'tests')(errorPayload);
+      const sagaError = fetchAll({ name: 'TESTS', entity: 'tests' })(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
 
@@ -62,7 +62,7 @@ describe('Saga Factory', () => {
 
   describe('fetchOne Sequence', () => {
     const payload = { fqon: 'iamfqon', id: '1' };
-    const saga = fetchOne('TEST', 'tests')(payload);
+    const saga = fetchOne({ name: 'TEST', entity: 'tests' })(payload);
     let result;
 
     it('should make an api call', () => {
@@ -83,7 +83,7 @@ describe('Saga Factory', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
-      const sagaSuccess = fetchOne('TEST', 'tests')(successPayload);
+      const sagaSuccess = fetchOne({ name: 'TEST', entity: 'tests' })(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
@@ -94,7 +94,7 @@ describe('Saga Factory', () => {
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const errorPayload = { onError: jest.fn() };
-      const sagaError = fetchOne('TEST', 'tests')(errorPayload);
+      const sagaError = fetchOne({ name: 'TEST', entity: 'tests' })(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
 
@@ -107,7 +107,7 @@ describe('Saga Factory', () => {
 
   describe('create Sequence', () => {
     const payload = { fqon: 'iamfqon', entityId: '1', entityKey: 'environments', payload: { name: 'iamanewsaga' } };
-    const saga = create('TEST', 'tests')(payload);
+    const saga = create({ name: 'TEST', entity: 'tests' })(payload);
     let result;
 
     it('should make an api call', () => {
@@ -137,7 +137,7 @@ describe('Saga Factory', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
-      const sagaSuccess = create('TEST', 'tests')(successPayload);
+      const sagaSuccess = create({ name: 'TEST', entity: 'tests' })(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
@@ -149,7 +149,7 @@ describe('Saga Factory', () => {
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const errorPayload = { onError: jest.fn() };
-      const sagaError = create('TEST', 'tests')(errorPayload);
+      const sagaError = create({ name: 'TEST', entity: 'tests' })(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
 
@@ -163,7 +163,7 @@ describe('Saga Factory', () => {
   describe('update Sequence', () => {
     const payload = { fqon: 'iamfqon', id: '1', payload: [] };
     const resource = { data: { id: 1, name: 'test', resource_type: 'TEST::TESTY' } };
-    const saga = update('TEST', 'tests')(payload);
+    const saga = update({ name: 'TEST', entity: 'tests' })(payload);
     let result;
 
     it('should make an api call', () => {
@@ -192,7 +192,7 @@ describe('Saga Factory', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
-      const sagaSuccess = update('TEST', 'tests')(successPayload);
+      const sagaSuccess = update({ name: 'TEST', entity: 'tests' })(successPayload);
       sagaSuccess.next();
       sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
@@ -203,7 +203,7 @@ describe('Saga Factory', () => {
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const errorPayload = { onError: jest.fn() };
-      const sagaError = update('TEST', 'tests')(errorPayload);
+      const sagaError = update({ name: 'TEST', entity: 'tests' })(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
 
@@ -217,7 +217,7 @@ describe('Saga Factory', () => {
   describe('deleteOne Sequence', () => {
     const resource = { id: '1', name: 'test', resource_type: 'TEST::TESTY' };
     const payload = { fqon: 'iamfqon', resource };
-    const saga = deleteOne('TEST', 'tests')(payload);
+    const saga = deleteOne({ name: 'TEST', entity: 'tests' })(payload);
     let result;
 
     it('should make an api call', () => {
@@ -246,7 +246,7 @@ describe('Saga Factory', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
-      const sagaSuccess = deleteOne('TEST', 'tests')(successPayload);
+      const sagaSuccess = deleteOne({ name: 'TEST', entity: 'tests' })(successPayload);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
@@ -257,7 +257,7 @@ describe('Saga Factory', () => {
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const errorPayload = { ...payload, onError: jest.fn() };
-      const sagaError = deleteOne('TEST', 'tests')(errorPayload);
+      const sagaError = deleteOne({ name: 'TEST', entity: 'tests' })(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
 
@@ -271,7 +271,7 @@ describe('Saga Factory', () => {
   describe('deleteMany Sequence', () => {
     const resource = { id: '1', name: 'test', resource_type: 'TEST::TESTY' };
     const payload = { resources: [resource], fqon: 'iamfqon' };
-    const saga = deleteMany('TESTS', 'tests')(payload);
+    const saga = deleteMany({ name: 'TESTS', entity: 'tests' })(payload);
     let result;
 
     it('should make an api call', () => {
@@ -292,7 +292,7 @@ describe('Saga Factory', () => {
 
     it('should return a response when onSuccess callback is passed', () => {
       const successPayload = { ...payload, onSuccess: jest.fn() };
-      const sagaSuccess = deleteMany('TESTS', 'tests')(successPayload);
+      const sagaSuccess = deleteMany({ name: 'TESTS', entity: 'tests' })(successPayload);
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
@@ -303,7 +303,7 @@ describe('Saga Factory', () => {
 
     it('should dispatch a reject status when there is an error', () => {
       const errorPayload = { ...payload, onError: jest.fn() };
-      const sagaError = deleteMany('TESTS', 'tests')(errorPayload);
+      const sagaError = deleteMany({ name: 'TESTS', entity: 'tests' })(errorPayload);
       let resultError = sagaError.next();
       resultError = sagaError.throw(error);
 

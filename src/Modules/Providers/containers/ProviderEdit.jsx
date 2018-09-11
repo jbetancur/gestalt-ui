@@ -7,7 +7,7 @@ import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { withMetaResource, withContainer, withPickerData } from 'Modules/MetaResource';
+import { withProvider, withContainer, withPickerData, withEnvironments } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses, containerActionCreators } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -30,12 +30,9 @@ class ProviderEdit extends Component {
     provider: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     providerContainer: PropTypes.object.isRequired,
-    fetchProvider: PropTypes.func.isRequired,
+    providerActions: PropTypes.object.isRequired,
     containerActions: PropTypes.object.isRequired,
-    updateProvider: PropTypes.func.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
-    redeployProvider: PropTypes.func.isRequired,
-    unloadProvider: PropTypes.func.isRequired,
     resourcetypesLoading: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
@@ -47,12 +44,13 @@ class ProviderEdit extends Component {
   state = { redeploy: false };
 
   componentDidMount() {
-    const { match, containerActions } = this.props;
+    const { match, containerActions, environmentsActions } = this.props;
 
     containerActions.fetchProviderContainer({
       fqon: match.params.fqon, providerId: match.params.providerId, params: { embed: 'provider' }, providerContainer: true, enablePolling: true
     });
     this.populateProvider();
+    environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: match.params.providerId, entityKey: 'providers', entity: 'environments' });
   }
 
   componentDidUpdate(prevProps) {
@@ -69,14 +67,7 @@ class ProviderEdit extends Component {
   }
 
   componentDidCatch(error, info) {
-    // TODO: Eat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
     this.setState({ hasError: true, error, info });
-  }
-
-  componentWillUnmount() {
-    const { unloadProvider } = this.props;
-
-    unloadProvider();
   }
 
   flagForRedeploy = () => {
@@ -84,26 +75,26 @@ class ProviderEdit extends Component {
   }
 
   populateProvider() {
-    const { match, fetchProvider } = this.props;
+    const { match, providerActions } = this.props;
 
-    fetchProvider(match.params.fqon, match.params.providerId);
+    providerActions.fetchProvider({ fqon: match.params.fqon, id: match.params.providerId });
   }
 
   update = (formValues) => {
-    const { match, confirmUpdate, provider, updateProvider, redeployProvider } = this.props;
+    const { match, confirmUpdate, provider, providerActions } = this.props;
 
     if (this.state.redeploy) {
       const handleRedeploy = () => {
-        redeployProvider(match.params.fqon, provider.id);
+        providerActions.redeployProvider({ fqon: match.params.fqon, id: provider.id });
       };
 
       const onClose = this.setState({ redeploy: false });
 
       confirmUpdate(handleRedeploy, provider.name, onClose);
     } else {
-      const patches = generateProviderPatches(provider, formValues);
+      const payload = generateProviderPatches(provider, formValues);
 
-      updateProvider(match.params.fqon, provider.id, patches);
+      providerActions.updateProvider({ fqon: match.params.fqon, id: provider.id, payload });
     }
   }
 
@@ -211,6 +202,9 @@ class ProviderEdit extends Component {
                   </Row>
                 </Tab> : <div />
               }
+              {/* <Tab title="Environment">
+                <EnvironmentListing {...this.props} />
+              </Tab> */}
             </Tabs>
           </Col>
         </Row>
@@ -228,7 +222,8 @@ export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
   withPickerData({ entity: 'providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),
   withContainer(),
-  withMetaResource,
+  withProvider(),
+  withEnvironments({ unload: true }),
   withEntitlements,
   connect(mapStateToProps, { ...actions, ...containerActionCreators }),
 )(ProviderEdit);

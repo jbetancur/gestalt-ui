@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withMetaResource } from 'Modules/MetaResource';
+import { withProviders } from 'Modules/MetaResource';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
@@ -23,12 +23,9 @@ class ProviderListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
-    deleteProviders: PropTypes.func.isRequired,
-    deleteProvider: PropTypes.func.isRequired,
     providersPending: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    fetchProviders: PropTypes.func.isRequired,
-    unloadProviders: PropTypes.func.isRequired,
+    providersActions: PropTypes.object.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
@@ -37,21 +34,15 @@ class ProviderListing extends PureComponent {
     this.populateProviders();
   }
 
-  componentWillUnmount() {
-    const { unloadProviders } = this.props;
-
-    unloadProviders();
-  }
-
   populateProviders() {
-    const { match, fetchProviders } = this.props;
+    const { match, providersActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    fetchProviders(match.params.fqon, entity.id, entity.key);
+    providersActions.fetchProviders({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
   }
 
   deleteOne = (row) => {
-    const { match, deleteProvider } = this.props;
+    const { match, providersActions } = this.props;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
@@ -59,16 +50,14 @@ class ProviderListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      deleteProvider(match.params.fqon, row.id, onSuccess, force);
+      providersActions.deleteProvider({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
 
   deleteMultiple = () => {
-    const { match, deleteProviders, confirmDelete } = this.props;
+    const { match, providersActions, confirmDelete } = this.props;
     const { selectedRows } = this.state;
-
-    const IDs = selectedRows.map(item => item.id);
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
@@ -77,7 +66,7 @@ class ProviderListing extends PureComponent {
     };
 
     confirmDelete(({ force }) => {
-      deleteProviders(IDs, match.params.fqon, onSuccess, force);
+      providersActions.deleteProviders({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
     }, 'Confirm Delete Providers', names);
   }
 
@@ -195,6 +184,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withMetaResource,
+  withProviders(),
   connect(mapStateToProps, actions),
 )(ProviderListing);

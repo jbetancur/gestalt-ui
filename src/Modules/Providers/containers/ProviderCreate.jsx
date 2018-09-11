@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withProvider, withEnv, withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ProviderForm from './ProviderForm';
@@ -20,9 +20,8 @@ class ProviderCreate extends Component {
     initialValues: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    createProvider: PropTypes.func.isRequired,
-    fetchEnvSchema: PropTypes.func.isRequired,
-    unloadEnvSchema: PropTypes.func.isRequired,
+    providerActions: PropTypes.object.isRequired,
+    envActions: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     resourcetypesData: PropTypes.array.isRequired,
   };
@@ -36,12 +35,8 @@ class ProviderCreate extends Component {
     this.setState({ hasError: true, error, info });
   }
 
-  componentWillUnmount() {
-    this.props.unloadEnvSchema();
-  }
-
   create = (values) => {
-    const { match, history, createProvider } = this.props;
+    const { match, history, providerActions } = this.props;
     const { selectedProviderType } = this.state;
     const payload = generateProviderPayload(values, selectedProviderType.allowContainer);
 
@@ -56,11 +51,11 @@ class ProviderCreate extends Component {
     };
 
     if (match.params.workspaceId && !match.params.environmentId) {
-      createProvider(match.params.fqon, match.params.workspaceId, 'workspaces', payload, onSuccess);
+      providerActions.createProvider({ fqon: match.params.fqon, entityId: match.params.workspaceId, entityKey: 'workspaces', payload, onSuccess });
     } else if (match.params.environmentId) {
-      createProvider(match.params.fqon, match.params.environmentId, 'environments', payload, onSuccess);
+      providerActions.createProvider({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments', payload, onSuccess });
     } else {
-      createProvider(match.params.fqon, null, null, payload, onSuccess);
+      providerActions.createProvider({ fqon: match.params.fqon, payload, onSuccess });
     }
   }
 
@@ -76,12 +71,12 @@ class ProviderCreate extends Component {
   };
 
   handleProviderTypeChange = (provider) => {
-    const { resourcetypesData, fetchEnvSchema } = this.props;
+    const { resourcetypesData, envActions } = this.props;
     const compiledProviderTypes = generateResourceTypeSchema(resourcetypesData);
     const selectedProviderType = compiledProviderTypes.find(type => type.name === provider.type) || {};
 
     if (selectedProviderType.id) {
-      fetchEnvSchema(selectedProviderType.id);
+      envActions.fetchEnvSchema({ fqon: 'root', id: selectedProviderType.id });
     }
 
     this.setState({ selectedProviderType });
@@ -125,6 +120,7 @@ const mapStateToProps = state => ({
 export default compose(
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
   withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
-  withMetaResource,
+  withProvider(),
+  withEnv({ unloadEnv: false }),
   connect(mapStateToProps, actions),
 )(ProviderCreate);

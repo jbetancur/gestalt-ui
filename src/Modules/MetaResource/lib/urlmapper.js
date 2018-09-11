@@ -8,7 +8,7 @@ export const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryStr
 /**
  * Generates a dynamic meta URL for array listing
  * @param {*} entity
- * @param {*} config
+ * @param {Object} config
  */
 export const buildAllURL = (entity, config, expand) => {
   const params = expand ? Object.assign({ expand: true }, config.params) : config.params;
@@ -29,17 +29,27 @@ export const buildAllURL = (entity, config, expand) => {
 
 /**
  * Generates a dynamic meta URL for object find
- * @param {*} entity
- * @param {*} config
+ * @param {Sring} entity
+ * @param {Object} config{id, fqon, params}
+ * @param {Sring} action
+ * }
  */
-export const buildOneURL = (entity, config) => {
+export const buildOneURL = (entity, config, action) => {
   if (!entity) {
-    return buildParams(config.fqon, config.params);
+    const url = action
+      ? `${entity.fqon}/${action}`
+      : entity;
+
+    return buildParams(url, config.params);
   }
 
   if (config.fqon && entity) {
     const baseURL = `${config.fqon}/${entity}/${config.id}`;
-    return buildParams(baseURL, config.params);
+    const url = action
+      ? `${baseURL}/${action}`
+      : baseURL;
+
+    return buildParams(url, config.params);
   }
 
   return buildParams(entity, config.params);
