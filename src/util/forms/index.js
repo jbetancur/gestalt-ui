@@ -1,5 +1,10 @@
 import { isUnixVariable } from 'util/validations';
 
+function isNumeric(n) {
+  // eslint-disable-next-line no-restricted-globals
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 // Validators
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined);
@@ -11,7 +16,14 @@ export const validator =
   (func, message = 'invalid pattern', options = {}) => value => (value && !func(value, options)) && message;
 
 export const required =
-  (message = 'required') => value => (value ? undefined : message);
+  (message = 'required', allowZeros) => (value) => {
+    // allow option to exlude 0 from being "required"
+    if (allowZeros && value === 0 && isNumeric(value)) {
+      return undefined;
+    }
+
+    return value ? undefined : message;
+  };
 
 export const hasSpaces =
   (message = 'spaces not allowed') => value => (value ? value.indexOf(' ') >= 0 : message);

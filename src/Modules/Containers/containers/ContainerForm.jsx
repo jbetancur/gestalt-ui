@@ -213,20 +213,22 @@ const ContainerForm = ({
             </Panel>
           </Col>
 
-          <Col flex={12}>
-            <Panel
-              title="Volumes"
-              noPadding
-              defaultExpanded={formValues.properties.volumes.length > 0}
-              count={formValues.properties.volumes.length}
-            >
-              <VolumesForm
-                fieldName={`${formName}.properties.volumes`}
-              />
-            </Panel>
-          </Col>
+          {!inlineMode &&
+            <Col flex={12}>
+              <Panel
+                title="Volumes"
+                noPadding
+                defaultExpanded={formValues.properties.volumes.length > 0}
+                count={formValues.properties.volumes.length}
+              >
+                <VolumesForm
+                  fieldName={`${formName}.properties.volumes`}
+                  providerId={selectedProvider.provider.id}
+                />
+              </Panel>
+            </Col>}
 
-          {selectedProvider.supportsSecrets &&
+          {selectedProvider.supportsSecrets && !inlineMode &&
             <Col flex={12}>
               <Panel
                 title="Secrets"

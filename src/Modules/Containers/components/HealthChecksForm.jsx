@@ -6,7 +6,7 @@ import { getIn } from 'final-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
-import { fixInputNumber, composeValidators, required, max } from 'util/forms';
+import { fixInputNumber, composeValidators, required, min, max } from 'util/forms';
 import healthCheckProtocols from '../lists/healthCheckProtocols';
 import healthCheckPortTypes from '../lists/healthCheckPortTypes';
 
@@ -81,7 +81,7 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                     label="Timeout"
                     component={TextField}
                     parse={fixInputNumber}
-                    validate={composeValidators(required())}
+                    validate={composeValidators(required(), min(1))}
                     required
                     helpText="seconds"
                   />
@@ -95,7 +95,7 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                     label="Max Consecutive Failures"
                     component={TextField}
                     parse={fixInputNumber}
-                    validate={composeValidators(required())}
+                    validate={composeValidators(required(), min(1))}
                     required
                   />
                 </Col>
@@ -117,12 +117,12 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                       id={`${member}.port`}
                       name={`${member}.port`}
                       type="number"
-                      min={0}
+                      min={1}
                       max={65536}
                       label="Port Number"
                       component={TextField}
                       parse={fixInputNumber}
-                      validate={composeValidators(required(), max(65536))}
+                      validate={composeValidators(required(), min(1), max(65536))}
                       required
                     />
                   </Col>}
@@ -133,11 +133,11 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                       name={`${member}.port_index`}
                       type="number"
                       min={0}
-                      max={65535}
+                      max={65536}
                       label="Port Index"
                       component={TextField}
                       parse={fixInputNumber}
-                      validate={composeValidators(required())}
+                      validate={composeValidators(required('required', true), min(0), max(65536))}
                       required
                     />
                   </Col>}
