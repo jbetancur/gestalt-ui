@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
-import StatusBubble from 'components/StatusBubble';
+import { StatusBubble } from 'components/Status';
 import { ClipboardButton } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
 

@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { MenuButton, ListItem, Divider, FontIcon } from 'react-md';
+import { ListItem, Divider, FontIcon } from 'react-md';
 import { withEnvironment, withContainer, withContainers } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 // import { ActionsMenu } from 'Modules/Actions';
-import StatusBubble from 'components/StatusBubble';
+import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
@@ -18,11 +18,6 @@ import actionCreators from '../actions';
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`
   display: inline-block;
-  ${props => props.inContainerView && css`
-    .md-btn--text {
-      margin-top: -4px;
-    }
-  `};
 
   .container-action-button {
     .md-text--disabled {
@@ -312,33 +307,14 @@ class ContainerActions extends PureComponent {
       </ListWrapper>
     ];
 
-    const icon = inContainerView ? null : 'more_vert';
-    const anchorX = inContainerView ? 'INNER_RIGHT' : 'INNER_LEFT';
-    const positionX = inContainerView ? 'TOP_RIGHT' : 'TOP_LEFT';
-
     return (
       containerModel.id ?
         <ActionsWrapper inContainerView={inContainerView}>
-          <MenuButton
-            id="container-actions-menu"
-            icon={!inContainerView}
-            flat={inContainerView}
-            disabled={!containerModel.properties.status}
-            iconChildren={icon}
-            inkDisabled={inContainerView}
+          <StatusButton
+            status={containerModel.properties.status}
             menuItems={menuItems}
-            listHeightRestricted={false}
-            simplifiedMenu={false}
-            repositionOnScroll={false}
-            position={MenuButton.Positions[positionX]}
-            anchor={{
-              x: MenuButton.HorizontalAnchors[anchorX],
-              y: MenuButton.VerticalAnchors.OVERLAP,
-            }}
-            primary
-          >
-            {inContainerView && <StatusBubble status={containerModel.properties.status || 'Pending'} />}
-          </MenuButton>
+            inMenu={!inContainerView}
+          />
         </ActionsWrapper> : null
     );
   }

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = `
+<StatusBubble__ContainerStatusStyle>
+  <StatusBubble__IconStyle
+    color="$md-orange-500"
+  >
+    access_time
+  </StatusBubble__IconStyle>
+  <span>
+    PENDING
+  </span>
+</StatusBubble__ContainerStatusStyle>
+`;
+
+exports[`Components::StatusBubble::StatusBubble renders correctly when a status is passed 1`] = `
+<StatusBubble__ContainerStatusStyle>
+  <StatusBubble__IconStyle
+    color="$md-blue-grey-300"
+  >
+    check_circle
+  </StatusBubble__IconStyle>
+  <span>
+    RUNNING
+  </span>
+</StatusBubble__ContainerStatusStyle>
+`;

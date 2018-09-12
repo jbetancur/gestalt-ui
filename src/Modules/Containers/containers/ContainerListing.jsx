@@ -12,7 +12,7 @@ import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
-import StatusBubble from 'components/StatusBubble';
+import { StatusBubble } from 'components/Status';
 import { ContainerIcon as CIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';

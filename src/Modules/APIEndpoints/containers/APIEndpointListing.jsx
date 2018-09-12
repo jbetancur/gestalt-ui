@@ -7,7 +7,7 @@ import { Col, Row } from 'react-flexybox';
 import { Timestamp, GenericMenuActions } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
-import StatusBubble from 'components/StatusBubble';
+import { StatusBubble } from 'components/Status';
 import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';

@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components::StatusButton::StatusButton mounts with default props 1`] = `
+<StatusButton__MenuButtonStyle
+  anchor={
+    Object {
+      "x": "inner right",
+      "y": "overlap",
+    }
+  }
+  color="$md-orange-500"
+  disabled={false}
+  icon={false}
+  iconChildren="access_time"
+  id="container-actions-menu"
+  inkDisabled={false}
+  listHeightRestricted={false}
+  menuItems={Array []}
+  position="tr"
+  primary={false}
+  raised={true}
+  repositionOnScroll={false}
+  simplifiedMenu={false}
+>
+  PENDING
+</StatusButton__MenuButtonStyle>
+`;
+
+exports[`Components::StatusButton::StatusButton renders correctly when a status is passed 1`] = `
+<StatusButton__MenuButtonStyle
+  anchor={
+    Object {
+      "x": "inner right",
+      "y": "overlap",
+    }
+  }
+  color="$md-blue-grey-300"
+  disabled={false}
+  icon={false}
+  iconChildren="check_circle"
+  id="container-actions-menu"
+  inkDisabled={false}
+  listHeightRestricted={false}
+  menuItems={Array []}
+  position="tr"
+  primary={false}
+  raised={true}
+  repositionOnScroll={false}
+  simplifiedMenu={false}
+>
+  running
+</StatusButton__MenuButtonStyle>
+`;
+
+exports[`Components::StatusButton::StatusButton renders correctly when the button has inMenu passed 1`] = `
+<StatusButton__MenuButtonStyle
+  anchor={
+    Object {
+      "x": "inner left",
+      "y": "overlap",
+    }
+  }
+  color={null}
+  disabled={false}
+  icon={true}
+  iconChildren="more_vert"
+  id="container-actions-menu"
+  inkDisabled={true}
+  listHeightRestricted={false}
+  menuItems={Array []}
+  position="tl"
+  primary={true}
+  raised={false}
+  repositionOnScroll={false}
+  simplifiedMenu={false}
+/>
+`;

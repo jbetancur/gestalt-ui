@@ -9,7 +9,7 @@ import { Title } from 'components/Typography';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Timestamp, GenericMenuActions } from 'components/TableCells';
-import StatusBubble from 'components/StatusBubble';
+import { StatusBubble } from 'components/Status';
 import Div from 'components/Div';
 import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
