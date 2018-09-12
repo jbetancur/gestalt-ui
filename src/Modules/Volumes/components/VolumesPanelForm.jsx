@@ -5,10 +5,9 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { isURL } from 'validator';
 import { composeValidators, required, validator } from 'util/forms';
-import VolumeCreateMenu from './VolumeCreateMenu';
 
 class VolumesForm extends Component {
   static propTypes = {
@@ -35,7 +34,7 @@ class VolumesForm extends Component {
       <FieldArray name={fieldName}>
         {({ fields }) => (
           <FieldContainer>
-            <VolumeCreateMenu onClick={this.handleMenuSelect(fields)} />
+            <AddButton label="Add Secret" onClick={() => fields.unshift({})} />
             {fields.map((member, index) => (
               <FieldItem key={`volume-${member}`}>
                 <Row gutter={5}>
