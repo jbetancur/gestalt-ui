@@ -5,9 +5,10 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
+import { FieldContainer, FieldItem, RemoveButton } from 'components/FieldArrays';
 import { isURL } from 'validator';
 import { composeValidators, required, validator } from 'util/forms';
+import VolumeCreateMenu from './VolumeCreateMenu';
 
 class VolumesForm extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ class VolumesForm extends Component {
 
   state = {
     type: 'Existing',
-  }
+  };
 
   handleMenuSelect = fields => (type) => {
     fields.unshift({});
@@ -34,7 +35,7 @@ class VolumesForm extends Component {
       <FieldArray name={fieldName}>
         {({ fields }) => (
           <FieldContainer>
-            <AddButton label="Add Volume" onClick={() => fields.unshift({})} />
+            <VolumeCreateMenu onClick={this.handleMenuSelect(fields)} />
             {fields.map((member, index) => (
               <FieldItem key={`volume-${member}`}>
                 <Row gutter={5}>
@@ -62,16 +63,6 @@ class VolumesForm extends Component {
                           required(),
                           validator(isURL, 'must be a relative URL path', { require_protocol: false, require_host: false, allow_trailing_dot: false })
                         )}
-                      required
-                    />
-                  </Col>
-
-                  <Col flex={8} xs={12} sm={12}>
-                    <Field
-                      name={`${member}.test`}
-                      type="text"
-                      component={TextField}
-                      label="Test"
                       required
                     />
                   </Col>
