@@ -37,7 +37,7 @@ const VolumeForm = ({ form, values, match, loading, submitting, handleSubmit, se
                   type="text"
                   required
                   parse={formatName}
-                  helpText="alphanumeric and dashes are allowed "
+                  helpText="alphanumeric and dashes are allowed"
                 />
               </Col>
             </Row>

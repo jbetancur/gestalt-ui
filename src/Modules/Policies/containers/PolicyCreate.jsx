@@ -9,7 +9,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import PolicyForm from './PolicyForm';
-import validate from './validations';
 import actions from '../actions';
 import { generatePolicyPayload } from '../payloadTransformer';
 
@@ -47,7 +46,6 @@ class PolicyCreate extends Component {
           <Form
             render={PolicyForm}
             onSubmit={this.create}
-            validate={validate}
             initialValues={initialValues}
             {...this.props}
           />

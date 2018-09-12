@@ -14,9 +14,9 @@ import { Panel } from 'components/Panels';
 import { Chips } from 'components/Lists';
 import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
 import { SecretsPanelForm } from 'Modules/Secrets';
+import { VolumesPanelForm } from 'Modules/Volumes';
 import PortMappingsForm from '../components/PortMappingsForm';
 import HealthChecksForm from '../components/HealthChecksForm';
-import VolumesForm from '../components/VolumesForm';
 import SelectedProvider from './SelectedProvider';
 import actions from '../actions';
 import { selectContainer, selectProvider } from '../selectors';
@@ -221,7 +221,7 @@ const ContainerForm = ({
                 defaultExpanded={formValues.properties.volumes.length > 0}
                 count={formValues.properties.volumes.length}
               >
-                <VolumesForm
+                <VolumesPanelForm
                   fieldName={`${formName}.properties.volumes`}
                   providerId={selectedProvider.provider.id}
                 />

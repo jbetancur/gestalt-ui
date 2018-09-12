@@ -17,7 +17,6 @@ import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import PolicyTypesMenu from '../components/PolicyTypesMenu';
 import PolicyForm from './PolicyForm';
-import validate from './validations';
 import actions from '../actions';
 import { generatePolicyPatches } from '../payloadTransformer';
 import { getEditPolicyModel } from '../selectors';
@@ -108,7 +107,6 @@ class PolicyEdit extends Component {
                   editMode
                   render={PolicyForm}
                   onSubmit={this.udpate}
-                  validate={validate}
                   initialValues={initialFormValues}
                   {...this.props}
                 />

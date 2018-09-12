@@ -8,6 +8,7 @@ import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 import Form from 'components/Form';
+import { composeValidators, required } from 'util/forms';
 
 const PolicyForm = ({
   match,
@@ -19,28 +20,34 @@ const PolicyForm = ({
 }) => (
   <Form onSubmit={handleSubmit} autoComplete="off" disabled={policyPending}>
     <Row gutter={5}>
-      <Col flex={12}>
-        <Panel title="General" expandable={false}>
+      <Col flex={7} xs={12} sm={12}>
+        <Panel title="General" expandable={false} fill>
           <Row gutter={5}>
-            <Col flex={5} xs={12}>
+            <Col flex={12}>
               <Field
+                id="name"
                 component={TextField}
                 name="name"
-                label="Name"
-                type="text"
+                label="Policy Name"
+                validate={composeValidators(required('policy name is required'))}
                 required
-                autoComplete="none"
               />
             </Col>
+          </Row>
+        </Panel>
+      </Col>
 
+      <Col flex={5} xs={12} sm={12}>
+        <Panel title="Description" expandable={false} fill>
+          <Row gutter={5}>
             <Col flex={12}>
               <Field
                 id="description"
                 component={TextField}
                 name="description"
-                label="Description"
-                type="text"
+                placeholder="Description"
                 rows={1}
+                maxRows={6}
               />
             </Col>
           </Row>

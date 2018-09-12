@@ -47,8 +47,6 @@ class ContainerEdit extends Component {
     containerPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
     entitlementActions: PropTypes.object.isRequired,
-    containerInstances: PropTypes.array.isRequired,
-    containerServiceAddresses: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     setSelectedProvider: PropTypes.func.isRequired,
