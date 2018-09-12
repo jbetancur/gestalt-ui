@@ -34,7 +34,7 @@ class VolumesForm extends Component {
       <FieldArray name={fieldName}>
         {({ fields }) => (
           <FieldContainer>
-            <AddButton label="Add Secret" onClick={() => fields.unshift({})} />
+            <AddButton label="Add Volume" onClick={() => fields.unshift({})} />
             {fields.map((member, index) => (
               <FieldItem key={`volume-${member}`}>
                 <Row gutter={5}>
