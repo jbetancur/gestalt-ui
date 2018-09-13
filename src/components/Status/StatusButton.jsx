@@ -31,7 +31,7 @@ const StatusButton = ({ status, inMenu, menuItems }) => {
     <MenuButtonStyle
       id="container-actions-menu"
       icon={inMenu}
-      raised={!inMenu}
+      flat={!inMenu}
       disabled={!status}
       iconChildren={icon}
       menuItems={menuItems}

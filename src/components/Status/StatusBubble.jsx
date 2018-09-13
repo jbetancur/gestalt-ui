@@ -7,10 +7,9 @@ import statusMap from './statusMap';
 const ContainerStatusStyle = styled.div`
   display: flex;
   align-items: center;
-  text-align: left;
   min-width: 115px;
   max-width: 130px;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 12px;
   text-transform: uppercase;
   color: ${props => props.theme.colors['$md-grey-800']};

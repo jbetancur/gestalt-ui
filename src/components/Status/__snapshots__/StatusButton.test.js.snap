@@ -10,6 +10,7 @@ exports[`Components::StatusButton::StatusButton mounts with default props 1`] = 
   }
   color="$md-orange-500"
   disabled={false}
+  flat={true}
   icon={false}
   iconChildren="access_time"
   id="container-actions-menu"
@@ -18,7 +19,6 @@ exports[`Components::StatusButton::StatusButton mounts with default props 1`] = 
   menuItems={Array []}
   position="tr"
   primary={false}
-  raised={true}
   repositionOnScroll={false}
   simplifiedMenu={false}
 >
@@ -36,6 +36,7 @@ exports[`Components::StatusButton::StatusButton renders correctly when a status 
   }
   color="$md-blue-grey-300"
   disabled={false}
+  flat={true}
   icon={false}
   iconChildren="check_circle"
   id="container-actions-menu"
@@ -44,7 +45,6 @@ exports[`Components::StatusButton::StatusButton renders correctly when a status 
   menuItems={Array []}
   position="tr"
   primary={false}
-  raised={true}
   repositionOnScroll={false}
   simplifiedMenu={false}
 >
@@ -62,6 +62,7 @@ exports[`Components::StatusButton::StatusButton renders correctly when the butto
   }
   color={null}
   disabled={false}
+  flat={false}
   icon={true}
   iconChildren="more_vert"
   id="container-actions-menu"
@@ -70,7 +71,6 @@ exports[`Components::StatusButton::StatusButton renders correctly when the butto
   menuItems={Array []}
   position="tl"
   primary={true}
-  raised={false}
   repositionOnScroll={false}
   simplifiedMenu={false}
 />
