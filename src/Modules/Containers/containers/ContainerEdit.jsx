@@ -32,6 +32,7 @@ import {
   getEditContainerModel,
   selectContainer,
   selectProvider,
+  selectVolumeListing,
 } from '../selectors';
 import ActionsModals from '../ActionModals';
 
@@ -50,6 +51,7 @@ class ContainerEdit extends Component {
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     setSelectedProvider: PropTypes.func.isRequired,
+    containerVolumes: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -76,10 +78,10 @@ class ContainerEdit extends Component {
   }
 
   redeployContainer = (values) => {
-    const { match, container, containerActions, inlineMode } = this.props;
+    const { match, container, containerActions, inlineMode, containerVolumes } = this.props;
 
     if (!inlineMode) {
-      const payload = generatePayload(values, true);
+      const payload = generatePayload(values, true, containerVolumes);
 
       containerActions.updateContainer({ fqon: match.params.fqon, containerId: container.id, payload });
     }
@@ -254,6 +256,7 @@ const mapStateToProps = state => ({
   container: selectContainer(state),
   initialFormValues: getEditContainerModel(state),
   selectedProvider: selectProvider(state),
+  containerVolumes: selectVolumeListing(state),
 });
 
 export default compose(

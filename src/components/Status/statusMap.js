@@ -22,7 +22,7 @@ export default (status) => {
       };
     case 'SUSPENDED':
       return {
-        icon: 'info',
+        icon: 'info_outline',
         color: '$md-orange-500',
       };
     case 'LOST':
@@ -72,7 +72,7 @@ export default (status) => {
       };
     default:
       return {
-        icon: 'info',
+        icon: 'info_outline',
         color: '$md-blue-grey-400',
       };
   }

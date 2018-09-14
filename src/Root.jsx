@@ -11,9 +11,6 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 // import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
-import ErrorNotifications from 'Modules/ErrorNotifications';
-import { Notifications } from 'Modules/Notifications';
-import ModalRoot from 'Modules/ModalRoot';
 import NotFound from 'components/NotFound';
 import { UpgradeRouter } from 'Modules/Upgrader';
 import configureStore from './config/configureStore';
@@ -57,23 +54,18 @@ const Root = () => (
     <Provider store={store}>
       <IntlProvider locale={language}>
         <I18nextProvider i18n={i18n}>
-          <React.Fragment>
-            <ModalRoot />
-            <ErrorNotifications />
-            <Notifications />
-            <ConnectedRouter history={history}>
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/logs" component={withRestricted(LoggingNewPage)} />
-                <Route exact path="/upgrade" component={withRestricted(UpgradeRouter)} />
-                <Route exact path="/" component={App} />
-                <Route exact path="/404" component={NotFound} />
-                <Route path="/:fqon" component={App} />
-                <Route exact path="/:fqon/404" component={NotFound} />
-                <Route path="/notfound" component={App} />
-              </Switch>
-            </ConnectedRouter>
-          </React.Fragment>
+          <ConnectedRouter history={history}>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/logs" component={withRestricted(LoggingNewPage)} />
+              <Route exact path="/upgrade" component={withRestricted(UpgradeRouter)} />
+              <Route exact path="/" component={App} />
+              <Route exact path="/404" component={NotFound} />
+              <Route path="/:fqon" component={App} />
+              <Route exact path="/:fqon/404" component={NotFound} />
+              <Route path="/notfound" component={App} />
+            </Switch>
+          </ConnectedRouter>
         </I18nextProvider>
       </IntlProvider>
     </Provider>

@@ -14,7 +14,7 @@ import { Panel } from 'components/Panels';
 import { Chips } from 'components/Lists';
 import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
 import { SecretsPanelForm } from 'Modules/Secrets';
-import { VolumesPanelForm } from 'Modules/Volumes';
+import { VolumePanelList } from 'Modules/Volumes';
 import PortMappingsForm from '../components/PortMappingsForm';
 import HealthChecksForm from '../components/HealthChecksForm';
 import SelectedProvider from './SelectedProvider';
@@ -179,7 +179,7 @@ const ContainerForm = ({
           <Col flex={12}>
             <Panel
               title="Service Port Mappings"
-              expandable={false}
+              defaultExpanded={formValues.properties.port_mappings.length > 0}
               noPadding
             >
               <PortMappingsForm
@@ -190,6 +190,22 @@ const ContainerForm = ({
               />
             </Panel>
           </Col>
+
+          {!inlineMode &&
+            <Col flex={12}>
+              <Panel
+                title="Volumes"
+                noPadding
+                defaultExpanded={formValues.properties.volumes.length > 0}
+                count={formValues.properties.volumes.length}
+              >
+                <VolumePanelList
+                  volumes={formValues.properties.volumes}
+                  selectedProvider={selectedProvider}
+                  editMode={editMode}
+                />
+              </Panel>
+            </Col>}
 
           <Col flex={12}>
             <Panel
@@ -212,21 +228,6 @@ const ContainerForm = ({
               <LabelsForm fieldName={`${formName}.properties.labels`} formValues={values} />
             </Panel>
           </Col>
-
-          {!inlineMode &&
-            <Col flex={12}>
-              <Panel
-                title="Volumes"
-                noPadding
-                defaultExpanded={formValues.properties.volumes.length > 0}
-                count={formValues.properties.volumes.length}
-              >
-                <VolumesPanelForm
-                  fieldName={`${formName}.properties.volumes`}
-                  providerId={selectedProvider.provider.id}
-                />
-              </Panel>
-            </Col>}
 
           {selectedProvider.supportsSecrets && !inlineMode &&
             <Col flex={12}>

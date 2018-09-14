@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey, disableEntitlements }) => {
+const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey, disableEntitlements, disableCopy }) => {
   const handleDelete = () => {
     onDelete(row);
   };
@@ -43,13 +43,14 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
               leftIcon={<FontIcon>security</FontIcon>}
               onClick={handleEntitlements}
             /> : <div />}
-          <CopyToClipboard text={row.id}>
-            <ListItem
-              primaryText="Copy uuid"
-              leftIcon={<FontIcon>content_copy</FontIcon>}
-            />
-          </CopyToClipboard>
-          <Divider />
+          {!disableCopy &&
+            <CopyToClipboard text={row.id}>
+              <ListItem
+                primaryText="Copy uuid"
+                leftIcon={<FontIcon>content_copy</FontIcon>}
+              />
+            </CopyToClipboard>}
+          {!disableEntitlements && !disableCopy && <Divider />}
           <ListItem
             primaryText="Delete"
             leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>}
@@ -66,18 +67,21 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
 
 GenericMenuActions.propTypes = {
   row: PropTypes.object,
-  fqon: PropTypes.string.isRequired,
+  fqon: PropTypes.string,
   editURL: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object.isRequired,
   entityKey: PropTypes.string.isRequired,
   disableEntitlements: PropTypes.bool,
+  disableCopy: PropTypes.bool,
 };
 
 GenericMenuActions.defaultProps = {
   row: {},
-  disableEntitlements: false,
+  fqon: null,
   editURL: null,
+  disableEntitlements: false,
+  disableCopy: false,
 };
 
 export default withEntitlements(GenericMenuActions);

@@ -31,7 +31,7 @@ export function* fetchContainers(action) {
  */
 export function* fetchContainer(action) {
   function getContainer() {
-    return axios.get(`${action.fqon}/containers/${action.containerId}?embed=provider`);
+    return axios.get(`${action.fqon}/containers/${action.containerId}?embed=provider&embed=volumes`);
   }
 
   function getEnv() {
@@ -180,7 +180,7 @@ export function* fetchProviderContainer(action) {
     const response = yield call(axios.get, `${action.fqon}/providers/${action.providerId}/containers`);
 
     if (response.data.length) {
-      const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}?embed=provider`);
+      const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}?embed=provider&embed=volumes`);
       yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerResponse.data, action });
     } else {
       yield put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get(), action });

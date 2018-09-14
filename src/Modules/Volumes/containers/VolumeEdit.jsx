@@ -13,7 +13,6 @@ import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import VolumeForm from './VolumeForm';
-import validate from '../validations';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditVolumeModel, selectProvider } from '../selectors';
@@ -90,7 +89,6 @@ class VolumeEdit extends Component {
               render={VolumeForm}
               loading={volumePending}
               initialValues={initialFormValues}
-              validate={validate}
               selectedProvider={selectedProvider}
             />
           </Col>

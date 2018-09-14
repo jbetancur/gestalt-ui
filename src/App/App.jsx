@@ -4,6 +4,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Mousetrap from 'mousetrap';
+import ModalRoot from 'Modules/ModalRoot';
+import ErrorNotifications from 'Modules/ErrorNotifications';
+import { Notifications } from 'Modules/Notifications';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { Header } from 'components/Navigation';
@@ -99,6 +102,9 @@ class App extends Component {
             }
           />
           <ContextRoutes />
+          <ModalRoot />
+          <ErrorNotifications />
+          <Notifications />
         </Main> :
         <AppError onLogout={this.logout} {...this.props} />
     );

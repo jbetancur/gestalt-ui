@@ -6,7 +6,7 @@ import { metaModels } from 'Modules/MetaResource';
  * @param {Object} sourcePayload
  * @param {Boolean} updateMode
  */
-export function generatePayload(sourcePayload, updateMode) {
+export function generatePayload(sourcePayload, updateMode, containerVolumes = []) {
   let payload = { ...sourcePayload };
 
   // force 1 instance since we disable num_instances field validation (to deal with suspended update case)
@@ -63,6 +63,9 @@ export function generatePayload(sourcePayload, updateMode) {
 
     return healthCheckPayload;
   });
+
+  // Add Volumes to the payload from the VolumePanelList
+  payload.properties.volumes = containerVolumes;
 
   return payload;
 }

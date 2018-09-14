@@ -14,7 +14,11 @@ import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
-import { getCreateContainerModel, selectProvider } from '../selectors';
+import {
+  getCreateContainerModel,
+  selectProvider,
+  selectVolumeListing,
+} from '../selectors';
 import ContainerIcon from '../components/ContainerIcon';
 
 class ContainerCreate extends Component {
@@ -28,7 +32,7 @@ class ContainerCreate extends Component {
     containerPending: PropTypes.bool.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
-    providersData: PropTypes.array.isRequired,
+    containerVolumes: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -42,10 +46,10 @@ class ContainerCreate extends Component {
   }
 
   create = (values) => {
-    const { match, history, containerActions, inlineMode } = this.props;
+    const { match, history, containerActions, inlineMode, containerVolumes } = this.props;
 
     if (!inlineMode) {
-      const payload = generatePayload(values);
+      const payload = generatePayload(values, false, containerVolumes);
       // Since we hide the selected provider we need to get this from redux and patch it onto the payload
       const onSuccess = (response) => {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
@@ -106,6 +110,7 @@ class ContainerCreate extends Component {
 const mapStateToProps = state => ({
   initialFormValues: getCreateContainerModel(state),
   selectedProvider: selectProvider(state),
+  containerVolumes: selectVolumeListing(state),
 });
 
 export default compose(

@@ -7,6 +7,7 @@ import { EntitlementModal } from 'Modules/Entitlements';
 import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { StreamInstanceModal } from 'Modules/Streams';
 import { ContainerImportModal } from 'Modules/Containers';
+import { VolumeCreateModal } from 'Modules/Volumes';
 import LicenseModal from 'Modules/Licensing';
 import CONFIRM from './Modals/ConfirmDelete';
 import REPARENTUSER from './Modals/ReparentUser';
@@ -20,27 +21,26 @@ const MODAL_COMPONENTS = {
   APIEndpointWizardModal,
   StreamInstanceModal,
   ContainerImportModal,
+  VolumeCreateModal,
   REPARENTUSER,
   /* other modals */
 };
 
-const ModalRoot = (props) => {
-  if (!props.modal.modalType) {
+const ModalRoot = ({ modal }) => {
+  if (!modal.modalType) {
     return null;
   }
 
-  const SpecificModal = MODAL_COMPONENTS[props.modal.modalType];
-  return <SpecificModal {...props.modal.modalProps} />;
+  const SpecificModal = MODAL_COMPONENTS[modal.modalType];
+  return <SpecificModal {...modal.modalProps} />;
 };
 
 ModalRoot.propTypes = {
   modal: PropTypes.object.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    modal: state.modal,
-  };
-}
+const mapStateToProps = state => ({
+  modal: state.modal,
+});
 
 export default connect(mapStateToProps)(ModalRoot);

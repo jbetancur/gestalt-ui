@@ -10,7 +10,6 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import { withVolume } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import VolumeForm from './VolumeForm';
-import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateVolumeModel, selectProvider } from '../selectors';
@@ -55,7 +54,6 @@ class VolumeCreate extends Component {
             render={VolumeForm}
             loading={volumePending}
             initialValues={initialFormValues}
-            validate={validate}
             selectedProvider={selectedProvider}
           />
         </Col>

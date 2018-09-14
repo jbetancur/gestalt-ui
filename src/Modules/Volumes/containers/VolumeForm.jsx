@@ -9,7 +9,7 @@ import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
 import Form from 'components/Form';
-import { formatName } from 'util/forms';
+import { formatName, composeValidators, required } from 'util/forms';
 import SelectedProvider from './SelectedProvider';
 import VolumeConfigSection from '../components/VolumeConfigSection';
 
@@ -35,9 +35,10 @@ const VolumeForm = ({ form, values, match, loading, submitting, handleSubmit, se
                   name="name"
                   label="Volume Name"
                   type="text"
-                  required
                   parse={formatName}
                   helpText="alphanumeric and dashes are allowed"
+                  validate={composeValidators(required('a volume name is required'))}
+                  required
                 />
               </Col>
             </Row>
@@ -65,12 +66,14 @@ const VolumeForm = ({ form, values, match, loading, submitting, handleSubmit, se
     {(selectedProvider.isSelected || editMode) &&
       <Row gutter={5}>
         <Col flex={12}>
-          <VolumeConfigSection
-            formValues={values}
-            form={form}
-            selectedProvider={selectedProvider}
-            editMode={editMode}
-          />
+          <Panel title="Configuration" expandable={false} fill>
+            <VolumeConfigSection
+              formValues={values}
+              form={form}
+              selectedProvider={selectedProvider}
+              editMode={editMode}
+            />
+          </Panel>
         </Col>
       </Row>}
 

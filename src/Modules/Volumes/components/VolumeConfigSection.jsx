@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, AceEditor, SelectionControlGroup } from 'components/ReduxFormFields';
-import { Panel } from 'components/Panels';
-import { fixInputNumber } from 'util/forms';
+import { fixInputNumber, composeValidators, required, validator } from 'util/forms';
+import { isYAML } from 'util/validations';
+import { isURL } from 'validator';
 import { volumeTypes, accessTypes, sizeUnits } from '../constants';
 
 class VolumeConfigSection extends Component {
@@ -36,6 +37,7 @@ class VolumeConfigSection extends Component {
                   : selectedProvider.provider.properties.config.storage_classes
               )}
               required
+              validate={composeValidators(required())}
               disabled={editMode}
             />
           </Col>
@@ -50,7 +52,13 @@ class VolumeConfigSection extends Component {
               type="text"
               required
               disabled={editMode}
-              helpText="absolute directory path"
+              helpText="e.g. /mypath"
+              validate={
+                composeValidators(
+                  required('a host path is required'),
+                  validator(isURL, 'must be a relative URL path', { require_protocol: false, require_host: false, allow_trailing_dot: false })
+                )
+              }
             />
           </Col>
         );
@@ -66,6 +74,11 @@ class VolumeConfigSection extends Component {
               mode="yaml"
               theme="dracula"
               readOnly={editMode}
+              validate={
+                composeValidators(
+                  validator(isYAML, 'invalid YAML')
+                )
+              }
             />
           </Col>
         );
@@ -81,64 +94,64 @@ class VolumeConfigSection extends Component {
       : volumeTypes.filter(v => v.supported.some(p => p === selectedProvider.type));
 
     return (
-      <Panel title="Configuration" expandable={false} fill>
-        <Row gutter={5}>
-          <Col flex={2} xs={12}>
-            <Field
-              id="type-selection"
-              component={SelectField}
-              name="properties.type"
-              label="Volume Type"
-              itemLabel="type"
-              itemValue="type"
-              menuItems={menuItems}
-              required
-              disabled={editMode}
-            />
-          </Col>
+      <Row gutter={5}>
+        <Col flex={2} xs={12}>
+          <Field
+            id="type-selection"
+            component={SelectField}
+            name="properties.type"
+            label="Volume Type"
+            itemLabel="type"
+            itemValue="type"
+            menuItems={menuItems}
+            validate={composeValidators(required())}
+            required
+            disabled={editMode}
+          />
+        </Col>
 
-          <Col flex={2} xs={6}>
-            <Field
-              component={TextField}
-              name="properties.size"
-              label="Size"
-              type="number"
-              format={fixInputNumber}
-              min={1}
-              step={1}
-              required
-              disabled={editMode}
-            />
-          </Col>
+        <Col flex={2} xs={6}>
+          <Field
+            component={TextField}
+            name="properties.size"
+            label="Size"
+            type="number"
+            format={fixInputNumber}
+            min={1}
+            step={1}
+            validate={composeValidators(required())}
+            required
+            disabled={editMode}
+          />
+        </Col>
 
-          <Col flex={1} xs={6}>
-            <Field
-              id="size_unit-selection"
-              component={SelectField}
-              name="properties.size_unit"
-              label="Unit"
-              menuItems={sizeUnits}
-              disabled={editMode}
-            />
-          </Col>
+        <Col flex={1} xs={6}>
+          <Field
+            id="size_unit-selection"
+            component={SelectField}
+            name="properties.size_unit"
+            label="Unit"
+            menuItems={sizeUnits}
+            disabled={editMode}
+          />
+        </Col>
 
-          {this.renderConfig()}
+        {this.renderConfig()}
 
-          <Col flex={12}>
-            <Field
-              inline
-              component={SelectionControlGroup}
-              id="accessmode-selection"
-              name="properties.access_mode"
-              type="radio"
-              label="Access Mode"
-              controls={accessTypes}
-              defaultValue={formValues.properties.access_mode}
-              disabled={editMode}
-            />
-          </Col>
-        </Row>
-      </Panel>
+        <Col flex={12}>
+          <Field
+            inline
+            component={SelectionControlGroup}
+            id="accessmode-selection"
+            name="properties.access_mode"
+            type="radio"
+            label="Access Mode"
+            controls={accessTypes}
+            defaultValue={formValues.properties.access_mode}
+            disabled={editMode}
+          />
+        </Col>
+      </Row>
     );
   }
 }

@@ -7,6 +7,9 @@ export const selectContainer = state => state.metaResource.container.container;
 export const selectContainerSpec = (state, containerSpec) => metaModels.container.get(containerSpec);
 export const selectEnv = state => state.metaResource.env.env;
 
+// Volume Module States
+export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
+
 const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
   const newcheck = Object.assign({}, check);
 
@@ -37,14 +40,15 @@ export const getCreateContainerModel = createSelector(
 export const getEditContainerModel = createSelector(
   [selectContainer],
   (container) => {
+    const { properties } = container;
     const model = {
       ...container,
       properties: {
-        ...container.properties,
-        health_checks: fixHealthChecks(container.properties.health_checks),
-        port_mappings: container.properties.port_mappings
+        ...properties,
+        health_checks: fixHealthChecks(properties.health_checks),
+        port_mappings: properties.port_mappings
           .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
-        secrets: container.properties.secrets,
+        secrets: properties.secrets,
       },
     };
 
