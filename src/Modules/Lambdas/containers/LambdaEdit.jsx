@@ -117,7 +117,7 @@ class LambdaEdit extends PureComponent {
           <Col flex={10} xs={12} sm={12} md={10}>
             <ActionsToolbar
               title={lambda.name}
-              subtitle={selectedProvider.name}
+              subtitle={`Provider: ${selectedProvider.name}`}
               actions={[
                 <Button
                   key="lambda--log"

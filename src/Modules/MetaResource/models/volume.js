@@ -15,13 +15,15 @@ const schema = object().shape({
     }).required(),
     type: string().required().oneOf(['persistent', 'host_path', 'external', 'dynamic']),
     size: number(),
-    size_unit: string().oneOf(['GiB', 'MiB']), // this is a ui temp prop and is not required by meta
+    size_unit: string().oneOf(['GiB', 'MiB']), // this is a ui pseudo prop and is not required by meta
     access_mode: string().required().oneOf(['ReadWriteOnce', 'ReadWriteMany', 'ReadOnlyMany']),
     reclamation_policy: string(),
     external_id: string(),
-    container_id: string(),
     config: object().default({}),
-    yaml: string(),
+    yaml: string(), // This is a psuedo prop and is needed as a place holder for yaml that is to be converted to properties.config. It should be stripped before submitting to meta
+    container: object().shape({
+      id: string().required(),
+    }).required(),
   }),
 });
 
@@ -41,7 +43,13 @@ const create = (model = {}) =>
   pick(get(model), [
     'name',
     'description',
-    'properties',
+    'properties.provider',
+    'properties.type',
+    'properties.size',
+    'properties.access_mode',
+    'properties.config',
+    'properties.size_unit',
+    'properties.yaml', // This is a psuedo prop and is needed as a place holder for yaml that is to be converted to properties.config. It should be stripped before submitting to meta
   ]);
 
 /**
@@ -55,10 +63,9 @@ const patch = (model = {}) =>
     'properties.provider',
     'properties.type',
     'properties.size',
-    'properties.size_unit',
     'properties.access_mode',
-    'properties.mount_path',
     'properties.config',
+    'properties.size_unit',
   ]);
 
 export default {

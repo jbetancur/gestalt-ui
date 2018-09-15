@@ -4,12 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
+import { Checkbox, FontIcon } from 'react-md';
 import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { VolumeIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import { ALink } from 'components/Links';
 import { withVolumes } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -37,7 +38,7 @@ class VolumeListing extends PureComponent {
     const { match, volumesActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
-    volumesActions.fetchVolumes({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
+    volumesActions.fetchVolumes({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, params: { embed: 'container' } });
   }
 
   deleteOne = (row) => {
@@ -86,6 +87,8 @@ class VolumeListing extends PureComponent {
   }
 
   defineColumns() {
+    const { match } = this.props;
+
     return [
       {
         width: '56px',
@@ -94,9 +97,9 @@ class VolumeListing extends PureComponent {
         cell: row => (
           <GenericMenuActions
             row={row}
-            fqon={this.props.match.params.fqon}
+            fqon={match.params.fqon}
             onDelete={this.deleteOne}
-            editURL={`${this.props.match.url}/${row.id}`}
+            editURL={`${match.url}/${row.id}`}
             entityKey="volumes"
             {...this.props}
           />
@@ -109,6 +112,20 @@ class VolumeListing extends PureComponent {
         compact: true,
         grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
+      },
+      {
+        name: 'Container',
+        selector: 'properties.container.name',
+        sortable: true,
+        ignoreRowClick: true,
+        cell: ({ properties }) => properties && properties.container && (
+          <ALink
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${properties.container.id}`}
+            primary
+          >
+            {properties.container.name}
+          </ALink>
+        ),
       },
       {
         name: 'Type',

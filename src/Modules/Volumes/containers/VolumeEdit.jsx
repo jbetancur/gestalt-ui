@@ -12,6 +12,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
+import { ALink } from 'components/Links';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
@@ -59,7 +60,22 @@ class VolumeEdit extends Component {
 
             <ActionsToolbar
               title={volume.name}
-              subtitle={`Provider: ${volume.properties.provider.name}`}
+              subtitle={(
+                <React.Fragment>
+                  <div>{`Provider: ${volume.properties.provider.name}`}</div>
+                  {volume.properties.container &&
+                    <div>
+                      <span>Container: </span>
+                      <ALink
+                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${volume.properties.container.id}`}
+                        primary
+                      >
+                        {volume.properties.container.name}
+                      </ALink>
+                    </div>}
+                </React.Fragment>
+              )
+              }
               actions={[
                 <Button
                   key="volume--entitlements"

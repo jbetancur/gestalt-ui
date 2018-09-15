@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontIcon } from 'react-md';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
@@ -9,6 +10,7 @@ import Div from 'components/Div';
 import { Title } from 'components/Typography';
 import { Button } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
+import { ALink } from 'components/Links';
 import VolumeCreateMenu from '../components/VolumeCreateMenu';
 import actions from '../actions';
 import { selectVolumeListing } from '../selectors';
@@ -64,6 +66,8 @@ class VolumePanelList extends PureComponent {
   }
 
   defineColumns() {
+    const { match } = this.props;
+
     return [
       {
         name: 'Action',
@@ -72,9 +76,17 @@ class VolumePanelList extends PureComponent {
         format: this.formatActionState,
       },
       {
-        name: 'Name',
+        name: 'Volume Name',
         selector: 'volume_resource.name',
         sortable: true,
+        cell: row => row.volume_resource && (
+          <ALink
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes/${row.volume_resource.id}`}
+            primary
+          >
+            {row.volume_resource.name}
+          </ALink>
+        ),
       },
       {
         name: 'Type',
@@ -98,7 +110,7 @@ class VolumePanelList extends PureComponent {
         sortable: true,
       },
       {
-        width: '100px',
+        grow: 0,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
@@ -129,7 +141,7 @@ class VolumePanelList extends PureComponent {
             <DataTable
               noHeader
               data={volumeListing}
-              highlightOnHover
+              // highlightOnHover
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
               columns={this.defineColumns()}
@@ -148,4 +160,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps, actions),
+  withRouter,
 )(VolumePanelList);
