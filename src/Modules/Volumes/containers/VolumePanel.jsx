@@ -15,7 +15,7 @@ import VolumeCreateMenu from '../components/VolumeCreateMenu';
 import actions from '../actions';
 import { selectVolumeListing } from '../selectors';
 
-class VolumePanelList extends PureComponent {
+class VolumePanel extends PureComponent {
   static propTypes = {
     volumes: PropTypes.array.isRequired,
     showVolumeCreateModal: PropTypes.func.isRequired,
@@ -46,17 +46,23 @@ class VolumePanelList extends PureComponent {
   formatActionState = (row) => {
     const { editMode } = this.props;
 
-    if (editMode && row.volume_id && row.volume_resource.id) {
+    if (row.volume_resource.properties
+      && row.volume_resource.properties.container
+      && row.volume_resource.properties.container.id) {
       return 'Attached';
     }
 
-    return row.volume_id ? 'Attach' : 'Create';
+    if (editMode && row.volume_id && row.volume_resource) {
+      return 'Attach';
+    }
+
+    return 'Create';
   }
 
   handleMenuSelect = (mode) => {
-    const { showVolumeCreateModal, selectedProvider } = this.props;
+    const { showVolumeCreateModal, selectedProvider, volumes } = this.props;
 
-    showVolumeCreateModal(mode, selectedProvider);
+    showVolumeCreateModal(mode, selectedProvider, volumes);
   }
 
   handleDetach = row => () => {
@@ -111,6 +117,8 @@ class VolumePanelList extends PureComponent {
       },
       {
         grow: 0,
+        width: '55px',
+        compact: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
@@ -161,4 +169,4 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps, actions),
   withRouter,
-)(VolumePanelList);
+)(VolumePanel);

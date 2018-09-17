@@ -27,7 +27,7 @@ class VolumeCreateModal extends PureComponent {
     const { modalProps } = modal;
 
     return modal.modalProps.mode.value === 'attach'
-      ? <VolumePanelAttach onSubmit={this.handleSubmit} providerId={modalProps.selectedProvider.provider.id} {...rest} />
+      ? <VolumePanelAttach onSubmit={this.handleSubmit} attachedVolumes={modalProps.volumes} providerId={modalProps.selectedProvider.provider.id} {...rest} />
       : <VolumePanelCreate onSubmit={this.handleSubmit} selectedProvider={modalProps.selectedProvider} {...rest} />;
   }
 

@@ -64,7 +64,7 @@ export function generatePayload(sourcePayload, updateMode, containerVolumes = []
     return healthCheckPayload;
   });
 
-  // Add Volumes to the payload from the VolumePanelList
+  // Add Volumes to the payload from the VolumePanel
   payload.properties.volumes = containerVolumes;
 
   return payload;
