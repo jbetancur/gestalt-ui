@@ -16,10 +16,10 @@ class VolumeCreateModal extends PureComponent {
   };
 
   handleSubmit = (values) => {
-    const { addVolume } = this.props;
+    const { addVolume, hideModal } = this.props;
 
     addVolume(values);
-    this.props.hideModal();
+    hideModal();
   }
 
   renderForm() {

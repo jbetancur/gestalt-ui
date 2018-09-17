@@ -62,7 +62,7 @@ export function* fetchContainer(action) {
  */
 export function* createContainer(action) {
   try {
-    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers`, action.payload);
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers?embed=provider&embed=volumes`, action.payload);
     yield put({ type: types.CREATE_CONTAINER_FULFILLED, payload: data });
     yield put(notificationActions.addNotification({ message: `${data.name} Container created` }));
 
@@ -80,7 +80,7 @@ export function* createContainer(action) {
  */
 export function* updateContainer(action) {
   try {
-    const { data } = yield call(axios.put, `${action.fqon}/containers/${action.containerId}`, action.payload);
+    const { data } = yield call(axios.put, `${action.fqon}/containers/${action.containerId}?embed=provider&embed=volumes`, action.payload);
     yield put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: data });
     yield put(notificationActions.addNotification({ message: `${data.name} Container updated` }));
 
