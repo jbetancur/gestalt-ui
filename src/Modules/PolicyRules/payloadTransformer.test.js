@@ -1,10 +1,10 @@
-import { metaModels } from 'Modules/MetaResource';
+import policyRuleModel from './models/policyRule';
 import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('(Policy Event Rule Payload Transformer)', () => {
   describe('generatePayload', () => {
     it('should generate the correct payload when it is a limit policy', () => {
-      const sourcePayload = metaModels.policyRule.create();
+      const sourcePayload = policyRuleModel.create();
       const payload = generatePayload(sourcePayload, [], false, 'limit');
 
       expect(payload.resource_type).toBe('Gestalt::Resource::Rule::Limit');
@@ -13,7 +13,7 @@ describe('(Policy Event Rule Payload Transformer)', () => {
     });
 
     it('should generate the correct payload when it is a event policy', () => {
-      const sourcePayload = metaModels.policyRule.create({ properties: { lambda: { id: '123' } } });
+      const sourcePayload = policyRuleModel.create({ properties: { lambda: { id: '123' } } });
       const payload = generatePayload(sourcePayload, [], false, 'event');
 
       expect(payload.resource_type).toBe('Gestalt::Resource::Rule::Event');
@@ -24,8 +24,8 @@ describe('(Policy Event Rule Payload Transformer)', () => {
 
   describe('generatePatches', () => {
     it('should generate the correct patches when it is a limit policy', () => {
-      const originalPayload = metaModels.policyRule.get();
-      const updatedPayload = metaModels.policyRule.create({
+      const originalPayload = policyRuleModel.get();
+      const updatedPayload = policyRuleModel.create({
         name: 'test',
         description: 'hi',
         properties: {
@@ -48,8 +48,8 @@ describe('(Policy Event Rule Payload Transformer)', () => {
     });
 
     it('should generate the correct patches when it is a event policy', () => {
-      const originalPayload = metaModels.policyRule.get();
-      const updatedPayload = metaModels.policyRule.create({
+      const originalPayload = policyRuleModel.get();
+      const updatedPayload = policyRuleModel.create({
         name: 'test',
         description: 'hi',
         properties: {

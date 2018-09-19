@@ -29,9 +29,10 @@ const common = merge([
         'node_modules',
       ],
       alias: {
-        components: path.resolve(PATHS.srcPath, 'components'),
         App: path.resolve(PATHS.srcPath, 'App'),
+        components: path.resolve(PATHS.srcPath, 'components'),
         Modules: path.resolve(PATHS.srcPath, 'Modules'),
+        config: path.resolve(PATHS.srcPath, 'config'),
         util: path.resolve(PATHS.srcPath, 'util'),
         scss: path.resolve(PATHS.srcPath, 'scss'),
         assets: path.resolve(PATHS.srcPath, 'assets'),

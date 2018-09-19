@@ -29,6 +29,7 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
           itemLabel="name"
           itemValue="id"
           menuItems={providers}
+          simplifiedMenu={false}
           async
           validate={composeValidators(required())}
         />

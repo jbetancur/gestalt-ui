@@ -1,6 +1,6 @@
 import base64 from 'base-64';
 import jsonPatch from 'fast-json-patch';
-import { metaModels } from 'Modules/MetaResource';
+import secretModel from './models/secret';
 
 /**
  * generatePayload
@@ -9,7 +9,7 @@ import { metaModels } from 'Modules/MetaResource';
  * @param {Boolean} updateMode
  */
 export function generatePayload(sourcePayload, updateMode = false) {
-  const payload = metaModels.secret.create(sourcePayload);
+  const payload = secretModel.create(sourcePayload);
 
   if (updateMode) {
     return {
@@ -29,7 +29,7 @@ export function generatePayload(sourcePayload, updateMode = false) {
  * @param {Object} updatedPayload
  */
 export function generatePatches(originalPayload, updatedPayload) {
-  const { name, description } = metaModels.secret.create(originalPayload);
+  const { name, description } = secretModel.create(originalPayload);
   const model = {
     name,
     description,

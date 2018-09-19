@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import dataFeedModel from './models/dataFeed';
 
-export const selectDatafeeds = state => state.metaResource.datafeeds.datafeeds;
-export const selectDatafeed = state => state.metaResource.datafeed.datafeed;
+export const selectDatafeeds = state => state.dataFeeds.datafeeds.datafeeds;
+export const selectDatafeed = state => state.dataFeeds.datafeed.datafeed;
 
 export const getDatafeed = createSelector(
   [selectDatafeed],
-  datafeed => metaModels.datafeed.create(datafeed),
+  datafeed => dataFeedModel.create(datafeed),
 );

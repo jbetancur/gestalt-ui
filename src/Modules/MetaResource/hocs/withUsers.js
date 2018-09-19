@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class Users extends Component {
@@ -26,8 +26,8 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    users: state.metaResource.users.users,
-    usersPending: state.metaResource.users.pending,
+    users: state.users.users.users,
+    usersPending: state.users.users.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

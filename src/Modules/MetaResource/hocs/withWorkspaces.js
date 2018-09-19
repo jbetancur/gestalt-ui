@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default ({ unload = false } = {}) => (BaseComponent) => {
   class Workspaces extends Component {
@@ -26,8 +26,8 @@ export default ({ unload = false } = {}) => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    workspaces: state.metaResource.workspaces.workspaces,
-    workspacesPending: state.metaResource.workspaces.pending,
+    workspaces: state.hierarchy.workspaces.workspaces,
+    workspacesPending: state.hierarchy.workspaces.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

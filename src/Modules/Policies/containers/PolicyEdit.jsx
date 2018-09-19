@@ -119,7 +119,7 @@ class PolicyEdit extends Component {
 }
 
 const mapStateToProps = state => ({
-  policy: state.metaResource.policy.policy,
+  policy: state.policies.policy.policy,
   initialFormValues: getEditPolicyModel(state),
 });
 

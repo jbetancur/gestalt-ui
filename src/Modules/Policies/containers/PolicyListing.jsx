@@ -170,7 +170,7 @@ class PolicyListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  policies: listSelectors.filterItems()(state, 'policies', 'policies'),
+  policies: listSelectors.filterItems()(state, 'policies.policies.policies'),
 });
 
 export default compose(

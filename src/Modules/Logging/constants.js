@@ -1,3 +1,13 @@
+export const PREFIX = 'metaResource/';
+
+/**
+ * Logs
+ */
+export const FETCH_LOGPROVIDER_REQUEST = `${PREFIX}FETCH_LOGPROVIDER_REQUEST`;
+export const FETCH_LOGPROVIDER_FULFILLED = `${PREFIX}FETCH_LOGPROVIDER_FULFILLED`;
+export const FETCH_LOGPROVIDER_REJECTED = `${PREFIX}FETCH_LOGPROVIDER_REJECTED`;
+export const UNLOAD_LOGPROVIDER = `${PREFIX}UNLOAD_LOGPROVIDER`;
+
 export const timeSpans = [
   {
     name: 'Show All',

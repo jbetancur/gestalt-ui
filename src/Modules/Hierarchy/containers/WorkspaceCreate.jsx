@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withMetaResource, withWorkspace, withOrganization, metaModels } from 'Modules/MetaResource';
+import { withMetaResource, withWorkspace, withOrganization } from 'Modules/MetaResource';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePayload } from '../payloadTransformer';
+import workspaceModel from '../models/workspace';
 
-const initialFormValues = metaModels.workspace.get();
+const initialFormValues = workspaceModel.get();
 
 class OrgCreate extends Component {
   static propTypes = {

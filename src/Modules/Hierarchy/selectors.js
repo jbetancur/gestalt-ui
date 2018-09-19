@@ -1,13 +1,14 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
+import workspaceModel from './models/workspace';
+import environmentModel from './models/environment';
 
-export const selectOrganization = state => state.metaResource.organization.organization;
-export const selectOrganizations = state => state.metaResource.organizations.organizations;
-export const selectWorkspace = state => state.metaResource.workspace.workspace;
-export const selectWorkspaces = state => state.metaResource.workspaces.workspaces;
-export const selectEnvironment = state => state.metaResource.environment.environment;
-export const selectEnvironments = state => state.metaResource.environments.environments;
+export const selectOrganization = state => state.hierarchy.organization.organization;
+export const selectOrganizations = state => state.hierarchy.organizations.organizations;
+export const selectWorkspace = state => state.hierarchy.workspace.workspace;
+export const selectWorkspaces = state => state.hierarchy.workspaces.workspaces;
+export const selectEnvironment = state => state.hierarchy.environment.environment;
+export const selectEnvironments = state => state.hierarchy.environments.environments;
 
 export const getEditOrganizationModel = createSelector(
   [selectOrganization],
@@ -20,7 +21,7 @@ export const getEditOrganizationModel = createSelector(
       }
     };
 
-    return metaModels.workspace.create(model);
+    return workspaceModel.create(model);
   }
 );
 
@@ -35,7 +36,7 @@ export const getEditWorkspaceModel = createSelector(
       }
     };
 
-    return metaModels.workspace.create(model);
+    return workspaceModel.create(model);
   }
 );
 
@@ -50,6 +51,6 @@ export const getEditEnvironmentModel = createSelector(
       }
     };
 
-    return metaModels.environment.create(model);
+    return environmentModel.create(model);
   }
 );

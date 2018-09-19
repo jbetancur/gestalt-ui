@@ -105,7 +105,7 @@ class EnvironmentListing extends Component {
 }
 
 const mapStateToProps = state => ({
-  environments: listSelectors.filterItems(['name', 'description'])(state, 'environments', 'environments'),
+  environments: listSelectors.filterItems(['name', 'description'])(state, 'hierarchy.environments.environments'),
 });
 
 export default compose(

@@ -1,11 +1,11 @@
-import { metaModels } from 'Modules/MetaResource';
+import apiEndpointModel from './models/apiEndpoint';
 import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('(APIEndpoint Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('properties.methods', () => {
       it('should convert properties.methods to an Array if there are methods defined', () => {
-        const sourcePayload = metaModels.apiEndpoint.get({
+        const sourcePayload = apiEndpointModel.get({
           properties: {
             methods: 'GET,POST'
           }
@@ -16,7 +16,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
       });
 
       it('should convert properties.methods to [] if there no methods defined', () => {
-        const sourcePayload = metaModels.apiEndpoint.get({
+        const sourcePayload = apiEndpointModel.get({
           properties: {
             methods: ''
           }
@@ -29,7 +29,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
 
     describe('updateMode', () => {
       it('should remove container related properties if the implementation_type = lambda', () => {
-        const sourcePayload = metaModels.apiEndpoint.get({
+        const sourcePayload = apiEndpointModel.get({
           properties: {
             implementation_type: 'lambda'
           }
@@ -40,7 +40,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
       });
 
       it('should remove container related properties if the implementation_type = container', () => {
-        const sourcePayload = metaModels.apiEndpoint.get({
+        const sourcePayload = apiEndpointModel.get({
           properties: {
             implementation_type: 'container',
             container_port_name: 'web'
@@ -55,8 +55,8 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
 
   describe('generatePatches', () => {
     it('should generate patch ops if there is a change to a property', () => {
-      const originalPayload = metaModels.apiEndpoint.get();
-      const updatedPayload = metaModels.apiEndpoint.get({
+      const originalPayload = apiEndpointModel.get();
+      const updatedPayload = apiEndpointModel.get({
         properties: {
           implementation_id: '123'
         }
@@ -71,8 +71,8 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
     });
 
     it('should generate the correct patch ops if there is a change to properties.resource', () => {
-      const originalPayload = metaModels.apiEndpoint.get();
-      const updatedPayload = metaModels.apiEndpoint.get({
+      const originalPayload = apiEndpointModel.get();
+      const updatedPayload = apiEndpointModel.get({
         properties: {
           resource: '/wahoo'
         }
@@ -88,8 +88,8 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
   });
 
   it('should generate the correct patch when hosts is present on the original payload', () => {
-    const originalPayload = metaModels.apiEndpoint.get();
-    const updatedPayload = metaModels.apiEndpoint.get({
+    const originalPayload = apiEndpointModel.get();
+    const updatedPayload = apiEndpointModel.get({
       properties: {
         hosts: ['wahoo']
       }
@@ -105,9 +105,9 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
   });
 
   it('should generate the correct patch when hosts is NOT present on the original payload', () => {
-    const originalPayload = metaModels.apiEndpoint.get();
+    const originalPayload = apiEndpointModel.get();
     delete originalPayload.properties.hosts;
-    const updatedPayload = metaModels.apiEndpoint.get({
+    const updatedPayload = apiEndpointModel.get({
       properties: {
         hosts: ['wahoo']
       }

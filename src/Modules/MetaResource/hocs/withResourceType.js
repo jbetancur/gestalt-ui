@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withresourceType(BaseComponent) {
   class ResourceType extends Component {
@@ -24,8 +24,8 @@ export default function withresourceType(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    resourceType: state.metaResource.resourceType.resourceType,
-    resourceTypePending: state.metaResource.resourceType.pending,
+    resourceType: state.resourceTypes.resourceType.resourceType,
+    resourceTypePending: state.resourceTypes.resourceType.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

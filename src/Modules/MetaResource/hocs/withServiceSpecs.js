@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withserviceSpecs(BaseComponent) {
   class ServiceSpecs extends Component {
@@ -24,8 +24,8 @@ export default function withserviceSpecs(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    serviceSpecs: state.metaResource.serviceSpecs.serviceSpecs,
-    serviceSpecsPending: state.metaResource.serviceSpecs.pending,
+    serviceSpecs: state.serviceSpecs.serviceSpecs.serviceSpecs,
+    serviceSpecsPending: state.serviceSpecs.serviceSpecs.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

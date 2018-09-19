@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
-import { urlmapper } from 'Modules/MetaResource';
+import { buildParams } from 'config/lib/urlmapper';
 import Div from 'components/Div';
 
 class ActionsMenu extends PureComponent {
@@ -49,7 +49,7 @@ class ActionsMenu extends PureComponent {
   }
 
   async fetchContent(action) {
-    const url = urlmapper.buildParams(`${this.props.fqon}/actions/${action.id}/ui`, this.setParams());
+    const url = buildParams(`${this.props.fqon}/actions/${action.id}/ui`, this.setParams());
     const response = await axios.get(url);
 
     if (action.headless) {

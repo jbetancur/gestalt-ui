@@ -4,14 +4,15 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withGroup, withUsers, metaModels } from 'Modules/MetaResource';
+import { withGroup, withUsers } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import GroupForm from './GroupForm';
 import validate from '../validations';
 import actions from '../actions';
+import groupModel from '../models/group';
 
-const initialFormValues = metaModels.group.create();
+const initialFormValues = groupModel.create();
 
 class GroupCreate extends Component {
   static propTypes = {

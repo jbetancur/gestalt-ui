@@ -14,6 +14,7 @@ import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
 import { generatePatches, batchTypeProps } from '../payloadTransformer';
 import { getEditResourceTypeModel } from '../selectors';
+import actions from '../actions';
 
 class EditResourceType extends PureComponent {
   static propTypes = {
@@ -87,5 +88,5 @@ export default compose(
   withResourceType,
   withMetaResource,
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
-  connect(mapStateToProps),
+  connect(mapStateToProps, actions),
 )(EditResourceType);

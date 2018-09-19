@@ -171,7 +171,7 @@ class DataFeedList extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  datafeeds: listSelectors.filterItems()(state, 'datafeeds', 'datafeeds'),
+  datafeeds: listSelectors.filterItems()(state, 'dataFeeds.datafeeds.datafeeds'),
 });
 
 export default compose(

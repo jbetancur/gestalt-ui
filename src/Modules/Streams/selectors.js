@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import streamSpecModel from './models/streamSpec';
 
-export const selectStreamSpec = state => state.metaResource.streamSpec.streamSpec;
+export const selectStreamSpec = state => state.streamSpecs.streamSpec.streamSpec;
 
 export const getStreamSpec = createSelector(
   [selectStreamSpec],
-  streamSpec => metaModels.streamSpec.create(streamSpec),
+  streamSpec => streamSpecModel.create(streamSpec),
 );
 
 export const getStreamInstances = createSelector(
   [selectStreamSpec],
-  streamSpec => metaModels.streamSpec.get(streamSpec).properties.streams,
+  streamSpec => streamSpecModel.get(streamSpec).properties.streams,
 );

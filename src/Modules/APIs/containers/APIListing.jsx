@@ -162,7 +162,7 @@ class APIListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  apis: listSelectors.filterItems()(state, 'apis', 'apis'),
+  apis: listSelectors.filterItems()(state, 'apis.apis.apis'),
 });
 
 export default compose(

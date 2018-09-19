@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default ({ unloadEnv = true, unloadEnvSchema = true } = {}) => (BaseComponent) => {
   class Env extends Component {
@@ -29,10 +29,10 @@ export default ({ unloadEnv = true, unloadEnvSchema = true } = {}) => (BaseCompo
   }
 
   const mapStateToProps = state => ({
-    env: state.metaResource.env.env,
-    envPending: state.metaResource.env.pending,
-    envSchema: state.metaResource.envSchema.schema,
-    envSchemaPending: state.metaResource.envSchema.pending,
+    env: state.env.env.env,
+    envPending: state.env.env.pending,
+    envSchema: state.env.envSchema.schema,
+    envSchemaPending: state.env.envSchema.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

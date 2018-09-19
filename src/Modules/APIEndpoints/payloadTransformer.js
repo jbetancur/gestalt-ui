@@ -1,6 +1,6 @@
 import jsonPatch from 'fast-json-patch';
 import { stringDemiltedToArray } from 'util/helpers/transformations';
-import { metaModels } from 'Modules/MetaResource';
+import apiEndpointModel from './models/apiEndpoint';
 
 /**
  * generatePayload
@@ -8,7 +8,7 @@ import { metaModels } from 'Modules/MetaResource';
  * @param {Object} sourcePayload
  */
 export function generatePayload(sourcePayload, updateMode = false) {
-  const payload = metaModels.apiEndpoint.create(sourcePayload);
+  const payload = apiEndpointModel.create(sourcePayload);
 
   if (updateMode) {
     if (payload.properties.implementation_type === 'lambda') {
@@ -33,10 +33,10 @@ export function generatePayload(sourcePayload, updateMode = false) {
  * @param {Object} updatedPayload
  */
 export function generatePatches(originalPayload, updatedPayload) {
-  const model = metaModels.apiEndpoint.create(originalPayload);
+  const model = apiEndpointModel.create(originalPayload);
 
   // we need to remove hosts in cases where it does not exist so patch works correctly,
-  // otherwise patch assumes hosts exists since the metaModels.apiEndpoint enforces it
+  // otherwise patch assumes hosts exists since the apiEndpointModel enforces it
   if (!originalPayload.properties.hosts) {
     delete model.properties.hosts;
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default () => (BaseComponent) => {
   class Volume extends Component {
@@ -24,8 +24,8 @@ export default () => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    volume: state.metaResource.volume.volume,
-    volumePending: state.metaResource.volume.pending,
+    volume: state.volumes.volume.volume,
+    volumePending: state.volumes.volume.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

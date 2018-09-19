@@ -130,10 +130,7 @@ class APIEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const { api } = state.metaResource.api;
-
   return {
-    api,
     initialFormValues: getEditAPIModel(state),
   };
 }

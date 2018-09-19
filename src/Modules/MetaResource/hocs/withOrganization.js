@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default () => (BaseComponent) => {
   class Organization extends Component {
@@ -18,10 +18,10 @@ export default () => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    organization: state.metaResource.organization.organization,
-    organizationPending: state.metaResource.organization.pending,
-    organizationSet: state.metaResource.organizationSet.organization,
-    organizationSetPending: state.metaResource.organizationSet.pending,
+    organization: state.hierarchy.organization.organization,
+    organizationPending: state.hierarchy.organization.pending,
+    organizationSet: state.hierarchy.organizationSet.organization,
+    organizationSetPending: state.hierarchy.organizationSet.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

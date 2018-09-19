@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withSecrets(BaseComponent) {
   class Secrets extends Component {
@@ -24,8 +24,8 @@ export default function withSecrets(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    secrets: state.metaResource.secrets.secrets,
-    secretsPending: state.metaResource.secrets.pending,
+    secrets: state.secrets.secrets.secrets,
+    secretsPending: state.secrets.secrets.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

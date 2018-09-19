@@ -1,10 +1,10 @@
-import { metaModels } from 'Modules/MetaResource';
 import validate, { nameMaxLen, descriptionMaxLen } from './validations';
+import resourceTypeModel from './models/resourceType';
 
 describe('(ResourceTypes) Form Validations', () => {
   it('should have not an error when name is present', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       name: 'whatevs',
     };
 
@@ -15,7 +15,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
   it('should have an error when name is blank', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       name: '',
     };
 
@@ -26,7 +26,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
   it('should have an error when name is too long', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       name: new Array(nameMaxLen + 2).join('a'),
     };
 
@@ -37,7 +37,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
   it('should have an error when name has spaces', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       name: 'We Are The Robots',
     };
 
@@ -48,7 +48,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
   it('should have an error when description is too long', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       description: new Array(descriptionMaxLen + 2).join('a'),
     };
 
@@ -59,7 +59,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
   it('should have not an error when extend is present', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       extend: 'whatevs',
     };
 
@@ -70,7 +70,7 @@ describe('(ResourceTypes) Form Validations', () => {
 
   it('should have an error for the prefix field if empty and verbs are defined', () => {
     const values = {
-      ...metaModels.resourceType,
+      ...resourceTypeModel.get(),
       properties: {
         actions: {
           prefix: '',

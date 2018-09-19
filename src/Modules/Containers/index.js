@@ -10,3 +10,5 @@ export { default as containerActionCreators } from './actions';
 export { default as payloadTransformer } from './payloadTransformer';
 export { default as ContainerImportModal } from './containers/ContainerImportModal';
 export { default as ContainerIcon } from './components/ContainerIcon';
+export { default as containerSagas } from './sagas';
+export { default as containerModel } from './models/container';

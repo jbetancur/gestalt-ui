@@ -4,7 +4,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { orderBy } from 'lodash';
 import { generateContextEntityState } from 'util/helpers/context';
-import { buildAllURL } from '../lib/urlmapper';
+import { buildAllURL } from 'config/lib/urlmapper';
 
 export default ({ entity, alias, label, context = true, params, sortKey = 'name', sortDirection = 'asc', fetchOnMount = true }) => (WrapperComponent) => {
   class DataPicker extends Component {

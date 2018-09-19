@@ -4,15 +4,16 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Form';
-import { withAPIEndpoint, withAPIEndpoints, withAPIs, metaModels } from 'Modules/MetaResource';
+import { withAPIEndpoint, withAPIEndpoints, withAPIs } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import { generatePayload } from '../payloadTransformer';
 import APIPage from './APIPage';
 import APIEndpointPage from './APIEndpointPage';
 import page1Validations from './page1Validations';
 import page2Validations from './page2Validations';
+import apiEndpointModel from '../models/apiEndpoint';
 
-const initialValues = metaModels.apiEndpoint.get();
+const initialValues = apiEndpointModel.get();
 
 class APIEndpointWizard extends PureComponent {
   static propTypes = {

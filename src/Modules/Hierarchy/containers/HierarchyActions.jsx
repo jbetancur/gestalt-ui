@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { ListItem, MenuButton } from 'react-md';
 import Div from 'components/Div';
-import { MetamodelIcon, ServiceIcon, ProviderIcon, UserIcon, GroupIcon, WorkspaceIcon, OrganizationIcon } from 'components/Icons';
+import { MetamodelIcon, ProviderIcon, UserIcon, GroupIcon, WorkspaceIcon, OrganizationIcon } from 'components/Icons';
 
 const listItemStyle = { textAlign: 'left' };
 
@@ -15,11 +15,11 @@ class HierarchyActions extends PureComponent {
     organizationSet: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     t: PropTypes.func.isRequired,
-    appState: PropTypes.object.isRequired,
+    // appState: PropTypes.object.isRequired,
   };
 
   render() {
-    const { organizationSet, pending, t, appState } = this.props;
+    const { organizationSet, pending, t } = this.props;
 
     const menuItems = [
       <ListItem
@@ -69,25 +69,26 @@ class HierarchyActions extends PureComponent {
           to={`/${organizationSet.properties.fqon}/groups/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--groups-create" />,
-      <ListItem
-        id="orgs-settings-menu--resourceTypes-create"
-        key="orgs-settings-menu--resourceTypes-create"
-        primaryText="Resource Type"
-        component={Link}
-        leftIcon={<MetamodelIcon />}
-        to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
-        style={listItemStyle}
-      />,
-      appState.enableExperimental ?
+      organizationSet.properties.fqon === 'root' ?
         <ListItem
-          id="orgs-settings-menu--serviceSpecs-create"
-          key="orgs-settings-menu--serviceSpecs-create"
-          primaryText="Service Specification"
+          id="orgs-settings-menu--resourceTypes-create"
+          key="orgs-settings-menu--resourceTypes-create"
+          primaryText="Resource Type"
           component={Link}
-          leftIcon={<ServiceIcon />}
-          to={`/${organizationSet.properties.fqon}/servicespecs/create`}
+          leftIcon={<MetamodelIcon />}
+          to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
           style={listItemStyle}
-        /> : <div key="orgs-settings-menu--serviceSpecs-create" />
+        /> : <div key="orgs-settings-menu--resourceTypes-create" />,
+      // appState.enableExperimental ?
+      //   <ListItem
+      //     id="orgs-settings-menu--serviceSpecs-create"
+      //     key="orgs-settings-menu--serviceSpecs-create"
+      //     primaryText="Service Specification"
+      //     component={Link}
+      //     leftIcon={<ServiceIcon />}
+      //     to={`/${organizationSet.properties.fqon}/servicespecs/create`}
+      //     style={listItemStyle}
+      //   /> : <div key="orgs-settings-menu--serviceSpecs-create" />
     ];
 
     return (

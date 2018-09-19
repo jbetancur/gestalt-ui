@@ -4,14 +4,15 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withOrganizations, withUser, withUsers, metaModels } from 'Modules/MetaResource';
+import { withOrganizations, withUser, withUsers } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
+import userModel from '../models/user';
 
-const initialValues = metaModels.user.create();
+const initialValues = userModel.create();
 
 class UserCreate extends Component {
   static propTypes = {

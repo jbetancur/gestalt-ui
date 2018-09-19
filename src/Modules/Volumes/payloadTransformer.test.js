@@ -1,11 +1,11 @@
-import { metaModels } from 'Modules/MetaResource';
+import volumeModel from './models/volume';
 import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('(olume Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('when volume is external', () => {
       it('should convert the yaml prop to config', () => {
-        const sourcePayload = metaModels.volume.create({
+        const sourcePayload = volumeModel.create({
           properties: {
             type: 'external',
             provider: { id: '123' },
@@ -29,7 +29,7 @@ describe('(olume Payload Transformer) generatePayload', () => {
 
     describe('when size_unit is GiB', () => {
       it('should convert GiB to MiB', () => {
-        const sourcePayload = metaModels.volume.create({
+        const sourcePayload = volumeModel.create({
           properties: {
             provider: { id: '123' },
             size: 2,
@@ -51,7 +51,7 @@ describe('(olume Payload Transformer) generatePayload', () => {
 
     describe('when size_unit is MiB', () => {
       it('should not do any conversion', () => {
-        const sourcePayload = metaModels.volume.create({
+        const sourcePayload = volumeModel.create({
           properties: {
             provider: { id: '123' },
             size: 2,
@@ -68,8 +68,8 @@ describe('(olume Payload Transformer) generatePayload', () => {
 
   describe('generatePatches', () => {
     it('should generate patch ops if there is a change', () => {
-      const originalPayload = metaModels.volume.get();
-      const updatedPayload = metaModels.volume.get({
+      const originalPayload = volumeModel.get();
+      const updatedPayload = volumeModel.get({
         description: 'change me',
       });
       const payload = generatePatches(originalPayload, updatedPayload);

@@ -137,7 +137,7 @@ class ResourceTypeListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  resourceTypes: listSelectors.filterItems()(state, 'resourceTypes', 'resourceTypes'),
+  resourceTypes: listSelectors.filterItems()(state, 'resourceTypes.resourceTypes.resourceTypes'),
 });
 
 export default compose(

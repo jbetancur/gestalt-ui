@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withStreamSpec, withPickerData, metaModels } from 'Modules/MetaResource';
+import { withStreamSpec, withPickerData } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
 import validate from '../validations';
+import streamSpecModel from '../models/streamSpec';
 
-const initialValues = metaModels.streamSpec.create({
+const initialValues = streamSpecModel.create({
   properties: {
     cpus: 1,
     mem: 512,

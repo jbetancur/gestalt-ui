@@ -168,7 +168,7 @@ class SecretListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  secrets: listSelectors.filterItems()(state, 'secrets', 'secrets'),
+  secrets: listSelectors.filterItems()(state, 'secrets.secrets.secrets'),
 });
 
 export default compose(

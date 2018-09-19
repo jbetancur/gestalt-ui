@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
 import base64 from 'base-64';
-import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
+import lambdaModel from './models/lambda';
 
-export const selectLambda = state => state.metaResource.lambda.lambda;
-export const selectLambdas = state => state.metaResource.lambdas.lambdas;
-export const selectEnv = state => state.metaResource.env.env;
+export const selectLambda = state => state.lambdas.lambda.lambda;
+export const selectLambdas = state => state.lambdas.lambdas.lambdas;
+export const selectEnv = state => state.env.env.env;
 
 export const getCreateLambdaModel = createSelector(
   [selectEnv],
@@ -16,7 +16,7 @@ export const getCreateLambdaModel = createSelector(
       }
     };
 
-    return metaModels.lambda.get(model);
+    return lambdaModel.get(model);
   }
 );
 
@@ -40,6 +40,6 @@ export const getEditLambdaModel = createSelector(
       },
     };
 
-    return metaModels.lambda.create(model);
+    return lambdaModel.create(model);
   }
 );

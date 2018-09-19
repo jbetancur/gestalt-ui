@@ -182,7 +182,7 @@ class UserListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  users: listSelectors.filterItems()(state, 'users', 'users'),
+  users: listSelectors.filterItems()(state, 'users.users.users'),
 });
 
 export default compose(

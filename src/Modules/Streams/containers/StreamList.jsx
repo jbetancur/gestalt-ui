@@ -161,7 +161,7 @@ class StreamList extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  streamSpecs: listSelectors.filterItems()(state, 'streamSpecs', 'streamSpecs'),
+  streamSpecs: listSelectors.filterItems()(state, 'streamSpecs.streamSpecs.streamSpecs'),
 });
 
 export default compose(

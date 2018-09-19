@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withstreamSpecs(BaseComponent) {
   class StreamSpecs extends Component {
@@ -24,8 +24,8 @@ export default function withstreamSpecs(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    streamSpecs: state.metaResource.streamSpecs.streamSpecs,
-    streamSpecsPending: state.metaResource.streamSpecs.pending,
+    streamSpecs: state.streamSpecs.streamSpecs.streamSpecs,
+    streamSpecsPending: state.streamSpecs.streamSpecs.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

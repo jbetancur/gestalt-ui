@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default () => (BaseComponent) => {
   class APIEndpoint extends Component {
@@ -24,8 +24,8 @@ export default () => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    apiEndpoint: state.metaResource.apiEndpoint.apiEndpoint,
-    apiEndpointPending: state.metaResource.apiEndpoint.pending,
+    apiEndpoint: state.apiEndpoints.apiEndpoint.apiEndpoint,
+    apiEndpointPending: state.apiEndpoints.apiEndpoint.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

@@ -1,9 +1,9 @@
-import { metaModels } from 'Modules/MetaResource';
 import { getLastFromSplit } from 'util/helpers/strings';
 import {
   SELECTED_PROVIDER,
   UNLOAD_SELECTED_PROVIDER,
 } from './constants';
+import providerModel from '../Providers/models/provider';
 
 export function confirmContainerDelete(action, item, cancelAction = () => { }) {
   return {
@@ -95,7 +95,7 @@ export function showImportModal(props = {}) {
  */
 export function setSelectedProvider(provider = {}) {
   const providerType = getLastFromSplit(provider.resource_type);
-  const providerModel = metaModels.provider.get(provider);
+  const model = providerModel.get(provider);
   const supportsSecrets = () => {
     switch (providerType) {
       case 'Kubernetes':
@@ -103,7 +103,7 @@ export function setSelectedProvider(provider = {}) {
       case 'Docker':
         return false;
       case 'DCOS':
-        if (providerModel.properties.config.secret_support) {
+        if (model.properties.config.secret_support) {
           return true;
         }
 
@@ -115,7 +115,7 @@ export function setSelectedProvider(provider = {}) {
 
   const networks = providerType === 'Kubernetes'
     ? [{ name: 'default' }]
-    : providerModel.properties.config.networks;
+    : model.properties.config.networks;
   const networksList = networks && networks.length ? networks : [{ name: 'BRIDGE' }];
 
   return {
@@ -124,7 +124,7 @@ export function setSelectedProvider(provider = {}) {
     supportsHealth: providerType !== 'Docker',
     networks: networksList,
     providerType,
-    provider: providerModel,
+    provider: model,
   };
 }
 

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import apiModel from './models/api';
 
-export const selectAPI = state => state.metaResource.api.api;
+export const selectAPI = state => state.apis.api.api;
 
 export const getEditAPIModel = createSelector(
   [selectAPI],
@@ -18,6 +18,6 @@ export const getEditAPIModel = createSelector(
       }
     };
 
-    return metaModels.api.create(model);
+    return apiModel.create(model);
   }
 );

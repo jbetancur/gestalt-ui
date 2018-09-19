@@ -1,13 +1,13 @@
-import jsonPatch from 'fast-json-patch';
-import { metaModels } from 'Modules/MetaResource';
 import { omit } from 'lodash';
+import jsonPatch from 'fast-json-patch';
+import resourceTypeModel from './models/resourceType';
 
 /**
  * generatePayload
  * @param {Object} sourcePayload
  */
 export function generatePayload(sourcePayload) {
-  return metaModels.resourceType.create(sourcePayload);
+  return resourceTypeModel.create(sourcePayload);
 }
 
 /**
@@ -18,7 +18,7 @@ export function generatePayload(sourcePayload) {
 export function generatePatches(original, updated) {
   // we need to strip these properties off the model as they are not pached directly
   // TODO: omit tags to force PATCH
-  const originalPayload = omit(metaModels.resourceType.create(original), ['extend', 'property_defs', 'tags']);
+  const originalPayload = omit(resourceTypeModel.create(original), ['extend', 'property_defs', 'tags']);
   const updatedPayload = omit(generatePayload(updated), ['extend', 'property_defs']);
 
   return jsonPatch.compare(originalPayload, updatedPayload);

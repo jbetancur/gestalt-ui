@@ -1,11 +1,11 @@
-import { metaModels } from 'Modules/MetaResource';
+import lambdaModel from './models/lambda';
 import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('(Lambda Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('properties.provider', () => {
       it('should generate the correct properties.provider payload', () => {
-        const sourcePayload = metaModels.lambda.get();
+        const sourcePayload = lambdaModel.get();
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties.provider).toHaveProperty('id');
@@ -15,7 +15,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.env', () => {
       it('should convert properties.env array to a map', () => {
-        const sourcePayload = metaModels.lambda.get({
+        const sourcePayload = lambdaModel.get({
           properties: {
             env: [{ name: 'test', value: 'this' }, { name: 'this', value: 'test' }],
           }
@@ -28,7 +28,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.code_type', () => {
       it('should generate the correct payload when it is a package', () => {
-        const sourcePayload = metaModels.lambda.get();
+        const sourcePayload = lambdaModel.get();
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties).toHaveProperty('code_type', 'package');
@@ -37,7 +37,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when it is inline code', () => {
-        const sourcePayload = metaModels.lambda.get({
+        const sourcePayload = lambdaModel.get({
           properties: {
             code_type: 'code',
             code: 'a'
@@ -53,7 +53,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('properties.periodic_info', () => {
       it('should generate the correct payload when it is no periodic_info', () => {
-        const sourcePayload = metaModels.lambda.get();
+        const sourcePayload = lambdaModel.get();
         const payload = generatePayload(sourcePayload);
 
         expect(payload.properties).toHaveProperty('periodic_info');
@@ -63,7 +63,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when periodic_info is missing properties.schedule', () => {
-        const sourcePayload = metaModels.lambda.get({
+        const sourcePayload = lambdaModel.get({
           properties: {
             periodic_info: {
               payload: {}
@@ -76,7 +76,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when periodic_info is provided properties.schedule', () => {
-        const sourcePayload = metaModels.lambda.get({
+        const sourcePayload = lambdaModel.get({
           properties: {
             periodic_info: {
               schedule: 'ISO8601here',
@@ -90,7 +90,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
       });
 
       it('should generate the correct payload when periodic_info is provided properties.schedule a data payload is provided', () => {
-        const sourcePayload = metaModels.lambda.get({
+        const sourcePayload = lambdaModel.get({
           properties: {
             periodic_info: {
               schedule: 'ISO8601here',
@@ -108,7 +108,7 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
     describe('updateMode', () => {
       it('should generate the correct payload when updateMode is specified as an argument', () => {
-        const sourcePayload = metaModels.lambda.get({
+        const sourcePayload = lambdaModel.get({
           properties: {
             provider: {
               id: '1'
@@ -125,8 +125,8 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
 
   describe('generatePatches', () => {
     it('should generate the correct patch payload code_type is changed from package to code', () => {
-      const originalPayload = metaModels.lambda.get();
-      const updatedPayload = metaModels.lambda.get({
+      const originalPayload = lambdaModel.get();
+      const updatedPayload = lambdaModel.get({
         properties: {
           code_type: 'code',
           code: 'a'
@@ -145,13 +145,13 @@ describe('(Lambda Payload Transformer) generatePayload', () => {
     });
 
     it('should generate the correct patch payload code_type is changed frm code to package', () => {
-      const originalPayload = metaModels.lambda.get({
+      const originalPayload = lambdaModel.get({
         properties: {
           code_type: 'code'
         }
       });
 
-      const updatedPayload = metaModels.lambda.get({
+      const updatedPayload = lambdaModel.get({
         properties: {
           code_type: 'package',
           compressed: false,

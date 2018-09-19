@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default ({ unload = false } = {}) => (BaseComponent) => {
   class Environments extends Component {
@@ -26,8 +26,8 @@ export default ({ unload = false } = {}) => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    environments: state.metaResource.environments.environments,
-    environmentsPending: state.metaResource.environments.pending,
+    environments: state.hierarchy.environments.environments,
+    environmentsPending: state.hierarchy.environments.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

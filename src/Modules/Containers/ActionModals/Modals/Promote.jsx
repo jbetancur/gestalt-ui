@@ -112,8 +112,8 @@ class PromoteModal extends PureComponent {
 function mapStateToProps(state) {
   return {
     actionsModal: state.containers.actionsModals,
-    environments: state.metaResource.environments.environments,
-    environmentsPending: state.metaResource.environments.pending,
+    environments: state.hierarchy.environments.environments,
+    environmentsPending: state.hierarchy.environments.pending,
   };
 }
 

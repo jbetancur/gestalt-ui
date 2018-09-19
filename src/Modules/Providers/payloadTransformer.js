@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
-import { metaModels } from 'Modules/MetaResource';
+import providerModel from './models/provider';
 
 
 /**
@@ -46,10 +46,10 @@ export function generateProviderPayload(sourcePayload, hasContainer) {
 
   if (!hasContainer) {
     delete payload.properties.services;
-    return metaModels.provider.create(payload);
+    return providerModel.create(payload);
   }
 
-  return metaModels.provider.createWithContainerSpec(payload);
+  return providerModel.createWithContainerSpec(payload);
 }
 
 /**
@@ -94,7 +94,7 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
     hasContainer = true;
   }
 
-  return jsonPatch.compare(model, metaModels.provider.patch(generateProviderPayload(updatedPayload, hasContainer)));
+  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload, hasContainer)));
 }
 
 export default {

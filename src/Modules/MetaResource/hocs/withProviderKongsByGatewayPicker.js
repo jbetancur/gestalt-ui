@@ -4,7 +4,7 @@ import axios from 'axios';
 import { merge, flatten } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { generateContextEntityState } from 'util/helpers/context';
-import { buildAllURL } from '../lib/urlmapper';
+import { buildAllURL } from 'config/lib/urlmapper';
 
 export default ({ fetchOnMount = true } = {}) => (WrapperComponent) => {
   class ProviderKongsByGateway extends Component {

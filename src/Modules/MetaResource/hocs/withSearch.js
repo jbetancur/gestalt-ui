@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default () => (BaseComponent) => {
   class Search extends Component {
@@ -27,10 +27,10 @@ export default () => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    userSearchResults: state.metaResource.searchUsers.searchUsers,
-    userSearchPending: state.metaResource.searchUsers.pending,
-    assetSearchResults: state.metaResource.searchAssets.searchAssets,
-    assetSearchPending: state.metaResource.searchAssets.pending,
+    userSearchResults: state.search.searchUsers.searchUsers,
+    userSearchPending: state.search.searchUsers.pending,
+    assetSearchResults: state.search.searchAssets.searchAssets,
+    assetSearchPending: state.search.searchAssets.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

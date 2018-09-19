@@ -4,3 +4,4 @@ export { default as PolicyLimitRuleEdit } from './containers/PolicyLimitRuleEdit
 export { default as PolicyEventRuleCreate } from './containers/PolicyEventRuleCreateContainer';
 export { default as PolicyEventRuleEdit } from './containers/PolicyEventRuleEditContainer';
 export { default as payloadTransformer } from './payloadTransformer';
+export { default as policyRuleSagas } from './sagas';

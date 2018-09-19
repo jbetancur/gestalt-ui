@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import serviceSpecModel from './models/serviceSpec';
 
 export const getServiceSpecModel = createSelector(
   [],
-  () => metaModels.serviceSpec.get()
+  () => serviceSpecModel.get()
 );

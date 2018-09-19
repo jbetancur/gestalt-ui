@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import yaml from 'js-yaml';
-import { withPickerData, metaModels } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { Form as FinalForm, Field } from 'react-final-form';
 import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
@@ -9,6 +9,7 @@ import { SelectField, TextField } from 'components/ReduxFormFields';
 import Label from 'components/Label';
 import Log from 'components/Log';
 import { composeValidators, required } from 'util/forms';
+import volumeModel from '../models/volume';
 
 class VolumePanelAttach extends Component {
   static propTypes = {
@@ -19,7 +20,7 @@ class VolumePanelAttach extends Component {
   }
 
   state = {
-    selectedVolume: metaModels.volume.get(),
+    selectedVolume: volumeModel.get(),
   }
 
   handleSubmit = (values) => {
@@ -36,7 +37,7 @@ class VolumePanelAttach extends Component {
     const selectedVolume = volumesData.find(v => v.id === selectedVolumeId);
 
     this.setState({
-      selectedVolume: metaModels.volume.get(selectedVolume),
+      selectedVolume: volumeModel.get(selectedVolume),
     });
   }
 

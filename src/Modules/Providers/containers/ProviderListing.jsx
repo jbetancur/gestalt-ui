@@ -180,7 +180,7 @@ class ProviderListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  providers: listSelectors.filterItems()(state, 'providers', 'providers'),
+  providers: listSelectors.filterItems()(state, 'providers.providers.providers'),
 });
 
 export default compose(

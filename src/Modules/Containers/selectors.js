@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
 import { mapTo2DArray } from 'util/helpers/transformations';
+import containerModel from './models/container';
 
 export const selectProvider = state => state.containers.selectedProvider;
-export const selectContainer = state => state.metaResource.container.container;
-export const selectContainerSpec = (state, containerSpec) => metaModels.container.get(containerSpec);
-export const selectEnv = state => state.metaResource.env.env;
+export const selectContainer = state => state.containers.container.container;
+export const selectContainerSpec = (state, containerSpec) => containerModel.get(containerSpec);
+export const selectEnv = state => state.env.env.env;
 
 // Volume Module States
 export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
@@ -33,7 +33,7 @@ export const getCreateContainerModel = createSelector(
       }
     };
 
-    return metaModels.container.get(model);
+    return containerModel.get(model);
   }
 );
 
@@ -52,6 +52,6 @@ export const getEditContainerModel = createSelector(
       },
     };
 
-    return metaModels.container.get(model);
+    return containerModel.get(model);
   }
 );

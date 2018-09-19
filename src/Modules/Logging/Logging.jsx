@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { withMetaResource } from 'Modules/MetaResource';
@@ -12,6 +13,7 @@ import { Button, FileDownloadButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { API_TIMEOUT } from '../../constants';
 import { timeSpans } from './constants';
+import actions from './actions';
 
 const PageWrapper = styled.div`
   height: 100%;
@@ -288,4 +290,5 @@ class Logging extends PureComponent {
 export default compose(
   withMetaResource,
   withRouter,
+  connect(null, actions),
 )(Logging);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class Container extends Component {
@@ -26,10 +26,10 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    container: state.metaResource.container.container,
-    containerPending: state.metaResource.container.pending,
-    containerImport: state.metaResource.containerImport.container,
-    containerImportPending: state.metaResource.containerImport.pending,
+    container: state.containers.container.container,
+    containerPending: state.containers.container.pending,
+    containerImport: state.containers.containerImport.container,
+    containerImportPending: state.containers.containerImport.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

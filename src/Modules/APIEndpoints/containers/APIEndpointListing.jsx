@@ -110,7 +110,6 @@ class APIEndpointListing extends PureComponent {
         compact: true,
         sortable: true,
         allowOverflow: true,
-        center: true,
         maxWidth: '120px',
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
@@ -208,7 +207,7 @@ class APIEndpointListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  apiEndpoints: listSelectors.filterItems()(state, 'apiEndpoints', 'apiEndpoints'),
+  apiEndpoints: listSelectors.filterItems()(state, 'apiEndpoints.apiEndpoints.apiEndpoints'),
 });
 
 export default compose(

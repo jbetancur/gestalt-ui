@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import userModel from './models/user';
 
-export const selectUsers = state => state.metaResource.users.users;
-export const selectUser = state => state.metaResource.user.user;
+export const selectUsers = state => state.users.users.users;
+export const selectUser = state => state.users.user.user;
 
 export const getEditUserModel = createSelector(
   [selectUser],
-  user => metaModels.user.create(user)
+  user => userModel.create(user)
 );

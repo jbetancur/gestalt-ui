@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withSelf(BaseComponent) {
   class Self extends Component {
@@ -18,8 +18,8 @@ export default function withSelf(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    self: state.metaResource.self.self,
-    selfPending: state.metaResource.self.pending,
+    self: state.hierarchy.self.self,
+    selfPending: state.hierarchy.self.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

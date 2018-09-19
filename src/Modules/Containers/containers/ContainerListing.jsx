@@ -183,7 +183,7 @@ class ContainerListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  containers: listSelectors.filterItems()(state, 'containers', 'containers'),
+  containers: listSelectors.filterItems()(state, 'containers.containers.containers'),
 });
 
 export default compose(

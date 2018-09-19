@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { generateContextEntityState } from 'util/helpers/context';
-import { buildAllURL } from '../lib/urlmapper';
+import { buildAllURL } from 'config/lib/urlmapper';
 
 const setPropName = asContext => (asContext ? 'contextProviderActions' : 'providerActions');
 

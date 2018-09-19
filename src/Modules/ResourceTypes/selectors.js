@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import resourceTypeModel from './models/resourceType';
 
-export const selectResourceType = state => state.metaResource.resourceType.resourceType;
+export const selectResourceType = state => state.resourceTypes.resourceType.resourceType;
 
 export const getCreateResourceTypeModel = createSelector(
   [],
-  () => metaModels.resourceType.get()
+  () => resourceTypeModel.get()
 );
 
 export const getEditResourceTypeModel = createSelector(
   [selectResourceType],
-  resourceType => metaModels.resourceType.create(resourceType)
+  resourceType => resourceTypeModel.create(resourceType)
 );

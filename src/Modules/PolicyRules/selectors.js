@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import policyRuleModel from './models/policyRule';
 
-export const selectRule = state => state.metaResource.policyRule.policyRule;
+export const selectRule = state => state.policyRules.policyRule.policyRule;
 
 export const getCreateEventRuleModel = createSelector(
   [],
   () => {
     const model = { properties: { lambda: '' } };
 
-    return metaModels.policyRule.get(model);
+    return policyRuleModel.get(model);
   }
 );
 
@@ -17,7 +17,7 @@ export const getEditEventRuleModel = createSelector(
   (rule) => {
     const model = { ...rule };
 
-    return metaModels.policyRule.create(model);
+    return policyRuleModel.create(model);
   }
 );
 
@@ -26,7 +26,7 @@ export const getCreateLimitRuleModel = createSelector(
   () => {
     const model = { properties: { strict: false, eval_logic: {}, } };
 
-    return metaModels.policyRule.get(model);
+    return policyRuleModel.get(model);
   }
 );
 
@@ -35,6 +35,6 @@ export const getEditLimitRuleModel = createSelector(
   (rule) => {
     const model = { ...rule };
 
-    return metaModels.policyRule.create(model);
+    return policyRuleModel.create(model);
   }
 );

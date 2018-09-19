@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default () => (BaseComponent) => {
   class Organizations extends Component {
@@ -18,11 +18,11 @@ export default () => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    organizations: state.metaResource.organizations.organizations,
-    organizationsPending: state.metaResource.organizations.pending,
-    allOrganizations: state.metaResource.allOrganizations.organizations,
-    allOrganizationsPending: state.metaResource.allOrganizations.pending,
-    allOrganizationsDropDown: state.metaResource.allOrganizationsDropDown.organizations,
+    organizations: state.hierarchy.organizations.organizations,
+    organizationsPending: state.hierarchy.organizations.pending,
+    allOrganizations: state.hierarchy.allOrganizations.organizations,
+    allOrganizationsPending: state.hierarchy.allOrganizations.pending,
+    allOrganizationsDropDown: state.hierarchy.allOrganizationsDropDown.organizations,
   });
 
   const mapDispatchToProps = dispatch => ({

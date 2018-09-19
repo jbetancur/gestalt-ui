@@ -1,10 +1,10 @@
-import { metaModels } from 'Modules/MetaResource';
+import resourceTypeModel from './models/resourceType';
 import { generatePayload, generatePatches, batchTypeProps } from './payloadTransformer';
 
 describe('(Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     it('should request Generate the correct payload', () => {
-      const sourcePayload = metaModels.resourceType.create({
+      const sourcePayload = resourceTypeModel.create({
         name: 'Imma',
         description: 'test',
         extend: '123',
@@ -22,8 +22,8 @@ describe('(Payload Transformer) generatePayload', () => {
 
   describe('generatePatches', () => {
     it('should not generate any patches if there is no difference', () => {
-      const originalPayload = metaModels.resourceType.create();
-      const updatedPayload = metaModels.resourceType.create();
+      const originalPayload = resourceTypeModel.create();
+      const updatedPayload = resourceTypeModel.create();
       const payload = generatePatches(originalPayload, updatedPayload);
 
       const expectedPatches = [
@@ -34,8 +34,8 @@ describe('(Payload Transformer) generatePayload', () => {
     });
 
     it('should generate the correct patches if there is a difference', () => {
-      const originalPayload = metaModels.resourceType.get();
-      const updatedPayload = metaModels.resourceType.create({
+      const originalPayload = resourceTypeModel.get();
+      const updatedPayload = resourceTypeModel.create({
         properties: {
           abstract: true,
           actions: { prefix: 'imma-prefix' }
@@ -52,8 +52,8 @@ describe('(Payload Transformer) generatePayload', () => {
     });
 
     it('should not patch extends or property_defs', () => {
-      const originalPayload = metaModels.resourceType.get();
-      const updatedPayload = metaModels.resourceType.create({
+      const originalPayload = resourceTypeModel.get();
+      const updatedPayload = resourceTypeModel.create({
         extend: '1231312',
         property_defs: [{ name: 'woopwoop' }]
       });

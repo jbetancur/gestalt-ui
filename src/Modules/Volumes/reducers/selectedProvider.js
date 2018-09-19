@@ -1,5 +1,5 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { metaModels } from 'Modules/MetaResource';
+import providerModel from '../../Providers/models/provider';
 import {
   SELECTED_PROVIDER,
   UNLOAD_SELECTED_PROVIDER,
@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   type: null,
-  provider: metaModels.provider.get(),
+  provider: providerModel.get(),
 };
 
 export default (state = initialState, action) => {

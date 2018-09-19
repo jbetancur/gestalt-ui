@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withapis(BaseComponent) {
   class APIs extends Component {
@@ -24,8 +24,8 @@ export default function withapis(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    apis: state.metaResource.apis.apis,
-    apisPending: state.metaResource.apis.pending,
+    apis: state.apis.apis.apis,
+    apisPending: state.apis.apis.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

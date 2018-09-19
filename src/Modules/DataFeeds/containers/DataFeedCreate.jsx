@@ -4,15 +4,16 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData, withResourceType, metaModels } from 'Modules/MetaResource';
+import { withDatafeed, withPickerData, withResourceType } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
+import dataFeedModel from '../models/dataFeed';
 import { DATA_CLASSIFICATION } from '../../../constants';
 
-const initialValues = metaModels.datafeed.create({
+const initialValues = dataFeedModel.create({
   properties: {
     kind: 'kafka',
     data: {

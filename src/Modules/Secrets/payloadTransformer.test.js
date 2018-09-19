@@ -1,11 +1,11 @@
-import { metaModels } from 'Modules/MetaResource';
+import secretModel from './models/secret';
 import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('(Secret Payload Transformer) generatePayload', () => {
   describe('generatePayload', () => {
     describe('properties.name', () => {
       it('should be the same as properties.resource', () => {
-        const sourcePayload = metaModels.secret.create({
+        const sourcePayload = secretModel.create({
           properties: {
             provider: { id: '123' },
             items: [{ key: 'k', value: 'a' }]
@@ -20,7 +20,7 @@ describe('(Secret Payload Transformer) generatePayload', () => {
 
     describe('when item is file', () => {
       it('should not base64 encode', () => {
-        const sourcePayload = metaModels.secret.create({
+        const sourcePayload = secretModel.create({
           properties: {
             provider: { id: '123' },
             items: [{ key: 'k', value: 'apple', isFile: true }]
@@ -36,8 +36,8 @@ describe('(Secret Payload Transformer) generatePayload', () => {
 
   describe('generatePatches', () => {
     it('should generate patch ops if there is a change but ignore secret.properties', () => {
-      const originalPayload = metaModels.secret.get();
-      const updatedPayload = metaModels.secret.get({
+      const originalPayload = secretModel.get();
+      const updatedPayload = secretModel.get({
         name: 'change me',
         properties: {
           items: [{ key: 'dont', value: 'update' }]

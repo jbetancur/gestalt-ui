@@ -1,7 +1,7 @@
 import base64 from 'base-64';
 import jsonPatch from 'fast-json-patch';
 import { arrayToMap } from 'util/helpers/transformations';
-import { metaModels } from 'Modules/MetaResource';
+import lambdaModel from './models/lambda';
 
 /**
  * generatePayload
@@ -10,7 +10,7 @@ import { metaModels } from 'Modules/MetaResource';
  * @param {Boolean} updateMode
  */
 export function generatePayload(sourcePayload, updateMode = false) {
-  const model = metaModels.lambda.create(sourcePayload);
+  const model = lambdaModel.create(sourcePayload);
   model.properties.env = arrayToMap(model.properties.env, 'name', 'value');
 
   if (!updateMode) {
@@ -48,7 +48,7 @@ export function generatePayload(sourcePayload, updateMode = false) {
  * @param {Object} updatedPayload
  */
 export function generatePatches(originalPayload, updatedPayload) {
-  const model = metaModels.lambda.create(originalPayload);
+  const model = lambdaModel.create(originalPayload);
   model.properties.env = arrayToMap(model.properties.env, 'name', 'value');
 
   if (originalPayload.properties.code_type === 'package') {

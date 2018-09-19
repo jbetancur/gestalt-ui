@@ -182,7 +182,7 @@ class LambdaListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  lambdas: listSelectors.filterItems()(state, 'lambdas', 'lambdas'),
+  lambdas: listSelectors.filterItems()(state, 'lambdas.lambdas.lambdas'),
 });
 
 export default compose(

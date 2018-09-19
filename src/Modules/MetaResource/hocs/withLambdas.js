@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withlambdas(BaseComponent) {
   class lambdas extends Component {
@@ -24,8 +24,8 @@ export default function withlambdas(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    lambdas: state.metaResource.lambdas.lambdas,
-    lambdasPending: state.metaResource.lambdas.pending,
+    lambdas: state.lambdas.lambdas.lambdas,
+    lambdasPending: state.lambdas.lambdas.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

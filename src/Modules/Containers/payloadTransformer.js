@@ -1,4 +1,4 @@
-import { metaModels } from 'Modules/MetaResource';
+import containerModel from './models/container';
 
 /**
  * generatePayload
@@ -17,9 +17,9 @@ export function generatePayload(sourcePayload, updateMode, containerVolumes = []
   }
 
   if (updateMode) {
-    payload = metaModels.container.put(payload);
+    payload = containerModel.put(payload);
   } else {
-    payload = metaModels.container.create(payload);
+    payload = containerModel.create(payload);
   }
 
   // Trim the cmd of leading/trailng spaces to prevent container errors

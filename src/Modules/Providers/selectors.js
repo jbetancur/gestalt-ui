@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect';
 import base64 from 'base-64';
-import { metaModels } from 'Modules/MetaResource';
+import containerModel from '../Containers/models/container';
+import providerModel from './models/provider';
 
-const selectEnvSchema = state => state.metaResource.envSchema.schema;
-const selectProvider = state => state.metaResource.provider.provider;
+const selectEnvSchema = state => state.env.envSchema.schema;
+const selectProvider = state => state.providers.provider.provider;
 export const selectContainerProvider = state => state.containers.selectedProvider;
-export const selectContainer = state => state.metaResource.container.container;
+export const selectContainer = state => state.providers.container.container;
 
 export const getCreateProviderModel = createSelector(
   [selectEnvSchema],
@@ -18,14 +19,14 @@ export const getCreateProviderModel = createSelector(
       },
     };
 
-    return metaModels.provider.get(model);
+    return providerModel.get(model);
   }
 );
 
 export const getEditProviderModel = createSelector(
   [selectProvider],
   (provider) => {
-    const { properties } = metaModels.provider.get(provider);
+    const { properties } = providerModel.get(provider);
     const model = {
       ...provider,
       properties: {
@@ -40,7 +41,7 @@ export const getEditProviderModel = createSelector(
       model.properties.services = [
         {
           ...properties.services[0],
-          container_spec: metaModels.container.get(properties.services[0].container_spec),
+          container_spec: containerModel.get(properties.services[0].container_spec),
         }
       ];
     }
@@ -53,7 +54,7 @@ export const getEditProviderModel = createSelector(
 export const getProviderContainer = createSelector(
   [selectProvider],
   (provider) => {
-    const model = metaModels.provider.get(provider);
+    const model = providerModel.get(provider);
 
     return (model
       && model.properties
@@ -61,6 +62,6 @@ export const getProviderContainer = createSelector(
       && model.properties.services.length
       && Object.keys(model.properties.services[0].container_spec).length
       && model.properties.services[0].container_spec
-    ) || metaModels.container.get();
+    ) || containerModel.get();
   }
 );

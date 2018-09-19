@@ -1,5 +1,5 @@
 import jsonPatch from 'fast-json-patch';
-import { metaModels } from 'Modules/MetaResource';
+import policyRuleModel from './models/policyRule';
 
 /**
  * generatePayload
@@ -10,7 +10,7 @@ import { metaModels } from 'Modules/MetaResource';
  * @param {String} policyType - limit || event
  */
 export function generatePayload(sourcePayload, selectedActions = [], updateMode = false, policyType) {
-  const payload = metaModels.policyRule.create(sourcePayload);
+  const payload = policyRuleModel.create(sourcePayload);
 
   payload.properties.match_actions = selectedActions;
 
@@ -49,7 +49,7 @@ export function generatePayload(sourcePayload, selectedActions = [], updateMode 
  * @param {String} policyType - limit || event
  */
 export function generatePatches(originalPayload, updatedPayload, selectedActions, policyType) {
-  const payload = metaModels.policyRule.create(originalPayload);
+  const payload = policyRuleModel.create(originalPayload);
 
   return jsonPatch.compare(payload, generatePayload(updatedPayload, selectedActions, true, policyType));
 }

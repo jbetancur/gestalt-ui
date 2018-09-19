@@ -7,7 +7,7 @@ import { Row, Col } from 'react-flexybox';
 import { DialogContainer, Checkbox, SelectionControlGroup, List, ListItem } from 'react-md';
 import { Button } from 'components/Buttons';
 import { Title, Caption } from 'components/Typography';
-import Search from 'Modules/Search';
+import { Search } from 'Modules/Search';
 
 const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {

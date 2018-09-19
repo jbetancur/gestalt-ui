@@ -1,18 +1,18 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
 import yaml from 'js-yaml';
+import volumeModel from './models/volume';
 
 // Meta States
 export const selectProvider = state => state.volumes.selectedProvider;
-export const selectVolumes = state => state.metaResource.volumes.volumes;
-export const selectVolume = state => state.metaResource.volume.volume;
+export const selectVolumes = state => state.volumes.volumes.volumes;
+export const selectVolume = state => state.volumes.volume.volume;
 
 // Module States
 export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
 export const getCreateVolumeModel = createSelector(
   [],
-  () => metaModels.volume.create({
+  () => volumeModel.create({
     properties: {
       type: 'host_path',
       size: 1,
@@ -34,6 +34,6 @@ export const getEditVolumeModel = createSelector(
       model.properties.yaml = yaml.safeDump(model.properties.config);
     }
 
-    return metaModels.volume.get(model);
+    return volumeModel.get(model);
   }
 );

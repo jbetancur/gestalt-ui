@@ -12,6 +12,7 @@ import ResourceTypeForm from './ResourceTypeForm';
 import validate from '../validations';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateResourceTypeModel } from '../selectors';
+import actions from '../actions';
 
 class CreateResourceType extends PureComponent {
   static propTypes = {
@@ -61,5 +62,5 @@ const mapStateToProps = state => ({
 export default compose(
   withResourceType,
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
-  connect(mapStateToProps),
+  connect(mapStateToProps, actions),
 )(CreateResourceType);

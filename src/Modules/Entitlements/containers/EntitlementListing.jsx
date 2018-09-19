@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withEntitlements, withSelf, withSearch } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
-import Search from 'Modules/Search';
+import { Search } from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
 import { DotActivity } from 'components/ProgressIndicators';

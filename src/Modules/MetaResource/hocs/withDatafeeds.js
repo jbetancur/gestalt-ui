@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withDataFeeds(BaseComponent) {
   class DataFeeds extends Component {
@@ -24,8 +24,8 @@ export default function withDataFeeds(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    datafeeds: state.metaResource.datafeeds.datafeeds,
-    datafeedsPending: state.metaResource.datafeeds.pending,
+    datafeeds: state.dataFeeds.datafeeds.datafeeds,
+    datafeedsPending: state.dataFeeds.datafeeds.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

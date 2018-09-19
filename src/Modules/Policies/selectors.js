@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import policyModel from './models/policy';
 
-export const selectPolicies = state => state.metaResource.policies.policies;
-export const selectPolicy = state => state.metaResource.policy.policy;
+export const selectPolicies = state => state.policies.policies.policies;
+export const selectPolicy = state => state.policies.policy.policy;
 
 export const getEditPolicyModel = createSelector(
   [selectPolicy],
@@ -12,6 +12,6 @@ export const getEditPolicyModel = createSelector(
       description: policy.description,
     };
 
-    return metaModels.policy.create(model);
+    return policyModel.create(model);
   }
 );

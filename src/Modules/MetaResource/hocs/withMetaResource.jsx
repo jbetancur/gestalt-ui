@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import actions from '../actions';
 
 /**
  * Higher-order component (HOC)
@@ -13,14 +12,14 @@ export default function WithMetaResource(WrapperMetaResourceComponent) {
   }
 
   function mapStateToProps(state) {
-    const { metaResource } = state;
+    const { logging } = state;
 
     return {
       // Subscriptions for Logging
-      logProviderPending: metaResource.logProvider.pending,
-      logProviderURL: metaResource.logProvider.logProvider.url,
+      logProviderPending: logging.logProvider.pending,
+      logProviderURL: logging.logProvider.logProvider.url,
     };
   }
 
-  return connect(mapStateToProps, actions)((Resource));
+  return connect(mapStateToProps)((Resource));
 }

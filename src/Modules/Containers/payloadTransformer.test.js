@@ -1,4 +1,4 @@
-import { metaModels } from 'Modules/MetaResource';
+import containerModel from './models/container';
 import { generatePayload } from './payloadTransformer';
 
 describe('(Container Payload Transformer) generatePayload', () => {
@@ -18,7 +18,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.cmd', () => {
       it('should set trim cmd if it is present and there are spaces to trim at the end', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             cmd: 'echo hello      '
           }
@@ -29,7 +29,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should set remove cmd if it is \'\'', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             cmd: ''
           }
@@ -42,7 +42,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.health_checks', () => {
       it('should remove port it the port_type = index', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             health_checks: [{ protocol: 'HTTP', port_type: 'index', port: 1 }]
           }
@@ -53,7 +53,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should remove port_index it the port_type = number', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             health_checks: [{ protocol: 'HTTP', port_type: 'number', port_index: 1 }]
           }
@@ -64,7 +64,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should remove the correct properties it the protocol is TCP', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             health_checks: [{ protocol: 'TCP', path: '/wahoo', command: 'oxford comma', ignore_http_1xx: true }]
           }
@@ -75,7 +75,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should remove the correct properties it the protocol is HTTP', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             health_checks: [{ protocol: 'HTTP', path: '/wahoo', command: 'oxford comma', ignore_http_1xx: true }]
           }
@@ -86,7 +86,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
       });
 
       it('should remove the correct properties it the protocol is HTTPS', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             health_checks: [{ protocol: 'HTTPS', path: '/wahoo', command: 'oxford comma', ignore_http_1xx: true }]
           }
@@ -98,7 +98,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
 
       it('should remove the correct properties it the protocol is COMMAND', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             health_checks: [{ protocol: 'COMMAND', path: '/wahoo', command: 'oxford comma', ignore_http_1xx: true, port_type: 'index', port_index: 1, port: 1 }]
           }
@@ -111,7 +111,7 @@ describe('(Container Payload Transformer) generatePayload', () => {
 
     describe('properties.provider', () => {
       it('should delete provider in updateMode so it is not PATCHED', () => {
-        const sourcePayload = metaModels.container.get({
+        const sourcePayload = containerModel.get({
           properties: {
             provider: { id: '1' }
           }

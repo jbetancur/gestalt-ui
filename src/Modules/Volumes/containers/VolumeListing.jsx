@@ -201,7 +201,7 @@ class VolumeListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  volumes: listSelectors.filterItems()(state, 'volumes', 'volumes'),
+  volumes: listSelectors.filterItems()(state, 'volumes.volumes.volumes'),
 });
 
 export default compose(

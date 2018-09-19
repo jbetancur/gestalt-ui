@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
 import { isRecentWithin } from 'util/helpers/dates';
 
-const selectItems = (state, reducer, key) => state.metaResource[reducer][key || reducer];
+const selectItems = (state, path) => get(state, path);
 const getVisibilityFilter = state => state.listfilter.filter;
-const selectSelf = state => state.metaResource.self.self;
+const selectSelf = state => state.hierarchy.self.self;
 
 const getVisibleItems = createSelector(
   [getVisibilityFilter, selectItems, selectSelf],

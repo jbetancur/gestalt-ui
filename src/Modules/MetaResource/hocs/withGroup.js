@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default () => (BaseComponent) => {
   class Group extends Component {
@@ -24,10 +24,10 @@ export default () => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    group: state.metaResource.group.group,
-    groupPending: state.metaResource.group.pending,
-    groupMembersPending: state.metaResource.groupMembers.pending,
-    groupUpdated: state.metaResource.groupMembers.group,
+    group: state.groups.group.group,
+    groupPending: state.groups.group.pending,
+    groupMembersPending: state.groups.groupMembers.pending,
+    groupUpdated: state.groups.groupMembers.group,
   });
 
   const mapDispatchToProps = dispatch => ({

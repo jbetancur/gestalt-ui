@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createRequestAction } from '../lib/actionFactory';
+import { createRequestAction } from 'config/lib/actionFactory';
 
 export default function withPolicyRules(BaseComponent) {
   class PolicyRules extends Component {
@@ -24,8 +24,8 @@ export default function withPolicyRules(BaseComponent) {
   }
 
   const mapStateToProps = state => ({
-    policyRules: state.metaResource.policyRules.policyRules,
-    policyRulesPending: state.metaResource.policyRules.pending,
+    policyRules: state.policyRules.policyRules.policyRules,
+    policyRulesPending: state.policyRules.policyRules.pending,
   });
 
   const mapDispatchToProps = dispatch => ({

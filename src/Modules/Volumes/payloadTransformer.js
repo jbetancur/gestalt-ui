@@ -1,6 +1,6 @@
 import jsonPatch from 'fast-json-patch';
 import yaml from 'js-yaml';
-import { metaModels } from 'Modules/MetaResource';
+import volumeModel from './models/volume';
 
 /**
  * generatePayload
@@ -9,7 +9,7 @@ import { metaModels } from 'Modules/MetaResource';
  * @param {Boolean} updateMode
  */
 export function generatePayload(sourcePayload) {
-  const payload = metaModels.volume.create(sourcePayload);
+  const payload = volumeModel.create(sourcePayload);
   if (payload.properties.type === 'external' && typeof payload.properties.yaml) {
     payload.properties.config = yaml.safeLoad(payload.properties.yaml);
     delete payload.properties.yaml;
@@ -28,7 +28,7 @@ export function generatePayload(sourcePayload) {
  * @param {Object} updatedPayload
  */
 export function generatePatches(originalPayload, updatedPayload) {
-  const payload = metaModels.volume.patch(originalPayload);
+  const payload = volumeModel.patch(originalPayload);
 
   return jsonPatch.compare(payload, generatePayload(updatedPayload, true));
 }

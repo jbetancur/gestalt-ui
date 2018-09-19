@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { metaModels } from 'Modules/MetaResource';
+import apiEndpointModel from './models/apiEndpoint';
 
-export const selectAPIEndpoint = state => state.metaResource.apiEndpoint.apiEndpoint;
+export const selectAPIEndpoint = state => state.apiEndpoints.apiEndpoint.apiEndpoint;
 
 export const getCreateEndpointModel = createSelector(
   [],
-  () => metaModels.apiEndpoint.get()
+  () => apiEndpointModel.get()
 );
 
 export const getEditEndpointModel = createSelector(
@@ -18,6 +18,6 @@ export const getEditEndpointModel = createSelector(
       model.properties.methods = model.properties.methods.join(',');
     }
 
-    return metaModels.apiEndpoint.create(model);
+    return apiEndpointModel.create(model);
   }
 );

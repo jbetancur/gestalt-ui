@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form as FinalForm, Field } from 'react-final-form';
 import Form from 'components/Form';
-import { metaModels } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import { formatName, composeValidators, required } from 'util/forms';
 import VolumeConfigSection from './VolumeConfigSection';
+import volumeModel from '../models/volume';
 
-const initialValues = metaModels.volume.create({
+const initialValues = volumeModel.create({
   properties: {
     type: 'host_path',
     size: 1,

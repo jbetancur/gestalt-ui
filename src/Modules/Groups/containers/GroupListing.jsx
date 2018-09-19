@@ -165,7 +165,7 @@ class GroupListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  groups: listSelectors.filterItems()(state, 'groups', 'groups'),
+  groups: listSelectors.filterItems()(state, 'groups.groups.groups'),
 });
 
 export default compose(
