@@ -46,9 +46,9 @@ import { setSelectedProvider } from '../actions';
 export function* fetchContainers(action) {
   try {
     const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/containers` : `${action.fqon}/containers`;
-    const response = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints`);
+    const { data } = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints`);
 
-    yield put({ type: FETCH_CONTAINERS_FULFILLED, payload: response.data, action });
+    yield put({ type: FETCH_CONTAINERS_FULFILLED, payload: data, action });
   } catch (e) {
     yield put({ type: FETCH_CONTAINERS_REJECTED, payload: e.message });
   } finally {
@@ -79,9 +79,9 @@ export function* fetchContainer(action) {
   }
 
   try {
-    const response = yield call(axios.all, promises);
-    const payload = { ...response[0].data };
-    payload.properties.env = Object.assign(response[1].data, payload.properties.env);
+    const [containerResponse, envResponse] = yield call(axios.all, promises);
+    const payload = { ...containerResponse.data };
+    payload.properties.env = Object.assign(envResponse.data, payload.properties.env);
 
     yield put(setSelectedProvider(payload.properties.provider));
     yield put({ type: FETCH_CONTAINER_FULFILLED, payload, action });
@@ -152,7 +152,7 @@ export function* deleteContainer(action) {
  */
 export function* scaleContainer(action) {
   try {
-    yield call(axios.post, `${action.fqon}/containers/${action.containerId}/scale?numInstances=${action.numInstances}`);
+    yield call(axios.post, `${action.fqon}/containers/${action.containerId}/scale?numInstances=${action.numInstances}&embed=provider&embed=volumes`);
     yield put({ type: SCALE_CONTAINER_FULFILLED });
 
     if (typeof action.onSuccess === 'function') {
@@ -169,7 +169,7 @@ export function* scaleContainer(action) {
  */
 export function* migrateContainer(action) {
   try {
-    const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}`);
+    const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}&embed=provider&embed=volumes`);
     // TODO: Workaround since Meta does not return a response on rejection
     if (response) {
       yield put({ type: MIGRATE_CONTAINER_FULFILLED, payload: response.data });
@@ -191,7 +191,7 @@ export function* migrateContainer(action) {
  */
 export function* promoteContainer(action) {
   try {
-    const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/promote?target=${action.environmentId}`);
+    const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/promote?target=${action.environmentId}&embed=provider&embed=volumes`);
     // TODO: Workaround since Meta does not return a response on rejection
     if (response) {
       yield put({ type: PROMOTE_CONTAINER_FULFILLED });

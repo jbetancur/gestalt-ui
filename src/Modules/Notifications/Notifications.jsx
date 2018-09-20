@@ -11,8 +11,8 @@ import actions from './actions';
 
 const MessageGroup = styled.div`
   position: fixed;
-  bottom: 64px;
-  left: 72px;
+  bottom: 52px;
+  left: 64px;
   z-index: 999;
   display: flex;
   align-items: center;
@@ -24,7 +24,7 @@ const MessageGroup = styled.div`
 
   .fade-enter-active {
     opacity: 1;
-    transition: opacity 200ms ease-out;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
   .fade-exit {
@@ -33,7 +33,7 @@ const MessageGroup = styled.div`
 
   .fade-exit-active {
     opacity: 0;
-    transition: opacity 200ms ease-in;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 `;
 

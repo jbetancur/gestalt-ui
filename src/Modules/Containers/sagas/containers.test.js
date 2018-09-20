@@ -318,7 +318,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.post, 'iamfqon/containers/2/scale?numInstances=42')
+        call(axios.post, 'iamfqon/containers/2/scale?numInstances=42&embed=provider&embed=volumes')
       );
     });
 
@@ -361,7 +361,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.post, 'iamfqon/containers/2/migrate?provider=42')
+        call(axios.post, 'iamfqon/containers/2/migrate?provider=42&embed=provider&embed=volumes')
       );
     });
 
@@ -404,7 +404,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.post, 'iamfqon/containers/2/promote?target=42')
+        call(axios.post, 'iamfqon/containers/2/promote?target=42&embed=provider&embed=volumes')
       );
     });
 

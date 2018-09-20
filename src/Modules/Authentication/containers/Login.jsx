@@ -92,7 +92,7 @@ class LoginContainer extends Component {
           <Row center fill>
             <Col flex={3} xs={12} sm={8} md={5}>
               <LoginCardHeader>
-                <GestaltIcon size={52} />
+                <GestaltIcon size={42} />
                 <span>{APP_TITLE}</span>
               </LoginCardHeader>
               <Form

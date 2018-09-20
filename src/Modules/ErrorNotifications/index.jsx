@@ -6,14 +6,17 @@ import { Snackbar } from 'react-md';
 import { isEqual } from 'lodash';
 
 const EnhancedSnackBar = styled(Snackbar)`
-  z-index: 9999;
   min-height: 5em;
-  min-width: 60%;
+  max-width: 80%;
   width: 100%;
   overflow: auto;
+  padding: 6px;
+  background-color: ${props => props.theme.colors['$md-red-700']};
 
   button {
-    color: ${props => props.theme.colors['$md-orange-800']};
+    padding-left: 16px;
+    padding-right: 16px;
+    color: white;
   }
 `;
 
@@ -89,6 +92,7 @@ class ErrorNotifications extends PureComponent {
       <EnhancedSnackBar
         {...this.state}
         onDismiss={this.removeToast}
+        portal
       />
     );
   }

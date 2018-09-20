@@ -1,10 +1,10 @@
 # Browsers that we support
 
 > 1%
-Chrome >= 48
-Firefox >= 44
+Chrome >= 49
+Firefox >= 52
 Firefox ESR
-Safari >= 9.1
-Edge >= 12
-ios_saf >= 9.3
+Safari >= 10
+Edge >= 14
+ios_saf >= 10
 ie 11
