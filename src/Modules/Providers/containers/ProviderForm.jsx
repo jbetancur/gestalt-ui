@@ -157,7 +157,7 @@ const ProviderForm = ({
               <Panel title="Storage Classes" expandable={false}>
                 <Field
                   id="provider--storageclasses"
-                  label="Storage Classs"
+                  label="Storage Class"
                   addLabel="Add Class"
                   component={Chips}
                   name="properties.config.storage_classes"
