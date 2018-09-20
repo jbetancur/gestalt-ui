@@ -130,6 +130,14 @@ class ProviderEdit extends Component {
               title={provider.name}
               subtitle={`Provider Type: ${selectedProviderType.displayName}`}
               actions={[
+                selectedProviderType.allowContainer &&
+                <ContainerActions
+                  key="provider-container-actions"
+                  inContainerView
+                  containerModel={container}
+                  disableDestroy
+                  disablePromote
+                />,
                 <Button
                   key="provider--entitlements"
                   flat
@@ -138,14 +146,6 @@ class ProviderEdit extends Component {
                 >
                   Entitlements
                 </Button>,
-                selectedProviderType.allowContainer &&
-                <ContainerActions
-                  key="provider-container-actions"
-                  inContainerView
-                  containerModel={container}
-                  disableDestroy
-                  disablePromote
-                />
               ]}
             />
 

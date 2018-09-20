@@ -45,7 +45,6 @@ export function generateProviderPayload(sourcePayload, hasContainer) {
   }
 
   if (!hasContainer) {
-    delete payload.properties.services;
     return providerModel.create(payload);
   }
 
@@ -85,12 +84,10 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
 
   if (updatedPayload.properties.services
     && updatedPayload.properties.services.length
-    && Object.keys(updatedPayload.properties.services[0].container_spec).length) {
-    // TODO: Deal with Patch array issues
-    if (updatedPayload.properties.services) {
-      delete model.properties.services;
-    }
-
+    && updatedPayload.properties.services[0].container_spec
+    && updatedPayload.properties.services[0].container_spec.name) {
+    // TODO: Deal with Patch array issues - this is sloppy but no other easy way - short story is the meta model for provider containers is fubar
+    delete model.properties.services;
     hasContainer = true;
   }
 

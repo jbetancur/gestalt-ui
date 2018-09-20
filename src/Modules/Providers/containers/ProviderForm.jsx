@@ -10,6 +10,7 @@ import { Panel } from 'components/Panels';
 import { ContainerForm } from 'Modules/Containers';
 import { UnixVariablesForm } from 'Modules/Variables';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { Chips } from 'components/Lists';
 import { formatName } from 'util/forms';
 import LinkedProviders from '../components/LinkedProviders';
 import EnvironmentTypes from '../components/EnvironmentTypes';
@@ -145,11 +146,25 @@ const ProviderForm = ({
               </Panel>
             </Col>}
 
-          {selectedProviderType.uploadConfig && !editMode &&
+
+          {selectedProviderType.kubeConfig && !editMode &&
             <Col flex={12}>
               <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />
             </Col>}
 
+          {selectedProviderType.kubeConfig &&
+            <Col flex={12}>
+              <Panel title="Storage Classes" expandable={false}>
+                <Field
+                  id="provider--storageclasses"
+                  label="Storage Classs"
+                  addLabel="Add Class"
+                  component={Chips}
+                  name="properties.config.storage_classes"
+                  ignorePrefixValidation
+                />
+              </Panel>
+            </Col>}
 
           {selectedProviderType.allowEnvVariables &&
             <Row gutter={5}>
