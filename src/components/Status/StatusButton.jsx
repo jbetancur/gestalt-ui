@@ -7,15 +7,17 @@ import statusMap from './statusMap';
 const MenuButtonStyle = styled(MenuButton)`
   ${props => props.color &&
     css`
-      color: white;
-      background-color: ${props.theme.colors[props.color]} !important;
+      color: ${props.theme.colors[props.color]};
+      border: 2px solid ${props.theme.colors[props.color]} !important;
 
       .md-icon-text {
         font-weight: 600 !important;
       }
 
       &:hover {
+        color: white;
         background-color: ${props.theme.colors[props.color]} !important;
+        opacity: 0.9;
       }
     `};
 `;
@@ -23,7 +25,7 @@ const MenuButtonStyle = styled(MenuButton)`
 const StatusButton = ({ status, inMenu, menuItems }) => {
   const statMap = statusMap(status);
   const backgroundColor = inMenu ? null : statMap.color;
-  const icon = inMenu ? 'more_vert' : statMap.icon;
+  const icon = inMenu ? 'more_vert' : 'expand_more';
   const anchorX = inMenu ? 'INNER_LEFT' : 'INNER_RIGHT';
   const positionX = inMenu ? 'TOP_LEFT' : 'TOP_RIGHT';
 
@@ -34,6 +36,7 @@ const StatusButton = ({ status, inMenu, menuItems }) => {
       flat={!inMenu}
       disabled={!status}
       iconChildren={icon}
+      iconBefore={inMenu}
       menuItems={menuItems}
       inkDisabled={inMenu}
       listHeightRestricted={false}

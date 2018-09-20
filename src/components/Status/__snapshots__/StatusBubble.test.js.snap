@@ -16,7 +16,7 @@ exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = 
 exports[`Components::StatusBubble::StatusBubble renders correctly when a status is passed 1`] = `
 <StatusBubble__ContainerStatusStyle>
   <StatusBubble__IconStyle
-    color="$md-blue-grey-300"
+    color="$md-blue-grey-400"
   >
     check_circle
   </StatusBubble__IconStyle>

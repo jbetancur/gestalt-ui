@@ -114,14 +114,6 @@ class ContainerEdit extends Component {
               titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
               actions={[
                 !inlineMode &&
-                <Button
-                  key="container--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
-                >
-                  Entitlements
-                </Button>,
                 <ContainerActions
                   key="container--actions"
                   inContainerView
@@ -129,6 +121,15 @@ class ContainerEdit extends Component {
                   disableDestroy={inlineMode}
                   disablePromote={inlineMode}
                 />,
+                <Button
+                  key="container--entitlements"
+                  flat
+                  outline
+                  iconChildren="security"
+                  onClick={this.showEntitlements}
+                >
+                  Entitlements
+                </Button>,
               ]}
             />
 

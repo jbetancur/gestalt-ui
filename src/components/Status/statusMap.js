@@ -3,7 +3,7 @@ export default (status) => {
     case 'RUNNING':
       return {
         icon: 'check_circle',
-        color: '$md-blue-grey-300',
+        color: '$md-blue-grey-400',
       };
     case 'HEALTHY':
       return {

@@ -12,7 +12,8 @@ exports[`Components::StatusButton::StatusButton mounts with default props 1`] = 
   disabled={false}
   flat={true}
   icon={false}
-  iconChildren="access_time"
+  iconBefore={false}
+  iconChildren="expand_more"
   id="container-actions-menu"
   inkDisabled={false}
   listHeightRestricted={false}
@@ -34,11 +35,12 @@ exports[`Components::StatusButton::StatusButton renders correctly when a status 
       "y": "overlap",
     }
   }
-  color="$md-blue-grey-300"
+  color="$md-blue-grey-400"
   disabled={false}
   flat={true}
   icon={false}
-  iconChildren="check_circle"
+  iconBefore={false}
+  iconChildren="expand_more"
   id="container-actions-menu"
   inkDisabled={false}
   listHeightRestricted={false}
@@ -64,6 +66,7 @@ exports[`Components::StatusButton::StatusButton renders correctly when the butto
   disabled={false}
   flat={false}
   icon={true}
+  iconBefore={true}
   iconChildren="more_vert"
   id="container-actions-menu"
   inkDisabled={true}

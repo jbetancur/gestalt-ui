@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css, withTheme } from 'styled-components';
 import { Button } from 'react-md';
 
-const EnhancedButton = styled(({ important, ...rest }) => <Button {...rest} />)`
+const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...rest} />)`
   text-align: center;
   border-radius: 3px;
   ${props => props.raised && css`

@@ -56,7 +56,6 @@ class APIEndpointInlineList extends PureComponent {
         sortable: true,
         allowOverflow: true,
         ignoreRowClick: true,
-        center: true,
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
