@@ -44,15 +44,15 @@ class VolumePanel extends PureComponent {
   }
 
   formatActionState = (row) => {
-    const { editMode } = this.props;
-
     if (row.volume_resource.properties
       && row.volume_resource.properties.container
       && row.volume_resource.properties.container.id) {
       return 'Attached';
     }
 
-    if (editMode && row.volume_id && row.volume_resource) {
+    if (row.volume_id &&
+      row.volume_resource &&
+      row.volume_resource.id) {
       return 'Attach';
     }
 
@@ -72,7 +72,21 @@ class VolumePanel extends PureComponent {
   }
 
   defineColumns() {
-    const { match } = this.props;
+    const { match, editMode } = this.props;
+
+    // only show link cell in editMode or for existing
+    const cell = {
+      cell: row => (editMode && row.volume_resource && row.volume_resource.id
+        ?
+          <ALink
+            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes/${row.volume_resource.id}`}
+            primary
+          >
+            {row.volume_resource.name}
+          </ALink>
+        :
+        row.volume_resource.name)
+    };
 
     return [
       {
@@ -85,14 +99,7 @@ class VolumePanel extends PureComponent {
         name: 'Volume Name',
         selector: 'volume_resource.name',
         sortable: true,
-        cell: row => row.volume_resource && (
-          <ALink
-            to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes/${row.volume_resource.id}`}
-            primary
-          >
-            {row.volume_resource.name}
-          </ALink>
-        ),
+        ...cell,
       },
       {
         name: 'Type',
