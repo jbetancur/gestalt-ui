@@ -16,6 +16,7 @@ import containerSagas, {
 } from './containers';
 import containerModel from '../models/container';
 import * as types from '../constants';
+import { setSelectedProvider } from '../actions';
 
 describe('Container Sagas', () => {
   const error = 'an error has occured';
@@ -86,6 +87,7 @@ describe('Container Sagas', () => {
       const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 };
       const saga = fetchContainer(action);
       let result;
+
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
@@ -93,12 +95,20 @@ describe('Container Sagas', () => {
         );
       });
 
-      it('should return a payload and dispatch a success status', () => {
-        const promiseArray = [{ data: { id: 1, properties: { env: {} } } }, { data: { test: 'testvar' } }];
+      it('should dispatch an action to set the selectedProvider', () => {
+        const promiseArray = [{ data: { id: 1, properties: { env: {}, provider: { id: '321' }, } } }, { data: { test: 'testvar' } }];
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' } } }, action })
+          put(setSelectedProvider({ id: '321' })),
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next();
+
+        expect(result.value).toEqual(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'testvar' }, provider: { id: '321' } } }, action })
         );
       });
     });
@@ -107,6 +117,7 @@ describe('Container Sagas', () => {
       const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 };
       const saga = fetchContainer(action);
       let result;
+
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
@@ -114,12 +125,20 @@ describe('Container Sagas', () => {
         );
       });
 
-      it('should return a payload and dispatch a success status and override the parents env vars', () => {
-        const promiseArray = [{ data: { id: 1, properties: { env: { test: 'morty' } } } }, { data: { test: 'rick' } }];
+      it('should dispatch an action to set the selectedProvider', () => {
+        const promiseArray = [{ data: { id: 1, properties: { env: { test: 'morty' }, provider: { id: '321' } } } }, { data: { test: 'rick' } }];
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' } } }, action })
+          put(setSelectedProvider({ id: '321' })),
+        );
+      });
+
+      it('should return a payload and dispatch a success status and override the parents env vars', () => {
+        result = saga.next();
+
+        expect(result.value).toEqual(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: { test: 'morty' }, provider: { id: '321' } } }, action })
         );
       });
     });

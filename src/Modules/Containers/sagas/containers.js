@@ -37,6 +37,7 @@ import {
   FETCH_PROVIDERCONTAINER_REQUEST,
   UNLOAD_ENVIRONMENT,
 } from '../constants';
+import { setSelectedProvider } from '../actions';
 
 /**
  * fetchContainers
@@ -82,6 +83,7 @@ export function* fetchContainer(action) {
     const payload = { ...response[0].data };
     payload.properties.env = Object.assign(response[1].data, payload.properties.env);
 
+    yield put(setSelectedProvider(payload.properties.provider));
     yield put({ type: FETCH_CONTAINER_FULFILLED, payload, action });
   } catch (e) {
     yield put({ type: FETCH_CONTAINER_REJECTED, payload: e.message });
