@@ -121,7 +121,7 @@ class APIEndpointInlineList extends PureComponent {
         <Div padding="8px" paddingLeft="16px">
           <Button
             key="add-endpoint"
-            iconChildren="link"
+            iconChildren="add"
             primary
             flat
             onClick={onAddEndpoint}

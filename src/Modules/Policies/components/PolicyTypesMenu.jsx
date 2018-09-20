@@ -22,8 +22,9 @@ const PolicyTypesMenu = ({ match }) => (
     sameWidth
     primary
     position="below"
+    iconBefore={false}
     menuItems={generateListItems(match)}
-    iconChildren="playlist_add_check"
+    iconChildren="expand_more"
     style={{ marginLeft: '.1em' }}
   >
     Add Policy Rule

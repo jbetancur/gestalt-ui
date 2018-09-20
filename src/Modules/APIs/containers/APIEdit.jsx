@@ -67,7 +67,7 @@ class APIEdit extends Component {
                   primary
                   component={Link}
                   to={`${match.url}/apiendpoints/create`}
-                  iconChildren="link"
+                  iconChildren="add"
                 >
                     Add Endpoint
                 </Button>,

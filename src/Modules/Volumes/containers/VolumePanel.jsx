@@ -90,9 +90,8 @@ class VolumePanel extends PureComponent {
 
     return [
       {
-        name: 'Action',
+        name: 'State',
         selector: 'action',
-        sortable: true,
         format: this.formatActionState,
       },
       {
