@@ -111,7 +111,7 @@ const ContainerForm = ({
                     name={`${formName}.properties.memory`}
                     min={32}
                     step={1}
-                    label="Memory"
+                    label="Memory (MB)"
                     type="number"
                     required
                     parse={fixInputNumber}

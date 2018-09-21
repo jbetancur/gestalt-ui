@@ -44,6 +44,8 @@ class VolumePanel extends PureComponent {
   }
 
   formatActionState = (row) => {
+    const { editMode } = this.props;
+
     if (row.volume_resource.properties
       && row.volume_resource.properties.container
       && row.volume_resource.properties.container.id) {
@@ -53,10 +55,10 @@ class VolumePanel extends PureComponent {
     if (row.volume_id &&
       row.volume_resource &&
       row.volume_resource.id) {
-      return 'Attach';
+      return editMode ? 'Attach on Update' : 'Attach';
     }
 
-    return 'Create';
+    return editMode ? 'Create on Update' : 'Create';
   }
 
   handleMenuSelect = (mode) => {

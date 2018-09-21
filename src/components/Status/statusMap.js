@@ -1,9 +1,12 @@
+import React from 'react';
+import { CheckCircleIcon } from 'components/Icons';
+
 export default (status) => {
   switch (status.toUpperCase()) {
     case 'RUNNING':
       return {
-        icon: 'check_circle',
-        color: '$md-blue-grey-400',
+        icon: <CheckCircleIcon />,
+        color: '$md-green-a700',
       };
     case 'HEALTHY':
       return {
@@ -12,7 +15,7 @@ export default (status) => {
       };
     case 'UNHEALTHY':
       return {
-        icon: 'new_releases',
+        icon: 'error_outline',
         color: '$md-red-a400',
       };
     case 'SCALING':
@@ -32,13 +35,13 @@ export default (status) => {
       };
     case 'ERROR':
       return {
-        icon: 'new_releases',
+        icon: 'error_outline',
         color: '$md-red-a400',
       };
     case 'ACTIVE':
       return {
-        icon: 'check_circle',
-        color: '$md-blue-grey-400',
+        icon: <CheckCircleIcon />,
+        color: '$md-blue-grey-500',
       };
     case 'FAILED':
       return {
@@ -73,7 +76,7 @@ export default (status) => {
     default:
       return {
         icon: 'info_outline',
-        color: '$md-blue-grey-400',
+        color: '$md-blue-grey-500',
       };
   }
 };

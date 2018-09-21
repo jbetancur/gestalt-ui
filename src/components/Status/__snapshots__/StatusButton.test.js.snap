@@ -35,7 +35,7 @@ exports[`Components::StatusButton::StatusButton renders correctly when a status 
       "y": "overlap",
     }
   }
-  color="$md-blue-grey-400"
+  color="$md-green-a700"
   disabled={false}
   flat={true}
   icon={false}

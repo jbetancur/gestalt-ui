@@ -42,7 +42,7 @@ const schema = object().shape({
       }),
     }).required(),
     network: string().required(),
-    cpus: number().default(0.1).required(),
+    cpus: number().default(0.5).required(),
     memory: number().default(128).required(),
     // env: array().default([]), // comment out for now until vars are converted to arrays
     // labels: array().default([]), // comment out for now until vars are converted to arrays

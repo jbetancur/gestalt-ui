@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = `
-<StatusBubble__ContainerStatusStyle>
+<StatusBubble__ContainerStatusStyle
+  color="$md-orange-500"
+>
   <StatusBubble__IconStyle
     color="$md-orange-500"
   >
@@ -14,11 +16,13 @@ exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = 
 `;
 
 exports[`Components::StatusBubble::StatusBubble renders correctly when a status is passed 1`] = `
-<StatusBubble__ContainerStatusStyle>
+<StatusBubble__ContainerStatusStyle
+  color="$md-green-a700"
+>
   <StatusBubble__IconStyle
-    color="$md-blue-grey-400"
+    color="$md-green-a700"
   >
-    check_circle
+    <CheckCircleIcon />
   </StatusBubble__IconStyle>
   <span>
     RUNNING

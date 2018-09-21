@@ -41,6 +41,7 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                     itemValue="value"
                     menuItems={healthCheckProtocols}
                     validate={composeValidators(required())}
+                    deleteKeys={['supportsURL', 'supportsCMD', 'supportsPortType']}
                     required
                   />
                 </Col>
@@ -147,10 +148,11 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                       id={`${member}.path`}
                       name={`${member}.path`}
                       type="text"
-                      label="Path"
+                      label="URL Path"
                       component={TextField}
                       validate={composeValidators(required())}
                       required
+                      helpText="absolute url path e.g. /"
                     />
                   </Col>}
                 {selectedHCProtocol && selectedHCProtocol.supportsCMD &&

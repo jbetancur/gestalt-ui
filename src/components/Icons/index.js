@@ -37,3 +37,4 @@ export { default as MainframeIcon } from './MainframeIcon';
 export { default as DigitalOceanIcon } from './DigitalOceanIcon';
 export { default as AWSIcon } from './AWSIcon';
 export { default as BashIcon } from './BashIcon';
+export { default as CheckCircleIcon } from './CheckCircleIcon';

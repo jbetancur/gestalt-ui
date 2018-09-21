@@ -12,7 +12,11 @@ const ContainerStatusStyle = styled.div`
   font-weight: 400;
   font-size: 12px;
   text-transform: uppercase;
-  color: ${props => props.theme.colors['$md-grey-800']};
+  color: ${props => props.theme.colors[props.color]};
+
+  svg {
+    fill: ${props => props.theme.colors[props.color]};
+  }
 
   span {
     margin-left: 8px;
@@ -27,7 +31,7 @@ const ContainerStatus = ({ status }) => {
   const style = statusMap(status);
 
   return (
-    <ContainerStatusStyle>
+    <ContainerStatusStyle color={style.color}>
       <IconStyle color={style.color}>{style.icon}</IconStyle>
       <span>{status.toUpperCase()}</span>
     </ContainerStatusStyle>

@@ -76,6 +76,7 @@ const ProviderForm = ({
                 onChange={handleProviderChange}
                 disabled={editMode}
                 required
+                deleteKeys={['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'kubeConfig', 'allowContainer']}
                 async
               />
             </Panel>
