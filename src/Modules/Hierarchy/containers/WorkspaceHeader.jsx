@@ -5,19 +5,19 @@ import ContextNavigation from './ContextNavigation';
 import WorkspaceActions from './WorkspaceActions';
 import WorkspaceDetails from './WorkspaceDetails';
 
-const WorkspaceHeader = ({ workspace, workspacePending, ...props }) => (
+const WorkspaceHeader = ({ context: { workspace }, contextPending, ...props }) => (
   <ContextNavigation
     model={workspace}
-    pending={workspacePending}
+    pending={contextPending}
     breadcrumbComponent={<Breadcrumbs lastIsActive />}
-    actionsComponent={<WorkspaceActions workspace={workspace} pending={workspacePending} {...props} />}
-    detailsComponent={<WorkspaceDetails workspace={workspace} pending={workspacePending} {...props} />}
+    actionsComponent={<WorkspaceActions workspace={workspace} pending={contextPending} {...props} />}
+    detailsComponent={<WorkspaceDetails workspace={workspace} pending={contextPending} {...props} />}
   />
 );
 
 WorkspaceHeader.propTypes = {
-  workspace: PropTypes.object.isRequired,
-  workspacePending: PropTypes.bool.isRequired,
+  context: PropTypes.object.isRequired,
+  contextPending: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
 };
 

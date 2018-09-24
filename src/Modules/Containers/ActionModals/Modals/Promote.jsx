@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import { withEnvironments } from 'Modules/MetaResource';
 import { DialogContainer, SelectField } from 'react-md';
-import { DotActivity } from 'components/ProgressIndicators';
 import actions from '../actions';
+import withContext from '../../../Hierarchy/hocs/withContext';
 
 const EnhancedDialog = styled(DialogContainer)`
   .md-dialog {
@@ -28,9 +27,7 @@ class PromoteModal extends PureComponent {
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
-    environments: PropTypes.array.isRequired,
-    environmentsPending: PropTypes.bool.isRequired,
-    environmentsActions: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -39,14 +36,8 @@ class PromoteModal extends PureComponent {
     this.state = { environment: '' };
   }
 
-  componentDidMount() {
-    const { environmentsActions } = this.props;
-
-    environmentsActions.fetchEnvironments({ fqon: this.props.match.params.fqon, entityId: this.props.match.params.workspaceId });
-  }
-
   doIt = () => {
-    const { environments, onProceed, hideModal } = this.props;
+    const { context: { environments }, onProceed, hideModal } = this.props;
 
     onProceed(environments.find(env => env.id === this.state.environment));
     hideModal();
@@ -57,7 +48,9 @@ class PromoteModal extends PureComponent {
   }
 
   render() {
-    const environments = this.props.environments
+    const { context: { environments } } = this.props;
+
+    const environmentsList = environments
       .filter(environment => environment.id !== this.props.match.params.environmentId)
       .map(environment => ({ id: environment.id, name: environment.description || environment.name }));
 
@@ -83,27 +76,23 @@ class PromoteModal extends PureComponent {
             disabled: !this.state.environment,
           }]}
       >
-        {this.props.environmentsPending ?
-          <DotActivity size={1} primary /> :
-          <div>
-            {environments.length > 0 ?
-              <Row center>
-                <Col flex={12}>
-                  <SelectField
-                    id="container-promoteto"
-                    label="Promote to Environment"
-                    lineDirection="center"
-                    menuItems={environments}
-                    itemLabel="name"
-                    itemValue="id"
-                    value={this.state.environment}
-                    onChange={this.environmentChanged}
-                    required
-                    fullWidth
-                  />
-                </Col>
-              </Row> : <span>There are no available environments to promote to</span>}
-          </div>}
+        {environmentsList.length > 0 ?
+          <Row center>
+            <Col flex={12}>
+              <SelectField
+                id="container-promoteto"
+                label="Promote to Environment"
+                lineDirection="center"
+                menuItems={environmentsList}
+                itemLabel="name"
+                itemValue="id"
+                value={this.state.environment}
+                onChange={this.environmentChanged}
+                required
+                fullWidth
+              />
+            </Col>
+          </Row> : <span>There are no available environments to promote to</span>}
       </EnhancedDialog>
     );
   }
@@ -118,7 +107,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withEnvironments({ unload: true }),
+  withContext({ unload: true }),
   withRouter,
   connect(mapStateToProps, actions),
 )(PromoteModal);

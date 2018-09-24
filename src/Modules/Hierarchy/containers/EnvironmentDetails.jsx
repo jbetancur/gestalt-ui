@@ -2,39 +2,39 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withEnvironment } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import withHierarchy from '../withHierarchy';
+import withHierarchy from '../hocs/withHierarchy';
+import withContext from '../hocs/withContext';
 
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    environmentActions: PropTypes.object.isRequired,
-    environment: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
 
   showEntitlements = () => {
-    const { environment, match, entitlementActions } = this.props;
+    const { context: { environment }, match, entitlementActions } = this.props;
 
     const name = environment.description || environment.name;
     entitlementActions.showEntitlementsModal(name, match.params.fqon, environment.id, 'environments', 'Environment');
   }
 
   delete = () => {
-    const { match, history, environment, environmentActions, hierarchyActions } = this.props;
+    const { context: { environment }, match, history, contextActions, hierarchyActions } = this.props;
     const name = environment.description || environment.name;
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
     hierarchyActions.confirmDelete(({ force }) => {
-      environmentActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } });
+      contextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } });
     }, name, 'Environment');
   }
 
@@ -70,7 +70,7 @@ class EnvironmentDetails extends PureComponent {
   }
 
   render() {
-    const { environment } = this.props;
+    const { context: { environment } } = this.props;
     const environmentType = environment.id && environment.properties ? environment.properties.environment_type.toUpperCase() : null;
 
     return (
@@ -88,7 +88,7 @@ class EnvironmentDetails extends PureComponent {
 }
 
 export default compose(
-  withEnvironment(),
+  withContext(),
   withHierarchy,
   withEntitlements,
 )(EnvironmentDetails);

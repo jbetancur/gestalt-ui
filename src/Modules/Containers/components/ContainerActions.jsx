@@ -7,13 +7,15 @@ import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ListItem, Divider, FontIcon } from 'react-md';
-import { withEnvironment, withContainer, withContainers } from 'Modules/MetaResource';
+import { withContainer, withContainers } from 'Modules/MetaResource';
+// import { withContext } from 'Modules/Hierarchy';
 import { withEntitlements } from 'Modules/Entitlements';
 // import { ActionsMenu } from 'Modules/Actions';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
+import withContext from '../../Hierarchy/hocs/withContext';
 
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`
@@ -72,7 +74,7 @@ class ContainerActions extends PureComponent {
     migrateContainerModal: PropTypes.func.isRequired,
     promoteContainerModal: PropTypes.func.isRequired,
     confirmContainerDelete: PropTypes.func.isRequired,
-    environmentActions: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
@@ -217,12 +219,12 @@ class ContainerActions extends PureComponent {
   }
 
   promote = () => {
-    const { match, containerActions, promoteContainerModal, containerModel, environmentActions, onPromote } = this.props;
+    const { match, containerActions, promoteContainerModal, containerModel, contextActions, onPromote } = this.props;
 
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
-      environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: environment.id });
+      contextActions.fetchContext({ fqon: match.params.fqon, id: environment.id, context: 'environment' });
       this.populateContainers();
     };
 
@@ -323,7 +325,7 @@ class ContainerActions extends PureComponent {
 export default compose(
   withContainer({ unload: false }),
   withContainers({ unload: false }),
-  withEnvironment(),
+  withContext(),
   withEntitlements,
   withTheme,
   withRouter,

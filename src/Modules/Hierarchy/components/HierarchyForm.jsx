@@ -7,7 +7,6 @@ import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
 import Form from 'components/Form';
-import { ActivityContainer } from 'components/ProgressIndicators';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
@@ -18,7 +17,6 @@ class HierarchyForm extends Component {
     form: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     values: PropTypes.object.isRequired,
-    loading: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -32,7 +30,6 @@ class HierarchyForm extends Component {
   static defaultProps = {
     title: '',
     isEnvironment: false,
-    loading: false,
     editMode: false,
   };
 
@@ -61,8 +58,8 @@ class HierarchyForm extends Component {
   }
 
   render() {
-    const { title, values, history, editMode, loading, handleSubmit, pristine, submitting, invalid, isEnvironment, t } = this.props;
-    const submitDisabled = pristine || loading || invalid || submitting;
+    const { title, values, history, editMode, handleSubmit, pristine, submitting, invalid, isEnvironment, t } = this.props;
+    const submitDisabled = pristine || invalid || submitting;
 
     const modalActions = [
       <Button
@@ -87,14 +84,13 @@ class HierarchyForm extends Component {
     return (
       <DialogContainer
         id="context-form-dialog"
-        title={!loading && title}
+        title={title}
         visible
         width="75em"
         actions={modalActions}
         onHide={() => { }}
       >
-        {loading && <ActivityContainer primary centered id="context-form--loading" />}
-        <Form id="hierarchy-context-form" onSubmit={handleSubmit} autoComplete="off" disabled={loading}>
+        <Form id="hierarchy-context-form" onSubmit={handleSubmit} autoComplete="off">
           <Row gutter={5}>
             <Col flex={6} xs={12}>
               <Field

@@ -1,52 +1,43 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withOrganization, withEnvironments, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
 import HierarchyNav from '../containers/HierarchyNav';
 import HierarchyHeader from '../containers/HierarchyHeader';
+import withContext from '../hocs/withContext';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    organizationSet: PropTypes.object.isRequired,
-    organizationSetPending: PropTypes.bool.isRequired,
-    organizationActions: PropTypes.object.isRequired,
-    workspaceActions: PropTypes.object.isRequired,
-    environmentsActions: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    contextPending: PropTypes.bool.isRequired,
+    contextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, organizationActions, workspaceActions } = this.props;
-    organizationActions.fetchOrgSet({ fqon: match.params.fqon });
-    workspaceActions.unloadWorkspace();
+    const { match, contextActions } = this.props;
+    contextActions.fetchContext({ fqon: match.params.fqon });
   }
 
   componentDidUpdate(prevProps) {
-    const { match, workspaceActions, environmentsActions } = this.props;
+    const { match, contextActions } = this.props;
 
-    if (prevProps.match.params.fqon && prevProps.match.params.fqon !== match.params.fqon) {
-      workspaceActions.unloadWorkspace();
-      environmentsActions.unloadEnvironments();
+    if (match.params.fqon && prevProps.match.params.fqon !== match.params.fqon) {
+      // If we change the org let's update the context and clear out the old the state tree for workspaces/environments
+      contextActions.fetchContext({ fqon: match.params.fqon });
     }
   }
 
-  componentWillUnmount() {
-    const { environmentsActions } = this.props;
-
-    environmentsActions.unloadEnvironments();
-  }
-
   render() {
-    const { organizationSet, match } = this.props;
+    const { context: { organization }, match } = this.props;
 
     return (
       <Div>
         <HierarchyNav showOnRootOnly={match.params.fqon === 'root'} />
         <Div paddingLeft="5em" paddingBottom="56px">
           <HierarchyHeader
-            model={organizationSet}
+            model={organization}
             {...this.props}
           />
           <HierarchyRoutes />
@@ -57,7 +48,5 @@ class HierarchyContext extends PureComponent {
 }
 
 export default compose(
-  withOrganization(),
-  withEnvironments(),
-  withWorkspace(),
+  withContext(),
 )(HierarchyContext);

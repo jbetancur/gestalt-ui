@@ -23,7 +23,6 @@ class UserListing extends PureComponent {
     usersActions: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
     usersPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     showReparentModal: PropTypes.func.isRequired,
   };
 

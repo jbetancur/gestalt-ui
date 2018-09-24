@@ -14,3 +14,4 @@ export { default as WorkspaceNav } from './containers/WorkspaceNav';
 export { default as EnvironmentNav } from './containers/EnvironmentNav';
 export { default as hierarchyActions } from './actions';
 export { default as hierarchySagas } from './sagas';
+export { default as withContext } from './hocs/withContext';

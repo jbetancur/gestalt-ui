@@ -8,11 +8,13 @@ import {
 } from 'config/lib/sagaFactory';
 import selfSagas from './self';
 import organizationSagas from './organizations';
+import contextSagas from './context';
 
 export default function* rootSaga() {
   yield all([
     selfSagas(),
     organizationSagas(),
+    contextSagas(),
 
     yield takeLatest(...generateCreate({ name: 'SYNC', entity: 'sync', verb: 'DO' })),
 

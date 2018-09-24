@@ -4,9 +4,6 @@ import {
   FETCH_ALLORGS_REQUEST,
   FETCH_ALLORGS_FULFILLED,
   FETCH_ALLORGS_REJECTED,
-  FETCH_ORGSET_REQUEST,
-  FETCH_ORGSET_FULFILLED,
-  FETCH_ORGSET_REJECTED,
   FETCH_ALLORGSDROPDOWN_REQUEST,
   FETCH_ALLORGSDROPDOWN_FULFILLED,
   FETCH_ALLORGSDROPDOWN_REJECTED,
@@ -21,37 +18,6 @@ export function* fetchAllOrgs() {
     yield put({ type: FETCH_ALLORGS_FULFILLED, payload: response.data });
   } catch (e) {
     yield put({ type: FETCH_ALLORGS_REJECTED, payload: e.message });
-  }
-}
-
-/**
- * fetchOrgSet - fetch the org, suborgs and workspaces for a fqon
- * @param {*} action - { fqon }
- */
-export function* fetchOrgSet(action) {
-  function getOrg() {
-    return axios.get(action.fqon);
-  }
-
-  function getSubOrgs() {
-    return axios.get(`${action.fqon}/orgs?expand=true`);
-  }
-
-  function getWorkspaces() {
-    return axios.get(`${action.fqon}/workspaces?expand=true`);
-  }
-
-  try {
-    const response = yield call(axios.all, [getOrg(), getSubOrgs(), getWorkspaces()]);
-    const payload = {
-      ...response[0].data,
-      organizations: response[1].data,
-      workspaces: response[2].data,
-    };
-
-    yield put({ type: FETCH_ORGSET_FULFILLED, payload });
-  } catch (e) {
-    yield put({ type: FETCH_ORGSET_REJECTED, payload: e.message });
   }
 }
 
@@ -83,6 +49,5 @@ export function* fetchAllOrgsDropDown(action) {
 // Watchers
 export default function* () {
   yield fork(takeLatest, FETCH_ALLORGS_REQUEST, fetchAllOrgs);
-  yield fork(takeLatest, FETCH_ORGSET_REQUEST, fetchOrgSet);
   yield fork(takeLatest, FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown);
 }

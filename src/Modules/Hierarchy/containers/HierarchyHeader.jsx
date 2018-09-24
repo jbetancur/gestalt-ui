@@ -5,18 +5,18 @@ import ContextNavigation from './ContextNavigation';
 import HierarchyActions from './HierarchyActions';
 import OrganizationDetails from './OrganizationDetails';
 
-const HierarchyHeader = ({ model, organizationSetPending, ...props }) => (
+const HierarchyHeader = ({ model, contextPending, ...props }) => (
   <ContextNavigation
     model={model}
-    pending={organizationSetPending}
+    pending={contextPending}
     breadcrumbComponent={<Breadcrumbs lastIsActive />}
-    actionsComponent={<HierarchyActions organization={model} pending={organizationSetPending} {...props} />}
-    detailsComponent={<OrganizationDetails organization={model} pending={organizationSetPending} {...props} />}
+    actionsComponent={<HierarchyActions organization={model} pending={contextPending} {...props} />}
+    detailsComponent={<OrganizationDetails organization={model} pending={contextPending} {...props} />}
   />
 );
 
 HierarchyHeader.propTypes = {
-  organizationSetPending: PropTypes.bool.isRequired,
+  contextPending: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };

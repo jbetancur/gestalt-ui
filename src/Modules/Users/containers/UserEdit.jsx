@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
-import { withUser, withOrganizations } from 'Modules/MetaResource';
+import { withUser } from 'Modules/MetaResource';
+// import { withContext } from 'Modules/Hierarchy';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -14,6 +15,7 @@ import UserForm from './UserForm';
 import validate from '../validations';
 import actions from '../actions';
 import { getEditUserModel } from '../selectors';
+import withContext from '../../Hierarchy/hocs/withContext';
 
 class GroupEdit extends Component {
   static propTypes = {
@@ -23,13 +25,13 @@ class GroupEdit extends Component {
     userPending: PropTypes.bool.isRequired,
     userActions: PropTypes.object.isRequired,
     allOrganizationsDropDown: PropTypes.array.isRequired,
-    organizationsActions: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, userActions, organizationsActions } = this.props;
+    const { match, userActions, contextActions } = this.props;
 
-    organizationsActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
+    contextActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
     userActions.fetchUser({ fqon: match.params.fqon, id: match.params.userId });
   }
 
@@ -98,6 +100,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withUser(),
-  withOrganizations(),
+  withContext(),
   connect(mapStateToProps, actions),
 )(GroupEdit);

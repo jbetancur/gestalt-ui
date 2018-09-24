@@ -4,66 +4,73 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withOrganization, withWorkspace } from 'Modules/MetaResource';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
 import { getEditWorkspaceModel } from '../selectors';
+import withContext from '../hocs/withContext';
 
 class WorkspaceEdit extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    workspace: PropTypes.object.isRequired,
-    workspacePending: PropTypes.bool.isRequired,
-    workspaceActions: PropTypes.object.isRequired,
-    organizationActions: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
+    selectedWorkspace: PropTypes.object.isRequired,
+    selectedWorkspacePending: PropTypes.bool.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, workspaceActions } = this.props;
+    const { match, contextActions } = this.props;
 
-    workspaceActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
+    contextActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
+  }
+
+  componentWillUnmount() {
+    const { contextActions } = this.props;
+
+    contextActions.unloadWorkspace();
   }
 
   update = (values) => {
     const {
-      match,
       history,
       location,
-      workspace,
-      workspaceActions,
-      organizationActions,
+      contextActions,
+      selectedWorkspace,
     } = this.props;
 
-    const payload = generateWorkspacePatches(workspace, values);
+    const payload = generateWorkspacePatches(selectedWorkspace, values);
     const onSuccess = () => {
-      if (location.state.card) {
-        organizationActions.fetchOrgSet({ fqon: match.params.fqon });
+      if (!location.state.card) {
+        history.replace(`/${selectedWorkspace.org.properties.fqon}/hierarchy/${selectedWorkspace.id}/environments`);
+      } else {
+        history.replace(`/${selectedWorkspace.org.properties.fqon}/hierarchy`);
       }
-
-      history.goBack();
     };
 
-    workspaceActions.updateWorkspace({ fqon: match.params.fqon, id: workspace.id, payload, onSuccess });
+    contextActions.updateWorkspace({ fqon: selectedWorkspace.org.properties.fqon, id: selectedWorkspace.id, payload, onSuccess });
   }
 
   render() {
-    const { workspace, workspacePending, initialFormValues } = this.props;
+    const { selectedWorkspace, selectedWorkspacePending, initialFormValues } = this.props;
 
     return (
-      <Form
-        component={HierarchyForm}
-        title={workspace.description || workspace.name}
-        loading={workspacePending}
-        editMode
-        onSubmit={this.update}
-        initialValues={initialFormValues}
-        validate={validate()}
-        mutators={{ ...arrayMutators }}
-      />
+      selectedWorkspacePending
+        ?
+          <ActivityContainer centered id="workspace-edit--loading" />
+        :
+          <Form
+            component={HierarchyForm}
+            title={selectedWorkspace.description || selectedWorkspace.name}
+            editMode
+            onSubmit={this.update}
+            initialValues={initialFormValues}
+            validate={validate()}
+            mutators={{ ...arrayMutators }}
+          />
     );
   }
 }
@@ -73,7 +80,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withOrganization(),
-  withWorkspace(),
+  withContext(),
   connect(mapStateToProps),
 )(WorkspaceEdit);

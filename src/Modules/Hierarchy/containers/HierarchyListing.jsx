@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withOrganization } from 'Modules/MetaResource';
 import { orderBy } from 'lodash';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -11,34 +10,20 @@ import Sort from '../components/Sort';
 import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
 import ListingHeader from '../components/ListingHeader';
+import withContext from '../hocs/withContext';
 // import EnvironmentCard from './EnvironmentCard';
 
 class HierarchyListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    organizationActions: PropTypes.object.isRequired,
-    organizationSet: PropTypes.object.isRequired,
-    organizationSetPending: PropTypes.bool.isRequired,
+    context: PropTypes.object.isRequired,
+    contextPending: PropTypes.bool.isRequired,
   };
 
   state = {
     sortKey: 'description',
     order: 'asc',
   };
-
-  componentDidMount() {
-    const { match, organizationActions } = this.props;
-
-    organizationActions.fetchOrgSet({ fqon: match.params.fqon });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { match, organizationActions } = this.props;
-
-    if (match.params.fqon && prevProps.match.params.fqon !== match.params.fqon) {
-      organizationActions.fetchOrgSet({ fqon: match.params.fqon });
-    }
-  }
 
   setSortKey = (sortKey) => {
     this.setState({ sortKey });
@@ -68,14 +53,14 @@ class HierarchyListing extends PureComponent {
   }
 
   render() {
-    const { organizationSetPending, organizationSet } = this.props;
-    const { organizations, workspaces } = organizationSet;
+    const { contextPending, context } = this.props;
+    const { organization, organizations, workspaces } = context;
     // only show environments that have a workspace parent
     const cardItems = organizations.concat(workspaces);
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
 
     return (
-      organizationSetPending
+      contextPending
         ?
           <ActivityContainer id="hierarchy-listing--loading" />
         :
@@ -100,7 +85,7 @@ class HierarchyListing extends PureComponent {
               ))}
             </Row>
 
-            {!organizationSetPending && !cardItems.length &&
+            {!contextPending && !cardItems.length &&
             <Row center fill paddingTop="180px">
               <NoData
                 message="There are no Organizations or Workspaces to display"
@@ -110,11 +95,11 @@ class HierarchyListing extends PureComponent {
                     <WorkspaceIcon size={150} />
                   </React.Fragment>
                 )}
-                createPath={{ pathname: `/${organizationSet.properties.fqon}/createOrganization`, state: { modal: true } }}
+                createPath={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
                 createLabel="Create an Organization"
                 showSecondaryCreate
                 secondaryCreateLabel="Create a Workspace"
-                secondaryCreatePath={{ pathname: `/${organizationSet.properties.fqon}/createWorkspace`, state: { modal: true } }}
+                secondaryCreatePath={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
               />
             </Row>}
           </React.Fragment>
@@ -123,5 +108,5 @@ class HierarchyListing extends PureComponent {
 }
 
 export default compose(
-  withOrganization()
+  withContext(),
 )(HierarchyListing);

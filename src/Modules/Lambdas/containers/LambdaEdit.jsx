@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withAPIEndpoints, withLambda, withPickerData } from 'Modules/MetaResource';
+import { withAPIEndpoints, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -23,8 +23,9 @@ import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
 import validate from '../validations';
 import { generatePatches } from '../payloadTransformer';
-import { getEditLambdaModel, selectLambda } from '../selectors';
-import withLambdaState from '../hoc/withLambdaState';
+import { getEditLambdaModel } from '../selectors';
+import withLambdaState from '../hocs/withLambdaState';
+import withLambda from '../hocs/withLambda';
 import runTimes from '../lists/runTimes';
 
 class LambdaEdit extends PureComponent {
@@ -247,7 +248,6 @@ class LambdaEdit extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  lambda: selectLambda(state),
   initialFormValues: getEditLambdaModel(state),
 });
 

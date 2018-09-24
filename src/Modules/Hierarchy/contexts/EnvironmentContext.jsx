@@ -1,54 +1,47 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withOrganization, withEnvironment, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
 import EnvironmentNav from '../containers/EnvironmentNav';
 import EnvironmentHeader from '../containers/EnvironmentHeader';
+import withContext from '../hocs/withContext';
 
 class EnvironmentContext extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    organizationActions: PropTypes.object.isRequired,
-    workspaceActions: PropTypes.object.isRequired,
-    environmentActions: PropTypes.object.isRequired,
-    organizationSet: PropTypes.object.isRequired,
-    workspace: PropTypes.object.isRequired,
-    environment: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
     const {
       match,
-      environmentActions,
-      organizationSet,
-      workspace,
-      organizationActions,
-      workspaceActions,
+      contextActions,
     } = this.props;
 
-    environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
-
-    // Keep org context synced in case of refresh
-    if (match.params.fqon && !organizationSet.id) {
-      organizationActions.fetchOrgSet({ fqon: match.params.fqon });
-    }
-
-    // do the same for workspaces
-    if ((match.params.fqon && match.params.workspaceId) && !workspace.id) {
-      workspaceActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
-    }
+    contextActions.fetchContext({
+      fqon: match.params.fqon,
+      id: match.params.environmentId,
+      context: 'environment',
+    });
   }
 
-  componentWillUnmount() {
-    const { environmentActions } = this.props;
+  componentDidUpdate(prevProps) {
+    const { match, contextActions } = this.props;
 
-    environmentActions.unloadEnvironment();
+    if (match.params.environmentId && prevProps.match.params.environmentId !== match.params.environmentId) {
+      // If the envirnment is switched then get the updated context
+      contextActions.fetchContext({
+        fqon: match.params.fqon,
+        id: match.params.environmentId,
+        context: 'environment',
+      });
+    }
   }
 
   render() {
-    const { environment } = this.props;
+    const { context: { environment } } = this.props;
 
     return (
       <Div>
@@ -66,7 +59,5 @@ class EnvironmentContext extends Component {
 }
 
 export default compose(
-  withOrganization(),
-  withEnvironment(),
-  withWorkspace(),
+  withContext(),
 )(EnvironmentContext);

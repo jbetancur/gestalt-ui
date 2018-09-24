@@ -12,14 +12,14 @@ const listItemStyle = { textAlign: 'left' };
 
 class HierarchyActions extends PureComponent {
   static propTypes = {
-    organizationSet: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
     pending: PropTypes.bool.isRequired,
     t: PropTypes.func.isRequired,
     // appState: PropTypes.object.isRequired,
   };
 
   render() {
-    const { organizationSet, pending, t } = this.props;
+    const { organization, pending, t } = this.props;
 
     const menuItems = [
       <ListItem
@@ -28,7 +28,7 @@ class HierarchyActions extends PureComponent {
         primaryText={<span>{t('organizations.actions.createSubOrg')}</span>}
         component={Link}
         leftIcon={<OrganizationIcon />}
-        to={{ pathname: `/${organizationSet.properties.fqon}/createOrganization`, state: { modal: true } }}
+        to={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
         style={listItemStyle}
       />,
       <ListItem
@@ -37,7 +37,7 @@ class HierarchyActions extends PureComponent {
         primaryText={<span>{t('workspaces.actions.create')}</span>}
         component={Link}
         leftIcon={<WorkspaceIcon />}
-        to={{ pathname: `/${organizationSet.properties.fqon}/createWorkspace`, state: { modal: true } }}
+        to={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
         style={listItemStyle}
       />,
       <ListItem
@@ -46,37 +46,37 @@ class HierarchyActions extends PureComponent {
         primaryText={<span>{t('providers.actions.create')}</span>}
         component={Link}
         leftIcon={<ProviderIcon />}
-        to={`/${organizationSet.properties.fqon}/providers/create`}
+        to={`/${organization.properties.fqon}/providers/create`}
         style={listItemStyle}
       />,
-      organizationSet.properties.fqon === 'root' ?
+      organization.properties.fqon === 'root' ?
         <ListItem
           id="orgs-settings-menu--users-create"
           key="orgs-settings-menu--users-create"
           primaryText={<span>{t('users.actions.create')}</span>}
           component={Link}
           leftIcon={<UserIcon />}
-          to={`/${organizationSet.properties.fqon}/users/create`}
+          to={`/${organization.properties.fqon}/users/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--users-create" />,
-      organizationSet.properties.fqon === 'root' ?
+      organization.properties.fqon === 'root' ?
         <ListItem
           id="orgs-settings-menu--groups-create"
           key="orgs-settings-menu--groups-create"
           primaryText={<span>{t('groups.actions.create')}</span>}
           component={Link}
           leftIcon={<GroupIcon />}
-          to={`/${organizationSet.properties.fqon}/groups/create`}
+          to={`/${organization.properties.fqon}/groups/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--groups-create" />,
-      organizationSet.properties.fqon === 'root' ?
+      organization.properties.fqon === 'root' ?
         <ListItem
           id="orgs-settings-menu--resourceTypes-create"
           key="orgs-settings-menu--resourceTypes-create"
           primaryText="Resource Type"
           component={Link}
           leftIcon={<MetamodelIcon />}
-          to={`/${organizationSet.properties.fqon}/resourcetypes/create`}
+          to={`/${organization.properties.fqon}/resourcetypes/create`}
           style={listItemStyle}
         /> : <div key="orgs-settings-menu--resourceTypes-create" />,
       // appState.enableExperimental ?
@@ -86,7 +86,7 @@ class HierarchyActions extends PureComponent {
       //     primaryText="Service Specification"
       //     component={Link}
       //     leftIcon={<ServiceIcon />}
-      //     to={`/${organizationSet.properties.fqon}/servicespecs/create`}
+      //     to={`/${organization.properties.fqon}/servicespecs/create`}
       //     style={listItemStyle}
       //   /> : <div key="orgs-settings-menu--serviceSpecs-create" />
     ];

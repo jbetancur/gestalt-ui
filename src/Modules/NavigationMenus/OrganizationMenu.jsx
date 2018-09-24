@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { sortBy } from 'lodash';
-import { withOrganizations, withOrganization } from 'Modules/MetaResource';
+import { withContext } from 'Modules/Hierarchy';
 import Menu from './components/Menu';
 
 class OrgMenu extends PureComponent {
   static propTypes = {
     // allOrganizations: PropTypes.array.isRequired,
     allOrganizationsPending: PropTypes.bool.isRequired,
-    organizationSet: PropTypes.object.isRequired,
-    organizationsActions: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
   };
 
   state = {
@@ -30,17 +30,17 @@ class OrgMenu extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { organizationsActions } = this.props;
+    const { contextActions } = this.props;
 
-    organizationsActions.unloadAllOrgs();
+    contextActions.unloadAllOrgs();
   }
 
   fetchOrgList = (e) => {
-    const { organizationsActions } = this.props;
+    const { contextActions } = this.props;
     e.preventDefault();
 
-    organizationsActions.unloadAllOrgs();
-    organizationsActions.fetchAllOrgs();
+    contextActions.unloadAllOrgs();
+    contextActions.fetchAllOrgs();
   }
 
   handleFilter = (filterText) => {
@@ -48,8 +48,8 @@ class OrgMenu extends PureComponent {
   }
 
   render() {
-    const { organizationSet, allOrganizationsPending } = this.props;
-    const name = organizationSet.description || organizationSet.name;
+    const { context: { organization }, allOrganizationsPending } = this.props;
+    const name = organization.description || organization.name;
     const allOrganizations =
       this.state.organizations.filter(val => val.name.includes(this.state.filterText)
         || (val.description && val.description.includes(this.state.filterText)));
@@ -70,7 +70,6 @@ class OrgMenu extends PureComponent {
 }
 
 export default compose(
-  withOrganizations(),
-  withOrganization(),
+  withContext(),
   withRouter,
 )(OrgMenu);

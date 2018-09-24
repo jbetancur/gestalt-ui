@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { withOrganization } from 'Modules/MetaResource';
+// import { withOrganization } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import { Card, CardTitle } from '../components/GFCard';
-import withHierarchy from '../withHierarchy';
+import withHierarchy from '../hocs/withHierarchy';
+import withContext from '../hocs/withContext';
 
 class OrganizationCard extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
-    organizationActions: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
   };
@@ -31,16 +31,21 @@ class OrganizationCard extends PureComponent {
   edit = () => {
     const { model, history } = this.props;
 
-    history.push({ pathname: `/${model.properties.fqon}/editOrganization`, state: { modal: true, card: true } });
+    history.push({
+      pathname: `/${model.properties.fqon}/editOrganization`,
+      state: {
+        modal: true,
+        card: true,
+      },
+    });
   }
 
   delete = () => {
-    const { model, match, organizationActions, hierarchyActions } = this.props;
+    const { model, contextActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
-    const onSuccess = () => organizationActions.fetchOrgSet({ fqon: match.params.fqon });
 
     hierarchyActions.confirmDelete(({ force }) => {
-      organizationActions.deleteOrg({ fqon: model.properties.fqon, resource: model, onSuccess, params: { force } });
+      contextActions.deleteOrg({ fqon: model.properties.fqon, resource: model, params: { force } });
     }, name, 'Organization');
   }
 
@@ -95,7 +100,8 @@ class OrganizationCard extends PureComponent {
 }
 
 export default compose(
-  withOrganization(),
+  // withOrganization(),
+  withContext(),
   withHierarchy,
   withEntitlements,
   withTheme,

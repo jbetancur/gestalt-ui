@@ -7,7 +7,7 @@ import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { withProvider, withContainer, withPickerData, withEnvironments } from 'Modules/MetaResource';
+import { withProvider, withContainer, withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses, containerActionCreators } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -44,13 +44,12 @@ class ProviderEdit extends Component {
   state = { redeploy: false };
 
   componentDidMount() {
-    const { match, containerActions, environmentsActions } = this.props;
+    const { match, containerActions } = this.props;
 
     containerActions.fetchProviderContainer({
       fqon: match.params.fqon, providerId: match.params.providerId, params: { embed: 'provider' }, providerContainer: true, enablePolling: true
     });
     this.populateProvider();
-    environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: match.params.providerId, entityKey: 'providers', entity: 'environments' });
   }
 
   componentDidUpdate(prevProps) {
@@ -223,7 +222,6 @@ export default compose(
   withPickerData({ entity: 'providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),
   withContainer(),
   withProvider(),
-  withEnvironments({ unload: true }),
   withEntitlements,
   connect(mapStateToProps, { ...actions, ...containerActionCreators }),
 )(ProviderEdit);

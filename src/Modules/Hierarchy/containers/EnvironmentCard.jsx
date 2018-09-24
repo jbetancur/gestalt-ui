@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
-import { withEnvironments, withEnvironment } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import { Card, CardTitle } from '../components/GFCard';
-import withHierarchy from '../withHierarchy';
+import withHierarchy from '../hocs/withHierarchy';
+import withContext from '../hocs/withContext';
 
 class EnvironmentCard extends PureComponent {
   static propTypes = {
@@ -17,8 +17,7 @@ class EnvironmentCard extends PureComponent {
     theme: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    environmentActions: PropTypes.object.isRequired,
-    environmentsActions: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -36,14 +35,14 @@ class EnvironmentCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, environmentsActions, environmentActions, hierarchyActions } = this.props;
+    const { model, match, contextActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
     const onSuccess = () => {
-      environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
+      contextActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
     };
 
     hierarchyActions.confirmDelete(({ force }) => {
-      environmentActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } });
+      contextActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } });
     }, name, 'Environment');
   }
 
@@ -99,8 +98,7 @@ class EnvironmentCard extends PureComponent {
 }
 
 export default compose(
-  withEnvironments(),
-  withEnvironment(),
+  withContext(),
   withHierarchy,
   withEntitlements,
   withTheme,

@@ -5,19 +5,19 @@ import ContextNavigation from './ContextNavigation';
 import EnvironmentActions from './EnvironmentActions';
 import EnvironmentDetails from './EnvironmentDetails';
 
-const EnvironmentHeader = ({ environment, environmentPending, ...props }) => (
+const EnvironmentHeader = ({ context: { environment }, contextPending, ...props }) => (
   <ContextNavigation
     model={environment}
-    pending={environmentPending}
+    pending={contextPending}
     breadcrumbComponent={<Breadcrumbs lastIsActive />}
-    actionsComponent={<EnvironmentActions environment={environment} pending={environmentPending} {...props} />}
-    detailsComponent={<EnvironmentDetails workspace={environment} pending={environmentPending} {...props} />}
+    actionsComponent={<EnvironmentActions environment={environment} pending={contextPending} {...props} />}
+    detailsComponent={<EnvironmentDetails workspace={environment} pending={contextPending} {...props} />}
   />
 );
 
 EnvironmentHeader.propTypes = {
-  environment: PropTypes.object.isRequired,
-  environmentPending: PropTypes.bool.isRequired,
+  context: PropTypes.object.isRequired,
+  contextPending: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
 };
 

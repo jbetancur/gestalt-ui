@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from './actions';
+import actions from '../actions';
 
 export default function withHierarchy(BaseComponent) {
   class Actions extends PureComponent {

@@ -7,7 +7,7 @@ import { AceEditor } from 'components/ReduxFormFields';
 import { SelectField } from 'react-md';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
-import withLambdaState from '../hoc/withLambdaState';
+import withLambdaState from '../hocs/withLambdaState';
 
 const themes = ['chrome', 'dracula', 'monokai'];
 const keyBindings = [{ name: 'default', value: 'ace' }, { name: 'vim', value: 'vim' }, { name: 'emacs', value: 'emacs' }];

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { withOrganization, withWorkspace } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import { Card, CardTitle } from '../components/GFCard';
-import withHierarchy from '../withHierarchy';
+import withHierarchy from '../hocs/withHierarchy';
+import withContext from '../hocs/withContext';
 
 class WorkspaceCard extends PureComponent {
   static propTypes = {
@@ -17,8 +17,7 @@ class WorkspaceCard extends PureComponent {
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
-    workspaceActions: PropTypes.object.isRequired,
-    organizationActions: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -36,12 +35,11 @@ class WorkspaceCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, workspaceActions, organizationActions, hierarchyActions } = this.props;
+    const { model, match, contextActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
-    const onSuccess = () => organizationActions.fetchOrgSet({ fqon: match.params.fqon });
 
     hierarchyActions.confirmDelete(({ force }) => {
-      workspaceActions.deleteWorkspace({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } });
+      contextActions.deleteWorkspace({ fqon: match.params.fqon, resource: model, params: { force } });
     }, name, 'Workspace');
   }
 
@@ -96,8 +94,7 @@ class WorkspaceCard extends PureComponent {
 }
 
 export default compose(
-  withOrganization(),
-  withWorkspace(),
+  withContext(),
   withHierarchy,
   withEntitlements,
   withTheme,

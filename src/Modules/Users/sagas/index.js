@@ -14,7 +14,7 @@ export default function* userSagas() {
     yield takeLatest(...generateFetchOne({ name: 'USER', entity: 'users' })),
     yield takeLatest(...generateCreate({ name: 'USER', entity: 'users' })),
     yield takeLatest(...generateUpdate({ name: 'USER', entity: 'users' })),
-    yield takeLatest(...generateDelete({ name: 'USER', entity: 'users', verb: 'USERS' })),
+    yield takeLatest(...generateDelete({ name: 'USER', entity: 'users' })),
     yield takeLatest(...generateDeleteMany({ name: 'USERS', entity: 'users' })),
   ]);
 }

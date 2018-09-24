@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import reducerFactory from 'config/lib/reducerFactory';
+import context from './context';
 import organizationModel from '../models/organization';
 import workspaceModel from '../models/workspace';
 import environmentModel from '../models/environment';
 import selfModel from '../models/self';
 
 export default combineReducers({
+  context,
   self: reducerFactory({
     verbs: ['fetch'],
     key: 'self',
@@ -42,12 +44,12 @@ export default combineReducers({
     category: 'org',
     model: organizationModel.get(),
   }),
-  organizationSet: reducerFactory({
-    verbs: ['fetch', 'create', 'update', 'delete'],
-    key: 'organization',
-    category: 'orgset',
-    model: organizationModel.get(),
-  }),
+  // organizationSet: reducerFactory({
+  //   verbs: ['fetch', 'create', 'update', 'delete'],
+  //   key: 'organization',
+  //   category: 'orgset',
+  //   model: organizationModel.get(),
+  // }),
   workspaces: reducerFactory({
     verbs: ['fetch'],
     key: 'workspaces',

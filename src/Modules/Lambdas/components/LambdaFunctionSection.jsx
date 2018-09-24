@@ -7,7 +7,7 @@ import { Panel } from 'components/Panels';
 import { Caption } from 'components/Typography';
 import ListIcon from './ListIcon';
 import runTimes from '../lists/runTimes';
-import withLambdaState from '../hoc/withLambdaState';
+import withLambdaState from '../hocs/withLambdaState';
 
 class LambdaFunctionSection extends PureComponent {
   static propTypes = {

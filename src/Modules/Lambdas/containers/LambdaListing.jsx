@@ -9,7 +9,6 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withLambdas } from 'Modules/MetaResource';
 import { LambdaIcon } from 'components/Icons';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -17,6 +16,7 @@ import LambdaMenuActions from '../components/LambdaMenuActions';
 import ListIcon from '../components/ListIcon';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import actions from '../actions';
+import withLambdas from '../hocs/withLambdas';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 

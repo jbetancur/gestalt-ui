@@ -4,60 +4,73 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withEnvironments, withEnvironment } from 'Modules/MetaResource';
+import { ActivityContainer } from 'components/ProgressIndicators';
 import HierarchyForm from '../components/HierarchyForm';
 import validate from '../validations';
 import { generateEnvironmentPatches } from '../payloadTransformer';
 import { getEditEnvironmentModel } from '../selectors';
+import withContext from '../hocs/withContext';
 
 class EnvironmentEdit extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    environment: PropTypes.object.isRequired,
-    environmentPending: PropTypes.bool.isRequired,
-    environmentActions: PropTypes.object.isRequired,
-    environmentsActions: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
+    selectedEnvironment: PropTypes.object.isRequired,
+    selectedEnvironmentPending: PropTypes.bool.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, environmentActions } = this.props;
+    const { match, contextActions } = this.props;
 
-    environmentActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
+    contextActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
+  }
+
+
+  componentWillUnmount() {
+    const { contextActions } = this.props;
+
+    contextActions.unloadEnvironment();
   }
 
   update = (values) => {
-    const { match, history, location, environment, environmentActions, environmentsActions } = this.props;
-    const payload = generateEnvironmentPatches(environment, values);
+    const { location, history, selectedEnvironment, contextActions } = this.props;
+    const payload = generateEnvironmentPatches(selectedEnvironment, values);
     const onSuccess = () => {
-      if (location.state.card) {
-        // note that if the match.params.workspaceId dosnt exist (and it will not in the heirarchy views) the call for re-pop will be made against /fqon/environments
-        environmentsActions.fetchEnvironments({ fqon: match.params.fqon, entityId: environment.properties.workspace.id });
-      }
+      const { id, org, properties } = selectedEnvironment;
 
-      history.goBack();
+      if (!location.state.card) {
+        history.replace(`/${org.properties.fqon}/hierarchy/${properties.workspace.id}/environment/${id}`);
+      } else {
+        history.replace(`/${org.properties.fqon}/hierarchy/${properties.workspace.id}/environments`);
+      }
     };
 
-    environmentActions.updateEnvironment({ fqon: match.params.fqon, id: environment.id, payload, onSuccess });
+    contextActions.updateEnvironment({ fqon: selectedEnvironment.org.properties.fqon, id: selectedEnvironment.id, payload, onSuccess });
   }
 
   render() {
-    const { environment, environmentPending, initialFormValues } = this.props;
+    const { context: { environment }, selectedEnvironmentPending, initialFormValues } = this.props;
 
     return (
-      <Form
-        component={HierarchyForm}
-        title={environment.description || environment.name}
-        loading={environmentPending}
-        editMode
-        isEnvironment
-        onSubmit={this.update}
-        initialValues={initialFormValues}
-        validate={validate(true)}
-        mutators={{ ...arrayMutators }}
-      />
+      selectedEnvironmentPending
+        ?
+          <ActivityContainer centered id="environment-edit--loading" />
+        :
+          <Form
+            component={HierarchyForm}
+            title={environment.description || environment.name}
+            loading={selectedEnvironmentPending}
+            editMode
+            isEnvironment
+            onSubmit={this.update}
+            initialValues={initialFormValues}
+            validate={validate(true)}
+            mutators={{ ...arrayMutators }}
+          />
     );
   }
 }
@@ -67,7 +80,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withEnvironments(),
-  withEnvironment(),
+  withContext(),
   connect(mapStateToProps),
 )(EnvironmentEdit);

@@ -10,8 +10,8 @@ export const createRequestAction = (verbs, name, defaults = {}) => {
 
   const unloadFuncName = `unload${name}`;
   Object.assign(actions, {
-    [unloadFuncName]() {
-      return { type: `${PREFIX}UNLOAD_${name.toUpperCase()}` };
+    [unloadFuncName]({ ...args }) {
+      return { type: `${PREFIX}UNLOAD_${name.toUpperCase()}`, ...args, ...defaults };
     }
   });
 

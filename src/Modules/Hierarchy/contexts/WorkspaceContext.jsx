@@ -1,39 +1,47 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withOrganization, withEnvironments, withWorkspace } from 'Modules/MetaResource';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
 import WorkspaceNav from '../containers/WorkspaceNav';
 import WorkspaceHeader from '../containers/WorkspaceHeader';
+import withContext from '../hocs/withContext';
 
 class WorkspaceContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    organizationActions: PropTypes.object.isRequired,
-    workspaceActions: PropTypes.object.isRequired,
-    organizationSet: PropTypes.object.isRequired,
-    workspace: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
     const {
       match,
-      workspaceActions,
-      organizationActions,
-      organizationSet
+      contextActions,
     } = this.props;
 
-    workspaceActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
+    contextActions.fetchContext({
+      fqon: match.params.fqon,
+      id: match.params.workspaceId,
+      context: 'workspace',
+    });
+  }
 
-    // Keep org context synced in case of refresh
-    if (match.params.fqon && !organizationSet.id) {
-      organizationActions.fetchOrgSet({ fqon: match.params.fqon });
+  componentDidUpdate(prevProps) {
+    const { match, contextActions } = this.props;
+
+    if (match.params.workspaceId && prevProps.match.params.workspaceId !== match.params.workspaceId) {
+      // If the workspace is switched then get the updated context
+      contextActions.fetchContext({
+        fqon: match.params.fqon,
+        id: match.params.workspaceId,
+        context: 'workspace',
+      });
     }
   }
 
   render() {
-    const { workspace } = this.props;
+    const { context: { workspace } } = this.props;
 
     return (
       <Div>
@@ -51,7 +59,5 @@ class WorkspaceContext extends PureComponent {
 }
 
 export default compose(
-  withOrganization(),
-  withEnvironments(),
-  withWorkspace(),
+  withContext(),
 )(WorkspaceContext);

@@ -4,7 +4,7 @@ import { Button } from 'react-md';
 
 const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...rest} />)`
   text-align: center;
-  border-radius: 3px;
+  ${props => !props.icon && 'border-radius: 3px'};
   ${props => props.raised && css`
     box-shadow: rgba(0, 0, 0, 0.1) 0 1px 1px 0, rgba(0, 0, 0, 0.1) 0 1px 1px 0, rgba(0, 0, 0, 0.2) 0 0 1px -4px;
 

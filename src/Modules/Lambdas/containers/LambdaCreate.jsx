@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { withLambda, withPickerData, withEnv } from 'Modules/MetaResource';
+import { withPickerData, withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
@@ -13,7 +13,8 @@ import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
-import withLambdaState from '../hoc/withLambdaState';
+import withLambdaState from '../hocs/withLambdaState';
+import withLambda from '../hocs/withLambda';
 
 class LambdaCreate extends PureComponent {
   static propTypes = {
@@ -94,7 +95,6 @@ class LambdaCreate extends PureComponent {
 
 function mapStateToProps(state) {
   return {
-    lambda: getCreateLambdaModel(state),
     initialFormValues: getCreateLambdaModel(state),
     theme: state.lambdas.theme,
   };
