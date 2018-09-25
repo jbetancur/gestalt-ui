@@ -44,11 +44,11 @@ export function generateProviderPayload(sourcePayload, hasContainer) {
     delete payload.properties.config.url;
   }
 
-  if (!hasContainer) {
-    return providerModel.create(payload);
+  if (hasContainer) {
+    return providerModel.createWithContainerSpec(payload);
   }
 
-  return providerModel.createWithContainerSpec(payload);
+  return providerModel.create(payload);
 }
 
 /**
@@ -79,19 +79,21 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
     delete model.properties.config.networks;
   }
 
-  // Ugh - check if there is a container - if so then "force" patch op\
-  let hasContainer = false;
-
+  // Ugh - check if there is a container - if so then "force" patch op
   if (updatedPayload.properties.services
     && updatedPayload.properties.services.length
     && updatedPayload.properties.services[0].container_spec
     && updatedPayload.properties.services[0].container_spec.name) {
     // TODO: Deal with Patch array issues - this is sloppy but no other easy way - short story is the meta model for provider containers is fubar
     delete model.properties.services;
-    hasContainer = true;
+
+    return jsonPatch.compare(model, providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true)));
   }
 
-  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload, hasContainer)));
+  // remove residual services so we don't patch it
+  delete model.properties.services;
+
+  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload)));
 }
 
 export default {

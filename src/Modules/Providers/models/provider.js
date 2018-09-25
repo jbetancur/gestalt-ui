@@ -18,7 +18,7 @@ function transformIn(model) {
   return newModel;
 }
 
-function transformOut(model) {
+function transformOut(model, hasContainer) {
   const { properties } = model;
   const newModel = { ...model };
 
@@ -33,6 +33,23 @@ function transformOut(model) {
     newModel.properties.data = base64.encode(properties.data);
     delete newModel.properties.config.auth;
     delete newModel.properties.config.url;
+  }
+
+  if (hasContainer) {
+    const { container_spec } = newModel.properties.services[0];
+
+    newModel.properties.services[0].container_spec = {
+      ...container_spec,
+      properties: {
+        ...container_spec.properties,
+        env: Array.isArray(container_spec.properties.env) ? arrayToMap(container_spec.properties.env, 'name', 'value') : container_spec.properties.env,
+        labels: Array.isArray(container_spec.properties.labels) ? arrayToMap(container_spec.properties.labels, 'name', 'value') : container_spec.properties.labels,
+      },
+    };
+  }
+
+  if (!hasContainer && newModel.properties.services) {
+    delete newModel.properties.services;
   }
 
   return newModel;
@@ -93,7 +110,7 @@ const create = (model = {}) =>
  * @param {Object} model
  */
 const createWithContainerSpec = (model = {}) =>
-  pick(transformOut(get(model)), [
+  pick(transformOut(get(model), true), [
     'name',
     'description',
     'resource_type',
@@ -103,12 +120,26 @@ const createWithContainerSpec = (model = {}) =>
     'properties.environment_types',
   ]);
 
+
 /**
  * patch - only allow mutable props
  * @param {Object} model - override the model
  */
 const patch = (model = {}) =>
   pick(transformOut(get(model)), [
+    'name',
+    'description',
+    'properties.config',
+    'properties.linked_providers',
+    'properties.environment_types',
+  ]);
+
+/**
+* patchWithContainerSpec - only allow mutable props
+* @param {Object} model - override the model
+*/
+const patchWithContainerSpec = (model = {}) =>
+  pick(transformOut(get(model), true), [
     'name',
     'description',
     'properties.config',
@@ -122,5 +153,6 @@ export default {
   create,
   createWithContainerSpec,
   patch,
+  patchWithContainerSpec,
   schema,
 };
