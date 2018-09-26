@@ -2,6 +2,7 @@ import {
   FETCH_CONTEXT_REQUEST,
   FETCH_CONTEXT_FULFILLED,
   FETCH_CONTEXT_REJECTED,
+  UNLOAD_CONTEXT,
   CREATE_ORG_FULFILLED,
   UPDATE_ORG_FULFILLED,
   DELETE_ORG_FULFILLED,
@@ -19,6 +20,7 @@ import environmentModel from '../models/environment';
 import reducer from './context';
 
 const initialState = {
+  context: null,
   organization: organizationModel.get(),
   organizations: [],
   workspace: workspaceModel.get(),
@@ -208,6 +210,26 @@ describe('context reducer', () => {
       ).toEqual({
         environments: [],
       });
+    });
+
+    it('should handle UNLOAD_CONTEXT when switch-context-from-environment is passsed as context', () => {
+      expect(
+        reducer({ environment: { id: '321' }, environments: [{ id: '123', name: 'rick' }] }, {
+          type: UNLOAD_CONTEXT,
+          context: 'switch-context-from-environment',
+        })
+      ).toEqual({
+        environment: environmentModel.get(),
+        environments: [],
+      });
+    });
+
+    it('should remove all context when UNLOAD_CONTEXT and no context ()', () => {
+      expect(
+        reducer({ environment: { id: '321' }, environments: [{ id: '123', name: 'rick' }] }, {
+          type: UNLOAD_CONTEXT,
+        })
+      ).toEqual(initialState);
     });
   });
 });

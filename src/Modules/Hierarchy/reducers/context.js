@@ -3,6 +3,7 @@ import {
   FETCH_CONTEXT_REQUEST,
   FETCH_CONTEXT_FULFILLED,
   FETCH_CONTEXT_REJECTED,
+  UNLOAD_CONTEXT,
   CREATE_ORG_FULFILLED,
   UPDATE_ORG_FULFILLED,
   DELETE_ORG_FULFILLED,
@@ -19,6 +20,7 @@ import workspaceModel from '../models/workspace';
 import environmentModel from '../models/environment';
 
 const initialState = {
+  context: null,
   organization: organizationModel.get(),
   organizations: [],
   workspace: workspaceModel.get(),
@@ -126,7 +128,18 @@ export default (state = initialState, action) => {
         environments: removeItem(state.environments, action.payload),
       };
 
+    case UNLOAD_CONTEXT:
+      if (action.context === 'switch-context-from-environment') {
+        return {
+          ...state,
+          environment: environmentModel.get(),
+          environments: [],
+        };
+      }
 
+      // Any other cases where we need to clear the context from the view layer
+
+      return initialState;
     default:
       return state;
   }

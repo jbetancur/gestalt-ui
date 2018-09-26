@@ -20,6 +20,7 @@ export function* buildOrganizationPayload(action) {
     return yield put({
       type: FETCH_CONTEXT_FULFILLED,
       payload: {
+        context: 'organization',
         organization: organization.data,
         organizations: organizations.data,
         workspaces: workspaces.data,
@@ -51,6 +52,7 @@ export function* buildWorkspacePayload(action) {
       return yield put({
         type: FETCH_CONTEXT_FULFILLED,
         payload: {
+          context: 'workspace',
           organization: org.data,
           organizations: organizations.data,
           workspaces: workspaces.data,
@@ -70,6 +72,7 @@ export function* buildWorkspacePayload(action) {
     return yield put({
       type: FETCH_CONTEXT_FULFILLED,
       payload: {
+        context: 'workspace',
         workspace: workspace.data,
         environments: environments.data,
         // Clear the state here
@@ -108,6 +111,7 @@ export function* buildEnvironmentPayload(action) {
         return yield put({
           type: FETCH_CONTEXT_FULFILLED,
           payload: {
+            context: 'environment',
             environment: data,
             workspace: wkspc.data,
             environments: envs.data,
@@ -123,6 +127,7 @@ export function* buildEnvironmentPayload(action) {
       return yield put({
         type: FETCH_CONTEXT_FULFILLED,
         payload: {
+          context: 'environment',
           environment: data,
           workspace: wkspc.data,
           environments: environments.data,
@@ -138,6 +143,7 @@ export function* buildEnvironmentPayload(action) {
     return yield put({
       type: FETCH_CONTEXT_FULFILLED,
       payload: {
+        context: 'environment',
         environment: env.data,
       },
     });

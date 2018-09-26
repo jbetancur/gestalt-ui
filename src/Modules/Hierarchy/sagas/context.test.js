@@ -43,12 +43,13 @@ describe('Organization Sagas', () => {
         put({
           type: FETCH_CONTEXT_FULFILLED,
           payload: {
+            context: 'organization',
             organization: { id: 1, name: 'org context' },
             organizations: [{ id: 2, name: 'sub org' }],
             workspaces: [{ id: 3, name: 'workspace' }],
             workspace: workspaceModel.get(),
             environment: environmentModel.get(),
-            environments: []
+            environments: [],
           },
         })
       );
@@ -82,6 +83,7 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
+              context: 'workspace',
               workspace: { id: 1, name: 'workspace' },
               environments: [{ id: 2, name: 'environment' }],
               environment: environmentModel.get(),
@@ -122,6 +124,7 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
+              context: 'workspace',
               organization: { id: 1, name: 'org context' },
               organizations: [{ id: 2, name: 'sub org' }],
               workspaces: [{ id: 3, name: 'workspace' }],
@@ -160,6 +163,7 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
+              context: 'environment',
               environment: { id: 1, name: 'environment' },
             },
           })
@@ -199,6 +203,7 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
+              context: 'environment',
               environment: { id: '456', properties: { workspace: { id: '890' } } },
               workspace: { id: 2, name: 'workspace context' },
               environments: [{ id: 3, name: 'an environment' }],
@@ -246,6 +251,7 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
+              context: 'environment',
               environment: { id: '456', properties: { workspace: { id: '890' } } },
               workspace: { id: 2, name: 'workspace context' },
               environments: [{ id: 3, name: 'an environment' }],

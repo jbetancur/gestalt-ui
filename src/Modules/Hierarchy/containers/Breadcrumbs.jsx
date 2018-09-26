@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { withSelf, } from 'Modules/MetaResource';
-import { Divider, ListItem } from 'react-md';
+import { Divider, ListItem, FontIcon } from 'react-md';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import BreadCrumbDropdown from '../components/BreadCrumbDropdown';
@@ -58,6 +58,7 @@ class Breadcrumbs extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
+    contextActions: PropTypes.object.isRequired,
     size: PropTypes.number,
     isActive: PropTypes.bool,
     pending: PropTypes.bool,
@@ -82,7 +83,7 @@ class Breadcrumbs extends Component {
       context: {
         organization,
         organizations,
-      }
+      },
     } = this.props;
 
     return [
@@ -90,6 +91,7 @@ class Breadcrumbs extends Component {
         id="breadcrumbs-menu--create"
         key="breadcrumbs-menu--create"
         primaryText="Create Organization..."
+        leftIcon={<FontIcon>add</FontIcon>}
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
       />,
@@ -108,6 +110,17 @@ class Breadcrumbs extends Component {
     ];
   }
 
+  // Fixes ghost environment listing when switching workspace fron an environment context
+  handleWorkspaceNav(workspace) {
+    const { history, contextActions } = this.props;
+    const workspaceRoute = `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`;
+
+    if (history.location.pathname !== workspaceRoute) {
+      contextActions.unloadContext({ context: 'switch-context-from-environment' });
+      history.replace(`/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`);
+    }
+  }
+
   generateWorkspaceItems() {
     const {
       context: {
@@ -121,6 +134,7 @@ class Breadcrumbs extends Component {
         id="breadcrumbs-menu--workspace-create"
         key="breadcrumbs-menu--workspace-create"
         primaryText="Create Workspace..."
+        leftIcon={<FontIcon>add</FontIcon>}
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
       />,
@@ -132,8 +146,7 @@ class Breadcrumbs extends Component {
           primaryText={wkspc.description || wkspc.name}
           secondaryText={wkspc.name}
           inkDisabled
-          component={Link}
-          to={`/${wkspc.org.properties.fqon}/hierarchy/${wkspc.id}/environments`}
+          onClick={() => this.handleWorkspaceNav(wkspc)}
         />)
       )
     ];
@@ -143,7 +156,7 @@ class Breadcrumbs extends Component {
     const { context: {
       environment,
       environments,
-    }
+    },
     } = this.props;
 
     return [
@@ -151,6 +164,7 @@ class Breadcrumbs extends Component {
         id="breadcrumbs-menu--environment-create"
         key="breadcrumbs-menu--environment-create"
         primaryText="Create Environment..."
+        leftIcon={<FontIcon>add</FontIcon>}
         component={Link}
         to={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
       />,
@@ -184,7 +198,7 @@ class Breadcrumbs extends Component {
 
     const parentOrgRoute = `/${organization.org.properties.fqon}/hierarchy`;
     const orgsRoute = `/${organization.properties.fqon}/hierarchy`;
-    const workspaceRoute = `/${organization.properties.fqon}/hierarchy/${workspace.id}/environments`;
+    const workspaceRoute = `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`;
     const environmentRoute = `${match.url}`;
     const orgName = organization.description || organization.name;
     const workspaceName = workspace.description || workspace.name;
