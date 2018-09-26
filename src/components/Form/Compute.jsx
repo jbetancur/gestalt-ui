@@ -85,7 +85,7 @@ class ComputeForm extends Component {
     } = this.props;
 
     return (
-      <Row gutter={10}>
+      <Row gutter={5}>
         <Col flex={10} xs={8}>
           <Slider
             id={`${cpuName}--cpu`}

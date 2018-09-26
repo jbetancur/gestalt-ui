@@ -93,7 +93,7 @@ class Breadcrumbs extends Component {
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
       />,
-      <Divider key="breadcrumbs-menu-organization--divider" />,
+      organizations.length > 0 ? <Divider key="breadcrumbs-menu-organization--divider" /> : <div />,
       ...organizations.map(org => (
         <ListItem
           id={org.name}
@@ -124,7 +124,7 @@ class Breadcrumbs extends Component {
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
       />,
-      <Divider key="breadcrumbs-menu-workspace--divider" />,
+      workspaces.length > 0 ? <Divider key="breadcrumbs-menu-workspace--divider" /> : <div />,
       ...workspaces.map(wkspc => (
         <ListItem
           id={wkspc.name}
@@ -154,7 +154,7 @@ class Breadcrumbs extends Component {
         component={Link}
         to={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
       />,
-      <Divider key="breadcrumbs-menu-environment--divider" />,
+      environments.length > 0 ? <Divider key="breadcrumbs-menu-environment--divider" /> : <div />,
       ...environments.map(env => (
         <ListItem
           id={env.name}
