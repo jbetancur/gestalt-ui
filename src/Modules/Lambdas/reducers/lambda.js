@@ -34,7 +34,6 @@ export default (state = initialState, action) => {
         providers: action.payload.providers,
         executors: action.payload.executors,
         secrets: action.payload.secrets,
-        lambda: action.payload.lambda,
       };
     case INIT_LAMBDAEDIT_REQUEST:
       return {
