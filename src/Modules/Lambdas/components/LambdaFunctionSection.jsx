@@ -62,7 +62,7 @@ class LambdaFunctionSection extends PureComponent {
       >
         <Row gutter={5}>
           {!editMode &&
-            <Col flex={4} xs={12} sm={12}>
+            <Col flex={10} xs={12} sm={12}>
               <Field
                 id="select-runtime"
                 component={SelectField}
@@ -91,7 +91,7 @@ class LambdaFunctionSection extends PureComponent {
               />
             </Col>}
 
-          <Col flex>
+          <Col flex={12}>
             <Field
               component={TextField}
               name="properties.handler"

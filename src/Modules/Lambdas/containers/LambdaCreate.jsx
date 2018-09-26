@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { withPickerData, withEnv } from 'Modules/MetaResource';
+import { withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
@@ -24,15 +24,16 @@ class LambdaCreate extends PureComponent {
     lambdaPending: PropTypes.bool.isRequired,
     envPending: PropTypes.bool.isRequired,
     envActions: PropTypes.object.isRequired,
-    executorsData: PropTypes.array.isRequired,
-    providersData: PropTypes.array.isRequired,
+    executors: PropTypes.array.isRequired,
+    providers: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     lambdaStateActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, envActions } = this.props;
-
+    const { match, envActions, lambdaActions } = this.props;
+    lambdaActions.initLambdaCreate();
+    // TODO: Move to initLambdaCreate sagaworkflow
     envActions.fetchEnv({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
   }
 
@@ -43,11 +44,11 @@ class LambdaCreate extends PureComponent {
   }
 
   create = (values) => {
-    const { match, history, lambdaActions, executorsData } = this.props;
+    const { match, history, lambdaActions, executors } = this.props;
     const payload = generatePayload(values);
 
-    if (payload.properties.runtime && executorsData.length) {
-      payload.properties.runtime = executorsData.find(exec => exec.id === payload.properties.runtime)
+    if (payload.properties.runtime && executors.length) {
+      payload.properties.runtime = executors.find(exec => exec.id === payload.properties.runtime)
         .properties.config.env.public.RUNTIME;
     }
 
@@ -62,8 +63,8 @@ class LambdaCreate extends PureComponent {
     const {
       lambdaPending,
       envPending,
-      providersData,
-      executorsData,
+      providers,
+      executors,
       initialFormValues,
     } = this.props;
 
@@ -84,8 +85,8 @@ class LambdaCreate extends PureComponent {
               validate={validate}
               mutators={{ ...arrayMutators }}
               loading={lambdaPending}
-              providers={providersData}
-              executors={executorsData}
+              providers={providers}
+              executors={executors}
             />
           </Col>
         </Row>
@@ -101,9 +102,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
-  withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
-  withLambda,
+  withLambda(),
   withLambdaState,
   withEnv({ unloadEnvSchema: false }),
   connect(mapStateToProps, actions),

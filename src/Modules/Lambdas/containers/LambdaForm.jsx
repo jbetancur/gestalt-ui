@@ -15,8 +15,6 @@ import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
 import SelectProvider from '../components/SelectProvider';
 
-const getSelectedProvider = (values, providers) => providers.find(p => p.id === values.properties.provider.id);
-
 const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, executors, editMode, pristine, submitting, onSaveInlineCode }) => (
   <Form
     onSubmit={handleSubmit}
@@ -61,12 +59,6 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
             </Col>
           </Row>
 
-          {/* <Row gutter={5}>
-            <Col flex={12}>
-              <LambdaAdvancedSection formValues={values} form={form} />
-            </Col>
-          </Row> */}
-
           <Row gutter={5}>
             <Col flex={12}>
               <Panel
@@ -77,7 +69,7 @@ const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, exe
                 <SecretsPanelForm
                   fieldName="properties.secrets"
                   formValues={values}
-                  provider={getSelectedProvider(values, providers)}
+                  provider={values.properties.provider}
                   type="lambda"
                   form={form}
                 />

@@ -4,19 +4,17 @@ import { notificationActions } from 'Modules/Notifications';
 import { fetchAPI } from 'config/lib/utility';
 import lambdaSagas, {
   fetchLambdas,
-  fetchLambda,
   createLambda,
   updateLambda,
   deleteLambda,
   deleteLambdas,
+  createViewWorkflow,
+  editViewWorkflow,
 } from './lambdas';
 import {
   FETCH_LAMBDAS_REQUEST,
   FETCH_LAMBDAS_FULFILLED,
   FETCH_LAMBDAS_REJECTED,
-  FETCH_LAMBDA_REQUEST,
-  FETCH_LAMBDA_FULFILLED,
-  FETCH_LAMBDA_REJECTED,
   CREATE_LAMBDA_REQUEST,
   CREATE_LAMBDA_FULFILLED,
   CREATE_LAMBDA_REJECTED,
@@ -27,6 +25,12 @@ import {
   DELETE_LAMBDA_REQUEST,
   DELETE_LAMBDA_FULFILLED,
   DELETE_LAMBDA_REJECTED,
+  INIT_LAMBDACREATE_REQUEST,
+  INIT_LAMBDACREATE_FULFILLED,
+  INIT_LAMBDACREATE_REJECTED,
+  INIT_LAMBDAEDIT_REQUEST,
+  INIT_LAMBDAEDIT_FULFILLED,
+  INIT_LAMBDAEDIT_REJECTED,
 } from '../constants';
 
 describe('Lambda Sagas', () => {
@@ -87,75 +91,6 @@ describe('Lambda Sagas', () => {
     });
   });
 
-  describe('fetchLambda Sequence', () => {
-    describe('when there are only inheritied variables', () => {
-      const saga = fetchLambda({ fqon: 'iamfqon', lambdaId: 1 });
-      let result;
-      it('should make an api call for the lambda by id', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/lambdas/1')
-        );
-      });
-
-      it('should make an api call for the environment envs', () => {
-        result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' } } } });
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/2/env')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: { test: 'testvar' } });
-
-        const expectedPayload = { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }] } };
-        expect(result.value).toEqual(
-          put({ type: FETCH_LAMBDA_FULFILLED, payload: expectedPayload })
-        );
-      });
-    });
-
-    describe('when there are both own and inherited env vars', () => {
-      const saga = fetchLambda({ fqon: 'iamfqon', lambdaId: 1, environmentId: 2 });
-      let result;
-      it('should make an api call for the lambda by id', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/lambdas/1')
-        );
-      });
-
-      it('should make an api call for the environment envs', () => {
-        result = saga.next({ data: { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: { rick: 'morty' } } } });
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/2/env')
-        );
-      });
-
-      it('should return a payload and dispatch a success status', () => {
-        result = saga.next({ data: { test: 'testvar' } });
-
-        const expectedPayload = { id: 1, properties: { parent: { href: 'iamfqon/environments/2' }, env: [{ name: 'test', value: 'testvar', inherited: true }, { name: 'rick', value: 'morty', inherited: false }] } };
-        expect(result.value).toEqual(
-          put({ type: FETCH_LAMBDA_FULFILLED, payload: expectedPayload })
-        );
-      });
-    });
-
-    describe('when there is an Error', () => {
-      it('should return a payload and dispatch a reject status when there is an error', () => {
-        const sagaError = fetchLambda({ fqon: 'iamfqon' });
-        let resultError = sagaError.next();
-
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          put({ type: FETCH_LAMBDA_REJECTED, payload: error })
-        );
-      });
-    });
-  });
-
   describe('createLambda Sequence', () => {
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
     const saga = createLambda(action);
@@ -165,7 +100,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call for the lambda by id', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.post, 'iamfqon/environments/1/lambdas', action.payload)
+        call(axios.post, 'iamfqon/environments/1/lambdas?embed=provider', action.payload)
       );
     });
 
@@ -224,7 +159,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call to PATCH the lambda', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.patch, 'iamfqon/lambdas/1', action.payload)
+        call(axios.patch, 'iamfqon/lambdas/1?embed=provider', action.payload)
       );
     });
 
@@ -290,7 +225,7 @@ describe('Lambda Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        put({ type: DELETE_LAMBDA_FULFILLED })
+        put({ type: DELETE_LAMBDA_FULFILLED, payload: resource })
       );
     });
 
@@ -340,7 +275,7 @@ describe('Lambda Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        put({ type: DELETE_LAMBDA_FULFILLED })
+        put({ type: DELETE_LAMBDA_FULFILLED, payload: [resource] })
       );
     });
 
@@ -374,6 +309,117 @@ describe('Lambda Sagas', () => {
     });
   });
 
+  describe('createViewWorkflow Sequence', () => {
+    describe('when the workflow is invoked', () => {
+      const saga = createViewWorkflow();
+      let result;
+
+      it('should make an api call for all view state resources', () => {
+        result = saga.next();
+        result = saga.next('123'); // this environment id state that should exist
+        result = saga.next({ environment: { id: '123', org: { properties: { fqon: 'test' } } } }); // mock state
+        expect(result.value).toEqual(
+          call(axios.all, [
+            axios.get('test/environments/123/providers?expand=true&type=Lambda'),
+            axios.get('test/environments/123/providers?expand=true&type=Executor'),
+            axios.get('test/environments/123/secrets?expand=true'),
+          ]),
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next([
+          { data: [{ name: 'a provider' }] },
+          { data: [{ name: 'an executor' }] },
+          { data: [{ name: 'a secret' }] },
+        ]);
+
+        const payload = {
+          providers: [{ name: 'a provider' }],
+          executors: [{ name: 'an executor' }],
+          secrets: [{ name: 'a secret' }],
+        };
+
+        expect(result.value).toEqual(
+          put({ type: INIT_LAMBDACREATE_FULFILLED, payload })
+        );
+      });
+    });
+
+    describe('when there is an Error', () => {
+      it('should return a payload and dispatch a reject status when there is an error', () => {
+        const sagaError = createViewWorkflow();
+        let resultError = sagaError.next();
+
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).toEqual(
+          put({ type: INIT_LAMBDACREATE_REJECTED, payload: error })
+        );
+      });
+    });
+  });
+
+
+  describe('editViewWorkflow Sequence', () => {
+    describe('when the workflow is invoked', () => {
+      const saga = editViewWorkflow({ lambdaId: '890' });
+      let result;
+
+      it('should make an api call for all view state resources', () => {
+        result = saga.next();
+        result = saga.next('123'); // this environment id state that should exist
+        result = saga.next({ environment: { id: '123', org: { properties: { fqon: 'test' } } } }); // mock state
+
+        expect(result.value).toEqual(
+          call(axios.all, [
+            axios.get('test/lambdas/890?embed=provider'),
+            axios.get('test/environments/123/providers?expand=true&type=Executor'),
+            axios.get('test/environments/123/secrets?expand=true'),
+          ]),
+        );
+      });
+
+      it('should make an api call for the environment envs', () => {
+        result = saga.next([
+          { data: { id: '890', name: 'a lambda', properties: { parent: { href: 'iamfqon/environments/2' } } } },
+          { data: [{ name: 'an executor' }] },
+          { data: [{ name: 'a secret' }] },
+        ]);
+
+        expect(result.value).toEqual(
+          call(axios.get, 'iamfqon/environments/2/env')
+        );
+      });
+
+      it('should return a payload and dispatch a success status and merge any env vars', () => {
+        result = saga.next({ data: { test: 'testvar' } });
+
+        const payload = {
+          executors: [{ name: 'an executor' }],
+          secrets: [{ name: 'a secret' }],
+          lambda: { id: '890', name: 'a lambda', properties: { env: [{ name: 'test', value: 'testvar', inherited: true }], parent: { href: 'iamfqon/environments/2' } } },
+        };
+
+        expect(result.value).toEqual(
+          put({ type: INIT_LAMBDAEDIT_FULFILLED, payload })
+        );
+      });
+
+      describe('when there is an Error', () => {
+        it('should return a payload and dispatch a reject status when there is an error', () => {
+          const sagaError = editViewWorkflow({ fqon: 'test' });
+          let resultError = sagaError.next();
+
+          resultError = sagaError.throw({ message: error });
+
+          expect(resultError.value).toEqual(
+            put({ type: INIT_LAMBDAEDIT_REJECTED, payload: error })
+          );
+        });
+      });
+    });
+  });
 
   describe('lambdaSagas', () => {
     let result;
@@ -383,13 +429,6 @@ describe('Lambda Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, FETCH_LAMBDAS_REQUEST, fetchLambdas)
-      );
-    });
-
-    it('should fork a watcher for fetchLambda', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, FETCH_LAMBDA_REQUEST, fetchLambda)
       );
     });
 
@@ -418,6 +457,20 @@ describe('Lambda Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, DELETE_LAMBDAS_REQUEST, deleteLambdas)
+      );
+    });
+
+    it('should fork a watcher for createViewWorkflow', () => {
+      result = rootSaga.next();
+      expect(result.value).toEqual(
+        fork(takeLatest, INIT_LAMBDACREATE_REQUEST, createViewWorkflow)
+      );
+    });
+
+    it('should fork a watcher for editViewWorkflow', () => {
+      result = rootSaga.next();
+      expect(result.value).toEqual(
+        fork(takeLatest, INIT_LAMBDAEDIT_REQUEST, editViewWorkflow)
       );
     });
   });

@@ -48,7 +48,6 @@ class LambdaListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.populateLambdas();
     };
 
     this.props.confirmDelete(({ force }) => {
@@ -64,7 +63,6 @@ class LambdaListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.populateLambdas();
     };
 
     this.props.confirmDelete(({ force }) => {

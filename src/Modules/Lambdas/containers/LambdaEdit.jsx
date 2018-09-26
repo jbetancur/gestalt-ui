@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withAPIEndpoints, withPickerData } from 'Modules/MetaResource';
+import { withAPIEndpoints } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -37,8 +37,8 @@ class LambdaEdit extends PureComponent {
     lambdaPending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
-    providersData: PropTypes.array.isRequired,
-    executorsData: PropTypes.array.isRequired,
+    providers: PropTypes.array.isRequired,
+    executors: PropTypes.array.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
     lambdaStateActions: PropTypes.object.isRequired,
@@ -61,7 +61,8 @@ class LambdaEdit extends PureComponent {
   componentDidMount() {
     const { match, lambdaActions, apiEndpointsActions } = this.props;
 
-    lambdaActions.fetchLambda({ fqon: match.params.fqon, lambdaId: match.params.lambdaId });
+    lambdaActions.initLambdaEdit({ lambdaId: match.params.lambdaId });
+    // TODO: Move to initLambdaEdit sagaworkflow
     apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'lambda', implementation_id: match.params.lambdaId } });
   }
 
@@ -73,7 +74,6 @@ class LambdaEdit extends PureComponent {
 
   componentWillUnmount() {
     const { lambdaStateActions } = this.props;
-
     lambdaStateActions.setRunTime({});
   }
 
@@ -102,14 +102,12 @@ class LambdaEdit extends PureComponent {
       lambda,
       lambdaPending,
       initialFormValues,
-      providersData,
-      executorsData,
+      providers,
+      executors,
       apiEndpoints,
       apiEndpointsPending,
       lambdaStateActions,
     } = this.props;
-
-    const selectedProvider = providersData.find(p => p.id === lambda.properties.provider.id) || {};
 
     return (
       lambdaPending && !lambda.id ?
@@ -118,7 +116,7 @@ class LambdaEdit extends PureComponent {
           <Col flex={10} xs={12} sm={12} md={10}>
             <ActionsToolbar
               title={lambda.name}
-              subtitle={`Provider: ${selectedProvider.name}`}
+              subtitle={`Provider: ${lambda.properties.provider.name}`}
               actions={[
                 <Button
                   key="lambda--log"
@@ -181,8 +179,8 @@ class LambdaEdit extends PureComponent {
                   validate={validate}
                   mutators={{ ...arrayMutators }}
                   loading={lambdaPending}
-                  providers={providersData}
-                  executors={executorsData}
+                  providers={providers}
+                  executors={executors}
                   lambda={lambda}
                   apiEndpoints={apiEndpoints}
                   apiEndpointsPending={apiEndpointsPending}
@@ -252,10 +250,8 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'Lambda' } }),
-  withPickerData({ entity: 'providers', alias: 'executors', label: 'Executors', params: { type: 'Executor' }, }),
   withLambdaState,
-  withLambda,
+  withLambda(),
   withAPIEndpoints(),
   withEntitlements,
   connect(mapStateToProps),

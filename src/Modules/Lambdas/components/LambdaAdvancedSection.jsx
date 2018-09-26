@@ -7,8 +7,9 @@ import { Panel } from 'components/Panels';
 import { Compute } from 'components/Form';
 import { fixInputNumber } from 'util/forms';
 import responseHeaders from '../lists/responseHeaders';
+import withLambdaState from '../hocs/withLambdaState';
 
-const LambdaAdvancedSection = ({ formValues, form }) => (
+const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
   <Panel title="Function Options" fill expandable={false}>
     <Row gutter={5}>
       <Compute formValues={formValues} form={form} />
@@ -38,7 +39,7 @@ const LambdaAdvancedSection = ({ formValues, form }) => (
           format={fixInputNumber}
         />
       </Col>
-      <Col flex={5} xs={12} sm={12}>
+      <Col flex={8} xs={12} sm={12}>
         <Field
           id="select-return-type"
           component={SelectField}
@@ -52,14 +53,23 @@ const LambdaAdvancedSection = ({ formValues, form }) => (
       </Col>
       <Col flex={3} xs={12} sm={12}>
         <Field
-          id="public"
+          id="lambda--public"
           component={Checkbox}
           name="properties.public"
-          // TODO: Find out why redux-form state for bool doesn't apply
           checked={formValues.properties.public}
           label="Make Public"
         />
       </Col>
+      {selectedRuntime.options && selectedRuntime.options.isolate &&
+        <Col flex={6} xs={12} sm={12}>
+          <Field
+            id="lambda--isolate"
+            component={Checkbox}
+            name="properties.isolate"
+            checked={formValues.properties.isolate}
+            label="Run in an isolated class loader"
+          />
+        </Col>}
     </Row>
   </Panel>
 );
@@ -67,6 +77,7 @@ const LambdaAdvancedSection = ({ formValues, form }) => (
 LambdaAdvancedSection.propTypes = {
   formValues: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
+  selectedRuntime: PropTypes.object.isRequired,
 };
 
-export default LambdaAdvancedSection;
+export default withLambdaState(LambdaAdvancedSection);

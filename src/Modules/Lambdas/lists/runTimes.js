@@ -13,6 +13,7 @@ export default [
     defaultMem: 128,
     format: 'Package format: {filename};{function} | Inline format: {function}',
     codeFormat: 'javascript',
+    options: {},
     codeOptions: codeOptionsInline,
   },
   {
@@ -20,6 +21,9 @@ export default [
     defaultMem: 512,
     format: 'com.package.Class;function',
     codeFormat: 'java',
+    options: {
+      isolate: true,
+    },
     codeOptions,
   },
   {
@@ -27,6 +31,9 @@ export default [
     defaultMem: 512,
     format: 'com.package.Class;function',
     codeFormat: 'java',
+    options: {
+      isolate: true,
+    },
     codeOptions,
   },
   {
@@ -34,6 +41,7 @@ export default [
     defaultMem: 128,
     format: 'Package format: {filename};{function} | Inline format: {function}',
     codeFormat: 'javascript',
+    options: {},
     codeOptions: codeOptionsInline,
   },
   {
@@ -41,6 +49,7 @@ export default [
     defaultMem: 128,
     format: '{filename}.py',
     codeFormat: 'python',
+    options: {},
     codeOptions,
   },
   {
@@ -48,6 +57,7 @@ export default [
     defaultMem: 512,
     format: '/path/to/executable',
     codeFormat: 'csharp',
+    options: {},
     codeOptions,
   },
   {
@@ -55,6 +65,7 @@ export default [
     defaultMem: 512,
     format: '/path/to/executable',
     codeFormat: 'csharp',
+    options: {},
     codeOptions,
   },
   {
@@ -62,6 +73,7 @@ export default [
     defaultMem: 128,
     format: '{filename}.rb',
     codeFormat: 'ruby',
+    options: {},
     codeOptions,
   },
   {
@@ -69,6 +81,7 @@ export default [
     defaultMem: 128,
     format: '{go executable filename}',
     codeFormat: 'golang',
+    options: {},
     codeOptions,
   },
   {
@@ -76,6 +89,9 @@ export default [
     defaultMem: 512,
     format: 'com.package.Class;function',
     codeFormat: 'scala',
+    options: {
+      isolate: true,
+    },
     codeOptions,
   },
   {
@@ -83,6 +99,7 @@ export default [
     defaultMem: 128,
     format: '',
     codeFormat: 'sh',
+    options: {},
     codeOptions: codeOptionsInline,
   },
 ];

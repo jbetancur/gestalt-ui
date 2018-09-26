@@ -75,6 +75,7 @@ const create = (model = {}) => {
     'properties.memory',
     'properties.timeout',
     'properties.pre_warm',
+    'properties.isolate',
     'properties.handler',
     'properties.package_url',
     'properties.public',
