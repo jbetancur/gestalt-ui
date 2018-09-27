@@ -1,4 +1,5 @@
 export { default as DeleteIcon } from './DeleteIcon';
+export { default as RocketIcon } from './RocketIcon';
 export { default as GalacticFogIcon } from './GalacticFogIcon';
 export { default as GestaltIcon } from './GestaltIcon';
 export { default as GestaltIconText } from './GestaltIconText';

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-focus';
 import { withAPIEndpoints } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -27,6 +28,8 @@ import { getEditLambdaModel } from '../selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
 import runTimes from '../lists/runTimes';
+
+const focusOnErrors = createDecorator();
 
 class LambdaEdit extends PureComponent {
   static propTypes = {
@@ -178,6 +181,7 @@ class LambdaEdit extends PureComponent {
                   render={LambdaForm}
                   validate={validate}
                   mutators={{ ...arrayMutators }}
+                  decorators={[focusOnErrors]}
                   loading={lambdaPending}
                   providers={providers}
                   executors={executors}

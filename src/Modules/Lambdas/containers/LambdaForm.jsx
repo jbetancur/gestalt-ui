@@ -15,100 +15,117 @@ import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
 import SelectProvider from '../components/SelectProvider';
 
-const LambdaForm = ({ handleSubmit, form, values, match, loading, providers, executors, editMode, pristine, submitting, onSaveInlineCode }) => (
-  <Form
-    onSubmit={handleSubmit}
-    autoComplete="off"
-    disabled={loading}
-  >
-    {!values.properties.provider.id
-      ?
-        <SelectProvider providers={providers} />
-      :
-        <React.Fragment>
-          <LambdaSection providers={providers} editMode={editMode} />
+const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, providers, executors, editMode, pristine, submitting, onSaveInlineCode }) => {
+  const safeErrors = {
+    ...errors,
+    properties: {
+      ...errors.properties,
+    }
+  };
 
-          <Row gutter={5}>
-            <Col flex={7} xs={12} sm={12} md={12}>
-              <LambdaFunctionSection
-                executors={executors}
-                formValues={values}
-                editMode={editMode}
-                form={form}
-              />
-            </Col>
+  return (
+    <Form
+      onSubmit={handleSubmit}
+      autoComplete="off"
+      disabled={loading}
+    >
+      {!values.properties.provider.id
+        ?
+          <SelectProvider providers={providers} />
+        :
+          <React.Fragment>
+            <LambdaSection providers={providers} editMode={editMode} />
 
-            <Col flex={5} xs={12} sm={12} md={12}>
-              <LambdaAdvancedSection formValues={values} form={form} />
-            </Col>
-
-            {values.properties.code_type === 'code' &&
-              <Col flex={12}>
-                <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />
-              </Col>}
-
-            <Col flex={12}>
-              <Panel
-                title="Environment Variables"
-                noPadding
-                count={values.properties.env.length}
-                defaultExpanded={values.properties.env.length > 0}
-              >
-                <UnixVariablesForm fieldName="properties.env" formValues={values} />
-              </Panel>
-            </Col>
-          </Row>
-
-          <Row gutter={5}>
-            <Col flex={12}>
-              <Panel
-                title="Secrets"
-                noPadding
-                count={values.properties.secrets.length}
-              >
-                <SecretsPanelForm
-                  fieldName="properties.secrets"
+            <Row gutter={5}>
+              <Col flex={7} xs={12} sm={12} md={12}>
+                <LambdaFunctionSection
+                  executors={executors}
                   formValues={values}
-                  provider={values.properties.provider}
-                  type="lambda"
+                  editMode={editMode}
                   form={form}
                 />
-              </Panel>
-            </Col>
-          </Row>
+              </Col>
 
-          <Row gutter={5}>
-            <Col flex={12}>
-              <LambdaPeriodicSection />
-            </Col>
-          </Row>
-        </React.Fragment>}
+              <Col flex={5} xs={12} sm={12} md={12}>
+                <LambdaAdvancedSection formValues={values} form={form} />
+              </Col>
 
-    <FullPageFooter>
-      <Button
-        flat
-        iconChildren="arrow_back"
-        disabled={loading || submitting}
-        component={Link}
-        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
-      >
-        Lambdas
-      </Button>
-      <Button
-        raised
-        iconChildren="save"
-        type="submit"
-        disabled={pristine || submitting}
-        primary
-      >
-        {editMode ? 'Update' : 'Create'}
-      </Button>
-    </FullPageFooter>
-  </Form>
-);
+              {values.properties.code_type === 'code' &&
+                <Col flex={12}>
+                  <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />
+                </Col>}
+
+              <Col flex={12}>
+                <Panel
+                  title="Environment Variables"
+                  noPadding
+                  count={values.properties.env.length}
+                  defaultExpanded={editMode && values.properties.env.length > 0}
+                  error={safeErrors.properties.env && errors.properties.env.length > 0}
+                >
+                  <UnixVariablesForm fieldName="properties.env" formValues={values} />
+                </Panel>
+              </Col>
+            </Row>
+
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Panel
+                  title="Secrets"
+                  noPadding
+                  defaultExpanded={editMode && values.properties.secrets.length > 0}
+                  count={values.properties.secrets.length}
+                  error={safeErrors.properties.secrets && errors.properties.secrets.length > 0}
+                >
+                  <SecretsPanelForm
+                    fieldName="properties.secrets"
+                    formValues={values}
+                    provider={values.properties.provider}
+                    type="lambda"
+                    form={form}
+                  />
+                </Panel>
+              </Col>
+            </Row>
+
+            <Row gutter={5}>
+              <Col flex={12}>
+                <LambdaPeriodicSection
+                  editMode={editMode}
+                  formValues={values}
+                  errors={safeErrors}
+                />
+              </Col>
+            </Row>
+          </React.Fragment>}
+
+      <FullPageFooter>
+        <Button
+          flat
+          iconChildren="arrow_back"
+          disabled={loading || submitting}
+          component={Link}
+          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
+        >
+          Lambdas
+        </Button>
+        <Button
+          raised
+          iconChildren="save"
+          type="submit"
+          disabled={pristine || submitting}
+          primary
+        >
+          {editMode ? 'Update' : 'Create'}
+        </Button>
+      </FullPageFooter>
+    </Form>
+  );
+};
 
 LambdaForm.propTypes = {
   form: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   // lambda: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,

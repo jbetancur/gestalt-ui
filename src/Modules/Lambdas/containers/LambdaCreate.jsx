@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-focus';
 import { Row, Col } from 'react-flexybox';
 import { withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -15,6 +16,8 @@ import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
+
+const focusOnErrors = createDecorator();
 
 class LambdaCreate extends PureComponent {
   static propTypes = {
@@ -83,6 +86,7 @@ class LambdaCreate extends PureComponent {
               initialValues={initialFormValues}
               render={LambdaForm}
               validate={validate}
+              decorators={[focusOnErrors]}
               mutators={{ ...arrayMutators }}
               loading={lambdaPending}
               providers={providers}

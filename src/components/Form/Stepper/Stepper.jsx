@@ -163,7 +163,7 @@ export default class Stepper extends Component {
   }
 
   render() {
-    const { debug, children, onCancel, pending, ...rest } = this.props;
+    const { debug, children, onCancel, pending, formProps, ...rest } = this.props;
     const activePage = React.Children.toArray(children)[this.state.page];
     const isLastPage = this.state.page === React.Children.count(children) - 1;
 
@@ -177,6 +177,7 @@ export default class Stepper extends Component {
             initialValues={this.state.values}
             validate={this.validate}
             onSubmit={this.handleSubmit}
+            {...formProps}
           >
             {({ handleSubmit, submitting, invalid, values }) => (
               <FormTag onSubmit={handleSubmit} disabled={pending}>

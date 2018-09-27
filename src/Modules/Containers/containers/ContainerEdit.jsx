@@ -7,6 +7,7 @@ import Form from 'components/Form';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-focus';
 import { withContainer, withAPIEndpoints } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -35,6 +36,8 @@ import {
   selectVolumeListing,
 } from '../selectors';
 import ActionsModals from '../ActionModals';
+
+const focusOnErrors = createDecorator();
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -199,6 +202,7 @@ class ContainerEdit extends Component {
                   editMode
                   onSubmit={this.redeployContainer}
                   mutators={{ ...arrayMutators }}
+                  decorators={[focusOnErrors]}
                   loading={containerPending}
                   initialValues={initialFormValues}
                   validate={validate}

@@ -24,12 +24,12 @@ const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value:
 
 const ProviderForm = ({
   form,
+  errors,
   handleSubmit,
   submitting,
   invalid,
   values,
   provider,
-  containerFormErrors,
   editMode,
   fetchEnvSchema,
   onRedeploy,
@@ -58,8 +58,6 @@ const ProviderForm = ({
 
   return (
     <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
-      {/* <FormSpy subscription={{ values: true }} /> */}
-
       {!editMode && !selectedProviderType.name &&
         <Row gutter={5}>
           {/* only allow the provider type to be selected once - this prevents redux-form errors */}
@@ -170,7 +168,11 @@ const ProviderForm = ({
           {selectedProviderType.allowEnvVariables &&
             <Row gutter={5}>
               <Col flex={12}>
-                <Panel title="Public Variables" noPadding pending={envSchemaPending}>
+                <Panel
+                  title="Public Variables"
+                  noPadding
+                  pending={envSchemaPending}
+                >
                   <UnixVariablesForm
                     fieldName="properties.config.env.public"
                     formValues={values}
@@ -285,6 +287,7 @@ const ProviderForm = ({
 
 ProviderForm.propTypes = {
   form: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,

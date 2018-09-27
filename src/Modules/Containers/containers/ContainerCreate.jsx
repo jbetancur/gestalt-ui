@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
+import createDecorator from 'final-form-focus';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
@@ -20,6 +21,8 @@ import {
   selectVolumeListing,
 } from '../selectors';
 import ContainerIcon from '../components/ContainerIcon';
+
+const focusOnErrors = createDecorator();
 
 class ContainerCreate extends Component {
   static propTypes = {
@@ -89,6 +92,7 @@ class ContainerCreate extends Component {
 
             <FinalForm
               onSubmit={this.create}
+              decorators={[focusOnErrors]}
               mutators={{ ...arrayMutators }}
               loading={isPending}
               initialValues={initialFormValues}

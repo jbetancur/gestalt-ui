@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
@@ -21,6 +22,8 @@ import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
 import { getEditProviderModel, getProviderContainer } from '../selectors';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
+
+const focusOnErrors = createDecorator();
 
 class ProviderEdit extends Component {
   static propTypes = {
@@ -165,6 +168,7 @@ class ProviderEdit extends Component {
                   initialValue={initialValues}
                   validate={validate(selectedProviderType.allowContainer)}
                   mutators={{ ...arrayMutators }}
+                  decorators={[focusOnErrors]}
                   editMode
                   onSubmit={this.update}
                   onRedeploy={this.flagForRedeploy}

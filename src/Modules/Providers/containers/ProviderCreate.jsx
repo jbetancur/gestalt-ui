@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
 import { withProvider, withEnv, withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -14,6 +15,8 @@ import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
 import { getCreateProviderModel } from '../selectors';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
+
+const focusOnErrors = createDecorator();
 
 class ProviderCreate extends Component {
   static propTypes = {
@@ -100,6 +103,7 @@ class ProviderCreate extends Component {
             initialValues={initialValues}
             validate={validate(selectedProviderType.allowContainer)}
             mutators={{ ...arrayMutators }}
+            decorators={[focusOnErrors]}
             onSubmit={this.create}
             goBack={this.goBack}
             selectedProviderType={selectedProviderType}
