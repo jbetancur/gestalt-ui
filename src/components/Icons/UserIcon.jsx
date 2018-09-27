@@ -7,7 +7,7 @@ const UserIconStyle = styled(FontIcon)`
   font-size: ${props => `${props.size}px !important`};
 `;
 
-const UserIcon = ({ size }) => <UserIconStyle size={size}>person</UserIconStyle>;
+const UserIcon = ({ size, ...rest }) => <UserIconStyle size={size} {...rest}>person</UserIconStyle>;
 
 UserIcon.propTypes = {
   size: PropTypes.number

@@ -14,13 +14,9 @@ exports[`(Navigation) Header renders a Header 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  height: 60px;
+  height: 56px;
   z-index: 19;
-  background-image: radial-gradient(circle,#1C1F2F 0%,#12141E 100%);
+  background-image: radial-gradient(circle,#222639 0%,#1C1F2F 100%);
   color: white;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1),0 1px 1px 0 rgba(0,0,0,0.1),0 0 1px -4px rgba(0,0,0,0.2);
 }

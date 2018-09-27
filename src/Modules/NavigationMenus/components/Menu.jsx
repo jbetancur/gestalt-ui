@@ -13,6 +13,7 @@ const EnhancedMenuButton = styled(MenuButton)`
   margin-top: 0 !important;
   height: 100%;
   border-radius: 0;
+  border-left: 1px solid ${props => props.theme.colors['$md-grey-800']};
   border-right: 1px solid ${props => props.theme.colors['$md-grey-800']};
   text-transform: none;
   font-size: 16px;
@@ -38,7 +39,7 @@ const Menu = ({ id, title, name, pending, menuItems, onFetchItems, onFilterChang
   <EnhancedMenuButton
     id="orgs-nav"
     position={MenuButton.Positions.BELOW}
-    iconChildren="expand_more"
+    iconChildren="arrow_drop_down"
     flat
     iconBefore={false}
     onClick={onFetchItems}

@@ -1,13 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
-import { FontIcon, MenuButton, ListItem, Divider, Avatar } from 'react-md';
 import { USEnglishLangIcon, UserIcon } from 'components/Icons';
+import {
+  Avatar,
+  FontIcon,
+  AccessibleFakeButton,
+  IconSeparator,
+  DropdownMenu,
+  ListItem,
+  Divider,
+} from 'react-md';
 
-const AppToolbarUserMenu = (props) => {
-  const { self, browser, t, onLogout, } = props;
+const DDmenuStyle = styled(DropdownMenu)`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+`;
+
+const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
   const renderAvatar = iconSized =>
     <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
   const menuItems = [
@@ -42,27 +58,42 @@ const AppToolbarUserMenu = (props) => {
       onClick={onLogout}
     />,
   ];
+
   return (
-    <MenuButton
-      id="main--user--menu"
-      style={{ textTransform: 'none' }}
-      flat={browser.greaterThan.xs}
-      icon={browser.lessThan.sm}
-      iconChildren={browser.lessThan.sm ? <UserIcon /> : 'expand_more'}
-      position={browser.lessThan.sm ? MenuButton.Positions.TOP_RIGHT : MenuButton.Positions.BELOW}
-      iconBefore={false}
+    <DDmenuStyle
+      id={`${!simplifiedMenu ? 'smart-' : ''}avatar-dropdown-menu`}
       menuItems={menuItems}
+      anchor={{
+        x: DropdownMenu.HorizontalAnchors.CENTER,
+        y: DropdownMenu.VerticalAnchors.BOTTOM,
+      }}
+      position={DropdownMenu.Positions.BELOW}
+      animationPosition="below"
+      simplifiedMenu={simplifiedMenu}
     >
-      {browser.greaterThan.xs && self.name}
-    </MenuButton>
+      <AccessibleFakeButton
+        component={IconSeparator}
+        iconBefore
+        label={
+          <IconSeparator label={browser.greaterThan.xs && self.name}>
+            {browser.lessThan.sm ? <UserIcon inherit /> : <FontIcon inherit>arrow_drop_down</FontIcon>}
+          </IconSeparator>
+        }
+      />
+    </DDmenuStyle>
   );
 };
 
-AppToolbarUserMenu.propTypes = {
+UserMenu.propTypes = {
+  simplifiedMenu: PropTypes.bool,
   t: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   self: PropTypes.object.isRequired,
   browser: PropTypes.object.isRequired,
 };
 
-export default translate()(AppToolbarUserMenu);
+UserMenu.defaultProps = {
+  simplifiedMenu: false,
+};
+
+export default translate()(UserMenu);

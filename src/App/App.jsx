@@ -9,14 +9,14 @@ import ErrorNotifications from 'Modules/ErrorNotifications';
 import { Notifications } from 'Modules/Notifications';
 import { ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
-import { Header } from 'components/Navigation';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { OrganizationMenu } from 'Modules/NavigationMenus';
 import { withRestricted } from 'Modules/Authentication';
 import { withSelf } from 'Modules/MetaResource';
-import { GestaltIcon } from 'components/Icons';
+import { GalacticFogIcon } from 'components/Icons';
+import Header from './components/Header';
 import AppError from './components/AppError';
-import AppToolbarUserMenu from './components/AppToolbarUserMenu';
+import UserMenu from './components/UserMenu';
 import AppToolbarInfoMenu from './components/AppToolbarInfoMenu';
 import withApp from './withApp';
 
@@ -24,7 +24,7 @@ const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a e
 
 const Main = styled.main`
   height: 100%;
-  padding-top: 4.3em;
+  padding-top: 56px;
 `;
 
 class App extends Component {
@@ -92,11 +92,11 @@ class App extends Component {
                 <OrganizationMenu />
               </React.Fragment>
             }
-            logo={<GestaltIcon size={36} />}
+            logo={<GalacticFogIcon size={36} fill="white" />}
             logoVisible={browser.greaterThan.sm}
             rightContent={
               <React.Fragment>
-                <AppToolbarUserMenu self={self} browser={browser} onLogout={this.logout} />
+                <UserMenu self={self} browser={browser} onLogout={this.logout} />
                 <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
               </React.Fragment>
             }

@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, withTheme } from 'styled-components';
 import { TextField } from 'components/ReduxFormFields';
 
 const autofill = keyframes`
@@ -24,7 +24,7 @@ const TextFieldStyle = styled(TextField)`
   }
 
   .md-divider--text-field::after {
-    background: white;
+    background: ${props => props.theme.colors['$gf-bright-blue']};
   }
 
   .md-divider:not(.md-divider--text-field-error) {
@@ -52,4 +52,4 @@ const TextFieldStyle = styled(TextField)`
   }
 `;
 
-export default TextFieldStyle;
+export default withTheme(TextFieldStyle);

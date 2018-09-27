@@ -4,7 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux';
 import { Container, Col, Row } from 'react-flexybox';
 import { Form } from 'react-final-form';
-import { GestaltIcon } from 'components/Icons';
+import { GalacticFogIcon } from 'components/Icons';
 import { getItem } from 'util/helpers/localstorage';
 import actions from '../actions';
 import LoginForm from './LoginForm';
@@ -29,9 +29,7 @@ const validate = (values) => {
 const Wrapper = styled(Container)`
   position: relative;
   padding-bottom: 72px;
-  background-image: radial-gradient(circle, ${props => props.theme.colors['$russian-black-50']} 0, ${props => props.theme.colors['$russian-black-300']} 100%);
-
-  /* background-image: radial-gradient(circle, ${props => props.theme.colors['$md-blue-500']} 0, ${props => props.theme.colors['$md-blue-900']} 100%); */
+  background: radial-gradient(circle, ${props => props.theme.colors['$russian-black-50']} 0, ${props => props.theme.colors['$russian-black-300']} 100%);
   height: 100%;
 `;
 
@@ -42,9 +40,17 @@ const LoginCardHeader = styled.div`
 
   span {
     display: block;
-    font-size: 20px;
+    font-size: 18px;
     font-family: lovelo, Ubuntu;
   }
+`;
+
+const Card = styled.div`
+  padding: 48px 16px 48px 16px;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Error = styled.div`
@@ -91,16 +97,19 @@ class LoginContainer extends Component {
           {this.props.statusText && <Error>{this.props.statusText}</Error>}
           <Row center fill>
             <Col flex={3} xs={12} sm={8} md={5}>
-              <LoginCardHeader>
-                <GestaltIcon size={42} />
-                <span>{APP_TITLE}</span>
-              </LoginCardHeader>
-              <Form
-                onSubmit={this.submitLogin}
-                validate={validate}
-                render={LoginForm}
-                pending={this.props.isAuthenticating}
-              />
+              <Card>
+
+                <LoginCardHeader>
+                  <GalacticFogIcon size={56} fill="white" />
+                  <span>{APP_TITLE}</span>
+                </LoginCardHeader>
+                <Form
+                  onSubmit={this.submitLogin}
+                  validate={validate}
+                  render={LoginForm}
+                  pending={this.props.isAuthenticating}
+                />
+              </Card>
             </Col>
           </Row>
           <LoginFooter />

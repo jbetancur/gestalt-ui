@@ -6,7 +6,7 @@ import NavItem from './NavItem';
 const NavbarContainer = styled.nav`
   position: fixed;
   left: 0;
-  top: 60px;
+  top: 56px;
   bottom: 0;
   background-color: white;
   width: 70px;
