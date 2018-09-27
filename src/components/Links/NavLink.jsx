@@ -35,6 +35,8 @@ export default class Link extends Component {
   }
 
   isInternal(to) {
+    if (typeof to === 'object') return true;
+
     // If it's a relative url such as '/path', 'path' and does not contain a protocol we can assume it is internal.
     if (to.indexOf('://') === -1) return true;
 

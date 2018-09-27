@@ -1,26 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css, withTheme } from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 // import { FormattedRelative } from 'react-intl';
 import { MenuButton, ListItem, FontIcon } from 'react-md';
 import { FormattedRelative } from 'react-intl';
+import { Card } from 'components/Cards';
 
 // black list non compliance cardColor, cardIcon from DOM
-const CardStyle = styled.div`
-  position: relative;
-  background: white;
+const CardStyle = styled(Card)`
   height: 112px;
-  border-radius: 1px;
   cursor: pointer;
-  ${props => !props.noShadow && 'box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 0 1px -3px rgba(0, 0, 0, 0.2)'};
-  ${props => props.raise && css`
-    transition-duration: 0.3s;
-    transition-property: box-shadow;
-
-    &:hover {
-      box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.14), 0 3px 6px 2px rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.2);
-    }
-  `};
 `;
 
 const ClickMask1 = styled.div`

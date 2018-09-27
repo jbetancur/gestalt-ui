@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Card } from 'components/Cards';
 import styled, { withTheme, css } from 'styled-components';
 import { DotActivity } from 'components/ProgressIndicators';
 import Header from '../components/Header';
 import Content from '../components/Content';
 
-const PanelWrapper = styled(({ fill, noShadow, error, expanded, ...rest }) => <div {...rest} />)`
+const PanelWrapper = styled(({ fill, error, expanded, ...rest }) => <Card {...rest} />)`
   position: relative;
   width: 100%;
   ${props => props.fill && props.expanded && 'height: 100%'};
   background-color: ${props => props.theme.colors['$md-white']};
-  ${props => !props.noShadow && 'box-shadow: 0 1px 1px 0 rgba(0,0,0,.1), 0 1px 1px 0 rgba(0,0,0,.1), 0 0 1px -4px rgba(0,0,0,.2)'};
   ${props => props.error && !props.expanded && css`
     box-shadow: 0 0 2px 2px ${props.theme.colors['$md-red-500']};
   `};
