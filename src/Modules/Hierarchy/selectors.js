@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { sortBy } from 'lodash';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import workspaceModel from './models/workspace';
 import environmentModel from './models/environment';
@@ -9,6 +10,7 @@ export const selectWorkspace = state => state.hierarchy.workspace.workspace;
 export const selectWorkspaces = state => state.hierarchy.workspaces.workspaces;
 export const selectEnvironment = state => state.hierarchy.environment.environment;
 export const selectEnvironments = state => state.hierarchy.environments.environments;
+export const selectContext = state => state.hierarchy.context;
 
 export const getEditOrganizationModel = createSelector(
   [selectOrganization],
@@ -53,4 +55,19 @@ export const getEditEnvironmentModel = createSelector(
 
     return environmentModel.create(model);
   }
+);
+
+export const getSortedContextOrganizations = createSelector(
+  [selectContext],
+  context => sortBy(context.organizations, ['desciption', 'name'])
+);
+
+export const getSortedContextWorkspaces = createSelector(
+  [selectContext],
+  context => sortBy(context.workspaces, ['desciption', 'name'])
+);
+
+export const getSortedContextEnvironments = createSelector(
+  [selectContext],
+  context => sortBy(context.environments, ['desciption', 'name'])
 );

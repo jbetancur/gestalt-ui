@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { withSelf, } from 'Modules/MetaResource';
@@ -9,6 +10,11 @@ import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Ico
 import { Button } from 'components/Buttons';
 import BreadCrumbDropdown from '../components/BreadCrumbDropdown';
 import withContext from '../hocs/withContext';
+import {
+  getSortedContextOrganizations,
+  getSortedContextWorkspaces,
+  getSortedContextEnvironments,
+} from '../selectors';
 
 const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   color: inherit;
@@ -59,6 +65,9 @@ class Breadcrumbs extends Component {
     match: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
     contextActions: PropTypes.object.isRequired,
+    sortedOrganizations: PropTypes.array.isRequired,
+    sortedWorkspaces: PropTypes.array.isRequired,
+    sortedEnvironments: PropTypes.array.isRequired,
     size: PropTypes.number,
     isActive: PropTypes.bool,
     pending: PropTypes.bool,
@@ -82,8 +91,8 @@ class Breadcrumbs extends Component {
     const {
       context: {
         organization,
-        organizations,
       },
+      sortedOrganizations,
     } = this.props;
 
     return [
@@ -95,8 +104,8 @@ class Breadcrumbs extends Component {
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
       />,
-      organizations.length > 0 ? <Divider key="breadcrumbs-menu-organization--divider" /> : <div />,
-      ...organizations.map(org => (
+      sortedOrganizations.length > 0 ? <Divider key="breadcrumbs-menu-organization--divider" /> : <div />,
+      ...sortedOrganizations.map(org => (
         <ListItem
           id={org.name}
           key={org.id}
@@ -124,9 +133,9 @@ class Breadcrumbs extends Component {
   generateWorkspaceItems() {
     const {
       context: {
-        workspaces,
         organization,
       },
+      sortedWorkspaces,
     } = this.props;
 
     return [
@@ -138,8 +147,8 @@ class Breadcrumbs extends Component {
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
       />,
-      workspaces.length > 0 ? <Divider key="breadcrumbs-menu-workspace--divider" /> : <div />,
-      ...workspaces.map(wkspc => (
+      sortedWorkspaces.length > 0 ? <Divider key="breadcrumbs-menu-workspace--divider" /> : <div />,
+      ...sortedWorkspaces.map(wkspc => (
         <ListItem
           id={wkspc.name}
           key={wkspc.id}
@@ -155,8 +164,8 @@ class Breadcrumbs extends Component {
   generateEnvironmentItems() {
     const { context: {
       environment,
-      environments,
     },
+    sortedEnvironments,
     } = this.props;
 
     return [
@@ -168,8 +177,8 @@ class Breadcrumbs extends Component {
         component={Link}
         to={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
       />,
-      environments.length > 0 ? <Divider key="breadcrumbs-menu-environment--divider" /> : <div />,
-      ...environments.map(env => (
+      sortedEnvironments.length > 0 ? <Divider key="breadcrumbs-menu-environment--divider" /> : <div />,
+      ...sortedEnvironments.map(env => (
         <ListItem
           id={env.name}
           key={env.id}
@@ -278,8 +287,15 @@ class Breadcrumbs extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  sortedOrganizations: getSortedContextOrganizations(state),
+  sortedWorkspaces: getSortedContextWorkspaces(state),
+  sortedEnvironments: getSortedContextEnvironments(state),
+});
+
 export default compose(
   withContext(),
   withSelf,
   withRouter,
+  connect(mapStateToProps),
 )(Breadcrumbs);
