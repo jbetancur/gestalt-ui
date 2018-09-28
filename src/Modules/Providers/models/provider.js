@@ -103,6 +103,7 @@ const create = (model = {}) =>
     'properties.config',
     'properties.linked_providers',
     'properties.environment_types',
+    'properties.data',
   ]);
 
 /**
@@ -118,6 +119,7 @@ const createWithContainerSpec = (model = {}) =>
     'properties.linked_providers',
     'properties.services',
     'properties.environment_types',
+    'properties.data',
   ]);
 
 
@@ -132,6 +134,7 @@ const patch = (model = {}) =>
     'properties.config',
     'properties.linked_providers',
     'properties.environment_types',
+    // 'properties.data',
   ]);
 
 /**
@@ -146,6 +149,7 @@ const patchWithContainerSpec = (model = {}) =>
     'properties.linked_providers',
     'properties.services',
     'properties.environment_types',
+    // 'properties.data',
   ]);
 
 export default {
