@@ -100,6 +100,12 @@ export default function configureInterceptors(store, history) {
       } else {
         store.dispatch({ type: `APP_HTTP_ERROR_${error.response.status}`, payload: error.response });
       }
+
+      // Deal with this "super special" -_- error when an org is corrupted
+      // && error.includes('Request failed with status code 401')
+      if (response.code === 401) {
+        history.replace(`/${fqon}/404`);
+      }
     }
 
     // The API kicks inconsistet errors - in this case response handle string errors

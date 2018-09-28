@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import NotFound from 'components/NotFound';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import { Users, UserCreate, UserEdit } from 'Modules/Users';
 import { Groups, GroupCreate, GroupEdit } from 'Modules/Groups';
@@ -9,6 +8,7 @@ import { ResourceTypeListing, CreateResourceType, EditResourceType } from 'Modul
 // import { ServiceModeler, ServiceSpecListing } from 'Modules/ServiceModeler';
 import HierarchyListing from '../containers/HierarchyListing';
 import withModalRouter from './withModalRouter';
+import NotFound from '../../../App/components/NotFound';
 
 const HierarchyRoutes = ({ location, previousLocation, isModal }) => (
   <Switch location={isModal ? previousLocation : location}>

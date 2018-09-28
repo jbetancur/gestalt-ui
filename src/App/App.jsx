@@ -23,8 +23,7 @@ import withApp from './withApp';
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
 
 const Main = styled.main`
-  height: 100%;
-  padding-top: 56px;
+  margin-top: 56px;
 `;
 
 class App extends Component {

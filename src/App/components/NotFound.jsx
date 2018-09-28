@@ -1,14 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Row } from 'react-flexybox';
+import styled, { withTheme } from 'styled-components';
+import { Row, Col } from 'react-flexybox';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
 import { withSelf } from 'Modules/MetaResource';
+import { media } from 'util/helpers/media';
 
-const Title = styled.h1`
-  font-family: 'lovelo';
-  color: rgba(0, 0, 0, 0.87);
+const Title = styled.span`
+  font-size: 84px;
+  text-align: center;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.54);
+  ${() => media.xs`
+    font-size: 40px;
+  `};
+  ${() => media.sm`
+    font-size: 48px;
+  `};
+  ${() => media.md`
+    font-size: 60px;
+  `};
 `;
 
 const MessageTitle = styled.p`
@@ -94,39 +106,38 @@ const quotes = [
 
 const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
-const NotFound = props => (
-  <Row center padding="16px" fill>
-    <Row justifyContent="center">
-      <Title>No Disassemble!</Title>
-    </Row>
-    <Row justifyContent="center">
-      <MessageTitle>The resource you are looking for was not found or was deleted!</MessageTitle>
-      <Row justifyContent="center">
-        {props.match.params.fqon &&
-          <ButtonStyle
-            primary
-            raised
-            onClick={() => props.history.replace(`/${props.match.params.fqon}/hierarchy`)}
-          >
-            {`Navigate back to ${props.match.params.fqon}`}
-          </ButtonStyle>}
-        <ButtonStyle
-          primary
-          raised
-          onClick={() => props.history.goBack()}
-        >
-          Previous Page
-        </ButtonStyle>
+const NotFound = ({ match, history }) => (
+  <Row center fill padding="8px">
+    <Col flex={7} xs={12} sm={12} md={6}>
+      <Row center>
+        <Title>No Disassemble!</Title>
       </Row>
-    </Row>
-    <Row justifyContent="center">
-      <Quotes>{`"${quote}"`}</Quotes>
-    </Row>
-    <Row justifyContent="center" fill>
-      <SVGWrapper>
-        <RobotUprisingIcon />
-      </SVGWrapper>
-    </Row>
+      <Row center>
+        <MessageTitle>The resource you are looking is either unauthorized or was deleted!</MessageTitle>
+        <Row center>
+          {match.params.fqon &&
+          <ButtonStyle
+            flat
+            primary
+            iconChildren="arrow_back"
+            onClick={() => history.replace(`/${match.params.fqon}/hierarchy`)}
+          >
+            {`Back to ${match.params.fqon}`}
+          </ButtonStyle>}
+        </Row>
+      </Row>
+      <Row center>
+        <Quotes>{`"${quote}"`}</Quotes>
+      </Row>
+    </Col>
+
+    <Col flex={5} xs={12} sm={12} md={6}>
+      <Row center fill>
+        <SVGWrapper>
+          <RobotUprisingIcon />
+        </SVGWrapper>
+      </Row>
+    </Col>
   </Row>
 );
 
@@ -134,4 +145,5 @@ NotFound.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
-export default withSelf(NotFound);
+
+export default withSelf(withTheme(NotFound));

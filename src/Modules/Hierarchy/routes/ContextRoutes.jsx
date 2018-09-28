@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Switch, Route } from 'react-router-dom';
-import NotFound from 'components/NotFound';
+import NotFound from '../../../App/components/NotFound';
 import HierarchyContext from '../contexts/HierarchyContext';
 import WorkspaceContext from '../contexts/WorkspaceContext';
 import EnvironmentContext from '../contexts/EnvironmentContext';

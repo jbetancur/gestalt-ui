@@ -11,7 +11,6 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 // import es from 'react-intl/locale-data/es';
 import { I18nextProvider } from 'react-i18next';
-import NotFound from 'components/NotFound';
 import { UpgradeRouter } from 'Modules/Upgrader';
 import configureStore from './config/configureStore';
 import i18n from './config/configureI18n';
@@ -19,6 +18,7 @@ import configureHTTP from './config/configureHTTP';
 import App from './App/App';
 import { Login, withRestricted } from './Modules/Authentication';
 import { LoggingNewPage } from './Modules/Logging';
+import NotFound from './App/components/NotFound';
 import lightTheme from './themes/light';
 import './scss/style.scss';
 

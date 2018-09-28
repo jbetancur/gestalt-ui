@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import NotFound from 'components/NotFound';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import Environments from '../containers/EnvironmentListing';
 import withModalRouter from './withModalRouter';
+import NotFound from '../../../App/components/NotFound';
 
 const WorkspaceRoutes = ({ location, previousLocation, isModal }) => (
   <Switch location={isModal ? previousLocation : location}>

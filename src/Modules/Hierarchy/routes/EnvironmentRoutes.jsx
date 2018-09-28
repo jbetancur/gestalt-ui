@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import NotFound from 'components/NotFound';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import { Lambdas, LambdaCreate, LambdaEdit } from 'Modules/Lambdas';
 import { Containers, ContainerCreate, ContainerEdit } from 'Modules/Containers';
@@ -15,6 +14,7 @@ import { DataFeedList, DataFeedCreate, DataFeedEdit } from 'Modules/DataFeeds';
 import { Volumes, VolumeCreate, VolumeEdit } from 'Modules/Volumes';
 import EnvironmentHome from '../containers/EnvironmentHome';
 import withModalRouter from './withModalRouter';
+import NotFound from '../../../App/components/NotFound';
 
 const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
   <Switch location={isModal ? previousLocation : location}>
