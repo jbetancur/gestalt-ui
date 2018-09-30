@@ -1,4 +1,3 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
 import providerModel from '../../Providers/models/provider';
 import {
   SELECTED_PROVIDER,
@@ -13,8 +12,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case UNLOAD_SELECTED_PROVIDER:
-      return initialState;
-    case LOCATION_CHANGE:
       return initialState;
     case SELECTED_PROVIDER:
       return {

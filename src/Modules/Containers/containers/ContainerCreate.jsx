@@ -36,6 +36,7 @@ class ContainerCreate extends Component {
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     containerVolumes: PropTypes.array.isRequired,
+    clearSelectedProvider: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -46,6 +47,12 @@ class ContainerCreate extends Component {
     const { match, envActions } = this.props;
 
     envActions.fetchEnv({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
+  }
+
+  componentWillUnmount() {
+    const { clearSelectedProvider } = this.props;
+
+    clearSelectedProvider();
   }
 
   create = (values) => {

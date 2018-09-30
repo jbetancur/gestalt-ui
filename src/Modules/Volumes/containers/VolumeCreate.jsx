@@ -22,6 +22,7 @@ class VolumeCreate extends Component {
     volumePending: PropTypes.bool.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
+    clearSelectedProvider: PropTypes.func.isRequired,
   };
 
   create = (values) => {
@@ -32,6 +33,12 @@ class VolumeCreate extends Component {
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes/${response.id}`);
 
     volumeActions.createVolume({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload, onSuccess });
+  }
+
+  componentWillUnmount() {
+    const { clearSelectedProvider } = this.props;
+
+    clearSelectedProvider();
   }
 
   render() {

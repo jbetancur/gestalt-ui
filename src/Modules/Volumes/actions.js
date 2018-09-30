@@ -100,6 +100,7 @@ export function unloadVolumes() {
 
 export default {
   setSelectedProvider,
+  clearSelectedProvider,
   confirmDelete,
   showVolumeCreateModal,
   hideModal,

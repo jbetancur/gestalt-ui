@@ -27,12 +27,19 @@ class VolumeEdit extends Component {
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
+    clearSelectedProvider: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const { match, volumeActions } = this.props;
 
     volumeActions.fetchVolume({ fqon: match.params.fqon, id: match.params.volumeId, params: { embed: 'container' } });
+  }
+
+  componentWillUnmount() {
+    const { clearSelectedProvider } = this.props;
+
+    clearSelectedProvider();
   }
 
   update = (values) => {

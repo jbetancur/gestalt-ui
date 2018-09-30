@@ -104,12 +104,17 @@ class ConfirmModal extends PureComponent {
   }
 
   renderForceWarning() {
+    const { values } = this.props;
+    const message = values.name
+      ?
+      `All associated resources of "${values.name}" will be deleted. This action CANNOT be undone!`
+      :
+      'All associated resources will be deleted. This action CANNOT be undone!';
+
     return (
-      <center>
-        <Error bold block>
-          Associated child resources will be Deleted!!!
-        </Error>
-      </center>
+      <Error large bold block style={{ padding: '16px' }}>
+        {message}
+      </Error>
     );
   }
 
@@ -117,7 +122,7 @@ class ConfirmModal extends PureComponent {
     const { force } = this.state;
     const { title, body, modal, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
     const isConfirmDisabled = requireConfirm && this.state.disable;
-    const confirmLabel = `Please type in the name of the ${values.type} to confirm`;
+    const confirmLabel = `Type in the name of the ${values.type} to confirm`;
     const items = multipleItems.map((item, i) => (
       <ListItem key={i} inkDisabled primaryText={item} />
     ));
@@ -137,6 +142,7 @@ class ConfirmModal extends PureComponent {
         </ForceSection>
       );
     }
+
     actionButtons.push(<Button flat important onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>);
     actionButtons.push(<Button flat primary onClick={this.close}>{cancelLabel}</Button>);
 
@@ -147,17 +153,13 @@ class ConfirmModal extends PureComponent {
         id="confirmation-modal"
         contentStyle={{ maxHeight: '25em' }}
         visible={modal.visible}
-        title={(
-          <React.Fragment>
-            {modalTitle}
-            {forceOption && force && this.renderForceWarning()}
-          </React.Fragment>
-        )}
+        title={modalTitle}
         defaultVisibleTransitionable
         onHide={this.close}
         actions={actionButtons}
       >
         <div>
+          {forceOption && force && this.renderForceWarning()}
           {body && <p id="confirmation-modal-content" className="md-color--secondary-text">{body}</p>}
           {requireConfirm && <TextField id="confirmation-modal-verify" placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
           {multipleItems.length > 0 &&
