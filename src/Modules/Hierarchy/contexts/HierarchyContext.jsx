@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
-import HierarchyNav from '../containers/HierarchyNav';
 import HierarchyHeader from '../containers/HierarchyHeader';
 import withContext from '../hocs/withContext';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
     contextPending: PropTypes.bool.isRequired,
     contextActions: PropTypes.object.isRequired,
@@ -30,18 +28,15 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { context: { organization }, match } = this.props;
+    const { context: { organization } } = this.props;
 
     return (
-      <Div>
-        <HierarchyNav showOnRootOnly={match.params.fqon === 'root'} />
-        <Div paddingLeft="5em" paddingBottom="56px">
-          <HierarchyHeader
-            model={organization}
-            {...this.props}
-          />
-          <HierarchyRoutes />
-        </Div>
+      <Div paddingBottom="56px">
+        <HierarchyHeader
+          model={organization}
+          {...this.props}
+        />
+        <HierarchyRoutes />
       </Div>
     );
   }

@@ -36,7 +36,7 @@ const Logo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 69px;
+  width: 63px;
   height: 100%;
 `;
 

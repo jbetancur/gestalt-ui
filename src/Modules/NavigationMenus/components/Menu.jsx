@@ -13,7 +13,7 @@ const EnhancedMenuButton = styled(MenuButton)`
   margin-top: 0 !important;
   height: 100%;
   border-radius: 0;
-  border-left: 1px solid ${props => props.theme.colors['$md-grey-800']};
+  /* border-left: 1px solid ${props => props.theme.colors['$md-grey-800']}; */
   border-right: 1px solid ${props => props.theme.colors['$md-grey-800']};
   text-transform: none;
   font-size: 16px;

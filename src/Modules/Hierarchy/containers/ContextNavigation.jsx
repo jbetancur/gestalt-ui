@@ -6,8 +6,8 @@ import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'components/Buttons';
 import ExpansionPanel from 'components/ExpansionPanel';
-import { NavHeader } from 'components/Navigation';
 import { ActionsMenu } from 'Modules/Actions';
+import NavHeader from '../components/NavHeader';
 
 const DetailsPanel = styled.div`
   padding: 16px;

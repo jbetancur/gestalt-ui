@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork, select } from 'redux-saga/effects';
 import axios from 'axios';
 import {
+  PRE_CONTEXT_REQUEST,
   FETCH_CONTEXT_REQUEST,
   FETCH_CONTEXT_FULFILLED,
   FETCH_CONTEXT_REJECTED,
@@ -20,7 +21,10 @@ export function* buildOrganizationPayload(action) {
     return yield put({
       type: FETCH_CONTEXT_FULFILLED,
       payload: {
-        context: 'organization',
+        contextMeta: {
+          context: 'organization',
+          fqon: action.fqon,
+        },
         organization: organization.data,
         organizations: organizations.data,
         workspaces: workspaces.data,
@@ -38,6 +42,11 @@ export function* buildOrganizationPayload(action) {
 export function* buildWorkspacePayload(action) {
   try {
     const { organization } = yield select(state => state.hierarchy.context);
+    const contextMeta = {
+      context: 'workspace',
+      fqon: action.fqon,
+      workspaceId: action.workspaceId,
+    };
 
     // if there !organization.id then get the whole state tree up to the workspace context
     if (!organization.id) {
@@ -45,14 +54,14 @@ export function* buildWorkspacePayload(action) {
         axios.get(action.fqon),
         axios.get(`${action.fqon}/orgs?expand=true`),
         axios.get(`${action.fqon}/workspaces?expand=true`),
-        axios.get(`${action.fqon}/workspaces/${action.id}`),
-        axios.get(`${action.fqon}/workspaces/${action.id}/environments?expand=true`),
+        axios.get(`${action.fqon}/workspaces/${action.workspaceId}`),
+        axios.get(`${action.fqon}/workspaces/${action.workspaceId}/environments?expand=true`),
       ]);
 
       return yield put({
         type: FETCH_CONTEXT_FULFILLED,
         payload: {
-          context: 'workspace',
+          contextMeta,
           organization: org.data,
           organizations: organizations.data,
           workspaces: workspaces.data,
@@ -65,14 +74,14 @@ export function* buildWorkspacePayload(action) {
     }
 
     const [workspace, environments] = yield call(axios.all, [
-      axios.get(`${action.fqon}/workspaces/${action.id}`),
-      axios.get(`${action.fqon}/workspaces/${action.id}/environments?expand=true`),
+      axios.get(`${action.fqon}/workspaces/${action.workspaceId}`),
+      axios.get(`${action.fqon}/workspaces/${action.workspaceId}/environments?expand=true`),
     ]);
 
     return yield put({
       type: FETCH_CONTEXT_FULFILLED,
       payload: {
-        context: 'workspace',
+        contextMeta,
         workspace: workspace.data,
         environments: environments.data,
         // Clear the state here
@@ -87,10 +96,16 @@ export function* buildWorkspacePayload(action) {
 export function* buildEnvironmentPayload(action) {
   try {
     const { organization, workspace } = yield select(state => state.hierarchy.context);
+    const contextMeta = {
+      context: 'environment',
+      fqon: action.fqon,
+      workspaceId: action.workspaceId,
+      environmentId: action.environmentId,
+    };
 
     if (!workspace.id) {
       // If a workspace is not found then retrieve the environment first and get its parent id
-      const { data } = yield call(axios.get, `${action.fqon}/environments/${action.id}`);
+      const { data } = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}`);
 
       const { properties } = data;
       const promises = [
@@ -111,7 +126,7 @@ export function* buildEnvironmentPayload(action) {
         return yield put({
           type: FETCH_CONTEXT_FULFILLED,
           payload: {
-            context: 'environment',
+            contextMeta,
             environment: data,
             workspace: wkspc.data,
             environments: envs.data,
@@ -127,7 +142,7 @@ export function* buildEnvironmentPayload(action) {
       return yield put({
         type: FETCH_CONTEXT_FULFILLED,
         payload: {
-          context: 'environment',
+          contextMeta,
           environment: data,
           workspace: wkspc.data,
           environments: environments.data,
@@ -137,13 +152,13 @@ export function* buildEnvironmentPayload(action) {
 
     // Just get the environment context
     const [env] = yield call(axios.all, [
-      axios.get(`${action.fqon}/environments/${action.id}`),
+      axios.get(`${action.fqon}/environments/${action.environmentId}`),
     ]);
 
     return yield put({
       type: FETCH_CONTEXT_FULFILLED,
       payload: {
-        context: 'environment',
+        contextMeta,
         environment: env.data,
       },
     });
@@ -157,6 +172,18 @@ export function* buildEnvironmentPayload(action) {
  * @param {*} action - { fqon, id, context }
  */
 export function* fetchContext(action) {
+  yield put({
+    type: PRE_CONTEXT_REQUEST,
+    payload: {
+      contextMeta: {
+        context: action.context || 'organization',
+        fqon: action.fqon,
+        workspaceId: action.workspaceId,
+        environmentId: action.environmentId,
+      },
+    },
+  });
+
   if (action.context === 'workspace') {
     return yield call(buildWorkspacePayload, action);
   }

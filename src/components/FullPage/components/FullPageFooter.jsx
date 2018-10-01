@@ -6,15 +6,16 @@ const Footer = styled.footer`
   position: fixed;
   bottom: 0;
   right: 0;
-  min-height: 56px;
-  width: ${props => (props.fullWidth ? '100%' : 'calc(100% - 70px)')};
+  min-height: 53px;
+  width: 100%;
+  width: ${props => (props.fullWidth ? '100%' : 'calc(100% - 56px)')};
   background-color: ${props => props.theme.colors['$md-grey-50']};
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-300']};
+  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
   padding: 8px 24px 8px 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  z-index: 19;
+  z-index: 10;
 
   button,
   a {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import WorkspaceNav from '../containers/WorkspaceNav';
 import WorkspaceHeader from '../containers/WorkspaceHeader';
 import withContext from '../hocs/withContext';
 
@@ -22,7 +21,7 @@ class WorkspaceContext extends PureComponent {
 
     contextActions.fetchContext({
       fqon: match.params.fqon,
-      id: match.params.workspaceId,
+      workspaceId: match.params.workspaceId,
       context: 'workspace',
     });
   }
@@ -34,7 +33,7 @@ class WorkspaceContext extends PureComponent {
       // If the workspace is switched then get the updated context
       contextActions.fetchContext({
         fqon: match.params.fqon,
-        id: match.params.workspaceId,
+        workspaceId: match.params.workspaceId,
         context: 'workspace',
       });
     }
@@ -44,15 +43,12 @@ class WorkspaceContext extends PureComponent {
     const { context: { workspace } } = this.props;
 
     return (
-      <Div>
-        <WorkspaceNav />
-        <Div paddingLeft="5em" paddingBottom="56px">
-          <WorkspaceHeader
-            model={workspace}
-            {...this.props}
-          />
-          <WorkspaceRoutes />
-        </Div>
+      <Div paddingBottom="56px">
+        <WorkspaceHeader
+          model={workspace}
+          {...this.props}
+        />
+        <WorkspaceRoutes />
       </Div>
     );
   }

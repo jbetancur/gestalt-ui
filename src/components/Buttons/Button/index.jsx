@@ -17,7 +17,7 @@ const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...r
     color: inherit;
   }
 
-  ${props => !props.icon && 'border-radius: 3px'};
+  ${props => !props.icon && !props.floating && 'border-radius: 3px'};
     ${props => props.important && css`
     &:not([disabled]) {
       color: ${props.theme.colors['$md-red-500']};

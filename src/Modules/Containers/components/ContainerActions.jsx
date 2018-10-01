@@ -224,7 +224,12 @@ class ContainerActions extends PureComponent {
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
-      contextActions.fetchContext({ fqon: match.params.fqon, id: environment.id, context: 'environment' });
+      contextActions.fetchContext({
+        fqon: match.params.fqon,
+        workspaceId: match.params.workspaceId,
+        environmentId: match.params.environmentId,
+        context: 'environment',
+      });
       this.populateContainers();
     };
 

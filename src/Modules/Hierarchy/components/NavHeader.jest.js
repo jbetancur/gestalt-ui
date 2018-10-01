@@ -1,6 +1,6 @@
 import React from 'react';
 import NavHeader from './NavHeader';
-import { shallowWithTheme } from '../../../test/helpers';
+import { shallowWithTheme } from '../../../../test/helpers';
 
 describe('(Navigation) NavHeader', () => {
   it('renders component without exploding', () => {

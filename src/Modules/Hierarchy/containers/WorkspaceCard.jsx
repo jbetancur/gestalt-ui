@@ -6,7 +6,8 @@ import { withTheme } from 'styled-components';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
-import { Card, CardTitle } from '../components/GFCard';
+import Card from '../components/GFCard';
+import CardTitle from '../components/GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 

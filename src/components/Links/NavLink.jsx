@@ -5,7 +5,7 @@ import { NavLink as ReactLink } from 'react-router-dom';
 
 const StyledNavLink = styled(({ staticContext, ...rest }) => <ReactLink {...rest} />)`
   &.active-link * {
-    color: ${props => props.theme.colors['$md-blue-500']} !important;
+    color: ${props => props.theme.colors['$md-blue-500']};
   }
 `;
 

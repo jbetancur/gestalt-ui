@@ -7,7 +7,7 @@ import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { Notifications } from 'Modules/Notifications';
-import { ContextRoutes } from 'Modules/Hierarchy';
+import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { OrganizationMenu } from 'Modules/NavigationMenus';
@@ -22,8 +22,18 @@ import withApp from './withApp';
 
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
 
+const AppWrapper = styled.div`
+  z-index: 1;
+  display: flex;
+  overflow: hidden;
+  flex-grow: 1;
+  height: 100%;
+  padding-top: 56px;
+`;
+
 const Main = styled.main`
-  margin-top: 56px;
+  overflow-y: scroll;
+  flex-grow: 1;
 `;
 
 class App extends Component {
@@ -38,6 +48,21 @@ class App extends Component {
     browser: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
   };
+
+  constructor() {
+    super();
+
+    if (!localStorage.getItem('gf-pinned-nav')) {
+      localStorage.setItem('gf-pinned-nav', true);
+      this.state = {
+        open: true,
+      };
+    } else {
+      this.state = {
+        open: JSON.parse((localStorage.getItem('gf-pinned-nav'))),
+      };
+    }
+  }
 
   componentDidMount() {
     const { self, selfActions } = this.props;
@@ -78,34 +103,52 @@ class App extends Component {
     history.replace('/login');
   }
 
+  handlePinNav = () => {
+    this.setState(({ open }) => {
+      localStorage.setItem('gf-pinned-nav', !open);
+
+      return ({
+        open: !open,
+      });
+    });
+  }
+
   renderMain() {
-    const { self, licenseActions, browser } = this.props;
+    const { self, licenseActions, browser, location } = this.props;
+    const { open } = this.state;
+
+    if (!self.id) {
+      return <AppError onLogout={this.logout} {...this.props} />;
+    }
 
     return (
-      self.id ?
-        <Main>
-          <Header
-            colored
-            leftContent={
-              <React.Fragment>
-                <OrganizationMenu />
-              </React.Fragment>
-            }
-            logo={<GalacticFogIcon size={36} fill="white" />}
-            logoVisible={browser.greaterThan.sm}
-            rightContent={
-              <React.Fragment>
-                <UserMenu self={self} browser={browser} onLogout={this.logout} />
-                <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
-              </React.Fragment>
-            }
-          />
+      <AppWrapper>
+        <ModalRoot />
+        <ErrorNotifications />
+        <Notifications />
+        <Header
+          colored
+          leftContent={<OrganizationMenu />}
+          logo={<GalacticFogIcon size={36} fill="white" />}
+          logoVisible={browser.greaterThan.sm}
+          rightContent={
+            <React.Fragment>
+              <UserMenu self={self} browser={browser} onLogout={this.logout} />
+              <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
+            </React.Fragment>
+          }
+        />
+        {/* Address blocked updates issue: https://github.com/reduxjs/react-redux/blob/master/docs/troubleshooting.md#my-views-arent-updating-when-something-changes-outside-of-redux */}
+        <Navigation
+          location={location}
+          open={open}
+          width="200px"
+          onOpen={this.handlePinNav}
+        />
+        <Main open={open}>
           <ContextRoutes />
-          <ModalRoot />
-          <ErrorNotifications />
-          <Notifications />
-        </Main> :
-        <AppError onLogout={this.logout} {...this.props} />
+        </Main>
+      </AppWrapper>
     );
   }
 

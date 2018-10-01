@@ -20,7 +20,12 @@ import environmentModel from '../models/environment';
 import reducer from './context';
 
 const initialState = {
-  context: null,
+  contextMeta: {
+    context: null,
+    fqon: null,
+    workspaceId: null,
+    environmentId: null,
+  },
   organization: organizationModel.get(),
   organizations: [],
   workspace: workspaceModel.get(),

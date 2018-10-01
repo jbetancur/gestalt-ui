@@ -15,7 +15,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: break-word;
-  font-size: 16px;
+  font-size: 15px;
   color: ${props => props.theme.colors['$md-grey-800']};
 `;
 

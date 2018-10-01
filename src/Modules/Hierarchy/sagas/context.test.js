@@ -8,6 +8,7 @@ import contextSagas, {
 } from './context';
 
 import {
+  PRE_CONTEXT_REQUEST,
   FETCH_CONTEXT_REQUEST,
   FETCH_CONTEXT_FULFILLED,
   FETCH_CONTEXT_REJECTED,
@@ -16,7 +17,7 @@ import {
 import workspaceModel from '../models/workspace';
 import environmentModel from '../models/environment';
 
-describe('Organization Sagas', () => {
+describe('Context Workflow Sagas', () => {
   describe('buildOrganizationPayload for Organization Sequence', () => {
     const saga = buildOrganizationPayload({ fqon: 'test' });
     let result;
@@ -43,7 +44,10 @@ describe('Organization Sagas', () => {
         put({
           type: FETCH_CONTEXT_FULFILLED,
           payload: {
-            context: 'organization',
+            contextMeta: {
+              context: 'organization',
+              fqon: 'test',
+            },
             organization: { id: 1, name: 'org context' },
             organizations: [{ id: 2, name: 'sub org' }],
             workspaces: [{ id: 3, name: 'workspace' }],
@@ -58,7 +62,7 @@ describe('Organization Sagas', () => {
 
   describe('buildWorkspacePayload for Organization Sequence', () => {
     describe('when there is an existing organization in state', () => {
-      const saga = buildWorkspacePayload({ fqon: 'test', id: '123', context: 'workspace' });
+      const saga = buildWorkspacePayload({ fqon: 'test', workspaceId: '123', context: 'workspace' });
       let result;
 
       it('should make an api call', () => {
@@ -83,7 +87,11 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
-              context: 'workspace',
+              contextMeta: {
+                context: 'workspace',
+                fqon: 'test',
+                workspaceId: '123',
+              },
               workspace: { id: 1, name: 'workspace' },
               environments: [{ id: 2, name: 'environment' }],
               environment: environmentModel.get(),
@@ -94,7 +102,7 @@ describe('Organization Sagas', () => {
     });
 
     describe('when there no organization in state', () => {
-      const saga = buildWorkspacePayload({ fqon: 'test', id: '123', context: 'workspace' });
+      const saga = buildWorkspacePayload({ fqon: 'test', workspaceId: '123', context: 'workspace' });
       let result;
 
       it('should make an api call to get the rollup', () => {
@@ -124,7 +132,11 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
-              context: 'workspace',
+              contextMeta: {
+                context: 'workspace',
+                fqon: 'test',
+                workspaceId: '123',
+              },
               organization: { id: 1, name: 'org context' },
               organizations: [{ id: 2, name: 'sub org' }],
               workspaces: [{ id: 3, name: 'workspace' }],
@@ -141,7 +153,7 @@ describe('Organization Sagas', () => {
 
   describe('buildEnvironmentPayload for Organization Sequence', () => {
     describe('when there is an existing organization and workspace in state', () => {
-      const saga = buildEnvironmentPayload({ fqon: 'test', id: '123', context: 'environment' });
+      const saga = buildEnvironmentPayload({ fqon: 'test', workspaceId: '567', environmentId: '123', context: 'environment' });
       let result;
 
       it('should make an api call', () => {
@@ -163,7 +175,12 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
-              context: 'environment',
+              contextMeta: {
+                context: 'environment',
+                fqon: 'test',
+                workspaceId: '567',
+                environmentId: '123',
+              },
               environment: { id: 1, name: 'environment' },
             },
           })
@@ -172,7 +189,7 @@ describe('Organization Sagas', () => {
     });
 
     describe('when there is no workspace state, but there is an organization state', () => {
-      const saga = buildEnvironmentPayload({ fqon: 'test', id: '123', context: 'environment' });
+      const saga = buildEnvironmentPayload({ fqon: 'test', workspaceId: '567', environmentId: '123', context: 'environment' });
       let result;
 
       it('should make an api call to retrieve the environment', () => {
@@ -203,7 +220,12 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
-              context: 'environment',
+              contextMeta: {
+                context: 'environment',
+                fqon: 'test',
+                workspaceId: '567',
+                environmentId: '123',
+              },
               environment: { id: '456', properties: { workspace: { id: '890' } } },
               workspace: { id: 2, name: 'workspace context' },
               environments: [{ id: 3, name: 'an environment' }],
@@ -214,7 +236,7 @@ describe('Organization Sagas', () => {
     });
 
     describe('when there is no workspace state and no organization state', () => {
-      const saga = buildEnvironmentPayload({ fqon: 'test', id: '123', context: 'environment' });
+      const saga = buildEnvironmentPayload({ fqon: 'test', workspaceId: '567', environmentId: '123', context: 'environment' });
       let result;
 
       it('should make an api call to retrieve the environment', () => {
@@ -251,7 +273,12 @@ describe('Organization Sagas', () => {
           put({
             type: FETCH_CONTEXT_FULFILLED,
             payload: {
-              context: 'environment',
+              contextMeta: {
+                context: 'environment',
+                fqon: 'test',
+                workspaceId: '567',
+                environmentId: '123',
+              },
               environment: { id: '456', properties: { workspace: { id: '890' } } },
               workspace: { id: 2, name: 'workspace context' },
               environments: [{ id: 3, name: 'an environment' }],
@@ -265,38 +292,99 @@ describe('Organization Sagas', () => {
     });
   });
 
-  describe('fetchContext when org lookup is requisted and/or a context is not oneOf(workspace, environment)', () => {
+  describe('fetchContext as organization when context is not oneOf(workspace, environment)', () => {
     const saga = fetchContext({ fqon: 'test' });
     let result;
 
-    it('should make an api call', () => {
+    it('should preset the context', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(buildOrganizationPayload, { fqon: 'test' }),
+        put({
+          type: PRE_CONTEXT_REQUEST,
+          payload: {
+            contextMeta: {
+              context: 'organization',
+              fqon: 'test',
+            },
+          },
+        }),
+      );
+    });
+
+    it('should call buildOrganizationPayload', () => {
+      result = saga.next();
+      expect(result.value).toEqual(
+        call(buildOrganizationPayload, {
+          fqon: 'test',
+        }),
       );
     });
   });
 
   describe('fetchContext when context for a workspace is requested ', () => {
-    const saga = fetchContext({ fqon: 'test', id: '123', context: 'workspace' });
+    const saga = fetchContext({ fqon: 'test', workspaceId: '123', context: 'workspace' });
     let result;
 
-    it('should make an api call', () => {
+    it('should preset the context', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(buildWorkspacePayload, { fqon: 'test', id: '123', context: 'workspace' }),
+        put({
+          type: PRE_CONTEXT_REQUEST,
+          payload: {
+            contextMeta: {
+              context: 'workspace',
+              fqon: 'test',
+              workspaceId: '123',
+              environmentId: undefined,
+            },
+          },
+        }),
+      );
+    });
+
+
+    it('should call buildWorkspacePayload', () => {
+      result = saga.next();
+      expect(result.value).toEqual(
+        call(buildWorkspacePayload, {
+          context: 'workspace',
+          fqon: 'test',
+          workspaceId: '123',
+        }),
       );
     });
   });
 
   describe('fetchContext when context for an environment is requested', () => {
-    const saga = fetchContext({ fqon: 'test', id: '123', context: 'environment' });
+    const saga = fetchContext({ fqon: 'test', workspaceId: '567', environmentId: '123', context: 'environment' });
     let result;
 
-    it('should make an api call', () => {
+    it('should preset the context', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(buildEnvironmentPayload, { fqon: 'test', id: '123', context: 'environment' }),
+        put({
+          type: PRE_CONTEXT_REQUEST,
+          payload: {
+            contextMeta: {
+              context: 'environment',
+              fqon: 'test',
+              workspaceId: '567',
+              environmentId: '123',
+            },
+          },
+        }),
+      );
+    });
+
+    it('should call buildEnvironmentPayload', () => {
+      result = saga.next();
+      expect(result.value).toEqual(
+        call(buildEnvironmentPayload, {
+          context: 'environment',
+          fqon: 'test',
+          workspaceId: '567',
+          environmentId: '123',
+        }),
       );
     });
   });
@@ -318,7 +406,7 @@ describe('Organization Sagas', () => {
   describe('when there is an exception calling buildWorkspacePayload', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const error = 'an error has occured';
-      const sagaError = buildWorkspacePayload({ fqon: 'test', id: '123', context: 'workspace' });
+      const sagaError = buildWorkspacePayload({ fqon: 'test', workspaceId: '123', context: 'workspace' });
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
@@ -332,7 +420,7 @@ describe('Organization Sagas', () => {
   describe('when there is an exception calling buildEnvironmentPayload', () => {
     it('should return a payload and dispatch a reject status when there is an error', () => {
       const error = 'an error has occured';
-      const sagaError = buildEnvironmentPayload({ fqon: 'test', id: '123', context: 'environment' });
+      const sagaError = buildEnvironmentPayload({ fqon: 'test', workspaceId: '567', environmentId: '123', context: 'environment' });
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });

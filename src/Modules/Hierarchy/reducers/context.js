@@ -1,5 +1,6 @@
 import { insertItem, removeItem, updateItem } from 'util/helpers/lists';
 import {
+  PRE_CONTEXT_REQUEST,
   FETCH_CONTEXT_REQUEST,
   FETCH_CONTEXT_FULFILLED,
   FETCH_CONTEXT_REJECTED,
@@ -20,7 +21,12 @@ import workspaceModel from '../models/workspace';
 import environmentModel from '../models/environment';
 
 const initialState = {
-  context: null,
+  contextMeta: {
+    context: null,
+    fqon: null,
+    workspaceId: null,
+    environmentId: null,
+  },
   organization: organizationModel.get(),
   organizations: [],
   workspace: workspaceModel.get(),
@@ -34,6 +40,13 @@ const initialState = {
 export default (state = initialState, action) => {
   // Context mgmt
   switch (action.type) {
+    case PRE_CONTEXT_REQUEST:
+      return {
+        ...state,
+        contextMeta: {
+          ...action.payload.contextMeta,
+        },
+      };
     case FETCH_CONTEXT_REQUEST:
       return {
         ...state,

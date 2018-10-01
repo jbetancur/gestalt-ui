@@ -8,7 +8,7 @@ import { Card } from 'components/Cards';
 
 // black list non compliance cardColor, cardIcon from DOM
 const CardStyle = styled(Card)`
-  height: 112px;
+  min-height: 110px;
   cursor: pointer;
 `;
 

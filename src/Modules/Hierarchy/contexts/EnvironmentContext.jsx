@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
-import EnvironmentNav from '../containers/EnvironmentNav';
 import EnvironmentHeader from '../containers/EnvironmentHeader';
 import withContext from '../hocs/withContext';
 
@@ -22,7 +21,8 @@ class EnvironmentContext extends Component {
 
     contextActions.fetchContext({
       fqon: match.params.fqon,
-      id: match.params.environmentId,
+      workspaceId: match.params.workspaceId,
+      environmentId: match.params.environmentId,
       context: 'environment',
     });
   }
@@ -34,7 +34,8 @@ class EnvironmentContext extends Component {
       // If the envirnment is switched then get the updated context
       contextActions.fetchContext({
         fqon: match.params.fqon,
-        id: match.params.environmentId,
+        workspaceId: match.params.workspaceId,
+        environmentId: match.params.environmentId,
         context: 'environment',
       });
     }
@@ -44,15 +45,12 @@ class EnvironmentContext extends Component {
     const { context: { environment } } = this.props;
 
     return (
-      <Div>
-        <EnvironmentNav />
-        <Div paddingLeft="5em" paddingBottom="56px">
-          <EnvironmentHeader
-            model={environment}
-            {...this.props}
-          />
-          <EnvironmentRoutes />
-        </Div>
+      <Div paddingBottom="56px">
+        <EnvironmentHeader
+          model={environment}
+          {...this.props}
+        />
+        <EnvironmentRoutes />
       </Div>
     );
   }
