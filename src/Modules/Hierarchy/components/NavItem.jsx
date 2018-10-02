@@ -14,12 +14,13 @@ const ListItem = styled.li`
   width: 100%;
   cursor: pointer;
   user-select: none;
+  transition: background-color 50ms ease-in-out;
 
   &:hover {
     background-color: ${props => props.theme.colors['$md-grey-200']};
 
-    .on-menu-hover {
-      display: flex;
+    .nav-on-menu-hover {
+      opacity: 0.98;
     }
   }
 `;
@@ -47,18 +48,19 @@ const Text = styled.div`
   align-items: center;
 `;
 
-const SubMenu = styled.div`
-  display: none;
+const SubMenu = styled(({ miniWidth, expandedWidth, ...rest }) => <div {...rest} />)`
+  display: flex;
   position: absolute;
   left: 63px;
   height: 48px;
-  width: calc(${props => props.width} - 56px);
+  font-weight: 500;
+  max-width: calc(${props => props.expandedWidth} - ${props => props.miniWidth});
   padding: 8px;
   border-left: 1px solid ${props => props.theme.colors['$md-grey-300']};
   background-color: ${props => props.theme.colors['$md-grey-200']};
   box-shadow: 2px 1px 2px -2px rgba(0, 0, 0, 0.1);
-  opacity: 0.98;
-  font-weight: 500;
+  opacity: 0;
+  transition: opacity 50ms ease-in-out;
 `;
 
 class NavItem extends Component {
@@ -72,7 +74,8 @@ class NavItem extends Component {
       PropTypes.string,
     ]).isRequired,
     open: PropTypes.bool.isRequired,
-    width: PropTypes.string.isRequired,
+    expandedWidth: PropTypes.string.isRequired,
+    miniWidth: PropTypes.string.isRequired,
     isVisible: PropTypes.bool,
     history: PropTypes.object.isRequired,
     to: PropTypes.oneOfType([
@@ -99,19 +102,19 @@ class NavItem extends Component {
   }
 
   render() {
-    const { icon, open, width, title, isVisible, ...rest } = this.props;
+    const { icon, open, expandedWidth, miniWidth, title, isVisible, ...rest } = this.props;
 
     if (!isVisible) {
       return null;
     }
 
     return (
-      <ListItem width={width}>
+      <ListItem>
         <NavLinkStyle onClick={this.checkIfShouldNav} {...rest}>
           <Icon>{icon}</Icon>
           <Text>{title}</Text>
           {!open &&
-          <SubMenu width={width} className="on-menu-hover">
+          <SubMenu expandedWidth={expandedWidth} className="nav-on-menu-hover">
             <Text>{title}</Text>
           </SubMenu>}
         </NavLinkStyle>

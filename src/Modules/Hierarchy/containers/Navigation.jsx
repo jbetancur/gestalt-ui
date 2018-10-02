@@ -49,7 +49,7 @@ const NavbarContainer = styled.div`
   flex-direction: column;
   z-index: 11;
   height: 100%;
-  width: ${({ open, width }) => (open ? width : '64px')};
+  width: ${({ open, width, miniWidth }) => (open ? width : miniWidth)};
   transition-property: width;
   transition-duration: ${props => (props.open ? '225ms' : '195ms')};
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
@@ -94,6 +94,7 @@ const ExpanderButton = styled.button`
   cursor: pointer;
   text-align: right;
   padding-right: 22px;
+  transition: background-color 195ms ease-in-out;
 
   &:hover {
     background-color: ${props => props.theme.colors['$md-grey-200']};
@@ -113,6 +114,7 @@ class Navbar extends PureComponent {
     context: PropTypes.object.isRequired,
     open: PropTypes.bool,
     width: PropTypes.string,
+    miniWidth: PropTypes.string,
     onOpen: PropTypes.func,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -124,6 +126,7 @@ class Navbar extends PureComponent {
   static defaultProps = {
     open: false,
     width: '200px',
+    miniWidth: '64px',
     onOpen: () => { },
     children: null,
   };
@@ -153,6 +156,7 @@ class Navbar extends PureComponent {
       contextPending,
       open,
       width,
+      miniWidth,
       appState: { enableExperimental },
       children,
       ...rest
@@ -163,7 +167,7 @@ class Navbar extends PureComponent {
       : [];
 
     return (
-      <NavbarContainer open={open} width={width} {...rest}>
+      <NavbarContainer open={open} miniWidth={miniWidth} width={width} {...rest}>
         {/* <NavbarHeader>
           <ContextTitle>
             {iconMap(contextMeta.context, 28)}
@@ -174,7 +178,8 @@ class Navbar extends PureComponent {
           {items.map(item => (
             <NavItem
               open={open}
-              width={width}
+              expandedWidth={width}
+              miniWidth={miniWidth}
               title={item.title}
               key={item.key}
               icon={iconMap(item.icon)}
