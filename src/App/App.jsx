@@ -49,20 +49,9 @@ class App extends Component {
     appActions: PropTypes.object.isRequired,
   };
 
-  constructor() {
-    super();
-
-    if (!localStorage.getItem('gf-pinned-nav')) {
-      localStorage.setItem('gf-pinned-nav', true);
-      this.state = {
-        open: true,
-      };
-    } else {
-      this.state = {
-        open: JSON.parse((localStorage.getItem('gf-pinned-nav'))),
-      };
-    }
-  }
+  state = {
+    open: JSON.parse((localStorage.getItem('gf-pinned-nav'))),
+  };
 
   componentDidMount() {
     const { self, selfActions } = this.props;

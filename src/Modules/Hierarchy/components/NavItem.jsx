@@ -2,27 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-// import { Tooltipped } from 'react-md';
 import { NavLink } from 'components/Links';
 import styled, { withTheme } from 'styled-components';
 
-// const tooltipStyles = {
-//   color: 'white',
-//   borderRadius: '3px',
-//   opacity: 0.95,
-//   height: '36px',
-//   minWidth: '100px',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// };
-
-const NavLinkStyle = styled(NavLink)`
-  position: relative;
-  display: flex;
-  padding-right: 16px;
-  text-decoration: none;
-  color: inherit;
+const ListItem = styled.li`
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
   height: 48px;
   width: 100%;
   cursor: pointer;
@@ -30,7 +17,16 @@ const NavLinkStyle = styled(NavLink)`
 
   &:hover {
     background-color: ${props => props.theme.colors['$md-grey-200']};
+    width: ${props => props.width};
   }
+`;
+
+const NavLinkStyle = styled(NavLink)`
+  position: relative;
+  display: flex;
+  padding-right: 20px;
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Icon = styled.div`
@@ -46,6 +42,10 @@ const Text = styled.div`
   overflow: hidden;
   display: flex;
   align-items: center;
+
+  &:hover {
+    overflow-x: visible;
+  }
 `;
 
 class NavItem extends Component {
@@ -58,7 +58,7 @@ class NavItem extends Component {
       PropTypes.object,
       PropTypes.string,
     ]).isRequired,
-    open: PropTypes.bool.isRequired,
+    width: PropTypes.string.isRequired,
     isVisible: PropTypes.bool,
     history: PropTypes.object.isRequired,
     to: PropTypes.oneOfType([
@@ -85,41 +85,19 @@ class NavItem extends Component {
   }
 
   render() {
-    const { icon, title, isVisible, ...rest } = this.props;
+    const { icon, width, title, isVisible, ...rest } = this.props;
 
     if (!isVisible) {
       return null;
     }
 
-    // if (open) {
-    //   return (
-    //     <NavLinkStyle onClick={this.checkIfShouldNav} {...rest}>
-    //       <Icon>{icon}</Icon>
-    //       <Text>{title}</Text>
-    //     </NavLinkStyle>
-    //   );
-    // }
-
-    // return (
-    //   <Tooltipped
-    //     label={title}
-    //     position="right"
-    //     delay={500}
-    //     setPosition
-    //     tooltipStyle={tooltipStyles}
-    //   >
-    //     <NavLinkStyle onClick={this.checkIfShouldNav} {...rest}>
-    //       <Icon>{icon}</Icon>
-    //       <Text>{title}</Text>
-    //     </NavLinkStyle>
-    //   </Tooltipped>
-    // );
-
     return (
-      <NavLinkStyle onClick={this.checkIfShouldNav} {...rest}>
-        <Icon>{icon}</Icon>
-        <Text>{title}</Text>
-      </NavLinkStyle>
+      <ListItem width={width}>
+        <NavLinkStyle onClick={this.checkIfShouldNav} {...rest}>
+          <Icon>{icon}</Icon>
+          <Text>{title}</Text>
+        </NavLinkStyle>
+      </ListItem>
     );
   }
 }

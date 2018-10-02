@@ -62,9 +62,9 @@ const NavbarContainer = styled.div`
   white-space: nowrap;
 `;
 
-const NavItems = styled.div`
+const NavItems = styled.ul`
   margin: 0;
-  padding-top: 4px;
+  padding: 3px 0 0 0;
   width: 100%;
 `;
 
@@ -84,6 +84,8 @@ const ExpanderButton = styled.button`
   height: 52px;
   background-color: white;
   cursor: pointer;
+  text-align: right;
+  padding-right: 22px;
 
   &:hover {
     background-color: ${props => props.theme.colors['$md-grey-200']};
@@ -113,7 +115,7 @@ class Navbar extends PureComponent {
 
   static defaultProps = {
     open: false,
-    width: '180px',
+    width: '200px',
     onOpen: () => {},
     children: null,
   };
@@ -144,7 +146,7 @@ class Navbar extends PureComponent {
         <NavItems>
           {items.map(item => (
             <NavItem
-              open={open}
+              width={width}
               title={item.title}
               key={item.key}
               icon={iconMap[item.icon]}
