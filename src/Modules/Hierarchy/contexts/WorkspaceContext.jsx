@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import WorkspaceHeader from '../containers/WorkspaceHeader';
+import ContextHeader from '../containers/ContextHeader';
 import withContext from '../hocs/withContext';
 
 class WorkspaceContext extends PureComponent {
@@ -40,14 +40,9 @@ class WorkspaceContext extends PureComponent {
   }
 
   render() {
-    const { context: { workspace } } = this.props;
-
     return (
       <Div paddingBottom="56px">
-        <WorkspaceHeader
-          model={workspace}
-          {...this.props}
-        />
+        <ContextHeader {...this.props} />
         <WorkspaceRoutes />
       </Div>
     );

@@ -1,6 +1,6 @@
 
 // eslint-disable-next-line no-unused-vars
-const navItems = (context, experimentalFlag) => {
+export default (context, experimentalFlag) => {
   const { contextMeta: { fqon, workspaceId, environmentId } } = context;
 
   return ({
@@ -118,5 +118,3 @@ const navItems = (context, experimentalFlag) => {
     ],
   });
 };
-
-export default navItems;

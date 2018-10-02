@@ -18,6 +18,7 @@ const IconStyle = styled.div`
 
 const SeperatorStyle = styled(IconSeparator)`
   font-size: 14px;
+  color: ${props => props.theme.colors['$md-grey-700']};
 
   a {
     display: block;
@@ -29,7 +30,7 @@ const SeperatorStyle = styled(IconSeparator)`
   }
 
   &:last-child {
-    padding-left: 8px;
+    padding-left: 3px;
     padding-right: 8px;
   }
 

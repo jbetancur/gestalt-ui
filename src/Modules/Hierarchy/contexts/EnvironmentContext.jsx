@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
-import EnvironmentHeader from '../containers/EnvironmentHeader';
+import ContextHeader from '../containers/ContextHeader';
 import withContext from '../hocs/withContext';
 
 class EnvironmentContext extends Component {
@@ -42,14 +42,9 @@ class EnvironmentContext extends Component {
   }
 
   render() {
-    const { context: { environment } } = this.props;
-
     return (
       <Div paddingBottom="56px">
-        <EnvironmentHeader
-          model={environment}
-          {...this.props}
-        />
+        <ContextHeader {...this.props} />
         <EnvironmentRoutes />
       </Div>
     );

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
-import HierarchyHeader from '../containers/HierarchyHeader';
+import ContextHeader from '../containers/ContextHeader';
 import withContext from '../hocs/withContext';
 
 class HierarchyContext extends PureComponent {
@@ -28,14 +28,9 @@ class HierarchyContext extends PureComponent {
   }
 
   render() {
-    const { context: { organization } } = this.props;
-
     return (
       <Div paddingBottom="56px">
-        <HierarchyHeader
-          model={organization}
-          {...this.props}
-        />
+        <ContextHeader {...this.props} />
         <HierarchyRoutes />
       </Div>
     );

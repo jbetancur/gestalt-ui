@@ -75,7 +75,7 @@ class Breadcrumbs extends Component {
 
   static defaultProps = {
     pending: false,
-    size: 20,
+    size: 16,
     isActive: false,
   }
 
@@ -191,6 +191,21 @@ class Breadcrumbs extends Component {
       )
     ];
   }
+
+  // getContextName() {
+  //   const {
+  //     context: { contextMeta },
+  //     context,
+  //   } = this.props;
+  //   const matchContext = context[contextMeta.context];
+
+  //   if (matchContext) {
+  //     return matchContext.description || matchContext.name;
+  //   }
+
+  //   return '';
+  // }
+
 
   render() {
     const {

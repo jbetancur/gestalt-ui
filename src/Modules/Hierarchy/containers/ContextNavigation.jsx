@@ -66,13 +66,9 @@ class ContextNavigation extends PureComponent {
     model: {},
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      expanded: false,
-    };
-  }
+  state = {
+    expanded: false,
+  };
 
   toggle = () => {
     this.setState(prevState => ({ expanded: !prevState.expanded }));
@@ -80,6 +76,7 @@ class ContextNavigation extends PureComponent {
 
   render() {
     const { match, breadcrumbComponent, actionsComponent, detailsComponent, pending, pendingContextActions, actionsList, model } = this.props;
+    const { expanded } = this.state;
 
     return (
       <NavHeader>
@@ -93,9 +90,9 @@ class ContextNavigation extends PureComponent {
               {detailsComponent && !pending &&
               <Button
                 flat
-                iconChildren={this.state.expanded ? 'expand_less' : 'expand_more'}
+                iconChildren={expanded ? 'expand_less' : 'expand_more'}
                 onClick={this.toggle}
-                tooltipLabel={`${this.state.expanded ? 'Less' : 'More'} Details`}
+                tooltipLabel={`${expanded ? 'Less' : 'More'} Details`}
               >
                 <Name>{model.description || model.name}</Name>
               </Button>}
@@ -111,7 +108,7 @@ class ContextNavigation extends PureComponent {
             </Col>}
           {actionsComponent &&
           <Col flex={12}>
-            <ExpansionPanel expanded={this.state.expanded}>
+            <ExpansionPanel expanded={expanded}>
               <DetailsPanel>{detailsComponent}</DetailsPanel>
             </ExpansionPanel>
           </Col>}

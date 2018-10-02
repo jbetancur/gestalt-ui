@@ -34,6 +34,8 @@ const AppWrapper = styled.div`
 const Main = styled.main`
   overflow-y: scroll;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 class App extends Component {

@@ -3,53 +3,50 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
-import {
-  HierarchyIcon,
-  MetamodelIcon,
-  ProviderIcon,
-  UserIcon,
-  GroupIcon,
-  EnvironmentIcon,
-  LambdaIcon,
-  ContainerIcon,
-  APIIcon,
-  PolicyIcon,
-  SecretIcon,
-  StreamIcon,
-  DataFeedIcon,
-  VolumeIcon,
-  MainframeIcon,
-} from 'components/Icons';
 import withApp from 'App/withApp';
 import NavItem from '../components/NavItem';
 import withContext from '../hocs/withContext';
 import navItems from '../config/navItems';
+import iconMap from '../config/iconMap';
 
-const iconMap = {
-  hierarchy: <HierarchyIcon size={24} />,
-  provider: <ProviderIcon size={24} />,
-  user: <UserIcon size={24} />,
-  group: <GroupIcon size={24} />,
-  resourceType: <MetamodelIcon size={24} />,
-  environment: <EnvironmentIcon size={24} />,
-  container: <ContainerIcon size={24} />,
-  lambda: <LambdaIcon size={24} />,
-  api: <APIIcon size={24} />,
-  policy: <PolicyIcon size={24} />,
-  volume: <VolumeIcon size={24} />,
-  secret: <SecretIcon size={24} />,
-  stream: <StreamIcon size={24} />,
-  datafeed: <DataFeedIcon size={24} />,
-  cloudframe: <MainframeIcon size={24} />,
-};
+// const ContextTitle = styled.div`
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+
+//   div {
+//     color: ${props => props.theme.colors['$md-grey-600']};
+//     line-height: 0;
+//     overflow-x: hidden;
+//     white-space: nowrap;
+//     height: 22px;
+//     width: 100px;
+//     display: flex;
+//     align-items: center;
+//   }
+
+//   i,
+//   svg {
+//     display: inline-block;
+//     line-height: 0;
+//     margin: 13px 18px;
+//   }
+
+//   i {
+//     color: ${props => props.theme.colors['$md-grey-500']};
+//   }
+
+//   svg {
+//     fill: ${props => props.theme.colors['$md-grey-500']};
+//   }
+// `;
 
 const NavbarContainer = styled.div`
+  background-color: transparent;
   position: relative;
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  background-color: white;
-  overflow: visible;
   z-index: 11;
   height: 100%;
   width: ${({ open, width }) => (open ? width : '64px')};
@@ -62,10 +59,21 @@ const NavbarContainer = styled.div`
   white-space: nowrap;
 `;
 
+// const NavbarHeader = styled.header`
+//   min-height: 56px;
+//   box-sizing: content-box;
+//   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// `;
+
 const NavItems = styled.ul`
+  background-color: white;
   margin: 0;
-  padding: 3px 0 0 0;
+  padding: 4px 0 0 0;
   width: 100%;
+  height: 100%;
 `;
 
 const NavFooter = styled.footer`
@@ -93,7 +101,7 @@ const ExpanderButton = styled.button`
 
   i {
     color: ${props => props.theme.colors['$md-grey-600']};
-    transform: rotate(${props => (props.open ? '-90deg' : '90deg')});
+    transform: rotate(${props => (props.open ? '-180deg' : '0deg')});
     transition-property: transform;
     transition-duration: ${props => (props.open ? '225ms' : '195ms')};
     transition-timing-function: linear;
@@ -116,7 +124,7 @@ class Navbar extends PureComponent {
   static defaultProps = {
     open: false,
     width: '200px',
-    onOpen: () => {},
+    onOpen: () => { },
     children: null,
   };
 
@@ -128,10 +136,21 @@ class Navbar extends PureComponent {
     }
   }
 
+  getContextType() {
+    const {
+      context: { contextMeta },
+    } = this.props;
+
+    return contextMeta.context
+      ? contextMeta.context.charAt(0).toUpperCase() + contextMeta.context.slice(1)
+      : null;
+  }
+
   render() {
     const {
       context: { contextMeta },
       context,
+      contextPending,
       open,
       width,
       appState: { enableExperimental },
@@ -139,23 +158,30 @@ class Navbar extends PureComponent {
       ...rest
     } = this.props;
 
-    const items = contextMeta.context ? navItems(context, enableExperimental)[contextMeta.context] : [];
+    const items = contextMeta.context
+      ? navItems(context, enableExperimental)[contextMeta.context]
+      : [];
 
     return (
       <NavbarContainer open={open} width={width} {...rest}>
+        {/* <NavbarHeader>
+          <ContextTitle>
+            {iconMap(contextMeta.context, 28)}
+            <div>{this.getContextType()}</div>
+          </ContextTitle>
+        </NavbarHeader> */}
         <NavItems>
           {items.map(item => (
             <NavItem
+              open={open}
               width={width}
               title={item.title}
               key={item.key}
-              icon={iconMap[item.icon]}
+              icon={iconMap(item.icon)}
               to={item.to}
               isVisible={item.isVisible}
               activeClassName="active-link"
-            >
-              {item}
-            </NavItem>
+            />
           ))}
 
           {children}
@@ -165,7 +191,7 @@ class Navbar extends PureComponent {
               open={open}
             >
               <FontIcon>
-                keyboard_capslock
+                chevron_right
               </FontIcon>
             </ExpanderButton>
           </NavFooter>

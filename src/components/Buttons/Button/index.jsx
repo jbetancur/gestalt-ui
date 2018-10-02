@@ -9,6 +9,7 @@ const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...r
     line-height: normal;
     font-weight: normal;
   }
+
   .md-icon-text {
     font-weight: normal;
   }
