@@ -14,13 +14,12 @@ const ListItem = styled.li`
   width: 100%;
   cursor: pointer;
   user-select: none;
-  transition: background-color 50ms ease-in-out;
 
   &:hover {
     background-color: ${props => props.theme.colors['$md-grey-200']};
 
     .nav-on-menu-hover {
-      opacity: 0.98;
+     display: flex;
     }
   }
 `;
@@ -49,18 +48,17 @@ const Text = styled.div`
 `;
 
 const SubMenu = styled(({ miniWidth, expandedWidth, ...rest }) => <div {...rest} />)`
-  display: flex;
+  display: none;
   position: absolute;
-  left: 63px;
+  padding: 8px;
   height: 48px;
   font-weight: 500;
-  max-width: calc(${props => props.expandedWidth} - ${props => props.miniWidth});
-  padding: 8px;
-  border-left: 1px solid ${props => props.theme.colors['$md-grey-300']};
-  background-color: ${props => props.theme.colors['$md-grey-200']};
   box-shadow: 2px 1px 2px -2px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  transition: opacity 50ms ease-in-out;
+  opacity: 0.98;
+  left: calc(${props => props.miniWidth} - 1px);
+  border-left: 1px solid ${props => props.theme.colors['$md-grey-300']};
+  max-width: calc(${props => props.expandedWidth} - ${props => props.miniWidth});
+  background-color: ${props => props.theme.colors['$md-grey-200']};
 `;
 
 class NavItem extends Component {
@@ -114,7 +112,11 @@ class NavItem extends Component {
           <Icon>{icon}</Icon>
           <Text>{title}</Text>
           {!open &&
-          <SubMenu expandedWidth={expandedWidth} className="nav-on-menu-hover">
+          <SubMenu
+            expandedWidth={expandedWidth}
+            miniWidth={miniWidth}
+            className="nav-on-menu-hover"
+          >
             <Text>{title}</Text>
           </SubMenu>}
         </NavLinkStyle>
