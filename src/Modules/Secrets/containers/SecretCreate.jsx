@@ -7,13 +7,14 @@ import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { withSecret, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import SecretForm from './SecretForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateSecretModel } from '../selectors';
+import withSecret from '../hocs/withSecret';
 
 class SecretCreate extends Component {
   static propTypes = {

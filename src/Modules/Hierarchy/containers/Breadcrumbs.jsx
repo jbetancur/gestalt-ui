@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { withSelf, } from 'Modules/MetaResource';
 import { Divider, ListItem, FontIcon } from 'react-md';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -15,6 +14,7 @@ import {
   getSortedContextWorkspaces,
   getSortedContextEnvironments,
 } from '../selectors';
+import withSelf from '../../../App/hocs/withSelf';
 
 const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   color: inherit;

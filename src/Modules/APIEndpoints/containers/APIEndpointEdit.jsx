@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withAPIEndpoint, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -17,6 +17,8 @@ import validate from './validations';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditEndpointModel, selectAPIEndpoint } from '../selectors';
+import withAPIEndpoint from '../hocs/withAPIEndpoint';
+
 
 class APIEndpointEdit extends PureComponent {
   static propTypes = {

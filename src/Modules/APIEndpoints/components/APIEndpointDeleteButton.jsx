@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { Button } from 'react-md';
 
-const DeleteButton = styled(Button) `
+const DeleteButton = styled(Button)`
   color: ${props => props.theme.colors['$md-red-500']};
 `;
 

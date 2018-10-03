@@ -11,10 +11,10 @@ import { DeleteIconButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withPolicyRules } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
+import withPolicyRules from '../hocs/withPolicyRules';
 
 const getBaseURL = (params, row) => `/${params.fqon}/hierarchy/${params.workspaceId}/environment/${params.environmentId}/policies/${params.policyId}/rules/${row.id}/edit${getLastFromSplit(row.resource_type)}Rule`;
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);

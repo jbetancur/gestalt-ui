@@ -6,7 +6,7 @@ import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
-import { withProvider, withEnv, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ProviderForm from './ProviderForm';
@@ -15,6 +15,8 @@ import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
 import { getCreateProviderModel } from '../selectors';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
+import withProvider from '../hocs/withProvider';
+import withEnv from '../../Env/hocs/withEnv';
 
 const focusOnErrors = createDecorator();
 

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import withApp from 'App/withApp';
+import withApp from 'App/hocs/withApp';
 import { Link } from 'react-router-dom';
 import { ListItem, MenuButton } from 'react-md';
 import withContext from '../hocs/withContext';

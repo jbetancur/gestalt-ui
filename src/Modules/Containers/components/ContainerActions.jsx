@@ -7,7 +7,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ListItem, Divider, FontIcon } from 'react-md';
-import { withContainer, withContainers } from 'Modules/MetaResource';
 // import { withContext } from 'Modules/Hierarchy';
 import { withEntitlements } from 'Modules/Entitlements';
 // import { ActionsMenu } from 'Modules/Actions';
@@ -16,6 +15,8 @@ import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
 import withContext from '../../Hierarchy/hocs/withContext';
+import withContainer from '../hocs/withContainer';
+import withContainers from '../hocs/withContainers';
 
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`

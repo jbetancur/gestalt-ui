@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withAPI, withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
+import { withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -12,6 +12,7 @@ import APIForm from './APIForm';
 import validate from './validations';
 import actions from '../actions';
 import { generateAPIPayload } from '../payloadTransformer';
+import withAPI from '../hocs/withAPI';
 
 const initialFormValues = {
   name: null,

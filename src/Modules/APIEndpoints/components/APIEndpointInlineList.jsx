@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Button, FontIcon } from 'react-md';
-import { withAPIEndpoints } from 'Modules/MetaResource';
 import { ClipboardButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import DataTable from 'react-data-table-component';
@@ -13,6 +12,7 @@ import { StatusBubble } from 'components/Status';
 import Div from 'components/Div';
 import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
+import withAPIEndpoints from '../hocs/withAPIEndpoints';
 
 class APIEndpointInlineList extends PureComponent {
   static propTypes = {

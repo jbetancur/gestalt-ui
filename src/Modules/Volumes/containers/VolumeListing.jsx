@@ -11,10 +11,10 @@ import { DeleteIconButton } from 'components/Buttons';
 import { VolumeIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { ALink } from 'components/Links';
-import { withVolumes } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
+import withVolumes from '../hocs/withVolumes';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 

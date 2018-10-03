@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData, withProviderActions, withResourceType } from 'Modules/MetaResource';
+import { withPickerData, withProviderActions } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -18,6 +18,8 @@ import validate from './validations';
 import { getDatafeed } from '../selectors';
 import { generatePatches } from '../payloadTransformer';
 import { DATA_CLASSIFICATION } from '../../../constants';
+import withDatafeed from '../hocs/withDatafeed';
+import withResourceType from '../../ResourceTypes/hocs/withResourceType';
 
 class DataFeedEdit extends Component {
   static propTypes = {

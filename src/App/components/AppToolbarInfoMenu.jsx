@@ -6,7 +6,7 @@ import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
 import { A } from 'components/Links';
 import { GalacticFogIcon } from 'components/Icons';
 import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../constants';
-import withApp from '../withApp';
+import withApp from '../hocs/withApp';
 
 const AppToolbarInfoMenu = (props) => {
   const menuItems = [

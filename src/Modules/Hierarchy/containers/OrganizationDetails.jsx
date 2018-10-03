@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { withSelf } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -10,6 +9,7 @@ import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
+import withSelf from '../../../App/hocs/withSelf';
 
 class OrganizationDetails extends PureComponent {
   static propTypes = {

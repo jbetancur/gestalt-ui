@@ -6,7 +6,6 @@ import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Row, Col } from 'react-flexybox';
-import { withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
@@ -16,6 +15,7 @@ import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
+import withEnv from '../../Env/hocs/withEnv';
 
 const focusOnErrors = createDecorator();
 

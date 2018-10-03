@@ -10,9 +10,9 @@ import { DeleteIconButton } from 'components/Buttons';
 import { UserIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withUsers } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import actions from '../actions';
+import withUsers from '../hocs/withUsers';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 

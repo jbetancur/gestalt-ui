@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withSearch } from 'Modules/MetaResource';
 import { debounce } from 'lodash';
 import { Autocomplete } from 'react-md';
+import withSearch from './hocs/withSearch';
 
 class Search extends PureComponent {
   static propTypes = {

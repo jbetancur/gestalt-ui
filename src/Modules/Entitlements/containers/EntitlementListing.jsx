@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withEntitlements, withSelf, withSearch } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import { Search } from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
@@ -14,6 +13,9 @@ import SearchFields from '../components/SearchFields';
 import EntitlementTree from '../components/EntitlementTree';
 import actions from '../actions';
 import { USER } from '../../../constants';
+import withEntitlements from '../hocs/withEntitlements';
+import withSearch from '../../Search/hocs/withSearch';
+import withSelf from '../../../App/hocs/withSelf';
 
 class EntitlementListing extends PureComponent {
   static propTypes = {

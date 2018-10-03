@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { DialogContainer } from 'react-md';
 import { Stepper } from 'components/Form';
-import { withAPIEndpoint, withAPIEndpoints, withAPIs } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import { generatePayload } from '../payloadTransformer';
 import APIPage from './APIPage';
@@ -12,6 +11,9 @@ import APIEndpointPage from './APIEndpointPage';
 import page1Validations from './page1Validations';
 import page2Validations from './page2Validations';
 import apiEndpointModel from '../models/apiEndpoint';
+import withAPIEndpoint from '../hocs/withAPIEndpoint';
+import withAPIEndpoints from '../hocs/withAPIEndpoints';
+import withAPIs from '../../APIs/hocs/withAPIs';
 
 const initialValues = apiEndpointModel.get();
 

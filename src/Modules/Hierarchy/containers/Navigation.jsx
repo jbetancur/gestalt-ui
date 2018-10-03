@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
-import withApp from 'App/withApp';
+import withApp from 'App/hocs/withApp';
 import NavItem from '../components/NavItem';
 import withContext from '../hocs/withContext';
 import navItems from '../config/navItems';

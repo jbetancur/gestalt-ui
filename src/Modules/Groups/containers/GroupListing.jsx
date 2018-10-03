@@ -10,9 +10,9 @@ import { DeleteIconButton } from 'components/Buttons';
 import { GroupIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withGroups } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import actions from '../actions';
+import withGroups from '../hocs/withGroups';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 

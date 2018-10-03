@@ -6,12 +6,13 @@ import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { withAPIEndpoint, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateEndpointModel } from '../selectors';
+import withAPIEndpoint from '../hocs/withAPIEndpoint';
 
 class APIEndpointCreate extends Component {
   static propTypes = {

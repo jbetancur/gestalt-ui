@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withSecret, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -17,6 +17,7 @@ import validate from '../validations';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditSecretModel } from '../selectors';
+import withSecret from '../hocs/withSecret';
 
 class SecretEdit extends Component {
   static propTypes = {

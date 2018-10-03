@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { withAPI, withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
+import { withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -20,6 +20,7 @@ import validate from './validations';
 import actions from '../actions';
 import { generateAPIPatches } from '../payloadTransformer';
 import { getEditAPIModel } from '../selectors';
+import withAPI from '../hocs/withAPI';
 
 class APIEdit extends Component {
   static propTypes = {

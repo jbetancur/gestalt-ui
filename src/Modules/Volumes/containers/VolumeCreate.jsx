@@ -7,12 +7,12 @@ import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { withVolume } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateVolumeModel, selectProvider } from '../selectors';
+import withVolume from '../hocs/withVolume';
 
 class VolumeCreate extends Component {
   static propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { withContainers, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
@@ -20,6 +20,8 @@ import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
 import ContainerIcon from '../components/ContainerIcon';
 import ActionsModals from '../ActionModals';
+import withContainers from '../hocs/withContainers';
+
 // import ContainerListingExpandable from '../components/ContainerListingExpandable';
 
 class ContainerListing extends PureComponent {

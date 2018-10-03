@@ -12,13 +12,13 @@ import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { OrganizationMenu } from 'Modules/NavigationMenus';
 import { withRestricted } from 'Modules/Authentication';
-import { withSelf } from 'Modules/MetaResource';
 import { GalacticFogIcon } from 'components/Icons';
 import Header from './components/Header';
 import AppError from './components/AppError';
 import UserMenu from './components/UserMenu';
 import AppToolbarInfoMenu from './components/AppToolbarInfoMenu';
-import withApp from './withApp';
+import withApp from './hocs/withApp';
+import withSelf from './hocs/withSelf';
 
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
 

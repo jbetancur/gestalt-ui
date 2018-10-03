@@ -10,10 +10,10 @@ import { DeleteIconButton } from 'components/Buttons';
 import { StreamIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withStreamSpecs } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
+import withStreamSpecs from '../hocs/withStreamSpecs';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 

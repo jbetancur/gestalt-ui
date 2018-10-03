@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import { withPolicy } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { PolicyRules } from 'Modules/PolicyRules';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -20,6 +19,7 @@ import PolicyForm from './PolicyForm';
 import actions from '../actions';
 import { generatePolicyPatches } from '../payloadTransformer';
 import { getEditPolicyModel } from '../selectors';
+import withPolicy from '../hocs/withPolicy';
 
 class PolicyEdit extends Component {
   static propTypes = {

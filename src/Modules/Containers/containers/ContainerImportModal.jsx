@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withContainer } from 'Modules/MetaResource';
 import { DialogContainer } from 'react-md';
 import { Form } from 'react-final-form';
 import { Button } from 'components/Buttons';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ContainerImportForm from './ContainerImportForm';
+import withContainer from '../hocs/withContainer';
 
 const initialValues = {
   name: null,

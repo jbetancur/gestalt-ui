@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withPolicyRule } from 'Modules/MetaResource';
 import PolicyEventRuleForm from './PolicyEventRuleForm';
 import validate from './PolicyEventRuleForm/validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateEventRuleModel } from '../selectors';
+import withPolicyRule from '../hocs/withPolicyRule';
 
 class PolicyEventRuleCreate extends Component {
   static propTypes = {

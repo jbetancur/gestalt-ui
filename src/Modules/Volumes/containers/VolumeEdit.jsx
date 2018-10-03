@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withVolume } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -17,6 +16,7 @@ import VolumeForm from './VolumeForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditVolumeModel, selectProvider } from '../selectors';
+import withVolume from '../hocs/withVolume';
 
 class VolumeEdit extends Component {
   static propTypes = {

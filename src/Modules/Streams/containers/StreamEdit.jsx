@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { Button } from 'components/Buttons';
-import { withStreamSpec, withPickerData, withProviderActions } from 'Modules/MetaResource';
+import { withPickerData, withProviderActions } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -20,6 +20,7 @@ import StreamInstances from '../components/StreamInstances';
 import validate from '../validations';
 import { getStreamSpec, getStreamInstances } from '../selectors';
 import { generatePatches } from '../payloadTransformer';
+import withStreamSpec from '../hocs/withStreamSpec';
 
 class StreamSpecEdit extends Component {
   static propTypes = {

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { Autocomplete, List, ListItem, FontIcon } from 'react-md';
-import { withGroup, withUsers } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
@@ -15,6 +14,8 @@ import GroupForm from './GroupForm';
 import validate from '../validations';
 import actions from '../actions';
 import { getEditGroupModel } from '../selectors';
+import withGroup from '../hocs/withGroup';
+import withUsers from '../../Users/hocs/withUsers';
 
 class GroupEdit extends Component {
   static propTypes = {

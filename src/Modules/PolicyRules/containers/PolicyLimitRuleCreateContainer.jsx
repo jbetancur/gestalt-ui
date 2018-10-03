@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withPolicyRule } from 'Modules/MetaResource';
 import PolicyLimitRuleForm from './PolicyLimitRuleForm';
 import validate from './PolicyLimitRuleForm/validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateLimitRuleModel } from '../selectors';
+import withPolicyRule from '../hocs/withPolicyRule';
 
 class PolicyLimitRuleCreate extends Component {
   static propTypes = {

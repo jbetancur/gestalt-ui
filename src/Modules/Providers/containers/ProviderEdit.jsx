@@ -8,7 +8,7 @@ import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { withProvider, withContainer, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses, containerActionCreators } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -22,6 +22,8 @@ import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
 import { getEditProviderModel, getProviderContainer } from '../selectors';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
+import withProvider from '../hocs/withProvider';
+import withContainer from '../../Containers/hocs/withContainer';
 
 const focusOnErrors = createDecorator();
 

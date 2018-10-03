@@ -10,9 +10,9 @@ import { DeleteIconButton } from 'components/Buttons';
 import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withResourceTypes } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import actions from '../actions';
+import withResourceTypes from '../hocs/withResourceTypes';
 
 class ResourceTypeListing extends PureComponent {
   static propTypes = {

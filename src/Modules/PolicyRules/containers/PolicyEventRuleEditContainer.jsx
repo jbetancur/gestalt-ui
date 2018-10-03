@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { withPolicyRule } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import PolicyEventRuleForm from './PolicyEventRuleForm';
@@ -11,6 +10,7 @@ import validate from './PolicyEventRuleForm/validations';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditEventRuleModel, selectRule } from '../selectors';
+import withPolicyRule from '../hocs/withPolicyRule';
 
 class PolicyEventRuleEdit extends Component {
   static propTypes = {

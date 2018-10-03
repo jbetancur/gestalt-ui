@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withUser, withUsers } from 'Modules/MetaResource';
 // import { withContext } from 'Modules/Hierarchy';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -13,6 +12,8 @@ import validate from '../validations';
 import actions from '../actions';
 import userModel from '../models/user';
 import withContext from '../../Hierarchy/hocs/withContext';
+import withUser from '../hocs/withUser';
+import withUsers from '../hocs/withUsers';
 
 const initialValues = userModel.create();
 

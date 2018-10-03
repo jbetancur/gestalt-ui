@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { withDatafeed, withPickerData, withResourceType } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -12,6 +12,8 @@ import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 import dataFeedModel from '../models/dataFeed';
 import { DATA_CLASSIFICATION } from '../../../constants';
+import withDatafeed from '../hocs/withDatafeed';
+import withResourceType from '../../ResourceTypes/hocs/withResourceType';
 
 const initialValues = dataFeedModel.create({
   properties: {

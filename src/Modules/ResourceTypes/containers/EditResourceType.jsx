@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { withResourceType, withPickerData, withMetaResource } from 'Modules/MetaResource';
+import { withPickerData, withMetaResource } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Panel } from 'components/Panels';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -15,6 +15,7 @@ import validate from '../validations';
 import { generatePatches, batchTypeProps } from '../payloadTransformer';
 import { getEditResourceTypeModel } from '../selectors';
 import actions from '../actions';
+import withResourceType from '../hocs/withResourceType';
 
 class EditResourceType extends PureComponent {
   static propTypes = {

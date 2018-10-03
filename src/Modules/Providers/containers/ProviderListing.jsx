@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withProviders } from 'Modules/MetaResource';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
@@ -15,6 +14,7 @@ import { Checkbox, FontIcon } from 'react-md';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
+import withProviders from '../hocs/withProviders';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 

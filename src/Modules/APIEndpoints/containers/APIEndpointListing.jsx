@@ -11,11 +11,11 @@ import { StatusBubble } from 'components/Status';
 import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
-import { withAPIEndpoints } from 'Modules/MetaResource';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { A } from 'components/Links';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
+import withAPIEndpoints from '../hocs/withAPIEndpoints';
 
 const getBaseURL = (params, row) => `/${params.fqon}/hierarchy/${params.workspaceId}/environment/${params.environmentId}/apis/${params.apiId}/apiendpoints/${row.id}`;
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);

@@ -11,7 +11,7 @@ import {
   StreamIcon,
   VolumeIcon
 } from 'components/Icons';
-import withApp from 'App/withApp';
+import withApp from 'App/hocs/withApp';
 import HomeCard from '../components/HomeCard';
 // import { DOCUMENTATION_URL } from '../../../constants';
 

@@ -8,7 +8,6 @@ import createDecorator from 'final-form-focus';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withContainer, withEnv } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ContainerForm from './ContainerForm';
@@ -21,6 +20,8 @@ import {
   selectVolumeListing,
 } from '../selectors';
 import ContainerIcon from '../components/ContainerIcon';
+import withContainer from '../hocs/withContainer';
+import withEnv from '../../Env/hocs/withEnv';
 
 const focusOnErrors = createDecorator();
 

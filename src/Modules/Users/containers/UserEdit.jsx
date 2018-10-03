@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
-import { withUser } from 'Modules/MetaResource';
 // import { withContext } from 'Modules/Hierarchy';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -16,6 +15,7 @@ import validate from '../validations';
 import actions from '../actions';
 import { getEditUserModel } from '../selectors';
 import withContext from '../../Hierarchy/hocs/withContext';
+import withUser from '../hocs/withUser';
 
 class GroupEdit extends Component {
   static propTypes = {

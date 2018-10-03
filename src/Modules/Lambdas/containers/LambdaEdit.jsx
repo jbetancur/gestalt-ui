@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
-import { withAPIEndpoints } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -28,6 +27,7 @@ import { getEditLambdaModel } from '../selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
 import runTimes from '../lists/runTimes';
+import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
 
 const focusOnErrors = createDecorator();
 

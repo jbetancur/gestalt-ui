@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { destroy } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withServiceSpec, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import ServiceWizard from './ServiceWizard';
+import withServiceSpec from '../hocs/withServiceSpec';
 
 class ServiceModeler extends PureComponent {
   static propTypes = {

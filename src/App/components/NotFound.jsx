@@ -4,8 +4,8 @@ import styled, { withTheme } from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
-import { withSelf } from 'Modules/MetaResource';
 import { media } from 'util/helpers/media';
+import withSelf from '../hocs/withSelf';
 
 const Title = styled.span`
   font-size: 84px;

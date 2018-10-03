@@ -10,8 +10,8 @@ import { DeleteIconButton } from 'components/Buttons';
 import { ServiceIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { FontIcon } from 'react-md';
-import { withServiceSpecs } from 'Modules/MetaResource';
 import actions from '../actions';
+import withServiceSpecs from '../hocs/withServiceSpecs';
 
 class ServiceSpecListing extends PureComponent {
   static propTypes = {

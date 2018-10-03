@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Form } from 'react-final-form';
-import { withPolicy } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -11,6 +10,7 @@ import { generateContextEntityState } from 'util/helpers/context';
 import PolicyForm from './PolicyForm';
 import actions from '../actions';
 import { generatePolicyPayload } from '../payloadTransformer';
+import withPolicy from '../hocs/withPolicy';
 
 const initialValues = {
   name: '',

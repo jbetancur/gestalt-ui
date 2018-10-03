@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { withResourceType, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ResourceTypeForm from './ResourceTypeForm';
@@ -13,6 +13,7 @@ import validate from '../validations';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateResourceTypeModel } from '../selectors';
 import actions from '../actions';
+import withResourceType from '../hocs/withResourceType';
 
 class CreateResourceType extends PureComponent {
   static propTypes = {
