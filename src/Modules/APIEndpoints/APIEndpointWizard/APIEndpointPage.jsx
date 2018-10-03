@@ -34,7 +34,7 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
                 menuItems={portMappings}
                 itemLabel="name"
                 itemValue="name"
-                label="Container Port Name"
+                label="Service Label"
                 required
                 helpText="the service mapping name"
               />

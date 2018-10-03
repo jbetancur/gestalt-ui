@@ -130,7 +130,7 @@ const APIEndpointForm = ({
                     itemLabel="name"
                     itemValue="name"
                     required
-                    label="Container Port Name"
+                    label="Service Label"
                   />
                 </Col>}
             </Row>

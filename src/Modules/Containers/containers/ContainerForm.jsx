@@ -49,7 +49,7 @@ const ContainerForm = ({
   return (
     <React.Fragment>
       {!selectedProvider.isSelected &&
-        <Row gutter={5} hide={selectedProvider.isSelected}>
+        <Row gutter={5}>
           <Col flex={12}>
             <Panel title="Select a Provider" expandable={false}>
               <Row gutter={5}>

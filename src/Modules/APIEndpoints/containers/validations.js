@@ -34,7 +34,7 @@ export default (values) => {
     }
 
     if (values.properties.implementation_type === 'container' && !values.properties.container_port_name) {
-      merge(errors, nestedObjectFromString('properties.container_port_name', 'select a container port name, otherwise, ensure that you created an exposed port mapping'));
+      merge(errors, nestedObjectFromString('properties.container_port_name', 'select a service label, otherwise, ensure that you created an exposed service port mapping'));
     }
 
     if (!values.properties.methods) {
