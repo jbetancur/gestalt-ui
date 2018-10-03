@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -59,7 +59,7 @@ const Wrapper = styled.div`
   font-size: 20px;
 `;
 
-class Breadcrumbs extends Component {
+class Breadcrumbs extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -70,11 +70,11 @@ class Breadcrumbs extends Component {
     sortedEnvironments: PropTypes.array.isRequired,
     size: PropTypes.number,
     isActive: PropTypes.bool,
-    pending: PropTypes.bool,
+    contextPending: PropTypes.bool,
   };
 
   static defaultProps = {
-    pending: false,
+    contextPending: false,
     size: 16,
     isActive: false,
   }
@@ -192,27 +192,12 @@ class Breadcrumbs extends Component {
     ];
   }
 
-  // getContextName() {
-  //   const {
-  //     context: { contextMeta },
-  //     context,
-  //   } = this.props;
-  //   const matchContext = context[contextMeta.context];
-
-  //   if (matchContext) {
-  //     return matchContext.description || matchContext.name;
-  //   }
-
-  //   return '';
-  // }
-
-
   render() {
     const {
       match,
       size,
       isActive,
-      pending,
+      contextPending,
       context: {
         organization,
         workspace,
@@ -224,20 +209,21 @@ class Breadcrumbs extends Component {
     const orgsRoute = `/${organization.properties.fqon}/hierarchy`;
     const workspaceRoute = `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`;
     const environmentRoute = `${match.url}`;
+    const orgNavDisabled = organization.properties.fqon === 'root';
     const orgName = organization.description || organization.name;
     const workspaceName = workspace.description || workspace.name;
     const environmentName = environment.description || environment.name;
-    const isWorkspaceCtx = workspace.id;
-    const isEnvironmentCtx = environment.id;
-    const isOrgContext = !workspace.id && !environment.id;
-    const orgNavDisabled = organization.properties.fqon === 'root';
+    // we use the url match.params so the transition is faster - otherwise we have a lag ahile the state is fetched
+    const isWorkspaceCtx = workspace.id && match.params.workspaceId;
+    const isEnvironmentCtx = environment.id && match.params.environmentId;
+    const isOrgContext = !workspace.id && !environment.id && !match.params.workspaceId && !match.params.environmentId;
 
     return (
       <Wrapper size={size} isActive={isActive}>
         {organization.properties.fqon &&
           <NavArrow
             icon
-            disabled={pending || orgNavDisabled}
+            disabled={contextPending || orgNavDisabled}
             component={Link}
             to={parentOrgRoute}
             tooltipLabel="Up one org level"
@@ -251,47 +237,47 @@ class Breadcrumbs extends Component {
         <BreadCrumbDropdown
           flat
           menuItems={this.generateOrgItems()}
-          disabled={pending}
           icon={<OrganizationIcon size={size} primary={!!isOrgContext} />}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, orgsRoute)}
               to={orgsRoute}
               isActive={isOrgContext}
+              disabled={contextPending}
             >
               {orgName}
             </EnhancedLink>
           )}
         />}
 
-        {isWorkspaceCtx && orgName &&
+        {isWorkspaceCtx && organization.id &&
         <BreadCrumbDropdown
           flat
           menuItems={this.generateWorkspaceItems()}
-          disabled={pending}
           icon={<WorkspaceIcon size={size} primary={!!(isWorkspaceCtx && !isEnvironmentCtx)} />}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
               to={workspaceRoute}
               isActive={isWorkspaceCtx && !isEnvironmentCtx}
+              disabled={contextPending}
             >
               {workspaceName}
             </EnhancedLink>
           )}
         />}
 
-        {isEnvironmentCtx && isWorkspaceCtx && orgName &&
+        {isEnvironmentCtx && isWorkspaceCtx && organization.id &&
         <BreadCrumbDropdown
           flat
           menuItems={this.generateEnvironmentItems()}
-          disabled={pending}
           icon={<EnvironmentIcon size={size} primary={!!isEnvironmentCtx} />}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, environmentRoute)}
               to={environmentRoute}
               isActive={isEnvironmentCtx}
+              disabled={contextPending}
             >
               {environmentName}
             </EnhancedLink>

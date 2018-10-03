@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { NavLink as ReactLink } from 'react-router-dom';
 
-const StyledNavLink = styled(({ staticContext, ...rest }) => <ReactLink {...rest} />)`
+const StyledNavLink = styled(({ staticContext, disabled, ...rest }) => <ReactLink {...rest} />)`
   &.active-link * {
     color: ${props => props.theme.colors['$md-blue-500']};
     font-weight: 500;
@@ -16,6 +16,7 @@ export default class Link extends Component {
       PropTypes.object,
       PropTypes.string,
     ]).isRequired,
+    disabled: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
@@ -26,6 +27,7 @@ export default class Link extends Component {
 
   static defaultProps = {
     target: '_blank',
+    disabled: false,
     activeClassName: 'active-link',
   };
 
@@ -46,7 +48,7 @@ export default class Link extends Component {
   }
 
   render() {
-    const { to, target, children, activeClassName, ...rest } = this.props;
+    const { to, target, disabled, children, activeClassName, ...rest } = this.props;
     const isInternal = this.isInternal(to);
 
     if (isInternal) {
@@ -54,6 +56,7 @@ export default class Link extends Component {
         <StyledNavLink
           to={to}
           activeClassName={activeClassName}
+          disabled={disabled}
           {...rest}
         >
           {children}
