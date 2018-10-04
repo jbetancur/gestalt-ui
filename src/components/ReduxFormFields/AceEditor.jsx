@@ -51,9 +51,6 @@ export default ({ input, className, theme, mode, meta: { touched, error }, ...ot
       mode={mode || 'javascript'}
       {...others}
     />
-    {touched && !!error &&
-    <div>
-      <Error>{error}</Error>
-    </div>}
+    {touched && !!error && <Error large bold block>{error}</Error>}
   </React.Fragment>
 );

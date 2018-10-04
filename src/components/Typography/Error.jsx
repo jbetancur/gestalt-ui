@@ -1,7 +1,7 @@
 import styled, { withTheme } from 'styled-components';
 
 const Error = styled.span`
-  font-size: 12px !important;
+  font-size: 12px;
   ${props => props.small && 'font-size: 10px !important'};
   ${props => props.large && 'font-size: 14px !important'};
   color: ${props => props.theme.colors['$md-red-500']};

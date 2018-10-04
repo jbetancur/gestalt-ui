@@ -15,13 +15,13 @@ import { formatName } from 'util/forms';
 import LinkedProviders from '../components/LinkedProviders';
 import EnvironmentTypes from '../components/EnvironmentTypes';
 import DCOSEESection from '../components/DCOSEESection';
-import KubeEditorSection from '../components/KubeEditorSection';
+import DataEditor from '../components/DataEditor';
 import DCOSSection from '../components/DCOSSection';
 import Networks from '../components/Networks';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
-
+const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'yamlDataConfig', 'allowContainer', 'inputType', 'allowStorageClasses', 'subTypes'];
 const ProviderForm = ({
   form,
   errors,
@@ -74,7 +74,7 @@ const ProviderForm = ({
                 onChange={handleProviderChange}
                 disabled={editMode}
                 required
-                deleteKeys={['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'kubeConfig', 'allowContainer']}
+                deleteKeys={stripProviderTypeKeys}
                 async
               />
             </Panel>
@@ -137,7 +137,6 @@ const ProviderForm = ({
               </Panel>
             </Col>}
 
-
           {selectedProviderType.DCOSConfig &&
             <Col flex={12}>
               <Panel title="Networks" expandable={false} noPadding>
@@ -145,25 +144,30 @@ const ProviderForm = ({
               </Panel>
             </Col>}
 
+          {selectedProviderType.yamlDataConfig &&
+          <Col flex={12}>
+            <DataEditor
+              form={form}
+              editMode={editMode}
+              title={`${selectedProviderType.displayName} Configuration`}
+              editorMode={selectedProviderType.inputType}
+              subTypes={selectedProviderType.subTypes}
+            />
+          </Col>}
 
-          {selectedProviderType.kubeConfig && !editMode &&
-            <Col flex={12}>
-              <KubeEditorSection selectedProviderType={selectedProviderType} {...props} />
-            </Col>}
-
-          {selectedProviderType.kubeConfig &&
-            <Col flex={12}>
-              <Panel title="Storage Classes" expandable={false}>
-                <Field
-                  id="provider--storageclasses"
-                  label="Storage Class"
-                  addLabel="Add Class"
-                  component={Chips}
-                  name="properties.config.storage_classes"
-                  ignorePrefixValidation
-                />
-              </Panel>
-            </Col>}
+          {selectedProviderType.allowStorageClasses && selectedProviderType.yamlDataConfig &&
+          <Col flex={12}>
+            <Panel title="Storage Classes" expandable={false}>
+              <Field
+                id="provider--storageclasses"
+                label="Storage Class"
+                addLabel="Add Class"
+                component={Chips}
+                name="properties.config.storage_classes"
+                ignorePrefixValidation
+              />
+            </Panel>
+          </Col>}
 
           {selectedProviderType.allowEnvVariables &&
             <Row gutter={5}>

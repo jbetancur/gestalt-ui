@@ -55,7 +55,6 @@ class ContainerEdit extends Component {
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     containerVolumes: PropTypes.array.isRequired,
-    clearSelectedProvider: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -69,12 +68,6 @@ class ContainerEdit extends Component {
       containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, enablePolling: true, });
       apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
     }
-  }
-
-  componentWillUnmount() {
-    const { clearSelectedProvider } = this.props;
-
-    clearSelectedProvider();
   }
 
   redeployContainer = (values) => {

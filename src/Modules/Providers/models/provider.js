@@ -1,6 +1,5 @@
 import { object, array, string } from 'yup';
 import { pick } from 'lodash';
-import base64 from 'base-64';
 import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';
 import containerModel from '../../Containers/models/container';
 
@@ -29,10 +28,16 @@ function transformOut(model, hasContainer) {
     };
   }
 
-  if (properties.data) {
-    newModel.properties.data = base64.encode(properties.data);
-    delete newModel.properties.config.auth;
-    delete newModel.properties.config.url;
+  if (properties.config.url) {
+    newModel.properties.config.url = properties.config.url;
+  }
+
+  if (properties.config.external_protocol) {
+    newModel.properties.config.external_protocol = properties.config.external_protocol;
+  }
+
+  if (properties.config.auth) {
+    newModel.properties.config.auth = properties.config.auth;
   }
 
   if (hasContainer) {
@@ -70,17 +75,18 @@ const schema = object().shape({
       external_protocol: string().default('https'),
       auth: object().default({}),
       storage_classes: array().default([]),
-      networks: array().default([]),
+      networks: array().ensure(),
       env: object().shape({}),
     }),
-    linked_providers: array().default([]),
-    environment_types: array().default([]),
+    linked_providers: array().ensure(),
+    environment_types: array().ensure(),
     services: array().default([
       {
         init: { binding: 'eager', singleton: true },
         container_spec: containerModel.create(),
       },
     ]),
+    provider_subtype: string(),
     data: string(),
   }),
 });
@@ -104,6 +110,7 @@ const create = (model = {}) =>
     'properties.linked_providers',
     'properties.environment_types',
     'properties.data',
+    'properties.provider_subtype',
   ]);
 
 /**
@@ -120,8 +127,8 @@ const createWithContainerSpec = (model = {}) =>
     'properties.services',
     'properties.environment_types',
     'properties.data',
+    'properties.provider_subtype',
   ]);
-
 
 /**
  * patch - only allow mutable props
@@ -134,7 +141,8 @@ const patch = (model = {}) =>
     'properties.config',
     'properties.linked_providers',
     'properties.environment_types',
-    // 'properties.data',
+    'properties.data',
+    'properties.provider_subtype',
   ]);
 
 /**
@@ -149,7 +157,8 @@ const patchWithContainerSpec = (model = {}) =>
     'properties.linked_providers',
     'properties.services',
     'properties.environment_types',
-    // 'properties.data',
+    'properties.data',
+    'properties.provider_subtype',
   ]);
 
 export default {

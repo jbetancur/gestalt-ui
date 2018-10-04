@@ -9,7 +9,7 @@ import providerModel from './models/provider';
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
  */
-export function generateProviderPayload(sourcePayload, hasContainer) {
+export function generateProviderPayload(sourcePayload, hasContainer, patchMode) {
   const {
     name,
     description,
@@ -26,22 +26,17 @@ export function generateProviderPayload(sourcePayload, hasContainer) {
     },
   };
 
-  if (properties.config.url) {
-    payload.properties.config.url = properties.config.url;
-  }
-
-  if (properties.config.external_protocol) {
-    payload.properties.config.external_protocol = properties.config.external_protocol;
-  }
-
-  if (properties.config.auth) {
-    payload.properties.config.auth = properties.config.auth;
-  }
-
-  if (properties.data) {
+  // encode on creation
+  if (properties.data && !patchMode) {
     payload.properties.data = base64.encode(properties.data);
     delete payload.properties.config.auth;
     delete payload.properties.config.url;
+  }
+
+  // patch the temp prop and re-encode
+  if (patchMode && properties.tempData) {
+    payload.properties.data = base64.encode(properties.tempData);
+    // console.log(payload.properties.data);
   }
 
   if (hasContainer) {
@@ -87,13 +82,13 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
     // TODO: Deal with Patch array issues - this is sloppy but no other easy way - short story is the meta model for provider containers is fubar
     delete model.properties.services;
 
-    return jsonPatch.compare(model, providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true)));
+    return jsonPatch.compare(model, providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true, true)));
   }
 
   // remove residual services so we don't patch it
   delete model.properties.services;
 
-  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload)));
+  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload, false, true)));
 }
 
 export default {

@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import base64 from 'base-64';
 import containerModel from '../Containers/models/container';
 import providerModel from './models/provider';
 
@@ -31,7 +30,6 @@ export const getEditProviderModel = createSelector(
       ...provider,
       properties: {
         ...properties,
-        data: properties.data ? base64.decode(properties.data) : '',
       },
     };
 
