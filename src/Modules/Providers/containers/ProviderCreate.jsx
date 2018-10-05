@@ -6,7 +6,6 @@ import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
-import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ProviderForm from './ProviderForm';
@@ -14,9 +13,7 @@ import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
 import { getCreateProviderModel } from '../selectors';
-import { generateResourceTypeSchema } from '../lists/providerTypes';
 import withProvider from '../hocs/withProvider';
-import withEnv from '../../Env/hocs/withEnv';
 
 const focusOnErrors = createDecorator();
 
@@ -26,32 +23,31 @@ class ProviderCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     providerActions: PropTypes.object.isRequired,
-    envActions: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
-    resourcetypesData: PropTypes.array.isRequired,
+    selectedProviderType: PropTypes.object.isRequired,
   };
 
-  state = {
-    selectedProviderType: {},
-  };
+  componentDidMount() {
+    const { providerActions } = this.props;
+
+    providerActions.initProviderCreate();
+  }
 
   componentDidCatch(error, info) {
-    // TODO: Eat errors related to calling fetchEnvSchema and redux-form FieldArrays and don't unmount the form
     this.setState({ hasError: true, error, info });
   }
 
   create = (values) => {
-    const { match, history, providerActions } = this.props;
-    const { selectedProviderType } = this.state;
+    const { match, history, providerActions, selectedProviderType } = this.props;
     const payload = generateProviderPayload(values, selectedProviderType.allowContainer);
 
-    const onSuccess = () => {
+    const onSuccess = (response) => {
       if (match.params.workspaceId && !match.params.environmentId) {
-        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
+        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers/${response.id}`);
       } else if (match.params.workspaceId && match.params.environmentId) {
-        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
+        history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers/${response.id}`);
       } else {
-        history.push(`/${match.params.fqon}/providers`);
+        history.push(`/${match.params.fqon}/providers/${response.id}`);
       }
     };
 
@@ -75,21 +71,8 @@ class ProviderCreate extends Component {
     }
   };
 
-  handleProviderTypeChange = (provider) => {
-    const { resourcetypesData, envActions } = this.props;
-    const compiledProviderTypes = generateResourceTypeSchema(resourcetypesData);
-    const selectedProviderType = compiledProviderTypes.find(type => type.name === provider.type) || {};
-
-    if (selectedProviderType.id) {
-      envActions.fetchEnvSchema({ fqon: 'root', id: selectedProviderType.id });
-    }
-
-    this.setState({ selectedProviderType });
-  }
-
   render() {
-    const { initialValues, providerPending } = this.props;
-    const { selectedProviderType } = this.state;
+    const { initialValues, providerPending, selectedProviderType } = this.props;
 
     return (
       <Row center gutter={5}>
@@ -108,8 +91,6 @@ class ProviderCreate extends Component {
             decorators={[focusOnErrors]}
             onSubmit={this.create}
             goBack={this.goBack}
-            selectedProviderType={selectedProviderType}
-            onSelecedProviderType={this.handleProviderTypeChange}
             keepDirtyOnReinitialize // prevents losing selected providerType when it is selected
             {...this.props}
           />
@@ -124,9 +105,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
-  withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
   withProvider(),
-  withEnv({ unloadEnv: false }),
   connect(mapStateToProps, actions),
 )(ProviderCreate);

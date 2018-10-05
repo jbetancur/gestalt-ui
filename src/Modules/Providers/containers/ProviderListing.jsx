@@ -10,13 +10,11 @@ import { DeleteIconButton } from 'components/Buttons';
 import { ProviderIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import { Checkbox, FontIcon } from 'react-md';
+import { FontIcon } from 'react-md';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 import withProviders from '../hocs/withProviders';
-
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 
 class ProviderListing extends PureComponent {
   static propTypes = {
@@ -28,13 +26,7 @@ class ProviderListing extends PureComponent {
     providersActions: PropTypes.object.isRequired,
   };
 
-  state = { selectedRows: [], clearSelected: false };
-
   componentDidMount() {
-    this.populateProviders();
-  }
-
-  populateProviders() {
     const { match, providersActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
@@ -44,30 +36,9 @@ class ProviderListing extends PureComponent {
   deleteOne = (row) => {
     const { match, providersActions } = this.props;
 
-    const onSuccess = () => {
-      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.populateProviders();
-    };
-
     this.props.confirmDelete(({ force }) => {
-      providersActions.deleteProvider({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
+      providersActions.deleteProvider({ fqon: match.params.fqon, resource: row, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
-  }
-
-
-  deleteMultiple = () => {
-    const { match, providersActions, confirmDelete } = this.props;
-    const { selectedRows } = this.state;
-    const names = selectedRows.map(item => item.name);
-
-    const onSuccess = () => {
-      this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.populateProviders();
-    };
-
-    confirmDelete(({ force }) => {
-      providersActions.deleteProviders({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete Providers', names);
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -158,17 +129,12 @@ class ProviderListing extends PureComponent {
             data={this.props.providers}
             highlightOnHover
             pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
             defaultSortField="name"
             progressPending={this.props.providersPending}
             progressComponent={<LinearProgress id="provider-listing" />}
             columns={this.defineColumns()}
             contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.providersPending} />}

@@ -130,8 +130,6 @@ class ContainerActions extends PureComponent {
     const onSuccess = () => {
       if (inContainerView) {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
-      } else {
-        this.populateContainers();
       }
     };
 

@@ -1,17 +1,16 @@
 import { removeItemById } from 'util/helpers/lists';
 import {
-  FETCH_LAMBDAS_REQUEST,
-  FETCH_LAMBDAS_FULFILLED,
-  FETCH_LAMBDAS_REJECTED,
-  DELETE_LAMBDA_REQUEST,
-  DELETE_LAMBDA_FULFILLED,
-  DELETE_LAMBDA_REJECTED,
-  DELETE_LAMBDAS_REQUEST, // bulk delete
-  UNLOAD_LAMBDAS,
+  FETCH_CONTAINERS_REQUEST,
+  FETCH_CONTAINERS_FULFILLED,
+  FETCH_CONTAINERS_REJECTED,
+  DELETE_CONTAINER_REQUEST,
+  DELETE_CONTAINER_FULFILLED,
+  DELETE_CONTAINER_REJECTED,
+  UNLOAD_CONTAINERS,
 } from '../constants';
 
 const initialState = {
-  lambdas: [],
+  containers: [],
   pending: false,
   completed: false,
   error: null,
@@ -19,58 +18,53 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_LAMBDAS_REQUEST:
+    case FETCH_CONTAINERS_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_LAMBDAS_FULFILLED:
+    case FETCH_CONTAINERS_FULFILLED:
       return {
         ...state,
-        lambdas: action.payload,
+        containers: action.payload,
         pending: false,
         completed: true,
       };
-    case FETCH_LAMBDAS_REJECTED:
+    case FETCH_CONTAINERS_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
 
-    case DELETE_LAMBDAS_REQUEST:
+    case DELETE_CONTAINER_REQUEST:
       return {
         ...state,
         pending: true,
       };
-
-    case DELETE_LAMBDA_REQUEST:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_LAMBDA_FULFILLED:
+    case DELETE_CONTAINER_FULFILLED:
       if (Array.isArray(action.payload)) {
         return {
           ...state,
-          lambdas: state.lambdas.filter(item => action.payload.find(i => i.id === item.id) !== item),
+          containers: state.containers.filter(item => action.payload.find(i => i.id === item.id) !== item),
           pending: false,
           completed: true,
         };
       }
+
       return {
         ...state,
-        lambdas: removeItemById(state.lambdas, action.payload.id),
+        containers: removeItemById(state.containers, action.payload.id),
         pending: false,
         completed: true,
       };
-    case DELETE_LAMBDA_REJECTED:
+    case DELETE_CONTAINER_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case UNLOAD_LAMBDAS:
+    case UNLOAD_CONTAINERS:
       return initialState;
     default:
       return state;

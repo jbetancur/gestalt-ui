@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { mapTo2DArray } from 'util/helpers/transformations';
 import containerModel from './models/container';
 
-export const selectProvider = state => state.containers.selectedProvider;
+export const selectProvider = state => state.containers.container.selectedProvider;
 export const selectContainer = state => state.containers.container.container;
 export const selectContainerSpec = (state, containerSpec) => containerModel.get(containerSpec);
 export const selectEnv = state => state.env.env.env;

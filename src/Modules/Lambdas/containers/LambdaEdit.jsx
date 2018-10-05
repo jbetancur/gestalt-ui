@@ -42,6 +42,7 @@ class LambdaEdit extends PureComponent {
     initialFormValues: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     executors: PropTypes.array.isRequired,
+    secrets: PropTypes.array.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
     lambdaStateActions: PropTypes.object.isRequired,
@@ -107,6 +108,7 @@ class LambdaEdit extends PureComponent {
       initialFormValues,
       providers,
       executors,
+      secrets,
       apiEndpoints,
       apiEndpointsPending,
       lambdaStateActions,
@@ -185,6 +187,7 @@ class LambdaEdit extends PureComponent {
                   loading={lambdaPending}
                   providers={providers}
                   executors={executors}
+                  secrets={secrets}
                   lambda={lambda}
                   apiEndpoints={apiEndpoints}
                   apiEndpointsPending={apiEndpointsPending}

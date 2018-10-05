@@ -44,9 +44,9 @@ class ContainerCreate extends Component {
   };
 
   componentDidMount() {
-    const { match, envActions } = this.props;
+    const { containerActions } = this.props;
 
-    envActions.fetchEnv({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
+    containerActions.initContainerCreate();
   }
 
   create = (values) => {
@@ -99,12 +99,12 @@ class ContainerCreate extends Component {
               initialValues={initialFormValues}
               validate={validate}
               inlineMode={inlineMode}
-              selectedProvider={selectedProvider}
               render={({ handleSubmit, ...rest }) => (
                 <Form onSubmit={handleSubmit} autoComplete="off" disabled={isPending}>
                   <ContainerForm {...rest} />
                 </Form>
               )}
+              {...this.props}
             />
           </Col>
         </Row>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import yaml from 'js-yaml';
-import { withPickerData } from 'Modules/MetaResource';
 import { Form as FinalForm, Field } from 'react-final-form';
 import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
@@ -14,10 +13,14 @@ import volumeModel from '../models/volume';
 class VolumePanelAttach extends Component {
   static propTypes = {
     providerId: PropTypes.string.isRequired,
-    volumesData: PropTypes.array.isRequired,
+    volumesDropdown: PropTypes.array,
     // attachedVolumes: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
   }
+
+  static defaultProps = {
+    volumesDropdown: [],
+  };
 
   state = {
     selectedVolume: volumeModel.get(),
@@ -31,10 +34,10 @@ class VolumePanelAttach extends Component {
   }
 
   handleSelectedVolume = form => (selectedVolumeId) => {
-    const { volumesData } = this.props;
+    const { volumesDropdown } = this.props;
     form.change('volume_id', selectedVolumeId);
 
-    const selectedVolume = volumesData.find(v => v.id === selectedVolumeId);
+    const selectedVolume = volumesDropdown.find(v => v.id === selectedVolumeId);
 
     this.setState({
       selectedVolume: volumeModel.get(selectedVolume),
@@ -42,9 +45,9 @@ class VolumePanelAttach extends Component {
   }
 
   render() {
-    const { providerId, volumesData } = this.props;
+    const { providerId, volumesDropdown } = this.props;
     const { selectedVolume } = this.state;
-    const volumes = volumesData
+    const items = volumesDropdown
       .filter(p => p.properties && p.properties.provider && p.properties.provider.id === providerId);
 
     return (
@@ -63,7 +66,7 @@ class VolumePanelAttach extends Component {
                     label="Volume"
                     itemLabel="name"
                     itemValue="id"
-                    menuItems={volumes.length ? volumes : [{ id: null, name: 'No Available Volumes' }]}
+                    menuItems={items.length ? items : [{ id: null, name: 'No Available Volumes' }]}
                     validate={composeValidators(required())}
                     onChange={this.handleSelectedVolume(form)}
                     required
@@ -115,4 +118,4 @@ class VolumePanelAttach extends Component {
   }
 }
 
-export default withPickerData({ entity: 'volumes', label: 'Volumes' })(VolumePanelAttach);
+export default VolumePanelAttach;

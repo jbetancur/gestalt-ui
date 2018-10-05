@@ -17,6 +17,7 @@ import { selectVolumeListing } from '../selectors';
 
 class VolumePanel extends PureComponent {
   static propTypes = {
+    volumesDropdown: PropTypes.array,
     volumes: PropTypes.array.isRequired,
     showVolumeCreateModal: PropTypes.func.isRequired,
     selectedProvider: PropTypes.object.isRequired,
@@ -29,6 +30,7 @@ class VolumePanel extends PureComponent {
 
   static defaultProps = {
     editMode: false,
+    volumesDropdown: [],
   };
 
   componentDidMount() {
@@ -62,9 +64,9 @@ class VolumePanel extends PureComponent {
   }
 
   handleMenuSelect = (mode) => {
-    const { showVolumeCreateModal, selectedProvider, volumes } = this.props;
+    const { showVolumeCreateModal, selectedProvider, volumes, volumesDropdown } = this.props;
 
-    showVolumeCreateModal(mode, selectedProvider, volumes);
+    showVolumeCreateModal(mode, selectedProvider, volumes, volumesDropdown);
   }
 
   handleDetach = row => () => {

@@ -29,6 +29,7 @@ class LambdaCreate extends PureComponent {
     envActions: PropTypes.object.isRequired,
     executors: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
+    secrets: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     lambdaStateActions: PropTypes.object.isRequired,
   };
@@ -68,6 +69,7 @@ class LambdaCreate extends PureComponent {
       envPending,
       providers,
       executors,
+      secrets,
       initialFormValues,
     } = this.props;
 
@@ -91,6 +93,7 @@ class LambdaCreate extends PureComponent {
               loading={lambdaPending}
               providers={providers}
               executors={executors}
+              secrets={secrets}
             />
           </Col>
         </Row>

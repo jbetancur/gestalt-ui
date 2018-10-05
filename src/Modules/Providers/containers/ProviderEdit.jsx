@@ -8,9 +8,8 @@ import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses, containerActionCreators } from 'Modules/Containers';
+import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -21,9 +20,7 @@ import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
 import { getEditProviderModel, getProviderContainer } from '../selectors';
-import { generateResourceTypeSchema } from '../lists/providerTypes';
 import withProvider from '../hocs/withProvider';
-import withContainer from '../../Containers/hocs/withContainer';
 
 const focusOnErrors = createDecorator();
 
@@ -34,40 +31,19 @@ class ProviderEdit extends Component {
     history: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
-    providerContainer: PropTypes.object.isRequired,
     providerActions: PropTypes.object.isRequired,
-    containerActions: PropTypes.object.isRequired,
     confirmUpdate: PropTypes.func.isRequired,
-    resourcetypesLoading: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
-    resourcetypesData: PropTypes.array.isRequired,
-    setSelectedProvider: PropTypes.func.isRequired,
-    caasProvidersData: PropTypes.array.isRequired,
+    selectedProviderType: PropTypes.object.isRequired,
   };
 
   state = { redeploy: false };
 
   componentDidMount() {
-    const { match, containerActions } = this.props;
+    const { match, providerActions } = this.props;
 
-    containerActions.fetchProviderContainer({
-      fqon: match.params.fqon, providerId: match.params.providerId, params: { embed: 'provider' }, providerContainer: true, enablePolling: true
-    });
-    this.populateProvider();
-  }
-
-  componentDidUpdate(prevProps) {
-    // only update chart if the data has changed
-    const { provider, providerContainer, setSelectedProvider, caasProvidersData } = this.props;
-    // make sure provider is loaded as well as provider data.
-    // Since we cannot embed = provider we need to find in a list of queried providers by type
-    if (prevProps.provider.id !== provider.id || prevProps.caasProvidersData !== caasProvidersData) {
-      if (caasProvidersData.length && provider.id) {
-        const selectedProvider = caasProvidersData.find(cp => providerContainer.properties.provider.id === cp.id);
-        setSelectedProvider(selectedProvider);
-      }
-    }
+    providerActions.initProviderEdit({ providerId: match.params.providerId });
   }
 
   componentDidCatch(error, info) {
@@ -120,12 +96,10 @@ class ProviderEdit extends Component {
   }
 
   render() {
-    const { match, initialValues, provider, container, resourcetypesData, providerPending, resourcetypesLoading } = this.props;
-    const compiledProviderTypes = generateResourceTypeSchema(resourcetypesData);
-    const selectedProviderType = compiledProviderTypes.find(type => type.name === provider.resource_type) || {};
+    const { match, initialValues, provider, container, selectedProviderType, providerPending } = this.props;
 
     return (
-      (providerPending || resourcetypesLoading) ?
+      (providerPending) ?
         <ActivityContainer id="provider-loading" /> :
         <Row center gutter={5}>
           <ContainerActionsModal />
@@ -175,8 +149,6 @@ class ProviderEdit extends Component {
                   onSubmit={this.update}
                   onRedeploy={this.flagForRedeploy}
                   goBack={this.goBack}
-                  selectedProviderType={selectedProviderType}
-                  // subscription={{ submitting: true, pristine: true }}
                   {...this.props}
                 />
               </Tab>
@@ -223,11 +195,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false, params: { type: 'Gestalt::Configuration::Provider' } }),
-  withPickerData({ entity: 'providers', label: 'Providers', params: { expand: false } }),
-  withPickerData({ entity: 'providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),
-  withContainer(),
   withProvider(),
   withEntitlements,
-  connect(mapStateToProps, { ...actions, ...containerActionCreators }),
+  connect(mapStateToProps, actions),
 )(ProviderEdit);

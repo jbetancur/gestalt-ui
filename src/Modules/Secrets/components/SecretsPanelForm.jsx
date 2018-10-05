@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withPickerData } from 'Modules/MetaResource';
 import { getIn } from 'final-form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -54,7 +53,7 @@ const getMenuItems = (secrets, provider, type) => {
   return items.length ? items : [{ id: null, name: 'No Available Secrets' }];
 };
 
-const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, form }) => (
+const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValues, form }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
@@ -63,7 +62,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, 
           const field = getIn(formValues, member) || {};
 
           const handleSecretNamePopulation = (value) => {
-            const secret = secretsData.find(i => i.id === value);
+            const secret = secretsDropdown.find(i => i.id === value);
             if (value) {
               form.mutators.update(fieldName, index, { ...field, secret_id: value, secret_name: secret.name });
             }
@@ -103,7 +102,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, 
                     itemLabel="name"
                     itemValue="id"
                     required
-                    menuItems={getMenuItems(secretsData, provider, type)}
+                    menuItems={getMenuItems(secretsDropdown, provider, type)}
                     onChange={handleSecretNamePopulation}
                     async
                     validate={composeValidators(required())}
@@ -119,7 +118,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsData, formValues, 
                       itemLabel="key"
                       itemValue="key"
                       required
-                      menuItems={getSecretKeys(field.secret_id, secretsData)}
+                      menuItems={getSecretKeys(field.secret_id, secretsDropdown)}
                       validate={composeValidators(required())}
                     />
                   </Col>}
@@ -151,7 +150,7 @@ SecretsPanelForm.propTypes = {
   provider: PropTypes.object,
   formValues: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
-  secretsData: PropTypes.array.isRequired,
+  secretsDropdown: PropTypes.array,
   type: PropTypes.oneOf([
     'lambda', 'container'
   ])
@@ -159,7 +158,8 @@ SecretsPanelForm.propTypes = {
 
 SecretsPanelForm.defaultProps = {
   provider: {},
-  type: 'container'
+  type: 'container',
+  secretsDropdown: [],
 };
 
-export default withPickerData({ entity: 'secrets', label: 'Secrets' })(SecretsPanelForm);
+export default SecretsPanelForm;

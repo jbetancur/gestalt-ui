@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import containerModel from '../Containers/models/container';
 import providerModel from './models/provider';
 
-const selectEnvSchema = state => state.env.envSchema.schema;
+const selectEnvSchema = state => state.providers.provider.envSchema;
 const selectProvider = state => state.providers.provider.provider;
 export const selectContainerProvider = state => state.containers.selectedProvider;
 export const selectContainer = state => state.providers.container.container;

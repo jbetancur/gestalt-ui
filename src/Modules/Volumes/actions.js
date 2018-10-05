@@ -39,7 +39,7 @@ export function confirmDelete(action, title, multipleItems) {
 /**
  * showVolumeCreateModal =- opens Volume Attach/Create Modal
  */
-export function showVolumeCreateModal(mode, selectedProvider, volumes = []) {
+export function showVolumeCreateModal(mode, selectedProvider, volumes = [], volumesDropdown = []) {
   return {
     type: 'SHOW_MODAL',
     modalType: 'VolumeCreateModal',
@@ -47,6 +47,7 @@ export function showVolumeCreateModal(mode, selectedProvider, volumes = []) {
       mode,
       selectedProvider,
       volumes,
+      volumesDropdown,
     }
   };
 }

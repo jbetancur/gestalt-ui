@@ -5,14 +5,12 @@ const uiProviderTypes = [
     name: 'Gestalt::Configuration::Provider::CaaS::DCOS',
     DCOSConfig: true,
     yamlDataConfig: false,
-    allowContainer: false,
     allowLinkedProviders: true,
     allowEnvVariables: false,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
     yamlDataConfig: true,
-    allowContainer: false,
     allowLinkedProviders: true,
     allowEnvVariables: false,
     inputType: 'yaml',
@@ -22,7 +20,6 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::CaaS::ECS',
     yamlDataConfig: true,
-    allowContainer: false,
     allowLinkedProviders: true,
     allowEnvVariables: false,
     inputType: 'json',
@@ -31,7 +28,6 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
     yamlDataConfig: false,
-    allowContainer: false,
     allowLinkedProviders: true,
     allowEnvVariables: false,
   },
@@ -50,19 +46,16 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::Security',
     yamlDataConfig: false,
-    allowContainer: false,
     allowLinkedProviders: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Data::PostgreSQL',
     yamlDataConfig: false,
-    allowContainer: false,
     allowLinkedProviders: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Messaging::RabbitMQ',
     yamlDataConfig: false,
-    allowContainer: false,
     allowLinkedProviders: true,
   },
   {

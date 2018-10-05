@@ -30,7 +30,6 @@ import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import {
   getEditContainerModel,
-  selectContainer,
   selectProvider,
   selectVolumeListing,
 } from '../selectors';
@@ -65,7 +64,8 @@ class ContainerEdit extends Component {
     const { match, apiEndpointsActions, containerActions } = this.props;
 
     if (!this.props.inlineMode) {
-      containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, enablePolling: true, });
+      // containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, enablePolling: true, });
+      containerActions.initContainerEdit({ containerId: match.params.containerId, enablePolling: true });
       apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
     }
   }
@@ -214,6 +214,7 @@ class ContainerEdit extends Component {
                       <ContainerForm {...rest} />
                     </Form>
                   )}
+                  {...this.props}
                 />
               </Tab>
 
@@ -248,7 +249,6 @@ class ContainerEdit extends Component {
 }
 
 const mapStateToProps = state => ({
-  container: selectContainer(state),
   initialFormValues: getEditContainerModel(state),
   selectedProvider: selectProvider(state),
   containerVolumes: selectVolumeListing(state),

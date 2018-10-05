@@ -4,7 +4,6 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import { notificationActions } from 'Modules/Notifications';
 import { volumeActions } from 'Modules/Volumes';
 import { poll, fetchAPI } from 'config/lib/utility';
-import containerModel from '../models/container';
 import {
   FETCH_CONTAINERS_REQUEST,
   FETCH_CONTAINERS_FULFILLED,
@@ -13,7 +12,6 @@ import {
   FETCH_CONTAINER_REQUEST,
   FETCH_CONTAINER_FULFILLED,
   FETCH_CONTAINER_REJECTED,
-  FETCH_CONTAINER_CANCELLED,
   CREATE_CONTAINER_REQUEST,
   CREATE_CONTAINER_FULFILLED,
   CREATE_CONTAINER_REJECTED,
@@ -34,8 +32,8 @@ import {
   SCALE_CONTAINER_REQUEST,
   MIGRATE_CONTAINER_REQUEST,
   PROMOTE_CONTAINER_REQUEST,
-  FETCH_PROVIDERCONTAINER_REQUEST,
-  UNLOAD_ENVIRONMENT,
+  INIT_CONTAINEREDIT_FULFILLED,
+  INIT_CONTAINEREDIT_CANCELLED,
 } from '../constants';
 import { setSelectedProvider } from '../actions';
 
@@ -135,7 +133,7 @@ export function* updateContainer(action) {
 export function* deleteContainer(action) {
   try {
     yield call(axios.delete, `${action.fqon}/containers/${action.resource.id}?force=true`);
-    yield put({ type: DELETE_CONTAINER_FULFILLED });
+    yield put({ type: DELETE_CONTAINER_FULFILLED, payload: action.resource });
     yield put(notificationActions.addNotification({ message: `${action.resource.name} Container destroyed` }));
 
     if (typeof action.onSuccess === 'function') {
@@ -207,40 +205,19 @@ export function* promoteContainer(action) {
   }
 }
 
-/**
- * fetchProviderContainer
- * @param {*} action - { fqon, providerId }
- */
-export function* fetchProviderContainer(action) {
-  try {
-    const response = yield call(axios.get, `${action.fqon}/providers/${action.providerId}/containers`);
-
-    if (response.data.length) {
-      const containerResponse = yield call(axios.get, `${action.fqon}/containers/${response.data[0].id}?embed=provider&embed=volumes`);
-      yield put({ type: FETCH_CONTAINER_FULFILLED, payload: containerResponse.data, action });
-    } else {
-      yield put({ type: FETCH_CONTAINER_FULFILLED, payload: containerModel.get(), action });
-    }
-  } catch (e) {
-    yield put({ type: FETCH_CONTAINER_REJECTED, payload: e.message });
-  }
-}
-
 /* Note: to deal with RACE conditions when a user is navigating too quickly and the CONTAINER_FULLFILLED (starts poll)
  channel happens after the UNLOAD_CONTAINERS (cancels poll), we need a failsafe to stop polling as soon as possible.
  Here we use LOCATION_CHANGE so on any subsequent nav the polling is cancelled and the container state unloaded again.
  This is a stop gap until we have real events that negate short polling */
 function* watchContainerPoll() {
   while (true) {
-    const { action } = yield take(FETCH_CONTAINER_FULFILLED);
-
-    const method = action.providerContainer ? fetchProviderContainer : fetchContainer;
+    const { action } = yield take(INIT_CONTAINEREDIT_FULFILLED);
 
     if (action.enablePolling) {
       yield race({
-        task: call(poll, method, action),
+        task: call(poll, fetchContainer, action),
         cancel: take(UNLOAD_CONTAINER),
-        cancelled: take(FETCH_CONTAINER_CANCELLED),
+        cancelled: take(INIT_CONTAINEREDIT_CANCELLED),
         cancelRoute: take(LOCATION_CHANGE),
       });
     }
@@ -265,15 +242,6 @@ function* watchContainersPoll() {
     }
   }
 }
-// Deal with Clearing the container state
-function* watchClearContainer() {
-  while (true) {
-    yield take(UNLOAD_ENVIRONMENT);
-
-    yield put({ type: UNLOAD_CONTAINERS });
-    yield put({ type: UNLOAD_CONTAINER });
-  }
-}
 
 // Watchers
 export default function* () {
@@ -285,8 +253,6 @@ export default function* () {
   yield fork(takeLatest, SCALE_CONTAINER_REQUEST, scaleContainer);
   yield fork(takeLatest, MIGRATE_CONTAINER_REQUEST, migrateContainer);
   yield fork(takeLatest, PROMOTE_CONTAINER_REQUEST, promoteContainer);
-  yield fork(takeLatest, FETCH_PROVIDERCONTAINER_REQUEST, fetchProviderContainer);
   yield fork(watchContainerPoll);
   yield fork(watchContainersPoll);
-  yield fork(watchClearContainer);
 }

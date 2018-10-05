@@ -15,7 +15,7 @@ import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
 import SelectProvider from '../components/SelectProvider';
 
-const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, providers, executors, editMode, pristine, submitting, onSaveInlineCode }) => {
+const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, providers, executors, secrets, editMode, pristine, submitting, onSaveInlineCode }) => {
   const safeErrors = {
     ...errors,
     properties: {
@@ -79,6 +79,7 @@ const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, provid
                 >
                   <SecretsPanelForm
                     fieldName="properties.secrets"
+                    secretsDropdown={secrets}
                     formValues={values}
                     provider={values.properties.provider}
                     type="lambda"
@@ -136,6 +137,7 @@ LambdaForm.propTypes = {
   editMode: PropTypes.bool,
   providers: PropTypes.array.isRequired,
   executors: PropTypes.array.isRequired,
+  secrets: PropTypes.array.isRequired,
   onSaveInlineCode: PropTypes.func,
 };
 

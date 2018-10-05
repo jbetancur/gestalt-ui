@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createRequestAction } from 'config/lib/actionFactory';
 
-export default ({ unloadEnv = true, unloadEnvSchema = true } = {}) => (BaseComponent) => {
+export default ({ unloadEnv = true } = {}) => (BaseComponent) => {
   class Env extends Component {
     static displayName = 'Env(HOC)';
 
@@ -17,10 +17,6 @@ export default ({ unloadEnv = true, unloadEnvSchema = true } = {}) => (BaseCompo
       if (unloadEnv) {
         envActions.unloadEnv();
       }
-
-      if (unloadEnvSchema) {
-        envActions.unloadEnvSchema();
-      }
     }
 
     render() {
@@ -31,13 +27,10 @@ export default ({ unloadEnv = true, unloadEnvSchema = true } = {}) => (BaseCompo
   const mapStateToProps = state => ({
     env: state.env.env.env,
     envPending: state.env.env.pending,
-    envSchema: state.env.envSchema.schema,
-    envSchemaPending: state.env.envSchema.pending,
   });
 
   const mapDispatchToProps = dispatch => ({
     envActions: bindActionCreators(Object.assign({},
-      createRequestAction(['fetch'], 'EnvSchema'),
       createRequestAction(['fetch'], 'Env'),
     ), dispatch)
   });

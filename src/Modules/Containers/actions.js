@@ -1,7 +1,6 @@
 import { getLastFromSplit } from 'util/helpers/strings';
 import {
   SELECTED_PROVIDER,
-  UNLOAD_SELECTED_PROVIDER,
 } from './constants';
 import providerModel from '../Providers/models/provider';
 
@@ -128,15 +127,6 @@ export function setSelectedProvider(provider = {}) {
   };
 }
 
-/**
- * clearSelectedProvider
- */
-export function clearSelectedProvider() {
-  return {
-    type: UNLOAD_SELECTED_PROVIDER,
-  };
-}
-
 export default {
   confirmContainerDelete,
   scaleContainerModal,
@@ -145,5 +135,4 @@ export default {
   showAPIEndpointWizardModal,
   showImportModal,
   setSelectedProvider,
-  clearSelectedProvider,
 };

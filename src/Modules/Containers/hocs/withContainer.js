@@ -30,12 +30,18 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
     containerPending: state.containers.container.pending,
     containerImport: state.containers.containerImport.container,
     containerImportPending: state.containers.containerImport.pending,
+
+    providers: state.containers.container.providers,
+    volumes: state.containers.container.volumes,
+    secrets: state.containers.container.secrets,
   });
 
   const mapDispatchToProps = dispatch => ({
     containerActions: bindActionCreators(Object.assign({},
       createRequestAction(['fetch', 'create', 'update', 'delete', 'promote', 'migrate', 'scale', 'import', 'detach', 'poll'], 'Container'),
       createRequestAction(['fetch'], 'ProviderContainer'),
+      createRequestAction(['init'], 'ContainerCreate'),
+      createRequestAction(['init'], 'ContainerEdit'),
     ), dispatch)
   });
 

@@ -12,9 +12,7 @@ import containerSagas, {
   scaleContainer,
   migrateContainer,
   promoteContainer,
-  fetchProviderContainer,
 } from './containers';
-import containerModel from '../models/container';
 import * as types from '../constants';
 import { setSelectedProvider } from '../actions';
 
@@ -276,7 +274,7 @@ describe('Container Sagas', () => {
     it('should return dispatch a success status', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        put({ type: types.DELETE_CONTAINER_FULFILLED })
+        put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
       );
     });
 
@@ -439,81 +437,6 @@ describe('Container Sagas', () => {
     });
   });
 
-
-  describe('fetchProviderContainer Sequence', () => {
-    const action = { fqon: 'iamfqon', providerId: '1', params: { embed: ['provider', 'volumes'] } };
-    let result;
-
-    describe('when there is a container', () => {
-      const saga = fetchProviderContainer(action);
-
-      it('should make an api call to get containers', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/1/containers')
-        );
-      });
-
-      it('should make an api call to get container', () => {
-        result = saga.next({ data: [{ id: 1 }] });
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/containers/1?embed=provider&embed=volumes')
-        );
-      });
-
-      it('should return dispatch a success status', () => {
-        result = saga.next({ data: { id: 1, name: 'yay' } });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, name: 'yay' }, action })
-        );
-
-        // Finish the iteration
-        result = saga.next();
-      });
-
-      it('should dispatch a reject status when there is an error', () => {
-        const sagaError = fetchProviderContainer(action);
-        let resultError = sagaError.next();
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
-        );
-      });
-    });
-
-    describe('when there is no container response', () => {
-      const saga = fetchProviderContainer(action);
-
-      it('should make an api call to get containers', () => {
-        result = saga.next();
-        expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/providers/1/containers')
-        );
-      });
-
-      it('should make an api call to get container', () => {
-        result = saga.next({ data: [] });
-        expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get(), action })
-        );
-
-        // Finish the iteration
-        result = saga.next();
-      });
-
-      it('should dispatch a reject status when there is an error', () => {
-        const sagaError = fetchProviderContainer(action);
-        let resultError = sagaError.next();
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_REJECTED, payload: error })
-        );
-      });
-    });
-  });
-
   describe('containerSagas', () => {
     let result;
     const rootSaga = containerSagas();
@@ -571,13 +494,6 @@ describe('Container Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer)
-      );
-    });
-
-    it('should fork a watcher for fetchProviderContainer', () => {
-      result = rootSaga.next();
-      expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_PROVIDERCONTAINER_REQUEST, fetchProviderContainer)
       );
     });
   });

@@ -12,14 +12,14 @@ import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
 import { Chips } from 'components/Lists';
+import { ProviderSelect } from 'components/Form';
 import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
 import { SecretsPanelForm } from 'Modules/Secrets';
 import { VolumePanel } from 'Modules/Volumes';
 import PortMappingsForm from '../components/PortMappingsForm';
 import HealthChecksForm from '../components/HealthChecksForm';
-import SelectedProvider from './SelectedProvider';
 import actions from '../actions';
-import { selectContainer, selectProvider } from '../selectors';
+import { selectProvider } from '../selectors';
 
 class ContainerForm extends Component {
   static propTypes = {
@@ -33,7 +33,9 @@ class ContainerForm extends Component {
     editMode: PropTypes.bool,
     inlineMode: PropTypes.bool,
     selectedProvider: PropTypes.object.isRequired,
-    clearSelectedProvider: PropTypes.func.isRequired,
+    secrets: PropTypes.array.isRequired,
+    volumes: PropTypes.array.isRequired,
+    providers: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -43,13 +45,6 @@ class ContainerForm extends Component {
     inlineMode: false,
     formName: '',
   };
-
-  componentWillUnmount() {
-    const { clearSelectedProvider } = this.props;
-
-    clearSelectedProvider();
-  }
-
 
   render() {
     const {
@@ -63,6 +58,9 @@ class ContainerForm extends Component {
       editMode,
       inlineMode,
       selectedProvider,
+      secrets,
+      volumes,
+      providers,
     } = this.props;
 
     const isSubmitDisabled = loading || submitting;
@@ -87,10 +85,12 @@ class ContainerForm extends Component {
               <Panel title="Select a Provider" expandable={false}>
                 <Row gutter={5}>
                   <Col flex={12}>
-                    <SelectedProvider
+                    <ProviderSelect
                       label="CaaS Provider"
                       form={form}
                       name={`${formName}.properties.provider.id`}
+                      providers={providers}
+                      {...this.props}
                     />
                   </Col>
                 </Row>
@@ -241,6 +241,7 @@ class ContainerForm extends Component {
                   count={formValues.properties.volumes.length}
                 >
                   <VolumePanel
+                    volumesDropdown={volumes}
                     volumes={formValues.properties.volumes}
                     selectedProvider={selectedProvider}
                     editMode={editMode}
@@ -283,6 +284,7 @@ class ContainerForm extends Component {
                 >
                   <SecretsPanelForm
                     fieldName={`${formName}.properties.secrets`}
+                    secretsDropdown={secrets}
                     formValues={values}
                     provider={selectedProvider.provider}
                     type="container"
@@ -389,7 +391,6 @@ class ContainerForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  container: selectContainer(state),
   selectedProvider: selectProvider(state),
 });
 

@@ -1,3 +1,7 @@
+import {
+  SELECTED_PROVIDERTYPE_REQUEST,
+} from './constants';
+
 export function confirmDelete(action, title, multipleItems) {
   return {
     type: 'SHOW_MODAL',
@@ -34,9 +38,21 @@ export function showProviderInstanceModal() {
   };
 }
 
+/**
+ * setSelectedProviderType
+ * @param {*} provider
+ */
+export function setSelectedProviderType({ fqon, providerType = {} }) {
+  return {
+    type: SELECTED_PROVIDERTYPE_REQUEST,
+    fqon,
+    providerType,
+  };
+}
 
 export default {
   confirmDelete,
   confirmUpdate,
   showProviderInstanceModal,
+  setSelectedProviderType,
 };

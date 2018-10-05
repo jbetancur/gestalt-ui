@@ -28,12 +28,20 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   const mapStateToProps = state => ({
     provider: state.providers.provider.provider,
     providerPending: state.providers.provider.pending,
+    providers: state.providers.provider.providers,
+    resourceTypes: state.providers.provider.resourceTypes,
+    selectedProviderType: state.providers.provider.selectedProviderType,
+    container: state.providers.provider.container,
+    envSchema: state.providers.provider.envSchema,
+    envSchemaPending: state.providers.provider.envSchemaPending,
   });
 
   const mapDispatchToProps = dispatch => ({
-    providerActions: bindActionCreators(Object.assign({},
-      createRequestAction(['fetch', 'create', 'update', 'delete', 'redeploy'], 'Provider'),
-    ), dispatch)
+    providerActions: bindActionCreators({
+      ...createRequestAction(['fetch', 'create', 'update', 'delete', 'redeploy'], 'Provider'),
+      ...createRequestAction(['init'], 'ProviderCreate'),
+      ...createRequestAction(['init'], 'ProviderEdit'),
+    }, dispatch)
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(Provider);
