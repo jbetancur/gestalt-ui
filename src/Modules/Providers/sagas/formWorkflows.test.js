@@ -6,15 +6,15 @@ import providerSagas, {
   editViewWorkflow,
   fetchContainer,
   handleSelectedProviderType,
+  watchCreateViewWorkflow,
+  watchEditViewWorkflow,
+  watchContainerWorkflow
 } from './formWorkflows';
 import {
-  INIT_PROVIDERCREATE_REQUEST,
   INIT_PROVIDERCREATE_FULFILLED,
   INIT_PROVIDERCREATE_REJECTED,
-  INIT_PROVIDEREDIT_REQUEST,
   INIT_PROVIDEREDIT_FULFILLED,
   INIT_PROVIDEREDIT_REJECTED,
-  FETCH_PROVIDERCONTAINER_REQUEST,
   FETCH_PROVIDERCONTAINER_FULFILLED,
   FETCH_PROVIDERCONTAINER_REJECTED,
   SELECTED_PROVIDERTYPE_REQUEST,
@@ -355,21 +355,21 @@ describe('container Form Workflow Sagas', () => {
     it('should fork a watcher for createViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_PROVIDERCREATE_REQUEST, createViewWorkflow)
+        fork(watchCreateViewWorkflow)
       );
     });
 
     it('should fork a watcher for editViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_PROVIDEREDIT_REQUEST, editViewWorkflow)
+        fork(watchEditViewWorkflow)
       );
     });
 
     it('should fork a watcher for fetchContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_PROVIDERCONTAINER_REQUEST, fetchContainer)
+        fork(watchContainerWorkflow)
       );
     });
 

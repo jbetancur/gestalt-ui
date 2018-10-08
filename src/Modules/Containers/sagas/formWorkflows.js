@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork, cancelled, select, take } from 'redux-saga/effects';
+import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
 import { convertFromMaps } from 'util/helpers/transformations';
 import {
@@ -10,6 +10,7 @@ import {
   INIT_CONTAINEREDIT_FULFILLED,
   INIT_CONTAINEREDIT_REJECTED,
   INIT_CONTAINEREDIT_CANCELLED,
+  UNLOAD_CONTAINER,
 } from '../constants';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
 import { setSelectedProvider } from '../actions';
@@ -89,8 +90,31 @@ export function* editViewWorkflow(action) {
   }
 }
 
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchCreateViewWorkflow() {
+  yield takeLatest(INIT_CONTAINERCREATE_REQUEST, function* raceCreate(...args) {
+    yield race({
+      task: call(createViewWorkflow, ...args),
+      cancel: take(UNLOAD_CONTAINER),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
+
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchEditViewWorkflow() {
+  yield takeLatest(INIT_CONTAINEREDIT_REQUEST, function* raceEdit(...args) {
+    yield race({
+      task: call(editViewWorkflow, ...args),
+      cancel: take(UNLOAD_CONTAINER),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
 // Watchers
 export default function* () {
-  yield fork(takeLatest, INIT_CONTAINERCREATE_REQUEST, createViewWorkflow);
-  yield fork(takeLatest, INIT_CONTAINEREDIT_REQUEST, editViewWorkflow);
+  yield fork(watchCreateViewWorkflow);
+  yield fork(watchEditViewWorkflow);
 }

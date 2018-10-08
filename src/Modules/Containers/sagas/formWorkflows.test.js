@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, fork } from 'redux-saga/effects';
 import containerSagas, {
   createViewWorkflow,
   editViewWorkflow,
+  watchCreateViewWorkflow,
+  watchEditViewWorkflow,
 } from './formWorkflows';
 import {
-  INIT_CONTAINERCREATE_REQUEST,
   INIT_CONTAINERCREATE_FULFILLED,
   INIT_CONTAINERCREATE_REJECTED,
-  INIT_CONTAINEREDIT_REQUEST,
   INIT_CONTAINEREDIT_FULFILLED,
   INIT_CONTAINEREDIT_REJECTED,
 } from '../constants';
@@ -146,14 +146,14 @@ describe('container Form Workflow Sagas', () => {
     it('should fork a watcher for createViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_CONTAINERCREATE_REQUEST, createViewWorkflow)
+        fork(watchCreateViewWorkflow)
       );
     });
 
     it('should fork a watcher for editViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_CONTAINEREDIT_REQUEST, editViewWorkflow)
+        fork(watchEditViewWorkflow)
       );
     });
   });

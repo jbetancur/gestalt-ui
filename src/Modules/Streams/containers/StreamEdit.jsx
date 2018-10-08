@@ -45,7 +45,7 @@ class StreamSpecEdit extends Component {
   onShowEntitlements = () => {
     const { entitlementActions, streamSpec, match } = this.props;
 
-    entitlementActions.showEntitlementsModal(streamSpec.name, match.params.fqon, streamSpec.id, 'streamspecs', 'Stream Specification');
+    entitlementActions.showEntitlementsModal(streamSpec.name, match.params.fqon, streamSpec.id, 'streamspecs', 'Stream');
   }
 
   onSubmit = (values) => {
@@ -109,7 +109,7 @@ class StreamSpecEdit extends Component {
             {streamSpecPending && <ActivityContainer id="streamspec-form" />}
 
             <Tabs>
-              <Tab title="Streams">
+              <Tab title="Instances">
                 <StreamInstances
                   streamSpec={streamSpec}
                   streamInstances={streamInstances}
@@ -127,7 +127,7 @@ class StreamSpecEdit extends Component {
                   </Button>
                 </FullPageFooter>
               </Tab>
-              <Tab title="Specification">
+              <Tab title="Configuration">
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Panel title="Resource Details" defaultExpanded={false}>

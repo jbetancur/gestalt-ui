@@ -2,7 +2,6 @@ import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redu
 import axios from 'axios';
 import { sortBy } from 'lodash';
 import { fetchAPI, poll } from 'config/lib/utility';
-import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   INIT_PROVIDERCREATE_REQUEST,
   INIT_PROVIDERCREATE_FULFILLED,
@@ -18,6 +17,7 @@ import {
   FETCH_PROVIDERCONTAINER_REQUEST,
   FETCH_PROVIDERCONTAINER_FULFILLED,
   FETCH_PROVIDERCONTAINER_REJECTED,
+  FETCH_PROVIDERCONTAINER_CANCELLED,
   UNLOAD_PROVIDER,
 } from '../constants';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
@@ -62,6 +62,10 @@ export function* fetchContainer(action) {
     }
   } catch (e) {
     yield put({ type: FETCH_PROVIDERCONTAINER_REJECTED, payload: e.message });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: FETCH_PROVIDERCONTAINER_CANCELLED });
+    }
   }
 }
 
@@ -164,10 +168,40 @@ export function* handleSelectedProviderType(action = {}) {
   }
 }
 
-/* Note: to deal with RACE conditions when a user is navigating too quickly and the INIT_PROVIDEREDIT_FULFILLED (starts poll)
- channel happens after the UNLOAD_PROVIDER (cancels poll), we need a failsafe to stop polling as soon as possible.
- Here we use LOCATION_CHANGE so on any subsequent nav the polling is cancelled and the container state unloaded again.
- This is a stop gap until we have real events that negate short polling */
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchCreateViewWorkflow() {
+  yield takeLatest(INIT_PROVIDERCREATE_REQUEST, function* raceCreae(...args) {
+    yield race({
+      task: call(createViewWorkflow, ...args),
+      cancel: take(UNLOAD_PROVIDER),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchEditViewWorkflow() {
+  yield takeLatest(INIT_PROVIDEREDIT_REQUEST, function* raceEdit(...args) {
+    yield race({
+      task: call(editViewWorkflow, ...args),
+      cancel: take(UNLOAD_PROVIDER),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchContainerWorkflow() {
+  yield takeLatest(FETCH_PROVIDERCONTAINER_REQUEST, function* raceContainer(...args) {
+    yield race({
+      task: call(fetchContainer, ...args),
+      cancel: take(UNLOAD_PROVIDER),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
+// Kicks off the a polling workglow but can be cancelled by any event in the race
 function* watchContainerPoll() {
   while (true) {
     const { action } = yield take(FETCH_PROVIDERCONTAINER_FULFILLED);
@@ -176,16 +210,16 @@ function* watchContainerPoll() {
       task: call(poll, fetchContainer, action),
       cancel: take(UNLOAD_PROVIDER),
       cancelled: take(INIT_PROVIDEREDIT_CANCELLED),
-      cancelRoute: take(LOCATION_CHANGE),
+      // cancelRoute: take(LOCATION_CHANGE),
     });
   }
 }
 
 // Watchers
-export default function* () {
-  yield fork(takeLatest, INIT_PROVIDERCREATE_REQUEST, createViewWorkflow);
-  yield fork(takeLatest, INIT_PROVIDEREDIT_REQUEST, editViewWorkflow);
-  yield fork(takeLatest, FETCH_PROVIDERCONTAINER_REQUEST, fetchContainer);
+export default function* main() {
+  yield fork(watchCreateViewWorkflow);
+  yield fork(watchEditViewWorkflow);
+  yield fork(watchContainerWorkflow);
   yield fork(takeLatest, SELECTED_PROVIDERTYPE_REQUEST, handleSelectedProviderType);
   yield fork(watchContainerPoll);
 }

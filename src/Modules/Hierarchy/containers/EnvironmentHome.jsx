@@ -23,8 +23,35 @@ class EnvironmentHome extends PureComponent {
 
   render() {
     return (
-      <Row gutter={5} columnDivisions={25} center>
-        <Col flex={6} xs={25} sm={20} md={10}>
+      <Row gutter={5} center>
+        <Col flex={3} xs={12} sm={6} md={4}>
+          <HomeCard
+            title="APIs"
+            icon={<APIIcon size={42} />}
+            iconColor="blue-grey"
+            iconGradient="500"
+            createURL={`${this.props.match.url}/apis/create`}
+            manageURL={`${this.props.match.url}/apis`}
+          >
+            Upstream access to Lambdas/Containers can be defined through API endpoints
+          </HomeCard>
+        </Col>
+
+        <Col flex={3} xs={12} sm={6} md={4}>
+          <HomeCard
+            title="Containers"
+            icon={<ContainerIcon size={42} />}
+            iconColor="blue"
+            iconGradient="700"
+            createURL={`${this.props.match.url}/containers/create`}
+            manageURL={`${this.props.match.url}/containers`}
+          // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#containers`}
+          >
+            Create, manage and migrate Containers across Kubernetes, Swarm or DCOS
+          </HomeCard>
+        </Col>
+
+        <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
             title="Lambdas"
             icon={<LambdaIcon size={42} />}
@@ -38,21 +65,20 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={6} xs={25} sm={20} md={10}>
+        <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
-            title="Containers"
-            icon={<ContainerIcon size={42} />}
-            iconColor="blue"
-            iconGradient="700"
-            createURL={`${this.props.match.url}/containers/create`}
-            manageURL={`${this.props.match.url}/containers`}
-            // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#containers`}
+            title="Streams"
+            icon={<StreamIcon size={42} />}
+            iconColor="light-blue"
+            iconGradient="500"
+            createURL={`${this.props.match.url}/streamspecs/create`}
+            manageURL={`${this.props.match.url}/streamspecs`}
           >
-            Create, manage and migrate Containers across Kubernetes, Swarm or DCOS
+            Transform Data Feeds using a Lambda
           </HomeCard>
         </Col>
 
-        <Col flex={6} xs={25} sm={20} md={10}>
+        <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
             title="Policies"
             icon={<PolicyIcon size={42} />}
@@ -66,20 +92,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={6} xs={25} sm={20} md={10}>
-          <HomeCard
-            title="APIs"
-            icon={<APIIcon size={42} />}
-            iconColor="blue-grey"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/apis/create`}
-            manageURL={`${this.props.match.url}/apis`}
-          >
-            Upstream access to Lambdas/Containers can be defined through API endpoints
-          </HomeCard>
-        </Col>
-
-        <Col flex={6} xs={25} sm={20} md={10}>
+        <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
             title="Volumes"
             icon={<VolumeIcon size={42} />}
@@ -92,7 +105,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={6} xs={25} sm={20} md={10}>
+        <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
             title="Secrets"
             icon={<SecretIcon size={42} />}
@@ -105,7 +118,7 @@ class EnvironmentHome extends PureComponent {
           </HomeCard>
         </Col>
 
-        <Col flex={6} xs={25} sm={20} md={10}>
+        <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
             title="Data Feeds"
             icon={<DataFeedIcon size={42} />}
@@ -115,19 +128,6 @@ class EnvironmentHome extends PureComponent {
             manageURL={`${this.props.match.url}/datafeeds`}
           >
             Real-time Data Feeds
-          </HomeCard>
-        </Col>
-
-        <Col flex={6} xs={25} sm={20} md={10}>
-          <HomeCard
-            title="Stream Specifications"
-            icon={<StreamIcon size={42} />}
-            iconColor="light-blue"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/streamspecs/create`}
-            manageURL={`${this.props.match.url}/streamspecs`}
-          >
-            Transform Data Feeds using a Lambda
           </HomeCard>
         </Col>
       </Row>

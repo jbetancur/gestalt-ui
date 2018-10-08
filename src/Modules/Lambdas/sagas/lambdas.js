@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork, cancelled, select, take } from 'redux-saga/effects';
+import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
 import { convertFromMaps } from 'util/helpers/transformations';
 import { notificationActions } from 'Modules/Notifications';
@@ -26,6 +26,7 @@ import {
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
   INIT_LAMBDAEDIT_CANCELLED,
+  UNLOAD_LAMBDA,
 } from '../constants';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
 /**
@@ -202,6 +203,30 @@ export function* editViewWorkflow(action) {
   }
 }
 
+
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchCreateWorkflow() {
+  yield takeLatest(INIT_LAMBDACREATE_REQUEST, function* raceCreate(...args) {
+    yield race({
+      task: call(createViewWorkflow, ...args),
+      cancel: take(UNLOAD_LAMBDA),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
+
+// Kicks off the Workflow but can be cancelled by any event in the race
+export function* watchEditViewWorkflow() {
+  yield takeLatest(INIT_LAMBDAEDIT_REQUEST, function* raceEdit(...args) {
+    yield race({
+      task: call(editViewWorkflow, ...args),
+      cancel: take(UNLOAD_LAMBDA),
+      // cancelRoute: take(LOCATION_CHANGE),
+    });
+  });
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, FETCH_LAMBDAS_REQUEST, fetchLambdas);
@@ -209,6 +234,6 @@ export default function* () {
   yield fork(takeLatest, UPDATE_LAMBDA_REQUEST, updateLambda);
   yield fork(takeLatest, DELETE_LAMBDA_REQUEST, deleteLambda);
   yield fork(takeLatest, DELETE_LAMBDAS_REQUEST, deleteLambdas);
-  yield fork(takeLatest, INIT_LAMBDACREATE_REQUEST, createViewWorkflow);
-  yield fork(takeLatest, INIT_LAMBDAEDIT_REQUEST, editViewWorkflow);
+  yield fork(watchCreateWorkflow);
+  yield fork(watchEditViewWorkflow);
 }

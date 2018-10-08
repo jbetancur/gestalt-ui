@@ -68,6 +68,11 @@ export default (status) => {
         icon: 'help_outline',
         color: '$md-grey-300',
       };
+    case 'CORRUPT':
+      return {
+        icon: 'new_releases',
+        color: '$md-red-a400',
+      };
     case 'UNKNOWN':
       return {
         icon: 'help_outline',

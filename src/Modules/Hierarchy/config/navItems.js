@@ -100,7 +100,7 @@ export default (context, experimentalFlag) => {
       {
         key: 'environment--streams',
         icon: 'stream',
-        title: 'Stream Specs',
+        title: 'Streams',
         to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/streamspecs`,
       },
       {

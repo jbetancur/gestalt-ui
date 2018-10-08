@@ -135,7 +135,7 @@ class StreamList extends PureComponent {
       <Row gutter={5}>
         <Col component={Card} flex={12}>
           <DataTable
-            title="Stream Specifications"
+            title="Streams"
             data={this.props.streamSpecs}
             highlightOnHover
             pointerOnHover
@@ -150,7 +150,7 @@ class StreamList extends PureComponent {
             contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no stream specifications to display" icon={<StreamIcon size={150} />} />}
+            noDataComponent={<NoData message="There are no streams to display" icon={<StreamIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.streamSpecsPending} />}
           />

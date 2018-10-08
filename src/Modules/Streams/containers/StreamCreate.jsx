@@ -56,7 +56,7 @@ class StreamCreate extends Component {
     return (
       <Row center>
         <Col flex={10} xs={12} sm={12} md={10}>
-          <ActionsToolbar title="Create a Stream Specification" />
+          <ActionsToolbar title="Create a Stream" />
 
           {streamSpecPending && <ActivityContainer id="datafeed-form" />}
 

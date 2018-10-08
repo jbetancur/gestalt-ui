@@ -10,6 +10,8 @@ import lambdaSagas, {
   deleteLambdas,
   createViewWorkflow,
   editViewWorkflow,
+  watchCreateWorkflow,
+  watchEditViewWorkflow,
 } from './lambdas';
 import {
   FETCH_LAMBDAS_REQUEST,
@@ -25,10 +27,8 @@ import {
   DELETE_LAMBDA_REQUEST,
   DELETE_LAMBDA_FULFILLED,
   DELETE_LAMBDA_REJECTED,
-  INIT_LAMBDACREATE_REQUEST,
   INIT_LAMBDACREATE_FULFILLED,
   INIT_LAMBDACREATE_REJECTED,
-  INIT_LAMBDAEDIT_REQUEST,
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
 } from '../constants';
@@ -463,14 +463,14 @@ describe('Lambda Sagas', () => {
     it('should fork a watcher for createViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_LAMBDACREATE_REQUEST, createViewWorkflow)
+        fork(watchCreateWorkflow)
       );
     });
 
     it('should fork a watcher for editViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_LAMBDAEDIT_REQUEST, editViewWorkflow)
+        fork(watchEditViewWorkflow)
       );
     });
   });

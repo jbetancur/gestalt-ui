@@ -7,7 +7,7 @@ const PolicyIconStyle = styled(FontIcon)`
   font-size: ${props => `${props.size}px !important`};
 `;
 
-const PolicyIcon = ({ size }) => <PolicyIconStyle size={size}>verified_user</PolicyIconStyle>;
+const PolicyIcon = ({ size, ...rest }) => <PolicyIconStyle size={size} {...rest}>verified_user</PolicyIconStyle>;
 
 PolicyIcon.propTypes = {
   size: PropTypes.number
