@@ -8,7 +8,7 @@ const Name = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   max-width: ${props => props.maxWidth};
   color: ${props => props.theme.colors['$md-grey-800']};
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 4px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -25,7 +25,7 @@ const Description = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   font-size: 12px;
   color: ${props => props.theme.colors['$md-grey-800']};
   ${() => media.xs`
-  display: none;
+    display: none;
   `};
   ${() => media.sm`
     display: none;
@@ -33,13 +33,13 @@ const Description = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
 `;
 
 const NameCell = ({ name, description, maxWidth }) => (
-  <div>
+  <React.Fragment>
     <Name maxWidth={maxWidth}>{name}</Name>
     {description &&
       <Description maxWidth={maxWidth}>
         {description}
       </Description>}
-  </div>
+  </React.Fragment>
 );
 
 NameCell.propTypes = {

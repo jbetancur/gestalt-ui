@@ -80,13 +80,19 @@ export default (context, experimentalFlag) => {
         to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/apis`,
       },
       {
+        key: 'environment--streams',
+        icon: 'stream',
+        title: 'Streams',
+        to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/streamspecs`,
+      },
+      {
         key: 'environment--policies',
         icon: 'policy',
         title: 'Policies',
         to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/policies`,
       },
       {
-        key: 'environment--datavolumesfeeds',
+        key: 'environment--volumes',
         icon: 'volume',
         title: 'Volumes',
         to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/volumes`,
@@ -96,12 +102,6 @@ export default (context, experimentalFlag) => {
         icon: 'secret',
         title: 'Secrets',
         to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/secrets`,
-      },
-      {
-        key: 'environment--streams',
-        icon: 'stream',
-        title: 'Streams',
-        to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/streamspecs`,
       },
       {
         key: 'environment--datafeeds',

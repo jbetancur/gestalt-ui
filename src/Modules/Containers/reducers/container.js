@@ -28,6 +28,7 @@ const initialState = {
   container: containerModel.get(),
   selectedProvider: {
     isSelected: false,
+    supportsEvents: false,
     supportsHealth: false,
     supportsSecrets: false,
     networks: [],
@@ -153,6 +154,7 @@ export default (state = initialState, action) => {
           isSelected: !!action.provider.id,
           supportsHealth: action.supportsHealth,
           supportsSecrets: action.supportsSecrets,
+          supportsEvents: action.supportsEvents,
           networks: action.networks,
           provider: action.provider,
         },

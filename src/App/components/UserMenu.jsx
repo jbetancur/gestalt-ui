@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
@@ -14,14 +13,6 @@ import {
   ListItem,
   Divider,
 } from 'react-md';
-
-const DDmenuStyle = styled(DropdownMenu)`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-`;
 
 const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
   const renderAvatar = iconSized =>
@@ -60,8 +51,8 @@ const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
   ];
 
   return (
-    <DDmenuStyle
-      id={`${!simplifiedMenu ? 'smart-' : ''}avatar-dropdown-menu`}
+    <DropdownMenu
+      id="header-user-dropdown-menu"
       menuItems={menuItems}
       anchor={{
         x: DropdownMenu.HorizontalAnchors.CENTER,
@@ -80,7 +71,7 @@ const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
           </IconSeparator>
         }
       />
-    </DDmenuStyle>
+    </DropdownMenu>
   );
 };
 

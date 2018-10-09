@@ -7615,9 +7615,9 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-data-table-component@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-0.12.0.tgz#ae0a7e86964aa6e2161cca9679502a0c5e7b4991"
+react-data-table-component@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-0.13.0.tgz#4b00f76716c49ca1bba21490c1ea4758edaf18f6"
   dependencies:
     lodash "^4.17.5"
     react-lifecycles-compat "^3.0.4"
@@ -7999,9 +7999,9 @@ redux-responsive@^4.3.8:
   dependencies:
     mediaquery "0.0.3"
 
-redux-saga@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.1.tgz#aa43d2ac029dab57f7f522b143f7db179a9e1324"
+redux-saga@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.2.tgz#993662e86bc945d8509ac2b8daba3a8c615cc971"
 
 redux-thunk@^2.3.0:
   version "2.3.0"

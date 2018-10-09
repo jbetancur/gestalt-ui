@@ -40,7 +40,7 @@ const columns = [
     name: 'Virtual Hosts',
     selector: 'service_address.virtual_hosts',
     sortable: true,
-    cell: row => row.expose_endpoint && row.virtual_hosts && row.virtual_hosts.map(host => <div>{host}</div>),
+    cell: row => row.expose_endpoint && row.virtual_hosts && row.virtual_hosts.map((host, index) => <div key={`${host}-${index}`}>{host}</div>),
   },
 ];
 

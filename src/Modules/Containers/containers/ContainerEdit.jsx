@@ -24,6 +24,7 @@ import ContainerForm from './ContainerForm';
 import ContainerActions from '../components/ContainerActions';
 import ContainerIcon from '../components/ContainerIcon';
 import ContainerInstances from '../components/ContainerInstances';
+import ContainerEvents from '../components/ContainerEvents';
 import ContainerServiceAddresses from '../components/ContainerServiceAddresses';
 import validate from '../validations';
 import actions from '../actions';
@@ -84,6 +85,23 @@ class ContainerEdit extends Component {
     const { entitlementActions, container, match } = this.props;
 
     entitlementActions.showEntitlementsModal(container.name, match.params.fqon, container.id, 'containers', 'Container');
+  }
+
+  generateDefaultFooter() {
+    const { match } = this.props;
+
+    return (
+      <FullPageFooter>
+        <Button
+          flat
+          iconChildren="arrow_back"
+          component={Link}
+          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+        >
+          Containers
+        </Button>
+      </FullPageFooter>
+    );
   }
 
   render() {
@@ -229,18 +247,23 @@ class ContainerEdit extends Component {
                   </Col>
                 </Row>
 
-                {!inlineMode &&
-                  <FullPageFooter>
-                    <Button
-                      flat
-                      iconChildren="arrow_back"
-                      component={Link}
-                      to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-                    >
-                      Containers
-                    </Button>
-                  </FullPageFooter>}
+                {!inlineMode && this.generateDefaultFooter()}
               </Tab>
+
+              {selectedProvider.supportsEvents ?
+                <Tab title="Events">
+                  <Row gutter={5}>
+                    <Col flex={12}>
+                      <Card>
+                        <ContainerEvents
+                          events={container.properties.events}
+                        />
+                      </Card>
+                    </Col>
+                  </Row>
+
+                  {!inlineMode && this.generateDefaultFooter()}
+                </Tab> : <div />}
             </Tabs>
           </Col>
         </Row>

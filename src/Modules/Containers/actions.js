@@ -120,6 +120,7 @@ export function setSelectedProvider(provider = {}) {
   return {
     type: SELECTED_PROVIDER,
     supportsSecrets: supportsSecrets(),
+    supportsEvents: providerType === 'Kubernetes',
     supportsHealth: providerType !== 'Docker',
     networks: networksList,
     providerType,

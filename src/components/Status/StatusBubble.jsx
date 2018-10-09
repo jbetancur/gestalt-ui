@@ -10,7 +10,7 @@ const ContainerStatusStyle = styled.div`
   min-width: 115px;
   max-width: 130px;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   color: ${props => props.theme.colors[props.color]};
 
