@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { IconSeparator, FontIcon } from 'react-md';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { withRouter, Link } from 'react-router-dom';
@@ -39,6 +41,15 @@ import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
 import withContainer from '../hocs/withContainer';
 
 const focusOnErrors = createDecorator();
+
+const StatusDetails = styled(IconSeparator)`
+  margin-right: 5px;
+  padding: 3px;
+
+  i {
+    color: ${props => props.theme.colors['$md-blue-500']};
+  }
+`;
 
 class ContainerEdit extends Component {
   static propTypes = {
@@ -118,6 +129,10 @@ class ContainerEdit extends Component {
     } = this.props;
 
     const enabledEndpoints = !inlineMode && container.properties.port_mappings.length > 0;
+    const statusDetail =
+      container.properties.status_detail
+      && container.properties.status_detail.reason
+      && `${container.properties.status_detail.stateId}-${container.properties.status_detail.reason}`;
 
     return (
       containerPending && !container.id ?
@@ -132,9 +147,13 @@ class ContainerEdit extends Component {
             <ActionsModals />
             <ActionsToolbar
               title={container.name}
-              subtitle={selectedProvider.name}
+              subtitle={selectedProvider.provider.name}
               titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
               actions={[
+                statusDetail &&
+                <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>
+                  <FontIcon>info_outline</FontIcon>
+                </StatusDetails>,
                 !inlineMode &&
                 <ContainerActions
                   key="container--actions"

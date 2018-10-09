@@ -22,7 +22,11 @@ import ContainerIcon from '../components/ContainerIcon';
 import ActionsModals from '../ActionModals';
 import withContainers from '../hocs/withContainers';
 
-// import ContainerListingExpandable from '../components/ContainerListingExpandable';
+const tableTheme = {
+  rows: {
+    fontSize: '12px',
+  }
+};
 
 class ContainerListing extends PureComponent {
   static propTypes = {
@@ -73,8 +77,13 @@ class ContainerListing extends PureComponent {
         selector: 'properties.status',
         sortable: true,
         allowOverflow: true,
-        minWidth: '150px',
-        cell: row => <StatusBubble status={row.properties.status} />
+        // minWidth: '150px',
+        cell: row => (
+          <StatusBubble
+            status={row.properties.status}
+            statusDetail={row.properties.status_detail}
+          />
+        ),
       },
       {
         name: 'Name',
@@ -159,6 +168,7 @@ class ContainerListing extends PureComponent {
           <ActionsModals />
           <DataTable
             title="Containers"
+            customTheme={tableTheme}
             data={this.props.containers}
             highlightOnHover
             pointerOnHover

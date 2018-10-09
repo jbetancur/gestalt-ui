@@ -19,6 +19,11 @@ import actions from '../actions';
 import withLambdas from '../hocs/withLambdas';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const tableTheme = {
+  rows: {
+    fontSize: '12px',
+  }
+};
 
 class LambdaListing extends PureComponent {
   static propTypes = {
@@ -153,6 +158,7 @@ class LambdaListing extends PureComponent {
         <Col component={Card} flex={12}>
           <DataTable
             title="Lambdas"
+            customTheme={tableTheme}
             data={this.props.lambdas}
             highlightOnHover
             pointerOnHover

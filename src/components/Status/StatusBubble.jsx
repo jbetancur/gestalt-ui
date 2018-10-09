@@ -23,27 +23,37 @@ const ContainerStatusStyle = styled.div`
   }
 `;
 
+const StatusDetail = styled.div`
+  display: block;
+  padding-top: 6px;
+`;
+
 const IconStyle = styled(FontIcon)`
   ${props => `color: ${props.theme.colors[props.color]} !important`};
 `;
 
-const ContainerStatus = ({ status }) => {
+const ContainerStatus = ({ status, statusDetail }) => {
   const style = statusMap(status);
 
   return (
-    <ContainerStatusStyle color={style.color}>
-      <IconStyle color={style.color}>{style.icon}</IconStyle>
-      <span>{status.toUpperCase()}</span>
-    </ContainerStatusStyle>
+    <React.Fragment>
+      <ContainerStatusStyle color={style.color}>
+        <IconStyle color={style.color}>{style.icon}</IconStyle>
+        <span>{status}</span>
+      </ContainerStatusStyle>
+      {statusDetail.reason && <StatusDetail>{`${statusDetail.stateId}-${statusDetail.reason}`}</StatusDetail>}
+    </React.Fragment>
   );
 };
 
 ContainerStatus.propTypes = {
   status: PropTypes.string,
+  statusDetail: PropTypes.object,
 };
 
 ContainerStatus.defaultProps = {
   status: 'PENDING',
+  statusDetail: {},
 };
 
 export default withTheme(ContainerStatus);
