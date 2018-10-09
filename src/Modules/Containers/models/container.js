@@ -59,7 +59,7 @@ const schema = object().shape({
     apiendpoints: array().default([]),
     status: string(),
     status_detail: string(),
-    events: array(),
+    events: array().default([]),
   }),
 });
 

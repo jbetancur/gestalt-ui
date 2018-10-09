@@ -12,6 +12,7 @@ import {
   FETCH_CONTAINER_REQUEST,
   FETCH_CONTAINER_FULFILLED,
   FETCH_CONTAINER_REJECTED,
+  FETCH_CONTAINER_CANCELLED,
   CREATE_CONTAINER_REQUEST,
   CREATE_CONTAINER_FULFILLED,
   CREATE_CONTAINER_REJECTED,
@@ -85,6 +86,10 @@ export function* fetchContainer(action) {
     yield put({ type: FETCH_CONTAINER_FULFILLED, payload, action });
   } catch (e) {
     yield put({ type: FETCH_CONTAINER_REJECTED, payload: e.message });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: FETCH_CONTAINER_CANCELLED });
+    }
   }
 }
 
@@ -218,6 +223,7 @@ function* watchContainerPoll() {
         task: call(poll, fetchContainer, action),
         cancel: take(UNLOAD_CONTAINER),
         cancelled: take(INIT_CONTAINEREDIT_CANCELLED),
+        cancelled2: take(FETCH_CONTAINER_CANCELLED),
         cancelRoute: take(LOCATION_CHANGE),
       });
     }
@@ -243,10 +249,34 @@ function* watchContainersPoll() {
   }
 }
 
+// Kicks off the Workflow but can be cancelled by any event in the race
+// also prevents polling mid request e.g. nav changes
+export function* watchContainerRequestWorkflow() {
+  yield takeLatest(FETCH_CONTAINER_REQUEST, function* raceContainerReq(...args) {
+    yield race({
+      task: call(fetchContainer, ...args),
+      cancel: take(UNLOAD_CONTAINER),
+      cancelled: take(FETCH_CONTAINER_CANCELLED),
+    });
+  });
+}
+
+// Kicks off the Workflow but can be cancelled by any event in the race
+// also prevents polling mid request e.g. nav changes
+export function* watchContainersRequestWorkflow() {
+  yield takeLatest(FETCH_CONTAINERS_REQUEST, function* raceContainersReq(...args) {
+    yield race({
+      task: call(fetchContainers, ...args),
+      cancel: take(UNLOAD_CONTAINERS),
+      cancelled: take(FETCH_CONTAINERS_CANCELLED),
+    });
+  });
+}
+
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_CONTAINERS_REQUEST, fetchContainers);
-  yield fork(takeLatest, FETCH_CONTAINER_REQUEST, fetchContainer);
+  yield fork(watchContainersRequestWorkflow);
+  yield fork(watchContainerRequestWorkflow);
   yield fork(takeLatest, CREATE_CONTAINER_REQUEST, createContainer);
   yield fork(takeLatest, UPDATE_CONTAINER_REQUEST, updateContainer);
   yield fork(takeLatest, DELETE_CONTAINER_REQUEST, deleteContainer);

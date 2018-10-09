@@ -12,6 +12,8 @@ import containerSagas, {
   scaleContainer,
   migrateContainer,
   promoteContainer,
+  watchContainerRequestWorkflow,
+  watchContainersRequestWorkflow,
 } from './containers';
 import * as types from '../constants';
 import { setSelectedProvider } from '../actions';
@@ -444,14 +446,14 @@ describe('Container Sagas', () => {
     it('should fork a watcher for fetchContainers', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_CONTAINERS_REQUEST, fetchContainers)
+        fork(watchContainersRequestWorkflow)
       );
     });
 
     it('should fork a watcher for fetchContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.FETCH_CONTAINER_REQUEST, fetchContainer)
+        fork(watchContainerRequestWorkflow)
       );
     });
 
