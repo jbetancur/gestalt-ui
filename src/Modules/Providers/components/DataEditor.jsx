@@ -49,7 +49,7 @@ const DataEditor = ({ title, editMode, editorMode, subTypes, form }) => {
           <Row center gutter={16}>
             <Col flex={12}>
               <Caption large>
-                The YAML configuration is not displayed for security reasons, however, you may update it by entering in a new configuration
+                {`The ${editorMode.toUpperCase()} configuration is not displayed for security reasons, however, you may update it by entering in a new configuration`}
               </Caption>
             </Col>
           </Row>}

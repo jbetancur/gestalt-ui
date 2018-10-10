@@ -17,10 +17,11 @@ import EnvironmentTypes from '../components/EnvironmentTypes';
 import DCOSEESection from '../components/DCOSEESection';
 import DataEditor from '../components/DataEditor';
 import DCOSSection from '../components/DCOSSection';
+import ECSConfig from '../components/ECSConfig';
 import Networks from '../components/Networks';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
-const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'yamlDataConfig', 'allowContainer', 'inputType', 'allowStorageClasses', 'subTypes'];
+const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'allowContainer', 'inputType', 'allowStorageClasses', 'subTypes'];
 
 class ProviderForm extends Component {
   static propTypes = {
@@ -170,14 +171,17 @@ class ProviderForm extends Component {
                 </Panel>
               </Col>}
 
-            {selectedProviderType.DCOSConfig &&
-              <Col flex={12}>
-                <Panel title="Networks" expandable={false} noPadding>
-                  <Networks fieldName="properties.config.networks" />
-                </Panel>
-              </Col>}
+            {selectedProviderType.ecsConfig &&
+            <Col flex={12}>
+              <Panel title="Configuration" expandable={false}>
+                <ECSConfig
+                  editMode={editMode}
+                  subTypes={selectedProviderType.subTypes}
+                />
+              </Panel>
+            </Col>}
 
-            {selectedProviderType.yamlDataConfig &&
+            {selectedProviderType.dataConfig &&
               <Col flex={12}>
                 <DataEditor
                   form={form}
@@ -188,7 +192,14 @@ class ProviderForm extends Component {
                 />
               </Col>}
 
-            {selectedProviderType.allowStorageClasses && selectedProviderType.yamlDataConfig &&
+            {selectedProviderType.networksConfig &&
+              <Col flex={12}>
+                <Panel title="Networks" expandable={false} noPadding>
+                  <Networks fieldName="properties.config.networks" />
+                </Panel>
+              </Col>}
+
+            {selectedProviderType.allowStorageClasses && selectedProviderType.dataConfig &&
               <Col flex={12}>
                 <Panel title="Storage Classes" expandable={false}>
                   <Field
