@@ -128,6 +128,7 @@ class LambdaListing extends PureComponent {
         selector: 'properties.runtime',
         sortable: true,
         compact: true,
+        center: true,
         cell: row => <ListIcon runtime={row.properties.runtime} />,
       },
       {

@@ -1,8 +1,8 @@
 import React from 'react';
-import SVGIcon from 'react-md/lib/SVGIcons';
+import { SVGIcon } from 'react-md';
 
-const Icon = props => (
-  <SVGIcon viewBox="0 0 256 187" style={{ width: '32px', height: '32px' }} {...props}>
+const MesosIcon = props => (
+  <SVGIcon viewBox="0 0 256 187" size={24} {...props}>
     <defs>
       <linearGradient x1=".024%" y1="49.981%" x2="100.048%" y2="49.981%" id="a">
         <stop stopColor="#9351E5" offset="0%" />
@@ -13,4 +13,4 @@ const Icon = props => (
   </SVGIcon>
 );
 
-export default Icon;
+export default MesosIcon;

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DockerIcon, MesosIcon, KubernetesIcon } from 'components/Icons';
+import { DockerIcon, MesosIcon, KubernetesIcon, ECSIcon } from 'components/Icons';
 
 const iconTypes = {
   DCOS: <MesosIcon />,
   Kubernetes: <KubernetesIcon />,
   Docker: <DockerIcon />,
+  ECS: <ECSIcon />,
   Default: <div />,
 };
 
