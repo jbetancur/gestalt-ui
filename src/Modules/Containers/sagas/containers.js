@@ -224,6 +224,7 @@ function* watchContainerPoll() {
         cancel: take(UNLOAD_CONTAINER),
         cancelled: take(INIT_CONTAINEREDIT_CANCELLED),
         cancelled2: take(FETCH_CONTAINER_CANCELLED),
+        cancelDelete: take(DELETE_CONTAINER_FULFILLED), // cancel poll on delete
         cancelRoute: take(LOCATION_CHANGE),
       });
     }

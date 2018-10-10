@@ -86,6 +86,7 @@ class ContainerCreate extends Component {
           >
             <ActionsToolbar
               title="Deploy a Container"
+              subtitle={selectedProvider.provider.name}
               titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
             />
 
