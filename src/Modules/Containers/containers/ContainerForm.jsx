@@ -74,8 +74,10 @@ class ContainerForm extends Component {
       properties: { ...errors.properties },
     };
 
-    const otherExpanded = editMode && formValues.properties && (formValues.properties.constraints.length > 0 || formValues.properties.user || formValues.properties.accepted_resource_roles.length > 0);
-
+    const otherExpanded = editMode
+      && selectedProvider.supportsOther
+      && formValues.properties
+      && (formValues.properties.constraints.length > 0 || formValues.properties.user || formValues.properties.accepted_resource_roles.length > 0);
 
     return (
       <React.Fragment>
@@ -322,6 +324,7 @@ class ContainerForm extends Component {
               </Panel>
             </Col>
 
+            {selectedProvider.supportsOther &&
             <Col flex={12}>
               <Panel
                 title="Other"
@@ -360,7 +363,7 @@ class ContainerForm extends Component {
                   </Col>
                 </Row>
               </Panel>
-            </Col>
+            </Col>}
           </Row>}
 
         {!inlineMode &&

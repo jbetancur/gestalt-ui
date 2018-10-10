@@ -26,11 +26,22 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
 export const getCreateContainerModel = createSelector(
   [selectProvider, selectEnv],
   (provider, env) => {
+    const setDefaultNetwork = () => {
+      switch (provider.type) {
+        case 'DCOS':
+          return 'BRIDGE';
+        case 'ECS':
+          return 'bridge';
+        default:
+          return 'default';
+      }
+    };
+
     const model = {
       properties: {
         env: mapTo2DArray(env, 'name', 'value', { inherited: true }),
-        network: provider.type === 'DCOS' ? 'BRIDGE' : 'default',
-      }
+        network: setDefaultNetwork(),
+      },
     };
 
     return containerModel.get(model);

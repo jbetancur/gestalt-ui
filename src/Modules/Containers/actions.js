@@ -105,24 +105,61 @@ export function setSelectedProvider(provider = {}) {
         if (model.properties.config.secret_support) {
           return true;
         }
-
         return false;
       default:
         return false;
     }
   };
 
-  const networks = providerType === 'Kubernetes'
-    ? [{ name: 'default' }]
-    : model.properties.config.networks;
-  const networksList = networks && networks.length ? networks : [{ name: 'BRIDGE' }];
+  const supportsHealth = () => {
+    switch (providerType) {
+      case 'Kubernetes':
+        return true;
+      case 'Docker':
+        return false;
+      case 'DCOS':
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const setDefaultNetworks = () => {
+    switch (providerType) {
+      case 'Docker':
+        return false;
+      case 'DCOS':
+        return [{ name: 'BRIDGE' }];
+      case 'ECS':
+        return [{ name: 'bridge' }];
+      default:
+        return [{ name: 'default' }];
+    }
+  };
+
+  const supportsOther = () => {
+    switch (providerType) {
+      case 'Kubernetes':
+        return true;
+      case 'Docker':
+        return false;
+      case 'DCOS':
+        return true;
+      default:
+        return false;
+    }
+  };
 
   return {
     type: SELECTED_PROVIDER,
     supportsSecrets: supportsSecrets(),
     supportsEvents: providerType === 'Kubernetes',
-    supportsHealth: providerType !== 'Docker',
-    networks: networksList,
+    supportsHealth: supportsHealth(),
+    supportsOther: supportsOther(),
+    networks: model.properties.config.networks
+      && model.properties.config.networks.length
+      ? model.properties.config.networks
+      : setDefaultNetworks(),
     providerType,
     provider: model,
   };
