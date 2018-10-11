@@ -199,7 +199,7 @@ class ProviderForm extends Component {
                 </Panel>
               </Col>}
 
-            {selectedProviderType.allowStorageClasses && selectedProviderType.dataConfig &&
+            {selectedProviderType.allowStorageClasses &&
               <Col flex={12}>
                 <Panel title="Storage Classes" expandable={false}>
                   <Field

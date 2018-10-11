@@ -50,7 +50,7 @@ const ECSConfig = ({ subTypes, editMode }) => (
         name="properties.config.secret_key"
         label="Secret Key"
         validate={composeValidators(required())}
-        required={!editMode}
+        required
         type="password"
         passwordIcon={null}
       />
@@ -61,7 +61,7 @@ const ECSConfig = ({ subTypes, editMode }) => (
         name="properties.config.access_key"
         label="Access Key"
         validate={composeValidators(required())}
-        required={!editMode}
+        required
         type="password"
         passwordIcon={null}
       />
