@@ -14,7 +14,6 @@ import { entitlementSagas } from 'Modules/Entitlements';
 import { resourceTypeSagas } from 'Modules/ResourceTypes';
 import { groupSagas } from 'Modules/Groups';
 import { userSagas } from 'Modules/Users';
-import { envSagas } from 'Modules/Env';
 import { searchSagas } from 'Modules/Search';
 import { secretSagas } from 'Modules/Secrets';
 import { serviceSpecSagas } from 'Modules/ServiceModeler';
@@ -39,7 +38,6 @@ export default function* rootSaga() {
     resourceTypeSagas(),
     groupSagas(),
     userSagas(),
-    envSagas(),
     searchSagas(),
     secretSagas(),
     serviceSpecSagas(),

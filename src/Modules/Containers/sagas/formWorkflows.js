@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
-import { convertFromMaps } from 'util/helpers/transformations';
+import { convertFromMaps, mapTo2DArray } from 'util/helpers/transformations';
 import {
   INIT_CONTAINERCREATE_REQUEST,
   INIT_CONTAINERCREATE_FULFILLED,
@@ -24,10 +24,11 @@ export function* createViewWorkflow() {
 
     const { environment } = yield select(state => state.hierarchy.context);
 
-    const [providers, volumes, secrets] = yield call(axios.all, [
+    const [providers, volumes, secrets, env] = yield call(axios.all, [
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/providers?expand=true&type=CaaS`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/secrets?expand=true`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/volumes?expand=true`),
+      axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/env`),
     ]);
 
     yield put({
@@ -36,6 +37,7 @@ export function* createViewWorkflow() {
         providers: providers.data,
         secrets: secrets.data,
         volumes: volumes.data,
+        inheritedEnv: mapTo2DArray(env.data, 'name', 'value', { inherited: true }),
       },
     });
   } catch (e) {

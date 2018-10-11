@@ -15,7 +15,6 @@ import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
-import withEnv from '../../Env/hocs/withEnv';
 
 const focusOnErrors = createDecorator();
 
@@ -26,7 +25,6 @@ class LambdaCreate extends PureComponent {
     lambdaActions: PropTypes.object.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
     envPending: PropTypes.bool.isRequired,
-    envActions: PropTypes.object.isRequired,
     executors: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
     secrets: PropTypes.array.isRequired,
@@ -35,10 +33,8 @@ class LambdaCreate extends PureComponent {
   };
 
   componentDidMount() {
-    const { match, envActions, lambdaActions } = this.props;
+    const { lambdaActions } = this.props;
     lambdaActions.initLambdaCreate();
-    // TODO: Move to initLambdaCreate sagaworkflow
-    envActions.fetchEnv({ fqon: match.params.fqon, entityId: match.params.environmentId, entityKey: 'environments' });
   }
 
   componentWillUnmount() {
@@ -111,6 +107,5 @@ function mapStateToProps(state) {
 export default compose(
   withLambda(),
   withLambdaState,
-  withEnv({ unloadEnvSchema: false }),
   connect(mapStateToProps, actions),
 )(LambdaCreate);

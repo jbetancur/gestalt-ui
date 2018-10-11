@@ -323,6 +323,7 @@ describe('Lambda Sagas', () => {
             axios.get('test/environments/123/providers?expand=true&type=Lambda'),
             axios.get('test/environments/123/providers?expand=true&type=Executor'),
             axios.get('test/environments/123/secrets?expand=true'),
+            axios.get('test/environments/123/env'),
           ]),
         );
       });
@@ -332,12 +333,15 @@ describe('Lambda Sagas', () => {
           { data: [{ name: 'a provider' }] },
           { data: [{ name: 'an executor' }] },
           { data: [{ name: 'a secret' }] },
+          { data: { RICK: 'morty' } },
+
         ]);
 
         const payload = {
           providers: [{ name: 'a provider' }],
           executors: [{ name: 'an executor' }],
           secrets: [{ name: 'a secret' }],
+          inheritedEnv: [{ name: 'RICK', value: 'morty', inherited: true }]
         };
 
         expect(result.value).toEqual(

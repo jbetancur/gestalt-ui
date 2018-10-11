@@ -20,6 +20,7 @@ const initialState = {
   providers: [],
   executors: [],
   secrets: [],
+  inheritedEnv: [],
   lambda: lambdaModel.get(),
   pending: false,
   completed: false,
@@ -34,6 +35,7 @@ export default (state = initialState, action) => {
         providers: action.payload.providers,
         executors: action.payload.executors,
         secrets: action.payload.secrets,
+        inheritedEnv: action.payload.inheritedEnv,
       };
     case INIT_LAMBDAEDIT_REQUEST:
       return {

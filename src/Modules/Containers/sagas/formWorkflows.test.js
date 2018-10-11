@@ -31,6 +31,7 @@ describe('container Form Workflow Sagas', () => {
             axios.get('test/environments/123/providers?expand=true&type=CaaS'),
             axios.get('test/environments/123/secrets?expand=true'),
             axios.get('test/environments/123/volumes?expand=true'),
+            axios.get('test/environments/123/env'),
           ]),
         );
       });
@@ -40,12 +41,14 @@ describe('container Form Workflow Sagas', () => {
           { data: [{ name: 'a provider' }] },
           { data: [{ name: 'a volume' }] },
           { data: [{ name: 'a secret' }] },
+          { data: { RICK: 'morty' } },
         ]);
 
         const payload = {
           providers: [{ name: 'a provider' }],
           volumes: [{ name: 'a volume' }],
           secrets: [{ name: 'a secret' }],
+          inheritedEnv: [{ name: 'RICK', value: 'morty', inherited: true }]
         };
 
         expect(result.value).toEqual(

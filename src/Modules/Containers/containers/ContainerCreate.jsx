@@ -21,7 +21,6 @@ import {
 } from '../selectors';
 import ContainerIcon from '../components/ContainerIcon';
 import withContainer from '../hocs/withContainer';
-import withEnv from '../../Env/hocs/withEnv';
 
 const focusOnErrors = createDecorator();
 
@@ -121,7 +120,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withContainer(),
-  withEnv({ unloadEnvSchema: false }),
   withRouter,
   connect(mapStateToProps, actions),
 )(ContainerCreate);

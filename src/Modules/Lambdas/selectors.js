@@ -1,18 +1,17 @@
 import { createSelector } from 'reselect';
 import base64 from 'base-64';
-import { mapTo2DArray } from 'util/helpers/transformations';
 import lambdaModel from './models/lambda';
 
 export const selectLambda = state => state.lambdas.lambda.lambda;
 export const selectLambdas = state => state.lambdas.lambdas.lambdas;
-export const selectEnv = state => state.env.env.env;
+export const selectEnv = state => state.lambdas.lambda.inheritedEnv;
 
 export const getCreateLambdaModel = createSelector(
   [selectEnv],
   (env) => {
     const model = {
       properties: {
-        env: mapTo2DArray(env, 'name', 'value', { inherited: true }),
+        env,
       }
     };
 

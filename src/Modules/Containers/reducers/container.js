@@ -25,6 +25,7 @@ const initialState = {
   providers: [],
   volumes: [],
   secrets: [],
+  inheritedEnv: [],
   container: containerModel.get(),
   selectedProvider: {
     isSelected: false,
@@ -49,6 +50,7 @@ export default (state = initialState, action) => {
         providers: action.payload.providers,
         volumes: action.payload.volumes,
         secrets: action.payload.secrets,
+        inheritedEnv: action.payload.inheritedEnv,
       };
     case INIT_CONTAINEREDIT_REQUEST:
       return {

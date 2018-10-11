@@ -23,7 +23,6 @@ import secretReducers from 'Modules/Secrets/reducers';
 import volumeReducers from 'Modules/Volumes/reducers';
 import dataFeedReducers from 'Modules/DataFeeds/reducers';
 import streamSpecReducers from 'Modules/Streams/reducers';
-import envReducers from 'Modules/Env/reducers';
 import loggingReducers from 'Modules/Logging/reducers';
 import listFilterReducer from 'Modules/ListFilter/reducers';
 import searchReducers from 'Modules/Search/reducers';
@@ -60,7 +59,6 @@ export default combineReducers({
   volumes: volumeReducers,
   dataFeeds: dataFeedReducers,
   streamSpecs: streamSpecReducers,
-  env: envReducers,
   logging: loggingReducers,
   listfilter: listFilterReducer,
   notifications: notifierReducer,
