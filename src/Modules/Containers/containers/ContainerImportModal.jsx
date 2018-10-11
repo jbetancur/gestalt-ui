@@ -61,7 +61,7 @@ class ContainerImportFormModal extends Component {
               key="container--import"
               primary
               flat
-              onClick={() => document.getElementById('import-container-modal').dispatchEvent(new Event('submit'))}
+              onClick={() => document.getElementById('import-container-modal').dispatchEvent(new Event('submit', { cancelable: true }))}
               disabled={this.props.containerImportPending}
             >
               Import

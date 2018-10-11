@@ -24,7 +24,6 @@ class LambdaCreate extends PureComponent {
     match: PropTypes.object.isRequired,
     lambdaActions: PropTypes.object.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    envPending: PropTypes.bool.isRequired,
     executors: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
     secrets: PropTypes.array.isRequired,
@@ -62,7 +61,6 @@ class LambdaCreate extends PureComponent {
   render() {
     const {
       lambdaPending,
-      envPending,
       providers,
       executors,
       secrets,
@@ -70,29 +68,26 @@ class LambdaCreate extends PureComponent {
     } = this.props;
 
     return (
-      envPending ?
-        <ActivityContainer id="container-load" /> :
+      <Row center>
+        <Col flex={10} xs={12} sm={12} md={10}>
+          <ActionsToolbar title="Create a Lambda" />
 
-        <Row center>
-          <Col flex={10} xs={12} sm={12} md={10}>
-            <ActionsToolbar title="Create a Lambda" />
+          {lambdaPending && <ActivityContainer id="lambda-form" />}
 
-            {lambdaPending && <ActivityContainer id="lambda-form" />}
-
-            <Form
-              onSubmit={this.create}
-              initialValues={initialFormValues}
-              render={LambdaForm}
-              validate={validate}
-              decorators={[focusOnErrors]}
-              mutators={{ ...arrayMutators }}
-              loading={lambdaPending}
-              providers={providers}
-              executors={executors}
-              secrets={secrets}
-            />
-          </Col>
-        </Row>
+          <Form
+            onSubmit={this.create}
+            initialValues={initialFormValues}
+            render={LambdaForm}
+            validate={validate}
+            decorators={[focusOnErrors]}
+            mutators={{ ...arrayMutators }}
+            loading={lambdaPending}
+            providers={providers}
+            executors={executors}
+            secrets={secrets}
+          />
+        </Col>
+      </Row>
     );
   }
 }

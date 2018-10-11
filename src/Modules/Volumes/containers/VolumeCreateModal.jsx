@@ -45,7 +45,7 @@ class VolumeCreateModal extends PureComponent {
         key="add-container-volume--submit"
         raised
         primary
-        onClick={() => document.getElementById('add-container-volume').dispatchEvent(new Event('submit'))}
+        onClick={() => document.getElementById('add-container-volume').dispatchEvent(new Event('submit', { cancelable: true }))}
       >
         Add Volume
       </Button>

@@ -29,8 +29,6 @@ class ContainerCreate extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     containerActions: PropTypes.object.isRequired,
-    envActions: PropTypes.object.isRequired,
-    envPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
     containerPending: PropTypes.bool.isRequired,
     initialFormValues: PropTypes.object.isRequired,
@@ -66,7 +64,6 @@ class ContainerCreate extends Component {
     const {
       containerPending,
       initialFormValues,
-      envPending,
       inlineMode,
       selectedProvider,
     } = this.props;
@@ -74,40 +71,38 @@ class ContainerCreate extends Component {
     const isPending = !inlineMode && containerPending;
 
     return (
-      envPending ?
-        <ActivityContainer id="container-loading" /> :
-        <Row gutter={5} center>
-          <Col
-            flex={inlineMode ? 12 : 10}
-            xs={12}
-            sm={12}
-            md={12}
-          >
-            <ActionsToolbar
-              title="Deploy a Container"
-              subtitle={selectedProvider.provider.name}
-              titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
-            />
+      <Row gutter={5} center>
+        <Col
+          flex={inlineMode ? 12 : 10}
+          xs={12}
+          sm={12}
+          md={12}
+        >
+          <ActionsToolbar
+            title="Deploy a Container"
+            subtitle={selectedProvider.provider.name}
+            titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
+          />
 
-            {containerPending && <ActivityContainer id="container-form" />}
+          {containerPending && <ActivityContainer id="container-form" />}
 
-            <FinalForm
-              onSubmit={this.create}
-              decorators={[focusOnErrors]}
-              mutators={{ ...arrayMutators }}
-              loading={isPending}
-              initialValues={initialFormValues}
-              validate={validate}
-              inlineMode={inlineMode}
-              render={({ handleSubmit, ...rest }) => (
-                <Form onSubmit={handleSubmit} autoComplete="off" disabled={isPending}>
-                  <ContainerForm {...rest} />
-                </Form>
-              )}
-              {...this.props}
-            />
-          </Col>
-        </Row>
+          <FinalForm
+            onSubmit={this.create}
+            decorators={[focusOnErrors]}
+            mutators={{ ...arrayMutators }}
+            loading={isPending}
+            initialValues={initialFormValues}
+            validate={validate}
+            inlineMode={inlineMode}
+            render={({ handleSubmit, ...rest }) => (
+              <Form onSubmit={handleSubmit} autoComplete="off" disabled={isPending}>
+                <ContainerForm {...rest} />
+              </Form>
+            )}
+            {...this.props}
+          />
+        </Col>
+      </Row>
     );
   }
 }
