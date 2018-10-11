@@ -26,8 +26,8 @@ export function* createViewWorkflow() {
 
     const [providers, volumes, secrets, env] = yield call(axios.all, [
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/providers?expand=true&type=CaaS`),
-      axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/secrets?expand=true`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/volumes?expand=true`),
+      axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/secrets?expand=true`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/env`),
     ]);
 
@@ -35,8 +35,8 @@ export function* createViewWorkflow() {
       type: INIT_CONTAINERCREATE_FULFILLED,
       payload: {
         providers: providers.data,
-        secrets: secrets.data,
         volumes: volumes.data,
+        secrets: secrets.data,
         inheritedEnv: mapTo2DArray(env.data, 'name', 'value', { inherited: true }),
       },
     });

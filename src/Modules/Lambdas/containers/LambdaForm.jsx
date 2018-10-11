@@ -14,6 +14,7 @@ import LambdaPeriodicSection from '../components/LambdaPeriodicSection';
 import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
 import SelectProvider from '../components/SelectProvider';
+import providerModel from '../../Providers/models/provider';
 
 const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, providers, executors, secrets, editMode, pristine, submitting, onSaveInlineCode }) => {
   const safeErrors = {
@@ -22,6 +23,11 @@ const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, provid
       ...errors.properties,
     }
   };
+
+  // TODO: refactor to redux
+  const selectedProvider = editMode
+    ? values.properties.provider
+    : providers.find(p => p.id === values.properties.provider.id) || providerModel.get();
 
   return (
     <Form
@@ -81,7 +87,7 @@ const LambdaForm = ({ handleSubmit, form, errors, values, match, loading, provid
                     fieldName="properties.secrets"
                     secretsDropdown={secrets}
                     formValues={values}
-                    provider={values.properties.provider}
+                    provider={selectedProvider}
                     type="lambda"
                     form={form}
                   />
