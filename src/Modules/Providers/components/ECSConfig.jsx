@@ -5,7 +5,7 @@ import { Col, Row } from 'react-flexybox';
 import { TextField, SelectField } from 'components/ReduxFormFields';
 import { composeValidators, required } from 'util/forms';
 
-const ECSConfig = ({ subTypes, editMode }) => (
+const ECSConfig = ({ subTypes }) => (
   <Row gutter={5}>
     <Col flex={3} xs={12} sm={4} md={4}>
       <Field
@@ -70,12 +70,10 @@ const ECSConfig = ({ subTypes, editMode }) => (
 );
 
 ECSConfig.propTypes = {
-  editMode: PropTypes.bool,
   subTypes: PropTypes.array
 };
 
 ECSConfig.defaultProps = {
-  editMode: false,
   subTypes: [],
 };
 
