@@ -75,7 +75,7 @@ class HierarchyForm extends Component {
         raised
         disabled={submitDisabled}
         primary
-        onClick={() => document.getElementById('hierarchy-context-form').dispatchEvent(new Event('submit'))}
+        onClick={() => document.getElementById('hierarchy-context-form').dispatchEvent(new Event('submit', { cancelable: true }))}
       >
         {editMode ? 'Update' : 'Create'}
       </Button>
