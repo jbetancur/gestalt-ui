@@ -13,10 +13,11 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
         <Field
           component={TextField}
           name="name"
-          label="Container Name"
+          label="Target Container Name"
           type="text"
           required
           validate={composeValidators(required())}
+          helpText="The target container name to import"
         />
       </Col>
       <Col flex={12}>
@@ -25,13 +26,14 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
           component={SelectField}
           name="properties.provider.id"
           required
-          label="CaaS Provider"
+          label="Source CaaS Provider"
           itemLabel="name"
           itemValue="id"
           menuItems={providers}
           simplifiedMenu={false}
           async
           validate={composeValidators(required())}
+          helpText="The CaaS Provider you want to import from"
         />
       </Col>
       <Col flex={12}>

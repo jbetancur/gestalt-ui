@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork, race, take, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { convertFromMaps } from 'util/helpers/transformations';
 import { notificationActions } from 'Modules/Notifications';
 import { volumeActions } from 'Modules/Volumes';
 import { poll, fetchAPI } from 'config/lib/utility';
@@ -80,7 +81,7 @@ export function* fetchContainer(action) {
   try {
     const [containerResponse, envResponse] = yield call(axios.all, promises);
     const payload = { ...containerResponse.data };
-    payload.properties.env = Object.assign(envResponse.data, payload.properties.env);
+    payload.properties.env = convertFromMaps(payload.properties.env, envResponse.data);
 
     yield put(setSelectedProvider(payload.properties.provider));
     yield put({ type: FETCH_CONTAINER_FULFILLED, payload, action });
