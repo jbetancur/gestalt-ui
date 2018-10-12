@@ -21,6 +21,7 @@ import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
 import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
+import ListIcon from '../components/ListIcon';
 import validate from '../validations';
 import { generatePatches } from '../payloadTransformer';
 import { getEditLambdaModel } from '../selectors';
@@ -46,6 +47,7 @@ class LambdaEdit extends PureComponent {
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
     lambdaStateActions: PropTypes.object.isRequired,
+    selectedRuntime: PropTypes.object.isRequired,
   };
 
   state = { runtime: null };
@@ -106,13 +108,13 @@ class LambdaEdit extends PureComponent {
       lambda,
       lambdaPending,
       initialFormValues,
-      providers,
-      executors,
-      secrets,
       apiEndpoints,
       apiEndpointsPending,
       lambdaStateActions,
+      selectedRuntime,
     } = this.props;
+
+    const icon = selectedRuntime.value ? <ListIcon runtime={selectedRuntime.value} /> : null;
 
     return (
       lambdaPending && !lambda.id ?
@@ -122,6 +124,7 @@ class LambdaEdit extends PureComponent {
             <ActionsToolbar
               title={lambda.name}
               subtitle={`Provider: ${lambda.properties.provider.name}`}
+              titleIcon={icon}
               actions={[
                 <Button
                   key="lambda--log"
@@ -185,13 +188,9 @@ class LambdaEdit extends PureComponent {
                   mutators={{ ...arrayMutators }}
                   decorators={[focusOnErrors]}
                   loading={lambdaPending}
-                  providers={providers}
-                  executors={executors}
-                  secrets={secrets}
-                  lambda={lambda}
-                  apiEndpoints={apiEndpoints}
                   apiEndpointsPending={apiEndpointsPending}
                   onSaveInlineCode={this.handleSaveInlineCode}
+                  {...this.props}
                 />
               </Tab>
               <Tab title="Log">

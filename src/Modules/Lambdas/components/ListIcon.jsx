@@ -7,15 +7,16 @@ const iconTypes = {
   java: <JavaIcon />,
   'java;scala': <JavaIcon />,
   python: <PythonIcon />,
+  csharp: <CSharpIcon />,
   'csharp;dotnet': <CSharpIcon />,
   golang: <GoLangIcon />,
   ruby: <RubyIcon />,
   nashorn: <RhinoJSIcon />,
-  bash: <BashIcon />
+  bash: <BashIcon />,
 };
 
 const ListIcon = ({ runtime }) => {
-  const icon = iconTypes[runtime];
+  const icon = iconTypes[runtime.toLowerCase()];
 
   if (!icon) {
     return <span>{runtime}</span>;
@@ -25,7 +26,11 @@ const ListIcon = ({ runtime }) => {
 };
 
 ListIcon.propTypes = {
-  runtime: PropTypes.string.isRequired,
+  runtime: PropTypes.string,
+};
+
+ListIcon.defaultProps = {
+  runtime: '',
 };
 
 export default ListIcon;

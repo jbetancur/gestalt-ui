@@ -84,7 +84,7 @@ class ContainerForm extends Component {
         {!selectedProvider.isSelected &&
           <Row gutter={5}>
             <Col flex={12}>
-              <Panel title="Select a Provider" expandable={false}>
+              <Panel title="Select a CaaS Provider" expandable={false}>
                 <Row gutter={5}>
                   <Col flex={12}>
                     <ProviderSelect
@@ -103,7 +103,7 @@ class ContainerForm extends Component {
         {selectedProvider.isSelected &&
           <Row gutter={5}>
             <Col flex={7} xs={12} sm={12} md={12}>
-              <Panel title="General" expandable={false} fill>
+              <Panel title="Name" expandable={false} fill>
                 <Row gutter={5}>
                   {!editMode &&
                     <Col flex={6} xs={12}>

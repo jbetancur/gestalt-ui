@@ -9,6 +9,7 @@ import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
+import ListIcon from '../components/ListIcon';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
@@ -29,6 +30,7 @@ class LambdaCreate extends PureComponent {
     secrets: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     lambdaStateActions: PropTypes.object.isRequired,
+    selectedRuntime: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -61,16 +63,19 @@ class LambdaCreate extends PureComponent {
   render() {
     const {
       lambdaPending,
-      providers,
-      executors,
-      secrets,
       initialFormValues,
+      selectedRuntime,
     } = this.props;
+
+    const icon = selectedRuntime.value ? <ListIcon runtime={selectedRuntime.value} /> : null;
 
     return (
       <Row center>
         <Col flex={10} xs={12} sm={12} md={10}>
-          <ActionsToolbar title="Create a Lambda" />
+          <ActionsToolbar
+            title="Create a Lambda"
+            titleIcon={icon}
+          />
 
           {lambdaPending && <ActivityContainer id="lambda-form" />}
 
@@ -82,9 +87,7 @@ class LambdaCreate extends PureComponent {
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
             loading={lambdaPending}
-            providers={providers}
-            executors={executors}
-            secrets={secrets}
+            {...this.props}
           />
         </Col>
       </Row>

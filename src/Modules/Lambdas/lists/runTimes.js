@@ -15,6 +15,11 @@ export default [
     codeFormat: 'javascript',
     options: {},
     codeOptions: codeOptionsInline,
+    defaultHandler: 'handler',
+    starterCode:
+`module.exports.handler = (event, context, callback) => {
+  callback(null, 'Hello World!');
+};`
   },
   {
     value: 'java;scala',
@@ -43,6 +48,11 @@ export default [
     codeFormat: 'javascript',
     options: {},
     codeOptions: codeOptionsInline,
+    defaultHandler: 'handler',
+    starterCode:
+`function handler() {
+  return 'Hello World!';
+}`
   },
   {
     value: 'python',
@@ -50,7 +60,7 @@ export default [
     format: '{filename}.py',
     codeFormat: 'python',
     options: {},
-    codeOptions,
+    codeOptions
   },
   {
     value: 'csharp',
