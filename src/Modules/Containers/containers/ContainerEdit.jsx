@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import isEqual from 'react-fast-compare';
 import styled from 'styled-components';
 import { IconSeparator, FontIcon } from 'react-md';
 import { Form as FinalForm } from 'react-final-form';
@@ -245,6 +246,7 @@ class ContainerEdit extends Component {
                   initialValues={initialFormValues}
                   validate={validate}
                   inlineMode={inlineMode}
+                  initialValuesEqual={isEqual} // keeps array fields from re-rendering
                   keepDirtyOnReinitialize
                   render={({ handleSubmit, ...rest }) => (
                     <Form onSubmit={handleSubmit} autoComplete="off" disabled={containerPending}>

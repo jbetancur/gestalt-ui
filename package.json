@@ -1,6 +1,6 @@
 {
     "name": "gestalt-ui",
-    "version": "2.3.4",
+    "version": "2.3.5",
     "title": "Galactic Fog",
     "description": "gestalt ui",
     "engines": {
@@ -119,8 +119,9 @@
         "react-copy-to-clipboard": "^5.0.1",
         "react-data-table-component": "^0.13.0",
         "react-dom": "^16.5.2",
+        "react-fast-compare": "^2.0.2",
         "react-final-form": "^3.6.7",
-        "react-final-form-arrays": "^1.0.6",
+        "react-final-form-arrays": "^1.1.0",
         "react-flexybox": "^2.0.2",
         "react-frame-component": "^4.0.1",
         "react-ga": "^2.5.3",

@@ -58,7 +58,6 @@ export const getEditContainerModel = createSelector(
         health_checks: fixHealthChecks(properties.health_checks),
         port_mappings: properties.port_mappings
           .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
-        secrets: properties.secrets,
       },
     };
 
