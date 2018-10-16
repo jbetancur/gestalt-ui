@@ -40,8 +40,6 @@ const ECSConfig = ({ subTypes }) => (
         component={TextField}
         name="properties.config.taskRoleArn"
         label="Task Role ARN"
-        validate={composeValidators(required())}
-        required
       />
     </Col>
     <Col flex={4} xs={12} sm={4} md={4}>
