@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 /* Huge thanks to @tobiasahlin at http://tobiasahlin.com/spinkit/ */
 
@@ -14,6 +14,10 @@ const animation = keyframes`
   40% {
     transform: scale(0.5);
   }
+`;
+
+const animationRule = css`
+  ${animation} 1.4s infinite ease-in-out both;
 `;
 
 const SpinWrapper = styled.div`
@@ -32,7 +36,7 @@ const SpinDiv = styled.div`
     background-color: ${props => (props.primary && props.theme.activityDotColorDropDown) || props.theme.activityDotColor};
     border-radius: 100%;
     display: inline-block;
-    animation: ${animation} 1.4s infinite ease-in-out both;
+    animation: ${animationRule};
   }
 
   &.spinner .bounce1 {

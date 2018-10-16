@@ -71,18 +71,21 @@ class EnvironmentCard extends PureComponent {
         menuActions={[
           {
             id: 'environment-card--edit',
+            key: 'environment-card--edit',
             title: t('general.verbs.edit'),
             icon: <FontIcon>edit</FontIcon>,
             onClick: this.edit,
           },
           {
             id: 'environment-card--entitlements',
+            key: 'environment-card--entitlements',
             title: 'Entitlements',
             icon: <EntitlementIcon size={20} />,
             onClick: this.showEntitlements,
           },
           {
             id: 'environment-card--delete',
+            key: 'environment-card--edit',
             title: t('general.verbs.delete'),
             icon: <FontIcon>delete_forever</FontIcon>,
             onClick: this.delete,

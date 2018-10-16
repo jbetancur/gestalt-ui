@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 import { Snackbar } from 'react-md';
@@ -104,4 +105,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withTheme(ErrorNotifications));
+export default compose(
+  withTheme,
+  connect(mapStateToProps),
+)(ErrorNotifications);

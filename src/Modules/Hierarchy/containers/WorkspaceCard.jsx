@@ -67,18 +67,21 @@ class WorkspaceCard extends PureComponent {
         menuActions={[
           {
             id: 'workspace-card--edit',
+            key: 'workspace-card--edit',
             title: t('general.verbs.edit'),
             icon: <FontIcon>edit</FontIcon>,
             onClick: this.edit,
           },
           {
             id: 'workspace-card--entitlements',
+            key: 'workspace-card--entitlements',
             title: 'Entitlements',
             icon: <EntitlementIcon size={20} />,
             onClick: this.showEntitlements,
           },
           {
             id: 'workspace-card--delete',
+            key: 'workspace-card--delete',
             title: t('general.verbs.delete'),
             icon: <FontIcon>delete_forever</FontIcon>,
             onClick: this.delete,

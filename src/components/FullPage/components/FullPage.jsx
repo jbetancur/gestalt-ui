@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import styled, { withTheme, keyframes } from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import { Title } from 'components/Typography';
 import { Button } from 'react-md';
 
-const fadeIn = keyframes`
-  from { opacity: 0; }
-  to { opacity: 1; }
-`;
-
 const TileSection = styled.div`
-  /* background-color: ${props => props.theme.colors['$md-grey-200']}; */
   padding: 16px;
   display: flex;
   align-items: center;
@@ -28,7 +22,6 @@ const PageWrapper = styled.div`
   z-index: 99;
   overflow: scroll;
   padding-bottom: 16px;
-  /* animation: ${fadeIn} 0.05s linear; */
 `;
 
 const PageContent = styled.div`

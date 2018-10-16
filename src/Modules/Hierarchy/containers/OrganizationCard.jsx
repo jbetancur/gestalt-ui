@@ -73,18 +73,21 @@ class OrganizationCard extends PureComponent {
         menuActions={[
           {
             id: 'organization-card--edit',
+            key: 'organization-card--edit',
             title: t('general.verbs.edit'),
             icon: <FontIcon>edit</FontIcon>,
             onClick: this.edit,
           },
           {
             id: 'organization-card--entitlements',
+            key: 'organization-card--entitlements',
             title: 'Entitlements',
             icon: <EntitlementIcon size={20} />,
             onClick: this.showEntitlements,
           },
           {
             id: 'organization-card--delete',
+            key: 'organization-card--delete',
             title: t('general.verbs.delete'),
             icon: <FontIcon>delete_forever</FontIcon>,
             onClick: this.delete,

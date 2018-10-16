@@ -1,4 +1,4 @@
-import styled, { keyframes, withTheme } from 'styled-components';
+import styled, { css, keyframes, withTheme } from 'styled-components';
 import { TextField } from 'components/ReduxFormFields';
 
 const autofill = keyframes`
@@ -6,6 +6,10 @@ const autofill = keyframes`
     background: transparent;
     color: inherit;
   }
+`;
+
+const animationRule = css`
+  ${autofill};
 `;
 
 const TextFieldStyle = styled(TextField)`
@@ -45,7 +49,7 @@ const TextFieldStyle = styled(TextField)`
   input.md-text-field:-webkit-autofill:focus {
     box-shadow: none;
     transition: background-color 10000s ease-in-out 0s;
-    -webkit-animation-name: ${autofill};
+    -webkit-animation-name: ${animationRule};
     -webkit-animation-fill-mode: both;
     -webkit-text-fill-color: white;
     caret-color: white;
