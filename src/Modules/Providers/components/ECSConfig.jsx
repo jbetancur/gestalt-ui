@@ -49,8 +49,6 @@ const ECSConfig = ({ subTypes }) => (
         component={TextField}
         name="properties.config.secret_key"
         label="Secret Key"
-        validate={composeValidators(required())}
-        required
         type="password"
         passwordIcon={null}
       />
@@ -60,8 +58,6 @@ const ECSConfig = ({ subTypes }) => (
         component={TextField}
         name="properties.config.access_key"
         label="Access Key"
-        validate={composeValidators(required())}
-        required
         type="password"
         passwordIcon={null}
       />
