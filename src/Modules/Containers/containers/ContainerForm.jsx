@@ -138,7 +138,7 @@ class ContainerForm extends Component {
                       name={`${formName}.properties.cpus`}
                       min={0.1}
                       max={10.0}
-                      step="any"
+                      step={0.1}
                       label="CPU"
                       type="number"
                       required
