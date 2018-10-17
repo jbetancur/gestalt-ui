@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { FontIcon } from 'react-md';
 import DataTable from 'react-data-table-component';
@@ -47,10 +48,7 @@ class VolumePanel extends PureComponent {
 
   formatActionState = (row) => {
     const { editMode } = this.props;
-
-    if (row.volume_resource.properties
-      && row.volume_resource.properties.container
-      && row.volume_resource.properties.container.id) {
+    if (get(row, 'volume_resource.properties.container.id')) {
       return 'Attached';
     }
 
@@ -80,7 +78,7 @@ class VolumePanel extends PureComponent {
 
     // only show link cell in editMode or for existing
     const cell = {
-      cell: row => (editMode && row.volume_resource && row.volume_resource.id
+      cell: row => (editMode && get(row, 'volume_resource.id')
         ?
           <ALink
             to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes/${row.volume_resource.id}`}
@@ -89,7 +87,7 @@ class VolumePanel extends PureComponent {
             {row.volume_resource.name}
           </ALink>
         :
-        row.volume_resource.name)
+        get(row, 'volume_resource.name'))
     };
 
     return [

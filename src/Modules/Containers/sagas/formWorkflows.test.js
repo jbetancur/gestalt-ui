@@ -83,7 +83,7 @@ describe('container Form Workflow Sagas', () => {
 
         expect(result.value).toEqual(
           call(axios.all, [
-            axios.get('test/containers/890?embed=provider'),
+            axios.get('test/containers/890?embed=provider&embed=volumes'),
             axios.get('test/environments/123/secrets?expand=true'),
             axios.get('test/environments/123/volumes?expand=true'),
           ]),

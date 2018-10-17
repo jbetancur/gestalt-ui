@@ -34,6 +34,7 @@ import {
   SCALE_CONTAINER_REQUEST,
   MIGRATE_CONTAINER_REQUEST,
   PROMOTE_CONTAINER_REQUEST,
+  INIT_CONTAINERCREATE_FULFILLED,
   INIT_CONTAINEREDIT_FULFILLED,
   INIT_CONTAINEREDIT_CANCELLED,
 } from '../constants';
@@ -244,6 +245,8 @@ function* watchContainersPoll() {
       yield race({
         task: call(poll, fetchContainers, action),
         cancel: take(UNLOAD_CONTAINERS),
+        cancelWhenCreateMode: take(INIT_CONTAINERCREATE_FULFILLED),
+        cancelWhenEditMode: take(INIT_CONTAINEREDIT_FULFILLED),
         cancelled: take(FETCH_CONTAINERS_CANCELLED),
         cancelRoute: take(LOCATION_CHANGE),
       });

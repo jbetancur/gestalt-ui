@@ -61,7 +61,7 @@ export function* editViewWorkflow(action) {
     const { environment } = yield select(state => state.hierarchy.context);
 
     const [container, secrets, volumes] = yield call(axios.all, [
-      axios.get(`${environment.org.properties.fqon}/containers/${containerId}?embed=provider`),
+      axios.get(`${environment.org.properties.fqon}/containers/${containerId}?embed=provider&embed=volumes`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/secrets?expand=true`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/volumes?expand=true`),
     ]);
