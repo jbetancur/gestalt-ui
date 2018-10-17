@@ -62,7 +62,7 @@ class CreateMenu extends PureComponent {
         listHeightRestricted={false}
         disabled={contextPending}
       >
-        Create
+        Create New
       </MenuButton>
     );
   }

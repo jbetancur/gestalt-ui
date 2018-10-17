@@ -176,6 +176,7 @@ class ProviderForm extends Component {
               <Panel title="Configuration" expandable={false}>
                 <ECSConfig
                   subTypes={selectedProviderType.subTypes}
+                  editMode={editMode}
                 />
               </Panel>
             </Col>}

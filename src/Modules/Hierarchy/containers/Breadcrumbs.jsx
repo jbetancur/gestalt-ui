@@ -30,6 +30,7 @@ const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
 
   ${props => props.isActive && css`
     color: ${props.theme.colors['$md-blue-500']};
+    font-weight: 500;
 
     i * {
       color: ${props.theme.colors['$md-blue-500']};
@@ -104,7 +105,7 @@ class Breadcrumbs extends PureComponent {
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
       />,
-      sortedOrganizations.length > 0 ? <Divider key="breadcrumbs-menu-organization--divider" /> : <div />,
+      sortedOrganizations.length > 0 ? <Divider key="breadcrumbs-menu-organization--divider" /> : <div key="breadcrumbs-menu-organization--divider" />,
       ...sortedOrganizations.map(org => (
         <ListItem
           id={org.name}
@@ -147,7 +148,7 @@ class Breadcrumbs extends PureComponent {
         component={Link}
         to={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
       />,
-      sortedWorkspaces.length > 0 ? <Divider key="breadcrumbs-menu-workspace--divider" /> : <div />,
+      sortedWorkspaces.length > 0 ? <Divider key="breadcrumbs-menu-workspace--divider" /> : <div key="breadcrumbs-menu-workspace--divider" />,
       ...sortedWorkspaces.map(wkspc => (
         <ListItem
           id={wkspc.name}
@@ -177,7 +178,7 @@ class Breadcrumbs extends PureComponent {
         component={Link}
         to={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
       />,
-      sortedEnvironments.length > 0 ? <Divider key="breadcrumbs-menu-environment--divider" /> : <div />,
+      sortedEnvironments.length > 0 ? <Divider key="breadcrumbs-menu-environment--divider" /> : <div key="breadcrumbs-menu-environment--divider" />,
       ...sortedEnvironments.map(env => (
         <ListItem
           id={env.name}

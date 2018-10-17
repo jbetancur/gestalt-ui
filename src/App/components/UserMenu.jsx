@@ -70,7 +70,9 @@ const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
             {browser.lessThan.sm ? <UserIcon inherit /> : <FontIcon inherit>arrow_drop_down</FontIcon>}
           </IconSeparator>
         }
-      />
+      >
+        <span />
+      </AccessibleFakeButton>
     </DropdownMenu>
   );
 };

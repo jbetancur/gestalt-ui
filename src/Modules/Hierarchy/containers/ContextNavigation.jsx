@@ -4,21 +4,56 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
-import { Button } from 'components/Buttons';
-import ExpansionPanel from 'components/ExpansionPanel';
+import { FontIcon } from 'react-md';
 import { ActionsMenu } from 'Modules/Actions';
-import NavHeader from '../components/NavHeader';
+import ExpansionPanel from 'components/ExpansionPanel';
+
+const NavHeader = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: ${props => props.theme.colors['$md-grey-50']};
+  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  padding: 12px;
+  text-align: left;
+  min-height: 56px;
+  overflow: visible;
+  width: 100%;
+  z-index: 4;
+`;
+
+const CollapseWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 36px);
+  text-align: center;
+`;
+
+const CollapseButton = styled.button`
+  position: relative;
+  background-color: ${props => props.theme.colors['$md-grey-200']};
+  border: none;
+  padding: 0;
+  width: 64px;
+  height: 20px;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover:not([disabled]) {
+    background-color: ${props => props.theme.colors['$md-grey-300']};
+  }
+
+  &:hover:disabled {
+    cursor: unset;
+  }
+`;
 
 const DetailsPanel = styled.div`
   padding: 16px;
-`;
-
-const Name = styled.div`
-  display: inline-block;
-  max-width: 250px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 `;
 
 const ActionsPanel = styled.div`
@@ -30,7 +65,7 @@ const ActionsPanel = styled.div`
   a {
     margin-left: 3px;
     padding: 4px 8px;
-    font-size: 10px;
+    font-size: 11px;
 
     span:last-child,
     div:last-child {
@@ -41,6 +76,11 @@ const ActionsPanel = styled.div`
       font-size: 18px;
     }
   }
+`;
+
+const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
+  transition: transform 225ms ease;
+  transform: ${props => (props.isExpanded ? 'rotate(-180deg)' : 'rotate(0)')};
 `;
 
 class ContextNavigation extends PureComponent {
@@ -74,8 +114,14 @@ class ContextNavigation extends PureComponent {
     this.setState(prevState => ({ expanded: !prevState.expanded }));
   }
 
+  renderCollpaseButtonIcon() {
+    const { expanded } = this.state;
+
+    return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
+  }
+
   render() {
-    const { match, breadcrumbComponent, actionsComponent, detailsComponent, pending, pendingContextActions, actionsList, model } = this.props;
+    const { match, breadcrumbComponent, actionsComponent, detailsComponent, pendingContextActions, actionsList, model, pending } = this.props;
     const { expanded } = this.state;
 
     return (
@@ -87,16 +133,6 @@ class ContextNavigation extends PureComponent {
 
           {actionsComponent &&
             <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
-              {detailsComponent && !pending &&
-              <Button
-                flat
-                iconChildren={expanded ? 'expand_less' : 'expand_more'}
-                onClick={this.toggle}
-                tooltipLabel={`${expanded ? 'Less' : 'More'} Details`}
-              >
-                <Name>{model.description || model.name}</Name>
-              </Button>}
-
               <ActionsMenu
                 actionList={actionsList}
                 pending={pendingContextActions}
@@ -114,6 +150,11 @@ class ContextNavigation extends PureComponent {
           </Col>}
         </Row>
         {this.props.children}
+        <CollapseWrapper>
+          <CollapseButton onClick={this.toggle} disabled={pending}>
+            {this.renderCollpaseButtonIcon()}
+          </CollapseButton>
+        </CollapseWrapper>
       </NavHeader>
     );
   }

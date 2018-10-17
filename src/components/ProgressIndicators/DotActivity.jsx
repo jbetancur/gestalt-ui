@@ -23,11 +23,13 @@ const animationRule = css`
 const SpinWrapper = styled.div`
   position: relative;
   width: 100%;
+  height: 100%;
 `;
 
 const SpinDiv = styled.div`
-  text-align: ${props => (props.centered ? 'center' : 'left')};
-  line-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: ${props => (props.centered ? 'center' : 'flex-start')};;
   height: 100%;
 
   &.spinner > div {
