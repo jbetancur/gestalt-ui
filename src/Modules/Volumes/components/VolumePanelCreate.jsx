@@ -7,6 +7,7 @@ import { TextField } from 'components/ReduxFormFields';
 import { formatName, composeValidators, required } from 'util/forms';
 import VolumeConfigSection from './VolumeConfigSection';
 import volumeModel from '../models/volume';
+import { generatePayload } from '../payloadTransformer';
 
 const initialValues = volumeModel.create({
   properties: {
@@ -37,7 +38,7 @@ class VolumePanelCreate extends Component {
       },
     };
 
-    onSubmit({ mount_path, volume_resource: volumeResource });
+    onSubmit({ mount_path, volume_resource: generatePayload(volumeResource) });
   }
 
   render() {

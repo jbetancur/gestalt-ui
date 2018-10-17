@@ -10,7 +10,7 @@ import volumeModel from './models/volume';
  */
 export function generatePayload(sourcePayload) {
   const payload = volumeModel.create(sourcePayload);
-  if (payload.properties.type === 'external' && typeof payload.properties.yaml) {
+  if (payload.properties.type === 'external' && payload.properties.yaml) {
     payload.properties.config = yaml.safeLoad(payload.properties.yaml);
     delete payload.properties.yaml;
   }
