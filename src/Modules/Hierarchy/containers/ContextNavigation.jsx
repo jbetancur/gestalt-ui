@@ -27,12 +27,6 @@ const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {..
 
   position: relative;
   width: 100%;
-  right: 0;
-  transition-property: left;
-  transition-duration: ${props => (props.isExpanded ? '225ms' : '195ms')};
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-delay: 0ms;
-  will-change: transform;
   display: flex;
   align-items: center;
   background-color: ${props => props.theme.colors['$md-grey-50']};
@@ -140,6 +134,16 @@ class ContextNavigation extends PureComponent {
   state = {
     expanded: false,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if ((prevProps.context.contextMeta.context !== this.props.context.contextMeta.context
+      || prevProps.context.contextMeta.fqon !== this.props.context.contextMeta.fqon)
+      && prevState.expanded) {
+      // it is safe to disabled linting here and call setState since we have have conditions above
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ expanded: false });
+    }
+  }
 
   toggle = () => {
     this.setState(prevState => ({ expanded: !prevState.expanded }));

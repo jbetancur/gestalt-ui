@@ -44,11 +44,9 @@ const BreadCrumbDropDown = ({ simplifiedMenu, menuItems, label, icon }) => (
     id={`${!simplifiedMenu ? 'smart-' : ''}${label}`}
     menuItems={menuItems}
     anchor={{
-      x: DropdownMenu.HorizontalAnchors.CENTER,
-      y: DropdownMenu.VerticalAnchors.OVERLAP,
+      x: DropdownMenu.HorizontalAnchors.INNER_LEFT,
+      y: DropdownMenu.VerticalAnchors.BOTTOM,
     }}
-    position={DropdownMenu.Positions.BELOW}
-    animationPosition="below"
     simplifiedMenu={simplifiedMenu}
   >
     <AccessibleFakeButton

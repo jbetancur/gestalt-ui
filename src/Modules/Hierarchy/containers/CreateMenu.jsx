@@ -55,6 +55,7 @@ class CreateMenu extends PureComponent {
           x: MenuButton.HorizontalAnchors.CENTER,
           y: MenuButton.VerticalAnchors.CENTER,
         }}
+        simplifiedMenu={false}
         iconChildren="add"
         flat
         sameWidth={false}
