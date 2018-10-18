@@ -7,6 +7,12 @@ import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
 import { ActionsMenu } from 'Modules/Actions';
 import ExpansionPanel from 'components/ExpansionPanel';
+import CreateMenu from './CreateMenu';
+import Breadcrumbs from './Breadcrumbs';
+import OrganizationDetails from './OrganizationDetails';
+import WorkspaceDetails from './WorkspaceDetails';
+import EnvironmentDetails from './EnvironmentDetails';
+import withContext from '../hocs/withContext';
 
 const NavHeader = styled.div`
   position: relative;
@@ -25,16 +31,19 @@ const NavHeader = styled.div`
 const CollapseWrapper = styled.div`
   position: absolute;
   bottom: 0;
-  left: calc(50% - 36px);
+  left: calc(50% - 64px);
   text-align: center;
 `;
 
 const CollapseButton = styled.button`
   position: relative;
-  background-color: ${props => props.theme.colors['$md-grey-200']};
-  border: none;
+  background-color: ${props => props.theme.colors['$md-grey-50']};
+  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-left: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-bottom: none;
   padding: 0;
-  width: 64px;
+  width: 128px;
   height: 20px;
   text-align: center;
   border-top-left-radius: 8px;
@@ -44,7 +53,7 @@ const CollapseButton = styled.button`
   transition: background-color 0.15s ease-in-out;
 
   &:hover:not([disabled]) {
-    background-color: ${props => props.theme.colors['$md-grey-300']};
+    background-color: ${props => props.theme.colors['$md-grey-200']};
   }
 
   &:hover:disabled {
@@ -87,23 +96,16 @@ class ContextNavigation extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     children: PropTypes.any,
-    breadcrumbComponent: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/require-default-props
-    actionsComponent: PropTypes.object,
-    // eslint-disable-next-line react/require-default-props
-    detailsComponent: PropTypes.object,
-    pending: PropTypes.bool,
     pendingContextActions: PropTypes.bool,
     actionsList: PropTypes.array,
-    model: PropTypes.object,
+    context: PropTypes.object.isRequired,
+    contextPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     children: [],
-    pending: false,
     pendingContextActions: false,
     actionsList: [],
-    model: {},
   };
 
   state = {
@@ -114,6 +116,24 @@ class ContextNavigation extends PureComponent {
     this.setState(prevState => ({ expanded: !prevState.expanded }));
   }
 
+  renderDetailsComponent() {
+    const { context: { contextMeta } } = this.props;
+
+    if (contextMeta.context === 'organization') {
+      return <OrganizationDetails {...this.props} />;
+    }
+
+    if (contextMeta.context === 'workspace') {
+      return <WorkspaceDetails {...this.props} />;
+    }
+
+    if (contextMeta.context === 'environment') {
+      return <EnvironmentDetails {...this.props} />;
+    }
+
+    return null;
+  }
+
   renderCollpaseButtonIcon() {
     const { expanded } = this.state;
 
@@ -121,37 +141,44 @@ class ContextNavigation extends PureComponent {
   }
 
   render() {
-    const { match, breadcrumbComponent, actionsComponent, detailsComponent, pendingContextActions, actionsList, model, pending } = this.props;
+    const {
+      match,
+      pendingContextActions,
+      actionsList,
+      contextPending,
+      context,
+      context: { contextMeta },
+    } = this.props;
     const { expanded } = this.state;
 
     return (
       <NavHeader>
         <Row alignItems="center">
           <Col xs={12} sm={12} md={6} lg={6}>
-            {breadcrumbComponent}
+            <Breadcrumbs />
           </Col>
 
-          {actionsComponent &&
-            <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
-              <ActionsMenu
-                actionList={actionsList}
-                pending={pendingContextActions}
-                model={model}
-                fqon={match.params.fqon}
-              />
+          <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
+            <ActionsMenu
+              actionList={actionsList}
+              contextPending={pendingContextActions}
+              model={context[contextMeta.context]}
+              fqon={match.params.fqon}
+            />
 
-              {actionsComponent}
-            </Col>}
-          {actionsComponent &&
+            <CreateMenu {...this.props} />
+          </Col>
+
           <Col flex={12}>
             <ExpansionPanel expanded={expanded}>
-              <DetailsPanel>{detailsComponent}</DetailsPanel>
+              <DetailsPanel>{this.renderDetailsComponent()}</DetailsPanel>
             </ExpansionPanel>
-          </Col>}
+          </Col>
+
         </Row>
         {this.props.children}
         <CollapseWrapper>
-          <CollapseButton onClick={this.toggle} disabled={pending}>
+          <CollapseButton onClick={this.toggle} disabled={contextPending}>
             {this.renderCollpaseButtonIcon()}
           </CollapseButton>
         </CollapseWrapper>
@@ -161,6 +188,7 @@ class ContextNavigation extends PureComponent {
 }
 
 export default compose(
+  withContext(),
   withTheme,
   withRouter,
 )(ContextNavigation);

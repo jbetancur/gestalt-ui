@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import ContextHeader from '../containers/ContextHeader';
+import ContextNavigation from '../containers/ContextNavigation';
 import withContext from '../hocs/withContext';
 
 class WorkspaceContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
     contextActions: PropTypes.object.isRequired,
   };
 
@@ -42,7 +41,7 @@ class WorkspaceContext extends PureComponent {
   render() {
     return (
       <Div paddingBottom="56px">
-        <ContextHeader {...this.props} />
+        <ContextNavigation {...this.props} />
         <WorkspaceRoutes />
       </Div>
     );

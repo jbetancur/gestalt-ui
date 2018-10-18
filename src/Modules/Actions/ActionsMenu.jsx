@@ -16,7 +16,7 @@ class ActionsMenu extends PureComponent {
     style: PropTypes.object,
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
-    model: PropTypes.object.isRequired,
+    model: PropTypes.object,
     isChildResource: PropTypes.bool,
     icon: PropTypes.bool,
     onActionComplete: PropTypes.func,
@@ -35,6 +35,7 @@ class ActionsMenu extends PureComponent {
     keyField: 'id',
     parentKeyField: 'properties.parent.id',
     isChildResource: false,
+    model: {},
   };
 
   setParams() {

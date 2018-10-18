@@ -57,7 +57,6 @@ class License extends Component {
         closeOnEsc
         onHide={this.props.hideLicenseModal}
         width="60%"
-        height="45em"
       >
         {isPending && <ActivityContainer id="license-load" />}
         <LicenseForm

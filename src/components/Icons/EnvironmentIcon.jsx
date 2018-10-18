@@ -7,7 +7,7 @@ const EnvironmentIconStyle = styled(FontIcon)`
   font-size: ${props => `${props.size}px !important`};
 `;
 
-const EnvironmentIcon = ({ size, ...rest }) => <EnvironmentIconStyle size={size} {...rest}>folder_open</EnvironmentIconStyle>;
+const EnvironmentIcon = ({ size, ...rest }) => <EnvironmentIconStyle size={size} {...rest}>subscriptions</EnvironmentIconStyle>;
 
 EnvironmentIcon.propTypes = {
   size: PropTypes.number

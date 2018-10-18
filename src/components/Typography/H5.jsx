@@ -1,10 +1,10 @@
 import styled, { withTheme } from 'styled-components';
 
-const H5Style = styled.h5`
-  font-size: 13px;
+const H4Style = styled.h5`
+  font-size: 12px;
   font-weight: 400;
-  line-height: 14px;
+  line-height: 16px;
   color: ${props => props.theme.colors['$md-grey-900']};
 `;
 
-export default withTheme(H5Style);
+export default withTheme(H4Style);

@@ -7,7 +7,7 @@ const WorkspaceIconStyle = styled(FontIcon)`
   font-size: ${props => `${props.size}px !important`};
 `;
 
-const WorkspaceIcon = ({ size, ...rest }) => <WorkspaceIconStyle size={size} {...rest}>dvr</WorkspaceIconStyle>;
+const WorkspaceIcon = ({ size, ...rest }) => <WorkspaceIconStyle size={size} {...rest}>widgets</WorkspaceIconStyle>;
 
 WorkspaceIcon.propTypes = {
   size: PropTypes.number

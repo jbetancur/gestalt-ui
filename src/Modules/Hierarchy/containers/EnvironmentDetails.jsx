@@ -1,14 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
+import Label from 'components/Label';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
-import withContext from '../hocs/withContext';
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
@@ -38,34 +44,51 @@ class EnvironmentDetails extends PureComponent {
     }, name, 'Environment');
   }
 
-  renderActions() {
+  renderMenuItems() {
     const { match } = this.props;
 
+    return [
+      {
+        id: 'environment-menu-entitlements',
+        key: 'environment-menu-entitlements',
+        primaryText: 'Entitlements',
+        leftIcon: <EntitlementIcon size={20} />,
+        onClick: this.showEntitlements,
+      },
+      {
+        id: 'environment-menu-edit',
+        key: 'environment-menu-edit',
+        primaryText: 'Edit',
+        leftIcon: <FontIcon>edit</FontIcon>,
+        component: Link,
+        to: { pathname: `${match.url}/edit`, state: { modal: true } },
+      },
+      <Divider key="organization-menu-divider-1" />,
+      {
+        id: 'environment-menu-delete',
+        key: 'environment-menu-delete',
+        primaryText: 'Delete',
+        leftIcon: <DeleteIcon />,
+        onClick: this.delete,
+      }
+    ];
+  }
+
+  renderActions() {
     return (
-      <React.Fragment>
-        <Button
-          flat
-          iconChildren={<DeleteIcon />}
-          onClick={this.delete}
-        >
-          Delete
-        </Button>
-        <Button
-          flat
-          iconChildren="edit"
-          component={Link}
-          to={{ pathname: `${match.url}/edit`, state: { modal: true } }}
-        >
-          Edit
-        </Button>
-        <Button
-          flat
-          iconChildren={<EntitlementIcon size={20} />}
-          onClick={this.showEntitlements}
-        >
-          Entitlements
-        </Button>
-      </React.Fragment>
+      <MenuButton
+        id="environment--details--actions"
+        icon
+        primary
+        anchor={{
+          x: MenuButton.HorizontalAnchors.INNER_LEFT,
+          y: MenuButton.VerticalAnchors.BOTTOM,
+        }}
+        simplifiedMenu={false}
+        menuItems={this.renderMenuItems()}
+      >
+        more_vert
+      </MenuButton>
     );
   }
 
@@ -76,10 +99,14 @@ class EnvironmentDetails extends PureComponent {
     return (
       <React.Fragment>
         <ActionsToolbar
-          title={environment.description || environment.name}
+          title={(
+            <Title>
+              {environment.description || environment.name}
+              {this.renderActions()}
+            </Title>
+          )}
           titleIcon={<EnvironmentIcon />}
-          subtitle={`Environment Type: ${environmentType}`}
-          actions={this.renderActions()}
+          subtitle={<Label>{environmentType}</Label>}
         />
         <DetailsPane model={environment} />
       </React.Fragment>
@@ -88,7 +115,6 @@ class EnvironmentDetails extends PureComponent {
 }
 
 export default compose(
-  withContext(),
   withHierarchy,
   withEntitlements,
 )(EnvironmentDetails);

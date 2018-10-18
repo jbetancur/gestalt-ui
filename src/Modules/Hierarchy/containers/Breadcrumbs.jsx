@@ -30,7 +30,6 @@ const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
 
   ${props => props.isActive && css`
     color: ${props.theme.colors['$md-blue-500']};
-    font-weight: 500;
 
     i * {
       color: ${props.theme.colors['$md-blue-500']};

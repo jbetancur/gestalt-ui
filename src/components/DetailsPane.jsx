@@ -4,12 +4,12 @@ import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
 import Label from 'components/Label';
-import { H4 } from 'components/Typography';
+import { Caption, H5 } from 'components/Typography';
 import { StatusBubble } from 'components/Status';
 import { ClipboardButton } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const ContainsButtonsStyle = styled.div`
+const CopyUUIDButton = styled.div`
   button {
     margin-left: 6px;
     height: 22px;
@@ -25,6 +25,7 @@ const ContainsButtonsStyle = styled.div`
 
 const Content = styled.div`
   text-align: left;
+  padding: 0 8px 0 8px;
 `;
 
 const StatusStyle = styled.div`
@@ -38,48 +39,69 @@ const DetailPane = ({ model, ...props }) => {
     model.id ?
       <Content {...props}>
         <Row gutter={6}>
-          <Col flex={4} xs={12} sm={6} md={6}>
-            <ContainsButtonsStyle>
+          <Col flex={2} xs={6} sm={6} md={6}>
+            <StatusStyle>
+              <Label>Resource State</Label>
+              <StatusBubble status={getLastFromSplit(model.resource_state)} />
+            </StatusStyle>
+          </Col>
+
+          <Col flex={2} xs={6} sm={6} md={6}>
+            <CopyUUIDButton>
               <Label>UUID</Label>
               <ClipboardButton
                 showLabel={false}
                 text={model.id}
                 tooltipLabel="Copy uuid to clipboard"
               />
-              <H4>{model.id}</H4>
-            </ContainsButtonsStyle>
-            <div>
-              <Label>Owner</Label>
-              <H4>{owner}</H4>
-            </div>
+              <H5>{model.id}</H5>
+            </CopyUUIDButton>
           </Col>
 
-          <Col flex={4} xs={12} sm={6} md={6}>
+          <Col flex={2} xs={6} sm={6} md={6}>
+            <Label>Owner</Label>
+            <H5>{owner}</H5>
+          </Col>
+
+          <Col flex={2} xs={6} sm={6} md={6}>
             <div>
               <Label>Created</Label>
               {model.created.timestamp &&
-                <H4>
-                  <FormattedRelative value={model.created.timestamp} /> (<FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />)
-                </H4>}
-            </div>
-            <div>
-              <Label>Modified</Label>
-              {model.modified.timestamp &&
-                <H4>
-                  <FormattedRelative value={model.modified.timestamp} /> (<FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />)
-                </H4>}
+                <H5>
+                  <div>
+                    <div>
+                      <FormattedRelative value={model.created.timestamp} />
+                    </div>
+                    <Caption>
+                      <FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />
+                    </Caption>
+                  </div>
+                </H5>}
             </div>
           </Col>
 
-          <Col flex={4} xs={12} sm={6} md={6}>
+          <Col flex={2} xs={6} sm={6} md={6}>
+            <div>
+              <Label>Modified</Label>
+              {model.modified.timestamp &&
+                <H5>
+                  <div>
+                    <div>
+                      <FormattedRelative value={model.modified.timestamp} />
+                    </div>
+                    <Caption>
+                      <FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />
+                    </Caption>
+                  </div>
+                </H5>}
+            </div>
+          </Col>
+
+          <Col flex={2} xs={6} sm={6} md={6}>
             <div>
               <Label>Resource Type</Label>
-              <H4>{model.resource_type}</H4>
+              <H5>{model.resource_type}</H5>
             </div>
-            <StatusStyle>
-              <Label>Resource State</Label>
-              <StatusBubble status={getLastFromSplit(model.resource_state)} />
-            </StatusStyle>
           </Col>
         </Row>
       </Content> : null

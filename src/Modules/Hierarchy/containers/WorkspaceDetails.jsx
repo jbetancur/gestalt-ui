@@ -1,14 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
-import withContext from '../hocs/withContext';
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 class WorkspaceDetails extends PureComponent {
   static propTypes = {
@@ -38,34 +43,51 @@ class WorkspaceDetails extends PureComponent {
     }, name, 'Workspace');
   }
 
-  renderActions() {
+  renderMenuItems() {
     const { match } = this.props;
 
+    return [
+      {
+        id: 'workspace-menu-entitlements',
+        key: 'workspace-menu-entitlements',
+        primaryText: 'Entitlements',
+        leftIcon: <EntitlementIcon size={20} />,
+        onClick: this.showEntitlements,
+      },
+      {
+        id: 'workspace-menu-edit',
+        key: 'workspace-menu-edit',
+        primaryText: 'Edit',
+        leftIcon: <FontIcon>edit</FontIcon>,
+        component: Link,
+        to: { pathname: `${match.url}/edit`, state: { modal: true } },
+      },
+      <Divider key="workspace-menu-divider-1" />,
+      {
+        id: 'workspace-menu-delete',
+        key: 'workspace-menu-delete',
+        primaryText: 'Delete',
+        leftIcon: <DeleteIcon />,
+        onClick: this.delete,
+      }
+    ];
+  }
+
+  renderActions() {
     return (
-      <React.Fragment>
-        <Button
-          flat
-          iconChildren={<DeleteIcon />}
-          onClick={this.delete}
-        >
-          Delete
-        </Button>
-        <Button
-          flat
-          iconChildren="edit"
-          component={Link}
-          to={{ pathname: `${match.url}/edit`, state: { modal: true } }}
-        >
-          Edit
-        </Button>
-        <Button
-          flat
-          iconChildren={<EntitlementIcon size={20} />}
-          onClick={this.showEntitlements}
-        >
-          Entitlements
-        </Button>
-      </React.Fragment>
+      <MenuButton
+        id="workspace--details--actions"
+        icon
+        primary
+        anchor={{
+          x: MenuButton.HorizontalAnchors.INNER_LEFT,
+          y: MenuButton.VerticalAnchors.BOTTOM,
+        }}
+        simplifiedMenu={false}
+        menuItems={this.renderMenuItems()}
+      >
+        more_vert
+      </MenuButton>
     );
   }
 
@@ -75,9 +97,13 @@ class WorkspaceDetails extends PureComponent {
     return (
       <React.Fragment>
         <ActionsToolbar
-          title={workspace.description || workspace.name}
+          title={(
+            <Title>
+              {workspace.description || workspace.name}
+              {this.renderActions()}
+            </Title>
+          )}
           titleIcon={<WorkspaceIcon />}
-          actions={this.renderActions()}
         />
         <DetailsPane model={workspace} />
       </React.Fragment>
@@ -86,7 +112,6 @@ class WorkspaceDetails extends PureComponent {
 }
 
 export default compose(
-  withContext(),
   withHierarchy,
   withEntitlements,
 )(WorkspaceDetails);

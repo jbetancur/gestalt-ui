@@ -1,15 +1,21 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
+import Label from 'components/Label';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
-import withContext from '../hocs/withContext';
 import withSelf from '../../../App/hocs/withSelf';
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 class OrganizationDetails extends PureComponent {
   static propTypes = {
@@ -40,36 +46,53 @@ class OrganizationDetails extends PureComponent {
     }, name, 'Organization');
   }
 
-  renderActions() {
-    const { context: { organization }, match, self } = this.props;
+  renderMenuItems() {
+    const { match, context: { organization }, self } = this.props;
     const deleteDisabled = match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root';
 
+    return [
+      {
+        id: 'organization-menu-entitlements',
+        key: 'organization-menu-entitlements',
+        primaryText: 'Entitlements',
+        leftIcon: <EntitlementIcon size={20} />,
+        onClick: this.showEntitlements,
+      },
+      {
+        id: 'organization-menu-edit',
+        key: 'organization-menu-edit',
+        primaryText: 'Edit',
+        leftIcon: <FontIcon>edit</FontIcon>,
+        component: Link,
+        to: { pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } },
+      },
+      <Divider key="organization-menu-divider-1" />,
+      {
+        id: 'organization-menu-delete',
+        key: 'organization-menu-delete',
+        primaryText: 'Delete',
+        leftIcon: <DeleteIcon />,
+        onClick: this.delete,
+        disabled: deleteDisabled,
+      }
+    ];
+  }
+
+  renderActions() {
     return (
-      <React.Fragment>
-        <Button
-          flat
-          iconChildren={<DeleteIcon />}
-          onClick={this.delete}
-          disabled={deleteDisabled}
-        >
-          Delete
-        </Button>
-        <Button
-          flat
-          iconChildren="edit"
-          component={Link}
-          to={{ pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } }}
-        >
-          Edit
-        </Button>
-        <Button
-          flat
-          iconChildren={<EntitlementIcon size={20} />}
-          onClick={this.showEntitlements}
-        >
-          Entitlements
-        </Button>
-      </React.Fragment>
+      <MenuButton
+        id="org--details--actions"
+        icon
+        primary
+        anchor={{
+          x: MenuButton.HorizontalAnchors.INNER_LEFT,
+          y: MenuButton.VerticalAnchors.BOTTOM,
+        }}
+        simplifiedMenu={false}
+        menuItems={this.renderMenuItems()}
+      >
+        more_vert
+      </MenuButton>
     );
   }
 
@@ -79,10 +102,14 @@ class OrganizationDetails extends PureComponent {
     return (
       <React.Fragment>
         <ActionsToolbar
-          title={organization.description || organization.name}
-          subtitle={`FQON: ${organization.properties.fqon}`}
+          title={(
+            <Title>
+              {organization.description || organization.name}
+              {this.renderActions()}
+            </Title>
+          )}
+          subtitle={<Label>{organization.properties.fqon}</Label>}
           titleIcon={<OrganizationIcon />}
-          actions={this.renderActions()}
         />
         <DetailsPane model={organization} />
       </React.Fragment>
@@ -92,7 +119,6 @@ class OrganizationDetails extends PureComponent {
 
 export default compose(
   withSelf,
-  withContext(),
   withHierarchy,
   withEntitlements,
 )(OrganizationDetails);

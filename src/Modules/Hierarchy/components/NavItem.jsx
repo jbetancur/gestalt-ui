@@ -19,7 +19,7 @@ const ListItem = styled.li`
     background-color: ${props => props.theme.colors['$md-grey-200']};
 
     .nav-on-menu-hover {
-     display: flex;
+      display: flex;
     }
   }
 `;

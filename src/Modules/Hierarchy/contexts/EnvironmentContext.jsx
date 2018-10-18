@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import EnvironmentRoutes from '../routes/EnvironmentRoutes';
-import ContextHeader from '../containers/ContextHeader';
+import ContextNavigation from '../containers/ContextNavigation';
 import withContext from '../hocs/withContext';
 
 class EnvironmentContext extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
     contextActions: PropTypes.object.isRequired,
   };
 
@@ -44,7 +43,7 @@ class EnvironmentContext extends Component {
   render() {
     return (
       <Div paddingBottom="56px">
-        <ContextHeader {...this.props} />
+        <ContextNavigation {...this.props} />
         <EnvironmentRoutes />
       </Div>
     );

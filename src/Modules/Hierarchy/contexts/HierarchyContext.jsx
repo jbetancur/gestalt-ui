@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Div from 'components/Div';
 import HierarchyRoutes from '../routes/HierarchyRoutes';
-import ContextHeader from '../containers/ContextHeader';
+import ContextNavigation from '../containers/ContextNavigation';
 import withContext from '../hocs/withContext';
 
 class HierarchyContext extends PureComponent {
   static propTypes = {
-    context: PropTypes.object.isRequired,
-    contextPending: PropTypes.bool.isRequired,
+    match: PropTypes.object.isRequired,
     contextActions: PropTypes.object.isRequired,
   };
 
@@ -30,7 +29,7 @@ class HierarchyContext extends PureComponent {
   render() {
     return (
       <Div paddingBottom="56px">
-        <ContextHeader {...this.props} />
+        <ContextNavigation />
         <HierarchyRoutes />
       </Div>
     );
