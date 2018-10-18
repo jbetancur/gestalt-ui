@@ -15,16 +15,18 @@ import withContext from '../hocs/withContext';
 import withApp from '../../../App/hocs/withApp';
 
 const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {...rest} />)`
-  /* left: ${props => (props.isExpanded ? props.width : props.miniWidth)};
+  /*
+  left: ${props => (props.isExpanded ? props.width : props.miniWidth)};
   right: 0;
   transition-property: left;
   transition-duration: ${props => (props.isExpanded ? '225ms' : '195ms')};
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   transition-delay: 0ms;
-  will-change: transform; */
+  will-change: transform;
+  */
+
   position: relative;
   width: 100%;
-  left: ${props => (props.isExpanded ? props.width : props.miniWidth)};
   right: 0;
   transition-property: left;
   transition-duration: ${props => (props.isExpanded ? '225ms' : '195ms')};
