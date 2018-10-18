@@ -105,7 +105,7 @@ class WorkspaceDetails extends PureComponent {
           )}
           titleIcon={<WorkspaceIcon />}
         />
-        <DetailsPane model={workspace} />
+        <DetailsPane model={workspace} singleRow />
       </React.Fragment>
     );
   }

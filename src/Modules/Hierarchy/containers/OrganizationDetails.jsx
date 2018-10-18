@@ -111,7 +111,7 @@ class OrganizationDetails extends PureComponent {
           subtitle={<Label>{organization.properties.fqon}</Label>}
           titleIcon={<OrganizationIcon />}
         />
-        <DetailsPane model={organization} />
+        <DetailsPane model={organization} singleRow />
       </React.Fragment>
     );
   }

@@ -32,21 +32,27 @@ const StatusStyle = styled.div`
   display: inline-block;
 `;
 
-const DetailPane = ({ model, ...props }) => {
+const DetailPane = ({ model, singleRow }) => {
   const owner = (model.owner && model.owner.name) || (model.owner && model.owner.id);
+  const flex = singleRow ? 2 : 4;
 
   return (
     model.id ?
-      <Content {...props}>
-        <Row gutter={6}>
-          <Col flex={2} xs={6} sm={6} md={6}>
+      <Content>
+        <Row gutter={5}>
+          <Col flex={flex} xs={6}>
             <StatusStyle>
               <Label>Resource State</Label>
               <StatusBubble status={getLastFromSplit(model.resource_state)} />
             </StatusStyle>
           </Col>
 
-          <Col flex={2} xs={6} sm={6} md={6}>
+          <Col flex={flex} xs={6}>
+            <Label>Resource Type</Label>
+            <H5>{model.resource_type}</H5>
+          </Col>
+
+          <Col flex={flex} xs={6}>
             <CopyUUIDButton>
               <Label>UUID</Label>
               <ClipboardButton
@@ -58,51 +64,39 @@ const DetailPane = ({ model, ...props }) => {
             </CopyUUIDButton>
           </Col>
 
-          <Col flex={2} xs={6} sm={6} md={6}>
+          <Col flex={flex} xs={6}>
             <Label>Owner</Label>
             <H5>{owner}</H5>
           </Col>
 
-          <Col flex={2} xs={6} sm={6} md={6}>
-            <div>
-              <Label>Created</Label>
-              {model.created.timestamp &&
-                <H5>
+          <Col flex={flex} xs={6}>
+            <Label>Created</Label>
+            {model.created.timestamp &&
+              <H5>
+                <div>
                   <div>
-                    <div>
-                      <FormattedRelative value={model.created.timestamp} />
-                    </div>
-                    <Caption>
-                      <FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />
-                    </Caption>
+                    <FormattedRelative value={model.created.timestamp} />
                   </div>
-                </H5>}
-            </div>
+                  <Caption>
+                    <FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />
+                  </Caption>
+                </div>
+              </H5>}
           </Col>
 
-          <Col flex={2} xs={6} sm={6} md={6}>
-            <div>
-              <Label>Modified</Label>
-              {model.modified.timestamp &&
-                <H5>
-                  <div>
-                    <div>
-                      <FormattedRelative value={model.modified.timestamp} />
-                    </div>
-                    <Caption>
-                      <FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />
-                    </Caption>
-                  </div>
-                </H5>}
-            </div>
+          <Col flex={flex} xs={6}>
+            <Label>Modified</Label>
+            {model.modified.timestamp &&
+              <H5>
+                <div>
+                  <FormattedRelative value={model.modified.timestamp} />
+                </div>
+                <Caption>
+                  <FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />
+                </Caption>
+              </H5>}
           </Col>
 
-          <Col flex={2} xs={6} sm={6} md={6}>
-            <div>
-              <Label>Resource Type</Label>
-              <H5>{model.resource_type}</H5>
-            </div>
-          </Col>
         </Row>
       </Content> : null
   );
@@ -110,10 +104,12 @@ const DetailPane = ({ model, ...props }) => {
 
 DetailPane.propTypes = {
   model: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  singleRow: PropTypes.bool,
 };
 
 DetailPane.defaultProps = {
   model: {},
+  singleRow: false,
 };
 
 export default DetailPane;

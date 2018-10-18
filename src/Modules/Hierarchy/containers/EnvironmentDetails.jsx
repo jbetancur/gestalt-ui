@@ -108,7 +108,7 @@ class EnvironmentDetails extends PureComponent {
           titleIcon={<EnvironmentIcon />}
           subtitle={<Label>{environmentType}</Label>}
         />
-        <DetailsPane model={environment} />
+        <DetailsPane model={environment} singleRow />
       </React.Fragment>
     );
   }
