@@ -7,7 +7,7 @@ import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { Notifications } from 'Modules/Notifications';
-import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
+import { Navigation, ContextNavigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { OrganizationMenu } from 'Modules/NavigationMenus';
@@ -32,10 +32,12 @@ const AppWrapper = styled.div`
 `;
 
 const Main = styled.main`
+  position: relative;
   overflow-y: scroll;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding-bottom: 56px;
 `;
 
 class App extends Component {
@@ -44,15 +46,11 @@ class App extends Component {
     selfActions: PropTypes.object.isRequired,
     licenseActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    selfPending: PropTypes.bool.isRequired,
-    self: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    browser: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
-  };
-
-  state = {
-    open: JSON.parse((localStorage.getItem('gf-pinned-nav'))),
+    browser: PropTypes.object.isRequired,
+    self: PropTypes.object.isRequired,
+    selfPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -94,19 +92,15 @@ class App extends Component {
     history.replace('/login');
   }
 
-  handlePinNav = () => {
-    this.setState(({ open }) => {
-      localStorage.setItem('gf-pinned-nav', !open);
-
-      return ({
-        open: !open,
-      });
-    });
-  }
-
   renderMain() {
-    const { self, licenseActions, browser, location } = this.props;
-    const { open } = this.state;
+    const {
+      self,
+      licenseActions,
+      browser,
+      location,
+      appActions: { toggleNavigation },
+      appState: { navigationExpanded },
+    } = this.props;
 
     if (!self.id) {
       return <AppError onLogout={this.logout} {...this.props} />;
@@ -132,11 +126,15 @@ class App extends Component {
         {/* Address blocked updates issue: https://github.com/reduxjs/react-redux/blob/master/docs/troubleshooting.md#my-views-arent-updating-when-something-changes-outside-of-redux */}
         <Navigation
           location={location}
-          open={open}
+          open={navigationExpanded}
           width="200px"
-          onOpen={this.handlePinNav}
+          onOpen={toggleNavigation}
         />
-        <Main open={open}>
+        <Main>
+          <div>
+            <ContextNavigation />
+          </div>
+
           <ContextRoutes />
         </Main>
       </AppWrapper>

@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import Div from 'components/Div';
 import WorkspaceRoutes from '../routes/WorkspaceRoutes';
-import ContextNavigation from '../containers/ContextNavigation';
 import withContext from '../hocs/withContext';
 
 class WorkspaceContext extends PureComponent {
@@ -39,12 +37,7 @@ class WorkspaceContext extends PureComponent {
   }
 
   render() {
-    return (
-      <Div paddingBottom="56px">
-        <ContextNavigation {...this.props} />
-        <WorkspaceRoutes />
-      </Div>
-    );
+    return <WorkspaceRoutes />;
   }
 }
 

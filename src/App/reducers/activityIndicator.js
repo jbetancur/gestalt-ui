@@ -1,6 +1,6 @@
 import {
   APP_HTTP_REQUEST,
-} from '../actionTypes';
+} from '../constants';
 
 const initialState = {
   activity: false,

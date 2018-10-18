@@ -62,7 +62,6 @@ const Wrapper = styled.div`
 class Breadcrumbs extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
     contextActions: PropTypes.object.isRequired,
     sortedOrganizations: PropTypes.array.isRequired,
@@ -194,11 +193,11 @@ class Breadcrumbs extends PureComponent {
 
   render() {
     const {
-      match,
       size,
       isActive,
       contextPending,
       context: {
+        contextMeta,
         organization,
         workspace,
         environment,
@@ -208,15 +207,15 @@ class Breadcrumbs extends PureComponent {
     const parentOrgRoute = `/${organization.org.properties.fqon}/hierarchy`;
     const orgsRoute = `/${organization.properties.fqon}/hierarchy`;
     const workspaceRoute = `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`;
-    const environmentRoute = `${match.url}`;
+    const environmentRoute = `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environment/${environment.id}`;
     const orgNavDisabled = organization.properties.fqon === 'root';
     const orgName = organization.description || organization.name;
     const workspaceName = workspace.description || workspace.name;
     const environmentName = environment.description || environment.name;
     // we use the url match.params so the transition is faster - otherwise we have a lag ahile the state is fetched
-    const isWorkspaceCtx = workspace.id && match.params.workspaceId;
-    const isEnvironmentCtx = environment.id && match.params.environmentId;
-    const isOrgContext = !workspace.id && !environment.id && !match.params.workspaceId && !match.params.environmentId;
+    const isWorkspaceCtx = workspace.id && contextMeta.workspaceId;
+    const isEnvironmentCtx = environment.id && contextMeta.environmentId;
+    const isOrgContext = !workspace.id && !environment.id && !contextMeta.workspaceId && !contextMeta.environmentId;
 
     return (
       <Wrapper size={size} isActive={isActive}>

@@ -17,6 +17,7 @@ export default function withhApp(BaseComponent) {
       appState: {
         activityIndicator: app.activityIndicator.activity,
         enableExperimental: app.showExperimental.enabled,
+        navigationExpanded: app.navigation.expanded,
       }
     };
   }

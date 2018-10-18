@@ -41,7 +41,7 @@ import iconMap from '../config/iconMap';
 //   }
 // `;
 
-const NavbarContainer = styled.div`
+const NavbarContainer = styled.nav`
   background-color: transparent;
   position: relative;
   flex: 0 0 auto;

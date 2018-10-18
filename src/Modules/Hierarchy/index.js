@@ -1,3 +1,4 @@
+export { default as ContextNavigation } from './containers/ContextNavigation';
 export { default as Navigation } from './containers/Navigation';
 export { default as ContextRoutes } from './routes/ContextRoutes';
 export { default as HierarchyContext } from './contexts/HierarchyContext';

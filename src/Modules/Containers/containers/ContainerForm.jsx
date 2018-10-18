@@ -33,8 +33,8 @@ class ContainerForm extends Component {
     editMode: PropTypes.bool,
     inlineMode: PropTypes.bool,
     selectedProvider: PropTypes.object.isRequired,
-    secrets: PropTypes.array.isRequired,
-    volumes: PropTypes.array.isRequired,
+    secrets: PropTypes.array,
+    volumes: PropTypes.array,
     providers: PropTypes.array.isRequired,
   };
 
@@ -44,6 +44,8 @@ class ContainerForm extends Component {
     submitting: false,
     inlineMode: false,
     formName: '',
+    secrets: [],
+    volumes: [],
   };
 
   render() {

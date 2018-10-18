@@ -1,17 +1,19 @@
 import {
-  SHOW_EXPERIMENTAL,
+  TOGGLE_NAVIGATION,
 } from '../constants';
 
 const initialState = {
-  enabled: false,
+  expanded: JSON.parse((localStorage.getItem('gf-pinned-nav'))),
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SHOW_EXPERIMENTAL:
+    case TOGGLE_NAVIGATION:
+      localStorage.setItem('gf-pinned-nav', !state.expanded);
+
       return {
         ...state,
-        enabled: action.state
+        expanded: !state.expanded,
       };
     default:
       return state;
