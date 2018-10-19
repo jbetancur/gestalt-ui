@@ -7735,9 +7735,9 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-md@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.7.1.tgz#ade5d84441ed77f3e492c92ced90fa0f39b5ec01"
+react-md@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/react-md/-/react-md-1.8.0.tgz#c5d740fd36b048da2cc1798fe8f75bdf1d892f3d"
   dependencies:
     classnames "^2.2.5"
     prop-types "15.6.0"
