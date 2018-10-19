@@ -132,6 +132,7 @@ class LambdaForm extends Component {
                         component={SelectField}
                         name="properties.runtime"
                         menuItems={this.generateMenuItems()}
+                        listHeightRestricted={false}
                         required
                         label="Runtime"
                         async

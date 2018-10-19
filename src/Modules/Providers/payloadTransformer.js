@@ -36,7 +36,6 @@ export function generateProviderPayload(sourcePayload, hasContainer, patchMode) 
   // patch the temp prop and re-encode
   if (patchMode && properties.tempData) {
     payload.properties.data = base64.encode(properties.tempData);
-    // console.log(payload.properties.data);
   }
 
   if (hasContainer) {

@@ -3,7 +3,7 @@ import {
 } from '../constants';
 
 const initialState = {
-  expanded: JSON.parse((localStorage.getItem('gf-pinned-nav'))),
+  expanded: JSON.parse((localStorage.getItem('gf-pinned-nav'))) || false,
 };
 
 export default (state = initialState, action) => {
