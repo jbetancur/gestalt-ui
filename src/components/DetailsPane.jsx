@@ -12,13 +12,13 @@ import { getLastFromSplit } from 'util/helpers/strings';
 const CopyUUIDButton = styled.div`
   button {
     margin-left: 6px;
-    height: 22px;
-    width: 22px;
+    height: 16px;
+    width: 15px;
     padding: 1px;
     border-radius: none;
 
     i {
-      font-size: 18px;
+      font-size: 16px !important;
     }
   }
 `;

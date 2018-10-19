@@ -127,7 +127,6 @@ class App extends Component {
         <Navigation
           location={location}
           open={navigationExpanded}
-          width="200px"
           onOpen={toggleNavigation}
         />
         <Main>
