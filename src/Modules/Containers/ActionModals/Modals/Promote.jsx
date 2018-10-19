@@ -3,26 +3,14 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { DialogContainer, SelectField } from 'react-md';
 import actions from '../actions';
 import withContext from '../../../Hierarchy/hocs/withContext';
 
-const EnhancedDialog = styled(DialogContainer)`
-  .md-dialog {
-    min-width: 24em;
-  }
-
-  /* Fix Scrolling issue in dialogs with drop downs */
-  .md-dialog-content {
-    overflow: visible;
-  }
-`;
-
 class PromoteModal extends PureComponent {
   static propTypes = {
-    actionsModal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     onProceed: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
@@ -30,11 +18,7 @@ class PromoteModal extends PureComponent {
     context: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { environment: '' };
-  }
+  state = { environment: '' };
 
   doIt = () => {
     const { context: { environments }, onProceed, hideModal } = this.props;
@@ -43,37 +27,39 @@ class PromoteModal extends PureComponent {
     hideModal();
   }
 
-  environmentChanged = (value) => {
-    this.setState({ environment: value });
+  environmentChanged = (environment) => {
+    this.setState({ environment });
   }
 
   render() {
-    const { context: { environments } } = this.props;
+    const { match, context: { environments }, visible, hideModal, title } = this.props;
+    const { environment } = this.state;
 
     const environmentsList = environments
-      .filter(environment => environment.id !== this.props.match.params.environmentId)
-      .map(environment => ({ id: environment.id, name: environment.description || environment.name }));
+      .filter(e => e.id !== match.params.environmentId)
+      .map(e => ({ id: e.id, name: e.description || e.name }));
 
     return (
-      <EnhancedDialog
+      <DialogContainer
         id="container-actions-modal"
-        visible={this.props.actionsModal.visible}
-        title={this.props.title}
+        visible={visible}
+        title={title}
         modal={false}
+        width="24em"
         closeOnEsc
         defaultVisibleTransitionable
         autosizeContent={false}
-        onHide={this.props.hideModal}
+        onHide={hideModal}
         actions={[
           {
-            onClick: this.props.hideModal,
+            onClick: hideModal,
             label: 'Cancel',
           },
           {
             onClick: this.doIt,
             primary: true,
             label: 'Promote',
-            disabled: !this.state.environment,
+            disabled: !environment,
           }]}
       >
         {environmentsList.length > 0 ?
@@ -84,30 +70,28 @@ class PromoteModal extends PureComponent {
                 label="Promote to Environment"
                 lineDirection="center"
                 menuItems={environmentsList}
+                simplifiedMenu={false}
                 itemLabel="name"
                 itemValue="id"
-                value={this.state.environment}
+                value={environment}
                 onChange={this.environmentChanged}
                 required
                 fullWidth
               />
             </Col>
           </Row> : <span>There are no available environments to promote to</span>}
-      </EnhancedDialog>
+      </DialogContainer>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    actionsModal: state.containers.actionsModals,
-    environments: state.hierarchy.environments.environments,
-    environmentsPending: state.hierarchy.environments.pending,
-  };
-}
+const mapStateToProps = ({ hierarchy }) => ({
+  environments: hierarchy.environments.environments,
+  environmentsPending: hierarchy.environments.pending,
+});
 
 export default compose(
-  withContext({ unload: true }),
+  withContext(),
   withRouter,
   connect(mapStateToProps, actions),
 )(PromoteModal);

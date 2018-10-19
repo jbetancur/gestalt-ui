@@ -19,7 +19,7 @@ const initialValues = apiEndpointModel.get();
 
 class APIEndpointWizard extends PureComponent {
   static propTypes = {
-    modal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     hideModal: PropTypes.func.isRequired,
     apisActions: PropTypes.object.isRequired,
     apiEndpointActions: PropTypes.object.isRequired,
@@ -80,13 +80,13 @@ class APIEndpointWizard extends PureComponent {
   }
 
   render() {
-    const { apis, implementationId, implementationType, portMappings, apiEndpointPending, hideModal } = this.props;
+    const { visible, apis, implementationId, implementationType, portMappings, apiEndpointPending, hideModal } = this.props;
 
     return (
       <DialogContainer
         id="context-form-dialog"
         title="Map API Endpoint"
-        visible={this.props.modal.visible}
+        visible={visible}
         onHide={this.props.hideModal}
         width="60em"
         actions={null}

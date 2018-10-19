@@ -47,7 +47,7 @@ const ListRow = styled(Row)`
 
 class ReparentModal extends PureComponent {
   static propTypes = {
-    modal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     onProceed: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
@@ -70,22 +70,25 @@ class ReparentModal extends PureComponent {
   };
 
   close = () => {
-    this.props.hideModal();
-    if (this.props.onClose) {
-      this.props.onClose();
+    const { hideModal, onClose } = this.props;
+    hideModal();
+
+    if (onClose) {
+      onClose();
     }
   }
 
   doIt = () => {
+    const { onProceed, hideModal } = this.props;
     const { force, reparent, reparentTargetValue } = this.state;
 
     if (reparent) {
-      this.props.onProceed({ force: true, parent: reparentTargetValue });
+      onProceed({ force: true, parent: reparentTargetValue });
     } else {
-      this.props.onProceed({ force });
+      onProceed({ force });
     }
 
-    this.props.hideModal();
+    hideModal();
   }
 
   handleForceChecked = () => {
@@ -130,7 +133,7 @@ class ReparentModal extends PureComponent {
   }
 
   render() {
-    const { title, modal, multipleItems } = this.props;
+    const { visible, title, multipleItems } = this.props;
     const { entity, reparent, reparentTargetName } = this.state;
     const items = multipleItems.map((item, i) => (
       <ListItem key={i} inkDisabled primaryText={item} />
@@ -140,7 +143,7 @@ class ReparentModal extends PureComponent {
       <EnhancedDialog
         id="confirmation-modal"
         contentStyle={{ maxHeight: '30em', overflow: 'visible' }}
-        visible={modal.visible}
+        visible={visible}
         title={title}
         defaultVisibleTransitionable
         onHide={this.close}
@@ -204,21 +207,13 @@ class ReparentModal extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    modal: state.modal
-  };
-}
-
-function actions(dispatch) {
-  return {
-    hideModal: () => {
-      dispatch({ type: 'HIDE_MODAL' });
-    }
-  };
-}
+const actions = dispatch => ({
+  hideModal: () => {
+    dispatch({ type: 'HIDE_MODAL' });
+  }
+});
 
 export default compose(
   withTheme,
-  connect(mapStateToProps, actions),
+  connect(null, actions),
 )(ReparentModal);

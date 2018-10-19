@@ -12,19 +12,6 @@ const ForceSection = styled.div`
   left: 0;
 `;
 
-const EnhancedDialog = styled(DialogContainer)`
-  .md-dialog {
-    width: 100%;
-    max-width: 28em;
-    word-wrap: break-word;
-  }
-
-  .md-dialog-footer--inline {
-    position: relative;
-    align-items: center;
-  }
-`;
-
 const ListRow = styled.div`
   max-height: 12em;
   overflow: scroll;
@@ -44,7 +31,7 @@ const ListRow = styled.div`
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
-    modal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     onProceed: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
@@ -70,11 +57,7 @@ class ConfirmModal extends PureComponent {
     forceOption: true,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { confirmName: '', disable: true, force: false, };
-  }
+  state = { confirmName: '', disable: true, force: false, };
 
   setConfirmName = (confirmName) => {
     this.setState({ confirmName }, () => {
@@ -87,16 +70,21 @@ class ConfirmModal extends PureComponent {
   }
 
   close = () => {
-    this.props.hideModal();
-    if (this.props.onClose) {
-      this.props.onClose();
+    const { onClose, hideModal } = this.props;
+
+    hideModal();
+
+    if (onClose) {
+      onClose();
     }
   }
 
   doIt = () => {
+    const { onProceed, hideModal } = this.props;
+
     const { force } = this.state;
-    this.props.onProceed({ force });
-    this.props.hideModal();
+    onProceed({ force });
+    hideModal();
   }
 
   handleForceChecked = () => {
@@ -120,7 +108,7 @@ class ConfirmModal extends PureComponent {
 
   render() {
     const { force } = this.state;
-    const { title, body, modal, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
+    const { visible, title, body, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
     const isConfirmDisabled = requireConfirm && this.state.disable;
     const confirmLabel = `Type in the name of the ${values.type} to confirm`;
     const items = multipleItems.map((item, i) => (
@@ -149,10 +137,11 @@ class ConfirmModal extends PureComponent {
     const modalTitle = multipleItems.length > 1 ? `${title} (${multipleItems.length})` : title;
 
     return (
-      <EnhancedDialog
+      <DialogContainer
         id="confirmation-modal"
+        width="30em"
         contentStyle={{ maxHeight: '25em' }}
-        visible={modal.visible}
+        visible={visible}
         title={modalTitle}
         defaultVisibleTransitionable
         onHide={this.close}
@@ -167,23 +156,15 @@ class ConfirmModal extends PureComponent {
             <List>{items}</List>
           </ListRow>}
         </div>
-      </EnhancedDialog>
+      </DialogContainer>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    modal: state.modal
-  };
-}
+const actions = dispatch => ({
+  hideModal: () => {
+    dispatch({ type: 'HIDE_MODAL' });
+  }
+});
 
-function actions(dispatch) {
-  return {
-    hideModal: () => {
-      dispatch({ type: 'HIDE_MODAL' });
-    }
-  };
-}
-
-export default connect(mapStateToProps, actions)(ConfirmModal);
+export default connect(null, actions)(ConfirmModal);

@@ -10,7 +10,7 @@ import actions from '../actions';
 
 class VolumeCreateModal extends PureComponent {
   static propTypes = {
-    modal: PropTypes.object.isRequired,
+    visiable: PropTypes.bool.isRequired,
     hideModal: PropTypes.func.isRequired,
     addVolume: PropTypes.func.isRequired
   };
@@ -23,16 +23,15 @@ class VolumeCreateModal extends PureComponent {
   }
 
   renderForm() {
-    const { modal, hideModal, ...rest } = this.props;
-    const { modalProps } = modal;
+    const { modal, hideModal, selectedProvider, mode, volumes, ...rest } = this.props;
 
-    return modal.modalProps.mode.value === 'attach'
-      ? <VolumePanelAttach onSubmit={this.handleSubmit} attachedVolumes={modalProps.volumes} providerId={modalProps.selectedProvider.provider.id} {...rest} />
-      : <VolumePanelCreate onSubmit={this.handleSubmit} selectedProvider={modalProps.selectedProvider} {...rest} />;
+    return mode.value === 'attach'
+      ? <VolumePanelAttach onSubmit={this.handleSubmit} attachedVolumes={volumes} providerId={selectedProvider.provider.id} {...rest} />
+      : <VolumePanelCreate onSubmit={this.handleSubmit} selectedProvider={selectedProvider} {...rest} />;
   }
 
   render() {
-    const { modal, hideModal } = this.props;
+    const { visible, mode, hideModal } = this.props;
     const modalActions = [
       <Button
         key="add-container-volume--cancel"
@@ -53,9 +52,9 @@ class VolumeCreateModal extends PureComponent {
 
     return (
       <DialogContainer
-        id="context-form-dialog"
-        title={`${modal.modalProps.mode.name} Volume`}
-        visible={modal.visible}
+        id="volume-form-dialog"
+        title={`${mode.name} Volume`}
+        visible={visible}
         onHide={hideModal}
         width="60em"
         defaultVisibleTransitionable
@@ -69,10 +68,6 @@ class VolumeCreateModal extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  modal: state.modal,
-});
-
 export default compose(
-  connect(mapStateToProps, actions),
+  connect(null, actions),
 )(VolumeCreateModal);

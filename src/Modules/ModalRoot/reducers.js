@@ -13,7 +13,11 @@ export default (state = initialState, action) => {
         modalProps: action.modalProps,
       };
     case 'HIDE_MODAL':
-      return initialState;
+      // we do not want to clear out all the state otherwise it breaks animations
+      return {
+        ...state,
+        visible: false,
+      };
     default:
       return state;
   }

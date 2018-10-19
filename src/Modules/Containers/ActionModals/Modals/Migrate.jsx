@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
 import { withMetaResource, withPickerData } from 'Modules/MetaResource';
@@ -10,20 +9,9 @@ import { DotActivity } from 'components/ProgressIndicators';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
 
-const EnhancedDialog = styled(DialogContainer)`
-  .md-dialog {
-    min-width: 29em;
-  }
-
-  /* Fix Scrolling issue in dialogs with drop downs */
-  .md-dialog-content {
-    overflow: visible;
-  }
-`;
-
 class MigrateModal extends PureComponent {
   static propTypes = {
-    actionsModal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     onProceed: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
@@ -32,15 +20,13 @@ class MigrateModal extends PureComponent {
     providersLoading: PropTypes.bool.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { provider: '' };
-  }
+  state = { provider: '' };
 
   doIt = () => {
-    this.props.onProceed(this.state.provider);
-    this.props.hideModal();
+    const { onProceed, hideModal } = this.props;
+
+    onProceed(this.state.provider);
+    hideModal();
   }
 
   providerChanged = (value) => {
@@ -48,35 +34,36 @@ class MigrateModal extends PureComponent {
   }
 
   render() {
-    const providers = this.props.providersData
-      .filter(provider => provider.id !== this.props.sourceProvider.id)
-      .map(provider => ({ id: provider.id, name: `${provider.name} (${getLastFromSplit(provider.resource_type)})` }));
+    const { title, providersData, providersLoading, sourceProvider, hideModal, visible } = this.props;
+    const { provider } = this.state;
+    const providers = providersData
+      .filter(p => p.id !== sourceProvider.id)
+      .map(p => ({ id: p.id, name: `${p.name} (${getLastFromSplit(p.resource_type)})` }));
 
     return (
-      <EnhancedDialog
-        id="container-actions-modal"
-        visible={this.props.actionsModal.visible}
-        title={this.props.title}
-        modal={false}
+      <DialogContainer
+        id="container-migrate-modal"
+        visible={visible}
+        title={title}
+        width="28em"
         closeOnEsc
         defaultVisibleTransitionable
-        autosizeContent={false}
-        onHide={this.props.hideModal}
+        onHide={hideModal}
         actions={[
           {
-            onClick: this.props.hideModal,
+            onClick: hideModal,
             label: 'Cancel',
           },
           {
             onClick: this.doIt,
             primary: true,
             label: 'Migrate',
-            disabled: !this.state.provider,
+            disabled: !provider,
           }]}
       >
-        {this.props.providersLoading ?
+        {providersLoading ?
           <DotActivity size={1} primary /> :
-          <div>
+          <React.Fragment>
             {providers.length ?
               <Row center>
                 <Col flex={12}>
@@ -87,26 +74,23 @@ class MigrateModal extends PureComponent {
                     menuItems={providers}
                     itemLabel="name"
                     itemValue="id"
-                    value={this.state.provider}
+                    value={provider}
                     onChange={this.providerChanged}
                     required
                     fullWidth
                     sameWidth
+                    simplifiedMenu={false}
                   />
                 </Col>
               </Row> : <span>There are no available providers to migrate to</span>}
-          </div>}
-      </EnhancedDialog>
+          </React.Fragment>}
+      </DialogContainer>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  actionsModal: state.containers.actionsModals,
-});
-
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withMetaResource,
-  connect(mapStateToProps, actions),
+  connect(null, actions),
 )(MigrateModal);

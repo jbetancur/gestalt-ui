@@ -41,7 +41,7 @@ const EnhancedDialog = styled(DialogContainer)`
 
 class ActionsModal extends PureComponent {
   static propTypes = {
-    modal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     onComplete: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
     body: PropTypes.string,
@@ -68,10 +68,11 @@ class ActionsModal extends PureComponent {
   }
 
   render() {
+    const { visible } = this.props;
     return (
       <EnhancedDialog
         id="confirmation-modal"
-        visible={this.props.modal.visible}
+        visible={visible}
         modal={false}
         autopadContent={false}
         closeOnEsc
@@ -104,14 +105,10 @@ class ActionsModal extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  modal: state.modal
-});
-
 const actions = dispatch => ({
   hideModal: () => {
     dispatch({ type: 'HIDE_MODAL' });
   }
 });
 
-export default connect(mapStateToProps, actions)(ActionsModal);
+export default connect(null, actions)(ActionsModal);

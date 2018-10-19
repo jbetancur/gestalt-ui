@@ -32,15 +32,15 @@ const ModalRoot = ({ modal }) => {
   }
 
   const SpecificModal = MODAL_COMPONENTS[modal.modalType];
-  return <SpecificModal {...modal.modalProps} />;
+  return <SpecificModal visible={modal.visible} {...modal.modalProps} />;
 };
 
 ModalRoot.propTypes = {
   modal: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  modal: state.modal,
+const mapStateToProps = ({ modal }) => ({
+  modal,
 });
 
 export default connect(mapStateToProps)(ModalRoot);

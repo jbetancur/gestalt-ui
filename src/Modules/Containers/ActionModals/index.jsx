@@ -13,23 +13,21 @@ const MODAL_COMPONENTS = {
   /* other modals */
 };
 
-const ModalRoot = (props) => {
-  if (!props.actionsModal.modalType) {
+const ModalRoot = ({ actionsModal }) => {
+  if (!actionsModal.modalType) {
     return null;
   }
 
-  const SpecificModal = MODAL_COMPONENTS[props.actionsModal.modalType];
-  return <SpecificModal {...props.actionsModal.modalProps} />;
+  const SpecificModal = MODAL_COMPONENTS[actionsModal.modalType];
+  return <SpecificModal visible={actionsModal.visible} {...actionsModal.modalProps} />;
 };
 
 ModalRoot.propTypes = {
   actionsModal: PropTypes.object.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    actionsModal: state.containers.actionsModals,
-  };
-}
+const mapStateToProps = ({ containers }) => ({
+  actionsModal: containers.actionsModals,
+});
 
 export default connect(mapStateToProps)(ModalRoot);

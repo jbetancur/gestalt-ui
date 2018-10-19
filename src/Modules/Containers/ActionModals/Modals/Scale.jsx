@@ -9,44 +9,45 @@ import actions from '../actions';
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
-    actionsModal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     onProceed: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     numInstances: PropTypes.number.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { numInstances: props.numInstances, maxInstances: 999 };
-  }
+  state = { numInstances: this.props.numInstances, maxInstances: 999 };
 
   doIt = () => {
-    this.props.onProceed(this.state.numInstances);
-    this.props.hideModal();
+    const { onProceed, hideModal } = this.props;
+    const { numInstances } = this.state;
+
+    onProceed(numInstances);
+    hideModal();
   }
 
-  scaleChanged = (value) => {
-    this.setState({ numInstances: value });
+  scaleChanged = (numInstances) => {
+    this.setState({ numInstances });
   }
 
   render() {
-    const isDisabled = !this.state.numInstances || this.state.numInstances > this.state.maxInstances;
+    const { visible, hideModal, title } = this.props;
+    const { numInstances, maxInstances } = this.state;
+    const isDisabled = !numInstances || numInstances > maxInstances;
 
     return (
       <DialogContainer
         id="container-actions-modal"
-        visible={this.props.actionsModal.visible}
-        title={this.props.title}
+        visible={visible}
+        title={title}
         modal={false}
         closeOnEsc
         defaultVisibleTransitionable
         autosizeContent={false}
-        onHide={this.props.hideModal}
+        onHide={hideModal}
         actions={[
           {
-            onClick: this.props.hideModal,
+            onClick: hideModal,
             label: 'Cancel',
           },
           {
@@ -63,9 +64,9 @@ class ConfirmModal extends PureComponent {
               label="Scale to"
               lineDirection="center"
               type="number"
-              value={this.state.numInstances}
+              value={numInstances}
               min={0}
-              max={this.state.maxInstances}
+              max={maxInstances}
               onChange={this.scaleChanged}
               required
               fullWidth

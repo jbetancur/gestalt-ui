@@ -88,7 +88,8 @@ class HierarchyForm extends Component {
         visible
         width="75em"
         actions={modalActions}
-        onHide={() => { }}
+        modal
+        defaultVisibleTransitionable
       >
         <Form id="hierarchy-context-form" onSubmit={handleSubmit} autoComplete="off">
           <Row gutter={5}>

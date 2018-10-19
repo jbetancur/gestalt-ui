@@ -42,6 +42,14 @@ const ECSConfig = ({ editMode, subTypes }) => (
         label="Task Role ARN"
       />
     </Col>
+    <Col flex={3} xs={12} sm={4} md={4}>
+      <Field
+        component={TextField}
+        name="properties.config.awsLogGroup"
+        label="AWS Log Group"
+      />
+    </Col>
+
     <Col flex={6} xs={12} sm={4} md={4}>
       <Field
         component={TextField}

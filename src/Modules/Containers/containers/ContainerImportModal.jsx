@@ -23,8 +23,8 @@ const initialValues = {
 
 class ContainerImportFormModal extends Component {
   static propTypes = {
+    visible: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    modal: PropTypes.object.isRequired,
     hideModal: PropTypes.func.isRequired,
     providersData: PropTypes.array.isRequired,
     containerActions: PropTypes.object.isRequired,
@@ -42,18 +42,20 @@ class ContainerImportFormModal extends Component {
   }
 
   render() {
+    const { visible, title, hideModal, containerImportPending, providersData } = this.props;
+
     return (
       <DialogContainer
         id="context-form-dialog"
-        title={this.props.title}
-        visible={this.props.modal.visible}
-        onHide={this.props.hideModal}
+        title={title}
+        visible={visible}
+        onHide={hideModal}
         actions={
           <React.Fragment>
             <Button
               flat
-              onClick={this.props.hideModal}
-              disabled={this.props.containerImportPending}
+              onClick={hideModal}
+              disabled={containerImportPending}
             >
               Cancel
             </Button>
@@ -62,7 +64,7 @@ class ContainerImportFormModal extends Component {
               primary
               flat
               onClick={() => document.getElementById('import-container-modal').dispatchEvent(new Event('submit', { cancelable: true }))}
-              disabled={this.props.containerImportPending}
+              disabled={containerImportPending}
             >
               Import
             </Button>
@@ -73,13 +75,13 @@ class ContainerImportFormModal extends Component {
         initialFocus="div"
         width="40em"
       >
-        {this.props.containerImportPending && <ActivityContainer primary centered id="container-imports--loading" />}
+        {containerImportPending && <ActivityContainer primary centered id="container-imports--loading" />}
         <Form
           initialValues={initialValues}
           render={ContainerImportForm}
           onSubmit={this.import}
-          providers={this.props.providersData}
-          pending={this.props.containerImportPending}
+          providers={providersData}
+          pending={containerImportPending}
         />
       </DialogContainer>
     );
@@ -92,12 +94,7 @@ const actions = dispatch => ({
   },
 });
 
-const mapStateToProps = state => ({
-  modal: state.modal,
-});
-
-
 export default compose(
-  connect(mapStateToProps, actions),
+  connect(null, actions),
   withContainer({ unload: false }),
 )(ContainerImportFormModal);

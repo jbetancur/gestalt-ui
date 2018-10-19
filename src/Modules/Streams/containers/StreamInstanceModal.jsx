@@ -7,7 +7,7 @@ import StreamInstance from '../components/StreamInstance';
 
 class StreamInstanceModal extends Component {
   static propTypes = {
-    modal: PropTypes.object.isRequired,
+    visible: PropTypes.bool.isRequired,
     hideModal: PropTypes.func.isRequired,
     fqon: PropTypes.string.isRequired,
     streamId: PropTypes.string.isRequired,
@@ -16,15 +16,15 @@ class StreamInstanceModal extends Component {
 
 
   render() {
-    const { fqon, streamId, persistenceId } = this.props;
+    const { visible, hideModal, fqon, streamId, persistenceId } = this.props;
 
     return (
       <DialogContainer
         id="context-form-dialog"
         title="View Stream"
-        visible={this.props.modal.visible}
-        onHide={this.props.hideModal}
-        actions={<Button flat primary onClick={this.props.hideModal}>Close</Button>}
+        visible={visible}
+        onHide={hideModal}
+        actions={<Button flat primary onClick={hideModal}>Close</Button>}
         defaultVisibleTransitionable
         initialFocus="div"
         autopadContent={false}
@@ -42,9 +42,5 @@ const actions = dispatch => ({
   },
 });
 
-const mapStateToProps = state => ({
-  modal: state.modal,
-});
 
-
-export default connect(mapStateToProps, actions)(StreamInstanceModal);
+export default connect(null, actions)(StreamInstanceModal);

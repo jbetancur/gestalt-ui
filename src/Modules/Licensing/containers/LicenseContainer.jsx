@@ -10,13 +10,13 @@ import actions from '../actions';
 
 class License extends Component {
   static propTypes = {
+    visible: PropTypes.bool.isRequired,
     fetchLicense: PropTypes.func.isRequired,
     updateLicense: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     updatedLicenseInfoPending: PropTypes.bool.isRequired,
     unloadLicense: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    modal: PropTypes.object.isRequired,
     hideLicenseModal: PropTypes.func.isRequired,
   };
 
@@ -46,16 +46,16 @@ class License extends Component {
   }
 
   render() {
-    const { pending, updatedLicenseInfoPending } = this.props;
+    const { visible, hideLicenseModal, pending, updatedLicenseInfoPending } = this.props;
     const isPending = pending || updatedLicenseInfoPending;
 
     return (
       <DialogContainer
         id="license-modal"
-        visible={this.props.modal.visible}
+        visible={visible}
         title="License"
         closeOnEsc
-        onHide={this.props.hideLicenseModal}
+        onHide={hideLicenseModal}
         width="60%"
       >
         {isPending && <ActivityContainer id="license-load" />}
@@ -84,7 +84,6 @@ function mapStateToProps(state) {
     pending: license.pending,
     licenseInfo: license.license,
     updatedLicenseInfoPending: state.licensing.licenseUpdate.pending,
-    modal: state.modal,
   };
 }
 
