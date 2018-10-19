@@ -42,7 +42,8 @@ const ECSConfig = ({ editMode, subTypes }) => (
         label="Task Role ARN"
       />
     </Col>
-    <Col flex={3} xs={12} sm={4} md={4}>
+
+    <Col flex={4} xs={12} sm={4} md={4}>
       <Field
         component={TextField}
         name="properties.config.awsLogGroup"
@@ -50,7 +51,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
       />
     </Col>
 
-    <Col flex={6} xs={12} sm={4} md={4}>
+    <Col flex={4} xs={12} sm={4} md={4}>
       <Field
         component={TextField}
         name="properties.config.secret_key"
@@ -60,7 +61,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
         helpText={editMode ? 'Enter a new value to update the secret key' : 'The secret key will not be displayed after creation'}
       />
     </Col>
-    <Col flex={6} xs={12} sm={4} md={4}>
+    <Col flex={4} xs={12} sm={4} md={4}>
       <Field
         component={TextField}
         name="properties.config.access_key"
