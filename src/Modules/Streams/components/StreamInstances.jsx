@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { compose } from 'redux';
-import { withProviderActions } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardTitle } from 'components/Cards';
 import { FormattedRelative, FormattedTime } from 'react-intl';
@@ -58,8 +57,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, o
                 icon
                 onActionComplete={onActionComplete}
                 model={stream}
-                actionList={providerActions.providerActions}
-                pending={providerActions.providerActionsLoading}
+                actionList={providerActions}
                 isChildResource
                 keyField="persistenceId"
                 parentKeyField="definitionId"
@@ -95,7 +93,7 @@ StreamInstances.propTypes = {
   fqon: PropTypes.string.isRequired,
   streamSpec: PropTypes.object.isRequired,
   streamInstances: PropTypes.array.isRequired,
-  providerActions: PropTypes.object.isRequired,
+  providerActions: PropTypes.array.isRequired,
   onActionComplete: PropTypes.func,
   showModal: PropTypes.func.isRequired,
 };
@@ -105,6 +103,5 @@ StreamInstances.defaultProps = {
 };
 
 export default compose(
-  withProviderActions({ filter: 'streamspec.instances' }),
   connect(null, actions)
 )(StreamInstances);

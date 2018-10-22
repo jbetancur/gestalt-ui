@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
-import { ActionsMenu } from 'Modules/Actions';
 import CreateMenu from './CreateMenu';
 import Breadcrumbs from './Breadcrumbs';
 import OrganizationDetails from './OrganizationDetails';
@@ -116,7 +115,6 @@ class ContextNavigation extends PureComponent {
     pendingContextActions: PropTypes.bool,
     actionsList: PropTypes.array,
     context: PropTypes.object.isRequired,
-    contextPending: PropTypes.bool.isRequired,
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     expandedHeight: PropTypes.string,
@@ -175,12 +173,7 @@ class ContextNavigation extends PureComponent {
 
   render() {
     const {
-      match,
-      pendingContextActions,
-      actionsList,
       contextPending,
-      context,
-      context: { contextMeta },
       appState: { navigationExpanded },
       width,
       miniWidth,
@@ -200,13 +193,6 @@ class ContextNavigation extends PureComponent {
           </Col>
 
           <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
-            <ActionsMenu
-              actionList={actionsList}
-              contextPending={pendingContextActions}
-              model={context[contextMeta.context]}
-              fqon={match.params.fqon}
-            />
-
             <CreateMenu {...this.props} />
           </Col>
 

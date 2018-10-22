@@ -30,10 +30,6 @@ class StreamList extends PureComponent {
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    this.populateStreams();
-  }
-
-  populateStreams() {
     const { match, streamSpecsActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
@@ -44,7 +40,6 @@ class StreamList extends PureComponent {
     const { match, streamSpecsActions } = this.props;
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.populateStreams();
     };
 
     this.props.confirmDelete(({ force }) => {
@@ -59,7 +54,6 @@ class StreamList extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.populateStreams();
     };
 
     this.props.confirmDelete(({ force }) => {

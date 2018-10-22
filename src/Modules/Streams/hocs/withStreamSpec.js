@@ -26,10 +26,17 @@ export default function withStreamSpec(BaseComponent) {
   const mapStateToProps = state => ({
     streamSpec: state.streamSpecs.streamSpec.streamSpec,
     streamSpecPending: state.streamSpecs.streamSpec.pending,
+    providers: state.streamSpecs.streamSpec.providers,
+    lambdas: state.streamSpecs.streamSpec.lambdas,
+    datafeeds: state.streamSpecs.streamSpec.datafeeds,
+    providerActions: state.streamSpecs.streamSpec.actions,
+    instanceProviderActions: state.streamSpecs.streamSpec.instanceActions,
   });
 
   const mapDispatchToProps = dispatch => ({
     streamSpecActions: bindActionCreators(Object.assign({},
+      createRequestAction(['init'], 'StreamSpecCreate'),
+      createRequestAction(['init'], 'StreamSpecEdit'),
       createRequestAction(['fetch', 'create', 'update', 'delete'], 'StreamSpec'),
     ), dispatch)
   });

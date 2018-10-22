@@ -7,9 +7,12 @@ import {
   generateDelete,
   generateDeleteMany,
 } from 'config/lib/sagaFactory';
+import streamFormWorkflows from './formWorkflows';
 
 export default function* streamSpecSagas() {
   yield all([
+    streamFormWorkflows(),
+
     yield takeLatest(...generateFetchAll({ name: 'STREAMSPECS', entity: 'streamspecs' })),
     yield takeLatest(...generateFetchOne({ name: 'STREAMSPEC', entity: 'streamspecs' })),
     yield takeLatest(...generateCreate({ name: 'STREAMSPEC', entity: 'streamspecs' })),

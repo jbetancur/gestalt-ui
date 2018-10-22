@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
-import { ActionsMenu } from 'Modules/Actions';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, actions, actionsPending }) => {
+const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL }) => {
   const handleDelete = () => {
     onDelete(row);
   };
@@ -56,13 +55,6 @@ const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, a
               leftIcon={<FontIcon>content_copy</FontIcon>}
             />
           </CopyToClipboard>
-          <ActionsMenu
-            icon
-            model={row}
-            actionList={actions}
-            pending={actionsPending}
-            fqon={fqon}
-          />
           <Divider />
           <ListItem primaryText="Delete" leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>} onClick={handleDelete} />
         </React.Fragment>
@@ -80,14 +72,10 @@ LambdaMenuActions.propTypes = {
   editURL: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   entitlementActions: PropTypes.object.isRequired,
-  actions: PropTypes.array,
-  actionsPending: PropTypes.bool,
 };
 
 LambdaMenuActions.defaultProps = {
   row: {},
-  actions: [],
-  actionsPending: false,
 };
 
 export default withEntitlements(LambdaMenuActions);

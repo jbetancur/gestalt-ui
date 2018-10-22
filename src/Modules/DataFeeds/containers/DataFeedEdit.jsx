@@ -4,11 +4,10 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withPickerData, withProviderActions } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { ActionsMenu } from 'Modules/Actions';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Button } from 'components/Buttons';
@@ -31,7 +30,6 @@ class DataFeedEdit extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     secretsData: PropTypes.array.isRequired,
-    providerActions: PropTypes.object.isRequired,
     resourceTypeActions: PropTypes.object.isRequired,
     resourceType: PropTypes.object.isRequired,
   };
@@ -59,7 +57,7 @@ class DataFeedEdit extends Component {
   };
 
   render() {
-    const { datafeedPending, datafeed, secretsData, providerActions, resourceType, initialFormValues, match } = this.props;
+    const { datafeedPending, datafeed, secretsData, resourceType, initialFormValues } = this.props;
 
     return (
       datafeedPending && !datafeed.id ?
@@ -77,13 +75,6 @@ class DataFeedEdit extends Component {
                 >
                   Entitlements
                 </Button>,
-                <ActionsMenu
-                  key="streamspec--actions"
-                  model={datafeed}
-                  actionList={providerActions.providerActions}
-                  pending={providerActions.providerActionsLoading}
-                  fqon={match.params.fqon}
-                />
               ]}
             />
 
@@ -118,7 +109,6 @@ const mapStatetoProps = state => ({
 });
 
 export default compose(
-  withProviderActions({ filter: 'datafeed.edit' }),
   withPickerData({ entity: 'secrets', label: 'Secrets' }),
   withEntitlements,
   withDatafeed,

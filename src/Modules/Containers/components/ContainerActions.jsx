@@ -7,9 +7,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ListItem, Divider, FontIcon } from 'react-md';
-// import { withContext } from 'Modules/Hierarchy';
 import { withEntitlements } from 'Modules/Entitlements';
-// import { ActionsMenu } from 'Modules/Actions';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -300,14 +298,6 @@ class ContainerActions extends PureComponent {
                 leftIcon={<FontIcon>content_copy</FontIcon>}
               />
             </CopyToClipboard>
-
-            {/* <ActionsMenu
-              listItem
-              model={containerModel}
-              actionList={actions}
-              pending={actionsPending}
-              fqon={match.params.fqon}
-            /> */}
           </Col>
         </Row>
       </ListWrapper>

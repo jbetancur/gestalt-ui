@@ -9,7 +9,6 @@ import createDecorator from 'final-form-focus';
 import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { ActionsMenu } from 'Modules/Actions';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
@@ -139,13 +138,6 @@ class LambdaEdit extends PureComponent {
                 >
                   Expand Log
                 </Button>,
-                <ActionsMenu
-                  key="lambda--actions"
-                  model={lambda}
-                  fqon={match.params.fqon}
-                  // actionList={[]}
-                  // pending={actionsPending}
-                />,
                 <Button
                   key="lambda--entitlements"
                   flat

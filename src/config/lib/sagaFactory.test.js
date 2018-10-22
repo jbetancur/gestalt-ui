@@ -287,7 +287,7 @@ describe('Saga Factory', () => {
       result = saga.next();
 
       expect(result.value).toEqual(
-        put({ type: `${prefix}DELETE_TESTS_FULFILLED` })
+        put({ type: `${prefix}DELETE_TESTS_FULFILLED`, payload: [resource] })
       );
     });
 

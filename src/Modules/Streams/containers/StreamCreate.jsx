@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { withPickerData } from 'Modules/MetaResource';
 import { Form } from 'react-final-form';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -34,12 +33,15 @@ class StreamCreate extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    lambdasData: PropTypes.array.isRequired,
-    datafeedsData: PropTypes.array.isRequired,
-    providersData: PropTypes.array.isRequired,
     streamSpecActions: PropTypes.object.isRequired,
     streamSpecPending: PropTypes.bool.isRequired,
   };
+
+  componentDidMount() {
+    const { streamSpecActions } = this.props;
+
+    streamSpecActions.initStreamSpecCreate();
+  }
 
   onSubmit = (values) => {
     const { match, history, streamSpecActions } = this.props;
@@ -51,7 +53,7 @@ class StreamCreate extends Component {
   };
 
   render() {
-    const { lambdasData, datafeedsData, providersData, streamSpecPending } = this.props;
+    const { streamSpecPending } = this.props;
 
     return (
       <Row center>
@@ -66,9 +68,7 @@ class StreamCreate extends Component {
             validate={validate}
             render={StreamForm}
             loading={streamSpecPending}
-            lambdas={lambdasData}
-            datafeeds={datafeedsData}
-            providers={providersData}
+            {...this.props}
           />
         </Col>
       </Row>
@@ -77,8 +77,5 @@ class StreamCreate extends Component {
 }
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Stream Providers', params: { type: 'StreamProvider' } }),
-  withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
-  withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withStreamSpec,
 )(StreamCreate);

@@ -128,7 +128,7 @@ export const deleteMany = ({ name, entity, verb = 'DELETE', prefix }) => functio
     const names = payload.resources.map(item => (item.name)).join('\n');
 
     yield call(axios.all, resources);
-    yield put({ type: `${prefix}${verb}_${name}_FULFILLED` });
+    yield put({ type: `${prefix}${verb}_${name}_FULFILLED`, payload: payload.resources });
     yield put(notificationActions.addNotification({ message: `${names} ${entity} deleted` }));
 
     if (typeof payload.onSuccess === 'function') {

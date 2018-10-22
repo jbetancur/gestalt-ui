@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { Button } from 'components/Buttons';
-import { withPickerData, withProviderActions } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -32,10 +31,8 @@ class StreamSpecEdit extends Component {
     entitlementActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    lambdasData: PropTypes.array.isRequired,
-    datafeedsData: PropTypes.array.isRequired,
-    providersData: PropTypes.array.isRequired,
-    providerActions: PropTypes.object.isRequired,
+    providerActions: PropTypes.array.isRequired,
+    instanceProviderActions: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -59,11 +56,8 @@ class StreamSpecEdit extends Component {
 
   populateStreamSpecs() {
     const { streamSpecActions, match } = this.props;
-    streamSpecActions.fetchStreamSpec({ fqon: match.params.fqon, id: match.params.streamId });
-  }
 
-  handleActionComplete = () => {
-    setTimeout(() => this.populateStreamSpecs(), 1500);
+    streamSpecActions.initStreamSpecEdit({ streamSpecId: match.params.streamId });
   }
 
   render() {
@@ -72,11 +66,9 @@ class StreamSpecEdit extends Component {
       streamSpecPending,
       streamSpec,
       streamInstances,
-      lambdasData,
-      datafeedsData,
-      providersData,
       initialFormValues,
       providerActions,
+      instanceProviderActions,
     } = this.props;
 
     return (
@@ -98,8 +90,7 @@ class StreamSpecEdit extends Component {
                 <ActionsMenu
                   key="streamspec--actions"
                   model={streamSpec}
-                  actionList={providerActions.providerActions}
-                  pending={providerActions.providerActionsLoading}
+                  actionList={providerActions}
                   onActionComplete={this.handleActionComplete}
                   fqon={match.params.fqon}
                 />
@@ -115,6 +106,7 @@ class StreamSpecEdit extends Component {
                   streamInstances={streamInstances}
                   fqon={match.params.fqon}
                   onActionComplete={this.handleActionComplete}
+                  providerActions={instanceProviderActions}
                 />
                 <FullPageFooter>
                   <Button
@@ -143,11 +135,7 @@ class StreamSpecEdit extends Component {
                   render={StreamSpecForm}
                   validate={validate}
                   loading={streamSpecPending}
-                  lambdas={lambdasData}
-                  datafeeds={datafeedsData}
-                  providers={providersData}
-                  streamSpec={streamSpec}
-                  providerActions={providerActions}
+                  {...this.props}
                 />
               </Tab>
             </Tabs>
@@ -163,10 +151,6 @@ const mapStatetoProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Stream Providers', params: { type: 'StreamProvider' } }),
-  withProviderActions({ filter: 'streamspec.edit' }),
-  withPickerData({ entity: 'datafeeds', label: 'Data Feeds' }),
-  withPickerData({ entity: 'lambdas', label: 'Lambdas' }),
   withStreamSpec,
   withEntitlements,
   withRouter,
