@@ -10,9 +10,9 @@ exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = 
     >
       access_time
     </StatusBubble__IconStyle>
-    <span>
+    <div>
       PENDING
-    </span>
+    </div>
   </StatusBubble__ContainerStatusStyle>
 </Fragment>
 `;
@@ -27,9 +27,9 @@ exports[`Components::StatusBubble::StatusBubble renders correctly when a status 
     >
       <CheckCircleIcon />
     </StatusBubble__IconStyle>
-    <span>
+    <div>
       running
-    </span>
+    </div>
   </StatusBubble__ContainerStatusStyle>
 </Fragment>
 `;

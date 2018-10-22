@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
+import { media } from 'util/helpers/media';
 import statusMap from './statusMap';
 
 const ContainerStatusStyle = styled.div`
@@ -18,8 +19,15 @@ const ContainerStatusStyle = styled.div`
     fill: ${props => props.theme.colors[props.color]};
   }
 
-  span {
+  div {
     margin-left: 8px;
+    height: 14px;
+    ${() => media.xs`
+      height: 18px;
+    `};
+    ${() => media.sm`
+      height: 18px;
+    `};
   }
 `;
 
@@ -39,7 +47,7 @@ const ContainerStatus = ({ status, statusDetail }) => {
     <React.Fragment>
       <ContainerStatusStyle color={style.color}>
         <IconStyle color={style.color}>{style.icon}</IconStyle>
-        <span>{status}</span>
+        <div>{status}</div>
       </ContainerStatusStyle>
       {statusDetail.reason && <StatusDetail>{`${statusDetail.stateId}-${statusDetail.reason}`}</StatusDetail>}
     </React.Fragment>

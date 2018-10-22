@@ -66,6 +66,8 @@ class LambdaFunctionSection extends PureComponent {
                 type="text"
                 helpText="The url to the package directory or file"
                 required
+                rows={1}
+                maxRows={4}
               />
             </Col>
 

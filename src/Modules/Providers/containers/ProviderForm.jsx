@@ -250,13 +250,13 @@ class ProviderForm extends Component {
               </Row>}
 
             <Col flex={6} xs={12} sm={12}>
-              <Panel title="Allowed Environments" fill>
+              <Panel title="Allowed Environments" fill expandable={false}>
                 <EnvironmentTypes />
               </Panel>
             </Col>
 
             <Col flex={6} xs={12} sm={12}>
-              <Panel title="Advanced" fill>
+              <Panel title="Advanced" fill expandable={false}>
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Field
