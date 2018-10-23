@@ -2,7 +2,10 @@ import {
   FETCH_LICENSE_PENDING,
   FETCH_LICENSE_FULFILLED,
   FETCH_LICENSE_REJECTED,
-  LICENSE_UNLOADED
+  LICENSE_UNLOADED,
+  UPDATE_LICENSE_PENDING,
+  UPDATE_LICENSE_FULFILLED,
+  UPDATE_LICENSE_REJECTED,
 } from '../actionTypes';
 
 const initialState = {
@@ -31,6 +34,23 @@ export default (state = initialState, action) => {
         license: action.payload
       };
     case FETCH_LICENSE_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
+    case UPDATE_LICENSE_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case UPDATE_LICENSE_FULFILLED:
+      return {
+        ...state,
+        pending: false,
+        completed: true,
+      };
+    case UPDATE_LICENSE_REJECTED:
       return {
         ...state,
         pending: false,

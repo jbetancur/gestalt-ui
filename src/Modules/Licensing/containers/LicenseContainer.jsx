@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import { DialogContainer } from 'react-md';
+import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import LicenseForm from './LicenseForm';
-import validate from '../validations';
 import actions from '../actions';
 
 class License extends Component {
@@ -14,25 +13,26 @@ class License extends Component {
     fetchLicense: PropTypes.func.isRequired,
     updateLicense: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
-    updatedLicenseInfoPending: PropTypes.bool.isRequired,
     unloadLicense: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     hideLicenseModal: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const { fetchLicense } = this.props;
+
     fetchLicense('root');
   }
 
   componentWillUnmount() {
     const { unloadLicense } = this.props;
+
     unloadLicense();
   }
 
-  update(values) {
-    const { properties } = values;
+  update = (values) => {
     const { updateLicense, hideLicenseModal } = this.props;
+    const { properties } = values;
+
     const payload = {
       name: 'gestalt-license',
       properties: {
@@ -46,8 +46,7 @@ class License extends Component {
   }
 
   render() {
-    const { visible, hideLicenseModal, pending, updatedLicenseInfoPending } = this.props;
-    const isPending = pending || updatedLicenseInfoPending;
+    const { visible, hideLicenseModal, pending } = this.props;
 
     return (
       <DialogContainer
@@ -56,14 +55,15 @@ class License extends Component {
         title="License"
         closeOnEsc
         onHide={hideLicenseModal}
+        defaultVisibleTransitionable
         width="60%"
+        height="60%"
       >
-        {isPending && <ActivityContainer id="license-load" />}
-        <LicenseForm
-          submitLabel="Update"
-          cancelLabel={this.props.pristine ? 'Back' : 'Cancel'}
-          onSubmit={values => this.update(values)}
-          pending={isPending}
+        {pending && <ActivityContainer id="license-load" />}
+        <Form
+          component={LicenseForm}
+          onSubmit={this.update}
+          pending={pending}
           {...this.props}
         />
       </DialogContainer>
@@ -83,12 +83,8 @@ function mapStateToProps(state) {
     initialValues: model,
     pending: license.pending,
     licenseInfo: license.license,
-    updatedLicenseInfoPending: state.licensing.licenseUpdate.pending,
   };
 }
 
 
-export default connect(mapStateToProps, actions)(reduxForm({
-  form: 'licenseForm',
-  validate
-})(License));
+export default connect(mapStateToProps, actions)(License);
