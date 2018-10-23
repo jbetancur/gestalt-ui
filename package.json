@@ -41,7 +41,7 @@
         "@babel/preset-env": "^7.1.0",
         "@babel/preset-react": "^7.0.0",
         "@babel/register": "^7.0.0",
-        "autoprefixer": "^9.2.1",
+        "autoprefixer": "^9.3.0",
         "babel-core": "^7.0.0-bridge.0",
         "babel-eslint": "^10.0.1",
         "babel-jest": "^23.6.0",
@@ -85,7 +85,7 @@
         "webpack": "^4.22.0",
         "webpack-bundle-analyzer": "^3.0.3",
         "webpack-cli": "^3.1.2",
-        "webpack-dev-server": "^3.1.9",
+        "webpack-dev-server": "^3.1.10",
         "webpack-merge": "^4.1.4",
         "yaml-loader": "^0.5.0"
     },

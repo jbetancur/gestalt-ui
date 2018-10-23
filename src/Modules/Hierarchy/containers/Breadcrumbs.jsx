@@ -81,6 +81,9 @@ class Breadcrumbs extends PureComponent {
   checkIfShouldNav(e, route) {
     const { history } = this.props;
 
+    // Prevents Link from opening dropdown menu
+    e.stopPropagation();
+
     if (history.location.pathname === route) {
       e.preventDefault();
     }

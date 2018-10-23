@@ -77,16 +77,18 @@ class WorkspaceDetails extends PureComponent {
     return (
       <MenuButton
         id="workspace--details--actions"
-        icon
+        flat
         primary
+        iconBefore={false}
+        iconChildren="arrow_drop_down"
         anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_LEFT,
+          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
           y: MenuButton.VerticalAnchors.BOTTOM,
         }}
         simplifiedMenu={false}
         menuItems={this.renderMenuItems()}
       >
-        more_vert
+        Actions
       </MenuButton>
     );
   }
@@ -100,10 +102,10 @@ class WorkspaceDetails extends PureComponent {
           title={(
             <Title>
               {workspace.description || workspace.name}
-              {this.renderActions()}
             </Title>
           )}
           titleIcon={<WorkspaceIcon />}
+          actions={this.renderActions()}
         />
         <DetailsPane model={workspace} singleRow />
       </React.Fragment>

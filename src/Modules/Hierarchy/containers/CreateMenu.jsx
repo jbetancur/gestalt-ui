@@ -52,8 +52,8 @@ class CreateMenu extends PureComponent {
       <MenuButton
         id="orgs-settings-menu"
         anchor={{
-          x: MenuButton.HorizontalAnchors.CENTER,
-          y: MenuButton.VerticalAnchors.CENTER,
+          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
+          y: MenuButton.VerticalAnchors.BOTTOM,
         }}
         simplifiedMenu={false}
         iconChildren="add"

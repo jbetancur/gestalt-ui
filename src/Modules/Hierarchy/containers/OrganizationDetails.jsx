@@ -82,16 +82,18 @@ class OrganizationDetails extends PureComponent {
     return (
       <MenuButton
         id="org--details--actions"
-        icon
+        flat
         primary
+        iconBefore={false}
+        iconChildren="arrow_drop_down"
         anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_LEFT,
+          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
           y: MenuButton.VerticalAnchors.BOTTOM,
         }}
         simplifiedMenu={false}
         menuItems={this.renderMenuItems()}
       >
-        more_vert
+        Actions
       </MenuButton>
     );
   }
@@ -105,11 +107,11 @@ class OrganizationDetails extends PureComponent {
           title={(
             <Title>
               {organization.description || organization.name}
-              {this.renderActions()}
             </Title>
           )}
           subtitle={<Label>{organization.properties.fqon}</Label>}
           titleIcon={<OrganizationIcon />}
+          actions={this.renderActions()}
         />
         <DetailsPane model={organization} singleRow />
       </React.Fragment>
