@@ -16,7 +16,6 @@ import { groupSagas } from 'Modules/Groups';
 import { userSagas } from 'Modules/Users';
 import { searchSagas } from 'Modules/Search';
 import { secretSagas } from 'Modules/Secrets';
-import { serviceSpecSagas } from 'Modules/ServiceModeler';
 import { streamSpecSagas } from 'Modules/Streams';
 import { loggingSagas } from 'Modules/Logging';
 import { volumeSagas } from 'Modules/Volumes';
@@ -40,7 +39,6 @@ export default function* rootSaga() {
     userSagas(),
     searchSagas(),
     secretSagas(),
-    serviceSpecSagas(),
     streamSpecSagas(),
     loggingSagas(),
     volumeSagas(),

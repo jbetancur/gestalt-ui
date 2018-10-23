@@ -10,8 +10,8 @@ import { Button } from 'components/Buttons';
 import Form from 'components/Form';
 import { Chips } from 'components/Lists';
 import Fieldset from 'components/Fieldset';
-import PropertyDefForm from '../components/PropertyDefFormNew';
-import LineageForm from '../components/LineageFormNew';
+import PropertyDefForm from '../components/PropertyDefForm';
+import LineageForm from '../components/LineageForm';
 
 const ResourceTypeForm = ({ match,
   values,
