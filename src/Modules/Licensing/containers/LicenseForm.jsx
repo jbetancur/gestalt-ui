@@ -1,31 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { Field } from 'redux-form';
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox';
+import { Field } from 'react-final-form';
+import styled from 'styled-components';
+import { Checkbox } from 'react-md';
 import { FormattedDate } from 'react-intl';
 import Form from 'components/Form';
 import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
-import { ModalFooter } from 'components/Modal';
+import { composeValidators, required, validator } from 'util/forms';
+import { isBase64 } from 'util/validations';
 
-const LicenseForm = (props) => {
-  const {
-    submitLabel,
-    submitting,
-    pristine,
-    invalid,
-    handleSubmit,
-    onSubmit,
-    licenseInfo,
-    isPending,
-  } = props;
+const Footer = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  bottom: 0;
+  right: 0;
+  height: 64px;
+  position: absolute;
+  padding-right: 16px;
+  background-color: white;
 
+  button {
+    margin: 3px;
+  }
+`;
+
+const LicenseForm = ({
+  submitting,
+  pristine,
+  invalid,
+  handleSubmit,
+  hideLicenseModal,
+  licenseInfo,
+  pending,
+  form,
+}) => {
   const close = () => {
-    props.reset();
-    props.hideLicenseModal();
+    form.reset();
+    hideLicenseModal();
   };
 
   const generateDetailItems = () => (
@@ -53,7 +69,7 @@ const LicenseForm = (props) => {
   );
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" disabled={isPending}>
+    <Form onSubmit={handleSubmit} autoComplete="off" disabled={pending}>
       <Row gutter={5}>
         <Col flex={5} xs={12}>
           <Field
@@ -63,6 +79,13 @@ const LicenseForm = (props) => {
             type="text"
             rows={4}
             required
+            disabled={pending}
+            validate={
+              composeValidators(
+                required('a license key is required'),
+                validator(isBase64, 'invalid license key - make sure there are no line breaks in your regex'),
+              )
+            }
           />
         </Col>
         {licenseInfo.consumerType &&
@@ -86,7 +109,7 @@ const LicenseForm = (props) => {
           </Row>
         </Col>}
       </Row>
-      <ModalFooter>
+      <Footer>
         <Button
           flat
           disabled={submitting}
@@ -100,28 +123,22 @@ const LicenseForm = (props) => {
           disabled={pristine || invalid || submitting}
           primary
         >
-          {submitLabel}
+          Update
         </Button>
-      </ModalFooter>
+      </Footer>
     </Form>
   );
 };
 
 LicenseForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  submitLabel: PropTypes.string,
   hideLicenseModal: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
   licenseInfo: PropTypes.object.isRequired,
-  isPending: PropTypes.bool.isRequired,
-};
-
-LicenseForm.defaultProps = {
-  submitLabel: '',
+  pending: PropTypes.bool.isRequired,
 };
 
 export default LicenseForm;

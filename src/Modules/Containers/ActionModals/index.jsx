@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -13,18 +13,45 @@ const MODAL_COMPONENTS = {
   /* other modals */
 };
 
-const ModalRoot = ({ actionsModal }) => {
-  if (!actionsModal.modalType) {
-    return null;
+class ModalRoot extends Component {
+  static propTypes = {
+    actionsModal: PropTypes.object.isRequired,
+  };
+
+  state = {
+    modalVisible: this.props.actionsModal.visible,
+  };
+
+  componentDidUpdate(prevProps) {
+    const { actionsModal } = this.props;
+
+    /*
+     We use setstate here to force the component to unmount within 300ms to prevent animations from breaking,
+     and to make sure the modal is fully destroyed
+    */
+    if (prevProps.actionsModal.visible !== actionsModal.visible && actionsModal.visible) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ modalVisible: actionsModal.visible });
+    }
+
+    if (prevProps.actionsModal.visible !== actionsModal.visible && !actionsModal.visible) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      setTimeout(() => this.setState({ modalVisible: actionsModal.visible }), 300);
+    }
   }
 
-  const SpecificModal = MODAL_COMPONENTS[actionsModal.modalType];
-  return <SpecificModal visible={actionsModal.visible} {...actionsModal.modalProps} />;
-};
+  render() {
+    const { actionsModal } = this.props;
+    const { modalVisible } = this.state;
 
-ModalRoot.propTypes = {
-  actionsModal: PropTypes.object.isRequired,
-};
+    if (!actionsModal.modalType || !modalVisible) {
+      return null;
+    }
+
+    const SpecificModal = MODAL_COMPONENTS[actionsModal.modalType];
+    return <SpecificModal visible={actionsModal.visible} {...actionsModal.modalProps} />;
+  }
+}
 
 const mapStateToProps = ({ containers }) => ({
   actionsModal: containers.actionsModals,

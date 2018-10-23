@@ -45,6 +45,7 @@ class ConfirmModal extends PureComponent {
         defaultVisibleTransitionable
         autosizeContent={false}
         onHide={hideModal}
+        width="20%"
         actions={[
           {
             onClick: hideModal,
