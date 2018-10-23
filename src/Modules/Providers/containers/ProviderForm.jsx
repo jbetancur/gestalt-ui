@@ -119,7 +119,7 @@ class ProviderForm extends Component {
           <Row gutter={5}>
             {!editMode &&
               <Col flex={7} xs={12} sm={12} md={12}>
-                <Panel title="General" expandable={false} fill>
+                <Panel title="Name" expandable={false} fill>
                   <Row gutter={5}>
                     <Col flex={12}>
                       <Field
