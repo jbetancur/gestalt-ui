@@ -5,7 +5,7 @@ import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
 import { FontIcon } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { EntitlementIcon, EnvironmentIcon } from 'components/Icons';
+import { EntitlementIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
 import Card from '../components/GFCard';
 import CardTitle from '../components/GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
@@ -87,7 +87,7 @@ class EnvironmentCard extends PureComponent {
             id: 'environment-card--delete',
             key: 'environment-card--edit',
             title: t('general.verbs.delete'),
-            icon: <FontIcon>delete_forever</FontIcon>,
+            icon: <DeleteIcon />,
             onClick: this.delete,
           }
         ]}

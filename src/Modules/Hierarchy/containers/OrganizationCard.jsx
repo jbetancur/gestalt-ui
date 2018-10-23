@@ -6,7 +6,7 @@ import { withTheme } from 'styled-components';
 // import { withOrganization } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { FontIcon } from 'react-md';
-import { EntitlementIcon, OrganizationIcon } from 'components/Icons';
+import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
 import Card from '../components/GFCard';
 import CardTitle from '../components/GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
@@ -89,7 +89,7 @@ class OrganizationCard extends PureComponent {
             id: 'organization-card--delete',
             key: 'organization-card--delete',
             title: t('general.verbs.delete'),
-            icon: <FontIcon>delete_forever</FontIcon>,
+            icon: <DeleteIcon />,
             onClick: this.delete,
           }
         ]}

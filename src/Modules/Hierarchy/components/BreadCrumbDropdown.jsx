@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   FontIcon,
   AccessibleFakeButton,
+  AccessibleFakeInkedButton,
   IconSeparator,
   DropdownMenu,
 } from 'react-md';
@@ -39,6 +40,18 @@ const SeperatorStyle = styled(IconSeparator)`
   }
 `;
 
+const DropDownButton = styled(AccessibleFakeInkedButton)`
+  border-radius: 50%;
+
+  i {
+    font-size: 24px !important;
+  }
+
+  &:hover {
+    background: ${props => props.theme.colors['$md-grey-200']};
+  }
+`;
+
 const BreadCrumbDropDown = ({ simplifiedMenu, menuItems, label, icon }) => (
   <DropdownMenu
     id={`${!simplifiedMenu ? 'smart-' : ''}${label}`}
@@ -54,7 +67,9 @@ const BreadCrumbDropDown = ({ simplifiedMenu, menuItems, label, icon }) => (
       iconBefore
       label={
         <SeperatorStyle label={label}>
-          <FontIcon>arrow_drop_down</FontIcon>
+          <DropDownButton>
+            <FontIcon>arrow_drop_down</FontIcon>
+          </DropDownButton>
         </SeperatorStyle>
       }
     >

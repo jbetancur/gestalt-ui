@@ -25,6 +25,9 @@ exports[`(Components) RemoveButton mounts with basic mountWithTheme 1`] = `
   inkTransitionOverlap={150}
   onClick={[Function]}
 >
-  <DeleteIcon />
+  <DeleteIcon
+    isRed={false}
+    size={20}
+  />
 </withInk(withTooltip(Button))>
 `;

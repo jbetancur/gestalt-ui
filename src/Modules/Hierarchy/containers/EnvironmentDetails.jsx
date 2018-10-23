@@ -78,16 +78,18 @@ class EnvironmentDetails extends PureComponent {
     return (
       <MenuButton
         id="environment--details--actions"
-        icon
+        flat
         primary
+        iconBefore={false}
+        iconChildren="arrow_drop_down"
         anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_LEFT,
+          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
           y: MenuButton.VerticalAnchors.BOTTOM,
         }}
         simplifiedMenu={false}
         menuItems={this.renderMenuItems()}
       >
-        more_vert
+        Actions
       </MenuButton>
     );
   }
@@ -102,11 +104,11 @@ class EnvironmentDetails extends PureComponent {
           title={(
             <Title>
               {environment.description || environment.name}
-              {this.renderActions()}
             </Title>
           )}
           titleIcon={<EnvironmentIcon />}
           subtitle={<Label>{environmentType}</Label>}
+          actions={this.renderActions()}
         />
         <DetailsPane model={environment} singleRow />
       </React.Fragment>
