@@ -9,7 +9,7 @@ import { composeValidators, required } from 'util/forms';
 const ECSConfig = ({ editMode, subTypes }) => (
   <Row gutter={5}>
     <Col flex={12}>
-      <Panel noShadow expandable={false}>
+      <Panel noShadow noPadding expandable={false}>
         <Row gutter={5}>
           <Col flex={3} xs={12} sm={6} md={6}>
             <Field
@@ -54,7 +54,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
     <Col flex={6} xs={12}>
       <Panel title="Security" noShadow expandable={false}>
         <Row gutter={5}>
-          <Col flex={6} xs={12}>
+          <Col flex={12}>
             <Field
               component={TextField}
               name="properties.config.secret_key"
@@ -64,7 +64,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
               helpText={editMode ? 'Enter a new value to update the secret key' : 'The secret key will not be displayed after creation'}
             />
           </Col>
-          <Col flex={6} xs={12}>
+          <Col flex={12}>
             <Field
               component={TextField}
               name="properties.config.access_key"
@@ -81,7 +81,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
     <Col flex={6} xs={12}>
       <Panel title="Kong Configuration" noShadow expandable={false}>
         <Row gutter={5}>
-          <Col flex={6} xs={12}>
+          <Col flex={12}>
             <Field
               component={TextField}
               name="properties.config.kongConfigureUrl"
@@ -90,7 +90,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
             />
           </Col>
 
-          <Col flex={6} xs={12}>
+          <Col flex={12}>
             <Field
               component={TextField}
               name="properties.config.kongManagementUrl"
@@ -102,7 +102,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
       </Panel>
     </Col>
 
-    <Col flex={6} xs={12}>
+    <Col flex={6}>
       <Panel title="Logging" noShadow expandable={false}>
         <Row gutter={5}>
           <Col flex={12}>
@@ -111,6 +111,21 @@ const ECSConfig = ({ editMode, subTypes }) => (
               name="properties.config.awsLogGroup"
               label="AWS Log Group"
               helpText="The AWS Log Group"
+            />
+          </Col>
+        </Row>
+      </Panel>
+    </Col>
+
+    <Col flex={6}>
+      <Panel title="Image Options" noShadow expandable={false}>
+        <Row gutter={5}>
+          <Col flex={12}>
+            <Field
+              component={TextField}
+              name="properties.config.sidecarContainerImageOverride"
+              label="Sidecar Container Image Override"
+              helpText="Override the default side car container image"
             />
           </Col>
         </Row>
