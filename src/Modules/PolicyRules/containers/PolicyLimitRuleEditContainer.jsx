@@ -2,26 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import { Col, Row } from 'react-flexybox';
 import { withEntitlements } from 'Modules/Entitlements';
+import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import PolicyLimitRuleForm from './PolicyLimitRuleForm';
-import validate from './PolicyLimitRuleForm/validations';
+import { Button } from 'components/Buttons';
+import { Panel } from 'components/Panels';
+import DetailsPane from 'components/DetailsPane';
+import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
-import { getEditLimitRuleModel, selectRule } from '../selectors';
+import { getEditLimitRuleModel } from '../selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
 
-class PolicyLimitRuleEdit extends Component {
+class PolicyEventRuleEdit extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     policyRule: PropTypes.object.isRequired,
     policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
-    selectedActions: PropTypes.array.isRequired,
-    clearSelectedActions: PropTypes.func.isRequired,
-    handleSelectedActions: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -30,64 +30,73 @@ class PolicyLimitRuleEdit extends Component {
     policyRuleActions.fetchPolicyRule({ fqon: match.params.fqon, id: match.params.ruleId });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // propery.match_actions is an array of values that is not handled via redux form,
-    // therefore, we have to load it manually in the redux state for selectedActions
-    if (nextProps.policyRule.properties.match_actions && nextProps.policyRule !== this.props.policyRule) {
-      this.props.handleSelectedActions(null, nextProps.policyRule.properties.match_actions);
-    }
-  }
-
-  componentWillUnmount() {
-    const { clearSelectedActions } = this.props;
-
-    clearSelectedActions();
-  }
-
   update = (values) => {
-    const { match, history, selectedActions, policyRule, policyRuleActions } = this.props;
-
-    const payload = generatePatches(policyRule, values, selectedActions, 'limit');
+    const { match, policyRule, policyRuleActions } = this.props;
+    const payload = generatePatches(policyRule, values, 'limit');
 
     if (payload.length) {
-      const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
-
-      policyRuleActions.updatePolicyRule({ fqon: match.params.fqon, id: policyRule.id, payload, onSuccess });
+      policyRuleActions.updatePolicyRule({ fqon: match.params.fqon, id: policyRule.id, payload });
     }
   }
 
   render() {
-    const { policyRule, policyRulePending } = this.props;
+    const {
+      match,
+      initialValues,
+      policyRule,
+      policyRulePending,
+      entitlementActions,
+    } = this.props;
 
     return (
-      <div>
-        {policyRulePending && !policyRule.id ?
-          <ActivityContainer id="policyRule-load" /> :
-          <PolicyLimitRuleForm
-            title={policyRule.name}
-            submitLabel="Update"
-            cancelLabel={`${policyRule.properties.parent && policyRule.properties.parent.name} Policy`}
-            onSubmit={this.update}
-            {...this.props}
-          />}
-      </div>
+      policyRulePending && !policyRule.id ?
+        <ActivityContainer id="policyRule-load" /> :
+        <Row gutter={5} center>
+          <Col flex={10} xs={12} sm={12} md={12}>
+            <ActionsToolbar
+              title={policyRule.name}
+              actions={[
+                <Button
+                  key="eventRule--entitlements"
+                  flat
+                  iconChildren="security"
+                  onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
+                >
+                  Entitlements
+                </Button>
+              ]}
+            />
+
+            {policyRulePending && <ActivityContainer id="policyRule-form" />}
+
+
+            <Row gutter={5}>
+              <Col flex={12}>
+                <Panel title="Resource Details" defaultExpanded={false}>
+                  <DetailsPane model={policyRule} />
+                </Panel>
+              </Col>
+            </Row>
+
+            <Form
+              component={PolicyLimitRuleForm}
+              editMode
+              onSubmit={this.update}
+              initialValues={initialValues}
+              {...this.props}
+            />
+          </Col>
+        </Row>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  policyRule: selectRule(state),
-  selectedActions: state.policyRules.selectedActions.selectedActions,
   initialValues: getEditLimitRuleModel(state),
 });
 
 export default compose(
   withPolicyRule,
   withEntitlements,
-  connect(mapStateToProps, Object.assign({}, actions)),
-  reduxForm({
-    form: 'policyLimitRuleEdit',
-    enableReinitialize: true,
-    validate,
-  })
-)(PolicyLimitRuleEdit);
+  connect(mapStateToProps, actions),
+)(PolicyEventRuleEdit);

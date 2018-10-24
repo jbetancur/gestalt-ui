@@ -94,7 +94,6 @@ class ProviderForm extends Component {
       <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
         {!editMode && !selectedProviderType.name &&
           <Row gutter={5}>
-            {/* only allow the provider type to be selected once - this prevents redux-form errors */}
             <Col flex={12}>
               <Panel title="Select a Provider Type" expandable={false}>
                 <Field

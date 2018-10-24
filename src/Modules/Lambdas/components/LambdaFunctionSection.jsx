@@ -77,7 +77,6 @@ class LambdaFunctionSection extends PureComponent {
                 component={Checkbox}
                 name="properties.compressed"
                 label="Zipped Package"
-                // TODO: Find out why redux-form state for bool doesn't apply
                 checked={formValues.properties.compressed}
               />
               <Caption light>if the package URL contents are zipped</Caption>

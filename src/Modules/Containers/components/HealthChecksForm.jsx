@@ -173,7 +173,6 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
                     id={`${member}.ignore_http_1xx`}
                     name={`${member}.ignore_http_1xx`}
                     component={Checkbox}
-                    // TODO: Find out why redux-form state for bool doesn't apply
                     checked={field.ignore_http_1xx}
                     label="Ignore HTTP 100-199"
                   />

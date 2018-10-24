@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { responsiveStoreEnhancer } from 'redux-responsive';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { authActionTypes } from 'Modules/Authentication';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
@@ -47,12 +47,7 @@ export default function configureStore(history) {
 
   const store = createStore(
     composeRootReducer(rootReducer),
-    // causes issues with redux-form - enable for troubleshooting purposes only
-    // composeWithDevTools(
-    //   responsiveStoreEnhancer,
-    //   applyMiddleware(...middlewares),
-    // ),
-    compose(
+    composeWithDevTools(
       responsiveStoreEnhancer,
       applyMiddleware(...middlewares),
     ),

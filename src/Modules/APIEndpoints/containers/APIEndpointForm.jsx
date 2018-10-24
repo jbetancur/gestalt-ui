@@ -96,7 +96,7 @@ const APIEndpointForm = ({
                     onAutocomplete={handleAutoComplete}
                     helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                   />
-                  {/* TODO: needs a custom search control since autocomplete above cannot be validated with redux-form so we do it here */}
+                  {/* TODO: needs a custom search control since autocomplete above cannot be validated with react-final-form so we do it here */}
                   {(values.properties.implementation_type === 'lambda') &&
                     <Field
                       component={TextField}
@@ -193,7 +193,6 @@ const APIEndpointForm = ({
                     id="synchronous"
                     component={Checkbox}
                     name="properties.synchronous"
-                    // TODO: Find out why redux-form state for bool doesn't apply
                     defaultChecked={values.properties.synchronous}
                     label="Synchronous"
                     hasMargin={false}

@@ -7,6 +7,12 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import LicenseForm from './LicenseForm';
 import actions from '../actions';
 
+const initialFormValues = {
+  properties: {
+    data: ''
+  }
+};
+
 class License extends Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
@@ -64,6 +70,7 @@ class License extends Component {
           component={LicenseForm}
           onSubmit={this.update}
           pending={pending}
+          initialValues={initialFormValues}
           {...this.props}
         />
       </DialogContainer>
@@ -73,14 +80,8 @@ class License extends Component {
 
 function mapStateToProps(state) {
   const { license } = state.licensing;
-  const model = {
-    properties: {
-      data: ''
-    }
-  };
 
   return {
-    initialValues: model,
     pending: license.pending,
     licenseInfo: license.license,
   };

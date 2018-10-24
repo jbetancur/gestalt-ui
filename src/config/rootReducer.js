@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import { createResponsiveStateReducer } from 'redux-responsive';
 import { notifierReducer } from 'Modules/Notifications';
@@ -40,7 +39,6 @@ export default combineReducers({
   error: errorNotificationReducer,
   modal: modalReducer,
   routing: routerReducer,
-  form: formReducer,
   app: appReducers,
   login: loginReducer,
   hierarchy: hierarchyReducer,

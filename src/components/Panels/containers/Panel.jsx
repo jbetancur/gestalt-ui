@@ -6,11 +6,10 @@ import { DotActivity } from 'components/ProgressIndicators';
 import Header from '../components/Header';
 import Content from '../components/Content';
 
-const PanelWrapper = styled(({ fill, error, expanded, ...rest }) => <Card {...rest} />)`
+const PanelWrapper = styled(({ fill, error, expanded, noShadow, noBackground, ...rest }) => <Card noShadow={noShadow} {...rest} />)`
   position: relative;
   width: 100%;
   ${props => props.fill && props.expanded && 'height: 100%'};
-  background-color: ${props => props.theme.colors['$md-white']};
   ${props => props.error && !props.expanded && css`
     box-shadow: 0 0 2px 2px ${props.theme.colors['$md-red-500']};
   `};

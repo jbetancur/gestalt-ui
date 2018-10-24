@@ -5,14 +5,11 @@ import policyRuleModel from './models/policyRule';
  * generatePayload
  * Handle Payload formatting/mutations to comply with meta api
  * @param {Object} sourcePayload
- * @param {Array} selectedActions
  * @param {Boolean} updateMode
  * @param {String} policyType - limit || event
  */
-export function generatePayload(sourcePayload, selectedActions = [], updateMode = false, policyType) {
+export function generatePayload(sourcePayload, updateMode = false, policyType) {
   const payload = policyRuleModel.create(sourcePayload);
-
-  payload.properties.match_actions = selectedActions;
 
   if (!updateMode) {
     if (policyType === 'limit') {
@@ -45,13 +42,12 @@ export function generatePayload(sourcePayload, selectedActions = [], updateMode 
  * Generates an array of patch operations
  * @param {Object} originalPayload
  * @param {Object} updatedPayload
- * @param {Object} selectedActions
  * @param {String} policyType - limit || event
  */
-export function generatePatches(originalPayload, updatedPayload, selectedActions, policyType) {
+export function generatePatches(originalPayload, updatedPayload, policyType) {
   const payload = policyRuleModel.create(originalPayload);
 
-  return jsonPatch.compare(payload, generatePayload(updatedPayload, selectedActions, true, policyType));
+  return jsonPatch.compare(payload, generatePayload(updatedPayload, true, policyType));
 }
 
 export default {

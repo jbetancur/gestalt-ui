@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import PolicyEventRuleForm from './PolicyEventRuleForm';
-import validate from './PolicyEventRuleForm/validations';
+import { Form } from 'react-final-form';
+import { Col, Row } from 'react-flexybox';
+import ActionsToolbar from 'components/ActionsToolbar';
+import { ActivityContainer } from 'components/ProgressIndicators';
+import PolicyEventRuleForm from '../components/PolicyEventRuleForm';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateEventRuleModel } from '../selectors';
@@ -13,43 +16,43 @@ class PolicyEventRuleCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    policyRuleActions: PropTypes.object.isRequired,
-    clearSelectedActions: PropTypes.func.isRequired,
-    selectedActions: PropTypes.array.isRequired,
   };
 
-  componentWillUnmount() {
-    this.props.clearSelectedActions();
-  }
-
-  create(values) {
-    const { match, history, policyRuleActions, selectedActions } = this.props;
-    const payload = generatePayload(values, selectedActions, false, 'event');
+  create = (values) => {
+    const { match, history, policyRuleActions } = this.props;
+    const payload = generatePayload(values, false, 'event');
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
 
     policyRuleActions.createPolicyRule({ fqon: match.params.fqon, entityId: match.params.policyId, entityKey: 'policies', payload, onSuccess });
   }
 
   render() {
+    const { initialValues, policyRulePending } = this.props;
+
     return (
-      <PolicyEventRuleForm
-        title="Create Event Rule"
-        submitLabel="Create"
-        cancelLabel="Policy"
-        onSubmit={values => this.create(values)}
-        {...this.props}
-      />
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ActionsToolbar title="Create a Policy Event Rule" />
+
+          {policyRulePending && <ActivityContainer id="policyRule-form" />}
+
+          <Form
+            component={PolicyEventRuleForm}
+            onSubmit={this.create}
+            initialValues={initialValues}
+            {...this.props}
+          />
+        </Col>
+      </Row>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  policyRule: getCreateEventRuleModel(state),
-  selectedActions: state.policyRules.selectedActions.selectedActions,
   initialValues: getCreateEventRuleModel(state),
 });
 
-export default withPolicyRule(connect(mapStateToProps, Object.assign({}, actions))(reduxForm({
-  form: 'policyEventRuleCreate',
-  validate
-})(PolicyEventRuleCreate)));
+export default compose(
+  withPolicyRule,
+  connect(mapStateToProps, actions),
+)(PolicyEventRuleCreate);
