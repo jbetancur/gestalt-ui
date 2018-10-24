@@ -44,7 +44,7 @@ class WorkspaceDetails extends PureComponent {
   }
 
   renderMenuItems() {
-    const { match } = this.props;
+    const { context: { workspace } } = this.props;
 
     return [
       {
@@ -60,7 +60,7 @@ class WorkspaceDetails extends PureComponent {
         primaryText: 'Edit',
         leftIcon: <FontIcon>edit</FontIcon>,
         component: Link,
-        to: { pathname: `${match.url}/edit`, state: { modal: true } },
+        to: { pathname: `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/edit`, state: { modal: true } },
       },
       <Divider key="workspace-menu-divider-1" />,
       {

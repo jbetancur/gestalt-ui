@@ -45,7 +45,7 @@ class EnvironmentDetails extends PureComponent {
   }
 
   renderMenuItems() {
-    const { match } = this.props;
+    const { context: { environment } } = this.props;
 
     return [
       {
@@ -61,7 +61,7 @@ class EnvironmentDetails extends PureComponent {
         primaryText: 'Edit',
         leftIcon: <FontIcon>edit</FontIcon>,
         component: Link,
-        to: { pathname: `${match.url}/edit`, state: { modal: true } },
+        to: { pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/edit`, state: { modal: true } },
       },
       <Divider key="organization-menu-divider-1" />,
       {
