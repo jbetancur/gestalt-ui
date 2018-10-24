@@ -16,7 +16,6 @@ class EnvironmentEdit extends Component {
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
     contextActions: PropTypes.object.isRequired,
     selectedEnvironment: PropTypes.object.isRequired,
     selectedEnvironmentPending: PropTypes.bool.isRequired,
@@ -53,7 +52,7 @@ class EnvironmentEdit extends Component {
   }
 
   render() {
-    const { context: { environment }, selectedEnvironmentPending, initialFormValues } = this.props;
+    const { selectedEnvironment, selectedEnvironmentPending, initialFormValues } = this.props;
 
     return (
       selectedEnvironmentPending
@@ -62,7 +61,7 @@ class EnvironmentEdit extends Component {
         :
           <Form
             component={HierarchyForm}
-            title={environment.description || environment.name}
+            title={selectedEnvironment.description || selectedEnvironment.name}
             loading={selectedEnvironmentPending}
             editMode
             isEnvironment
