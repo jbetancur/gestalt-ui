@@ -6,6 +6,7 @@ const uiProviderTypes = [
     DCOSConfig: true,
     allowEnvVariables: false,
     networksConfig: true,
+    allowLinkedProviders: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
@@ -14,6 +15,7 @@ const uiProviderTypes = [
     allowStorageClasses: true,
     inputType: 'yaml',
     subTypes: ['Default', 'GKE', 'EKS'],
+    allowLinkedProviders: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::ECS',
@@ -23,10 +25,12 @@ const uiProviderTypes = [
     inputType: 'json',
     subTypes: ['Fargate', 'EC2'],
     networksConfig: true,
+    allowLinkedProviders: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
     allowEnvVariables: false,
+    allowLinkedProviders: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Kong',
