@@ -228,7 +228,7 @@ class ContainerForm extends Component {
                 error={safeErrors.properties.port_mappings && errors.properties.port_mappings.length > 0}
               >
                 <PortMappingsForm
-                  fieldName={`${formName}properties.port_mappings`}
+                  fieldName={`${formName}.properties.port_mappings`}
                   form={form}
                   formValues={values}
                   networkType={formValues.properties.network}
