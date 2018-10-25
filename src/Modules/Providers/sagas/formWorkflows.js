@@ -210,6 +210,7 @@ function* watchContainerPoll() {
       task: call(poll, fetchContainer, action),
       cancel: take(UNLOAD_PROVIDER),
       cancelled: take(INIT_PROVIDEREDIT_CANCELLED),
+      cancelWhenCreateMode: take(INIT_PROVIDERCREATE_FULFILLED),
       // cancelRoute: take(LOCATION_CHANGE),
     });
   }

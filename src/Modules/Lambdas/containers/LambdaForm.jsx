@@ -110,7 +110,7 @@ class LambdaForm extends Component {
           ?
             <Row gutter={5}>
               <Col flex={12}>
-                <Panel title="Select a Laser Provider & Runtime" expandable={false}>
+                <Panel title="Select a Lambda Provider & Runtime" expandable={false}>
                   <Row gutter={5}>
                     <Col flex={12}>
                       <Field

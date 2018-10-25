@@ -10,7 +10,7 @@ const Message = styled.div`
   padding: 8px 0 8px 0;
 `;
 
-const ContainerInstances = ({ events }) => {
+const ContainerEvents = ({ events }) => {
   const columns = [
     {
       name: 'Message',
@@ -49,8 +49,12 @@ const ContainerInstances = ({ events }) => {
   );
 };
 
-ContainerInstances.propTypes = {
-  events: PropTypes.array.isRequired,
+ContainerEvents.propTypes = {
+  events: PropTypes.array,
 };
 
-export default ContainerInstances;
+ContainerEvents.defaultProps = {
+  events: [],
+};
+
+export default ContainerEvents;
