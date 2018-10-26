@@ -36,5 +36,5 @@ const iconMappings = (size, options) => ({
   bash: <BashIcon size={size} {...options} />,
 });
 
-export default (icon = '', size = defaultSize, options = {}) =>
-  iconMappings(size, options)[icon.toLowerCase()] || null;
+export default (icon, size = defaultSize, options = {}) =>
+  (icon ? iconMappings(size, options)[icon.toLowerCase()] : null);
