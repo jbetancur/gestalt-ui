@@ -14,7 +14,7 @@ import {
   BashIcon,
 } from 'components/Icons';
 
-const defaultSize = 22;
+const defaultSize = 24;
 
 const iconMappings = (size, options) => ({
   // caas providers
