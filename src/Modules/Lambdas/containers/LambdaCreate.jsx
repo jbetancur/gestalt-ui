@@ -9,13 +9,13 @@ import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
-import ListIcon from '../components/ListIcon';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateLambdaModel } from '../selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
+import iconMap from '../../Providers/config/iconMap';
 
 const focusOnErrors = createDecorator();
 
@@ -67,7 +67,7 @@ class LambdaCreate extends PureComponent {
       selectedRuntime,
     } = this.props;
 
-    const icon = selectedRuntime.value ? <ListIcon runtime={selectedRuntime.value} /> : null;
+    const icon = selectedRuntime.value ? iconMap(selectedRuntime.value) : null;
 
     return (
       <Row center>
@@ -82,7 +82,7 @@ class LambdaCreate extends PureComponent {
           <Form
             onSubmit={this.create}
             initialValues={initialFormValues}
-            render={LambdaForm}
+            render={props => <LambdaForm {...props} />}
             validate={validate}
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}

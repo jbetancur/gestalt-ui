@@ -25,7 +25,6 @@ import { Caption } from 'components/Typography';
 import Div from 'components/Div';
 import ContainerForm from './ContainerForm';
 import ContainerActions from '../components/ContainerActions';
-import ContainerIcon from '../components/ContainerIcon';
 import ContainerInstances from '../components/ContainerInstances';
 import ContainerEvents from '../components/ContainerEvents';
 import ContainerServiceAddresses from '../components/ContainerServiceAddresses';
@@ -40,6 +39,7 @@ import {
 import ActionsModals from '../ActionModals';
 import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
 import withContainer from '../hocs/withContainer';
+import iconMap from '../../Providers/config/iconMap';
 
 const focusOnErrors = createDecorator();
 
@@ -149,7 +149,7 @@ class ContainerEdit extends Component {
             <ActionsToolbar
               title={container.name}
               subtitle={selectedProvider.provider.name}
-              titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
+              titleIcon={iconMap(selectedProvider.type)}
               actions={[
                 statusDetail &&
                 <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>

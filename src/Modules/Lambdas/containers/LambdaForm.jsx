@@ -16,9 +16,9 @@ import LambdaFunctionSection from '../components/LambdaFunctionSection';
 import LambdaPeriodicSection from '../components/LambdaPeriodicSection';
 import LambdaAdvancedSection from '../components/LambdaAdvancedSection';
 import LambdaSourceSection from '../components/LambdaSourceSection';
-import ListIcon from '../components/ListIcon';
 import providerModel from '../../Providers/models/provider';
 import runTimes from '../lists/runTimes';
+import iconMap from '../../Providers/config/iconMap';
 
 class LambdaForm extends Component {
   static propTypes = {
@@ -35,7 +35,7 @@ class LambdaForm extends Component {
     executors: PropTypes.array.isRequired,
     secrets: PropTypes.array.isRequired,
     onSaveInlineCode: PropTypes.func,
-    lambdaStateActions: PropTypes.func.isRequired,
+    lambdaStateActions: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -78,11 +78,10 @@ class LambdaForm extends Component {
 
   generateMenuItems() {
     const { executors } = this.props;
-
     return orderBy(executors, 'name').map(item => ({
       label: item.name,
       value: item.id,
-      leftIcon: <ListIcon runtime={last(item.resource_type.split('::'))} />,
+      leftIcon: iconMap(last(item.resource_type.split('::'))),
     }));
   }
 

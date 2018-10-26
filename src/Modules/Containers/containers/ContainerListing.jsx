@@ -18,7 +18,7 @@ import { Button } from 'components/Buttons';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
-import ContainerIcon from '../components/ContainerIcon';
+import iconMap from '../../Providers/config/iconMap';
 import ActionsModals from '../ActionModals';
 import withContainers from '../hocs/withContainers';
 
@@ -120,7 +120,7 @@ class ContainerListing extends PureComponent {
         center: true,
         compact: true,
         width: '60px',
-        cell: row => <ContainerIcon resourceType={getLastFromSplit(row.properties.provider.resource_type)} />
+        cell: row => iconMap(getLastFromSplit(row.properties.provider.resource_type)),
       },
       {
         name: 'Instances',

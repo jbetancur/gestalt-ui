@@ -20,7 +20,6 @@ import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
 import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
-import ListIcon from '../components/ListIcon';
 import validate from '../validations';
 import { generatePatches } from '../payloadTransformer';
 import { getEditLambdaModel } from '../selectors';
@@ -28,6 +27,7 @@ import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
 import runTimes from '../lists/runTimes';
 import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
+import iconMap from '../../Providers/config/iconMap';
 
 const focusOnErrors = createDecorator();
 
@@ -113,7 +113,7 @@ class LambdaEdit extends PureComponent {
       selectedRuntime,
     } = this.props;
 
-    const icon = selectedRuntime.value ? <ListIcon runtime={selectedRuntime.value} /> : null;
+    const icon = selectedRuntime.value ? iconMap(selectedRuntime.value) : null;
 
     return (
       lambdaPending && !lambda.id ?
@@ -175,7 +175,7 @@ class LambdaEdit extends PureComponent {
                   editMode
                   onSubmit={this.update}
                   initialValues={initialFormValues}
-                  render={LambdaForm}
+                  render={props => <LambdaForm {...props} />}
                   validate={validate}
                   mutators={{ ...arrayMutators }}
                   decorators={[focusOnErrors]}

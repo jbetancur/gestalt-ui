@@ -19,7 +19,7 @@ import {
   selectProvider,
   selectVolumeListing,
 } from '../selectors';
-import ContainerIcon from '../components/ContainerIcon';
+import iconMap from '../../Providers/config/iconMap';
 import withContainer from '../hocs/withContainer';
 
 const focusOnErrors = createDecorator();
@@ -81,7 +81,7 @@ class ContainerCreate extends Component {
           <ActionsToolbar
             title="Deploy a Container"
             subtitle={selectedProvider.provider.name}
-            titleIcon={<ContainerIcon resourceType={selectedProvider.type} />}
+            titleIcon={iconMap(selectedProvider.type)}
           />
 
           {containerPending && <ActivityContainer id="container-form" />}

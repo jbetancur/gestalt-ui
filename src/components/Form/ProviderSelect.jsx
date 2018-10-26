@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { last, orderBy } from 'lodash';
 import { Field } from 'react-final-form';
 import { SelectField } from 'components/ReduxFormFields';
 import { composeValidators, required } from 'util/forms';
+import iconMap from '../../Modules/Providers/config/iconMap';
 
 class ProviderSelect extends Component {
   static propTypes = {
@@ -45,8 +47,17 @@ class ProviderSelect extends Component {
     setSelectedProvider(selection);
   }
 
+  generateMenuItems() {
+    const { providers } = this.props;
+    return orderBy(providers, 'name').map(item => ({
+      label: item.name,
+      value: item.id,
+      leftIcon: iconMap(last(item.resource_type.split('::'))),
+    }));
+  }
+
   render() {
-    const { name, label, providers, disabled } = this.props;
+    const { name, label, disabled } = this.props;
 
     return (
       <Field
@@ -54,9 +65,7 @@ class ProviderSelect extends Component {
         component={SelectField}
         name={name}
         label={label}
-        menuItems={providers}
-        itemValue="id"
-        itemLabel="name"
+        menuItems={this.generateMenuItems()}
         onChange={this.handleSelectedProvider}
         disabled={disabled}
         validate={composeValidators(required())}

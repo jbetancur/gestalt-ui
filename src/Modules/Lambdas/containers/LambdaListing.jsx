@@ -13,10 +13,10 @@ import { LambdaIcon } from 'components/Icons';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import LambdaMenuActions from '../components/LambdaMenuActions';
-import ListIcon from '../components/ListIcon';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import actions from '../actions';
 import withLambdas from '../hocs/withLambdas';
+import iconMap from '../../Providers/config/iconMap';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 const tableTheme = {
@@ -129,7 +129,7 @@ class LambdaListing extends PureComponent {
         sortable: true,
         compact: true,
         center: true,
-        cell: row => <ListIcon runtime={row.properties.runtime} />,
+        cell: row => iconMap(row.properties.runtime),
       },
       {
         name: 'Owner',
