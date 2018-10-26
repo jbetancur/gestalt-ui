@@ -27,7 +27,10 @@ class PortMappingsForm extends Component {
       item.lb_port = port;
     }
 
-    form.mutators.update(fieldName, index, { ...item, container_port: port });
+    form.batch(() => {
+      form.change(`${fieldName}[${index}].container_port`, port);
+      form.change(`${fieldName}[${index}].lb_port`, port);
+    });
   };
 
   render() {

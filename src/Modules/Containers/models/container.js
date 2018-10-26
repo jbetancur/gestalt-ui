@@ -2,6 +2,20 @@ import { object, array, boolean, string, number } from 'yup';
 import { pick } from 'lodash';
 import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';
 
+const fixPortMappings = (portMappings = []) => portMappings.map((port) => {
+  let newPort = { ...port };
+
+  if (!port.type && port.expose_endpoint) {
+    newPort = { ...newPort, type: 'internal' };
+  }
+
+  if (port.expose_endpoint && !port.lb_port) {
+    newPort = { ...newPort, lb_port: port.container_port };
+  }
+
+  return newPort;
+});
+
 function transformIn(model) {
   return {
     ...model,
@@ -9,6 +23,7 @@ function transformIn(model) {
       ...model.properties,
       env: Array.isArray(model.properties.env) ? model.properties.env : mapTo2DArray(model.properties.env),
       labels: Array.isArray(model.properties.labels) ? model.properties.labels : mapTo2DArray(model.properties.labels),
+      port_mappings: fixPortMappings(model.properties.port_mappings),
     },
   };
 }
