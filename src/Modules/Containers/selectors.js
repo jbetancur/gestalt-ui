@@ -10,15 +10,16 @@ export const selectEnv = state => state.containers.container.inheritedEnv;
 export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
 const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
-  const newcheck = Object.assign({}, check);
+  const newcheck = { ...check };
 
-  if (!check.protocol !== 'COMMAND') {
+  if (check.protocol !== 'COMMAND') {
     if ('port_index' in newcheck) {
       newcheck.port_type = 'index';
     } else {
       newcheck.port_type = 'number';
     }
   }
+
   return newcheck;
 });
 
@@ -56,8 +57,6 @@ export const getEditContainerModel = createSelector(
       properties: {
         ...properties,
         health_checks: fixHealthChecks(properties.health_checks),
-        port_mappings: properties.port_mappings
-          .map(port => (!port.type && port.expose_endpoint ? { ...port, type: 'internal' } : port)),
       },
     };
 

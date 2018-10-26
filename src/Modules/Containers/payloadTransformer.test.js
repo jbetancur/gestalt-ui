@@ -41,26 +41,28 @@ describe('(Container Payload Transformer) generatePayload', () => {
     });
 
     describe('properties.health_checks', () => {
-      it('should remove port it the port_type = index', () => {
+      it('should remove port it the port_type = index and add the type pseudo prop', () => {
         const sourcePayload = containerModel.get({
           properties: {
-            health_checks: [{ protocol: 'HTTP', port_type: 'index', port: 1 }]
+            health_checks: [{ protocol: 'HTTP', port_type: 'index', port_index: 0, port: 1 }] // remove port: 1
           }
         });
+
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', port_type: 'index' }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', port_type: 'index', port_index: 0, }]);
       });
 
-      it('should remove port_index it the port_type = number', () => {
+      it('should remove port_index it the port_type = number and add the type pseudo prop', () => {
         const sourcePayload = containerModel.get({
           properties: {
-            health_checks: [{ protocol: 'HTTP', port_type: 'number', port_index: 1 }]
+            health_checks: [{ protocol: 'HTTP', port_type: 'number', port: 80, port_index: 1 }], // remove port_index: 1
           }
         });
+
         const payload = generatePayload(sourcePayload);
 
-        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', port_type: 'number' }]);
+        expect(payload.properties.health_checks).toEqual([{ protocol: 'HTTP', port_type: 'number', port: 80 }]);
       });
 
       it('should remove the correct properties it the protocol is TCP', () => {
