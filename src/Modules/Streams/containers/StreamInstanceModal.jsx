@@ -21,7 +21,7 @@ class StreamInstanceModal extends Component {
     return (
       <DialogContainer
         id="context-form-dialog"
-        title="View Stream"
+        title="View Stream Metrics"
         visible={visible}
         onHide={hideModal}
         actions={<Button flat primary onClick={hideModal}>Close</Button>}

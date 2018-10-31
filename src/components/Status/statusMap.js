@@ -78,6 +78,11 @@ export default (status) => {
         icon: 'help_outline',
         color: '$md-red-a400',
       };
+    case 'STOPPED':
+      return {
+        icon: 'stop',
+        color: '$md-grey-500',
+      };
     default:
       return {
         icon: 'info_outline',

@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
+import { Card } from 'components/Cards';
 import { Button } from 'components/Buttons';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
@@ -79,15 +80,11 @@ class StreamSpecEdit extends Component {
             <ActionsToolbar
               title={streamSpec.name}
               actions={[
-                <Button
-                  key="streamspec--refresh"
-                  flat
-                  iconChildren="refresh"
-                  onClick={() => this.populateStreamSpecs()}
-                  primary
-                >
-                  Refresh
-                </Button>,
+                <ActionsMenu
+                  key="streamspec--actions"
+                  actionList={providerActions}
+                  fqon={match.params.fqon}
+                />,
                 <Button
                   key="streamspec--entitlements"
                   flat
@@ -96,11 +93,6 @@ class StreamSpecEdit extends Component {
                 >
                   Entitlements
                 </Button>,
-                <ActionsMenu
-                  key="streamspec--actions"
-                  actionList={providerActions}
-                  fqon={match.params.fqon}
-                />
               ]}
             />
 
@@ -108,12 +100,19 @@ class StreamSpecEdit extends Component {
 
             <Tabs>
               <Tab title="Instances">
-                <StreamInstances
-                  streamSpec={streamSpec}
-                  streamInstances={streamInstances}
-                  fqon={match.params.fqon}
-                  providerActions={instanceProviderActions}
-                />
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Card>
+                      <StreamInstances
+                        streamSpec={streamSpec}
+                        streamInstances={streamInstances}
+                        fqon={match.params.fqon}
+                        providerActions={instanceProviderActions}
+                        onRefresh={() => this.populateStreamSpecs()}
+                      />
+                    </Card>
+                  </Col>
+                </Row>
                 <FullPageFooter>
                   <Button
                     to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}

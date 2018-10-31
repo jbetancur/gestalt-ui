@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { orderBy } from 'lodash';
 import streamSpecModel from './models/streamSpec';
 
 export const selectStreamSpec = state => state.streamSpecs.streamSpec.streamSpec;
@@ -10,5 +11,5 @@ export const getStreamSpec = createSelector(
 
 export const getStreamInstances = createSelector(
   [selectStreamSpec],
-  streamSpec => streamSpecModel.get(streamSpec).properties.streams,
+  streamSpec => orderBy(streamSpecModel.get(streamSpec).properties.streams),
 );

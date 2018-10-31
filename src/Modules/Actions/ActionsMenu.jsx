@@ -78,7 +78,8 @@ class ActionsMenu extends PureComponent {
   }
 
   render() {
-    const { actionList, listItem, icon } = this.props;
+    const { actionList, listItem, icon, ...rest } = this.props;
+
     return (
       actionList && actionList.length > 0 ?
         <Div display="inline">
@@ -89,10 +90,10 @@ class ActionsMenu extends PureComponent {
               flat={!icon}
               icon={icon}
               iconBefore={false}
-              position={MenuButton.Positions.BELOW}
               simplifiedMenu={false}
               repositionOnScroll={false}
               menuItems={this.renderActions()}
+              {...rest}
             >
               {!icon && 'Actions'}
             </MenuButton> :
