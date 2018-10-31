@@ -60,9 +60,9 @@ const APIEndpointForm = ({
     <Form onSubmit={handleSubmit} autoComplete="off" disabled={apiEndpointPending} paddingBottom="64px">
       <Row gutter={5}>
         <Col flex={12}>
-          <Panel title="General" expandable={false}>
+          <Panel title="Mapping" expandable={false}>
             <Row gutter={5}>
-              <Col flex={2} xs={12} lg={1}>
+              <Col flex={2} xs={12} sm={4}>
                 <Field
                   id="endpoint-type"
                   component={SelectField}
@@ -72,14 +72,6 @@ const APIEndpointForm = ({
                   itemValue="value"
                   label="Type"
                   onChange={resetForm}
-                  required
-                />
-              </Col>
-              <Col flex={4}>
-                <Field
-                  label="Endpoint Name"
-                  component={TextField}
-                  name="name"
                   required
                 />
               </Col>
@@ -105,7 +97,7 @@ const APIEndpointForm = ({
                     />}
                 </Col>}
               {values.properties.implementation_type === 'container' &&
-                <Col flex={3} xs={12} sm={6} md={6}>
+                <Col flex={6} xs={12} sm={12}>
                   <Field
                     id="containers-dropdown"
                     component={SelectField}
@@ -121,7 +113,7 @@ const APIEndpointForm = ({
                   />
                 </Col>}
               {values.properties.implementation_type === 'container' &&
-                <Col flex={3} xs={12} sm={6} md={6}>
+                <Col flex={4} xs={12} sm={12}>
                   <Field
                     id="container-ports-dropdown"
                     component={SelectField}

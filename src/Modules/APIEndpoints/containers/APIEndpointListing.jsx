@@ -114,8 +114,8 @@ class APIEndpointListing extends PureComponent {
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
-        name: 'Name',
-        selector: 'name',
+        name: 'Resource',
+        selector: 'properties.resource',
         sortable: true,
         maxWidth: '175px',
       },

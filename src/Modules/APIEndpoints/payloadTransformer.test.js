@@ -1,7 +1,7 @@
 import apiEndpointModel from './models/apiEndpoint';
 import { generatePayload, generatePatches } from './payloadTransformer';
 
-describe('(APIEndpoint Payload Transformer) generatePayload', () => {
+describe('APIEndpoint Payload Transformer', () => {
   describe('generatePayload', () => {
     describe('properties.methods', () => {
       it('should convert properties.methods to an Array if there are methods defined', () => {
@@ -31,7 +31,7 @@ describe('(APIEndpoint Payload Transformer) generatePayload', () => {
       it('should remove container related properties if the implementation_type = lambda', () => {
         const sourcePayload = apiEndpointModel.get({
           properties: {
-            implementation_type: 'lambda'
+            implementation_type: 'lambda',
           }
         });
         const payload = generatePayload(sourcePayload, true);

@@ -14,6 +14,8 @@ export function generatePayload(sourcePayload, updateMode = false) {
     if (payload.properties.implementation_type === 'lambda') {
       delete payload.properties.container_port_name;
     }
+  } else {
+    payload.name = `${payload.properties.implementation_id}-${payload.properties.resource}`;
   }
 
   if (sourcePayload.properties.methods && typeof sourcePayload.properties.methods === 'string') {
