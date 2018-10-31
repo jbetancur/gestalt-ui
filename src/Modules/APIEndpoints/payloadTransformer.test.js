@@ -54,71 +54,29 @@ describe('APIEndpoint Payload Transformer', () => {
   });
 
   describe('generatePatches', () => {
-    it('should generate patch ops if there is a change to a property', () => {
+    it('should generate the correct patch when hosts is present on the original payload', () => {
       const originalPayload = apiEndpointModel.get();
       const updatedPayload = apiEndpointModel.get({
         properties: {
-          implementation_id: '123'
+          hosts: ['wahoo']
         }
       });
       const payload = generatePatches(originalPayload, updatedPayload);
-      const expectedPatches = [
-        { op: 'replace', path: '/properties/implementation_id', value: '123' },
-        { op: 'replace', path: '/properties/methods', value: ['GET'] }
-      ];
 
-      expect(payload).toEqual(expectedPatches);
+      expect(payload).toContainEqual({ op: 'add', path: '/properties/hosts/0', value: 'wahoo' });
     });
 
-    it('should generate the correct patch ops if there is a change to properties.resource', () => {
+    it('should generate the correct patch when hosts is NOT present on the original payload', () => {
       const originalPayload = apiEndpointModel.get();
+      delete originalPayload.properties.hosts;
       const updatedPayload = apiEndpointModel.get({
         properties: {
-          resource: '/wahoo'
+          hosts: ['wahoo']
         }
       });
       const payload = generatePatches(originalPayload, updatedPayload);
-      const expectedPatches = [
-        { op: 'replace', path: '/properties/methods', value: ['GET'] },
-        { op: 'replace', path: '/properties/resource', value: '/wahoo' },
-      ];
 
-      expect(payload).toEqual(expectedPatches);
+      expect(payload).toContainEqual({ op: 'add', path: '/properties/hosts', value: ['wahoo'] });
     });
-  });
-
-  it('should generate the correct patch when hosts is present on the original payload', () => {
-    const originalPayload = apiEndpointModel.get();
-    const updatedPayload = apiEndpointModel.get({
-      properties: {
-        hosts: ['wahoo']
-      }
-    });
-    const payload = generatePatches(originalPayload, updatedPayload);
-
-    const expectedPatches = [
-      { op: 'replace', path: '/properties/methods', value: ['GET'] },
-      { op: 'add', path: '/properties/hosts/0', value: 'wahoo' },
-    ];
-
-    expect(payload).toEqual(expectedPatches);
-  });
-
-  it('should generate the correct patch when hosts is NOT present on the original payload', () => {
-    const originalPayload = apiEndpointModel.get();
-    delete originalPayload.properties.hosts;
-    const updatedPayload = apiEndpointModel.get({
-      properties: {
-        hosts: ['wahoo']
-      }
-    });
-    const payload = generatePatches(originalPayload, updatedPayload);
-
-    const expectedPatches = [
-      { op: 'replace', path: '/properties/methods', value: ['GET'] },
-      { op: 'add', path: '/properties/hosts', value: ['wahoo'] },
-    ];
-
-    expect(payload).toEqual(expectedPatches);
   });
 });
