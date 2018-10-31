@@ -44,15 +44,10 @@ class Tabs extends Component {
     }));
   }
 
-  // if a node is conditionally not rendered then remove from children
-  removeFalseNodes(nodes) {
-    return nodes.filter(c => c);
-  }
-
   // Encapsulate <Tabs/> component API as props for <Tab/> children
   renderChildrenWithTabsApiAsProps() {
     const { children } = this.props;
-    return React.Children.map(this.removeFalseNodes(children), (child, index) => React.cloneElement(child, {
+    return React.Children.map(React.Children.toArray(children), (child, index) => React.cloneElement(child, {
       onClick: this.handleTabClick,
       tabIndex: index,
       selected: index === this.state.activeTabIndex,
@@ -62,7 +57,7 @@ class Tabs extends Component {
   // Render current active tab content
   renderActiveTabContent() {
     const { children } = this.props;
-    const filteredChildren = this.removeFalseNodes(children);
+    const filteredChildren = React.Children.toArray(children);
     const { activeTabIndex } = this.state;
 
     if (filteredChildren[activeTabIndex]) {

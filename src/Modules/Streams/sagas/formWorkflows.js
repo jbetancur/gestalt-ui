@@ -64,6 +64,18 @@ export function* editViewWorkflow(action) {
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/actions?expand=true&filter=streamspec.edit&filter=streamspec.instances`),
     ]);
 
+    const streamActions = actions.data.length
+      ? actions.data
+        .filter(a => a.locations
+          .some(loc => loc === 'streamspec.edit'))
+      : [];
+
+    const streamInstanceActions = actions.data.length
+      ? actions.data
+        .filter(a => a.locations
+          .some(loc => loc === 'streamspec.instances'))
+      : [];
+
     yield put({
       type: INIT_STREAMSPECEDIT_FULFILLED,
       payload: {
@@ -72,12 +84,8 @@ export function* editViewWorkflow(action) {
         datafeeds: datafeeds.data,
         lambdas: lambdas.data
           .filter(l => l.properties && l.properties.runtime && (l.properties.runtime === 'java' || l.properties.runtime === 'java;scala')),
-        actions: actions.data
-          .filter(a => a.properties.ui_locations
-            .some(ui => ui.name === 'streamspec.edit')),
-        instanceActions: actions.data
-          .filter(a => a.properties.ui_locations
-            .some(ui => ui.name === 'streamspec.instances')),
+        actions: streamActions,
+        instanceActions: streamInstanceActions,
       },
     });
   } catch (e) {

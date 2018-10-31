@@ -2,9 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
 import Div from 'components/Div';
+import { buildParams } from 'config/lib/urlmapper';
+// import { arrayToMap } from 'util/helpers/transformations';
 
 class ActionsMenu extends PureComponent {
   static propTypes = {
@@ -13,6 +16,7 @@ class ActionsMenu extends PureComponent {
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
     icon: PropTypes.bool,
+    resource: PropTypes.object,
     onActionComplete: PropTypes.func,
   };
 
@@ -21,17 +25,33 @@ class ActionsMenu extends PureComponent {
     style: { textAlign: 'left' },
     listItem: false,
     icon: false,
+    resource: {},
     onActionComplete: () => { },
   };
 
+  parseURL(url, params = {}, resource = {}) {
+    if (Object.keys(params).length) {
+      const mapParams = {};
+
+      Object.keys(params).forEach((key) => {
+        mapParams[key] = get(resource, params[key]);
+      });
+
+      return buildParams(url, mapParams);
+    }
+
+    return url;
+  }
+
   async fetchContent(action) {
-    const { onActionComplete, toggleActionsModal } = this.props;
+    const { onActionComplete, toggleActionsModal, resource } = this.props;
 
     const verb = action.method
       ? action.method.toLowerCase()
       : 'get';
 
-    const response = await axios[verb](action.url);
+
+    const response = await axios[verb](this.parseURL(action.url, action.params, resource));
 
     if (action.render !== 'none') {
       toggleActionsModal(response.data, false, onActionComplete);
@@ -43,7 +63,7 @@ class ActionsMenu extends PureComponent {
 
     return (
       actionList.map((action, index) => {
-        const actionName = action.display_name || action.name;
+        const actionName = action.display_name || action.action;
 
         return (
           <ListItem

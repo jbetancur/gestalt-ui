@@ -36,7 +36,7 @@ const translateRetries = (value) => {
   return value;
 };
 
-const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, onActionComplete, showModal }) => (
+const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, showModal }) => (
   <Row gutter={5}>
     {streamInstances.length > 0 ?
       orderBy(streamInstances, ['startTime'], 'desc').map(stream => (
@@ -55,12 +55,8 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, o
             <CardActions>
               <ActionsMenu
                 icon
-                onActionComplete={onActionComplete}
-                model={stream}
+                resource={stream}
                 actionList={providerActions}
-                isChildResource
-                keyField="persistenceId"
-                parentKeyField="definitionId"
                 fqon={fqon}
               />
             </CardActions>
@@ -94,12 +90,7 @@ StreamInstances.propTypes = {
   streamSpec: PropTypes.object.isRequired,
   streamInstances: PropTypes.array.isRequired,
   providerActions: PropTypes.array.isRequired,
-  onActionComplete: PropTypes.func,
   showModal: PropTypes.func.isRequired,
-};
-
-StreamInstances.defaultProps = {
-  onActionComplete: () => { },
 };
 
 export default compose(

@@ -96,8 +96,8 @@ describe('container Form Workflow Sagas', () => {
           { data: [{ name: 'a lambda', properties: { runtime: 'java' } }] },
           {
             data: [
-              { name: 'action A', properties: { ui_locations: [{ name: 'streamspec.edit' }] } },
-              { name: 'action B', properties: { ui_locations: [{ name: 'streamspec.instances' }] } }
+              { name: 'action A', locations: ['streamspec.edit'] },
+              { name: 'action B', locations: ['streamspec.instances'] },
             ]
           },
         ]);
@@ -107,8 +107,8 @@ describe('container Form Workflow Sagas', () => {
           providers: [{ name: 'a provider' }],
           datafeeds: [{ name: 'a feed' }],
           lambdas: [{ name: 'a lambda', properties: { runtime: 'java' } }],
-          actions: [{ name: 'action A', properties: { ui_locations: [{ name: 'streamspec.edit' }] } }],
-          instanceActions: [{ name: 'action B', properties: { ui_locations: [{ name: 'streamspec.instances' }] } }],
+          actions: [{ name: 'action A', locations: ['streamspec.edit'] }],
+          instanceActions: [{ name: 'action B', locations: ['streamspec.instances'] }],
         };
 
         expect(result.value).toEqual(

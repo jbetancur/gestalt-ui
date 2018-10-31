@@ -80,6 +80,15 @@ class StreamSpecEdit extends Component {
               title={streamSpec.name}
               actions={[
                 <Button
+                  key="streamspec--refresh"
+                  flat
+                  iconChildren="refresh"
+                  onClick={() => this.populateStreamSpecs()}
+                  primary
+                >
+                  Refresh
+                </Button>,
+                <Button
                   key="streamspec--entitlements"
                   flat
                   iconChildren="security"
@@ -89,9 +98,7 @@ class StreamSpecEdit extends Component {
                 </Button>,
                 <ActionsMenu
                   key="streamspec--actions"
-                  model={streamSpec}
                   actionList={providerActions}
-                  onActionComplete={this.handleActionComplete}
                   fqon={match.params.fqon}
                 />
               ]}
@@ -105,7 +112,6 @@ class StreamSpecEdit extends Component {
                   streamSpec={streamSpec}
                   streamInstances={streamInstances}
                   fqon={match.params.fqon}
-                  onActionComplete={this.handleActionComplete}
                   providerActions={instanceProviderActions}
                 />
                 <FullPageFooter>
