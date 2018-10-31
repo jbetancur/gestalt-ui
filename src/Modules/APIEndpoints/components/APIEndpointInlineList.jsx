@@ -59,8 +59,8 @@ class APIEndpointInlineList extends PureComponent {
         cell: row => <StatusBubble status={getLastFromSplit(row.resource_state)} />
       },
       {
-        name: 'Name',
-        selector: 'name',
+        name: 'Resource',
+        selector: 'properties.resource',
         sortable: true,
         minWidth: '100px',
         compact: true,

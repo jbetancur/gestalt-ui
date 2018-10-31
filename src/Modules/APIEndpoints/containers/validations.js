@@ -7,10 +7,6 @@ export const nameMaxLen = 45;
 export default (values) => {
   const errors = {};
 
-  if (!values.name) {
-    errors.name = 'endpoint name is required';
-  }
-
   if (values && values.properties) {
     if (!values.properties.resource && !values.properties.hosts.length) {
       merge(errors, nestedObjectFromString('properties.resource', 'a relative path is required if no hosts are specified'));

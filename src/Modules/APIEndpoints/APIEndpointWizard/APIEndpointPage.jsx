@@ -15,18 +15,10 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
     {pending && <ActivityContainer primary centered id="apiendpoint-wizard--loading" />}
 
     <Row>
-      <Panel title="General" noShadow noPadding expandable={false}>
-        <Row gutter={5}>
-          <Col flex={6} xs={12}>
-            <Field
-              label="Endpoint Name"
-              component={TextField}
-              name="name"
-              required
-            />
-          </Col>
-          {implementationType === 'container' &&
-            <Col flex={6} xs={12}>
+      {implementationType === 'container' &&
+        <Panel title="Mapping" noShadow noPadding expandable={false}>
+          <Row gutter={5}>
+            <Col flex={6}>
               <Field
                 id="container--properties.container_port_name"
                 component={SelectField}
@@ -38,9 +30,9 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
                 required
                 helpText="the service mapping name"
               />
-            </Col>}
-        </Row>
-      </Panel>
+            </Col>
+          </Row>
+        </Panel>}
     </Row>
 
     <Row>

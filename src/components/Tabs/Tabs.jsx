@@ -30,8 +30,8 @@ class Tabs extends Component {
     defaultActiveTabIndex: 0,
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       activeTabIndex: this.props.defaultActiveTabIndex
@@ -44,9 +44,15 @@ class Tabs extends Component {
     }));
   }
 
+  // if a node is conditionally not rendered then remove from children
+  removeFalseNodes(nodes) {
+    return nodes.filter(c => c);
+  }
+
   // Encapsulate <Tabs/> component API as props for <Tab/> children
   renderChildrenWithTabsApiAsProps() {
-    return React.Children.map(this.props.children, (child, index) => React.cloneElement(child, {
+    const { children } = this.props;
+    return React.Children.map(this.removeFalseNodes(children), (child, index) => React.cloneElement(child, {
       onClick: this.handleTabClick,
       tabIndex: index,
       selected: index === this.state.activeTabIndex,
@@ -56,13 +62,14 @@ class Tabs extends Component {
   // Render current active tab content
   renderActiveTabContent() {
     const { children } = this.props;
+    const filteredChildren = this.removeFalseNodes(children);
     const { activeTabIndex } = this.state;
 
-    if (children[activeTabIndex]) {
-      return children[activeTabIndex].props.children;
+    if (filteredChildren[activeTabIndex]) {
+      return filteredChildren[activeTabIndex].props.children;
     }
 
-    return children.props.children;
+    return null;
   }
 
   render() {

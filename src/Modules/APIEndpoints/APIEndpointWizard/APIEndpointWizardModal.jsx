@@ -58,11 +58,11 @@ class APIEndpointWizard extends PureComponent {
   }
 
   finish = (values) => {
-    const { apiId, name } = values;
+    const { apiId } = values;
     const { apiEndpointActions, apiEndpointsActions, implementationType, implementationId, params, hideModal } = this.props;
 
     const model = {
-      name,
+      name: `${implementationId}-${values.properties.resource}`,
       properties: {
         ...values.properties,
         implementation_type: implementationType,

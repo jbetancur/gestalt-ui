@@ -42,7 +42,8 @@
         [
           "babel-plugin-styled-components",
           {
-            "minify": false
+            "minify": false,
+            "pure": true
           }
         ]
       ]
