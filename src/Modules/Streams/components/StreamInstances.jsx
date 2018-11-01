@@ -52,6 +52,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
           primary
           iconChildren="insert_chart"
           onClick={() => showModal({ fqon, streamId: streamSpec.id, persistenceId: row.persistenceId })}
+          disabled={row.status !== 'active'}
         >
           View Metrics
         </Button>
