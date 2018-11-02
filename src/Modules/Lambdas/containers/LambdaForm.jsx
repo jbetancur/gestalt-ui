@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { last, orderBy } from 'lodash';
+import { get, last, orderBy } from 'lodash';
 import { Link, withRouter } from 'react-router-dom';
 import Form from 'components/Form';
 import { SelectField } from 'components/ReduxFormFields';
@@ -46,11 +46,10 @@ class LambdaForm extends Component {
   handleRuntimeProps = (id) => {
     const { editMode, executors, form, lambdaStateActions } = this.props;
     const selectedExecutor = executors.find(e => e.id === id);
-    const selectedRuntime = (selectedExecutor &&
-      selectedExecutor.properties &&
-      selectedExecutor.properties.config &&
-      selectedExecutor.properties.config.env &&
-      runTimes.find(runtime => runtime.value === selectedExecutor.properties.config.env.public.RUNTIME));
+    const selectedRuntime = {
+      codeOptions: [{ displayName: 'Package', value: 'package' }],
+      ...runTimes.find(runtime => runtime.value === get(selectedExecutor, 'properties.config.env.public.RUNTIME')),
+    };
 
     form.batch(() => {
       // always set back to package if the runtime is changed

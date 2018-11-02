@@ -112,4 +112,12 @@ export default [
     options: {},
     codeOptions: codeOptionsInline,
   },
+  {
+    value: 'polyglot-jvm',
+    defaultMem: 256,
+    format: 'com.package.Class;function',
+    codeFormat: 'java',
+    options: {},
+    codeOptions,
+  },
 ];

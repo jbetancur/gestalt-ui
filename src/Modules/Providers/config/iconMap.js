@@ -34,6 +34,9 @@ const iconMappings = (size, options) => ({
   ruby: <RubyIcon size={size} {...options} />,
   nashorn: <RhinoJSIcon size={size} {...options} />,
   bash: <BashIcon size={size} {...options} />,
+
+  // graalvm executors
+  'polyglot-jvm': <JavaIcon size={size} {...options} />,
 });
 
 export default (icon, size = defaultSize, options = {}) =>
