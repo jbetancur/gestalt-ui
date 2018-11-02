@@ -33,6 +33,7 @@ const initialState = {
   workspaces: [],
   environment: environmentModel.get(),
   environments: [],
+  actions: [],
   pending: false,
   completed: false,
 };
@@ -43,9 +44,8 @@ export default (state = initialState, action) => {
     case PRE_CONTEXT_REQUEST:
       return {
         ...state,
-        contextMeta: {
-          ...action.payload.contextMeta,
-        },
+        contextMeta: action.payload.contextMeta,
+        actions: [],
       };
     case FETCH_CONTEXT_REQUEST:
       return {

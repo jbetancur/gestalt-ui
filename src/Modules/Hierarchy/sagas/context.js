@@ -29,7 +29,7 @@ export function* buildOrganizationPayload(action) {
         organization: organization.data,
         organizations: organizations.data,
         workspaces: workspaces.data,
-        organizationActions: actions.data,
+        actions: actions.data,
         // Clear the state here
         workspace: workspaceModel.get(),
         environment: environmentModel.get(),
@@ -70,7 +70,7 @@ export function* buildWorkspacePayload(action) {
           workspaces: workspaces.data,
           workspace: workspace.data,
           environments: environments.data,
-          workspaceActions: actions.data,
+          actions: actions.data,
           // Clear the state here
           environment: environmentModel.get(),
         },
@@ -89,7 +89,7 @@ export function* buildWorkspacePayload(action) {
         contextMeta,
         workspace: workspace.data,
         environments: environments.data,
-        workspaceActions: actions.data,
+        actions: actions.data,
         // Clear the state here
         environment: environmentModel.get(),
       },
@@ -144,7 +144,7 @@ export function* buildEnvironmentPayload(action) {
             organization: org.data,
             organizations: orgs.data,
             workspaces: wkspcs.data,
-            environmentActions: actionsResponse.data,
+            actions: actionsResponse.data,
           },
         });
       }
@@ -158,7 +158,7 @@ export function* buildEnvironmentPayload(action) {
           environment: envResponse.data,
           workspace: wkspc.data,
           environments: environments.data,
-          environmentActions: actionsResponse.data,
+          actions: actionsResponse.data,
         },
       });
     }
@@ -174,7 +174,7 @@ export function* buildEnvironmentPayload(action) {
       payload: {
         contextMeta,
         environment: env.data,
-        environmentActions: actions.data,
+        actions: actions.data,
       },
     });
   } catch (e) {

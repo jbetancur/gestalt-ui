@@ -38,13 +38,6 @@ export default (context, experimentalFlag) => {
         icon: 'provider',
         to: `/${fqon}/providers`,
       },
-      {
-        key: 'hierarchy--mainframe',
-        icon: 'cloudframe',
-        title: 'Cloud Frame',
-        to: 'https://gtw1.test.galacticfog.com/cloud-frame-demo/ui/CloudFrame',
-        isVisible: experimentalFlag,
-      },
     ],
     workspace: [
       {

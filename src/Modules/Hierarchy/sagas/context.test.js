@@ -53,7 +53,7 @@ describe('Context Workflow Sagas', () => {
             organization: { id: 1, name: 'org context' },
             organizations: [{ id: 2, name: 'sub org' }],
             workspaces: [{ id: 3, name: 'workspace' }],
-            organizationActions: [{ id: 3333, display_name: 'an action' }],
+            actions: [{ id: 3333, display_name: 'an action' }],
             workspace: workspaceModel.get(),
             environment: environmentModel.get(),
             environments: [],
@@ -99,7 +99,7 @@ describe('Context Workflow Sagas', () => {
               },
               workspace: { id: 1, name: 'workspace' },
               environments: [{ id: 2, name: 'environment' }],
-              workspaceActions: [{ id: 3333, display_name: 'an action' }],
+              actions: [{ id: 3333, display_name: 'an action' }],
               environment: environmentModel.get(),
             },
           })
@@ -150,7 +150,7 @@ describe('Context Workflow Sagas', () => {
               workspaces: [{ id: 3, name: 'workspace' }],
               workspace: { id: 3, name: 'workspace root' },
               environments: [{ id: 3, name: 'an environment' }],
-              workspaceActions: [{ id: 3333, display_name: 'an action' }],
+              actions: [{ id: 3333, display_name: 'an action' }],
               environment: environmentModel.get(),
             },
           })
@@ -193,7 +193,7 @@ describe('Context Workflow Sagas', () => {
                 environmentId: '123',
               },
               environment: { id: 1, name: 'environment' },
-              environmentActions: [{ id: 3333, display_name: 'an action' }],
+              actions: [{ id: 3333, display_name: 'an action' }],
             },
           })
         );
@@ -249,7 +249,7 @@ describe('Context Workflow Sagas', () => {
               environment: { id: '456', properties: { workspace: { id: '890' } } },
               workspace: { id: 2, name: 'workspace context' },
               environments: [{ id: 3, name: 'an environment' }],
-              environmentActions: [{ id: 3333, display_name: 'an action' }],
+              actions: [{ id: 3333, display_name: 'an action' }],
             },
           })
         );
@@ -316,7 +316,7 @@ describe('Context Workflow Sagas', () => {
               organization: { id: 4, name: 'an org context' },
               organizations: [{ id: 5, name: 'sub org' }],
               workspaces: [{ id: 6, name: 'a workspace' }],
-              environmentActions: [{ id: 3333, display_name: 'an action' }],
+              actions: [{ id: 3333, display_name: 'an action' }],
             },
           })
         );

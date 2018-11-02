@@ -32,6 +32,7 @@ const initialState = {
   workspaces: [],
   environment: environmentModel.get(),
   environments: [],
+  actions: [],
   pending: false,
   completed: false,
 };

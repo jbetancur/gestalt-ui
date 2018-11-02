@@ -2,46 +2,47 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import styled, { withTheme } from 'styled-components';
-import { FontIcon } from 'react-md';
+import { FontIcon, Divider } from 'react-md';
 import withApp from 'App/hocs/withApp';
 import NavItem from '../components/NavItem';
 import withContext from '../hocs/withContext';
 import navItems from '../config/navItems';
 import iconMap from '../config/iconMap';
+import generateSVG from '../util/generateSVG';
 
-// const ContextTitle = styled.div`
-//   width: 100%;
-//   display: flex;
-//   align-items: center;
+const ContextTitle = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
 
-//   div {
-//     color: ${props => props.theme.colors['$md-grey-600']};
-//     line-height: 0;
-//     overflow-x: hidden;
-//     white-space: nowrap;
-//     height: 22px;
-//     width: 100px;
-//     display: flex;
-//     align-items: center;
-//   }
+  div {
+    color: ${props => props.theme.colors['$md-grey-600']};
+    line-height: 0;
+    overflow-x: hidden;
+    white-space: nowrap;
+    height: 22px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+  }
 
-//   i,
-//   svg {
-//     display: inline-block;
-//     line-height: 0;
-//     margin: 13px 18px;
-//   }
+  i,
+  svg {
+    display: inline-block;
+    line-height: 0;
+    margin: 13px 18px;
+  }
 
-//   i {
-//     color: ${props => props.theme.colors['$md-grey-500']};
-//   }
+  i {
+    color: ${props => props.theme.colors['$md-grey-500']};
+  }
 
-//   svg {
-//     fill: ${props => props.theme.colors['$md-grey-500']};
-//   }
-// `;
+  svg {
+    fill: ${props => props.theme.colors['$md-grey-500']};
+  }
+`;
 
-const NavbarContainer = styled.nav`
+const NavigationContainer = styled.nav`
   background-color: transparent;
   position: relative;
   flex: 0 0 auto;
@@ -59,14 +60,14 @@ const NavbarContainer = styled.nav`
   white-space: nowrap;
 `;
 
-// const NavbarHeader = styled.header`
-//   min-height: 56px;
-//   box-sizing: content-box;
-//   border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `;
+const NavigationHeader = styled.header`
+  min-height: 56px;
+  box-sizing: content-box;
+  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const NavItems = styled.ul`
   background-color: white;
@@ -109,7 +110,7 @@ const ExpanderButton = styled.button`
   }
 `;
 
-class Navbar extends PureComponent {
+class Navigation extends PureComponent {
   static propTypes = {
     context: PropTypes.object.isRequired,
     open: PropTypes.bool,
@@ -151,7 +152,10 @@ class Navbar extends PureComponent {
 
   render() {
     const {
-      context: { contextMeta },
+      context: {
+        contextMeta,
+        actions,
+      },
       context,
       contextPending,
       open,
@@ -167,13 +171,13 @@ class Navbar extends PureComponent {
       : [];
 
     return (
-      <NavbarContainer open={open} miniWidth={miniWidth} width={width} {...rest}>
-        {/* <NavbarHeader>
+      <NavigationContainer open={open} miniWidth={miniWidth} width={width} {...rest}>
+        <NavigationHeader>
           <ContextTitle>
             {iconMap(contextMeta.context, 28)}
             <div>{this.getContextType()}</div>
           </ContextTitle>
-        </NavbarHeader> */}
+        </NavigationHeader>
         <NavItems>
           {items.map(item => (
             <NavItem
@@ -189,6 +193,21 @@ class Navbar extends PureComponent {
             />
           ))}
 
+          {actions.length > 0 && <Divider />}
+
+          {actions.map(item => (
+            <NavItem
+              open={open}
+              expandedWidth={width}
+              miniWidth={miniWidth}
+              title={item.display_name || item.action}
+              key={item.action}
+              icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
+              to={item.url}
+              target={item.render === 'newTab' ? '_blank' : null}
+            />
+          ))}
+
           {children}
           <NavFooter>
             <ExpanderButton
@@ -201,7 +220,7 @@ class Navbar extends PureComponent {
             </ExpanderButton>
           </NavFooter>
         </NavItems>
-      </NavbarContainer>
+      </NavigationContainer>
     );
   }
 }
@@ -210,4 +229,4 @@ export default compose(
   withContext(),
   withApp,
   withTheme,
-)(Navbar);
+)(Navigation);
