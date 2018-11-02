@@ -12,10 +12,11 @@ import environmentModel from '../models/environment';
 
 export function* buildOrganizationPayload(action) {
   try {
-    const [organization, organizations, workspaces] = yield call(axios.all, [
+    const [organization, organizations, workspaces, actions] = yield call(axios.all, [
       axios.get(action.fqon),
       axios.get(`${action.fqon}/orgs?expand=true`),
       axios.get(`${action.fqon}/workspaces?expand=true`),
+      axios.get(`${action.fqon}/actions?expand=true&filter=context.nav`),
     ]);
 
     return yield put({
@@ -28,10 +29,11 @@ export function* buildOrganizationPayload(action) {
         organization: organization.data,
         organizations: organizations.data,
         workspaces: workspaces.data,
+        organizationActions: actions.data,
         // Clear the state here
         workspace: workspaceModel.get(),
         environment: environmentModel.get(),
-        environments: []
+        environments: [],
       },
     });
   } catch (e) {
@@ -50,12 +52,13 @@ export function* buildWorkspacePayload(action) {
 
     // if there !organization.id then get the whole state tree up to the workspace context
     if (!organization.id) {
-      const [org, organizations, workspaces, workspace, environments] = yield call(axios.all, [
+      const [org, organizations, workspaces, workspace, environments, actions] = yield call(axios.all, [
         axios.get(action.fqon),
         axios.get(`${action.fqon}/orgs?expand=true`),
         axios.get(`${action.fqon}/workspaces?expand=true`),
         axios.get(`${action.fqon}/workspaces/${action.workspaceId}`),
         axios.get(`${action.fqon}/workspaces/${action.workspaceId}/environments?expand=true`),
+        axios.get(`${action.fqon}/workspaces/${action.workspaceId}/actions?expand=true&filter=context.nav`),
       ]);
 
       return yield put({
@@ -67,15 +70,17 @@ export function* buildWorkspacePayload(action) {
           workspaces: workspaces.data,
           workspace: workspace.data,
           environments: environments.data,
+          workspaceActions: actions.data,
           // Clear the state here
           environment: environmentModel.get(),
         },
       });
     }
 
-    const [workspace, environments] = yield call(axios.all, [
+    const [workspace, environments, actions] = yield call(axios.all, [
       axios.get(`${action.fqon}/workspaces/${action.workspaceId}`),
       axios.get(`${action.fqon}/workspaces/${action.workspaceId}/environments?expand=true`),
+      axios.get(`${action.fqon}/workspaces/${action.workspaceId}/actions?expand=true&filter=context.nav`),
     ]);
 
     return yield put({
@@ -84,6 +89,7 @@ export function* buildWorkspacePayload(action) {
         contextMeta,
         workspace: workspace.data,
         environments: environments.data,
+        workspaceActions: actions.data,
         // Clear the state here
         environment: environmentModel.get(),
       },
@@ -103,11 +109,16 @@ export function* buildEnvironmentPayload(action) {
       environmentId: action.environmentId,
     };
 
-    if (!workspace.id) {
-      // If a workspace is not found then retrieve the environment first and get its parent id
-      const { data } = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}`);
+    let envResponse;
+    let actionsResponse;
+    // If a workspace or org is not found then retrieve the environment first and get its parent id
+    if (!workspace.id || !organization.id) {
+      envResponse = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}`);
+      actionsResponse = yield call(axios.get, `${action.fqon}/environments/${action.environmentId}/actions?expand=true&filter=context.nav`);
+    }
 
-      const { properties } = data;
+    if (!workspace.id) {
+      const { properties } = envResponse.data;
       const promises = [
         axios.get(`${action.fqon}/workspaces/${properties.workspace.id}`),
         axios.get(`${action.fqon}/workspaces/${properties.workspace.id}/environments?expand=true`),
@@ -127,12 +138,13 @@ export function* buildEnvironmentPayload(action) {
           type: FETCH_CONTEXT_FULFILLED,
           payload: {
             contextMeta,
-            environment: data,
+            environment: envResponse.data,
             workspace: wkspc.data,
             environments: envs.data,
             organization: org.data,
             organizations: orgs.data,
             workspaces: wkspcs.data,
+            environmentActions: actionsResponse.data,
           },
         });
       }
@@ -143,16 +155,18 @@ export function* buildEnvironmentPayload(action) {
         type: FETCH_CONTEXT_FULFILLED,
         payload: {
           contextMeta,
-          environment: data,
+          environment: envResponse.data,
           workspace: wkspc.data,
           environments: environments.data,
+          environmentActions: actionsResponse.data,
         },
       });
     }
 
     // Just get the environment context
-    const [env] = yield call(axios.all, [
+    const [env, actions] = yield call(axios.all, [
       axios.get(`${action.fqon}/environments/${action.environmentId}`),
+      axios.get(`${action.fqon}/environments/${action.environmentId}/actions?expand=true&filter=context.nav`),
     ]);
 
     return yield put({
@@ -160,6 +174,7 @@ export function* buildEnvironmentPayload(action) {
       payload: {
         contextMeta,
         environment: env.data,
+        environmentActions: actions.data,
       },
     });
   } catch (e) {

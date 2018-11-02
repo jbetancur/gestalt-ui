@@ -29,6 +29,7 @@ describe('Context Workflow Sagas', () => {
           axios.get('test'),
           axios.get('test/orgs?expand=true'),
           axios.get('test/workspaces?expand=true'),
+          axios.get('test/actions?expand=true&filter=context.nav'),
         ])
       );
     });
@@ -38,6 +39,7 @@ describe('Context Workflow Sagas', () => {
         { data: { id: 1, name: 'org context' } },
         { data: [{ id: 2, name: 'sub org' }] },
         { data: [{ id: 3, name: 'workspace' }] },
+        { data: [{ id: 3333, display_name: 'an action' }] },
       ]);
 
       expect(result.value).toEqual(
@@ -51,6 +53,7 @@ describe('Context Workflow Sagas', () => {
             organization: { id: 1, name: 'org context' },
             organizations: [{ id: 2, name: 'sub org' }],
             workspaces: [{ id: 3, name: 'workspace' }],
+            organizationActions: [{ id: 3333, display_name: 'an action' }],
             workspace: workspaceModel.get(),
             environment: environmentModel.get(),
             environments: [],
@@ -73,6 +76,7 @@ describe('Context Workflow Sagas', () => {
           call(axios.all, [
             axios.get('test/workspaces/123'),
             axios.get('test/workspaces/123/environments?expand=true'),
+            axios.get('test/workspaces/123/actions?expand=true&filter=context.nav'),
           ])
         );
       });
@@ -81,6 +85,7 @@ describe('Context Workflow Sagas', () => {
         result = saga.next([
           { data: { id: 1, name: 'workspace' } },
           { data: [{ id: 2, name: 'environment' }] },
+          { data: [{ id: 3333, display_name: 'an action' }] },
         ]);
 
         expect(result.value).toEqual(
@@ -94,6 +99,7 @@ describe('Context Workflow Sagas', () => {
               },
               workspace: { id: 1, name: 'workspace' },
               environments: [{ id: 2, name: 'environment' }],
+              workspaceActions: [{ id: 3333, display_name: 'an action' }],
               environment: environmentModel.get(),
             },
           })
@@ -115,6 +121,7 @@ describe('Context Workflow Sagas', () => {
             axios.get('test/workspaces?expand=true'),
             axios.get('test/workspaces/123'),
             axios.get('test/workspaces/123/environments?expand=true'),
+            axios.get('test/workspaces/123/actions?expand=true&filter=context.nav'),
           ])
         );
       });
@@ -126,6 +133,7 @@ describe('Context Workflow Sagas', () => {
           { data: [{ id: 3, name: 'workspace' }] },
           { data: { id: 3, name: 'workspace root' } },
           { data: [{ id: 3, name: 'an environment' }] },
+          { data: [{ id: 3333, display_name: 'an action' }] },
         ]);
 
         expect(result.value).toEqual(
@@ -142,6 +150,7 @@ describe('Context Workflow Sagas', () => {
               workspaces: [{ id: 3, name: 'workspace' }],
               workspace: { id: 3, name: 'workspace root' },
               environments: [{ id: 3, name: 'an environment' }],
+              workspaceActions: [{ id: 3333, display_name: 'an action' }],
               environment: environmentModel.get(),
             },
           })
@@ -162,6 +171,7 @@ describe('Context Workflow Sagas', () => {
         expect(result.value).toEqual(
           call(axios.all, [
             axios.get('test/environments/123'),
+            axios.get('test/environments/123/actions?expand=true&filter=context.nav'),
           ])
         );
       });
@@ -169,6 +179,7 @@ describe('Context Workflow Sagas', () => {
       it('should return a payload and dispatch a success status', () => {
         result = saga.next([
           { data: { id: 1, name: 'environment' } },
+          { data: [{ id: 3333, display_name: 'an action' }] },
         ]);
 
         expect(result.value).toEqual(
@@ -182,6 +193,7 @@ describe('Context Workflow Sagas', () => {
                 environmentId: '123',
               },
               environment: { id: 1, name: 'environment' },
+              environmentActions: [{ id: 3333, display_name: 'an action' }],
             },
           })
         );
@@ -200,8 +212,16 @@ describe('Context Workflow Sagas', () => {
         );
       });
 
+      it('should make an api call to retrieve the environment Actions', () => {
+        result = saga.next({ data: { id: '456', properties: { workspace: { id: '890' } } } }); // environment Response
+        expect(result.value).toEqual(
+          call(axios.get, 'test/environments/123/actions?expand=true&filter=context.nav'),
+        );
+      });
+
       it('should make an api call for a context rollup', () => {
-        result = saga.next({ data: { id: '456', properties: { workspace: { id: '890' } } } });
+        result = saga.next({ data: [{ id: 3333, display_name: 'an action' }] }); // actions Response
+
         expect(result.value).toEqual(
           call(axios.all, [
             axios.get('test/workspaces/890'),
@@ -229,6 +249,7 @@ describe('Context Workflow Sagas', () => {
               environment: { id: '456', properties: { workspace: { id: '890' } } },
               workspace: { id: 2, name: 'workspace context' },
               environments: [{ id: 3, name: 'an environment' }],
+              environmentActions: [{ id: 3333, display_name: 'an action' }],
             },
           })
         );
@@ -241,14 +262,23 @@ describe('Context Workflow Sagas', () => {
 
       it('should make an api call to retrieve the environment', () => {
         result = saga.next();
-        result = saga.next({ organization: {}, workspace: { } }); // mock select
+        result = saga.next({ organization: {}, workspace: {} }); // mock select
+
         expect(result.value).toEqual(
           call(axios.get, 'test/environments/123'),
         );
       });
 
+      it('should make an api call to retrieve the environment Actions', () => {
+        result = saga.next({ data: { id: '456', properties: { workspace: { id: '890' } } } }); // environment Response
+        expect(result.value).toEqual(
+          call(axios.get, 'test/environments/123/actions?expand=true&filter=context.nav'),
+        );
+      });
+
       it('should make an api call for a context rollup', () => {
-        result = saga.next({ data: { id: '456', properties: { workspace: { id: '890' } } } });
+        result = saga.next({ data: [{ id: 3333, display_name: 'an action' }] }); // actions Response
+
         expect(result.value).toEqual(
           call(axios.all, [
             axios.get('test/workspaces/890'),
@@ -267,6 +297,7 @@ describe('Context Workflow Sagas', () => {
           { data: { id: 4, name: 'an org context' } },
           { data: [{ id: 5, name: 'sub org' }] },
           { data: [{ id: 6, name: 'a workspace' }] },
+          { data: [{ id: 3333, display_name: 'an action' }] },
         ]);
 
         expect(result.value).toEqual(
@@ -285,6 +316,7 @@ describe('Context Workflow Sagas', () => {
               organization: { id: 4, name: 'an org context' },
               organizations: [{ id: 5, name: 'sub org' }],
               workspaces: [{ id: 6, name: 'a workspace' }],
+              environmentActions: [{ id: 3333, display_name: 'an action' }],
             },
           })
         );
