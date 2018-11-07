@@ -12,6 +12,7 @@ import {
   RubyIcon,
   RhinoJSIcon,
   BashIcon,
+  LlvmIcon,
 } from 'components/Icons';
 
 const defaultSize = 24;
@@ -37,6 +38,8 @@ const iconMappings = (size, options) => ({
 
   // graalvm executors
   'polyglot-jvm': <JavaIcon size={size} {...options} />,
+  'polyglot-node': <NodejsIcon size={size} {...options} />,
+  'polyglot-llvm': <LlvmIcon size={size} {...options} />,
 });
 
 export default (icon, size = defaultSize, options = {}) =>

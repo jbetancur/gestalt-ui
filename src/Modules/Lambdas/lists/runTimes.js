@@ -17,7 +17,7 @@ export default [
     codeOptions: codeOptionsInline,
     defaultHandler: 'handler',
     starterCode:
-`module.exports.handler = (event, context, callback) => {
+`exports.handler = (event, context, callback) => {
   callback(null, 'Hello World!');
 };`
   },
@@ -114,10 +114,31 @@ export default [
   },
   {
     value: 'polyglot-jvm',
-    defaultMem: 256,
+    defaultMem: 512,
     format: 'com.package.Class;function',
     codeFormat: 'java',
     options: {},
     codeOptions,
+  },
+  {
+    value: 'polyglot-llvm',
+    defaultMem: 128,
+    format: '{filename}.bc;function',
+    codeFormat: 'c_cpp',
+    options: {},
+    codeOptions,
+  },
+  {
+    value: 'polyglot-node',
+    defaultMem: 128,
+    format: 'Package format: {filename};{function} | Inline format: {function}',
+    codeFormat: 'javascript',
+    options: {},
+    codeOptions: codeOptionsInline,
+    defaultHandler: 'handler',
+    starterCode:
+`exports.handler = (event, context) => {
+  return 'Hello World!';
+};`
   },
 ];

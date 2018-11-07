@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { get, last, orderBy } from 'lodash';
+import { get, orderBy } from 'lodash';
 import { Link, withRouter } from 'react-router-dom';
 import Form from 'components/Form';
 import { SelectField } from 'components/ReduxFormFields';
@@ -80,7 +80,7 @@ class LambdaForm extends Component {
     return orderBy(executors, 'name').map(item => ({
       label: item.name,
       value: item.id,
-      leftIcon: iconMap(last(item.resource_type.split('::'))),
+      leftIcon: iconMap(get(item, 'properties.config.env.public.RUNTIME')),
     }));
   }
 
