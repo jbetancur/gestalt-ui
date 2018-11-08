@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { Divider, ListItem, FontIcon } from 'react-md';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import BreadCrumbDropdown from '../components/BreadCrumbDropdown';
@@ -54,15 +53,16 @@ const NavArrow = styled(Button)`
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   line-height: 20px;
-  font-size: 20px;
 `;
 
 class Breadcrumbs extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
+    // allOrganizationsPending: PropTypes.bool.isRequired,
     contextActions: PropTypes.object.isRequired,
     sortedOrganizations: PropTypes.array.isRequired,
     sortedWorkspaces: PropTypes.array.isRequired,
@@ -91,34 +91,19 @@ class Breadcrumbs extends PureComponent {
 
   generateOrgItems() {
     const {
-      context: {
-        organization,
-      },
+      context: { organization },
       sortedOrganizations,
     } = this.props;
 
-    return [
-      <ListItem
-        id="breadcrumbs-menu--create"
-        key="breadcrumbs-menu--create"
-        primaryText="Create Organization..."
-        leftIcon={<FontIcon>add</FontIcon>}
-        component={Link}
-        to={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
-      />,
-      sortedOrganizations.length > 0 ? <Divider key="breadcrumbs-menu-organization--divider" /> : <div key="breadcrumbs-menu-organization--divider" />,
-      ...sortedOrganizations.map(org => (
-        <ListItem
-          id={org.name}
-          key={org.id}
-          primaryText={org.description || org.name}
-          secondaryText={org.name}
-          inkDisabled
-          component={Link}
-          to={`/${org.properties.fqon}/hierarchy`}
-        />)
-      )
-    ];
+    return sortedOrganizations
+      .filter(org => org.id !== organization.id)
+      .map(org => ({
+        id: org.id,
+        name: org.description || org.name,
+        secondaryName: org.name,
+        component: Link,
+        to: `/${org.properties.fqon}/hierarchy`,
+      }));
   }
 
   // Fixes ghost environment listing when switching workspace fron an environment context
@@ -134,70 +119,42 @@ class Breadcrumbs extends PureComponent {
 
   generateWorkspaceItems() {
     const {
-      context: {
-        organization,
-      },
+      context: { workspace },
       sortedWorkspaces,
     } = this.props;
 
-    return [
-      <ListItem
-        id="breadcrumbs-menu--workspace-create"
-        key="breadcrumbs-menu--workspace-create"
-        primaryText="Create Workspace..."
-        leftIcon={<FontIcon>add</FontIcon>}
-        component={Link}
-        to={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
-      />,
-      sortedWorkspaces.length > 0 ? <Divider key="breadcrumbs-menu-workspace--divider" /> : <div key="breadcrumbs-menu-workspace--divider" />,
-      ...sortedWorkspaces.map(wkspc => (
-        <ListItem
-          id={wkspc.name}
-          key={wkspc.id}
-          primaryText={wkspc.description || wkspc.name}
-          secondaryText={wkspc.name}
-          inkDisabled
-          onClick={() => this.handleWorkspaceNav(wkspc)}
-        />)
-      )
-    ];
+    return sortedWorkspaces
+      .filter(wkspc => wkspc.id !== workspace.id)
+      .map(wkspc => ({
+        id: wkspc.id,
+        name: wkspc.description || wkspc.name,
+        secondaryName: wkspc.name,
+        onClick: () => this.handleWorkspaceNav(wkspc),
+      }));
   }
 
   generateEnvironmentItems() {
-    const { context: {
-      environment,
-    },
-    sortedEnvironments,
+    const {
+      context: { environment },
+      sortedEnvironments,
     } = this.props;
 
-    return [
-      <ListItem
-        id="breadcrumbs-menu--environment-create"
-        key="breadcrumbs-menu--environment-create"
-        primaryText="Create Environment..."
-        leftIcon={<FontIcon>add</FontIcon>}
-        component={Link}
-        to={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
-      />,
-      sortedEnvironments.length > 0 ? <Divider key="breadcrumbs-menu-environment--divider" /> : <div key="breadcrumbs-menu-environment--divider" />,
-      ...sortedEnvironments.map(env => (
-        <ListItem
-          id={env.name}
-          key={env.id}
-          primaryText={env.description || env.name}
-          secondaryText={env.name}
-          inkDisabled
-          component={Link}
-          to={`/${env.org.properties.fqon}/hierarchy/${env.properties.workspace.id}/environment/${env.id}`}
-        />)
-      )
-    ];
+    return sortedEnvironments
+      .filter(env => env.id !== environment.id)
+      .map(env => ({
+        id: env.id,
+        name: env.description || env.name,
+        secondaryName: env.name,
+        component: Link,
+        to: `/${env.org.properties.fqon}/hierarchy/${env.properties.workspace.id}/environment/${env.id}`,
+      }));
   }
 
   render() {
     const {
       size,
       isActive,
+      // contextActions,
       contextPending,
       context: {
         contextMeta,
@@ -205,6 +162,7 @@ class Breadcrumbs extends PureComponent {
         workspace,
         environment,
       },
+      // allOrganizationsPending,
     } = this.props;
 
     const parentOrgRoute = `/${organization.org.properties.fqon}/hierarchy`;
@@ -237,9 +195,14 @@ class Breadcrumbs extends PureComponent {
 
         {orgName &&
         <BreadCrumbDropdown
-          flat
+          id="organizations-dropdown"
           menuItems={this.generateOrgItems()}
           icon={<OrganizationIcon size={size} primary={!!isOrgContext} />}
+          // createLabel="Create Organization"
+          // createRoute={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
+          title={`Organizations in ${orgName}`}
+          // onOpen={contextActions.fetchAllOrgs}
+          // pending={allOrganizationsPending}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, orgsRoute)}
@@ -254,9 +217,12 @@ class Breadcrumbs extends PureComponent {
 
         {isWorkspaceCtx && organization.id &&
         <BreadCrumbDropdown
-          flat
+          id="workspaces-dropdown"
           menuItems={this.generateWorkspaceItems()}
           icon={<WorkspaceIcon size={size} primary={!!(isWorkspaceCtx && !isEnvironmentCtx)} />}
+          createLabel="Create Workspace"
+          createRoute={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
+          title={`Workspaces in ${orgName}`}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, workspaceRoute)}
@@ -271,9 +237,12 @@ class Breadcrumbs extends PureComponent {
 
         {isEnvironmentCtx && isWorkspaceCtx && organization.id &&
         <BreadCrumbDropdown
-          flat
+          id="environments-dropdown"
           menuItems={this.generateEnvironmentItems()}
           icon={<EnvironmentIcon size={size} primary={!!isEnvironmentCtx} />}
+          createLabel="Create Environment"
+          createRoute={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
+          title={`Environments in ${workspaceName}`}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, environmentRoute)}

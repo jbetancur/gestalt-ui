@@ -6,6 +6,7 @@ import environmentModel from './models/environment';
 
 export const selectOrganization = state => state.hierarchy.organization.organization;
 export const selectOrganizations = state => state.hierarchy.organizations.organizations;
+export const selectAppOrganizations = state => state.hierarchy.allOrganizations.organizations;
 export const selectWorkspace = state => state.hierarchy.workspace.workspace;
 export const selectWorkspaces = state => state.hierarchy.workspaces.workspaces;
 export const selectEnvironment = state => state.hierarchy.environment.environment;
@@ -56,6 +57,11 @@ export const getEditEnvironmentModel = createSelector(
     return environmentModel.create(model);
   }
 );
+
+// export const getSortedContextOrganizations = createSelector(
+//   [selectAppOrganizations],
+//   organizations => sortBy(organizations, ['desciption', 'name'])
+// );
 
 export const getSortedContextOrganizations = createSelector(
   [selectContext],

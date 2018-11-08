@@ -14,6 +14,7 @@ export { default as EnvironmentListing } from './containers/EnvironmentListing';
 export { default as Card } from './components/GFCard';
 export { default as CardTitle } from './components/GFCardTitle';
 export { default as CreateMenu } from './containers/CreateMenu';
+export { default as Breadcrumbs } from './containers/Breadcrumbs';
 
 export { default as hierarchyActions } from './actions';
 export { default as hierarchySagas } from './sagas';
