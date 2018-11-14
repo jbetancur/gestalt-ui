@@ -16,7 +16,7 @@ import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 import { getDatafeed } from '../selectors';
 import { generatePatches } from '../payloadTransformer';
-import { DATA_CLASSIFICATION } from '../../../constants';
+// import { DATA_CLASSIFICATION } from '../../../constants';
 import withDatafeed from '../hocs/withDatafeed';
 import withResourceType from '../../ResourceTypes/hocs/withResourceType';
 
@@ -30,15 +30,15 @@ class DataFeedEdit extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     secretsData: PropTypes.array.isRequired,
-    resourceTypeActions: PropTypes.object.isRequired,
+    // resourceTypeActions: PropTypes.object.isRequired,
     resourceType: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { datafeedActions, resourceTypeActions, match } = this.props;
+    const { datafeedActions, match } = this.props;
 
     datafeedActions.fetchDatafeed({ fqon: match.params.fqon, id: match.params.datafeedId });
-    resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
+    // resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
   }
 
   onShowEntitlements = () => {
