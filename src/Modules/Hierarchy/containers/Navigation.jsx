@@ -204,7 +204,7 @@ class Navigation extends PureComponent {
               key={item.action}
               icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
               to={item.url}
-              target={item.render === 'newTab' ? '_blank' : null}
+              target={item.render === 'newtab' ? '_blank' : null}
             />
           ))}
 
