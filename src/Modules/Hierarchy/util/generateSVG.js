@@ -6,7 +6,7 @@ import sanitizeHtml from 'sanitize-html';
 const options = {
   allowedTags: ['svg', 'path', 'g', 'class', 'style', 'polygon', 'circle', 'clip-path', 'rect', 'ellipse', 'line', 'polyline'],
   allowedAttributes: {
-    '*': ['xmlns', 'viewBox', 'height', 'width', 'class', 'style', 'd', 'fill', 'stroke', 'stroke-width', 'points', 'x', 'y', 'rx', 'ry', 'cx', 'cy', 'r', 'rx', 'ry', 'x1', 'x2', 'y1', 'y2']
+    '*': ['xmlns', 'viewbox', 'height', 'width', 'class', 'style', 'd', 'fill', 'stroke', 'stroke-width', 'points', 'x', 'y', 'rx', 'ry', 'cx', 'cy', 'r', 'rx', 'ry', 'x1', 'x2', 'y1', 'y2'],
   },
 
 };
