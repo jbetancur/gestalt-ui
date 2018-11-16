@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
-import { responsiveStoreEnhancer } from 'redux-responsive';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -16,7 +15,7 @@ const sagaMiddleware = createSagaMiddleware();
 const composeRootReducer = reducer => (state, action) => {
   // Clear the store except for browser state
   if (action.type === authActionTypes.LOGOUT_REQUEST) {
-    return reducer(Object.assign({}, { browser: state.browser }), action);
+    return reducer(Object.assign({}, {}), action);
   }
 
   return reducer(state, action);
@@ -48,7 +47,6 @@ export default function configureStore(history) {
   const store = createStore(
     composeRootReducer(rootReducer),
     composeWithDevTools(
-      responsiveStoreEnhancer,
       applyMiddleware(...middlewares),
     ),
   );

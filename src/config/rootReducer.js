@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { createResponsiveStateReducer } from 'redux-responsive';
 import { notifierReducer } from 'Modules/Notifications';
 import appReducers from 'App/reducers';
 import modalReducer from 'Modules/ModalRoot/reducers';
@@ -27,15 +26,7 @@ import listFilterReducer from 'Modules/ListFilter/reducers';
 import searchReducers from 'Modules/Search/reducers';
 import resourceTypesReducers from 'Modules/ResourceTypes/reducers';
 
-const mediaQuery = {
-  xs: '(min-width: 0) and (max-width: 599px)',
-  sm: '(min-width: 600px) and (max-width: 959px)',
-  md: '(min-width: 960px) and (max-width: 1280px)',
-  lg: 'only screen and (min-width: 1280px)'
-};
-
 export default combineReducers({
-  browser: createResponsiveStateReducer(mediaQuery),
   error: errorNotificationReducer,
   modal: modalReducer,
   routing: routerReducer,

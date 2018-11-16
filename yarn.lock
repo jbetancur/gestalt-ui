@@ -736,6 +736,13 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
+"@babel/runtime@^7.1.5":
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.5.tgz#4170907641cf1f61508f563ece3725150cc6fe39"
+  integrity sha512-xKnPpXG/pvK1B90JkwwxSGii90rQGKtzcMt2gI5G6+M0REXaq6rOHsGC2ay6/d0Uje7zzvSzjEzfR3ENhFlrfA==
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@babel/template@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "http://registry.npmjs.org/@babel/template/-/template-7.0.0-beta.44.tgz#f8832f4fdcee5d59bf515e595fc5106c529b394f"
@@ -4005,9 +4012,12 @@ final-form-focus@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/final-form-focus/-/final-form-focus-1.1.0.tgz#a4b0e6792dda637461d448a20f594d57e3380411"
 
-final-form@^4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.10.0.tgz#6179bca7676925202510e9877eb1ad2ad1cd3460"
+final-form@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.11.0.tgz#81750bda11b82c3ddf7b27092f29ebe427f8a560"
+  integrity sha512-uO0VhAEbWvV8LHBpBHoIpbYqonYBXyd8gpTYFEAPCHEy5tcNqdVX4EnWQoxKl//+U9Vk0kTUsnPOWiBP2PiOUg==
+  dependencies:
+    "@babel/runtime" "^7.1.5"
 
 finalhandler@1.1.0:
   version "1.1.0"
@@ -6288,10 +6298,6 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-mediaquery@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/mediaquery/-/mediaquery-0.0.3.tgz#387d61c10aa95ff4d6907f6aabdd22d7a898e03e"
-
 mem@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-1.1.0.tgz#5edd52b485ca1d900fe64895505399a0dfa45f76"
@@ -8085,19 +8091,24 @@ react-fast-compare@^2.0.4:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-final-form-arrays@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-1.1.0.tgz#ac1232d26483b996a5f57395aab4886a1b01d9a0"
+react-final-form-arrays@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-2.0.1.tgz#ded628e3a1f2b4c4316b4aa6bf910e23eedca894"
+  integrity sha512-z2GYRBfwrWe0TUr5HTfiK1UJ4atp2l1yhXx52NMWVPXm5ujd3Cym5m+Ub5O1J4ZKmVwggU1+T63weuxlsU0f7g==
   dependencies:
     react-lifecycles-compat "^3.0.4"
 
-react-final-form@^3.6.7:
-  version "3.6.7"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.7.tgz#c4d2e01e04674201b850cdd05ed5b67ff5ea06c5"
+react-final-form@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-4.0.2.tgz#fa829d7fb60dcc168804bf2edda58f3d62c4607b"
+  integrity sha512-EdFWrT8nMWu5sHViuZ/VmlaYT+mLu/q5TMDWZZj5gnssUAWfgcila0QpptFNDg6+qNtepGgFh5ZPASlivoEXUA==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
 
-react-flexybox@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-2.2.0.tgz#7d5ae468324b829999a8c73f6e17416106c45c8e"
+react-flexybox@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-flexybox/-/react-flexybox-2.4.1.tgz#e7db93521555e5f915b418a815b821280a09fe40"
+  integrity sha512-BzGgjlFPiuuAPFK3cfEZJZtpHy73AHGBqqNjEEsUTGSvPLjfitdIrTjf4+O9ZCAEh8JGzjqYh699M+sv6HnGpg==
   dependencies:
     lodash.omit "^4.5.0"
 
@@ -8455,12 +8466,6 @@ redux-logger@^3.0.6:
   resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
   dependencies:
     deep-diff "^0.3.5"
-
-redux-responsive@^4.3.8:
-  version "4.3.8"
-  resolved "https://registry.yarnpkg.com/redux-responsive/-/redux-responsive-4.3.8.tgz#286ef51c96a7222f030c2f48e4f26ec3bb645a10"
-  dependencies:
-    mediaquery "0.0.3"
 
 redux-saga@^0.16.2:
   version "0.16.2"

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
@@ -10,13 +9,8 @@ import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextNavigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { OrganizationMenu } from 'Modules/NavigationMenus';
 import { withRestricted } from 'Modules/Authentication';
-import { GalacticFogIcon } from 'components/Icons';
-import Header from './components/Header';
 import AppError from './components/AppError';
-import UserMenu from './components/UserMenu';
-import AppToolbarInfoMenu from './components/AppToolbarInfoMenu';
 import withApp from './hocs/withApp';
 import withSelf from './hocs/withSelf';
 
@@ -28,7 +22,6 @@ const AppWrapper = styled.div`
   overflow: hidden;
   flex-grow: 1;
   height: 100%;
-  padding-top: 56px;
 `;
 
 const Main = styled.main`
@@ -48,7 +41,6 @@ class App extends Component {
     authActions: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
-    browser: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
   };
@@ -95,8 +87,6 @@ class App extends Component {
   renderMain() {
     const {
       self,
-      licenseActions,
-      browser,
       location,
       appActions: { toggleNavigation },
       appState: { navigationExpanded },
@@ -111,18 +101,6 @@ class App extends Component {
         <ModalRoot />
         <ErrorNotifications />
         <Notifications />
-        <Header
-          colored
-          leftContent={<OrganizationMenu />}
-          logo={<GalacticFogIcon size={36} fill="white" />}
-          logoVisible={browser.greaterThan.sm}
-          rightContent={
-            <React.Fragment>
-              <UserMenu self={self} browser={browser} onLogout={this.logout} />
-              <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
-            </React.Fragment>
-          }
-        />
         {/* Address blocked updates issue: https://github.com/reduxjs/react-redux/blob/master/docs/troubleshooting.md#my-views-arent-updating-when-something-changes-outside-of-redux */}
         <Navigation
           location={location}
@@ -147,14 +125,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  browser: state.browser,
-});
-
 export default compose(
   withRestricted,
   withApp,
   withSelf,
   withLicense,
-  connect(mapStateToProps),
 )(App);

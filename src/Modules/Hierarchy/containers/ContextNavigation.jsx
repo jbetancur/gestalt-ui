@@ -1,10 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
+import { Title } from 'components/Typography';
+import { DotActivity } from 'components/ProgressIndicators';
+import { withRestricted } from 'Modules/Authentication';
+import { withLicense } from 'Modules/Licensing';
+import { media } from 'util/helpers/media';
 import CreateMenu from './CreateMenu';
 import Breadcrumbs from './Breadcrumbs';
 import OrganizationDetails from './OrganizationDetails';
@@ -12,27 +18,23 @@ import WorkspaceDetails from './WorkspaceDetails';
 import EnvironmentDetails from './EnvironmentDetails';
 import withContext from '../hocs/withContext';
 import withApp from '../../../App/hocs/withApp';
+import UserMenu from '../components/UserMenu';
+import AppToolbarInfoMenu from '../components/AppToolbarInfoMenu';
+import iconMap from '../config/iconMap';
 
 const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {...rest} />)`
-  /*
-  left: ${props => (props.isExpanded ? props.width : props.miniWidth)};
-  right: 0;
-  transition-property: left;
-  transition-duration: ${props => (props.isExpanded ? '225ms' : '195ms')};
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-delay: 0ms;
-  will-change: transform;
-  */
-
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: ${props => props.theme.colors['$md-grey-50']};
-  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  padding: 12px;
+  background-color: white;
+  border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
+  padding-top: 4px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
   text-align: left;
-  min-height: 56px;
+  min-height: 96px;
   overflow: visible;
   z-index: 4;
 `;
@@ -46,10 +48,10 @@ const CollapseWrapper = styled.div`
 
 const CollapseButton = styled.button`
   position: relative;
-  background-color: ${props => props.theme.colors['$md-grey-50']};
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  border-left: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  background-color: ${props => props.theme.colors.background};
+  border-top: 1px solid ${props => props.theme.colors.backgroundVariant};
+  border-left: 1px solid ${props => props.theme.colors.backgroundVariant};
+  border-right: 1px solid ${props => props.theme.colors.backgroundVariant};
   border-bottom: none;
   padding: 0;
   width: 128px;
@@ -62,12 +64,18 @@ const CollapseButton = styled.button`
   transition: background-color 0.15s ease-in-out;
 
   &:hover:not([disabled]) {
-    background-color: ${props => props.theme.colors['$md-grey-200']};
+    background-color: ${props => props.theme.colors.backgroundVariant};
   }
 
   &:hover:disabled {
     cursor: unset;
   }
+`;
+
+const Section = styled.div`
+  display: flex;
+  align-items: center;
+  height: 48px;
 `;
 
 const ExpansionPanel = styled(({ isExpanded, expandedHeight, ...rest }) => <div {...rest} />)`
@@ -77,14 +85,15 @@ const ExpansionPanel = styled(({ isExpanded, expandedHeight, ...rest }) => <div 
   transition: max-height 400ms ${props => (props.isExpanded ? 'ease-in-out' : 'cubic-bezier(0, 1, 0, 1)')};
 `;
 
-const DetailsPanel = styled.div`
-  padding: 16px;
-`;
-
 const ActionsPanel = styled.div`
-  display: inline;
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   overflow: visible;
+
+  ${() => media.xs`
+    justify-content: center;
+  `};
 
   button,
   a {
@@ -103,6 +112,10 @@ const ActionsPanel = styled.div`
   }
 `;
 
+const TitleIcon = styled.div`
+  padding-right: 8px;
+`;
+
 const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
   transition: transform 225ms ease;
   transform: ${props => (props.isExpanded ? 'rotate(-180deg)' : 'rotate(0)')};
@@ -110,7 +123,9 @@ const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)
 
 class ContextNavigation extends PureComponent {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
     children: PropTypes.any,
     pendingContextActions: PropTypes.bool,
     actionsList: PropTypes.array,
@@ -171,6 +186,41 @@ class ContextNavigation extends PureComponent {
     return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
   }
 
+  renderContextTitle() {
+    const {
+      context: { contextMeta },
+      context,
+    } = this.props;
+
+    const title = get(context[contextMeta.context], 'description') || get(context[contextMeta.context], 'name');
+
+    return (
+      <Section>
+        <TitleIcon>
+          {iconMap(contextMeta.context, 24)}
+        </TitleIcon>
+
+        {!title
+          ?
+            <DotActivity size={1} id={`loading-${contextMeta.context}`} />
+          :
+          (
+            <Title>
+              {title}
+            </Title>
+          )}
+      </Section>
+
+    );
+  }
+
+  logout = () => {
+    const { history, authActions } = this.props;
+
+    authActions.logout();
+    history.replace('/login');
+  }
+
   render() {
     const {
       contextPending,
@@ -178,6 +228,7 @@ class ContextNavigation extends PureComponent {
       width,
       miniWidth,
       expandedHeight,
+      licenseActions,
     } = this.props;
     const { expanded } = this.state;
 
@@ -189,15 +240,22 @@ class ContextNavigation extends PureComponent {
       >
         <Row alignItems="center">
           <Col xs={12} sm={12} md={6} lg={6}>
-            <Breadcrumbs />
+            {this.renderContextTitle()}
+            <Section>
+              <Breadcrumbs />
+            </Section>
           </Col>
 
-          <Col component={ActionsPanel} xs={12} sm={12} md={6} lg={6}>
-            <CreateMenu {...this.props} />
+          <Col xs={12} sm={12} md={6} lg={6} alignSelf="flex-start">
+            <ActionsPanel>
+              <CreateMenu {...this.props} />
+              <UserMenu onLogout={this.logout} />
+              <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
+            </ActionsPanel>
           </Col>
 
           <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
-            <DetailsPanel>{this.renderDetailsComponent()}</DetailsPanel>
+            {this.renderDetailsComponent()}
           </ExpansionPanel>
         </Row>
 
@@ -217,4 +275,6 @@ export default compose(
   withApp,
   withTheme,
   withRouter,
+  withRestricted,
+  withLicense,
 )(ContextNavigation);

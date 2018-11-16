@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
@@ -7,22 +9,25 @@ import { USEnglishLangIcon, UserIcon } from 'components/Icons';
 import {
   Avatar,
   FontIcon,
-  AccessibleFakeButton,
-  IconSeparator,
-  DropdownMenu,
+  MenuButton,
   ListItem,
   Divider,
 } from 'react-md';
+import withSelf from '../../../App/hocs/withSelf';
 
-const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
-  const renderAvatar = iconSized =>
-    <Avatar iconSized={iconSized}>{self.name && self.name.substring(0, 1).toUpperCase()}</Avatar>;
+const AvatarStyled = styled(Avatar)`
+  .md-avatar-content {
+    margin-left: -5px;
+  }
+`;
+
+const UserMenu = ({ self, t, onLogout }) => {
   const menuItems = [
     <ListItem
       id="main--user--menu--profile"
       key="main--user--menu--profile"
       primaryText={self.name || ''}
-      leftAvatar={renderAvatar(true)}
+      leftAvatar={<AvatarStyled iconSized>{self.name && self.name.substring(0, 1).toUpperCase()}</AvatarStyled>}
       component={Link}
       to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}
     />,
@@ -51,42 +56,28 @@ const UserMenu = ({ simplifiedMenu, self, browser, t, onLogout }) => {
   ];
 
   return (
-    <DropdownMenu
-      id="header-user-dropdown-menu"
+    <MenuButton
+      id="main--info--menu"
+      icon
       menuItems={menuItems}
       anchor={{
-        x: DropdownMenu.HorizontalAnchors.CENTER,
-        y: DropdownMenu.VerticalAnchors.BOTTOM,
+        x: MenuButton.HorizontalAnchors.INNER_RIGHT,
+        y: MenuButton.VerticalAnchors.BOTTOM,
       }}
-      position={DropdownMenu.Positions.BELOW}
-      animationPosition="below"
-      simplifiedMenu={simplifiedMenu}
+      simplifiedMenu={false}
     >
-      <AccessibleFakeButton
-        component={IconSeparator}
-        iconBefore
-        label={
-          <IconSeparator label={browser.greaterThan.xs && self.name}>
-            {browser.lessThan.sm ? <UserIcon inherit /> : <FontIcon inherit>arrow_drop_down</FontIcon>}
-          </IconSeparator>
-        }
-      >
-        <span />
-      </AccessibleFakeButton>
-    </DropdownMenu>
+      <UserIcon />
+    </MenuButton>
   );
 };
 
 UserMenu.propTypes = {
-  simplifiedMenu: PropTypes.bool,
   t: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   self: PropTypes.object.isRequired,
-  browser: PropTypes.object.isRequired,
 };
 
-UserMenu.defaultProps = {
-  simplifiedMenu: false,
-};
-
-export default translate()(UserMenu);
+export default compose(
+  translate(),
+  withSelf,
+)(UserMenu);

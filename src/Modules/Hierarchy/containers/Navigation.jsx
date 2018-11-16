@@ -4,46 +4,24 @@ import { compose } from 'redux';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon, Divider } from 'react-md';
 import withApp from 'App/hocs/withApp';
+import { GalacticFogIcon } from 'components/Icons';
 import NavItem from '../components/NavItem';
 import withContext from '../hocs/withContext';
 import navItems from '../config/navItems';
 import iconMap from '../config/iconMap';
 import generateSVG from '../util/generateSVG';
 
-const ContextTitle = styled.div`
-  width: 100%;
+const Logo = styled.div`
+  background-color: ${props => props.theme.colors.secondary};
+  border-bottom: 1px solid ${props => props.theme.colors.background};
   display: flex;
+  flex: 0 0 56px;
   align-items: center;
-
-  div {
-    color: ${props => props.theme.colors['$md-grey-600']};
-    line-height: 0;
-    overflow-x: hidden;
-    white-space: nowrap;
-    height: 22px;
-    width: 100px;
-    display: flex;
-    align-items: center;
-  }
-
-  i,
-  svg {
-    display: inline-block;
-    line-height: 0;
-    margin: 13px 18px;
-  }
-
-  i {
-    color: ${props => props.theme.colors['$md-grey-500']};
-  }
-
-  svg {
-    fill: ${props => props.theme.colors['$md-grey-500']};
-  }
+  justify-content: center;
 `;
 
 const NavigationContainer = styled.nav`
-  background-color: transparent;
+  background-color: ${props => props.theme.colors.primary};
   position: relative;
   flex: 0 0 auto;
   display: flex;
@@ -56,25 +34,16 @@ const NavigationContainer = styled.nav`
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   transition-delay: 0ms;
   will-change: transform;
-  border-right: 1px solid ${props => props.theme.colors['$md-grey-200']};
   white-space: nowrap;
 `;
 
-const NavigationHeader = styled.header`
-  min-height: 56px;
-  box-sizing: content-box;
-  border-bottom: 1px solid ${props => props.theme.colors['$md-grey-200']};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const NavItems = styled.ul`
-  background-color: white;
+  position: relative;
   margin: 0;
-  padding: 4px 0 0 0;
+  padding: 3px 0 0 0;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 const NavFooter = styled.footer`
@@ -82,7 +51,7 @@ const NavFooter = styled.footer`
   bottom: 0;
   left: 0;
   width: 100%;
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  border-top: 1px solid ${props => props.theme.colors.background};
 `;
 
 const ExpanderButton = styled.button`
@@ -91,23 +60,27 @@ const ExpanderButton = styled.button`
   outline: none;
   border: none;
   height: 52px;
-  background-color: white;
   cursor: pointer;
   text-align: right;
   padding-right: 22px;
   transition: background-color 195ms ease-in-out;
+  background-color: ${props => props.theme.colors.primary};
 
   &:hover {
-    background-color: ${props => props.theme.colors['$md-grey-200']};
+    background-color: ${props => props.theme.colors.primaryVariant};
   }
 
   i {
-    color: ${props => props.theme.colors['$md-grey-600']};
+    color: white;
     transform: rotate(${props => (props.open ? '-180deg' : '0deg')});
     transition-property: transform;
     transition-duration: ${props => (props.open ? '225ms' : '195ms')};
     transition-timing-function: linear;
   }
+`;
+
+const ActionDivider = styled(Divider)`
+  background: ${props => props.theme.colors.primaryVariant};
 `;
 
 class Navigation extends PureComponent {
@@ -117,10 +90,6 @@ class Navigation extends PureComponent {
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     onOpen: PropTypes.func,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ]),
     appState: PropTypes.object.isRequired,
   };
 
@@ -128,8 +97,7 @@ class Navigation extends PureComponent {
     open: false,
     width: '200px',
     miniWidth: '64px',
-    onOpen: () => { },
-    children: null,
+    onOpen: null,
   };
 
   handleOpen = (e) => {
@@ -162,7 +130,6 @@ class Navigation extends PureComponent {
       width,
       miniWidth,
       appState: { enableExperimental },
-      children,
       ...rest
     } = this.props;
 
@@ -172,12 +139,9 @@ class Navigation extends PureComponent {
 
     return (
       <NavigationContainer open={open} miniWidth={miniWidth} width={width} {...rest}>
-        <NavigationHeader>
-          <ContextTitle>
-            {iconMap(contextMeta.context, 28)}
-            <div>{this.getContextType()}</div>
-          </ContextTitle>
-        </NavigationHeader>
+        <Logo>
+          <GalacticFogIcon size={36} fill="white" />
+        </Logo>
         <NavItems>
           {items.map(item => (
             <NavItem
@@ -193,7 +157,7 @@ class Navigation extends PureComponent {
             />
           ))}
 
-          {actions.length > 0 && <Divider />}
+          {actions.length > 0 && <ActionDivider />}
 
           {actions.map(item => (
             <NavItem
@@ -207,19 +171,18 @@ class Navigation extends PureComponent {
               target={item.render === 'newtab' ? '_blank' : null}
             />
           ))}
-
-          {children}
-          <NavFooter>
-            <ExpanderButton
-              onClick={this.handleOpen}
-              open={open}
-            >
-              <FontIcon>
-                chevron_right
-              </FontIcon>
-            </ExpanderButton>
-          </NavFooter>
         </NavItems>
+
+        <NavFooter>
+          <ExpanderButton
+            onClick={this.handleOpen}
+            open={open}
+          >
+            <FontIcon>
+              chevron_right
+            </FontIcon>
+          </ExpanderButton>
+        </NavFooter>
       </NavigationContainer>
     );
   }

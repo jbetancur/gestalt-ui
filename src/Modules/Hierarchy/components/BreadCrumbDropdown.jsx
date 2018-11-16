@@ -30,8 +30,8 @@ const ListContainer = styled.div`
 `;
 
 const SeperatorStyle = styled(IconSeparator)`
-  font-size: 14px;
-  color: ${props => props.theme.colors['$md-grey-900']};
+  font-size: 13px;
+  color: ${props => props.theme.colors.font};
 
   a {
     display: block;
@@ -48,7 +48,7 @@ const SeperatorStyle = styled(IconSeparator)`
   }
 
   a:first-child {
-    padding-right: 8px;
+    padding-right: 6px;
   }
 `;
 
@@ -60,7 +60,7 @@ const DropDownButton = styled(AccessibleFakeInkedButton)`
   }
 
   &:hover {
-    background: ${props => props.theme.colors['$md-grey-200']};
+    background: ${props => props.theme.colors.backgroundVariant};
   }
 `;
 

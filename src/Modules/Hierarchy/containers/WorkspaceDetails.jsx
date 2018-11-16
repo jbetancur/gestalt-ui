@@ -1,19 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 class WorkspaceDetails extends PureComponent {
   static propTypes = {
@@ -99,12 +93,7 @@ class WorkspaceDetails extends PureComponent {
     return (
       <React.Fragment>
         <ActionsToolbar
-          title={(
-            <Title>
-              {workspace.description || workspace.name}
-            </Title>
-          )}
-          titleIcon={<WorkspaceIcon />}
+          title={`${workspace.description || workspace.name} Details`}
           actions={this.renderActions()}
         />
         <DetailsPane model={workspace} singleRow />

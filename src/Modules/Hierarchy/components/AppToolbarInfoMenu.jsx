@@ -5,8 +5,8 @@ import { translate } from 'react-i18next';
 import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
 import { A } from 'components/Links';
 import { GalacticFogIcon } from 'components/Icons';
-import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../constants';
-import withApp from '../hocs/withApp';
+import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../../constants';
+import withApp from '../../../App/hocs/withApp';
 
 const AppToolbarInfoMenu = (props) => {
   const menuItems = [
@@ -52,7 +52,11 @@ const AppToolbarInfoMenu = (props) => {
     <MenuButton
       id="main--info--menu"
       icon
-      position={MenuButton.Positions.TOP_RIGHT}
+      anchor={{
+        x: MenuButton.HorizontalAnchors.INNER_RIGHT,
+        y: MenuButton.VerticalAnchors.BOTTOM,
+      }}
+      simplifiedMenu={false}
       menuItems={menuItems}
     >
       info_outline

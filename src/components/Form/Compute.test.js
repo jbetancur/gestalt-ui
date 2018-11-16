@@ -13,6 +13,6 @@ describe('Components::Form::Compute', () => {
 
     const wrapper = shallowWithTheme(<Compute formValues={formValuesMock} form={{ change: jest.fn() }} />);
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper.dive().dive().dive()).toMatchSnapshot();
   });
 });

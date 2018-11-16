@@ -1,20 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
-import Label from 'components/Label';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
@@ -96,18 +89,13 @@ class EnvironmentDetails extends PureComponent {
 
   render() {
     const { context: { environment } } = this.props;
-    const environmentType = environment.id && environment.properties ? environment.properties.environment_type.toUpperCase() : null;
+    const environmentType = environment.id && environment.properties ? environment.properties.environment_type : null;
 
     return (
       <React.Fragment>
         <ActionsToolbar
-          title={(
-            <Title>
-              {environment.description || environment.name}
-            </Title>
-          )}
-          titleIcon={<EnvironmentIcon />}
-          subtitle={<Label>{environmentType}</Label>}
+          title={`${environment.description || environment.name} Details`}
+          subtitle={`type: ${environmentType}`}
           actions={this.renderActions()}
         />
         <DetailsPane model={environment} singleRow />

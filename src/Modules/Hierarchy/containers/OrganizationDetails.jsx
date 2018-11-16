@@ -1,21 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
-import Label from 'components/Label';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
 import withSelf from '../../../App/hocs/withSelf';
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 class OrganizationDetails extends PureComponent {
   static propTypes = {
@@ -104,13 +97,8 @@ class OrganizationDetails extends PureComponent {
     return (
       <React.Fragment>
         <ActionsToolbar
-          title={(
-            <Title>
-              {organization.description || organization.name}
-            </Title>
-          )}
-          subtitle={<Label>{organization.properties.fqon}</Label>}
-          titleIcon={<OrganizationIcon />}
+          title={`${organization.description || organization.name} Details`}
+          subtitle={`fqon: ${organization.properties.fqon}`}
           actions={this.renderActions()}
         />
         <DetailsPane model={organization} singleRow />

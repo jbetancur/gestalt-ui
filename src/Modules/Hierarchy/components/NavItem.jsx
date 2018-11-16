@@ -6,20 +6,22 @@ import { NavLink } from 'components/Links';
 import styled, { withTheme } from 'styled-components';
 
 const ListItem = styled.li`
+  position: relative;
   list-style: none;
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
   height: 48px;
   width: 100%;
   cursor: pointer;
   user-select: none;
+  color: ${props => props.theme.colors.fontVariant};
 
   &:hover {
-    background-color: ${props => props.theme.colors['$md-grey-200']};
+    background-color: ${props => props.theme.colors.primaryVariant};
 
     .nav-on-menu-hover {
       display: flex;
+      position: fixed;
     }
   }
 `;
@@ -36,10 +38,17 @@ const Icon = styled.div`
   display: inline-block;
   line-height: 0;
   margin: 13px 21px;
+
+  i {
+    color: white;
+  }
+
+  svg {
+    fill: white;
+  }
 `;
 
 const Text = styled.div`
-  color: ${props => props.theme.colors['$md-grey-900']};
   line-height: 0;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -56,9 +65,10 @@ const SubMenu = styled(({ miniWidth, expandedWidth, ...rest }) => <div {...rest}
   box-shadow: 2px 1px 2px -2px rgba(0, 0, 0, 0.1);
   opacity: 0.98;
   left: calc(${props => props.miniWidth} - 1px);
-  border-left: 1px solid ${props => props.theme.colors['$md-grey-300']};
+  border-left: 1px solid ${props => props.theme.colors.primary};
   max-width: calc(${props => props.expandedWidth} - ${props => props.miniWidth});
-  background-color: ${props => props.theme.colors['$md-grey-200']};
+  background-color: ${props => props.theme.colors.accent};
+  color: ${props => props.theme.colors.font};
 `;
 
 class NavItem extends Component {

@@ -30,25 +30,9 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
   align-content: stretch;
 }
 
-<Component
-  alignContent="stretch"
-  alignItems="stretch"
-  center={false}
+<div
   className="c0"
-  component="div"
-  debug={false}
-  direction="row"
-  fill={false}
-  height=""
-  justifyContent="flex-start"
-  minColWidths={false}
-  padding=""
-  paddingBottom=""
-  paddingLeft=""
-  paddingRight=""
-  paddingTop=""
   style={Object {}}
-  wrap="wrap"
 >
   <Col
     alignSelf="auto"
@@ -106,7 +90,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     style={Object {}}
     xs={4}
   >
-    <Field
+    <_class
       component={[Function]}
       format={[Function]}
       name="properties.cpus"
@@ -177,7 +161,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     style={Object {}}
     xs={4}
   >
-    <Field
+    <_class
       component={[Function]}
       format={[Function]}
       name="properties.memory"
@@ -191,5 +175,5 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
       validate={[Function]}
     />
   </Col>
-</Component>
+</div>
 `;

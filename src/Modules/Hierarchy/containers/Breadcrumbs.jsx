@@ -23,16 +23,19 @@ const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   height: 32px;
 
   &:hover {
-    color: ${props => props.theme.colors['$md-blue-400']};
+    color: ${props => props.theme.colors.active2};
     text-decoration: underline;
   }
 
   ${props => props.isActive && css`
-    color: ${props.theme.colors['$md-blue-500']};
+    color: ${props.theme.colors.active};
 
     i * {
-      color: ${props.theme.colors['$md-blue-500']};
-      fill: ${props.theme.colors['$md-blue-500']};
+      color: ${props.theme.colors.active};
+    }
+
+    svg * {
+      fill: ${props.theme.colors.active};
     }
   `};
 `;
@@ -62,7 +65,7 @@ class Breadcrumbs extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
-    // allOrganizationsPending: PropTypes.bool.isRequired,
+    allOrganizationsPending: PropTypes.bool.isRequired,
     contextActions: PropTypes.object.isRequired,
     sortedOrganizations: PropTypes.array.isRequired,
     sortedWorkspaces: PropTypes.array.isRequired,
@@ -154,7 +157,7 @@ class Breadcrumbs extends PureComponent {
     const {
       size,
       isActive,
-      // contextActions,
+      contextActions,
       contextPending,
       context: {
         contextMeta,
@@ -162,7 +165,7 @@ class Breadcrumbs extends PureComponent {
         workspace,
         environment,
       },
-      // allOrganizationsPending,
+      allOrganizationsPending,
     } = this.props;
 
     const parentOrgRoute = `/${organization.org.properties.fqon}/hierarchy`;
@@ -200,9 +203,9 @@ class Breadcrumbs extends PureComponent {
           icon={<OrganizationIcon size={size} primary={!!isOrgContext} />}
           // createLabel="Create Organization"
           // createRoute={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
-          title={`Organizations in ${orgName}`}
-          // onOpen={contextActions.fetchAllOrgs}
-          // pending={allOrganizationsPending}
+          title="Organizations"
+          onOpen={contextActions.fetchAllOrgs}
+          pending={allOrganizationsPending}
           label={(
             <EnhancedLink
               onClick={e => this.checkIfShouldNav(e, orgsRoute)}

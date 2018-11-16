@@ -58,15 +58,15 @@ export const getEditEnvironmentModel = createSelector(
   }
 );
 
-// export const getSortedContextOrganizations = createSelector(
-//   [selectAppOrganizations],
-//   organizations => sortBy(organizations, ['desciption', 'name'])
-// );
-
 export const getSortedContextOrganizations = createSelector(
-  [selectContext],
-  context => sortBy(context.organizations, ['desciption', 'name'])
+  [selectAppOrganizations],
+  organizations => sortBy(organizations, ['desciption', 'name'])
 );
+
+// export const getSortedContextOrganizations = createSelector(
+//   [selectContext],
+//   context => sortBy(context.organizations, ['desciption', 'name'])
+// );
 
 export const getSortedContextWorkspaces = createSelector(
   [selectContext],

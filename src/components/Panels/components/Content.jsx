@@ -7,6 +7,7 @@ const Content = styled.div`
   display: ${props => (props.isExpanded ? 'block' : 'none')};
   ${props => (props.noPadding ? 'padding: 0' : 'padding: 1em')};
   ${props => (props.minHeight && `min-height: ${props.minHeight}`)};
+  ${props => (props.maxHeight && `max-height: ${props.maxHeight}`)};
 `;
 
 export default withTheme(Content);
