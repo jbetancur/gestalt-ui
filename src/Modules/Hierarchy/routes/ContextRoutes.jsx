@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
+// import InlineView from 'Modules/InlineView/Inline';
 import NotFound from '../../../App/components/NotFound';
+import ContextNavigation from '../containers/ContextNavigation';
 import HierarchyContext from '../contexts/HierarchyContext';
 import WorkspaceContext from '../contexts/WorkspaceContext';
 import EnvironmentContext from '../contexts/EnvironmentContext';
@@ -14,9 +17,19 @@ import EnvironmentEdit from '../containers/EnvironmentEdit';
 import WorkspaceEdit from '../containers/WorkspaceEdit';
 import withModalRouter from './withModalRouter';
 
+const Main = styled.main`
+  position: relative;
+  padding-bottom: 56px;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+`;
+
 // Routing Structure. Order is important here
 const ContextRoutes = ({ location, previousLocation, isModal }) => (
-  <div>
+  <Main>
+    <Route path="/:fqon/*" component={ContextNavigation} />
+
     <Switch location={isModal ? previousLocation : location}>
       <Route path="/:fqon/hierarchy/:workspaceId/environment/:environmentId" component={EnvironmentContext} />
       <Route path="/:fqon/hierarchy/:workspaceId" component={WorkspaceContext} />
@@ -31,7 +44,7 @@ const ContextRoutes = ({ location, previousLocation, isModal }) => (
     {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/edit" component={WorkspaceEdit} /> : null}
     {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/createEnvironment" component={EnvironmentCreate} /> : null}
     {isModal ? <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/edit" component={EnvironmentEdit} /> : null}
-  </div>
+  </Main>
 );
 
 ContextRoutes.propTypes = {

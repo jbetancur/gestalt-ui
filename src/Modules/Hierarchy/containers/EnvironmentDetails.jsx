@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { DeleteIcon, EntitlementIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
@@ -95,6 +95,7 @@ class EnvironmentDetails extends PureComponent {
       <React.Fragment>
         <ActionsToolbar
           title={`${environment.description || environment.name} Details`}
+          titleIcon={<EnvironmentIcon />}
           subtitle={`type: ${environmentType}`}
           actions={this.renderActions()}
         />

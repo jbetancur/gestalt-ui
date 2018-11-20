@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { DeleteIcon, EntitlementIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
@@ -98,6 +98,7 @@ class OrganizationDetails extends PureComponent {
       <React.Fragment>
         <ActionsToolbar
           title={`${organization.description || organization.name} Details`}
+          titleIcon={<OrganizationIcon />}
           subtitle={`fqon: ${organization.properties.fqon}`}
           actions={this.renderActions()}
         />

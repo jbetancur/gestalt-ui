@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { get } from 'lodash';
+// import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
-import { Title } from 'components/Typography';
-import { DotActivity } from 'components/ProgressIndicators';
+// import { Title } from 'components/Typography';
+// import { DotActivity } from 'components/ProgressIndicators';
 import { withRestricted } from 'Modules/Authentication';
 import { withLicense } from 'Modules/Licensing';
 import { media } from 'util/helpers/media';
@@ -20,7 +20,7 @@ import withContext from '../hocs/withContext';
 import withApp from '../../../App/hocs/withApp';
 import UserMenu from '../components/UserMenu';
 import AppToolbarInfoMenu from '../components/AppToolbarInfoMenu';
-import iconMap from '../config/iconMap';
+// import iconMap from '../config/iconMap';
 
 const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {...rest} />)`
   position: relative;
@@ -29,14 +29,26 @@ const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {..
   align-items: center;
   background-color: white;
   border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
-  padding-top: 4px;
-  padding-bottom: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  min-height: 56px;
   padding-left: 16px;
   padding-right: 16px;
   text-align: left;
-  min-height: 96px;
   overflow: visible;
   z-index: 4;
+  ${() => media.xs`
+    padding-top: 20px;
+    padding-bottom: 20px;
+  `};
+  ${() => media.sm`
+    padding-top: 20px;
+    padding-bottom: 20px;
+  `};
+  ${() => media.md`
+    padding-top: 20px;
+    padding-bottom: 20px;
+  `};
 `;
 
 const CollapseWrapper = styled.div`
@@ -75,7 +87,7 @@ const CollapseButton = styled.button`
 const Section = styled.div`
   display: flex;
   align-items: center;
-  height: 48px;
+  height: 24px;
 `;
 
 const ExpansionPanel = styled(({ isExpanded, expandedHeight, ...rest }) => <div {...rest} />)`
@@ -92,6 +104,12 @@ const ActionsPanel = styled.div`
   overflow: visible;
 
   ${() => media.xs`
+    justify-content: center;
+  `};
+  ${() => media.sm`
+    justify-content: center;
+  `};
+  ${() => media.md`
     justify-content: center;
   `};
 
@@ -112,9 +130,9 @@ const ActionsPanel = styled.div`
   }
 `;
 
-const TitleIcon = styled.div`
-  padding-right: 8px;
-`;
+// const TitleIcon = styled.div`
+//   padding-right: 8px;
+// `;
 
 const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
   transition: transform 225ms ease;
@@ -186,33 +204,33 @@ class ContextNavigation extends PureComponent {
     return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
   }
 
-  renderContextTitle() {
-    const {
-      context: { contextMeta },
-      context,
-    } = this.props;
+  // renderContextTitle() {
+  //   const {
+  //     context: { contextMeta },
+  //     context,
+  //   } = this.props;
 
-    const title = get(context[contextMeta.context], 'description') || get(context[contextMeta.context], 'name');
+  //   const title = get(context[contextMeta.context], 'description') || get(context[contextMeta.context], 'name');
 
-    return (
-      <Section>
-        <TitleIcon>
-          {iconMap(contextMeta.context, 24)}
-        </TitleIcon>
+  //   return (
+  //     <Section>
+  //       <TitleIcon>
+  //         {iconMap(contextMeta.context, 24)}
+  //       </TitleIcon>
 
-        {!title
-          ?
-            <DotActivity size={1} id={`loading-${contextMeta.context}`} />
-          :
-          (
-            <Title>
-              {title}
-            </Title>
-          )}
-      </Section>
+  //       {!title
+  //         ?
+  //           <DotActivity size={1} id={`loading-${contextMeta.context}`} />
+  //         :
+  //         (
+  //           <Title>
+  //             {title}
+  //           </Title>
+  //         )}
+  //     </Section>
 
-    );
-  }
+  //   );
+  // }
 
   logout = () => {
     const { history, authActions } = this.props;
@@ -240,13 +258,13 @@ class ContextNavigation extends PureComponent {
       >
         <Row alignItems="center">
           <Col xs={12} sm={12} md={6} lg={6}>
-            {this.renderContextTitle()}
+            {/* {this.renderContextTitle()} */}
             <Section>
               <Breadcrumbs />
             </Section>
           </Col>
 
-          <Col xs={12} sm={12} md={6} lg={6} alignSelf="flex-start">
+          <Col xs={12} sm={12} md={12} lg={6}>
             <ActionsPanel>
               <CreateMenu {...this.props} />
               <UserMenu onLogout={this.logout} />

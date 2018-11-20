@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
-import { DeleteIcon, EntitlementIcon } from 'components/Icons';
+import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import withHierarchy from '../hocs/withHierarchy';
@@ -94,6 +94,7 @@ class WorkspaceDetails extends PureComponent {
       <React.Fragment>
         <ActionsToolbar
           title={`${workspace.description || workspace.name} Details`}
+          titleIcon={<WorkspaceIcon />}
           actions={this.renderActions()}
         />
         <DetailsPane model={workspace} singleRow />

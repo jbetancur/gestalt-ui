@@ -6,7 +6,7 @@ import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { Notifications } from 'Modules/Notifications';
-import { Navigation, ContextNavigation, ContextRoutes } from 'Modules/Hierarchy';
+import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { withRestricted } from 'Modules/Authentication';
@@ -22,15 +22,6 @@ const AppWrapper = styled.div`
   overflow: hidden;
   flex-grow: 1;
   height: 100%;
-`;
-
-const Main = styled.main`
-  position: relative;
-  overflow-y: scroll;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 56px;
 `;
 
 class App extends Component {
@@ -107,13 +98,7 @@ class App extends Component {
           open={navigationExpanded}
           onOpen={toggleNavigation}
         />
-        <Main>
-          <div>
-            <ContextNavigation />
-          </div>
-
-          <ContextRoutes />
-        </Main>
+        <ContextRoutes />
       </AppWrapper>
     );
   }

@@ -18,10 +18,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { DotActivity } from 'components/ProgressIndicators';
+import { media } from 'util/helpers/media';
 
 const IconStyle = styled.div`
   display: flex;
   align-items: center;
+  ${() => media.xs`
+    display: none;
+  `};
 `;
 
 const ListContainer = styled.div`
@@ -30,8 +34,16 @@ const ListContainer = styled.div`
 `;
 
 const SeperatorStyle = styled(IconSeparator)`
-  font-size: 13px;
+  font-size: 14px;
   color: ${props => props.theme.colors.font};
+
+  ${() => media.xs`
+    font-size: 12px;
+  `};
+
+  ${() => media.sm`
+    font-size: 12px;
+  `};
 
   a {
     display: block;
@@ -72,10 +84,6 @@ const InlineButton = styled(Button)`
   padding: 0;
   height: 20px;
   max-width: 20px;
-`;
-
-const Title = styled.div`
-  max-width: 250px;
 `;
 
 class BreadCrumbLayoverDropDown extends PureComponent {
@@ -238,7 +246,7 @@ class BreadCrumbLayoverDropDown extends PureComponent {
 
               <Paper>
                 <SearchWrapper key={`${title}--search`}>
-                  {title && <Title>{title}</Title>}
+                  {title}
                   <TextField
                     id={`filter-${id}-dropdown`}
                     label="Filter"

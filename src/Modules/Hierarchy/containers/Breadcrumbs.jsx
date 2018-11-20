@@ -6,6 +6,8 @@ import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
+import { DotActivity } from 'components/ProgressIndicators';
+import { media } from 'util/helpers/media';
 import BreadCrumbDropdown from '../components/BreadCrumbDropdown';
 import withContext from '../hocs/withContext';
 import {
@@ -16,15 +18,15 @@ import {
 import withSelf from '../../../App/hocs/withSelf';
 
 const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
-  color: inherit;
+  color: ${props => props.theme.colors.fontCaption};
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   height: 32px;
+  font-weight: 600;
 
   &:hover {
-    color: ${props => props.theme.colors.active2};
-    text-decoration: underline;
+    color: ${props => props.theme.colors.active};
   }
 
   ${props => props.isActive && css`
@@ -49,9 +51,9 @@ const NavArrow = styled(Button)`
     font-size: 18px !important;
   }
 
-  @media (min-width: 0) and (max-width: 659px) {
+  ${() => media.xs`
     display: none;
-  }
+  `};
 `;
 
 const Wrapper = styled.div`
@@ -70,14 +72,12 @@ class Breadcrumbs extends PureComponent {
     sortedOrganizations: PropTypes.array.isRequired,
     sortedWorkspaces: PropTypes.array.isRequired,
     sortedEnvironments: PropTypes.array.isRequired,
-    size: PropTypes.number,
     isActive: PropTypes.bool,
     contextPending: PropTypes.bool,
   };
 
   static defaultProps = {
     contextPending: false,
-    size: 16,
     isActive: false,
   }
 
@@ -155,7 +155,6 @@ class Breadcrumbs extends PureComponent {
 
   render() {
     const {
-      size,
       isActive,
       contextActions,
       contextPending,
@@ -182,7 +181,7 @@ class Breadcrumbs extends PureComponent {
     const isOrgContext = !workspace.id && !environment.id && !contextMeta.workspaceId && !contextMeta.environmentId;
 
     return (
-      <Wrapper size={size} isActive={isActive}>
+      <Wrapper isActive={isActive}>
         {organization.properties.fqon &&
           <NavArrow
             icon
@@ -196,11 +195,12 @@ class Breadcrumbs extends PureComponent {
             arrow_upward
           </NavArrow>}
 
-        {orgName &&
+        {!organization.id && <DotActivity id="breadcrumbs-loading" size={1} />}
+        {organization.id &&
         <BreadCrumbDropdown
           id="organizations-dropdown"
           menuItems={this.generateOrgItems()}
-          icon={<OrganizationIcon size={size} primary={!!isOrgContext} />}
+          icon={<OrganizationIcon size={18} primary={!!isOrgContext} />}
           // createLabel="Create Organization"
           // createRoute={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
           title="Organizations"
@@ -222,7 +222,7 @@ class Breadcrumbs extends PureComponent {
         <BreadCrumbDropdown
           id="workspaces-dropdown"
           menuItems={this.generateWorkspaceItems()}
-          icon={<WorkspaceIcon size={size} primary={!!(isWorkspaceCtx && !isEnvironmentCtx)} />}
+          icon={<WorkspaceIcon size={18} primary={!!(isWorkspaceCtx && !isEnvironmentCtx)} />}
           createLabel="Create Workspace"
           createRoute={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
           title={`Workspaces in ${orgName}`}
@@ -242,7 +242,7 @@ class Breadcrumbs extends PureComponent {
         <BreadCrumbDropdown
           id="environments-dropdown"
           menuItems={this.generateEnvironmentItems()}
-          icon={<EnvironmentIcon size={size} primary={!!isEnvironmentCtx} />}
+          icon={<EnvironmentIcon size={18} primary={!!isEnvironmentCtx} />}
           createLabel="Create Environment"
           createRoute={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
           title={`Environments in ${workspaceName}`}

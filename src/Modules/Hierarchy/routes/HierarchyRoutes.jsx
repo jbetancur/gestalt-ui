@@ -5,7 +5,7 @@ import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import { Users, UserCreate, UserEdit } from 'Modules/Users';
 import { Groups, GroupCreate, GroupEdit } from 'Modules/Groups';
 import { ResourceTypeListing, CreateResourceType, EditResourceType } from 'Modules/ResourceTypes';
-// import { ServiceModeler, ServiceSpecListing } from 'Modules/ServiceModeler';
+import InlineView from 'Modules/InlineView/Inline';
 import HierarchyListing from '../containers/HierarchyListing';
 import withModalRouter from './withModalRouter';
 import NotFound from '../../../App/components/NotFound';
@@ -31,8 +31,7 @@ const HierarchyRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/resourcetypes/:resourceTypeId" component={EditResourceType} />
     <Route exact path="/:fqon/resourcetypes" component={ResourceTypeListing} />
 
-    {/* <Route exact path="/:fqon/servicespecs/create" component={ServiceModeler} />
-    <Route exact path="/:fqon/servicespecs" component={ServiceSpecListing} /> */}
+    <Route exact path="/:fqon/inline/:urlEncoded" component={InlineView} />
 
     <Route component={NotFound} />
   </Switch>

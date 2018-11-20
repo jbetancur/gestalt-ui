@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import base64 from 'base-64';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon, Divider } from 'react-md';
 import withApp from 'App/hocs/withApp';
@@ -12,7 +13,7 @@ import iconMap from '../config/iconMap';
 import generateSVG from '../util/generateSVG';
 
 const Logo = styled.div`
-  background-color: ${props => props.theme.colors.secondary};
+  background-color: ${props => props.theme.colors.primary};
   border-bottom: 1px solid ${props => props.theme.colors.background};
   display: flex;
   flex: 0 0 56px;
@@ -118,6 +119,26 @@ class Navigation extends PureComponent {
       : null;
   }
 
+  generateTarget(item) {
+    switch (item.render) {
+      case 'newtab':
+        return '_blank';
+      default:
+        return '_self';
+    }
+  }
+
+  generateLink(item) {
+    const { context: { contextMeta } } = this.props;
+
+    switch (item.render) {
+      case 'newtab':
+        return item.url;
+      default:
+        return `/${contextMeta.fqon}/inline/${base64.encode(item.url)}`;
+    }
+  }
+
   render() {
     const {
       context: {
@@ -167,8 +188,8 @@ class Navigation extends PureComponent {
               title={item.display_name || item.action}
               key={item.action}
               icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
-              to={item.url}
-              target={item.render === 'newtab' ? '_blank' : null}
+              to={this.generateLink(item)}
+              target={this.generateTarget(item)}
             />
           ))}
         </NavItems>
