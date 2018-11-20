@@ -23,7 +23,7 @@ class EnvironmentHome extends PureComponent {
 
   render() {
     return (
-      <Row gutter={5} center>
+      <Row gutter={5} center padding="5px">
         <Col flex={3} xs={12} sm={6} md={4}>
           <HomeCard
             title="APIs"

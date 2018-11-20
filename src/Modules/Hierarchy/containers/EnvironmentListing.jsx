@@ -60,7 +60,7 @@ class EnvironmentListing extends Component {
             <SelectFilter disabled={contextPending} />
           }
         />
-        <Row gutter={5}>
+        <Row gutter={5} padding="5px">
           {sortedEnvironments.map(item => (
             <Col key={item.id} flex={2} xs={12} sm={6} md={4}>
               <EnvironmentCard
