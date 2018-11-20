@@ -7,6 +7,11 @@ import { RobotUprisingIcon } from 'components/Icons';
 import { media } from 'util/helpers/media';
 import withSelf from '../hocs/withSelf';
 
+const Wrapper = styled.div`
+  height: 80%;
+  padding: 24px;
+`;
+
 const Title = styled.span`
   font-size: 84px;
   text-align: center;
@@ -29,6 +34,7 @@ const MessageTitle = styled.p`
   font-size: 20px;
   line-height: 28px;
   padding: 8px;
+  text-align: center;
 `;
 
 const Quotes = styled.p`
@@ -40,6 +46,12 @@ const Quotes = styled.p`
 
 const SVGWrapper = styled.div`
   text-align: center;
+
+  svg {
+    ${() => media.xs`
+      width: 80%;
+    `};
+  }
 `;
 
 const ButtonStyle = styled(Button)`
@@ -107,38 +119,40 @@ const quotes = [
 const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
 const NotFound = ({ match, history }) => (
-  <Row center fill padding="8px">
-    <Col flex={7} xs={12} sm={12} md={6}>
-      <Row center>
-        <Title>No Disassemble!</Title>
-      </Row>
-      <Row center>
-        <MessageTitle>The resource you are looking is either unauthorized or was deleted!</MessageTitle>
+  <Wrapper>
+    <Row center fill>
+      <Col flex={7} xs={12} sm={12} md={6}>
         <Row center>
-          {match.params.fqon &&
-          <ButtonStyle
-            flat
-            primary
-            iconChildren="arrow_back"
-            onClick={() => history.replace(`/${match.params.fqon}/hierarchy`)}
-          >
-            {`Back to ${match.params.fqon}`}
-          </ButtonStyle>}
+          <Title>No Disassemble!</Title>
         </Row>
-      </Row>
-      <Row center>
-        <Quotes>{`"${quote}"`}</Quotes>
-      </Row>
-    </Col>
+        <Row center>
+          <MessageTitle>The resource you are looking is either unauthorized or was deleted!</MessageTitle>
+          <Row center>
+            {match.params.fqon &&
+            <ButtonStyle
+              flat
+              primary
+              iconChildren="arrow_back"
+              onClick={() => history.replace(`/${match.params.fqon}/hierarchy`)}
+            >
+              {`Back to ${match.params.fqon}`}
+            </ButtonStyle>}
+          </Row>
+        </Row>
+        <Row center>
+          <Quotes>{`"${quote}"`}</Quotes>
+        </Row>
+      </Col>
 
-    <Col flex={5} xs={12} sm={12} md={6}>
-      <Row center fill>
-        <SVGWrapper>
-          <RobotUprisingIcon />
-        </SVGWrapper>
-      </Row>
-    </Col>
-  </Row>
+      <Col flex={5} xs={12} sm={12} md={6}>
+        <Row center>
+          <SVGWrapper>
+            <RobotUprisingIcon />
+          </SVGWrapper>
+        </Row>
+      </Col>
+    </Row>
+  </Wrapper>
 );
 
 NotFound.propTypes = {
