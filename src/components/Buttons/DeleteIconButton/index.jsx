@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from 'react-md/lib/Buttons/Button';
 
 const StyledIcon = styled.span`
-    color: ${props => props.theme.removeIconColor};
+  color: ${props => props.theme.colors.error};
 `;
 
 const DeleteIconButton = ({ icon, ...rest }) => (

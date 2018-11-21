@@ -62,7 +62,7 @@ class WorkspaceCard extends PureComponent {
         onClick={this.navWorkspaceDetails}
         raise
         cardIcon={<WorkspaceIcon size={14} />}
-        cardColor={theme.workspaceCard}
+        cardColor={theme.colors.workspace}
         created={model.created.timestamp}
         menuActions={[
           {

@@ -5,12 +5,12 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Button from 'react-md/lib/Buttons/Button';
 
 const EnhancedButton = styled(({ inTable, marginTop, ...rest }) => <Button {...rest} />)`
-    margin-top: ${prop => prop.marginTop};
-    ${props => props.inTable && 'margin-top: 0'};
+  margin-top: ${prop => prop.marginTop};
+  ${props => props.inTable && 'margin-top: 0'};
 `;
 
 const StyledIcon = styled.i`
-    color: ${props => props.theme.removeIconColor};
+  color: ${props => props.theme.colors.error};
 `;
 
 const FieldRemoveButton = props => (

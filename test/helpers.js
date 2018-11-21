@@ -12,8 +12,12 @@ export const shallowWithTheme = (tree) => {
 };
 
 export const mountWithTheme = (tree) => {
-  const context = mount(<ThemeProvider theme={theme} />)
+  const context = shallow(<ThemeProvider theme={theme} />)
     .instance()
     .getChildContext();
-  return mount(tree, { context });
+
+  return mount(tree, {
+    context,
+    childContextTypes: ThemeProvider.childContextTypes,
+  });
 };

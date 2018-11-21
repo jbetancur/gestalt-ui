@@ -35,7 +35,7 @@ const SpinDiv = styled.div`
   &.spinner > div {
     width: ${props => `${props.size}em`};
     height: ${props => `${props.size}em`};
-    background-color: ${props => (props.primary && props.theme.activityDotColorDropDown) || props.theme.activityDotColor};
+    background-color: ${props => (props.primary && props.theme.colors.progressVariant) || props.theme.colors.progress};
     border-radius: 100%;
     display: inline-block;
     animation: ${animationRule};

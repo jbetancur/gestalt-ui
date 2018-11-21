@@ -4,13 +4,15 @@ import { Row, Col } from 'react-flexybox';
 import styled, { withTheme, css } from 'styled-components';
 import ExpanderIcon from './ExpanderIcon';
 
+const noShadowCSS = css`
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+`;
+
 const TitleSection = styled(Col)`
-  ${props => !props.noShadow && css`
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  `};
+  ${props => !props.noShadow && noShadowCSS};
   height: 100%;
   display: flex;
   align-items: center;
@@ -19,7 +21,7 @@ const TitleSection = styled(Col)`
 const Title = styled.div`
   display: inline-block;
   font-size: 16px;
-  color: ${props => props.theme.colors['$md-grey-700']};
+  color: ${props => props.theme.colors.fontTitle};
 `;
 
 const Icon = styled.div`
@@ -39,7 +41,7 @@ const Bubble = styled.div`
   padding: 6px;
   border-radius: 5px;
   text-align: center;
-  background-color: ${props => props.theme.colors['$md-blue-300']};
+  background-color: ${props => props.theme.colors.secondary};
   color: white;
 `;
 

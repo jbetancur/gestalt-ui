@@ -68,7 +68,7 @@ class OrganizationCard extends PureComponent {
         onClick={this.navTo}
         raise
         cardIcon={<OrganizationIcon size={14} />}
-        cardColor={theme.organizationCard}
+        cardColor={theme.colors.organization}
         created={model.created.timestamp}
         menuActions={[
           {

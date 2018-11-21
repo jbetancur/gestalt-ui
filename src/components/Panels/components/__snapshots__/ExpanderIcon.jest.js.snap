@@ -17,9 +17,6 @@ exports[`(Panels) ExpanderIcon renders when collapsed 1`] = `
   isExpanded={false}
   theme={
     Object {
-      "activityDotColor": "#9e9e9e",
-      "activityDotColorDropDown": "#2196f3",
-      "cardBackgroundColor": "#fff",
       "colors": Object {
         "$custom-light-blue": "#4493B6",
         "$gf-bright-blue": "#58B8D3",
@@ -303,27 +300,24 @@ exports[`(Panels) ExpanderIcon renders when collapsed 1`] = `
         "error": "#ff1744",
         "font": "#212121",
         "fontCaption": "#9e9e9e",
+        "fontCaptionVariant": "#FAFAFA",
+        "fontTitle": "#616161",
+        "fontTitleVariant": "#FAFAFA",
         "fontVariant": "#FAFAFA",
         "info": "#2196f3",
         "organization": "#b0bec5",
         "primary": "#394F7F",
         "primaryVariant": "#526899",
-        "secondary": "#222639",
-        "secondaryVariant": "#12141E",
+        "progress": "#9e9e9e",
+        "progressVariant": "#4fc3f7",
+        "secondary": "#4fc3f7",
+        "secondaryVariant": "#122C38",
         "success": "#00c853",
+        "teritary": "#222639",
+        "teritaryVariant": "#12141E",
         "warning": "#ff9800",
         "workspace": "#42a5f5",
       },
-      "environmentCard": "#fdd835",
-      "errorText": "#f44336",
-      "fontColor": "#000",
-      "fontColorInverse": "#fff",
-      "fontColorLight": "#616161",
-      "mainBackgroundColor": "#f5f5f5",
-      "mainNavBackgroundColor": "#0b314a",
-      "organizationCard": "#b0bec5",
-      "removeIconColor": "#f44336",
-      "workspaceCard": "#42a5f5",
     }
   }
 />
@@ -346,9 +340,6 @@ exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
   isExpanded={true}
   theme={
     Object {
-      "activityDotColor": "#9e9e9e",
-      "activityDotColorDropDown": "#2196f3",
-      "cardBackgroundColor": "#fff",
       "colors": Object {
         "$custom-light-blue": "#4493B6",
         "$gf-bright-blue": "#58B8D3",
@@ -632,27 +623,24 @@ exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
         "error": "#ff1744",
         "font": "#212121",
         "fontCaption": "#9e9e9e",
+        "fontCaptionVariant": "#FAFAFA",
+        "fontTitle": "#616161",
+        "fontTitleVariant": "#FAFAFA",
         "fontVariant": "#FAFAFA",
         "info": "#2196f3",
         "organization": "#b0bec5",
         "primary": "#394F7F",
         "primaryVariant": "#526899",
-        "secondary": "#222639",
-        "secondaryVariant": "#12141E",
+        "progress": "#9e9e9e",
+        "progressVariant": "#4fc3f7",
+        "secondary": "#4fc3f7",
+        "secondaryVariant": "#122C38",
         "success": "#00c853",
+        "teritary": "#222639",
+        "teritaryVariant": "#12141E",
         "warning": "#ff9800",
         "workspace": "#42a5f5",
       },
-      "environmentCard": "#fdd835",
-      "errorText": "#f44336",
-      "fontColor": "#000",
-      "fontColorInverse": "#fff",
-      "fontColorLight": "#616161",
-      "mainBackgroundColor": "#f5f5f5",
-      "mainNavBackgroundColor": "#0b314a",
-      "organizationCard": "#b0bec5",
-      "removeIconColor": "#f44336",
-      "workspaceCard": "#42a5f5",
     }
   }
 />

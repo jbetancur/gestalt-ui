@@ -64,7 +64,7 @@ class EnvironmentCard extends PureComponent {
         key={model.id}
         onClick={this.navEnvironmentDetails}
         raise
-        cardColor={theme.environmentCard}
+        cardColor={theme.colors.environment}
         cardIcon={<EnvironmentIcon size={14} />}
         environmentType={model.properties.environment_type}
         created={model.created.timestamp}

@@ -1,27 +1,4 @@
 {
-  "primary": "#394F7F",
-  "primaryVariant": "#526899",
-  "secondary": "#222639",
-  "secondaryVariant": "#12141E",
-  "background": "#FAFAFA",
-  "backgroundVariant": "#EEE",
-  "accent": "#d5dcec",
-  "accentVariant": "#9BA1AC",
-  "active": "#4fc3f7",
-  "activeVariant": "#0288d1",
-  "font": "#212121",
-  "fontVariant": "#FAFAFA",
-  "fontCaption": "#9e9e9e",
-
-  "error": "#ff1744",
-  "warning": "#ff9800",
-  "info": "#2196f3",
-  "success": "#00c853",
-
-  "organization": "#b0bec5",
-  "workspace": "#42a5f5",
-  "environment": "#fdd835",
-
   "$gf-deep-blue": "#0b314a",
   "$gf-spaceship-blue": "#2d7694",
   "$gf-bright-blue": "#58B8D3",

@@ -1,21 +1,45 @@
 import base from './base';
-import colors from './colors.json';
 
 export default {
   ...base,
-  mainBackgroundColor: colors['$md-grey-100'],
-  // appHeaderColor: colors['$russian-black-100'],
-  mainNavBackgroundColor: colors['$gf-deep-blue'],
-  cardBackgroundColor: colors['$md-white'],
-  fontColor: colors['$md-black'],
-  fontColorInverse: colors['$md-white'],
-  fontColorLight: colors['$md-grey-700'],
-  removeIconColor: colors['$md-red-500'],
-  // boxShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 1px 1px 0 rgba(0, 0, 0, 0.12), 0 1px 1px -2px rgba(0, 0, 0, 0.2)',
-  errorText: colors['$md-red-500'],
-  activityDotColor: colors['$md-grey-500'],
-  activityDotColorDropDown: colors['$md-blue-500'],
-  organizationCard: colors['$md-blue-grey-200'],
-  workspaceCard: colors['$md-blue-400'],
-  environmentCard: colors['$md-yellow-600'],
+  colors: {
+    ...base.colors,
+
+    // Main Theme
+    primary: '#394F7F',
+    primaryVariant: '#526899',
+    secondary: '#4fc3f7',
+    secondaryVariant: '#122C38',
+    teritary: '#222639',
+    teritaryVariant: '#12141E',
+    background: '#FAFAFA',
+    backgroundVariant: '#EEE',
+    accent: '#d5dcec',
+    accentVariant: '#9BA1AC',
+    active: '#4fc3f7',
+    activeVariant: '#0288d1',
+
+    // Fonts
+    font: '#212121',
+    fontVariant: '#FAFAFA',
+    fontTitle: '#616161',
+    fontTitleVariant: '#FAFAFA',
+    fontCaption: '#9e9e9e',
+    fontCaptionVariant: '#FAFAFA',
+
+    // Progress
+    progress: '#9e9e9e',
+    progressVariant: '#4fc3f7',
+
+    // Notifications
+    error: '#ff1744',
+    warning: '#ff9800',
+    info: '#2196f3',
+    success: '#00c853',
+
+    // Misc
+    organization: '#b0bec5',
+    workspace: '#42a5f5',
+    environment: '#fdd835',
+  }
 };
