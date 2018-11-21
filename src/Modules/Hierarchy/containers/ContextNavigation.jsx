@@ -29,8 +29,8 @@ const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {..
   align-items: center;
   background-color: white;
   border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
   min-height: 56px;
   padding-left: 16px;
   padding-right: 16px;
