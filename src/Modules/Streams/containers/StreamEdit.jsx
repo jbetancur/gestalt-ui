@@ -4,7 +4,6 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { Card } from 'components/Cards';
 import { Button } from 'components/Buttons';
 import { withEntitlements } from 'Modules/Entitlements';
 import { Form } from 'react-final-form';
@@ -102,15 +101,13 @@ class StreamSpecEdit extends Component {
               <Tab title="Instances">
                 <Row gutter={5}>
                   <Col flex={12}>
-                    <Card>
-                      <StreamInstances
-                        streamSpec={streamSpec}
-                        streamInstances={streamInstances}
-                        fqon={match.params.fqon}
-                        providerActions={instanceProviderActions}
-                        onRefresh={() => this.populateStreamSpecs()}
-                      />
-                    </Card>
+                    <StreamInstances
+                      streamSpec={streamSpec}
+                      streamInstances={streamInstances}
+                      fqon={match.params.fqon}
+                      providerActions={instanceProviderActions}
+                      onRefresh={() => this.populateStreamSpecs()}
+                    />
                   </Col>
                 </Row>
                 <FullPageFooter>

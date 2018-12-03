@@ -66,13 +66,13 @@ export function* editViewWorkflow(action) {
 
     const streamActions = actions.data.length
       ? actions.data
-        .filter(a => a.locations
+        .filter(a => a.locations || a.properties.ui_locations
           .some(loc => loc === 'streamspec.edit'))
       : [];
 
     const streamInstanceActions = actions.data.length
       ? actions.data
-        .filter(a => a.locations
+        .filter(a => a.locations || a.properties.ui_locations
           .some(loc => loc === 'streamspec.instances'))
       : [];
 

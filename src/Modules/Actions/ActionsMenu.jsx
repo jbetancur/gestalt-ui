@@ -5,56 +5,58 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import axios from 'axios';
 import { ListItem, MenuButton } from 'react-md';
-import Div from 'components/Div';
 import { buildParams } from 'config/lib/urlmapper';
-// import { arrayToMap } from 'util/helpers/transformations';
+import Div from 'components/Div';
 
 class ActionsMenu extends PureComponent {
   static propTypes = {
     actionList: PropTypes.array,
+    pending: PropTypes.bool,
+    // unloadActions: PropTypes.func.isRequired,
     style: PropTypes.object,
     toggleActionsModal: PropTypes.func.isRequired,
     listItem: PropTypes.bool,
+    model: PropTypes.object,
+    isChildResource: PropTypes.bool,
     icon: PropTypes.bool,
-    resource: PropTypes.object,
     onActionComplete: PropTypes.func,
+    keyField: PropTypes.string,
+    parentKeyField: PropTypes.string,
+    fqon: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     actionList: [],
+    pending: false,
     style: { textAlign: 'left' },
     listItem: false,
     icon: false,
-    resource: {},
     onActionComplete: () => { },
+    keyField: 'id',
+    parentKeyField: 'properties.parent.id',
+    isChildResource: false,
+    model: {},
   };
 
-  parseURL(url, params = {}, resource = {}) {
-    if (Object.keys(params).length) {
-      const mapParams = {};
-
-      Object.keys(params).forEach((key) => {
-        mapParams[key] = get(resource, params[key]);
-      });
-
-      return buildParams(url, mapParams);
+  setParams() {
+    if (this.props.isChildResource) {
+      return {
+        resource: get(this.props.model, this.props.parentKeyField),
+        pid: get(this.props.model, this.props.keyField),
+      };
     }
 
-    return url;
+    return { resource: get(this.props.model, this.props.keyField) };
   }
 
   async fetchContent(action) {
-    const { onActionComplete, toggleActionsModal, resource } = this.props;
+    const url = buildParams(`${this.props.fqon}/actions/${action.id}/ui`, this.setParams());
+    const response = await axios.get(url);
 
-    const verb = action.method
-      ? action.method.toLowerCase()
-      : 'get';
-
-
-    const response = await axios[verb](this.parseURL(action.url, action.params, resource));
-
-    if (action.render !== 'none') {
-      toggleActionsModal(response.data, false, onActionComplete);
+    if (action.headless) {
+      this.props.onActionComplete();
+    } else {
+      this.props.toggleActionsModal(response.data, action.full_screen, this.props.onActionComplete);
     }
   }
 
@@ -62,23 +64,18 @@ class ActionsMenu extends PureComponent {
     const { actionList, style } = this.props;
 
     return (
-      actionList.map((action, index) => {
-        const actionName = action.display_name || action.action;
-
-        return (
-          <ListItem
-            key={`${actionName}-${index}`}
-            primaryText={actionName}
-            style={style}
-            onClick={() => this.fetchContent(action)}
-          />
-        );
-      })
+      actionList.map(action => (
+        <ListItem
+          key={action.id}
+          primaryText={action.name}
+          style={style}
+          onClick={() => this.fetchContent(action)}
+        />))
     );
   }
 
   render() {
-    const { actionList, listItem, icon, ...rest } = this.props;
+    const { pending, actionList, listItem, icon } = this.props;
 
     return (
       actionList && actionList.length > 0 ?
@@ -86,14 +83,14 @@ class ActionsMenu extends PureComponent {
           {!listItem ?
             <MenuButton
               id="provider-actions-menu"
-              iconChildren={icon ? 'more_vert' : 'arrow_drop_down'}
+              disabled={pending}
+              iconChildren="more_vert"
               flat={!icon}
               icon={icon}
-              iconBefore={false}
+              position={MenuButton.Positions.BELOW}
               simplifiedMenu={false}
               repositionOnScroll={false}
               menuItems={this.renderActions()}
-              {...rest}
             >
               {!icon && 'Actions'}
             </MenuButton> :
