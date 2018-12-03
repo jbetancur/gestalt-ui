@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';
@@ -33,7 +34,9 @@ const StatusStyle = styled.div`
 `;
 
 const DetailPane = ({ model, singleRow }) => {
-  const owner = (model.owner && model.owner.name) || (model.owner && model.owner.id);
+  const owner = get(model, 'model.owner.name') || get(model, 'model.owner.id');
+  const createdStamp = get(model, 'model.created.timestamp ');
+  const modifiedStamp = get(model, 'model.modified.timestamp ');
   const flex = singleRow ? 2 : 4;
 
   return (
@@ -71,14 +74,14 @@ const DetailPane = ({ model, singleRow }) => {
 
           <Col flex={flex} xs={6}>
             <Label>Created</Label>
-            {model.created.timestamp &&
+            {createdStamp &&
               <H5>
                 <div>
                   <div>
-                    <FormattedRelative value={model.created.timestamp} />
+                    <FormattedRelative value={createdStamp} />
                   </div>
                   <Caption>
-                    <FormattedDate value={model.created.timestamp} /> <FormattedTime value={model.created.timestamp} />
+                    <FormattedDate value={createdStamp} /> <FormattedTime value={createdStamp} />
                   </Caption>
                 </div>
               </H5>}
@@ -86,13 +89,13 @@ const DetailPane = ({ model, singleRow }) => {
 
           <Col flex={flex} xs={6}>
             <Label>Modified</Label>
-            {model.modified.timestamp &&
+            {modifiedStamp &&
               <H5>
                 <div>
-                  <FormattedRelative value={model.modified.timestamp} />
+                  <FormattedRelative value={modifiedStamp} />
                 </div>
                 <Caption>
-                  <FormattedDate value={model.modified.timestamp} /> <FormattedTime value={model.modified.timestamp} />
+                  <FormattedDate value={modifiedStamp} /> <FormattedTime value={modifiedStamp} />
                 </Caption>
               </H5>}
           </Col>
@@ -108,7 +111,10 @@ DetailPane.propTypes = {
 };
 
 DetailPane.defaultProps = {
-  model: {},
+  model: {
+    modified: {},
+    created: {},
+  },
   singleRow: false,
 };
 

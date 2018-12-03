@@ -60,7 +60,7 @@ export default [
     format: '{filename}.py',
     codeFormat: 'python',
     options: {},
-    codeOptions
+    codeOptionsInline
   },
   {
     value: 'csharp',
@@ -137,7 +137,7 @@ export default [
     codeOptions: codeOptionsInline,
     defaultHandler: 'handler',
     starterCode:
-`exports.handler = (event, context) => {
+`exports.handler = (event, context, callback) => {
   return 'Hello World!';
 };`
   },

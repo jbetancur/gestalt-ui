@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import base64 from 'base-64';
 import lambdaModel from './models/lambda';
 
-export const selectLambda = state => state.lambdas.lambda.lambda;
+export const selectLambda = state => lambdaModel.get(state.lambdas.lambda.lambda);
 export const selectLambdas = state => state.lambdas.lambdas.lambdas;
 export const selectEnv = state => state.lambdas.lambda.inheritedEnv;
 

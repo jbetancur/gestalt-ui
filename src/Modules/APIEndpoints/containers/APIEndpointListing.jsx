@@ -117,7 +117,6 @@ class APIEndpointListing extends PureComponent {
         name: 'Resource',
         selector: 'properties.resource',
         sortable: true,
-        maxWidth: '175px',
       },
       {
         name: 'Public URL',
@@ -148,15 +147,6 @@ class APIEndpointListing extends PureComponent {
         selector: 'properties.implementation_type',
         sortable: true,
         maxWidth: '120px',
-      },
-      {
-        name: 'Auth',
-        selector: 'properties.plugins.gestaltSecurity.enabled',
-        sortable: true,
-        center: true,
-        compact: true,
-        maxWidth: '85px',
-        cell: row => row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled && <FontIcon>check</FontIcon>
       },
       {
         name: 'Limit (m)',

@@ -1,5 +1,13 @@
 import { cloneDeep, pick, merge } from 'lodash';
 
+const base = {
+  org: {
+    properties: {},
+  },
+  created: {},
+  modified: {},
+};
+
 /**
  * get
  * @param {Object} model - override the model
@@ -8,11 +16,7 @@ const get = (model = {}) => {
   const safeModel = cloneDeep(model);
 
   return merge({
-    org: {
-      properties: {},
-    },
-    created: {},
-    modified: {},
+    ...base,
     name: '',
     description: '',
     properties: {
@@ -51,7 +55,7 @@ const create = (model = {}) => {
     properties: {
       env: [],
       headers: {
-        Accept: 'text/plain'
+        'Content-Type': 'text/plain'
       },
       // Providers is really an array of {id, locations[]}
       provider: {},

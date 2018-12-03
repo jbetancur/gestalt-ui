@@ -75,9 +75,9 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
         <Row>
           <Col flex={12}>
             <Panel title="Options" noShadow noPadding expandable={false}>
-              <Row gutter={5}>
-                {implementationType === 'lambda' &&
-                  <Col flex={12} xs={12}>
+              {implementationType === 'lambda' &&
+                <Row gutter={5}>
+                  <Col flex={12}>
                     <Field
                       id="synchronous"
                       component={Checkbox}
@@ -86,8 +86,21 @@ const APIEndpointForm = ({ initialValues, implementationType, portMappings, pend
                       label="Synchronous"
                       hasMargin={false}
                     />
-                  </Col>}
+                  </Col>
 
+                  <Col flex={12}>
+                    <Field
+                      id="is_http_aware"
+                      component={Checkbox}
+                      name="properties.is_http_aware"
+                      defaultChecked={initialValues.properties.is_http_aware}
+                      label="Lambda managed HTTP response"
+                      hasMargin={false}
+                    />
+                  </Col>
+                </Row>}
+
+              <Row gutter={5}>
                 <Col flex={12}>
                   <Field
                     id="show-api-endpoints-security"

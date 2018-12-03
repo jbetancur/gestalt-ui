@@ -21,6 +21,7 @@ const get = (model = {}) => {
       hosts: [],
       implementation_id: '',
       synchronous: true,
+      is_http_aware: false,
       methods: 'GET',
       plugins: {
         rateLimit: {
@@ -49,6 +50,7 @@ const create = (model = {}) => {
       methods: [],
       hosts: [],
       synchronous: true,
+      is_http_aware: false,
       plugins: {
         rateLimit: {},
         gestaltSecurity: {},
@@ -62,6 +64,7 @@ const create = (model = {}) => {
     'properties.methods',
     'properties.plugins',
     'properties.synchronous',
+    'properties.is_http_aware',
     'properties.implementation_id',
     'properties.implementation_type',
     'properties.container_port_name',

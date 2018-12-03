@@ -63,7 +63,6 @@ class APIEndpointInlineList extends PureComponent {
         selector: 'properties.resource',
         sortable: true,
         minWidth: '100px',
-        compact: true,
       },
       {
         name: 'Public URL',
@@ -94,13 +93,6 @@ class APIEndpointInlineList extends PureComponent {
         sortable: true,
         right: true,
         format: row => (row.properties.plugins && row.properties.plugins.rateLimit && row.properties.plugins.rateLimit.enabled && row.properties.plugins.rateLimit.perMinute) || '∞',
-      },
-      {
-        name: 'Auth',
-        selector: 'properties.plugins.gestaltSecurity.enabled',
-        sortable: true,
-        center: true,
-        cell: row => row.properties.plugins && row.properties.plugins.gestaltSecurity && row.properties.plugins.gestaltSecurity.enabled && <FontIcon>check</FontIcon>
       },
       {
         name: 'Created',

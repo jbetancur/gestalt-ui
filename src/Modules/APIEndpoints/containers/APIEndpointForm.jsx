@@ -160,14 +160,14 @@ const APIEndpointForm = ({
         </Col>
 
         <Col flex={6} xs={12} sm={12}>
-          <Panel title="Allowed HTTP Methods" minHeight="135px" expandable={false}>
+          <Panel title="Allowed HTTP Methods" minHeight="135px" expandable={false} fill>
             <Caption light>* at least one http method is required</Caption>
             <HTTPMethods />
           </Panel>
         </Col>
 
         <Col flex={6} xs={12} sm={12}>
-          <Panel title="Options" minHeight="135px" expandable={false}>
+          <Panel title="Options" minHeight="135px" expandable={false} fill>
             <Row>
               <Col flex={6} xs={12} sm={6} md={6}>
                 <Field
@@ -179,18 +179,31 @@ const APIEndpointForm = ({
                   hasMargin={false}
                 />
               </Col>
+
               {values.properties.implementation_type === 'lambda' &&
-                <Col flex={6} xs={12} sm={6} md={6}>
-                  <Field
-                    id="synchronous"
-                    component={Checkbox}
-                    name="properties.synchronous"
-                    defaultChecked={values.properties.synchronous}
-                    label="Synchronous"
-                    hasMargin={false}
-                  />
-                  <Caption light>wait for a return response</Caption>
-                </Col>}
+                <React.Fragment>
+                  <Col flex={12}>
+                    <Field
+                      id="synchronous"
+                      component={Checkbox}
+                      name="properties.synchronous"
+                      defaultChecked={values.properties.synchronous}
+                      label="Synchronous"
+                      hasMargin={false}
+                    />
+                  </Col>
+
+                  <Col flex={12}>
+                    <Field
+                      id="is_http_aware"
+                      component={Checkbox}
+                      name="properties.is_http_aware"
+                      defaultChecked={values.properties.is_http_aware}
+                      label="Lambda managed HTTP response"
+                      hasMargin={false}
+                    />
+                  </Col>
+                </React.Fragment>}
               <Col flex={12} xs={12} sm={6} md={6}>
                 <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
               </Col>
