@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -178,7 +179,10 @@ class Logging extends PureComponent {
         this.setState({ logs: [`${this.props.name} has not logged any messages yet...`] });
       }
     }).catch((error) => {
-      this.setState({ logPending: false, logs: ['unable to contact the log api', `${error}`] });
+      const errorCode = `code: ${get(error, 'response.status') || ''}`;
+      const errorStatus = `message: ${get(error, 'response.statusText') || ''}`;
+
+      this.setState({ logPending: false, logs: ['unable to contact the log api', `${error} ${errorCode} ${errorStatus}`] });
     });
   }
 
