@@ -34,9 +34,9 @@ const StatusStyle = styled.div`
 `;
 
 const DetailPane = ({ model, singleRow }) => {
-  const owner = get(model, 'model.owner.name') || get(model, 'model.owner.id');
-  const createdStamp = get(model, 'model.created.timestamp ');
-  const modifiedStamp = get(model, 'model.modified.timestamp ');
+  const owner = get(model, 'owner.name') || get(model, 'owner.id');
+  const createdStamp = get(model, 'created.timestamp');
+  const modifiedStamp = get(model, 'modified.timestamp');
   const flex = singleRow ? 2 : 4;
 
   return (
