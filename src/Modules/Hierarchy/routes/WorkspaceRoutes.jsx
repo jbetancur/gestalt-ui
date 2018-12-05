@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
+import InlineView from 'Modules/InlineView/Inline';
 import Environments from '../containers/EnvironmentListing';
 import withModalRouter from './withModalRouter';
 import NotFound from '../../../App/components/NotFound';
@@ -13,6 +14,7 @@ const WorkspaceRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/providers" component={Providers} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/providers/:providerId" component={ProviderEdit} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/createProvider" component={ProviderCreate} />
+    <Route exact path="/:fqon/hierarchy/:workspaceId/inline/:urlEncoded" component={InlineView} />
     <Route component={NotFound} />
   </Switch>
 );

@@ -1,101 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import base64 from 'base-64';
+import Cookies from 'universal-cookie';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
-import { ActivityContainer } from 'components/ProgressIndicators';
+import IFrame from 'components/IFrame';
+import { withRestricted } from 'Modules/Authentication';
+import withContext from '../Hierarchy/hocs/withContext';
 
-const ResponsiveFrameContainer = styled.div`
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-`;
-
-const ResponsiveFrame = styled.iframe`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  -webkit-overflow-scrolling: touch;
-`;
+const cookies = new Cookies();
 
 class InlineView extends Component {
   static propTypes = {
-    onReceived: PropTypes.func,
     match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
   };
 
-  static defaultProps = {
-    onReceived: null,
-  };
+  handleOnLoaded = (iframe) => {
+    const { context, history, authActions } = this.props;
+    const token = cookies.get('auth_token');
+    const validToken = !!token;
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true,
-    };
-
-    this.iframe = React.createRef();
-  }
-
-  componentDidMount() {
-    window.addEventListener('message', this.onPostMessage);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const { match: { params } } = this.props;
-    const { loading } = this.state;
-
-    if (nextProps.match.params.urlEncoded !== params.urlEncoded) {
-      return true;
-    }
-
-    if (nextState.loading !== loading) {
-      return true;
-    }
-
-    return false;
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('message', this.onPostMessage);
-  }
-
-  onPostMessage = (eventData) => {
-    const { onReceived } = this.props;
-
-    if (onReceived) {
-      onReceived({ eventData });
+    if (!validToken) {
+      // fall back for missing token & Eat any 401 errors
+      history.replace('/login');
+      authActions.logout(true);
+    } else {
+      iframe.postMessage({
+        token,
+        ...context.contextMeta,
+      }, '*');
     }
   }
-
-  setLoaded = () => {
-    this.setState({
-      loading: false,
-    });
-  };
 
   render() {
     const { match: { params } } = this.props;
-    const { loading } = this.state;
+    // base64 decode the url
     const src = base64.decode(params.urlEncoded);
 
     return (
-      <ResponsiveFrameContainer>
-        <ResponsiveFrame
-          id="ui-provider-actions-iframe"
-          src={src}
-          innerRef={this.iframe}
-          onLoad={this.setLoaded}
-        />
-        {loading && <ActivityContainer id="iframe-loading" />}
-      </ResponsiveFrameContainer>
+      <IFrame
+        id="ui-provider-actions-iframe"
+        src={src}
+        onLoaded={this.handleOnLoaded}
+      />
     );
   }
 }
 
-export default withRouter(InlineView);
+export default compose(
+  withRouter,
+  withRestricted,
+  withContext(),
+)(InlineView);

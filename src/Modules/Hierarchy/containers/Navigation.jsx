@@ -128,14 +128,26 @@ class Navigation extends PureComponent {
     }
   }
 
-  generateLink(item) {
+  generateInlineLink(item) {
     const { context: { contextMeta } } = this.props;
+    const url = base64.encode(item.url);
 
+    switch (contextMeta.context) {
+      case 'workspace':
+        return `/${contextMeta.fqon}/hierarchy/${contextMeta.workspaceId}/inline/${url}`;
+      case 'environment':
+        return `/${contextMeta.fqon}/hierarchy/${contextMeta.workspaceId}/environment/${contextMeta.environmentId}/inline/${url}`;
+      default:
+        return `/${contextMeta.fqon}/inline/${url}?fqon=${contextMeta.fqon}`;
+    }
+  }
+
+  generateLink(item) {
     switch (item.render) {
       case 'newtab':
         return item.url;
       default:
-        return `/${contextMeta.fqon}/inline/${base64.encode(item.url)}`;
+        return this.generateInlineLink(item);
     }
   }
 
