@@ -138,7 +138,7 @@ class Navigation extends PureComponent {
       case 'environment':
         return `/${contextMeta.fqon}/hierarchy/${contextMeta.workspaceId}/environment/${contextMeta.environmentId}/inline/${url}`;
       default:
-        return `/${contextMeta.fqon}/inline/${url}?fqon=${contextMeta.fqon}`;
+        return `/${contextMeta.fqon}/inline`;
     }
   }
 
