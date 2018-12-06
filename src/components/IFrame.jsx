@@ -4,21 +4,11 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ActivityContainer } from 'components/ProgressIndicators';
 
-const ResponsiveFrameContainer = styled.div`
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-`;
-
 const ResponsiveFrame = styled.iframe`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  position: relative;
   width: 100%;
   height: 100%;
-  border: 0;
-  -webkit-overflow-scrolling: touch;
+  border: none;
 `;
 
 class IFrame extends Component {
@@ -38,16 +28,15 @@ class IFrame extends Component {
   constructor(props) {
     super(props);
 
+    this.iframe = React.createRef();
+
     this.state = {
       loading: true,
     };
-
-    this.iframe = React.createRef();
   }
 
   componentDidMount() {
     window.addEventListener('message', this.onPostMessage);
-    window.parent.postMessage('ready', '*');
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -93,7 +82,7 @@ class IFrame extends Component {
     const { loading } = this.state;
 
     return (
-      <ResponsiveFrameContainer>
+      <React.Fragment>
         <ResponsiveFrame
           id={id}
           src={src}
@@ -102,7 +91,7 @@ class IFrame extends Component {
           {...rest}
         />
         {loading && <ActivityContainer id="iframe-loading" />}
-      </ResponsiveFrameContainer>
+      </React.Fragment>
     );
   }
 }

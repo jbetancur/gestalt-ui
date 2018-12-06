@@ -42,7 +42,7 @@ class InlineView extends Component {
 
     return (
       <IFrame
-        id="ui-provider-actions-iframe"
+        id={`iframe-${params.urlEncoded}`}
         src={src}
         onLoaded={this.handleOnLoaded}
       />

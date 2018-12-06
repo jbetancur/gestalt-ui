@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
-// import InlineView from 'Modules/InlineView/Inline';
 import NotFound from '../../../App/components/NotFound';
 import ContextNavigation from '../containers/ContextNavigation';
 import HierarchyContext from '../contexts/HierarchyContext';
@@ -22,7 +21,7 @@ const Main = styled.main`
   padding-bottom: 56px;
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 // Routing Structure. Order is important here

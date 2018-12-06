@@ -32,7 +32,6 @@ const HierarchyRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/resourcetypes" component={ResourceTypeListing} />
 
     <Route exact path="/:fqon/inline/:urlEncoded" component={InlineView} />
-
     <Route component={NotFound} />
   </Switch>
 );
