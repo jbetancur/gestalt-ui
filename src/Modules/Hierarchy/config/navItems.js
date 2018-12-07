@@ -103,6 +103,12 @@ export default (context, experimentalFlag) => {
         to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/datafeeds`,
       },
       {
+        key: 'environment--appDeployment',
+        icon: 'appDeployment',
+        title: 'Applications',
+        to: `/${fqon}/hierarchy/${workspaceId}/environment/${environmentId}/appdeployments`,
+      },
+      {
         key: 'environment--providers',
         icon: 'provider',
         title: 'Providers',

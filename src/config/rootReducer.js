@@ -25,6 +25,7 @@ import loggingReducers from 'Modules/Logging/reducers';
 import listFilterReducer from 'Modules/ListFilter/reducers';
 import searchReducers from 'Modules/Search/reducers';
 import resourceTypesReducers from 'Modules/ResourceTypes/reducers';
+import appDeploymentsReducers from 'Modules/AppDeployments/reducers';
 
 export default combineReducers({
   error: errorNotificationReducer,
@@ -53,4 +54,5 @@ export default combineReducers({
   notifications: notifierReducer,
   search: searchReducers,
   resourceTypes: resourceTypesReducers,
+  appDeployments: appDeploymentsReducers,
 });

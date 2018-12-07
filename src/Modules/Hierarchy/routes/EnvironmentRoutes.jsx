@@ -12,6 +12,7 @@ import { PolicyRules, PolicyLimitRuleCreate, PolicyLimitRuleEdit, PolicyEventRul
 import { StreamList, StreamCreate, StreamEdit } from 'Modules/Streams';
 import { DataFeedList, DataFeedCreate, DataFeedEdit } from 'Modules/DataFeeds';
 import { Volumes, VolumeCreate, VolumeEdit } from 'Modules/Volumes';
+import AppDeployments from 'Modules/AppDeployments/components/AppDeploymentListing';
 import InlineView from 'Modules/InlineView/Inline';
 import EnvironmentHome from '../containers/EnvironmentHome';
 import withModalRouter from './withModalRouter';
@@ -65,6 +66,8 @@ const EnvironmentRoutes = ({ location, previousLocation, isModal }) => (
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/volumes" component={Volumes} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/volumes/create" component={VolumeCreate} />
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/volumes/:volumeId" component={VolumeEdit} />
+
+    <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/appdeployments" component={AppDeployments} />
 
     <Route exact path="/:fqon/hierarchy/:workspaceId/environment/:environmentId/inline/:urlEncoded" component={InlineView} />
 

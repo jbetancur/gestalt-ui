@@ -17,6 +17,7 @@ import {
   DataFeedIcon,
   VolumeIcon,
   MainframeIcon,
+  AppDeploymentIcon,
 } from 'components/Icons';
 
 const defaultSize = 22;
@@ -38,6 +39,7 @@ const iconMappings = (size, options) => ({
   secret: <SecretIcon size={size} {...options} />,
   stream: <StreamIcon size={size} {...options} />,
   datafeed: <DataFeedIcon size={size} {...options} />,
+  appDeployment: <AppDeploymentIcon size={size} {...options} />,
   cloudframe: <MainframeIcon size={size} {...options} />,
 });
 

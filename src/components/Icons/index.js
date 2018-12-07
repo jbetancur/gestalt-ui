@@ -42,3 +42,4 @@ export { default as CheckCircleIcon } from './CheckCircleIcon';
 export { default as DashboardIcon } from './DashboardIcon';
 export { default as ECSIcon } from './ECSIcon';
 export { default as LlvmIcon } from './LlvmIcon';
+export { default as AppDeploymentIcon } from './AppDeploymentIcon';

@@ -24,7 +24,18 @@ const iconMappings = (size, options) => ({
   docker: <DockerIcon size={size} {...options} />,
   ecs: <ECSIcon size={size} {...options} />,
 
-  // executor providers
+  // executors by resource_type - UPdated this llist instead
+  NodeJS: <NodejsIcon size={size} {...options} />,
+  Java: <JavaIcon size={size} {...options} />,
+  Scala: <JavaIcon size={size} {...options} />,
+  Python: <PythonIcon size={size} {...options} />,
+  CSharp: <CSharpIcon size={size} {...options} />,
+  GoLang: <GoLangIcon size={size} {...options} />,
+  Ruby: <RubyIcon size={size} {...options} />,
+  Nashorn: <RhinoJSIcon size={size} {...options} />,
+  Bash: <BashIcon size={size} {...options} />,
+
+  // executor providers by runtime kept for back compat - Deprecated
   nodejs: <NodejsIcon size={size} {...options} />,
   java: <JavaIcon size={size} {...options} />,
   'java;scala': <JavaIcon size={size} {...options} />,
@@ -35,8 +46,6 @@ const iconMappings = (size, options) => ({
   ruby: <RubyIcon size={size} {...options} />,
   nashorn: <RhinoJSIcon size={size} {...options} />,
   bash: <BashIcon size={size} {...options} />,
-
-  // graalvm executors
   'polyglot-jvm': <JavaIcon size={size} {...options} />,
   'polyglot-node': <NodejsIcon size={size} {...options} />,
   'polyglot-llvm': <LlvmIcon size={size} {...options} />,
