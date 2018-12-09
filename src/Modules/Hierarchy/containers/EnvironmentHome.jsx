@@ -1,19 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import {
-  LambdaIcon,
-  ContainerIcon,
-  APIIcon,
-  SecretIcon,
-  PolicyIcon,
-  DataFeedIcon,
-  StreamIcon,
-  VolumeIcon
-} from 'components/Icons';
 import withApp from 'App/hocs/withApp';
 import HomeCard from '../components/HomeCard';
-// import { DOCUMENTATION_URL } from '../../../constants';
+import homeItems from '../config/homeItems';
+import iconMap from '../config/iconMap';
 
 class EnvironmentHome extends PureComponent {
   static propTypes = {
@@ -22,114 +13,25 @@ class EnvironmentHome extends PureComponent {
   };
 
   render() {
+    const { match } = this.props;
+    const items = homeItems(match.url);
+
     return (
       <Row gutter={5} center padding="5px">
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="APIs"
-            icon={<APIIcon size={42} />}
-            iconColor="blue-grey"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/apis/create`}
-            manageURL={`${this.props.match.url}/apis`}
-          >
-            Upstream access to Lambdas/Containers can be defined through API endpoints
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Containers"
-            icon={<ContainerIcon size={42} />}
-            iconColor="blue"
-            iconGradient="700"
-            createURL={`${this.props.match.url}/containers/create`}
-            manageURL={`${this.props.match.url}/containers`}
-          // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#containers`}
-          >
-            Create, manage and migrate Containers across Kubernetes, Swarm or DCOS
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Lambdas"
-            icon={<LambdaIcon size={42} />}
-            iconColor="amber"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/lambdas/create`}
-            manageURL={`${this.props.match.url}/lambdas`}
-            // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#lambdas`}
-          >
-            Create, manage and deploy Lambdas with support for a wide array of languages
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Streams"
-            icon={<StreamIcon size={42} />}
-            iconColor="light-blue"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/streamspecs/create`}
-            manageURL={`${this.props.match.url}/streamspecs`}
-          >
-            Transform Data Feeds using a Lambda
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Policies"
-            icon={<PolicyIcon size={42} />}
-            iconColor="green"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/policies/create`}
-            manageURL={`${this.props.match.url}/policies`}
-            // documentationURL={`${DOCUMENTATION_URL}/overview/concepts/#policies`}
-          >
-            Keep infrastucture under control and/or leverage events that trigger custom actions
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Volumes"
-            icon={<VolumeIcon size={42} />}
-            iconColor="teal"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/volumes/create`}
-            manageURL={`${this.props.match.url}/volumes`}
-          >
-            Manage Container Storage Volumes
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Secrets"
-            icon={<SecretIcon size={42} />}
-            iconColor="indigo"
-            iconGradient="500"
-            createURL={`${this.props.match.url}/secrets/create`}
-            manageURL={`${this.props.match.url}/secrets`}
-          >
-            Secret are intended to hold sensitive information: passwords, OAuth tokens, and ssh keys
-          </HomeCard>
-        </Col>
-
-        <Col flex={3} xs={12} sm={6} md={4}>
-          <HomeCard
-            title="Data Feeds"
-            icon={<DataFeedIcon size={42} />}
-            iconColor="pink"
-            iconGradient="300"
-            createURL={`${this.props.match.url}/datafeeds/create`}
-            manageURL={`${this.props.match.url}/datafeeds`}
-          >
-            Real-time Data Feeds
-          </HomeCard>
-        </Col>
+        {items.map(item => (
+          <Col flex={3} xs={12} sm={6} md={4} key={item.key}>
+            <HomeCard
+              title={item.title}
+              icon={iconMap(item.icon, 42)}
+              iconColor={item.iconColor}
+              iconGradient={item.iconGradient}
+              createURL={item.createURL}
+              manageURL={item.manageURL}
+            >
+              {item.description}
+            </HomeCard>
+          </Col>
+        ))}
       </Row>
     );
   }

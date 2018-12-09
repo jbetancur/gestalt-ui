@@ -12,6 +12,7 @@ export const selectWorkspaces = state => state.hierarchy.workspaces.workspaces;
 export const selectEnvironment = state => state.hierarchy.environment.environment;
 export const selectEnvironments = state => state.hierarchy.environments.environments;
 export const selectContext = state => state.hierarchy.context;
+const selectSelf = state => state.hierarchy.self.self;
 
 export const getEditOrganizationModel = createSelector(
   [selectOrganization],
@@ -76,4 +77,9 @@ export const getSortedContextWorkspaces = createSelector(
 export const getSortedContextEnvironments = createSelector(
   [selectContext],
   context => sortBy(context.environments, ['desciption', 'name'])
+);
+
+export const getSelfContextEnvironments = createSelector(
+  [selectContext, selectSelf],
+  (context, self) => sortBy(context.environments, ['desciption', 'name']).filter(env => env.owner.id === self.id),
 );

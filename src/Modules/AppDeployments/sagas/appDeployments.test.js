@@ -7,6 +7,7 @@ import appDeploymentSagas, {
   createAppDeployment,
   deleteAppDeployment,
   deleteAppDeployments,
+  createViewWorkflow,
 } from './appDeployments';
 import {
   FETCH_APPDEPLOYMENTS_REQUEST,
@@ -19,13 +20,16 @@ import {
   DELETE_APPDEPLOYMENT_REQUEST,
   DELETE_APPDEPLOYMENT_FULFILLED,
   DELETE_APPDEPLOYMENT_REJECTED,
+  INIT_APPDEPLOYMENTCREATE_REQUEST,
+  INIT_APPDEPLOYMENTCREATE_FULFILLED,
+  INIT_APPDEPLOYMENTCREATE_REJECTED,
 } from '../constants';
 
 describe('AppDeployment Sagas', () => {
   const error = 'an error has occured';
 
   describe('fetchAppDeployments Sequence with an environmentId', () => {
-    const saga = fetchAppDeployments({ fqon: 'iamfqon' });
+    const saga = fetchAppDeployments();
     let result;
 
     it('should make an api call', () => {
@@ -33,7 +37,7 @@ describe('AppDeployment Sagas', () => {
       result = saga.next('1'); // this environment id state that should exist
       result = saga.next({ environment: { id: '1', org: { properties: { fqon: 'test' } } } }); // mock state
       expect(result.value).toEqual(
-        call(fetchAPI, 'iamfqon/environments/1/appdeployments?expand=true')
+        call(fetchAPI, 'test/environments/1/appdeployments?expand=true')
       );
     });
 
@@ -48,7 +52,7 @@ describe('AppDeployment Sagas', () => {
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
-      const sagaError = fetchAppDeployments({ fqon: 'iamfqon' });
+      const sagaError = fetchAppDeployments();
       let resultError = sagaError.next();
 
       resultError = sagaError.throw({ message: error });
@@ -60,7 +64,7 @@ describe('AppDeployment Sagas', () => {
   });
 
   describe('createAppDeployment Sequence', () => {
-    const action = { fqon: 'iamfqon', payload: { name: 'iamnewapp' } };
+    const action = { providerId: 'xxx', namespace: 'hello', releaseName: 'world', payload: { name: 'iamnewapp' } };
     const saga = createAppDeployment(action);
     const expectedPayload = { id: '234', name: 'test', properties: {} };
     let result;
@@ -70,7 +74,11 @@ describe('AppDeployment Sagas', () => {
       result = saga.next('1'); // this environment id state that should exist
       result = saga.next({ environment: { id: '1', org: { properties: { fqon: 'test' } } } }); // mock state
       expect(result.value).toEqual(
-        call(axios.post, 'iamfqon/environments/1/appdeployments', action.payload)
+        call(
+          axios.post,
+          'test/providers/xxx/kube/chart?namespace=hello&source=helm&releaseName=world&metaEnv=1',
+          action.payload,
+          { headers: { 'Content-Type': 'application/yaml' } })
       );
     });
 
@@ -115,15 +123,15 @@ describe('AppDeployment Sagas', () => {
   });
 
   describe('deleteAppDeployment Sequence', () => {
-    const resource = { id: 1, name: 'test' };
-    const action = { fqon: 'iamfqon', resource };
+    const resource = { id: 1, name: 'test', org: { properties: { fqon: 'test' } }, properties: {} };
+    const action = { fqon: 'test', resource };
     const saga = deleteAppDeployment(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.delete, 'iamfqon/appdeployments/1?force=false')
+        call(axios.delete, 'test/appdeployments/1?force=false')
       );
     });
 
@@ -165,15 +173,15 @@ describe('AppDeployment Sagas', () => {
   });
 
   describe('deleteAppDeployments Sequence', () => {
-    const resource = { id: 1, name: 'test' };
-    const action = { resources: [resource], fqon: 'iamfqon' };
+    const resource = { id: 1, name: 'test', org: { properties: { fqon: 'test' } }, properties: {} };
+    const action = { resources: [resource], fqon: 'test' };
     const saga = deleteAppDeployments(action);
     let result;
 
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.all, [axios.delete('iamfqon/appdeployments/1?force=false')])
+        call(axios.all, [axios.delete('test/appdeployments/1?force=false')])
       );
     });
 
@@ -214,6 +222,52 @@ describe('AppDeployment Sagas', () => {
     });
   });
 
+  describe('createViewWorkflow Sequence', () => {
+    describe('when the workflow is invoked', () => {
+      const saga = createViewWorkflow();
+      let result;
+
+      it('should make an api call for all view state resources', () => {
+        result = saga.next();
+        result = saga.next('123'); // this environment id state that should exist
+        result = saga.next({ environment: { id: '123', org: { properties: { fqon: 'test' } } } }); // mock state
+        expect(result.value).toEqual(
+          call(axios.all, [
+            axios.get('test/environments/123/providers?expand=true&type=Kubernetes'),
+          ]),
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next([
+          { data: [{ name: 'a kube provider' }] },
+
+        ]);
+
+        const payload = {
+          providers: [{ name: 'a kube provider' }],
+        };
+
+        expect(result.value).toEqual(
+          put({ type: INIT_APPDEPLOYMENTCREATE_FULFILLED, payload })
+        );
+      });
+    });
+
+    describe('when there is an Error', () => {
+      it('should return a payload and dispatch a reject status when there is an error', () => {
+        const sagaError = createViewWorkflow();
+        let resultError = sagaError.next();
+
+        resultError = sagaError.throw({ message: error });
+
+        expect(resultError.value).toEqual(
+          put({ type: INIT_APPDEPLOYMENTCREATE_REJECTED, payload: error })
+        );
+      });
+    });
+  });
+
   describe('appDeployment Saga Watchers', () => {
     let result;
     const rootSaga = appDeploymentSagas();
@@ -243,6 +297,13 @@ describe('AppDeployment Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         fork(takeLatest, DELETE_APPDEPLOYMENTS_REQUEST, deleteAppDeployments)
+      );
+    });
+
+    it('should fork a watcher for createViewWorkflow', () => {
+      result = rootSaga.next();
+      expect(result.value).toEqual(
+        fork(takeLatest, INIT_APPDEPLOYMENTCREATE_REQUEST, createViewWorkflow)
       );
     });
   });

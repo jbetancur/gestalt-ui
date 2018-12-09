@@ -9,6 +9,7 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { AppDeploymentIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
+import { StatusBubble } from 'components/Status';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import ExpanderRow from './ExpanderRow';
@@ -29,25 +30,25 @@ class AppDeploymenListing extends PureComponent {
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    const { match, appDeploymentsActions } = this.props;
+    const { appDeploymentsActions } = this.props;
 
-    appDeploymentsActions.fetchAppDeployments({ fqon: match.params.fqon });
+    appDeploymentsActions.fetchAppDeployments();
   }
 
   deleteOne = (row) => {
-    const { match, appDeploymentsActions } = this.props;
+    const { appDeploymentsActions } = this.props;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
     this.props.confirmDelete(({ force }) => {
-      appDeploymentsActions.deleteAppDeployment({ fqon: match.params.fqon, resource: row, onSuccess, force });
+      appDeploymentsActions.deleteAppDeployment({ resource: row, onSuccess, force });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
-    const { match, appDeploymentsActions } = this.props;
+    const { appDeploymentsActions } = this.props;
     const { selectedRows } = this.state;
 
     const names = selectedRows.map(item => (item.name));
@@ -57,7 +58,7 @@ class AppDeploymenListing extends PureComponent {
     };
 
     this.props.confirmDelete(({ force }) => {
-      appDeploymentsActions.deleteAppDeployments({ resources: selectedRows, fqon: match.params.fqon, onSuccess, force });
+      appDeploymentsActions.deleteAppDeployments({ resources: selectedRows, onSuccess, force });
     }, 'Confirm Delete App Deployments', names);
   }
 
@@ -97,8 +98,19 @@ class AppDeploymenListing extends PureComponent {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        grow: 3,
+        grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
+      },
+      {
+        name: 'Status',
+        selector: 'properties.data.status',
+        sortable: true,
+        cell: row => <StatusBubble status={row.properties.data.status} />
+      },
+      {
+        name: 'Namespace',
+        selector: 'properties.data.native_namespace',
+        sortable: true,
       },
       {
         name: 'Owner',

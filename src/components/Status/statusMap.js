@@ -83,6 +83,11 @@ export default (status) => {
         icon: 'stop',
         color: '$md-grey-500',
       };
+    case 'SUCCESS':
+      return {
+        icon: 'check_circle',
+        color: '$md-green-a700',
+      };
     default:
       return {
         icon: 'info_outline',

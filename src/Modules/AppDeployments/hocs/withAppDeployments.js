@@ -29,12 +29,15 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   const mapStateToProps = state => ({
     appDeployments: selectAppDeployments(state),
     appDeploymentsPending: state.appDeployments.appDeployments.pending,
+    providers: state.appDeployments.appDeployments.providers,
   });
 
   const mapDispatchToProps = dispatch => ({
     appDeploymentsActions: bindActionCreators(Object.assign({},
-      createRequestAction(['fetch', 'create', 'delete'], 'AppDeployments'),
+      createRequestAction(['fetch', 'delete'], 'AppDeployments'),
+      createRequestAction(['create'], 'AppDeployment'),
       createRequestAction(['delete'], 'AppDeployment'),
+      createRequestAction(['init'], 'AppDeploymentCreate'),
     ), dispatch)
   });
 

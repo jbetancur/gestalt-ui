@@ -1,5 +1,7 @@
 import { removeItemById } from 'util/helpers/lists';
 import {
+  INIT_APPDEPLOYMENTCREATE_REQUEST,
+  INIT_APPDEPLOYMENTCREATE_FULFILLED,
   FETCH_APPDEPLOYMENTS_REQUEST,
   FETCH_APPDEPLOYMENTS_FULFILLED,
   FETCH_APPDEPLOYMENTS_REJECTED,
@@ -12,6 +14,7 @@ import {
 
 const initialState = {
   appDeployments: [],
+  providers: [],
   pending: false,
   completed: false,
   error: null,
@@ -19,6 +22,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case INIT_APPDEPLOYMENTCREATE_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case INIT_APPDEPLOYMENTCREATE_FULFILLED:
+      return {
+        ...state,
+        providers: action.payload.providers,
+      };
+
     case FETCH_APPDEPLOYMENTS_REQUEST:
       return {
         ...state,

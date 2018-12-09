@@ -17,14 +17,17 @@ import {
   DELETE_APPDEPLOYMENT_REQUEST,
   DELETE_APPDEPLOYMENT_FULFILLED,
   DELETE_APPDEPLOYMENT_REJECTED,
+  INIT_APPDEPLOYMENTCREATE_REQUEST,
+  INIT_APPDEPLOYMENTCREATE_FULFILLED,
+  INIT_APPDEPLOYMENTCREATE_REJECTED,
+  INIT_APPDEPLOYMENTCREATE_CANCELLED,
 } from '../constants';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
 
 /**
  * fetchAppDeployments
- * @param {*} action { fqon, parentId }
  */
-export function* fetchAppDeployments(action) {
+export function* fetchAppDeployments() {
   try {
     // wait for context to be populated
     if (!(yield select(state => state.hierarchy.context.environment.id))) {
@@ -33,7 +36,7 @@ export function* fetchAppDeployments(action) {
 
     const { environment } = yield select(state => state.hierarchy.context);
 
-    const { data } = yield call(fetchAPI, `${action.fqon}/environments/${environment.id}/appdeployments?expand=true`);
+    const { data } = yield call(fetchAPI, `${environment.org.properties.fqon}/environments/${environment.id}/appdeployments?expand=true`);
 
     yield put({ type: FETCH_APPDEPLOYMENTS_FULFILLED, payload: data });
   } catch (e) {
@@ -47,7 +50,7 @@ export function* fetchAppDeployments(action) {
 
 /**
  * createAppDeployment
- * @param {*} action - { fqon, parentId, payload, onSuccess {returns response.data} }
+ * @param {*} action - { providerId, namepsace, releaseName, payload, onSuccess {returns response.data} }
  */
 export function* createAppDeployment(action) {
   try {
@@ -57,9 +60,11 @@ export function* createAppDeployment(action) {
     }
 
     const { environment } = yield select(state => state.hierarchy.context);
-
-    const { data } = yield call(axios.post, `${action.fqon}/environments/${environment.id}/appdeployments`, action.payload);
-    // On a new resource we still need to pull in the inheritied envs so we can reconcile them
+    const { data } = yield call(
+      axios.post,
+      `${environment.org.properties.fqon}/providers/${action.providerId}/kube/chart?namespace=${action.namespace}&source=helm&releaseName=${action.releaseName}&metaEnv=${environment.id}`,
+      action.payload,
+      { headers: { 'Content-Type': 'application/yaml' } });
 
     yield put({ type: CREATE_APPDEPLOYMENT_FULFILLED, payload: data });
     yield put(notificationActions.addNotification({ message: `${data.name} App Deployment created` }));
@@ -74,11 +79,11 @@ export function* createAppDeployment(action) {
 
 /**
  * deleteAppDeployment
- * @param {*} action - { fqon, resource, onSuccess }
+ * @param {*} action - { resource, onSuccess }
  */
 export function* deleteAppDeployment(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/appdeployments/${action.resource.id}?force=${action.force || false}`);
+    yield call(axios.delete, `${action.resource.org.properties.fqon}/appdeployments/${action.resource.id}?force=${action.force || false}`);
     yield put({ type: DELETE_APPDEPLOYMENT_FULFILLED, payload: action.resource });
     yield put(notificationActions.addNotification({ message: `${action.resource.name} App Deployment deleted` }));
 
@@ -92,11 +97,11 @@ export function* deleteAppDeployment(action) {
 
 /**
  * deleteAppDeployments
- * @param {*} action - { fqon, lambdaIds, onSuccess }
+ * @param {*} action - { resources, onSuccess }
  */
 export function* deleteAppDeployments(action) {
   try {
-    const all = action.resources.map(resource => axios.delete(`${action.fqon}/appdeployments/${resource.id}?force=${action.force || false}`));
+    const all = action.resources.map(resource => axios.delete(`${resource.org.properties.fqon}/appdeployments/${resource.id}?force=${action.force || false}`));
     const names = action.resources.map(item => (item.name)).join('\n');
 
     yield call(axios.all, all);
@@ -111,10 +116,39 @@ export function* deleteAppDeployments(action) {
   }
 }
 
+export function* createViewWorkflow() {
+  try {
+    // wait for context to be populated
+    if (!(yield select(state => state.hierarchy.context.environment.id))) {
+      yield take(FETCH_CONTEXT_FULFILLED);
+    }
+
+    const { environment } = yield select(state => state.hierarchy.context);
+
+    const [providers] = yield call(axios.all, [
+      axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/providers?type=Kubernetes`),
+    ]);
+
+    yield put({
+      type: INIT_APPDEPLOYMENTCREATE_FULFILLED,
+      payload: {
+        providers: providers.data,
+      },
+    });
+  } catch (e) {
+    yield put({ type: INIT_APPDEPLOYMENTCREATE_REJECTED, payload: e.message });
+  } finally {
+    if (yield cancelled()) {
+      yield put({ type: INIT_APPDEPLOYMENTCREATE_CANCELLED });
+    }
+  }
+}
+
 // Watchers
 export default function* () {
   yield fork(takeLatest, FETCH_APPDEPLOYMENTS_REQUEST, fetchAppDeployments);
   yield fork(takeLatest, CREATE_APPDEPLOYMENT_REQUEST, createAppDeployment);
   yield fork(takeLatest, DELETE_APPDEPLOYMENT_REQUEST, deleteAppDeployment);
   yield fork(takeLatest, DELETE_APPDEPLOYMENTS_REQUEST, deleteAppDeployments);
+  yield fork(takeLatest, INIT_APPDEPLOYMENTCREATE_REQUEST, createViewWorkflow);
 }
