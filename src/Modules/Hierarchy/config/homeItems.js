@@ -14,12 +14,22 @@ export default (baseUrl, experimentalFlag) => ([
     createURL: `${baseUrl}/apis/create`
   },
   {
+    key: 'appdeployments-home-card',
+    title: 'Application Deployments',
+    description: 'Create and Manage Kubernetes Application Deployments (BETA)',
+    icon: 'appDeployment',
+    iconColor: 'blue',
+    iconGradient: '400',
+    manageURL: `${baseUrl}/appdeployments`,
+    createURL: `${baseUrl}/appdeployments/create`
+  },
+  {
     key: 'containers-home-card',
     title: 'Containers',
     description: 'Create, manage and migrate Containers across Kubernetes, Swarm or DCOS',
     icon: 'container',
-    iconColor: 'blue',
-    iconGradient: '700',
+    iconColor: 'light-blue',
+    iconGradient: '500',
     manageURL: `${baseUrl}/containers`,
     createURL: `${baseUrl}/containers/create`
   },
@@ -38,8 +48,8 @@ export default (baseUrl, experimentalFlag) => ([
     title: 'Streams',
     description: 'Transform Data Streams using a Lambda',
     icon: 'stream',
-    iconColor: 'light-blue',
-    iconGradient: '500',
+    iconColor: 'cyan',
+    iconGradient: '300',
     manageURL: `${baseUrl}/streamspecs`,
     createURL: `${baseUrl}/streamspecs/create`
   },
@@ -69,7 +79,7 @@ export default (baseUrl, experimentalFlag) => ([
     description: 'Secret are intended to hold sensitive information: passwords, OAuth tokens, and ssh keys',
     icon: 'secret',
     iconColor: 'indigo',
-    iconGradient: '500',
+    iconGradient: '700',
     manageURL: `${baseUrl}/secrets`,
     createURL: `${baseUrl}/secrets/create`
   },
@@ -82,15 +92,5 @@ export default (baseUrl, experimentalFlag) => ([
     iconGradient: '300',
     manageURL: `${baseUrl}/datafeeds`,
     createURL: `${baseUrl}/datafeeds/create`
-  },
-  {
-    key: 'appdeployments-home-card',
-    title: 'Application Deployments',
-    description: 'Create and Manage Kubernetes Application Deployments (BETA)',
-    icon: 'appDeployment',
-    iconColor: 'blue',
-    iconGradient: '900',
-    manageURL: `${baseUrl}/appdeployments`,
-    createURL: `${baseUrl}/appdeployments/create`
   },
 ]);

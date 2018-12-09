@@ -12,7 +12,7 @@ const HomeCardBase = styled(Card)`
 
 const CardTitleStyle = styled(CardTitle)`
   h2 {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 

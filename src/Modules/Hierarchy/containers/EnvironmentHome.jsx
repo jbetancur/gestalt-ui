@@ -17,9 +17,9 @@ class EnvironmentHome extends PureComponent {
     const items = homeItems(match.url);
 
     return (
-      <Row gutter={5} center padding="5px">
+      <Row gutter={5} center padding="5px" minColWidths={275}>
         {items.map(item => (
-          <Col flex={3} xs={12} sm={6} md={4} key={item.key}>
+          <Col flex={2} xs={12} sm={6} md={4} key={item.key}>
             <HomeCard
               title={item.title}
               icon={iconMap(item.icon, 42)}
