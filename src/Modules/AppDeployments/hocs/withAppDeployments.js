@@ -29,6 +29,8 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   const mapStateToProps = state => ({
     appDeployments: selectAppDeployments(state),
     appDeploymentsPending: state.appDeployments.appDeployments.pending,
+    appDeployment: state.appDeployments.appDeployment.appDeployment,
+    appDeploymentPending: state.appDeployments.appDeployment.pending,
     providers: state.appDeployments.appDeployments.providers,
   });
 

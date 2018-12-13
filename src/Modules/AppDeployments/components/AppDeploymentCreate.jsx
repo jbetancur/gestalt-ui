@@ -29,7 +29,7 @@ class AppDeploymentCreate extends Component {
     history: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     appDeploymentsActions: PropTypes.object.isRequired,
-    appDeploymentsPending: PropTypes.bool.isRequired,
+    appDeploymentPending: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -53,7 +53,7 @@ class AppDeploymentCreate extends Component {
   }
 
   render() {
-    const { match, providers, appDeploymentsPending } = this.props;
+    const { match, providers, appDeploymentPending } = this.props;
 
     return (
       <Row gutter={5} center>
@@ -148,7 +148,7 @@ class AppDeploymentCreate extends Component {
                     <Button
                       flat
                       iconChildren="arrow_back"
-                      disabled={appDeploymentsPending || submitting}
+                      disabled={appDeploymentPending || submitting}
                       component={Link}
                       to={listingPath(match)}
                     >
@@ -158,7 +158,7 @@ class AppDeploymentCreate extends Component {
                       raised
                       iconChildren="save"
                       type="submit"
-                      disabled={submitting}
+                      disabled={appDeploymentPending || submitting}
                       primary
                     >
                       Create
