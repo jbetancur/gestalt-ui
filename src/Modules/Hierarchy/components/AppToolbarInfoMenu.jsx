@@ -18,15 +18,14 @@ const AppToolbarInfoMenu = (props) => {
       leftAvatar={<GalacticFogIcon size={40} fill="#222639" />}
       inkDisabled
     />,
-    props.appState.enableExperimental ?
-      <ListItem
-        id="main--info--menu--upgrade"
-        key="main--info--menu--upgrade"
-        primaryText="Upgrade"
-        leftIcon={<FontIcon>system_update_alt</FontIcon>}
-        component={Link}
-        to="/upgrade"
-      /> : <div key="main--info--menu--upgrade" />,
+    <ListItem
+      id="main--info--menu--upgrade"
+      key="main--info--menu--upgrade"
+      primaryText="Upgrade"
+      leftIcon={<FontIcon>system_update_alt</FontIcon>}
+      component={Link}
+      to="/upgrade"
+    />,
     <Divider key="main--info--menu--divider" />,
     <ListItem
       id="main--info--menu--documentation"
@@ -67,7 +66,7 @@ const AppToolbarInfoMenu = (props) => {
 AppToolbarInfoMenu.propTypes = {
   t: PropTypes.func.isRequired,
   onShowLicenseModal: PropTypes.func.isRequired,
-  appState: PropTypes.object.isRequired,
+  // appState: PropTypes.object.isRequired,
 };
 
 export default translate()(withApp(AppToolbarInfoMenu));
