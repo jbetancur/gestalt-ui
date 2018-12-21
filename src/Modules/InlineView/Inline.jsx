@@ -30,7 +30,7 @@ class InlineView extends Component {
     } else {
       iframe.postMessage({
         token,
-        ...context.contextMeta,
+        ...context,
       }, '*');
     }
   }
