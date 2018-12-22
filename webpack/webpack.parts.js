@@ -175,7 +175,7 @@ exports.generateConstants = env => (
   })
 );
 
-exports.devServer = function devServer({ host, port, contentBase, compress }) {
+exports.devServer = function devServer({ contentBase, compress, ...rest }) {
   return {
     devServer: {
       contentBase,
@@ -191,16 +191,8 @@ exports.devServer = function devServer({ host, port, contentBase, compress }) {
       // enable HMR on the server
       hot: false,
       inline: true,
-      // Parse host and port from env to allow customization.
-      //
-      // If you use Vagrant or Cloud9, set
-      // host: options.host || '0.0.0.0';
-      //
-      // 0.0.0.0 is available to all network devices
-      // unlike default `localhost`.
-      host, // Defaults to `localhost`
-      port, // Defaults to 8080
       https: false,
+      ...rest,
     }
   };
 };

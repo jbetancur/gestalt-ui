@@ -67,7 +67,7 @@ export default (baseUrl, experimentalFlag) => ([
     key: 'volumes-home-card',
     title: 'Volumes',
     description: 'Manage Container Storage Volumes',
-    icon: 'policy',
+    icon: 'volume',
     iconColor: 'teal',
     iconGradient: '500',
     manageURL: `${baseUrl}/volumes`,

@@ -153,6 +153,8 @@ module.exports = (env) => {
       })),
     parts.devServer({
       port: 8081,
+      host: '0.0.0.0',
+      disableHostCheck: true,
       contentBase: path.join(__dirname, PATHS.buildPath),
       compress: true,
     }),
