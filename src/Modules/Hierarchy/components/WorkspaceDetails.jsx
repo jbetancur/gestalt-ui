@@ -12,33 +12,36 @@ import withHierarchy from '../hocs/withHierarchy';
 class WorkspaceDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
 
   showEntitlements = () => {
-    const { context: { workspace }, match, entitlementActions } = this.props;
+    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { context: { workspace } } = hierarchyContext;
 
     const name = workspace.description || workspace.name;
     entitlementActions.showEntitlementsModal(name, match.params.fqon, workspace.id, 'workspaces', 'Workspace');
   }
 
   delete = () => {
-    const { context: { workspace }, match, history, contextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, match, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { context: { workspace } } = hierarchyContext;
     const name = workspace.description || workspace.name;
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy`);
 
     hierarchyActions.confirmDelete(({ force }) => {
-      contextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } });
+      hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } });
     }, name, 'Workspace');
   }
 
   renderMenuItems() {
-    const { context: { workspace } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { workspace } } = hierarchyContext;
 
     return [
       {
@@ -88,7 +91,8 @@ class WorkspaceDetails extends PureComponent {
   }
 
   render() {
-    const { context: { workspace } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { workspace } } = hierarchyContext;
 
     return (
       <React.Fragment>

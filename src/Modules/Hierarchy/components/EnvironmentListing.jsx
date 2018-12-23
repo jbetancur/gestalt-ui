@@ -8,8 +8,8 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import { EnvironmentIcon } from 'components/Icons';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { NoData } from 'components/TableCells';
-import Sort from '../components/Sort';
-import ListingHeader from '../components/ListingHeader';
+import Sort from './Sort';
+import ListingHeader from './ListingHeader';
 import EnvironmentCard from './EnvironmentCard';
 import withContext from '../hocs/withContext';
 
@@ -18,7 +18,7 @@ class EnvironmentListing extends Component {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     filteredEnvironments: PropTypes.array.isRequired,
-    contextPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -39,7 +39,7 @@ class EnvironmentListing extends Component {
   }
 
   render() {
-    const { match, contextPending, filteredEnvironments } = this.props;
+    const { match, hierarchyContext: { contextPending }, filteredEnvironments } = this.props;
     const sortedEnvironments = orderBy(filteredEnvironments, this.state.sortKey, this.state.order);
 
     return (

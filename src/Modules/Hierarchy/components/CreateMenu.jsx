@@ -12,21 +12,23 @@ const listItemStyle = { textAlign: 'left' };
 
 class CreateMenu extends PureComponent {
   static propTypes = {
-    context: PropTypes.object.isRequired,
-    contextPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
     appState: PropTypes.object.isRequired,
   };
 
   generateMenuItems() {
     const {
-      context: {
-        contextMeta
-      },
-      context,
+      hierarchyContext,
       appState: {
         enableExperimental
       },
     } = this.props;
+    const {
+      context: {
+        contextMeta
+      },
+      context,
+    } = hierarchyContext;
 
     const items = contextMeta.context
       ? createItems(context, enableExperimental)[contextMeta.context]
@@ -46,7 +48,8 @@ class CreateMenu extends PureComponent {
   }
 
   render() {
-    const { contextPending } = this.props;
+    const { hierarchyContext } = this.props;
+    const { contextPending } = hierarchyContext;
 
     return (
       <MenuButton

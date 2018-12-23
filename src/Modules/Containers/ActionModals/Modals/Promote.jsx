@@ -15,13 +15,14 @@ class PromoteModal extends PureComponent {
     hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
   };
 
   state = { environment: '' };
 
   doIt = () => {
-    const { context: { environments }, onProceed, hideModal } = this.props;
+    const { hierarchyContext, onProceed, hideModal } = this.props;
+    const { context: { environments } } = hierarchyContext;
 
     onProceed(environments.find(env => env.id === this.state.environment));
     hideModal();
@@ -32,7 +33,8 @@ class PromoteModal extends PureComponent {
   }
 
   render() {
-    const { match, context: { environments }, visible, hideModal, title } = this.props;
+    const { match, hierarchyContext, visible, hideModal, title } = this.props;
+    const { context: { environments } } = hierarchyContext;
     const { environment } = this.state;
 
     const environmentsList = environments

@@ -158,7 +158,7 @@ class PolicyRuleListing extends PureComponent {
             progressPending={this.props.policyRulesPending}
             progressComponent={<LinearProgress id="policy-listing" />}
             columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
+            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<Title light>There are no rules to display</Title>}

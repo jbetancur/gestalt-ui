@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import withApp from 'App/hocs/withApp';
-import HomeCard from '../components/HomeCard';
+import HomeCard from './HomeCard';
 import homeItems from '../config/homeItems';
 import iconMap from '../config/iconMap';
 

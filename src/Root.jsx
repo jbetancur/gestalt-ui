@@ -4,9 +4,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { ThemeProvider } from 'styled-components';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 // import es from 'react-intl/locale-data/es';
@@ -22,11 +22,11 @@ import NotFound from './App/components/NotFound';
 import lightTheme from './themes/light';
 import './scss/style.scss';
 
-// Create our store
-const store = configureStore();
-
 // Create a history of your choosing (we're using a browser history in this case)
-const history = createHistory();
+const history = createBrowserHistory();
+
+// Create our store
+const store = configureStore(history);
 
 // Add http request/response interceptors
 configureHTTP(store, history);

@@ -149,7 +149,7 @@ class AppDeploymenListing extends PureComponent {
             progressPending={this.props.appDeploymentsPending}
             progressComponent={<LinearProgress id="user-listing" />}
             columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
+            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no application deployments to display" icon={<AppDeploymentIcon size={150} />} />}

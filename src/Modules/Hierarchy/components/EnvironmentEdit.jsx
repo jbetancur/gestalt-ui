@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import HierarchyForm from '../components/HierarchyForm';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateEnvironmentPatches } from '../payloadTransformer';
 import { getEditEnvironmentModel } from '../selectors';
@@ -16,27 +16,26 @@ class EnvironmentEdit extends Component {
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
-    selectedEnvironment: PropTypes.object.isRequired,
-    selectedEnvironmentPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, contextActions } = this.props;
+    const { match, hierarchyContextActions } = this.props;
 
-    contextActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
+    hierarchyContextActions.fetchEnvironment({ fqon: match.params.fqon, id: match.params.environmentId });
   }
 
 
   componentWillUnmount() {
-    const { contextActions } = this.props;
+    const { hierarchyContextActions } = this.props;
 
-    contextActions.unloadEnvironment();
+    hierarchyContextActions.unloadEnvironment();
   }
 
   update = (values) => {
-    const { location, history, selectedEnvironment, contextActions } = this.props;
+    const { location, history, hierarchyContext: { selectedEnvironment }, hierarchyContextActions } = this.props;
     const payload = generateEnvironmentPatches(selectedEnvironment, values);
     const onSuccess = () => {
       const { id, org, properties } = selectedEnvironment;
@@ -48,28 +47,28 @@ class EnvironmentEdit extends Component {
       }
     };
 
-    contextActions.updateEnvironment({ fqon: selectedEnvironment.org.properties.fqon, id: selectedEnvironment.id, payload, onSuccess });
+    hierarchyContextActions.updateEnvironment({ fqon: selectedEnvironment.org.properties.fqon, id: selectedEnvironment.id, payload, onSuccess });
   }
 
   render() {
-    const { selectedEnvironment, selectedEnvironmentPending, initialFormValues } = this.props;
+    const { hierarchyContext: { selectedEnvironment, selectedEnvironmentPending }, initialFormValues } = this.props;
+
+    if (selectedEnvironmentPending) {
+      return <ActivityContainer centered id="environment-edit--loading" />;
+    }
 
     return (
-      selectedEnvironmentPending
-        ?
-          <ActivityContainer centered id="environment-edit--loading" />
-        :
-          <Form
-            component={HierarchyForm}
-            title={selectedEnvironment.description || selectedEnvironment.name}
-            loading={selectedEnvironmentPending}
-            editMode
-            isEnvironment
-            onSubmit={this.update}
-            initialValues={initialFormValues}
-            validate={validate(true)}
-            mutators={{ ...arrayMutators }}
-          />
+      <Form
+        component={HierarchyForm}
+        title={selectedEnvironment.description || selectedEnvironment.name}
+        loading={selectedEnvironmentPending}
+        editMode
+        isEnvironment
+        onSubmit={this.update}
+        initialValues={initialFormValues}
+        validate={validate(true)}
+        mutators={{ ...arrayMutators }}
+      />
     );
   }
 }

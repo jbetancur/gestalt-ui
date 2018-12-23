@@ -13,16 +13,17 @@ import withSelf from '../../../App/hocs/withSelf';
 class OrganizationDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
 
   showEntitlements = () => {
-    const { context: { organization }, match, entitlementActions } = this.props;
+    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { context: { organization } } = hierarchyContext;
 
     const name = organization.description || organization.name;
     entitlementActions.showEntitlementsModal(name, match.params.fqon, null, null, 'Organization');
@@ -30,17 +31,19 @@ class OrganizationDetails extends PureComponent {
 
   delete = (e) => {
     e.stopPropagation();
-    const { context: { organization }, history, contextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { context: { organization } } = hierarchyContext;
     const name = organization.description || organization.name;
     const onSuccess = () => history.replace(`/${organization.org.properties.fqon}/hierarchy`);
 
     hierarchyActions.confirmDelete(({ force }) => {
-      contextActions.deleteOrg({ fqon: organization.properties.fqon, resource: organization, onSuccess, params: { force } });
+      hierarchyContextActions.deleteOrg({ fqon: organization.properties.fqon, resource: organization, onSuccess, params: { force } });
     }, name, 'Organization');
   }
 
   renderMenuItems() {
-    const { match, context: { organization }, self } = this.props;
+    const { match, hierarchyContext, self } = this.props;
+    const { context: { organization } } = hierarchyContext;
     const deleteDisabled = match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root';
 
     return [
@@ -92,7 +95,8 @@ class OrganizationDetails extends PureComponent {
   }
 
   render() {
-    const { context: { organization } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { organization } } = hierarchyContext;
 
     return (
       <React.Fragment>

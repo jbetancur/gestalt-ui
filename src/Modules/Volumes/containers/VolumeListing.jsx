@@ -187,7 +187,7 @@ class VolumeListing extends PureComponent {
             progressPending={this.props.volumesPending}
             progressComponent={<LinearProgress id="volume-listing" />}
             columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
+            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no volumes to display" icon={<VolumeIcon size={150} />} />}

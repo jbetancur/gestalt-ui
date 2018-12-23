@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import HierarchyForm from '../components/HierarchyForm';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPatches } from '../payloadTransformer';
 import { getEditOrganizationModel } from '../selectors';
@@ -16,53 +16,53 @@ class OrgEdit extends Component {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
-    selectedOrganization: PropTypes.object.isRequired,
-    selectedOrganizationPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, contextActions } = this.props;
+    const { match, hierarchyContextActions } = this.props;
 
-    contextActions.fetchOrg({ fqon: match.params.fqon });
+    hierarchyContextActions.fetchOrg({ fqon: match.params.fqon });
   }
 
   componentWillUnmount() {
-    const { contextActions } = this.props;
+    const { hierarchyContextActions } = this.props;
 
-    contextActions.unloadOrg();
+    hierarchyContextActions.unloadOrg();
   }
 
   update = (values) => {
-    const { context: { organization }, location, history, selectedOrganization, contextActions } = this.props;
+    const { hierarchyContext, location, history, hierarchyContextActions } = this.props;
+    const { context: { organization }, selectedOrganization, } = hierarchyContext;
     const payload = generateOrganizationPatches(selectedOrganization, values);
     const onSuccess = (response) => {
       const fqon = location.state.card ? response.org.properties.fqon : organization.properties.fqon;
       history.replace(`/${fqon}/hierarchy`);
     };
 
-    contextActions.updateOrg({ fqon: selectedOrganization.properties.fqon, payload, onSuccess });
+    hierarchyContextActions.updateOrg({ fqon: selectedOrganization.properties.fqon, payload, onSuccess });
   }
 
   render() {
-    const { selectedOrganization, selectedOrganizationPending, initialFormValues } = this.props;
+    const { hierarchyContext, initialFormValues } = this.props;
+    const { selectedOrganization, selectedOrganizationPending } = hierarchyContext;
+
+    if (selectedOrganizationPending) {
+      return <ActivityContainer centered id="organization-edit--loading" />;
+    }
 
     return (
-      selectedOrganizationPending
-        ?
-          <ActivityContainer centered id="organization-edit--loading" />
-        :
-          <Form
-            component={HierarchyForm}
-            title={selectedOrganization.description || selectedOrganization.name}
-            editMode
-            onSubmit={this.update}
-            initialValues={initialFormValues}
-            validate={validate()}
-            mutators={{ ...arrayMutators }}
-          />
+      <Form
+        component={HierarchyForm}
+        title={selectedOrganization.description || selectedOrganization.name}
+        editMode
+        onSubmit={this.update}
+        initialValues={initialFormValues}
+        validate={validate()}
+        mutators={{ ...arrayMutators }}
+      />
     );
   }
 }

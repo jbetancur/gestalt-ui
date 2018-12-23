@@ -43,10 +43,10 @@ export default function modalRouting(BaseComponent) {
 
   // tap into redux router - experimental
   function mapStateToProps(state) {
-    const { routing } = state;
+    const { router } = state;
 
     return {
-      routing,
+      router,
     };
   }
 

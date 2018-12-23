@@ -7,20 +7,20 @@ import withContext from '../hocs/withContext';
 class HierarchyContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, contextActions } = this.props;
-    contextActions.fetchContext({ fqon: match.params.fqon });
+    const { match, hierarchyContextActions } = this.props;
+    hierarchyContextActions.fetchContext({ fqon: match.params.fqon });
   }
 
   componentDidUpdate(prevProps) {
-    const { match, contextActions } = this.props;
+    const { match, hierarchyContextActions } = this.props;
 
     if (match.params.fqon && prevProps.match.params.fqon !== match.params.fqon) {
       // If we change the org let's update the context and clear out the old the state tree for workspaces/environments
-      contextActions.fetchContext({ fqon: match.params.fqon });
+      hierarchyContextActions.fetchContext({ fqon: match.params.fqon });
     }
   }
 

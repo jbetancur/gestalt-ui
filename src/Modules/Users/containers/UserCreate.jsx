@@ -23,14 +23,14 @@ class UserCreate extends Component {
     match: PropTypes.object.isRequired,
     userPending: PropTypes.bool.isRequired,
     userActions: PropTypes.object.isRequired,
-    allOrganizationsDropDown: PropTypes.array.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, contextActions } = this.props;
+    const { match, hierarchyContextActions } = this.props;
 
-    contextActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
+    hierarchyContextActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
   }
 
   create = (values) => {
@@ -41,7 +41,7 @@ class UserCreate extends Component {
   }
 
   render() {
-    const { userPending, allOrganizationsDropDown } = this.props;
+    const { userPending, hierarchyContext: { allOrganizationsDropDown } } = this.props;
 
     return (
       <Row center>

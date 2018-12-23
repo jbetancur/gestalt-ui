@@ -6,8 +6,8 @@ import { withTheme } from 'styled-components';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, WorkspaceIcon, DeleteIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
-import Card from '../components/GFCard';
-import CardTitle from '../components/GFCardTitle';
+import Card from './GFCard';
+import CardTitle from './GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
@@ -18,7 +18,7 @@ class WorkspaceCard extends PureComponent {
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -36,11 +36,11 @@ class WorkspaceCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, contextActions, hierarchyActions } = this.props;
+    const { model, match, hierarchyContextActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
 
     hierarchyActions.confirmDelete(({ force }) => {
-      contextActions.deleteWorkspace({ fqon: match.params.fqon, resource: model, params: { force } });
+      hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: model, params: { force } });
     }, name, 'Workspace');
   }
 

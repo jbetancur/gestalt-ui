@@ -73,7 +73,7 @@ class ContainerActions extends PureComponent {
     migrateContainerModal: PropTypes.func.isRequired,
     promoteContainerModal: PropTypes.func.isRequired,
     confirmContainerDelete: PropTypes.func.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
@@ -216,12 +216,12 @@ class ContainerActions extends PureComponent {
   }
 
   promote = () => {
-    const { match, containerActions, promoteContainerModal, containerModel, contextActions, onPromote } = this.props;
+    const { match, containerActions, promoteContainerModal, containerModel, hierarchyContextActions, onPromote } = this.props;
 
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
       this.props.history.replace(`/${match.params.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/containers`);
-      contextActions.fetchContext({
+      hierarchyContextActions.fetchContext({
         fqon: match.params.fqon,
         workspaceId: match.params.workspaceId,
         environmentId: match.params.environmentId,

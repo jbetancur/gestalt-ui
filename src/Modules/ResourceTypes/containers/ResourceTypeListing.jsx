@@ -123,7 +123,7 @@ class ResourceTypeListing extends PureComponent {
             progressPending={this.props.resourceTypesPending}
             progressComponent={<LinearProgress id="resourcetype-listing" />}
             columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
+            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}

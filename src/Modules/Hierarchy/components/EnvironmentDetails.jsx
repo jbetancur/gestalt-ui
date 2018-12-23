@@ -12,33 +12,35 @@ import withHierarchy from '../hocs/withHierarchy';
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
 
   showEntitlements = () => {
-    const { context: { environment }, match, entitlementActions } = this.props;
-
+    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { context: { environment } } = hierarchyContext;
     const name = environment.description || environment.name;
     entitlementActions.showEntitlementsModal(name, match.params.fqon, environment.id, 'environments', 'Environment');
   }
 
   delete = () => {
-    const { context: { environment }, match, history, contextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, match, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { context: { environment } } = hierarchyContext;
     const name = environment.description || environment.name;
     const onSuccess = () =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
     hierarchyActions.confirmDelete(({ force }) => {
-      contextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } });
+      hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } });
     }, name, 'Environment');
   }
 
   renderMenuItems() {
-    const { context: { environment } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { environment } } = hierarchyContext;
 
     return [
       {
@@ -88,7 +90,8 @@ class EnvironmentDetails extends PureComponent {
   }
 
   render() {
-    const { context: { environment } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { environment } } = hierarchyContext;
     const environmentType = environment.id && environment.properties ? environment.properties.environment_type : null;
 
     return (

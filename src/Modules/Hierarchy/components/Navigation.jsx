@@ -6,7 +6,7 @@ import styled, { withTheme } from 'styled-components';
 import { FontIcon, Divider } from 'react-md';
 import withApp from 'App/hocs/withApp';
 import { GalacticFogIcon } from 'components/Icons';
-import NavItem from '../components/NavItem';
+import NavItem from './NavItem';
 import withContext from '../hocs/withContext';
 import navItems from '../config/navItems';
 import iconMap from '../config/iconMap';
@@ -86,7 +86,7 @@ const ActionDivider = styled(Divider)`
 
 class Navigation extends PureComponent {
   static propTypes = {
-    context: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
     open: PropTypes.bool,
     width: PropTypes.string,
     miniWidth: PropTypes.string,
@@ -153,18 +153,21 @@ class Navigation extends PureComponent {
 
   render() {
     const {
-      context: {
-        contextMeta,
-        actions,
-      },
-      context,
-      contextPending,
+      hierarchyContext,
       open,
       width,
       miniWidth,
       appState: { enableExperimental },
       ...rest
     } = this.props;
+
+    const {
+      context: {
+        contextMeta,
+        actions,
+      },
+      context,
+    } = hierarchyContext;
 
     const items = contextMeta.context
       ? navItems(context, enableExperimental)[contextMeta.context]

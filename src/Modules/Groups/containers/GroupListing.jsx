@@ -151,7 +151,7 @@ class GroupListing extends PureComponent {
             progressPending={this.props.groupsPending}
             progressComponent={<LinearProgress id="user-listing" />}
             columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
+            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no groups to display" icon={<GroupIcon size={150} />} />}

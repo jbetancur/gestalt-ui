@@ -4,16 +4,16 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 import NotFound from '../../../App/components/NotFound';
-import ContextNavigation from '../containers/ContextNavigation';
+import ContextNavigation from '../components/ContextNavigation';
 import HierarchyContext from '../contexts/HierarchyContext';
 import WorkspaceContext from '../contexts/WorkspaceContext';
 import EnvironmentContext from '../contexts/EnvironmentContext';
-import OrganizationCreate from '../containers/OrganizationCreate';
-import OrganizationEdit from '../containers/OrganizationEdit';
-import WorkspaceCreate from '../containers/WorkspaceCreate';
-import EnvironmentCreate from '../containers/EnvironmentCreate';
-import EnvironmentEdit from '../containers/EnvironmentEdit';
-import WorkspaceEdit from '../containers/WorkspaceEdit';
+import OrganizationCreate from '../components/OrganizationCreate';
+import OrganizationEdit from '../components/OrganizationEdit';
+import WorkspaceCreate from '../components/WorkspaceCreate';
+import EnvironmentCreate from '../components/EnvironmentCreate';
+import EnvironmentEdit from '../components/EnvironmentEdit';
+import WorkspaceEdit from '../components/WorkspaceEdit';
 import withModalRouter from './withModalRouter';
 
 const Main = styled.main`

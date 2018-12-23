@@ -5,7 +5,7 @@ import ContextNavigation from './ContextNavigation';
 import CreateMenu from './CreateMenu';
 import OrganizationDetails from './OrganizationDetails';
 
-const HierarchyHeader = ({ model, contextPending, ...props }) => (
+const HierarchyHeader = ({ model, hierarchyContext: { contextPending }, ...props }) => (
   <ContextNavigation
     model={model}
     pending={contextPending}
@@ -16,7 +16,7 @@ const HierarchyHeader = ({ model, contextPending, ...props }) => (
 );
 
 HierarchyHeader.propTypes = {
-  contextPending: PropTypes.bool.isRequired,
+  hierarchyContext: PropTypes.object.isRequired,
   model: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };

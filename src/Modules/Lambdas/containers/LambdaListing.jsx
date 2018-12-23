@@ -173,7 +173,7 @@ class LambdaListing extends PureComponent {
             progressPending={this.props.lambdasPending}
             progressComponent={<LinearProgress id="lambda-listing" />}
             columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
+            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}

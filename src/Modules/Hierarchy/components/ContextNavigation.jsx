@@ -18,8 +18,8 @@ import WorkspaceDetails from './WorkspaceDetails';
 import EnvironmentDetails from './EnvironmentDetails';
 import withContext from '../hocs/withContext';
 import withApp from '../../../App/hocs/withApp';
-import UserMenu from '../components/UserMenu';
-import AppToolbarInfoMenu from '../components/AppToolbarInfoMenu';
+import UserMenu from './UserMenu';
+import AppToolbarInfoMenu from './AppToolbarInfoMenu';
 // import iconMap from '../config/iconMap';
 
 const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {...rest} />)`
@@ -102,7 +102,6 @@ const ActionsPanel = styled.div`
   align-items: center;
   justify-content: flex-end;
   overflow: visible;
-
   ${() => media.xs`
     justify-content: center;
   `};
@@ -147,7 +146,7 @@ class ContextNavigation extends PureComponent {
     children: PropTypes.any,
     pendingContextActions: PropTypes.bool,
     actionsList: PropTypes.array,
-    context: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     expandedHeight: PropTypes.string,
@@ -167,8 +166,10 @@ class ContextNavigation extends PureComponent {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.context.contextMeta.context !== this.props.context.contextMeta.context
-      || prevProps.context.contextMeta.fqon !== this.props.context.contextMeta.fqon)
+    const { hierarchyContext } = this.props;
+
+    if ((prevProps.hierarchyContext.context.contextMeta.context !== hierarchyContext.context.contextMeta.context
+      || prevProps.hierarchyContext.context.contextMeta.fqon !== hierarchyContext.context.contextMeta.fqon)
       && prevState.expanded) {
       // it is safe to disabled linting here and call setState since we have have conditions above
       // eslint-disable-next-line react/no-did-update-set-state
@@ -181,7 +182,8 @@ class ContextNavigation extends PureComponent {
   }
 
   renderDetailsComponent() {
-    const { context: { contextMeta } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { contextMeta } } = hierarchyContext;
 
     if (contextMeta.context === 'organization') {
       return <OrganizationDetails {...this.props} />;
@@ -241,13 +243,14 @@ class ContextNavigation extends PureComponent {
 
   render() {
     const {
-      contextPending,
+      hierarchyContext,
       appState: { navigationExpanded },
       width,
       miniWidth,
       expandedHeight,
       licenseActions,
     } = this.props;
+    const { contextPending } = hierarchyContext;
     const { expanded } = this.state;
 
     return (

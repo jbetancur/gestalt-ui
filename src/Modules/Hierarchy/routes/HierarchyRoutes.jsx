@@ -6,7 +6,7 @@ import { Users, UserCreate, UserEdit } from 'Modules/Users';
 import { Groups, GroupCreate, GroupEdit } from 'Modules/Groups';
 import { ResourceTypeListing, CreateResourceType, EditResourceType } from 'Modules/ResourceTypes';
 import InlineView from 'Modules/InlineView/Inline';
-import HierarchyListing from '../containers/HierarchyListing';
+import HierarchyListing from '../components/HierarchyListing';
 import withModalRouter from './withModalRouter';
 import NotFound from '../../../App/components/NotFound';
 

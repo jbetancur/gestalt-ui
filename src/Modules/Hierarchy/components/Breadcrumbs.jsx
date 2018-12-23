@@ -8,7 +8,7 @@ import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Ico
 import { Button } from 'components/Buttons';
 import { DotActivity } from 'components/ProgressIndicators';
 import { media } from 'util/helpers/media';
-import BreadCrumbDropdown from '../components/BreadCrumbDropdown';
+import BreadCrumbDropdown from './BreadCrumbDropdown';
 import withContext from '../hocs/withContext';
 import {
   getSortedContextOrganizations,
@@ -66,18 +66,15 @@ const Wrapper = styled.div`
 class Breadcrumbs extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
-    allOrganizationsPending: PropTypes.bool.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     sortedOrganizations: PropTypes.array.isRequired,
     sortedWorkspaces: PropTypes.array.isRequired,
     sortedEnvironments: PropTypes.array.isRequired,
     isActive: PropTypes.bool,
-    contextPending: PropTypes.bool,
   };
 
   static defaultProps = {
-    contextPending: false,
     isActive: false,
   }
 
@@ -93,10 +90,8 @@ class Breadcrumbs extends PureComponent {
   }
 
   generateOrgItems() {
-    const {
-      context: { organization },
-      sortedOrganizations,
-    } = this.props;
+    const { hierarchyContext, sortedOrganizations } = this.props;
+    const { context: { organization } } = hierarchyContext;
 
     return sortedOrganizations
       .filter(org => org.id !== organization.id)
@@ -111,20 +106,18 @@ class Breadcrumbs extends PureComponent {
 
   // Fixes ghost environment listing when switching workspace fron an environment context
   handleWorkspaceNav(workspace) {
-    const { history, contextActions } = this.props;
+    const { history, hierarchyContextActions } = this.props;
     const workspaceRoute = `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`;
 
     if (history.location.pathname !== workspaceRoute) {
-      contextActions.unloadContext({ context: 'switch-context-from-environment' });
+      hierarchyContextActions.unloadContext({ context: 'switch-context-from-environment' });
       history.replace(`/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/environments`);
     }
   }
 
   generateWorkspaceItems() {
-    const {
-      context: { workspace },
-      sortedWorkspaces,
-    } = this.props;
+    const { hierarchyContext, sortedWorkspaces } = this.props;
+    const { context: { workspace } } = hierarchyContext;
 
     return sortedWorkspaces
       .filter(wkspc => wkspc.id !== workspace.id)
@@ -137,10 +130,8 @@ class Breadcrumbs extends PureComponent {
   }
 
   generateEnvironmentItems() {
-    const {
-      context: { environment },
-      sortedEnvironments,
-    } = this.props;
+    const { hierarchyContext, sortedEnvironments } = this.props;
+    const { context: { environment } } = hierarchyContext;
 
     return sortedEnvironments
       .filter(env => env.id !== environment.id)
@@ -156,16 +147,20 @@ class Breadcrumbs extends PureComponent {
   render() {
     const {
       isActive,
-      contextActions,
+      hierarchyContextActions,
+      hierarchyContext,
+    } = this.props;
+
+    const {
       contextPending,
+      allOrganizationsPending,
       context: {
         contextMeta,
         organization,
         workspace,
         environment,
-      },
-      allOrganizationsPending,
-    } = this.props;
+      }
+    } = hierarchyContext;
 
     const parentOrgRoute = `/${organization.org.properties.fqon}/hierarchy`;
     const orgsRoute = `/${organization.properties.fqon}/hierarchy`;
@@ -204,7 +199,7 @@ class Breadcrumbs extends PureComponent {
           // createLabel="Create Organization"
           // createRoute={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
           title="Organizations"
-          onOpen={contextActions.fetchAllOrgs}
+          onOpen={hierarchyContextActions.fetchAllOrgs}
           pending={allOrganizationsPending}
           label={(
             <EnhancedLink

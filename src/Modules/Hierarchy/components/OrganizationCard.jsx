@@ -7,8 +7,8 @@ import { withTheme } from 'styled-components';
 import { withEntitlements } from 'Modules/Entitlements';
 import { FontIcon } from 'react-md';
 import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
-import Card from '../components/GFCard';
-import CardTitle from '../components/GFCardTitle';
+import Card from './GFCard';
+import CardTitle from './GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
@@ -18,7 +18,7 @@ class OrganizationCard extends PureComponent {
     model: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
   };
@@ -42,11 +42,11 @@ class OrganizationCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, contextActions, hierarchyActions } = this.props;
+    const { model, hierarchyContextActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
 
     hierarchyActions.confirmDelete(({ force }) => {
-      contextActions.deleteOrg({ fqon: model.properties.fqon, resource: model, params: { force } });
+      hierarchyContextActions.deleteOrg({ fqon: model.properties.fqon, resource: model, params: { force } });
     }, name, 'Organization');
   }
 

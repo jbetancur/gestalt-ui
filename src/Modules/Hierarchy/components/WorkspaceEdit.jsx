@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import HierarchyForm from '../components/HierarchyForm';
+import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
 import { getEditWorkspaceModel } from '../selectors';
@@ -16,30 +16,29 @@ class WorkspaceEdit extends Component {
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
-    selectedWorkspace: PropTypes.object.isRequired,
-    selectedWorkspacePending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    const { match, contextActions } = this.props;
+    const { match, hierarchyContextActions } = this.props;
 
-    contextActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
+    hierarchyContextActions.fetchWorkspace({ fqon: match.params.fqon, id: match.params.workspaceId });
   }
 
   componentWillUnmount() {
-    const { contextActions } = this.props;
+    const { hierarchyContextActions } = this.props;
 
-    contextActions.unloadWorkspace();
+    hierarchyContextActions.unloadWorkspace();
   }
 
   update = (values) => {
     const {
       history,
       location,
-      contextActions,
-      selectedWorkspace,
+      hierarchyContextActions,
+      hierarchyContext: { selectedWorkspace },
     } = this.props;
 
     const payload = generateWorkspacePatches(selectedWorkspace, values);
@@ -51,26 +50,25 @@ class WorkspaceEdit extends Component {
       }
     };
 
-    contextActions.updateWorkspace({ fqon: selectedWorkspace.org.properties.fqon, id: selectedWorkspace.id, payload, onSuccess });
+    hierarchyContextActions.updateWorkspace({ fqon: selectedWorkspace.org.properties.fqon, id: selectedWorkspace.id, payload, onSuccess });
   }
 
   render() {
-    const { selectedWorkspace, selectedWorkspacePending, initialFormValues } = this.props;
+    const { hierarchyContext: { selectedWorkspace, selectedWorkspacePending }, initialFormValues } = this.props;
 
+    if (selectedWorkspacePending) {
+      return <ActivityContainer centered id="workspace-edit--loading" />;
+    }
     return (
-      selectedWorkspacePending
-        ?
-          <ActivityContainer centered id="workspace-edit--loading" />
-        :
-          <Form
-            component={HierarchyForm}
-            title={selectedWorkspace.description || selectedWorkspace.name}
-            editMode
-            onSubmit={this.update}
-            initialValues={initialFormValues}
-            validate={validate()}
-            mutators={{ ...arrayMutators }}
-          />
+      <Form
+        component={HierarchyForm}
+        title={selectedWorkspace.description || selectedWorkspace.name}
+        editMode
+        onSubmit={this.update}
+        initialValues={initialFormValues}
+        validate={validate()}
+        mutators={{ ...arrayMutators }}
+      />
     );
   }
 }

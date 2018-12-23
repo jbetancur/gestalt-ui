@@ -24,14 +24,14 @@ class GroupEdit extends Component {
     user: PropTypes.object.isRequired,
     userPending: PropTypes.bool.isRequired,
     userActions: PropTypes.object.isRequired,
-    allOrganizationsDropDown: PropTypes.array.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    const { match, userActions, contextActions } = this.props;
+    const { match, userActions, hierarchyContextActions } = this.props;
 
-    contextActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
+    hierarchyContextActions.fetchAllOrgsDropDown({ fqon: match.params.fqon });
     userActions.fetchUser({ fqon: match.params.fqon, id: match.params.userId });
   }
 
@@ -62,7 +62,7 @@ class GroupEdit extends Component {
   }
 
   render() {
-    const { user, userPending, initialFormValues, allOrganizationsDropDown } = this.props;
+    const { user, userPending, initialFormValues, hierarchyContext: { allOrganizationsDropDown } } = this.props;
 
     return (
       userPending && !user.id ?

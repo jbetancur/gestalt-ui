@@ -14,12 +14,12 @@ class InlineView extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
   };
 
   handleOnLoaded = (iframe) => {
-    const { context, history, authActions } = this.props;
+    const { hierarchyContext: { context }, history, authActions } = this.props;
     const token = cookies.get('auth_token');
     const validToken = !!token;
 

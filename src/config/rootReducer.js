@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { connectRouter } from 'connected-react-router';
 import { notifierReducer } from 'Modules/Notifications';
 import appReducers from 'App/reducers';
 import modalReducer from 'Modules/ModalRoot/reducers';
@@ -27,10 +27,10 @@ import searchReducers from 'Modules/Search/reducers';
 import resourceTypesReducers from 'Modules/ResourceTypes/reducers';
 import appDeploymentsReducers from 'Modules/AppDeployments/reducers';
 
-export default combineReducers({
+export default history => combineReducers({
   error: errorNotificationReducer,
   modal: modalReducer,
-  routing: routerReducer,
+  router: connectRouter(history),
   app: appReducers,
   login: loginReducer,
   hierarchy: hierarchyReducer,

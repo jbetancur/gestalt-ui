@@ -15,7 +15,7 @@ import { Volumes, VolumeCreate, VolumeEdit } from 'Modules/Volumes';
 import AppDeployments from 'Modules/AppDeployments/components/AppDeploymentListing';
 import AppDeploymentCreate from 'Modules/AppDeployments/components/AppDeploymentCreate';
 import InlineView from 'Modules/InlineView/Inline';
-import EnvironmentHome from '../containers/EnvironmentHome';
+import EnvironmentHome from '../components/EnvironmentHome';
 import withModalRouter from './withModalRouter';
 import NotFound from '../../../App/components/NotFound';
 

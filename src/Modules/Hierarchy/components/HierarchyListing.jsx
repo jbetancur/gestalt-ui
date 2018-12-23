@@ -6,18 +6,17 @@ import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { NoData } from 'components/TableCells';
 import { OrganizationIcon, WorkspaceIcon } from 'components/Icons';
-import Sort from '../components/Sort';
+import Sort from './Sort';
 import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
-import ListingHeader from '../components/ListingHeader';
+import ListingHeader from './ListingHeader';
 import withContext from '../hocs/withContext';
 // import EnvironmentCard from './EnvironmentCard';
 
 class HierarchyListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
-    contextPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
   };
 
   state = {
@@ -53,7 +52,8 @@ class HierarchyListing extends PureComponent {
   }
 
   render() {
-    const { contextPending, context } = this.props;
+    const { hierarchyContext } = this.props;
+    const { contextPending, context } = hierarchyContext;
     const { organization, organizations, workspaces } = context;
     // only show environments that have a workspace parent
     const cardItems = organizations.concat(workspaces);

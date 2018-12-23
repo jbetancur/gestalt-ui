@@ -6,8 +6,8 @@ import { translate } from 'react-i18next';
 import { FontIcon } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
-import Card from '../components/GFCard';
-import CardTitle from '../components/GFCardTitle';
+import Card from './GFCard';
+import CardTitle from './GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
@@ -18,7 +18,7 @@ class EnvironmentCard extends PureComponent {
     theme: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
   };
@@ -36,14 +36,14 @@ class EnvironmentCard extends PureComponent {
   }
 
   delete = () => {
-    const { model, match, contextActions, hierarchyActions } = this.props;
+    const { model, match, hierarchyContextActions, hierarchyActions } = this.props;
     const name = model.description || model.name;
     const onSuccess = () => {
-      contextActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
+      hierarchyContextActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
     };
 
     hierarchyActions.confirmDelete(({ force }) => {
-      contextActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } });
+      hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } });
     }, name, 'Environment');
   }
 

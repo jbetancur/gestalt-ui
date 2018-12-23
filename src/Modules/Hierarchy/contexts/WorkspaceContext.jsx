@@ -7,16 +7,16 @@ import withContext from '../hocs/withContext';
 class WorkspaceContext extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    contextActions: PropTypes.object.isRequired,
+    hierarchyContextActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
     const {
       match,
-      contextActions,
+      hierarchyContextActions,
     } = this.props;
 
-    contextActions.fetchContext({
+    hierarchyContextActions.fetchContext({
       fqon: match.params.fqon,
       workspaceId: match.params.workspaceId,
       context: 'workspace',
@@ -24,11 +24,11 @@ class WorkspaceContext extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { match, contextActions } = this.props;
+    const { match, hierarchyContextActions } = this.props;
 
     if (match.params.workspaceId && prevProps.match.params.workspaceId !== match.params.workspaceId) {
       // If the workspace is switched then get the updated context
-      contextActions.fetchContext({
+      hierarchyContextActions.fetchContext({
         fqon: match.params.fqon,
         workspaceId: match.params.workspaceId,
         context: 'workspace',

@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -45,7 +45,7 @@ export default function configureStore(history) {
   }
 
   const store = createStore(
-    composeRootReducer(rootReducer),
+    composeRootReducer(rootReducer(history)),
     composeWithDevTools(
       applyMiddleware(...middlewares),
     ),

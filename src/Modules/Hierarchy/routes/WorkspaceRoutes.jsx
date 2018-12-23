@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { Providers, ProviderCreate, ProviderEdit } from 'Modules/Providers';
 import InlineView from 'Modules/InlineView/Inline';
-import Environments from '../containers/EnvironmentListing';
+import Environments from '../components/EnvironmentListing';
 import withModalRouter from './withModalRouter';
 import NotFound from '../../../App/components/NotFound';
 
