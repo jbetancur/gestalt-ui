@@ -134,7 +134,7 @@ class ProviderListing extends PureComponent {
             progressPending={this.props.providersPending}
             progressComponent={<LinearProgress id="provider-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContextActions()}
+            contextActions={this.defineContextActions()}
             noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.providersPending} />}

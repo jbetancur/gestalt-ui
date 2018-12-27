@@ -141,7 +141,7 @@ class StreamList extends PureComponent {
             progressPending={this.props.streamSpecsPending}
             progressComponent={<LinearProgress id="stream-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContextActions()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no streams to display" icon={<StreamIcon size={150} />} />}

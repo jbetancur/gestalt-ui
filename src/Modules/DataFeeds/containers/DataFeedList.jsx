@@ -157,7 +157,7 @@ class DataFeedList extends PureComponent {
             progressPending={this.props.datafeedsPending}
             progressComponent={<LinearProgress id="datafeed-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContextActions()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no data feeds to display" icon={<DataFeedIcon size={150} />} />}

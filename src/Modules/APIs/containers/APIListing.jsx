@@ -148,7 +148,7 @@ class APIListing extends PureComponent {
             progressPending={this.props.apisPending}
             progressComponent={<LinearProgress id="api-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContectActions()}
+            contextActions={this.defineContectActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}

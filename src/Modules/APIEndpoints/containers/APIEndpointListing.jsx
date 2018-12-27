@@ -183,7 +183,7 @@ class APIEndpointListing extends PureComponent {
             progressPending={this.props.apiEndpointsPending}
             progressComponent={<LinearProgress id="apiendpoints-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContectActions()}
+            contextActions={this.defineContectActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<Title light>There are no endpoints to display</Title>}

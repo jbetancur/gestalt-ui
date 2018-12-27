@@ -154,7 +154,7 @@ class SecretListing extends PureComponent {
             progressPending={this.props.secretsPending}
             progressComponent={<LinearProgress id="secret-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContextActions()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no secrets to display" icon={<SecretIcon size={150} />} />}

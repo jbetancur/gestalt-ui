@@ -156,7 +156,7 @@ class PolicyListing extends PureComponent {
             progressPending={this.props.policiesPending}
             progressComponent={<LinearProgress id="policy-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContextActions()}
+            contextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}

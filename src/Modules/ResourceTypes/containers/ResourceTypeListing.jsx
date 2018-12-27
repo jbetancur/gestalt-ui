@@ -6,7 +6,6 @@ import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
-import { DeleteIconButton } from 'components/Buttons';
 import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
@@ -52,12 +51,6 @@ class ResourceTypeListing extends PureComponent {
     const { history, match } = this.props;
 
     history.push(`${match.url}/${row.id}`);
-  }
-
-  defineContextActions() {
-    return [
-      <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
-    ];
   }
 
   defineColumns() {
@@ -123,7 +116,6 @@ class ResourceTypeListing extends PureComponent {
             progressPending={this.props.resourceTypesPending}
             progressComponent={<LinearProgress id="resourcetype-listing" />}
             columns={this.defineColumns()}
-            hierarchyContextActions={this.defineContextActions()}
             onTableUpdate={this.handleTableChange}
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
