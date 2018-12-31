@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withPickerData } from 'Modules/MetaResource';
@@ -10,6 +10,10 @@ import { selectProvider } from '../selectors';
 const SelectedProvider = ({ providersData, ...rest }) => (
   <ProviderSelect providers={providersData} {...rest} />
 );
+
+SelectedProvider.propTypes = {
+  providersData: PropTypes.array.isRequired,
+};
 
 const mapStateToProps = state => ({
   selectedProvider: selectProvider(state),

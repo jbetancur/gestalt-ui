@@ -10,9 +10,12 @@ import actions from '../actions';
 
 class VolumeCreateModal extends PureComponent {
   static propTypes = {
-    visiable: PropTypes.bool.isRequired,
+    selectedProvider: PropTypes.object.isRequired,
+    mode: PropTypes.string.isRequired,
+    visible: PropTypes.bool.isRequired,
     hideModal: PropTypes.func.isRequired,
-    addVolume: PropTypes.func.isRequired
+    addVolume: PropTypes.func.isRequired,
+    volumes: PropTypes.array.isRequired,
   };
 
   handleSubmit = (values) => {
@@ -23,7 +26,7 @@ class VolumeCreateModal extends PureComponent {
   }
 
   renderForm() {
-    const { modal, hideModal, selectedProvider, mode, volumes, ...rest } = this.props;
+    const { hideModal, selectedProvider, mode, volumes, ...rest } = this.props;
 
     return mode.value === 'attach'
       ? <VolumePanelAttach onSubmit={this.handleSubmit} attachedVolumes={volumes} providerId={selectedProvider.provider.id} {...rest} />

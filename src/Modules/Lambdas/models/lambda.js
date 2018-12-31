@@ -1,6 +1,7 @@
 import { cloneDeep, pick, merge } from 'lodash';
 
 const base = {
+  resource_type: '',
   org: {
     properties: {},
   },

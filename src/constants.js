@@ -16,12 +16,18 @@ export const ANALYTICS_TRACKING_ACCT = $$ANALYTICS_TRACKING_ACCT$$;
 export const REQUIRE_HTTPS_COOKIE = $$REQUIRE_HTTPS_COOKIE$$;
 
 // General Enums - TODO: make dynamic (requires a resourceTypes call)
+export const ORGANIZATION = '23ba3299-b04e-4c5c-9b3d-64939b22944e';
+export const WORKSPACE = 'fa17bae4-1294-42cc-93cc-c4ead7dc0343';
+export const ENVIRONMENT = '46b28076-9d94-4860-9aca-e8483a56d32c';
 export const USER = '58b6775d-37a5-44bc-9115-7331fc4964b7';
 export const GROUP = 'ad4c7258-1896-45bf-8ec8-c875dcc7654e';
 export const LOGGING = 'e1782fef-4b7c-4f75-b8b8-6e6e2ecd82b2';
 export const DATA_CLASSIFICATION = '4f9a4d64-513c-4f2f-a372-8a90dd41de31';
 
 export default {
+  ORGANIZATION,
+  WORKSPACE,
+  ENVIRONMENT,
   USER,
   GROUP,
   LOGGING,

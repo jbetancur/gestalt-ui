@@ -54,55 +54,61 @@ class HierarchyListing extends PureComponent {
   render() {
     const { hierarchyContext } = this.props;
     const { contextPending, context } = hierarchyContext;
+
+    if (contextPending) {
+      return <ActivityContainer id="hierarchy-listing--loading" />;
+    }
+
     const { organization, organizations, workspaces } = context;
     // only show environments that have a workspace parent
     const cardItems = organizations.concat(workspaces);
     const sortedOrgs = orderBy(cardItems, this.state.sortKey, this.state.order);
 
-    return (
-      contextPending
-        ?
-          <ActivityContainer id="hierarchy-listing--loading" />
-        :
-          <React.Fragment>
-            <ListingHeader
-              leftItems={
-                <Sort
-                  disabled={!sortedOrgs.length}
-                  sortKey={this.state.sortKey}
-                  order={this.state.order}
-                  setKey={this.setSortKey}
-                  setOrder={this.setSortOrder}
-                />
-              }
+    if (!contextPending && !cardItems.length) {
+      return (
+        <Row center paddingTop="120px" direction="column">
+          <Col flex>
+            <NoData
+              message="There are no Organizations or Workspaces to display"
+              icon={(
+                <React.Fragment>
+                  <OrganizationIcon size={150} />
+                  <WorkspaceIcon size={150} />
+                </React.Fragment>
+              )}
+              createPath={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
+              createLabel="Create an Organization"
+              showSecondaryCreate
+              secondaryCreateLabel="Create a Workspace"
+              secondaryCreatePath={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
             />
+          </Col>
+        </Row>
+      );
+    }
 
-            <Row gutter={5} padding="5px">
-              {sortedOrgs.map(item => (
-                <Col key={item.id} flex={2} xs={12} sm={6} md={4}>
-                  {this.renderCard(item)}
-                </Col>
-              ))}
-            </Row>
+    return (
+      <React.Fragment>
+        <ListingHeader
+          leftItems={
+            <Sort
+              disabled={!sortedOrgs.length}
+              sortKey={this.state.sortKey}
+              order={this.state.order}
+              setKey={this.setSortKey}
+              setOrder={this.setSortOrder}
+            />
+          }
+        />
 
-            {!contextPending && !cardItems.length &&
-            <Row center fill paddingTop="180px">
-              <NoData
-                message="There are no Organizations or Workspaces to display"
-                icon={(
-                  <React.Fragment>
-                    <OrganizationIcon size={150} />
-                    <WorkspaceIcon size={150} />
-                  </React.Fragment>
-                )}
-                createPath={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
-                createLabel="Create an Organization"
-                showSecondaryCreate
-                secondaryCreateLabel="Create a Workspace"
-                secondaryCreatePath={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
-              />
-            </Row>}
-          </React.Fragment>
+        <Row gutter={5} padding="5px">
+          {sortedOrgs.map(item => (
+            <Col key={item.id} flex={2} xs={12} sm={6} md={4}>
+              {this.renderCard(item)}
+            </Col>
+          ))}
+        </Row>
+      </React.Fragment>
     );
   }
 }

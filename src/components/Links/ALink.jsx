@@ -36,7 +36,7 @@ export default class ALink extends Component {
   }
 
   render() {
-    const { to, target, children, ...rest } = this.props;
+    const { to, children, ...rest } = this.props;
     const isInternal = this.isInternal(to);
 
     if (isInternal) {

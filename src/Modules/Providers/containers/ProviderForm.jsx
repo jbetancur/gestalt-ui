@@ -25,6 +25,8 @@ const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType',
 
 class ProviderForm extends Component {
   static propTypes = {
+    provider: PropTypes.object.isRequired,
+    container: PropTypes.object.isRequired,
     form: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
     values: PropTypes.object.isRequired,
@@ -36,8 +38,10 @@ class ProviderForm extends Component {
     editMode: PropTypes.bool,
     goBack: PropTypes.func.isRequired,
     selectedProviderType: PropTypes.object,
+    setSelectedProviderType: PropTypes.object.isRequired,
     onSelecedProviderType: PropTypes.func,
     envSchemaPending: PropTypes.bool,
+    resourceTypes: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -73,7 +77,6 @@ class ProviderForm extends Component {
       errors,
       handleSubmit,
       submitting,
-      invalid,
       values,
       provider,
       editMode,

@@ -115,130 +115,132 @@ class LambdaEdit extends PureComponent {
 
     const icon = selectedRuntime.value ? iconMap(selectedRuntime.value) : null;
 
+    if (lambdaPending && !lambda.id) {
+      return <ActivityContainer id="lambda-load" />;
+    }
+
     return (
-      lambdaPending && !lambda.id ?
-        <ActivityContainer id="lambda-load" /> :
-        <Row center>
-          <Col flex={10} xs={12} sm={12} md={10}>
-            <ActionsToolbar
-              title={lambda.name}
-              subtitle={`Provider: ${lambda.properties.provider.name}`}
-              titleIcon={icon}
-              actions={[
+      <Row center>
+        <Col flex={10} xs={12} sm={12} md={10}>
+          <ActionsToolbar
+            title={lambda.name}
+            subtitle={`Provider: ${lambda.properties.provider.name}`}
+            titleIcon={icon}
+            actions={[
+              <Button
+                key="lambda--log"
+                flat
+                iconChildren="subject"
+                to={{
+                  pathname: '/logs',
+                  search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
+                }}
+                target="_blank"
+                component={Link}
+              >
+                Expand Log
+              </Button>,
+              <Button
+                key="lambda--entitlements"
+                flat
+                iconChildren="security"
+                onClick={this.showEntitlements}
+              >
+                Entitlements
+              </Button>
+            ]}
+          />
+
+          {lambdaPending && <ActivityContainer id="lambda-form" />}
+
+          <Tabs>
+            <Tab title="Lambda">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={lambda} />
+                  </Panel>
+                </Col>
+              </Row>
+
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Public Endpoints" pending={apiEndpointsPending && !apiEndpoints.length} noPadding count={apiEndpoints.length}>
+                    <APIEndpointInlineList
+                      onAddEndpoint={() => lambdaStateActions.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
+                    />
+                  </Panel>
+                </Col>
+              </Row>
+
+              <Form
+                editMode
+                onSubmit={this.update}
+                initialValues={initialFormValues}
+                render={props => <LambdaForm {...props} />}
+                validate={validate}
+                mutators={{ ...arrayMutators }}
+                decorators={[focusOnErrors]}
+                loading={lambdaPending}
+                apiEndpointsPending={apiEndpointsPending}
+                onSaveInlineCode={this.handleSaveInlineCode}
+                {...this.props}
+              />
+            </Tab>
+            <Tab title="Log">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <Logging
+                      name={lambda.name}
+                      logType="lambda"
+                      logId={lambda.id}
+                      providerId={lambda.properties.provider.id}
+                      fqon={match.params.fqon}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+
+              <FullPageFooter>
                 <Button
-                  key="lambda--log"
                   flat
-                  iconChildren="subject"
-                  to={{
-                    pathname: '/logs',
-                    search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
-                  }}
-                  target="_blank"
+                  iconChildren="arrow_back"
                   component={Link}
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
                 >
-                  Expand Log
-                </Button>,
-                <Button
-                  key="lambda--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
-                >
-                  Entitlements
+                  Lambdas
                 </Button>
-              ]}
-            />
+              </FullPageFooter>
+            </Tab>
 
-            {lambdaPending && <ActivityContainer id="lambda-form" />}
+            <Tab title="Statistics">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <LambdaStats
+                      fqon={match.params.fqon}
+                      providerId={lambda.properties.provider.id}
+                      lambdaId={lambda.id}
+                    />
+                  </Card>
+                </Col>
+              </Row>
 
-            <Tabs>
-              <Tab title="Lambda">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Panel title="Resource Details" defaultExpanded={false}>
-                      <DetailsPane model={lambda} />
-                    </Panel>
-                  </Col>
-                </Row>
-
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Panel title="Public Endpoints" pending={apiEndpointsPending && !apiEndpoints.length} noPadding count={apiEndpoints.length}>
-                      <APIEndpointInlineList
-                        onAddEndpoint={() => lambdaStateActions.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
-                      />
-                    </Panel>
-                  </Col>
-                </Row>
-
-                <Form
-                  editMode
-                  onSubmit={this.update}
-                  initialValues={initialFormValues}
-                  render={props => <LambdaForm {...props} />}
-                  validate={validate}
-                  mutators={{ ...arrayMutators }}
-                  decorators={[focusOnErrors]}
-                  loading={lambdaPending}
-                  apiEndpointsPending={apiEndpointsPending}
-                  onSaveInlineCode={this.handleSaveInlineCode}
-                  {...this.props}
-                />
-              </Tab>
-              <Tab title="Log">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Card>
-                      <Logging
-                        name={lambda.name}
-                        logType="lambda"
-                        logId={lambda.id}
-                        providerId={lambda.properties.provider.id}
-                        fqon={match.params.fqon}
-                      />
-                    </Card>
-                  </Col>
-                </Row>
-
-                <FullPageFooter>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
-                  >
-                    Lambdas
-                  </Button>
-                </FullPageFooter>
-              </Tab>
-
-              <Tab title="Statistics">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Card>
-                      <LambdaStats
-                        fqon={match.params.fqon}
-                        providerId={lambda.properties.provider.id}
-                        lambdaId={lambda.id}
-                      />
-                    </Card>
-                  </Col>
-                </Row>
-
-                <FullPageFooter>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
-                  >
-                    Lambdas
-                  </Button>
-                </FullPageFooter>
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
+              <FullPageFooter>
+                <Button
+                  flat
+                  iconChildren="arrow_back"
+                  component={Link}
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
+                >
+                  Lambdas
+                </Button>
+              </FullPageFooter>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

@@ -11,6 +11,7 @@ const getPreviousRoute = () => JSON.parse(getItem('lastVisitedRoute'));
 export default function modalRouting(BaseComponent) {
   class ModalRouting extends Component {
     static propTypes = {
+      history: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
     };
 

@@ -42,6 +42,7 @@ function transformOut(model) {
 const schema = object().shape({
   name: string().required(),
   description: string(),
+  resource_type: string(),
   org: object().shape({
     properties: object().shape({}),
   }),

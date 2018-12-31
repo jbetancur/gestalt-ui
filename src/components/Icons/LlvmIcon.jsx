@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { SVGIcon } from 'react-md';
 
 /* eslint react/jsx-indent: 0 */
@@ -117,5 +118,13 @@ const LlvmIcon = ({ size, ...rest }) => (
     <path d="M16.59,16.84c1.15.87,1.22,1,1.21,1.2a.91.91,0,0,1-.2.33,14.24,14.24,0,0,1-2.33,2.1h0a4.39,4.39,0,0,0,.56-.36,9.31,9.31,0,0,0,2.1-2c.1-.17,0-.34-.17-.55S17,17,16.47,16.47l-.44-.4a4.43,4.43,0,0,1-1.14-2.72v0c0-.06,0-.11,0-.15V13.1A4.39,4.39,0,0,0,16.59,16.84Z" fill="#b1b2b2" />
   </SVGIcon>
 );
+
+LlvmIcon.propTypes = {
+  size: PropTypes.number
+};
+
+LlvmIcon.defaultProps = {
+  size: 24,
+};
 
 export default LlvmIcon;

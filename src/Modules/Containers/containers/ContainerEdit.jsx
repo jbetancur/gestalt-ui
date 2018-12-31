@@ -129,6 +129,10 @@ class ContainerEdit extends Component {
       showAPIEndpointWizardModal,
     } = this.props;
 
+    if (containerPending && !container.id) {
+      return <ActivityContainer id="container-loading" />;
+    }
+
     const enabledEndpoints = !inlineMode && container.properties.port_mappings.length > 0;
     const statusDetail =
       container.properties.status_detail
@@ -136,158 +140,156 @@ class ContainerEdit extends Component {
       && `${container.properties.status_detail.stateId}-${container.properties.status_detail.reason}`;
 
     return (
-      containerPending && !container.id ?
-        <ActivityContainer id="container-loading" /> :
-        <Row gutter={5} center>
-          <Col
-            flex={inlineMode ? 12 : 10}
-            xs={12}
-            sm={12}
-            md={12}
-          >
-            <ActionsModals />
-            <ActionsToolbar
-              title={container.name}
-              subtitle={selectedProvider.provider.name}
-              titleIcon={iconMap(selectedProvider.type)}
-              actions={[
-                statusDetail &&
-                <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>
-                  <FontIcon>info_outline</FontIcon>
-                </StatusDetails>,
-                !inlineMode &&
-                <ContainerActions
-                  key="container--actions"
-                  inContainerView
-                  containerModel={container}
-                  disableDestroy={inlineMode}
-                  disablePromote={inlineMode}
-                />,
-                <Button
-                  key="container--entitlements"
-                  flat
-                  outline
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
-                >
-                  Entitlements
-                </Button>,
-              ]}
-            />
+      <Row gutter={5} center>
+        <Col
+          flex={inlineMode ? 12 : 10}
+          xs={12}
+          sm={12}
+          md={12}
+        >
+          <ActionsModals />
+          <ActionsToolbar
+            title={container.name}
+            subtitle={`Provider: ${selectedProvider.provider.name}`}
+            titleIcon={iconMap(selectedProvider.type)}
+            actions={[
+              statusDetail &&
+              <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>
+                <FontIcon>info_outline</FontIcon>
+              </StatusDetails>,
+              !inlineMode &&
+              <ContainerActions
+                key="container--actions"
+                inContainerView
+                containerModel={container}
+                disableDestroy={inlineMode}
+                disablePromote={inlineMode}
+              />,
+              <Button
+                key="container--entitlements"
+                flat
+                outline
+                iconChildren="security"
+                onClick={this.showEntitlements}
+              >
+                Entitlements
+              </Button>,
+            ]}
+          />
 
-            {containerPending && <ActivityContainer id="container-form-loading" />}
+          {containerPending && <ActivityContainer id="container-form-loading" />}
 
-            <Tabs>
-              <Tab title="Instances">
+          <Tabs>
+            <Tab title="Instances">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <ContainerInstances
+                      providerType={selectedProvider.type}
+                      containerModel={container}
+                      fqon={match.params.fqon}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+
+              {!inlineMode &&
+                <FullPageFooter>
+                  <Button
+                    flat
+                    iconChildren="arrow_back"
+                    component={Link}
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+                  >
+                    Containers
+                  </Button>
+                </FullPageFooter>}
+            </Tab>
+
+            <Tab title={inlineMode ? 'Container Spec' : 'Container'}>
+              {!inlineMode &&
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={container} />
+                  </Panel>
+                </Col>
+              </Row>}
+
+              {!inlineMode &&
                 <Row gutter={5}>
                   <Col flex={12}>
-                    <Card>
-                      <ContainerInstances
-                        providerType={selectedProvider.type}
-                        containerModel={container}
-                        fqon={match.params.fqon}
-                      />
-                    </Card>
-                  </Col>
-                </Row>
-
-                {!inlineMode &&
-                  <FullPageFooter>
-                    <Button
-                      flat
-                      iconChildren="arrow_back"
-                      component={Link}
-                      to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+                    <Panel
+                      title="Public Endpoints"
+                      pending={apiEndpointsPending && !apiEndpoints.length}
+                      noPadding
+                      count={apiEndpoints.length}
                     >
-                      Containers
-                    </Button>
-                  </FullPageFooter>}
-              </Tab>
+                      {!enabledEndpoints &&
+                        <Div padding="16px">
+                          <Caption>Update this container with a Service Mapping to add a Public Endpoint</Caption>
+                        </Div>}
 
-              <Tab title={inlineMode ? 'Container Spec' : 'Container'}>
-                {!inlineMode &&
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Panel title="Resource Details" defaultExpanded={false}>
-                      <DetailsPane model={container} />
+                      <APIEndpointInlineList
+                        endpoints={apiEndpoints}
+                        onAddEndpoint={() => showAPIEndpointWizardModal(match.params, container.id, 'container', container.properties.port_mappings)}
+                        disabled={!enabledEndpoints}
+                      />
                     </Panel>
                   </Col>
                 </Row>}
 
-                {!inlineMode &&
-                  <Row gutter={5}>
-                    <Col flex={12}>
-                      <Panel
-                        title="Public Endpoints"
-                        pending={apiEndpointsPending && !apiEndpoints.length}
-                        noPadding
-                        count={apiEndpoints.length}
-                      >
-                        {!enabledEndpoints &&
-                          <Div padding="16px">
-                            <Caption>Update this container with a Service Mapping to add a Public Endpoint</Caption>
-                          </Div>}
+              <FinalForm
+                editMode
+                onSubmit={this.redeployContainer}
+                mutators={{ ...arrayMutators }}
+                decorators={[focusOnErrors]}
+                loading={containerPending}
+                initialValues={initialFormValues}
+                validate={validate}
+                inlineMode={inlineMode}
+                initialValuesEqual={isEqual} // keeps array fields from re-rendering
+                keepDirtyOnReinitialize
+                render={({ handleSubmit, ...rest }) => (
+                  <Form onSubmit={handleSubmit} autoComplete="off" disabled={containerPending}>
+                    <ContainerForm {...rest} />
+                  </Form>
+                )}
+                {...this.props}
+              />
+            </Tab>
 
-                        <APIEndpointInlineList
-                          endpoints={apiEndpoints}
-                          onAddEndpoint={() => showAPIEndpointWizardModal(match.params, container.id, 'container', container.properties.port_mappings)}
-                          disabled={!enabledEndpoints}
-                        />
-                      </Panel>
-                    </Col>
-                  </Row>}
+            <Tab title="Service Addresses">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <ContainerServiceAddresses
+                      portMappings={container.properties.port_mappings}
+                    />
+                  </Card>
+                </Col>
+              </Row>
 
-                <FinalForm
-                  editMode
-                  onSubmit={this.redeployContainer}
-                  mutators={{ ...arrayMutators }}
-                  decorators={[focusOnErrors]}
-                  loading={containerPending}
-                  initialValues={initialFormValues}
-                  validate={validate}
-                  inlineMode={inlineMode}
-                  initialValuesEqual={isEqual} // keeps array fields from re-rendering
-                  keepDirtyOnReinitialize
-                  render={({ handleSubmit, ...rest }) => (
-                    <Form onSubmit={handleSubmit} autoComplete="off" disabled={containerPending}>
-                      <ContainerForm {...rest} />
-                    </Form>
-                  )}
-                  {...this.props}
-                />
-              </Tab>
+              {!inlineMode && this.generateDefaultFooter()}
+            </Tab>
 
-              <Tab title="Service Addresses">
+            {selectedProvider.supportsEvents ?
+              <Tab title="Events">
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Card>
-                      <ContainerServiceAddresses
-                        portMappings={container.properties.port_mappings}
+                      <ContainerEvents
+                        events={container.properties.events}
                       />
                     </Card>
                   </Col>
                 </Row>
 
                 {!inlineMode && this.generateDefaultFooter()}
-              </Tab>
-
-              {selectedProvider.supportsEvents ?
-                <Tab title="Events">
-                  <Row gutter={5}>
-                    <Col flex={12}>
-                      <Card>
-                        <ContainerEvents
-                          events={container.properties.events}
-                        />
-                      </Card>
-                    </Col>
-                  </Row>
-
-                  {!inlineMode && this.generateDefaultFooter()}
-                </Tab> : <div />}
-            </Tabs>
-          </Col>
-        </Row>
+              </Tab> : <div />}
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

@@ -109,16 +109,6 @@ class Navigation extends PureComponent {
     }
   }
 
-  getContextType() {
-    const {
-      context: { contextMeta },
-    } = this.props;
-
-    return contextMeta.context
-      ? contextMeta.context.charAt(0).toUpperCase() + contextMeta.context.slice(1)
-      : null;
-  }
-
   generateTarget(item) {
     switch (item.render) {
       case 'newtab':
@@ -129,7 +119,9 @@ class Navigation extends PureComponent {
   }
 
   generateInlineLink(item) {
-    const { context: { contextMeta } } = this.props;
+    const { hierarchyContext } = this.props;
+    const { context: { contextMeta } } = hierarchyContext;
+
     const url = base64.encode(item.url);
 
     switch (contextMeta.context) {

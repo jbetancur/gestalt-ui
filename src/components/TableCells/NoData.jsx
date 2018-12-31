@@ -6,6 +6,10 @@ import { Title } from 'components/Typography';
 import { Button } from 'components/Buttons';
 
 const NoDataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
   text-align: center;
   position: relative;
 `;
@@ -19,6 +23,7 @@ const IconWaterMark = styled.div`
 const NoDataWrapper = styled.div`
   text-align: center;
   padding: 24px;
+  height: 100%;
 
   > [type=button] {
     margin: 5px;

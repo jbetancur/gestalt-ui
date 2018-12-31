@@ -18,6 +18,7 @@ import { selectVolumeListing } from '../selectors';
 
 class VolumePanel extends PureComponent {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     volumesDropdown: PropTypes.array,
     volumes: PropTypes.array.isRequired,
     showVolumeCreateModal: PropTypes.func.isRequired,

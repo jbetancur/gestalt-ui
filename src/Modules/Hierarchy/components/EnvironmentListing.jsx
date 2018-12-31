@@ -40,6 +40,22 @@ class EnvironmentListing extends Component {
 
   render() {
     const { match, hierarchyContext: { contextPending }, filteredEnvironments } = this.props;
+
+    if (!contextPending && !filteredEnvironments.length) {
+      return (
+        <Row center paddingTop="120px">
+          <Col flex>
+            <NoData
+              message="There are no environments to display"
+              icon={<EnvironmentIcon size={180} />}
+              createPath={{ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/createEnvironment`, state: { modal: true } }}
+              createLabel="Create an Environment"
+            />
+          </Col>
+        </Row>
+      );
+    }
+
     const sortedEnvironments = orderBy(filteredEnvironments, this.state.sortKey, this.state.order);
 
     return (
@@ -69,16 +85,6 @@ class EnvironmentListing extends Component {
               />
             </Col>)
           )}
-
-          {!contextPending && !filteredEnvironments.length &&
-          <Row center fill paddingTop="120px">
-            <NoData
-              message="There are no environments to display"
-              icon={<EnvironmentIcon size={180} />}
-              createPath={{ pathname: `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/createEnvironment`, state: { modal: true } }}
-              createLabel="Create an Environment"
-            />
-          </Row>}
         </Row>
       </React.Fragment>
     );
