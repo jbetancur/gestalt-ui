@@ -1,12 +1,11 @@
-import React from 'react';
 import styled from 'styled-components';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { LinearProgress } from 'react-md';
 
 const LinearProgressStyled = styled(LinearProgress)`
-  flex-grow: 1;
   padding: 0;
   margin: 0;
   position: absolute;
+  top: -3px;
 `;
 
-export default props => <LinearProgressStyled {...props} />;
+export default LinearProgressStyled;
