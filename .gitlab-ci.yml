@@ -38,7 +38,7 @@ test:
     url: https://test.galacticfog.com
   allow_failure: false
   script:
-    - apk add jq git httpie
+    - apk add jq git httpie docker
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile --network-timeout 1000000 install
@@ -69,7 +69,7 @@ publish-docker-image:
     - docker:dind
   allow_failure: false
   script:
-    - apk add jq git httpie
+    - apk add jq git httpie docker
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile --network-timeout 1000000 install
@@ -109,7 +109,7 @@ review:
   services:
     - docker:dind
   script:
-    - apk add jq git httpie
+    - apk add jq git httpie docker
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile --network-timeout 1000000 install
