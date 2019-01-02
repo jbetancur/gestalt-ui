@@ -44,6 +44,8 @@ test:
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
+    - echo "Login Docker Registry:"
+    - echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
     - docker push $DOCKER_IMG:$DOCKER_TAG
     - |
