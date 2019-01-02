@@ -22,7 +22,7 @@ test:
   stage: test
   script:
     - yarn cache dir
-    - yarn --frozen-lockfile install
+    - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn test:coverage
   artifacts:
     expire_in: 60 minutes
@@ -38,11 +38,10 @@ test:
     url: https://test.galacticfog.com
   allow_failure: false
   script:
-    - apk add jq
-    - apk add git
+    - apk add jq git httpie
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn --frozen-lockfile install
+    - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
@@ -70,11 +69,10 @@ publish-docker-image:
     - docker:dind
   allow_failure: false
   script:
-    - apk add jq
-    - apk add git
+    - apk add jq git httpie
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn --frozen-lockfile install
+    - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
@@ -111,11 +109,10 @@ review:
   services:
     - docker:dind
   script:
-    - apk add jq
-    - apk add git
+    - apk add jq git httpie
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn --frozen-lockfile install
+    - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
