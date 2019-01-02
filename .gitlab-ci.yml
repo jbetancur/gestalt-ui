@@ -1,5 +1,5 @@
 image:
-  name: node:10.15.0-alpine
+  name: galacticfog/node-ci:10.5.0
 
 stages:
 - test
@@ -16,7 +16,7 @@ cache:
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
   REVIEW_APP_URL: https://gtw1.demo.galacticfog.com/ci/ui-review-deploy
-  LEGACY_CI_URL:     https://gtw1.demo.galacticfog.com/ci/legacy-ci
+  LEGACY_CI_URL: https://gtw1.demo.galacticfog.com/ci/legacy-ci
 
 test:
   stage: test
@@ -38,7 +38,6 @@ test:
     url: https://test.galacticfog.com
   allow_failure: false
   script:
-    - apk add jq git httpie docker
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile --network-timeout 1000000 install
@@ -46,13 +45,13 @@ test:
     - yarn generate-disclaimer
     - mv LICENSES.txt build
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push                $DOCKER_IMG:$DOCKER_TAG
+    - docker push $DOCKER_IMG:$DOCKER_TAG
     - |
       if [ ${CI_COMMIT_REF_NAME} == "develop" ]; then
          docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
          docker push $DOCKER_IMG:latest
       fi
-    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+    - docker rmi $DOCKER_IMG:$DOCKER_TAG
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
     - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $LEGACY_CI_URL project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
 
@@ -69,7 +68,6 @@ publish-docker-image:
     - docker:dind
   allow_failure: false
   script:
-    - apk add jq git httpie docker
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile --network-timeout 1000000 install
@@ -79,8 +77,8 @@ publish-docker-image:
     - echo "Login Docker Registry:"
     - echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push                $DOCKER_IMG:$DOCKER_TAG
-    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+    - docker push $DOCKER_IMG:$DOCKER_TAG
+    - docker rmi $DOCKER_IMG:$DOCKER_TAG
   only:
     - tags
 
@@ -109,7 +107,6 @@ review:
   services:
     - docker:dind
   script:
-    - apk add jq git httpie docker
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile --network-timeout 1000000 install
@@ -119,8 +116,8 @@ review:
     - echo "Login Docker Registry:"
     - echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
     - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push                $DOCKER_IMG:$DOCKER_TAG
-    - docker rmi      $DOCKER_IMG:$DOCKER_TAG
+    - docker push $DOCKER_IMG:$DOCKER_TAG
+    - docker rmi $DOCKER_IMG:$DOCKER_TAG
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
     - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $REVIEW_APP_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
   dependencies:
