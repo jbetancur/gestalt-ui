@@ -19,9 +19,11 @@ import withPolicyRule from '../hocs/withPolicyRule';
 class PolicyEventRuleEdit extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    initialValues: PropTypes.object.isRequired,
     policyRule: PropTypes.object.isRequired,
     policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
+    entitlementActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {

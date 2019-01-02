@@ -27,10 +27,12 @@ const AppWrapper = styled.div`
 class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     selfActions: PropTypes.object.isRequired,
     licenseActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,

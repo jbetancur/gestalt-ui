@@ -25,6 +25,7 @@ class AppDeploymenListing extends PureComponent {
     appDeploymentsActions: PropTypes.object.isRequired,
     appDeployments: PropTypes.array.isRequired,
     appDeploymentsPending: PropTypes.bool.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
   };
 
   state = { selectedRows: [], clearSelected: false };
@@ -36,19 +37,19 @@ class AppDeploymenListing extends PureComponent {
   }
 
   deleteOne = (row) => {
-    const { appDeploymentsActions } = this.props;
+    const { appDeploymentsActions, confirmDelete } = this.props;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
+    confirmDelete(({ force }) => {
       appDeploymentsActions.deleteAppDeployment({ resource: row, onSuccess, force });
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
   deleteMultiple = () => {
-    const { appDeploymentsActions } = this.props;
+    const { appDeploymentsActions, confirmDelete } = this.props;
     const { selectedRows } = this.state;
 
     const names = selectedRows.map(item => (item.name));
@@ -57,7 +58,7 @@ class AppDeploymenListing extends PureComponent {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
+    confirmDelete(({ force }) => {
       appDeploymentsActions.deleteAppDeployments({ resources: selectedRows, onSuccess, force });
     }, 'Confirm Delete App Deployments', names);
   }

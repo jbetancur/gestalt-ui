@@ -150,6 +150,8 @@ class ContextNavigation extends PureComponent {
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     expandedHeight: PropTypes.string,
+    licenseActions: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {

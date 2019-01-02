@@ -16,6 +16,9 @@ class PolicyEventRuleCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    initialValues: PropTypes.object.isRequired,
+    policyRulePending: PropTypes.bool.isRequired,
+    policyRuleActions: PropTypes.object.isRequired,
   };
 
   create = (values) => {
