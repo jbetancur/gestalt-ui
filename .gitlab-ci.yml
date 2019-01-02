@@ -39,6 +39,7 @@ test:
   allow_failure: false
   script:
     - apk add jq
+    - apk add git
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
@@ -70,6 +71,7 @@ publish-docker-image:
   allow_failure: false
   script:
     - apk add jq
+    - apk add git
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
@@ -110,6 +112,7 @@ review:
     - docker:dind
   script:
     - apk add jq
+    - apk add git
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn --frozen-lockfile install
