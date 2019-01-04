@@ -11,17 +11,6 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
     <Row gutter={5}>
       <Col flex={12}>
         <Field
-          component={TextField}
-          name="name"
-          label="Target Container Name"
-          type="text"
-          required
-          validate={composeValidators(required())}
-          helpText="The target container name to import"
-        />
-      </Col>
-      <Col flex={12}>
-        <Field
           id="import-provider"
           component={SelectField}
           name="properties.provider.id"
@@ -39,12 +28,23 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
       <Col flex={12}>
         <Field
           component={TextField}
+          name="name"
+          label="Container Name"
+          type="text"
+          required
+          validate={composeValidators(required())}
+          helpText="The name of the container as it will appear in Gestalt once it has been imported"
+        />
+      </Col>
+      <Col flex={12}>
+        <Field
+          component={TextField}
           name="properties.external_id"
           label="External Id"
           type="text"
           required
           validate={composeValidators(required())}
-          helpText='For DC/OS, this is the "appId" of the Marathon application. For Kubernetes this is the "/namespace/resource-name"'
+          helpText='For DC/OS use the "appId" of the Marathon application. For Kubernetes use /namespaces/{namespace}/deployments/{deployment name},"'
         />
       </Col>
     </Row>
