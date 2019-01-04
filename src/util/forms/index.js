@@ -5,12 +5,20 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-// Validators
-export const composeValidators = (...validators) => value =>
-  validators.reduce((error, validator) => error || validator(value), undefined);
+// composeValidators
+// eslint-disable-next-line arrow-body-style
+export const composeValidators = (...validators) => (value) => {
+  return validators.reduce((error, validator) => {
+    if (typeof validator !== 'function') {
+      throw new Error('composeValidators: validator must be a function');
+    }
+
+    return error || validator(value);
+  }, undefined);
+};
 
 export const unixPattern =
-  (message = 'invalid unix variable') => value => (value && !isUnixVariable(value)) && message;
+  (message = 'invalid unix variable') => value => value && !isUnixVariable(value) && message;
 
 export const validator =
   (func, message = 'invalid pattern', options = {}) => value => (value && !func(value, options)) && message;
@@ -26,7 +34,7 @@ export const required =
   };
 
 export const hasSpaces =
-  (message = 'spaces not allowed') => value => (value ? value.indexOf(' ') >= 0 : message);
+  (message = 'spaces not allowed') => value => (value && value.indexOf(' ') >= 0 ? message : undefined);
 
 export const min =
   (minNum = 0, message = `must be greater than ${minNum}`) => value => (value < minNum ? message : undefined);
@@ -43,7 +51,11 @@ export const maxLen =
 // Form Parsers
 export const lowercase = value => value && value.toLowerCase();
 
-export const formatName = value => value && value.replace(/[^-\w\s]/gi, '').toLowerCase().substring(0, 32).trim();
+export const formatName = value => value && value
+  .replace(/[^-\w\s]/gi, '')
+  .toLowerCase()
+  .substring(0, 32)
+  .trim();
 
 export const fixInputNumber = value => value && Number(parseInt(value, 10));
 

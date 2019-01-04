@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { getIn } from 'final-form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -32,14 +33,14 @@ const getHelpText = (mountType) => {
 
 const getSecretKeys = (id, secrets) => {
   const item = secrets.find(s => s.id === id);
-  return (item && item.properties && item.properties.items) || [];
+  return (item && get(item, 'properties.items')) || [];
 };
 
 const getMenuItems = (secrets, provider, type) => {
   const items = secrets.filter((p) => {
     let providerId;
 
-    if (type === 'lambda' && provider.id && provider.properties && provider.properties.config && provider.properties.config.env) {
+    if (type === 'lambda' && provider.id && get(provider, 'properties.config.env')) {
       providerId = provider.properties.config.env.public.META_COMPUTE_PROVIDER_ID;
     } else {
       const { id } = provider;
@@ -51,6 +52,14 @@ const getMenuItems = (secrets, provider, type) => {
   });
 
   return items.length ? items : [{ id: null, name: 'No Available Secrets' }];
+};
+
+const determineValidators = (field) => {
+  if (field.mount_type === 'env') {
+    return composeValidators(required(), unixPattern());
+  }
+
+  return composeValidators(required());
 };
 
 const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValues, form }) => (
@@ -131,7 +140,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
                       component={TextField}
                       type="text"
                       required
-                      validate={composeValidators(required(), field.mount_type === 'env' && unixPattern())}
+                      validate={determineValidators(field)}
                       helpText={getHelpText(field.mount_type)}
                     />
                   </Col>}
