@@ -12,6 +12,11 @@ server {
         proxy_redirect     off;
     }
 
+    location /log/ {
+        proxy_pass         LOG_API_URL/;
+        proxy_redirect     off;
+    }
+
     location / {
         root   /usr/share/nginx/html;
         index  index.html index.htm;

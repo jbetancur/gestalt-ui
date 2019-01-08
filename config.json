@@ -18,6 +18,7 @@
   "production": {
     "API_URL": "/meta",
     "SEC_API_URL": "/security",
+    "LOG_API_URL": "/log",
     "API_TIMEOUT": 120000,
     "API_RETRIES": 3,
     "COMPANY_TITLE": "Galactic Fog",
