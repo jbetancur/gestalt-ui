@@ -30,8 +30,8 @@ const NoDataWrapper = styled.div`
   }
 `;
 
-const TitleStyled = styled(Title)`
-  padding-top: 16px;
+const Message = styled(Title)`
+  padding: 16px 8px 8px 8px;
 `;
 
 const NoData = ({ match, message, icon, createPath, createLabel, showCreate, showSecondaryCreate, secondaryCreateLabel, secondaryCreatePath }) => (
@@ -39,9 +39,9 @@ const NoData = ({ match, message, icon, createPath, createLabel, showCreate, sho
     <IconWaterMark>
       {icon}
     </IconWaterMark>
-    <TitleStyled light>
+    <Message light>
       {message}
-    </TitleStyled>
+    </Message>
     {showCreate &&
     <NoDataWrapper>
       <Button
