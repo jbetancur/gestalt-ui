@@ -185,6 +185,7 @@ class ContainerListing extends PureComponent {
                 <Button flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>
               </React.Fragment>
             }
+            pagination
             // expandableRows
             // expandableRowsComponent={<ContainerListingExpandable />}
           />

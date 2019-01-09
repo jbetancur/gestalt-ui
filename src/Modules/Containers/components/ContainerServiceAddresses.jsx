@@ -52,6 +52,7 @@ const ContainerServiceAddresses = ({ portMappings }) => (
     defaultSortField="type"
     noDataComponent={<Title light>There are no port mappings configured</Title>}
     noHeader
+    pagination
   />
 );
 

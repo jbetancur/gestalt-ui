@@ -83,6 +83,7 @@ class AppDeploymenListing extends PureComponent {
     return [
       {
         width: '56px',
+        center: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
@@ -158,6 +159,7 @@ class AppDeploymenListing extends PureComponent {
             actions={<SelectFilter disabled={this.props.appDeploymentsPending} />}
             expandableRows
             expandableRowsComponent={<ExpanderRow />}
+            pagination
           />
         </Col>
       </Row>

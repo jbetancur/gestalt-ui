@@ -163,6 +163,7 @@ class DataFeedList extends PureComponent {
             noDataComponent={<NoData message="There are no data feeds to display" icon={<DataFeedIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.datafeedsPending} />}
+            pagination
           />
         </Col>
       </Row>

@@ -162,6 +162,7 @@ class PolicyListing extends PureComponent {
             noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.policiesPending} />}
+            pagination
           />
         </Col>
       </Row>

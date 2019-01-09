@@ -173,6 +173,7 @@ class UserListing extends PureComponent {
             noDataComponent={<NoData message="There are no users to display" icon={<UserIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.usersPending} />}
+            pagination
           />
         </Col>
       </Row>

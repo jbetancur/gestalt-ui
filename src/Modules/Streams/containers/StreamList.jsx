@@ -147,6 +147,7 @@ class StreamList extends PureComponent {
             noDataComponent={<NoData message="There are no streams to display" icon={<StreamIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.streamSpecsPending} />}
+            pagination
           />
         </Col>
       </Row>

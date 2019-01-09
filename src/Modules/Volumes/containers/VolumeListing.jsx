@@ -92,8 +92,10 @@ class VolumeListing extends PureComponent {
     return [
       {
         width: '56px',
+        center: true,
         allowOverflow: true,
         ignoreRowClick: true,
+        grow: 2,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -110,7 +112,6 @@ class VolumeListing extends PureComponent {
         selector: 'name',
         sortable: true,
         compact: true,
-        grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
       },
       {
@@ -130,11 +131,6 @@ class VolumeListing extends PureComponent {
       {
         name: 'Type',
         selector: 'properties.type',
-        sortable: true,
-      },
-      {
-        name: 'Access Mode',
-        selector: 'properties.access_mode',
         sortable: true,
       },
       {
@@ -193,6 +189,7 @@ class VolumeListing extends PureComponent {
             noDataComponent={<NoData message="There are no volumes to display" icon={<VolumeIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.volumesPending} />}
+            pagination
           />
         </Col>
       </Row>

@@ -160,6 +160,7 @@ class SecretListing extends PureComponent {
             noDataComponent={<NoData message="There are no secrets to display" icon={<SecretIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.secretsPending} />}
+            pagination
           />
         </Col>
       </Row>

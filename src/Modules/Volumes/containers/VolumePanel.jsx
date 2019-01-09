@@ -163,6 +163,7 @@ class VolumePanel extends PureComponent {
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no volumes to display</Title>}
+              pagination
             />
           </Col>
         </Row>

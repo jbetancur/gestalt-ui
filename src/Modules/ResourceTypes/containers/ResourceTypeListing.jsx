@@ -121,6 +121,7 @@ class ResourceTypeListing extends PureComponent {
             noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.resourceTypesPending} />}
+            pagination
           />
         </Col>
       </Row>

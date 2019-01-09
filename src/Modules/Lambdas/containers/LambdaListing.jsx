@@ -179,6 +179,7 @@ class LambdaListing extends PureComponent {
             noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.lambdasPending} />}
+            pagination
           />
         </Col>
       </Row>

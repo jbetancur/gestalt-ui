@@ -154,6 +154,7 @@ class APIListing extends PureComponent {
             noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.apisPending} />}
+            pagination
           />
         </Col>
       </Row>

@@ -157,6 +157,7 @@ class GroupListing extends PureComponent {
             noDataComponent={<NoData message="There are no groups to display" icon={<GroupIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.groupsPending} />}
+            pagination
           />
         </Col>
       </Row>

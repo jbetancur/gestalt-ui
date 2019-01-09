@@ -45,6 +45,7 @@ const ContainerEvents = ({ events }) => {
       defaultSortField="age"
       noDataComponent={<Title light>There are no events to display</Title>}
       noHeader
+      pagination
     />
   );
 };

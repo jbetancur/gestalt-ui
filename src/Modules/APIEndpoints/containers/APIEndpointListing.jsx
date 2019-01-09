@@ -189,6 +189,7 @@ class APIEndpointListing extends PureComponent {
             noDataComponent={<Title light>There are no endpoints to display</Title>}
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.apiEndpointsPending} />}
+            pagination
           />
         </Col>
       </Row>

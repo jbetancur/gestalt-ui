@@ -68,6 +68,7 @@ const ContainerInstances = ({ containerModel, fqon }) => {
       //   <ExpandableLogs providerType={providerType} containerModel={containerModel} fqon={fqon} />
       // }
       noHeader
+      pagination
     />
   );
 };

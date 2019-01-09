@@ -131,6 +131,7 @@ class APIEndpointInlineList extends PureComponent {
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no endpoints to display</Title>}
+              pagination
             />
           </Col>
         </Row>
