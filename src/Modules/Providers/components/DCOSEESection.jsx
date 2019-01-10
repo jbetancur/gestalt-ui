@@ -8,7 +8,7 @@ import { composeValidators, required } from 'util/forms';
 const DCOSEESection = ({ values }) => (
   <React.Fragment>
     <Row gutter={5}>
-      <Col key="config-auth--appGroupPrefix" flex={2} xs={12} sm={4} md={4}>
+      <Col flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.appGroupPrefix"
@@ -17,7 +17,7 @@ const DCOSEESection = ({ values }) => (
           required
         />
       </Col>
-      <Col key="config-auth--dcos_cluster_name" flex={2} xs={12} sm={4} md={4}>
+      <Col flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.dcos_cluster_name"
@@ -26,7 +26,7 @@ const DCOSEESection = ({ values }) => (
           required
         />
       </Col>
-      <Col key="config--haproxyGroup" flex={2} xs={12} sm={4} md={4}>
+      <Col flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.haproxyGroup"
@@ -35,7 +35,7 @@ const DCOSEESection = ({ values }) => (
           required
         />
       </Col>
-      <Col key="config--marathon_framework_name" flex={2} xs={12} sm={4} md={4}>
+      <Col flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.marathon_framework_name"
@@ -44,7 +44,7 @@ const DCOSEESection = ({ values }) => (
           required
         />
       </Col>
-      <Col key="config--accept_any_cert" flex={3} xs={12}>
+      <Col flex={3} xs={12}>
         <Field
           id="accept_any_cert"
           component={Checkbox}
@@ -56,7 +56,7 @@ const DCOSEESection = ({ values }) => (
       </Col>
     </Row>
     <Row gutter={5}>
-      <Col key="config--secret_support" flex={2} xs={12} sm={12} md={4}>
+      <Col flex={2} xs={12} sm={12} md={4}>
         <Field
           id="secret_support"
           component={Checkbox}
@@ -66,7 +66,7 @@ const DCOSEESection = ({ values }) => (
           style={{ minWidth: '10em' }}
         />
       </Col>
-      <Col key="config--secret_store" flex={2} xs={12} sm={4} md={4}>
+      <Col flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.secret_store"
@@ -75,7 +75,7 @@ const DCOSEESection = ({ values }) => (
           required
         />
       </Col>
-      <Col key="config--secret_url" flex={2} xs={12} sm={4} md={4}>
+      <Col flex={2} xs={12} sm={4} md={4}>
         <Field
           component={TextField}
           name="properties.config.secret_url"

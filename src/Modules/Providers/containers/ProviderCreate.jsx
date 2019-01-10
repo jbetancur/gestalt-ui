@@ -25,6 +25,7 @@ class ProviderCreate extends Component {
     providerActions: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     selectedProviderType: PropTypes.object.isRequired,
+    hasContainer: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -38,8 +39,8 @@ class ProviderCreate extends Component {
   }
 
   create = (values) => {
-    const { match, history, providerActions, selectedProviderType } = this.props;
-    const payload = generateProviderPayload(values, selectedProviderType.allowContainer);
+    const { match, history, providerActions, hasContainer } = this.props;
+    const payload = generateProviderPayload(values, hasContainer);
 
     const onSuccess = (response) => {
       if (match.params.workspaceId && !match.params.environmentId) {
@@ -72,7 +73,7 @@ class ProviderCreate extends Component {
   };
 
   render() {
-    const { initialValues, providerPending, selectedProviderType } = this.props;
+    const { initialValues, providerPending, selectedProviderType, hasContainer } = this.props;
 
     return (
       <Row center gutter={5}>
@@ -86,7 +87,7 @@ class ProviderCreate extends Component {
           <Form
             component={ProviderForm}
             initialValues={initialValues}
-            validate={validate(selectedProviderType.allowContainer)}
+            validate={validate(hasContainer)}
             mutators={{ ...arrayMutators }}
             decorators={[focusOnErrors]}
             onSubmit={this.create}

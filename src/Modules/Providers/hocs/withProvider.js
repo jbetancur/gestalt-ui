@@ -29,6 +29,7 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
     provider: state.providers.provider.provider,
     providerPending: state.providers.provider.pending,
     providers: state.providers.provider.providers,
+    hasContainer: state.providers.provider.hasContainer,
     resourceTypes: state.providers.provider.resourceTypes,
     selectedProviderType: state.providers.provider.selectedProviderType,
     container: state.providers.provider.container,

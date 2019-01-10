@@ -21,6 +21,7 @@ import {
   SELECTED_PROVIDERTYPE_REJECTED,
   FETCH_PROVIDERCONTAINER_FULFILLED,
   FETCH_PROVIDERCONTAINER_REJECTED,
+  TOGGLE_HAS_CONTAINER,
 } from '../constants';
 import providerModel from '../models/provider';
 import envSchemaModel from '../models/envSchema';
@@ -32,6 +33,7 @@ const initialState = {
   resourceTypes: [],
   provider: providerModel.get(),
   selectedProviderType: resourceTypeModel.get(),
+  hasContainer: false,
   container: containerModel.get(),
   containerError: null,
   envSchema: envSchemaModel.get(),
@@ -62,6 +64,7 @@ export default (state = initialState, action) => {
         providers: action.payload.providers,
         selectedProviderType: action.payload.selectedProviderType,
         provider: action.payload.provider,
+        hasContainer: action.payload.hasContainer,
         pending: false,
         completed: true,
       };
@@ -176,6 +179,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         containerError: action.payload,
+      };
+    case TOGGLE_HAS_CONTAINER:
+      return {
+        ...state,
+        hasContainer: !state.hasContainer,
       };
     case UNLOAD_PROVIDER:
       return initialState;

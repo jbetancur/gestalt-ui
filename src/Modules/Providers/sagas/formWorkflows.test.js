@@ -140,6 +140,7 @@ describe('container Form Workflow Sagas', () => {
           },
           provider: { id: '890', name: 'a voltron provider', resource_type: 'Gestalt::Configuration::Provider::VOLTRON' },
           providers: [{ id: '888', name: 'another provider' }],
+          hasContainer: false,
         };
 
         const action = {
@@ -154,10 +155,10 @@ describe('container Form Workflow Sagas', () => {
         );
       });
 
-      describe('when the resouceType allowContainer: true', () => {
-        // this is hard to test correctly as this is poory designed in meta
-        // omit this test until we refactor provider containers
-      });
+      // describe('when the resouceType hasContainer: true', () => {
+      // this is hard to test correctly as this is currently designed in meta
+      // omit this test until we refactor provider containers
+      // });
 
       describe('when there is an Error', () => {
         it('should return a payload and dispatch a reject status when there is an error', () => {

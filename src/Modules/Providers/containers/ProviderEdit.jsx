@@ -36,6 +36,7 @@ class ProviderEdit extends Component {
     entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     selectedProviderType: PropTypes.object.isRequired,
+    hasContainer: PropTypes.bool.isRequired,
   };
 
   state = { redeploy: false };
@@ -96,7 +97,7 @@ class ProviderEdit extends Component {
   }
 
   render() {
-    const { match, initialValues, provider, container, selectedProviderType, providerPending } = this.props;
+    const { match, initialValues, provider, container, selectedProviderType, hasContainer, providerPending } = this.props;
 
     return (
       (providerPending) ?
@@ -108,7 +109,7 @@ class ProviderEdit extends Component {
               title={provider.name}
               subtitle={`Provider Type: ${selectedProviderType.displayName}`}
               actions={[
-                selectedProviderType.allowContainer &&
+                hasContainer &&
                 <ContainerActions
                   key="provider-container-actions"
                   inContainerView
@@ -142,7 +143,7 @@ class ProviderEdit extends Component {
                 <Form
                   component={ProviderForm}
                   initialValue={initialValues}
-                  validate={validate(selectedProviderType.allowContainer)}
+                  validate={validate(hasContainer)}
                   mutators={{ ...arrayMutators }}
                   decorators={[focusOnErrors]}
                   editMode
@@ -153,7 +154,7 @@ class ProviderEdit extends Component {
                 />
               </Tab>
 
-              {selectedProviderType.allowContainer ?
+              {hasContainer ?
                 <Tab title="Service Instance">
                   <Row gutter={5}>
                     <Col flex={12}>

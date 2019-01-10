@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
+import { Checkbox } from 'react-md';
 import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
 import Form from 'components/Form';
@@ -11,6 +12,7 @@ import { ContainerForm } from 'Modules/Containers';
 import { UnixVariablesForm } from 'Modules/Variables';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Chips } from 'components/Lists';
+import { Caption } from 'components/Typography';
 import { formatName } from 'util/forms';
 import LinkedProviders from '../components/LinkedProviders';
 import EnvironmentTypes from '../components/EnvironmentTypes';
@@ -21,7 +23,7 @@ import ECSConfig from '../components/ECSConfig';
 import Networks from '../components/Networks';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
-const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'allowContainer', 'inputType', 'allowStorageClasses', 'subTypes'];
+const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes'];
 
 class ProviderForm extends Component {
   static propTypes = {
@@ -38,10 +40,12 @@ class ProviderForm extends Component {
     editMode: PropTypes.bool,
     goBack: PropTypes.func.isRequired,
     selectedProviderType: PropTypes.object,
-    setSelectedProviderType: PropTypes.object.isRequired,
+    setSelectedProviderType: PropTypes.func.isRequired,
     onSelecedProviderType: PropTypes.func,
     envSchemaPending: PropTypes.bool,
-    resourceTypes: PropTypes.array.isRequired,
+    resourceTypes: PropTypes.array,
+    toggleHasContainer: PropTypes.func.isRequired,
+    hasContainer: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -50,6 +54,7 @@ class ProviderForm extends Component {
     selectedProviderType: {},
     onSelecedProviderType: () => { },
     envSchemaPending: false,
+    resourceTypes: [],
   };
 
   handleProviderChange = (value) => {
@@ -71,6 +76,12 @@ class ProviderForm extends Component {
     }
   }
 
+  handleUsesContainer = () => {
+    const { toggleHasContainer } = this.props;
+
+    toggleHasContainer();
+  }
+
   render() {
     const {
       form,
@@ -87,6 +98,7 @@ class ProviderForm extends Component {
       resourceTypes,
       providers,
       container,
+      hasContainer,
       ...rest
     } = this.props;
 
@@ -99,20 +111,34 @@ class ProviderForm extends Component {
           <Row gutter={5}>
             <Col flex={12}>
               <Panel title="Select a Provider Type" expandable={false}>
-                <Field
-                  id="select-provider-type"
-                  component={SelectField}
-                  name="resource_type"
-                  menuItems={resourceTypes}
-                  itemLabel="displayName"
-                  itemValue="name"
-                  label="Provider Type"
-                  onChange={this.handleProviderChange}
-                  disabled={editMode}
-                  required
-                  deleteKeys={stripProviderTypeKeys}
-                  async
-                />
+                <Row>
+                  <Col flex={12}>
+                    <Checkbox
+                      id="requires-container"
+                      name="requires-container"
+                      label="Requires Container"
+                      onChange={this.handleUsesContainer}
+                      checked={hasContainer}
+                    />
+                    <Caption light>Gestalt will allow you to configure and start a container for this provider if you check Requires Container</Caption>
+                  </Col>
+                  <Col flex={12}>
+                    <Field
+                      id="select-provider-type"
+                      component={SelectField}
+                      name="resource_type"
+                      menuItems={resourceTypes}
+                      itemLabel="displayName"
+                      itemValue="name"
+                      label="Provider Type"
+                      onChange={this.handleProviderChange}
+                      disabled={editMode}
+                      required
+                      deleteKeys={stripProviderTypeKeys}
+                      async
+                    />
+                  </Col>
+                </Row>
               </Panel>
             </Col>
           </Row>}
@@ -277,10 +303,10 @@ class ProviderForm extends Component {
             </Col>
           </Row>}
 
-        {selectedProviderType.allowContainer &&
+        {selectedProviderType.name && hasContainer &&
           <Row gutter={5}>
             <Col flex={12}>
-              <Panel title="Container Specification" defaultExpanded={selectedProviderType.allowContainer}>
+              <Panel title="Container Specification" defaultExpanded={hasContainer}>
                 {editMode &&
                 <ActionsToolbar
                   title={values.properties.services[0].container_spec.name}
@@ -320,7 +346,7 @@ class ProviderForm extends Component {
             >
               {editMode ? 'Update' : 'Create'}
             </Button>}
-          {editMode && selectedProviderType.allowContainer &&
+          {editMode && hasContainer &&
             <Button
               key="provider-container-redeploy"
               raised

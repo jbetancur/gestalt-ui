@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
-import { sortBy } from 'lodash';
+import { get, sortBy } from 'lodash';
 import { fetchAPI, poll } from 'config/lib/utility';
 import {
   INIT_PROVIDERCREATE_REQUEST,
@@ -116,15 +116,17 @@ export function* editViewWorkflow(action) {
     ]);
 
     const selectedResource = yield call(fetchAPI, `${context.organization.properties.fqon}/resourcetypes?expand=true&type=${provider.data.resource_type}`);
+    const hasContainer = !!get(provider.data, 'properties.services[0].container_spec');
     const selectedProviderType = generateResourceTypeSchema(selectedResource.data)[0];
 
     const payload = {
       provider: provider.data,
       providers: providers.data,
       selectedProviderType,
+      hasContainer,
     };
 
-    if (selectedProviderType.allowContainer) {
+    if (get(provider.data, 'properties.services[0].container_spec')) {
       yield call(fetchContainer, { provider: provider.data, providers: providers.data });
     }
 

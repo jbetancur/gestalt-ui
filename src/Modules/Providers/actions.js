@@ -1,5 +1,6 @@
 import {
   SELECTED_PROVIDERTYPE_REQUEST,
+  TOGGLE_HAS_CONTAINER,
 } from './constants';
 
 export function confirmDelete(action, title, multipleItems) {
@@ -50,9 +51,20 @@ export function setSelectedProviderType({ fqon, providerType = {} }) {
   };
 }
 
+/**
+ * toggleHasContainer
+ * @param {*} provider
+ */
+export function toggleHasContainer() {
+  return {
+    type: TOGGLE_HAS_CONTAINER,
+  };
+}
+
 export default {
   confirmDelete,
   confirmUpdate,
   showProviderInstanceModal,
   setSelectedProviderType,
+  toggleHasContainer,
 };

@@ -130,7 +130,8 @@ class ProviderListing extends PureComponent {
             highlightOnHover
             pointerOnHover
             sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
+            defaultSortField="created.timestamp"
+            defaultSortAsc={false}
             progressPending={this.props.providersPending}
             progressComponent={<LinearProgress id="provider-listing" />}
             columns={this.defineColumns()}
