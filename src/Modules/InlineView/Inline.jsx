@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import IFrame from 'components/IFrame';
 import { withRestricted } from 'Modules/Authentication';
 import withContext from '../Hierarchy/hocs/withContext';
+import { API_URL, API_TIMEOUT } from '../../constants';
 
 const cookies = new Cookies();
 
@@ -29,6 +30,8 @@ class InlineView extends Component {
       authActions.logout(true);
     } else {
       iframe.postMessage({
+        baseURL: API_URL,
+        timeout: API_TIMEOUT,
         token,
         ...context,
       }, '*');
