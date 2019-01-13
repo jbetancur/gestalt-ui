@@ -1,27 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { AutoSizer } from 'react-virtualized';
 import { withRouter } from 'react-router-dom';
-import { debounce } from 'lodash';
 import styled from 'styled-components';
 import { ActivityContainer } from 'components/ProgressIndicators';
 
-function getBoundingClientRect(element) {
-  try {
-    return element.getBoundingClientRect();
-  } catch (e) {
-    /* check the e is the exception we expect */
-    if (typeof e === 'object' && e !== null) {
-      return { top: 0, bottom: 0, left: 0, width: 0, height: 0, right: 0 };
-    }
-
-    throw e; // something else went wrong, and we must surface the error
-  }
-}
-
 const ResponsiveFrame = styled.iframe`
   position: relative;
-  width: 100%;
   border: 0;
+  width: ${props => props.width};
+  height: ${props => props.height};
 `;
 
 class IFrame extends Component {
@@ -51,12 +39,10 @@ class IFrame extends Component {
 
   componentDidMount() {
     window.addEventListener('message', this.onPostMessage);
-    window.addEventListener('resize', debounce(this.handleResize, 150));
 
     // we need to do this since the iframe is a child of main (due to react routing) that has overflow
     // we will remove the overflow to prevent height weirdness with the iframe and restore in on unmount
     this.iframe.current.parentElement.style.overflow = 'visible';
-    this.handleResize();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -76,7 +62,6 @@ class IFrame extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('message', this.onPostMessage);
-    window.removeEventListener('resize', debounce(this.handleResize, 150));
 
     // restore parent(main)
     this.iframe.current.parentElement.style.overflow = 'auto';
@@ -95,16 +80,6 @@ class IFrame extends Component {
     }
   }
 
-  handleResize = () => {
-    const parent = this.iframe.current.parentElement;
-    const frame = this.iframe.current;
-    // const clientPadding = parseInt(window.getComputedStyle(parent, null).getPropertyValue('padding-bottom'), 10) ;
-    const parentHeight = parent.clientHeight - (parent.offsetHeight - parent.clientHeight);
-    if (Number.isInteger(parentHeight)) {
-      frame.height = `${parentHeight - getBoundingClientRect(frame).y}px`;
-    }
-  }
-
   handleOnLoad = () => {
     this.setState({
       loading: false,
@@ -117,13 +92,19 @@ class IFrame extends Component {
 
     return (
       <React.Fragment>
-        <ResponsiveFrame
-          id={id}
-          src={src}
-          innerRef={this.iframe}
-          onLoad={this.handleOnLoad}
-          {...rest}
-        />
+        <AutoSizer>
+          {({ width, height }) => (
+            <ResponsiveFrame
+              id={id}
+              src={src}
+              innerRef={this.iframe}
+              onLoad={this.handleOnLoad}
+              width={`${width}px`}
+              height={`${height}px`}
+              {...rest}
+            />
+          )}
+        </AutoSizer>
         {loading && <ActivityContainer id="iframe-loading" />}
       </React.Fragment>
     );

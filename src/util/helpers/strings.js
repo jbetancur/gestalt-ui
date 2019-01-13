@@ -21,7 +21,11 @@ export function getLastFromSplit(string, delimiter = '::') {
  * @param {String} trailing
  */
 export function truncate(string, at, trailing = '...') {
-  if (string && string.length > at) {
+  if (string) {
+    if (string.length < at) {
+      return string;
+    }
+
     return `${string.substring(0, at).trim()}${trailing}`;
   }
 

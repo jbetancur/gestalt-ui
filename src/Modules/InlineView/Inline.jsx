@@ -26,8 +26,8 @@ class InlineView extends Component {
 
     if (!validToken) {
       // fall back for missing token & Eat any 401 errors
-      history.replace('/login');
       authActions.logout(true);
+      history.replace('/login');
     } else {
       iframe.postMessage({
         baseURL: API_URL,
