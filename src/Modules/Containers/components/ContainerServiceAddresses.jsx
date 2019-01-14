@@ -27,6 +27,7 @@ const columns = [
     sortable: true,
     grow: 5,
     wrap: true,
+    ignoreRowClick: true,
     cell: row => <AddressCell address={row.service_address} />
   },
   {
@@ -34,12 +35,14 @@ const columns = [
     selector: 'lb_address.host',
     sortable: true,
     grow: 2,
+    ignoreRowClick: true,
     cell: row => <AddressCell address={row.lb_address} />
   },
   {
     name: 'Virtual Hosts',
     selector: 'service_address.virtual_hosts',
     sortable: true,
+    ignoreRowClick: true,
     cell: row => row.expose_endpoint && row.virtual_hosts && row.virtual_hosts.map((host, index) => <div key={`${host}-${index}`}>{host}</div>),
   },
 ];

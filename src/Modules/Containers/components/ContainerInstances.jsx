@@ -34,6 +34,7 @@ const ContainerInstances = ({ containerModel, fqon }) => {
       name: 'Container IPs',
       selector: 'ipAddresses',
       right: true,
+      ignoreRowClick: true,
       cell: row => row.ipAddresses && row.ipAddresses.map((ip, idx) => <div key={idx}>{ip.ipAddress}</div>)
     },
     {
@@ -41,10 +42,12 @@ const ContainerInstances = ({ containerModel, fqon }) => {
       selector: 'host',
       sortable: true,
       right: true,
+      ignoreRowClick: true,
     },
     {
       name: 'Host Port',
       right: true,
+      ignoreRowClick: true,
       cell: row => row.ports && row.ports.map((port, idx) => <div key={idx}>{port}</div>)
     },
     {
