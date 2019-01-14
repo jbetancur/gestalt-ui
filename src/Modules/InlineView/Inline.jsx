@@ -19,6 +19,18 @@ class InlineView extends Component {
     authActions: PropTypes.object.isRequired,
   };
 
+  generateBaseURL() {
+    const { location } = window;
+
+    if (location.hostname === 'localhost' || location.hostname === '0.0.0.0') {
+      return API_URL;
+    }
+
+    // IMPORTANT: url is polyfilled in Root.jsx, mainly for IE 11
+    // see: https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
+    return new URL(API_URL, location.origin).href;
+  }
+
   handleOnLoaded = (iframe) => {
     const { hierarchyContext: { context }, history, authActions } = this.props;
     const token = cookies.get('auth_token');
@@ -30,7 +42,7 @@ class InlineView extends Component {
       history.replace('/login');
     } else {
       iframe.postMessage({
-        baseURL: API_URL,
+        baseURL: this.generateBaseURL(),
         timeout: API_TIMEOUT,
         token,
         ...context,
