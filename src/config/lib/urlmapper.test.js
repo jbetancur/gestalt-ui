@@ -1,4 +1,18 @@
-import { buildAllURL, buildOneURL } from './urlmapper';
+import { buildAllURL, buildOneURL, buildParams } from './urlmapper';
+
+describe('urlmapper: buildParams', () => {
+  test('it handles params correctly when there are no params', () => {
+    expect(buildParams('/test')).toBe('/test');
+  });
+
+  test('it handles params correctly when there are params', () => {
+    expect(buildParams('/test', { morty: true })).toBe('/test?morty=true');
+  });
+
+  test('it handles params correctly when there are params in he url and params are passed', () => {
+    expect(buildParams('/test?rick=true', { morty: true })).toBe('/test?morty=true&rick=true');
+  });
+});
 
 describe('urlmapper: buildAllURL', () => {
   test('it builds a base url correctly when no fqon is specified', () => {

@@ -3,7 +3,11 @@ import queryString from 'query-string';
 /**
  * builds a valid url with query strings
  */
-export const buildParams = (baseURL, params) => (params ? `${baseURL}?${queryString.stringify(params)}` : baseURL);
+export const buildParams = (baseURL, params) => {
+  const urlParsed = queryString.parseUrl(baseURL);
+
+  return params ? `${urlParsed.url}?${queryString.stringify({ ...params, ...urlParsed.query })}` : baseURL;
+};
 
 /**
  * Generates a dynamic meta URL for array listing

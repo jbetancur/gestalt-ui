@@ -85,6 +85,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
 
   return (
     <DataTable
+      keyField="persistenceId"
       data={streamInstances}
       columns={columns}
       sortIcon={<FontIcon>arrow_downward</FontIcon>}
