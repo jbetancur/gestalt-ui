@@ -78,16 +78,16 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
     && updatedPayload.properties.services.length
     && updatedPayload.properties.services[0].container_spec
     && updatedPayload.properties.services[0].container_spec.name) {
-    // TODO: Deal with Patch array issues - this is sloppy but no other easy way - short story is the meta model for provider containers is fubar
+    // TODO: Deal with Patch array issues - this is sloppy but no other easy way - short story is the meta model for provider containers is weird
     delete model.properties.services;
 
-    return jsonPatch.compare(model, providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true, true)));
+    return jsonPatch.compare(providerModel.patch(model), providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true, true)));
   }
 
   // remove residual services so we don't patch it
   delete model.properties.services;
 
-  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload, false, true)));
+  return jsonPatch.compare(providerModel.patch(model), providerModel.patch(generateProviderPayload(updatedPayload, false, true)));
 }
 
 export default {
