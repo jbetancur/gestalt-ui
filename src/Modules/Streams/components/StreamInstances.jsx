@@ -44,8 +44,8 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
     },
     {
       width: '200px',
+      button: true,
       ignoreRowClick: true,
-      compact: true,
       cell: row => (
         <Button
           flat
@@ -62,8 +62,8 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
 
   if (providerActions.length) {
     columns.unshift({
-      name: 'Actions',
-      width: '100px',
+      width: '56px',
+      button: true,
       allowOverflow: true,
       ignoreRowClick: true,
       cell: row => (
@@ -78,6 +78,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
             x: MenuButton.HorizontalAnchors.INNER_LEFT,
             y: MenuButton.VerticalAnchors.OVERLAP,
           }}
+          disabled={row.status !== 'active'}
         />
       )
     });
