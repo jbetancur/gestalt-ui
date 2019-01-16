@@ -8529,10 +8529,10 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-data-table-component@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-1.1.0.tgz#1f2df5dbfcf442fe5af7d56ebe7d188a0eaafe1f"
-  integrity sha512-Yn6jgwBGdbuxVUjo0ReMXC3CpUbslwdtOOhk03ZZCpdzAKhESKVbLKSXnkrcx7pw8VjsZV6AUlh1j6wH13x0GA==
+react-data-table-component@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-1.2.0.tgz#8e6ecf860f67db793acbb3efd27ee706aee44a55"
+  integrity sha512-nLnq7utfe408rFI8OLpMK0zELUQyXuVJFabIthBAG+kIZ4KJ5gXJuuL5DyChusZXgpqVYMYPhZFtC4NmHdGwfA==
   dependencies:
     lodash "^4.17.11"
     shortid "^2.2.14"
