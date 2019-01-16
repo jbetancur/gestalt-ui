@@ -57,6 +57,7 @@ class ResourceTypeListing extends PureComponent {
     return [
       {
         width: '56px',
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (

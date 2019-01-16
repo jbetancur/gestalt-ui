@@ -62,6 +62,7 @@ class ContainerListing extends PureComponent {
     return [
       {
         width: '56px',
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
@@ -186,7 +187,6 @@ class ContainerListing extends PureComponent {
               </React.Fragment>
             }
             pagination
-            // expandableRows
             // expandableRowsComponent={<ContainerListingExpandable />}
           />
         </Col>

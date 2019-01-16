@@ -81,7 +81,7 @@
         "stylelint": "^9.9.0",
         "stylelint-config-standard": "^18.2.0",
         "stylelint-config-styled-components": "^0.1.1",
-        "stylelint-processor-styled-components": "^1.5.1",
+        "stylelint-processor-styled-components": "^1.5.2",
         "url-loader": "^1.1.2",
         "webpack": "^4.28.4",
         "webpack-bundle-analyzer": "^3.0.3",
@@ -91,7 +91,7 @@
         "yaml-loader": "^0.5.0"
     },
     "dependencies": {
-        "@material-ui/core": "^3.8.3",
+        "@material-ui/core": "^3.9.0",
         "axios": "^0.18.0",
         "base-64": "^0.1.0",
         "brace": "^0.11.1",
@@ -113,14 +113,14 @@
         "moment": "^2.23.0",
         "moment-timezone": "^0.5.23",
         "mousetrap": "^1.6.2",
-        "postcss": "^7.0.11",
+        "postcss": "^7.0.13",
         "prop-types": "^15.6.2",
         "query-string": "^6.2.0",
         "react": "^16.7.0",
         "react-ace": "^6.3.2",
         "react-chartjs-2": "^2.7.4",
         "react-copy-to-clipboard": "^5.0.1",
-        "react-data-table-component": "^1.0.1",
+        "react-data-table-component": "^1.1.0",
         "react-dom": "^16.7.0",
         "react-fast-compare": "^2.0.4",
         "react-final-form": "^4.0.2",
@@ -148,7 +148,7 @@
         "styled-components": "^3.4.10",
         "universal-cookie": "^3.0.7",
         "url-join": "^4.0.0",
-        "validator": "^10.10.0",
+        "validator": "^10.11.0",
         "yup": "^0.26.7"
     }
 }

@@ -91,8 +91,10 @@ class APIEndpointListing extends PureComponent {
     return [
       {
         width: '56px',
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
+        center: true,
         cell: row => (
           <GenericMenuActions
             row={row}
@@ -107,7 +109,6 @@ class APIEndpointListing extends PureComponent {
       {
         name: 'State',
         selector: 'resource_state',
-        compact: true,
         sortable: true,
         allowOverflow: true,
         maxWidth: '120px',

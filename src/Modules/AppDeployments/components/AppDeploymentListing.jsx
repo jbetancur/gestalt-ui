@@ -83,7 +83,7 @@ class AppDeploymenListing extends PureComponent {
     return [
       {
         width: '56px',
-        center: true,
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (

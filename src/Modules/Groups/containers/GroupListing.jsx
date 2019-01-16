@@ -83,6 +83,7 @@ class GroupListing extends PureComponent {
     return [
       {
         width: '56px',
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
@@ -101,7 +102,6 @@ class GroupListing extends PureComponent {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        compact: true,
         grow: 3,
         cell: row => <Name name={row.name} description={row.description} />
       },

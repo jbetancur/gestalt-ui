@@ -95,6 +95,7 @@ class LambdaListing extends PureComponent {
     return [
       {
         width: '56px',
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
@@ -111,7 +112,6 @@ class LambdaListing extends PureComponent {
         name: 'Name',
         selector: 'name',
         sortable: true,
-        compact: true,
         grow: 2,
         cell: row => <Name name={row.name} description={row.description} />
       },

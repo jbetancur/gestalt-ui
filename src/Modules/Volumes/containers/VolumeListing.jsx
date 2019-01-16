@@ -92,7 +92,7 @@ class VolumeListing extends PureComponent {
     return [
       {
         width: '56px',
-        center: true,
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         grow: 2,

@@ -125,9 +125,8 @@ class VolumePanel extends PureComponent {
         sortable: true,
       },
       {
-        grow: 0,
-        width: '55px',
-        compact: true,
+        width: '56px',
+        button: true,
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
