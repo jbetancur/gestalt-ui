@@ -36,7 +36,7 @@ import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
 export function* fetchLambdas(action) {
   try {
     const url = action.environmentId ? `${action.fqon}/environments/${action.environmentId}/lambdas` : `${action.fqon}/lambdas`;
-    const response = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints`);
+    const response = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints&embed=provider`);
 
     yield put({ type: FETCH_LAMBDAS_FULFILLED, payload: response.data });
   } catch (e) {

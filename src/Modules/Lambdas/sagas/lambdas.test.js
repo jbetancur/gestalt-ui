@@ -43,7 +43,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(fetchAPI, 'iamfqon/environments/1/lambdas?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/environments/1/lambdas?expand=true&embed=apiendpoints&embed=provider')
       );
     });
 
@@ -64,7 +64,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(fetchAPI, 'iamfqon/lambdas?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/lambdas?expand=true&embed=apiendpoints&embed=provider')
       );
     });
 

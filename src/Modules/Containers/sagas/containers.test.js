@@ -29,7 +29,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(fetchAPI, 'iamfqon/environments/1/containers?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/environments/1/containers?expand=true&embed=apiendpoints&embed=provider')
       );
     });
 
@@ -53,7 +53,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(fetchAPI, 'iamfqon/containers?expand=true&embed=apiendpoints')
+        call(fetchAPI, 'iamfqon/containers?expand=true&embed=apiendpoints&embed=provider')
       );
     });
 

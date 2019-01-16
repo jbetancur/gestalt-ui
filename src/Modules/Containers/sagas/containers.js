@@ -47,7 +47,7 @@ import { setSelectedProvider } from '../actions';
 export function* fetchContainers(action) {
   try {
     const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/containers` : `${action.fqon}/containers`;
-    const { data } = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints`);
+    const { data } = yield call(fetchAPI, `${url}?expand=true&embed=apiendpoints&embed=provider`);
 
     yield put({ type: FETCH_CONTAINERS_FULFILLED, payload: data, action });
   } catch (e) {
