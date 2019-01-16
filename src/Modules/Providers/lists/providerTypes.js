@@ -69,6 +69,14 @@ const uiProviderTypes = [
     allowLinkedProviders: true,
   },
   {
+    name: 'Gestalt::Configuration::Provider::AWSAPIGateway',
+    allowLinkedProviders: true,
+  },
+  {
+    name: 'Gestalt::Configuration::Provider::AWSLambda',
+    allowLinkedProviders: true,
+  },
+  {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::NodeJS',
     allowLinkedProviders: false,
   },
