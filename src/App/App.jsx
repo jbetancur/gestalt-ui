@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
-import { UpgradeNotification } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
@@ -98,7 +97,6 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <UpgradeNotification />
         <ModalRoot />
         <ErrorNotifications />
         <Notifications />
