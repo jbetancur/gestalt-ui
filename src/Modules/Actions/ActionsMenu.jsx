@@ -13,7 +13,7 @@ class ActionsMenu extends PureComponent {
   static propTypes = {
     actionList: PropTypes.array,
     style: PropTypes.object,
-    toggleActionsModal: PropTypes.func.isRequired,
+    toggleActionsModal: PropTypes.func,
     listItem: PropTypes.bool,
     icon: PropTypes.bool,
     resource: PropTypes.object,
@@ -27,6 +27,8 @@ class ActionsMenu extends PureComponent {
     icon: false,
     resource: {},
     onActionComplete: () => { },
+    toggleActionsModal: () => { }
+
   };
 
   parseURL(url, params = {}, resource = {}) {
@@ -78,7 +80,7 @@ class ActionsMenu extends PureComponent {
   }
 
   render() {
-    const { actionList, listItem, icon, ...rest } = this.props;
+    const { actionList, listItem, icon, onActionComplete, toggleActionsModal, resource, ...rest } = this.props;
 
     return (
       actionList && actionList.length > 0 ?

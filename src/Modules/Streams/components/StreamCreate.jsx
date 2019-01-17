@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
-import { Form } from 'react-final-form';
+import { Form as FinalForm, FormSpy } from 'react-final-form';
+import createDecorator from 'final-form-focus';
+import Form from 'components/Form';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { Button } from 'components/Buttons';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
+import { FullPageFooter } from 'components/FullPage';
 import StreamForm from './StreamForm';
 import validate from '../validations';
 import streamSpecModel from '../models/streamSpec';
 import withStreamSpec from '../hocs/withStreamSpec';
 
+const focusOnErrors = createDecorator();
 const initialValues = streamSpecModel.create({
   properties: {
     cpus: 1,
@@ -35,6 +41,9 @@ class StreamCreate extends Component {
     history: PropTypes.object.isRequired,
     streamSpecActions: PropTypes.object.isRequired,
     streamSpecPending: PropTypes.bool.isRequired,
+    lambdas: PropTypes.array.isRequired,
+    datafeeds: PropTypes.array.isRequired,
+    providers: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -53,7 +62,13 @@ class StreamCreate extends Component {
   };
 
   render() {
-    const { streamSpecPending } = this.props;
+    const {
+      match,
+      streamSpecPending,
+      lambdas,
+      datafeeds,
+      providers,
+    } = this.props;
 
     return (
       <Row center>
@@ -62,13 +77,42 @@ class StreamCreate extends Component {
 
           {streamSpecPending && <ActivityContainer id="datafeed-form" />}
 
-          <Form
+          <FinalForm
+            lambdas={lambdas}
+            datafeeds={datafeeds}
+            providers={providers}
             onSubmit={this.onSubmit}
             initialValues={initialValues}
             validate={validate}
-            render={StreamForm}
-            loading={streamSpecPending}
-            {...this.props}
+            decorators={[focusOnErrors]}
+            render={({ handleSubmit, values, submitting, ...rest }) => (
+              <Form onSubmit={handleSubmit} disabled={streamSpecPending}>
+                <StreamForm {...rest} />
+                <FormSpy>
+                  {() => (
+                    <FullPageFooter>
+                      <Button
+                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
+                        flat
+                        component={Link}
+                        iconChildren="arrow_back"
+                      >
+                        Stream Specs
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        primary
+                        raised
+                        disabled={submitting}
+                      >
+                        Create
+                      </Button>
+                    </FullPageFooter>
+                  )}
+                </FormSpy>
+              </Form>
+            )}
           />
         </Col>
       </Row>

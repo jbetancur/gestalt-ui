@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DialogContainer } from 'react-md';
 import { Button } from 'components/Buttons';
-import StreamInstance from '../components/StreamInstance';
+import StreamInstance from './StreamInstance';
 
 class StreamInstanceModal extends Component {
   static propTypes = {

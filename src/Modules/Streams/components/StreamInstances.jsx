@@ -78,7 +78,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
             x: MenuButton.HorizontalAnchors.INNER_LEFT,
             y: MenuButton.VerticalAnchors.OVERLAP,
           }}
-          disabled={row.status !== 'active'}
+          disabled={!(row.status === 'active' || row.status === 'starting')}
         />
       )
     });

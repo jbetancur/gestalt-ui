@@ -27,7 +27,7 @@ const Timestamp = ({ timestamp }) => (
 );
 
 Timestamp.propTypes = {
-  timestamp: PropTypes.string,
+  timestamp: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Timestamp.defaultProps = {
