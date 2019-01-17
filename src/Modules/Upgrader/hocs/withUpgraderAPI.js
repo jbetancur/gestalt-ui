@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { object, string } from 'yup';
 import queryString from 'query-string';
 import axios from 'axios';
-import { API_TIMEOUT } from '../../constants';
+import { API_TIMEOUT } from '../../../constants';
 
 const upgradeSchema = object({
   image: string().required(),

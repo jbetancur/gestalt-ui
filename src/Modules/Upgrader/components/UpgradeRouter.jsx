@@ -5,7 +5,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import Div from 'components/Div';
 import { Row, Col } from 'react-flexybox';
 import { ErrorMessage } from 'components/Error';
-import withUpgraderAPI from '../withUpgraderAPI';
+import withUpgraderAPI from '../hocs/withUpgraderAPI';
 import Launch from './Launch';
 import Plan from './Plan';
 import Upgrade from './Upgrade';
