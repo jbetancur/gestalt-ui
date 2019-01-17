@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import createDecorator from 'final-form-focus';
@@ -10,6 +10,8 @@ import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { Button } from 'components/Buttons';
+import { FullPageFooter } from 'components/FullPage';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -62,6 +64,7 @@ class ContainerCreate extends Component {
 
   render() {
     const {
+      match,
       containerPending,
       initialFormValues,
       inlineMode,
@@ -90,13 +93,37 @@ class ContainerCreate extends Component {
             onSubmit={this.create}
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
-            loading={isPending}
             initialValues={initialFormValues}
             validate={validate}
             inlineMode={inlineMode}
-            render={({ handleSubmit, ...rest }) => (
-              <Form onSubmit={handleSubmit} autoComplete="off" disabled={isPending}>
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={isPending}
+              >
                 <ContainerForm {...rest} />
+                <FullPageFooter>
+                  <Button
+                    flat
+                    iconChildren="arrow_back"
+                    disabled={containerPending || submitting}
+                    component={Link}
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+                  >
+                    Containers
+                  </Button>
+
+                  <Button
+                    raised
+                    iconChildren="save"
+                    type="submit"
+                    disabled={containerPending || submitting || !selectedProvider.isSelected}
+                    primary
+                  >
+                    Create
+                  </Button>
+                </FullPageFooter>
               </Form>
             )}
             {...this.props}

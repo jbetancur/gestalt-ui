@@ -314,7 +314,6 @@ class ProviderForm extends Component {
                 />
                 }
                 <ContainerForm
-                  loading={providerPending}
                   values={values}
                   form={form}
                   inlineMode

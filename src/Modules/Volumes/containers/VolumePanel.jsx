@@ -101,6 +101,7 @@ class VolumePanel extends PureComponent {
         name: 'Volume Name',
         selector: 'volume_resource.name',
         sortable: true,
+        ignoreRowClick: true,
         ...cell,
       },
       {

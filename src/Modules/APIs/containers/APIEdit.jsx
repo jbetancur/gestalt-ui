@@ -54,78 +54,81 @@ class APIEdit extends Component {
   render() {
     const { match, api, apiPending, initialFormValues } = this.props;
 
+    if (apiPending && !api.id) {
+      return <ActivityContainer id="api-loading" />;
+    }
+
     return (
-      apiPending && !api.id ?
-        <ActivityContainer id="api-loading" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <ActionsToolbar
-              title={api.name}
-              actions={[
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ActionsToolbar
+            title={api.name}
+            actions={[
+              <Button
+                key="add-endpoint"
+                flat
+                primary
+                component={Link}
+                to={`${match.url}/apiendpoints/create`}
+                iconChildren="add"
+              >
+                  Add Endpoint
+              </Button>,
+              <Button
+                key="api--entitlements"
+                flat
+                iconChildren="security"
+                onClick={this.showEntitlements}
+              >
+                  Entitlements
+              </Button>]}
+          />
+
+          {apiPending && <ActivityContainer id="api-loading" />}
+
+          <Tabs>
+            <Tab title="Endpoints">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <APIEndpoints {...this.props} />
+                </Col>
+              </Row>
+
+              <FullPageFooter>
                 <Button
-                  key="add-endpoint"
                   flat
-                  primary
+                  iconChildren="arrow_back"
                   component={Link}
-                  to={`${match.url}/apiendpoints/create`}
-                  iconChildren="add"
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
                 >
-                    Add Endpoint
-                </Button>,
-                <Button
-                  key="api--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
-                >
-                    Entitlements
-                </Button>]}
-            />
+                  APIs
+                </Button>
+              </FullPageFooter>
+            </Tab>
 
-            {apiPending && <ActivityContainer id="api-loading" />}
+            <Tab title="API">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={api} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Tabs>
-              <Tab title="Endpoints">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <APIEndpoints {...this.props} />
-                  </Col>
-                </Row>
-
-                <FullPageFooter>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
-                  >
-                    APIs
-                  </Button>
-                </FullPageFooter>
-              </Tab>
-
-              <Tab title="API">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Panel title="Resource Details" defaultExpanded={false}>
-                      <DetailsPane model={api} />
-                    </Panel>
-                  </Col>
-                </Row>
-
-                <Form
-                  editMode
-                  onSubmit={this.update}
-                  initialValues={initialFormValues}
-                  render={APIForm}
-                  validate={validate}
-                  loading={apiPending}
-                  {...this.props}
-                />
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
+              <Form
+                editMode
+                subscription={{ submitting: true, pristine: true }}
+                onSubmit={this.update}
+                initialValues={initialFormValues}
+                render={APIForm}
+                validate={validate}
+                loading={apiPending}
+                {...this.props}
+              />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

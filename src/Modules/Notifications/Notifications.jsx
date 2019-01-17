@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -37,7 +37,7 @@ const MessageGroup = styled.div`
   }
 `;
 
-export class Notifications extends Component {
+export class Notifications extends PureComponent {
   static propTypes = {
     removeNotification: PropTypes.func.isRequired,
     queue: PropTypes.array.isRequired,

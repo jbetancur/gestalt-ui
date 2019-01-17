@@ -58,6 +58,7 @@ class APICreate extends Component {
           {apiPending && <ActivityContainer id="api-loading" />}
 
           <Form
+            subscription={{ submitting: true, pristine: true }}
             onSubmit={this.create}
             initialValues={initialFormValues}
             render={APIForm}

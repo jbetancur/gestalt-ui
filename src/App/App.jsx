@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
+import { UpgradeNotification } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
@@ -22,6 +23,7 @@ const AppWrapper = styled.div`
   overflow: hidden;
   flex-grow: 1;
   height: 100%;
+  height: 100vh;
 `;
 
 class App extends Component {
@@ -77,38 +79,38 @@ class App extends Component {
     history.replace('/login');
   }
 
-  renderMain() {
+  render() {
     const {
       self,
-      location,
+      selfPending,
       appActions: { toggleNavigation },
       appState: { navigationExpanded },
     } = this.props;
+
+
+    if (selfPending) {
+      return <ActivityContainer id="app-main-progess" />;
+    }
 
     if (!self.id) {
       return <AppError onLogout={this.logout} {...this.props} />;
     }
 
     return (
-      <AppWrapper>
+      <React.Fragment>
+        <UpgradeNotification />
         <ModalRoot />
         <ErrorNotifications />
         <Notifications />
-        {/* Address blocked updates issue: https://github.com/reduxjs/react-redux/blob/master/docs/troubleshooting.md#my-views-arent-updating-when-something-changes-outside-of-redux */}
-        <Navigation
-          location={location}
-          open={navigationExpanded}
-          onOpen={toggleNavigation}
-        />
-        <ContextRoutes />
-      </AppWrapper>
+        <AppWrapper>
+          <Navigation
+            open={navigationExpanded}
+            onOpen={toggleNavigation}
+          />
+          <ContextRoutes />
+        </AppWrapper>
+      </React.Fragment>
     );
-  }
-
-  render() {
-    const { selfPending } = this.props;
-
-    return selfPending ? <ActivityContainer id="app-main-progess" /> : this.renderMain();
   }
 }
 

@@ -2,12 +2,16 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Link } from 'react-router-dom';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
+import { Button } from 'components/Buttons';
+import { FullPageFooter } from 'components/FullPage';
 import LambdaForm from './LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -62,6 +66,7 @@ class LambdaCreate extends PureComponent {
 
   render() {
     const {
+      match,
       lambdaPending,
       initialFormValues,
       selectedRuntime,
@@ -79,14 +84,41 @@ class LambdaCreate extends PureComponent {
 
           {lambdaPending && <ActivityContainer id="lambda-form" />}
 
-          <Form
+          <FinalForm
             onSubmit={this.create}
             initialValues={initialFormValues}
-            render={props => <LambdaForm {...props} />}
             validate={validate}
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
-            loading={lambdaPending}
+            render={({ handleSubmit, values, pristine, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={lambdaPending}
+              >
+                <LambdaForm values={values} {...rest} />
+                <FullPageFooter>
+                  <Button
+                    flat
+                    iconChildren="arrow_back"
+                    disabled={lambdaPending || submitting}
+                    component={Link}
+                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
+                  >
+                    Lambdas
+                  </Button>
+                  <Button
+                    raised
+                    iconChildren="save"
+                    type="submit"
+                    disabled={pristine || submitting || !values.properties.runtime || !values.properties.provider.id}
+                    primary
+                  >
+                    Create
+                  </Button>
+                </FullPageFooter>
+              </Form>
+            )}
             {...this.props}
           />
         </Col>

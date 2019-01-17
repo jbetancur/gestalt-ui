@@ -37,9 +37,15 @@ const Metric = styled.div`
 
 class LambdaStats extends Component {
   static propTypes = {
-    fqon: PropTypes.string.isRequired,
-    providerId: PropTypes.string.isRequired,
-    lambdaId: PropTypes.string.isRequired,
+    fqon: PropTypes.string,
+    providerId: PropTypes.string,
+    lambdaId: PropTypes.string,
+  };
+
+  static defaultProps = {
+    fqon: null,
+    providerId: null,
+    lambdaId: null,
   };
 
   constructor(props) {

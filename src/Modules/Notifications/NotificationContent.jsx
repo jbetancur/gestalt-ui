@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { FontIcon } from 'react-md';
@@ -72,7 +72,7 @@ const Action = styled.div`
   }
 `;
 
-class NotificationContent extends Component {
+class NotificationContent extends PureComponent {
   static propTypes = {
     onRemove: PropTypes.func.isRequired,
     message: PropTypes.object.isRequired,

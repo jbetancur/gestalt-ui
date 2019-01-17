@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { withEntitlements } from 'Modules/Entitlements';
@@ -103,7 +104,8 @@ class LambdaEdit extends PureComponent {
   }
 
   render() {
-    const { match,
+    const {
+      match,
       lambda,
       lambdaPending,
       initialFormValues,
@@ -113,11 +115,11 @@ class LambdaEdit extends PureComponent {
       selectedRuntime,
     } = this.props;
 
-    const icon = selectedRuntime.value ? iconMap(selectedRuntime.value) : null;
-
     if (lambdaPending && !lambda.id) {
       return <ActivityContainer id="lambda-load" />;
     }
+
+    const icon = selectedRuntime.value ? iconMap(selectedRuntime.value) : null;
 
     return (
       <Row center>
@@ -173,17 +175,44 @@ class LambdaEdit extends PureComponent {
                 </Col>
               </Row>
 
-              <Form
+              <FinalForm
                 editMode
+                keepDirtyOnReinitialize
                 onSubmit={this.update}
                 initialValues={initialFormValues}
-                render={props => <LambdaForm {...props} />}
                 validate={validate}
                 mutators={{ ...arrayMutators }}
                 decorators={[focusOnErrors]}
-                loading={lambdaPending}
-                apiEndpointsPending={apiEndpointsPending}
                 onSaveInlineCode={this.handleSaveInlineCode}
+                render={({ handleSubmit, values, pristine, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    autoComplete="off"
+                    disabled={lambdaPending}
+                  >
+                    <LambdaForm values={values} {...rest} />
+                    <FullPageFooter>
+                      <Button
+                        flat
+                        iconChildren="arrow_back"
+                        disabled={lambdaPending || submitting}
+                        component={Link}
+                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
+                      >
+                        Lambdas
+                      </Button>
+                      <Button
+                        raised
+                        iconChildren="save"
+                        type="submit"
+                        disabled={pristine || submitting || !values.properties.runtime || !values.properties.provider.id}
+                        primary
+                      >
+                        Update
+                      </Button>
+                    </FullPageFooter>
+                  </Form>
+                )}
                 {...this.props}
               />
             </Tab>

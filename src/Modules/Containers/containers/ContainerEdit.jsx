@@ -250,9 +250,34 @@ class ContainerEdit extends Component {
                 inlineMode={inlineMode}
                 initialValuesEqual={isEqual} // keeps array fields from re-rendering
                 keepDirtyOnReinitialize
-                render={({ handleSubmit, ...rest }) => (
-                  <Form onSubmit={handleSubmit} autoComplete="off" disabled={containerPending}>
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    autoComplete="off"
+                    disabled={containerPending}
+                  >
                     <ContainerForm {...rest} />
+                    <FullPageFooter>
+                      <Button
+                        flat
+                        iconChildren="arrow_back"
+                        disabled={containerPending || submitting}
+                        component={Link}
+                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
+                      >
+                        Containers
+                      </Button>
+
+                      <Button
+                        raised
+                        iconChildren="save"
+                        type="submit"
+                        disabled={containerPending || submitting || !selectedProvider.isSelected}
+                        primary
+                      >
+                        Update
+                      </Button>
+                    </FullPageFooter>
                   </Form>
                 )}
                 {...this.props}
