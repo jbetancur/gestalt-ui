@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { get, orderBy, isEqual } from 'lodash';
+import { get, orderBy } from 'lodash';
 import { SelectField } from 'components/ReduxFormFields';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
@@ -16,7 +16,7 @@ import providerModel from '../../Providers/models/provider';
 import runTimes from '../lists/runTimes';
 import iconMap from '../../Providers/config/iconMap';
 
-class LambdaForm extends Component {
+class LambdaForm extends PureComponent {
   static propTypes = {
     form: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
@@ -34,9 +34,9 @@ class LambdaForm extends Component {
     onSaveInlineCode: null,
   };
 
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.values, nextProps.values);
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   return !isEqual(this.props.values, nextProps.values);
+  // }
 
   handleRuntimeProps = (id) => {
     const { editMode, executors, form, lambdaStateActions } = this.props;

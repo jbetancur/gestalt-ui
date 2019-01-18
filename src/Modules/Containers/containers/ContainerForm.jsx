@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { get, isEqual } from 'lodash';
+import { get } from 'lodash';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
@@ -18,7 +18,7 @@ import HealthChecksForm from '../components/HealthChecksForm';
 import actions from '../actions';
 import { selectProvider } from '../selectors';
 
-class ContainerForm extends Component {
+class ContainerForm extends PureComponent {
   static propTypes = {
     form: PropTypes.object.isRequired,
     errors: PropTypes.object,
@@ -41,9 +41,9 @@ class ContainerForm extends Component {
     volumes: [],
   };
 
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.values, nextProps.values);
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   return !isEqual(this.props.values, nextProps.values);
+  // }
 
   render() {
     const {
