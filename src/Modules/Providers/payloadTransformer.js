@@ -52,7 +52,7 @@ export function generateProviderPayload(sourcePayload, hasContainer, patchMode) 
  */
 export function generateProviderPatches(originalPayload, updatedPayload) {
   const { name, description, properties: { config, linked_providers, environment_types, services } } = cloneDeep(originalPayload);
-  const model = {
+  const model = providerModel.patch({
     name,
     description,
     properties: {
@@ -61,7 +61,7 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
       environment_types,
       services,
     },
-  };
+  });
 
   // TODO: Deal with Patch array issues
   if (updatedPayload.properties.linked_providers) {
@@ -81,13 +81,13 @@ export function generateProviderPatches(originalPayload, updatedPayload) {
     // TODO: Deal with Patch array issues - this is sloppy but no other easy way - short story is the meta model for provider containers is weird
     delete model.properties.services;
 
-    return jsonPatch.compare(providerModel.patch(model), providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true, true)));
+    return jsonPatch.compare(model, providerModel.patchWithContainerSpec(generateProviderPayload(updatedPayload, true, true)));
   }
 
   // remove residual services so we don't patch it
   delete model.properties.services;
 
-  return jsonPatch.compare(providerModel.patch(model), providerModel.patch(generateProviderPayload(updatedPayload, false, true)));
+  return jsonPatch.compare(model, providerModel.patch(generateProviderPayload(updatedPayload, false, true)));
 }
 
 export default {
