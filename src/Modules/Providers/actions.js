@@ -55,9 +55,10 @@ export function setSelectedProviderType({ fqon, providerType = {} }) {
  * toggleHasContainer
  * @param {*} provider
  */
-export function toggleHasContainer() {
+export function toggleHasContainer(checkState) {
   return {
     type: TOGGLE_HAS_CONTAINER,
+    checkState,
   };
 }
 

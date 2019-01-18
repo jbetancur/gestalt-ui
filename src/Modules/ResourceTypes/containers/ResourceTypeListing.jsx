@@ -123,6 +123,7 @@ class ResourceTypeListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.resourceTypesPending} />}
             pagination
+            paginationPerPage={25}
           />
         </Col>
       </Row>

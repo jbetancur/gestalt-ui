@@ -23,7 +23,7 @@ import ECSConfig from '../components/ECSConfig';
 import Networks from '../components/Networks';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
-const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes'];
+const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes', 'showContainerOption', 'networksConfig', 'ecsConfig'];
 
 class ProviderForm extends Component {
   static propTypes = {
@@ -57,6 +57,21 @@ class ProviderForm extends Component {
     resourceTypes: [],
   };
 
+  state = {
+    pageOneDone: false,
+    providerSelected: false,
+    showContainerOption: false,
+    containerChecked: false,
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { toggleHasContainer } = this.props;
+
+    if (prevState.containerChecked !== this.state.containerChecked && this.state.showContainerOption) {
+      toggleHasContainer(this.state.containerChecked);
+    }
+  }
+
   handleProviderChange = (value) => {
     const { form, resourceTypes, setSelectedProviderType } = this.props;
     const providerType = resourceTypes.find(type => type.name === value);
@@ -65,6 +80,12 @@ class ProviderForm extends Component {
 
     if (providerType.id) {
       setSelectedProviderType({ fqon: 'root', providerType });
+      this.setState({
+        providerSelected: true,
+        showContainerOption: providerType.showContainerOption,
+        containerOptionSelected: !providerType.showContainerOption,
+        containerChecked: providerType.showContainerOption,
+      });
     }
   };
 
@@ -77,9 +98,11 @@ class ProviderForm extends Component {
   }
 
   handleUsesContainer = () => {
-    const { toggleHasContainer } = this.props;
+    this.setState(state => ({ containerChecked: !state.containerChecked }));
+  }
 
-    toggleHasContainer();
+  handleNextPage = () => {
+    this.setState({ pageOneDone: true });
   }
 
   render() {
@@ -102,26 +125,24 @@ class ProviderForm extends Component {
       ...rest
     } = this.props;
 
+    const {
+      pageOneDone,
+      providerSelected,
+      showContainerOption,
+      containerChecked,
+    } = this.state;
+
     const submitDisabled = envSchemaPending || providerPending || submitting;
     const linkedProviders = providers.filter(p => p.id !== provider.id);
+    const showForm = editMode ? true : pageOneDone;
 
     return (
       <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
-        {!editMode && !selectedProviderType.name &&
+        {!editMode && !showForm &&
           <Row gutter={5}>
             <Col flex={12}>
               <Panel title="Select a Provider Type" expandable={false}>
                 <Row>
-                  <Col flex={12}>
-                    <Checkbox
-                      id="requires-container"
-                      name="requires-container"
-                      label="Requires Container"
-                      onChange={this.handleUsesContainer}
-                      checked={hasContainer}
-                    />
-                    <Caption light>Gestalt will allow you to configure and start a container for this provider if you check Requires Container</Caption>
-                  </Col>
                   <Col flex={12}>
                     <Field
                       id="select-provider-type"
@@ -138,12 +159,37 @@ class ProviderForm extends Component {
                       async
                     />
                   </Col>
+                  {showContainerOption && (
+                    <Col flex={12}>
+                      <Checkbox
+                        id="requires-container"
+                        name="requires-container"
+                        label="Requires Container"
+                        onChange={this.handleUsesContainer}
+                        checked={containerChecked}
+                      />
+                      <Caption light>By default this provider allows you to configure a container</Caption>
+                    </Col>
+                  )}
+
+                  <Row gutter={10}>
+                    <Col flex={12}>
+                      <Button
+                        raised
+                        primary
+                        onClick={this.handleNextPage}
+                        disabled={!providerSelected}
+                      >
+                      Next
+                      </Button>
+                    </Col>
+                  </Row>
                 </Row>
               </Panel>
             </Col>
           </Row>}
 
-        {selectedProviderType.name &&
+        {showForm &&
           <Row gutter={5}>
             {!editMode &&
               <Col flex={7} xs={12} sm={12} md={12}>
@@ -182,7 +228,7 @@ class ProviderForm extends Component {
             </Col>
           </Row>}
 
-        {selectedProviderType.name &&
+        {showForm &&
           <Row gutter={5}>
             {selectedProviderType.DCOSConfig &&
               <Col flex={12}>
@@ -303,7 +349,7 @@ class ProviderForm extends Component {
             </Col>
           </Row>}
 
-        {selectedProviderType.name && hasContainer &&
+        {showForm && hasContainer &&
           <Row gutter={5}>
             <Col flex={12}>
               <Panel title="Container Specification" defaultExpanded={hasContainer}>
@@ -335,7 +381,7 @@ class ProviderForm extends Component {
           >
             Providers
           </Button>
-          {selectedProviderType.name &&
+          {showForm &&
             <Button
               raised
               iconChildren="save"

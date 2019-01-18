@@ -183,7 +183,7 @@ export default (state = initialState, action) => {
     case TOGGLE_HAS_CONTAINER:
       return {
         ...state,
-        hasContainer: !state.hasContainer,
+        hasContainer: action.checkState || !state.hasContainer,
       };
     case UNLOAD_PROVIDER:
       return initialState;

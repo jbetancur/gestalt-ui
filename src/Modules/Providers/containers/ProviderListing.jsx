@@ -140,6 +140,7 @@ class ProviderListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.providersPending} />}
             pagination
+            paginationPerPage={25}
           />
         </Col>
       </Row>

@@ -35,10 +35,12 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::Kong',
     allowLinkedProviders: true,
+    showContainerOption: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::GatewayManager',
     allowLinkedProviders: true,
+    showContainerOption: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Security',
@@ -55,10 +57,12 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::Policy',
     allowLinkedProviders: true,
+    showContainerOption: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Logging',
     allowLinkedProviders: true,
+    showContainerOption: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::GestaltFlink',
@@ -67,6 +71,7 @@ const uiProviderTypes = [
   {
     name: 'Gestalt::Configuration::Provider::Lambda',
     allowLinkedProviders: true,
+    showContainerOption: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::AWSAPIGateway',
