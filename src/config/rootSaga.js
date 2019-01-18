@@ -20,6 +20,7 @@ import { streamSpecSagas } from 'Modules/Streams';
 import { loggingSagas } from 'Modules/Logging';
 import { volumeSagas } from 'Modules/Volumes';
 import appDeploymentSagas from 'Modules/AppDeployments/sagas';
+import upgraderSagas from 'Modules/Upgrader/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -44,5 +45,6 @@ export default function* rootSaga() {
     loggingSagas(),
     volumeSagas(),
     appDeploymentSagas(),
+    upgraderSagas(),
   ]);
 }

@@ -18,9 +18,9 @@ import withModalRouter from './withModalRouter';
 
 const Main = styled.main`
   position: relative;
-  padding-bottom: 56px;
   height: 100%;
   width: 100%;
+  padding-bottom: 56px;
   overflow-y: auto;
 `;
 

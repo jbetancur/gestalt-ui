@@ -12,6 +12,7 @@ import { H1 } from 'components/Typography';
 import Label from 'components/Label';
 import Form from 'components/Form';
 import Div from 'components/Div';
+import withUpgrader from '../hocs/withUpgrader';
 
 class Launch extends Component {
   static propTypes = {
@@ -24,6 +25,8 @@ class Launch extends Component {
     upgrade: PropTypes.object.isRequired,
     launchUpgrade: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
+    upgradeAvailable: PropTypes.object.isRequired,
+    // upgraderActions: PropTypes.object.isRequired,
   };
 
   launch = (values) => {
@@ -31,9 +34,13 @@ class Launch extends Component {
   }
 
   render() {
+    const { upgradeAvailable: { upgradeImage } } = this.props;
+    const initialValues = { image: upgradeImage };
+
     return (
       <FinalForm
         onSubmit={this.launch}
+        initialValues={initialValues}
         // validate={validate}
         render={({ handleSubmit, pristine }) => (
           <Card>
@@ -145,6 +152,7 @@ class Launch extends Component {
 }
 
 export default compose(
+  withUpgrader,
   withPickerData({ entity: 'root/providers', alias: 'databaseProviders', label: 'Providers', params: { type: 'Data' } }),
   withPickerData({ entity: 'root/providers', alias: 'securityProviders', label: 'Providers', params: { type: 'Security' } }),
   withPickerData({ entity: 'root/providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),

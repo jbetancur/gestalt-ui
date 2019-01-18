@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
+import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
@@ -19,24 +20,23 @@ const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a e
 const AppWrapper = styled.div`
   z-index: 1;
   display: flex;
+  flex: 1;
   overflow: hidden;
-  flex-grow: 1;
-  height: 100%;
-  height: 100vh;
 `;
 
 class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    selfActions: PropTypes.object.isRequired,
-    licenseActions: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    appState: PropTypes.object.isRequired,
-    appActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
+    selfActions: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
+    appActions: PropTypes.object.isRequired,
+    licenseActions: PropTypes.object.isRequired,
+    upgraderActions: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -52,12 +52,15 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { match, self, history, licenseActions } = this.props;
+    const { match, self, history, licenseActions, upgraderActions } = this.props;
 
     if (!match.params.fqon && self.id && self.id !== prevProps.self.id) {
       // TODO: routing here must be moved to auth once we refactor Auth/JWT
       history.replace(`/${self.properties.gestalt_home.properties.fqon}/hierarchy`);
+      // Check license expiration
       licenseActions.fetchLicense('root');
+      // Check for available Upgrades
+      upgraderActions.fetchUpgradeAvailable();
     }
   }
 
@@ -86,7 +89,6 @@ class App extends Component {
       appState: { navigationExpanded },
     } = this.props;
 
-
     if (selfPending) {
       return <ActivityContainer id="app-main-progess" />;
     }
@@ -97,6 +99,7 @@ class App extends Component {
 
     return (
       <React.Fragment>
+        <UpgradeNotification />
         <ModalRoot />
         <ErrorNotifications />
         <Notifications />
@@ -117,4 +120,5 @@ export default compose(
   withApp,
   withSelf,
   withLicense,
+  withUpgrader,
 )(App);
