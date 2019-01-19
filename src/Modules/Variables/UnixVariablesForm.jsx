@@ -14,7 +14,7 @@ const UnixVariablesForm = ({ disabled, fieldName }) => (
       <FieldContainer>
         <AddButton label="Add Variable" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => {
-          const field = fields.value[index] || { name: 'oops' };
+          const field = fields.value[index] || {};
           const isInherited = field.inherited;
           const fieldNameStr = isInherited ? 'name (inherit)' : 'name';
           const fieldValueStr = isInherited ? 'value (overridable)' : 'value';
