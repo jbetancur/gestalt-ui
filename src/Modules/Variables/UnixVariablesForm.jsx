@@ -14,7 +14,7 @@ const UnixVariablesForm = ({ disabled, fieldName }) => (
       <FieldContainer>
         <AddButton label="Add Variable" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => {
-          const field = fields.value[index] || {};
+          const field = fields.value[index] || { name: 'oops' };
           const isInherited = field.inherited;
           const fieldNameStr = isInherited ? 'name (inherit)' : 'name';
           const fieldValueStr = isInherited ? 'value (overridable)' : 'value';
@@ -36,7 +36,7 @@ const UnixVariablesForm = ({ disabled, fieldName }) => (
                     autoComplete="off"
                     required
                     helpText={isInherited ? 'inherited' : null}
-                    validate={composeValidators(unixPattern())}
+                    validate={composeValidators(unixPattern(), required())}
                   />
                 </Col>
                 <Col flex={8} xs={12} sm={12}>
