@@ -256,7 +256,7 @@ class ContainerForm extends PureComponent {
               count={formValues.properties.env.length}
               error={safeErrors.properties.env && errors.properties.env.length > 0}
             >
-              <UnixVariablesForm fieldName={`${formName}.properties.env`} formValues={values} />
+              <UnixVariablesForm fieldName={`${formName}.properties.env`} />
             </Panel>
           </Col>
 

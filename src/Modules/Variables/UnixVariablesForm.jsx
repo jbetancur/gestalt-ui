@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import { Field } from 'react-final-form';
-import { getIn } from 'final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { checkIfPassword } from 'util/helpers/strings';
 import { composeValidators, required, unixPattern } from 'util/forms';
 
-const UnixVariablesForm = ({ disabled, fieldName, formValues }) => (
+const UnixVariablesForm = ({ disabled, fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
         <AddButton label="Add Variable" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => {
-          const field = getIn(formValues, member) || {};
+          const field = fields.value[index] || {};
           const isInherited = field.inherited;
           const fieldNameStr = isInherited ? 'name (inherit)' : 'name';
           const fieldValueStr = isInherited ? 'value (overridable)' : 'value';
@@ -69,7 +68,6 @@ const UnixVariablesForm = ({ disabled, fieldName, formValues }) => (
 UnixVariablesForm.propTypes = {
   disabled: PropTypes.bool,
   fieldName: PropTypes.string.isRequired,
-  formValues: PropTypes.object.isRequired,
 };
 
 UnixVariablesForm.defaultProps = {

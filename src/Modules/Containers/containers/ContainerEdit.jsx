@@ -246,9 +246,9 @@ class ContainerEdit extends Component {
                 decorators={[focusOnErrors]}
                 loading={containerPending}
                 initialValues={initialFormValues}
+                initialValuesEqual={isEqual} // keeps array fields from re-rendering
                 validate={validate}
                 inlineMode={inlineMode}
-                initialValuesEqual={isEqual} // keeps array fields from re-rendering
                 keepDirtyOnReinitialize
                 render={({ handleSubmit, submitting, ...rest }) => (
                   <Form

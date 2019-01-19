@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import containerModel from '../Containers/models/container';
 import providerModel from './models/provider';
 
-const selectEnvSchema = state => state.providers.provider.envSchema;
+// const selectEnvSchema = state => state.providers.provider.envSchema;
 const selectProvider = state => state.providers.provider.provider;
 export const selectContainerProvider = state => state.containers.selectedProvider;
 export const selectContainer = state => state.providers.container.container;
@@ -22,18 +22,8 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
 });
 
 export const getCreateProviderModel = createSelector(
-  [selectEnvSchema],
-  (envSchema) => {
-    const model = {
-      properties: {
-        config: {
-          env: envSchema,
-        },
-      },
-    };
-
-    return providerModel.get(model);
-  }
+  [],
+  () => providerModel.get()
 );
 
 export const getEditProviderModel = createSelector(

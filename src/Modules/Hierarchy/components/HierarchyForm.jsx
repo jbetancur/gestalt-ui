@@ -16,7 +16,6 @@ class HierarchyForm extends Component {
   static propTypes = {
     form: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    values: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -58,7 +57,7 @@ class HierarchyForm extends Component {
   }
 
   render() {
-    const { title, values, history, editMode, handleSubmit, pristine, submitting, invalid, isEnvironment, t } = this.props;
+    const { title, history, editMode, handleSubmit, pristine, submitting, invalid, isEnvironment, t } = this.props;
     const submitDisabled = pristine || invalid || submitting;
 
     const modalActions = [
@@ -135,7 +134,6 @@ class HierarchyForm extends Component {
               <Panel title="Environment Variables" noPadding noShadow expandable={false}>
                 <UnixVariablesForm
                   fieldName="properties.env"
-                  formValues={values}
                 />
               </Panel>
             </Col>

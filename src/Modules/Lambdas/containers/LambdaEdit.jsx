@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import isEqual from 'react-fast-compare';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
@@ -180,6 +181,7 @@ class LambdaEdit extends PureComponent {
                 keepDirtyOnReinitialize
                 onSubmit={this.update}
                 initialValues={initialFormValues}
+                initialValuesEqual={isEqual} // keeps array fields from re-rendering
                 validate={validate}
                 mutators={{ ...arrayMutators }}
                 decorators={[focusOnErrors]}

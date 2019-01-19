@@ -164,7 +164,7 @@ class LambdaForm extends PureComponent {
               defaultExpanded={editMode && values.properties.env.length > 0}
               error={safeErrors.properties.env && errors.properties.env.length > 0}
             >
-              <UnixVariablesForm fieldName="properties.env" formValues={values} />
+              <UnixVariablesForm fieldName="properties.env" />
             </Panel>
           </Col>
         </Row>

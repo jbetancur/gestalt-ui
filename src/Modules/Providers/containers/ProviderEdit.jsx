@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
@@ -24,7 +25,7 @@ import withProvider from '../hocs/withProvider';
 
 const focusOnErrors = createDecorator();
 
-class ProviderEdit extends Component {
+class ProviderEdit extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -97,95 +98,110 @@ class ProviderEdit extends Component {
   }
 
   render() {
-    const { match, initialValues, provider, container, selectedProviderType, hasContainer, providerPending } = this.props;
+    const {
+      match,
+      initialValues,
+      provider,
+      container,
+      selectedProviderType,
+      hasContainer,
+      providerPending
+    } = this.props;
+
+    if (providerPending && !provider.id) {
+      return <ActivityContainer id="provider-loading" />;
+    }
 
     return (
-      (providerPending) ?
-        <ActivityContainer id="provider-loading" /> :
-        <Row center gutter={5}>
-          <ContainerActionsModal />
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <ActionsToolbar
-              title={provider.name}
-              subtitle={`Provider Type: ${selectedProviderType.displayName}`}
-              actions={[
-                hasContainer &&
-                <ContainerActions
-                  key="provider-container-actions"
-                  inContainerView
-                  containerModel={container}
-                  disableDestroy
-                  disablePromote
-                />,
-                <Button
-                  key="provider--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
-                >
-                  Entitlements
-                </Button>,
-              ]}
-            />
+      <Row center gutter={5}>
+        <ContainerActionsModal />
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ActionsToolbar
+            title={provider.name}
+            subtitle={`Provider Type: ${selectedProviderType.displayName}`}
+            actions={[
+              hasContainer &&
+              <ContainerActions
+                key="provider-container-actions"
+                inContainerView
+                containerModel={container}
+                disableDestroy
+                disablePromote
+              />,
+              <Button
+                key="provider--entitlements"
+                flat
+                iconChildren="security"
+                onClick={this.showEntitlements}
+              >
+                Entitlements
+              </Button>,
+            ]}
+          />
 
-            {providerPending && <ActivityContainer id="provider-form" />}
+          {providerPending && <ActivityContainer id="provider-form" />}
 
-            <Tabs>
-              <Tab title="Configuration">
+          <Tabs>
+            <Tab title="Configuration">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={provider} />
+                  </Panel>
+                </Col>
+              </Row>
+
+              <FinalForm
+                initialValue={initialValues}
+                validate={validate(hasContainer)}
+                mutators={{ ...arrayMutators }}
+                decorators={[focusOnErrors]}
+                editMode
+                onSubmit={this.update}
+                onRedeploy={this.flagForRedeploy}
+                goBack={this.goBack}
+                subscription={{ submitting: true, pristine: true }}
+                render={({ handleSubmit, ...rest }) => (
+                  <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
+                    <ProviderForm {...rest} />
+                  </Form>
+                )}
+                {...this.props}
+              />
+            </Tab>
+
+            {hasContainer ?
+              <Tab title="Service Instance">
                 <Row gutter={5}>
                   <Col flex={12}>
-                    <Panel title="Resource Details" defaultExpanded={false}>
-                      <DetailsPane model={provider} />
-                    </Panel>
+                    <Card>
+                      <CardTitle title="Instances" />
+                      <ContainerInstances
+                        containerModel={container}
+                        fqon={match.params.fqon}
+                      />
+                    </Card>
                   </Col>
                 </Row>
 
-                <Form
-                  component={ProviderForm}
-                  initialValue={initialValues}
-                  validate={validate(hasContainer)}
-                  mutators={{ ...arrayMutators }}
-                  decorators={[focusOnErrors]}
-                  editMode
-                  onSubmit={this.update}
-                  onRedeploy={this.flagForRedeploy}
-                  goBack={this.goBack}
-                  {...this.props}
-                />
-              </Tab>
-
-              {hasContainer ?
-                <Tab title="Service Instance">
-                  <Row gutter={5}>
-                    <Col flex={12}>
-                      <Card>
-                        <CardTitle title="Instances" />
-                        <ContainerInstances
-                          containerModel={container}
-                          fqon={match.params.fqon}
-                        />
-                      </Card>
-                    </Col>
-                  </Row>
-
-                  <Row gutter={5}>
-                    <Col flex={12}>
-                      <Card>
-                        <CardTitle title="Service Addresses" />
-                        <ContainerServiceAddresses
-                          portMappings={container.properties.port_mappings}
-                        />
-                      </Card>
-                    </Col>
-                  </Row>
-                </Tab> : <div />
-              }
-              {/* <Tab title="Environment">
-                <EnvironmentListing {...this.props} />
-              </Tab> */}
-            </Tabs>
-          </Col>
-        </Row>
+                <Row gutter={5}>
+                  <Col flex={12}>
+                    <Card>
+                      <CardTitle title="Service Addresses" />
+                      <ContainerServiceAddresses
+                        portMappings={container.properties.port_mappings}
+                      />
+                    </Card>
+                  </Col>
+                </Row>
+              </Tab> : <div />
+            }
+            {/* <Tab title="Environment">
+              <EnvironmentListing {...this.props} />
+            </Tab> */}
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }
