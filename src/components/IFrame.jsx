@@ -42,6 +42,7 @@ class IFrame extends Component {
 
     // we need to do this since the iframe is a child of main (due to react routing) that has overflow
     // we will remove the overflow to prevent height weirdness with the iframe and restore in on unmount
+
     this.iframe.current.parentElement.style.overflow = 'visible';
   }
 
@@ -97,7 +98,7 @@ class IFrame extends Component {
             <ResponsiveFrame
               id={id}
               src={src}
-              innerRef={this.iframe}
+              ref={this.iframe}
               onLoad={this.handleOnLoad}
               width={`${width}px`}
               height={`${height}px`}
