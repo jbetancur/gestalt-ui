@@ -1,4 +1,4 @@
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { merge } from 'lodash';
 import { fetchAPI } from 'config/lib/utility';
 import loggingSagas, {

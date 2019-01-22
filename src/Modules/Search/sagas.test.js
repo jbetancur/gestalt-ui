@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import searchSagas, {
   searchUser,
   searchAsset,
