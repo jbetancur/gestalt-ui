@@ -59,7 +59,7 @@ const Error = styled.div`
   left: 0;
   width: 100%;
   padding: 1em;
-  background: ${props => props.theme.colors['$md-red-500']};
+  background: ${props => props.theme.colors.error};
   color: white;
   text-align: center;
   font-weight: 700;

@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Cards) CardTitle mounts with basic props 1`] = `
+.c2 {
+  font-size: 13px;
+  color: #757575;
+}
+
+.c1 {
+  font-size: 20px;
+  color: #212121;
+  font-size: 22px;
+}
+
+.c0 {
+  padding: 16px;
+}
+
+<div
+  class="c0"
+>
+  <div>
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Cards) CardTitle mounts with children 1`] = `
+.c0 {
+  padding: 16px;
+}
+
+<div
+  class="c0"
+>
+  Hellow!
+</div>
+`;
+
+exports[`(Cards) CardTitle mounts with title and subTitle 1`] = `
+.c2 {
+  font-size: 13px;
+  color: #757575;
+}
+
+.c1 {
+  font-size: 20px;
+  color: #212121;
+  font-size: 22px;
+}
+
+.c0 {
+  padding: 16px;
+}
+
+<div
+  class="c0"
+>
+  <div>
+    <div
+      class="c1"
+    >
+      woop
+    </div>
+    <div
+      class="c2"
+    >
+      woop!
+    </div>
+  </div>
+</div>
+`;

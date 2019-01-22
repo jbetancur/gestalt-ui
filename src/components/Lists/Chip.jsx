@@ -17,11 +17,19 @@ const Tag = styled.div`
   padding: 8px 8px 8px 14px;
 `;
 
-const Remove = styled(FontIcon)`
+const Remove = styled.button`
+  border: none;
+  background: transparent;
   height: 32px;
   width: 32px;
-  line-height: 32px;
-  transform: rotate(45deg);
+  outline: none;
+  border-radius: 50%;
+  padding: 3px;
+
+  i,
+  svg {
+    transform: rotate(45deg);
+  }
 
   &:hover {
     cursor: pointer;
@@ -40,7 +48,9 @@ class Chip extends PureComponent {
     return (
       <ItemStyled>
         <Tag>{this.props.item}</Tag>
-        <Remove onClick={this.remove}>add_circle</Remove>
+        <Remove onClick={this.remove}>
+          <FontIcon>add_circle</FontIcon>
+        </Remove>
       </ItemStyled>
     );
   }

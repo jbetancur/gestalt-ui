@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message has icon prop set to true 1`] = `
+.c3 {
+  text-align: center;
+}
+
+.c3[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c3 .md-icon-text {
+  font-weight: normal;
+}
+
+.c3 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -23,25 +40,95 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 button svg,
+.c2 button i {
+  color: white !important;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <NotificationContent__Text>
+  <div
+    class="c1"
+  >
     morty
-  </NotificationContent__Text>
-  <NotificationContent__Action>
-    <WithTheme(Button__EnhancedButton)
-      icon={true}
+  </div>
+  <div
+    class="c2"
+  >
+    <button
+      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
       id="close-1"
-      onClick={[Function]}
+      theme="[object Object]"
+      type="button"
     >
-      close
-    </WithTheme(Button__EnhancedButton)>
-  </NotificationContent__Action>
+      <div
+        class="md-ink-container"
+      />
+      <i
+        class="md-icon material-icons md-text--inherit"
+      >
+        close
+      </i>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is error 1`] = `
+.c3 {
+  text-align: center;
+}
+
+.c3[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c3 .md-icon-text {
+  font-weight: normal;
+}
+
+.c3 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -64,25 +151,95 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 button svg,
+.c2 button i {
+  color: white !important;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <NotificationContent__Text>
+  <div
+    class="c1"
+  >
     morty
-  </NotificationContent__Text>
-  <NotificationContent__Action>
-    <WithTheme(Button__EnhancedButton)
-      icon={true}
+  </div>
+  <div
+    class="c2"
+  >
+    <button
+      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
       id="close-1"
-      onClick={[Function]}
+      theme="[object Object]"
+      type="button"
     >
-      close
-    </WithTheme(Button__EnhancedButton)>
-  </NotificationContent__Action>
+      <div
+        class="md-ink-container"
+      />
+      <i
+        class="md-icon material-icons md-text--inherit"
+      >
+        close
+      </i>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is info 1`] = `
+.c3 {
+  text-align: center;
+}
+
+.c3[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c3 .md-icon-text {
+  font-weight: normal;
+}
+
+.c3 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -105,25 +262,95 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 button svg,
+.c2 button i {
+  color: white !important;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <NotificationContent__Text>
+  <div
+    class="c1"
+  >
     morty
-  </NotificationContent__Text>
-  <NotificationContent__Action>
-    <WithTheme(Button__EnhancedButton)
-      icon={true}
+  </div>
+  <div
+    class="c2"
+  >
+    <button
+      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
       id="close-1"
-      onClick={[Function]}
+      theme="[object Object]"
+      type="button"
     >
-      close
-    </WithTheme(Button__EnhancedButton)>
-  </NotificationContent__Action>
+      <div
+        class="md-ink-container"
+      />
+      <i
+        class="md-icon material-icons md-text--inherit"
+      >
+        close
+      </i>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is success 1`] = `
+.c3 {
+  text-align: center;
+}
+
+.c3[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c3 .md-icon-text {
+  font-weight: normal;
+}
+
+.c3 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -146,25 +373,95 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 button svg,
+.c2 button i {
+  color: white !important;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <NotificationContent__Text>
+  <div
+    class="c1"
+  >
     morty
-  </NotificationContent__Text>
-  <NotificationContent__Action>
-    <WithTheme(Button__EnhancedButton)
-      icon={true}
+  </div>
+  <div
+    class="c2"
+  >
+    <button
+      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
       id="close-1"
-      onClick={[Function]}
+      theme="[object Object]"
+      type="button"
     >
-      close
-    </WithTheme(Button__EnhancedButton)>
-  </NotificationContent__Action>
+      <div
+        class="md-ink-container"
+      />
+      <i
+        class="md-icon material-icons md-text--inherit"
+      >
+        close
+      </i>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is warning 1`] = `
+.c3 {
+  text-align: center;
+}
+
+.c3[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c3 .md-icon-text {
+  font-weight: normal;
+}
+
+.c3 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -187,25 +484,95 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 button svg,
+.c2 button i {
+  color: white !important;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <NotificationContent__Text>
+  <div
+    class="c1"
+  >
     morty
-  </NotificationContent__Text>
-  <NotificationContent__Action>
-    <WithTheme(Button__EnhancedButton)
-      icon={true}
+  </div>
+  <div
+    class="c2"
+  >
+    <button
+      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
       id="close-1"
-      onClick={[Function]}
+      theme="[object Object]"
+      type="button"
     >
-      close
-    </WithTheme(Button__EnhancedButton)>
-  </NotificationContent__Action>
+      <div
+        class="md-ink-container"
+      />
+      <i
+        class="md-icon material-icons md-text--inherit"
+      >
+        close
+      </i>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot with default message payload 1`] = `
+.c3 {
+  text-align: center;
+}
+
+.c3[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c3 .md-icon-text {
+  font-weight: normal;
+}
+
+.c3 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -228,20 +595,73 @@ exports[`(Notifications) NotificationContent renders to correct snapshot with de
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 button svg,
+.c2 button i {
+  color: white !important;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <NotificationContent__Text>
+  <div
+    class="c1"
+  >
     morty
-  </NotificationContent__Text>
-  <NotificationContent__Action>
-    <WithTheme(Button__EnhancedButton)
-      icon={true}
+  </div>
+  <div
+    class="c2"
+  >
+    <button
+      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
       id="close-1"
-      onClick={[Function]}
+      theme="[object Object]"
+      type="button"
     >
-      close
-    </WithTheme(Button__EnhancedButton)>
-  </NotificationContent__Action>
+      <div
+        class="md-ink-container"
+      />
+      <i
+        class="md-icon material-icons md-text--inherit"
+      >
+        close
+      </i>
+    </button>
+  </div>
 </div>
 `;

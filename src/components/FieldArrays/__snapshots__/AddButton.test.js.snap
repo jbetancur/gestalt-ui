@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Components) AddButton renders correctly with basic required props 1`] = `
+.c0 {
+  margin: 4px 16px 8px 16px;
+  color: #2196f3;
+}
+
+@media (min-width:0) and (max-width:599px) {
+  .c0 {
+    position: absolute;
+    top: 4px;
+    right: 50px;
+  }
+}
+
+@media (min-width:600px) and (max-width:959px) {
+  .c0 {
+    position: absolute;
+    top: 4px;
+    right: 50px;
+  }
+}
+
+<button
+  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0"
+  type="button"
+>
+  <div
+    class="md-ink-container"
+  />
+  <i
+    class="md-icon material-icons md-text--inherit"
+  >
+    add
+  </i>
+</button>
+`;
+
+exports[`(Components) AddButton renders correctly with label 1`] = `
+.c0 {
+  margin: 4px 16px 8px 16px;
+  color: #2196f3;
+}
+
+<button
+  class="md-btn md-btn--flat md-btn--text md-pointer--hover md-text md-inline-block c0"
+  type="button"
+>
+  <div
+    class="md-ink-container"
+  />
+  <div
+    class="md-icon-separator"
+  >
+    <i
+      class="md-icon material-icons md-text--inherit"
+    >
+      add
+    </i>
+    <span
+      class="md-icon-text"
+    >
+      Wow
+    </span>
+  </div>
+</button>
+`;

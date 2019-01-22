@@ -14,13 +14,10 @@ module.exports = {
     '<rootDir>/test',
   ],
   coverageDirectory: '<rootDir>/test/coverage',
-  setupFiles: [
-    '<rootDir>/test/jestSetup.js'
-  ],
+  // setupFiles: [
+  //   '<rootDir>/test/jestSetup.js'
+  // ],
   setupTestFrameworkScriptFile: '<rootDir>/test/setup-test-framework-script',
-  snapshotSerializers: [
-    'enzyme-to-json/serializer'
-  ],
   testMatch: [
     '**/__tests__/**/*.js?(x)',
     '**/?(*.)(jest|spec|test).js?(x)'

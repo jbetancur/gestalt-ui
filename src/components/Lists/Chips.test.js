@@ -1,10 +1,11 @@
 import React from 'react';
+import { render } from 'react-testing-library';
 import Chips from './Chips';
 
 describe('Chips', () => {
   it('mounts with basic props', () => {
-    const wrapper = mount(<Chips id="test" meta={{ error: null, touched: false }} />);
+    const { container } = render(<Chips id="test" meta={{ error: null, touched: false }} />);
 
-    expect(wrapper).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

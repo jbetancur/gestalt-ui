@@ -1,8 +1,4 @@
-import { shallow, mount } from 'enzyme';
 import 'jest-styled-components';
-
-global.mount = mount;
-global.shallow = shallow;
 
 /**
  * This set of beforeEach/afterEach functions serve to prevent code from
@@ -59,4 +55,3 @@ const localStorageMock = (() => {
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
-

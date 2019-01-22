@@ -1,6 +1,7 @@
 import React from 'react';
+import { Form } from 'react-final-form';
 import Compute from './Compute';
-import { shallowWithTheme } from '../../../test/helpers';
+import { renderWithTheme } from '../../../test/helpers';
 
 describe('Components::Form::Compute', () => {
   it('mounts with basic props', () => {
@@ -11,8 +12,13 @@ describe('Components::Form::Compute', () => {
       }
     };
 
-    const wrapper = shallowWithTheme(<Compute formValues={formValuesMock} form={{ change: jest.fn() }} />);
+    const { container } = renderWithTheme(
+      <Form
+        render={() => <Compute formValues={formValuesMock} form={{ change: jest.fn() }} />}
+        onSubmit={jest.fn()}
+      />
+    );
 
-    expect(wrapper.dive().dive().dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -1,0 +1,1079 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Panels) Panel renders component activity status when pending 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c9 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.c10.spinner > div {
+  width: 2em;
+  height: 2em;
+  background-color: #9e9e9e;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bJpfxq 1.4s infinite ease-in-out both;
+  animation: bJpfxq 1.4s infinite ease-in-out both;
+}
+
+.c10.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.c10.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 1em;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  >
+    <div
+      class="c9"
+    >
+      <div
+        class="spinner c10"
+        size="2"
+      >
+        <div
+          class="bounce1"
+        />
+        <div
+          class="bounce2"
+        />
+        <div
+          class="bounce3"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`(Panels) Panel renders component with basic props 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 1em;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  />
+</div>
+`;
+
+exports[`(Panels) Panel renders component with children 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 1em;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  >
+    <span>
+      this is a test
+    </span>
+  </div>
+</div>
+`;
+
+exports[`(Panels) Panel renders component with minHeight prop 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 1em;
+  min-height: 10em;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  />
+</div>
+`;
+
+exports[`(Panels) Panel renders component with noPadding prop 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 0;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  />
+</div>
+`;
+
+exports[`(Panels) Panel renders component without exploding 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 1em;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  />
+</div>
+`;
+
+exports[`(Panels) Panel toggles isExpanded on correct elements when the Header is clicked 1`] = `
+.c1 {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1),0 1px 1px 0 rgba(0,0,0,.1),0 0 1px -4px rgba(0,0,0,.2);
+}
+
+.c3 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  height: 100%;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(100% - 0px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c6 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.c4 {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  display: inline-block;
+  font-size: 16px;
+  color: #616161;
+}
+
+.c2 {
+  height: 48px;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
+.c8 {
+  width: 100%;
+  display: block;
+  padding: 1em;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+}
+
+<div
+  class="c0 c1"
+>
+  <header
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <div
+        class="c4 c5"
+      >
+        <i
+          class="md-icon material-icons c6"
+          theme="[object Object]"
+        >
+          expand_more
+        </i>
+        <div
+          class="c7"
+        >
+          gazobazorb
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    class="c8"
+  >
+    <span>
+      this is a test
+    </span>
+  </div>
+</div>
+`;

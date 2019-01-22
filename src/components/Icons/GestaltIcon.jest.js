@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from 'react-testing-library';
 import GestaltIcon from './GestaltIcon';
-
-const wrapper = shallow(<GestaltIcon />);
 
 describe('(Component) GestaltIcon', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).toHaveLength(1);
+    const { container } = render(<GestaltIcon />);
+
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

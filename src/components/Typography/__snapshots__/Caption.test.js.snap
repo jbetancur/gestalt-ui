@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) Caption it renders with block prop 1`] = `
+.c0 {
+  font-size: 12px !important;
+  color: #424242;
+  display: block;
+}
+
+.c0 * {
+  color: #424242;
+}
+
+<span
+  class="c0"
+>
+  this is a test
+</span>
+`;
+
+exports[`(Component) Caption it renders with large prop 1`] = `
+.c0 {
+  font-size: 12px !important;
+  color: #424242;
+  font-size: 13px!important;
+}
+
+.c0 * {
+  color: #424242;
+}
+
+<span
+  class="c0"
+>
+  this is a test
+</span>
+`;
+
+exports[`(Component) Caption it renders with light prop 1`] = `
+.c0 {
+  font-size: 12px !important;
+  color: #9e9e9e;
+}
+
+.c0 * {
+  color: #9e9e9e;
+}
+
+<span
+  class="c0"
+>
+  this is a test
+</span>
+`;
+
+exports[`(Component) Caption it renders with small prop 1`] = `
+.c0 {
+  font-size: 12px !important;
+  color: #424242;
+  font-size: 11px!important;
+}
+
+.c0 * {
+  color: #424242;
+}
+
+<span
+  class="c0"
+>
+  this is a test
+</span>
+`;
+
+exports[`(Component) Caption renders with basic props 1`] = `
+.c0 {
+  font-size: 12px !important;
+  color: #424242;
+}
+
+.c0 * {
+  color: #424242;
+}
+
+<span
+  class="c0"
+>
+  this is a test
+</span>
+`;

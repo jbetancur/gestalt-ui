@@ -1,35 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = `
-<Fragment>
-  <StatusBubble__ContainerStatusStyle
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 115px;
+  max-width: 130px;
+  font-weight: 400;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #ff9800;
+}
+
+.c0 svg {
+  fill: #ff9800;
+}
+
+.c0 div {
+  margin-left: 8px;
+  height: 14px;
+}
+
+.c1 {
+  color: #ff9800 !important;
+}
+
+@media (min-width:0) and (max-width:599px) {
+  .c0 div {
+    height: 18px;
+  }
+}
+
+@media (min-width:600px) and (max-width:959px) {
+  .c0 div {
+    height: 18px;
+  }
+}
+
+<div
+  class="c0"
+  color="$md-orange-500"
+>
+  <i
+    class="md-icon material-icons c1"
     color="$md-orange-500"
   >
-    <StatusBubble__IconStyle
-      color="$md-orange-500"
-    >
-      access_time
-    </StatusBubble__IconStyle>
-    <div>
-      PENDING
-    </div>
-  </StatusBubble__ContainerStatusStyle>
-</Fragment>
+    access_time
+  </i>
+  <div>
+    PENDING
+  </div>
+</div>
 `;
 
 exports[`Components::StatusBubble::StatusBubble renders correctly when a status is passed 1`] = `
-<Fragment>
-  <StatusBubble__ContainerStatusStyle
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 115px;
+  max-width: 130px;
+  font-weight: 400;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #00c853;
+}
+
+.c0 svg {
+  fill: #00c853;
+}
+
+.c0 div {
+  margin-left: 8px;
+  height: 14px;
+}
+
+.c1 {
+  color: #00c853 !important;
+}
+
+@media (min-width:0) and (max-width:599px) {
+  .c0 div {
+    height: 18px;
+  }
+}
+
+@media (min-width:600px) and (max-width:959px) {
+  .c0 div {
+    height: 18px;
+  }
+}
+
+<div
+  class="c0"
+  color="$md-green-a700"
+>
+  <i
+    class="md-icon material-icons c1"
     color="$md-green-a700"
   >
-    <StatusBubble__IconStyle
-      color="$md-green-a700"
+    <svg
+      class="md-icon md-icon material-icons"
+      focusable="false"
+      role="img"
+      style="height: 20px; width: 20px;"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <CheckCircleIcon />
-    </StatusBubble__IconStyle>
-    <div>
-      running
-    </div>
-  </StatusBubble__ContainerStatusStyle>
-</Fragment>
+      <path
+        d="M0 0h24v24H0V0zm0 0h24v24H0V0z"
+        fill="none"
+      />
+      <path
+        d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+      />
+    </svg>
+  </i>
+  <div>
+    running
+  </div>
+</div>
 `;

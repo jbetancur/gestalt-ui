@@ -30,150 +30,278 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
   align-content: stretch;
 }
 
+.c1 {
+  box-sizing: border-box;
+  margin: 5px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  --width: calc(83.33333333333334% - 10px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 5px;
+  max-height: 100%;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  --width: calc(16.666666666666664% - 10px);
+  -webkit-flex: 0 1 var(--width);
+  -ms-flex: 0 1 var(--width);
+  flex: 0 1 var(--width);
+  min-width: var(--width);
+}
+
+@media (min-width:0) and (max-width:599px) {
+  .c1 {
+    --width: calc(66.66666666666666% - 10px);
+    -webkit-flex: 0 1 var(--width);
+    -ms-flex: 0 1 var(--width);
+    flex: 0 1 var(--width);
+    min-width: var(--width);
+  }
+}
+
+@media (min-width:0) and (max-width:599px) {
+  .c2 {
+    --width: calc(33.33333333333333% - 10px);
+    -webkit-flex: 0 1 var(--width);
+    -ms-flex: 0 1 var(--width);
+    flex: 0 1 var(--width);
+    min-width: var(--width);
+  }
+}
+
 <div
-  className="c0"
-  style={Object {}}
+  class="c0"
 >
-  <Col
-    alignSelf="auto"
-    className=""
-    columnDivisions={12}
-    component="div"
-    debug={false}
-    flex={10}
-    gutter={5}
-    key=".0"
-    lg={false}
-    md={false}
-    minWidth={false}
-    order={0}
-    sm={false}
-    style={Object {}}
-    xs={8}
+  <div
+    class="c1"
   >
-    <Slider
-      discrete={true}
-      discreteInkTransitionTime={300}
-      id="properties.cpus--cpu"
-      inputWidth={40}
-      label="CPU"
-      leftIcon={
-        <FontIcon
-          iconClassName="material-icons"
+    <div
+      class="md-slider-container md-pointer--hover"
+    >
+      <label
+        class="md-slider-label md-text"
+        for="properties.cpus--cpu"
+      >
+        CPU
+      </label>
+      <input
+        class="md-slider-input"
+        id="properties.cpus--cpu"
+        max="4"
+        min="0.1"
+        readonly=""
+        type="range"
+        value="1"
+      />
+      <i
+        class="md-icon material-icons"
+      >
+        memory
+      </i>
+      <div
+        class="md-slider-track md-slider-track--ind-left"
+      >
+        <hr
+          class="md-slider-track-fill"
+          style="width: 23.076923076923077%;"
+        />
+        <div
+          aria-pressed="false"
+          class="md-fake-btn md-pointer--hover md-fake-btn--no-outline md-slider-thumb md-slider-thumb--on md-slider-thumb--discrete"
+          role="button"
+          tabindex="0"
+        />
+        <span
+          class="md-slider-thumb md-slider-thumb--mask"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="c2"
+  >
+    <div
+      class="md-text-field-container md-full-width md-text-field-container--input"
+    >
+      <input
+        class="md-text-field md-text-field--margin md-full-width md-text"
+        id="properties.cpus"
+        name="properties.cpus"
+        placeholder="CPU *"
+        required=""
+        step="0.1"
+        type="number"
+        value=""
+      />
+      <hr
+        class="md-divider md-divider--text-field md-divider--expand-from-center"
+      />
+      <div
+        class="md-text-field-message-container md-text-field-message-container--count-only md-full-width md-text--disabled"
+      >
+        <div
+          aria-hidden="true"
+          class="md-text-field-message md-text-field-message--inactive"
         >
-          memory
-        </FontIcon>
-      }
-      max={4}
-      min={0.1}
-      onChange={[Function]}
-      step={0.1}
-      tickWidth={6}
-      value={1}
-      valuePrecision={1}
-    />
-  </Col>
-  <Col
-    alignSelf="center"
-    className=""
-    columnDivisions={12}
-    component="div"
-    debug={false}
-    flex={2}
-    gutter={5}
-    key=".1"
-    lg={false}
-    md={false}
-    minWidth={false}
-    order={0}
-    sm={false}
-    style={Object {}}
-    xs={4}
+          cpu is required
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="c1"
   >
-    <_class
-      component={[Function]}
-      format={[Function]}
-      name="properties.cpus"
-      onChange={[Function]}
-      onFocus={[Function]}
-      parse={[Function]}
-      placeholder="CPU"
-      required={true}
-      step={0.1}
-      type="number"
-      validate={[Function]}
-    />
-  </Col>
-  <Col
-    alignSelf="auto"
-    className=""
-    columnDivisions={12}
-    component="div"
-    debug={false}
-    flex={10}
-    gutter={5}
-    key=".2"
-    lg={false}
-    md={false}
-    minWidth={false}
-    order={0}
-    sm={false}
-    style={Object {}}
-    xs={8}
+    <div
+      class="md-slider-container md-pointer--hover"
+    >
+      <label
+        class="md-slider-label md-text"
+        for="properties.memory--memory"
+      >
+        Memory (MB)
+      </label>
+      <input
+        class="md-slider-input"
+        id="properties.memory--memory"
+        max="2048"
+        min="128"
+        readonly=""
+        type="range"
+        value="256"
+      />
+      <i
+        class="md-icon material-icons"
+      >
+        sd_card
+      </i>
+      <div
+        class="md-slider-track md-slider-track--ind-left"
+      >
+        <span
+          class="md-slider-discrete-tick"
+          style="left: 0%; width: 3px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="width: 6px;"
+        />
+        <span
+          class="md-slider-discrete-tick"
+          style="left: 100%; width: 3px;"
+        />
+        <hr
+          class="md-slider-track-fill"
+          style="width: 6.666666666666667%;"
+        />
+        <div
+          aria-pressed="false"
+          class="md-fake-btn md-pointer--hover md-fake-btn--no-outline md-slider-thumb md-slider-thumb--on md-slider-thumb--discrete"
+          role="button"
+          tabindex="0"
+        />
+        <span
+          class="md-slider-thumb md-slider-thumb--mask"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="c2"
   >
-    <Slider
-      discrete={true}
-      discreteInkTransitionTime={300}
-      discreteTicks={128}
-      id="properties.memory--memory"
-      inputWidth={40}
-      label="Memory (MB)"
-      leftIcon={
-        <FontIcon
-          iconClassName="material-icons"
+    <div
+      class="md-text-field-container md-full-width md-text-field-container--input"
+    >
+      <input
+        class="md-text-field md-text-field--margin md-full-width md-text"
+        id="properties.memory"
+        name="properties.memory"
+        placeholder="Memory *"
+        required=""
+        step="1"
+        type="number"
+        value=""
+      />
+      <hr
+        class="md-divider md-divider--text-field md-divider--expand-from-center"
+      />
+      <div
+        class="md-text-field-message-container md-text-field-message-container--count-only md-full-width md-text--disabled"
+      >
+        <div
+          aria-hidden="true"
+          class="md-text-field-message md-text-field-message--inactive"
         >
-          sd_card
-        </FontIcon>
-      }
-      max={2048}
-      min={128}
-      onChange={[Function]}
-      step={32}
-      tickWidth={6}
-      value={256}
-      valuePrecision={0}
-    />
-  </Col>
-  <Col
-    alignSelf="center"
-    className=""
-    columnDivisions={12}
-    component="div"
-    debug={false}
-    flex={2}
-    gutter={5}
-    key=".3"
-    lg={false}
-    md={false}
-    minWidth={false}
-    order={0}
-    sm={false}
-    style={Object {}}
-    xs={4}
-  >
-    <_class
-      component={[Function]}
-      format={[Function]}
-      name="properties.memory"
-      onChange={[Function]}
-      onFocus={[Function]}
-      parse={[Function]}
-      placeholder="Memory"
-      required={true}
-      step={1}
-      type="number"
-      validate={[Function]}
-    />
-  </Col>
+          must be divisible by 1
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

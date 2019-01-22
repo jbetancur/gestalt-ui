@@ -17,16 +17,47 @@ exports[`(Chips) Chip mounts with basic props 1`] = `
   align-items: center;
 }
 
+.c1 {
+  padding: 8px 8px 8px 14px;
+}
+
+.c2 {
+  border: none;
+  background: transparent;
+  height: 32px;
+  width: 32px;
+  outline: none;
+  border-radius: 50%;
+  padding: 3px;
+}
+
+.c2 i,
+.c2 svg {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c2:hover {
+  cursor: pointer;
+}
+
 <div
-  className="c0"
+  class="c0"
 >
-  <Chip__Tag>
-    test
-  </Chip__Tag>
-  <Chip__Remove
-    onClick={[Function]}
+  <div
+    class="c1"
   >
-    add_circle
-  </Chip__Remove>
+    test
+  </div>
+  <button
+    class="c2"
+  >
+    <i
+      class="md-icon material-icons"
+    >
+      add_circle
+    </i>
+  </button>
 </div>
 `;

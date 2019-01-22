@@ -7,8 +7,8 @@ exports[`Components::Form::Form mounts with default props 1`] = `
 }
 
 <form
-  className="c0"
-  noValidate={true}
+  class="c0"
+  novalidate=""
 />
 `;
 
@@ -21,8 +21,8 @@ exports[`Components::Form::Form renders correctly when disabled 1`] = `
 }
 
 <form
-  className="c0"
-  disabled={true}
-  noValidate={true}
+  class="c0"
+  disabled=""
+  novalidate=""
 />
 `;

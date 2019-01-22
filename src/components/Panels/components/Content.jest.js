@@ -1,45 +1,45 @@
 import React from 'react';
 import Content from './Content';
-import { shallowWithTheme } from '../../../../test/helpers';
+import { renderWithTheme } from '../../../../test/helpers';
 
 describe('(Panels) Content', () => {
   it('renders component without exploding', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Content />
     );
 
-    expect(wrapper).toHaveLength(1);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders that is expanded', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Content isExpanded />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders that is collapsed', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Content isExpanded={false} />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders with minHeight', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Content minHeight="1em" />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders with noPadding', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Content noPadding />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

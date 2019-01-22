@@ -1,29 +1,29 @@
 import React from 'react';
 import ExpanderIcon from './ExpanderIcon';
-import { shallowWithTheme } from '../../../../test/helpers';
+import { renderWithTheme } from '../../../../test/helpers';
 
 describe('(Panels) ExpanderIcon', () => {
   it('renders component without exploding', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <ExpanderIcon />
     );
 
-    expect(wrapper).toHaveLength(1);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders when expanded', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <ExpanderIcon isExpanded />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders when collapsed', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <ExpanderIcon isExpanded={false} />
     );
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

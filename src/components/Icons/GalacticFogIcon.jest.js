@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from 'react-testing-library';
 import GalacticFogIcon from './GalacticFogIcon';
-
-const wrapper = shallow(<GalacticFogIcon />);
 
 describe('(Component) GalacticFogIcon', () => {
   it('renders component without exploding', () => {
-    expect(wrapper).toHaveLength(1);
+    const { container } = render(<GalacticFogIcon />);
+
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

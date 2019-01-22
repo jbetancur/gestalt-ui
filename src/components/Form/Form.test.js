@@ -1,16 +1,17 @@
 import React from 'react';
+import { render } from 'react-testing-library';
 import Form from './Form';
 
 describe('Components::Form::Form', () => {
   it('mounts with default props', () => {
-    const wrapper = shallow(<Form />);
+    const { container } = render(<Form />);
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders correctly when disabled', () => {
-    const wrapper = shallow(<Form disabled />);
+    const { container } = render(<Form disabled />);
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -1,21 +1,21 @@
 import React from 'react';
 import Header from './Header';
-import { shallowWithTheme } from '../../../../test/helpers';
+import { renderWithTheme } from '../../../../test/helpers';
 
 describe('(Panels) Header', () => {
   it('renders without exploding', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Header title="gazobazorb" />
     );
 
-    expect(wrapper).toHaveLength(1);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders with a title', () => {
-    const wrapper = shallowWithTheme(
+    const { container } = renderWithTheme(
       <Header title="gazobazorb" />
     );
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });
