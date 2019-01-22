@@ -137,7 +137,7 @@ export default [
     codeOptions: codeOptionsInline,
     defaultHandler: 'handler',
     starterCode:
-`exports.handler = (event, context, callback) => {
+`exports.handler = (event, context) => {
   return 'Hello World!';
 };`
   },
