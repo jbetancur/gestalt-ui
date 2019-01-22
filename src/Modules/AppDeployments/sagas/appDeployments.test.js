@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { notificationActions } from 'Modules/Notifications';
 import { fetchAPI } from 'config/lib/utility';
 import appDeploymentSagas, {
@@ -275,35 +275,35 @@ describe('AppDeployment Sagas', () => {
     it('should fork a watcher for fetchAppDeployments', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_APPDEPLOYMENTS_REQUEST, fetchAppDeployments)
+        takeLatest(FETCH_APPDEPLOYMENTS_REQUEST, fetchAppDeployments)
       );
     });
 
     it('should fork a watcher for createAppDeployment', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, CREATE_APPDEPLOYMENT_REQUEST, createAppDeployment)
+        takeLatest(CREATE_APPDEPLOYMENT_REQUEST, createAppDeployment)
       );
     });
 
     it('should fork a watcher for deleteAppDeployment', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DELETE_APPDEPLOYMENT_REQUEST, deleteAppDeployment)
+        takeLatest(DELETE_APPDEPLOYMENT_REQUEST, deleteAppDeployment)
       );
     });
 
     it('should fork a watcher for deleteAppDeployments', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DELETE_APPDEPLOYMENTS_REQUEST, deleteAppDeployments)
+        takeLatest(DELETE_APPDEPLOYMENTS_REQUEST, deleteAppDeployments)
       );
     });
 
     it('should fork a watcher for createViewWorkflow', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, INIT_APPDEPLOYMENTCREATE_REQUEST, createViewWorkflow)
+        takeLatest(INIT_APPDEPLOYMENTCREATE_REQUEST, createViewWorkflow)
       );
     });
   });

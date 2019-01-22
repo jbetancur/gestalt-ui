@@ -232,11 +232,11 @@ export function* watchEditViewWorkflow() {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_LAMBDAS_REQUEST, fetchLambdas);
-  yield fork(takeLatest, CREATE_LAMBDA_REQUEST, createLambda);
-  yield fork(takeLatest, UPDATE_LAMBDA_REQUEST, updateLambda);
-  yield fork(takeLatest, DELETE_LAMBDA_REQUEST, deleteLambda);
-  yield fork(takeLatest, DELETE_LAMBDAS_REQUEST, deleteLambdas);
+  yield takeLatest(FETCH_LAMBDAS_REQUEST, fetchLambdas);
+  yield takeLatest(CREATE_LAMBDA_REQUEST, createLambda);
+  yield takeLatest(UPDATE_LAMBDA_REQUEST, updateLambda);
+  yield takeLatest(DELETE_LAMBDA_REQUEST, deleteLambda);
+  yield takeLatest(DELETE_LAMBDAS_REQUEST, deleteLambdas);
   yield fork(watchCreateWorkflow);
   yield fork(watchEditViewWorkflow);
 }

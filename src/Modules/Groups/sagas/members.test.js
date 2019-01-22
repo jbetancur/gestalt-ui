@@ -123,14 +123,14 @@ describe('Group Sagas', () => {
     it('should fork a watcher for addGroupMember', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, ADD_GROUPMEMBER_REQUEST, addGroupMember)
+        takeLatest(ADD_GROUPMEMBER_REQUEST, addGroupMember)
       );
     });
 
     it('should fork a watcher for removeGroupMember', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, REMOVE_GROUPMEMBER_REQUEST, removeGroupMember)
+        takeLatest(REMOVE_GROUPMEMBER_REQUEST, removeGroupMember)
       );
     });
   });

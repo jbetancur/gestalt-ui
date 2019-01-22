@@ -470,7 +470,7 @@ describe('Context Workflow Sagas', () => {
     it('should fork a watcher for fetchContext', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_CONTEXT_REQUEST, fetchContext)
+        takeLatest(FETCH_CONTEXT_REQUEST, fetchContext)
       );
     });
   });

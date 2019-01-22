@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   CREATE_TYPEPROPERTY_REQUEST,
@@ -103,8 +103,8 @@ export function* batchUpdateTypeProperties(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, CREATE_TYPEPROPERTY_REQUEST, createTypeProperty);
-  yield fork(takeLatest, UPDATE_TYPEPROPERTY_REQUEST, updateTypeProperty);
-  yield fork(takeLatest, DELETE_TYPEPROPERTY_REQUEST, deleteTypeProperty);
-  yield fork(takeLatest, BATCH_UPDATE_TYPEPROPERTY_REQUEST, batchUpdateTypeProperties);
+  yield takeLatest(CREATE_TYPEPROPERTY_REQUEST, createTypeProperty);
+  yield takeLatest(UPDATE_TYPEPROPERTY_REQUEST, updateTypeProperty);
+  yield takeLatest(DELETE_TYPEPROPERTY_REQUEST, deleteTypeProperty);
+  yield takeLatest(BATCH_UPDATE_TYPEPROPERTY_REQUEST, batchUpdateTypeProperties);
 }

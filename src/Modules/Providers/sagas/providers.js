@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   REDEPLOY_PROVIDER_REQUEST,
@@ -25,5 +25,5 @@ export function* redeployProvider(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, REDEPLOY_PROVIDER_REQUEST, redeployProvider);
+  yield takeLatest(REDEPLOY_PROVIDER_REQUEST, redeployProvider);
 }

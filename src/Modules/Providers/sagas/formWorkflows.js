@@ -223,6 +223,6 @@ export default function* main() {
   yield fork(watchCreateViewWorkflow);
   yield fork(watchEditViewWorkflow);
   yield fork(watchContainerWorkflow);
-  yield fork(takeLatest, SELECTED_PROVIDERTYPE_REQUEST, handleSelectedProviderType);
+  yield takeLatest(SELECTED_PROVIDERTYPE_REQUEST, handleSelectedProviderType);
   yield fork(watchContainerPoll);
 }

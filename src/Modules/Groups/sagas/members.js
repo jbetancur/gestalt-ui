@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   ADD_GROUPMEMBER_REQUEST,
@@ -48,6 +48,6 @@ export function* removeGroupMember(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, ADD_GROUPMEMBER_REQUEST, addGroupMember);
-  yield fork(takeLatest, REMOVE_GROUPMEMBER_REQUEST, removeGroupMember);
+  yield takeLatest(ADD_GROUPMEMBER_REQUEST, addGroupMember);
+  yield takeLatest(REMOVE_GROUPMEMBER_REQUEST, removeGroupMember);
 }

@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import { merge, cloneDeep } from 'lodash';
 import { fetchAPI } from 'config/lib/utility';
 import {
@@ -72,5 +72,5 @@ export function* fetchLogProvider(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_LOGPROVIDER_REQUEST, fetchLogProvider);
+  yield takeLatest(FETCH_LOGPROVIDER_REQUEST, fetchLogProvider);
 }

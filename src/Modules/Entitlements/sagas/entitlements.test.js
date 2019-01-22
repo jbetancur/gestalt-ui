@@ -272,14 +272,14 @@ describe('Entitlement Sagas', () => {
     it('should fork a watcher for fetchEntitlements', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements)
+        takeLatest(FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements)
       );
     });
 
     it('should fork a watcher for updateEntitlements', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, UPDATE_ENTITLEMENT_REQUEST, updateEntitlements)
+        takeLatest(UPDATE_ENTITLEMENT_REQUEST, updateEntitlements)
       );
     });
   });

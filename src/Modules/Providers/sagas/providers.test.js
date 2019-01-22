@@ -62,7 +62,7 @@ describe('Provider Sagas', () => {
     it('should fork a watcher for redeployProvider', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, REDEPLOY_PROVIDER_REQUEST, redeployProvider)
+        takeLatest(REDEPLOY_PROVIDER_REQUEST, redeployProvider)
       );
     });
   });

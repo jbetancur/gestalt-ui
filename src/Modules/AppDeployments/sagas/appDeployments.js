@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork, cancelled, take, select } from 'redux-saga/effects';
+import { takeLatest, put, call, cancelled, take, select } from 'redux-saga/effects';
 import axios from 'axios';
 import { notificationActions } from 'Modules/Notifications';
 import { fetchAPI } from 'config/lib/utility';
@@ -146,9 +146,9 @@ export function* createViewWorkflow() {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_APPDEPLOYMENTS_REQUEST, fetchAppDeployments);
-  yield fork(takeLatest, CREATE_APPDEPLOYMENT_REQUEST, createAppDeployment);
-  yield fork(takeLatest, DELETE_APPDEPLOYMENT_REQUEST, deleteAppDeployment);
-  yield fork(takeLatest, DELETE_APPDEPLOYMENTS_REQUEST, deleteAppDeployments);
-  yield fork(takeLatest, INIT_APPDEPLOYMENTCREATE_REQUEST, createViewWorkflow);
+  yield takeLatest(FETCH_APPDEPLOYMENTS_REQUEST, fetchAppDeployments);
+  yield takeLatest(CREATE_APPDEPLOYMENT_REQUEST, createAppDeployment);
+  yield takeLatest(DELETE_APPDEPLOYMENT_REQUEST, deleteAppDeployment);
+  yield takeLatest(DELETE_APPDEPLOYMENTS_REQUEST, deleteAppDeployments);
+  yield takeLatest(INIT_APPDEPLOYMENTCREATE_REQUEST, createViewWorkflow);
 }

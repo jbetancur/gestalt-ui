@@ -1,5 +1,4 @@
-import { delay } from 'redux-saga';
-import { takeLatest, call, put, select } from 'redux-saga/effects';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import {
   ADD_NOTIFICATION,
   // SHOW_NOTIFICATION,
@@ -9,7 +8,7 @@ import {
 const TIMEOUT = 3000;
 
 export function* showFlashMessage() {
-  yield call(delay, TIMEOUT);
+  yield delay(TIMEOUT);
   yield put({ type: CLEAR_OLDEST_MESSAGE });
 }
 

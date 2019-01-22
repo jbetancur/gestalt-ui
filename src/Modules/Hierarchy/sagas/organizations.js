@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   FETCH_ALLORGS_REQUEST,
@@ -48,6 +48,6 @@ export function* fetchAllOrgsDropDown(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_ALLORGS_REQUEST, fetchAllOrgs);
-  yield fork(takeLatest, FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown);
+  yield takeLatest(FETCH_ALLORGS_REQUEST, fetchAllOrgs);
+  yield takeLatest(FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown);
 }

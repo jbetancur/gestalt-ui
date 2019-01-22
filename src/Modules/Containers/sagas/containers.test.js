@@ -465,42 +465,42 @@ describe('Container Sagas', () => {
     it('should fork a watcher for createContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.CREATE_CONTAINER_REQUEST, createContainer)
+        takeLatest(types.CREATE_CONTAINER_REQUEST, createContainer)
       );
     });
 
     it('should fork a watcher for updateContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.UPDATE_CONTAINER_REQUEST, updateContainer)
+        takeLatest(types.UPDATE_CONTAINER_REQUEST, updateContainer)
       );
     });
 
     it('should fork a watcher for deleteContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.DELETE_CONTAINER_REQUEST, deleteContainer)
+        takeLatest(types.DELETE_CONTAINER_REQUEST, deleteContainer)
       );
     });
 
     it('should fork a watcher for scaleContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.SCALE_CONTAINER_REQUEST, scaleContainer)
+        takeLatest(types.SCALE_CONTAINER_REQUEST, scaleContainer)
       );
     });
 
     it('should fork a watcher for migrateContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.MIGRATE_CONTAINER_REQUEST, migrateContainer)
+        takeLatest(types.MIGRATE_CONTAINER_REQUEST, migrateContainer)
       );
     });
 
     it('should fork a watcher for promoteContainer', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.PROMOTE_CONTAINER_REQUEST, promoteContainer)
+        takeLatest(types.PROMOTE_CONTAINER_REQUEST, promoteContainer)
       );
     });
   });

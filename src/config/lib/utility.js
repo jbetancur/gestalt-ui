@@ -1,6 +1,6 @@
 import axios, { CancelToken } from 'axios';
-import { call } from 'redux-saga/effects';
-import { delay, CANCEL } from 'redux-saga';
+import { call, delay } from 'redux-saga/effects';
+import { CANCEL } from 'redux-saga';
 
 /**
  * poll
@@ -11,7 +11,7 @@ import { delay, CANCEL } from 'redux-saga';
 export function* poll(method, action) {
   while (true) {
     try {
-      yield call(delay, 5000);
+      yield delay(5000);
       yield call(method, { ...action, noPending: true, enablePolling: true });
     } catch (error) {
       // cancellation error -- can handle this if you wish

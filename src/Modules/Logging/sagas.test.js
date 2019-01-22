@@ -176,7 +176,7 @@ describe('Logging Sagas', () => {
     it('should fork a watcher for fetchLogProvider', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_LOGPROVIDER_REQUEST, fetchLogProvider)
+        takeLatest(FETCH_LOGPROVIDER_REQUEST, fetchLogProvider)
       );
     });
   });

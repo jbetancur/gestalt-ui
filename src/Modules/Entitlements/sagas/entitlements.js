@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   sortBy,
@@ -113,6 +113,6 @@ export function* updateEntitlements(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements);
-  yield fork(takeLatest, UPDATE_ENTITLEMENT_REQUEST, updateEntitlements);
+  yield takeLatest(FETCH_ENTITLEMENTS_REQUEST, fetchEntitlements);
+  yield takeLatest(UPDATE_ENTITLEMENT_REQUEST, updateEntitlements);
 }

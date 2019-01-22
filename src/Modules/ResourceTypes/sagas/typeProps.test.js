@@ -259,28 +259,28 @@ describe('TypeProperty Sagas', () => {
     it('should fork a watcher for createTypeProperty', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, CREATE_TYPEPROPERTY_REQUEST, createTypeProperty)
+        takeLatest(CREATE_TYPEPROPERTY_REQUEST, createTypeProperty)
       );
     });
 
     it('should fork a watcher for updateTypeProperty', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, UPDATE_TYPEPROPERTY_REQUEST, updateTypeProperty)
+        takeLatest(UPDATE_TYPEPROPERTY_REQUEST, updateTypeProperty)
       );
     });
 
     it('should fork a watcher for deleteTypeProperty', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DELETE_TYPEPROPERTY_REQUEST, deleteTypeProperty)
+        takeLatest(DELETE_TYPEPROPERTY_REQUEST, deleteTypeProperty)
       );
     });
 
     it('should fork a watcher for batchUpdateTypeProperties', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, BATCH_UPDATE_TYPEPROPERTY_REQUEST, batchUpdateTypeProperties)
+        takeLatest(BATCH_UPDATE_TYPEPROPERTY_REQUEST, batchUpdateTypeProperties)
       );
     });
   });

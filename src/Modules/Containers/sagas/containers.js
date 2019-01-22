@@ -282,12 +282,12 @@ export function* watchContainersRequestWorkflow() {
 export default function* () {
   yield fork(watchContainersRequestWorkflow);
   yield fork(watchContainerRequestWorkflow);
-  yield fork(takeLatest, CREATE_CONTAINER_REQUEST, createContainer);
-  yield fork(takeLatest, UPDATE_CONTAINER_REQUEST, updateContainer);
-  yield fork(takeLatest, DELETE_CONTAINER_REQUEST, deleteContainer);
-  yield fork(takeLatest, SCALE_CONTAINER_REQUEST, scaleContainer);
-  yield fork(takeLatest, MIGRATE_CONTAINER_REQUEST, migrateContainer);
-  yield fork(takeLatest, PROMOTE_CONTAINER_REQUEST, promoteContainer);
+  yield takeLatest(CREATE_CONTAINER_REQUEST, createContainer);
+  yield takeLatest(UPDATE_CONTAINER_REQUEST, updateContainer);
+  yield takeLatest(DELETE_CONTAINER_REQUEST, deleteContainer);
+  yield takeLatest(SCALE_CONTAINER_REQUEST, scaleContainer);
+  yield takeLatest(MIGRATE_CONTAINER_REQUEST, migrateContainer);
+  yield takeLatest(PROMOTE_CONTAINER_REQUEST, promoteContainer);
   yield fork(watchContainerPoll);
   yield fork(watchContainersPoll);
 }

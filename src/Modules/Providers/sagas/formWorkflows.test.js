@@ -377,7 +377,7 @@ describe('container Form Workflow Sagas', () => {
     it('should fork a watcher for handleSelectedProviderType', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, SELECTED_PROVIDERTYPE_REQUEST, handleSelectedProviderType)
+        takeLatest(SELECTED_PROVIDERTYPE_REQUEST, handleSelectedProviderType)
       );
     });
   });

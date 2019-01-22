@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { getItem, saveItem } from 'util/helpers/localstorage';
 import authSagas, {
   login,
@@ -21,9 +21,8 @@ describe('Auth Sagas', () => {
 
     it('should make an api call to request a token', () => {
       result = saga.next();
-
-      expect(result.value.CALL.args).toEqual(
-        call(axios.post, 'root/oauth/issue', 'grant_type=password&username=luke&password=iamyourfather').CALL.args
+      expect(result.value.payload.args).toEqual(
+        call(axios.post, 'root/oauth/issue', 'grant_type=password&username=luke&password=iamyourfather').payload.args
       );
     });
 
@@ -95,8 +94,8 @@ describe('Auth Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
 
-        expect(result.value.CALL.args).toEqual(
-          call(axios.delete, 'accessTokens/123').CALL.args
+        expect(result.value.payload.args).toEqual(
+          call(axios.delete, 'accessTokens/123').payload.args
         );
       });
 
@@ -184,14 +183,14 @@ describe('Auth Sagas', () => {
     it('should fork a watcher for login', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.AUTH_TOKEN_REQUEST, login)
+        takeLatest(types.AUTH_TOKEN_REQUEST, login)
       );
     });
 
     it('should fork a watcher for logout', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, types.LOGOUT_REQUEST, logout)
+        takeLatest(types.LOGOUT_REQUEST, logout)
       );
     });
   });

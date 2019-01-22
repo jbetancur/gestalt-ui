@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork, select } from 'redux-saga/effects';
+import { takeLatest, put, call, select } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   PRE_CONTEXT_REQUEST,
@@ -212,5 +212,5 @@ export function* fetchContext(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_CONTEXT_REQUEST, fetchContext);
+  yield takeLatest(FETCH_CONTEXT_REQUEST, fetchContext);
 }

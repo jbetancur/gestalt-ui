@@ -1,4 +1,4 @@
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   FETCH_UPGRADEAVAILABLE_REQUEST,
@@ -18,5 +18,5 @@ export function* fetchUpgradeAvailable() {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, FETCH_UPGRADEAVAILABLE_REQUEST, fetchUpgradeAvailable);
+  yield takeLatest(FETCH_UPGRADEAVAILABLE_REQUEST, fetchUpgradeAvailable);
 }

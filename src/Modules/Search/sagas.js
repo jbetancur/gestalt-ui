@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 // import { buildParams } from '../lib/urlmapper';
 import {
@@ -44,6 +44,6 @@ export function* searchAsset(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, DO_SEARCHUSERS_REQUEST, searchUser);
-  yield fork(takeLatest, DO_SEARCHASSETS_REQUEST, searchAsset);
+  yield takeLatest(DO_SEARCHUSERS_REQUEST, searchUser);
+  yield takeLatest(DO_SEARCHASSETS_REQUEST, searchAsset);
 }

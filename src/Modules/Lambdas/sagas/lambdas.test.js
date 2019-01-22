@@ -432,35 +432,35 @@ describe('Lambda Sagas', () => {
     it('should fork a watcher for fetchLambdas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_LAMBDAS_REQUEST, fetchLambdas)
+        takeLatest(FETCH_LAMBDAS_REQUEST, fetchLambdas)
       );
     });
 
     it('should fork a watcher for createLambda', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, CREATE_LAMBDA_REQUEST, createLambda)
+        takeLatest(CREATE_LAMBDA_REQUEST, createLambda)
       );
     });
 
     it('should fork a watcher for updateLambda', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, UPDATE_LAMBDA_REQUEST, updateLambda)
+        takeLatest(UPDATE_LAMBDA_REQUEST, updateLambda)
       );
     });
 
     it('should fork a watcher for deleteLambda', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DELETE_LAMBDA_REQUEST, deleteLambda)
+        takeLatest(DELETE_LAMBDA_REQUEST, deleteLambda)
       );
     });
 
     it('should fork a watcher for deleteLambdas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DELETE_LAMBDAS_REQUEST, deleteLambdas)
+        takeLatest(DELETE_LAMBDAS_REQUEST, deleteLambdas)
       );
     });
 

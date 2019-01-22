@@ -1,4 +1,4 @@
-import { takeLatest, put, call, fork, all } from 'redux-saga/effects';
+import { takeLatest, put, call, all } from 'redux-saga/effects';
 import axios from 'axios';
 import { isIP } from 'validator';
 import { removeItem } from 'util/helpers/localstorage';
@@ -133,6 +133,6 @@ export function* logout(action) {
 
 // Watchers
 export default function* () {
-  yield fork(takeLatest, AUTH_TOKEN_REQUEST, login);
-  yield fork(takeLatest, LOGOUT_REQUEST, logout);
+  yield takeLatest(AUTH_TOKEN_REQUEST, login);
+  yield takeLatest(LOGOUT_REQUEST, logout);
 }

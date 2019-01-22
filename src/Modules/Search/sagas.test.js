@@ -128,14 +128,14 @@ describe('Search Sagas', () => {
     it('should fork a watcher for searchUser', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DO_SEARCHUSERS_REQUEST, searchUser)
+        takeLatest(DO_SEARCHUSERS_REQUEST, searchUser)
       );
     });
 
     it('should fork a watcher for searchAsset', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, DO_SEARCHASSETS_REQUEST, searchAsset)
+        takeLatest(DO_SEARCHASSETS_REQUEST, searchAsset)
       );
     });
   });

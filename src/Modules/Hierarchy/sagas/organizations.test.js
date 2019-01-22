@@ -99,14 +99,14 @@ describe('Organization Sagas', () => {
     it('should fork a watcher for fetchAllOrgs', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_ALLORGS_REQUEST, fetchAllOrgs)
+        takeLatest(FETCH_ALLORGS_REQUEST, fetchAllOrgs)
       );
     });
 
     it('should fork a watcher for fetchAllOrgsDropDown', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown)
+        takeLatest(FETCH_ALLORGSDROPDOWN_REQUEST, fetchAllOrgsDropDown)
       );
     });
   });

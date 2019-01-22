@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { delay } from 'redux-saga';
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, retry } from 'redux-saga/effects';
 import { API_RETRIES } from '../../../constants';
 
 import selfSagas, {
@@ -14,10 +13,10 @@ import {
 } from '../constants';
 
 describe('Self Sagas', () => {
-  const error = 'an error has occured';
+  const error = 'Attempts to reach meta/self failed';
 
   describe('handleSelf Sequence', () => {
-    const saga = handleSelf(1);
+    const saga = handleSelf();
     let result;
 
     it('should make an api call for the user/self', () => {
@@ -41,20 +40,8 @@ describe('Self Sagas', () => {
       // Finish the iteration
       result = saga.next();
     });
-
-    describe('handleSelf Sequence failure', () => {
-      it('should handle a timeout', () => {
-        const sagaError = handleSelf(1);
-        let resultError = sagaError.next();
-
-        resultError = sagaError.throw({ message: error });
-
-        expect(resultError.value).toEqual(
-          call(delay, 2000)
-        );
-      });
-    });
   });
+
   describe('fetchSelf Sequence', () => {
     const saga = fetchSelf();
     let result;
@@ -62,7 +49,7 @@ describe('Self Sagas', () => {
     it('should call the function handleSelf', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(handleSelf, API_RETRIES)
+        retry(API_RETRIES, 2000, handleSelf)
       );
     });
 
@@ -95,7 +82,7 @@ describe('Self Sagas', () => {
     it('should fork a watcher for fetchSelf', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_SELF_REQUEST, fetchSelf)
+        takeLatest(FETCH_SELF_REQUEST, fetchSelf)
       );
     });
   });

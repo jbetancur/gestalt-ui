@@ -54,7 +54,7 @@ describe('Upgrder Sagas', () => {
     it('should fork a watcher for fetchUpgradeAvailable', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
-        fork(takeLatest, FETCH_UPGRADEAVAILABLE_REQUEST, fetchUpgradeAvailable)
+        takeLatest(FETCH_UPGRADEAVAILABLE_REQUEST, fetchUpgradeAvailable)
       );
     });
   });
