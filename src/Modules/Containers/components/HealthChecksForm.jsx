@@ -23,7 +23,6 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        <AddButton label="Add Health Check" onClick={() => fields.unshift(initialValues)} />
         {fields.map((member, index) => {
           const field = getIn(formValues, member) || {};
           const selectedHCProtocol = healthCheckProtocols.find(item => field.protocol === item.value);
@@ -182,6 +181,11 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
             </FieldItem>
           );
         })}
+        <Row gutter={5} center>
+          <Col flex={12}>
+            <AddButton label="Add Health Check" onClick={() => fields.push(initialValues)} />
+          </Col>
+        </Row>
       </FieldContainer>
     )}
   </FieldArray>

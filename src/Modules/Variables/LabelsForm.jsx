@@ -11,7 +11,6 @@ const LabelsForm = ({ fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        <AddButton label="Add Label" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => (
           <FieldItem key={`label-${member}`}>
             <Row gutter={5}>
@@ -38,6 +37,11 @@ const LabelsForm = ({ fieldName }) => (
             <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
           </FieldItem>
         ))}
+        <Row gutter={5} center>
+          <Col flex={12}>
+            <AddButton label="Add Label" onClick={() => fields.push({})} />
+          </Col>
+        </Row>
       </FieldContainer>
     )}
   </FieldArray>

@@ -11,7 +11,6 @@ const LinkedProviders = ({ fieldName, providers }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        <AddButton label="Add Linked Provider" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => (
           <FieldItem key={`linkedprovider-${member}`}>
             <Row gutter={5}>
@@ -43,6 +42,11 @@ const LinkedProviders = ({ fieldName, providers }) => (
             <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
           </FieldItem>
         ))}
+        <Row gutter={5} center>
+          <Col flex={12}>
+            <AddButton label="Add Linked Provider" onClick={() => fields.push({})} />
+          </Col>
+        </Row>
       </FieldContainer>
     )}
   </FieldArray>

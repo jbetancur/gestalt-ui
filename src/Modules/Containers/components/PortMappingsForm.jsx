@@ -40,7 +40,6 @@ class PortMappingsForm extends Component {
       <FieldArray name={fieldName}>
         {({ fields }) => (
           <FieldContainer>
-            <AddButton label="Add Mapping" onClick={() => fields.unshift(initialValues)} />
             {fields.map((member, index) => {
               const field = getIn(formValues, member) || {};
 
@@ -138,6 +137,11 @@ class PortMappingsForm extends Component {
                 </FieldItem>
               );
             })}
+            <Row gutter={5} center>
+              <Col flex={12}>
+                <AddButton label="Add Mapping" onClick={() => fields.push(initialValues)} />
+              </Col>
+            </Row>
           </FieldContainer>
         )}
       </FieldArray>

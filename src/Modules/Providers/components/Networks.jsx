@@ -11,7 +11,6 @@ const Networks = ({ fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        <AddButton label="Add Network" onClick={() => fields.unshift({})} />
         {fields.map((member, index) => (
           <FieldItem key={`networks-${member}`}>
             <Row gutter={5}>
@@ -29,6 +28,11 @@ const Networks = ({ fieldName }) => (
             <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />
           </FieldItem>
         ))}
+        <Row gutter={5} center>
+          <Col flex={12}>
+            <AddButton label="Add Network" onClick={() => fields.push({})} />
+          </Col>
+        </Row>
       </FieldContainer>
     )}
   </FieldArray>

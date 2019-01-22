@@ -186,7 +186,7 @@ class LambdaEdit extends PureComponent {
                 mutators={{ ...arrayMutators }}
                 decorators={[focusOnErrors]}
                 onSaveInlineCode={this.handleSaveInlineCode}
-                render={({ handleSubmit, values, pristine, submitting, ...rest }) => (
+                render={({ handleSubmit, values, submitting, ...rest }) => (
                   <Form
                     onSubmit={handleSubmit}
                     autoComplete="off"
@@ -207,7 +207,7 @@ class LambdaEdit extends PureComponent {
                         raised
                         iconChildren="save"
                         type="submit"
-                        disabled={pristine || submitting || !values.properties.runtime || !values.properties.provider.id}
+                        disabled={submitting || !values.properties.runtime || !values.properties.provider.id}
                         primary
                       >
                         Update

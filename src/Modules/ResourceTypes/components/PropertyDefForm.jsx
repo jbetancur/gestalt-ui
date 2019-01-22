@@ -15,7 +15,6 @@ const PropertyDefForm = ({ name, resourceTypes, addLabel, formValues }) => (
   <FieldArray name={name}>
     {({ fields }) => (
       <FieldContainer>
-        <AddButton label={addLabel} onClick={() => fields.unshift(initialValues)} />
         {fields.map((member, index) => {
           const field = getIn(formValues, member) || {};
           const isResourceType = field.data_type && field.data_type.includes('resource::uuid');
@@ -87,6 +86,11 @@ const PropertyDefForm = ({ name, resourceTypes, addLabel, formValues }) => (
             </FieldItem>
           );
         })}
+        <Row gutter={5} center>
+          <Col flex={12}>
+            <AddButton label={addLabel} onClick={() => fields.push(initialValues)} />
+          </Col>
+        </Row>
       </FieldContainer>
     )}
   </FieldArray>

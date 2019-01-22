@@ -268,7 +268,7 @@ class ContainerForm extends PureComponent {
               count={formValues.properties.labels.length}
               error={safeErrors.properties.labels && errors.properties.labels.length > 0}
             >
-              <LabelsForm fieldName={`${formName}.properties.labels`} formValues={values} />
+              <LabelsForm fieldName={`${formName}.properties.labels`} />
             </Panel>
           </Col>
 

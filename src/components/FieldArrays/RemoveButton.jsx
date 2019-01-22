@@ -26,7 +26,7 @@ const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {..
 const RemoveButton = ({ onRemove, fieldIndex, ...props }) => {
   const handleRemove = () => onRemove(fieldIndex);
 
-  return <ButtonStyle icon onClick={handleRemove} {...props}><DeleteIcon /></ButtonStyle>;
+  return <ButtonStyle icon inkDisabled onClick={handleRemove} {...props}><DeleteIcon /></ButtonStyle>;
 };
 
 RemoveButton.propTypes = {

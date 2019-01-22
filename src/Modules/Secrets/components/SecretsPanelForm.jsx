@@ -77,7 +77,6 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
     <FieldArray name={fieldName}>
       {({ fields }) => (
         <FieldContainer>
-          <AddButton label="Add Secret" onClick={() => fields.unshift({})} />
           {fields.map((member, index) => {
             const field = getIn(formValues, member) || {};
 
@@ -160,6 +159,11 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
               </FieldItem>
             );
           })}
+          <Row gutter={5} center>
+            <Col flex={12}>
+              <AddButton label="Add Secret" onClick={() => fields.push({})} />
+            </Col>
+          </Row>
         </FieldContainer>
       )}
     </FieldArray>

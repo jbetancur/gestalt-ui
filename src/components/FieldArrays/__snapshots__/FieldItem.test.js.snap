@@ -3,28 +3,9 @@
 exports[`(Components) FieldItem mounts with basic props 1`] = `
 .c0 {
   position: relative;
-  padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 16px;
   padding-right: 8px;
-}
-
-.c0:nth-child(odd) {
-  background-color: #fafafa;
-}
-
-.c0:nth-child(even) {
-  background-color: #fff;
-}
-
-.c0:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  padding-left: 16px;
-  background-color: #fff;
-}
-
-.c0:nth-child(n+2) {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -35,14 +16,22 @@ exports[`(Components) FieldItem mounts with basic props 1`] = `
   align-items: center;
 }
 
+.c0:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+.c0:nth-child(even) {
+  background-color: #fff;
+}
+
 @media (min-width:0) and (max-width:599px) {
-  .c0:nth-child(n+2) {
+  .c0 {
     padding-top: 32px;
   }
 }
 
 @media (min-width:600px) and (max-width:959px) {
-  .c0:nth-child(n+2) {
+  .c0 {
     padding-top: 32px;
   }
 }

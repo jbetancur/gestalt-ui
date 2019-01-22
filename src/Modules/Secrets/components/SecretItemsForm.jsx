@@ -37,7 +37,6 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) =
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
-        {multiPart && !disabled && <AddButton label="Add Item" onClick={() => fields.unshift(initialValues)} disabled={disabled} />}
         {fields.map((member, index) => (
           <FieldItem key={`secrets-${member}`}>
             <Row gutter={5} alignItems="center">
@@ -83,6 +82,12 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) =
             {(!disabled && multiPart && fields.length > 1) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
           </FieldItem>
         ))}
+        {multiPart && !disabled &&
+          <Row gutter={5} center>
+            <Col flex={12}>
+              <AddButton label="Add Item" disabled={disabled} onClick={() => fields.push(initialValues)} />
+            </Col>
+          </Row>}
       </FieldContainer>
     )}
   </FieldArray>

@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-md';
 import { media } from 'util/helpers/media';
 
-const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {...rest} />)`
-  margin: 4px 16px 8px 16px;
+const ButtonStyle = styled(({ absoluteTopRight, ...rest }) => <Button {...rest} />)`
   color: ${props => props.theme.colors['$md-blue-500']};
   ${props => props.icon && css`
     ${() => media.xs`
@@ -27,6 +26,7 @@ const AddButton = ({ onClick, label }) => (
     flat={!!label}
     onClick={onClick}
     iconChildren="add"
+    inkDisabled
   >
     {label || 'add'}
   </ButtonStyle>
