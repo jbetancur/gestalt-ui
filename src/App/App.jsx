@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import styled from 'styled-components';
-import Mousetrap from 'mousetrap';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
@@ -10,6 +9,7 @@ import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
 import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { withRestricted } from 'Modules/Authentication';
 import AppError from './components/AppError';
 import withApp from './hocs/withApp';
@@ -29,6 +29,7 @@ class App extends Component {
     history: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    keyBindings: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
     selfActions: PropTypes.object.isRequired,
@@ -40,7 +41,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const { self, selfActions } = this.props;
+    const { self, selfActions, keyBindings } = this.props;
     // sets our current logged in users home org
     // this can go away when we implement JWT
     if (!self.id) {
@@ -48,7 +49,7 @@ class App extends Component {
     }
 
     // demo konami for showing experimental features
-    Mousetrap.bind(konamiCode, this.showExperimental);
+    keyBindings.add(konamiCode, this.showExperimental);
   }
 
   componentDidUpdate(prevProps) {
@@ -62,10 +63,6 @@ class App extends Component {
       // Check for available Upgrades
       upgraderActions.fetchUpgradeAvailable();
     }
-  }
-
-  componentWillUnmount() {
-    Mousetrap.unbind(konamiCode, this.showExperimental);
   }
 
   showExperimental = () => {
@@ -121,4 +118,5 @@ export default compose(
   withSelf,
   withLicense,
   withUpgrader,
+  withKeyBindings,
 )(App);
