@@ -3,6 +3,7 @@ import {
   truncate,
   toTitleCase,
   removeHostFromURL,
+  isBase64,
 } from './strings';
 
 describe('Util Transformations', () => {
@@ -63,6 +64,16 @@ describe('Util Transformations', () => {
       const url = 'https://gtw1.test.galacticfog.com/jb/upgrade-all-the-things';
 
       expect(removeHostFromURL(url)).toBe('jb/upgrade-all-the-things');
+    });
+  });
+
+  describe('isBase64 function', () => {
+    it('should return true if valid base64', () => {
+      expect(isBase64('aGVsbG8gd29ybGQ=')).toBe(true);
+    });
+
+    it('should rreturn false if invalid base64', () => {
+      expect(isBase64('hello world')).toBe(false);
     });
   });
 });
