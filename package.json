@@ -1,6 +1,6 @@
 {
     "name": "gestalt-ui",
-    "version": "2.4.1-rc",
+    "version": "2.4.1-rc3",
     "title": "Galactic Fog",
     "description": "gestalt ui",
     "engines": {
@@ -147,6 +147,6 @@
         "universal-cookie": "^3.0.7",
         "url-join": "^4.0.0",
         "validator": "^10.11.0",
-        "yup": "^0.26.7"
+        "yup": "^0.26.10"
     }
 }
