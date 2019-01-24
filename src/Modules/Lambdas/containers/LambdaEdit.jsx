@@ -20,6 +20,7 @@ import { Tabs, Tab } from 'components/Tabs';
 import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
 import { FullPageFooter } from 'components/FullPage';
+import PayloadViewer from '../components/PayloadViewer';
 import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
 import validate from '../validations';
@@ -268,6 +269,19 @@ class LambdaEdit extends PureComponent {
                   Lambdas
                 </Button>
               </FullPageFooter>
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={lambda}
+                      name={lambda.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
             </Tab>
           </Tabs>
         </Col>

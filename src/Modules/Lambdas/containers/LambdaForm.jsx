@@ -80,7 +80,7 @@ class LambdaForm extends PureComponent {
   }
 
   render() {
-    const { form, errors, values, providers, executors, secrets, editMode, onSaveInlineCode } = this.props;
+    const { form, errors, values, providers, secrets, editMode, onSaveInlineCode } = this.props;
     const safeErrors = {
       ...errors,
       properties: {
@@ -140,10 +140,9 @@ class LambdaForm extends PureComponent {
         <Row gutter={5}>
           <Col flex={7} xs={12} sm={12} md={12}>
             <LambdaFunctionSection
-              executors={executors}
-              formValues={values}
+              codeType={values.properties.code_type}
+              packageCompressed={values.properties.compressed}
               editMode={editMode}
-              form={form}
             />
           </Col>
 
@@ -194,8 +193,8 @@ class LambdaForm extends PureComponent {
           <Col flex={12}>
             <LambdaPeriodicSection
               editMode={editMode}
-              formValues={values}
-              errors={safeErrors}
+              expanded={!!values.properties.periodic_info.schedule}
+              error={!!safeErrors.properties.periodic_info}
             />
           </Col>
         </Row>

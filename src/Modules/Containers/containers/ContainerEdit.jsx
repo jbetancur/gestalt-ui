@@ -23,6 +23,7 @@ import { FullPageFooter } from 'components/FullPage';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Caption } from 'components/Typography';
 import Div from 'components/Div';
+import PayloadViewer from '../components/PayloadViewer';
 import ContainerForm from './ContainerForm';
 import ContainerActions from '../components/ContainerActions';
 import ContainerInstances from '../components/ContainerInstances';
@@ -312,6 +313,19 @@ class ContainerEdit extends Component {
 
                 {!inlineMode && this.generateDefaultFooter()}
               </Tab> : <div />}
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={container}
+                      name={container.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
           </Tabs>
         </Col>
       </Row>

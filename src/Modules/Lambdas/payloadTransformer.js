@@ -1,6 +1,6 @@
-import base64 from 'base-64';
+// import base64 from 'base-64';
+// import { get } from 'lodash';
 import jsonPatch from 'fast-json-patch';
-import { arrayToMap } from 'util/helpers/transformations';
 import lambdaModel from './models/lambda';
 
 /**
@@ -11,32 +11,10 @@ import lambdaModel from './models/lambda';
  */
 export function generatePayload(sourcePayload, updateMode = false) {
   const model = lambdaModel.create(sourcePayload);
-  model.properties.env = arrayToMap(model.properties.env, 'name', 'value');
 
   if (!updateMode) {
     // TODO: Fake Locations
     model.properties.provider = { id: model.properties.provider.id, locations: [] };
-  }
-
-  // Clean up properties depending on lambda code_type
-  if (model.properties.code_type === 'package') {
-    delete model.properties.code;
-  } else {
-    delete model.properties.package_url;
-    delete model.properties.compressed;
-    model.properties.code = base64.encode(model.properties.code);
-  }
-
-  if (model.properties.periodic_info && !model.properties.periodic_info.schedule) {
-    delete model.properties.periodic_info.payload;
-    delete model.properties.periodic_info.timezone;
-  }
-
-  if (model.properties.periodic_info &&
-    model.properties.periodic_info.schedule &&
-    model.properties.periodic_info.payload &&
-    model.properties.periodic_info.payload.data) {
-    model.properties.periodic_info.payload.data = base64.encode(model.properties.periodic_info.payload.data);
   }
 
   return model;
@@ -48,22 +26,14 @@ export function generatePayload(sourcePayload, updateMode = false) {
  * @param {Object} updatedPayload
  */
 export function generatePatches(originalPayload, updatedPayload) {
-  const model = lambdaModel.create(originalPayload);
-  model.properties.env = arrayToMap(model.properties.env, 'name', 'value');
-
-  if (originalPayload.properties.code_type === 'package') {
-    delete model.properties.code;
-  } else {
-    delete model.properties.package_url;
-    delete model.properties.compressed;
-  }
+  const model = lambdaModel.patch(originalPayload);
 
   // TODO: Deal with Patch array issues
   if (updatedPayload.properties.secrets) {
     delete model.properties.secrets;
   }
 
-  return jsonPatch.compare(model, generatePayload(updatedPayload, true));
+  return jsonPatch.compare(model, lambdaModel.patch(updatedPayload));
 }
 
 export default {

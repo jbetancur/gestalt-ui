@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
@@ -6,7 +6,7 @@ import { TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 import { lowercase } from 'util/forms';
 
-const LambdaSection = () => (
+const LambdaSection = memo(() => (
   <Row gutter={5}>
     <Col flex={7} xs={12} sm={12} md={12}>
       <Panel title="Name" expandable={false} fill>
@@ -42,6 +42,6 @@ const LambdaSection = () => (
       </Panel>
     </Col>
   </Row>
-);
+));
 
 export default LambdaSection;

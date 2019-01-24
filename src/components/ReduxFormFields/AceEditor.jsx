@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/sh';
@@ -18,6 +18,7 @@ import 'brace/theme/dracula';
 import 'brace/ext/language_tools';
 import 'brace/keybinding/emacs';
 import 'brace/keybinding/vim';
+import 'brace/ext/searchbox';
 import { Error } from 'components/Typography';
 
 const aceOnBlur = onBlur => (_event, editor) => {
@@ -26,7 +27,7 @@ const aceOnBlur = onBlur => (_event, editor) => {
 };
 
 /* eslint-disable react/prop-types */
-export default ({ input, className, theme, mode, meta: { touched, error }, ...others }) => (
+export default memo(({ input, className, theme, mode, meta: { touched, error }, ...others }) => (
   <React.Fragment>
     <AceEditor
       name={input.name}
@@ -53,4 +54,4 @@ export default ({ input, className, theme, mode, meta: { touched, error }, ...ot
     />
     {touched && !!error && <Error large bold block>{error}</Error>}
   </React.Fragment>
-);
+));

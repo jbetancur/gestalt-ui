@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -35,7 +35,7 @@ const Metric = styled.div`
   }
 `;
 
-class LambdaStats extends Component {
+class LambdaStats extends PureComponent {
   static propTypes = {
     fqon: PropTypes.string,
     providerId: PropTypes.string,

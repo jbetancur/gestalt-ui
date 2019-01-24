@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
@@ -6,18 +6,17 @@ import { SelectField, TextField, AceEditor } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 import { Subtitle } from 'components/Typography';
 import moment from 'moment-timezone';
-import { some, isEmpty } from 'lodash';
 
 const timezones = moment.tz.names();
 
-const LambdaPeriodicSection = ({ formValues, errors, editMode }) => {
-  const periodicExpanded = editMode && !some(formValues.properties.periodic_info, isEmpty);
+const LambdaPeriodicSection = memo(({ expanded, error, editMode }) => {
+  const periodicExpanded = editMode && expanded;
 
   return (
     <Panel
       title="Periodic Configuration"
       defaultExpanded={periodicExpanded}
-      error={errors.properties.periodic_info}
+      error={error}
       fill
     >
       <Row gutter={5}>
@@ -61,11 +60,11 @@ const LambdaPeriodicSection = ({ formValues, errors, editMode }) => {
       </Row>
     </Panel>
   );
-};
+});
 
 LambdaPeriodicSection.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  expanded: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
   editMode: PropTypes.bool,
 };
 

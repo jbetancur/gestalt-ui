@@ -110,18 +110,5 @@ describe('(Container Payload Transformer) generatePayload', () => {
         expect(payload.properties.health_checks).toEqual([{ protocol: 'COMMAND', command: 'oxford comma' }]);
       });
     });
-
-    describe('properties.provider', () => {
-      it('should delete provider in updateMode so it is not PATCHED', () => {
-        const sourcePayload = containerModel.get({
-          properties: {
-            provider: { id: '1' }
-          }
-        });
-        const payload = generatePayload(sourcePayload, [], true);
-
-        expect(payload.properties).not.toHaveProperty('provider');
-      });
-    });
   });
 });

@@ -63,3 +63,18 @@ export const getEditContainerModel = createSelector(
     return containerModel.get(model);
   }
 );
+
+export const getContainerStatus = createSelector(
+  [selectContainer],
+  (container) => {
+    const { properties: { instances, events, status, status_detail, port_mappings } } = container;
+
+    return {
+      instances,
+      events,
+      status,
+      status_detail,
+      port_mappings,
+    };
+  }
+);

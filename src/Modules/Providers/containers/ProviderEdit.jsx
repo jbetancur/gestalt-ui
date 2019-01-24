@@ -16,6 +16,7 @@ import { Button } from 'components/Buttons';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card, CardTitle } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -196,6 +197,21 @@ class ProviderEdit extends PureComponent {
                 </Row>
               </Tab> : <div />
             }
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={provider}
+                      name={provider.name}
+                      hasContainer={hasContainer}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+
             {/* <Tab title="Environment">
               <EnvironmentListing {...this.props} />
             </Tab> */}

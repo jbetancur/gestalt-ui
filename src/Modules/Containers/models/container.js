@@ -140,6 +140,9 @@ const put = (model = {}) =>
     'properties.user',
     'properties.accepted_resource_roles',
     'properties.constraints',
+    'properties.provider.id',
+    'properties.provider.name',
+    'properties.provider.resource_type'
   ]);
 
 export default {
