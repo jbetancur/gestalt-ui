@@ -12,13 +12,15 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { A } from 'components/Links';
 import { Button } from 'components/Buttons';
+import { Tabs, Tab } from 'components/Tabs';
+import { Card } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditEndpointModel, selectAPIEndpoint } from '../selectors';
 import withAPIEndpoint from '../hocs/withAPIEndpoint';
-
 
 class APIEndpointEdit extends PureComponent {
   static propTypes = {
@@ -71,48 +73,67 @@ class APIEndpointEdit extends PureComponent {
   render() {
     const { initialFormValues, apiEndpoint, apiEndpointPending } = this.props;
 
+    if (apiEndpointPending && !apiEndpoint.id) {
+      return <ActivityContainer id="apiEndpoint-loading" />;
+    }
+
     return (
-      apiEndpointPending ?
-        <ActivityContainer id="apiEndpoint-loading" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <ActionsToolbar
-              title={apiEndpoint.properties.resource}
-              subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null}
-              showActions={apiEndpoint.id}
-              actions={[
-                <Button
-                  key="apiEndpoint--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
-                >
-                  Entitlements
-                </Button>]
-              }
-            />
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ActionsToolbar
+            title={apiEndpoint.properties.resource}
+            subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null}
+            showActions={apiEndpoint.id}
+            actions={[
+              <Button
+                key="apiEndpoint--entitlements"
+                flat
+                iconChildren="security"
+                onClick={this.showEntitlements}
+              >
+                Entitlements
+              </Button>]
+            }
+          />
 
-            {apiEndpointPending && <ActivityContainer id="apiEndpoint-form" />}
+          {apiEndpointPending && <ActivityContainer id="apiEndpoint-form" />}
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={apiEndpoint} />
-                </Panel>
-              </Col>
-            </Row>
+          <Tabs>
+            <Tab title="Endpoint">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={apiEndpoint} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Form
-              editMode
-              onSubmit={this.update}
-              initialValues={initialFormValues}
-              render={APIEndpointForm}
-              validate={validate}
-              loading={apiEndpointPending}
-              {...this.props}
-            />
-          </Col>
-        </Row>
+              <Form
+                editMode
+                onSubmit={this.update}
+                initialValues={initialFormValues}
+                render={APIEndpointForm}
+                validate={validate}
+                loading={apiEndpointPending}
+                {...this.props}
+              />
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={apiEndpoint}
+                      name={apiEndpoint.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

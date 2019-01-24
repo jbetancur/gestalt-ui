@@ -12,6 +12,9 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
+import { Tabs, Tab } from 'components/Tabs';
+import { Card } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
 import { getDatafeed } from '../selectors';
@@ -59,47 +62,66 @@ class DataFeedEdit extends Component {
   render() {
     const { datafeedPending, datafeed, secretsData, resourceType, initialFormValues } = this.props;
 
+    if (datafeedPending && !datafeed.id) {
+      return <ActivityContainer id="datafeed-loading" />;
+    }
+
     return (
-      datafeedPending && !datafeed.id ?
-        <ActivityContainer id="datafeed-loading" /> :
-        <Row center>
-          <Col flex={8} xs={12} sm={12} md={10}>
-            <ActionsToolbar
-              title={datafeed.name}
-              actions={[
-                <Button
-                  key="datafeed--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={this.onShowEntitlements}
-                >
-                  Entitlements
-                </Button>,
-              ]}
-            />
+      <Row center>
+        <Col flex={8} xs={12} sm={12} md={10}>
+          <ActionsToolbar
+            title={datafeed.name}
+            actions={[
+              <Button
+                key="datafeed--entitlements"
+                flat
+                iconChildren="security"
+                onClick={this.onShowEntitlements}
+              >
+                Entitlements
+              </Button>,
+            ]}
+          />
 
-            {datafeedPending && <ActivityContainer id="datafeed-form" />}
+          {datafeedPending && <ActivityContainer id="datafeed-form" />}
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={datafeed} />
-                </Panel>
-              </Col>
-            </Row>
+          <Tabs>
+            <Tab title="Data Feed">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={datafeed} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Form
-              editMode
-              onSubmit={this.onSubmit}
-              initialValues={initialFormValues}
-              render={DataFeedForm}
-              validate={validate}
-              loading={datafeedPending}
-              secrets={secretsData}
-              tags={resourceType.tags}
-            />
-          </Col>
-        </Row>
+              <Form
+                editMode
+                onSubmit={this.onSubmit}
+                initialValues={initialFormValues}
+                render={DataFeedForm}
+                validate={validate}
+                loading={datafeedPending}
+                secrets={secretsData}
+                tags={resourceType.tags}
+              />
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={datafeed}
+                      name={datafeed.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

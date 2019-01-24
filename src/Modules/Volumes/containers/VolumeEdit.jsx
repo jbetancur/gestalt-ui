@@ -12,6 +12,9 @@ import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { ALink } from 'components/Links';
+import { Tabs, Tab } from 'components/Tabs';
+import { Card } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
@@ -59,63 +62,82 @@ class VolumeEdit extends Component {
       selectedProvider,
     } = this.props;
 
+    if (volumePending && !volume.id) {
+      return <ActivityContainer id="volume-edit-loading" />;
+    }
+
     return (
-      volumePending && !volume.id ?
-        <ActivityContainer id="volume-edit-loading" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
 
-            <ActionsToolbar
-              title={volume.name}
-              subtitle={(
-                <React.Fragment>
-                  <div>{`Provider: ${volume.properties.provider.name}`}</div>
-                  {volume.properties.container &&
-                    <div>
-                      <span>Container: </span>
-                      <ALink
-                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${volume.properties.container.id}`}
-                        primary
-                      >
-                        {volume.properties.container.name}
-                      </ALink>
-                    </div>}
-                </React.Fragment>
-              )
-              }
-              actions={[
-                <Button
-                  key="volume--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={() => entitlementActions.showEntitlementsModal(volume.name, match.params.fqon, volume.id, 'volumes', 'volume')}
-                >
-                  Entitlements
-                </Button>]
-              }
-            />
+          <ActionsToolbar
+            title={volume.name}
+            subtitle={(
+              <React.Fragment>
+                <div>{`Provider: ${volume.properties.provider.name}`}</div>
+                {volume.properties.container &&
+                  <div>
+                    <span>Container: </span>
+                    <ALink
+                      to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${volume.properties.container.id}`}
+                      primary
+                    >
+                      {volume.properties.container.name}
+                    </ALink>
+                  </div>}
+              </React.Fragment>
+            )
+            }
+            actions={[
+              <Button
+                key="volume--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => entitlementActions.showEntitlementsModal(volume.name, match.params.fqon, volume.id, 'volumes', 'volume')}
+              >
+                Entitlements
+              </Button>]
+            }
+          />
 
-            {volumePending && <ActivityContainer id="volume-form" />}
+          {volumePending && <ActivityContainer id="volume-form" />}
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={volume} />
-                </Panel>
-              </Col>
-            </Row>
+          <Tabs>
+            <Tab title="Volume">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={volume} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Form
-              editMode
-              onSubmit={this.update}
-              mutators={{ ...arrayMutators }}
-              render={VolumeForm}
-              loading={volumePending}
-              initialValues={initialFormValues}
-              selectedProvider={selectedProvider}
-            />
-          </Col>
-        </Row>
+              <Form
+                editMode
+                onSubmit={this.update}
+                mutators={{ ...arrayMutators }}
+                render={VolumeForm}
+                loading={volumePending}
+                initialValues={initialFormValues}
+                selectedProvider={selectedProvider}
+              />
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={volume}
+                      name={volume.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

@@ -14,6 +14,8 @@ import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
+import { Card } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import PolicyTypesMenu from '../components/PolicyTypesMenu';
 import PolicyForm from './PolicyForm';
 import actions from '../actions';
@@ -53,67 +55,81 @@ class PolicyEdit extends Component {
   render() {
     const { match, initialFormValues, policy, policyPending } = this.props;
 
+    if (policyPending && !policy.id) {
+      return <ActivityContainer id="policy-load" />;
+    }
     return (
-      policyPending && !policy.id ?
-        <ActivityContainer id="policy-load" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
 
-            <ActionsToolbar
-              title={policy.name}
-              actions={[
-                <PolicyTypesMenu key="policy--types-menu" />,
+          <ActionsToolbar
+            title={policy.name}
+            actions={[
+              <PolicyTypesMenu key="policy--types-menu" />,
+              <Button
+                key="policy--entitlements"
+                flat
+                iconChildren="security"
+                onClick={this.showEntitlements}
+              >
+                Entitlements
+              </Button>]}
+          />
+
+          {policyPending && <ActivityContainer id="policy-form" />}
+
+          <Tabs>
+            <Tab title="Rules">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  {policy.id && <PolicyRules />}
+                </Col>
+              </Row>
+              <FullPageFooter>
                 <Button
-                  key="policy--entitlements"
                   flat
-                  iconChildren="security"
-                  onClick={this.showEntitlements}
+                  iconChildren="arrow_back"
+                  component={Link}
+                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
                 >
-                  Entitlements
-                </Button>]}
-            />
+                  Policies
+                </Button>
+              </FullPageFooter>
+            </Tab>
 
-            {policyPending && <ActivityContainer id="policy-form" />}
+            <Tab title="Policy">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={policy} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Tabs>
-              <Tab title="Rules">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    {policy.id && <PolicyRules />}
-                  </Col>
-                </Row>
-                <FullPageFooter>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
-                  >
-                    Policies
-                  </Button>
-                </FullPageFooter>
-              </Tab>
+              <Form
+                editMode
+                render={PolicyForm}
+                onSubmit={this.udpate}
+                initialValues={initialFormValues}
+                {...this.props}
+              />
+            </Tab>
 
-              <Tab title="Policy">
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Panel title="Resource Details" defaultExpanded={false}>
-                      <DetailsPane model={policy} />
-                    </Panel>
-                  </Col>
-                </Row>
-
-                <Form
-                  editMode
-                  render={PolicyForm}
-                  onSubmit={this.udpate}
-                  initialValues={initialFormValues}
-                  {...this.props}
-                />
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={policy}
+                      name={policy.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

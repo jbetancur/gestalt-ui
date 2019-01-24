@@ -17,6 +17,7 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { FullPageFooter } from 'components/FullPage';
+import PayloadViewer from './PayloadViewer';
 import StreamForm from './StreamForm';
 import StreamInstances from './StreamInstances';
 import validate from '../validations';
@@ -180,6 +181,19 @@ class StreamSpecEdit extends Component {
                   </Form>
                 )}
               />
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={streamSpec}
+                      name={streamSpec.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
             </Tab>
           </Tabs>
         </Col>

@@ -15,6 +15,8 @@ import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { FullPageFooter } from 'components/FullPage';
+import { Card } from 'components/Cards';
+import PayloadViewer from './PayloadViewer';
 import APIForm from './APIForm';
 import validate from './validations';
 import actions from '../actions';
@@ -125,6 +127,19 @@ class APIEdit extends Component {
                 loading={apiPending}
                 {...this.props}
               />
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={api}
+                      name={api.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
             </Tab>
           </Tabs>
         </Col>

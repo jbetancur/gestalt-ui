@@ -12,6 +12,9 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
+import { Tabs, Tab } from 'components/Tabs';
+import { Card } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import SecretForm from './SecretForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -53,48 +56,66 @@ class SecretEdit extends Component {
       initialFormValues,
     } = this.props;
 
+    if (secretPending && !secret.id) {
+      return <ActivityContainer id="secret-edit-loading" />;
+    }
+
     return (
-      secretPending && !secret.id ?
-        <ActivityContainer id="secret-edit-loading" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
 
-            <ActionsToolbar
-              title={secret.name}
-              actions={[
-                <Button
-                  key="secret--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={() => entitlementActions.showEntitlementsModal(secret.name, match.params.fqon, secret.id, 'secrets', 'Secret')}
-                >
-                  Entitlements
-                </Button>]
-              }
-            />
+          <ActionsToolbar
+            title={secret.name}
+            actions={[
+              <Button
+                key="secret--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => entitlementActions.showEntitlementsModal(secret.name, match.params.fqon, secret.id, 'secrets', 'Secret')}
+              >
+                Entitlements
+              </Button>]
+            }
+          />
 
-            {secretPending && <ActivityContainer id="secret-form" />}
+          {secretPending && <ActivityContainer id="secret-form" />}
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={secret} />
-                </Panel>
-              </Col>
-            </Row>
+          <Tabs>
+            <Tab title="Secret">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={secret} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Form
-              editMode
-              onSubmit={this.update}
-              mutators={{ ...arrayMutators }}
-              render={SecretForm}
-              providers={providersData}
-              loading={secretPending}
-              initialValues={initialFormValues}
-              validate={validate}
-            />
-          </Col>
-        </Row>
+              <Form
+                editMode
+                onSubmit={this.update}
+                mutators={{ ...arrayMutators }}
+                render={SecretForm}
+                providers={providersData}
+                loading={secretPending}
+                initialValues={initialFormValues}
+                validate={validate}
+              />
+            </Tab>
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={secret}
+                      name={secret.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }

@@ -10,6 +10,9 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
+import { Tabs, Tab } from 'components/Tabs';
+import { Card } from 'components/Cards';
+import PayloadViewer from '../components/PayloadViewer';
 import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
@@ -50,45 +53,64 @@ class PolicyEventRuleEdit extends Component {
       entitlementActions,
     } = this.props;
 
+    if (policyRulePending && !policyRule.id) {
+      return <ActivityContainer id="policyRule-load" />;
+    }
+
     return (
-      policyRulePending && !policyRule.id ?
-        <ActivityContainer id="policyRule-load" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
-            <ActionsToolbar
-              title={policyRule.name}
-              actions={[
-                <Button
-                  key="eventRule--entitlements"
-                  flat
-                  iconChildren="security"
-                  onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
-                >
-                  Entitlements
-                </Button>
-              ]}
-            />
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
+          <ActionsToolbar
+            title={policyRule.name}
+            actions={[
+              <Button
+                key="eventRule--entitlements"
+                flat
+                iconChildren="security"
+                onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
+              >
+                Entitlements
+              </Button>
+            ]}
+          />
 
-            {policyRulePending && <ActivityContainer id="policyRule-form" />}
+          {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
+          <Tabs>
+            <Tab title="Limit Rule">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Resource Details" defaultExpanded={false}>
+                    <DetailsPane model={policyRule} />
+                  </Panel>
+                </Col>
+              </Row>
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={policyRule} />
-                </Panel>
-              </Col>
-            </Row>
+              <Form
+                component={PolicyLimitRuleForm}
+                editMode
+                onSubmit={this.update}
+                initialValues={initialValues}
+                {...this.props}
+              />
 
-            <Form
-              component={PolicyLimitRuleForm}
-              editMode
-              onSubmit={this.update}
-              initialValues={initialValues}
-              {...this.props}
-            />
-          </Col>
-        </Row>
+            </Tab>
+
+            <Tab title="YAML/JSON">
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Card>
+                    <PayloadViewer
+                      value={policyRule}
+                      name={policyRule.name}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
     );
   }
 }
