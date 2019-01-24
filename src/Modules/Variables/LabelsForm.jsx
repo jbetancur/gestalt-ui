@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { FieldArray } from 'react-final-form-arrays';
 import { Field } from 'react-final-form';
@@ -7,7 +7,7 @@ import { TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required } from 'util/forms';
 
-const LabelsForm = ({ fieldName }) => (
+const LabelsForm = memo(({ fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
@@ -45,7 +45,7 @@ const LabelsForm = ({ fieldName }) => (
       </FieldContainer>
     )}
   </FieldArray>
-);
+));
 
 LabelsForm.propTypes = {
   fieldName: PropTypes.string.isRequired,

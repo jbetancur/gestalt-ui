@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { getIn } from 'final-form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
@@ -63,7 +62,7 @@ const determineValidators = (field) => {
   return composeValidators(required());
 };
 
-const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValues, form }) => {
+const SecretsPanelForm = memo(({ type, fieldName, provider, secretsDropdown, form }) => {
   if (!secretsDropdown.length) {
     return (
       <NoData
@@ -78,7 +77,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
       {({ fields }) => (
         <FieldContainer>
           {fields.map((member, index) => {
-            const field = getIn(formValues, member) || {};
+            const field = fields.value[index] || {};
 
             const handleSecretNamePopulation = (value) => {
               const secret = secretsDropdown.find(i => i.id === value);
@@ -100,7 +99,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
                   component={() => null}
                 />
                 <Row gutter={5}>
-                  <Col flex={1} xs={12} sm={12}>
+                  <Col flex={2} xs={12} sm={12}>
                     <Field
                       id={`${member}.mount_type`}
                       name={`${member}.mount_type`}
@@ -142,7 +141,7 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
                       />
                     </Col>}
                   {field.secret_id &&
-                    <Col flex={5} xs={12} sm={12}>
+                    <Col flex={4} xs={12} sm={12}>
                       <Field
                         id={`${member}.path`}
                         name={`${member}.path`}
@@ -168,12 +167,11 @@ const SecretsPanelForm = ({ type, fieldName, provider, secretsDropdown, formValu
       )}
     </FieldArray>
   );
-};
+});
 
 SecretsPanelForm.propTypes = {
   fieldName: PropTypes.string.isRequired,
   provider: PropTypes.object,
-  formValues: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   secretsDropdown: PropTypes.array,
   type: PropTypes.oneOf([

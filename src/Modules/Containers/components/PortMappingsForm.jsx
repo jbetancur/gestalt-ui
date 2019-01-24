@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { getIn } from 'final-form';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { Chips } from 'components/Lists';
@@ -17,7 +16,7 @@ const initialValues = {
   expose_endpoint: true,
 };
 
-class PortMappingsForm extends Component {
+class PortMappingsForm extends PureComponent {
   handleLBPort = (field, index) => (value) => {
     const { form, fieldName } = this.props;
     const item = { ...field };
@@ -34,14 +33,14 @@ class PortMappingsForm extends Component {
   };
 
   render() {
-    const { fieldName, formValues, networkType } = this.props;
+    const { fieldName, networkType } = this.props;
 
     return (
       <FieldArray name={fieldName}>
         {({ fields }) => (
           <FieldContainer>
             {fields.map((member, index) => {
-              const field = getIn(formValues, member) || {};
+              const field = fields.value[index] || {};
 
               return (
                 <FieldItem key={`portmapping-${member}`}>
@@ -152,7 +151,6 @@ class PortMappingsForm extends Component {
 PortMappingsForm.propTypes = {
   fieldName: PropTypes.string.isRequired,
   networkType: PropTypes.string.isRequired,
-  formValues: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
 };
 

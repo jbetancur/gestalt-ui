@@ -225,7 +225,6 @@ class ContainerForm extends PureComponent {
               <PortMappingsForm
                 fieldName={`${formName}.properties.port_mappings`}
                 form={form}
-                formValues={values}
                 networkType={formValues.properties.network}
               />
             </Panel>
@@ -284,7 +283,6 @@ class ContainerForm extends PureComponent {
                 <SecretsPanelForm
                   fieldName={`${formName}.properties.secrets`}
                   secretsDropdown={secrets}
-                  formValues={values}
                   provider={selectedProvider.provider}
                   type="container"
                   form={form}
@@ -304,7 +302,6 @@ class ContainerForm extends PureComponent {
               >
                 <HealthChecksForm
                   fieldName={`${formName}.properties.health_checks`}
-                  formValues={values}
                 />
               </Panel>
             </Col>}

@@ -15,11 +15,11 @@ const FieldItem = styled.div`
     padding-top: 32px;
   `};
 
-  &:nth-child(odd) {
+  &:nth-child(even) {
     background-color: ${props => props.theme.colors['$md-grey-100']};
   }
 
-  &:nth-child(even) {
+  &:nth-child(odd) {
     background-color: ${props => props.theme.colors['$md-white']};
   }
 `;

@@ -180,7 +180,6 @@ class LambdaForm extends PureComponent {
               <SecretsPanelForm
                 fieldName="properties.secrets"
                 secretsDropdown={secrets}
-                formValues={values}
                 provider={selectedProvider}
                 type="lambda"
                 form={form}

@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { getIn } from 'final-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
@@ -19,12 +18,12 @@ const initialValues = {
   port_type: 'number' // this is stripped off when submitted
 };
 
-const HealthChecksForm = ({ fieldName, formValues }) => (
+const HealthChecksForm = memo(({ fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => (
       <FieldContainer>
         {fields.map((member, index) => {
-          const field = getIn(formValues, member) || {};
+          const field = fields.value[index] || {};
           const selectedHCProtocol = healthCheckProtocols.find(item => field.protocol === item.value);
 
           return (
@@ -189,11 +188,10 @@ const HealthChecksForm = ({ fieldName, formValues }) => (
       </FieldContainer>
     )}
   </FieldArray>
-);
+));
 
 HealthChecksForm.propTypes = {
   fieldName: PropTypes.string.isRequired,
-  formValues: PropTypes.object.isRequired,
 };
 
 export default HealthChecksForm;

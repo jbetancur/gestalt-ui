@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
@@ -9,7 +9,7 @@ import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { checkIfPassword } from 'util/helpers/strings';
 import { composeValidators, required, unixPattern } from 'util/forms';
 
-const UnixVariablesForm = ({ disabled, fieldName }) => (
+const UnixVariablesForm = memo(({ disabled, fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => {
       const addNew = () => {
@@ -74,7 +74,7 @@ const UnixVariablesForm = ({ disabled, fieldName }) => (
       );
     }}
   </FieldArray>
-);
+));
 
 UnixVariablesForm.propTypes = {
   disabled: PropTypes.bool,
