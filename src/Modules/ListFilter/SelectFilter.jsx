@@ -111,6 +111,7 @@ class SelectFilter extends Component {
           leftIcon={<FontIcon>search</FontIcon>}
           inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
           lineDirection="right"
+          autoFocus
         />
         <Filter
           id="listing-table-filter"

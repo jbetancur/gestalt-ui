@@ -254,6 +254,7 @@ class BreadCrumbLayoverDropDown extends PureComponent {
                     onChange={this.onFilterChange}
                     value={filterText}
                     inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
+                    autoFocus
                   />
                 </SearchWrapper>
 
