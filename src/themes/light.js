@@ -32,7 +32,7 @@ export default {
     progressVariant: '#4fc3f7',
 
     // Notifications
-    error: '#ff1744',
+    error: '#f44336',
     warning: '#ff9800',
     info: '#2196f3',
     success: '#00c853',
