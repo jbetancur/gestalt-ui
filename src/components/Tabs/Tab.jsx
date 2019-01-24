@@ -16,7 +16,7 @@ const TabTitle = styled.div`
   white-space: nowrap;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 12px;
   color: ${props => props.theme.colors['$md-grey-900']};
   user-select: none;
 `;

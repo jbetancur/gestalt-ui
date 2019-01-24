@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
+import { media } from 'util/helpers/media';
 
 const TabsStyle = styled.div`
   display: flex;
-
-  /* border-bottom: 1px solid ${props => props.theme.colors['$md-grey-300']}; */
+  ${() => media.xs`
+    flex-direction: column;
+  `};
   margin-left: 5px;
   margin-right: 5px;
 `;
