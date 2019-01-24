@@ -7,6 +7,7 @@ import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { NoData } from 'components/TableCells';
+import Alert from 'components/Alert';
 import { getLastFromSplit } from 'util/helpers/strings';
 import { composeValidators, required, unixPattern } from 'util/forms';
 
@@ -71,6 +72,8 @@ const SecretsPanelForm = memo(({ type, fieldName, provider, secretsDropdown, for
       />
     );
   }
+
+  const showSecretWarning = type === 'lambda';
 
   return (
     <FieldArray name={fieldName}>
@@ -163,6 +166,13 @@ const SecretsPanelForm = memo(({ type, fieldName, provider, secretsDropdown, for
               <AddButton label="Add Secret" onClick={() => fields.push({})} />
             </Col>
           </Row>
+          {showSecretWarning && fields.length > 0 && (
+            <Row>
+              <Col flex>
+                <Alert width="auto" message={{ message: 'Due to Kubernetes design restrictions using a secret will result in containers running in you local environment/kubernetes namespace. They will not have the benefit of a cold execution pool, and may be slower to start.', icon: true, status: 'warning' }} />
+              </Col>
+            </Row>
+          )}
         </FieldContainer>
       )}
     </FieldArray>

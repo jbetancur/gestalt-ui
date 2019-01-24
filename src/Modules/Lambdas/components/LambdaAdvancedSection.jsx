@@ -5,6 +5,7 @@ import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 import { Compute } from 'components/Form';
+import Alert from 'components/Alert';
 import { fixInputNumber } from 'util/forms';
 import responseHeaders from '../lists/responseHeaders';
 import withLambdaState from '../hocs/withLambdaState';
@@ -13,7 +14,7 @@ const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
   <Panel title="Function Options" fill expandable={false}>
     <Row gutter={5}>
       <Compute formValues={formValues} form={form} />
-      <Col flex={2} xs={6} sm={6}>
+      <Col flex={3} xs={6} sm={6}>
         <Field
           component={TextField}
           name="properties.pre_warm"
@@ -22,11 +23,12 @@ const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
           label="Pre Warm"
           type="number"
           required
-          helpText="executors"
+          toolTip="pre-warm lamdas will execute in your local environment"
+          leftIconStateful={false}
           format={fixInputNumber}
         />
       </Col>
-      <Col flex={2} xs={6} sm={6}>
+      <Col flex={3} xs={6} sm={6}>
         <Field
           component={TextField}
           name="properties.timeout"
@@ -35,11 +37,12 @@ const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
           label="Timeout"
           type="number"
           required
-          helpText="in seconds"
+          leftIconStateful={false}
+          toolTip="the number of seconds before this lambda times out"
           format={fixInputNumber}
         />
       </Col>
-      <Col flex={8} xs={12} sm={12}>
+      <Col flex={6} xs={12} sm={12}>
         <Field
           id="select-return-type"
           component={SelectField}
@@ -51,7 +54,7 @@ const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
           label="Content Type"
         />
       </Col>
-      <Col flex={3} xs={12} sm={12}>
+      {/* <Col flex={3} xs={12} sm={12}>
         <Field
           id="lambda--public"
           component={Checkbox}
@@ -59,7 +62,7 @@ const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
           checked={formValues.properties.public}
           label="Make Public"
         />
-      </Col>
+      </Col> */}
       {selectedRuntime.options && selectedRuntime.options.isolate &&
         <Col flex={6} xs={12} sm={12}>
           <Field
@@ -71,6 +74,16 @@ const LambdaAdvancedSection = ({ formValues, form, selectedRuntime }) => (
           />
         </Col>}
     </Row>
+
+    {formValues.properties.pre_warm && formValues.properties.pre_warm > 0
+      ?
+        <Row>
+          <Col flex>
+            <Alert width="auto" message={{ message: 'Pre-warm lamdas will execute and deploy containers in this Environment', icon: true, status: 'warning' }} />
+          </Col>
+        </Row>
+      :
+      null}
   </Panel>
 );
 

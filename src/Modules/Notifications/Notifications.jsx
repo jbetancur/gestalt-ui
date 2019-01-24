@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -6,7 +7,7 @@ import {
   CSSTransition,
   TransitionGroup,
 } from 'react-transition-group';
-import NotificationContent from './NotificationContent';
+import Alert from 'components/Alert';
 import actions from './actions';
 
 const MessageGroup = styled.div`
@@ -24,7 +25,7 @@ const MessageGroup = styled.div`
 
   .fade-enter-active {
     opacity: 1;
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
   .fade-exit {
@@ -33,7 +34,7 @@ const MessageGroup = styled.div`
 
   .fade-exit-active {
     opacity: 0;
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 `;
 
@@ -46,24 +47,24 @@ export class Notifications extends PureComponent {
   render() {
     const { queue, removeNotification } = this.props;
 
-    return (
+    return ReactDOM.createPortal(
       <MessageGroup>
         <TransitionGroup>
           {queue.map(message => (
             <CSSTransition
               key={message.id}
-              timeout={200}
+              timeout={225}
               classNames="fade"
             >
-              <NotificationContent
+              <Alert
                 message={message}
                 onRemove={removeNotification}
+                raised
               />
             </CSSTransition>
           ))}
         </TransitionGroup>
-      </MessageGroup>
-    );
+      </MessageGroup>, document.body);
   }
 }
 

@@ -1,23 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message has icon prop set to true 1`] = `
-.c3 {
-  text-align: center;
-}
-
-.c3[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c3 .md-icon-text {
-  font-weight: normal;
-}
-
-.c3 .md-icon {
-  color: inherit;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -30,6 +13,9 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
   margin: 8px;
   background-color: rgb(49,49,49);
   width: 344px;
@@ -37,7 +23,7 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   border-radius: 3px;
   padding: 6px 16px;
   pointer-events: initial;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+  opacity: 0.98;
 }
 
 .c1 {
@@ -60,75 +46,19 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   color: white !important;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-
-.c2 button svg,
-.c2 button i {
-  color: white !important;
-}
-
 <div
   class="c0"
+  width="344px"
 >
   <div
     class="c1"
   >
     morty
-  </div>
-  <div
-    class="c2"
-  >
-    <button
-      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
-      id="close-1"
-      theme="[object Object]"
-      type="button"
-    >
-      <div
-        class="md-ink-container"
-      />
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        close
-      </i>
-    </button>
   </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is error 1`] = `
-.c3 {
-  text-align: center;
-}
-
-.c3[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c3 .md-icon-text {
-  font-weight: normal;
-}
-
-.c3 .md-icon {
-  color: inherit;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -141,14 +71,17 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
   margin: 8px;
-  background-color: #d32f2f;
+  background-color: #f44336;
   width: 344px;
   min-height: 48px;
   border-radius: 3px;
   padding: 6px 16px;
   pointer-events: initial;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+  opacity: 0.98;
 }
 
 .c1 {
@@ -171,75 +104,19 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   color: white !important;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-
-.c2 button svg,
-.c2 button i {
-  color: white !important;
-}
-
 <div
   class="c0"
+  width="344px"
 >
   <div
     class="c1"
   >
     morty
-  </div>
-  <div
-    class="c2"
-  >
-    <button
-      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
-      id="close-1"
-      theme="[object Object]"
-      type="button"
-    >
-      <div
-        class="md-ink-container"
-      />
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        close
-      </i>
-    </button>
   </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is info 1`] = `
-.c3 {
-  text-align: center;
-}
-
-.c3[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c3 .md-icon-text {
-  font-weight: normal;
-}
-
-.c3 .md-icon {
-  color: inherit;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -252,14 +129,17 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
   margin: 8px;
-  background-color: #1976d2;
+  background-color: #2196f3;
   width: 344px;
   min-height: 48px;
   border-radius: 3px;
   padding: 6px 16px;
   pointer-events: initial;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+  opacity: 0.98;
 }
 
 .c1 {
@@ -282,75 +162,19 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   color: white !important;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-
-.c2 button svg,
-.c2 button i {
-  color: white !important;
-}
-
 <div
   class="c0"
+  width="344px"
 >
   <div
     class="c1"
   >
     morty
-  </div>
-  <div
-    class="c2"
-  >
-    <button
-      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
-      id="close-1"
-      theme="[object Object]"
-      type="button"
-    >
-      <div
-        class="md-ink-container"
-      />
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        close
-      </i>
-    </button>
   </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is success 1`] = `
-.c3 {
-  text-align: center;
-}
-
-.c3[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c3 .md-icon-text {
-  font-weight: normal;
-}
-
-.c3 .md-icon {
-  color: inherit;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -363,14 +187,17 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
   margin: 8px;
-  background-color: #388e3c;
+  background-color: #00c853;
   width: 344px;
   min-height: 48px;
   border-radius: 3px;
   padding: 6px 16px;
   pointer-events: initial;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+  opacity: 0.98;
 }
 
 .c1 {
@@ -393,75 +220,19 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   color: white !important;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-
-.c2 button svg,
-.c2 button i {
-  color: white !important;
-}
-
 <div
   class="c0"
+  width="344px"
 >
   <div
     class="c1"
   >
     morty
-  </div>
-  <div
-    class="c2"
-  >
-    <button
-      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
-      id="close-1"
-      theme="[object Object]"
-      type="button"
-    >
-      <div
-        class="md-ink-container"
-      />
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        close
-      </i>
-    </button>
   </div>
 </div>
 `;
 
 exports[`(Notifications) NotificationContent renders to correct snapshot when message status is warning 1`] = `
-.c3 {
-  text-align: center;
-}
-
-.c3[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c3 .md-icon-text {
-  font-weight: normal;
-}
-
-.c3 .md-icon {
-  color: inherit;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -474,13 +245,75 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
   margin: 8px;
-  background-color: #ffa000;
+  background-color: #ff9800;
   width: 344px;
   min-height: 48px;
   border-radius: 3px;
   padding: 6px 16px;
   pointer-events: initial;
+  opacity: 0.98;
+}
+
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+<div
+  class="c0"
+  width="344px"
+>
+  <div
+    class="c1"
+  >
+    morty
+  </div>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot when raised is provider 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  margin: 8px;
+  background-color: #00c853;
+  width: 344px;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  opacity: 0.98;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
@@ -504,75 +337,19 @@ exports[`(Notifications) NotificationContent renders to correct snapshot when me
   color: white !important;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-
-.c2 button svg,
-.c2 button i {
-  color: white !important;
-}
-
 <div
   class="c0"
+  width="344px"
 >
   <div
     class="c1"
   >
     morty
   </div>
-  <div
-    class="c2"
-  >
-    <button
-      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
-      id="close-1"
-      theme="[object Object]"
-      type="button"
-    >
-      <div
-        class="md-ink-container"
-      />
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        close
-      </i>
-    </button>
-  </div>
 </div>
 `;
 
-exports[`(Notifications) NotificationContent renders to correct snapshot with default message payload 1`] = `
-.c3 {
-  text-align: center;
-}
-
-.c3[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c3 .md-icon-text {
-  font-weight: normal;
-}
-
-.c3 .md-icon {
-  color: inherit;
-}
-
+exports[`(Notifications) NotificationContent renders to correct snapshot when width is provider 1`] = `
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -585,6 +362,67 @@ exports[`(Notifications) NotificationContent renders to correct snapshot with de
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  margin: 8px;
+  background-color: #00c853;
+  width: auto;
+  min-height: 48px;
+  border-radius: 3px;
+  padding: 6px 16px;
+  pointer-events: initial;
+  opacity: 0.98;
+}
+
+.c1 {
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1 0 264px;
+  -ms-flex: 1 0 264px;
+  flex: 1 0 264px;
+}
+
+.c1 svg,
+.c1 i {
+  color: white !important;
+}
+
+<div
+  class="c0"
+  width="auto"
+>
+  <div
+    class="c1"
+  >
+    morty
+  </div>
+</div>
+`;
+
+exports[`(Notifications) NotificationContent renders to correct snapshot with default message payload 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
   margin: 8px;
   background-color: rgb(49,49,49);
   width: 344px;
@@ -592,7 +430,7 @@ exports[`(Notifications) NotificationContent renders to correct snapshot with de
   border-radius: 3px;
   padding: 6px 16px;
   pointer-events: initial;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
+  opacity: 0.98;
 }
 
 .c1 {
@@ -615,53 +453,14 @@ exports[`(Notifications) NotificationContent renders to correct snapshot with de
   color: white !important;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-
-.c2 button svg,
-.c2 button i {
-  color: white !important;
-}
-
 <div
   class="c0"
+  width="344px"
 >
   <div
     class="c1"
   >
     morty
-  </div>
-  <div
-    class="c2"
-  >
-    <button
-      class="md-btn md-btn--icon md-pointer--hover md-inline-block c3"
-      id="close-1"
-      theme="[object Object]"
-      type="button"
-    >
-      <div
-        class="md-ink-container"
-      />
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        close
-      </i>
-    </button>
   </div>
 </div>
 `;

@@ -1,13 +1,13 @@
 import React from 'react';
 import { fireEvent } from 'react-testing-library';
-import NotificationContent from './NotificationContent';
-import { renderWithTheme } from '../../../test/helpers';
+import NotificationContent from './Alert';
+import { renderWithTheme } from '../../test/helpers';
 
 describe('(Notifications) NotificationContent', () => {
   it('renders to correct snapshot with default message payload', () => {
     const mockMessage = { id: 1, message: 'morty' };
     const { container } = renderWithTheme(
-      <NotificationContent message={mockMessage} onRemove={jest.fn()} />
+      <NotificationContent message={mockMessage} />
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -16,7 +16,7 @@ describe('(Notifications) NotificationContent', () => {
   it('renders to correct snapshot when message has icon prop set to true', () => {
     const mockMessage = { id: 1, message: 'morty', icon: true };
     const { container } = renderWithTheme(
-      <NotificationContent message={mockMessage} onRemove={jest.fn()} />
+      <NotificationContent message={mockMessage} />
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe('(Notifications) NotificationContent', () => {
   it('renders to correct snapshot when message status is info', () => {
     const mockMessage = { id: 1, message: 'morty', status: 'info' };
     const { container } = renderWithTheme(
-      <NotificationContent message={mockMessage} onRemove={jest.fn()} />
+      <NotificationContent message={mockMessage} />
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -34,7 +34,7 @@ describe('(Notifications) NotificationContent', () => {
   it('renders to correct snapshot when message status is warning', () => {
     const mockMessage = { id: 1, message: 'morty', status: 'warning' };
     const { container } = renderWithTheme(
-      <NotificationContent message={mockMessage} onRemove={jest.fn()} />
+      <NotificationContent message={mockMessage} />
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -43,7 +43,7 @@ describe('(Notifications) NotificationContent', () => {
   it('renders to correct snapshot when message status is error', () => {
     const mockMessage = { id: 1, message: 'morty', status: 'error' };
     const { container } = renderWithTheme(
-      <NotificationContent message={mockMessage} onRemove={jest.fn()} />
+      <NotificationContent message={mockMessage} />
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -52,11 +52,30 @@ describe('(Notifications) NotificationContent', () => {
   it('renders to correct snapshot when message status is success', () => {
     const mockMessage = { id: 1, message: 'morty', status: 'success' };
     const { container } = renderWithTheme(
-      <NotificationContent message={mockMessage} onRemove={jest.fn()} />
+      <NotificationContent message={mockMessage} />
     );
 
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it('renders to correct snapshot when width is provider', () => {
+    const mockMessage = { id: 1, message: 'morty', status: 'success' };
+    const { container } = renderWithTheme(
+      <NotificationContent width="auto" message={mockMessage} />
+    );
+
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders to correct snapshot when raised is provider', () => {
+    const mockMessage = { id: 1, message: 'morty', status: 'success' };
+    const { container } = renderWithTheme(
+      <NotificationContent raised message={mockMessage} />
+    );
+
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
 
   it('handles onRemove when called', () => {
     const mockMessage = { id: 1, message: 'morty' };

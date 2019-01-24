@@ -1,18 +1,38 @@
 //
 import React from 'react';
-import { TextField } from 'react-md';
+import styled from 'styled-components';
+import { TextField, FontIcon } from 'react-md';
+import Tooltip from '@material-ui/core/Tooltip';
+
+const ToolTipIcon = styled(FontIcon)`
+  font-size: 16px !important;
+`;
 
 /* eslint-disable react/prop-types */
-const InputField = ({ input, meta: { touched, error }, ...others }) => (
-  <TextField
-    id={input.name}
-    error={touched && !!error}
-    errorText={error}
-    // rightIcon={touched && !!error ? <FontIcon>feedback</FontIcon> : null}
-    {...input}
-    {...others}
-  />
-);
+const InputField = ({ input, meta: { touched, error }, toolTip, ...rest }) => {
+  const baseProps = {
+    ...input,
+    ...rest,
+    id: input.name,
+    error: touched && !!error,
+    errorText: error,
+  };
+
+  if (toolTip) {
+    Object.assign(baseProps, {
+      leftIconStateful: false,
+      leftIcon: (
+        <Tooltip title={toolTip}>
+          <ToolTipIcon>info_outline</ToolTipIcon>
+        </Tooltip>
+      ),
+    });
+  }
+
+  return (
+    <TextField {...baseProps} />
+  );
+};
 
 InputField.defaultProps = {
   lineDirection: 'center',
