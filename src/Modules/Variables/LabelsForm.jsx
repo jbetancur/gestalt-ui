@@ -5,7 +5,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
-import { composeValidators, required, unixPattern } from 'util/forms';
+import { composeValidators, required } from 'util/forms';
 
 const LabelsForm = ({ fieldName }) => (
   <FieldArray name={fieldName}>
@@ -20,7 +20,7 @@ const LabelsForm = ({ fieldName }) => (
                   placeholder="name"
                   type="text"
                   component={TextField}
-                  validate={composeValidators(unixPattern(), required())}
+                  validate={composeValidators(required())}
                   autoComplete="off"
                 />
               </Col>
