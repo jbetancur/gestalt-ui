@@ -82,7 +82,7 @@ export default (state = initialState, action) => {
     case FETCH_CONTAINER_FULFILLED:
       return {
         ...state,
-        // container: action.payload,
+        container: action.payload,
         pending: false,
         completed: true,
       };
