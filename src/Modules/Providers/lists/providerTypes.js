@@ -74,12 +74,13 @@ const uiProviderTypes = [
     showContainerOption: true,
   },
   {
-    name: 'Gestalt::Configuration::Provider::AWSAPIGateway',
+    name: 'Gestalt::Configuration::Provider::GatewayManager::AWS',
     allowLinkedProviders: true,
   },
   {
-    name: 'Gestalt::Configuration::Provider::AWSLambda',
+    name: 'Gestalt::Configuration::Provider::Lambda::AWS',
     allowLinkedProviders: true,
+    showContainerOption: true,
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::Executor::NodeJS',
