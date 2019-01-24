@@ -58,7 +58,7 @@ export function* fetchLogProvider(action) {
       const vHOSTProtocol = logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0_PROTOCOL || 'https';
       const payload = {
         provider: logProviderRes.data,
-        url: vHOSTUrl ? `${vHOSTProtocol}://${vHOSTUrl}/${action.logType}` : '',
+        url: vHOSTUrl ? `${vHOSTProtocol}://${vHOSTUrl}/${action.logType}` : '/log',
       };
 
       yield put({ type: FETCH_LOGPROVIDER_FULFILLED, payload });
