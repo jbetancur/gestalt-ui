@@ -37,13 +37,6 @@ const initialState = {
     type: null,
     provider: providerModel.get(),
   },
-  containerStatus: {
-    instances: [],
-    events: [],
-    status: '',
-    status_detail: {},
-    port_mappings: [],
-  },
   pending: false,
   completed: false,
   error: null,
@@ -92,13 +85,6 @@ export default (state = initialState, action) => {
         // container: action.payload,
         pending: false,
         completed: true,
-        containerStatus: {
-          instances: action.payload.properties.instances,
-          events: action.payload.properties.events,
-          status: action.payload.properties.status,
-          status_detail: action.payload.properties.status_detail,
-          port_mappings: action.payload.properties.port_mappings,
-        }
       };
     case FETCH_CONTAINER_REJECTED:
       return {
