@@ -132,7 +132,7 @@ describe('Logging Sagas', () => {
         result = sagaMissingPUBLIC.next(logProviderResponse);
         const payload = {
           provider: logProviderResponse.data,
-          url: '/log',
+          url: '/log/container',
         };
 
         expect(result.value).toEqual(

@@ -21,10 +21,10 @@ export function* fetchLogProvider(action) {
             env: {
               public: {},
               private: {},
-            }
+            },
           },
-        }
-      }
+        },
+      },
     });
 
     const caasProviderRes = cloneDeep(model);
@@ -58,7 +58,7 @@ export function* fetchLogProvider(action) {
       const vHOSTProtocol = logProviderRes.data.properties.config.env.public.SERVICE_VHOST_0_PROTOCOL || 'https';
       const payload = {
         provider: logProviderRes.data,
-        url: vHOSTUrl ? `${vHOSTProtocol}://${vHOSTUrl}/${action.logType}` : '/log',
+        url: vHOSTUrl ? `${vHOSTProtocol}://${vHOSTUrl}/${action.logType}` : `/log/${action.logType}`,
       };
 
       yield put({ type: FETCH_LOGPROVIDER_FULFILLED, payload });
