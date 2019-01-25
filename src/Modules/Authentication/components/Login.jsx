@@ -8,7 +8,7 @@ import { GalacticFogIcon } from 'components/Icons';
 import { getItem } from 'util/helpers/localstorage';
 import actions from '../actions';
 import LoginForm from './LoginForm';
-import LoginFooter from '../components/LoginFooter';
+import LoginFooter from './LoginFooter';
 import lightTheme from '../../../themes/light';
 import { APP_TITLE } from '../../../constants';
 

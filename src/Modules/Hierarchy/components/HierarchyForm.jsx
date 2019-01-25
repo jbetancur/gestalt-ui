@@ -6,7 +6,6 @@ import { Field } from 'react-final-form';
 import { translate } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import { DialogContainer } from 'react-md';
-import Form from 'components/Form';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
@@ -90,7 +89,7 @@ class HierarchyForm extends Component {
         modal
         defaultVisibleTransitionable
       >
-        <Form id="hierarchy-context-form" onSubmit={handleSubmit} autoComplete="off">
+        <form id="hierarchy-context-form" onSubmit={handleSubmit} autoComplete="off">
           <Row gutter={5}>
             <Col flex={6} xs={12}>
               <Field
@@ -138,7 +137,7 @@ class HierarchyForm extends Component {
               </Panel>
             </Col>
           </Row>
-        </Form>
+        </form>
       </DialogContainer>
     );
   }

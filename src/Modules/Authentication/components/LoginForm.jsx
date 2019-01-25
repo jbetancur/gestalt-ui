@@ -4,9 +4,8 @@ import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { DotActivity } from 'components/ProgressIndicators';
-import Form from 'components/Form';
-import LoginButton from '../components/LoginButton';
-import TextField from '../components/TextField';
+import LoginButton from './LoginButton';
+import TextField from './TextField';
 
 const LoginCardText = styled.div`
   padding: 18px;
@@ -17,7 +16,7 @@ const LoginCardText = styled.div`
 `;
 
 const LoginForm = ({ submitting, handleSubmit, pending }) => (
-  <Form onSubmit={handleSubmit}>
+  <form onSubmit={handleSubmit}>
     <LoginCardText>
       <Field
         id="login--username"
@@ -56,7 +55,7 @@ const LoginForm = ({ submitting, handleSubmit, pending }) => (
         </Col>
       </Row>
     </LoginCardText>
-  </Form>
+  </form>
 );
 
 LoginForm.propTypes = {
