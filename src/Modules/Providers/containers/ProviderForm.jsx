@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
 import { ContainerForm } from 'Modules/Containers';
 import { UnixVariablesForm } from 'Modules/Variables';
@@ -30,7 +28,6 @@ class ProviderForm extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     providerPending: PropTypes.bool.isRequired,
     providers: PropTypes.array.isRequired,
-    onRedeploy: PropTypes.func,
     editMode: PropTypes.bool,
     selectedProviderType: PropTypes.object,
     envSchema: PropTypes.object,
@@ -39,7 +36,6 @@ class ProviderForm extends PureComponent {
   };
 
   static defaultProps = {
-    onRedeploy: null,
     editMode: false,
     selectedProviderType: {},
     envSchema: {},
@@ -59,14 +55,6 @@ class ProviderForm extends PureComponent {
     form.change('properties.config.env', envSchema);
   }
 
-  handleRedeploy = () => {
-    const { onRedeploy } = this.props;
-
-    if (onRedeploy) {
-      onRedeploy();
-    }
-  }
-
   render() {
     const {
       form,
@@ -81,7 +69,6 @@ class ProviderForm extends PureComponent {
       ...rest
     } = this.props;
 
-    const submitDisabled = providerPending || submitting;
     const linkedProviders = providers.filter(p => p.id !== provider.id);
 
     return (
@@ -261,30 +248,6 @@ class ProviderForm extends PureComponent {
             </React.Fragment>
           )}
         </FormSpy>
-
-        <FullPageFooter>
-          <Button
-            raised
-            iconChildren="save"
-            type="submit"
-            disabled={submitDisabled}
-            primary
-          >
-            {editMode ? 'Update' : 'Create'}
-          </Button>
-          {editMode && hasContainer &&
-            <Button
-              key="provider-container-redeploy"
-              raised
-              iconChildren="refresh"
-              type="submit"
-              onClick={this.handleRedeploy}
-              disabled={submitDisabled}
-              primary
-            >
-              Redeploy Container
-            </Button>}
-        </FullPageFooter>
       </React.Fragment>
     );
   }

@@ -211,7 +211,7 @@ class ProviderCreate extends PureComponent {
                             </Col>
                           )}
 
-                          <Row gutter={10}>
+                          <Row gutter={5}>
                             <Col flex={12}>
                               <Col flex={12}>
                                 <Button

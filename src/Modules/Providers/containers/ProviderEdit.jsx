@@ -41,8 +41,6 @@ class ProviderEdit extends PureComponent {
     hasContainer: PropTypes.bool.isRequired,
   };
 
-  state = { redeploy: false };
-
   componentDidMount() {
     const { match, providerActions } = this.props;
 
@@ -53,32 +51,24 @@ class ProviderEdit extends PureComponent {
     this.setState({ hasError: true, error, info });
   }
 
-  flagForRedeploy = () => {
-    this.setState({ redeploy: true });
-  }
-
   populateProvider() {
     const { match, providerActions } = this.props;
 
     providerActions.fetchProvider({ fqon: match.params.fqon, id: match.params.providerId });
   }
 
-  update = (formValues) => {
+  handleRedeploy = () => {
     const { match, confirmUpdate, provider, providerActions } = this.props;
+    const redeploy = () => providerActions.redeployProvider({ fqon: match.params.fqon, id: provider.id });
 
-    if (this.state.redeploy) {
-      const handleRedeploy = () => {
-        providerActions.redeployProvider({ fqon: match.params.fqon, id: provider.id });
-      };
+    confirmUpdate(redeploy, provider.name);
+  }
 
-      const onClose = this.setState({ redeploy: false });
+  update = (formValues) => {
+    const { match, provider, providerActions } = this.props;
+    const payload = generateProviderPatches(provider, formValues);
 
-      confirmUpdate(handleRedeploy, provider.name, onClose);
-    } else {
-      const payload = generateProviderPatches(provider, formValues);
-
-      providerActions.updateProvider({ fqon: match.params.fqon, id: provider.id, payload });
-    }
+    providerActions.updateProvider({ fqon: match.params.fqon, id: provider.id, payload });
   }
 
   generateBackLink() {
@@ -132,6 +122,18 @@ class ProviderEdit extends PureComponent {
                 disableDestroy
                 disablePromote
               />,
+              hasContainer &&
+              <Button
+                key="provider-container-redeploy"
+                flat
+                iconChildren="launch"
+                type="submit"
+                onClick={this.handleRedeploy}
+                disabled={providerPending}
+                primary
+              >
+                Redeploy Container
+              </Button>,
               <Button
                 key="provider--entitlements"
                 flat
@@ -162,7 +164,6 @@ class ProviderEdit extends PureComponent {
                 decorators={[focusOnErrors]}
                 editMode
                 onSubmit={this.update}
-                onRedeploy={this.flagForRedeploy}
                 subscription={{ submitting: true, pristine: true }}
                 render={({ handleSubmit, submitting, ...rest }) => (
                   <Form
