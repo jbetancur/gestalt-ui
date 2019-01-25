@@ -17,7 +17,7 @@ module.exports = {
   // setupFiles: [
   //   '<rootDir>/test/jestSetup.js'
   // ],
-  setupTestFrameworkScriptFile: '<rootDir>/test/setup-test-framework-script',
+  setupFilesAfterEnv: ['<rootDir>/test/setup-test-framework-script'],
   testMatch: [
     '**/__tests__/**/*.js?(x)',
     '**/?(*.)(jest|spec|test).js?(x)'
