@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
+import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -19,6 +21,9 @@ class PolicyEventRuleCreate extends Component {
     initialValues: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
     policyRuleActions: PropTypes.object.isRequired,
+    fetchlambdasData: PropTypes.func.isRequired,
+    lambdasData: PropTypes.array.isRequired,
+    lambdasLoading: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
@@ -30,7 +35,7 @@ class PolicyEventRuleCreate extends Component {
   }
 
   render() {
-    const { initialValues, policyRulePending } = this.props;
+    const { match, initialValues, policyRulePending, fetchlambdasData, lambdasData, lambdasLoading } = this.props;
 
     return (
       <Row gutter={5} center>
@@ -39,10 +44,22 @@ class PolicyEventRuleCreate extends Component {
 
           {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
-          <Form
-            component={PolicyEventRuleForm}
+          <FinalForm
             onSubmit={this.create}
             initialValues={initialValues}
+            lambdas={lambdasData}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                disabled={policyRulePending}
+                disabledSubmit={lambdasLoading || policyRulePending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
+              >
+                <PolicyEventRuleForm onClickLambdasDropDown={() => fetchlambdasData()} {...rest} />
+              </Form>
+            )}
             {...this.props}
           />
         </Col>
@@ -58,4 +75,5 @@ const mapStateToProps = state => ({
 export default compose(
   withPolicyRule,
   connect(mapStateToProps, actions),
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
 )(PolicyEventRuleCreate);

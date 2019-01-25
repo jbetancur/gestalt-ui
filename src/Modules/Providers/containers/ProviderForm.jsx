@@ -32,7 +32,6 @@ class ProviderForm extends PureComponent {
     providers: PropTypes.array.isRequired,
     onRedeploy: PropTypes.func,
     editMode: PropTypes.bool,
-    goBack: PropTypes.func.isRequired,
     selectedProviderType: PropTypes.object,
     envSchema: PropTypes.object,
     envSchemaPending: PropTypes.bool,
@@ -76,7 +75,6 @@ class ProviderForm extends PureComponent {
       editMode,
       selectedProviderType,
       providerPending,
-      goBack,
       providers,
       container,
       hasContainer,
@@ -265,14 +263,6 @@ class ProviderForm extends PureComponent {
         </FormSpy>
 
         <FullPageFooter>
-          <Button
-            flat
-            iconChildren="arrow_back"
-            disabled={providerPending || submitting}
-            onClick={goBack}
-          >
-            Providers
-          </Button>
           <Button
             raised
             iconChildren="save"

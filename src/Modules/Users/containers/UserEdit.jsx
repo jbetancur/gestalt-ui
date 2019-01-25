@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 // import { withContext } from 'Modules/Hierarchy';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -62,34 +63,50 @@ class GroupEdit extends Component {
   }
 
   render() {
-    const { user, userPending, initialFormValues, hierarchyContext: { allOrganizationsDropDown } } = this.props;
+    const { match, user, userPending, initialFormValues, hierarchyContext: { allOrganizationsDropDown } } = this.props;
 
+    if (userPending && !user.id) {
+      return <ActivityContainer id="user-load" />;
+    }
     return (
-      userPending && !user.id ?
-        <ActivityContainer id="user-load" /> :
-        <Row center>
-          <Col flex={8} xs={12} sm={12} md={12}>
-            <ActionsToolbar title={user.name} />
-            {userPending && <ActivityContainer id="user-loading" />}
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={user} />
-                </Panel>
-              </Col>
-            </Row>
+      <Row center>
+        <Col flex={8} xs={12} sm={12} md={12}>
+          <ActionsToolbar
+            title={user.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/users`}
+          />
 
-            <Form
-              editMode
-              render={UserForm}
-              onSubmit={this.update}
-              initialValues={initialFormValues}
-              validate={validate(true)}
-              loading={userPending}
-              organizations={allOrganizationsDropDown}
-            />
-          </Col>
-        </Row>
+          {userPending && <ActivityContainer id="user-loading" />}
+
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Panel title="Resource Details" defaultExpanded={false}>
+                <DetailsPane model={user} />
+              </Panel>
+            </Col>
+          </Row>
+
+          <FinalForm
+            editMode
+            onSubmit={this.update}
+            initialValues={initialFormValues}
+            validate={validate(true)}
+            loading={userPending}
+            organizations={allOrganizationsDropDown}
+            render={({ handleSubmit, submitting, pristine, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                submitTitle="Update"
+                disabled={userPending}
+                disabledSubmit={userPending || submitting}
+              >
+                <UserForm {...rest} />
+              </Form>
+            )}
+          />
+        </Col>
+      </Row>
     );
   }
 }

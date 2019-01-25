@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
-import { Link, withRouter } from 'react-router-dom';
 import { Field } from 'react-final-form';
 import { SelectField, TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
-import Form from 'components/Form';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from '../components/SecretItemsForm';
 import providerModel from '../../Providers/models/provider';
 
-const SecretForm = ({ match, loading, submitting, handleSubmit, providers, values, form, editMode }) => {
+const SecretForm = ({ providers, values, form, editMode }) => {
   const filteredprovidersData = providers.filter(provider => getLastFromSplit(provider.resource_type) === 'Kubernetes' || providerModel.get(provider).properties.config.secret_support);
   const providersFiltered = filteredprovidersData.length > 0 ? filteredprovidersData : providers;
   const selectedProvider = Object.assign({}, providers.length ? providers.find(p => p.id === values.properties.provider.id) : {});
@@ -23,7 +19,7 @@ const SecretForm = ({ match, loading, submitting, handleSubmit, providers, value
   };
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off" disabled={loading}>
+    <React.Fragment>
       <Row gutter={5}>
         <Col flex={7} xs={12} sm={12} md={12}>
           <Panel title="General" expandable={false} fill>
@@ -88,36 +84,11 @@ const SecretForm = ({ match, loading, submitting, handleSubmit, providers, value
           </Panel>
         </Col>}
       </Row>
-
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren="arrow_back"
-          disabled={loading || submitting}
-          component={Link}
-          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
-        >
-          Secrets
-        </Button>
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={loading || submitting}
-          primary
-        >
-          {editMode ? 'Update' : 'Create'}
-        </Button>
-      </FullPageFooter>
-    </Form>
+    </React.Fragment>
   );
 };
 
 SecretForm.propTypes = {
-  match: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
   providers: PropTypes.array.isRequired,
   values: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
@@ -128,4 +99,4 @@ SecretForm.defaultProps = {
   editMode: false,
 };
 
-export default withRouter(SecretForm);
+export default SecretForm;

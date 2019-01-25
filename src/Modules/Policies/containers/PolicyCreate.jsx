@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -36,17 +37,30 @@ class PolicyCreate extends Component {
   }
 
   render() {
+    const { match, policyPending } = this.props;
+
     return (
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar title="Create a Policy" />
 
-          {this.props.policyPending && <ActivityContainer id="policy-loading" />}
+          {policyPending && <ActivityContainer id="policy-loading" />}
 
-          <Form
-            render={PolicyForm}
+          <FinalForm
             onSubmit={this.create}
             initialValues={initialValues}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                disabled={policyPending}
+                disabledSubmit={submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
+              >
+                <PolicyForm {...rest} />
+              </Form>
+            )}
             {...this.props}
           />
         </Col>

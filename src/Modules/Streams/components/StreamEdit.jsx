@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { Form as FinalForm } from 'react-final-form';
-import createDecorator from 'final-form-focus';
 import Form from 'components/Form';
+import createDecorator from 'final-form-focus';
 import { Card } from 'components/Cards';
 import { Button } from 'components/Buttons';
 import { withEntitlements } from 'Modules/Entitlements';
@@ -16,7 +16,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
-import { FullPageFooter } from 'components/FullPage';
 import PayloadViewer from './PayloadViewer';
 import StreamForm from './StreamForm';
 import StreamInstances from './StreamInstances';
@@ -92,6 +91,8 @@ class StreamSpecEdit extends Component {
         <Col flex={10} xs={12} sm={12} md={10}>
           <ActionsToolbar
             title={streamSpec.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
             actions={[
               <ActionsMenu
                 key="streamspec--actions"
@@ -127,16 +128,6 @@ class StreamSpecEdit extends Component {
                   </Card>
                 </Col>
               </Row>
-              <FullPageFooter>
-                <Button
-                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
-                  flat
-                  component={Link}
-                  iconChildren="arrow_back"
-                >
-                  Stream Specs
-                </Button>
-              </FullPageFooter>
             </Tab>
             <Tab title="Configuration">
               <Row gutter={5}>
@@ -157,27 +148,13 @@ class StreamSpecEdit extends Component {
                 validate={validate}
                 decorators={[focusOnErrors]}
                 render={({ handleSubmit, values, submitting, ...rest }) => (
-                  <Form onSubmit={handleSubmit} disabled={streamSpecPending}>
+                  <Form
+                    onSubmit={handleSubmit}
+                    submitTitle="Update"
+                    disabled={streamSpecPending}
+                    disabledSubmit={submitting}
+                  >
                     <StreamForm {...rest} />
-                    <FullPageFooter>
-                      <Button
-                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
-                        flat
-                        component={Link}
-                        iconChildren="arrow_back"
-                      >
-                        Stream Specs
-                      </Button>
-
-                      <Button
-                        type="submit"
-                        primary
-                        raised
-                        disabled={submitting}
-                      >
-                        Update
-                      </Button>
-                    </FullPageFooter>
                   </Form>
                 )}
               />

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
+import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
 import { withEntitlements } from 'Modules/Entitlements';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -27,6 +29,9 @@ class PolicyEventRuleEdit extends Component {
     policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
+    fetchlambdasData: PropTypes.func.isRequired,
+    lambdasData: PropTypes.array.isRequired,
+    lambdasLoading: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -51,6 +56,8 @@ class PolicyEventRuleEdit extends Component {
       policyRule,
       policyRulePending,
       entitlementActions,
+      fetchlambdasData,
+      lambdasData,
     } = this.props;
 
     if (policyRulePending && !policyRule.id) {
@@ -62,6 +69,8 @@ class PolicyEventRuleEdit extends Component {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={policyRule.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
             actions={[
               <Button
                 key="eventRule--entitlements"
@@ -86,11 +95,21 @@ class PolicyEventRuleEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
-                component={PolicyEventRuleForm}
+              <FinalForm
                 editMode
                 onSubmit={this.update}
                 initialValues={initialValues}
+                lambdas={lambdasData}
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    disabled={policyRulePending}
+                    disabledSubmit={submitting}
+                    submitTitle="Update"
+                  >
+                    <PolicyEventRuleForm onClickLambdasDropDown={() => fetchlambdasData()} {...rest} />
+                  </Form>
+                )}
                 {...this.props}
               />
             </Tab>
@@ -122,4 +141,5 @@ export default compose(
   withPolicyRule,
   withEntitlements,
   connect(mapStateToProps, actions),
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
 )(PolicyEventRuleEdit);

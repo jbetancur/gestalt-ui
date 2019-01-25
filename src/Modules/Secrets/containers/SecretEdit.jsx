@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
@@ -66,6 +67,8 @@ class SecretEdit extends Component {
 
           <ActionsToolbar
             title={secret.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
             actions={[
               <Button
                 key="secret--entitlements"
@@ -90,15 +93,23 @@ class SecretEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
+              <FinalForm
                 editMode
                 onSubmit={this.update}
                 mutators={{ ...arrayMutators }}
-                render={SecretForm}
                 providers={providersData}
-                loading={secretPending}
                 initialValues={initialFormValues}
                 validate={validate}
+                render={({ handleSubmit, submitting, pristine, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    submitTitle="Update"
+                    disabled={secretPending}
+                    disabledSubmit={secretPending || submitting}
+                  >
+                    <SecretForm {...rest} />
+                  </Form>
+                )}
               />
             </Tab>
             <Tab title="YAML/JSON">

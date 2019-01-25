@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Form as FinalForm, Field } from 'react-final-form';
 import createDecorator from 'final-form-focus';
 import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import { AceEditor, SelectField, TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
-import { FullPageFooter } from 'components/FullPage';
 import { Caption } from 'components/Typography';
 import { FileInput } from 'react-md';
 import { composeValidators, required } from 'util/forms';
@@ -74,7 +71,16 @@ class AppDeploymentCreate extends Component {
               };
 
               return (
-                <Form onSubmit={handleSubmit} autoComplete="off">
+                <Form
+                  onSubmit={handleSubmit}
+                  autoComplete="off"
+                  disabled={appDeploymentPending}
+                  submitTitle="Create"
+                  disabledSubmit={appDeploymentPending || submitting}
+                  disabledCancel={appDeploymentPending || submitting}
+                  showCancel
+                  cancelTo={listingPath(match)}
+                >
                   <Panel title="Application Deployment" expandable={false} noPadding>
                     <Row gutter={16}>
                       <Col flex={12}>
@@ -143,27 +149,6 @@ class AppDeploymentCreate extends Component {
                       validate={composeValidators(required('a yaml multipart kubernetes configuration is required'))}
                     />
                   </Panel>
-
-                  <FullPageFooter>
-                    <Button
-                      flat
-                      iconChildren="arrow_back"
-                      disabled={appDeploymentPending || submitting}
-                      component={Link}
-                      to={listingPath(match)}
-                    >
-                      Application Deployments
-                    </Button>
-                    <Button
-                      raised
-                      iconChildren="save"
-                      type="submit"
-                      disabled={appDeploymentPending || submitting}
-                      primary
-                    >
-                      Create
-                    </Button>
-                  </FullPageFooter>
                 </Form>
               );
             }}

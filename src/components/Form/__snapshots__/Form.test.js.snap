@@ -1,21 +1,213 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Components::Form::Form mounts with default props 1`] = `
+.c4 {
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.2) 0 0 1px -4px;
+}
+
+.c4[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c4 .md-icon-text {
+  font-weight: normal;
+}
+
+.c4 .md-icon {
+  color: inherit;
+}
+
+.c4:disabled {
+  box-shadow: none;
+}
+
+.c1 {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  min-height: 53px;
+  width: 100%;
+  width: calc(100% - 56px);
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+  padding: 8px 24px 8px 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.c1 button,
+.c1 a {
+  margin-left: 3px;
+}
+
+.c2 {
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c3 {
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
 .c0 {
   height: 100%;
   width: 100%;
+  padding-bottom: 56px;
 }
 
 <form
   class="c0"
   novalidate=""
-/>
+>
+  <div>
+    ho
+  </div>
+  <footer
+    class="c1"
+  >
+    <div
+      class="c2"
+    />
+    <div
+      class="c3"
+    >
+      <button
+        class="md-btn md-btn--raised md-btn--text md-pointer--hover md-background--primary md-background--primary-hover md-inline-block c4"
+        theme="[object Object]"
+        type="submit"
+      >
+        <div
+          class="md-ink-container"
+        />
+        <div
+          class="md-icon-separator"
+        >
+          <i
+            class="md-icon material-icons md-text--inherit"
+          >
+            save
+          </i>
+          <span
+            class="md-icon-text"
+          >
+            Submit
+          </span>
+        </div>
+      </button>
+    </div>
+  </footer>
+</form>
 `;
 
 exports[`Components::Form::Form renders correctly when disabled 1`] = `
+.c4 {
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.2) 0 0 1px -4px;
+}
+
+.c4[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c4 .md-icon-text {
+  font-weight: normal;
+}
+
+.c4 .md-icon {
+  color: inherit;
+}
+
+.c4:disabled {
+  box-shadow: none;
+}
+
+.c1 {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  min-height: 53px;
+  width: 100%;
+  width: calc(100% - 56px);
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+  padding: 8px 24px 8px 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.c1 button,
+.c1 a {
+  margin-left: 3px;
+}
+
+.c2 {
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c3 {
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
 .c0 {
   height: 100%;
   width: 100%;
+  padding-bottom: 56px;
   pointer-events: none;
   opacity: 0.4;
 }
@@ -24,5 +216,43 @@ exports[`Components::Form::Form renders correctly when disabled 1`] = `
   class="c0"
   disabled=""
   novalidate=""
-/>
+>
+  <div>
+    ho
+  </div>
+  <footer
+    class="c1"
+  >
+    <div
+      class="c2"
+    />
+    <div
+      class="c3"
+    >
+      <button
+        class="md-btn md-btn--raised md-btn--text md-pointer--hover md-background--primary md-background--primary-hover md-inline-block c4"
+        theme="[object Object]"
+        type="submit"
+      >
+        <div
+          class="md-ink-container"
+        />
+        <div
+          class="md-icon-separator"
+        >
+          <i
+            class="md-icon material-icons md-text--inherit"
+          >
+            save
+          </i>
+          <span
+            class="md-icon-text"
+          >
+            Submit
+          </span>
+        </div>
+      </button>
+    </div>
+  </footer>
+</form>
 `;

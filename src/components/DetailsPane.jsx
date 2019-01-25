@@ -8,6 +8,7 @@ import Label from 'components/Label';
 import { Caption, H5 } from 'components/Typography';
 import { StatusBubble } from 'components/Status';
 import { ClipboardButton } from 'components/Buttons';
+import Divider from 'components/Divider';
 import { getLastFromSplit } from 'util/helpers/strings';
 
 const CopyUUIDButton = styled.div`
@@ -37,71 +38,96 @@ const DetailPane = ({ model, singleRow }) => {
   const owner = get(model, 'owner.name') || get(model, 'owner.id');
   const createdStamp = get(model, 'created.timestamp');
   const modifiedStamp = get(model, 'modified.timestamp');
+  const hasProvider = get(model, 'properties.provider.id') && get(model, 'properties.provider.name');
   const flex = singleRow ? 2 : 4;
 
+  if (!model.id) {
+    return null;
+  }
+
   return (
-    model.id ?
-      <Content>
-        <Row gutter={5}>
-          <Col flex={flex} xs={6}>
-            <StatusStyle>
-              <Label>Resource State</Label>
-              <StatusBubble status={getLastFromSplit(model.resource_state)} />
-            </StatusStyle>
-          </Col>
+    <Content>
+      <Row gutter={5}>
+        <Col flex={flex} xs={6}>
+          <StatusStyle>
+            <Label>Resource State</Label>
+            <StatusBubble status={getLastFromSplit(model.resource_state)} />
+          </StatusStyle>
+        </Col>
 
-          <Col flex={flex} xs={6}>
-            <Label>Resource Type</Label>
-            <H5>{model.resource_type}</H5>
-          </Col>
+        <Col flex={flex} xs={6}>
+          <Label>Resource Type</Label>
+          <H5>{model.resource_type}</H5>
+        </Col>
 
-          <Col flex={flex} xs={6}>
-            <CopyUUIDButton>
-              <Label>UUID</Label>
-              <ClipboardButton
-                showLabel={false}
-                text={model.id}
-                tooltipLabel="Copy uuid to clipboard"
-              />
-              <H5>{model.id}</H5>
-            </CopyUUIDButton>
-          </Col>
+        <Col flex={flex} xs={6}>
+          <CopyUUIDButton>
+            <Label>UUID</Label>
+            <ClipboardButton
+              showLabel={false}
+              text={model.id}
+              tooltipLabel="Copy uuid to clipboard"
+            />
+            <H5>{model.id}</H5>
+          </CopyUUIDButton>
+        </Col>
 
-          <Col flex={flex} xs={6}>
-            <Label>Owner</Label>
-            <H5>{owner}</H5>
-          </Col>
+        <Col flex={flex} xs={6}>
+          <Label>Owner</Label>
+          <H5>{owner}</H5>
+        </Col>
 
-          <Col flex={flex} xs={6}>
-            <Label>Created</Label>
-            {createdStamp &&
-              <H5>
+        <Col flex={flex} xs={6}>
+          <Label>Created</Label>
+          {createdStamp &&
+            <H5>
+              <div>
                 <div>
-                  <div>
-                    <FormattedRelative value={createdStamp} />
-                  </div>
-                  <Caption>
-                    <FormattedDate value={createdStamp} /> <FormattedTime value={createdStamp} />
-                  </Caption>
-                </div>
-              </H5>}
-          </Col>
-
-          <Col flex={flex} xs={6}>
-            <Label>Modified</Label>
-            {modifiedStamp &&
-              <H5>
-                <div>
-                  <FormattedRelative value={modifiedStamp} />
+                  <FormattedRelative value={createdStamp} />
                 </div>
                 <Caption>
-                  <FormattedDate value={modifiedStamp} /> <FormattedTime value={modifiedStamp} />
+                  <FormattedDate value={createdStamp} /> <FormattedTime value={createdStamp} />
                 </Caption>
-              </H5>}
-          </Col>
+              </div>
+            </H5>}
+        </Col>
 
-        </Row>
-      </Content> : null
+        <Col flex={flex} xs={6}>
+          <Label>Modified</Label>
+          {modifiedStamp &&
+            <H5>
+              <div>
+                <FormattedRelative value={modifiedStamp} />
+              </div>
+              <Caption>
+                <FormattedDate value={modifiedStamp} /> <FormattedTime value={modifiedStamp} />
+              </Caption>
+            </H5>}
+        </Col>
+
+        {hasProvider &&
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Label>Provider Details</Label>
+              <Divider />
+            </Col>
+            <Col flex={flex} xs={6}>
+              <Label>Name</Label>
+              <H5>{model.properties.provider.name}</H5>
+            </Col>
+
+            <Col flex={flex} xs={6}>
+              <Label>Resouce Type</Label>
+              <H5>{model.properties.provider.resource_type}</H5>
+            </Col>
+
+            <Col flex={flex} xs={6}>
+              <Label>Description</Label>
+              <H5>{model.properties.provider.description}</H5>
+            </Col>
+          </Row>}
+      </Row>
+    </Content>
   );
 };
 
@@ -114,6 +140,7 @@ DetailPane.defaultProps = {
   model: {
     modified: {},
     created: {},
+    properties: {},
   },
   singleRow: false,
 };

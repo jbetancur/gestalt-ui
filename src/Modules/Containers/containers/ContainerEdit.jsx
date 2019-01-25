@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { IconSeparator, FontIcon } from 'react-md';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
@@ -19,7 +19,6 @@ import { Tabs, Tab } from 'components/Tabs';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Card } from 'components/Cards';
-import { FullPageFooter } from 'components/FullPage';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Caption } from 'components/Typography';
 import Div from 'components/Div';
@@ -100,23 +99,6 @@ class ContainerEdit extends Component {
     entitlementActions.showEntitlementsModal(container.name, match.params.fqon, container.id, 'containers', 'Container');
   }
 
-  generateDefaultFooter() {
-    const { match } = this.props;
-
-    return (
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren="arrow_back"
-          component={Link}
-          to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-        >
-          Containers
-        </Button>
-      </FullPageFooter>
-    );
-  }
-
   render() {
     const {
       match,
@@ -151,7 +133,8 @@ class ContainerEdit extends Component {
           <ActionsModals />
           <ActionsToolbar
             title={container.name}
-            subtitle={`Provider: ${selectedProvider.provider.name}`}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
             titleIcon={iconMap(selectedProvider.type)}
             actions={[
               statusDetail &&
@@ -193,18 +176,6 @@ class ContainerEdit extends Component {
                   </Card>
                 </Col>
               </Row>
-
-              {!inlineMode &&
-                <FullPageFooter>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-                  >
-                    Containers
-                  </Button>
-                </FullPageFooter>}
             </Tab>
 
             <Tab title={inlineMode ? 'Container Spec' : 'Container'}>
@@ -256,29 +227,10 @@ class ContainerEdit extends Component {
                     onSubmit={handleSubmit}
                     autoComplete="off"
                     disabled={containerPending}
+                    disabledSubmit={containerPending || submitting || !selectedProvider.isSelected}
+                    submitTitle="Update"
                   >
                     <ContainerForm {...rest} />
-                    <FullPageFooter>
-                      <Button
-                        flat
-                        iconChildren="arrow_back"
-                        disabled={containerPending || submitting}
-                        component={Link}
-                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-                      >
-                        Containers
-                      </Button>
-
-                      <Button
-                        raised
-                        iconChildren="save"
-                        type="submit"
-                        disabled={containerPending || submitting || !selectedProvider.isSelected}
-                        primary
-                      >
-                        Update
-                      </Button>
-                    </FullPageFooter>
                   </Form>
                 )}
                 {...this.props}
@@ -295,8 +247,6 @@ class ContainerEdit extends Component {
                   </Card>
                 </Col>
               </Row>
-
-              {!inlineMode && this.generateDefaultFooter()}
             </Tab>
 
             {selectedProvider.supportsEvents ?
@@ -310,8 +260,6 @@ class ContainerEdit extends Component {
                     </Card>
                   </Col>
                 </Row>
-
-                {!inlineMode && this.generateDefaultFooter()}
               </Tab> : <div />}
 
             <Tab title="YAML/JSON">

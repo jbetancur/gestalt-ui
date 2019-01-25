@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import { withEntitlements } from 'Modules/Entitlements';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -62,6 +63,8 @@ class PolicyEventRuleEdit extends Component {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={policyRule.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
             actions={[
               <Button
                 key="eventRule--entitlements"
@@ -86,11 +89,20 @@ class PolicyEventRuleEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
-                component={PolicyLimitRuleForm}
+              <FinalForm
                 editMode
                 onSubmit={this.update}
                 initialValues={initialValues}
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    disabled={policyRulePending}
+                    disabledSubmit={policyRulePending || submitting}
+                    submitTitle="Update"
+                  >
+                    <PolicyLimitRuleForm {...rest} />
+                  </Form>
+                )}
                 {...this.props}
               />
 

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -52,7 +53,7 @@ class DataFeedCreate extends Component {
 
 
   render() {
-    const { datafeedPending, secretsData, resourceType } = this.props;
+    const { match, datafeedPending, secretsData, resourceType } = this.props;
     return (
       <Row center>
         <Col flex={8} xs={12} sm={12} md={10}>
@@ -60,14 +61,26 @@ class DataFeedCreate extends Component {
 
           {datafeedPending && <ActivityContainer id="datafeed-form" />}
 
-          <Form
+          <FinalForm
             onSubmit={this.onSubmit}
             initialValues={initialValues}
-            render={DataFeedForm}
             validate={validate}
             loading={datafeedPending}
             secrets={secretsData}
             tags={resourceType.tags}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={datafeedPending}
+                disabledSubmit={datafeedPending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/datafeeds`}
+              >
+                <DataFeedForm {...rest} />
+              </Form>
+            )}
           />
         </Col>
       </Row>

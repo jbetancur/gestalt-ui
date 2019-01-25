@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { withEntitlements } from 'Modules/Entitlements';
 import { PolicyRules } from 'Modules/PolicyRules';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { FullPageFooter } from 'components/FullPage';
 import { Button } from 'components/Buttons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
@@ -64,6 +63,8 @@ class PolicyEdit extends Component {
 
           <ActionsToolbar
             title={policy.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
             actions={[
               <PolicyTypesMenu key="policy--types-menu" />,
               <Button
@@ -85,16 +86,6 @@ class PolicyEdit extends Component {
                   {policy.id && <PolicyRules />}
                 </Col>
               </Row>
-              <FullPageFooter>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  component={Link}
-                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
-                >
-                  Policies
-                </Button>
-              </FullPageFooter>
             </Tab>
 
             <Tab title="Policy">
@@ -106,11 +97,20 @@ class PolicyEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
+              <FinalForm
                 editMode
-                render={PolicyForm}
                 onSubmit={this.udpate}
                 initialValues={initialFormValues}
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    disabled={policyPending}
+                    disabledSubmit={submitting}
+                    submitTitle="Update"
+                  >
+                    <PolicyForm {...rest} />
+                  </Form>
+                )}
                 {...this.props}
               />
             </Tab>

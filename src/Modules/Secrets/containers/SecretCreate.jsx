@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -37,7 +38,7 @@ class SecretCreate extends Component {
   }
 
   render() {
-    const { providersData, secretPending, initialFormValues } = this.props;
+    const { match, providersData, secretPending, initialFormValues } = this.props;
 
     return (
       <Row center>
@@ -46,14 +47,25 @@ class SecretCreate extends Component {
 
           {secretPending && <ActivityContainer id="secret-create-loading" />}
 
-          <Form
+          <FinalForm
             onSubmit={this.create}
             mutators={{ ...arrayMutators }}
-            render={SecretForm}
             providers={providersData}
-            loading={secretPending}
             initialValues={initialFormValues}
             validate={validate}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={secretPending}
+                disabledSubmit={secretPending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
+              >
+                <SecretForm {...rest} />
+              </Form>
+            )}
           />
         </Col>
       </Row>

@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { Link } from 'react-router-dom';
 import { Autocomplete } from 'react-md';
 import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
-import { Button } from 'components/Buttons';
-import { FullPageFooter } from 'components/FullPage';
 import { Caption } from 'components/Typography';
 import Form from 'components/Form';
 import { Chips } from 'components/Lists';
@@ -16,14 +13,13 @@ import HTTPMethods from '../components/HTTPMethods';
 import implementationTypes from '../lists/implementationTypes';
 
 const APIEndpointForm = ({
+  match,
   form,
   values,
-  match,
   apiEndpointPending,
   handleSubmit,
   pristine,
   submitting,
-  apiEndpoint,
   fetchlambdasData,
   fetchcontainersData,
   lambdasData,
@@ -32,8 +28,6 @@ const APIEndpointForm = ({
   containersDataPending,
   editMode,
 }) => {
-  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`;
-
   // TODO: implement selectors
   const containerPorts = () => {
     const container = containersData.find(cont => cont.id === values.properties.implementation_id);
@@ -57,7 +51,15 @@ const APIEndpointForm = ({
   const disabledSubmit = pristine || apiEndpointPending || lambdasDataPending || containersDataPending || submitting;
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off" disabled={apiEndpointPending} paddingBottom="64px">
+    <Form
+      onSubmit={handleSubmit}
+      autoComplete="off"
+      disabled={apiEndpointPending}
+      disabledSubmit={disabledSubmit}
+      submitTitle={editMode ? 'Update' : 'Create'}
+      showCancel={!editMode}
+      cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`}
+    >
       <Row gutter={5}>
         <Col flex={12}>
           <Panel title="Mapping" expandable={false}>
@@ -211,36 +213,14 @@ const APIEndpointForm = ({
           </Panel>
         </Col>
       </Row>
-
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren={!editMode ? null : 'arrow_back'}
-          disabled={apiEndpointPending || submitting}
-          component={Link}
-          to={backLink}
-        >
-          {editMode ? `${apiEndpoint.properties.parent && apiEndpoint.properties.parent.name} API` : 'Cancel'}
-        </Button>
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={disabledSubmit}
-          primary
-        >
-          {editMode ? 'Update' : 'Create'}
-        </Button>
-      </FullPageFooter>
     </Form>
   );
 };
 
 APIEndpointForm.propTypes = {
+  match: PropTypes.object.isRequired,
   form: PropTypes.string.isRequired,
   values: PropTypes.object.isRequired,
-  apiEndpoint: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   apiEndpointPending: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

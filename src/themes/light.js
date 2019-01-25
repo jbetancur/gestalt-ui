@@ -31,6 +31,10 @@ export default {
     progress: '#9e9e9e',
     progressVariant: '#4fc3f7',
 
+    // Dividers
+    divider: '#eeeeee',
+    dividerVariant: '#9e9e9e',
+
     // Notifications
     error: '#f44336',
     warning: '#ff9800',

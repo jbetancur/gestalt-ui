@@ -20,7 +20,6 @@ const Main = styled.main`
   position: relative;
   height: 100%;
   width: 100%;
-  padding-bottom: 56px;
   overflow-y: auto;
 `;
 

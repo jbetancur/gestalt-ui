@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import { withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -47,7 +48,7 @@ class APICreate extends Component {
   }
 
   render() {
-    const { apiPending } = this.props;
+    const { match, apiPending } = this.props;
 
     return (
       <Row gutter={5} center>
@@ -57,13 +58,24 @@ class APICreate extends Component {
 
           {apiPending && <ActivityContainer id="api-loading" />}
 
-          <Form
+          <FinalForm
             subscription={{ submitting: true, pristine: true }}
             onSubmit={this.create}
             initialValues={initialFormValues}
-            render={APIForm}
             validate={validate}
-            loading={apiPending}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={apiPending}
+                disabledSubmit={submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
+              >
+                <APIForm {...rest} />
+              </Form>
+            )}
             {...this.props}
           />
         </Col>

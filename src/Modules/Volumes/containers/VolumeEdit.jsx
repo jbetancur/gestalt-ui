@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import { withEntitlements } from 'Modules/Entitlements';
@@ -72,6 +73,8 @@ class VolumeEdit extends Component {
 
           <ActionsToolbar
             title={volume.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes`}
             subtitle={(
               <React.Fragment>
                 <div>{`Provider: ${volume.properties.provider.name}`}</div>
@@ -112,14 +115,24 @@ class VolumeEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
+              <FinalForm
                 editMode
                 onSubmit={this.update}
                 mutators={{ ...arrayMutators }}
-                render={VolumeForm}
                 loading={volumePending}
                 initialValues={initialFormValues}
                 selectedProvider={selectedProvider}
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    autoComplete="off"
+                    disabled={volumePending}
+                    disabledSubmit={volumePending || submitting}
+                    submitTitle="Update"
+                  >
+                    <VolumeForm {...rest} />
+                  </Form>
+                )}
               />
             </Tab>
 

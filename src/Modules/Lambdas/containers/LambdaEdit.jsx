@@ -19,7 +19,6 @@ import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Tabs, Tab } from 'components/Tabs';
 import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
-import { FullPageFooter } from 'components/FullPage';
 import PayloadViewer from '../components/PayloadViewer';
 import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
@@ -128,8 +127,9 @@ class LambdaEdit extends PureComponent {
         <Col flex={10} xs={12} sm={12} md={10}>
           <ActionsToolbar
             title={lambda.name}
-            subtitle={`Provider: ${lambda.properties.provider.name}`}
             titleIcon={icon}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
             actions={[
               <Button
                 key="lambda--log"
@@ -192,28 +192,10 @@ class LambdaEdit extends PureComponent {
                     onSubmit={handleSubmit}
                     autoComplete="off"
                     disabled={lambdaPending}
+                    disabledSubmit={submitting || !values.properties.runtime || !values.properties.provider.id}
+                    submitTitle="Update"
                   >
                     <LambdaForm values={values} {...rest} />
-                    <FullPageFooter>
-                      <Button
-                        flat
-                        iconChildren="arrow_back"
-                        disabled={lambdaPending || submitting}
-                        component={Link}
-                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
-                      >
-                        Lambdas
-                      </Button>
-                      <Button
-                        raised
-                        iconChildren="save"
-                        type="submit"
-                        disabled={submitting || !values.properties.runtime || !values.properties.provider.id}
-                        primary
-                      >
-                        Update
-                      </Button>
-                    </FullPageFooter>
                   </Form>
                 )}
                 {...this.props}
@@ -233,17 +215,6 @@ class LambdaEdit extends PureComponent {
                   </Card>
                 </Col>
               </Row>
-
-              <FullPageFooter>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  component={Link}
-                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
-                >
-                  Lambdas
-                </Button>
-              </FullPageFooter>
             </Tab>
 
             <Tab title="Statistics">
@@ -258,17 +229,6 @@ class LambdaEdit extends PureComponent {
                   </Card>
                 </Col>
               </Row>
-
-              <FullPageFooter>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  component={Link}
-                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
-                >
-                  Lambdas
-                </Button>
-              </FullPageFooter>
             </Tab>
 
             <Tab title="YAML/JSON">

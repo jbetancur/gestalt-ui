@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
 import { Autocomplete, List, ListItem, FontIcon } from 'react-md';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -107,15 +108,21 @@ class GroupEdit extends Component {
   }
 
   render() {
-    const { initialFormValues, group, groupPending, groupMembersPending, users } = this.props;
+    const { match, initialFormValues, group, groupPending, groupMembersPending, users } = this.props;
 
     return (
       groupPending && !group.id ?
         <ActivityContainer id="group-loading" /> :
         <Row center>
           <Col flex={8} xs={12} sm={12} md={12}>
-            <ActionsToolbar title={group.name} />
+            <ActionsToolbar
+              title={group.name}
+              showBackNav
+              navTo={`/${match.params.fqon}/groups`}
+            />
+
             {(groupPending || groupMembersPending) && <ActivityContainer id="group-form" />}
+
             <Row gutter={5}>
               <Col flex={12}>
                 <Panel title="Resource Details" defaultExpanded={false}>
@@ -124,15 +131,24 @@ class GroupEdit extends Component {
               </Col>
             </Row>
 
-            <Form
+            <FinalForm
               editMode
-              render={GroupForm}
               initialValues={initialFormValues}
               validate={validate}
               onSubmit={this.update}
-              loading={groupPending}
               onAddUser={this.addUser}
               onRemoveUser={this.removeUser}
+              render={({ handleSubmit, submitting, pristine, ...rest }) => (
+                <Form
+                  onSubmit={handleSubmit}
+                  submitTitle="Update"
+                  disabled={groupPending}
+                  disabledSubmit={groupPending || submitting}
+                  noFooterPadding
+                >
+                  <GroupForm {...rest} />
+                </Form>
+              )}
             />
 
             <Row gutter={5}>

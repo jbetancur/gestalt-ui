@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styled, { withTheme } from 'styled-components';
 import { Title, Caption } from 'components/Typography';
+import { Button } from 'components/Buttons';
 
 const ActionHeaderStyle = styled.header`
   display: flex;
@@ -9,9 +11,14 @@ const ActionHeaderStyle = styled.header`
   align-items: center;
   min-height: 48px;
   width: 100%;
-  padding-left: 8px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 6px;
+`;
+
+const BackAction = styled.div`
+  flex: 0;
+  padding-right: 8px;
+  width: 48px;
+  height: 100%;
 `;
 
 const Left = styled.div`
@@ -42,8 +49,19 @@ const TitleSection = styled.div`
   align-items: center;
 `;
 
-const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, disabled }) => (
+const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, showBackNav, navTo, disabled }) => (
   <ActionHeaderStyle>
+    {showBackNav && navTo &&
+      <BackAction>
+        <Button
+          icon
+          component={Link}
+          to={navTo}
+        >
+          arrow_back
+        </Button>
+      </BackAction>}
+
     <Left>
       <TitleSection>
         {!!titleIcon &&
@@ -80,6 +98,8 @@ ActionsHeader.propTypes = {
     PropTypes.node,
   ]),
   showActions: PropTypes.bool,
+  showBackNav: PropTypes.bool,
+  navTo: PropTypes.string,
   disabled: PropTypes.bool,
 };
 
@@ -89,6 +109,8 @@ ActionsHeader.defaultProps = {
   actions: null,
   titleIcon: null,
   showActions: true,
+  showBackNav: false,
+  navTo: '/',
   disabled: false,
 };
 

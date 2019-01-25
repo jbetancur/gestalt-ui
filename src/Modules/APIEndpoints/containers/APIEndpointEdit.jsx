@@ -71,7 +71,7 @@ class APIEndpointEdit extends PureComponent {
   }
 
   render() {
-    const { initialFormValues, apiEndpoint, apiEndpointPending } = this.props;
+    const { match, initialFormValues, apiEndpoint, apiEndpointPending } = this.props;
 
     if (apiEndpointPending && !apiEndpoint.id) {
       return <ActivityContainer id="apiEndpoint-loading" />;
@@ -83,6 +83,8 @@ class APIEndpointEdit extends PureComponent {
           <ActionsToolbar
             title={apiEndpoint.properties.resource}
             subtitle={apiEndpoint.properties.public_url ? <A href={apiEndpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>{apiEndpoint.properties.public_url}</A> : null}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`}
             showActions={apiEndpoint.id}
             actions={[
               <Button

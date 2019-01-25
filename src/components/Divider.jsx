@@ -1,12 +1,12 @@
 import styled, { withTheme } from 'styled-components';
 
-const Divider = styled.hr`
-  background-color: ${props => props.theme.colors['$md-grey-300']};
+const Divider = styled.div`
+  background-color: ${props => props.theme.colors.divider};
   border: 0;
-  content: '';
   display: block;
-  height: 1px;
-  margin: 0;
+  height: ${props => props.height || '1px'};
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 100%;
 `;
 

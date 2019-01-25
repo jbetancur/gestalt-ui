@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -32,7 +33,7 @@ class CreateResourceType extends PureComponent {
   }
 
   render() {
-    const { resourceTypePending } = this.props;
+    const { match, resourceTypePending } = this.props;
 
     return (
       <Row gutter={5} center>
@@ -42,12 +43,23 @@ class CreateResourceType extends PureComponent {
 
           {resourceTypePending && <ActivityContainer id="resourceType-form" />}
 
-          <Form
-            render={ResourceTypeForm}
+          <FinalForm
             onSubmit={this.create}
             mutators={{ ...arrayMutators }}
             validate={validate}
-            pending={resourceTypePending}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={resourceTypePending}
+                disabledSubmit={resourceTypePending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/resourcetypes`}
+              >
+                <ResourceTypeForm {...rest} />
+              </Form>
+            )}
             {...this.props}
           />
         </Col>

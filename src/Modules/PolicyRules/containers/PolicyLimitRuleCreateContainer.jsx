@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -30,7 +31,7 @@ class PolicyLimitRuleCreate extends Component {
   }
 
   render() {
-    const { initialValues, policyRulePending } = this.props;
+    const { match, initialValues, policyRulePending } = this.props;
 
     return (
       <Row gutter={5} center>
@@ -39,10 +40,21 @@ class PolicyLimitRuleCreate extends Component {
 
           {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
-          <Form
-            component={PolicyLimitRuleForm}
+          <FinalForm
             onSubmit={this.create}
             initialValues={initialValues}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                disabled={policyRulePending}
+                disabledSubmit={policyRulePending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
+              >
+                <PolicyLimitRuleForm {...rest} />
+              </Form>
+            )}
             {...this.props}
           />
         </Col>

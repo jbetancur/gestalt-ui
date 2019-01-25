@@ -81,16 +81,19 @@ class ProviderEdit extends PureComponent {
     }
   }
 
-  goBack = () => {
-    const { match, history } = this.props;
+  generateBackLink() {
+    const { match } = this.props;
+
     if (match.params.workspaceId && !match.params.environmentId) {
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`);
-    } else if (match.params.workspaceId && match.params.environmentId) {
-      history.push(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`);
-    } else {
-      history.push(`/${match.params.fqon}/providers`);
+      return `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`;
     }
-  };
+
+    if (match.params.workspaceId && match.params.environmentId) {
+      return `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`;
+    }
+
+    return `/${match.params.fqon}/providers`;
+  }
 
   showEntitlements = () => {
     const { entitlementActions, provider, match } = this.props;
@@ -104,7 +107,6 @@ class ProviderEdit extends PureComponent {
       initialValues,
       provider,
       container,
-      selectedProviderType,
       hasContainer,
       providerPending
     } = this.props;
@@ -119,7 +121,8 @@ class ProviderEdit extends PureComponent {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={provider.name}
-            subtitle={`Provider Type: ${selectedProviderType.displayName}`}
+            showBackNav
+            navTo={this.generateBackLink()}
             actions={[
               hasContainer &&
               <ContainerActions
@@ -160,10 +163,15 @@ class ProviderEdit extends PureComponent {
                 editMode
                 onSubmit={this.update}
                 onRedeploy={this.flagForRedeploy}
-                goBack={this.goBack}
                 subscription={{ submitting: true, pristine: true }}
-                render={({ handleSubmit, ...rest }) => (
-                  <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    disabled={providerPending}
+                    autoComplete="off"
+                    submitTitle="Update"
+                    disabledSubmit={providerPending || submitting}
+                  >
                     <ProviderForm {...rest} />
                   </Form>
                 )}

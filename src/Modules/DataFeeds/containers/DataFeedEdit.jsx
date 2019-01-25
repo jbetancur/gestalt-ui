@@ -6,7 +6,8 @@ import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
@@ -60,7 +61,7 @@ class DataFeedEdit extends Component {
   };
 
   render() {
-    const { datafeedPending, datafeed, secretsData, resourceType, initialFormValues } = this.props;
+    const { match, datafeedPending, datafeed, secretsData, resourceType, initialFormValues } = this.props;
 
     if (datafeedPending && !datafeed.id) {
       return <ActivityContainer id="datafeed-loading" />;
@@ -71,6 +72,8 @@ class DataFeedEdit extends Component {
         <Col flex={8} xs={12} sm={12} md={10}>
           <ActionsToolbar
             title={datafeed.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/datafeeds`}
             actions={[
               <Button
                 key="datafeed--entitlements"
@@ -95,15 +98,23 @@ class DataFeedEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
+              <FinalForm
                 editMode
                 onSubmit={this.onSubmit}
                 initialValues={initialFormValues}
-                render={DataFeedForm}
                 validate={validate}
-                loading={datafeedPending}
                 secrets={secretsData}
                 tags={resourceType.tags}
+                render={({ handleSubmit, submitting, pristine, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    submitTitle="Update"
+                    disabled={datafeedPending}
+                    disabledSubmit={datafeedPending || submitting}
+                  >
+                    <DataFeedForm {...rest} />
+                  </Form>
+                )}
               />
             </Tab>
 

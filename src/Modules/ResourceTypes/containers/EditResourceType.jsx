@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData, withMetaResource } from 'Modules/MetaResource';
@@ -43,40 +44,52 @@ class EditResourceType extends PureComponent {
   }
 
   render() {
-    const { resourceTypePending, resourceType } = this.props;
+    const { match, resourceTypePending, resourceType } = this.props;
+
+    if (resourceTypePending && !resourceType.id) {
+      return <ActivityContainer id="resourceType-loading" />;
+    }
 
     return (
-      resourceTypePending && !resourceType.id ?
-        <ActivityContainer id="resourceType-loading" /> :
-        <Row gutter={5} center>
-          <Col flex={10} xs={12} sm={12} md={12}>
+      <Row gutter={5} center>
+        <Col flex={10} xs={12} sm={12} md={12}>
 
-            <ActionsToolbar
-              title={resourceType.name}
-              subtitle={resourceType.extend && `extends: ${resourceType.extend}`}
-            />
+          <ActionsToolbar
+            title={resourceType.name}
+            subtitle={resourceType.extend && `extends: ${resourceType.extend}`}
+            showBackNav
+            navTo={`/${match.params.fqon}/resourcetypes`}
+          />
 
-            <Row gutter={5}>
-              <Col flex={12}>
-                <Panel title="Resource Details" defaultExpanded={false}>
-                  <DetailsPane model={resourceType} />
-                </Panel>
-              </Col>
-            </Row>
+          <Row gutter={5}>
+            <Col flex={12}>
+              <Panel title="Resource Details" defaultExpanded={false}>
+                <DetailsPane model={resourceType} />
+              </Panel>
+            </Col>
+          </Row>
 
-            {resourceTypePending && <ActivityContainer id="resourceType-form" />}
+          {resourceTypePending && <ActivityContainer id="resourceType-form" />}
 
-            <Form
-              editMode
-              render={ResourceTypeForm}
-              onSubmit={this.update}
-              mutators={{ ...arrayMutators }}
-              validate={validate}
-              pending={resourceTypePending}
-              {...this.props}
-            />
-          </Col>
-        </Row>
+          <FinalForm
+            editMode
+            onSubmit={this.update}
+            mutators={{ ...arrayMutators }}
+            validate={validate}
+            render={({ handleSubmit, submitting, pristine, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                submitTitle="Update"
+                disabled={resourceTypePending}
+                disabledSubmit={resourceTypePending || submitting}
+              >
+                <ResourceTypeForm {...rest} />
+              </Form>
+            )}
+            {...this.props}
+          />
+        </Col>
+      </Row>
     );
   }
 }

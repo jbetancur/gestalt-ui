@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -43,6 +44,7 @@ class VolumeCreate extends Component {
 
   render() {
     const {
+      match,
       volumePending,
       initialFormValues,
       selectedProvider,
@@ -55,13 +57,24 @@ class VolumeCreate extends Component {
 
           {volumePending && <ActivityContainer id="volume-create-loading" />}
 
-          <Form
+          <FinalForm
             onSubmit={this.create}
             mutators={{ ...arrayMutators }}
-            render={VolumeForm}
-            loading={volumePending}
             initialValues={initialFormValues}
             selectedProvider={selectedProvider}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={volumePending}
+                disabledSubmit={volumePending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes`}
+              >
+                <VolumeForm {...rest} />
+              </Form>
+            )}
           />
         </Col>
       </Row>

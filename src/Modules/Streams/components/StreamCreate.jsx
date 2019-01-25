@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
-import { Form as FinalForm, FormSpy } from 'react-final-form';
-import createDecorator from 'final-form-focus';
+import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
+import createDecorator from 'final-form-focus';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { Button } from 'components/Buttons';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
-import { FullPageFooter } from 'components/FullPage';
 import StreamForm from './StreamForm';
 import validate from '../validations';
 import streamSpecModel from '../models/streamSpec';
@@ -85,32 +82,16 @@ class StreamCreate extends Component {
             initialValues={initialValues}
             validate={validate}
             decorators={[focusOnErrors]}
-            render={({ handleSubmit, values, submitting, ...rest }) => (
-              <Form onSubmit={handleSubmit} disabled={streamSpecPending}>
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                disabled={streamSpecPending}
+                disabledSubmit={submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
+              >
                 <StreamForm {...rest} />
-                <FormSpy>
-                  {() => (
-                    <FullPageFooter>
-                      <Button
-                        to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
-                        flat
-                        component={Link}
-                        iconChildren="arrow_back"
-                      >
-                        Stream Specs
-                      </Button>
-
-                      <Button
-                        type="submit"
-                        primary
-                        raised
-                        disabled={submitting}
-                      >
-                        Create
-                      </Button>
-                    </FullPageFooter>
-                  )}
-                </FormSpy>
               </Form>
             )}
           />

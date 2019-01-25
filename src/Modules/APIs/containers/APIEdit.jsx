@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import { withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
@@ -14,7 +15,6 @@ import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
-import { FullPageFooter } from 'components/FullPage';
 import { Card } from 'components/Cards';
 import PayloadViewer from './PayloadViewer';
 import APIForm from './APIForm';
@@ -65,6 +65,8 @@ class APIEdit extends Component {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={api.name}
+            showBackNav
+            navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
             actions={[
               <Button
                 key="add-endpoint"
@@ -95,17 +97,6 @@ class APIEdit extends Component {
                   <APIEndpoints {...this.props} />
                 </Col>
               </Row>
-
-              <FullPageFooter>
-                <Button
-                  flat
-                  iconChildren="arrow_back"
-                  component={Link}
-                  to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
-                >
-                  APIs
-                </Button>
-              </FullPageFooter>
             </Tab>
 
             <Tab title="API">
@@ -117,14 +108,23 @@ class APIEdit extends Component {
                 </Col>
               </Row>
 
-              <Form
+              <FinalForm
                 editMode
                 subscription={{ submitting: true, pristine: true }}
                 onSubmit={this.update}
                 initialValues={initialFormValues}
-                render={APIForm}
                 validate={validate}
-                loading={apiPending}
+                render={({ handleSubmit, submitting, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    autoComplete="off"
+                    disabled={apiPending}
+                    disabledSubmit={submitting}
+                    submitTitle="Update"
+                  >
+                    <APIForm {...rest} />
+                  </Form>
+                )}
                 {...this.props}
               />
             </Tab>

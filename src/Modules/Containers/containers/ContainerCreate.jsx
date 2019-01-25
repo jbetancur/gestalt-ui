@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import createDecorator from 'final-form-focus';
@@ -10,8 +10,6 @@ import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { Button } from 'components/Buttons';
-import { FullPageFooter } from 'components/FullPage';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
@@ -101,29 +99,13 @@ class ContainerCreate extends Component {
                 onSubmit={handleSubmit}
                 autoComplete="off"
                 disabled={isPending}
+                disabledCancel={containerPending || submitting}
+                disabledSubmit={containerPending || submitting || !selectedProvider.isSelected}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
               >
                 <ContainerForm {...rest} />
-                <FullPageFooter>
-                  <Button
-                    flat
-                    iconChildren="arrow_back"
-                    disabled={containerPending || submitting}
-                    component={Link}
-                    to={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
-                  >
-                    Containers
-                  </Button>
-
-                  <Button
-                    raised
-                    iconChildren="save"
-                    type="submit"
-                    disabled={containerPending || submitting || !selectedProvider.isSelected}
-                    primary
-                  >
-                    Create
-                  </Button>
-                </FullPageFooter>
               </Form>
             )}
             {...this.props}

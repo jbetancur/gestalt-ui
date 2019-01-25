@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexybox';
 import { FontIcon } from 'react-md';
-import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
 import { Checkbox as CheckboxForm, SelectField, TextField } from 'components/ReduxFormFields';
-import Form, { ConditionalAny } from 'components/Form';
+import { ConditionalAny } from 'components/Form';
 import { fixInputNumber, composeValidators, required } from 'util/forms';
 import policyResourceTypes from '../lists/policyResourceTypes';
 import policyOperators from '../lists/policyOperators';
@@ -24,14 +21,7 @@ const policyActions = []
 const PolicyLimitRuleForm = ({
   form,
   values,
-  editMode,
-  match,
-  policyRulePending,
-  submitting,
-  handleSubmit,
-  policyRule,
 }) => {
-  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`;
   // Filter policyLimiters and policyOperators to match inputTypes
   const filteredPolicyOperators = values.properties.eval_logic.property
     ? policyOperators.filter((operator) => {
@@ -57,7 +47,7 @@ const PolicyLimitRuleForm = ({
   };
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off" disabled={policyRulePending}>
+    <React.Fragment>
       <Row gutter={5}>
         <Col flex={7} xs={12} sm={12}>
           <Panel title="Name" expandable={false} fill>
@@ -170,44 +160,13 @@ const PolicyLimitRuleForm = ({
           </Panel>
         </Col>
       </Row>
-
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren="arrow_back"
-          disabled={policyRulePending || submitting}
-          component={Link}
-          to={backLink}
-        >
-          {editMode ? `${policyRule.properties.parent && policyRule.properties.parent.name} Policy` : 'Cancel'}
-        </Button>
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={policyRulePending || submitting}
-          primary
-        >
-          {editMode ? 'Update' : 'Create'}
-        </Button>
-      </FullPageFooter>
-    </Form>
+    </React.Fragment>
   );
 };
 
 PolicyLimitRuleForm.propTypes = {
-  editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
-  policyRule: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  policyRulePending: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-};
-
-PolicyLimitRuleForm.defaultProps = {
-  editMode: false,
 };
 
 export default PolicyLimitRuleForm;

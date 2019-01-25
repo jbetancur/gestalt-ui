@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
-import { Link } from 'react-router-dom';
 import { LambdaIcon } from 'components/Icons';
 import { Autocomplete, FontIcon } from 'react-md';
-import { withPickerData } from 'Modules/MetaResource';
-import { FullPageFooter } from 'components/FullPage';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
 import { TextField } from 'components/ReduxFormFields';
-import Form from 'components/Form';
 import { composeValidators, validator, required } from 'util/forms';
 import { isUUID } from 'validator';
 import policyResourceTypes from '../lists/policyResourceTypes';
@@ -40,18 +34,10 @@ const validateUUID = (value) => {
 const PolicyEventRuleForm = ({
   form,
   values,
-  match,
-  policyRulePending,
-  submitting,
-  handleSubmit,
   editMode,
-  policyRule,
-  lambdasData,
-  lambdasLoading,
-  fetchlambdasData,
+  onClickLambdasDropDown,
+  lambdas,
 }) => {
-  const backLink = `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`;
-
   const handleAutoComplete = (value) => {
     const field = editMode ? 'properties.lambda.id' : 'properties.lambda';
 
@@ -63,7 +49,7 @@ const PolicyEventRuleForm = ({
   };
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off" disabled={policyRulePending}>
+    <React.Fragment>
       <Row gutter={5}>
         <Col flex={7} xs={12} sm={12}>
           <Panel title="Name" expandable={false} fill>
@@ -107,11 +93,11 @@ const PolicyEventRuleForm = ({
               <Col flex={12}>
                 <Autocomplete
                   id="lambdas-dropdown"
-                  data={lambdasData}
+                  data={lambdas}
                   dataLabel="name"
                   dataValue="id"
                   clearOnAutocomplete
-                  onClick={() => fetchlambdasData()}
+                  onClick={onClickLambdasDropDown}
                   onAutocomplete={value => handleAutoComplete(value)}
                   placeholder="Search"
                   helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
@@ -144,49 +130,20 @@ const PolicyEventRuleForm = ({
           </Panel>
         </Col>
       </Row>
-
-      <FullPageFooter>
-        <Button
-          flat
-          iconChildren="arrow_back"
-          disabled={policyRulePending || submitting}
-          component={Link}
-          to={backLink}
-        >
-          {editMode ? `${policyRule.properties.parent && policyRule.properties.parent.name} Policy` : 'Cancel'}
-        </Button>
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={lambdasLoading || policyRulePending || submitting}
-          primary
-        >
-          {editMode ? 'Update' : 'Create'}
-        </Button>
-      </FullPageFooter>
-    </Form>
+    </React.Fragment>
   );
 };
 
 PolicyEventRuleForm.propTypes = {
   form: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
-  policyRule: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  policyRulePending: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
   editMode: PropTypes.bool,
-  fetchlambdasData: PropTypes.func.isRequired,
-  lambdasData: PropTypes.array.isRequired,
-  lambdasLoading: PropTypes.bool.isRequired,
+  onClickLambdasDropDown: PropTypes.func.isRequired,
+  lambdas: PropTypes.array.isRequired,
 };
 
 PolicyEventRuleForm.defaultProps = {
   editMode: false,
 };
 
-export default compose(
-  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
-)(PolicyEventRuleForm);
+export default PolicyEventRuleForm;

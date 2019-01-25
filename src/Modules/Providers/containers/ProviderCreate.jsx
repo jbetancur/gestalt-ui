@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form as FinalForm, Field } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
@@ -63,6 +64,20 @@ class ProviderCreate extends PureComponent {
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true, error, info });
+  }
+
+  generateBackLink() {
+    const { match } = this.props;
+
+    if (match.params.workspaceId && !match.params.environmentId) {
+      return `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/providers`;
+    }
+
+    if (match.params.workspaceId && match.params.environmentId) {
+      return `/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/providers`;
+    }
+
+    return `/${match.params.fqon}/providers`;
   }
 
   create = (values) => {
@@ -160,7 +175,7 @@ class ProviderCreate extends PureComponent {
             goBack={this.goBack}
             keepDirtyOnReinitialize
             subscription={{ submitting: true, pristine: true }}
-            render={({ handleSubmit, form, ...rest }) => {
+            render={({ handleSubmit, submitting, form, ...rest }) => {
               if (!pageOneDone) {
                 return (
                   <Row gutter={5}>
@@ -198,14 +213,24 @@ class ProviderCreate extends PureComponent {
 
                           <Row gutter={10}>
                             <Col flex={12}>
-                              <Button
-                                raised
-                                primary
-                                onClick={this.handleNextPage}
-                                disabled={!providerSelected || providerPending || envSchemaPending}
-                              >
-                                Next
-                              </Button>
+                              <Col flex={12}>
+                                <Button
+                                  flat
+                                  component={Link}
+                                  to={this.generateBackLink()}
+                                >
+                                  Cancel
+                                </Button>
+
+                                <Button
+                                  raised
+                                  primary
+                                  onClick={this.handleNextPage}
+                                  disabled={!providerSelected || providerPending || envSchemaPending}
+                                >
+                                  Next
+                                </Button>
+                              </Col>
                             </Col>
                           </Row>
                         </Row>
@@ -216,7 +241,15 @@ class ProviderCreate extends PureComponent {
               }
 
               return (
-                <Form onSubmit={handleSubmit} disabled={providerPending} autoComplete="off">
+                <Form
+                  onSubmit={handleSubmit}
+                  disabled={providerPending}
+                  autoComplete="off"
+                  disabledSubmit={providerPending || submitting}
+                  submitTitle="Create"
+                  showCancel
+                  cancelTo={this.generateBackLink()}
+                >
                   <ProviderForm form={form} {...rest} />
                 </Form>
               );

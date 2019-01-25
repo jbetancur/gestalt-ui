@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Form } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
+import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
 // import { withContext } from 'Modules/Hierarchy';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -19,7 +20,6 @@ const initialValues = userModel.create();
 
 class UserCreate extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     userPending: PropTypes.bool.isRequired,
     userActions: PropTypes.object.isRequired,
@@ -34,27 +34,39 @@ class UserCreate extends Component {
   }
 
   create = (values) => {
-    const { history, match, userActions } = this.props;
-    const onSuccess = () => history.replace(`/${match.params.fqon}/users`);
+    const { match, userActions } = this.props;
 
-    userActions.createUser({ fqon: match.params.fqon, payload: values, onSuccess });
+    userActions.createUser({ fqon: match.params.fqon, payload: values });
   }
 
   render() {
-    const { userPending, hierarchyContext: { allOrganizationsDropDown } } = this.props;
+    const { match, userPending, hierarchyContext: { allOrganizationsDropDown } } = this.props;
 
     return (
       <Row center>
         <Col flex={8} xs={12} sm={12} md={12}>
           <ActionsToolbar title="Create a User" />
+
           {userPending && <ActivityContainer id="user-loading" />}
-          <Form
-            render={UserForm}
+
+          <FinalForm
             onSubmit={this.create}
             initialValues={initialValues}
             validate={validate()}
-            loading={userPending}
             organizations={allOrganizationsDropDown}
+            render={({ handleSubmit, submitting, ...rest }) => (
+              <Form
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                disabled={userPending}
+                disabledSubmit={userPending || submitting}
+                submitTitle="Create"
+                showCancel
+                cancelTo={`/${match.params.fqon}/users`}
+              >
+                <UserForm {...rest} />
+              </Form>
+            )}
           />
         </Col>
       </Row>
