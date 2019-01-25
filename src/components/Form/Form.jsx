@@ -8,17 +8,24 @@ import { FullPageFooter } from 'components/FullPage';
 const FormStyle = styled.form`
   height: 100%;
   width: 100%;
-  ${props => !props.noFooterPadding && 'padding-bottom: 56px'};
+  ${props => !props.noFooterPadding && !props.disableFooter && 'padding-bottom: 56px'};
   ${props => props.disabled && 'pointer-events: none'};
   ${props => props.disabled && 'opacity: 0.4'};
 `;
 
-const Form = memo(({ match, children, disabled, disabledCancel, disabledSubmit, submitTitle, showCancel, cancelTo, noFooterPadding, ...rest }) => (
-  <FormStyle noValidate noFooterPadding={noFooterPadding} disabled={disabled} {...rest}>
+const Form = memo(({ match, children, disabled, disabledCancel, disabledSubmit, submitTitle, showCancel, cancelTo, noFooterPadding, disableFooter, ...rest }) => (
+  <FormStyle
+    noValidate
+    noFooterPadding={noFooterPadding}
+    disableFooter={disableFooter}
+    disabled={disabled}
+    {...rest}
+  >
     {children}
-    <FullPageFooter
-      leftActions={(
-        showCancel &&
+    {!disableFooter &&
+      <FullPageFooter
+        leftActions={(
+          showCancel &&
           <Button
             flat
             disabled={disabledCancel}
@@ -28,18 +35,18 @@ const Form = memo(({ match, children, disabled, disabledCancel, disabledSubmit, 
             Cancel
           </Button>
         )}
-      rightActions={(
-        <Button
-          raised
-          iconChildren="save"
-          type="submit"
-          disabled={disabledSubmit}
-          primary
-        >
-          {submitTitle}
-        </Button>
-      )}
-    />
+        rightActions={(
+          <Button
+            raised
+            iconChildren="save"
+            type="submit"
+            disabled={disabledSubmit}
+            primary
+          >
+            {submitTitle}
+          </Button>
+        )}
+      />}
   </FormStyle>
 ));
 
@@ -56,6 +63,7 @@ Form.propTypes = {
   showCancel: PropTypes.bool,
   cancelTo: PropTypes.string,
   noFooterPadding: PropTypes.bool,
+  disableFooter: PropTypes.bool,
 };
 
 Form.defaultProps = {
@@ -66,6 +74,7 @@ Form.defaultProps = {
   showCancel: false,
   cancelTo: '/',
   noFooterPadding: false,
+  disableFooter: false,
 };
 
 export default withRouter(Form);

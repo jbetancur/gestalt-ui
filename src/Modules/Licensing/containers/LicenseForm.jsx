@@ -69,7 +69,7 @@ const LicenseForm = ({
   );
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off" disabled={pending}>
+    <Form onSubmit={handleSubmit} autoComplete="off" disabled={pending} disableFooter>
       <Row gutter={5}>
         <Col flex={5} xs={12}>
           <Field

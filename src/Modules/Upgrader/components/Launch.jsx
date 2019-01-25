@@ -45,7 +45,7 @@ class Launch extends Component {
         render={({ handleSubmit, pristine }) => (
           <Card>
             <CardContent>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit} disableFooter>
                 <Div disabled={this.props.loading} paddingBottom="56px">
                   <Row gutter={5}>
                     <H1>Launch Upgrader</H1>
