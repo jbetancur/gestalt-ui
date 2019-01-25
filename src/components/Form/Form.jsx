@@ -8,7 +8,7 @@ import { FullPageFooter } from 'components/FullPage';
 const FormStyle = styled.form`
   height: 100%;
   width: 100%;
-  ${props => !props.noFooterPadding && !props.disableFooter && 'padding-bottom: 56px'};
+  ${props => !props.noFooterPadding && 'padding-bottom: 56px'};
   ${props => props.disabled && 'pointer-events: none'};
   ${props => props.disabled && 'opacity: 0.4'};
 `;
@@ -16,8 +16,7 @@ const FormStyle = styled.form`
 const Form = memo(({ match, children, disabled, disabledCancel, disabledSubmit, submitTitle, showCancel, cancelTo, noFooterPadding, disableFooter, ...rest }) => (
   <FormStyle
     noValidate
-    noFooterPadding={noFooterPadding}
-    disableFooter={disableFooter}
+    noFooterPadding={noFooterPadding || disableFooter}
     disabled={disabled}
     {...rest}
   >
