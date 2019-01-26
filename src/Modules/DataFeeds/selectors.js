@@ -6,5 +6,5 @@ export const selectDatafeed = state => state.dataFeeds.datafeed.datafeed;
 
 export const getDatafeed = createSelector(
   [selectDatafeed],
-  datafeed => dataFeedModel.create(datafeed),
+  datafeed => dataFeedModel.get(datafeed),
 );

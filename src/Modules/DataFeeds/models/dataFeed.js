@@ -28,7 +28,18 @@ const get = (model = {}) => {
  * @param {Object} model - override the model
  */
 const create = (model = {}) => {
-  const safeModel = cloneDeep(model);
+  const safeModel = cloneDeep(get(model));
+
+  const pickList = [
+    'name',
+    'description',
+    'properties.kind',
+    'properties.data',
+  ];
+
+  if (safeModel.properties.credentials.secret_id) {
+    pickList.push('properties.credentials');
+  }
 
   return pick(merge({
     name: null,
@@ -43,16 +54,13 @@ const create = (model = {}) => {
         target: null,
       },
     }
-  }, safeModel), [
-    'name',
-    'description',
-    'properties.kind',
-    'properties.credentials',
-    'properties.data',
-  ]);
+  }, safeModel), pickList);
 };
+
+const patch = (model = {}) => create(model);
 
 export default {
   get,
-  create
+  create,
+  patch,
 };

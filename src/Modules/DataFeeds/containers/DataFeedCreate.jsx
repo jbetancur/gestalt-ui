@@ -16,7 +16,7 @@ import dataFeedModel from '../models/dataFeed';
 import withDatafeed from '../hocs/withDatafeed';
 import withResourceType from '../../ResourceTypes/hocs/withResourceType';
 
-const initialValues = dataFeedModel.create({
+const initialValues = dataFeedModel.get({
   properties: {
     kind: 'kafka',
     data: {
@@ -47,8 +47,9 @@ class DataFeedCreate extends Component {
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/datafeeds/${response.id}`);
     const entity = generateContextEntityState(match.params);
+    const model = dataFeedModel.create(values);
 
-    datafeedActions.createDatafeed({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
+    datafeedActions.createDatafeed({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: model, onSuccess });
   };
 
 
