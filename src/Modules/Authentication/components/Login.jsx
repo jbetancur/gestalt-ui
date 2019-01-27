@@ -46,11 +46,10 @@ const LoginCardHeader = styled.div`
 `;
 
 const Card = styled.div`
-  padding: 48px 16px 48px 16px;
-  border-radius: 2px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 10px;
 `;
 
 const Error = styled.div`

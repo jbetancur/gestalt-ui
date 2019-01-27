@@ -24,7 +24,7 @@ const Logo = styled.div`
 const NavigationContainer = styled.nav`
   background-color: ${props => props.theme.colors.primary};
   position: relative;
-  flex: 0 0 auto;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   z-index: 11;
