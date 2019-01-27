@@ -156,32 +156,34 @@ class LambdaListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Lambdas"
-            customTheme={tableTheme}
-            data={this.props.lambdas}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            // expandableRows
-            // expandableRowsComponent={<LambdaExpanderRow />}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.lambdasPending}
-            progressComponent={<LinearProgress id="lambda-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.lambdasPending} />}
-            pagination
-            paginationPerPage={15}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Lambdas"
+              customTheme={tableTheme}
+              data={this.props.lambdas}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              // expandableRows
+              // expandableRowsComponent={<LambdaExpanderRow />}
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={this.props.lambdasPending}
+              progressComponent={<LinearProgress id="lambda-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.lambdasPending} />}
+              pagination
+              paginationPerPage={15}
+            />
+          </Card>
         </Col>
       </Row>
     );

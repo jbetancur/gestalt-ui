@@ -165,31 +165,33 @@ class ContainerListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <ActionsModals />
-          <DataTable
-            title="Containers"
-            customTheme={tableTheme}
-            data={this.props.containers}
-            highlightOnHover
-            pointerOnHover
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.containersPending}
-            progressComponent={<LinearProgress id="container-listing" />}
-            columns={this.defineColumns()}
-            noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={
-              <React.Fragment>
-                <SelectFilter disabled={this.props.containersPending} />
-                <Button flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>
-              </React.Fragment>
-            }
-            pagination
-            paginationPerPage={15}
-            // expandableRowsComponent={<ContainerListingExpandable />}
-          />
+        <Col flex={12}>
+          <Card>
+            <ActionsModals />
+            <DataTable
+              title="Containers"
+              customTheme={tableTheme}
+              data={this.props.containers}
+              highlightOnHover
+              pointerOnHover
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={this.props.containersPending}
+              progressComponent={<LinearProgress id="container-listing" />}
+              columns={this.defineColumns()}
+              noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={
+                <React.Fragment>
+                  <SelectFilter disabled={this.props.containersPending} />
+                  <Button flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>
+                </React.Fragment>
+              }
+              pagination
+              paginationPerPage={15}
+              // expandableRowsComponent={<ContainerListingExpandable />}
+            />
+          </Card>
         </Col>
       </Row>
     );

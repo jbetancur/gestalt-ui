@@ -16,7 +16,6 @@ class HierarchyForm extends Component {
     form: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     title: PropTypes.string,
@@ -56,8 +55,8 @@ class HierarchyForm extends Component {
   }
 
   render() {
-    const { title, history, editMode, handleSubmit, pristine, submitting, invalid, isEnvironment, t } = this.props;
-    const submitDisabled = pristine || invalid || submitting;
+    const { title, history, editMode, handleSubmit, submitting, invalid, isEnvironment, t } = this.props;
+    const submitDisabled = invalid || submitting;
 
     const modalActions = [
       <Button

@@ -181,7 +181,7 @@ export default class Stepper extends Component {
             {...formProps}
           >
             {({ handleSubmit, submitting, invalid, values }) => (
-              <FormTag onSubmit={handleSubmit} disabled={pending}>
+              <FormTag onSubmit={handleSubmit} disabled={pending} disableFooter>
                 {activePage}
                 <StepActions>
                   <Button flat onClick={onCancel}>Cancel</Button>
