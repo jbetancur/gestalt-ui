@@ -190,6 +190,7 @@ class VolumeListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.volumesPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

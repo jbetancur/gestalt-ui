@@ -180,6 +180,7 @@ class LambdaListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.lambdasPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

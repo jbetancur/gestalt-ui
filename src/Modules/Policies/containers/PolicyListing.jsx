@@ -163,6 +163,7 @@ class PolicyListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.policiesPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

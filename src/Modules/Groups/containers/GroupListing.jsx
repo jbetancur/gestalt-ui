@@ -158,6 +158,7 @@ class GroupListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.groupsPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

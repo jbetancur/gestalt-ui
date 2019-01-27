@@ -148,6 +148,7 @@ class StreamList extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.streamSpecsPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

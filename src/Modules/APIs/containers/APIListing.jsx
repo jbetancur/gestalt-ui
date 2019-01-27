@@ -155,6 +155,7 @@ class APIListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.apisPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

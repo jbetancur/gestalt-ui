@@ -164,6 +164,7 @@ class DataFeedList extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.datafeedsPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

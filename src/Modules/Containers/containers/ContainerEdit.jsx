@@ -136,6 +136,7 @@ class ContainerEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
             titleIcon={iconMap(selectedProvider.type)}
+            sticky
             actions={[
               statusDetail &&
               <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>

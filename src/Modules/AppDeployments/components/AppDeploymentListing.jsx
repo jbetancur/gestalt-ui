@@ -160,6 +160,7 @@ class AppDeploymenListing extends PureComponent {
             expandableRows
             expandableRowsComponent={<ExpanderRow />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

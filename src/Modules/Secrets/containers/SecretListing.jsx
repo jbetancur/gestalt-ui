@@ -161,6 +161,7 @@ class SecretListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.secretsPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>

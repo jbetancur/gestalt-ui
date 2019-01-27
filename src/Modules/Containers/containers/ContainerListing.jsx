@@ -187,6 +187,7 @@ class ContainerListing extends PureComponent {
               </React.Fragment>
             }
             pagination
+            paginationPerPage={15}
             // expandableRowsComponent={<ContainerListingExpandable />}
           />
         </Col>

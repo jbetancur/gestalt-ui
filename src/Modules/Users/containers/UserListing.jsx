@@ -175,6 +175,7 @@ class UserListing extends PureComponent {
             onRowClicked={this.handleRowClicked}
             actions={<SelectFilter disabled={this.props.usersPending} />}
             pagination
+            paginationPerPage={15}
           />
         </Col>
       </Row>
