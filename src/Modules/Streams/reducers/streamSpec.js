@@ -13,6 +13,7 @@ import {
   DELETE_STREAMSPEC_FULFILLED,
   DELETE_STREAMSPEC_REJECTED,
   UNLOAD_STREAMSPEC,
+  POLL_STREAMSPEC_FULFILLED,
 } from '../constants';
 import streamSpecModel from '../models/streamSpec';
 
@@ -45,7 +46,7 @@ export default (state = initialState, action) => {
     case INIT_STREAMSPECEDIT_FULFILLED:
       return {
         ...state,
-        streamSpec: streamSpecModel.get(action.payload.streamSpec),
+        streamSpec: action.payload.streamSpec,
         providers: action.payload.providers,
         datafeeds: action.payload.datafeeds,
         lambdas: action.payload.lambdas,
@@ -115,6 +116,17 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload,
+      };
+    case POLL_STREAMSPEC_FULFILLED:
+      return {
+        ...state,
+        streamSpec: streamSpecModel.get({
+          ...state.streamSpec,
+          properties: {
+            ...state.streamSpec.properties,
+            streams: action.payload,
+          },
+        }),
       };
     case UNLOAD_STREAMSPEC:
       return initialState;

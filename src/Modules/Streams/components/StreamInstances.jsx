@@ -19,7 +19,7 @@ const translateRetries = (value) => {
   return value;
 };
 
-const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, showModal, onRefresh }) => {
+const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, showModal }) => {
   const columns = [
     {
       name: 'Status',
@@ -93,17 +93,6 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
       defaultSortField="startTime"
       defaultSortAsc={false}
       noDataComponent={<Title light>There are no stream instances running</Title>}
-      actions={(
-        <Button
-          key="streamspec--refresh"
-          flat
-          iconChildren="refresh"
-          onClick={() => onRefresh()}
-          primary
-        >
-          Refresh
-        </Button>
-      )}
     />
   );
 };
@@ -114,11 +103,6 @@ StreamInstances.propTypes = {
   streamInstances: PropTypes.array.isRequired,
   providerActions: PropTypes.array.isRequired,
   showModal: PropTypes.func.isRequired,
-  onRefresh: PropTypes.func,
-};
-
-StreamInstances.defaultProps = {
-  onRefresh: () => {},
 };
 
 export default compose(

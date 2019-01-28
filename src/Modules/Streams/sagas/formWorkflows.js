@@ -12,6 +12,7 @@ import {
   UNLOAD_STREAMSPEC,
 } from '../constants';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
+import streamSpecModel from '../models/streamSpec';
 
 export function* createViewWorkflow() {
   try {
@@ -79,7 +80,7 @@ export function* editViewWorkflow(action) {
     yield put({
       type: INIT_STREAMSPECEDIT_FULFILLED,
       payload: {
-        streamSpec: streamSpec.data,
+        streamSpec: streamSpecModel.get(streamSpec.data),
         providers: providers.data,
         datafeeds: datafeeds.data,
         lambdas: lambdas.data

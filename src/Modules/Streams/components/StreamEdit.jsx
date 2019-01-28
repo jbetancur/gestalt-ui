@@ -123,7 +123,6 @@ class StreamSpecEdit extends Component {
                       streamInstances={streamInstances}
                       fqon={match.params.fqon}
                       providerActions={instanceProviderActions}
-                      onRefresh={() => this.populateStreamSpecs()}
                     />
                   </Card>
                 </Col>

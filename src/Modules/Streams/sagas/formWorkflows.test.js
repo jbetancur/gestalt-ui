@@ -12,6 +12,7 @@ import {
   INIT_STREAMSPECEDIT_FULFILLED,
   INIT_STREAMSPECEDIT_REJECTED,
 } from '../constants';
+import streamSpecModel from '../models/streamSpec';
 
 describe('container Form Workflow Sagas', () => {
   const error = 'an error has occured';
@@ -38,13 +39,13 @@ describe('container Form Workflow Sagas', () => {
         result = saga.next([
           { data: [{ name: 'a provider' }] },
           { data: [{ name: 'a feed' }] },
-          { data: [{ name: 'a lambda', properties: { runtime: 'java' } }] },
+          { data: [{ name: 'a streamspec', properties: { runtime: 'java' } }] },
         ]);
 
         const payload = {
           providers: [{ name: 'a provider' }],
           datafeeds: [{ name: 'a feed' }],
-          lambdas: [{ name: 'a lambda', properties: { runtime: 'java' } }],
+          lambdas: [{ name: 'a streamspec', properties: { runtime: 'java' } }],
         };
 
         expect(result.value).toEqual(
@@ -88,12 +89,12 @@ describe('container Form Workflow Sagas', () => {
         );
       });
 
-      it('should return a payload and dispatch a success status and merge any env vars', () => {
+      it('should return a payload and dispatch a success status', () => {
         result = saga.next([
-          { data: { id: '890', name: 'a stream' } },
+          { data: streamSpecModel.get({ id: '890', name: 'a stream' }) },
           { data: [{ name: 'a provider' }] },
           { data: [{ name: 'a feed' }] },
-          { data: [{ name: 'a lambda', properties: { runtime: 'java' } }] },
+          { data: [{ name: 'a streamspec', properties: { runtime: 'java' } }] },
           {
             data: [
               { name: 'action A', locations: ['streamspec.edit'] },
@@ -103,10 +104,10 @@ describe('container Form Workflow Sagas', () => {
         ]);
 
         const payload = {
-          streamSpec: { id: '890', name: 'a stream' },
+          streamSpec: streamSpecModel.get({ id: '890', name: 'a stream' }),
           providers: [{ name: 'a provider' }],
           datafeeds: [{ name: 'a feed' }],
-          lambdas: [{ name: 'a lambda', properties: { runtime: 'java' } }],
+          lambdas: [{ name: 'a streamspec', properties: { runtime: 'java' } }],
           actions: [{ name: 'action A', locations: ['streamspec.edit'] }],
           instanceActions: [{ name: 'action B', locations: ['streamspec.instances'] }],
         };
