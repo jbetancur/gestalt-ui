@@ -2,7 +2,8 @@ import { object, string, number } from 'yup';
 import { pick } from 'lodash';
 
 const schema = object().shape({
-  name: string().required(),
+  id: string(),
+  name: string().default('').required(),
   description: string(),
   resource_type: string(),
   resource_state: string(),
