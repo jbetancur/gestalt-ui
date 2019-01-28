@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import base64 from 'base-64';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { FontIcon, Divider } from 'react-md';
 import withApp from 'App/hocs/withApp';
+import { PersistentDrawer } from 'components/NavigationDrawers';
 import { GalacticFogIcon } from 'components/Icons';
 import NavItem from './NavItem';
 import withContext from '../hocs/withContext';
@@ -19,23 +20,6 @@ const Logo = styled.div`
   flex: 0 0 56px;
   align-items: center;
   justify-content: center;
-`;
-
-const NavigationContainer = styled.nav`
-  background-color: ${props => props.theme.colors.primary};
-  position: relative;
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-  z-index: 11;
-  height: 100%;
-  width: ${({ open, width, miniWidth }) => (open ? width : miniWidth)};
-  transition-property: width;
-  transition-duration: ${props => (props.open ? '225ms' : '195ms')};
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-delay: 0ms;
-  will-change: transform;
-  white-space: nowrap;
 `;
 
 const NavItems = styled.ul`
@@ -150,7 +134,6 @@ class Navigation extends PureComponent {
       width,
       miniWidth,
       appState: { enableExperimental },
-      ...rest
     } = this.props;
 
     const {
@@ -166,7 +149,7 @@ class Navigation extends PureComponent {
       : [];
 
     return (
-      <NavigationContainer open={open} miniWidth={miniWidth} width={width} {...rest}>
+      <PersistentDrawer open={open} miniWidth={miniWidth} width={width}>
         <Logo>
           <GalacticFogIcon size={36} fill="white" />
         </Logo>
@@ -211,7 +194,7 @@ class Navigation extends PureComponent {
             </FontIcon>
           </ExpanderButton>
         </NavFooter>
-      </NavigationContainer>
+      </PersistentDrawer>
     );
   }
 }
@@ -219,5 +202,4 @@ class Navigation extends PureComponent {
 export default compose(
   withContext(),
   withApp,
-  withTheme,
 )(Navigation);

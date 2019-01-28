@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
-import containerModel from '../Containers/models/container';
-import providerModel from './models/provider';
+import { get } from 'lodash';
+import containerModel from '../../Containers/models/container';
+import providerModel from '../models/provider';
 
 // const selectEnvSchema = state => state.providers.provider.envSchema;
 const selectProvider = state => state.providers.provider.provider;
@@ -23,13 +24,13 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
 
 export const getCreateProviderModel = createSelector(
   [],
-  () => providerModel.get()
+  () => providerModel.create()
 );
 
 export const getEditProviderModel = createSelector(
   [selectProvider],
   (provider) => {
-    const { properties } = providerModel.get(provider);
+    const { properties } = providerModel.create(provider);
     const model = {
       ...provider,
       properties: {
@@ -39,7 +40,7 @@ export const getEditProviderModel = createSelector(
 
     // TODO: We could cast this in the model, but for some reason it does not cast this deep? - I don't feel like dealing with it.
     // We will eventually move to a service based provider making all this moot
-    if (model.properties.services.length) {
+    if (get(model, 'properties.services.length')) {
       const container = containerModel.get(properties.services[0].container_spec);
       model.properties.services = [
         {

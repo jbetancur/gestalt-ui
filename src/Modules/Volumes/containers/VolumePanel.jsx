@@ -14,7 +14,7 @@ import { DeleteIcon } from 'components/Icons';
 import { ALink } from 'components/Links';
 import VolumeCreateMenu from '../components/VolumeCreateMenu';
 import actions from '../actions';
-import { selectVolumeListing } from '../selectors';
+import { selectVolumeListing } from '../reducers/selectors';
 
 class VolumePanel extends PureComponent {
   static propTypes = {

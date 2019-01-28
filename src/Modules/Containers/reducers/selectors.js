@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import containerModel from './models/container';
+import containerModel from '../models/container';
 
 export const selectProvider = state => state.containers.container.selectedProvider;
 export const selectContainer = state => state.containers.container.container;
@@ -24,8 +24,8 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
 });
 
 export const getCreateContainerModel = createSelector(
-  [selectProvider, selectEnv],
-  (provider, env) => {
+  [selectContainer, selectProvider, selectEnv],
+  (container, provider, env) => {
     const setDefaultNetwork = () => {
       switch (provider.type) {
         case 'DCOS':
@@ -38,13 +38,15 @@ export const getCreateContainerModel = createSelector(
     };
 
     const model = {
+      ...container,
       properties: {
+        ...container.properties,
         env,
         network: setDefaultNetwork(),
       },
     };
 
-    return containerModel.get(model);
+    return containerModel.create(model);
   }
 );
 
@@ -55,12 +57,12 @@ export const getEditContainerModel = createSelector(
     const model = {
       ...container,
       properties: {
-        ...properties,
+        ...container.properties,
         health_checks: fixHealthChecks(properties.health_checks),
       },
     };
 
-    return containerModel.get(model);
+    return model;
   }
 );
 

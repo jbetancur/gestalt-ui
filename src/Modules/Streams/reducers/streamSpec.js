@@ -14,10 +14,10 @@ import {
   DELETE_STREAMSPEC_REJECTED,
   UNLOAD_STREAMSPEC,
 } from '../constants';
-import streamSpecModeol from '../models/streamSpec';
+import streamSpecModel from '../models/streamSpec';
 
 const initialState = {
-  streamSpec: streamSpecModeol.get(),
+  streamSpec: streamSpecModel.get(),
   providers: [],
   datafeeds: [],
   lambdas: [],
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
     case INIT_STREAMSPECEDIT_FULFILLED:
       return {
         ...state,
-        streamSpec: action.payload.streamSpec,
+        streamSpec: streamSpecModel.get(action.payload.streamSpec),
         providers: action.payload.providers,
         datafeeds: action.payload.datafeeds,
         lambdas: action.payload.lambdas,
@@ -69,7 +69,7 @@ export default (state = initialState, action) => {
     case CREATE_STREAMSPEC_FULFILLED:
       return {
         ...state,
-        streamSpecs: action.payload,
+        streamSpec: streamSpecModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -88,7 +88,7 @@ export default (state = initialState, action) => {
     case UPDATE_STREAMSPEC_FULFILLED:
       return {
         ...state,
-        streamSpecs: action.payload,
+        streamSpec: streamSpecModel.get(action.payload),
         pending: false,
         completed: true,
       };

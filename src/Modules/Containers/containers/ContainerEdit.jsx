@@ -35,7 +35,7 @@ import {
   getEditContainerModel,
   selectProvider,
   selectVolumeListing,
-} from '../selectors';
+} from '../reducers/selectors';
 import ActionsModals from '../ActionModals';
 import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
 import withContainer from '../hocs/withContainer';

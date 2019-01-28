@@ -19,7 +19,7 @@ import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPayload } from '../payloadTransformer';
-import { getCreateProviderModel } from '../selectors';
+import { getCreateProviderModel } from '../reducers/selectors';
 import withProvider from '../hocs/withProvider';
 import containerModel from '../../Containers/models/container';
 

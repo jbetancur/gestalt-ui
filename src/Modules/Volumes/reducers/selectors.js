@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import yaml from 'js-yaml';
-import volumeModel from './models/volume';
 
 // Meta States
 export const selectProvider = state => state.volumes.selectedProvider;
@@ -11,9 +10,11 @@ export const selectVolume = state => state.volumes.volume.volume;
 export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
 export const getCreateVolumeModel = createSelector(
-  [],
-  () => volumeModel.create({
+  [selectVolume],
+  volume => ({
+    ...volume,
     properties: {
+      ...volume.properties,
       type: 'host_path',
       size: 1,
       size_unit: 'MiB',
@@ -31,9 +32,15 @@ export const getEditVolumeModel = createSelector(
     model.properties.size_unit = 'MiB';
 
     if (model.properties.type === 'external' && model.properties.config) {
-      model.properties.yaml = yaml.safeDump(model.properties.config);
+      Object.assign(model, {
+        ...model,
+        properties: {
+          ...model.properties,
+          yaml: yaml.safeDump(model.properties.config),
+        },
+      });
     }
 
-    return volumeModel.get(model);
+    return model;
   }
 );

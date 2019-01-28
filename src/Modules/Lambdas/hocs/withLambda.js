@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createRequestAction } from 'config/lib/actionFactory';
-import { selectLambda } from '../selectors';
 
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class Lambda extends Component {
@@ -27,7 +26,7 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    lambda: selectLambda(state),
+    lambda: state.lambdas.lambda.lambda,
     lambdaPending: state.lambdas.lambda.pending,
     providers: state.lambdas.lambda.providers,
     executors: state.lambdas.lambda.executors,

@@ -24,7 +24,7 @@ import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
 import validate from '../validations';
 import { generatePatches } from '../payloadTransformer';
-import { getEditLambdaModel } from '../selectors';
+import { getEditLambdaModel } from '../reducers/selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
 import runTimes from '../lists/runTimes';

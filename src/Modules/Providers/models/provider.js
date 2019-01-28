@@ -63,13 +63,14 @@ function transformOut(model, hasContainer) {
 const schema = object().shape({
   name: string().required(),
   description: string(),
-  resource_type: string().required(),
-  org: object().shape({
-    properties: object().default({}),
-  }),
-  owner: object().shape({}),
+  resource_type: string(),
+  resource_state: string(),
   created: object().shape({}),
   modified: object().shape({}),
+  owner: object().shape({}),
+  org: object().shape({
+    properties: object().shape({}),
+  }),
   properties: object().shape({
     config: object().shape({
       external_protocol: string().default('https'),

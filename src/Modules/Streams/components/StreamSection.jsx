@@ -4,6 +4,7 @@ import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { required } from 'util/forms';
 
 const StreamSection = ({ providers, editMode }) => (
   <Row gutter={5}>
@@ -23,6 +24,7 @@ const StreamSection = ({ providers, editMode }) => (
               async
               required
               disabled={editMode}
+              validate={required()}
             />
           </Col>
           <Col flex={12}>
@@ -32,6 +34,7 @@ const StreamSection = ({ providers, editMode }) => (
               name="name"
               label="Stream Name"
               required
+              validate={required()}
             />
           </Col>
         </Row>

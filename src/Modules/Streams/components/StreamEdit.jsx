@@ -19,8 +19,7 @@ import { Tabs, Tab } from 'components/Tabs';
 import PayloadViewer from './PayloadViewer';
 import StreamForm from './StreamForm';
 import StreamInstances from './StreamInstances';
-import validate from '../validations';
-import { getStreamSpec, getStreamInstances } from '../selectors';
+import { getStreamSpec, getStreamInstances } from '../reducers/selectors';
 import { generatePatches } from '../payloadTransformer';
 import withStreamSpec from '../hocs/withStreamSpec';
 
@@ -145,9 +144,8 @@ class StreamSpecEdit extends Component {
                 providers={providers}
                 onSubmit={this.onSubmit}
                 initialValues={initialFormValues}
-                validate={validate}
                 decorators={[focusOnErrors]}
-                render={({ handleSubmit, values, submitting, ...rest }) => (
+                render={({ handleSubmit, submitting, ...rest }) => (
                   <Form
                     onSubmit={handleSubmit}
                     submitTitle="Update"

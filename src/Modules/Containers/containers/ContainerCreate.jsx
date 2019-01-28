@@ -18,7 +18,7 @@ import {
   getCreateContainerModel,
   selectProvider,
   selectVolumeListing,
-} from '../selectors';
+} from '../reducers/selectors';
 import iconMap from '../../Providers/config/iconMap';
 import withContainer from '../hocs/withContainer';
 

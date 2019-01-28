@@ -16,7 +16,7 @@ import { VolumePanel } from 'Modules/Volumes';
 import PortMappingsForm from '../components/PortMappingsForm';
 import HealthChecksForm from '../components/HealthChecksForm';
 import actions from '../actions';
-import { selectProvider } from '../selectors';
+import { selectProvider } from '../reducers/selectors';
 
 class ContainerForm extends PureComponent {
   static propTypes = {

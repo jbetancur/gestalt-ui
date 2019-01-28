@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withPickerData } from 'Modules/MetaResource';
 import { ProviderSelect } from 'components/Form';
 import actions from '../actions';
-import { selectProvider } from '../selectors';
+import { selectProvider } from '../reducers/selectors';
 
 const SelectedProvider = ({ providersData, ...rest }) => (
   <ProviderSelect providers={providersData} {...rest} />

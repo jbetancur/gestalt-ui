@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
         ...state,
         executors: action.payload.executors,
         secrets: action.payload.secrets,
-        lambda: action.payload.lambda,
+        lambda: lambdaModel.get(action.payload.lambda),
         pending: false,
         completed: true,
       };
@@ -66,7 +66,7 @@ export default (state = initialState, action) => {
     case CREATE_LAMBDA_FULFILLED:
       return {
         ...state,
-        lambda: action.payload,
+        lambda: lambdaModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -85,7 +85,7 @@ export default (state = initialState, action) => {
     case UPDATE_LAMBDA_FULFILLED:
       return {
         ...state,
-        lambda: action.payload,
+        lambda: lambdaModel.get(action.payload),
         pending: false,
         completed: true,
       };

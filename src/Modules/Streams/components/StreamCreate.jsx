@@ -4,33 +4,16 @@ import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
-import createDecorator from 'final-form-focus';
+// import createDecorator from 'final-form-focus';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
-import validate from '../validations';
 import streamSpecModel from '../models/streamSpec';
 import withStreamSpec from '../hocs/withStreamSpec';
 
-const focusOnErrors = createDecorator();
-const initialValues = streamSpecModel.create({
-  properties: {
-    cpus: 1,
-    mem: 512,
-    parallelization: 1,
-    processor: {
-      type: 'map',
-      inputStreamConfig: {
-        partitions: [{
-          partition: 0,
-          startOffset: -1,
-          endOffset: -1,
-        }]
-      },
-    },
-  },
-});
+// const focusOnErrors = createDecorator();
+const initialValues = streamSpecModel.create();
 
 class StreamCreate extends Component {
   static propTypes = {
@@ -54,8 +37,9 @@ class StreamCreate extends Component {
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs/${response.id}`);
     const entity = generateContextEntityState(match.params);
+    const model = streamSpecModel.create(values);
 
-    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
+    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: model, onSuccess });
   };
 
   render() {
@@ -75,13 +59,12 @@ class StreamCreate extends Component {
           {streamSpecPending && <ActivityContainer id="datafeed-form" />}
 
           <FinalForm
+            onSubmit={this.onSubmit}
             lambdas={lambdas}
             datafeeds={datafeeds}
             providers={providers}
-            onSubmit={this.onSubmit}
             initialValues={initialValues}
-            validate={validate}
-            decorators={[focusOnErrors]}
+            // decorators={[focusOnErrors]}
             render={({ handleSubmit, submitting, ...rest }) => (
               <Form
                 onSubmit={handleSubmit}

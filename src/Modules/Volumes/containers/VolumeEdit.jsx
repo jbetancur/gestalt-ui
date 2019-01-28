@@ -19,7 +19,7 @@ import PayloadViewer from '../components/PayloadViewer';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
-import { getEditVolumeModel, selectProvider } from '../selectors';
+import { getEditVolumeModel, selectProvider } from '../reducers/selectors';
 import withVolume from '../hocs/withVolume';
 
 class VolumeEdit extends Component {

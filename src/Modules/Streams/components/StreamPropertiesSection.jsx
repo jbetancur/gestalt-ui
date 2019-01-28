@@ -5,6 +5,7 @@ import { FontIcon } from 'react-md';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
+import { required } from 'util/forms';
 
 const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
   <Row gutter={5}>
@@ -23,6 +24,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               helpText="Specify an Input Feed"
               async
               required
+              validate={required()}
             />
           </Col>
 
@@ -35,6 +37,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               min="0"
               parse={value => Number(value)}
               required
+              validate={required()}
             />
           </Col>
 
@@ -47,6 +50,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               min="-1"
               parse={value => Number(value)}
               required
+              validate={required()}
             />
           </Col>
 
@@ -59,6 +63,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               min="-1"
               parse={value => Number(value)}
               required
+              validate={required()}
             />
           </Col>
 
@@ -73,6 +78,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               type="number"
               parse={value => parseFloat(value)}
               required
+              validate={required()}
             />
           </Col>
           <Col flex={4} xs={6} sm={6}>
@@ -86,6 +92,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               type="number"
               parse={value => Number(value)}
               required
+              validate={required()}
             />
           </Col>
           <Col flex={4} xs={6} sm={6}>
@@ -98,6 +105,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               type="number"
               parse={value => Number(value)}
               required
+              validate={required()}
             />
           </Col>
         </Row>
@@ -119,6 +127,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               helpText="Note: only JVM based lambdas are supported at this time"
               async
               required
+              validate={required()}
             />
           </Col>
         </Row>
@@ -140,6 +149,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               helpText="Specify an Output Feed"
               async
               required
+              validate={required()}
             />
           </Col>
         </Row>

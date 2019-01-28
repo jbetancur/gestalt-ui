@@ -13,7 +13,7 @@ import LambdaForm from './LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
-import { getCreateLambdaModel } from '../selectors';
+import { getCreateLambdaModel } from '../reducers/selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
 import iconMap from '../../Providers/config/iconMap';
@@ -87,13 +87,13 @@ class LambdaCreate extends PureComponent {
             validate={validate}
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
-            render={({ handleSubmit, values, pristine, submitting, ...rest }) => (
+            render={({ handleSubmit, values, submitting, ...rest }) => (
               <Form
                 onSubmit={handleSubmit}
                 autoComplete="off"
                 disabled={lambdaPending}
                 submitTitle="Create"
-                submitDisabled={pristine || submitting || !values.properties.runtime || !values.properties.provider.id}
+                submitDisabled={submitting || !values.properties.runtime || !values.properties.provider.id}
                 cancelDisabled={lambdaPending || submitting}
                 showCancel
                 cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}

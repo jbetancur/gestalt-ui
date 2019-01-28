@@ -21,7 +21,7 @@ import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
 import { generateProviderPatches } from '../payloadTransformer';
-import { getEditProviderModel, getProviderContainer } from '../selectors';
+import { getEditProviderModel, getProviderContainer } from '../reducers/selectors';
 import withProvider from '../hocs/withProvider';
 
 const focusOnErrors = createDecorator();

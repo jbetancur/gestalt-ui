@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
         resourceTypes: action.payload.resourceTypes,
         providers: action.payload.providers,
         selectedProviderType: action.payload.selectedProviderType,
-        provider: action.payload.provider,
+        provider: providerModel.get(action.payload.provider),
         hasContainer: action.payload.hasContainer,
         pending: false,
         completed: true,
@@ -103,7 +103,7 @@ export default (state = initialState, action) => {
     case CREATE_PROVIDER_FULFILLED:
       return {
         ...state,
-        provider: action.payload,
+        provider: providerModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -122,7 +122,7 @@ export default (state = initialState, action) => {
     case UPDATE_PROVIDER_FULFILLED:
       return {
         ...state,
-        provider: action.payload,
+        provider: providerModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -173,7 +173,7 @@ export default (state = initialState, action) => {
     case FETCH_PROVIDERCONTAINER_FULFILLED:
       return {
         ...state,
-        container: action.payload,
+        container: containerModel.get(action.payload),
       };
     case FETCH_PROVIDERCONTAINER_REJECTED:
       return {

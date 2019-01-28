@@ -62,7 +62,7 @@ export default (state = initialState, action) => {
         ...state,
         volumes: action.payload.volumes,
         secrets: action.payload.secrets,
-        container: action.payload.container,
+        container: containerModel.get(action.payload.container),
         pending: false,
         completed: true,
       };
@@ -82,7 +82,7 @@ export default (state = initialState, action) => {
     case FETCH_CONTAINER_FULFILLED:
       return {
         ...state,
-        container: action.payload,
+        container: containerModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -101,7 +101,7 @@ export default (state = initialState, action) => {
     case CREATE_CONTAINER_FULFILLED:
       return {
         ...state,
-        container: action.payload,
+        container: containerModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -120,7 +120,7 @@ export default (state = initialState, action) => {
     case UPDATE_CONTAINER_FULFILLED:
       return {
         ...state,
-        container: action.payload,
+        container: containerModel.get(action.payload),
         pending: false,
         completed: true,
       };

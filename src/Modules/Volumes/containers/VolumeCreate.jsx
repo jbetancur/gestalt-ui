@@ -12,7 +12,7 @@ import { generateContextEntityState } from 'util/helpers/context';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
-import { getCreateVolumeModel, selectProvider } from '../selectors';
+import { getCreateVolumeModel, selectProvider } from '../reducers/selectors';
 import withVolume from '../hocs/withVolume';
 
 class VolumeCreate extends Component {

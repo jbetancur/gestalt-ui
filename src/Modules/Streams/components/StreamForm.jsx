@@ -1,14 +1,14 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import StreamSection from './StreamSection';
 import StreamPropertiesSection from './StreamPropertiesSection';
 
-const StreamForm = memo(({ editMode, lambdas, datafeeds, providers }) => (
+const StreamForm = ({ editMode, lambdas, datafeeds, providers }) => (
   <React.Fragment>
     <StreamSection providers={providers} editMode={editMode} />
     <StreamPropertiesSection lambdas={lambdas} datafeeds={datafeeds} editMode={editMode} />
   </React.Fragment>
-));
+);
 
 StreamForm.propTypes = {
   lambdas: PropTypes.array.isRequired,
