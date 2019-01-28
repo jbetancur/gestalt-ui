@@ -16,11 +16,11 @@ export const getCreateLambdaModel = createSelector(
       }
     };
 
-    return lambdaModel.create(model);
+    return lambdaModel.initForm(model);
   }
 );
 
 export const getEditLambdaModel = createSelector(
   [selectLambda],
-  lambda => lambdaModel.create(lambda),
+  lambda => lambdaModel.initForm(lambda),
 );

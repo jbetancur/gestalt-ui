@@ -178,8 +178,16 @@ const create = (model = {}) => {
  */
 const patch = (model = {}) => create(model);
 
+/**
+ * getForm
+ * Format the model specifically for Initializing Forms
+ * @param {Object} model
+ */
+const initForm = (model = {}) => transformIn(get(model));
+
 export default {
   get,
   create,
   patch,
+  initForm,
 };

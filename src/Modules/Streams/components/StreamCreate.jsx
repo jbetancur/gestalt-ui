@@ -37,9 +37,8 @@ class StreamCreate extends Component {
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs/${response.id}`);
     const entity = generateContextEntityState(match.params);
-    const model = streamSpecModel.create(values);
 
-    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: model, onSuccess });
+    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
   };
 
   render() {

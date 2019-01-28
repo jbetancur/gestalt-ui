@@ -147,9 +147,17 @@ const put = (model = {}) =>
     'properties.provider.resource_type'
   ]);
 
+/**
+ * getForm
+ * Format the model specifically for Initializing Forms
+ * @param {Object} model
+ */
+const initForm = (model = {}) => transformIn(get(model));
+
 export default {
+  schema,
   get,
   create,
   put,
-  schema,
+  initForm,
 };

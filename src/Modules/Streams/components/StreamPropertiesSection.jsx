@@ -5,7 +5,7 @@ import { FontIcon } from 'react-md';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
-import { required } from 'util/forms';
+import { composeValidators, required } from 'util/forms';
 
 const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
   <Row gutter={5}>
@@ -37,7 +37,9 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               min="0"
               parse={value => Number(value)}
               required
-              validate={required()}
+              validate={composeValidators(
+                required('required', true)
+              )}
             />
           </Col>
 
@@ -50,7 +52,9 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               min="-1"
               parse={value => Number(value)}
               required
-              validate={required()}
+              validate={composeValidators(
+                required('required', true)
+              )}
             />
           </Col>
 
@@ -63,7 +67,9 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               min="-1"
               parse={value => Number(value)}
               required
-              validate={required()}
+              validate={composeValidators(
+                required('required', true)
+              )}
             />
           </Col>
 
@@ -105,7 +111,9 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
               type="number"
               parse={value => Number(value)}
               required
-              validate={required()}
+              validate={composeValidators(
+                required()
+              )}
             />
           </Col>
         </Row>

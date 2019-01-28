@@ -71,9 +71,17 @@ const patch = (model = {}) =>
     'properties.size_unit',
   ]);
 
+/**
+ * initForm
+ * Format the model specifically for Initializing Forms
+ * @param {Object} model
+ */
+const initForm = (model = {}) => get(model);
+
 export default {
+  schema,
   get,
   create,
   patch,
-  schema,
+  initForm,
 };

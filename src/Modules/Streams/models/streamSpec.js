@@ -24,7 +24,7 @@ const schema = object().shape({
       url: string().required(),
     }),
     cpus: number().default(0.1).required(),
-    memory: number().default(128).required(),
+    mem: number().default(128).required(),
     parallelization: number().default(1).required(),
     processor: object().shape({
       type: string().default('map').required(),
@@ -32,11 +32,17 @@ const schema = object().shape({
       inputStreamConfig: object().shape({
         name: string().required(),
         feedID: string().required(),
-        partitions: array().of(object().shape({
-          partition: number().default(0).required(),
-          startOffset: number().default(-1).required(),
-          endOffset: number().default(-1).required(),
-        })),
+        partitions: array().required().default([{
+          partition: 0,
+          startOffset: -1,
+          endOffset: -1,
+        }]),
+        // TODO: partitions future as array
+        // partitions: array().of(object().shape({
+        //   partition: number().default(0).required(),
+        //   startOffset: number().default(-1).required(),
+        //   endOffset: number().default(-1).required(),
+        // })),
       }),
       outputStreamConfig: object().shape({
         name: string().required(),
@@ -75,8 +81,17 @@ const create = (model = {}) =>
  */
 const patch = (model = {}) => create(model);
 
+/**
+ * initForm
+ * Format the model specifically for Initializing Forms
+ * @param {Object} model
+ */
+const initForm = (model = {}) => get(model);
+
 export default {
+  schema,
   get,
   create,
   patch,
+  initForm,
 };

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import yaml from 'js-yaml';
+import volumeModel from '../models/volume';
 
 // Meta States
 export const selectProvider = state => state.volumes.selectedProvider;
@@ -11,7 +12,7 @@ export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
 export const getCreateVolumeModel = createSelector(
   [selectVolume],
-  volume => ({
+  volume => (volumeModel.initForm({
     ...volume,
     properties: {
       ...volume.properties,
@@ -21,7 +22,7 @@ export const getCreateVolumeModel = createSelector(
       access_mode: 'ReadWriteOnce',
       config: {},
     },
-  }),
+  })),
 );
 
 export const getEditVolumeModel = createSelector(
@@ -41,6 +42,6 @@ export const getEditVolumeModel = createSelector(
       });
     }
 
-    return model;
+    return volumeModel.initForm(model);
   }
 );

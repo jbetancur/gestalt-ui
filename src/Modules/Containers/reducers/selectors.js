@@ -46,7 +46,7 @@ export const getCreateContainerModel = createSelector(
       },
     };
 
-    return containerModel.create(model);
+    return containerModel.initForm(model);
   }
 );
 
@@ -62,7 +62,7 @@ export const getEditContainerModel = createSelector(
       },
     };
 
-    return model;
+    return containerModel.initForm(model);
   }
 );
 
