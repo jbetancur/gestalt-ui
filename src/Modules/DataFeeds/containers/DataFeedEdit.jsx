@@ -72,6 +72,7 @@ class DataFeedEdit extends Component {
         <Col flex={8} xs={12} sm={12} md={10}>
           <ActionsToolbar
             title={datafeed.name}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/datafeeds`}
             actions={[

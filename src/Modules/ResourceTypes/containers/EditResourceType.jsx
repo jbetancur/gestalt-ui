@@ -57,6 +57,7 @@ class EditResourceType extends PureComponent {
           <ActionsToolbar
             title={resourceType.name}
             subtitle={resourceType.extend && `extends: ${resourceType.extend}`}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/resourcetypes`}
           />

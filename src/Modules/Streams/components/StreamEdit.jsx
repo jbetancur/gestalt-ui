@@ -90,6 +90,7 @@ class StreamSpecEdit extends Component {
         <Col flex={10} xs={12} sm={12} md={10}>
           <ActionsToolbar
             title={streamSpec.name}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs`}
             actions={[

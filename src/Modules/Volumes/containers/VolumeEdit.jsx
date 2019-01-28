@@ -73,6 +73,7 @@ class VolumeEdit extends Component {
 
           <ActionsToolbar
             title={volume.name}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/volumes`}
             subtitle={(

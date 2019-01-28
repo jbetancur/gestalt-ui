@@ -117,6 +117,7 @@ class GroupEdit extends Component {
           <Col flex={8} xs={12} sm={12} md={12}>
             <ActionsToolbar
               title={group.name}
+              sticky
               showBackNav
               navTo={`/${match.params.fqon}/groups`}
             />

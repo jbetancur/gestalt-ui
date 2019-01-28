@@ -63,6 +63,7 @@ class PolicyEventRuleEdit extends Component {
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={policyRule.name}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
             actions={[

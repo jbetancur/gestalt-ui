@@ -112,6 +112,7 @@ class ProviderEdit extends PureComponent {
           <ActionsToolbar
             title={provider.name}
             showBackNav
+            sticky
             navTo={this.generateBackLink()}
             actions={[
               hasContainer &&

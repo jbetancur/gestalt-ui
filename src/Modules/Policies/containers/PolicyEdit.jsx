@@ -63,6 +63,7 @@ class PolicyEdit extends Component {
 
           <ActionsToolbar
             title={policy.name}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
             actions={[

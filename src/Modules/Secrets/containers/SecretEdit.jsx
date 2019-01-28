@@ -67,6 +67,7 @@ class SecretEdit extends Component {
 
           <ActionsToolbar
             title={secret.name}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
             actions={[

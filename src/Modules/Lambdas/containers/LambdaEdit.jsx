@@ -128,6 +128,7 @@ class LambdaEdit extends PureComponent {
           <ActionsToolbar
             title={lambda.name}
             titleIcon={icon}
+            sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
             actions={[
