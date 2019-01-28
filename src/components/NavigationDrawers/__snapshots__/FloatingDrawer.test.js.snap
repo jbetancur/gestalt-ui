@@ -39,7 +39,7 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly when a custom width 
   overflow-y: auto;
   height: 100%;
   z-index: 1000;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
   border-left: 1px solid #eeeeee;
   white-space: nowrap;
@@ -314,7 +314,7 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly when direction is ri
   overflow-y: auto;
   height: 100%;
   z-index: 1000;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
   border-left: 1px solid #eeeeee;
   white-space: nowrap;
@@ -588,7 +588,7 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly when direction is ri
   overflow-y: auto;
   height: 100%;
   z-index: 1000;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
   border-left: 1px solid #eeeeee;
   white-space: nowrap;
@@ -863,7 +863,7 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly with basic props and
   overflow-y: auto;
   height: 100%;
   z-index: 1000;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
   border-left: 1px solid #eeeeee;
   white-space: nowrap;
@@ -1137,7 +1137,7 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly with basic props whe
   overflow-y: auto;
   height: 100%;
   z-index: 1000;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
   border-left: 1px solid #eeeeee;
   white-space: nowrap;
