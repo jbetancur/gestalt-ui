@@ -18,8 +18,12 @@ export default class ALink extends Component {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
-    ]).isRequired,
+    ]),
   };
+
+  static defaultProps = {
+    children: null,
+  }
 
   parseTo(to) {
     const parser = document.createElement('a');

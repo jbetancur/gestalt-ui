@@ -13,8 +13,8 @@ import actions from './actions';
 const MessageGroup = styled.div`
   position: fixed;
   bottom: 52px;
-  left: 64px;
-  z-index: 999;
+  right: 8px;
+  z-index: 2000;
   display: flex;
   align-items: center;
   pointer-events: none;

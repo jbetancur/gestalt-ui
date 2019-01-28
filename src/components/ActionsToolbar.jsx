@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styled, { withTheme } from 'styled-components';
+import styled, { withTheme, css } from 'styled-components';
 import { Title, Caption } from 'components/Typography';
 import { Button } from 'components/Buttons';
 
-const ActionHeaderStyle = styled.header`
+const stickyCss = css`
+  position: sticky;
+  background-color: ${props => props.theme.colors.background};
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid  ${props => props.theme.colors.divider};
+`;
+
+const ActionHeaderStyle = styled.nav`
+  ${props => props.sticky && stickyCss};
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -49,8 +58,8 @@ const TitleSection = styled.div`
   align-items: center;
 `;
 
-const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, showBackNav, navTo, disabled }) => (
-  <ActionHeaderStyle>
+const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, showBackNav, navTo, disabled, sticky }) => (
+  <ActionHeaderStyle sticky={sticky}>
     {showBackNav && navTo &&
       <BackAction>
         <Button
@@ -101,6 +110,7 @@ ActionsHeader.propTypes = {
   showBackNav: PropTypes.bool,
   navTo: PropTypes.string,
   disabled: PropTypes.bool,
+  sticky: PropTypes.bool,
 };
 
 ActionsHeader.defaultProps = {
@@ -112,6 +122,7 @@ ActionsHeader.defaultProps = {
   showBackNav: false,
   navTo: '/',
   disabled: false,
+  sticky: false,
 };
 
 export default withTheme(ActionsHeader);
