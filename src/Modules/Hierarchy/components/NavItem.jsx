@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { NavLink } from 'components/Links';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const ListItem = styled.li`
   position: relative;
@@ -135,7 +134,4 @@ class NavItem extends Component {
   }
 }
 
-export default compose(
-  withTheme,
-  withRouter,
-)(NavItem);
+export default withRouter(NavItem);
