@@ -1,15 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-// import { get } from 'lodash';
-import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { FontIcon } from 'react-md';
-// import { Title } from 'components/Typography';
-// import { DotActivity } from 'components/ProgressIndicators';
-import { withRestricted } from 'Modules/Authentication';
-import { withLicense } from 'Modules/Licensing';
+// import { Button } from 'components/Buttons';
 import { media } from 'util/helpers/media';
 import CreateMenu from './CreateMenu';
 import Breadcrumbs from './Breadcrumbs';
@@ -17,12 +11,11 @@ import OrganizationDetails from './OrganizationDetails';
 import WorkspaceDetails from './WorkspaceDetails';
 import EnvironmentDetails from './EnvironmentDetails';
 import withContext from '../hocs/withContext';
-import withApp from '../../../App/hocs/withApp';
 import UserMenu from './UserMenu';
 import AppToolbarInfoMenu from './AppToolbarInfoMenu';
-// import iconMap from '../config/iconMap';
+import { AppConsumer } from '../../../App/AppContext';
 
-const NavHeader = styled(({ isExpanded, width, miniWidth, ...rest }) => <nav {...rest} />)`
+const NavHeader = styled.nav`
   position: relative;
   width: 100%;
   display: flex;
@@ -129,10 +122,6 @@ const ActionsPanel = styled.div`
   }
 `;
 
-// const TitleIcon = styled.div`
-//   padding-right: 8px;
-// `;
-
 const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
   transition: transform 225ms ease;
   transform: ${props => (props.isExpanded ? 'rotate(-180deg)' : 'rotate(0)')};
@@ -140,24 +129,15 @@ const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)
 
 class ContextNavigation extends PureComponent {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
     children: PropTypes.any,
-    pendingContextActions: PropTypes.bool,
-    actionsList: PropTypes.array,
     hierarchyContext: PropTypes.object.isRequired,
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     expandedHeight: PropTypes.string,
-    licenseActions: PropTypes.object.isRequired,
-    appState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     children: [],
-    pendingContextActions: false,
-    actionsList: [],
     width: '200px',
     miniWidth: '64px',
     expandedHeight: '400px',
@@ -208,73 +188,35 @@ class ContextNavigation extends PureComponent {
     return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
   }
 
-  // renderContextTitle() {
-  //   const {
-  //     context: { contextMeta },
-  //     context,
-  //   } = this.props;
-
-  //   const title = get(context[contextMeta.context], 'description') || get(context[contextMeta.context], 'name');
-
-  //   return (
-  //     <Section>
-  //       <TitleIcon>
-  //         {iconMap(contextMeta.context, 24)}
-  //       </TitleIcon>
-
-  //       {!title
-  //         ?
-  //           <DotActivity size={1} id={`loading-${contextMeta.context}`} />
-  //         :
-  //         (
-  //           <Title>
-  //             {title}
-  //           </Title>
-  //         )}
-  //     </Section>
-
-  //   );
-  // }
-
-  logout = () => {
-    const { history, authActions } = this.props;
-
-    authActions.logout();
-    history.replace('/login');
-  }
-
   render() {
     const {
       hierarchyContext,
-      appState: { navigationExpanded },
-      width,
-      miniWidth,
       expandedHeight,
-      licenseActions,
+      children,
     } = this.props;
     const { contextPending } = hierarchyContext;
     const { expanded } = this.state;
 
     return (
-      <NavHeader
-        isExpanded={navigationExpanded}
-        width={width}
-        miniWidth={miniWidth}
-      >
+      <NavHeader>
         <Row alignItems="center">
           <Col xs={12} sm={12} md={6} lg={6}>
-            {/* {this.renderContextTitle()} */}
             <Section>
               <Breadcrumbs />
             </Section>
           </Col>
 
           <Col xs={12} sm={12} md={12} lg={6}>
-            <ActionsPanel>
-              <CreateMenu {...this.props} />
-              <UserMenu onLogout={this.logout} />
-              <AppToolbarInfoMenu onShowLicenseModal={licenseActions.showLicenseModal} />
-            </ActionsPanel>
+            <AppConsumer>
+              {({ onLogout, onShowLicenseModal }) => (
+                <ActionsPanel>
+                  <CreateMenu {...this.props} />
+                  {/* <Button icon onClick={onToggleFavorites}>star</Button> */}
+                  <UserMenu onLogout={onLogout} />
+                  <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />
+                </ActionsPanel>
+              )}
+            </AppConsumer>
           </Col>
 
           <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
@@ -282,7 +224,8 @@ class ContextNavigation extends PureComponent {
           </ExpansionPanel>
         </Row>
 
-        {this.props.children}
+        {children}
+
         <CollapseWrapper>
           <CollapseButton onClick={this.toggle} disabled={contextPending}>
             {this.renderCollpaseButtonIcon()}
@@ -293,11 +236,4 @@ class ContextNavigation extends PureComponent {
   }
 }
 
-export default compose(
-  withContext(),
-  withApp,
-  withTheme,
-  withRouter,
-  withRestricted,
-  withLicense,
-)(ContextNavigation);
+export default withContext()(ContextNavigation);

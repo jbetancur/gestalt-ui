@@ -7,10 +7,12 @@ import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
+// import { FloatingDrawer } from 'components/NavigationDrawers';
 import { withLicense } from 'Modules/Licensing';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { withRestricted } from 'Modules/Authentication';
+import { AppProvider } from './AppContext';
 import AppError from './components/AppError';
 import withApp from './hocs/withApp';
 import withSelf from './hocs/withSelf';
@@ -39,6 +41,10 @@ class App extends Component {
     licenseActions: PropTypes.object.isRequired,
     upgraderActions: PropTypes.object.isRequired,
   };
+
+  state = {
+    favoritesOpen: false,
+  }
 
   componentDidMount() {
     const { self, selfActions, keyBindings } = this.props;
@@ -71,6 +77,20 @@ class App extends Component {
     appActions.showExperimental(true);
   }
 
+  handleLicenseModel = () => {
+    const { licenseActions } = this.props;
+
+    licenseActions.showLicenseModal();
+  }
+
+  handleToggleFavorites = () => {
+    this.setState(state => ({ favoritesOpen: !state.favoritesOpen }));
+  }
+
+  handleCloseFavorites = () => {
+    this.setState(({ favoritesOpen: false }));
+  }
+
   logout = () => {
     const { history, authActions } = this.props;
 
@@ -86,6 +106,8 @@ class App extends Component {
       appState: { navigationExpanded },
     } = this.props;
 
+    const { favoritesOpen } = this.state;
+
     if (selfPending) {
       return <ActivityContainer id="app-main-progess" />;
     }
@@ -94,8 +116,16 @@ class App extends Component {
       return <AppError onLogout={this.logout} {...this.props} />;
     }
 
+    const initialState = {
+      favoritesOpen,
+      onCloseFavorites: this.handleCloseFavorites,
+      onToggleFavorites: this.handleToggleFavorites,
+      onLogout: this.logout,
+      onShowLicenseModal: this.handleLicenseModel,
+    };
+
     return (
-      <React.Fragment>
+      <AppProvider initialState={initialState}>
         <UpgradeNotification />
         <ModalRoot />
         <ErrorNotifications />
@@ -106,8 +136,14 @@ class App extends Component {
             onOpen={toggleNavigation}
           />
           <ContextRoutes />
+          {/* <FloatingDrawer
+            title="Favorites"
+            direction="right"
+            open={favoritesOpen}
+            onClose={this.handleCloseFavorites}
+          /> */}
         </AppWrapper>
-      </React.Fragment>
+      </AppProvider>
     );
   }
 }

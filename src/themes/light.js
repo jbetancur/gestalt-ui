@@ -33,7 +33,7 @@ export default {
 
     // Dividers
     divider: '#eeeeee',
-    dividerVariant: '#9e9e9e',
+    dividerVariant: '#e0e0e0',
 
     // Notifications
     error: '#f44336',
