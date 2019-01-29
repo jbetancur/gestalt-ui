@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import yaml from 'js-yaml';
 import { Form as FinalForm, Field } from 'react-final-form';
-import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 import Label from 'components/Label';
@@ -55,7 +54,7 @@ class VolumePanelAttach extends Component {
         <FinalForm
           onSubmit={this.handleSubmit}
           render={({ form, handleSubmit }) => (
-            <Form id="add-container-volume" onSubmit={handleSubmit} autoComplete="off">
+            <form id="add-container-volume" onSubmit={handleSubmit} autoComplete="off">
               <Row gutter={5}>
                 <Col flex={4} xs={12} sm={12}>
                   <Field
@@ -83,7 +82,7 @@ class VolumePanelAttach extends Component {
                   />
                 </Col>
               </Row>
-            </Form>
+            </form>
           )}
         />
 
