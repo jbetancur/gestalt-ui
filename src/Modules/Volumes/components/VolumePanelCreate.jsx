@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form as FinalForm, Field } from 'react-final-form';
-import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import { formatName, composeValidators, required } from 'util/forms';
@@ -49,7 +48,7 @@ class VolumePanelCreate extends Component {
         onSubmit={this.handleSubmit}
         initialValues={initialValues}
         render={({ handleSubmit, values }) => (
-          <Form id="add-container-volume" onSubmit={handleSubmit} autoComplete="off">
+          <form id="add-container-volume" onSubmit={handleSubmit} autoComplete="off">
             <Row gutter={5}>
               <Col flex={5} xs={12} sm={12}>
                 <Field
@@ -82,7 +81,7 @@ class VolumePanelCreate extends Component {
                 />
               </Col>
             </Row>
-          </Form>
+          </form>
         )}
       />
     );
