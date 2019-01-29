@@ -208,9 +208,9 @@ class ContextNavigation extends PureComponent {
 
           <Col xs={12} sm={12} md={12} lg={6}>
             <AppConsumer>
-              {({ onLogout, onShowLicenseModal }) => (
+              {({ onLogout, onShowLicenseModal, enableExperimental }) => (
                 <ActionsPanel>
-                  <CreateMenu {...this.props} />
+                  <CreateMenu enableExperimental={enableExperimental} {...this.props} />
                   {/* <Button icon onClick={onToggleFavorites}>star</Button> */}
                   <UserMenu onLogout={onLogout} />
                   <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />

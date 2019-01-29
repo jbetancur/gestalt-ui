@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import base64 from 'base-64';
 import styled from 'styled-components';
 import { FontIcon, Divider } from 'react-md';
-import withApp from 'App/hocs/withApp';
 import { PersistentDrawer } from 'components/NavigationDrawers';
 import { GalacticFogIcon } from 'components/Icons';
 import NavItem from './NavItem';
+import { AppConsumer } from '../../../App/AppContext';
 import withContext from '../hocs/withContext';
 import navItems from '../config/navItems';
 import iconMap from '../config/iconMap';
@@ -75,7 +74,6 @@ class Navigation extends PureComponent {
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     onOpen: PropTypes.func,
-    appState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -133,7 +131,6 @@ class Navigation extends PureComponent {
       open,
       width,
       miniWidth,
-      appState: { enableExperimental },
     } = this.props;
 
     const {
@@ -144,46 +141,51 @@ class Navigation extends PureComponent {
       context,
     } = hierarchyContext;
 
-    const items = contextMeta.context
-      ? navItems(context, enableExperimental)[contextMeta.context]
-      : [];
-
     return (
       <PersistentDrawer open={open} miniWidth={miniWidth} width={width}>
         <Logo>
           <GalacticFogIcon size={36} fill="white" />
         </Logo>
-        <NavItems>
-          {items.map(item => (
-            <NavItem
-              open={open}
-              expandedWidth={width}
-              miniWidth={miniWidth}
-              title={item.title}
-              key={item.key}
-              icon={iconMap(item.icon)}
-              to={item.to}
-              isVisible={item.isVisible}
-              activeClassName="active-link"
-            />
-          ))}
+        <AppConsumer>
+          {({ enableExperimental }) => {
+            const items = contextMeta.context
+              ? navItems(context, enableExperimental)[contextMeta.context]
+              : [];
 
-          {actions.length > 0 && <ActionDivider />}
+            return (
+              <NavItems>
+                {items.map(item => (
+                  <NavItem
+                    open={open}
+                    expandedWidth={width}
+                    miniWidth={miniWidth}
+                    title={item.title}
+                    key={item.key}
+                    icon={iconMap(item.icon)}
+                    to={item.to}
+                    isVisible={item.isVisible}
+                    activeClassName="active-link"
+                  />
+                ))}
 
-          {actions.map(item => (
-            <NavItem
-              open={open}
-              expandedWidth={width}
-              miniWidth={miniWidth}
-              title={item.display_name || item.action}
-              key={item.action}
-              icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
-              to={this.generateLink(item)}
-              target={this.generateTarget(item)}
-            />
-          ))}
-        </NavItems>
+                {actions.length > 0 && <ActionDivider />}
 
+                {actions.map(item => (
+                  <NavItem
+                    open={open}
+                    expandedWidth={width}
+                    miniWidth={miniWidth}
+                    title={item.display_name || item.action}
+                    key={item.action}
+                    icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
+                    to={this.generateLink(item)}
+                    target={this.generateTarget(item)}
+                  />
+                ))}
+              </NavItems>
+            );
+          }}
+        </AppConsumer>
         <NavFooter>
           <ExpanderButton
             onClick={this.handleOpen}
@@ -199,7 +201,4 @@ class Navigation extends PureComponent {
   }
 }
 
-export default compose(
-  withContext(),
-  withApp,
-)(Navigation);
+export default withContext()(Navigation);

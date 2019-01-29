@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
@@ -14,8 +15,8 @@ import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { withRestricted } from 'Modules/Authentication';
 import { AppProvider } from './AppContext';
 import AppError from './components/AppError';
-import withApp from './hocs/withApp';
 import withSelf from './hocs/withSelf';
+import actions from './actions';
 
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
 
@@ -103,7 +104,7 @@ class App extends Component {
       self,
       selfPending,
       appActions: { toggleNavigation },
-      appState: { navigationExpanded },
+      appState: { navigationExpanded, enableExperimental },
     } = this.props;
 
     const { favoritesOpen } = this.state;
@@ -117,6 +118,8 @@ class App extends Component {
     }
 
     const initialState = {
+      enableExperimental,
+      navigationExpanded,
       favoritesOpen,
       onCloseFavorites: this.handleCloseFavorites,
       onToggleFavorites: this.handleToggleFavorites,
@@ -137,10 +140,8 @@ class App extends Component {
           />
           <ContextRoutes />
           {/* <FloatingDrawer
-            title="Favorites"
             direction="right"
             open={favoritesOpen}
-            onClose={this.handleCloseFavorites}
           /> */}
         </AppWrapper>
       </AppProvider>
@@ -148,11 +149,27 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  const { app } = state;
+
+  return {
+    appState: {
+      activityIndicator: app.activityIndicator.activity,
+      enableExperimental: app.showExperimental.enabled,
+      navigationExpanded: app.navigation.expanded,
+    }
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(actions, dispatch)
+});
+
 export default compose(
   withRestricted,
-  withApp,
   withSelf,
   withLicense,
   withUpgrader,
   withKeyBindings,
+  connect(mapStateToProps, mapDispatchToProps),
 )(App);

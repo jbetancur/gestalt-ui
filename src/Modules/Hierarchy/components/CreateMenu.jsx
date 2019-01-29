@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import withApp from 'App/hocs/withApp';
 import { Link } from 'react-router-dom';
 import { ListItem, MenuButton } from 'react-md';
 import withContext from '../hocs/withContext';
@@ -13,16 +11,19 @@ const listItemStyle = { textAlign: 'left' };
 class CreateMenu extends PureComponent {
   static propTypes = {
     hierarchyContext: PropTypes.object.isRequired,
-    appState: PropTypes.object.isRequired,
+    enableExperimental: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    enableExperimental: false,
   };
 
   generateMenuItems() {
     const {
       hierarchyContext,
-      appState: {
-        enableExperimental
-      },
+      enableExperimental,
     } = this.props;
+
     const {
       context: {
         contextMeta
@@ -72,7 +73,4 @@ class CreateMenu extends PureComponent {
   }
 }
 
-export default compose(
-  withContext(),
-  withApp,
-)(CreateMenu);
+export default withContext()(CreateMenu);

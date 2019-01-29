@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Breadcrumbs from './Breadcrumbs';
 import ContextNavigation from './ContextNavigation';
-import CreateMenu from './CreateMenu';
 import OrganizationDetails from './OrganizationDetails';
 
 const HierarchyHeader = ({ model, hierarchyContext: { contextPending }, ...props }) => (
@@ -10,7 +9,6 @@ const HierarchyHeader = ({ model, hierarchyContext: { contextPending }, ...props
     model={model}
     pending={contextPending}
     breadcrumbComponent={<Breadcrumbs lastIsActive />}
-    actionsComponent={<CreateMenu {...props} />}
     detailsComponent={<OrganizationDetails organization={model} pending={contextPending} {...props} />}
   />
 );
