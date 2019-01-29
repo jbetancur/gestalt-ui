@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import memoize from 'memoize-one';
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -36,11 +37,9 @@ const ListContainer = styled.div`
 const SeperatorStyle = styled(IconSeparator)`
   font-size: 14px;
   color: ${props => props.theme.colors.font};
-
   ${() => media.xs`
     font-size: 12px;
   `};
-
   ${() => media.sm`
     font-size: 12px;
   `};
@@ -110,22 +109,16 @@ class BreadCrumbLayoverDropDown extends PureComponent {
 
   state = {
     filterText: '',
-    menuItems: this.props.menuItems,
     anchorEl: null,
     open: false,
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.menuItems !== this.props.menuItems) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ menuItems: this.props.menuItems });
-    }
-  }
+  filteredItems = memoize((list, filterText) => list.filter(item => item.name.toLowerCase().includes(filterText.toLowerCase()) || item.secondaryName.toLowerCase().includes(filterText.toLowerCase())));
 
   handleOpen = (event) => {
     const { currentTarget } = event;
     const { open } = this.state;
-    const { onOpen, menuItems } = this.props;
+    const { onOpen } = this.props;
 
     if (!open && onOpen) {
       onOpen();
@@ -135,18 +128,14 @@ class BreadCrumbLayoverDropDown extends PureComponent {
       filterText: '',
       anchorEl: !prevState.open ? currentTarget : null,
       open: !prevState.open,
-      menuItems,
     }));
   };
 
   handleClose = () => {
-    const { menuItems } = this.props;
-
     this.setState({
       anchorEl: null,
       open: false,
       filterText: '',
-      menuItems,
     });
   };
 
@@ -160,26 +149,22 @@ class BreadCrumbLayoverDropDown extends PureComponent {
   }
 
   onFilterChange = (value) => {
-    const { menuItems } = this.props;
     const filterText = value || '';
 
     this.setState({
       filterText,
-      menuItems: menuItems.filter(item => item.name.toLowerCase().includes(filterText.toLowerCase()) || item.secondaryName.toLowerCase().includes(filterText.toLowerCase())),
     });
   }
 
   clearSearch = () => {
-    const { menuItems } = this.props;
     this.setState({
       filterText: '',
-      menuItems,
     });
   }
 
   renderListItems() {
-    const { menuItems } = this.state;
-    const { id, pending } = this.props;
+    const { id, pending, menuItems } = this.props;
+    const { filterText } = this.state;
 
     if (pending) {
       return (
@@ -192,7 +177,7 @@ class BreadCrumbLayoverDropDown extends PureComponent {
       );
     }
 
-    return menuItems.map(({ name, secondaryName, onClick, divider, ...item }) => {
+    return this.filteredItems(menuItems, filterText).map(({ name, secondaryName, onClick, divider, ...item }) => {
       if (divider) {
         return <Divider />;
       }
@@ -216,69 +201,66 @@ class BreadCrumbLayoverDropDown extends PureComponent {
     const { open, anchorEl, filterText } = this.state;
 
     return (
-      <React.Fragment>
-        <ClickAwayListener onClickAway={this.handleClose}>
-          {/* container must be a div vs a Fragment or clickaway will only attach to first node */}
-          <div>
-            <AccessibleFakeButton
-              onClick={this.handleOpen}
-              component={IconSeparator}
-              iconBefore
-              label={
-                <SeperatorStyle label={label}>
-                  <DropDownButton>
-                    <FontIcon>arrow_drop_down</FontIcon>
-                  </DropDownButton>
-                </SeperatorStyle>
-              }
-            >
-              <IconStyle>{icon}</IconStyle>
-            </AccessibleFakeButton>
+      <ClickAwayListener onClickAway={this.handleClose}>
+        {/* container must be a div vs a Fragment or clickaway will only attach to first node */}
+        <div>
+          <AccessibleFakeButton
+            onClick={this.handleOpen}
+            component={IconSeparator}
+            iconBefore
+            label={
+              <SeperatorStyle label={label}>
+                <DropDownButton>
+                  <FontIcon>arrow_drop_down</FontIcon>
+                </DropDownButton>
+              </SeperatorStyle>
+            }
+          >
+            <IconStyle>{icon}</IconStyle>
+          </AccessibleFakeButton>
 
-            <Popper
-              id="breadcrumbs-popper"
-              open={open}
-              anchorEl={anchorEl}
-              style={{ zIndex: 100 }}
-              disablePortal
-              placement="bottom-start"
-            >
+          <Popper
+            id="breadcrumbs-popper"
+            open={open}
+            anchorEl={anchorEl}
+            style={{ zIndex: 100 }}
+            disablePortal
+            placement="bottom-start"
+          >
+            <Paper>
+              <SearchWrapper key={`${title}--search`}>
+                {title}
+                <TextField
+                  id={`filter-${id}-dropdown`}
+                  label="Filter"
+                  fullWidth={true}
+                  onChange={this.onFilterChange}
+                  value={filterText}
+                  inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
+                  autoFocus
+                />
+              </SearchWrapper>
 
-              <Paper>
-                <SearchWrapper key={`${title}--search`}>
-                  {title}
-                  <TextField
-                    id={`filter-${id}-dropdown`}
-                    label="Filter"
-                    fullWidth={true}
-                    onChange={this.onFilterChange}
-                    value={filterText}
-                    inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
-                    autoFocus
-                  />
-                </SearchWrapper>
+              {createLabel && createRoute &&
+              <Button
+                flat
+                iconChildren={<FontIcon>add</FontIcon>}
+                component={Link}
+                to={createRoute}
+                onClick={this.handleClose}
+              >
+                {createLabel}
+              </Button>}
 
-                {createLabel && createRoute &&
-                <Button
-                  flat
-                  iconChildren={<FontIcon>add</FontIcon>}
-                  component={Link}
-                  to={createRoute}
-                  onClick={this.handleClose}
-                >
-                  {createLabel}
-                </Button>}
-
-                <ListContainer>
-                  <List>
-                    {this.renderListItems()}
-                  </List>
-                </ListContainer>
-              </Paper>
-            </Popper>
-          </div>
-        </ClickAwayListener>
-      </React.Fragment>
+              <ListContainer>
+                <List>
+                  {this.renderListItems()}
+                </List>
+              </ListContainer>
+            </Paper>
+          </Popper>
+        </div>
+      </ClickAwayListener>
     );
   }
 }
