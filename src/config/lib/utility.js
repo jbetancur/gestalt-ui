@@ -1,5 +1,5 @@
 import axios, { CancelToken } from 'axios';
-import { call, delay, retry } from 'redux-saga/effects';
+import { call, delay } from 'redux-saga/effects';
 import { CANCEL } from 'redux-saga';
 
 /**

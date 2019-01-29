@@ -5,7 +5,7 @@ import { FontIcon } from 'react-md';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
-import { composeValidators, required } from 'util/forms';
+import { composeValidators, required, min, max } from 'util/forms';
 
 const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
   <Row gutter={5}>
@@ -77,28 +77,35 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
             <Field
               component={TextField}
               name="properties.cpus"
-              min={0.1}
-              max={4.0}
+              min={0.5}
+              max={64.0}
               step={0.1}
               label="CPU"
               type="number"
               parse={value => parseFloat(value)}
               required
-              validate={required()}
+              validate={composeValidators(
+                required(),
+                min(0.5)
+              )}
             />
           </Col>
           <Col flex={4} xs={6} sm={6}>
             <Field
               component={TextField}
               name="properties.mem"
-              min={256}
-              max={2048}
-              step={256}
+              min={512}
+              max={524288}
+              step={128}
               label="Memory"
               type="number"
               parse={value => Number(value)}
               required
-              validate={required()}
+              validate={composeValidators(
+                required(),
+                min(512),
+                max(524288),
+              )}
             />
           </Col>
           <Col flex={4} xs={6} sm={6}>

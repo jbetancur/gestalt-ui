@@ -24,8 +24,8 @@ const schema = object().shape({
     lambda_provider: object().shape({
       url: string().required(),
     }),
-    cpus: number().default(0.1).required(),
-    mem: number().default(128).required(),
+    cpus: number().default(0.5).required(),
+    mem: number().default(512).required(),
     parallelization: number().default(1).required(),
     processor: object().shape({
       type: string().default('map').required(),
