@@ -7,7 +7,7 @@ import { composeValidators, required } from 'util/forms';
 import { SelectField, TextField } from 'components/ReduxFormFields';
 
 const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
-  <Form id="import-container-modal" onSubmit={handleSubmit} disabled={pending}>
+  <Form id="import-container-modal" onSubmit={handleSubmit} disabled={pending} disableFooter>
     <Row gutter={5}>
       <Col flex={12}>
         <Field
