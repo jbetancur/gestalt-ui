@@ -47,7 +47,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
   min-width: var(--width);
 }
 
-.c2 {
+.c3 {
   box-sizing: border-box;
   margin: 5px;
   max-height: 100%;
@@ -64,6 +64,14 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
   min-width: var(--width);
 }
 
+.c2 .md-slider-thumb {
+  z-index: 2;
+}
+
+.c2 .md-slider-discrete-tick {
+  z-index: 1;
+}
+
 @media (min-width:0) and (max-width:599px) {
   .c1 {
     --width: calc(66.66666666666666% - 10px);
@@ -75,7 +83,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
 }
 
 @media (min-width:0) and (max-width:599px) {
-  .c2 {
+  .c3 {
     --width: calc(33.33333333333333% - 10px);
     -webkit-flex: 0 1 var(--width);
     -ms-flex: 0 1 var(--width);
@@ -91,7 +99,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     class="c1"
   >
     <div
-      class="md-slider-container md-pointer--hover"
+      class="md-slider-container c2 md-pointer--hover"
     >
       <label
         class="md-slider-label md-text"
@@ -133,7 +141,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     </div>
   </div>
   <div
-    class="c2"
+    class="c3"
   >
     <div
       class="md-text-field-container md-full-width md-text-field-container--input"
@@ -167,7 +175,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     class="c1"
   >
     <div
-      class="md-slider-container md-pointer--hover"
+      class="md-slider-container c2 md-pointer--hover"
     >
       <label
         class="md-slider-label md-text"
@@ -273,7 +281,7 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
     </div>
   </div>
   <div
-    class="c2"
+    class="c3"
   >
     <div
       class="md-text-field-container md-full-width md-text-field-container--input"

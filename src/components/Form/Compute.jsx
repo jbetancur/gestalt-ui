@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/ReduxFormFields';
 import { Slider, FontIcon } from 'react-md';
 import { composeValidators, fixInputNumber, fixInputDecimal, min, max, mod, required } from 'util/forms';
+
+const SliderStyled = styled(Slider)`
+  .md-slider-thumb {
+    z-index: 2;
+  }
+
+  .md-slider-discrete-tick {
+    z-index: 1;
+  }
+`;
 
 class ComputeForm extends Component {
   static propTypes = {
@@ -87,7 +98,7 @@ class ComputeForm extends Component {
     return (
       <Row gutter={5}>
         <Col flex={10} xs={8}>
-          <Slider
+          <SliderStyled
             id={`${cpuName}--cpu`}
             label="CPU"
             min={cpuMin}
@@ -120,7 +131,7 @@ class ComputeForm extends Component {
           />
         </Col>
         <Col flex={10} xs={8}>
-          <Slider
+          <SliderStyled
             id={`${memName}--memory`}
             label="Memory (MB)"
             min={memMin}
