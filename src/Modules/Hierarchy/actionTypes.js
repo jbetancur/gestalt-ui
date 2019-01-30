@@ -1,4 +1,4 @@
-export const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 export const PRE_CONTEXT_REQUEST = `${PREFIX}PRE_CONTEXT_REQUEST`;
 export const FETCH_CONTEXT_REQUEST = `${PREFIX}FETCH_CONTEXT_REQUEST`;

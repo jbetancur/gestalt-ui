@@ -1,4 +1,4 @@
-const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 /**
  *

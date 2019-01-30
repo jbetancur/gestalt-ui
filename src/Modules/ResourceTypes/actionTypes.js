@@ -1,4 +1,4 @@
-export const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 /**
  * Type Properties

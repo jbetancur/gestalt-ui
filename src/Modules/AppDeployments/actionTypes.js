@@ -1,4 +1,4 @@
-export const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 // For initializing the APPDEPLOYMENT create ui state
 export const INIT_APPDEPLOYMENTCREATE_REQUEST = `${PREFIX}INIT_APPDEPLOYMENTCREATE_REQUEST`;

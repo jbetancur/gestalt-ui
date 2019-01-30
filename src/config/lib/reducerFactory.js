@@ -1,7 +1,6 @@
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { insertItem, removeItemById, removeItem } from 'util/helpers/lists';
-
-const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 /**
  * Creates Async API Reducers so we don't have to...

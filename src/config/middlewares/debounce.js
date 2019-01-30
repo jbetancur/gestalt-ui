@@ -1,7 +1,7 @@
 export default () => {
   const timers = {};
 
-  const middleware = () => dispatch => (action) => {
+  const middleware = () => next => (action) => {
     const { meta: { debounce = {} } = {}, type } = action;
 
     const {
@@ -17,12 +17,12 @@ export default () => {
     const dispatchNow = leading && !timers[key];
 
     if (!shouldDebounce) {
-      return dispatch(action);
+      return next(action);
     }
 
     const later = resolve => () => {
       if (trailing && !dispatchNow) {
-        resolve(dispatch(action));
+        resolve(next(action));
       }
       timers[key] = null;
     };
@@ -35,13 +35,13 @@ export default () => {
     if (!cancel) {
       return new Promise((resolve) => {
         if (dispatchNow) {
-          resolve(dispatch(action));
+          resolve(next(action));
         }
         timers[key] = setTimeout(later(resolve), time);
       });
     }
 
-    return dispatch(action);
+    return next(action);
   };
 
   // eslint-disable-next-line no-underscore-dangle

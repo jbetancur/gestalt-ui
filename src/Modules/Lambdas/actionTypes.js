@@ -1,4 +1,4 @@
-export const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 export const SELECT_RUNTIME = 'lambdas/SELECT_RUNTIME';
 

@@ -15,6 +15,9 @@ export const ANALYTICS_TRACKING = $$ANALYTICS_TRACKING$$;
 export const ANALYTICS_TRACKING_ACCT = $$ANALYTICS_TRACKING_ACCT$$;
 export const REQUIRE_HTTPS_COOKIE = $$REQUIRE_HTTPS_COOKIE$$;
 
+// UI Redux Action Prefix
+export const PREFIX = '@@gestalt/';
+
 // General Enums - TODO: make dynamic (requires a resourceTypes call)
 export const ORGANIZATION = '23ba3299-b04e-4c5c-9b3d-64939b22944e';
 export const WORKSPACE = 'fa17bae4-1294-42cc-93cc-c4ead7dc0343';

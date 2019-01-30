@@ -1,6 +1,5 @@
 import { createRequestAction } from './actionFactory';
-
-const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 describe('actionFactory: createRequestAction', () => {
   test('it creates an unloadAction action creator', () => {

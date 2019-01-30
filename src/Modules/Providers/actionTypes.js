@@ -1,4 +1,4 @@
-export const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 // Select form states
 export const SELECTED_PROVIDERTYPE_REQUEST = `${PREFIX}SELECTED_PROVIDERTYPE_REQUEST`;

@@ -1,5 +1,6 @@
 import { LOCATION_CHANGE } from 'connected-react-router';
 import reducerFactory from './reducerFactory';
+import { PREFIX } from '../../constants';
 
 const initialState = {
   pending: false,
@@ -23,7 +24,7 @@ describe('reducerFactory', () => {
 
       expect(
         reducer({}, {
-          type: 'metaResource/FETCH_YOUWANT_REQUEST',
+          type: `${PREFIX}FETCH_YOUWANT_REQUEST`,
         })
       ).toEqual({
         pending: true,
@@ -35,7 +36,7 @@ describe('reducerFactory', () => {
 
       expect(
         reducer({}, {
-          type: 'metaResource/FETCH_YOUWANT_FULFILLED',
+          type: `${PREFIX}FETCH_YOUWANT_FULFILLED`,
           payload: [...initialState.whatever, { id: 1 }],
         })
       ).toEqual({
@@ -50,7 +51,7 @@ describe('reducerFactory', () => {
 
       expect(
         reducer({}, {
-          type: 'metaResource/DELETE_YOUWANT_FULFILLED',
+          type: `${PREFIX}DELETE_YOUWANT_FULFILLED`,
         })
       ).toEqual({
         pending: false,
@@ -63,7 +64,7 @@ describe('reducerFactory', () => {
 
       expect(
         reducer({}, {
-          type: 'metaResource/FETCH_YOUWANT_REJECTED',
+          type: `${PREFIX}FETCH_YOUWANT_REJECTED`,
           payload: 'doh!',
         })
       ).toEqual({
@@ -77,7 +78,7 @@ describe('reducerFactory', () => {
 
       expect(
         reducer({}, {
-          type: 'metaResource/UNLOAD_YOUWANT',
+          type: `${PREFIX}UNLOAD_YOUWANT`,
         })
       ).toEqual(initialState);
     });

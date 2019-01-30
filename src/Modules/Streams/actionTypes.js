@@ -1,4 +1,4 @@
-export const PREFIX = 'metaResource/';
+import { PREFIX } from '../../constants';
 
 // For initializing the STREAMSPEC create ui state
 export const INIT_STREAMSPECCREATE_REQUEST = `${PREFIX}INIT_STREAMSPECCREATE_REQUEST`;

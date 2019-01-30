@@ -2,11 +2,12 @@ import { put, call, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { getLastFromSplit } from 'util/helpers/strings';
 import { notificationActions } from 'Modules/Notifications';
+import { PREFIX } from '../../constants';
 import { buildAllURL, buildOneURL } from './urlmapper';
 import { fetchAPI } from './utility';
 
 // Exported for testability
-export const fetchAll = ({ name, entity, verb = 'FETCH', prefix }) => function* getAll(payload) {
+export const fetchAll = ({ name, entity, verb = 'FETCH', prefix = PREFIX }) => function* getAll(payload) {
   try {
     const response = yield call(fetchAPI, buildAllURL(entity, payload, true));
 
@@ -29,7 +30,7 @@ export const fetchAll = ({ name, entity, verb = 'FETCH', prefix }) => function* 
 };
 
 // Exported for testability
-export const fetchOne = ({ name, entity, verb = 'FETCH', prefix }) => function* getOne(payload) {
+export const fetchOne = ({ name, entity, verb = 'FETCH', prefix = PREFIX }) => function* getOne(payload) {
   try {
     const response = yield call(fetchAPI, buildOneURL(entity, payload));
 
@@ -52,7 +53,7 @@ export const fetchOne = ({ name, entity, verb = 'FETCH', prefix }) => function* 
 };
 
 // Exported for testability
-export const create = ({ name, entity, verb = 'CREATE', prefix }) => function* createOne(payload) {
+export const create = ({ name, entity, verb = 'CREATE', prefix = PREFIX }) => function* createOne(payload) {
   try {
     let response;
 
@@ -78,7 +79,7 @@ export const create = ({ name, entity, verb = 'CREATE', prefix }) => function* c
 };
 
 // Exported for testability
-export const update = ({ name, entity, verb = 'UPDATE', prefix }) => function* updateOne(payload) {
+export const update = ({ name, entity, verb = 'UPDATE', prefix = PREFIX }) => function* updateOne(payload) {
   try {
     const response = yield call(axios.patch, buildOneURL(entity, payload), payload.payload);
 
@@ -98,7 +99,7 @@ export const update = ({ name, entity, verb = 'UPDATE', prefix }) => function* u
 };
 
 // Exported for testability
-export const deleteOne = ({ name, entity, parentName, verb = 'DELETE', prefix }) => function* deleteSingle(payload) {
+export const deleteOne = ({ name, entity, parentName, verb = 'DELETE', prefix = PREFIX }) => function* deleteSingle(payload) {
   try {
     yield call(axios.delete, buildOneURL(entity, Object.assign(payload, { id: payload.resource.id })));
     yield put({ type: `${prefix}${verb}_${name}_FULFILLED`, payload: payload.resource });
@@ -122,7 +123,7 @@ export const deleteOne = ({ name, entity, parentName, verb = 'DELETE', prefix })
 };
 
 // Exported for testability
-export const deleteMany = ({ name, entity, verb = 'DELETE', prefix }) => function* deleteBulk(payload) {
+export const deleteMany = ({ name, entity, verb = 'DELETE', prefix = PREFIX }) => function* deleteBulk(payload) {
   try {
     const resources = payload.resources.map(resource => axios.delete(buildOneURL(entity, Object.assign(payload, { id: resource.id }))));
     const names = payload.resources.map(item => (item.name)).join('\n');
@@ -143,15 +144,15 @@ export const deleteMany = ({ name, entity, verb = 'DELETE', prefix }) => functio
   }
 };
 
-export const generateFetchAll = ({ name, entity = '', verb = 'FETCH', prefix = 'metaResource/' }) =>
+export const generateFetchAll = ({ name, entity = '', verb = 'FETCH', prefix = PREFIX }) =>
   [`${prefix}${verb}_${name}_REQUEST`, fetchAll({ name, entity, verb, prefix })];
-export const generateFetchOne = ({ name, entity = '', verb = 'FETCH', prefix = 'metaResource/' }) =>
+export const generateFetchOne = ({ name, entity = '', verb = 'FETCH', prefix = PREFIX }) =>
   [`${prefix}${verb}_${name}_REQUEST`, fetchOne({ name, entity, verb, prefix })];
-export const generateCreate = ({ name, entity = '', verb = 'CREATE', prefix = 'metaResource/' }) =>
+export const generateCreate = ({ name, entity = '', verb = 'CREATE', prefix = PREFIX }) =>
   [`${prefix}${verb}_${name}_REQUEST`, create({ name, entity, verb, prefix })];
-export const generateUpdate = ({ name, entity = '', verb = 'UPDATE', prefix = 'metaResource/' }) =>
+export const generateUpdate = ({ name, entity = '', verb = 'UPDATE', prefix = PREFIX }) =>
   [`${prefix}${verb}_${name}_REQUEST`, update({ name, entity, verb, prefix })];
-export const generateDelete = ({ name, entity = '', parentName, verb = 'DELETE', prefix = 'metaResource/' }) =>
+export const generateDelete = ({ name, entity = '', parentName, verb = 'DELETE', prefix = PREFIX }) =>
   [`${prefix}${verb}_${name}_REQUEST`, deleteOne({ name, entity, parentName, verb, prefix })];
-export const generateDeleteMany = ({ name, entity = '', verb = 'DELETE', prefix = 'metaResource/' }) =>
+export const generateDeleteMany = ({ name, entity = '', verb = 'DELETE', prefix = PREFIX }) =>
   [`${prefix}${verb}_${name}_REQUEST`, deleteMany({ name, entity, verb, prefix })];
