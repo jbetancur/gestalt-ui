@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { withMetaResource } from 'Modules/MetaResource';
 import { getItem, saveItem } from 'util/helpers/localstorage';
 
 const getPreviousRoute = () => JSON.parse(getItem('lastVisitedRoute'));
@@ -53,7 +52,6 @@ export default function modalRouting(BaseComponent) {
 
   return compose(
     withRouter,
-    withMetaResource,
     connect(mapStateToProps)
   )(ModalRouting);
 }

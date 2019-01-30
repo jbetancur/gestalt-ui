@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { connect } from 'react-redux';
-import { withMetaResource, withPickerData } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { DialogContainer, SelectField } from 'react-md';
 import { DotActivity } from 'components/ProgressIndicators';
 import { getLastFromSplit } from 'util/helpers/strings';
@@ -91,6 +91,5 @@ class MigrateModal extends PureComponent {
 
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-  withMetaResource,
   connect(null, actions),
 )(MigrateModal);

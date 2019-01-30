@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { withMetaResource } from 'Modules/MetaResource';
 import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePayload } from '../payloadTransformer';
@@ -52,6 +51,5 @@ class OrgCreate extends Component {
 }
 
 export default compose(
-  withMetaResource,
   withContext(),
 )(OrgCreate);

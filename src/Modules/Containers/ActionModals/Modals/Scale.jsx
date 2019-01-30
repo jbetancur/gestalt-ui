@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withMetaResource } from 'Modules/MetaResource';
 import { Row, Col } from 'react-flexybox';
 import { DialogContainer, TextField } from 'react-md';
 import actions from '../actions';
@@ -86,6 +85,5 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withMetaResource,
   connect(mapStateToProps, actions)
 )(ConfirmModal);

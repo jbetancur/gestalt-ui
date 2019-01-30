@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { withMetaResource } from 'Modules/MetaResource';
 import axios from 'axios';
 import { SelectField } from 'react-md';
 import Log from 'components/Log';
@@ -291,8 +290,16 @@ class Logging extends PureComponent {
   }
 }
 
+const mapStateToProps = (state) => {
+  const { logging } = state;
+
+  return {
+    logProviderPending: logging.logProvider.pending,
+    logProviderURL: logging.logProvider.logProvider.url,
+  };
+};
+
 export default compose(
-  withMetaResource,
   withRouter,
-  connect(null, actions),
+  connect(mapStateToProps, actions),
 )(Logging);

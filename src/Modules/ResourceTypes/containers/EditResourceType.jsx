@@ -6,7 +6,7 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { withPickerData, withMetaResource } from 'Modules/MetaResource';
+import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Panel } from 'components/Panels';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -101,7 +101,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withResourceType,
-  withMetaResource,
   withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
   connect(mapStateToProps, actions),
 )(EditResourceType);
