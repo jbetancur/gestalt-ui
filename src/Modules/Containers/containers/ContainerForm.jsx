@@ -113,6 +113,7 @@ class ContainerForm extends PureComponent {
                       required
                       parse={formatName}
                       helpText="the name of the container"
+                      autoFocus={!editMode}
                     />
                   </Col>}
                 <Col flex={2} xs={12}>

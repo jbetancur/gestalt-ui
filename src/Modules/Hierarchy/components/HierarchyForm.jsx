@@ -99,6 +99,7 @@ class HierarchyForm extends Component {
                 required
                 onChange={this.handleName}
                 helpText="the display name in gestalt platform"
+                autoFocus={!editMode}
               />
             </Col>
             <Col flex={6} xs={12}>

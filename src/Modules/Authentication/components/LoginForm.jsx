@@ -27,6 +27,7 @@ const LoginForm = ({ submitting, handleSubmit, pending }) => (
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
+        autoFocus
       />
       <Field
         id="login--password"
