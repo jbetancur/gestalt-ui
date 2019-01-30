@@ -14,7 +14,7 @@ import {
   CREATE_ENVIRONMENT_FULFILLED,
   UPDATE_ENVIRONMENT_FULFILLED,
   DELETE_ENVIRONMENT_FULFILLED,
-} from '../constants';
+} from '../actionTypes';
 
 import organizationModel from '../models/organization';
 import workspaceModel from '../models/workspace';

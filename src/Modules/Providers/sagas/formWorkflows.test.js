@@ -20,7 +20,7 @@ import {
   SELECTED_PROVIDERTYPE_REQUEST,
   SELECTED_PROVIDERTYPE_FULFILLED,
   SELECTED_PROVIDERTYPE_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 import { setSelectedProvider } from '../../Containers/actions';
 import containerModel from '../../Containers/models/container';
 

@@ -5,7 +5,7 @@ import {
   ADD_VOLUME_LISTING,
   REMOVE_VOLUME_LISTING,
   UNLOAD_VOLUMES_LISTING,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   volumes: [],

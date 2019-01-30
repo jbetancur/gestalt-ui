@@ -9,7 +9,7 @@ import {
   FETCH_LOGPROVIDER_REQUEST,
   FETCH_LOGPROVIDER_FULFILLED,
   FETCH_LOGPROVIDER_REJECTED,
-} from './constants';
+} from './actionTypes';
 
 const genericMock = Object.freeze({
   data: {

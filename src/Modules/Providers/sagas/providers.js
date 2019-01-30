@@ -4,7 +4,7 @@ import {
   REDEPLOY_PROVIDER_REQUEST,
   REDEPLOY_PROVIDER_FULFILLED,
   REDEPLOY_PROVIDER_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 /**
  * redeployProvider

@@ -12,7 +12,7 @@ import {
   FETCH_CONTEXT_REQUEST,
   FETCH_CONTEXT_FULFILLED,
   FETCH_CONTEXT_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 import workspaceModel from '../models/workspace';
 import environmentModel from '../models/environment';

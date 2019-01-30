@@ -3,7 +3,7 @@ import {
   CREATE_APPDEPLOYMENT_FULFILLED,
   CREATE_APPDEPLOYMENT_REJECTED,
   UNLOAD_APPDEPLOYMENT,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {};
 

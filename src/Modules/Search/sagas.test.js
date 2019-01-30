@@ -11,7 +11,7 @@ import {
   DO_SEARCHASSETS_REQUEST,
   DO_SEARCHASSETS_FULFILLED,
   DO_SEARCHASSETS_REJECTED,
-} from './constants';
+} from './actionTypes';
 
 describe('Search Sagas', () => {
   describe('searchUser Sequence', () => {

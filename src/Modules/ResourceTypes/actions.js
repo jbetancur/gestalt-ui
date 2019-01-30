@@ -3,7 +3,7 @@ import {
   UPDATE_TYPEPROPERTY_REQUEST,
   DELETE_TYPEPROPERTY_REQUEST,
   BATCH_UPDATE_TYPEPROPERTY_REQUEST,
-} from './constants';
+} from './actionTypes';
 
 export function confirmDelete(action, title, multipleItems) {
   return {

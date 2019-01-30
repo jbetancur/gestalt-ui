@@ -31,7 +31,7 @@ import {
   INIT_LAMBDACREATE_REJECTED,
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 describe('Lambda Sagas', () => {
   const error = 'an error has occured';

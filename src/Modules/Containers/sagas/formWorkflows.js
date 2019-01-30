@@ -11,8 +11,8 @@ import {
   INIT_CONTAINEREDIT_REJECTED,
   INIT_CONTAINEREDIT_CANCELLED,
   UNLOAD_CONTAINER,
-} from '../constants';
-import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
+} from '../actionTypes';
+import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import { setSelectedProvider } from '../actions';
 
 export function* createViewWorkflow() {

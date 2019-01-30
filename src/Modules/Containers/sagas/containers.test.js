@@ -15,7 +15,7 @@ import containerSagas, {
   watchContainerRequestWorkflow,
   watchContainersRequestWorkflow,
 } from './containers';
-import * as types from '../constants';
+import * as types from '../actionTypes';
 import { setSelectedProvider } from '../actions';
 
 describe('Container Sagas', () => {

@@ -7,7 +7,7 @@ import {
   FETCH_ALLORGSDROPDOWN_REQUEST,
   FETCH_ALLORGSDROPDOWN_FULFILLED,
   FETCH_ALLORGSDROPDOWN_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 /**
  * fetchAllOrgs

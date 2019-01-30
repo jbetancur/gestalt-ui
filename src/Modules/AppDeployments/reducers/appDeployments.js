@@ -10,7 +10,7 @@ import {
   DELETE_APPDEPLOYMENT_REJECTED,
   DELETE_APPDEPLOYMENTS_REQUEST, // bulk delete
   UNLOAD_APPDEPLOYMENTS,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   appDeployments: [],

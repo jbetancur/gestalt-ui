@@ -11,7 +11,7 @@ import {
   INIT_STREAMSPECCREATE_REJECTED,
   INIT_STREAMSPECEDIT_FULFILLED,
   INIT_STREAMSPECEDIT_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 import streamSpecModel from '../models/streamSpec';
 
 describe('container Form Workflow Sagas', () => {

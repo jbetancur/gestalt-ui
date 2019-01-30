@@ -11,7 +11,7 @@ import {
   INIT_CONTAINERCREATE_REJECTED,
   INIT_CONTAINEREDIT_FULFILLED,
   INIT_CONTAINEREDIT_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 import { setSelectedProvider } from '../actions';
 
 describe('container Form Workflow Sagas', () => {

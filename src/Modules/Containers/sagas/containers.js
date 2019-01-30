@@ -37,7 +37,7 @@ import {
   INIT_CONTAINERCREATE_FULFILLED,
   INIT_CONTAINEREDIT_FULFILLED,
   INIT_CONTAINEREDIT_CANCELLED,
-} from '../constants';
+} from '../actionTypes';
 import { setSelectedProvider } from '../actions';
 
 /**

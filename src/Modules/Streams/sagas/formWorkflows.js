@@ -10,8 +10,8 @@ import {
   INIT_STREAMSPECEDIT_REJECTED,
   INIT_STREAMSPECEDIT_CANCELLED,
   UNLOAD_STREAMSPEC,
-} from '../constants';
-import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
+} from '../actionTypes';
+import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import streamSpecModel from '../models/streamSpec';
 
 export function* createViewWorkflow() {

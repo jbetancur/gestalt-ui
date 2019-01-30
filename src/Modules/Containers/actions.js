@@ -1,7 +1,7 @@
 import { getLastFromSplit } from 'util/helpers/strings';
 import {
   SELECTED_PROVIDER,
-} from './constants';
+} from './actionTypes';
 import providerModel from '../Providers/models/provider';
 
 export function confirmContainerDelete(action, item, cancelAction = () => { }) {

@@ -2,7 +2,7 @@ import providerModel from '../../Providers/models/provider';
 import {
   SELECTED_PROVIDER,
   UNLOAD_SELECTED_PROVIDER,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   type: null,

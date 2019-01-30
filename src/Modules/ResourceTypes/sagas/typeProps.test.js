@@ -19,7 +19,7 @@ import {
   BATCH_UPDATE_TYPEPROPERTY_REQUEST,
   BATCH_UPDATE_TYPEPROPERTY_FULFILLED,
   BATCH_UPDATE_TYPEPROPERTY_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 describe('TypeProperty Sagas', () => {
   const error = 'an error has occured';

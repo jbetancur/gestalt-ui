@@ -19,8 +19,8 @@ import {
   FETCH_PROVIDERCONTAINER_REJECTED,
   FETCH_PROVIDERCONTAINER_CANCELLED,
   UNLOAD_PROVIDER,
-} from '../constants';
-import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
+} from '../actionTypes';
+import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
 import providerModel from '../models/provider';
 import { setSelectedProvider } from '../../Containers/actions';

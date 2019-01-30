@@ -1,6 +1,6 @@
 import {
   SELECT_RUNTIME,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   value: null,

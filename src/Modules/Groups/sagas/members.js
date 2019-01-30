@@ -7,7 +7,7 @@ import {
   REMOVE_GROUPMEMBER_REQUEST,
   REMOVE_GROUPMEMBER_FULFILLED,
   REMOVE_GROUPMEMBER_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 /**
  * addGroupMember

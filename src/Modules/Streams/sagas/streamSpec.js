@@ -6,7 +6,7 @@ import {
   POLL_STREAMSPEC_FULFILLED,
   POLL_STREAMSPEC_CANCELLED,
   UNLOAD_STREAMSPEC,
-} from '../constants';
+} from '../actionTypes';
 
 /**
  * fetchContainer

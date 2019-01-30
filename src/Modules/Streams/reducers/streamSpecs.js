@@ -10,7 +10,7 @@ import {
   DELETE_STREAMSPECS_FULFILLED,
   DELETE_STREAMSPECS_REJECTED,
   UNLOAD_STREAMSPECS,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   streamSpecs: [],

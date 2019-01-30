@@ -17,7 +17,7 @@ import {
   DELETE_CONTAINER_REJECTED,
   UNLOAD_CONTAINER,
   SELECTED_PROVIDER,
-} from '../constants';
+} from '../actionTypes';
 import containerModel from '../models/container';
 import providerModel from '../../Providers/models/provider';
 

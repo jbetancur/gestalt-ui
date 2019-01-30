@@ -23,7 +23,7 @@ import {
   INIT_APPDEPLOYMENTCREATE_REQUEST,
   INIT_APPDEPLOYMENTCREATE_FULFILLED,
   INIT_APPDEPLOYMENTCREATE_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 describe('AppDeployment Sagas', () => {
   const error = 'an error has occured';

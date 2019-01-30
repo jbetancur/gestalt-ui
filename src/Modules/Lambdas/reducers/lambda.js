@@ -13,7 +13,7 @@ import {
   DELETE_LAMBDA_FULFILLED,
   DELETE_LAMBDA_REJECTED,
   UNLOAD_LAMBDA,
-} from '../constants';
+} from '../actionTypes';
 import lambdaModel from '../models/lambda';
 
 const initialState = {

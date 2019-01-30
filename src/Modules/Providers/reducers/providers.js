@@ -7,7 +7,7 @@ import {
   DELETE_PROVIDER_FULFILLED,
   DELETE_PROVIDER_REJECTED,
   UNLOAD_PROVIDERS,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   providers: [],

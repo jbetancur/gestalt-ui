@@ -22,7 +22,7 @@ import {
   FETCH_PROVIDERCONTAINER_FULFILLED,
   FETCH_PROVIDERCONTAINER_REJECTED,
   TOGGLE_HAS_CONTAINER,
-} from '../constants';
+} from '../actionTypes';
 import providerModel from '../models/provider';
 import envSchemaModel from '../models/envSchema';
 import resourceTypeModel from '../../ResourceTypes/models/resourceType';

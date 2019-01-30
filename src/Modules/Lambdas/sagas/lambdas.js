@@ -27,8 +27,8 @@ import {
   INIT_LAMBDAEDIT_REJECTED,
   INIT_LAMBDAEDIT_CANCELLED,
   UNLOAD_LAMBDA,
-} from '../constants';
-import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
+} from '../actionTypes';
+import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 
 /**
  * fetchLambdas

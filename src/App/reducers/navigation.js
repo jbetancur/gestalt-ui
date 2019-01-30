@@ -1,6 +1,6 @@
 import {
   TOGGLE_NAVIGATION,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   expanded: JSON.parse((localStorage.getItem('gf-pinned-nav'))) || false,

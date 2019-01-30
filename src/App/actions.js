@@ -1,7 +1,7 @@
 import {
   SHOW_EXPERIMENTAL,
   TOGGLE_NAVIGATION,
-} from './constants';
+} from './actionTypes';
 
 export function showExperimental(state) {
   return {

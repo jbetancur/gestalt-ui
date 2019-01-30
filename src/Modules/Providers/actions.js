@@ -1,7 +1,7 @@
 import {
   SELECTED_PROVIDERTYPE_REQUEST,
   TOGGLE_HAS_CONTAINER,
-} from './constants';
+} from './actionTypes';
 
 export function confirmDelete(action, title, multipleItems) {
   return {

@@ -21,8 +21,8 @@ import {
   INIT_APPDEPLOYMENTCREATE_FULFILLED,
   INIT_APPDEPLOYMENTCREATE_REJECTED,
   INIT_APPDEPLOYMENTCREATE_CANCELLED,
-} from '../constants';
-import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/constants';
+} from '../actionTypes';
+import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 
 /**
  * fetchAppDeployments

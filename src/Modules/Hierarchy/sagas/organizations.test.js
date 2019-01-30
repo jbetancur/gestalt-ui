@@ -12,7 +12,7 @@ import {
   FETCH_ALLORGSDROPDOWN_REQUEST,
   FETCH_ALLORGSDROPDOWN_FULFILLED,
   FETCH_ALLORGSDROPDOWN_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 describe('Organization Sagas', () => {
   const error = 'an error has occured';

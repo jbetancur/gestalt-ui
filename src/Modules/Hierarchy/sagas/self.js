@@ -4,7 +4,7 @@ import {
   FETCH_SELF_REQUEST,
   FETCH_SELF_FULFILLED,
   FETCH_SELF_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 import { API_RETRIES } from '../../../constants';
 
 /**

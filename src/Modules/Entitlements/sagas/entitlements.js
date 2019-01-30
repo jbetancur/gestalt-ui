@@ -13,7 +13,7 @@ import {
   UPDATE_ENTITLEMENT_FULFILLED,
   UPDATE_ENTITLEMENT_REJECTED,
   UPDATE_ENTITLEMENT_REQUEST,
-} from '../constants';
+} from '../actionTypes';
 
 /**
  * fetchEntitlements

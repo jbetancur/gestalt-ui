@@ -14,7 +14,7 @@ import {
   DELETE_STREAMSPEC_REJECTED,
   UNLOAD_STREAMSPEC,
   POLL_STREAMSPEC_FULFILLED,
-} from '../constants';
+} from '../actionTypes';
 import streamSpecModel from '../models/streamSpec';
 
 const initialState = {

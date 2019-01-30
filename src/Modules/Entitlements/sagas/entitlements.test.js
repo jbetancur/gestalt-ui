@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import entitlementSagas, {
   fetchEntitlements,
   updateEntitlements,
@@ -11,7 +11,7 @@ import {
   UPDATE_ENTITLEMENT_FULFILLED,
   UPDATE_ENTITLEMENT_REJECTED,
   UPDATE_ENTITLEMENT_REQUEST,
-} from '../constants';
+} from '../actionTypes';
 
 describe('Entitlement Sagas', () => {
   const error = 'an error has occured';

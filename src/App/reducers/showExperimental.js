@@ -1,6 +1,6 @@
 import {
   SHOW_EXPERIMENTAL,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   enabled: false,

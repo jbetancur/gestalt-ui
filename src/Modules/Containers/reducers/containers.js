@@ -7,7 +7,7 @@ import {
   DELETE_CONTAINER_FULFILLED,
   DELETE_CONTAINER_REJECTED,
   UNLOAD_CONTAINERS,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   containers: [],

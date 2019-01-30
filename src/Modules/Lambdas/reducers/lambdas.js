@@ -8,7 +8,7 @@ import {
   DELETE_LAMBDA_REJECTED,
   DELETE_LAMBDAS_REQUEST, // bulk delete
   UNLOAD_LAMBDAS,
-} from '../constants';
+} from '../actionTypes';
 
 const initialState = {
   lambdas: [],

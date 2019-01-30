@@ -1,6 +1,6 @@
 import {
   SELECT_RUNTIME,
-} from './constants';
+} from './actionTypes';
 
 export function confirmDelete(action, title, multipleItems) {
   return {

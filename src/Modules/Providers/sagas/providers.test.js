@@ -7,7 +7,7 @@ import {
   REDEPLOY_PROVIDER_REQUEST,
   REDEPLOY_PROVIDER_FULFILLED,
   REDEPLOY_PROVIDER_REJECTED,
-} from '../constants';
+} from '../actionTypes';
 
 describe('Provider Sagas', () => {
   const error = 'an error has occured';

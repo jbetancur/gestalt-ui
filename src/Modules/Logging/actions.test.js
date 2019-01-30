@@ -1,6 +1,6 @@
 import {
   FETCH_LOGPROVIDER_REQUEST,
-} from './constants';
+} from './actionTypes';
 import * as actions from './actions';
 
 describe('Logging Actions', () => {

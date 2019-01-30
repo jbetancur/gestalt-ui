@@ -1,7 +1,7 @@
 import {
   FETCH_LOGPROVIDER_REQUEST,
   UNLOAD_LOGPROVIDER,
-} from './constants';
+} from './actionTypes';
 
 /**
  * fetchLogProvider
