@@ -26,6 +26,7 @@ class ContainerForm extends PureComponent {
     values: PropTypes.object.isRequired,
     editMode: PropTypes.bool,
     inlineMode: PropTypes.bool,
+    setSelectedProvider: PropTypes.func.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     secrets: PropTypes.array,
     volumes: PropTypes.array,
@@ -54,6 +55,7 @@ class ContainerForm extends PureComponent {
       editMode,
       inlineMode,
       selectedProvider,
+      setSelectedProvider,
       secrets,
       volumes,
       providers,
@@ -86,7 +88,8 @@ class ContainerForm extends PureComponent {
                     form={form}
                     name={`${formName}.properties.provider.id`}
                     providers={providers}
-                    {...this.props}
+                    selectedProvider={selectedProvider}
+                    setSelectedProvider={setSelectedProvider}
                   />
                 </Col>
               </Row>

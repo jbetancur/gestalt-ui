@@ -1,6 +1,6 @@
 import { object, array, boolean, string, number } from 'yup';
 import { pick } from 'lodash';
-import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';
+import { mapTo2DArray, arrayToMap, convertFromMaps } from 'util/helpers/transformations';
 
 const fixPortMappings = (portMappings = []) => portMappings.map((port) => {
   let newPort = { ...port };
@@ -16,12 +16,12 @@ const fixPortMappings = (portMappings = []) => portMappings.map((port) => {
   return newPort;
 });
 
-function transformIn(model) {
+function transformIn(model, envToMerge = {}) {
   return {
     ...model,
     properties: {
       ...model.properties,
-      env: Array.isArray(model.properties.env) ? model.properties.env : mapTo2DArray(model.properties.env),
+      env: Array.isArray(model.properties.env) ? model.properties.env : convertFromMaps(model.properties.env, envToMerge),
       labels: Array.isArray(model.properties.labels) ? model.properties.labels : mapTo2DArray(model.properties.labels),
       port_mappings: fixPortMappings(model.properties.port_mappings),
     },
@@ -88,7 +88,7 @@ const schema = object().shape({
  * get
  * @param {Object} model
  */
-const get = (model = {}) => transformIn(schema.cast(model));
+const get = (model = {}, envToMerge = {}) => transformIn(schema.cast(model), envToMerge);
 
 /**
  * create

@@ -1,7 +1,6 @@
 import { takeLatest, put, call, fork, race, take, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { LOCATION_CHANGE } from 'connected-react-router';
-import { convertFromMaps } from 'util/helpers/transformations';
 import { notificationActions } from 'Modules/Notifications';
 import { volumeActions } from 'Modules/Volumes';
 import { poll, fetchAPI } from 'config/lib/utility';
@@ -39,6 +38,7 @@ import {
   INIT_CONTAINEREDIT_CANCELLED,
 } from '../actionTypes';
 import { setSelectedProvider } from '../actions';
+import containerModel from '../models/container';
 
 /**
  * fetchContainers
@@ -81,8 +81,7 @@ export function* fetchContainer(action) {
 
   try {
     const [containerResponse, envResponse] = yield call(axios.all, promises);
-    const payload = { ...containerResponse.data };
-    payload.properties.env = convertFromMaps(payload.properties.env, envResponse.data);
+    const payload = containerModel.get(containerResponse.data, envResponse.data);
 
     yield put(setSelectedProvider(payload.properties.provider));
     yield put({ type: FETCH_CONTAINER_FULFILLED, payload, action });
@@ -102,12 +101,14 @@ export function* fetchContainer(action) {
 export function* createContainer(action) {
   try {
     const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers?embed=provider&embed=volumes`, action.payload);
-    yield put({ type: CREATE_CONTAINER_FULFILLED, payload: data });
-    yield put(notificationActions.addNotification({ message: `${data.name} Container created` }));
-    yield put(volumeActions.setVolumes(data.properties.volumes));
+    const payload = containerModel.get(data);
+
+    yield put({ type: CREATE_CONTAINER_FULFILLED, payload });
+    yield put(notificationActions.addNotification({ message: `${payload.name} Container created` }));
+    yield put(volumeActions.setVolumes(payload.properties.volumes));
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(data);
+      action.onSuccess(payload);
     }
   } catch (e) {
     yield put({ type: CREATE_CONTAINER_REJECTED, payload: e.message });
@@ -121,12 +122,14 @@ export function* createContainer(action) {
 export function* updateContainer(action) {
   try {
     const { data } = yield call(axios.put, `${action.fqon}/containers/${action.containerId}?embed=provider&embed=volumes`, action.payload);
-    yield put({ type: UPDATE_CONTAINER_FULFILLED, payload: data });
-    yield put(notificationActions.addNotification({ message: `${data.name} Container updated` }));
-    yield put(volumeActions.setVolumes(data.properties.volumes));
+    const payload = containerModel.get(data);
+
+    yield put({ type: UPDATE_CONTAINER_FULFILLED, payload });
+    yield put(notificationActions.addNotification({ message: `${payload.name} Container updated` }));
+    yield put(volumeActions.setVolumes(payload.properties.volumes));
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(data);
+      action.onSuccess(payload);
     }
   } catch (e) {
     yield put({ type: UPDATE_CONTAINER_REJECTED, payload: e.message });
@@ -177,7 +180,8 @@ export function* migrateContainer(action) {
     const response = yield call(axios.post, `${action.fqon}/containers/${action.containerId}/migrate?provider=${action.providerId}&embed=provider&embed=volumes`);
     // TODO: Workaround since Meta does not return a response on rejection
     if (response) {
-      yield put({ type: MIGRATE_CONTAINER_FULFILLED, payload: response.data });
+      const payload = containerModel.get(response.data);
+      yield put({ type: MIGRATE_CONTAINER_FULFILLED, payload });
 
       if (typeof action.onSuccess === 'function') {
         action.onSuccess(response.data);

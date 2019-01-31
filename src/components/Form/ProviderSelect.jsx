@@ -66,6 +66,8 @@ class ProviderSelect extends Component {
         name={name}
         label={label}
         menuItems={this.generateMenuItems()}
+        itemLabel="label"
+        itemValue="value"
         onChange={this.handleSelectedProvider}
         disabled={disabled}
         validate={composeValidators(required())}
