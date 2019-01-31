@@ -2,7 +2,7 @@ import { object, array, boolean, string, number } from 'yup';
 import { pick, pull, get as loGet } from 'lodash';
 import base64 from 'base-64';
 import { isBase64 } from 'util/helpers/strings';
-import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';
+import { arrayToMap, convertFromMaps } from 'util/helpers/transformations';
 
 const updateEnv = (model, newEnv) => ({
   ...model,
@@ -34,9 +34,12 @@ const updatePeriodicPayloadData = (model, newData) => ({
   },
 });
 
-function transformIn(model) {
+function transformIn(model, envToMerge) {
   const newModel = { ...model };
-  const formatEnv = Array.isArray(newModel.properties.env) ? newModel.properties.env : mapTo2DArray(newModel.properties.env);
+  const formatEnv = Array.isArray(model.properties.env)
+    ? model.properties.env
+    : convertFromMaps(model.properties.env, envToMerge);
+
   Object.assign(newModel, updateEnv(newModel, formatEnv));
 
   // do not encode if already encoded
@@ -126,7 +129,7 @@ const schema = object().shape({
  * get
  * @param {Object} model
  */
-const get = (model = {}) => transformIn(schema.cast(model));
+const get = (model = {}, envToMerge = {}) => transformIn(schema.cast(model), envToMerge);
 
 /**
  * create
@@ -187,6 +190,7 @@ const patch = (model = {}) => create(model);
 const initForm = (model = {}) => transformIn(get(model));
 
 export default {
+  schema,
   get,
   create,
   patch,

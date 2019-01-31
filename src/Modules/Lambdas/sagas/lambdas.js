@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
-import { convertFromMaps, mapTo2DArray } from 'util/helpers/transformations';
+import { mapTo2DArray, } from 'util/helpers/transformations';
 import { notificationActions } from 'Modules/Notifications';
 import { fetchAPI } from 'config/lib/utility';
 import {
@@ -29,6 +29,7 @@ import {
   UNLOAD_LAMBDA,
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
+import lambdaModel from '../models/lambda';
 
 /**
  * fetchLambdas
@@ -55,15 +56,11 @@ export function* fetchLambdas(action) {
  */
 export function* createLambda(action) {
   try {
-    const lambdaResponse = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, action.payload);
-    // On a new resource we still need to pull in the inheritied envs so we can reconcile them
-    const envResponse = yield call(axios.get, `${lambdaResponse.data.properties.parent.href}/env`);
-    const payload = { ...lambdaResponse.data };
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, lambdaModel.create(action.payload));
+    const payload = lambdaModel.get(data);
 
-    payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
     yield put({ type: CREATE_LAMBDA_FULFILLED, payload });
     yield put(notificationActions.addNotification({ message: `${payload.name} Lambda created` }));
-
     if (typeof action.onSuccess === 'function') {
       action.onSuccess(payload);
     }
@@ -78,12 +75,11 @@ export function* createLambda(action) {
  */
 export function* updateLambda(action) {
   try {
-    const lambdaResponse = yield call(axios.patch, `${action.fqon}/lambdas/${action.lambdaId}?embed=provider`, action.payload);
+    const { data } = yield call(axios.patch, `${action.fqon}/lambdas/${action.lambdaId}?embed=provider`, action.payload);
     // On a patch resource we still need to pull in the inheritied envs so we can reconcile them
-    const envResponse = yield call(axios.get, `${lambdaResponse.data.properties.parent.href}/env`);
-    const payload = { ...lambdaResponse.data };
+    const envResponse = yield call(axios.get, `${data.properties.parent.href}/env`);
+    const payload = lambdaModel.get(data, envResponse.data);
 
-    payload.properties.env = convertFromMaps(lambdaResponse.data.properties.env, envResponse.data);
     yield put({ type: UPDATE_LAMBDA_FULFILLED, payload });
     yield put(notificationActions.addNotification({ message: `${payload.name} Lambda updated` }));
 
@@ -186,8 +182,7 @@ export function* editViewWorkflow(action) {
     ]);
 
     const envResponse = yield call(axios.get, `${lambda.data.properties.parent.href}/env`);
-    const payload = { ...lambda.data };
-    payload.properties.env = convertFromMaps(lambda.data.properties.env, envResponse.data);
+    const payload = lambdaModel.get(lambda.data, envResponse.data);
 
     yield put({
       type: INIT_LAMBDAEDIT_FULFILLED,
