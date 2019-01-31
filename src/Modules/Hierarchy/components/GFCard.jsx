@@ -1,36 +1,15 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
-// import { FormattedRelative } from 'react-intl';
+import styled from 'styled-components';
 import { MenuButton, ListItem, FontIcon } from 'react-md';
 import { FormattedRelative } from 'react-intl';
 import { Card } from 'components/Cards';
+// import { FavoriteCheckbox } from 'Modules/UserProfile';
+import CardTitle from './GFCardTitle';
 
-// black list non compliance cardColor, cardIcon from DOM
 const CardStyle = styled(Card)`
-  min-height: 110px;
-  cursor: pointer;
-`;
-
-const ClickMask1 = styled.div`
-  position: absolute;
-  z-index: 1;
-  width: 80%;
-  height: 100%;
-  top: 0;
-  left: 0;
-
-  /* clip-path: polygon(0% 15%, 0 0, 15% 0%, 85% 0%, 85% 33%, 100% 33%, 100% 85%, 100% 100%, 85% 100%, 15% 100%, 0% 100%, 0% 85%); */
-`;
-
-// Height must be adjusted if changing CardStyle Hieght
-const ClickMask2 = styled.div`
-  position: absolute;
-  z-index: 1;
-  width: 20%;
-  height: 64px;
-  bottom: 0;
-  right: 0;
+  display: flex;
+  min-height: 115px;
 `;
 
 const Type = styled.div`
@@ -53,19 +32,34 @@ const Type = styled.div`
   }
 `;
 
-const Actions = styled.div`
-  position: absolute;
-  top: 5px;
-  right: 8px;
+const Content = styled.div`
+  position: relative;
+  flex: 1;
+  cursor: pointer;
+  width: calc(100% - 48px);
 `;
 
+const Actions = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0 4px 0;
+  width: 48px;
+`;
+
+const Divider = styled.div`
+  position: relative;
+  background-color: ${props => props.theme.colors.divider};
+  width: 1px;
+  flex-shrink: 0;
+`;
 
 const EnvironmentType = styled.div`
-  position: absolute;
-  left: 8px;
-  bottom: 6px;
-  line-height: 12px;
-  width: 200px;
+  max-width: 180px;
+  padding-left: 24px;
+  padding-right: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -84,7 +78,7 @@ const EnvironmentType = styled.div`
 
 const Created = styled.div`
   position: absolute;
-  right: 8px;
+  left: 8px;
   bottom: 6px;
   line-height: 12px;
 
@@ -99,11 +93,25 @@ const Created = styled.div`
   }
 `;
 
-const GFCard = ({ id, environmentType, created, cardColor, cardIcon, menuActions, onClick, noShadow, children, ...rest }) => (
-  <CardStyle raise noShadow={noShadow} {...rest}>
-    <ClickMask1 onClick={onClick} />
-    <ClickMask2 onClick={onClick} />
-    <Type cardIcon={cardIcon} cardColor={cardColor}>{cardIcon}</Type>
+const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor, cardIcon, menuActions, onClick, noShadow }) => (
+  <CardStyle raise noShadow={noShadow}>
+    <Content onClick={onClick}>
+      <Type cardIcon={cardIcon} cardColor={cardColor}>{cardIcon}</Type>
+      <CardTitle
+        title={title}
+        subtitle={subtitle}
+      />
+      {environmentType &&
+        <EnvironmentType>
+          {environmentType}
+        </EnvironmentType>}
+
+      <Created>
+        <FontIcon>date_range</FontIcon>
+        <FormattedRelative value={created} />
+      </Created>
+    </Content>
+    <Divider />
     <Actions>
       <MenuButton
         id={`${id}--actions`}
@@ -125,30 +133,17 @@ const GFCard = ({ id, environmentType, created, cardColor, cardIcon, menuActions
       >
         more_vert
       </MenuButton>
+      {/* <FavoriteCheckbox id={id} />  */}
     </Actions>
-
-    {children}
-
-    {environmentType &&
-      <EnvironmentType>
-        {environmentType}
-      </EnvironmentType>}
-
-    <Created>
-      <FontIcon>date_range</FontIcon>
-      <FormattedRelative value={created} />
-    </Created>
   </CardStyle>
-);
+));
 
 GFCard.propTypes = {
   id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
   environmentType: PropTypes.string,
   created: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
   cardIcon: PropTypes.oneOfType([
     PropTypes.node
   ]),
@@ -159,7 +154,7 @@ GFCard.propTypes = {
 };
 
 GFCard.defaultProps = {
-  children: [],
+  subtitle: null,
   cardIcon: '',
   cardColor: '#b0bec5',
   menuActions: [],
@@ -168,4 +163,4 @@ GFCard.defaultProps = {
   environmentType: null,
 };
 
-export default withTheme(GFCard);
+export default GFCard;

@@ -7,7 +7,6 @@ import { FontIcon } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
 import Card from './GFCard';
-import CardTitle from './GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
@@ -62,12 +61,14 @@ class EnvironmentCard extends PureComponent {
       <Card
         id={`${model.name}--environment`}
         key={model.id}
+        title={title}
+        subtitle={model.owner.name}
+        created={model.created.timestamp}
         onClick={this.navEnvironmentDetails}
         raise
         cardColor={theme.colors.environment}
         cardIcon={<EnvironmentIcon size={14} />}
         environmentType={model.properties.environment_type}
-        created={model.created.timestamp}
         menuActions={[
           {
             id: 'environment-card--edit',
@@ -91,12 +92,7 @@ class EnvironmentCard extends PureComponent {
             onClick: this.delete,
           }
         ]}
-      >
-        <CardTitle
-          title={title}
-          subTitle={model.owner.name}
-        />
-      </Card>
+      />
     );
   }
 }
