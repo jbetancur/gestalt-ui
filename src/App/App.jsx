@@ -8,8 +8,9 @@ import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
-// import { FloatingDrawer } from 'components/NavigationDrawers';
+// import { FavoriteItems } from 'Modules/UserProfile';
 import { withLicense } from 'Modules/Licensing';
+// import { FloatingDrawer } from 'components/NavigationDrawers';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { withRestricted } from 'Modules/Authentication';
@@ -30,21 +31,20 @@ const AppWrapper = styled.div`
 class App extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     keyBindings: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
     selfPending: PropTypes.bool.isRequired,
     selfActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    appState: PropTypes.object.isRequired,
-    appActions: PropTypes.object.isRequired,
     licenseActions: PropTypes.object.isRequired,
     upgraderActions: PropTypes.object.isRequired,
   };
 
   state = {
     favoritesOpen: false,
+    navigationExpanded: false,
+    enableExperimental: false,
   }
 
   componentDidMount() {
@@ -73,15 +73,17 @@ class App extends Component {
   }
 
   showExperimental = () => {
-    const { appActions } = this.props;
-
-    appActions.showExperimental(true);
+    this.setState(state => ({ enableExperimental: !state.enableExperimental }));
   }
 
   handleLicenseModel = () => {
     const { licenseActions } = this.props;
 
     licenseActions.showLicenseModal();
+  }
+
+  handleExpandNavigation = () => {
+    this.setState(state => ({ navigationExpanded: !state.navigationExpanded }));
   }
 
   handleToggleFavorites = () => {
@@ -103,11 +105,13 @@ class App extends Component {
     const {
       self,
       selfPending,
-      appActions: { toggleNavigation },
-      appState: { navigationExpanded, enableExperimental },
     } = this.props;
 
-    const { favoritesOpen } = this.state;
+    const {
+      navigationExpanded,
+      favoritesOpen,
+      enableExperimental,
+    } = this.state;
 
     if (selfPending) {
       return <ActivityContainer id="app-main-progess" />;
@@ -121,6 +125,7 @@ class App extends Component {
       enableExperimental,
       navigationExpanded,
       favoritesOpen,
+      onToggleNavigaion: this.handleExpandNavigation,
       onCloseFavorites: this.handleCloseFavorites,
       onToggleFavorites: this.handleToggleFavorites,
       onLogout: this.logout,
@@ -136,13 +141,15 @@ class App extends Component {
         <AppWrapper>
           <Navigation
             open={navigationExpanded}
-            onOpen={toggleNavigation}
+            onOpen={this.handleExpandNavigation}
           />
           <ContextRoutes />
           {/* <FloatingDrawer
             direction="right"
             open={favoritesOpen}
-          /> */}
+          >
+            <FavoriteItems />
+          </FloatingDrawer> */}
         </AppWrapper>
       </AppProvider>
     );
@@ -155,8 +162,6 @@ const mapStateToProps = (state) => {
   return {
     appState: {
       activityIndicator: app.activityIndicator.activity,
-      enableExperimental: app.showExperimental.enabled,
-      navigationExpanded: app.navigation.expanded,
     }
   };
 };
