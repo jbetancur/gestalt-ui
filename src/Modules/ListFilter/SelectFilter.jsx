@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SelectField, TextField, FontIcon } from 'react-md';
@@ -35,7 +35,7 @@ const InlineButton = styled(Button)`
   max-width: 20px;
 `;
 
-class SelectFilter extends Component {
+class SelectFilter extends PureComponent {
   static propTypes = {
     listFilterActions: PropTypes.object.isRequired,
     listFilter: PropTypes.object.isRequired,
