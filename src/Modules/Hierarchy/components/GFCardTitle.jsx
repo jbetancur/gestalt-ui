@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { truncate } from 'util/helpers/strings';
 
 const Wrapper = styled.div`
   word-break: break-all;
@@ -29,8 +28,8 @@ const Subtitle = styled.div`
 
 const CardTitle = memo(({ title, subtitle }) => (
   <Wrapper>
-    <Title>{truncate(title, 50)}</Title>
-    {!!subtitle && <Subtitle>{truncate(subtitle, 50)}</Subtitle>}
+    <Title>{title}</Title>
+    {!!subtitle && <Subtitle>{subtitle}</Subtitle>}
   </Wrapper>
 ));
 

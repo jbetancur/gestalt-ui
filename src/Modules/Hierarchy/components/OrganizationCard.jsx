@@ -100,7 +100,6 @@ class OrganizationCard extends PureComponent {
 }
 
 export default compose(
-  // withOrganization(),
   withContext(),
   withHierarchy,
   withEntitlements,

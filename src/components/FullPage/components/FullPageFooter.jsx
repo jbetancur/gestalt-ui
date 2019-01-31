@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Footer = styled.footer`
   position: fixed;
@@ -70,4 +70,4 @@ FullPageFooter.defaultProps = {
   children: null,
 };
 
-export default withTheme(FullPageFooter);
+export default FullPageFooter;

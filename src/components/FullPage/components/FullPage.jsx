@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Title } from 'components/Typography';
 import { Button } from 'react-md';
 
@@ -86,4 +86,4 @@ FullPage.defaultProps = {
 };
 
 
-export default withTheme(withRouter(FullPage));
+export default withRouter(FullPage);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const colorMapper = {
   error: '$md-red-400',
@@ -57,4 +57,4 @@ LogFormatter.defaulProps = {
   item: '',
 };
 
-export default withTheme(LogFormatter);
+export default LogFormatter;

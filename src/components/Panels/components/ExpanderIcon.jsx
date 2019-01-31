@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { FontIcon } from 'react-md';
 
 const ExpanderIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
@@ -9,4 +9,4 @@ const ExpanderIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)
   transform: ${props => (props.isExpanded ? 'rotate(0)' : 'rotate(-90deg)')};
 `;
 
-export default withTheme(ExpanderIcon);
+export default ExpanderIcon;

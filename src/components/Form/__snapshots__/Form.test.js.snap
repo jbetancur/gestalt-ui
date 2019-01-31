@@ -101,7 +101,6 @@ exports[`Components::Form::Form mounts with default props 1`] = `
     >
       <button
         class="md-btn md-btn--raised md-btn--text md-pointer--hover md-background--primary md-background--primary-hover md-inline-block c4"
-        theme="[object Object]"
         type="submit"
       >
         <div
@@ -231,7 +230,6 @@ exports[`Components::Form::Form renders correctly when disabled 1`] = `
     >
       <button
         class="md-btn md-btn--raised md-btn--text md-pointer--hover md-background--primary md-background--primary-hover md-inline-block c4"
-        theme="[object Object]"
         type="submit"
       >
         <div

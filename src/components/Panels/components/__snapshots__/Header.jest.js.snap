@@ -105,7 +105,6 @@ exports[`(Panels) Header renders with a title 1`] = `
     >
       <i
         class="md-icon material-icons c4"
-        theme="[object Object]"
       >
         expand_more
       </i>
@@ -224,7 +223,6 @@ exports[`(Panels) Header renders without exploding 1`] = `
     >
       <i
         class="md-icon material-icons c4"
-        theme="[object Object]"
       >
         expand_more
       </i>

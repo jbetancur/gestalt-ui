@@ -14,7 +14,6 @@ exports[`(Panels) ExpanderIcon renders component without exploding 1`] = `
 
 <i
   class="md-icon material-icons c0"
-  theme="[object Object]"
 />
 `;
 
@@ -32,7 +31,6 @@ exports[`(Panels) ExpanderIcon renders when collapsed 1`] = `
 
 <i
   class="md-icon material-icons c0"
-  theme="[object Object]"
 />
 `;
 
@@ -50,6 +48,5 @@ exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
 
 <i
   class="md-icon material-icons c0"
-  theme="[object Object]"
 />
 `;

@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { media } from 'util/helpers/media';
 
 const FieldItem = styled.div`
@@ -24,4 +24,4 @@ const FieldItem = styled.div`
   }
 `;
 
-export default withTheme(FieldItem);
+export default FieldItem;

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -321,7 +321,6 @@ export default compose(
   withContainers({ unload: false }),
   withContext(),
   withEntitlements,
-  withTheme,
   withRouter,
   connect(null, Object.assign({}, actionCreators)),
 )(ContainerActions);

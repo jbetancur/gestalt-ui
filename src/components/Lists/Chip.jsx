@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { FontIcon } from 'react-md';
 
 const ItemStyled = styled.div`
@@ -56,4 +56,4 @@ class Chip extends PureComponent {
   }
 }
 
-export default withTheme(Chip);
+export default Chip;

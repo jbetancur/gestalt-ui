@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from 'components/Buttons';
 import { A } from 'components/Links';
@@ -59,4 +59,4 @@ Endpoints.defaultProps = {
   endpoints: [],
 };
 
-export default withTheme(Endpoints);
+export default Endpoints;

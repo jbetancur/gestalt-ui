@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button } from 'react-md';
 import { DeleteIcon } from 'components/Icons';
 import { media } from 'util/helpers/media';
@@ -39,4 +39,4 @@ RemoveButton.defaultProps = {
   absoluteTopRight: false,
 };
 
-export default withTheme(RemoveButton);
+export default RemoveButton;

@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const TitleStyle = styled.div`
   font-size: 20px;
@@ -8,4 +8,4 @@ const TitleStyle = styled.div`
   ${props => props.large && 'font-size: 22px;'};
 `;
 
-export default withTheme(TitleStyle);
+export default TitleStyle;

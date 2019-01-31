@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Error = styled.span`
   font-size: 12px;
@@ -9,4 +9,4 @@ const Error = styled.span`
   ${props => props.bold && 'font-weight: 700'};
 `;
 
-export default withTheme(Error);
+export default Error;

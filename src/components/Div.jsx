@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Div = styled.div`
   ${props => props.position && `position: ${props.position}`};
@@ -14,4 +14,4 @@ const Div = styled.div`
   ${props => props.textAlign && `text-align: ${props.textAlign}`};
 `;
 
-export default withTheme(Div);
+export default Div;

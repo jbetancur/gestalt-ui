@@ -1,6 +1,6 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
-const CaptionStyle = styled.span`
+const Caption = styled.span`
   font-size: 12px !important;
   color: ${props => props.theme.colors[props.light ? '$md-grey-500' : '$md-grey-800']};
   ${props => props.block && 'display: block'};
@@ -12,4 +12,4 @@ const CaptionStyle = styled.span`
   }
 `;
 
-export default withTheme(CaptionStyle);
+export default Caption;

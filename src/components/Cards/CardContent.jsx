@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const CardContent = styled.div`
   position: relative;
@@ -13,4 +13,4 @@ const CardContent = styled.div`
   }
 `;
 
-export default withTheme(CardContent);
+export default CardContent;

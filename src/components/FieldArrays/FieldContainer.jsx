@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const FieldContainer = styled.div`
   padding: 0;
@@ -7,4 +7,4 @@ const FieldContainer = styled.div`
   width: 100%;
 `;
 
-export default withTheme(FieldContainer);
+export default FieldContainer;

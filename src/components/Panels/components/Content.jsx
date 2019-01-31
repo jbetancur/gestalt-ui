@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Content = styled.div`
   ${props => props.disabled && 'pointer-events: none'};
@@ -10,4 +10,4 @@ const Content = styled.div`
   ${props => (props.maxHeight && `max-height: ${props.maxHeight}`)};
 `;
 
-export default withTheme(Content);
+export default Content;

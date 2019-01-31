@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Title, Caption } from 'components/Typography';
 import { Button } from 'components/Buttons';
 
@@ -125,4 +125,4 @@ ActionsHeader.defaultProps = {
   sticky: false,
 };
 
-export default withTheme(ActionsHeader);
+export default ActionsHeader;

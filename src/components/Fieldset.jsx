@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const FieldsetStyle = styled.fieldset`
   ${props => (props.border ? `border: .2em solid ${props.theme.colors['$md-grey-100']} !important` : 'border: none!important')};
@@ -76,4 +76,4 @@ Fieldset.defaultProps = {
   background: false,
 };
 
-export default withTheme(Fieldset);
+export default Fieldset;

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Button } from 'react-md';
 
 const DeleteButton = styled(Button)`
@@ -29,4 +29,4 @@ class APIEndpointDeleteButton extends PureComponent {
   }
 }
 
-export default withTheme(APIEndpointDeleteButton);
+export default APIEndpointDeleteButton;

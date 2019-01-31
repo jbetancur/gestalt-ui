@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MenuButton } from 'react-md';
 import statusMap from './statusMap';
 
@@ -67,4 +67,4 @@ StatusButton.defaultProps = {
   menuItems: [],
 };
 
-export default withTheme(StatusButton);
+export default StatusButton;

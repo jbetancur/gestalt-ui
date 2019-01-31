@@ -168,7 +168,6 @@ exports[`(Panels) Panel renders component activity status when pending 1`] = `
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>
@@ -331,7 +330,6 @@ exports[`(Panels) Panel renders component with basic props 1`] = `
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>
@@ -475,7 +473,6 @@ exports[`(Panels) Panel renders component with children 1`] = `
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>
@@ -624,7 +621,6 @@ exports[`(Panels) Panel renders component with minHeight prop 1`] = `
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>
@@ -768,7 +764,6 @@ exports[`(Panels) Panel renders component with noPadding prop 1`] = `
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>
@@ -912,7 +907,6 @@ exports[`(Panels) Panel renders component without exploding 1`] = `
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>
@@ -1056,7 +1050,6 @@ exports[`(Panels) Panel toggles isExpanded on correct elements when the Header i
       >
         <i
           class="md-icon material-icons c6"
-          theme="[object Object]"
         >
           expand_more
         </i>

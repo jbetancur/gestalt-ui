@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Title, Subtitle } from 'components/Typography';
 
 const Wrapper = styled.div`
@@ -39,4 +39,4 @@ CardTitle.defaultProps = {
   subTitle: null,
 };
 
-export default withTheme(CardTitle);
+export default CardTitle;

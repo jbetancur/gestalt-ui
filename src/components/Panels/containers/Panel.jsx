@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'components/Cards';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { DotActivity } from 'components/ProgressIndicators';
 import Header from '../components/Header';
 import Content from '../components/Content';
@@ -87,4 +87,4 @@ class Panel extends PureComponent {
   }
 }
 
-export default withTheme(Panel);
+export default Panel;

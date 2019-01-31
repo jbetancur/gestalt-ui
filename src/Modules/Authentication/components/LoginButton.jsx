@@ -1,5 +1,5 @@
 import { Button } from 'components/Buttons';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const LoginButton = styled(Button)`
   background: white;
@@ -17,4 +17,4 @@ const LoginButton = styled(Button)`
   }
 `;
 
-export default withTheme(LoginButton);
+export default LoginButton;

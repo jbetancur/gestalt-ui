@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { media } from 'util/helpers/media';
 
 const Name = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
@@ -54,4 +54,4 @@ NameCell.defaultProps = {
   maxWidth: '300px',
 };
 
-export default withTheme(NameCell);
+export default NameCell;

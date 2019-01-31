@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { media } from 'util/helpers/media';
 
 const TabsStyle = styled.div`
@@ -83,4 +83,4 @@ class Tabs extends Component {
   }
 }
 
-export default withTheme(Tabs);
+export default Tabs;
