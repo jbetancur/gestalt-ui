@@ -46,14 +46,17 @@ const Actions = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 4px 0 4px 0;
-  width: 48px;
+  width: 52px;
 `;
 
-const Divider = styled.div`
-  position: relative;
-  background-color: ${props => props.theme.colors.divider};
-  width: 1px;
-  flex-shrink: 0;
+const ClickMask = styled.div`
+  position: absolute;
+  height: 64px;
+  width: 100%;
+  cursor: pointer;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
 `;
 
 const EnvironmentType = styled.div`
@@ -68,7 +71,7 @@ const EnvironmentType = styled.div`
   &,
   i {
     font-size: 12px !important;
-    color: ${props => props.theme.colors['$md-grey-700']};
+    color: ${props => props.theme.colors.font};
   }
 
   i {
@@ -85,7 +88,7 @@ const Created = styled.div`
   &,
   i {
     font-size: 12px !important;
-    color: ${props => props.theme.colors['$md-grey-500']};
+    color: ${props => props.theme.colors.fontCaption};
   }
 
   i {
@@ -111,7 +114,7 @@ const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor,
         <FormattedRelative value={created} />
       </Created>
     </Content>
-    <Divider />
+
     <Actions>
       <MenuButton
         id={`${id}--actions`}
@@ -133,7 +136,8 @@ const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor,
       >
         more_vert
       </MenuButton>
-      {/* <FavoriteCheckbox id={id} />  */}
+      {/* <FavoriteCheckbox id={id} /> */}
+      <ClickMask onClick={onClick} />
     </Actions>
   </CardStyle>
 ));
