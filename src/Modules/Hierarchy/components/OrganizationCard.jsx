@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
@@ -6,12 +6,12 @@ import { withTheme } from 'styled-components';
 import { withEntitlements } from 'Modules/Entitlements';
 import { FontIcon } from 'react-md';
 import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
+import { withUserProfile } from 'Modules/UserProfile';
 import Card from './GFCard';
-
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
-class OrganizationCard extends PureComponent {
+class OrganizationCard extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
@@ -20,6 +20,7 @@ class OrganizationCard extends PureComponent {
     hierarchyContextActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
+    userProfileActions: PropTypes.object.isRequired,
   };
 
   navTo = () => {
@@ -56,6 +57,17 @@ class OrganizationCard extends PureComponent {
     entitlementActions.showEntitlementsModal(name, model.properties.fqon, null, null, 'Organization');
   }
 
+  handleFavoriteToggle = () => {
+    const { model, userProfileActions } = this.props;
+    const nickname = model.description || model.name;
+
+    if (model.$$favorite) {
+      userProfileActions.deleteFavorite({ id: model.id });
+    } else {
+      userProfileActions.createFavorite({ payload: { resource_id: model.id, nickname } });
+    }
+  }
+
   render() {
     const { t, model, theme } = this.props;
     const title = model.description || model.name;
@@ -67,6 +79,8 @@ class OrganizationCard extends PureComponent {
         title={title}
         subtitle={model.owner.name}
         created={model.created.timestamp}
+        favorited={model.$$favorite}
+        onFavoriteToggled={this.handleFavoriteToggle}
         onClick={this.navTo}
         raise
         cardIcon={<OrganizationIcon size={14} />}
@@ -103,6 +117,7 @@ export default compose(
   withContext(),
   withHierarchy,
   withEntitlements,
+  withUserProfile,
   withTheme,
   translate(),
 )(OrganizationCard);

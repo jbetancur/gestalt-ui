@@ -1,5 +1,6 @@
 import { takeLatest, put, call, retry } from 'redux-saga/effects';
 import axios from 'axios';
+import { userProfileActionTypes as userProfileTypes } from 'Modules/UserProfile';
 import {
   FETCH_SELF_REQUEST,
   FETCH_SELF_FULFILLED,
@@ -26,7 +27,10 @@ export function* handleSelf() {
 export function* fetchSelf() {
   try {
     const payload = yield retry(API_RETRIES, 2000, handleSelf);
+    // load users/self into state
     yield put({ type: FETCH_SELF_FULFILLED, payload });
+    // load user profiles into state
+    yield put({ type: userProfileTypes.FETCH_USERPROFILE_REQUEST });
   } catch (e) {
     yield put({ type: FETCH_SELF_REJECTED, payload: e.message });
     throw new Error('Attempts to reach meta/self failed');

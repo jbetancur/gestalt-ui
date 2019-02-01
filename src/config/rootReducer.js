@@ -27,6 +27,7 @@ import searchReducers from 'Modules/Search/reducers';
 import resourceTypesReducers from 'Modules/ResourceTypes/reducers';
 import appDeploymentsReducers from 'Modules/AppDeployments/reducers';
 import upgraderReducers from 'Modules/Upgrader/reducers';
+import userProfileReducers from 'Modules/UserProfile/reducers';
 
 export default history => combineReducers({
   error: errorNotificationReducer,
@@ -57,4 +58,5 @@ export default history => combineReducers({
   resourceTypes: resourceTypesReducers,
   appDeployments: appDeploymentsReducers,
   upgrader: upgraderReducers,
+  userProfile: userProfileReducers,
 });

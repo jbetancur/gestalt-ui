@@ -8,12 +8,12 @@ import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
 import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
-// import { FavoriteItems } from 'Modules/UserProfile';
-import { withLicense } from 'Modules/Licensing';
-// import { FloatingDrawer } from 'components/NavigationDrawers';
+import { FloatingDrawer } from 'components/NavigationDrawers';
+import { FavoriteItems } from 'Modules/UserProfile';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { withRestricted } from 'Modules/Authentication';
+import { withLicense } from 'Modules/Licensing';
 import { AppProvider } from './AppContext';
 import AppError from './components/AppError';
 import withSelf from './hocs/withSelf';
@@ -144,12 +144,12 @@ class App extends Component {
             onOpen={this.handleExpandNavigation}
           />
           <ContextRoutes />
-          {/* <FloatingDrawer
+          <FloatingDrawer
             direction="right"
             open={favoritesOpen}
           >
             <FavoriteItems />
-          </FloatingDrawer> */}
+          </FloatingDrawer>
         </AppWrapper>
       </AppProvider>
     );

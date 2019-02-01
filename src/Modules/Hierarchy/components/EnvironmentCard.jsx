@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withTheme } from 'styled-components';
@@ -6,11 +6,12 @@ import { translate } from 'react-i18next';
 import { FontIcon } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
+import { withUserProfile } from 'Modules/UserProfile';
 import Card from './GFCard';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
-class EnvironmentCard extends PureComponent {
+class EnvironmentCard extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
@@ -20,6 +21,7 @@ class EnvironmentCard extends PureComponent {
     hierarchyContextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
+    userProfileActions: PropTypes.object.isRequired,
   };
 
   navEnvironmentDetails = () => {
@@ -53,6 +55,17 @@ class EnvironmentCard extends PureComponent {
     entitlementActions.showEntitlementsModal(name, match.params.fqon, model.id, 'environments', 'Environment');
   }
 
+  handleFavoriteToggle = () => {
+    const { model, userProfileActions } = this.props;
+    const nickname = model.description || model.name;
+
+    if (model.$$favorite) {
+      userProfileActions.deleteFavorite({ id: model.id });
+    } else {
+      userProfileActions.createFavorite({ payload: { resource_id: model.id, nickname } });
+    }
+  }
+
   render() {
     const { model, t, theme } = this.props;
     const title = model.description || model.name;
@@ -64,6 +77,8 @@ class EnvironmentCard extends PureComponent {
         title={title}
         subtitle={model.owner.name}
         created={model.created.timestamp}
+        favorited={model.$$favorite}
+        onFavoriteToggled={this.handleFavoriteToggle}
         onClick={this.navEnvironmentDetails}
         raise
         cardColor={theme.colors.environment}
@@ -101,6 +116,7 @@ export default compose(
   withContext(),
   withHierarchy,
   withEntitlements,
+  withUserProfile,
   withTheme,
   translate(),
 )(EnvironmentCard);

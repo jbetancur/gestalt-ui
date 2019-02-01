@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { FontIcon } from 'react-md';
-// import { Button } from 'components/Buttons';
+import { Button } from 'components/Buttons';
 import { media } from 'util/helpers/media';
 import CreateMenu from './CreateMenu';
 import Breadcrumbs from './Breadcrumbs';
@@ -208,10 +208,10 @@ class ContextNavigation extends PureComponent {
 
           <Col xs={12} sm={12} md={12} lg={6}>
             <AppConsumer>
-              {({ onLogout, onShowLicenseModal, enableExperimental }) => (
+              {({ onLogout, onToggleFavorites, onShowLicenseModal, enableExperimental }) => (
                 <ActionsPanel>
                   <CreateMenu enableExperimental={enableExperimental} {...this.props} />
-                  {/* <Button icon onClick={onToggleFavorites}>star</Button> */}
+                  <Button icon onClick={onToggleFavorites}>star</Button>
                   <UserMenu onLogout={onLogout} />
                   <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />
                 </ActionsPanel>

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { MenuButton, ListItem, FontIcon } from 'react-md';
 import { FormattedRelative } from 'react-intl';
 import { Card } from 'components/Cards';
-// import { FavoriteCheckbox } from 'Modules/UserProfile';
+import { FavoriteCheckbox } from 'Modules/UserProfile';
 import CardTitle from './GFCardTitle';
 
 const CardStyle = styled(Card)`
@@ -49,16 +49,6 @@ const Actions = styled.div`
   width: 52px;
 `;
 
-const ClickMask = styled.div`
-  position: absolute;
-  height: 64px;
-  width: 100%;
-  cursor: pointer;
-  z-index: 1;
-  bottom: 0;
-  right: 0;
-`;
-
 const EnvironmentType = styled.div`
   max-width: 180px;
   padding-left: 24px;
@@ -96,7 +86,19 @@ const Created = styled.div`
   }
 `;
 
-const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor, cardIcon, menuActions, onClick }) => (
+const GFCard = memo(({
+  id,
+  title,
+  subtitle,
+  environmentType,
+  created,
+  cardColor,
+  cardIcon,
+  menuActions,
+  onClick,
+  favorited,
+  onFavoriteToggled
+}) => (
   <CardStyle raise>
     <Content onClick={onClick}>
       <Type
@@ -141,8 +143,7 @@ const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor,
       >
         more_vert
       </MenuButton>
-      {/* <FavoriteCheckbox id={id} /> */}
-      <ClickMask onClick={onClick} />
+      <FavoriteCheckbox id={id} checked={favorited} onChange={onFavoriteToggled} />
     </Actions>
   </CardStyle>
 ));
@@ -159,6 +160,8 @@ GFCard.propTypes = {
   cardColor: PropTypes.string,
   menuActions: PropTypes.array,
   onClick: PropTypes.func,
+  favorited: PropTypes.bool,
+  onFavoriteToggled: PropTypes.func,
 };
 
 GFCard.defaultProps = {
@@ -168,6 +171,8 @@ GFCard.defaultProps = {
   menuActions: [],
   onClick: () => { },
   environmentType: null,
+  favorited: false,
+  onFavoriteToggled: () => { },
 };
 
 export default GFCard;

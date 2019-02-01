@@ -12,7 +12,8 @@ export const selectWorkspaces = state => state.hierarchy.workspaces.workspaces;
 export const selectEnvironment = state => state.hierarchy.environment.environment;
 export const selectEnvironments = state => state.hierarchy.environments.environments;
 export const selectContext = state => state.hierarchy.context;
-const selectSelf = state => state.hierarchy.self.self;
+// const selectSelf = state => state.hierarchy.self.self;
+const selectUserProfile = state => state.userProfile.userProfile.userProfile;
 
 export const getEditOrganizationModel = createSelector(
   [selectOrganization],
@@ -79,7 +80,30 @@ export const getSortedContextEnvironments = createSelector(
   context => sortBy(context.environments, ['desciption', 'name'])
 );
 
-export const getSelfContextEnvironments = createSelector(
-  [selectContext, selectSelf],
-  (context, self) => sortBy(context.environments, ['desciption', 'name']).filter(env => env.owner.id === self.id),
+export const getHierarchies = createSelector(
+  [selectContext, selectUserProfile],
+  (context, profile) => context.organizations.concat(context.workspaces)
+    .filter(env => !profile.properties.resource_favorites.some(fav => fav.resource_id === env.id))
+    .map(env => (Object.assign(env, { $$favorite: false }))),
+);
+
+export const getFavoriteHierarchies = createSelector(
+  [selectContext, selectUserProfile],
+  (context, profile) => context.organizations.concat(context.workspaces)
+    .filter(env => profile.properties.resource_favorites.some(fav => fav.resource_id === env.id))
+    .map(env => (Object.assign(env, { $$favorite: true }))),
+);
+
+export const getEnvironments = createSelector(
+  [selectContext, selectUserProfile],
+  (context, profile) => context.environments
+    .filter(env => !profile.properties.resource_favorites.some(fav => fav.resource_id === env.id))
+    .map(env => (Object.assign(env, { $$favorite: false }))),
+);
+
+export const getFavoriteEnvironments = createSelector(
+  [selectContext, selectUserProfile],
+  (context, profile) => context.environments
+    .filter(env => profile.properties.resource_favorites.some(fav => fav.resource_id === env.id))
+    .map(env => (Object.assign(env, { $$favorite: true }))),
 );

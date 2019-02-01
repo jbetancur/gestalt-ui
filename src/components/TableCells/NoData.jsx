@@ -34,15 +34,17 @@ const Message = styled(Title)`
   padding: 16px 8px 8px 8px;
 `;
 
-const NoData = ({ match, message, icon, createPath, createLabel, showCreate, showSecondaryCreate, secondaryCreateLabel, secondaryCreatePath }) => (
+const NoData = ({ match, message, icon, createPath, createLabel, showSecondaryCreate, secondaryCreateLabel, secondaryCreatePath }) => (
   <NoDataContainer>
-    <IconWaterMark>
-      {icon}
-    </IconWaterMark>
+    {icon && (
+      <IconWaterMark>
+        {icon}
+      </IconWaterMark>
+    )}
     <Message light>
       {message}
     </Message>
-    {showCreate &&
+    {createPath && createLabel &&
     <NoDataWrapper>
       <Button
         raised
@@ -73,9 +75,8 @@ NoData.propTypes = {
     PropTypes.string,
     PropTypes.node,
     PropTypes.func,
-  ]).isRequired,
+  ]),
   createPath: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  showCreate: PropTypes.bool,
   createLabel: PropTypes.string,
   showSecondaryCreate: PropTypes.bool,
   secondaryCreateLabel: PropTypes.string,
@@ -83,8 +84,8 @@ NoData.propTypes = {
 };
 
 NoData.defaultProps = {
+  icon: null,
   createPath: null,
-  showCreate: true,
   createLabel: 'Create One',
   showSecondaryCreate: false,
   secondaryCreateLabel: 'Create One',
