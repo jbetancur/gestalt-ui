@@ -2,7 +2,14 @@ import { createSelector } from 'reselect';
 import { get } from 'lodash';
 import { isRecentWithin } from 'util/helpers/dates';
 
-const selectItems = (state, path) => get(state, path);
+const selectItems = (state, selector) => {
+  if (typeof selector === 'function') {
+    return selector(state);
+  }
+
+  return get(state, selector);
+};
+
 const getVisibilityFilter = state => state.listfilter.filter;
 const selectSelf = state => state.hierarchy.self.self;
 
@@ -28,7 +35,9 @@ const getVisibleItems = createSelector(
 
 export const filterItems = (fields = ['name']) => createSelector(
   [getVisibleItems, getVisibilityFilter],
-  (items, visibilityFilter) => items.filter(i => fields.some(f => i[f].includes(visibilityFilter.filterText)))
+  (items = [], visibilityFilter) => items
+    .filter(i => fields.some(f => i[f]
+      .includes(visibilityFilter.filterText)))
 );
 
 export default {
