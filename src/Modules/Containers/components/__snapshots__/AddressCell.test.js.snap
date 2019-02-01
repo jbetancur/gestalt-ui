@@ -3,19 +3,37 @@
 exports[`Containers::Component AddressCell does not render when there is an invalid address shape 1`] = `null`;
 
 exports[`Containers::Component AddressCell renders with a valid address 1`] = `
-.c0 {
+.c1 {
   font-size: 13px;
   -webkit-text-decoration: none;
   text-decoration: none;
   color: #1e88e5;
 }
 
-<a
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+<div
   class="c0"
-  href="http://gazoropazorp:80"
-  rel="noopener noreferrer"
-  target="_blank"
 >
-  http://gazoropazorp:80
-</a>
+  <a
+    class="c1"
+    href="http://gazoropazorp:80"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    http://gazoropazorp:80
+  </a>
+</div>
 `;
