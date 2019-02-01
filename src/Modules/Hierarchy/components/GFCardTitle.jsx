@@ -1,59 +1,46 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
-import { truncate } from 'util/helpers/strings';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   word-break: break-all;
-  width: 80%;
+  width: 100%;
 `;
 
 const Title = styled.div`
   padding-top: 8px;
   padding-left: 24px;
-  padding-right: 16px;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  padding-right: 8px;
   word-break: break-word;
   font-size: 15px;
-  color: ${props => props.theme.colors['$md-grey-800']};
+  color: ${props => props.theme.colors.font};
 `;
 
 const Subtitle = styled.div`
-  padding-left: 8px;
   padding-left: 24px;
-  font-size: 12px;
+  padding-right: 8px;
+  font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  word-break: break-word;
-  color: ${props => props.theme.colors['$md-grey-500']};
+  color: ${props => props.theme.colors.fontCaption};
 `;
 
-const CardTitle = ({ title, subTitle, children }) => (
+const CardTitle = memo(({ title, subtitle }) => (
   <Wrapper>
-    {!children ?
-      <div>
-        <Title>{truncate(title, 50)}</Title>
-        <Subtitle>{subTitle}</Subtitle>
-      </div>
-      : children}
+    <Title>{title}</Title>
+    {!!subtitle && <Subtitle>{subtitle}</Subtitle>}
   </Wrapper>
-);
+));
 
 CardTitle.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
   title: PropTypes.string,
-  subTitle: PropTypes.string,
+  subtitle: PropTypes.string,
 };
 
 CardTitle.defaultProps = {
-  children: null,
   title: '',
-  subTitle: '',
+  subtitle: '',
 };
 
-export default withTheme(CardTitle);
+export default CardTitle;

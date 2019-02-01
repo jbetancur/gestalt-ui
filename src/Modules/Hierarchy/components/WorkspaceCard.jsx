@@ -7,7 +7,6 @@ import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, WorkspaceIcon, DeleteIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
 import Card from './GFCard';
-import CardTitle from './GFCardTitle';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
@@ -59,11 +58,13 @@ class WorkspaceCard extends PureComponent {
       <Card
         id={`${model.name}--workspace`}
         key={model.id}
+        title={title}
+        subtitle={model.owner.name}
+        created={model.created.timestamp}
         onClick={this.navWorkspaceDetails}
         raise
         cardIcon={<WorkspaceIcon size={14} />}
         cardColor={theme.colors.workspace}
-        created={model.created.timestamp}
         menuActions={[
           {
             id: 'workspace-card--edit',
@@ -87,12 +88,7 @@ class WorkspaceCard extends PureComponent {
             onClick: this.delete,
           }
         ]}
-      >
-        <CardTitle
-          title={title}
-          subTitle={model.owner.name}
-        />
-      </Card>
+      />
     );
   }
 }

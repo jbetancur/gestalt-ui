@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
-import { convertFromMaps, mapTo2DArray } from 'util/helpers/transformations';
+import { mapTo2DArray } from 'util/helpers/transformations';
 import {
   INIT_CONTAINERCREATE_REQUEST,
   INIT_CONTAINERCREATE_FULFILLED,
@@ -14,6 +14,7 @@ import {
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import { setSelectedProvider } from '../actions';
+import containerModel from '../models/container';
 
 export function* createViewWorkflow() {
   try {
@@ -67,14 +68,13 @@ export function* editViewWorkflow(action) {
     ]);
 
     const envResponse = yield call(axios.get, `${environment.org.properties.fqon}/environments/${environment.id}/env`);
-    const payload = { ...container.data };
-    payload.properties.env = convertFromMaps(container.data.properties.env, envResponse.data);
+    const payload = containerModel.get(container.data, envResponse.data);
 
     yield put(setSelectedProvider(payload.properties.provider));
 
     yield put({
       type: INIT_CONTAINEREDIT_FULFILLED,
-      // TODO: refactor out this entity crap
+      // TODO: refactor out this entity jank
       // we need action to be passed for the polling function
       action: { ...action, fqon: environment.org.properties.fqon, entityKey: 'environments', entityId: environment.id },
       payload: {

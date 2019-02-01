@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Divider = styled.div`
   background-color: ${props => props.theme.colors.divider};
@@ -10,4 +10,4 @@ const Divider = styled.div`
   width: 100%;
 `;
 
-export default withTheme(Divider);
+export default Divider;

@@ -17,6 +17,7 @@ import containerSagas, {
 } from './containers';
 import * as types from '../actionTypes';
 import { setSelectedProvider } from '../actions';
+import containerModel from '../models/container';
 
 describe('Container Sagas', () => {
   const error = 'an error has occured';
@@ -84,7 +85,7 @@ describe('Container Sagas', () => {
 
   describe('fetchContainer Sequence', () => {
     describe('when there are NO env variables to merge', () => {
-      const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 };
+      const action = { fqon: 'iamfqon', environmentId: 2 };
       const saga = fetchContainer(action);
       let result;
 
@@ -96,7 +97,7 @@ describe('Container Sagas', () => {
       });
 
       it('should dispatch an action to set the selectedProvider', () => {
-        const promiseArray = [{ data: { id: 1, properties: { env: {}, provider: { id: '321' }, } } }, { data: { test: 'testvar' } }];
+        const promiseArray = [{ data: containerModel.schema.cast({ id: 1, properties: { env: {}, provider: { id: '321' }, } }) }, { data: { test: 'testvar' } }];
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
@@ -108,13 +109,13 @@ describe('Container Sagas', () => {
         result = saga.next();
 
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: { id: 1, properties: { env: [{ name: 'test', value: 'testvar', inherited: true }], provider: { id: '321' } } }, action })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get({ id: 1, properties: { env: [{ name: 'test', value: 'testvar', inherited: true }], provider: { id: '321' } } }), action })
         );
       });
     });
 
     describe('when there ARE env variables to merge from the parent', () => {
-      const action = { fqon: 'iamfqon', lambdaId: 1, environmentId: 2 };
+      const action = { fqon: 'iamfqon', environmentId: 2 };
       const saga = fetchContainer(action);
       let result;
 
@@ -127,9 +128,10 @@ describe('Container Sagas', () => {
 
       it('should dispatch an action to set the selectedProvider', () => {
         const promiseArray = [
-          { data: { id: 1, properties: { env: { test: 'morty' }, provider: { id: '321' } } } },
+          { data: containerModel.schema.cast({ id: 1, properties: { env: { test: 'morty' }, provider: { id: '321' } } }) },
           { data: { test: 'rick' } },
         ];
+
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
@@ -139,9 +141,9 @@ describe('Container Sagas', () => {
 
       it('should return a payload and dispatch a success status and override the parents env vars', () => {
         result = saga.next();
-        const payload = {
+        const payload = containerModel.get({
           id: 1, properties: { env: [{ name: 'test', value: 'morty', inherited: false }], provider: { id: '321' } }
-        };
+        });
         expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINER_FULFILLED, payload, action })
         );
@@ -150,7 +152,7 @@ describe('Container Sagas', () => {
   });
 
   describe('createContainer Sequence', () => {
-    const resource = { data: { id: 1, name: 'test', properties: { volumes: [] } } };
+    const resource = { data: containerModel.get({ id: 1, name: 'test' }) };
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewContainer' } };
     const saga = createContainer(action);
     let result;
@@ -165,7 +167,7 @@ describe('Container Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next(resource);
       expect(result.value).toEqual(
-        put({ type: types.CREATE_CONTAINER_FULFILLED, payload: resource.data })
+        put({ type: types.CREATE_CONTAINER_FULFILLED, payload: containerModel.get(resource.data) })
       );
     });
 
@@ -189,11 +191,11 @@ describe('Container Sagas', () => {
       const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = createContainer(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next({ data: { id: 1, properties: { volumes: [] } } });
+      sagaSuccess.next({ data: containerModel.get({ id: 1 }) });
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1, properties: { volumes: [] } });
+      expect(onSuccessAction.onSuccess).toBeCalledWith(containerModel.get({ id: 1}));
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -208,7 +210,7 @@ describe('Container Sagas', () => {
   });
 
   describe('updateContainer Sequence', () => {
-    const resource = { data: { id: 1, name: 'test', properties: { volumes: [] } } };
+    const resource = { data: containerModel.get({ id: 1, name: 'test' }) };
     const action = { fqon: 'iamfqon', containerId: '1', payload: [] };
     const saga = updateContainer(action);
     let result;
@@ -223,7 +225,7 @@ describe('Container Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next(resource);
       expect(result.value).toEqual(
-        put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: resource.data })
+        put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: containerModel.get(resource.data) })
       );
     });
 
@@ -251,7 +253,7 @@ describe('Container Sagas', () => {
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1, properties: { volumes: [] } });
+      expect(onSuccessAction.onSuccess).toBeCalledWith(containerModel.get({ id: 1, properties: { volumes: [] } }));
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -371,9 +373,9 @@ describe('Container Sagas', () => {
     });
 
     it('should return dispatch a success status', () => {
-      result = saga.next({ data: { id: 1 } });
+      result = saga.next({ data: containerModel.get({ id: 1 }) });
       expect(result.value).toEqual(
-        put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: { id: 1 } })
+        put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: containerModel.get({ id: 1 }) })
       );
 
       // Finish the iteration

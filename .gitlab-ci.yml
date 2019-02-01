@@ -7,11 +7,13 @@ stages:
 - review
 - deploy
 
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
-  untracked: false
   key: "$CI_PIPELINE_ID"
   paths:
-  #- .yarn-cache/
+  - node_modules/
+  - .yarn
 
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
@@ -21,7 +23,7 @@ variables:
 test:
   stage: test
   script:
-    - yarn cache dir
+    - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn test:coverage
   artifacts:
@@ -40,6 +42,7 @@ test:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn build
     - yarn generate-disclaimer
@@ -72,6 +75,7 @@ publish-docker-image:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn build
     - yarn generate-disclaimer
@@ -111,6 +115,7 @@ review:
   script:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
     - yarn build
     - yarn generate-disclaimer

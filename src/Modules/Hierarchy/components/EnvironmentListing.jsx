@@ -21,13 +21,9 @@ class EnvironmentListing extends Component {
     hierarchyContext: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sortKey: 'created.timestamp',
-      order: 'asc'
-    };
+  state = {
+    sortKey: 'created.timestamp',
+    order: 'asc'
   }
 
   setSortKey = (sortKey) => {
@@ -39,9 +35,9 @@ class EnvironmentListing extends Component {
   }
 
   render() {
-    const { match, hierarchyContext: { contextPending }, filteredEnvironments } = this.props;
+    const { match, hierarchyContext: { contextPending, context }, filteredEnvironments } = this.props;
 
-    if (!contextPending && !filteredEnvironments.length) {
+    if (!contextPending && !context.environments.length) {
       return (
         <Row center paddingTop="120px">
           <Col flex>
@@ -56,7 +52,8 @@ class EnvironmentListing extends Component {
       );
     }
 
-    const sortedEnvironments = orderBy(filteredEnvironments, this.state.sortKey, this.state.order);
+    const { sortKey, order } = this.state;
+    const sortedEnvironments = orderBy(filteredEnvironments, sortKey, order);
 
     return (
       <React.Fragment>
@@ -65,8 +62,8 @@ class EnvironmentListing extends Component {
           leftItems={
             <Sort
               disabled={!filteredEnvironments.length}
-              sortKey={this.state.sortKey}
-              order={this.state.order}
+              sortKey={sortKey}
+              order={order}
               setKey={this.setSortKey}
               setOrder={this.setSortOrder}
               isEnvironment

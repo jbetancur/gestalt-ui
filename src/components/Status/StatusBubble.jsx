@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { FontIcon } from 'react-md';
 import { media } from 'util/helpers/media';
 import statusMap from './statusMap';
@@ -64,4 +64,4 @@ ContainerStatus.defaultProps = {
   statusDetail: {},
 };
 
-export default withTheme(ContainerStatus);
+export default ContainerStatus;

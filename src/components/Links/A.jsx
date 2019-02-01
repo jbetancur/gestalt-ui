@@ -1,4 +1,4 @@
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const AStyle = styled.a`
   font-size: 13px;
@@ -14,4 +14,4 @@ const AStyle = styled.a`
   ${props => props.primary && `color: ${props.theme.colors['$md-blue-600']}`};
 `;
 
-export default withTheme(AStyle);
+export default AStyle;

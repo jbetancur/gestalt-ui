@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { DialogContainer, Checkbox, SelectionControlGroup, List, ListItem } from 'react-md';
 import { Button } from 'components/Buttons';
@@ -214,6 +214,5 @@ const actions = dispatch => ({
 });
 
 export default compose(
-  withTheme,
   connect(null, actions),
 )(ReparentModal);

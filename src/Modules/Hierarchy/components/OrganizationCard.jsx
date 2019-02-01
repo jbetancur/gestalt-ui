@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-// import { withOrganization } from 'Modules/MetaResource';
 import { withEntitlements } from 'Modules/Entitlements';
 import { FontIcon } from 'react-md';
 import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
 import Card from './GFCard';
-import CardTitle from './GFCardTitle';
+
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
@@ -65,11 +64,13 @@ class OrganizationCard extends PureComponent {
       <Card
         id={`${model.name}--organization`}
         key={model.id}
+        title={title}
+        subtitle={model.owner.name}
+        created={model.created.timestamp}
         onClick={this.navTo}
         raise
         cardIcon={<OrganizationIcon size={14} />}
         cardColor={theme.colors.organization}
-        created={model.created.timestamp}
         menuActions={[
           {
             id: 'organization-card--edit',
@@ -93,18 +94,12 @@ class OrganizationCard extends PureComponent {
             onClick: this.delete,
           }
         ]}
-      >
-        <CardTitle
-          title={title}
-          subTitle={model.owner.name}
-        />
-      </Card>
+      />
     );
   }
 }
 
 export default compose(
-  // withOrganization(),
   withContext(),
   withHierarchy,
   withEntitlements,

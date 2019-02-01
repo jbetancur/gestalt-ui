@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button } from 'react-md';
 import { media } from 'util/helpers/media';
@@ -41,4 +41,4 @@ AddButton.defaultProps = {
   label: null,
 };
 
-export default withTheme(AddButton);
+export default AddButton;

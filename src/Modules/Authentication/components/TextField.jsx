@@ -1,4 +1,4 @@
-import styled, { css, keyframes, withTheme } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { TextField } from 'components/ReduxFormFields';
 
 const autofill = keyframes`
@@ -56,4 +56,4 @@ const TextFieldStyle = styled(TextField)`
   }
 `;
 
-export default withTheme(TextFieldStyle);
+export default TextFieldStyle;

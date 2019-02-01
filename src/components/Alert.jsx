@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FontIcon } from 'react-md';
 import { Button } from 'components/Buttons';
 
@@ -119,4 +119,4 @@ class NotificationContent extends PureComponent {
   }
 }
 
-export default withTheme(NotificationContent);
+export default NotificationContent;

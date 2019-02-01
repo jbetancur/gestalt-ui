@@ -99,7 +99,6 @@ class UserListing extends PureComponent {
             onReparent={this.reparent}
             editURL={`${this.props.match.url}/${row.id}`}
             entityKey="users"
-            disableEntitlements
             {...this.props}
           />
         ),

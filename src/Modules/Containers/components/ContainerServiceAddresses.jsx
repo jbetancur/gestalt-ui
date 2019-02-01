@@ -7,7 +7,7 @@ import AddressCell from './AddressCell';
 
 const columns = [
   {
-    name: 'Exposure Type',
+    name: 'Type',
     selector: 'type',
     sortable: true,
   },
@@ -18,6 +18,7 @@ const columns = [
   },
   {
     name: 'Protocol',
+    grow: 0,
     selector: 'protocol',
     sortable: true,
   },
@@ -25,17 +26,20 @@ const columns = [
     name: 'Service Address',
     selector: 'service_address.host',
     sortable: true,
-    grow: 5,
+    grow: 2,
     wrap: true,
     ignoreRowClick: true,
-    cell: row => <AddressCell address={row.service_address} />
+    allowOverflow: true,
+    minWidth: '200px',
+    cell: row => <AddressCell copyClip address={row.service_address} />
   },
   {
     name: 'Load Balancer',
     selector: 'lb_address.host',
+    wrap: true,
     sortable: true,
-    grow: 2,
     ignoreRowClick: true,
+    allowOverflow: true,
     cell: row => <AddressCell address={row.lb_address} />
   },
   {
@@ -53,7 +57,7 @@ const ContainerServiceAddresses = ({ portMappings }) => (
     columns={columns}
     sortIcon={<FontIcon>arrow_downward</FontIcon>}
     defaultSortField="type"
-    noDataComponent={<Title light>There are no port mappings configured</Title>}
+    noDataComponent={<Title light>There are no service port mappings configured.</Title>}
     noHeader
     pagination
   />

@@ -93,7 +93,6 @@ class GroupListing extends PureComponent {
             onDelete={this.deleteOne}
             editURL={`${this.props.match.url}/${row.id}`}
             entityKey="groups"
-            disableEntitlements
             {...this.props}
           />
         ),

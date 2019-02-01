@@ -9,9 +9,9 @@ export function removeItem(array, payload) {
   return newArray;
 }
 
-export function removeItemById(array, id) {
+export function removeItemById(array, id, keyField = 'id') {
   const newArray = array.slice();
-  newArray.splice(newArray.findIndex(a => a.id === id), 1);
+  newArray.splice(newArray.findIndex(a => a[keyField] === id), 1);
 
   return newArray;
 }

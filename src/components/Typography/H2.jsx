@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const H2Style = styled.h2`
   font-size: 18px;
@@ -7,4 +7,4 @@ const H2Style = styled.h2`
   color: ${props => props.theme.colors['$md-grey-900']};
 `;
 
-export default withTheme(H2Style);
+export default H2Style;

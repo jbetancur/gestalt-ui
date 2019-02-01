@@ -152,7 +152,7 @@ class GroupEdit extends Component {
               )}
             />
 
-            <Row gutter={5}>
+            <Row gutter={5} paddingBottom="52px">
               <Col flex={12}>
                 <Panel title="Group Members" expandable={false} noPadding>
                   <Row paddingLeft="16px" paddingRight="16px">

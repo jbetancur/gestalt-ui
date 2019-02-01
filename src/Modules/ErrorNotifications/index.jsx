@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Snackbar } from 'react-md';
 import { isEqual } from 'lodash';
 
@@ -107,6 +107,5 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withTheme,
   connect(mapStateToProps),
 )(ErrorNotifications);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { Button } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
@@ -160,4 +160,4 @@ NotFound.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-export default withSelf(withTheme(NotFound));
+export default withSelf(NotFound);
