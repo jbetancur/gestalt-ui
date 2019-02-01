@@ -71,7 +71,7 @@ const EnvironmentType = styled.div`
   &,
   i {
     font-size: 12px !important;
-    color: ${props => props.theme.colors.font};
+    color: ${props => props.theme.colors.fontTitle};
   }
 
   i {
@@ -96,10 +96,15 @@ const Created = styled.div`
   }
 `;
 
-const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor, cardIcon, menuActions, onClick, noShadow }) => (
-  <CardStyle raise noShadow={noShadow}>
+const GFCard = memo(({ id, title, subtitle, environmentType, created, cardColor, cardIcon, menuActions, onClick }) => (
+  <CardStyle raise>
     <Content onClick={onClick}>
-      <Type cardIcon={cardIcon} cardColor={cardColor}>{cardIcon}</Type>
+      <Type
+        cardIcon={cardIcon}
+        cardColor={cardColor}
+      >
+        {cardIcon}
+      </Type>
       <CardTitle
         title={title}
         subtitle={subtitle}
@@ -154,16 +159,14 @@ GFCard.propTypes = {
   cardColor: PropTypes.string,
   menuActions: PropTypes.array,
   onClick: PropTypes.func,
-  noShadow: PropTypes.bool,
 };
 
 GFCard.defaultProps = {
-  subtitle: null,
+  subtitle: '',
   cardIcon: '',
   cardColor: '#b0bec5',
   menuActions: [],
   onClick: () => { },
-  noShadow: false,
   environmentType: null,
 };
 
