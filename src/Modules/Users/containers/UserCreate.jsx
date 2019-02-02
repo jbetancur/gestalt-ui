@@ -20,6 +20,7 @@ const initialValues = userModel.create();
 
 class UserCreate extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     userPending: PropTypes.bool.isRequired,
     userActions: PropTypes.object.isRequired,
@@ -34,9 +35,10 @@ class UserCreate extends Component {
   }
 
   create = (values) => {
-    const { match, userActions } = this.props;
+    const { history, match, userActions } = this.props;
+    const onSuccess = response => history.replace(`/${match.params.fqon}/users/${response.id}`);
 
-    userActions.createUser({ fqon: match.params.fqon, payload: values });
+    userActions.createUser({ fqon: match.params.fqon, payload: values, onSuccess });
   }
 
   render() {
