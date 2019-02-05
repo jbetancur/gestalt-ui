@@ -1,5 +1,5 @@
 //
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { TextField, FontIcon } from 'react-md';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -9,7 +9,7 @@ const ToolTipIcon = styled(FontIcon)`
 `;
 
 /* eslint-disable react/prop-types */
-const InputField = ({ input, meta: { touched, error }, toolTip, ...rest }) => {
+const InputField = memo(({ input, meta: { touched, error }, toolTip, ...rest }) => {
   const baseProps = {
     ...input,
     ...rest,
@@ -20,8 +20,7 @@ const InputField = ({ input, meta: { touched, error }, toolTip, ...rest }) => {
 
   if (toolTip) {
     Object.assign(baseProps, {
-      rightIconStateful: false,
-      rightIcon: (
+      inlineIndicator: (
         <Tooltip title={toolTip}>
           <ToolTipIcon>info_outline</ToolTipIcon>
         </Tooltip>
@@ -32,7 +31,7 @@ const InputField = ({ input, meta: { touched, error }, toolTip, ...rest }) => {
   return (
     <TextField {...baseProps} />
   );
-};
+});
 
 InputField.defaultProps = {
   lineDirection: 'center',
