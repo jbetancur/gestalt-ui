@@ -45,24 +45,6 @@ const common = merge([
       publicPath: '',
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        title: pkg.title,
-        favicon: `${PATHS.srcPath}/assets/icons/favicon.ico`,
-        template: `${PATHS.srcPath}/index.html`,
-        inject: 'body',
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: true,
-          minifyCSS: true,
-          minifyURLs: true,
-        },
-      }),
       new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/, // exclude node_modules
         failOnError: false, // show a warning when there is a circular dependency
@@ -112,6 +94,24 @@ module.exports = (env) => {
             filename: 'theme-[hash:6].css',
             allChunks: true,
             disable: false,
+          }),
+          new HtmlWebpackPlugin({
+            title: pkg.title,
+            favicon: `${PATHS.srcPath}/assets/icons/favicon.ico`,
+            template: `${PATHS.srcPath}/index.html`,
+            inject: 'body',
+            minify: {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              useShortDoctype: true,
+              removeEmptyAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              keepClosingSlash: true,
+              minifyJS: true,
+              minifyCSS: true,
+              minifyURLs: true,
+            },
           }),
           new CompressionPlugin({
             filename: '[path].gz[query]',
@@ -171,6 +171,13 @@ module.exports = (env) => {
           filename: 'theme-[hash:6].css',
           allChunks: true,
           disable: false,
+        }),
+        new HtmlWebpackPlugin({
+          title: pkg.title,
+          favicon: `${PATHS.srcPath}/assets/icons/favicon.ico`,
+          template: `${PATHS.srcPath}/index.html`,
+          inject: 'body',
+          minify: false,
         }),
         parts.generateConstants('development'),
       ],
