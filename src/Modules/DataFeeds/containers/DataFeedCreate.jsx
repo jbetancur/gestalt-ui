@@ -72,7 +72,7 @@ class DataFeedCreate extends Component {
             render={({ handleSubmit, submitting, ...rest }) => (
               <Form
                 onSubmit={handleSubmit}
-                autoComplete="off"
+                // autoComplete="off"
                 disabled={datafeedPending}
                 disabledSubmit={datafeedPending || submitting}
                 submitTitle="Create"

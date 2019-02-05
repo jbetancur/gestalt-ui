@@ -20,8 +20,8 @@ const InputField = ({ input, meta: { touched, error }, toolTip, ...rest }) => {
 
   if (toolTip) {
     Object.assign(baseProps, {
-      leftIconStateful: false,
-      leftIcon: (
+      rightIconStateful: false,
+      rightIcon: (
         <Tooltip title={toolTip}>
           <ToolTipIcon>info_outline</ToolTipIcon>
         </Tooltip>

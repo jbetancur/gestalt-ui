@@ -17,6 +17,7 @@ const DataFeedSection = () => (
               name="name"
               label="Data Feed Name"
               required
+              autoFocus
             />
           </Col>
         </Row>

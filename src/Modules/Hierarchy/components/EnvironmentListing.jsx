@@ -117,6 +117,7 @@ class EnvironmentListing extends Component {
           {showNoResults && (
             <NoData
               message="No Environments found in your search"
+              showCreate={false}
             />
           )}
 

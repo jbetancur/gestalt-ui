@@ -68,6 +68,7 @@ const SecretsPanelForm = memo(({ type, fieldName, provider, secretsDropdown, for
     return (
       <NoData
         message="There are no available secrets or you do not have the entitlements to view them"
+        showCreate={false}
       />
     );
   }
