@@ -8,7 +8,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateEnvironmentPatches } from '../payloadTransformer';
-import { getEditEnvironmentModel } from '../selectors';
+import { getEditEnvironmentModel } from '../reducers/selectors';
 import withContext from '../hocs/withContext';
 
 class EnvironmentEdit extends Component {

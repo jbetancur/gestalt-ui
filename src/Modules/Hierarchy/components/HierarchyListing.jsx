@@ -15,7 +15,7 @@ import OrganizationCard from './OrganizationCard';
 import WorkspaceCard from './WorkspaceCard';
 import ListingHeader from './ListingHeader';
 import withContext from '../hocs/withContext';
-import { getHierarchies, getFavoriteHierarchies } from '../selectors';
+import { getHierarchies, getFavoriteHierarchies } from '../reducers/selectors';
 
 const cardTypes = {
   'Gestalt::Resource::Organization': 'organization',

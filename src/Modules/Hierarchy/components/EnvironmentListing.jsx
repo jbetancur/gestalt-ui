@@ -15,7 +15,7 @@ import Sort from './Sort';
 import ListingHeader from './ListingHeader';
 import EnvironmentCard from './EnvironmentCard';
 import withContext from '../hocs/withContext';
-import { getEnvironments, getFavoriteEnvironments } from '../selectors';
+import { getEnvironments, getFavoriteEnvironments } from '../reducers/selectors';
 
 class EnvironmentListing extends Component {
   static propTypes = {

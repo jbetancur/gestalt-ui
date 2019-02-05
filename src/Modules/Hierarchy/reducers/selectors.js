@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 import { sortBy } from 'lodash';
 import { mapTo2DArray } from 'util/helpers/transformations';
-import workspaceModel from './models/workspace';
-import environmentModel from './models/environment';
+import workspaceModel from '../models/workspace';
+import environmentModel from '../models/environment';
 
 export const selectOrganization = state => state.hierarchy.organization.organization;
 export const selectOrganizations = state => state.hierarchy.organizations.organizations;
