@@ -14,11 +14,11 @@ import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
-import PayloadViewer from '../components/PayloadViewer';
-import PolicyEventRuleForm from '../components/PolicyEventRuleForm';
+import PayloadViewer from './PayloadViewer';
+import PolicyEventRuleForm from './PolicyEventRuleForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
-import { getEditEventRuleModel } from '../selectors';
+import { getEditEventRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
 
 class PolicyEventRuleEdit extends Component {

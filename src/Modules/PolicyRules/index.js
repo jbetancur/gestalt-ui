@@ -1,7 +1,7 @@
-export { default as PolicyRules } from './containers/PolicyRuleListingContainer';
-export { default as PolicyLimitRuleCreate } from './containers/PolicyLimitRuleCreateContainer';
-export { default as PolicyLimitRuleEdit } from './containers/PolicyLimitRuleEditContainer';
-export { default as PolicyEventRuleCreate } from './containers/PolicyEventRuleCreateContainer';
-export { default as PolicyEventRuleEdit } from './containers/PolicyEventRuleEditContainer';
+export { default as PolicyRules } from './components/PolicyRuleListingContainer';
+export { default as PolicyLimitRuleCreate } from './components/PolicyLimitRuleCreateContainer';
+export { default as PolicyLimitRuleEdit } from './components/PolicyLimitRuleEditContainer';
+export { default as PolicyEventRuleCreate } from './components/PolicyEventRuleCreateContainer';
+export { default as PolicyEventRuleEdit } from './components/PolicyEventRuleEditContainer';
 export { default as payloadTransformer } from './payloadTransformer';
 export { default as policyRuleSagas } from './sagas';

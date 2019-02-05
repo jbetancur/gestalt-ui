@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import policyRuleModel from './models/policyRule';
+import policyRuleModel from '../models/policyRule';
 
 export const selectRule = state => state.policyRules.policyRule.policyRule;
 

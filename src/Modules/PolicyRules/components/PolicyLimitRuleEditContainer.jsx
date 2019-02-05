@@ -13,11 +13,11 @@ import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
-import PayloadViewer from '../components/PayloadViewer';
-import PolicyLimitRuleForm from '../components/PolicyLimitRuleForm';
+import PayloadViewer from './PayloadViewer';
+import PolicyLimitRuleForm from './PolicyLimitRuleForm';
 import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
-import { getEditLimitRuleModel } from '../selectors';
+import { getEditLimitRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
 
 class PolicyEventRuleEdit extends Component {
