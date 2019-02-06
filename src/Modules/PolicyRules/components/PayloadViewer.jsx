@@ -6,8 +6,8 @@ import eventRuleModel from '../models/eventRule';
 
 const PayloadViewer = memo(({ value, name }) => {
   const policyValue = value.resource_type === 'Gestalt::Resource::Rule::Limit'
-    ? limitRuleModel.initForm(value)
-    : eventRuleModel.initForm(value);
+    ? limitRuleModel.formatPayload(value)
+    : eventRuleModel.formatPayload(value);
 
   return (
     <CodeBlock

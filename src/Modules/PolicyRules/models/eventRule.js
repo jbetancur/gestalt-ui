@@ -91,10 +91,27 @@ const initForm = (model = {}) => pick(get(model), [
   'properties.match_actions',
 ]);
 
+// format for the payload Viewer
+const formatPayload = (model = {}) => {
+  const pickList = [
+    'id',
+    'name',
+    'description',
+    'resource_type',
+    'properties.eval_logic',
+    'properties.match_actions',
+    'properties.strict',
+  ];
+
+  return pick(get(model), pickList);
+};
+
+
 export default {
   schema,
   get,
   create,
   patch,
   initForm,
+  formatPayload,
 };
