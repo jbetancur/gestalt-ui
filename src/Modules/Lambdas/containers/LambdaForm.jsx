@@ -22,6 +22,7 @@ class LambdaForm extends PureComponent {
     errors: PropTypes.object.isRequired,
     values: PropTypes.object.isRequired,
     editMode: PropTypes.bool,
+    lambda: PropTypes.object,
     providers: PropTypes.array.isRequired,
     executors: PropTypes.array.isRequired,
     secrets: PropTypes.array.isRequired,
@@ -31,6 +32,7 @@ class LambdaForm extends PureComponent {
 
   static defaultProps = {
     editMode: false,
+    lambda: {},
     onSaveInlineCode: null,
   };
 
@@ -80,7 +82,7 @@ class LambdaForm extends PureComponent {
   }
 
   render() {
-    const { form, errors, values, providers, secrets, editMode, onSaveInlineCode } = this.props;
+    const { form, errors, values, lambda, providers, secrets, editMode, onSaveInlineCode } = this.props;
     const safeErrors = {
       ...errors,
       properties: {
@@ -90,7 +92,7 @@ class LambdaForm extends PureComponent {
 
     // TODO: refactor to redux
     const selectedProvider = editMode
-      ? values.properties.provider
+      ? get(lambda, 'properties.provider')
       : providers.find(p => p.id === values.properties.provider.id) || providerModel.get();
 
     if (!(values.properties.provider.id && values.properties.runtime)) {
