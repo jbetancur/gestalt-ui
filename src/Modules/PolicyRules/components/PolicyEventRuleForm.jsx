@@ -81,7 +81,7 @@ const PolicyEventRuleForm = ({
 
       <Row gutter={5}>
         <Col flex={4} xs={12} sm={12}>
-          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} />} expandable={false} fill>
+          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} />} expandable={false}>
             <Row gutter={5}>
               <Col flex={12}>
                 <Autocomplete
