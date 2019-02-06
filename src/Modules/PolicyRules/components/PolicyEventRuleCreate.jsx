@@ -4,55 +4,60 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
+import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import PolicyLimitRuleForm from './PolicyLimitRuleForm';
+import PolicyEventRuleForm from './PolicyEventRuleForm';
 import actions from '../actions';
-import { generatePayload } from '../payloadTransformer';
-import { getCreateLimitRuleModel } from '../reducers/selectors';
+import eventRuleModel from '../models/eventRule';
+import { getCreateEventRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
 
-class PolicyLimitRuleCreate extends Component {
+class PolicyEventRuleCreate extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
     policyRuleActions: PropTypes.object.isRequired,
+    fetchlambdasData: PropTypes.func.isRequired,
+    lambdasData: PropTypes.array.isRequired,
+    lambdasLoading: PropTypes.bool.isRequired,
   };
 
   create = (values) => {
     const { match, history, policyRuleActions } = this.props;
-    const payload = generatePayload(values, false, 'limit');
+    const payload = eventRuleModel.create(values);
     const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`);
 
     policyRuleActions.createPolicyRule({ fqon: match.params.fqon, entityId: match.params.policyId, entityKey: 'policies', payload, onSuccess });
   }
 
   render() {
-    const { match, initialValues, policyRulePending } = this.props;
+    const { match, initialValues, policyRulePending, fetchlambdasData, lambdasData, lambdasLoading } = this.props;
 
     return (
       <Row gutter={5} center>
         <Col flex={10} xs={12} sm={12} md={12}>
-          <ActionsToolbar title="Create a Policy Limit Rule" />
+          <ActionsToolbar title="Create a Policy Event Rule" />
 
           {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
           <FinalForm
             onSubmit={this.create}
             initialValues={initialValues}
+            lambdas={lambdasData}
             render={({ handleSubmit, submitting, ...rest }) => (
               <Form
                 onSubmit={handleSubmit}
                 disabled={policyRulePending}
-                disabledSubmit={policyRulePending || submitting}
+                disabledSubmit={lambdasLoading || policyRulePending || submitting}
                 submitTitle="Create"
                 showCancel
                 cancelTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
               >
-                <PolicyLimitRuleForm {...rest} />
+                <PolicyEventRuleForm onClickLambdasDropDown={() => fetchlambdasData()} {...rest} />
               </Form>
             )}
             {...this.props}
@@ -64,10 +69,11 @@ class PolicyLimitRuleCreate extends Component {
 }
 
 const mapStateToProps = state => ({
-  initialValues: getCreateLimitRuleModel(state),
+  initialValues: getCreateEventRuleModel(state),
 });
 
 export default compose(
   withPolicyRule,
   connect(mapStateToProps, actions),
-)(PolicyLimitRuleCreate);
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
+)(PolicyEventRuleCreate);

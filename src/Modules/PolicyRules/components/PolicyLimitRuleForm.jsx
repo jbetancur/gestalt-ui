@@ -60,6 +60,7 @@ const PolicyLimitRuleForm = ({
                   label="Limit Rule Name"
                   validate={composeValidators(required('policy rule name is required'))}
                   required
+                  autoFocus
                 />
               </Col>
             </Row>

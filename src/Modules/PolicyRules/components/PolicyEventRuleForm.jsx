@@ -34,14 +34,11 @@ const validateUUID = (value) => {
 const PolicyEventRuleForm = ({
   form,
   values,
-  editMode,
   onClickLambdasDropDown,
   lambdas,
 }) => {
   const handleAutoComplete = (value) => {
-    const field = editMode ? 'properties.lambda.id' : 'properties.lambda';
-
-    form.change(field, value);
+    form.change('properties.lambda.id', value);
   };
 
   const handleItemsSelected = (items) => {
@@ -62,6 +59,7 @@ const PolicyEventRuleForm = ({
                   label="Event Rule Name"
                   validate={composeValidators(required('policy rule name is required'))}
                   required
+                  autoFocus
                 />
               </Col>
             </Row>
@@ -105,7 +103,7 @@ const PolicyEventRuleForm = ({
 
                 <Field
                   component={TextField}
-                  name={editMode ? 'properties.lambda.id' : 'properties.lambda'}
+                  name="properties.lambda.id"
                   label="Lambda UUID"
                   validate={
                     composeValidators(
@@ -137,13 +135,8 @@ const PolicyEventRuleForm = ({
 PolicyEventRuleForm.propTypes = {
   form: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
-  editMode: PropTypes.bool,
   onClickLambdasDropDown: PropTypes.func.isRequired,
   lambdas: PropTypes.array.isRequired,
-};
-
-PolicyEventRuleForm.defaultProps = {
-  editMode: false,
 };
 
 export default PolicyEventRuleForm;

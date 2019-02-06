@@ -54,7 +54,6 @@ class PolicyRuleListing extends PureComponent {
     }, `Are you sure you want to delete ${row.name}?`);
   }
 
-
   deleteMultiple = () => {
     const { match, policyRulesActions } = this.props;
     const { selectedRows } = this.state;
@@ -87,6 +86,8 @@ class PolicyRuleListing extends PureComponent {
   }
 
   defineColumns() {
+    const { match } = this.props;
+
     return [
       {
         width: '56px',
@@ -96,9 +97,9 @@ class PolicyRuleListing extends PureComponent {
         cell: row => (
           <GenericMenuActions
             row={row}
-            fqon={this.props.match.params.fqon}
+            fqon={match.params.fqon}
             onDelete={this.deleteOne}
-            editURL={getBaseURL(this.props.match.params, row)}
+            editURL={getBaseURL(match.params, row)}
             entityKey="rules"
             {...this.props}
           />
@@ -142,30 +143,35 @@ class PolicyRuleListing extends PureComponent {
   }
 
   render() {
+    const { policyRules, policyRulesPending } = this.props;
+    const { clearSelected } = this.state;
+
     return (
       <Row>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Policy Rules"
-            data={this.props.policyRules}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.policyRulesPending}
-            progressComponent={<LinearProgress id="policy-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<Title light>There are no rules to display</Title>}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.policyRulesPending} />}
-            pagination
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Policy Rules"
+              data={policyRules}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={policyRulesPending}
+              progressComponent={<LinearProgress id="policy-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={clearSelected}
+              noDataComponent={<Title light>There are no rules to display</Title>}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={policyRulesPending} />}
+              pagination
+            />
+          </Card>
         </Col>
       </Row>
     );

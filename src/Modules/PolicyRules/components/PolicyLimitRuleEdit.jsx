@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
-import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
 import { withEntitlements } from 'Modules/Entitlements';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -15,10 +14,10 @@ import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import PayloadViewer from './PayloadViewer';
-import PolicyEventRuleForm from './PolicyEventRuleForm';
+import PolicyLimitRuleForm from './PolicyLimitRuleForm';
 import actions from '../actions';
-import { generatePatches } from '../payloadTransformer';
-import { getEditEventRuleModel } from '../reducers/selectors';
+import limitRuleModel from '../models/limitRule';
+import { getEditLimitRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
 
 class PolicyEventRuleEdit extends Component {
@@ -29,9 +28,6 @@ class PolicyEventRuleEdit extends Component {
     policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
     entitlementActions: PropTypes.object.isRequired,
-    fetchlambdasData: PropTypes.func.isRequired,
-    lambdasData: PropTypes.array.isRequired,
-    lambdasLoading: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -42,11 +38,9 @@ class PolicyEventRuleEdit extends Component {
 
   update = (values) => {
     const { match, policyRule, policyRuleActions } = this.props;
-    const payload = generatePatches(policyRule, values, 'event');
+    const payload = limitRuleModel.patch(policyRule, values);
 
-    if (payload.length) {
-      policyRuleActions.updatePolicyRule({ fqon: match.params.fqon, id: policyRule.id, payload });
-    }
+    policyRuleActions.updatePolicyRule({ fqon: match.params.fqon, id: policyRule.id, payload });
   }
 
   render() {
@@ -56,8 +50,6 @@ class PolicyEventRuleEdit extends Component {
       policyRule,
       policyRulePending,
       entitlementActions,
-      fetchlambdasData,
-      lambdasData,
     } = this.props;
 
     if (policyRulePending && !policyRule.id) {
@@ -77,7 +69,7 @@ class PolicyEventRuleEdit extends Component {
                 key="eventRule--entitlements"
                 flat
                 iconChildren="security"
-                onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Event Rule')}
+                onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
               >
                 Entitlements
               </Button>
@@ -87,7 +79,7 @@ class PolicyEventRuleEdit extends Component {
           {policyRulePending && <ActivityContainer id="policyRule-form" />}
 
           <Tabs>
-            <Tab title="Event Rule">
+            <Tab title="Limit Rule">
               <Row gutter={5}>
                 <Col flex={12}>
                   <Panel title="Resource Details" defaultExpanded={false}>
@@ -100,19 +92,19 @@ class PolicyEventRuleEdit extends Component {
                 editMode
                 onSubmit={this.update}
                 initialValues={initialValues}
-                lambdas={lambdasData}
                 render={({ handleSubmit, submitting, ...rest }) => (
                   <Form
                     onSubmit={handleSubmit}
                     disabled={policyRulePending}
-                    disabledSubmit={submitting}
+                    disabledSubmit={policyRulePending || submitting}
                     submitTitle="Update"
                   >
-                    <PolicyEventRuleForm onClickLambdasDropDown={() => fetchlambdasData()} {...rest} />
+                    <PolicyLimitRuleForm {...rest} />
                   </Form>
                 )}
                 {...this.props}
               />
+
             </Tab>
 
             <Tab title="YAML/JSON">
@@ -135,12 +127,11 @@ class PolicyEventRuleEdit extends Component {
 }
 
 const mapStateToProps = state => ({
-  initialValues: getEditEventRuleModel(state),
+  initialValues: getEditLimitRuleModel(state),
 });
 
 export default compose(
   withPolicyRule,
   withEntitlements,
   connect(mapStateToProps, actions),
-  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
 )(PolicyEventRuleEdit);

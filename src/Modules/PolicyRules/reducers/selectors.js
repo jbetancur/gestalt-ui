@@ -1,40 +1,30 @@
 import { createSelector } from 'reselect';
-import policyRuleModel from '../models/policyRule';
+import eventRuleModel from '../models/eventRule';
+import limitRuleModel from '../models/limitRule';
 
 export const selectRule = state => state.policyRules.policyRule.policyRule;
 
+// TODO: Remove model lambda is consistently an object
 export const getCreateEventRuleModel = createSelector(
   [],
   () => {
     const model = { properties: { lambda: '' } };
 
-    return policyRuleModel.get(model);
+    return eventRuleModel.initForm(model);
   }
 );
 
 export const getEditEventRuleModel = createSelector(
   [selectRule],
-  (rule) => {
-    const model = { ...rule };
-
-    return policyRuleModel.create(model);
-  }
+  rule => eventRuleModel.initForm(rule),
 );
 
 export const getCreateLimitRuleModel = createSelector(
   [],
-  () => {
-    const model = { properties: { strict: false, eval_logic: {}, } };
-
-    return policyRuleModel.get(model);
-  }
+  () => limitRuleModel.initForm(),
 );
 
 export const getEditLimitRuleModel = createSelector(
   [selectRule],
-  (rule) => {
-    const model = { ...rule };
-
-    return policyRuleModel.create(model);
-  }
+  rule => limitRuleModel.initForm(rule),
 );

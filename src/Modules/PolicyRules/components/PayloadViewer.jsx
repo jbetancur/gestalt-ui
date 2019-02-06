@@ -1,16 +1,23 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import CodeBlock from 'components/CodeBlock';
-import policyRuleModel from '../models/policyRule';
+import limitRuleModel from '../models/limitRule';
+import eventRuleModel from '../models/eventRule';
 
-const PayloadViewer = memo(({ value, name }) => (
-  <CodeBlock
-    mode="json"
-    value={policyRuleModel.create(value)}
-    enableDownload
-    fileName={name}
-  />
-));
+const PayloadViewer = memo(({ value, name }) => {
+  const policyValue = value.resource_type === 'Gestalt::Resource::Rule::Limit'
+    ? limitRuleModel.initForm(value)
+    : eventRuleModel.initForm(value);
+
+  return (
+    <CodeBlock
+      mode="json"
+      value={policyValue}
+      enableDownload
+      fileName={name}
+    />
+  );
+});
 
 PayloadViewer.propTypes = {
   value: PropTypes.any.isRequired,
