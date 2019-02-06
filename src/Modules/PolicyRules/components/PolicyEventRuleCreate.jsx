@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import Form from 'components/Form';
 import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
@@ -48,6 +49,7 @@ class PolicyEventRuleCreate extends Component {
             onSubmit={this.create}
             initialValues={initialValues}
             lambdas={lambdasData}
+            mutators={{ ...arrayMutators }}
             render={({ handleSubmit, submitting, ...rest }) => (
               <Form
                 onSubmit={handleSubmit}

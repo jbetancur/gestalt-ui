@@ -1,5 +1,5 @@
 import { object, array, string } from 'yup';
-import { pick } from 'lodash';
+import { pick, omit } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 
 function transformIn(model) {
@@ -73,7 +73,7 @@ const create = (model = {}) =>
  */
 const patch = (model = {}, updatedModel = {}) => (
   jsonPatch.compare(
-    create(model),
+    omit(create(model), ['properties.match_actions']),
     create(updatedModel),
   )
 );

@@ -9,7 +9,7 @@ import { TextField } from 'components/ReduxFormFields';
 import { composeValidators, validator, required } from 'util/forms';
 import { isUUID } from 'validator';
 import policyResourceTypes from '../lists/policyResourceTypes';
-import SelectionControlCheckboxes from './SelectionCheckboxes';
+import MatchActions from './MatchActions';
 
 const policyTriggers = []
   .concat(...Object.keys(policyResourceTypes)
@@ -33,16 +33,11 @@ const validateUUID = (value) => {
 
 const PolicyEventRuleForm = ({
   form,
-  values,
   onClickLambdasDropDown,
   lambdas,
 }) => {
   const handleAutoComplete = (value) => {
     form.change('properties.lambda.id', value);
-  };
-
-  const handleItemsSelected = (items) => {
-    form.change('properties.match_actions', items);
   };
 
   return (
@@ -86,7 +81,7 @@ const PolicyEventRuleForm = ({
 
       <Row gutter={5}>
         <Col flex={4} xs={12} sm={12}>
-          <Panel title="Lambda" icon={<LambdaIcon size={20} />} expandable={false} fill>
+          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} />} expandable={false} fill>
             <Row gutter={5}>
               <Col flex={12}>
                 <Autocomplete
@@ -107,7 +102,7 @@ const PolicyEventRuleForm = ({
                   label="Lambda UUID"
                   validate={
                     composeValidators(
-                      required('a valid  lambda uuid is required'),
+                      required('a valid lambda uuid is required'),
                       validator(validateUUID, 'must be a valid UUID')
                     )
                   }
@@ -118,12 +113,10 @@ const PolicyEventRuleForm = ({
         </Col>
 
         <Col flex={8} xs={12} sm={12}>
-          <Panel title="Trigger On" icon={<FontIcon>input</FontIcon>} expandable={false} fill>
-            <SelectionControlCheckboxes
-              name="properties.match_actions"
-              items={policyTriggers}
-              selectedItems={values.properties.match_actions}
-              onItemSelected={handleItemsSelected}
+          <Panel title="On Event(s)" icon={<FontIcon>input</FontIcon>} expandable={false} fill noPadding>
+            <MatchActions
+              fieldName="properties.match_actions"
+              actions={policyTriggers}
             />
           </Panel>
         </Col>
@@ -134,7 +127,6 @@ const PolicyEventRuleForm = ({
 
 PolicyEventRuleForm.propTypes = {
   form: PropTypes.object.isRequired,
-  values: PropTypes.object.isRequired,
   onClickLambdasDropDown: PropTypes.func.isRequired,
   lambdas: PropTypes.array.isRequired,
 };

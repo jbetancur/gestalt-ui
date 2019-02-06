@@ -1,5 +1,5 @@
 import { object, array, string, boolean } from 'yup';
-import { pick } from 'lodash';
+import { pick, omit } from 'lodash';
 import jsonPatch from 'fast-json-patch';
 
 function transformIn(model) {
@@ -27,11 +27,10 @@ const schema = object().shape({
     // parent: object().shape({
     //   id: string(),
     // }),
-    match_actions: array().default([]),
-    // .of(object().shape({
-    //   action: string().required(),
-    //   function_method: string().required(),
-    // }))
+    match_actions: array().of(object().shape({
+      action: string().required(),
+      function_method: string().required(),
+    })).default([]),
     eval_logic: object().shape({
       property: string().required(),
       operator: string().required(),
@@ -68,7 +67,7 @@ const create = (model = {}) =>
  */
 const patch = (model = {}, updatedModel = {}) => (
   jsonPatch.compare(
-    create(model),
+    omit(create(model), ['properties.match_actions']),
     create(updatedModel),
   )
 );

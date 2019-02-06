@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import { withEntitlements } from 'Modules/Entitlements';
@@ -92,6 +93,7 @@ class PolicyEventRuleEdit extends Component {
                 editMode
                 onSubmit={this.update}
                 initialValues={initialValues}
+                mutators={{ ...arrayMutators }}
                 render={({ handleSubmit, submitting, ...rest }) => (
                   <Form
                     onSubmit={handleSubmit}

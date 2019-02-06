@@ -6,6 +6,7 @@ export function confirmDelete(action, title, multipleItems) {
       title,
       multipleItems,
       onProceed: action,
+      forceOption: false,
     }
   };
 }
