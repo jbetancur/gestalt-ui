@@ -7,15 +7,15 @@ import {
 
 const TIMEOUT = 3000;
 
-export function* showFlashMessage() {
-  yield delay(TIMEOUT);
+export function* clearMessage(length) {
+  yield delay(TIMEOUT / length);
   yield put({ type: CLEAR_OLDEST_MESSAGE });
 }
 
 export function* onaddNotificationMessage() {
   const { queue } = yield select(state => state.notifications);
 
-  // empty whats in the queue first
+  // empty what's in the queue first
   if (queue.length > 0) {
     while (true) {
       const queueInner = yield select(state => state.notifications.queue);
@@ -23,11 +23,9 @@ export function* onaddNotificationMessage() {
         break;
       }
 
-      yield showFlashMessage();
+      yield clearMessage(queueInner.length);
     }
   }
-
-  yield showFlashMessage();
 }
 
 // Watchers
