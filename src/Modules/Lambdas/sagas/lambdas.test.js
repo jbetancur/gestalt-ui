@@ -93,7 +93,7 @@ describe('Lambda Sagas', () => {
   });
 
   describe('createLambda Sequence', () => {
-    const action = { fqon: 'iamfqon', environmentId: '1', payload: lambdaModel.get({ name: 'iamnewlambda' }) };
+    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
     const saga = createLambda(action);
     const responsePayload = lambdaModel.schema.cast({ id: 1, name: 'test' });
     const expectedPayload = lambdaModel.get({ id: 1, name: 'test' });
@@ -102,7 +102,7 @@ describe('Lambda Sagas', () => {
     it('should make an api call for the lambda by id', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.post, 'iamfqon/environments/1/lambdas?embed=provider', lambdaModel.create(action.payload))
+        call(axios.post, 'iamfqon/environments/1/lambdas?embed=provider', action.payload)
       );
     });
 

@@ -23,7 +23,7 @@ import PayloadViewer from '../components/PayloadViewer';
 import LambdaForm from './LambdaForm';
 import LambdaStats from '../components/LambdaStats';
 import validate from '../validations';
-import { generatePatches } from '../payloadTransformer';
+import lambdaModel from '../models/lambda';
 import { getEditLambdaModel } from '../reducers/selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
@@ -86,7 +86,7 @@ class LambdaEdit extends PureComponent {
 
   update = (values) => {
     const { lambda, match, lambdaActions } = this.props;
-    const payload = generatePatches(lambda, values);
+    const payload = lambdaModel.patch(lambda, values);
 
     lambdaActions.updateLambda({ fqon: match.params.fqon, lambdaId: lambda.id, payload });
   }
@@ -99,7 +99,7 @@ class LambdaEdit extends PureComponent {
 
   handleSaveInlineCode = (values) => {
     const { lambda, match, lambdaActions } = this.props;
-    const payload = generatePatches(lambda, values);
+    const payload = lambdaModel.patch(lambda, values);
 
     lambdaActions.updateLambda({ fqon: match.params.fqon, lambdaId: lambda.id, payload, noPending: true });
   }

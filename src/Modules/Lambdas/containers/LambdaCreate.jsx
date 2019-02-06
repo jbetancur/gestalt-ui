@@ -12,7 +12,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import LambdaForm from './LambdaForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generatePayload } from '../payloadTransformer';
+import lambdaModel from '../models/lambda';
 import { getCreateLambdaModel } from '../reducers/selectors';
 import withLambdaState from '../hocs/withLambdaState';
 import withLambda from '../hocs/withLambda';
@@ -47,7 +47,7 @@ class LambdaCreate extends PureComponent {
 
   create = (values) => {
     const { match, history, lambdaActions, executors } = this.props;
-    const payload = generatePayload(values);
+    const payload = lambdaModel.create(values);
 
     if (payload.properties.runtime && executors.length) {
       payload.properties.runtime = executors.find(exec => exec.id === payload.properties.runtime)
