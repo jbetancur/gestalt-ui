@@ -12,7 +12,7 @@ import { Checkbox, FontIcon } from 'react-md';
 import { LambdaIcon } from 'components/Icons';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
-import LambdaMenuActions from '../components/LambdaMenuActions';
+import LambdaMenuActions from './LambdaMenuActions';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import actions from '../actions';
 import withLambdas from '../hocs/withLambdas';
