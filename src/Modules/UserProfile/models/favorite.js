@@ -2,8 +2,16 @@ import { object, string } from 'yup';
 import { pick } from 'lodash';
 
 const schema = object().shape({
-  resource_id: string().required(),
-  nickname: string().default('').required(),
+  resource_id: string(),
+  resource_type_id: string(),
+  resource_name: string(),
+  resource_description: string(),
+  nickname: string().default(''),
+  context: object().shape({
+    fqon: string(),
+    workspace: string(),
+    environmnent: string(),
+  }).default({}),
 });
 
 /**
@@ -17,7 +25,7 @@ const get = (model = {}) => schema.cast(model);
  * @param {Object} model - override the model
  */
 const create = (model = {}) =>
-  pick(get(model), [
+  pick(schema.cast(model), [
     'resource_id',
     'nickname',
   ]);

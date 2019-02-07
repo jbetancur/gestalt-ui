@@ -1,29 +1,25 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { orderBy } from 'lodash';
 import memoize from 'memoize-one';
 import { Button } from 'components/Buttons';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
+import FavoriteItem from './FavoriteItem';
 import { AppConsumer } from '../../../App/AppContext';
 import withUserProfile from '../hocs/withUserProfile';
-import { ORGANIZATION, WORKSPACE, ENVIRONMENT } from '../../../constants';
-
-const iconMap = {
-  [ORGANIZATION]: <OrganizationIcon />,
-  [WORKSPACE]: <WorkspaceIcon />,
-  [ENVIRONMENT]: <EnvironmentIcon />,
-};
+import { generateRoutePathByTypeId } from '../util';
 
 const Subheader = styled.header`
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   height: 56px;
   padding: 6px;
+  background-color: ${props => props.theme.colors.background};
+  z-index: 1;
   border-bottom: 1px solid ${props => props.theme.colors.dividerVariant};
 
   button {
@@ -53,16 +49,23 @@ const NoItems = styled.div`
 
 class FavoriteItems extends PureComponent {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     favorites: PropTypes.array.isRequired,
     userProfileActions: PropTypes.object.isRequired,
   }
 
   sort = memoize(array => orderBy(array, ['nickname', 'resource_name']));
 
-  handleDeleteFavorite = (id) => {
+  handleDeleteFavorite = (favorite) => {
     const { userProfileActions } = this.props;
 
-    userProfileActions.deleteFavorite({ id });
+    userProfileActions.deleteFavorite({ id: favorite.resource_id });
+  }
+
+  handleNavigation = (favorite) => {
+    const { history } = this.props;
+
+    history.push(generateRoutePathByTypeId(favorite));
   }
 
   render() {
@@ -81,13 +84,13 @@ class FavoriteItems extends PureComponent {
             )}
             >
               {favoriteItems.map(favorite => (
-                <ListItem key={favorite.resource_id} button divider>
-                  <Avatar>
-                    {iconMap[favorite.resource_type_id]}
-                  </Avatar>
-                  <ListItemText primary={favorite.nickname || favorite.resource_name} secondary={favorite.resource_description} />
-                  <Button icon onClick={() => this.handleDeleteFavorite(favorite.resource_id)}><DeleteIcon /></Button>
-                </ListItem>
+                <FavoriteItem
+                  key={favorite.resource_id}
+                  favorite={favorite}
+                  onNavigate={this.handleNavigation}
+                  onDelete={this.handleDeleteFavorite}
+                  onClose={onCloseFavorites}
+                />
               ))}
             </List>
             {!favoriteItems.length > 0 && <NoItems>No Favorites have been saved</NoItems>}
@@ -98,4 +101,4 @@ class FavoriteItems extends PureComponent {
   }
 }
 
-export default withUserProfile(FavoriteItems);
+export default withUserProfile(withRouter(FavoriteItems));
