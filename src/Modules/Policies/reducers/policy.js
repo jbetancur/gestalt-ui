@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
     case FETCH_POLICY_FULFILLED:
       return {
         ...state,
-        policy: action.payload,
+        policy: policyModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
     case CREATE_POLICY_FULFILLED:
       return {
         ...state,
-        policy: action.payload,
+        policy: policyModel.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -67,7 +67,7 @@ export default (state = initialState, action) => {
     case UPDATE_POLICY_FULFILLED:
       return {
         ...state,
-        policy: action.payload,
+        policy: policyModel.get(action.payload),
         pending: false,
         completed: true,
       };
