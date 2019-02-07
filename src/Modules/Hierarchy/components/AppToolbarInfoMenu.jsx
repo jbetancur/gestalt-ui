@@ -13,7 +13,7 @@ const AppToolbarInfoMenu = memo(({ t, onShowLicenseModal }) => {
       id="main--info--menu--product"
       key="main--info--menu--product"
       primaryText={APP_TITLE}
-      secondaryText={`v${UI_VERSION}`}
+      secondaryText={`ui v${UI_VERSION}`}
       leftAvatar={<GalacticFogIcon size={40} fill="#222639" />}
       inkDisabled
     />,
