@@ -9,11 +9,11 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import StreamForm from './StreamForm';
-import streamSpecModel from '../models/streamSpec';
 import withStreamSpec from '../hocs/withStreamSpec';
+import streamSpecModel from '../models/streamSpec';
 
 // const focusOnErrors = createDecorator();
-const initialValues = streamSpecModel.create();
+const initialValues = streamSpecModel.initForm();
 
 class StreamCreate extends Component {
   static propTypes = {
@@ -37,8 +37,9 @@ class StreamCreate extends Component {
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs/${response.id}`);
     const entity = generateContextEntityState(match.params);
+    const payload = streamSpecModel.create(values);
 
-    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload: values, onSuccess });
+    streamSpecActions.createStreamSpec({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key, payload, onSuccess });
   };
 
   render() {

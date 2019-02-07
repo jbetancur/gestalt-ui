@@ -6,7 +6,7 @@ import streamModel from '../models/streamSpec';
 const PayloadViewer = memo(({ value, name }) => (
   <CodeBlock
     mode="json"
-    value={streamModel.create(value)}
+    value={streamModel.formatPayload(value)}
     enableDownload
     fileName={name}
   />
