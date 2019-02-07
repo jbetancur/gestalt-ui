@@ -9,7 +9,7 @@ import { ConditionalAny } from 'components/Form';
 import { fixInputNumber, composeValidators, required } from 'util/forms';
 import policyResourceTypes from '../lists/policyResourceTypes';
 import policyOperators from '../lists/policyOperators';
-import SelectionControlCheckboxes from './SelectionCheckboxes';
+import MatchActions from './MatchActions';
 
 // flatten limit arrays for policyResourceTypes
 const policyLimiters = [].concat(...Object.keys(policyResourceTypes).map(key => policyResourceTypes[key].limits));
@@ -35,10 +35,6 @@ const PolicyLimitRuleForm = ({
     ? policyLimiters.find(limiter => limiter.name === values.properties.eval_logic.property).inputType
     : 'text';
 
-  const handleItemsSelected = (items) => {
-    form.change('properties.match_actions', items);
-  };
-
   const handleEvalFields = (value) => {
     // since we need to deal with input types we should clear the form value fields
     form.change('properties.eval_logic.property', value);
@@ -60,6 +56,7 @@ const PolicyLimitRuleForm = ({
                   label="Limit Rule Name"
                   validate={composeValidators(required('policy rule name is required'))}
                   required
+                  autoFocus
                 />
               </Col>
             </Row>
@@ -86,7 +83,7 @@ const PolicyLimitRuleForm = ({
 
       <Row gutter={5}>
         <Col flex={4} xs={12} sm={12}>
-          <Panel title="Evaluation Logic" icon={<FontIcon>playlist_add_check</FontIcon>} expandable={false}>
+          <Panel title="Evaluate" icon={<FontIcon>playlist_add_check</FontIcon>} expandable={false}>
             <Row gutter={5}>
               <Col flex={12}>
                 <Field
@@ -142,7 +139,7 @@ const PolicyLimitRuleForm = ({
                   component={CheckboxForm}
                   name="properties.strict"
                   checked={values.properties.strict}
-                  label="Strict"
+                  label="Strict Property Checking"
                 />
               </Col>
             </Row>
@@ -150,12 +147,11 @@ const PolicyLimitRuleForm = ({
         </Col>
 
         <Col flex={8} xs={12} sm={12}>
-          <Panel title="Match On" icon={<FontIcon>done</FontIcon>} expandable={false} fill>
-            <SelectionControlCheckboxes
-              name="properties.match_actions"
-              items={policyActions}
-              selectedItems={values.properties.match_actions}
-              onItemSelected={handleItemsSelected}
+          <Panel title="On Event(s)" icon={<FontIcon>input</FontIcon>} expandable={false} fill noPadding>
+            <MatchActions
+              fieldName="properties.match_actions"
+              actions={policyActions}
+              disableBehavior
             />
           </Panel>
         </Col>

@@ -20,7 +20,6 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly when a custom width 
   z-index: 1000;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
-  border-left: 1px solid #eeeeee;
   white-space: nowrap;
   width: 100%;
   -webkit-transition: 225ms -webkit-transform;
@@ -69,7 +68,6 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly when direction is ri
   z-index: 1000;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
-  border-left: 1px solid #eeeeee;
   white-space: nowrap;
   width: 250px;
   -webkit-transition: 225ms -webkit-transform;
@@ -117,7 +115,6 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly when direction is ri
   z-index: 1000;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
-  border-left: 1px solid #eeeeee;
   white-space: nowrap;
   width: 250px;
   -webkit-transition: 225ms -webkit-transform;
@@ -166,7 +163,6 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly with basic props and
   z-index: 1000;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
-  border-left: 1px solid #eeeeee;
   white-space: nowrap;
   width: 250px;
   -webkit-transition: 225ms -webkit-transform;
@@ -214,7 +210,6 @@ exports[`NaviationDrawers::FloatingDrawer renders correctly with basic props whe
   z-index: 1000;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);
   background-color: #FAFAFA;
-  border-left: 1px solid #eeeeee;
   white-space: nowrap;
   width: 250px;
   -webkit-transition: 225ms -webkit-transform;

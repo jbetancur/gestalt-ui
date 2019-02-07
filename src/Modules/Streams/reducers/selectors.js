@@ -6,7 +6,7 @@ export const selectStreamSpec = state => state.streamSpecs.streamSpec.streamSpec
 
 export const getStreamSpec = createSelector(
   [selectStreamSpec],
-  streamSpec => streamSpecMode.create(streamSpec),
+  streamSpec => streamSpecMode.initForm(streamSpec),
 );
 
 export const getStreamInstances = createSelector(

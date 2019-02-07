@@ -9,9 +9,6 @@ import {
   UPDATE_STREAMSPEC_REQUEST,
   UPDATE_STREAMSPEC_FULFILLED,
   UPDATE_STREAMSPEC_REJECTED,
-  DELETE_STREAMSPEC_REQUEST,
-  DELETE_STREAMSPEC_FULFILLED,
-  DELETE_STREAMSPEC_REJECTED,
   UNLOAD_STREAMSPEC,
   POLL_STREAMSPEC_FULFILLED,
 } from '../actionTypes';
@@ -100,23 +97,6 @@ export default (state = initialState, action) => {
         error: action.payload,
       };
 
-    case DELETE_STREAMSPEC_REQUEST:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_STREAMSPEC_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-      };
-    case DELETE_STREAMSPEC_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
     case POLL_STREAMSPEC_FULFILLED:
       return {
         ...state,

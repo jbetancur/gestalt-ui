@@ -56,7 +56,7 @@ export function* fetchLambdas(action) {
  */
 export function* createLambda(action) {
   try {
-    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, lambdaModel.create(action.payload));
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, action.payload);
     const payload = lambdaModel.get(data);
 
     yield put({ type: CREATE_LAMBDA_FULFILLED, payload });

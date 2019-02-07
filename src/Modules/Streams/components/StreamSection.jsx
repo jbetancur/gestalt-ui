@@ -14,7 +14,7 @@ const StreamSection = ({ providers, editMode }) => (
           <Col flex={12}>
             <Field
               id="stream-provider"
-              name={`${editMode ? 'properties.provider.id' : 'properties.provider'}`}
+              name="properties.provider.id"
               label="Stream Provider"
               component={SelectField}
               menuItems={providers}

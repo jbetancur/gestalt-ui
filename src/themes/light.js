@@ -22,7 +22,7 @@ export default {
     // Fonts
     font: '#212121',
     fontVariant: '#FAFAFA',
-    fontTitle: '#616161',
+    fontTitle: '#424242',
     fontTitleVariant: '#FAFAFA',
     fontCaption: '#9e9e9e',
     fontCaptionVariant: '#FAFAFA',
@@ -45,5 +45,7 @@ export default {
     organization: '#b0bec5',
     workspace: '#42a5f5',
     environment: '#fdd835',
+
+    favorite: '#fdd835',
   }
 };

@@ -1,8 +1,9 @@
 import { object, array, boolean, string, number } from 'yup';
-import { pick, pull, get as loGet } from 'lodash';
+import { pick, pull, omit, get as loGet } from 'lodash';
 import base64 from 'base-64';
 import { isBase64 } from 'util/helpers/strings';
 import { arrayToMap, convertFromMaps } from 'util/helpers/transformations';
+import jsonPatch from 'fast-json-patch';
 
 const updateEnv = (model, newEnv) => ({
   ...model,
@@ -172,22 +173,89 @@ const create = (model = {}) => {
     pull(pickList, 'properties.periodic_info.timezone', 'properties.periodic_info.payload');
   }
 
-  return pick(transformOut(get(model)), pickList);
+  return pick(transformOut(schema.cast(model)), pickList);
 };
 
 
 /**
  * patch - only allow mutable props
  * @param {Object} model - override the model
+ * @param {Object} updatedModel - override the model
  */
-const patch = (model = {}) => create(model);
+const patch = (model = {}, updatedModel = {}) => (
+  // omit secrets is used to deal with json pointer for patch arrays
+  jsonPatch.compare(
+    omit(create(model), ['properties.secrets']),
+    create(updatedModel),
+  )
+);
 
 /**
  * getForm
  * Format the model specifically for Initializing Forms
  * @param {Object} model
  */
-const initForm = (model = {}) => transformIn(get(model));
+const initForm = (model = {}) => {
+  const pickList = [
+    'name',
+    'description',
+    'properties.env',
+    'properties.headers',
+    'properties.code',
+    'properties.code_type',
+    'properties.compressed',
+    'properties.isolate',
+    'properties.cpus',
+    'properties.memory',
+    'properties.timeout',
+    'properties.pre_warm',
+    'properties.handler',
+    'properties.package_url',
+    'properties.public',
+    'properties.runtime',
+    'properties.periodic_info.schedule',
+    'properties.periodic_info.timezone',
+    'properties.periodic_info.payload',
+    'properties.secrets',
+    'properties.provider.id',
+    'properties.provider.name',
+    'properties.provider.resource_type',
+  ];
+
+  return pick(get(model), pickList);
+};
+
+// format for the payload Viewer
+const formatPayload = (model = {}) => {
+  const pickList = [
+    'id',
+    'name',
+    'description',
+    'properties.env',
+    'properties.headers',
+    'properties.code',
+    'properties.code_type',
+    'properties.compressed',
+    'properties.isolate',
+    'properties.cpus',
+    'properties.memory',
+    'properties.timeout',
+    'properties.pre_warm',
+    'properties.handler',
+    'properties.package_url',
+    'properties.public',
+    'properties.runtime',
+    'properties.periodic_info.schedule',
+    'properties.periodic_info.timezone',
+    'properties.periodic_info.payload',
+    'properties.secrets',
+    'properties.provider.id',
+    'properties.provider.name',
+    'properties.provider.resource_type',
+  ];
+
+  return pick(get(model), pickList);
+};
 
 export default {
   schema,
@@ -195,4 +263,5 @@ export default {
   create,
   patch,
   initForm,
+  formatPayload,
 };

@@ -8,7 +8,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateOrganizationPatches } from '../payloadTransformer';
-import { getEditOrganizationModel } from '../selectors';
+import { getEditOrganizationModel } from '../reducers/selectors';
 import withContext from '../hocs/withContext';
 
 class OrgEdit extends Component {

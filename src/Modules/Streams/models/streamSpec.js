@@ -1,5 +1,22 @@
 import { object, array, string, number } from 'yup';
 import { pick } from 'lodash';
+import jsonPatch from 'fast-json-patch';
+
+function transformIn(model) {
+  return model;
+}
+
+function transformOut(model) {
+  const updatedModel = {
+    ...model,
+    properties: {
+      ...model.properties,
+      provider: model.properties.provider.id,
+    },
+  };
+
+  return updatedModel;
+}
 
 const schema = object().shape({
   id: string(),
@@ -58,17 +75,16 @@ const schema = object().shape({
  * get
  * @param {Object} model
  */
-const get = (model = {}) => schema.cast(model);
+const get = (model = {}) => transformIn(schema.cast(model));
 
 /**
  * create - only allow mutable props
  * @param {Object} model - override the model
  */
 const create = (model = {}) =>
-  pick(get(model), [
+  pick(transformOut(schema.cast(model)), [
     'name',
     'description',
-    'properties.lambda_provider',
     'properties.provider',
     'properties.cpus',
     'properties.mem',
@@ -79,15 +95,45 @@ const create = (model = {}) =>
 /**
  * patch - only allow mutable props
  * @param {Object} model - override the model
+ * @param {Object} updatedModel - override the model
  */
-const patch = (model = {}) => create(model);
+const patch = (model = {}, updatedModel = {}) => (
+  jsonPatch.compare(
+    create(model),
+    create(updatedModel),
+  )
+);
 
 /**
  * initForm
  * Format the model specifically for Initializing Forms
  * @param {Object} model
  */
-const initForm = (model = {}) => get(model);
+const initForm = (model = {}) => pick(get(model), [
+  'name',
+  'description',
+  'properties.provider',
+  'properties.cpus',
+  'properties.mem',
+  'properties.parallelization',
+  'properties.processor',
+]);
+
+// format for the payload Viewer
+const formatPayload = (model = {}) => {
+  const pickList = [
+    'id',
+    'name',
+    'description',
+    'properties.provider',
+    'properties.cpus',
+    'properties.mem',
+    'properties.parallelization',
+    'properties.processor',
+  ];
+
+  return pick(get(model), pickList);
+};
 
 export default {
   schema,
@@ -95,4 +141,5 @@ export default {
   create,
   patch,
   initForm,
+  formatPayload,
 };

@@ -8,7 +8,7 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import HierarchyForm from './HierarchyForm';
 import validate from '../validations';
 import { generateWorkspacePatches } from '../payloadTransformer';
-import { getEditWorkspaceModel } from '../selectors';
+import { getEditWorkspaceModel } from '../reducers/selectors';
 import withContext from '../hocs/withContext';
 
 class WorkspaceEdit extends Component {

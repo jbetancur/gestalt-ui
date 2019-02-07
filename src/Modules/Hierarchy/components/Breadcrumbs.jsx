@@ -14,7 +14,7 @@ import {
   getSortedContextOrganizations,
   getSortedContextWorkspaces,
   getSortedContextEnvironments,
-} from '../selectors';
+} from '../reducers/selectors';
 import withSelf from '../../../App/hocs/withSelf';
 
 const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`

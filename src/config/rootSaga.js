@@ -21,6 +21,7 @@ import { loggingSagas } from 'Modules/Logging';
 import { volumeSagas } from 'Modules/Volumes';
 import appDeploymentSagas from 'Modules/AppDeployments/sagas';
 import upgraderSagas from 'Modules/Upgrader/sagas';
+import userProfileSagas from 'Modules/UserProfile/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -46,5 +47,6 @@ export default function* rootSaga() {
     volumeSagas(),
     appDeploymentSagas(),
     upgraderSagas(),
+    userProfileSagas(),
   ]);
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
@@ -6,11 +6,12 @@ import { withTheme } from 'styled-components';
 import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, WorkspaceIcon, DeleteIcon } from 'components/Icons';
 import { FontIcon } from 'react-md';
+import { withUserProfile } from 'Modules/UserProfile';
 import Card from './GFCard';
 import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
-class WorkspaceCard extends PureComponent {
+class WorkspaceCard extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -20,6 +21,7 @@ class WorkspaceCard extends PureComponent {
     hierarchyContextActions: PropTypes.object.isRequired,
     hierarchyActions: PropTypes.object.isRequired,
     entitlementActions: PropTypes.object.isRequired,
+    userProfileActions: PropTypes.object.isRequired,
   };
 
   navWorkspaceDetails = () => {
@@ -50,6 +52,17 @@ class WorkspaceCard extends PureComponent {
     entitlementActions.showEntitlementsModal(name, match.params.fqon, model.id, 'workspaces', 'Workspace');
   }
 
+  handleFavoriteToggle = () => {
+    const { model, userProfileActions } = this.props;
+    const nickname = model.description || model.name;
+
+    if (model.$$favorite) {
+      userProfileActions.deleteFavorite({ id: model.id });
+    } else {
+      userProfileActions.createFavorite({ payload: { resource_id: model.id, nickname } });
+    }
+  }
+
   render() {
     const { t, model, theme } = this.props;
     const title = model.description || model.name;
@@ -61,6 +74,8 @@ class WorkspaceCard extends PureComponent {
         title={title}
         subtitle={model.owner.name}
         created={model.created.timestamp}
+        favorited={model.$$favorite}
+        onFavoriteToggled={this.handleFavoriteToggle}
         onClick={this.navWorkspaceDetails}
         raise
         cardIcon={<WorkspaceIcon size={14} />}
@@ -97,6 +112,7 @@ export default compose(
   withContext(),
   withHierarchy,
   withEntitlements,
+  withUserProfile,
   withTheme,
   translate(),
 )(WorkspaceCard);

@@ -20,8 +20,8 @@ import PayloadViewer from './PayloadViewer';
 import StreamForm from './StreamForm';
 import StreamInstances from './StreamInstances';
 import { getStreamSpec, getStreamInstances } from '../reducers/selectors';
-import { generatePatches } from '../payloadTransformer';
 import withStreamSpec from '../hocs/withStreamSpec';
+import streamSpecModel from '../models/streamSpec';
 
 const focusOnErrors = createDecorator();
 
@@ -56,7 +56,7 @@ class StreamSpecEdit extends Component {
     const { match, history, streamSpecActions, initialFormValues } = this.props;
     const onSuccess = response =>
       history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/streamspecs/${response.id}`);
-    const payload = generatePatches(initialFormValues, values);
+    const payload = streamSpecModel.patch(initialFormValues, values);
 
     streamSpecActions.updateStreamSpec({ fqon: match.params.fqon, id: match.params.streamId, payload, onSuccess });
   };

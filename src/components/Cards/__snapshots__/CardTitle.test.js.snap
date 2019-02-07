@@ -8,7 +8,7 @@ exports[`(Cards) CardTitle mounts with basic props 1`] = `
 
 .c1 {
   font-size: 20px;
-  color: #212121;
+  color: #424242;
   font-size: 22px;
 }
 
@@ -50,7 +50,7 @@ exports[`(Cards) CardTitle mounts with title and subTitle 1`] = `
 
 .c1 {
   font-size: 20px;
-  color: #212121;
+  color: #424242;
   font-size: 22px;
 }
 

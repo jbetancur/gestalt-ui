@@ -1,10 +1,10 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import CodeBlock from 'components/CodeBlock';
-import { generatePayload } from '../payloadTransformer';
+import lambdaModel from '../models/lambda';
 
 const PayloadViewer = memo(({ value, name }) => {
-  const codeViewer = generatePayload(value, true);
+  const codeViewer = lambdaModel.formatPayload(value);
 
   return (
     <CodeBlock

@@ -58,19 +58,13 @@ export default (state = initialState, action) => {
         pending: false,
         completed: true,
       };
-    case DELETE_STREAMSPECS_FULFILLED:
-      if (Array.isArray(action.payload)) {
-        return {
-          ...state,
-          streamSpecs: state.streamSpecs.filter(item => action.payload.find(i => i.id === item.id) !== item),
-          pending: false,
-          completed: true,
-        };
-      }
 
+    case DELETE_STREAMSPECS_FULFILLED:
       return {
         ...state,
+        streamSpecs: state.streamSpecs.filter(item => action.payload.find(i => i.id === item.id) !== item),
         pending: false,
+        completed: true,
       };
     case DELETE_STREAMSPEC_REJECTED:
       return {
@@ -84,6 +78,7 @@ export default (state = initialState, action) => {
         pending: false,
         error: action.payload,
       };
+
     case UNLOAD_STREAMSPECS:
       return initialState;
     default:
