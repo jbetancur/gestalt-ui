@@ -34,6 +34,12 @@ const StatusStyle = styled.div`
   display: inline-block;
 `;
 
+const SectionHeader = styled.div`
+  color: ${props => props.theme.colors.font};
+  font-size: 14px;
+  font-weight: 700;
+`;
+
 const DetailPane = ({ model, singleRow }) => {
   const owner = get(model, 'owner.name') || get(model, 'owner.id');
   const createdStamp = get(model, 'created.timestamp');
@@ -108,16 +114,16 @@ const DetailPane = ({ model, singleRow }) => {
         {hasProvider &&
           <Row gutter={5}>
             <Col flex={12}>
-              <Label>Provider Details</Label>
-              <Divider />
+              <SectionHeader>Provider Details</SectionHeader>
+              <Divider width="2px" />
             </Col>
             <Col flex={flex} xs={6}>
-              <Label>Name</Label>
+              <Label>Provider</Label>
               <H5>{model.properties.provider.name}</H5>
             </Col>
 
             <Col flex={flex} xs={6}>
-              <Label>Resouce Type</Label>
+              <Label>Type</Label>
               <H5>{model.properties.provider.resource_type}</H5>
             </Col>
 
