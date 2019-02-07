@@ -276,7 +276,7 @@ describe('Container Sagas', () => {
     it('should make an api call', () => {
       result = saga.next();
       expect(result.value).toEqual(
-        call(axios.delete, 'iamfqon/containers/1?force=true')
+        call(axios.delete, 'iamfqon/containers/1?force=false')
       );
     });
 
