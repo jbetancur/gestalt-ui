@@ -35,11 +35,10 @@ const schema = object().shape({
     //   id: string(),
     // }),
     defined_at: object(),
-    match_actions: array().default([]),
-    // .of(object().shape({
-    //   action: string().required(),
-    //   function_method: string().required(),
-    // }))
+    match_actions: array().of(object().shape({
+      action: string().required(),
+      function_method: string().required(),
+    })).default([]),
     // TODO: need to make the post for this consistent
     // lambda: object().shape({
     //   id: string(),

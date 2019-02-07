@@ -1,19 +1,19 @@
-import { removeItemById } from 'util/helpers/lists';
 import {
-  FETCH_POLICYRULES_REQUEST,
-  FETCH_POLICYRULES_FULFILLED,
-  FETCH_POLICYRULES_REJECTED,
-  DELETE_POLICYRULE_REQUEST,
-  DELETE_POLICYRULE_FULFILLED,
-  DELETE_POLICYRULE_REJECTED,
-  DELETE_POLICYRULES_REQUEST, // bulk delete
-  DELETE_POLICYRULES_FULFILLED,
-  DELETE_POLICYRULES_REJECTED,
-  UNLOAD_POLICYRULES,
+  FETCH_POLICY_REQUEST,
+  FETCH_POLICY_FULFILLED,
+  FETCH_POLICY_REJECTED,
+  CREATE_POLICY_REQUEST,
+  CREATE_POLICY_FULFILLED,
+  CREATE_POLICY_REJECTED,
+  UPDATE_POLICY_REQUEST,
+  UPDATE_POLICY_FULFILLED,
+  UPDATE_POLICY_REJECTED,
+  UNLOAD_POLICY,
 } from '../actionTypes';
+import policyModel from '../models/policy';
 
 const initialState = {
-  policyRules: [],
+  policy: policyModel.get(),
   pending: false,
   completed: false,
   error: null,
@@ -21,64 +21,64 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_POLICYRULES_REQUEST:
+    case FETCH_POLICY_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case FETCH_POLICYRULES_FULFILLED:
+    case FETCH_POLICY_FULFILLED:
       return {
         ...state,
-        policyRules: action.payload,
+        policy: action.payload,
         pending: false,
         completed: true,
       };
-    case FETCH_POLICYRULES_REJECTED:
+    case FETCH_POLICY_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
 
-    case DELETE_POLICYRULES_REQUEST:
+    case CREATE_POLICY_REQUEST:
       return {
         ...state,
         pending: true,
       };
-    case DELETE_POLICYRULES_FULFILLED:
+    case CREATE_POLICY_FULFILLED:
       return {
         ...state,
-        policyRules: state.policyRules.filter(item => action.payload.find(i => i.id === item.id) !== item),
+        policy: action.payload,
         pending: false,
         completed: true,
       };
-    case DELETE_POLICYRULES_REJECTED:
+    case CREATE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
 
-    case DELETE_POLICYRULE_REQUEST:
+    case UPDATE_POLICY_REQUEST:
       return {
         ...state,
         pending: true,
       };
-
-    case DELETE_POLICYRULE_FULFILLED:
+    case UPDATE_POLICY_FULFILLED:
       return {
         ...state,
-        policyRules: removeItemById(state.policyRules, action.payload.id),
+        policy: action.payload,
         pending: false,
         completed: true,
       };
-    case DELETE_POLICYRULE_REJECTED:
+    case UPDATE_POLICY_REJECTED:
       return {
         ...state,
         pending: false,
         error: action.payload,
       };
-    case UNLOAD_POLICYRULES:
+
+    case UNLOAD_POLICY:
       return initialState;
     default:
       return state;

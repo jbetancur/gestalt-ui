@@ -32,10 +32,6 @@ class PolicyRuleListing extends PureComponent {
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    this.init();
-  }
-
-  init() {
     const { match, policyRulesActions } = this.props;
 
     policyRulesActions.fetchPolicyRules({ fqon: match.params.fqon, entityId: match.params.policyId, entityKey: 'policies' });
@@ -46,7 +42,6 @@ class PolicyRuleListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.init();
     };
 
     this.props.confirmDelete(({ force }) => {
@@ -61,7 +56,6 @@ class PolicyRuleListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.init();
     };
 
     this.props.confirmDelete(({ force }) => {

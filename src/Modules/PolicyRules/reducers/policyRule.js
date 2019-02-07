@@ -9,9 +9,6 @@ import {
   UPDATE_POLICYRULE_REQUEST,
   UPDATE_POLICYRULE_FULFILLED,
   UPDATE_POLICYRULE_REJECTED,
-  DELETE_POLICYRULE_REQUEST,
-  DELETE_POLICYRULE_FULFILLED,
-  DELETE_POLICYRULE_REJECTED,
   UNLOAD_POLICYRULE,
 } from '../actionTypes';
 
@@ -98,23 +95,6 @@ export default (state = initialState, action) => {
         error: action.payload,
       };
 
-    case DELETE_POLICYRULE_REQUEST:
-      return {
-        ...state,
-        pending: true,
-      };
-    case DELETE_POLICYRULE_FULFILLED:
-      return {
-        ...state,
-        pending: false,
-        completed: true,
-      };
-    case DELETE_POLICYRULE_REJECTED:
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
     case UNLOAD_POLICYRULE:
       return initialState;
     default:

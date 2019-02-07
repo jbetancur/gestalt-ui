@@ -14,13 +14,13 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
-import PayloadViewer from '../components/PayloadViewer';
-import PolicyTypesMenu from '../components/PolicyTypesMenu';
+import PayloadViewer from './PayloadViewer';
+import PolicyTypesMenu from './PolicyTypesMenu';
 import PolicyForm from './PolicyForm';
 import actions from '../actions';
-import { generatePolicyPatches } from '../payloadTransformer';
-import { getEditPolicyModel } from '../selectors';
+import { getEditPolicyModel } from '../reducers/selectors';
 import withPolicy from '../hocs/withPolicy';
+import policyModel from '../models/policy';
 
 class PolicyEdit extends Component {
   static propTypes = {
@@ -40,7 +40,7 @@ class PolicyEdit extends Component {
 
   udpate = (values) => {
     const { match, policy, policyActions } = this.props;
-    const payload = generatePolicyPatches(policy, values);
+    const payload = policyModel.patch(policy, values);
 
     policyActions.updatePolicy({ fqon: match.params.fqon, id: policy.id, payload });
   }

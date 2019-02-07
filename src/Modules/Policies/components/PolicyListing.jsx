@@ -30,10 +30,6 @@ class PolicyListing extends PureComponent {
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
-    this.init();
-  }
-
-  init() {
     const { match, policiesActions } = this.props;
     const entity = generateContextEntityState(match.params);
 
@@ -45,14 +41,12 @@ class PolicyListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.init();
     };
 
     this.props.confirmDelete(({ force }) => {
       policiesActions.deletePolicy({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
     }, `Are you sure you want to delete ${row.name}?`);
   }
-
 
   deleteMultiple = () => {
     const { match, policiesActions } = this.props;
@@ -61,7 +55,6 @@ class PolicyListing extends PureComponent {
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
-      this.init();
     };
 
     this.props.confirmDelete(({ force }) => {

@@ -6,7 +6,7 @@ import policyModel from '../models/policy';
 const PayloadViewer = memo(({ value, name }) => (
   <CodeBlock
     mode="json"
-    value={policyModel.create(value)}
+    value={policyModel.formatPayload(value)}
     enableDownload
     fileName={name}
   />

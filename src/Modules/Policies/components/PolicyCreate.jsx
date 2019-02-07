@@ -10,14 +10,10 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import PolicyForm from './PolicyForm';
 import actions from '../actions';
-import { generatePolicyPayload } from '../payloadTransformer';
 import withPolicy from '../hocs/withPolicy';
+import policyModel from '../models/policy';
 
-const initialValues = {
-  name: '',
-  description: '',
-  properties: {},
-};
+const initialValues = policyModel.initForm();
 
 class PolicyCreate extends Component {
   static propTypes = {
@@ -29,7 +25,7 @@ class PolicyCreate extends Component {
 
   create = (values) => {
     const { match, history, policyActions } = this.props;
-    const payload = generatePolicyPayload(values);
+    const payload = policyModel.create(values);
     const onSuccess = response => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${response.id}`);
     const entity = generateContextEntityState(match.params);
 
