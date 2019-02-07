@@ -142,7 +142,7 @@ export function* updateContainer(action) {
  */
 export function* deleteContainer(action) {
   try {
-    yield call(axios.delete, `${action.fqon}/containers/${action.resource.id}?force=true`);
+    yield call(axios.delete, `${action.fqon}/containers/${action.resource.id}?force=${action.force || false}`);
     yield put({ type: DELETE_CONTAINER_FULFILLED, payload: action.resource });
     yield put(notificationActions.addNotification({ message: `${action.resource.name} Container destroyed` }));
 
