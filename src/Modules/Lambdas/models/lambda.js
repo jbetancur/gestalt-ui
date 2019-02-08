@@ -191,44 +191,12 @@ const patch = (model = {}, updatedModel = {}) => (
 );
 
 /**
- * getForm
+ * initForm
  * Format the model specifically for Initializing Forms
  * @param {Object} model
  */
 const initForm = (model = {}) => {
   const pickList = [
-    'name',
-    'description',
-    'properties.env',
-    'properties.headers',
-    'properties.code',
-    'properties.code_type',
-    'properties.compressed',
-    'properties.isolate',
-    'properties.cpus',
-    'properties.memory',
-    'properties.timeout',
-    'properties.pre_warm',
-    'properties.handler',
-    'properties.package_url',
-    'properties.public',
-    'properties.runtime',
-    'properties.periodic_info.schedule',
-    'properties.periodic_info.timezone',
-    'properties.periodic_info.payload',
-    'properties.secrets',
-    'properties.provider.id',
-    'properties.provider.name',
-    'properties.provider.resource_type',
-  ];
-
-  return pick(get(model), pickList);
-};
-
-// format for the payload Viewer
-const formatPayload = (model = {}) => {
-  const pickList = [
-    'id',
     'name',
     'description',
     'properties.env',
@@ -263,5 +231,4 @@ export default {
   create,
   patch,
   initForm,
-  formatPayload,
 };

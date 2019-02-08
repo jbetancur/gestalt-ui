@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AceEditor from 'react-ace';
-import { SelectField } from 'react-md';
+import { SelectField, Switch } from 'react-md';
 import { FileDownloadButton, ClipboardButton } from 'components/Buttons';
 import 'brace/mode/yaml';
 import 'brace/mode/json';
@@ -24,6 +24,11 @@ const Controls = styled.div`
   min-height: 52px;
 `;
 
+const ControlItem = styled.div`
+  margin-left: 2px;
+  margin-right: 2px;
+`;
+
 class CodeBlock extends PureComponent {
   static propTypes = {
     value: PropTypes.object.isRequired,
@@ -32,6 +37,9 @@ class CodeBlock extends PureComponent {
     maxLines: PropTypes.number,
     enableDownload: PropTypes.bool,
     fileName: PropTypes.string,
+    enableRawOption: PropTypes.bool,
+    rawLabel: PropTypes.string,
+    onToggleRaw: PropTypes.func
   };
 
   static defaultProps = {
@@ -40,9 +48,13 @@ class CodeBlock extends PureComponent {
     maxLines: Infinity,
     enableDownload: false,
     fileName: null,
+    enableRawOption: false,
+    rawLabel: 'Raw',
+    onToggleRaw: () => { },
   };
 
   state = {
+    rawMode: false,
     currentMode: this.props.mode,
     error: '',
   }
@@ -70,37 +82,60 @@ class CodeBlock extends PureComponent {
     this.setState({ currentMode: mode });
   }
 
+  handleRawModeToggle = (value) => {
+    const { onToggleRaw } = this.props;
+
+    this.setState({ rawMode: value });
+    onToggleRaw(value);
+  }
+
   generateActions() {
-    const { enableDownload, fileName } = this.props;
-    const { currentMode } = this.state;
+    const { enableDownload, fileName, enableRawOption, rawLabel } = this.props;
+    const { currentMode, rawMode } = this.state;
     const fileNameExt = `${fileName}.${currentMode}`;
     const buttonTiltletoolTip = ` Export ${fileName}.${currentMode}`;
 
     return (
       <React.Fragment>
-        <SelectField
-          id="select-mode"
-          menuItems={menuItems}
-          itemLabel="name"
-          itemValue="value"
-          onChange={this.handleCodeChange}
-          value={currentMode}
-        />
-        <ClipboardButton
-          showLabel={false}
-          text={this.formatCode()}
-          tooltipLabel="Copy to clipboard"
-        />
+        <ControlItem>
+          <SelectField
+            id="select-mode"
+            menuItems={menuItems}
+            itemLabel="name"
+            itemValue="value"
+            onChange={this.handleCodeChange}
+            value={currentMode}
+          />
+        </ControlItem>
+        {enableRawOption &&
+          <ControlItem>
+            <Switch
+              id="raw-mode"
+              name="raw-mode"
+              label={rawLabel}
+              checked={rawMode}
+              onChange={this.handleRawModeToggle}
+            />
+          </ControlItem>}
+
+        <ControlItem>
+          <ClipboardButton
+            showLabel={false}
+            text={this.formatCode()}
+            tooltipLabel="Copy to clipboard"
+          />
+        </ControlItem>
 
         {enableDownload &&
-          <FileDownloadButton
-            tooltipLabel={buttonTiltletoolTip}
-            data={this.formatCode()}
-            fileName={fileNameExt}
-          >
-            Export
-          </FileDownloadButton>}
-
+          <ControlItem>
+            <FileDownloadButton
+              tooltipLabel={buttonTiltletoolTip}
+              data={this.formatCode()}
+              fileName={fileNameExt}
+            >
+              Export
+            </FileDownloadButton>
+          </ControlItem>}
       </React.Fragment>
     );
   }

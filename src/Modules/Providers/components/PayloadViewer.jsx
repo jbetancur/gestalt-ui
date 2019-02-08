@@ -1,17 +1,24 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import CodeBlock from 'components/CodeBlock';
 import { generateProviderPayload } from '../payloadTransformer';
+import providerModel from '../models/provider';
 
 const PayloadViewer = memo(({ value, name, hasContainer }) => {
-  const codeViewer = generateProviderPayload(value, hasContainer);
+  const [raw, toggleRaw] = useState(0);
+
+  const data = raw
+    ? providerModel.get(value)
+    : generateProviderPayload(value, hasContainer);
 
   return (
     <CodeBlock
       mode="json"
-      value={codeViewer}
+      value={data}
       enableDownload
       fileName={name}
+      enableRawOption
+      onToggleRaw={() => toggleRaw(!raw)}
     />
   );
 });
