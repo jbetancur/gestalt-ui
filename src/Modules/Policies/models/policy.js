@@ -67,23 +67,10 @@ const initForm = (model = {}) => pick(get(model), [
   'description',
 ]);
 
-// format for the payload Viewer
-const formatPayload = (model = {}) => {
-  const pickList = [
-    'id',
-    'name',
-    'description',
-  ];
-
-  return pick(get(model), pickList);
-};
-
-
 export default {
   schema,
   get,
   create,
   patch,
   initForm,
-  formatPayload,
 };
