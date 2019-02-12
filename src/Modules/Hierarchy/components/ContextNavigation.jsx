@@ -17,18 +17,16 @@ import { AppConsumer } from '../../../App/AppContext';
 
 const NavHeader = styled.nav`
   position: relative;
-  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 100%;
   background-color: white;
   border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
-  padding-top: 7.5px;
-  padding-bottom: 7.5px;
   min-height: 56px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 8px 16px 8px 16px;
   text-align: left;
-  overflow: visible;
   z-index: 4;
   ${() => media.xs`
     padding-top: 20px;
@@ -83,7 +81,7 @@ const Section = styled.div`
   height: 24px;
 `;
 
-const ExpansionPanel = styled(({ isExpanded, expandedHeight, ...rest }) => <div {...rest} />)`
+const ExpansionPanel = styled.div`
   width: 100%;
   max-height: ${props => (props.isExpanded ? props.expandedHeight : 0)};
   overflow: hidden;
@@ -129,38 +127,29 @@ const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)
 
 class ContextNavigation extends PureComponent {
   static propTypes = {
-    children: PropTypes.any,
     hierarchyContext: PropTypes.object.isRequired,
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     expandedHeight: PropTypes.string,
+    expanded: PropTypes.bool,
+    onChangeContext: PropTypes.func,
   };
 
   static defaultProps = {
-    children: [],
     width: '200px',
     miniWidth: '64px',
     expandedHeight: '400px',
-  };
-
-  state = {
     expanded: false,
+    onChangeContext: () => { },
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    const { hierarchyContext } = this.props;
+  componentDidUpdate(prevProps) {
+    const { hierarchyContext, onChangeContext } = this.props;
 
     if ((prevProps.hierarchyContext.context.contextMeta.context !== hierarchyContext.context.contextMeta.context
-      || prevProps.hierarchyContext.context.contextMeta.fqon !== hierarchyContext.context.contextMeta.fqon)
-      && prevState.expanded) {
-      // it is safe to disabled linting here and call setState since we have have conditions above
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ expanded: false });
+      || prevProps.hierarchyContext.context.contextMeta.fqon !== hierarchyContext.context.contextMeta.fqon) && prevProps.expanded) {
+      onChangeContext();
     }
-  }
-
-  toggle = () => {
-    this.setState(prevState => ({ expanded: !prevState.expanded }));
   }
 
   renderDetailsComponent() {
@@ -183,54 +172,53 @@ class ContextNavigation extends PureComponent {
   }
 
   renderCollpaseButtonIcon() {
-    const { expanded } = this.state;
+    const { expanded } = this.props;
 
     return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
   }
 
   render() {
     const {
+      expanded,
       hierarchyContext,
       expandedHeight,
-      children,
     } = this.props;
     const { contextPending } = hierarchyContext;
-    const { expanded } = this.state;
 
     return (
       <NavHeader>
-        <Row alignItems="center">
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Section>
-              <Breadcrumbs />
-            </Section>
-          </Col>
+        <AppConsumer>
+          {({ onLogout, onToggleMainNavigation, onToggleFavorites, onShowLicenseModal, enableExperimental }) => (
+            <React.Fragment>
+              <Row alignItems="center">
+                <Col xs={12} sm={12} md={6} lg={6}>
+                  <Section>
+                    <Breadcrumbs />
+                  </Section>
+                </Col>
 
-          <Col xs={12} sm={12} md={12} lg={6}>
-            <AppConsumer>
-              {({ onLogout, onToggleFavorites, onShowLicenseModal, enableExperimental }) => (
-                <ActionsPanel>
-                  <CreateMenu enableExperimental={enableExperimental} {...this.props} />
-                  <Button icon onClick={onToggleFavorites}>star</Button>
-                  <UserMenu onLogout={onLogout} />
-                  <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />
-                </ActionsPanel>
-              )}
-            </AppConsumer>
-          </Col>
+                <Col xs={12} sm={12} md={12} lg={6}>
+                  <ActionsPanel>
+                    <CreateMenu enableExperimental={enableExperimental} {...this.props} />
+                    <Button icon onClick={onToggleFavorites}>star</Button>
+                    <UserMenu onLogout={onLogout} />
+                    <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />
+                  </ActionsPanel>
+                </Col>
+              </Row>
 
-          <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
-            {this.renderDetailsComponent()}
-          </ExpansionPanel>
-        </Row>
+              <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
+                {this.renderDetailsComponent()}
+              </ExpansionPanel>
 
-        {children}
-
-        <CollapseWrapper>
-          <CollapseButton onClick={this.toggle} disabled={contextPending}>
-            {this.renderCollpaseButtonIcon()}
-          </CollapseButton>
-        </CollapseWrapper>
+              <CollapseWrapper>
+                <CollapseButton onClick={onToggleMainNavigation} disabled={contextPending}>
+                  {this.renderCollpaseButtonIcon()}
+                </CollapseButton>
+              </CollapseWrapper>
+            </React.Fragment>
+          )}
+        </AppConsumer>
       </NavHeader>
     );
   }

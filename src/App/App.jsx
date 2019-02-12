@@ -7,7 +7,7 @@ import ModalRoot from 'Modules/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
-import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
+import { Navigation, ContextNavigation, ContextRoutes } from 'Modules/Hierarchy';
 import { FloatingDrawer } from 'components/NavigationDrawers';
 import { FavoriteItems } from 'Modules/UserProfile';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -22,10 +22,16 @@ import actions from './actions';
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
 
 const AppWrapper = styled.div`
-  z-index: 1;
   display: flex;
   flex: 1;
   overflow: hidden;
+`;
+
+const Main = styled.main`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 `;
 
 class App extends Component {
@@ -43,6 +49,7 @@ class App extends Component {
 
   state = {
     favoritesOpen: false,
+    mainNavigationExpanded: false,
     navigationExpanded: false,
     enableExperimental: false,
   }
@@ -82,6 +89,14 @@ class App extends Component {
     licenseActions.showLicenseModal();
   }
 
+  handleExpandMainNavigation = () => {
+    this.setState(state => ({ mainNavigationExpanded: !state.mainNavigationExpanded }));
+  }
+
+  handleChangeContext = () => {
+    this.setState({ mainNavigationExpanded: false });
+  }
+
   handleExpandNavigation = () => {
     this.setState(state => ({ navigationExpanded: !state.navigationExpanded }));
   }
@@ -108,6 +123,7 @@ class App extends Component {
     } = this.props;
 
     const {
+      mainNavigationExpanded,
       navigationExpanded,
       favoritesOpen,
       enableExperimental,
@@ -123,9 +139,11 @@ class App extends Component {
 
     const initialState = {
       enableExperimental,
+      mainNavigationExpanded,
       navigationExpanded,
       favoritesOpen,
-      onToggleNavigaion: this.handleExpandNavigation,
+      onToggleMainNavigation: this.handleExpandMainNavigation,
+      onToggleNavigation: this.handleExpandNavigation,
       onCloseFavorites: this.handleCloseFavorites,
       onToggleFavorites: this.handleToggleFavorites,
       onLogout: this.logout,
@@ -138,18 +156,24 @@ class App extends Component {
         <ModalRoot />
         <ErrorNotifications />
         <Notifications />
+        <FloatingDrawer
+          direction="right"
+          open={favoritesOpen}
+        >
+          <FavoriteItems />
+        </FloatingDrawer>
         <AppWrapper>
           <Navigation
             open={navigationExpanded}
             onOpen={this.handleExpandNavigation}
           />
-          <ContextRoutes />
-          <FloatingDrawer
-            direction="right"
-            open={favoritesOpen}
-          >
-            <FavoriteItems />
-          </FloatingDrawer>
+          <Main>
+            <ContextNavigation
+              expanded={mainNavigationExpanded}
+              onChangeContext={this.handleChangeContext}
+            />
+            <ContextRoutes />
+          </Main>
         </AppWrapper>
       </AppProvider>
     );

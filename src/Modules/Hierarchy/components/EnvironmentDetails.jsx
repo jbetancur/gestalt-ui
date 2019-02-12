@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
 import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
@@ -109,6 +109,7 @@ class EnvironmentDetails extends PureComponent {
 }
 
 export default compose(
+  withRouter,
   withHierarchy,
   withEntitlements,
 )(EnvironmentDetails);

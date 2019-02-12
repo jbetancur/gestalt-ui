@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import base64 from 'base-64';
 import Cookies from 'universal-cookie';
 import { withRouter } from 'react-router-dom';
+import { AutoSizer } from 'react-virtualized';
 import IFrame from 'components/IFrame';
 import { withRestricted } from 'Modules/Authentication';
 import withContext from '../Hierarchy/hocs/withContext';
@@ -56,11 +57,17 @@ class InlineView extends Component {
     const src = base64.decode(params.urlEncoded);
 
     return (
-      <IFrame
-        id={`iframe-${params.urlEncoded}`}
-        src={src}
-        onLoaded={this.handleOnLoaded}
-      />
+      <AutoSizer>
+        {({ width, height }) => (
+          <IFrame
+            id={`iframe-${params.urlEncoded}`}
+            src={src}
+            onLoaded={this.handleOnLoaded}
+            width={`${width}px`}
+            height={`${height - 56}px`} // -56 to optimize for default non-expanded main nav
+          />
+        )}
+      </AutoSizer>
     );
   }
 }
