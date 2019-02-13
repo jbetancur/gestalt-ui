@@ -4,45 +4,21 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import { DialogContainer, Checkbox, SelectionControlGroup, List, ListItem } from 'react-md';
+import { Checkbox, SelectionControlGroup } from 'react-md';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
-import { Title, Caption } from 'components/Typography';
+import { Title } from 'components/Typography';
 import { Search } from 'Modules/Search';
 
-const EnhancedDialog = styled(DialogContainer)`
-  .md-dialog {
-    width: 100%;
-    max-width: 32em;
-    word-wrap: break-word;
-  }
-
-  .md-dialog-footer--inline {
-    position: relative;
-    align-items: center;
-  }
-`;
-
-const Options = styled.div`
-  display: inline-block;
-  position: absolute;
-  left: 0;
-  top: 5px;
-`;
-
-const ListRow = styled(Row)`
-  max-height: 12em;
-  overflow: scroll;
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
+const DialogContentSCroller = styled(DialogContent)`
+  padding: 24px 0 24px 0 !important;
+  max-height: 200px !important;
 `;
 
 class ReparentModal extends PureComponent {
@@ -110,54 +86,36 @@ class ReparentModal extends PureComponent {
     });
   }
 
-  renderActions() {
-    const { reparent, reparentTargetValue } = this.state;
-
-    const actionButtons = [];
-    actionButtons.push(
-      <Options>
-        {!reparent &&
-          <Checkbox
-            id="confirmation-modal--force-delete"
-            name="confirmation-modal--force-delete"
-            label="Force Delete"
-            inline
-            onChange={this.handleForceChecked}
-          />}
-      </Options>
-    );
-    actionButtons.push(<Button flat important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>);
-    actionButtons.push(<Button flat primary onClick={this.close}>Cancel</Button>);
-
-    return actionButtons;
-  }
-
   render() {
     const { visible, title, multipleItems } = this.props;
-    const { entity, reparent, reparentTargetName } = this.state;
-    const items = multipleItems.map((item, i) => (
-      <ListItem key={i} inkDisabled primaryText={item} />
-    ));
+    const { entity, reparent, reparentTargetName, reparentTargetValue } = this.state;
+    const modalTitle = multipleItems.length > 1
+      ? `${title} (${multipleItems.length})`
+      : title;
 
     return (
-      <EnhancedDialog
+      <Dialog
         id="confirmation-modal"
-        contentStyle={{ maxHeight: '30em', overflow: 'visible' }}
-        visible={visible}
-        title={title}
-        defaultVisibleTransitionable
-        onHide={this.close}
-        actions={this.renderActions()}
+        aria-labelledby="confirmation-modal-title"
+        aria-describedby="confirmation-modal-description"
+        open={visible}
+        onClose={this.close}
+        maxWidth="sm"
       >
-        {multipleItems.length > 0 &&
-          <ListRow>
-            <Col flex={12}>
-              <List>{items}</List>
-            </Col>
-          </ListRow>}
+        <DialogTitle id="confirmation-modal-title">{modalTitle}</DialogTitle>
 
-        <Row gutter={5} padding={multipleItems.length ? '16px' : 0}>
-          <Col flex={12}>
+        {multipleItems.length > 0 && (
+          <DialogContentSCroller>
+            {multipleItems.map((item, i) => (
+              <ListItem key={i}>
+                <ListItemText primary={item} />
+              </ListItem>
+            ))}
+          </DialogContentSCroller>
+        )}
+
+        <DialogContent>
+          <DialogContentText>
             <Checkbox
               id="confirmation-modal--reparent"
               name="confirmation-modal--reparent"
@@ -165,44 +123,59 @@ class ReparentModal extends PureComponent {
               onChange={this.handleReparent}
             />
 
-            <Caption>Optionally transfer ownership of assets to another user or organization</Caption>
-          </Col>
-          {reparent &&
-            <React.Fragment>
-              <Col flex={5}>
-                <SelectionControlGroup
-                  id="selection-control-group-search-type"
-                  name="selection-control-group-search-type"
-                  type="radio"
-                  defaultValue="users"
-                  onChange={this.handleEntity}
-                  controls={[{
-                    label: 'User',
-                    value: 'users',
-                  }, {
-                    label: 'Organization',
-                    value: 'orgs',
-                  }]}
-                />
-              </Col>
+            <span>Optionally transfer ownership of assets to another user or organization</span>
 
-              <Col flex={7}>
-                <Search
-                  entity={entity}
-                  searchLabel={`search ${entity} to transfer to`}
-                  onResult={this.handleReparentTarget}
-                  userSearch={this.state.entity === 'users'}
-                />
-              </Col>
+            <Row gutter={10} padding="16px">
+              {reparent && (
+                <Col flex={5}>
+                  <SelectionControlGroup
+                    id="selection-control-group-search-type"
+                    name="selection-control-group-search-type"
+                    type="radio"
+                    defaultValue="users"
+                    onChange={this.handleEntity}
+                    inline
+                    controls={[{
+                      label: 'User',
+                      value: 'users',
+                    }, {
+                      label: 'Organization',
+                      value: 'orgs',
+                    }]}
+                  />
+                </Col>
+              )}
 
-              {reparentTargetName &&
-              <Col flex={12}>
-                <Title>Transfer ownership to:</Title>
-                <Title light>{reparentTargetName}</Title>
-              </Col>}
-            </React.Fragment>}
-        </Row>
-      </EnhancedDialog>
+              {reparent && (
+                <Col flex={7}>
+                  <Search
+                    entity={entity}
+                    searchLabel={`search ${entity} to transfer to`}
+                    onResult={this.handleReparentTarget}
+                    userSearch={this.state.entity === 'users'}
+                  />
+                </Col>
+              )}
+            </Row>
+
+            {reparentTargetName && <React.Fragment><span>Transfer ownership to: </span><Title>{reparentTargetName}</Title></React.Fragment>}
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          {!reparent &&
+            <Checkbox
+              id="confirmation-modal--force-delete"
+              name="confirmation-modal--force-delete"
+              label="Force Delete"
+              inline
+              onChange={this.handleForceChecked}
+              style={{ width: '100%' }}
+            />}
+          <Button flat important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>
+          <Button flat primary onClick={this.close}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

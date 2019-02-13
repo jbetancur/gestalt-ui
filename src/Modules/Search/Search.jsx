@@ -76,6 +76,7 @@ class Search extends PureComponent {
         onAutocomplete={this.handleOnResult}
         filter={null}
         helpText={helpText}
+        simplifiedMenu={false}
       />
     );
   }

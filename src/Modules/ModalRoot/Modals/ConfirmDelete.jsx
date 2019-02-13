@@ -2,32 +2,21 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { DialogContainer, List, ListItem, TextField, Checkbox } from 'react-md';
+import { TextField, Checkbox } from 'react-md';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
-import { Error } from 'components/Typography';
+import Alert from 'components/Alert';
 
-const ForceSection = styled.div`
-  display: inline-block;
-  position: absolute;
-  left: 0;
+const DialogContentScroller = styled(DialogContent)`
+  padding: 24px 0 24px 0 !important;
+  max-height: 400px !important;
 `;
-
-const ListRow = styled.div`
-  max-height: 12em;
-  overflow: scroll;
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
-`;
-
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
@@ -94,31 +83,67 @@ class ConfirmModal extends PureComponent {
   renderForceWarning() {
     const { values } = this.props;
     const message = values.name
-      ?
-      `All associated resources of "${values.name}" will be deleted. This action CANNOT be undone!`
-      :
-      'All associated resources will be deleted. This action CANNOT be undone!';
+      ? `All associated child resources of "${values.name}" will be deleted. This action CANNOT be undone!`
+      : 'All associated child resources will be deleted. This action CANNOT be undone!';
 
     return (
-      <Error large bold block style={{ padding: '16px' }}>
-        {message}
-      </Error>
+      <Alert
+        width="auto"
+        raised
+        message={{ message, icon: true, status: 'error' }}
+      />
     );
   }
 
   render() {
-    const { force } = this.state;
+    const { force, disable, confirmName } = this.state;
     const { visible, title, body, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
-    const isConfirmDisabled = requireConfirm && this.state.disable;
+    const modalTitle = multipleItems.length > 1
+      ? `${title} (${multipleItems.length})`
+      : title;
+    const isConfirmDisabled = requireConfirm && disable;
     const confirmLabel = `Type in the name of the ${values.type} to confirm`;
-    const items = multipleItems.map((item, i) => (
-      <ListItem key={i} inkDisabled primaryText={item} />
-    ));
 
-    const actionButtons = [];
-    if (forceOption) {
-      actionButtons.push(
-        <ForceSection>
+    return (
+      <Dialog
+        id="confirmation-modal"
+        aria-labelledby="confirmation-modal-title"
+        aria-describedby="confirmation-modal-description"
+        open={visible}
+        onClose={this.close}
+        maxWidth="xs"
+      >
+        <DialogTitle id="confirmation-modal-title">{modalTitle}</DialogTitle>
+
+        {forceOption && force && this.renderForceWarning()}
+
+        {(body || requireConfirm) && (
+        <DialogContent>
+          {body && <DialogContentText>{body}</DialogContentText>}
+          {requireConfirm && (
+            <DialogContentText>
+              <TextField
+                id="confirmation-modal-verify"
+                placeholder={confirmLabel}
+                value={confirmName}
+                onChange={this.setConfirmName}
+              />
+            </DialogContentText>
+          )}
+        </DialogContent>
+        )}
+
+        {multipleItems.length > 0 && (
+          <DialogContentScroller>
+            {multipleItems.map((item, i) => (
+              <ListItem key={i}>
+                <ListItemText primary={item} />
+              </ListItem>
+            ))}
+          </DialogContentScroller>
+        )}
+
+        <DialogActions>
           <Checkbox
             id="confirmation-modal--force-delete"
             name="confirmation-modal--force-delete"
@@ -126,37 +151,12 @@ class ConfirmModal extends PureComponent {
             inline
             onChange={this.handleForceChecked}
             value={force}
+            style={{ width: '100%' }}
           />
-        </ForceSection>
-      );
-    }
-
-    actionButtons.push(<Button flat important onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>);
-    actionButtons.push(<Button flat primary onClick={this.close}>{cancelLabel}</Button>);
-
-    const modalTitle = multipleItems.length > 1 ? `${title} (${multipleItems.length})` : title;
-
-    return (
-      <DialogContainer
-        id="confirmation-modal"
-        width="30em"
-        contentStyle={{ maxHeight: '25em' }}
-        visible={visible}
-        title={modalTitle}
-        defaultVisibleTransitionable
-        onHide={this.close}
-        actions={actionButtons}
-      >
-        <div>
-          {forceOption && force && this.renderForceWarning()}
-          {body && <p id="confirmation-modal-content" className="md-color--secondary-text">{body}</p>}
-          {requireConfirm && <TextField id="confirmation-modal-verify" placeholder={confirmLabel} value={this.state.confirmName} onChange={this.setConfirmName} />}
-          {multipleItems.length > 0 &&
-          <ListRow>
-            <List>{items}</List>
-          </ListRow>}
-        </div>
-      </DialogContainer>
+          <Button raised important onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>
+          <Button flat primary onClick={this.close}>{cancelLabel}</Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

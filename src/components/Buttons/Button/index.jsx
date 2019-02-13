@@ -18,10 +18,13 @@ const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...r
     color: inherit;
   }
 
-  ${props => !props.icon && !props.floating && 'border-radius: 3px'};
+  ${props => !props.icon && !props.floating && css`
+    border-radius: 3px;
+    min-width: 90px;
+  `};
   ${props => props.important && css`
   &:not([disabled]) {
-    color: ${props.theme.colors['$md-red-500']};
+    color: ${props.theme.colors.error};
   }
   `};
   ${props => props.raised && css`
@@ -34,7 +37,7 @@ const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...r
     ${props.important && css`
       &:not([disabled]) {
         color: white;
-        background-color: ${props.theme.colors['$md-red-500']};
+        background-color: ${props.theme.colors.error};
       }
     `};
   `};

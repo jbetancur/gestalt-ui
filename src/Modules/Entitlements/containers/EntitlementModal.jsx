@@ -1,12 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { DialogContainer } from 'react-md';
-import { ModalTitle } from 'components/Modal';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import { EntitlementIcon } from 'components/Icons';
+import { Button } from 'components/Buttons';
 import EntitlementListing from './EntitlementListing';
 import actions from '../actions';
+
+const DialogContentStyle = styled(DialogContent)`
+  width: 50em;
+`;
 
 class EntitlementModal extends PureComponent {
   static propTypes = {
@@ -25,24 +33,21 @@ class EntitlementModal extends PureComponent {
     const { visible, title } = this.props;
 
     return (
-      <DialogContainer
+      <Dialog
         id="entitlement-modal"
-        autosizeContent={false}
-        width="50em"
-        visible={visible}
-        title={<ModalTitle title={title} icon={<EntitlementIcon />} />}
-        defaultVisibleTransitionable
-        closeOnEsc
-        onHide={this.handleHideModal}
-        actions={[
-          {
-            onClick: this.handleHideModal,
-            primary: true,
-            label: 'Close',
-          }]}
+        open={visible}
+        onClose={this.handleHideModal}
+        aria-labelledby="entitlement-modal"
+        maxWidth={false}
       >
-        <EntitlementListing {...this.props} />
-      </DialogContainer>
+        <DialogTitle id="form-dialog-title"><EntitlementIcon /> {title}</DialogTitle>
+        <DialogContentStyle>
+          <EntitlementListing {...this.props} />
+        </DialogContentStyle>
+        <DialogActions>
+          <Button flat onClick={this.handleHideModal}>Close</Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }
