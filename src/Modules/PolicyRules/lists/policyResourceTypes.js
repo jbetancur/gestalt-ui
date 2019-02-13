@@ -71,6 +71,12 @@ export default {
   container: {
     triggers: [
       {
+        name: 'container.create'
+      },
+      {
+        name: 'container.import'
+      },
+      {
         name: 'container.create.post'
       },
       {
@@ -167,6 +173,9 @@ export default {
   },
   lambda: {
     triggers: [
+      {
+        name: 'lambda.create'
+      },
       {
         name: 'lambda.create.post'
       },
