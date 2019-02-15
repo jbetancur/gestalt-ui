@@ -57,15 +57,15 @@ class PromoteModal extends PureComponent {
 
     return (
       <Dialog
-        id="container-scale-modal"
-        aria-labelledby="ccontainer-scale-title"
-        aria-describedby="container-scale-description"
+        id="container-promote-modal"
+        aria-labelledby="ccontainer-promote-title"
+        aria-describedby="container-promote-description"
         open={modal.open}
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
         maxWidth="sm"
       >
-        <DialogTitle id="ccontainer-scale-title">{title}</DialogTitle>
+        <DialogTitle id="ccontainer-promote-title">{title}</DialogTitle>
         <DialogContentCustom>
           {environmentsList.length > 0 ?
             <Row center>

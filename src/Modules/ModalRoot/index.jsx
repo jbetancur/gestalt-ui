@@ -3,23 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // These are regular React components we will write soon
-import { EntitlementModal } from 'Modules/Entitlements';
 import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { StreamInstanceModal } from 'Modules/Streams';
-import { ContainerImportModal } from 'Modules/Containers';
 import { VolumeCreateModal } from 'Modules/Volumes';
 import LicenseModal from 'Modules/Licensing';
-import CONFIRM from './Modals/ConfirmModal';
 import IFRAME from './Modals/IFrameModal';
 
 const MODAL_COMPONENTS = {
-  CONFIRM,
   IFRAME,
-  EntitlementModal,
   LicenseModal,
   APIEndpointWizardModal,
   StreamInstanceModal,
-  ContainerImportModal,
   VolumeCreateModal,
   /* other modals */
 };

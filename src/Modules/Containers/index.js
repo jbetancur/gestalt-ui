@@ -7,6 +7,5 @@ export { default as ContainerServiceAddresses } from './components/ContainerServ
 export { default as ContainerActions } from './components/ContainerActions';
 export { default as containerActionCreators } from './actions';
 export { default as payloadTransformer } from './payloadTransformer';
-export { default as ContainerImportModal } from './containers/ContainerImportModal';
 export { default as containerSagas } from './sagas';
 export { default as containerModel } from './models/container';

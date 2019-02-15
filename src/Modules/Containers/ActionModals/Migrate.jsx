@@ -56,15 +56,15 @@ class MigrateModal extends PureComponent {
 
     return (
       <Dialog
-        id="container-scale-modal"
-        aria-labelledby="ccontainer-scale-title"
-        aria-describedby="container-scale-description"
+        id="container-migrate-modal"
+        aria-labelledby="ccontainer-migrate-title"
+        aria-describedby="container-migrate-description"
         open={modal.open}
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
         maxWidth="sm"
       >
-        <DialogTitle id="ccontainer-scale-title">{title}</DialogTitle>
+        <DialogTitle id="ccontainer-migrate-title">{title}</DialogTitle>
         <DialogContentCustom>
           {providersLoading ?
             <DotActivity size={1} primary /> :
@@ -73,7 +73,7 @@ class MigrateModal extends PureComponent {
                 <Row center>
                   <Col flex={12}>
                     <SelectField
-                      id="container-scaleto"
+                      id="container-migrateto"
                       label="Migrate to Provider"
                       lineDirection="center"
                       menuItems={providers}

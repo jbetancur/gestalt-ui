@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { withPickerData } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
@@ -15,7 +14,9 @@ import { FontIcon } from 'react-md';
 import { StatusBubble } from 'components/Status';
 import { ContainerIcon as CIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
+import ImportModal from '../ActionModals/Import';
 import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
 import iconMap from '../../Providers/config/iconMap';
@@ -36,12 +37,13 @@ class ContainerListing extends PureComponent {
     history: PropTypes.object.isRequired,
     containersActions: PropTypes.object.isRequired,
     providerContext: PropTypes.bool,
-    showImportModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     providerContext: false,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, containersActions } = this.props;
@@ -58,7 +60,19 @@ class ContainerListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
+  showImportModal = () => {
+    const { match } = this.props;
+    const { showModal } = this.context;
+
+    showModal(ImportModal, {
+      title: 'Import Container',
+      fqon: match.params.fqon,
+      environmentId: match.params.environmentId,
+    });
+  }
+
   defineColumns() {
+    const { match } = this.props;
     return [
       {
         width: '56px',
@@ -68,7 +82,7 @@ class ContainerListing extends PureComponent {
         cell: row => (
           <ContainerActions
             containerModel={row}
-            editURL={`${this.props.match.url}/${row.id}`}
+            editURL={`${match.url}/${row.id}`}
             {...this.props}
           />
         )
@@ -183,7 +197,7 @@ class ContainerListing extends PureComponent {
               actions={
                 <React.Fragment>
                   <SelectFilter disabled={this.props.containersPending} />
-                  <Button flat primary onClick={() => this.props.showImportModal({ ...this.props })}>Import</Button>
+                  <Button flat primary onClick={this.showImportModal}>Import</Button>
                 </React.Fragment>
               }
               pagination
@@ -205,5 +219,4 @@ export default compose(
   withContainers(),
   withRouter,
   connect(mapStateToProps, actions),
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
 )(ContainerListing);

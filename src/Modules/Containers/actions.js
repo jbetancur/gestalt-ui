@@ -24,21 +24,6 @@ export function showAPIEndpointWizardModal(params, implementationId, implementat
 }
 
 /**
- * showImportModal
- * @param {Object} props
- */
-export function showImportModal(props = {}) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'ContainerImportModal',
-    modalProps: {
-      title: 'Import Container',
-      ...props,
-    },
-  };
-}
-
-/**
  * setSelectedProvider
  * @param {*} provider
  */
@@ -117,6 +102,5 @@ export function setSelectedProvider(provider = {}) {
 
 export default {
   showAPIEndpointWizardModal,
-  showImportModal,
   setSelectedProvider,
 };
