@@ -6,10 +6,9 @@ import { Row, Col } from 'react-flexybox';
 import { Search } from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
 import { Button } from 'components/Buttons';
-import { ActivityContainer } from 'components/ProgressIndicators';
-import { H3 } from 'components/Typography';
+import { DotActivity } from 'components/ProgressIndicators';
+import { H2 } from 'components/Typography';
 import { UserIcon, GroupIcon } from 'components/Icons';
-import Div from 'components/Div';
 import SearchFields from './SearchFields';
 import EntitlementTree from './EntitlementTree';
 import { USER } from '../../../constants';
@@ -100,9 +99,25 @@ class EntitlementListing extends PureComponent {
       ? <UserIcon size={24} />
       : <GroupIcon size={24} />;
 
+    if (!hasEntitlements && !entitlementsPending) {
+      return (
+        <React.Fragment>
+          <Row center fill>
+            <Col flex style={{ textAlign: 'center' }}>
+              <H2>You do not have permissions to view these Entitlements</H2>
+            </Col>
+          </Row>
+
+          <Actions>
+            <Button flat onClick={onClose}>Close</Button>
+          </Actions>
+        </React.Fragment>
+      );
+    }
+
     return (
       <React.Fragment>
-        {hasEntitlements &&
+        {hasEntitlements && (
           <Fieldset
             legend="Select Identity"
             legendFontSize="1.3em"
@@ -129,51 +144,46 @@ class EntitlementListing extends PureComponent {
                 />
               </Col>
             </Row>
-          </Fieldset>}
+          </Fieldset>
+        )}
 
-        {selectedIdentityId &&
+        {selectedIdentityId && (
           <Fieldset
-            legend={<span>{identityTypeIcon} {selectedIdentityName}</span>}
+            legend={hasEntitlements ? <span>{identityTypeIcon} {selectedIdentityName}</span> : null}
             legendFontSize="1.3em"
             height="28em"
             overflow="scroll"
+            border={hasEntitlements}
           >
-            <div>
-              {entitlementsPending &&
-                <ActivityContainer
-                  primary
-                  size={2.5}
-                  id="entitlements-loading"
-                  centered
-                />}
+            {entitlementsPending &&
+              <DotActivity
+                primary
+                size={2.2}
+                id="entitlements-loading"
+                centered
+              />}
 
-              <Div disabled={entitlementsPending}>
-                <EntitlementTree
-                  selectedIdentityId={selectedIdentityId}
-                  selectedIdentityType={selectedIdentityType}
-                  {...this.props}
-                />
-              </Div>
-            </div>
-
-
-            {!hasEntitlements && !entitlementsPending &&
-            <Row center fill>
-              <Col flex style={{ textAlign: 'center' }}>
-                <H3>You do not have permissions to view these Entitlements</H3>
-              </Col>
-            </Row>}
-          </Fieldset>}
+            {!entitlementsPending && (
+              <EntitlementTree
+                selectedIdentityId={selectedIdentityId}
+                selectedIdentityType={selectedIdentityType}
+                {...this.props}
+              />
+            )}
+          </Fieldset>
+        )}
 
         <Actions>
-          <Button
-            primary
-            raised
-            onClick={this.update}
-            disabled={entitlementsPending || !entitlements.length}
-          >
-            Apply Entitlements
-          </Button>
+          {hasEntitlements && (
+            <Button
+              primary
+              raised
+              onClick={this.update}
+              disabled={entitlementsPending}
+            >
+              Apply Entitlements
+            </Button>
+          )}
           <Button flat onClick={onClose}>Close</Button>
         </Actions>
       </React.Fragment>
