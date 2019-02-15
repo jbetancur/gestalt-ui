@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // These are regular React components we will write soon
-import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { StreamInstanceModal } from 'Modules/Streams';
 import { VolumeCreateModal } from 'Modules/Volumes';
 import IFRAME from './Modals/IFrameModal';
 
 const MODAL_COMPONENTS = {
   IFRAME,
-  APIEndpointWizardModal,
   StreamInstanceModal,
   VolumeCreateModal,
   /* other modals */

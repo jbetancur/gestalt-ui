@@ -18,7 +18,7 @@ import { Tabs, Tab } from 'components/Tabs';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Card } from 'components/Cards';
-import { APIEndpointInlineList } from 'Modules/APIEndpoints';
+import { APIEndpointInlineList, APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { Caption } from 'components/Typography';
 import Div from 'components/Div';
 import { EntitlementModal } from 'Modules/Entitlements';
@@ -106,6 +106,19 @@ class ContainerEdit extends Component {
     });
   }
 
+  showEndpointWizard = () => {
+    const { container, match } = this.props;
+    const { showModal } = this.context;
+
+    showModal(APIEndpointWizardModal, {
+      fqon: container.org.properties.fqon,
+      environmentId: container.properties.parent.id || match.params.environmentId,
+      implementationId: container.id,
+      implementationType: 'container',
+      portMappings: container.properties.port_mappings,
+    });
+  }
+
   render() {
     const {
       match,
@@ -116,7 +129,6 @@ class ContainerEdit extends Component {
       selectedProvider,
       apiEndpoints,
       apiEndpointsPending,
-      showAPIEndpointWizardModal,
     } = this.props;
 
     if (containerPending && !container.id) {
@@ -211,7 +223,7 @@ class ContainerEdit extends Component {
 
                       <APIEndpointInlineList
                         endpoints={apiEndpoints}
-                        onAddEndpoint={() => showAPIEndpointWizardModal(match.params, container.id, 'container', container.properties.port_mappings)}
+                        onAddEndpoint={this.showEndpointWizard}
                         disabled={!enabledEndpoints}
                       />
                     </Panel>

@@ -14,7 +14,7 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import { Row, Col } from 'react-flexybox';
-import { APIEndpointInlineList } from 'Modules/APIEndpoints';
+import { APIEndpointInlineList, APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { Tabs, Tab } from 'components/Tabs';
 import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
@@ -106,6 +106,18 @@ class LambdaEdit extends PureComponent {
     });
   }
 
+  showEndpointWizard = () => {
+    const { lambda, match } = this.props;
+    const { showModal } = this.context;
+
+    showModal(APIEndpointWizardModal, {
+      fqon: lambda.org.properties.fqon,
+      environmentId: lambda.properties.parent.id || match.params.environmentId,
+      implementationId: lambda.id,
+      implementationType: 'lambda',
+    });
+  }
+
   handleSaveInlineCode = (values) => {
     const { lambda, match, lambdaActions } = this.props;
     const payload = lambdaModel.patch(lambda, values);
@@ -121,7 +133,6 @@ class LambdaEdit extends PureComponent {
       initialFormValues,
       apiEndpoints,
       apiEndpointsPending,
-      lambdaStateActions,
       selectedRuntime,
     } = this.props;
 
@@ -181,7 +192,7 @@ class LambdaEdit extends PureComponent {
                 <Col flex={12}>
                   <Panel title="Public Endpoints" pending={apiEndpointsPending && !apiEndpoints.length} noPadding count={apiEndpoints.length}>
                     <APIEndpointInlineList
-                      onAddEndpoint={() => lambdaStateActions.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
+                      onAddEndpoint={this.showEndpointWizard}
                     />
                   </Panel>
                 </Col>

@@ -5,25 +5,6 @@ import {
 import providerModel from '../Providers/models/provider';
 
 /**
- * showAPIEndpointWizardModal
- * @param {String} implementationId - containerId | lamnbdaId
- * @param {String} implementationType - container | lambda
- * @param {Array} portMappings - only required if implementationType = container
- */
-export function showAPIEndpointWizardModal(params, implementationId, implementationType, portMappings = []) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'APIEndpointWizardModal',
-    modalProps: {
-      params,
-      implementationId,
-      implementationType,
-      portMappings,
-    }
-  };
-}
-
-/**
  * setSelectedProvider
  * @param {*} provider
  */
@@ -101,6 +82,5 @@ export function setSelectedProvider(provider = {}) {
 }
 
 export default {
-  showAPIEndpointWizardModal,
   setSelectedProvider,
 };

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { DialogContainer } from 'react-md';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Stepper } from 'components/Form';
-import { generateContextEntityState } from 'util/helpers/context';
 import { generatePayload } from '../payloadTransformer';
 import APIPage from './APIPage';
 import APIEndpointPage from './APIEndpointPage';
@@ -19,17 +19,19 @@ const initialValues = apiEndpointModel.get();
 
 class APIEndpointWizard extends PureComponent {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
-    hideModal: PropTypes.func.isRequired,
+    // modal props
+    modal: PropTypes.object.isRequired,
+    fqon: PropTypes.string.isRequired,
+    environmentId: PropTypes.string.isRequired,
+    implementationId: PropTypes.string.isRequired,
+    implementationType: PropTypes.string.isRequired,
+    portMappings: PropTypes.array,
+    // Internal props
     apisActions: PropTypes.object.isRequired,
     apiEndpointActions: PropTypes.object.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
     apis: PropTypes.array.isRequired,
-    params: PropTypes.object.isRequired,
-    implementationId: PropTypes.string.isRequired,
-    implementationType: PropTypes.string.isRequired,
-    portMappings: PropTypes.array,
   };
 
   static defaultProps = {
@@ -37,10 +39,9 @@ class APIEndpointWizard extends PureComponent {
   };
 
   componentDidMount() {
-    const { params, apisActions } = this.props;
-    const entity = generateContextEntityState(params);
+    const { fqon, environmentId, apisActions } = this.props;
 
-    apisActions.fetchAPIs({ fqon: params.fqon, entityId: entity.id, entityKey: entity.key });
+    apisActions.fetchAPIs({ fqon, entityId: environmentId, entityKey: 'environments' });
   }
 
   componentWillUnmount() {
@@ -59,7 +60,7 @@ class APIEndpointWizard extends PureComponent {
 
   finish = (values) => {
     const { apiId } = values;
-    const { apiEndpointActions, apiEndpointsActions, implementationType, implementationId, params, hideModal } = this.props;
+    const { modal, fqon, apiEndpointActions, apiEndpointsActions, implementationType, implementationId } = this.props;
 
     const model = {
       name: `${implementationId}-${values.properties.resource}`,
@@ -72,66 +73,57 @@ class APIEndpointWizard extends PureComponent {
 
     const payload = generatePayload(model);
     const onSuccess = () => {
-      apiEndpointsActions.fetchAPIEndpoints({ fqon: params.fqon, params: { implementation_type: implementationType, implementation_id: implementationId } });
-      hideModal();
+      apiEndpointsActions.fetchAPIEndpoints({ fqon, params: { implementation_type: implementationType, implementation_id: implementationId } });
+      modal.hideModal();
     };
 
-    apiEndpointActions.createAPIEndpoint({ fqon: params.fqon, entityId: apiId, entityKey: 'apis', payload, onSuccess });
+    apiEndpointActions.createAPIEndpoint({ fqon, entityId: apiId, entityKey: 'apis', payload, onSuccess });
   }
 
   render() {
-    const { visible, apis, implementationId, implementationType, portMappings, apiEndpointPending, hideModal } = this.props;
+    const { modal, apis, implementationId, implementationType, portMappings, apiEndpointPending } = this.props;
 
     return (
-      <DialogContainer
-        id="context-form-dialog"
-        title="Map API Endpoint"
-        visible={visible}
-        onHide={this.props.hideModal}
-        width="60em"
-        actions={null}
-        defaultVisibleTransitionable
-        modal
+      <Dialog
+        id="apiendpoint-modal"
+        aria-labelledby="capiendpoint-title"
+        aria-describedby="apiendpoint-description"
+        open={modal.open}
+        onClose={modal.hideModal}
+        onExited={modal.destroyModal}
+        maxWidth="md"
       >
-        <Stepper
-          initialValues={initialValues}
-          onFinish={this.finish}
-          onCancel={hideModal}
-          pending={apiEndpointPending}
-        >
-          <Stepper.Page validate={page1Validations} title="Select an API">
-            <APIPage
-              apis={apis}
-            />
-          </Stepper.Page>
-          <Stepper.Page validate={page2Validations({ implementationType })} title="Define the Endpoint">
-            <APIEndpointPage
-              implementationId={implementationId}
-              implementationType={implementationType}
-              portMappings={portMappings}
-              pending={apiEndpointPending}
-              initialValues={initialValues}
-            />
-          </Stepper.Page>
-        </Stepper>
-      </DialogContainer>
+        <DialogTitle id="apiendpoint-title">Map an API Endpoint</DialogTitle>
+        <DialogContent>
+          <Stepper
+            initialValues={initialValues}
+            onFinish={this.finish}
+            onCancel={modal.hideModal}
+            pending={apiEndpointPending}
+          >
+            <Stepper.Page validate={page1Validations} title="Select an API">
+              <APIPage
+                apis={apis}
+              />
+            </Stepper.Page>
+            <Stepper.Page validate={page2Validations({ implementationType })} title="Define the Endpoint">
+              <APIEndpointPage
+                implementationId={implementationId}
+                implementationType={implementationType}
+                portMappings={portMappings}
+                pending={apiEndpointPending}
+                initialValues={initialValues}
+              />
+            </Stepper.Page>
+          </Stepper>
+        </DialogContent>
+      </Dialog>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  modal: state.modal,
-});
-
-const actions = dispatch => ({
-  hideModal: () => {
-    dispatch({ type: 'HIDE_MODAL' });
-  },
-});
 
 export default compose(
   withAPIEndpoint(),
   withAPIEndpoints({ unload: false }),
   withAPIs,
-  connect(mapStateToProps, actions),
 )(APIEndpointWizard);
