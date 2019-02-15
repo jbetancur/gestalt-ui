@@ -37,7 +37,6 @@ import {
   selectProvider,
   selectVolumeListing,
 } from '../reducers/selectors';
-import ActionsModals from '../ActionModals';
 import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
 import withContainer from '../hocs/withContainer';
 import iconMap from '../../Providers/config/iconMap';
@@ -138,7 +137,6 @@ class ContainerEdit extends Component {
           sm={12}
           md={12}
         >
-          <ActionsModals />
           <ActionsToolbar
             title={container.name}
             showBackNav

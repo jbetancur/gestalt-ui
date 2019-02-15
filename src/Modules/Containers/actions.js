@@ -4,42 +4,6 @@ import {
 } from './actionTypes';
 import providerModel from '../Providers/models/provider';
 
-export function scaleContainerModal(action, item, numInstances) {
-  return {
-    type: 'SHOW_CONTAINER_MODAL',
-    modalType: 'SCALE',
-    modalProps: {
-      title: item,
-      numInstances,
-      onProceed: action,
-    }
-  };
-}
-
-export function migrateContainerModal(action, item, sourceProvider, inContainerView) {
-  return {
-    type: 'SHOW_CONTAINER_MODAL',
-    modalType: 'MIGRATE',
-    modalProps: {
-      title: item,
-      sourceProvider,
-      inContainerView,
-      onProceed: action,
-    }
-  };
-}
-
-export function promoteContainerModal(action, item) {
-  return {
-    type: 'SHOW_CONTAINER_MODAL',
-    modalType: 'PROMOTE',
-    modalProps: {
-      title: item,
-      onProceed: action,
-    }
-  };
-}
-
 /**
  * showAPIEndpointWizardModal
  * @param {String} implementationId - containerId | lamnbdaId
@@ -152,9 +116,6 @@ export function setSelectedProvider(provider = {}) {
 }
 
 export default {
-  scaleContainerModal,
-  migrateContainerModal,
-  promoteContainerModal,
   showAPIEndpointWizardModal,
   showImportModal,
   setSelectedProvider,

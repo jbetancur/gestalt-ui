@@ -13,6 +13,9 @@ import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
+import ScaleModal from '../ActionModals/Scale';
+import MigrateModal from '../ActionModals/Migrate';
+import PromoteModal from '../ActionModals/Promote';
 import actionCreators from '../actions';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withContainer from '../hocs/withContainer';
@@ -69,11 +72,8 @@ class ContainerActions extends PureComponent {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     containerModel: PropTypes.object.isRequired,
-    scaleContainerModal: PropTypes.func.isRequired,
     containerActions: PropTypes.object.isRequired,
     containersActions: PropTypes.object.isRequired,
-    migrateContainerModal: PropTypes.func.isRequired,
-    promoteContainerModal: PropTypes.func.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
@@ -188,7 +188,8 @@ class ContainerActions extends PureComponent {
   }
 
   scale = () => {
-    const { match, containerActions, scaleContainerModal, containerModel, inContainerView, onScale } = this.props;
+    const { match, containerActions, containerModel, inContainerView, onScale } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -198,18 +199,23 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    const modalAction = (numInstances) => {
+    const onProceed = (numInstances) => {
       if (numInstances !== containerModel.properties.num_instances) {
         containerActions.scaleContainer({ fqon: match.params.fqon, containerId: containerModel.id, numInstances, onSuccess });
         onScale();
       }
     };
 
-    scaleContainerModal(modalAction, containerModel.name, containerModel.properties.num_instances);
+    showModal(ScaleModal, {
+      title: containerModel.name,
+      numInstances: containerModel.properties.num_instances,
+      onProceed,
+    });
   }
 
   migrate = () => {
-    const { match, containerActions, migrateContainerModal, containerModel, inContainerView, onMigrate } = this.props;
+    const { match, containerActions, containerModel, inContainerView, onMigrate } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -219,16 +225,22 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    const modalAction = (providerId) => {
+    const onProceed = (providerId) => {
       containerActions.migrateContainer({ fqon: match.params.fqon, containerId: containerModel.id, providerId, onSuccess });
       onMigrate();
     };
 
-    migrateContainerModal(modalAction, containerModel.name, containerModel.properties.provider, inContainerView);
+    showModal(MigrateModal, {
+      title: containerModel.name,
+      sourceProvider: containerModel.properties.provider,
+      inContainerView,
+      onProceed,
+    });
   }
 
   promote = () => {
-    const { match, containerActions, promoteContainerModal, containerModel, hierarchyContextActions, onPromote } = this.props;
+    const { match, containerActions, containerModel, hierarchyContextActions, onPromote } = this.props;
+    const { showModal } = this.context;
 
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
@@ -242,12 +254,16 @@ class ContainerActions extends PureComponent {
       this.populateContainers();
     };
 
-    const modalAction = (environment) => {
+    const onProceed = (environment) => {
       containerActions.promoteContainer({ fqon: match.params.fqon, containerId: containerModel.id, environmentId: environment.id, onSuccess: onSuccess(environment) });
       onPromote();
     };
 
-    promoteContainerModal(modalAction, containerModel.name, match.params);
+    showModal(PromoteModal, {
+      title: containerModel.name,
+      sourceProvider: containerModel.properties.provider,
+      onProceed,
+    });
   }
 
   render() {

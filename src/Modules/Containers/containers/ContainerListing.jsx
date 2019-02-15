@@ -19,7 +19,6 @@ import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import actions from '../actions';
 import ContainerActions from '../components/ContainerActions';
 import iconMap from '../../Providers/config/iconMap';
-import ActionsModals from '../ActionModals';
 import withContainers from '../hocs/withContainers';
 import { getContainers } from '../reducers/selectors';
 
@@ -79,7 +78,7 @@ class ContainerListing extends PureComponent {
         selector: 'properties.status',
         sortable: true,
         allowOverflow: true,
-        // minWidth: '150px',
+        minWidth: '140px',
         cell: row => (
           <StatusBubble
             status={row.properties.status}
@@ -168,7 +167,6 @@ class ContainerListing extends PureComponent {
       <Row gutter={5}>
         <Col flex={12}>
           <Card>
-            <ActionsModals />
             <DataTable
               title="Containers"
               customTheme={tableTheme}

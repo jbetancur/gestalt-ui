@@ -9,7 +9,7 @@ import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses } from 'Modules/Containers';
+import { ContainerActions, ContainerInstances, ContainerServiceAddresses } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -121,7 +121,6 @@ class ProviderEdit extends PureComponent {
 
     return (
       <Row center gutter={5}>
-        <ContainerActionsModal />
         <Col flex={10} xs={12} sm={12} md={12}>
           <ActionsToolbar
             title={provider.name}

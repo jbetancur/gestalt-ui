@@ -3,16 +3,6 @@ import {
   TOGGLE_HAS_CONTAINER,
 } from './actionTypes';
 
-export function showProviderInstanceModal() {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'ProviderInstanceModal',
-    modalProps: {
-      title: 'Create Provider Instance',
-    }
-  };
-}
-
 /**
  * setSelectedProviderType
  * @param {*} provider
@@ -37,7 +27,6 @@ export function toggleHasContainer(checkState) {
 }
 
 export default {
-  showProviderInstanceModal,
   setSelectedProviderType,
   toggleHasContainer,
 };
