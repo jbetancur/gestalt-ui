@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Row } from 'react-flexybox';
 import styled from 'styled-components';
 import EntitlementCheckbox from './EntitlementCheckbox';
 import { setEntitlementToggleStates } from '../entitlementToggleStates';
@@ -22,9 +21,10 @@ const UL = styled.ul`
   }
 `;
 
-const EntitlementDiv = styled.div`
-  height: 24.5em;
-  overflow: scroll;
+const EntitlementItems = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 `;
 
 class EntitlementTreeItems extends PureComponent {
@@ -51,9 +51,11 @@ class EntitlementTreeItems extends PureComponent {
   }
 
   render() {
+    const { entitlements } = this.props;
+
     return (
-      <Row component={EntitlementDiv}>
-        {this.props.entitlements.map(entitlement => (
+      <EntitlementItems>
+        {entitlements.map(entitlement => (
           <UL key={entitlement.type}>
             <li key={entitlement.type}>
               <EntitlementCheckbox
@@ -79,8 +81,9 @@ class EntitlementTreeItems extends PureComponent {
                 </li>
               ))}
             </UL>
-          </UL>))}
-      </Row>
+          </UL>
+        ))}
+      </EntitlementItems>
     );
   }
 }
