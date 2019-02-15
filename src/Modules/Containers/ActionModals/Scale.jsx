@@ -57,7 +57,7 @@ class ConfirmModal extends PureComponent {
         onExited={modal.destroyModal}
         maxWidth="sm"
       >
-        <DialogTitle id="ccontainer-scale-title">{title}</DialogTitle>
+        <DialogTitle id="container-scale-title">{title}</DialogTitle>
         <DialogContentCustom>
           <Row center>
             <Col flex={6}>

@@ -188,7 +188,7 @@ class ContextNavigation extends PureComponent {
     return (
       <NavHeader>
         <AppConsumer>
-          {({ onLogout, onToggleMainNavigation, onToggleFavorites, onShowLicenseModal, enableExperimental }) => (
+          {({ onLogout, onToggleMainNavigation, onToggleFavorites, enableExperimental }) => (
             <React.Fragment>
               <Row alignItems="center">
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -202,7 +202,7 @@ class ContextNavigation extends PureComponent {
                     <CreateMenu enableExperimental={enableExperimental} {...this.props} />
                     <Button icon onClick={onToggleFavorites}>star</Button>
                     <UserMenu onLogout={onLogout} />
-                    <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />
+                    <AppToolbarInfoMenu />
                   </ActionsPanel>
                 </Col>
               </Row>

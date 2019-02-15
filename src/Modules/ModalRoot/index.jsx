@@ -6,12 +6,10 @@ import { connect } from 'react-redux';
 import { APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { StreamInstanceModal } from 'Modules/Streams';
 import { VolumeCreateModal } from 'Modules/Volumes';
-import LicenseModal from 'Modules/Licensing';
 import IFRAME from './Modals/IFrameModal';
 
 const MODAL_COMPONENTS = {
   IFRAME,
-  LicenseModal,
   APIEndpointWizardModal,
   StreamInstanceModal,
   VolumeCreateModal,

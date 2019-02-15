@@ -1,13 +1,17 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
 import { A } from 'components/Links';
 import { GalacticFogIcon } from 'components/Icons';
+import { LicenseModal } from 'Modules/Licensing';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../../constants';
 
-const AppToolbarInfoMenu = memo(({ t, onShowLicenseModal }) => {
+const AppToolbarInfoMenu = memo(({ t }) => {
+  const { showModal } = useContext(ModalContext);
+
   const menuItems = [
     <ListItem
       id="main--info--menu--product"
@@ -42,7 +46,7 @@ const AppToolbarInfoMenu = memo(({ t, onShowLicenseModal }) => {
       key="main--info--menu--licensing"
       primaryText="Licensing"
       leftIcon={<FontIcon>vpn_key</FontIcon>}
-      onClick={onShowLicenseModal}
+      onClick={() => showModal(LicenseModal)}
     />,
   ];
 
@@ -64,7 +68,6 @@ const AppToolbarInfoMenu = memo(({ t, onShowLicenseModal }) => {
 
 AppToolbarInfoMenu.propTypes = {
   t: PropTypes.func.isRequired,
-  onShowLicenseModal: PropTypes.func.isRequired,
 };
 
 export default translate()(AppToolbarInfoMenu);

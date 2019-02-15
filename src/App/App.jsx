@@ -85,12 +85,6 @@ class App extends Component {
     this.setState(state => ({ enableExperimental: !state.enableExperimental }));
   }
 
-  handleLicenseModel = () => {
-    const { licenseActions } = this.props;
-
-    licenseActions.showLicenseModal();
-  }
-
   handleExpandMainNavigation = () => {
     this.setState(state => ({ mainNavigationExpanded: !state.mainNavigationExpanded }));
   }
@@ -149,7 +143,6 @@ class App extends Component {
       onCloseFavorites: this.handleCloseFavorites,
       onToggleFavorites: this.handleToggleFavorites,
       onLogout: this.logout,
-      onShowLicenseModal: this.handleLicenseModel,
     };
 
     return (

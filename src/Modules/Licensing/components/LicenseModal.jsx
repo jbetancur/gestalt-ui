@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DialogContainer } from 'react-md';
+import styled from 'styled-components';
 import { Form } from 'react-final-form';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { media } from 'util/helpers/media';
 import LicenseForm from './LicenseForm';
 import actions from '../actions';
+
+const DialogContentCustom = styled(DialogContent)`
+  width: 800px;
+  min-height: 500px;
+  ${() => media.xs`
+    width: auto;
+  `};
+  ${() => media.sm`
+    width: auto;
+  `};
+`;
 
 const initialFormValues = {
   properties: {
@@ -15,12 +30,11 @@ const initialFormValues = {
 
 class License extends Component {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
+    modal: PropTypes.object.isRequired,
     fetchLicense: PropTypes.func.isRequired,
     updateLicense: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     unloadLicense: PropTypes.func.isRequired,
-    hideLicenseModal: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -36,7 +50,7 @@ class License extends Component {
   }
 
   update = (values) => {
-    const { updateLicense, hideLicenseModal } = this.props;
+    const { modal, updateLicense } = this.props;
     const { properties } = values;
 
     const payload = {
@@ -47,33 +61,36 @@ class License extends Component {
     };
 
     updateLicense('root', payload).then(() => {
-      hideLicenseModal();
+      modal.hideModal();
     });
   }
 
   render() {
-    const { visible, hideLicenseModal, pending } = this.props;
+    const { modal, pending } = this.props;
 
     return (
-      <DialogContainer
+      <Dialog
         id="license-modal"
-        visible={visible}
-        title="License"
-        closeOnEsc
-        onHide={hideLicenseModal}
-        defaultVisibleTransitionable
-        width="60%"
-        height="60%"
+        aria-labelledby="license-title"
+        aria-describedby="license-description"
+        open={modal.open}
+        onClose={modal.hideModal}
+        onExited={modal.destroyModal}
+        maxWidth="md"
       >
+        <DialogTitle id="license-scale-title">Licenseing</DialogTitle>
         {pending && <ActivityContainer id="license-load" />}
-        <Form
-          component={LicenseForm}
-          onSubmit={this.update}
-          pending={pending}
-          initialValues={initialFormValues}
-          {...this.props}
-        />
-      </DialogContainer>
+        <DialogContentCustom>
+          <Form
+            component={LicenseForm}
+            onSubmit={this.update}
+            pending={pending}
+            initialValues={initialFormValues}
+            onClose={modal.hideModal}
+            {...this.props}
+          />
+        </DialogContentCustom>
+      </Dialog>
     );
   }
 }

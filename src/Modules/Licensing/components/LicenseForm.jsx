@@ -34,14 +34,14 @@ const LicenseForm = ({
   pristine,
   invalid,
   handleSubmit,
-  hideLicenseModal,
+  onClose,
   licenseInfo,
   pending,
   form,
 }) => {
   const close = () => {
     form.reset();
-    hideLicenseModal();
+    onClose();
   };
 
   const generateDetailItems = () => (
@@ -113,7 +113,7 @@ const LicenseForm = ({
         <Button
           flat
           disabled={submitting}
-          onClick={() => close()}
+          onClick={close}
         >
           Cancel
         </Button>
@@ -135,7 +135,7 @@ LicenseForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  hideLicenseModal: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   licenseInfo: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
