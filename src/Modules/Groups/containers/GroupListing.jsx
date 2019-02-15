@@ -21,7 +21,6 @@ class GroupListing extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     groups: PropTypes.array.isRequired,
     groupsPending: PropTypes.bool.isRequired,
     groupsActions: PropTypes.object.isRequired,

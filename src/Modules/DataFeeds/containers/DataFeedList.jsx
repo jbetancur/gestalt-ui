@@ -25,7 +25,6 @@ class DataFeedList extends PureComponent {
     datafeedsActions: PropTypes.object.isRequired,
     datafeeds: PropTypes.array.isRequired,
     datafeedsPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
 
   static contextType = ModalConsumer;

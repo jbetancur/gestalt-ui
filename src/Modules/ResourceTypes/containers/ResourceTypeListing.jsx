@@ -22,7 +22,6 @@ class ResourceTypeListing extends PureComponent {
     resourceTypes: PropTypes.array.isRequired,
     resourceTypesActions: PropTypes.object.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
 
   static contextType = ModalConsumer;

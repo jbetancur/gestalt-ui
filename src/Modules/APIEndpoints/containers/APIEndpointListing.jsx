@@ -28,7 +28,6 @@ class APIEndpointListing extends PureComponent {
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
 
   static contextType = ModalConsumer;

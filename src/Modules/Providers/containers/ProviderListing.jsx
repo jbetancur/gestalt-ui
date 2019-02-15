@@ -24,7 +24,6 @@ class ProviderListing extends PureComponent {
     history: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     providersPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     providersActions: PropTypes.object.isRequired,
   };
 
