@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Button } from 'components/Buttons';
@@ -22,6 +21,8 @@ import { Card } from 'components/Cards';
 import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Caption } from 'components/Typography';
 import Div from 'components/Div';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from '../components/PayloadViewer';
 import ContainerForm from './ContainerForm';
 import ContainerActions from '../components/ContainerActions';
@@ -63,7 +64,6 @@ class ContainerEdit extends Component {
     containerActions: PropTypes.object.isRequired,
     containerPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     containerVolumes: PropTypes.array.isRequired,
@@ -72,6 +72,8 @@ class ContainerEdit extends Component {
   static defaultProps = {
     inlineMode: false,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, apiEndpointsActions, containerActions } = this.props;
@@ -94,9 +96,15 @@ class ContainerEdit extends Component {
   }
 
   showEntitlements = () => {
-    const { entitlementActions, container, match } = this.props;
+    const { container } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(container.name, match.params.fqon, container.id, 'containers', 'Container');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${container.name}" Container`,
+      fqon: container.org.properties.fqon,
+      entityId: container.id,
+      entityKey: 'containers',
+    });
   }
 
   render() {
@@ -291,7 +299,6 @@ const mapStateToProps = state => ({
 export default compose(
   withContainer(),
   withAPIEndpoints(),
-  withEntitlements,
   withRouter,
   connect(mapStateToProps, actions),
 )(ContainerEdit);

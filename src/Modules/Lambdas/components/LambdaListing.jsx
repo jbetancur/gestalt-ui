@@ -10,11 +10,12 @@ import { DeleteIconButton } from 'components/Buttons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { LambdaIcon } from 'components/Icons';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import LambdaMenuActions from './LambdaMenuActions';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
-import actions from '../actions';
 import withLambdas from '../hocs/withLambdas';
 import iconMap from '../../Providers/config/iconMap';
 
@@ -30,10 +31,11 @@ class LambdaListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     lambdasActions: PropTypes.object.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -50,29 +52,33 @@ class LambdaListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, lambdasActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      lambdasActions.deleteLambda({ fqon: match.params.fqon, resource: row, onSuccess, force });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => lambdasActions.deleteLambda({ fqon: match.params.fqon, resource: row, onSuccess, force }),
+    });
   }
 
   deleteMultiple = () => {
     const { match, lambdasActions } = this.props;
     const { selectedRows } = this.state;
-
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      lambdasActions.deleteLambdas({ resources: selectedRows, fqon: match.params.fqon, onSuccess, force });
-    }, 'Confirm Delete Lambdas', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Lambdas',
+      multipleItems: names,
+      onProceed: ({ force }) => lambdasActions.deleteLambdas({ resources: selectedRows, fqon: match.params.fqon, onSuccess, force }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -92,6 +98,8 @@ class LambdaListing extends PureComponent {
   }
 
   defineColumns() {
+    const { match } = this.props;
+
     return [
       {
         width: '56px',
@@ -101,10 +109,9 @@ class LambdaListing extends PureComponent {
         cell: row => (
           <LambdaMenuActions
             row={row}
-            fqon={this.props.match.params.fqon}
+            fqon={match.params.fqon}
             onDelete={this.deleteOne}
-            editURL={`${this.props.match.url}/${row.id}`}
-            {...this.props}
+            editURL={`${match.url}/${row.id}`}
           />
         ),
       },
@@ -196,5 +203,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withLambdas,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(LambdaListing);

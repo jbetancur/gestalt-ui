@@ -12,8 +12,9 @@ import { Card } from 'components/Cards';
 import { StatusBubble } from 'components/Status';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import ExpanderRow from './ExpanderRow';
-import actions from '../actions';
 import withAppDeployments from '../hocs/withAppDeployments';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -25,8 +26,9 @@ class AppDeploymenListing extends PureComponent {
     appDeploymentsActions: PropTypes.object.isRequired,
     appDeployments: PropTypes.array.isRequired,
     appDeploymentsPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -37,30 +39,34 @@ class AppDeploymenListing extends PureComponent {
   }
 
   deleteOne = (row) => {
-    const { appDeploymentsActions, confirmDelete } = this.props;
+    const { appDeploymentsActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    confirmDelete(({ force }) => {
-      appDeploymentsActions.deleteAppDeployment({ resource: row, onSuccess, force });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => appDeploymentsActions.deleteAppDeployment({ resource: row, onSuccess, force }),
+    });
   }
 
   deleteMultiple = () => {
-    const { appDeploymentsActions, confirmDelete } = this.props;
+    const { appDeploymentsActions } = this.props;
     const { selectedRows } = this.state;
-
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    confirmDelete(({ force }) => {
-      appDeploymentsActions.deleteAppDeployments({ resources: selectedRows, onSuccess, force });
-    }, 'Confirm Delete App Deployments', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple App Deployments',
+      multipleItems: names,
+      onProceed: ({ force }) => appDeploymentsActions.deleteAppDeployments({ resources: selectedRows, onSuccess, force }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -174,5 +180,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withAppDeployments(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(AppDeploymenListing);

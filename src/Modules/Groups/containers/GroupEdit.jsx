@@ -13,7 +13,6 @@ import { Panel } from 'components/Panels';
 import jsonPatch from 'fast-json-patch';
 import GroupForm from './GroupForm';
 import validate from '../validations';
-import actions from '../actions';
 import { getEditGroupModel } from '../selectors';
 import withGroup from '../hocs/withGroup';
 import withUsers from '../../Users/hocs/withUsers';
@@ -195,5 +194,5 @@ const mapStateToProps = state => ({
 export default compose(
   withGroup(),
   withUsers(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(GroupEdit);

@@ -7,7 +7,6 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
 import { withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
-import { withEntitlements } from 'Modules/Entitlements';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -16,6 +15,8 @@ import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import APIForm from './APIForm';
 import validate from './validations';
@@ -30,9 +31,10 @@ class APIEdit extends Component {
     apiActions: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired,
     apiPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, apiActions } = this.props;
@@ -48,9 +50,15 @@ class APIEdit extends Component {
   }
 
   showEntitlements = () => {
-    const { match, api, entitlementActions } = this.props;
+    const { api } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(api.name, match.params.fqon, api.id, 'apis', 'API');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${api.name}" API`,
+      fqon: api.org.properties.fqon,
+      entityId: api.id,
+      entityKey: 'apis',
+    });
   }
 
   render() {
@@ -158,6 +166,5 @@ function mapStateToProps(state) {
 export default compose(
   withAPI,
   withProviderKongsByGatewayPicker(),
-  withEntitlements,
   connect(mapStateToProps, actions),
 )(APIEdit);

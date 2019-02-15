@@ -2,18 +2,6 @@ import {
   SELECT_RUNTIME,
 } from './actionTypes';
 
-export function confirmDelete(action, title, multipleItems) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'CONFIRM',
-    modalProps: {
-      title,
-      multipleItems,
-      onProceed: action,
-    }
-  };
-}
-
 /**
  * showAPIEndpointWizardModal
  * @param {*} implementationId - containerId | lamnbdaId
@@ -36,7 +24,6 @@ export function setRunTime(runtime = {}) {
 }
 
 export default {
-  confirmDelete,
   showAPIEndpointWizardModal,
   setRunTime,
 };

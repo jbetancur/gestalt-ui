@@ -10,6 +10,8 @@ import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import actions from '../actions';
 import withResourceTypes from '../hocs/withResourceTypes';
 
@@ -23,6 +25,8 @@ class ResourceTypeListing extends PureComponent {
     confirmDelete: PropTypes.func.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
@@ -33,14 +37,16 @@ class ResourceTypeListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, resourceTypesActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       resourceTypesActions.fetchResourceTypes({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(({ force }) => {
-      resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {

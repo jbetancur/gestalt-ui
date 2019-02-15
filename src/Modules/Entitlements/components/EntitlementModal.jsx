@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -10,7 +8,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { EntitlementIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
 import EntitlementListing from './EntitlementListing';
-import actions from '../actions';
 
 const DialogContentStyle = styled(DialogContent)`
   width: 50em;
@@ -18,25 +15,25 @@ const DialogContentStyle = styled(DialogContent)`
 
 class EntitlementModal extends PureComponent {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
-    hideEntitlementsModal: PropTypes.func.isRequired,
+    modal: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
   };
 
   handleHideModal = () => {
-    const { hideEntitlementsModal } = this.props;
+    const { modal } = this.props;
 
-    hideEntitlementsModal();
+    modal.hideModal();
   }
 
   render() {
-    const { visible, title } = this.props;
+    const { title, modal } = this.props;
 
     return (
       <Dialog
         id="entitlement-modal"
-        open={visible}
+        open={modal.open}
         onClose={this.handleHideModal}
+        onExited={modal.destroyModal}
         aria-labelledby="entitlement-modal"
         maxWidth={false}
       >
@@ -52,6 +49,4 @@ class EntitlementModal extends PureComponent {
   }
 }
 
-export default compose(
-  connect(null, actions)
-)(EntitlementModal);
+export default EntitlementModal;

@@ -13,8 +13,9 @@ import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { A } from 'components/Links';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { getLastFromSplit } from 'util/helpers/strings';
-import actions from '../actions';
 import withAPIEndpoints from '../hocs/withAPIEndpoints';
 
 const getBaseURL = (params, row) => `/${params.fqon}/hierarchy/${params.workspaceId}/environment/${params.environmentId}/apis/${params.apiId}/apiendpoints/${row.id}`;
@@ -30,6 +31,8 @@ class APIEndpointListing extends PureComponent {
     confirmDelete: PropTypes.func.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
@@ -44,31 +47,36 @@ class APIEndpointListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, apiEndpointsActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.properties.resource}?`,
+      onProceed: ({ force }) => apiEndpointsActions.deleteAPIEndpoint({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
 
   deleteMultiple = () => {
     const { match, apiEndpointsActions } = this.props;
     const { selectedRows } = this.state;
-    const names = selectedRows.map(item => item.name);
+    const { showModal } = this.context;
+    const names = selectedRows.map(item => item.properties.resource);
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      apiEndpointsActions.deleteAPIEndpoints({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete apiEndpoints', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple API Endpoints',
+      multipleItems: names,
+      onProceed: ({ force }) => apiEndpointsActions.deleteAPIEndpoints({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -98,6 +106,7 @@ class APIEndpointListing extends PureComponent {
         cell: row => (
           <GenericMenuActions
             row={row}
+            rowNameField="properties.resource"
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
             editURL={getBaseURL(this.props.match.params, row)}
@@ -170,28 +179,30 @@ class APIEndpointListing extends PureComponent {
   render() {
     return (
       <Row>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="API Endpoints"
-            data={this.props.apiEndpoints}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.apiEndpointsPending}
-            progressComponent={<LinearProgress id="apiendpoints-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContectActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<Title light>There are no endpoints to display</Title>}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.apiEndpointsPending} />}
-            pagination
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="API Endpoints"
+              data={this.props.apiEndpoints}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={this.props.apiEndpointsPending}
+              progressComponent={<LinearProgress id="apiendpoints-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContectActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<Title light>There are no endpoints to display</Title>}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.apiEndpointsPending} />}
+              pagination
+            />
+          </Card>
         </Col>
       </Row>
     );
@@ -204,5 +215,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withAPIEndpoints(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(APIEndpointListing);

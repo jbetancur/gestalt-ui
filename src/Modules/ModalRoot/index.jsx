@@ -9,8 +9,7 @@ import { StreamInstanceModal } from 'Modules/Streams';
 import { ContainerImportModal } from 'Modules/Containers';
 import { VolumeCreateModal } from 'Modules/Volumes';
 import LicenseModal from 'Modules/Licensing';
-import CONFIRM from './Modals/ConfirmDelete';
-import REPARENTUSER from './Modals/ReparentUser';
+import CONFIRM from './Modals/ConfirmModal';
 import IFRAME from './Modals/IFrameModal';
 
 const MODAL_COMPONENTS = {
@@ -22,7 +21,6 @@ const MODAL_COMPONENTS = {
   StreamInstanceModal,
   ContainerImportModal,
   VolumeCreateModal,
-  REPARENTUSER,
   /* other modals */
 };
 

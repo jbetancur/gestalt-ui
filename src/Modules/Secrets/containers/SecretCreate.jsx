@@ -12,7 +12,6 @@ import { withPickerData } from 'Modules/MetaResource';
 import { generateContextEntityState } from 'util/helpers/context';
 import SecretForm from './SecretForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateSecretModel } from '../selectors';
 import withSecret from '../hocs/withSecret';
@@ -82,5 +81,5 @@ function mapStateToProps(state) {
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withSecret,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(SecretCreate);

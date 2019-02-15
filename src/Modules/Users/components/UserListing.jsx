@@ -11,7 +11,8 @@ import { UserIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import actions from '../actions';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ReparentUserModal from './ReparentUserModal';
 import withUsers from '../hocs/withUsers';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -23,8 +24,9 @@ class UserListing extends PureComponent {
     usersActions: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
     usersPending: PropTypes.bool.isRequired,
-    showReparentModal: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -35,21 +37,24 @@ class UserListing extends PureComponent {
   }
 
   deleteOne = (row) => {
-    const { match, usersActions, showReparentModal } = this.props;
+    const { match, usersActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
-    showReparentModal(({ force, parent }) => {
-      usersActions.deleteUser({ fqon: match.params.fqon, resource: row, onSuccess, params: { force, parent } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ReparentUserModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force, parent }) => usersActions.deleteUser({ fqon: match.params.fqon, resource: row, onSuccess, params: { force, parent } }),
+    });
   }
 
   deleteMultiple = () => {
-    const { match, usersActions, showReparentModal } = this.props;
+    const { match, usersActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -57,15 +62,11 @@ class UserListing extends PureComponent {
       usersActions.fetchUsers({ fqon: match.params.fqon });
     };
 
-    showReparentModal(({ force, parent }) => {
-      usersActions.deleteUsers({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force, parent } });
-    }, 'Confirm Delete Users', names);
-  }
-
-  reparent = (row) => {
-    const { showReparentModal } = this.props;
-
-    showReparentModal(() => { }, `Reparent ${row.name}`);
+    showModal(ReparentUserModal, {
+      title: 'Confirm Deleting Multiple Users',
+      multipleItems: names,
+      onProceed: ({ force, parent }) => usersActions.deleteUsers({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force, parent } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -96,7 +97,6 @@ class UserListing extends PureComponent {
             row={row}
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
-            onReparent={this.reparent}
             editURL={`${this.props.match.url}/${row.id}`}
             entityKey="users"
             {...this.props}
@@ -153,29 +153,31 @@ class UserListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Users"
-            data={this.props.users}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.usersPending}
-            progressComponent={<LinearProgress id="user-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no users to display" icon={<UserIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.usersPending} />}
-            pagination
-            paginationPerPage={15}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Users"
+              data={this.props.users}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={this.props.usersPending}
+              progressComponent={<LinearProgress id="user-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no users to display" icon={<UserIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.usersPending} />}
+              pagination
+              paginationPerPage={15}
+            />
+          </Card>
         </Col>
       </Row>
     );
@@ -188,5 +190,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withUsers(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(UserListing);

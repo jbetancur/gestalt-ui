@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
-import { withEntitlements } from 'Modules/Entitlements';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -15,6 +14,8 @@ import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from '../components/PayloadViewer';
 import DataFeedForm from './DataFeedForm';
 import validate from './validations';
@@ -38,6 +39,8 @@ class DataFeedEdit extends Component {
     resourceType: PropTypes.object.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   componentDidMount() {
     const { datafeedActions, match } = this.props;
 
@@ -46,9 +49,15 @@ class DataFeedEdit extends Component {
   }
 
   onShowEntitlements = () => {
-    const { entitlementActions, datafeed, match } = this.props;
+    const { datafeed } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(datafeed.name, match.params.fqon, datafeed.id, 'datafeeds', 'Data Feed');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${datafeed.name}" Data Feed`,
+      fqon: datafeed.org.properties.fqon,
+      entityId: datafeed.id,
+      entityKey: 'datafeeds',
+    });
   }
 
   onSubmit = (values) => {
@@ -144,7 +153,6 @@ const mapStatetoProps = state => ({
 
 export default compose(
   withPickerData({ entity: 'secrets', label: 'Secrets' }),
-  withEntitlements,
   withDatafeed,
   withResourceType,
   withRouter,

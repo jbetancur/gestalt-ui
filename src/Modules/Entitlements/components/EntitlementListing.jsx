@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { Search } from 'Modules/Search';
@@ -9,9 +8,8 @@ import { Button } from 'components/Buttons';
 import { DotActivity } from 'components/ProgressIndicators';
 import { H3 } from 'components/Typography';
 import { UserIcon, GroupIcon } from 'components/Icons';
-import SearchFields from '../components/SearchFields';
-import EntitlementTree from '../components/EntitlementTree';
-import actions from '../actions';
+import SearchFields from './SearchFields';
+import EntitlementTree from './EntitlementTree';
 import { USER } from '../../../constants';
 import withEntitlements from '../hocs/withEntitlements';
 import withSearch from '../../Search/hocs/withSearch';
@@ -166,5 +164,4 @@ export default compose(
   withSelf,
   withSearch({ unload: false }),
   withEntitlements(),
-  connect(null, actions)
 )(EntitlementListing);

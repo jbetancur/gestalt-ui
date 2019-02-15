@@ -23,10 +23,9 @@ const DialogContentSCroller = styled(DialogContent)`
 
 class ReparentModal extends PureComponent {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
-    onProceed: PropTypes.func,
-    hideModal: PropTypes.func.isRequired,
+    modal: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    onProceed: PropTypes.func,
     onClose: PropTypes.func,
     multipleItems: PropTypes.array,
   };
@@ -46,8 +45,8 @@ class ReparentModal extends PureComponent {
   };
 
   close = () => {
-    const { hideModal, onClose } = this.props;
-    hideModal();
+    const { modal, onClose } = this.props;
+    modal.hideModal();
 
     if (onClose) {
       onClose();
@@ -55,7 +54,7 @@ class ReparentModal extends PureComponent {
   }
 
   doIt = () => {
-    const { onProceed, hideModal } = this.props;
+    const { onProceed, modal } = this.props;
     const { force, reparent, reparentTargetValue } = this.state;
 
     if (reparent) {
@@ -64,7 +63,7 @@ class ReparentModal extends PureComponent {
       onProceed({ force });
     }
 
-    hideModal();
+    modal.hideModal();
   }
 
   handleForceChecked = () => {
@@ -87,7 +86,7 @@ class ReparentModal extends PureComponent {
   }
 
   render() {
-    const { visible, title, multipleItems } = this.props;
+    const { modal, title, multipleItems } = this.props;
     const { entity, reparent, reparentTargetName, reparentTargetValue } = this.state;
     const modalTitle = multipleItems.length > 1
       ? `${title} (${multipleItems.length})`
@@ -98,8 +97,9 @@ class ReparentModal extends PureComponent {
         id="confirmation-modal"
         aria-labelledby="confirmation-modal-title"
         aria-describedby="confirmation-modal-description"
-        open={visible}
+        open={modal.open}
         onClose={this.close}
+        onExited={modal.destroyModal}
         maxWidth="sm"
       >
         <DialogTitle id="confirmation-modal-title">{modalTitle}</DialogTitle>

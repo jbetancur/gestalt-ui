@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { TextField, Checkbox } from 'react-md';
 import ListItem from '@material-ui/core/ListItem';
@@ -20,9 +19,8 @@ const DialogContentScroller = styled(DialogContent)`
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
+    modal: PropTypes.object.isRequired,
     onProceed: PropTypes.func,
-    hideModal: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     requireConfirm: PropTypes.bool,
     multipleItems: PropTypes.array,
@@ -59,9 +57,9 @@ class ConfirmModal extends PureComponent {
   }
 
   close = () => {
-    const { onClose, hideModal } = this.props;
+    const { onClose, modal } = this.props;
 
-    hideModal();
+    modal.hideModal();
 
     if (onClose) {
       onClose();
@@ -69,11 +67,11 @@ class ConfirmModal extends PureComponent {
   }
 
   doIt = () => {
-    const { onProceed, hideModal } = this.props;
+    const { onProceed, modal } = this.props;
 
     const { force } = this.state;
     onProceed({ force });
-    hideModal();
+    modal.hideModal();
   }
 
   handleForceChecked = () => {
@@ -89,7 +87,6 @@ class ConfirmModal extends PureComponent {
     return (
       <Alert
         width="auto"
-        raised
         message={{ message, icon: true, status: 'error' }}
       />
     );
@@ -97,7 +94,7 @@ class ConfirmModal extends PureComponent {
 
   render() {
     const { force, disable, confirmName } = this.state;
-    const { visible, title, body, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
+    const { modal, title, body, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
     const modalTitle = multipleItems.length > 1
       ? `${title} (${multipleItems.length})`
       : title;
@@ -109,9 +106,10 @@ class ConfirmModal extends PureComponent {
         id="confirmation-modal"
         aria-labelledby="confirmation-modal-title"
         aria-describedby="confirmation-modal-description"
-        open={visible}
+        open={modal.open}
         onClose={this.close}
-        maxWidth="xs"
+        onExited={modal.destroyModal}
+        maxWidth="sm"
       >
         <DialogTitle id="confirmation-modal-title">{modalTitle}</DialogTitle>
 
@@ -144,16 +142,17 @@ class ConfirmModal extends PureComponent {
         )}
 
         <DialogActions>
-          <Checkbox
-            id="confirmation-modal--force-delete"
-            name="confirmation-modal--force-delete"
-            label="Force Delete"
-            inline
-            onChange={this.handleForceChecked}
-            value={force}
-            style={{ width: '100%' }}
-          />
-          <Button raised important onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>
+          {forceOption &&
+            <Checkbox
+              id="confirmation-modal--force-delete"
+              name="confirmation-modal--force-delete"
+              label="Force Delete"
+              inline
+              onChange={this.handleForceChecked}
+              value={force}
+              style={{ width: '100%' }}
+            />}
+          <Button raised primary onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>
           <Button flat primary onClick={this.close}>{cancelLabel}</Button>
         </DialogActions>
       </Dialog>
@@ -161,10 +160,4 @@ class ConfirmModal extends PureComponent {
   }
 }
 
-const actions = dispatch => ({
-  hideModal: () => {
-    dispatch({ type: 'HIDE_MODAL' });
-  }
-});
-
-export default connect(null, actions)(ConfirmModal);
+export default ConfirmModal;

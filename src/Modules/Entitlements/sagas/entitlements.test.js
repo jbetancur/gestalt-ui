@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchAPI } from 'config/lib/utility';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import entitlementSagas, {
   fetchEntitlements,
@@ -27,7 +28,7 @@ describe('Entitlement Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/entitlements?expand=true')
+          call(fetchAPI, 'iamfqon/environments/1/entitlements?expand=true')
         );
       });
 
@@ -64,7 +65,7 @@ describe('Entitlement Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/environments/1/entitlements?expand=true')
+          call(fetchAPI, 'iamfqon/environments/1/entitlements?expand=true')
         );
       });
 
@@ -98,7 +99,7 @@ describe('Entitlement Sagas', () => {
       it('should make an api call', () => {
         result = saga.next();
         expect(result.value).toEqual(
-          call(axios.get, 'iamfqon/entitlements?expand=true')
+          call(fetchAPI, 'iamfqon/entitlements?expand=true')
         );
       });
 

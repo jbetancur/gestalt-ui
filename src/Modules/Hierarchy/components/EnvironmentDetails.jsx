@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import withHierarchy from '../hocs/withHierarchy';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
@@ -15,27 +15,37 @@ class EnvironmentDetails extends PureComponent {
     hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   showEntitlements = () => {
-    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { hierarchyContext } = this.props;
+    const { showModal } = this.context;
     const { context: { environment } } = hierarchyContext;
     const name = environment.description || environment.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, environment.id, 'environments', 'Environment');
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Environment`,
+      fqon: environment.org.properties.fqon,
+      entityId: environment.id,
+      entityKey: 'environments',
+    });
   }
 
   delete = () => {
-    const { hierarchyContext, match, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, match, history, hierarchyContextActions } = this.props;
+    const { showModal } = this.context;
     const { context: { environment } } = hierarchyContext;
     const name = environment.description || environment.name;
-    const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } });
-    }, name, 'Environment');
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Environment`,
+      values: { name, type: 'Environment' },
+      requireConfirm: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } }),
+    });
   }
 
   renderMenuItems() {
@@ -108,8 +118,4 @@ class EnvironmentDetails extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withHierarchy,
-  withEntitlements,
-)(EnvironmentDetails);
+export default withRouter(EnvironmentDetails);

@@ -12,8 +12,9 @@ import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { getLastFromSplit } from 'util/helpers/strings';
-import actions from '../actions';
 import withPolicyRules from '../hocs/withPolicyRules';
 
 const getBaseURL = (params, row) => `/${params.fqon}/hierarchy/${params.workspaceId}/environment/${params.environmentId}/policies/${params.policyId}/rules/${row.id}/edit${getLastFromSplit(row.resource_type)}Rule`;
@@ -26,8 +27,9 @@ class PolicyRuleListing extends PureComponent {
     policyRules: PropTypes.array.isRequired,
     policyRulesActions: PropTypes.object.isRequired,
     policyRulesPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -39,28 +41,33 @@ class PolicyRuleListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, policyRulesActions } = this.props;
-
+    const { showModal } = this.context;
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      policyRulesActions.deletePolicyRule({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => policyRulesActions.deletePolicyRule({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
   deleteMultiple = () => {
     const { match, policyRulesActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      policyRulesActions.deletePolicyRules({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete Rules', names);
+
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Rules',
+      multipleItems: names,
+      onProceed: ({ force }) => policyRulesActions.deletePolicyRules({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -179,5 +186,5 @@ const mapStateToProps = state => ({
 export default compose(
   withPolicyRules,
   withRouter,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(PolicyRuleListing);

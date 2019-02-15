@@ -6,7 +6,6 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
@@ -15,6 +14,8 @@ import DetailsPane from 'components/DetailsPane';
 import { ALink } from 'components/Links';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from '../components/PayloadViewer';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
@@ -28,11 +29,12 @@ class VolumeEdit extends Component {
     volume: PropTypes.object.isRequired,
     volumeActions: PropTypes.object.isRequired,
     volumePending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     clearSelectedProvider: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, volumeActions } = this.props;
@@ -44,6 +46,18 @@ class VolumeEdit extends Component {
     const { clearSelectedProvider } = this.props;
 
     clearSelectedProvider();
+  }
+
+  showEntitlements = () => {
+    const { volume } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${volume.name}" Volume`,
+      fqon: volume.org.properties.fqon,
+      entityId: volume.id,
+      entityKey: 'volumes',
+    });
   }
 
   update = (values) => {
@@ -58,7 +72,6 @@ class VolumeEdit extends Component {
       match,
       volume,
       volumePending,
-      entitlementActions,
       initialFormValues,
       selectedProvider,
     } = this.props;
@@ -97,7 +110,7 @@ class VolumeEdit extends Component {
                 key="volume--entitlements"
                 flat
                 iconChildren="security"
-                onClick={() => entitlementActions.showEntitlementsModal(volume.name, match.params.fqon, volume.id, 'volumes', 'volume')}
+                onClick={this.showEntitlements}
               >
                 Entitlements
               </Button>]
@@ -163,6 +176,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withVolume(),
-  withEntitlements,
   connect(mapStateToProps, actions),
 )(VolumeEdit);

@@ -21,6 +21,7 @@ import ContainerActions from '../components/ContainerActions';
 import iconMap from '../../Providers/config/iconMap';
 import ActionsModals from '../ActionModals';
 import withContainers from '../hocs/withContainers';
+import { getContainers } from '../reducers/selectors';
 
 const tableTheme = {
   rows: {
@@ -199,7 +200,7 @@ class ContainerListing extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  containers: listSelectors.filterItems()(state, 'containers.containers.containers'),
+  containers: listSelectors.filterItems()(state, getContainers),
 });
 
 export default compose(

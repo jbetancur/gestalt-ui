@@ -7,9 +7,11 @@ import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ListItem, Divider, FontIcon } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import actionCreators from '../actions';
 import withContext from '../../Hierarchy/hocs/withContext';
@@ -72,14 +74,12 @@ class ContainerActions extends PureComponent {
     containersActions: PropTypes.object.isRequired,
     migrateContainerModal: PropTypes.func.isRequired,
     promoteContainerModal: PropTypes.func.isRequired,
-    confirmContainerDelete: PropTypes.func.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
     // actions: PropTypes.array.isRequired,
     // actionsPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     editURL: PropTypes.string,
     onStart: PropTypes.func,
     onDestroy: PropTypes.func,
@@ -102,10 +102,18 @@ class ContainerActions extends PureComponent {
     onPromote: () => {},
   }
 
-  handleEntitlements = () => {
-    const { match, entitlementActions, containerModel } = this.props;
+  static contextType = ModalConsumer;
 
-    entitlementActions.showEntitlementsModal(containerModel.name, match.params.fqon, containerModel.id, 'containers', 'Container');
+  handleEntitlements = () => {
+    const { containerModel } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${containerModel.name}" Container`,
+      fqon: containerModel.org.properties.fqon,
+      entityId: containerModel.id,
+      entityKey: 'containers',
+    });
   };
 
   populateContainers() {
@@ -124,7 +132,8 @@ class ContainerActions extends PureComponent {
   }
 
   destroy = () => {
-    const { match, history, confirmContainerDelete, containerActions, containerModel, inContainerView, onDestroy } = this.props;
+    const { match, history, containerActions, containerModel, inContainerView, onDestroy } = this.props;
+    const { showModal } = this.context;
     const onSuccess = () => {
       if (inContainerView) {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
@@ -136,7 +145,10 @@ class ContainerActions extends PureComponent {
       onDestroy();
     };
 
-    confirmContainerDelete(modalAction, containerModel.name);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to destroy ${containerModel.name}?`,
+      onProceed: modalAction,
+    });
   }
 
   start = () => {
@@ -320,7 +332,6 @@ export default compose(
   withContainer({ unload: false }),
   withContainers({ unload: false }),
   withContext(),
-  withEntitlements,
   withRouter,
   connect(null, Object.assign({}, actionCreators)),
 )(ContainerActions);

@@ -11,6 +11,8 @@ import { APIIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 import withAPIs from '../hocs/withAPIs';
@@ -23,9 +25,10 @@ class APIListing extends PureComponent {
     history: PropTypes.object.isRequired,
     apis: PropTypes.array.isRequired,
     apisPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     apisActions: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -42,20 +45,23 @@ class APIListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, apisActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.populateAPIs();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      apisActions.deleteAPI({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => apisActions.deleteAPI({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
   deleteMultiple = () => {
     const { match, apisActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -63,9 +69,11 @@ class APIListing extends PureComponent {
       this.populateAPIs();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      apisActions.deleteAPIs({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete APIs', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple APIs',
+      multipleItems: names,
+      onProceed: ({ force }) => apisActions.deleteAPIs({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -134,29 +142,31 @@ class APIListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="APIs"
-            data={this.props.apis}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.apisPending}
-            progressComponent={<LinearProgress id="api-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContectActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.apisPending} />}
-            pagination
-            paginationPerPage={15}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="APIs"
+              data={this.props.apis}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={this.props.apisPending}
+              progressComponent={<LinearProgress id="api-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContectActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.apisPending} />}
+              pagination
+              paginationPerPage={15}
+            />
+          </Card>
         </Col>
       </Row>
     );

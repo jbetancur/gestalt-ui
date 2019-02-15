@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
@@ -10,7 +9,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import UserForm from './UserForm';
 import validate from '../validations';
-import actions from '../actions';
 import userModel from '../models/user';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withUser from '../hocs/withUser';
@@ -80,5 +78,4 @@ export default compose(
   withContext(),
   withUser(),
   withUsers(),
-  connect(null, actions),
 )(UserCreate);

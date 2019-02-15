@@ -12,6 +12,8 @@ import { VolumeIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { ALink } from 'components/Links';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 import withVolumes from '../hocs/withVolumes';
@@ -25,8 +27,9 @@ class VolumeListing extends PureComponent {
     volumes: PropTypes.array.isRequired,
     volumesActions: PropTypes.object.isRequired,
     volumesPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -43,21 +46,24 @@ class VolumeListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, volumesActions } = this.props;
-
+    const { showModal } = this.context;
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      volumesActions.deleteVolume({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      forceOption: false,
+      onProceed: ({ force }) => volumesActions.deleteVolume({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
 
   deleteMultiple = () => {
     const { match, volumesActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
@@ -65,9 +71,12 @@ class VolumeListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      volumesActions.deleteVolumes({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete volumes', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Volumes',
+      multipleItems: names,
+      forceOption: false,
+      onProceed: ({ force }) => volumesActions.deleteVolumes({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {

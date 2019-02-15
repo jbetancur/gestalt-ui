@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
+// import { get } from 'lodash';
 import containerModel from '../models/container';
 
 export const selectProvider = state => state.containers.container.selectedProvider;
+export const selectContainers = state => state.containers.containers.containers;
 export const selectContainer = state => state.containers.container.container;
 export const selectContainerSpec = (state, containerSpec) => containerModel.get(containerSpec);
 export const selectEnv = state => state.containers.container.inheritedEnv;
@@ -22,6 +24,13 @@ const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
 
   return newcheck;
 });
+
+export const getContainers = createSelector(
+  [selectContainers],
+  // in a containers array labels are still just maps
+  // containers => containers.filter(container => !get(container, 'properties.labels.SYSTEM')),
+  containers => containers,
+);
 
 export const getCreateContainerModel = createSelector(
   [selectContainer, selectProvider, selectEnv],

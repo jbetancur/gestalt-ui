@@ -9,10 +9,11 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { SecretIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
-import actions from '../actions';
 import withSecrets from '../hocs/withSecrets';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -24,8 +25,9 @@ class SecretListing extends PureComponent {
     secrets: PropTypes.array.isRequired,
     secretsActions: PropTypes.object.isRequired,
     secretsPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -42,21 +44,23 @@ class SecretListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, secretsActions } = this.props;
-
+    const { showModal } = this.context;
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       this.init();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      secretsActions.deleteSecret({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => secretsActions.deleteSecret({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
 
   deleteMultiple = () => {
     const { match, secretsActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => item.name);
 
     const onSuccess = () => {
@@ -64,9 +68,11 @@ class SecretListing extends PureComponent {
       this.init();
     };
 
-    this.props.confirmDelete(({ force }) => {
-      secretsActions.deleteSecrets({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete Secrets', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Secrets',
+      multipleItems: names,
+      onProceed: ({ force }) => secretsActions.deleteSecrets({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -175,5 +181,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withSecrets,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(SecretListing);

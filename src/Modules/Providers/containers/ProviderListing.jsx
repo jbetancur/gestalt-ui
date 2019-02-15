@@ -11,6 +11,8 @@ import { ProviderIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { FontIcon } from 'react-md';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
 import actions from '../actions';
@@ -26,6 +28,8 @@ class ProviderListing extends PureComponent {
     providersActions: PropTypes.object.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   componentDidMount() {
     const { match, providersActions } = this.props;
     const entity = generateContextEntityState(match.params);
@@ -35,10 +39,12 @@ class ProviderListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, providersActions } = this.props;
+    const { showModal } = this.context;
 
-    this.props.confirmDelete(({ force }) => {
-      providersActions.deleteProvider({ fqon: match.params.fqon, resource: row, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => providersActions.deleteProvider({ fqon: match.params.fqon, resource: row, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {

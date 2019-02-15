@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
@@ -14,10 +13,11 @@ import { A } from 'components/Links';
 import { Button } from 'components/Buttons';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from '../components/PayloadViewer';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';
-import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditEndpointModel, selectAPIEndpoint } from '../selectors';
 import withAPIEndpoint from '../hocs/withAPIEndpoint';
@@ -34,6 +34,8 @@ class APIEndpointEdit extends PureComponent {
     entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, apiEndpointActions } = this.props;
@@ -66,8 +68,15 @@ class APIEndpointEdit extends PureComponent {
   }
 
   showEntitlements = () => {
-    const { match, entitlementActions, apiEndpoint } = this.props;
-    entitlementActions.showEntitlementsModal(apiEndpoint.name, match.params.fqon, apiEndpoint.id, 'apiendpoints', 'API Endpoint');
+    const { apiEndpoint } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${apiEndpoint.properties.resource}" APIEndpoint`,
+      fqon: apiEndpoint.org.properties.fqon,
+      entityId: apiEndpoint.id,
+      entityKey: 'apiendpoints',
+    });
   }
 
   render() {
@@ -86,7 +95,7 @@ class APIEndpointEdit extends PureComponent {
             sticky
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`}
-            showActions={apiEndpoint.id}
+            showActions={!!apiEndpoint.id}
             actions={[
               <Button
                 key="apiEndpoint--entitlements"
@@ -150,6 +159,5 @@ export default compose(
   withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
   withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
   withAPIEndpoint(),
-  withEntitlements,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(APIEndpointEdit);

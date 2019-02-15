@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey, disableEntitlements, disableCopy }) => {
+const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, editURL, entityKey, disableEntitlements, disableCopy }) => {
+  const { showModal } = useContext(ModalContext);
+
   const handleDelete = () => {
     onDelete(row);
   };
 
   const handleEntitlements = () => {
-    entitlementActions.showEntitlementsModal(row.name, fqon, row.id, entityKey, getLastFromSplit(row.resource_type));
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${get(row, rowNameField)}" ${getLastFromSplit(row.resource_type)}`,
+      fqon,
+      entityId: row.id,
+      entityKey,
+    });
   };
 
   return (
@@ -67,10 +76,10 @@ const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, 
 
 GenericMenuActions.propTypes = {
   row: PropTypes.object,
+  rowNameField: PropTypes.string,
   fqon: PropTypes.string,
   editURL: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
-  entitlementActions: PropTypes.object.isRequired,
   entityKey: PropTypes.string.isRequired,
   disableEntitlements: PropTypes.bool,
   disableCopy: PropTypes.bool,
@@ -78,10 +87,11 @@ GenericMenuActions.propTypes = {
 
 GenericMenuActions.defaultProps = {
   row: {},
+  rowNameField: 'name',
   fqon: null,
   editURL: null,
   disableEntitlements: false,
   disableCopy: false,
 };
 
-export default withEntitlements(GenericMenuActions);
+export default GenericMenuActions;

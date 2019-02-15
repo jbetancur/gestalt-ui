@@ -4,6 +4,8 @@ import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ModalRoot from 'Modules/ModalRoot';
+import { ModalProvider } from 'Modules/ModalRoot/ModalContext';
+import NewModalRoot from 'Modules/ModalRoot/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
@@ -152,29 +154,32 @@ class App extends Component {
 
     return (
       <AppProvider initialState={initialState}>
-        <UpgradeNotification />
-        <ModalRoot />
-        <ErrorNotifications />
-        <Notifications />
-        <FloatingDrawer
-          direction="right"
-          open={favoritesOpen}
-        >
-          <FavoriteItems />
-        </FloatingDrawer>
-        <AppWrapper>
-          <Navigation
-            open={navigationExpanded}
-            onOpen={this.handleExpandNavigation}
-          />
-          <Main>
-            <ContextNavigation
-              expanded={mainNavigationExpanded}
-              onChangeContext={this.handleChangeContext}
+        <ModalProvider>
+          <NewModalRoot />
+          <UpgradeNotification />
+          <ModalRoot />
+          <ErrorNotifications />
+          <Notifications />
+          <FloatingDrawer
+            direction="right"
+            open={favoritesOpen}
+          >
+            <FavoriteItems />
+          </FloatingDrawer>
+          <AppWrapper>
+            <Navigation
+              open={navigationExpanded}
+              onOpen={this.handleExpandNavigation}
             />
-            <ContextRoutes />
-          </Main>
-        </AppWrapper>
+            <Main>
+              <ContextNavigation
+                expanded={mainNavigationExpanded}
+                onChangeContext={this.handleChangeContext}
+              />
+              <ContextRoutes />
+            </Main>
+          </AppWrapper>
+        </ModalProvider>
       </AppProvider>
     );
   }

@@ -9,7 +9,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { withPickerData } from 'Modules/MetaResource';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';
-import actions from '../actions';
 import { generatePayload } from '../payloadTransformer';
 import { getCreateEndpointModel } from '../selectors';
 import withAPIEndpoint from '../hocs/withAPIEndpoint';
@@ -64,5 +63,5 @@ export default compose(
   withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
   withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
   withAPIEndpoint(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(APIEndpointCreate);

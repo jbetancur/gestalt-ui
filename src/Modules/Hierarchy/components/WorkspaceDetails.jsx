@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { MenuButton, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
 import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import withHierarchy from '../hocs/withHierarchy';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 
 class WorkspaceDetails extends PureComponent {
   static propTypes = {
@@ -15,28 +15,38 @@ class WorkspaceDetails extends PureComponent {
     hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   showEntitlements = () => {
-    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { hierarchyContext } = this.props;
+    const { showModal } = this.context;
     const { context: { workspace } } = hierarchyContext;
 
     const name = workspace.description || workspace.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, workspace.id, 'workspaces', 'Workspace');
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Workspace`,
+      fqon: workspace.org.properties.fqon,
+      entityId: workspace.id,
+      entityKey: 'workspaces',
+    });
   }
 
   delete = () => {
-    const { hierarchyContext, match, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, match, history, hierarchyContextActions } = this.props;
+    const { showModal } = this.context;
     const { context: { workspace } } = hierarchyContext;
     const name = workspace.description || workspace.name;
-    const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } });
-    }, name, 'Workspace');
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Workspace`,
+      values: { name, type: 'Workspace' },
+      requireConfirm: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } }),
+    });
   }
 
   renderMenuItems() {
@@ -107,8 +117,4 @@ class WorkspaceDetails extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withHierarchy,
-  withEntitlements,
-)(WorkspaceDetails);
+export default withRouter(WorkspaceDetails);

@@ -8,7 +8,6 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
@@ -19,6 +18,8 @@ import { APIEndpointInlineList } from 'Modules/APIEndpoints';
 import { Tabs, Tab } from 'components/Tabs';
 import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import LambdaForm from './LambdaForm';
 import LambdaStats from './LambdaStats';
@@ -50,6 +51,8 @@ class LambdaEdit extends PureComponent {
     lambdaStateActions: PropTypes.object.isRequired,
     selectedRuntime: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { runtime: null };
 
@@ -92,9 +95,15 @@ class LambdaEdit extends PureComponent {
   }
 
   showEntitlements = () => {
-    const { entitlementActions, lambda, match } = this.props;
+    const { lambda } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(lambda.name, match.params.fqon, lambda.id, 'lambdas', 'Lambda');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${lambda.name}" Lambda`,
+      fqon: lambda.org.properties.fqon,
+      entityId: lambda.id,
+      entityKey: 'lambdas',
+    });
   }
 
   handleSaveInlineCode = (values) => {
@@ -259,6 +268,5 @@ export default compose(
   withLambdaState,
   withLambda(),
   withAPIEndpoints(),
-  withEntitlements,
   connect(mapStateToProps),
 )(LambdaEdit);

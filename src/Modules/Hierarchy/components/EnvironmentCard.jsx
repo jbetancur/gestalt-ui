@@ -4,11 +4,12 @@ import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { translate } from 'react-i18next';
 import { FontIcon } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
 import { EntitlementIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
 import { withUserProfile } from 'Modules/UserProfile';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import Card from './GFCard';
-import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
 class EnvironmentCard extends Component {
@@ -19,10 +20,10 @@ class EnvironmentCard extends Component {
     model: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     userProfileActions: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   navEnvironmentDetails = () => {
     const { model, match, history } = this.props;
@@ -37,22 +38,32 @@ class EnvironmentCard extends Component {
   }
 
   delete = () => {
-    const { model, match, hierarchyContextActions, hierarchyActions } = this.props;
+    const { model, match, hierarchyContextActions } = this.props;
+    const { showModal } = this.context;
     const name = model.description || model.name;
     const onSuccess = () => {
       hierarchyContextActions.fetchEnvironments({ fqon: match.params.fqon, entityId: model.properties.workspace.id });
     };
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } });
-    }, name, 'Environment');
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Environment`,
+      values: { name, type: 'Environment' },
+      requireConfirm: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } }),
+    });
   }
 
   showEntitlements = () => {
-    const { entitlementActions, model, match } = this.props;
+    const { model } = this.props;
+    const { showModal } = this.context;
     const name = model.description || model.name;
 
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, model.id, 'environments', 'Environment');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Environment`,
+      fqon: model.org.properties.fqon,
+      entityId: model.id,
+      entityKey: 'environments',
+    });
   }
 
   handleFavoriteToggle = () => {
@@ -114,8 +125,6 @@ class EnvironmentCard extends Component {
 
 export default compose(
   withContext(),
-  withHierarchy,
-  withEntitlements,
   withUserProfile,
   withTheme,
   translate(),

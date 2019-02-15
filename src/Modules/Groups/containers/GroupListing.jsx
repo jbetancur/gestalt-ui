@@ -11,7 +11,8 @@ import { GroupIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { Checkbox, FontIcon } from 'react-md';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import actions from '../actions';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import withGroups from '../hocs/withGroups';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
@@ -26,6 +27,8 @@ class GroupListing extends PureComponent {
     groupsActions: PropTypes.object.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   state = { selectedRows: [], clearSelected: false };
 
   componentDidMount() {
@@ -36,21 +39,24 @@ class GroupListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, groupsActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
       groupsActions.fetchGroups({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(({ force }) => {
-      groupsActions.deleteGroup({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => groupsActions.deleteGroup({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
 
   deleteMultiple = () => {
     const { match, groupsActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
@@ -58,9 +64,11 @@ class GroupListing extends PureComponent {
       groupsActions.fetchGroups({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(({ force }) => {
-      groupsActions.deleteGroups({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete Groups', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Groups',
+      multipleItems: names,
+      onProceed: ({ force }) => groupsActions.deleteGroups({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -171,5 +179,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withGroups(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(GroupListing);

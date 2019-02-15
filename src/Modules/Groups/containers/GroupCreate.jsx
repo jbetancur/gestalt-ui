@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
@@ -9,7 +8,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import GroupForm from './GroupForm';
 import validate from '../validations';
-import actions from '../actions';
 import groupModel from '../models/group';
 import withGroup from '../hocs/withGroup';
 import withUsers from '../../Users/hocs/withUsers';
@@ -75,5 +73,4 @@ class GroupCreate extends Component {
 export default compose(
   withUsers(),
   withGroup(),
-  connect(null, actions),
 )(GroupCreate);

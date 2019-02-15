@@ -13,7 +13,6 @@ import { Panel } from 'components/Panels';
 import jsonPatch from 'fast-json-patch';
 import UserForm from './UserForm';
 import validate from '../validations';
-import actions from '../actions';
 import { getEditUserModel } from '../selectors';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withUser from '../hocs/withUser';
@@ -119,5 +118,5 @@ const mapStateToProps = state => ({
 export default compose(
   withUser(),
   withContext(),
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(GroupEdit);

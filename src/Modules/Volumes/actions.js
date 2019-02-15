@@ -23,19 +23,6 @@ export function clearSelectedProvider() {
   };
 }
 
-export function confirmDelete(action, title, multipleItems) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'CONFIRM',
-    modalProps: {
-      title,
-      multipleItems,
-      forceOption: false,
-      onProceed: action,
-    }
-  };
-}
-
 /**
  * showVolumeCreateModal =- opens Volume Attach/Create Modal
  */
@@ -102,7 +89,6 @@ export function unloadVolumes() {
 export default {
   setSelectedProvider,
   clearSelectedProvider,
-  confirmDelete,
   showVolumeCreateModal,
   hideModal,
   setVolumes,

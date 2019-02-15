@@ -1,5 +1,6 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
+import { fetchAPI } from 'config/lib/utility';
 import {
   sortBy,
   groupBy,
@@ -10,6 +11,7 @@ import {
   FETCH_ENTITLEMENTS_REQUEST,
   FETCH_ENTITLEMENTS_FULFILLED,
   FETCH_ENTITLEMENTS_REJECTED,
+  FETCH_ENTITLEMENTS_CANCELLED,
   UPDATE_ENTITLEMENT_FULFILLED,
   UPDATE_ENTITLEMENT_REJECTED,
   UPDATE_ENTITLEMENT_REQUEST,
@@ -22,7 +24,7 @@ import {
 export function* fetchEntitlements(action) {
   const url = action.entityId ? `${action.fqon}/${action.entityKey}/${action.entityId}/entitlements` : `${action.fqon}/entitlements`;
   try {
-    const response = yield call(axios.get, `${url}?expand=true`);
+    const response = yield call(fetchAPI, `${url}?expand=true`);
 
     // Transform our entitlements into something more helpful
     const extractActions = response.data.map(e => (
@@ -53,6 +55,8 @@ export function* fetchEntitlements(action) {
     yield put({ type: FETCH_ENTITLEMENTS_FULFILLED, payload: sortBy(entitlements, 'type') });
   } catch (e) {
     yield put({ type: FETCH_ENTITLEMENTS_REJECTED, payload: e.message });
+  } finally {
+    yield put({ type: FETCH_ENTITLEMENTS_CANCELLED });
   }
 }
 

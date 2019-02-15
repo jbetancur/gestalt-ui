@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 
-const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL }) => {
+const LambdaMenuActions = ({ row, fqon, onDelete, editURL }) => {
+  const { showModal } = useContext(ModalContext);
+
   const handleDelete = () => {
     onDelete(row);
   };
 
   const handleEntitlements = () => {
-    entitlementActions.showEntitlementsModal(row.name, fqon, row.id, 'lambdas', 'Lambda');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${row.name}" Lambda`,
+      fqon: row.org.properties.fqon,
+      entityId: row.id,
+      entityKey: 'lambdas',
+    });
   };
 
   return (
@@ -71,11 +79,10 @@ LambdaMenuActions.propTypes = {
   fqon: PropTypes.string.isRequired,
   editURL: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  entitlementActions: PropTypes.object.isRequired,
 };
 
 LambdaMenuActions.defaultProps = {
   row: {},
 };
 
-export default withEntitlements(LambdaMenuActions);
+export default LambdaMenuActions;

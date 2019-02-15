@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { translate } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { withEntitlements } from 'Modules/Entitlements';
 import { FontIcon } from 'react-md';
 import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
 import { withUserProfile } from 'Modules/UserProfile';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import Card from './GFCard';
-import withHierarchy from '../hocs/withHierarchy';
 import withContext from '../hocs/withContext';
 
 class OrganizationCard extends Component {
@@ -18,10 +19,10 @@ class OrganizationCard extends Component {
     theme: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
     userProfileActions: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   navTo = () => {
     const { model, history } = this.props;
@@ -42,19 +43,29 @@ class OrganizationCard extends Component {
   }
 
   delete = () => {
-    const { model, hierarchyContextActions, hierarchyActions } = this.props;
+    const { model, hierarchyContextActions } = this.props;
+    const { showModal } = this.context;
     const name = model.description || model.name;
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteOrg({ fqon: model.properties.fqon, resource: model, params: { force } });
-    }, name, 'Organization');
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Organization`,
+      values: { name, type: 'Environment' },
+      requireConfirm: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteOrg({ fqon: model.properties.fqon, resource: model, params: { force } }),
+    });
   }
 
   showEntitlements = () => {
-    const { entitlementActions, model } = this.props;
+    const { model } = this.props;
+    const { showModal } = this.context;
     const name = model.description || model.name;
 
-    entitlementActions.showEntitlementsModal(name, model.properties.fqon, null, null, 'Organization');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Organization`,
+      fqon: model.properties.fqon,
+      entityId: null,
+      entityKey: null,
+    });
   }
 
   handleFavoriteToggle = () => {
@@ -115,8 +126,6 @@ class OrganizationCard extends Component {
 
 export default compose(
   withContext(),
-  withHierarchy,
-  withEntitlements,
   withUserProfile,
   withTheme,
   translate(),

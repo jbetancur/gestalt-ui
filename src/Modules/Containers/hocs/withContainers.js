@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createRequestAction } from 'config/lib/actionFactory';
+import { getContainers } from '../reducers/selectors';
 
 export default ({ unload = true } = {}) => (BaseComponent) => {
   class Containers extends Component {
@@ -26,7 +27,7 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
   }
 
   const mapStateToProps = state => ({
-    containers: state.containers.containers.containers,
+    containers: getContainers(state),
     containersPending: state.containers.containers.pending,
   });
 

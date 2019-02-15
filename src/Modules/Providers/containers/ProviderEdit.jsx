@@ -9,13 +9,15 @@ import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ContainerActions, ContainerActionsModal, ContainerInstances, ContainerServiceAddresses } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button } from 'components/Buttons';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card, CardTitle } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import PayloadViewer from '../components/PayloadViewer';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
@@ -34,12 +36,12 @@ class ProviderEdit extends PureComponent {
     provider: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     providerActions: PropTypes.object.isRequired,
-    confirmUpdate: PropTypes.func.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     selectedProviderType: PropTypes.object.isRequired,
     hasContainer: PropTypes.bool.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, providerActions } = this.props;
@@ -58,10 +60,16 @@ class ProviderEdit extends PureComponent {
   }
 
   handleRedeploy = () => {
-    const { match, confirmUpdate, provider, providerActions } = this.props;
-    const redeploy = () => providerActions.redeployProvider({ fqon: match.params.fqon, id: provider.id });
+    const { match, provider, providerActions } = this.props;
+    const { showModal } = this.context;
+    const onProceed = () => providerActions.redeployProvider({ fqon: match.params.fqon, id: provider.id });
 
-    confirmUpdate(redeploy, provider.name);
+    showModal(ConfirmModal, {
+      title: `"${provider.name}" provider container will be re-deployed. Are you sure you want to proceed?`,
+      onProceed,
+      proceedLabel: 'Redeploy',
+      forceOption: false,
+    });
   }
 
   update = (formValues) => {
@@ -86,9 +94,15 @@ class ProviderEdit extends PureComponent {
   }
 
   showEntitlements = () => {
-    const { entitlementActions, provider, match } = this.props;
+    const { provider } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(provider.name, match.params.fqon, provider.id, 'providers', 'Provider');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${provider.name}" Provider`,
+      fqon: provider.org.properties.fqon,
+      entityId: provider.id,
+      entityKey: 'providers',
+    });
   }
 
   render() {
@@ -239,6 +253,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withProvider(),
-  withEntitlements,
   connect(mapStateToProps, actions),
 )(ProviderEdit);
