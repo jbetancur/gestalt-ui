@@ -1,46 +1,55 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { DialogContainer } from 'react-md';
+import styled from 'styled-components';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
+import { media } from 'util/helpers/media';
 import StreamInstance from './StreamInstance';
+
+const DialogContentCustom = styled(DialogContent)`
+  width: 800px;
+  ${() => media.xs`
+    width: auto;
+  `};
+  ${() => media.sm`
+    width: auto;
+  `};
+`;
 
 class StreamInstanceModal extends Component {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
-    hideModal: PropTypes.func.isRequired,
+    modal: PropTypes.object.isRequired,
     fqon: PropTypes.string.isRequired,
     streamId: PropTypes.string.isRequired,
     persistenceId: PropTypes.string.isRequired,
   };
 
-
   render() {
-    const { visible, hideModal, fqon, streamId, persistenceId } = this.props;
+    const { modal, fqon, streamId, persistenceId } = this.props;
 
     return (
-      <DialogContainer
-        id="context-form-dialog"
-        title="View Stream Metrics"
-        visible={visible}
-        onHide={hideModal}
-        actions={<Button flat primary onClick={hideModal}>Close</Button>}
-        defaultVisibleTransitionable
-        initialFocus="div"
-        autopadContent={false}
-        width="40em"
+      <Dialog
+        id="streaminstance-modal"
+        aria-labelledby="streaminstance-modal-title"
+        aria-describedby="streaminstance-modal-description"
+        open={modal.open}
+        onClose={modal.hideModal}
+        onExited={modal.destroyModal}
+        maxWidth="md"
       >
-        <StreamInstance fqon={fqon} streamId={streamId} persistenceId={persistenceId} />
-      </DialogContainer>
+        <DialogTitle id="streaminstance-modal-title">View Stream Metrics</DialogTitle>
+        <DialogContentCustom>
+          <StreamInstance fqon={fqon} streamId={streamId} persistenceId={persistenceId} />
+        </DialogContentCustom>
+        <DialogActions>
+          <Button flat primary onClick={modal.hideModal}>Close</Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }
 
-const actions = dispatch => ({
-  hideModal: () => {
-    dispatch({ type: 'HIDE_MODAL' });
-  },
-});
-
-
-export default connect(null, actions)(StreamInstanceModal);
+export default StreamInstanceModal;

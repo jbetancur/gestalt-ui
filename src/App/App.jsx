@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import ModalRoot from 'Modules/ModalRoot';
 import { ModalProvider } from 'Modules/ModalRoot/ModalContext';
-import NewModalRoot from 'Modules/ModalRoot/ModalRoot';
+import ModalRoot from 'Modules/ModalRoot/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
@@ -148,9 +147,8 @@ class App extends Component {
     return (
       <AppProvider initialState={initialState}>
         <ModalProvider>
-          <NewModalRoot />
-          <UpgradeNotification />
           <ModalRoot />
+          <UpgradeNotification />
           <ErrorNotifications />
           <Notifications />
           <FloatingDrawer

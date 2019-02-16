@@ -12,6 +12,8 @@ import { Title } from 'components/Typography';
 import { Button } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 import { ALink } from 'components/Links';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import VolumeCreateModal from './VolumeCreateModal';
 import VolumeCreateMenu from '../components/VolumeCreateMenu';
 import actions from '../actions';
 import { selectVolumeListing } from '../reducers/selectors';
@@ -21,7 +23,6 @@ class VolumePanel extends PureComponent {
     match: PropTypes.object.isRequired,
     volumesDropdown: PropTypes.array,
     volumes: PropTypes.array.isRequired,
-    showVolumeCreateModal: PropTypes.func.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     editMode: PropTypes.bool,
     volumeListing: PropTypes.array.isRequired,
@@ -34,6 +35,8 @@ class VolumePanel extends PureComponent {
     editMode: false,
     volumesDropdown: [],
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { setVolumes, volumes } = this.props;
@@ -63,9 +66,15 @@ class VolumePanel extends PureComponent {
   }
 
   handleMenuSelect = (mode) => {
-    const { showVolumeCreateModal, selectedProvider, volumes, volumesDropdown } = this.props;
+    const { selectedProvider, volumes, volumesDropdown } = this.props;
+    const { showModal } = this.context;
 
-    showVolumeCreateModal(mode, selectedProvider, volumes, volumesDropdown);
+    showModal(VolumeCreateModal, {
+      mode,
+      selectedProvider,
+      volumes,
+      volumesDropdown,
+    });
   }
 
   handleDetach = row => () => {

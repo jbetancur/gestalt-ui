@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { DialogContainer } from 'react-md';
+import Dialog from '@material-ui/core/Dialog';
 import Frame from 'react-frame-component';
 import { ActivityContainer } from 'components/ProgressIndicators';
 
@@ -23,25 +22,9 @@ const ResponsiveFrame = styled(Frame)`
   -webkit-overflow-scrolling: touch;
 `;
 
-const EnhancedDialog = styled(DialogContainer)`
-  .md-dialog {
-    ${props => !props.fullPage && 'position: relative'};
-    ${props => !props.fullPage && 'min-width: 45em'};
-
-    @media (min-width: 0) and (max-width: 768px) {
-      ${props => !props.fullPage && 'min-width: 25em'};
-    }
-
-    .md-dialog-content {
-      width: 100%;
-      overflow: scroll;
-    }
-  }
-`;
-
 class ActionsModal extends PureComponent {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
+    modal: PropTypes.object.isRequired,
     onComplete: PropTypes.func,
     hideModal: PropTypes.func.isRequired,
     body: PropTypes.string,
@@ -64,23 +47,20 @@ class ActionsModal extends PureComponent {
 
   onPostMessage = (eventData) => {
     this.props.onComplete({ eventData });
-    this.props.hideModal();
+    this.props.modal.hideModal();
   }
 
   render() {
-    const { visible } = this.props;
+    const { modal, isFullScreen } = this.props;
     return (
-      <EnhancedDialog
-        id="confirmation-modal"
-        visible={visible}
-        modal={false}
-        autopadContent={false}
-        closeOnEsc
-        defaultVisibleTransitionable
-        // autosizeContent={false}
-        onHide={this.props.hideModal}
-        fullPage={this.props.isFullScreen}
-        aria-label="external-actions-modal"
+      <Dialog
+        id="iframe-modal"
+        aria-labelledby="iframe-modal-title"
+        aria-describedby="iframe-modal-description"
+        open={modal.open}
+        onClose={this.close}
+        onExited={modal.destroyModal}
+        fullScreen={isFullScreen}
       >
         {!this.props.body ?
           <ActivityContainer id="iframe-loading" /> :
@@ -100,15 +80,10 @@ class ActionsModal extends PureComponent {
           style={{ visibility: 'hidden', position: 'absolute' }}
           onClick={this.props.hideModal}
         />
-      </EnhancedDialog>
+      </Dialog>
     );
   }
 }
 
-const actions = dispatch => ({
-  hideModal: () => {
-    dispatch({ type: 'HIDE_MODAL' });
-  }
-});
 
-export default connect(null, actions)(ActionsModal);
+export default ActionsModal;

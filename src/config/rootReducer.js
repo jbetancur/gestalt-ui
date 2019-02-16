@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import { notifierReducer } from 'Modules/Notifications';
 import appReducers from 'App/reducers';
-import modalReducer from 'Modules/ModalRoot/reducers';
 import errorNotificationReducer from 'Modules/ErrorNotifications/reducers';
 import loginReducer from 'Modules/Authentication/reducers';
 import hierarchyReducer from 'Modules/Hierarchy/reducers';
@@ -31,7 +30,6 @@ import userProfileReducers from 'Modules/UserProfile/reducers';
 
 export default history => combineReducers({
   error: errorNotificationReducer,
-  modal: modalReducer,
   router: connectRouter(history),
   app: appReducers,
   login: loginReducer,

@@ -23,22 +23,6 @@ export function clearSelectedProvider() {
   };
 }
 
-/**
- * showVolumeCreateModal =- opens Volume Attach/Create Modal
- */
-export function showVolumeCreateModal(mode, selectedProvider, volumes = [], volumesDropdown = []) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'VolumeCreateModal',
-    modalProps: {
-      mode,
-      selectedProvider,
-      volumes,
-      volumesDropdown,
-    }
-  };
-}
-
 export function hideModal() {
   return { type: 'HIDE_MODAL' };
 }
@@ -89,7 +73,6 @@ export function unloadVolumes() {
 export default {
   setSelectedProvider,
   clearSelectedProvider,
-  showVolumeCreateModal,
   hideModal,
   setVolumes,
   addVolume,

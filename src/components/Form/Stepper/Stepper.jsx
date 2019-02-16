@@ -95,7 +95,7 @@ export default class Stepper extends Component {
     onCancel: PropTypes.func.isRequired,
     className: PropTypes.string,
     page: PropTypes.number,
-    formProps: PropTypes.object.isRequired,
+    formProps: PropTypes.object,
     initialValues: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -108,6 +108,7 @@ export default class Stepper extends Component {
   static defaultProps = {
     className: '',
     page: 0,
+    formProps: {},
     initialValues: {},
     debug: false,
     pending: false,

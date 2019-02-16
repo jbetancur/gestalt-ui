@@ -2,31 +2,45 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { DialogContainer } from 'react-md';
+import styled from 'styled-components';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
+import { media } from 'util/helpers/media';
 import VolumePanelAttach from '../components/VolumePanelAttach';
 import VolumePanelCreate from '../components/VolumePanelCreate';
 import actions from '../actions';
 
+const DialogContentCustom = styled(DialogContent)`
+  width: 800px;
+  ${() => media.xs`
+    width: auto;
+  `};
+  ${() => media.sm`
+    width: auto;
+  `};
+`;
+
 class VolumeCreateModal extends PureComponent {
   static propTypes = {
+    modal: PropTypes.object.isRequired,
     selectedProvider: PropTypes.object.isRequired,
-    mode: PropTypes.string.isRequired,
-    visible: PropTypes.bool.isRequired,
-    hideModal: PropTypes.func.isRequired,
+    mode: PropTypes.object.isRequired,
     addVolume: PropTypes.func.isRequired,
     volumes: PropTypes.array.isRequired,
   };
 
   handleSubmit = (values) => {
-    const { addVolume, hideModal } = this.props;
+    const { modal, addVolume } = this.props;
 
     addVolume(values);
-    hideModal();
+    modal.hideModal();
   }
 
   renderForm() {
-    const { hideModal, selectedProvider, mode, volumes, ...rest } = this.props;
+    const { modal, selectedProvider, mode, volumes, ...rest } = this.props;
 
     return mode.value === 'attach'
       ? <VolumePanelAttach onSubmit={this.handleSubmit} attachedVolumes={volumes} providerId={selectedProvider.provider.id} {...rest} />
@@ -34,39 +48,40 @@ class VolumeCreateModal extends PureComponent {
   }
 
   render() {
-    const { visible, mode, hideModal } = this.props;
-    const modalActions = [
-      <Button
-        key="add-container-volume--cancel"
-        flat
-        onClick={hideModal}
-      >
-        Cancel
-      </Button>,
-      <Button
-        key="add-container-volume--submit"
-        raised
-        primary
-        onClick={() => document.getElementById('add-container-volume').dispatchEvent(new Event('submit', { cancelable: true }))}
-      >
-        Add Volume
-      </Button>
-    ];
+    const { modal, mode } = this.props;
 
     return (
-      <DialogContainer
+      <Dialog
         id="volume-form-dialog"
-        title={`${mode.name} Volume`}
-        visible={visible}
-        onHide={hideModal}
-        width="60em"
-        defaultVisibleTransitionable
-        modal
-        initialFocus="div"
-        actions={modalActions}
+        aria-labelledby="volume-modal-title"
+        aria-describedby="volume-modal-description"
+        open={modal.open}
+        onClose={modal.hideModal}
+        onExited={modal.destroyModal}
+        maxWidth="md"
       >
-        {this.renderForm()}
-      </DialogContainer>
+        <DialogTitle id="volume-modal-title">{`${mode.name} Volume`}</DialogTitle>
+        <DialogContentCustom>
+          {this.renderForm()}
+        </DialogContentCustom>
+        <DialogActions>
+          <Button
+            key="add-container-volume--cancel"
+            flat
+            onClick={modal.hideModal}
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="add-container-volume--submit"
+            raised
+            primary
+            onClick={() => document.getElementById('add-container-volume').dispatchEvent(new Event('submit', { cancelable: true }))}
+          >
+            Add Volume
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }
