@@ -13,8 +13,8 @@ import { ProviderSelect } from 'components/Form';
 import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
 import { SecretsPanelForm } from 'Modules/Secrets';
 import { VolumePanel } from 'Modules/Volumes';
-import PortMappingsForm from '../components/PortMappingsForm';
-import HealthChecksForm from '../components/HealthChecksForm';
+import PortMappingsForm from './PortMappingsForm';
+import HealthChecksForm from './HealthChecksForm';
 import actions from '../actions';
 import { selectProvider } from '../reducers/selectors';
 

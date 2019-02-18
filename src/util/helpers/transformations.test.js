@@ -37,34 +37,36 @@ describe('Util Transformations', () => {
   });
 
   describe('convertFromMaps function', () => {
-    it('should return the correct values', () => {
-      const own = { luke_skywalker: 'jedi' };
-      const inherited = { darth_vadar: 'sith' };
-
-      expect(convertFromMaps(own, inherited)).toEqual([
-        { name: 'darth_vadar', value: 'sith', inherited: true },
-        { name: 'luke_skywalker', value: 'jedi', inherited: false }
-      ]);
-    });
-
-    it('should return the correct values with multiple inherits', () => {
-      const own = { luke_skywalker: 'jedi' };
-      const inherited = { darth_vadar: 'sith', anakin_skywalker: 'jedi' };
-
-      expect(convertFromMaps(own, inherited)).toEqual([
-        { name: 'anakin_skywalker', value: 'jedi', inherited: true },
-        { name: 'darth_vadar', value: 'sith', inherited: true },
-        { name: 'luke_skywalker', value: 'jedi', inherited: false }
-      ]);
-    });
-
-    it('should return the correct values when own and inherited have the same values', () => {
+    it('should return the correct values when no variables are inherited', () => {
       const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
-      const inherited = { darth_vadar: 'sith' };
+
+      expect(convertFromMaps(own)).toEqual([
+        { name: 'luke_skywalker', value: 'jedi', inherited: false },
+        { name: 'darth_vadar', value: 'sith lord', inherited: false },
+      ]);
+    });
+
+    it('should return the correct values when variables are inherited', () => {
+      const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
+      const inherited = { leia: 'princess', han_solo: 'nerf herder' };
 
       expect(convertFromMaps(own, inherited)).toEqual([
+        { name: 'leia', value: 'princess', inherited: true, overridden: false },
+        { name: 'han_solo', value: 'nerf herder', inherited: true, overridden: false },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false },
         { name: 'darth_vadar', value: 'sith lord', inherited: false },
-        { name: 'luke_skywalker', value: 'jedi', inherited: false }
+      ]);
+    });
+
+    it('should return the correct values when variables are inherited and overriden', () => {
+      const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
+      const inherited = { leia: 'princess', han_solo: 'smuggler', darth_vadar: 'sith master' };
+
+      expect(convertFromMaps(own, inherited)).toEqual([
+        { name: 'leia', value: 'princess', inherited: true, overridden: false },
+        { name: 'han_solo', value: 'smuggler', inherited: true, overridden: false },
+        { name: 'darth_vadar', value: 'sith lord', inherited: true, overridden: true },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false },
       ]);
     });
   });

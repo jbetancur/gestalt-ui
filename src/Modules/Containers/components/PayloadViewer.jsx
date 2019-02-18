@@ -1,7 +1,6 @@
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import CodeBlock from 'components/CodeBlock';
-import { generatePayload } from '../payloadTransformer';
 import containerModel from '../models/container';
 
 const PayloadViewer = memo(({ value, name }) => {
@@ -9,7 +8,7 @@ const PayloadViewer = memo(({ value, name }) => {
 
   const data = raw
     ? containerModel.get(value)
-    : generatePayload(value);
+    : containerModel.initForm(value);
 
   return (
     <CodeBlock

@@ -398,7 +398,7 @@ describe('Lambda Sagas', () => {
         const payload = {
           executors: [{ name: 'an executor' }],
           secrets: [{ name: 'a secret' }],
-          lambda: lambdaModel.get({ id: '890', name: 'a lambda', properties: { env: [{ name: 'test', value: 'testvar', inherited: true }], parent: { href: 'iamfqon/environments/2' } } }),
+          lambda: lambdaModel.get({ id: '890', name: 'a lambda', properties: { env: [{ name: 'test', value: 'testvar', inherited: true, overridden: false }], parent: { href: 'iamfqon/environments/2' } } }),
         };
 
         expect(result.value).toEqual(

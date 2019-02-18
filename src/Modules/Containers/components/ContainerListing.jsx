@@ -18,7 +18,7 @@ import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import ImportModal from '../ActionModals/Import';
 import actions from '../actions';
-import ContainerActions from '../components/ContainerActions';
+import ContainerActions from './ContainerActions';
 import iconMap from '../../Providers/config/iconMap';
 import withContainers from '../hocs/withContainers';
 import { getContainers } from '../reducers/selectors';

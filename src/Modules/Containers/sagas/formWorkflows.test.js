@@ -13,7 +13,6 @@ import {
   INIT_CONTAINEREDIT_REJECTED,
 } from '../actionTypes';
 import { setSelectedProvider } from '../actions';
-import containerModel from '../models/container';
 
 describe('container Form Workflow Sagas', () => {
   const error = 'an error has occured';
@@ -93,7 +92,7 @@ describe('container Form Workflow Sagas', () => {
 
       it('should make an api call for the environment envs', () => {
         result = saga.next([
-          { data: containerModel.schema.cast({ id: '890', name: 'a container', properties: { provider: { id: '333' } } }) },
+          { data: { id: '890', name: 'a container', properties: { provider: { id: '333' } } } },
           { data: [{ name: 'a secret' }] },
           { data: [{ name: 'a volume' }] },
         ]);
@@ -117,7 +116,8 @@ describe('container Form Workflow Sagas', () => {
         const payload = {
           secrets: [{ name: 'a secret' }],
           volumes: [{ name: 'a volume' }],
-          container: containerModel.get({ id: '890', name: 'a container', properties: { env: [{ name: 'test', value: 'testvar', inherited: true }], provider: { id: '333' } } }),
+          container: { id: '890', name: 'a container', properties: { provider: { id: '333' } } },
+          inheritedEnv: { test: 'testvar' },
         };
 
         // we need action to be passed for the polling function

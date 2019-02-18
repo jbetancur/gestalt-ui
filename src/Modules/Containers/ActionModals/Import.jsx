@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import ContainerImportForm from '../containers/ContainerImportForm';
+import ContainerImportForm from '../components/ContainerImportForm';
 import withContainer from '../hocs/withContainer';
 
 const initialValues = {

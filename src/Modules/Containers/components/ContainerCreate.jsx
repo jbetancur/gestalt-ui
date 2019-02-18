@@ -13,7 +13,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import ContainerForm from './ContainerForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generatePayload } from '../payloadTransformer';
 import {
   getCreateContainerModel,
   selectProvider,
@@ -21,6 +20,7 @@ import {
 } from '../reducers/selectors';
 import iconMap from '../../Providers/config/iconMap';
 import withContainer from '../hocs/withContainer';
+import containerModel from '../models/container';
 
 const focusOnErrors = createDecorator();
 
@@ -50,7 +50,7 @@ class ContainerCreate extends Component {
     const { match, history, containerActions, inlineMode, containerVolumes } = this.props;
 
     if (!inlineMode) {
-      const payload = generatePayload(values, false, containerVolumes);
+      const payload = containerModel.create(values, containerVolumes);
       // Since we hide the selected provider we need to get this from redux and patch it onto the payload
       const onSuccess = (response) => {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);

@@ -41,7 +41,6 @@ class LambdaEdit extends PureComponent {
     lambdaActions: PropTypes.object.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     executors: PropTypes.array.isRequired,

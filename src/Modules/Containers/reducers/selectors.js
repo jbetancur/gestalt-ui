@@ -11,20 +11,6 @@ export const selectEnv = state => state.containers.container.inheritedEnv;
 // Volume Module States
 export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
-const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
-  const newcheck = { ...check };
-
-  if (check.protocol !== 'COMMAND') {
-    if ('port_index' in newcheck) {
-      newcheck.port_type = 'index';
-    } else {
-      newcheck.port_type = 'number';
-    }
-  }
-
-  return newcheck;
-});
-
 export const getContainers = createSelector(
   [selectContainers],
   // in a containers array labels are still just maps
@@ -61,18 +47,7 @@ export const getCreateContainerModel = createSelector(
 
 export const getEditContainerModel = createSelector(
   [selectContainer],
-  (container) => {
-    const { properties } = container;
-    const model = {
-      ...container,
-      properties: {
-        ...container.properties,
-        health_checks: fixHealthChecks(properties.health_checks),
-      },
-    };
-
-    return containerModel.initForm(model);
-  }
+  container => containerModel.initForm(container)
 );
 
 export const getContainerStatus = createSelector(

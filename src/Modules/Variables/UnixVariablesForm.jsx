@@ -21,8 +21,7 @@ const UnixVariablesForm = memo(({ disabled, fieldName }) => (
           {fields.map((member, index) => {
             const field = fields.value[index] || {};
             const isInherited = field.inherited;
-            const fieldNameStr = isInherited ? 'name (inherit)' : 'name';
-            const fieldValueStr = isInherited ? 'value (overridable)' : 'value';
+            const overridden = isInherited && field.overridden;
             const isDisabled = isInherited || disabled;
             const isPasswordField = checkIfPassword(field.name);
 
@@ -33,31 +32,31 @@ const UnixVariablesForm = memo(({ disabled, fieldName }) => (
                     <Field
                       id={`${member}.name`}
                       name={`${member}.name`}
-                      placeholder={fieldNameStr}
+                      placeholder="name"
                       rows={isPasswordField ? undefined : 1}
                       maxRows={isPasswordField ? undefined : 4}
                       component={TextField}
                       disabled={isDisabled}
                       autoComplete="off"
                       required
-                      helpText={isInherited ? 'inherited' : null}
                       validate={composeValidators(unixPattern(), required())}
+                      toolTip={isInherited ? 'inherited' : null}
                     />
                   </Col>
                   <Col flex={8} xs={12} sm={12}>
                     <Field
                       id={`${member}.value`}
                       name={`${member}.value`}
-                      placeholder={fieldValueStr}
+                      placeholder="value"
                       type={isPasswordField ? 'password' : 'text'}
                       component={TextField}
                       rows={isPasswordField ? undefined : 1}
                       maxRows={isPasswordField ? undefined : 4}
                       required={field.required}
                       passwordIcon={null}
-                      helpText={isInherited ? 'overridable' : null}
                       validate={field.required ? composeValidators(required()) : null}
                       autoComplete={isPasswordField ? 'new-password' : null}
+                      toolTip={overridden ? 'overridden value' : null}
                     />
                   </Col>
                 </Row>

@@ -23,15 +23,14 @@ import { Caption } from 'components/Typography';
 import Div from 'components/Div';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
-import PayloadViewer from '../components/PayloadViewer';
+import PayloadViewer from './PayloadViewer';
 import ContainerForm from './ContainerForm';
-import ContainerActions from '../components/ContainerActions';
-import ContainerInstances from '../components/ContainerInstances';
-import ContainerEvents from '../components/ContainerEvents';
-import ContainerServiceAddresses from '../components/ContainerServiceAddresses';
+import ContainerActions from './ContainerActions';
+import ContainerInstances from './ContainerInstances';
+import ContainerEvents from './ContainerEvents';
+import ContainerServiceAddresses from './ContainerServiceAddresses';
 import validate from '../validations';
 import actions from '../actions';
-import { generatePayload } from '../payloadTransformer';
 import {
   getEditContainerModel,
   selectProvider,
@@ -40,6 +39,7 @@ import {
 import withAPIEndpoints from '../../APIEndpoints/hocs/withAPIEndpoints';
 import withContainer from '../hocs/withContainer';
 import iconMap from '../../Providers/config/iconMap';
+import containerModel from '../models/container';
 
 const focusOnErrors = createDecorator();
 
@@ -88,7 +88,7 @@ class ContainerEdit extends Component {
     const { match, container, containerActions, inlineMode, containerVolumes } = this.props;
 
     if (!inlineMode) {
-      const payload = generatePayload(values, true, containerVolumes);
+      const payload = containerModel.put(values, containerVolumes);
 
       containerActions.updateContainer({ fqon: match.params.fqon, containerId: container.id, payload });
     }

@@ -14,7 +14,6 @@ import {
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import { setSelectedProvider } from '../actions';
-import containerModel from '../models/container';
 
 export function* createViewWorkflow() {
   try {
@@ -68,9 +67,12 @@ export function* editViewWorkflow(action) {
     ]);
 
     const envResponse = yield call(axios.get, `${environment.org.properties.fqon}/environments/${environment.id}/env`);
-    const payload = containerModel.get(container.data, envResponse.data);
+    const containerPayload = {
+      container: container.data,
+      inheritedEnv: envResponse.data,
+    };
 
-    yield put(setSelectedProvider(payload.properties.provider));
+    yield put(setSelectedProvider(container.data.properties.provider));
 
     yield put({
       type: INIT_CONTAINEREDIT_FULFILLED,
@@ -80,7 +82,7 @@ export function* editViewWorkflow(action) {
       payload: {
         secrets: secrets.data,
         volumes: volumes.data,
-        container: payload,
+        ...containerPayload,
       },
     });
   } catch (e) {
