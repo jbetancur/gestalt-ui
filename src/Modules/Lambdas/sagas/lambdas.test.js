@@ -94,9 +94,8 @@ describe('Lambda Sagas', () => {
 
   describe('createLambda Sequence', () => {
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
+    const responsePayload = { id: 1, name: 'test' };
     const saga = createLambda(action);
-    const responsePayload = lambdaModel.schema.cast({ id: 1, name: 'test' });
-    const expectedPayload = lambdaModel.get({ id: 1, name: 'test' });
     let result;
 
     it('should make an api call for the lambda by id', () => {
@@ -110,7 +109,7 @@ describe('Lambda Sagas', () => {
       result = saga.next({ data: responsePayload });
 
       expect(result.value).toEqual(
-        put({ type: CREATE_LAMBDA_FULFILLED, payload: expectedPayload })
+        put({ type: CREATE_LAMBDA_FULFILLED, payload: responsePayload })
       );
     });
 
@@ -130,7 +129,7 @@ describe('Lambda Sagas', () => {
       sagaSuccess.next();
       sagaSuccess.next();
 
-      expect(onSuccessAction.onSuccess).toBeCalledWith(expectedPayload);
+      expect(onSuccessAction.onSuccess).toBeCalledWith(responsePayload);
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -146,10 +145,9 @@ describe('Lambda Sagas', () => {
 
   describe('updateLambda Sequence', () => {
     const action = { fqon: 'iamfqon', lambdaId: '1', environmentId: '2', payload: [] };
-    const saga = updateLambda(action);
     const envVar = { test: 'testvar' };
-    const responsePayload = lambdaModel.schema.cast({ id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } });
-    const expectedPayload = lambdaModel.get({ id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } }, envVar);
+    const responsePayload = { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } };
+    const saga = updateLambda(action);
     let result;
 
     it('should make an api call to PATCH the lambda', () => {
@@ -168,9 +166,13 @@ describe('Lambda Sagas', () => {
 
     it('should return a payload and dispatch a success status', () => {
       result = saga.next({ data: envVar });
+      const payload = {
+        lambda: responsePayload,
+        inheritedEnv: envVar,
+      };
 
       expect(result.value).toEqual(
-        put({ type: UPDATE_LAMBDA_FULFILLED, payload: expectedPayload })
+        put({ type: UPDATE_LAMBDA_FULFILLED, payload })
       );
     });
 
@@ -191,7 +193,7 @@ describe('Lambda Sagas', () => {
       sagaSuccess.next();
       sagaSuccess.next();
 
-      expect(onSuccessAction.onSuccess).toBeCalledWith(expectedPayload);
+      expect(onSuccessAction.onSuccess).toBeCalledWith(responsePayload);
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -382,7 +384,7 @@ describe('Lambda Sagas', () => {
 
       it('should make an api call for the environment envs', () => {
         result = saga.next([
-          { data: lambdaModel.schema.cast({ id: '890', name: 'a lambda', properties: { parent: { href: 'iamfqon/environments/2' } } }) },
+          { data: { id: '890', name: 'a lambda', properties: { parent: { href: 'iamfqon/environments/2' } } } },
           { data: [{ name: 'an executor' }] },
           { data: [{ name: 'a secret' }] },
         ]);
@@ -398,7 +400,8 @@ describe('Lambda Sagas', () => {
         const payload = {
           executors: [{ name: 'an executor' }],
           secrets: [{ name: 'a secret' }],
-          lambda: lambdaModel.get({ id: '890', name: 'a lambda', properties: { env: [{ name: 'test', value: 'testvar', inherited: true, overridden: false }], parent: { href: 'iamfqon/environments/2' } } }),
+          lambda: { id: '890', name: 'a lambda', properties: { parent: { href: 'iamfqon/environments/2' } } },
+          inheritedEnv: { test: 'testvar' },
         };
 
         expect(result.value).toEqual(
