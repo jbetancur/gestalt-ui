@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
 import { SelectField } from 'react-md';
@@ -10,18 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
-import { media } from 'util/helpers/media';
 import withContext from '../../Hierarchy/hocs/withContext';
-
-const DialogContentCustom = styled(DialogContent)`
-  width: 400px;
-  ${() => media.xs`
-    width: auto;
-  `};
-  ${() => media.sm`
-    width: auto;
-  `};
-`;
 
 class PromoteModal extends PureComponent {
   static propTypes = {
@@ -63,10 +51,11 @@ class PromoteModal extends PureComponent {
         open={modal.open}
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
-        maxWidth="sm"
+        maxWidth="xs"
+        fullWidth
       >
         <DialogTitle id="ccontainer-promote-title">{title}</DialogTitle>
-        <DialogContentCustom>
+        <DialogContent>
           {environmentsList.length > 0 ?
             <Row center>
               <Col flex={12}>
@@ -86,7 +75,7 @@ class PromoteModal extends PureComponent {
                 />
               </Col>
             </Row> : <span>There are no available environments to promote to</span>}
-        </DialogContentCustom>
+        </DialogContent>
         <DialogActions>
           <Button raised primary onClick={this.doIt} disabled={!selectedEnvironment}>Promote</Button>
           <Button flat primary onClick={modal.hideModal}>Cancel</Button>

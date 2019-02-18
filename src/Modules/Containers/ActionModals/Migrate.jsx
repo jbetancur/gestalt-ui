@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
 import { SelectField } from 'react-md';
@@ -12,17 +11,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
-import { media } from 'util/helpers/media';
-
-const DialogContentCustom = styled(DialogContent)`
-  width: 400px;
-  ${() => media.xs`
-    width: auto;
-  `};
-  ${() => media.sm`
-    width: auto;
-  `};
-`;
 
 class MigrateModal extends PureComponent {
   static propTypes = {
@@ -62,10 +50,11 @@ class MigrateModal extends PureComponent {
         open={modal.open}
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
-        maxWidth="sm"
+        maxWidth="xs"
+        fullWidth
       >
         <DialogTitle id="ccontainer-migrate-title">{title}</DialogTitle>
-        <DialogContentCustom>
+        <DialogContent>
           {providersLoading ?
             <DotActivity size={1} primary /> :
             <React.Fragment>
@@ -89,7 +78,7 @@ class MigrateModal extends PureComponent {
                   </Col>
                 </Row> : <span>There are no available providers to migrate to</span>}
             </React.Fragment>}
-        </DialogContentCustom>
+        </DialogContent>
         <DialogActions>
           <Button raised primary onClick={this.doIt} disabled={!provider}>Migrate</Button>
           <Button flat primary onClick={modal.hideModal}>Cancel</Button>

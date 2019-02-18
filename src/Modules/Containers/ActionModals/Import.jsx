@@ -56,6 +56,7 @@ class ContainerImportFormModal extends Component {
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
         maxWidth="sm"
+        fullWidth
       >
         <DialogTitle id="container-import-title">{title}</DialogTitle>
         {containerImportPending && <ActivityContainer primary centered id="container-import--loading" />}

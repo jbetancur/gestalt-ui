@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
-import { media } from 'util/helpers/media';
 import StreamInstance from './StreamInstance';
-
-const DialogContentCustom = styled(DialogContent)`
-  width: 800px;
-  ${() => media.xs`
-    width: auto;
-  `};
-  ${() => media.sm`
-    width: auto;
-  `};
-`;
 
 class StreamInstanceModal extends Component {
   static propTypes = {
@@ -39,11 +27,12 @@ class StreamInstanceModal extends Component {
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
         maxWidth="md"
+        fullWidth
       >
         <DialogTitle id="streaminstance-modal-title">View Stream Metrics</DialogTitle>
-        <DialogContentCustom>
+        <DialogContent>
           <StreamInstance fqon={fqon} streamId={streamId} persistenceId={persistenceId} />
-        </DialogContentCustom>
+        </DialogContent>
         <DialogActions>
           <Button flat primary onClick={modal.hideModal}>Close</Button>
         </DialogActions>

@@ -110,6 +110,7 @@ class ConfirmModal extends PureComponent {
         onClose={this.close}
         onExited={modal.destroyModal}
         maxWidth="sm"
+        fullWidth
       >
         <DialogTitle id="confirmation-modal-title">{modalTitle}</DialogTitle>
 

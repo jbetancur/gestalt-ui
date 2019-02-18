@@ -101,6 +101,7 @@ class ReparentModal extends PureComponent {
         onClose={this.close}
         onExited={modal.destroyModal}
         maxWidth="sm"
+        fullWidth
       >
         <DialogTitle id="confirmation-modal-title">{modalTitle}</DialogTitle>
 
@@ -172,7 +173,7 @@ class ReparentModal extends PureComponent {
               onChange={this.handleForceChecked}
               style={{ width: '100%' }}
             />}
-          <Button flat important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>
+          <Button raised important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>
           <Button flat primary onClick={this.close}>Cancel</Button>
         </DialogActions>
       </Dialog>

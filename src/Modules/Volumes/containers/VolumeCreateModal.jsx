@@ -2,26 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
-import { media } from 'util/helpers/media';
 import VolumePanelAttach from '../components/VolumePanelAttach';
 import VolumePanelCreate from '../components/VolumePanelCreate';
 import actions from '../actions';
-
-const DialogContentCustom = styled(DialogContent)`
-  width: 800px;
-  ${() => media.xs`
-    width: auto;
-  `};
-  ${() => media.sm`
-    width: auto;
-  `};
-`;
 
 class VolumeCreateModal extends PureComponent {
   static propTypes = {
@@ -59,11 +47,12 @@ class VolumeCreateModal extends PureComponent {
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
         maxWidth="md"
+        fullWidth
       >
         <DialogTitle id="volume-modal-title">{`${mode.name} Volume`}</DialogTitle>
-        <DialogContentCustom>
+        <DialogContent>
           {this.renderForm()}
-        </DialogContentCustom>
+        </DialogContent>
         <DialogActions>
           <Button
             key="add-container-volume--cancel"

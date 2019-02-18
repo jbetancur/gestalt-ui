@@ -32,7 +32,6 @@ import {
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
 } from '../actionTypes';
-import lambdaModel from '../models/lambda';
 
 describe('Lambda Sagas', () => {
   const error = 'an error has occured';
