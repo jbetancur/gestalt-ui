@@ -86,20 +86,11 @@ const initForm = (model = {}) => pick(get(model), [
   'properties.strict',
 ]);
 
-// format for the payload Viewer
-const formatPayload = (model = {}) => {
-  const pickList = [
-    'id',
-    'name',
-    'description',
-    'resource_type',
-    'properties.eval_logic',
-    'properties.match_actions',
-    'properties.strict',
-  ];
-
-  return pick(get(model), pickList);
-};
+/**
+ * rawGet
+ * @param {Object} model
+ */
+const rawGet = (model = {}) => transformOut(schema.cast(model));
 
 export default {
   schema,
@@ -107,5 +98,5 @@ export default {
   create,
   patch,
   initForm,
-  formatPayload,
+  rawGet,
 };

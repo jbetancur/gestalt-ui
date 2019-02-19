@@ -4,11 +4,11 @@ import CodeBlock from 'components/CodeBlock';
 import containerModel from '../models/container';
 
 const PayloadViewer = memo(({ value, name }) => {
-  const [raw, toggleRaw] = useState(0);
+  const [raw, toggleRaw] = useState(false);
 
   const data = raw
-    ? containerModel.get(value)
-    : containerModel.initForm(value);
+    ? containerModel.rawGet(value)
+    : containerModel.create(value);
 
   return (
     <CodeBlock

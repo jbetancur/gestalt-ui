@@ -225,10 +225,17 @@ const initForm = (model = {}) => {
   return pick(get(model), pickList);
 };
 
+/**
+ * rawGet
+ * @param {Object} model
+ */
+const rawGet = (model = {}) => transformOut(schema.cast(model));
+
 export default {
   schema,
   get,
   create,
   patch,
   initForm,
+  rawGet,
 };

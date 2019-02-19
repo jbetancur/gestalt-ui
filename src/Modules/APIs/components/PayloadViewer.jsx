@@ -4,7 +4,7 @@ import CodeBlock from 'components/CodeBlock';
 import apiModel from '../models/api';
 
 const PayloadViewer = memo(({ value, name }) => {
-  const [raw, toggleRaw] = useState(0);
+  const [raw, toggleRaw] = useState(false);
 
   const data = raw
     ? apiModel.get(value)

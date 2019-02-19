@@ -67,10 +67,17 @@ const initForm = (model = {}) => pick(get(model), [
   'description',
 ]);
 
+/**
+ * rawGet
+ * @param {Object} model
+ */
+const rawGet = (model = {}) => transformOut(schema.cast(model));
+
 export default {
   schema,
   get,
   create,
   patch,
   initForm,
+  rawGet,
 };

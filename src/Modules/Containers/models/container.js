@@ -177,7 +177,9 @@ const create = (model = {}, mergeVolumes) =>
   pick(transformOut(schema.cast(model), mergeVolumes), [
     'name',
     'description',
-    'properties.provider',
+    'properties.provider.id',
+    'properties.provider.name',
+    'properties.provider.resource_type',
     'properties.env',
     'properties.labels',
     'properties.port_mappings',
@@ -259,10 +261,17 @@ const initForm = (model = {}) => {
   return pick(get(model), pickList);
 };
 
+/**
+ * rawGet
+ * @param {Object} model
+ */
+const rawGet = (model = {}) => transformOut(schema.cast(model));
+
 export default {
   schema,
   get,
   create,
   put,
   initForm,
+  rawGet,
 };
