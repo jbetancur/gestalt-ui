@@ -3,12 +3,9 @@ image:
 
 stages:
 - test
-- build-and-publish
-- mark-stable
 - publish
 - review
 - deploy
-
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -20,8 +17,8 @@ cache:
 
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
-  REVIEW_APP_URL: "${CI_BASE_URL}/ui-review-deploy"
-  CI_URL_PATH: "${CI_BASE_URL}/legacy-ci"
+  REVIEW_APP_URL: https://gtw1.demo.galacticfog.com/ci/ui-review-deploy
+  LEGACY_CI_URL: https://gtw1.demo.galacticfog.com/ci/legacy-ci
 
 test:
   stage: test
@@ -34,9 +31,7 @@ test:
     paths:
     - test/coverage/
 
-# Move common docker building image as proper task
-build-and-publish:
-  stage: build-and-publish
+.deploy_template: &build-and-publish
   services:
     - docker:dind
   allow_failure: false
@@ -69,8 +64,7 @@ build-and-publish:
       docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
       docker push $DOCKER_IMG:$DOCKER_TAG
     - |
-      if [ ${BRANCH_NAME} == "develop" ]; then
-        # are we sure we want do this for develop and not master?
+      if [ ${BRANCH_NAME} == "master" ]; then
         echo "Tag develop branch image as latest:"
         docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
         docker push $DOCKER_IMG:latest
@@ -78,7 +72,6 @@ build-and-publish:
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
 
 .deploy_template: &mark_stable_image
-  stage: mark-stable
   script:
     - |
       echo "Lookup proper docker tag same way as docker image build does"
@@ -98,38 +91,36 @@ build-and-publish:
       git commit -m "CI: Mark dev-stable: ${DOCKER_IMG}:${DOCKER_TAG}"
       git push origin master
 
-auto-mark-image:
-  <<: *mark_stable_image
-  only: 
-    - develop
-
-manual-mark-image:
-  <<: *mark_stable_image
-  except: 
-    - develop
-  when: manual
-
 .deploy_template: &deploy_to_test
   stage: deploy
+  services:
+    - docker:dind
   environment:
     name: test
     url: https://test.galacticfog.com
   allow_failure: false
+  <<: *build-and-publish
   script:
-    - VERSION=$(<package.json jq -r '.version')
-    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL_PATH project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
+    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $LEGACY_CI_URL project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
 
 auto-deploy-develop-to-test:
+  <<: *mark_stable_image
   <<: *deploy_to_test
   only:
     - develop
   dependencies:
     - test
 
-# Moved up  - so next to same logical items.
-# Not sure why this commented out - maybe we never want manual accidental deploy - if so maybe we should just remove this
+publish-docker-image:
+  stage: publish
+  services:
+    - docker:dind
+  allow_failure: false
+  <<: *build-and-publish
+  only:
+    - tags
+
 # manual-deploy-to-test:
 #   <<: *deploy_to_test
 #   when: manual
@@ -154,9 +145,8 @@ review:
   stage: review
   services:
     - docker:dind
+  <<: *build-and-publish
   script:
-    - VERSION=$(<package.json jq -r '.version')
-    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
     - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $REVIEW_APP_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
   dependencies:
