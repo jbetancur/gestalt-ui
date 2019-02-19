@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
 import containerModel from '../../Containers/models/container';
 import providerModel from '../models/provider';
 
@@ -7,64 +6,23 @@ import providerModel from '../models/provider';
 const selectProvider = state => state.providers.provider.provider;
 export const selectContainerProvider = state => state.containers.selectedProvider;
 export const selectContainer = state => state.providers.container.container;
-
-const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
-  const newcheck = { ...check };
-
-  if (check.protocol !== 'COMMAND') {
-    if ('port_index' in newcheck) {
-      newcheck.port_type = 'index';
-    } else {
-      newcheck.port_type = 'number';
-    }
-  }
-
-  return newcheck;
-});
+export const hasContainer = state => state.providers.provider.hasContainer;
 
 export const getCreateProviderModel = createSelector(
   [],
-  () => providerModel.initForm()
+  () => providerModel.initForm(),
 );
 
 export const getEditProviderModel = createSelector(
   [selectProvider],
-  (provider) => {
-    const { properties } = providerModel.initForm(provider);
-    const model = {
-      ...provider,
-      properties: {
-        ...properties,
-      },
-    };
-
-    // TODO: We could cast this in the model, but for some reason it does not cast this deep? - I don't feel like dealing with it.
-    // We will eventually move to a service based provider making all this moot
-    if (get(model, 'properties.services.length')) {
-      const container = containerModel.initForm(properties.services[0].container_spec);
-      model.properties.services = [
-        {
-          ...properties.services[0],
-          container_spec: {
-            ...container,
-            properties: {
-              ...container.properties,
-              health_checks: fixHealthChecks(container.properties.health_checks),
-            },
-          },
-        },
-      ];
-    }
-
-    return model;
-  }
+  provider => providerModel.initForm(provider),
 );
 
 // RAGE
 export const getProviderContainer = createSelector(
   [selectProvider],
   (provider) => {
-    const model = providerModel.get(provider);
+    const model = providerModel.initForm(provider);
 
     return (model
       && model.properties

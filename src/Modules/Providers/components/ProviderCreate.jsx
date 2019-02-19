@@ -18,10 +18,10 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateProviderPayload } from '../payloadTransformer';
 import { getCreateProviderModel } from '../reducers/selectors';
 import withProvider from '../hocs/withProvider';
 import containerModel from '../../Containers/models/container';
+import providerModel from '../models/provider';
 
 const focusOnErrors = createDecorator();
 const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes', 'showContainerOption', 'networksConfig', 'ecsConfig'];
@@ -34,12 +34,16 @@ class ProviderCreate extends PureComponent {
     providerActions: PropTypes.object.isRequired,
     providerPending: PropTypes.bool.isRequired,
     hasContainer: PropTypes.bool.isRequired,
-    resourceTypes: PropTypes.array.isRequired,
     selectedProviderType: PropTypes.object.isRequired,
     setSelectedProviderType: PropTypes.func.isRequired,
     toggleHasContainer: PropTypes.func.isRequired,
     envSchemaPending: PropTypes.bool.isRequired,
+    resourceTypes: PropTypes.array,
   };
+
+  static defaultProps = {
+    resourceTypes: [],
+  }
 
   state = {
     pageOneDone: false,
@@ -81,8 +85,8 @@ class ProviderCreate extends PureComponent {
   }
 
   create = (values) => {
-    const { match, history, providerActions, hasContainer } = this.props;
-    const payload = generateProviderPayload(values, hasContainer);
+    const { match, history, providerActions } = this.props;
+    const payload = providerModel.create(values);
 
     const onSuccess = (response) => {
       if (match.params.workspaceId && !match.params.environmentId) {

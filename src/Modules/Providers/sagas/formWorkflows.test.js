@@ -24,7 +24,7 @@ import {
 import { setSelectedProvider } from '../../Containers/actions';
 import containerModel from '../../Containers/models/container';
 
-describe('container Form Workflow Sagas', () => {
+describe('provider Form Workflow Sagas', () => {
   const error = 'an error has occured';
 
   describe('createViewWorkflow Sequence', () => {
@@ -226,7 +226,8 @@ describe('container Form Workflow Sagas', () => {
         properties: {
           services: [
             {
-              container_spec: containerModel.get({ properties: { provider: { id: '212', name: 'some provider...' } } })
+              // note name and provider.id must be set so providerModel.get can branch to a provider container
+              container_spec: containerModel.get({ name: 'name', properties: { provider: { id: '212', name: 'some provider...' } } })
             },
           ],
         },
@@ -268,7 +269,8 @@ describe('container Form Workflow Sagas', () => {
         properties: {
           services: [
             {
-              container_spec: containerModel.get({ properties: { provider: { id: 'never-gonna-match-you-up', name: 'some provider...' } } })
+              // note name and provider.id must be set so providerModel.get can branch to a provider container
+              container_spec: containerModel.get({ name: 'name', properties: { provider: { id: 'never-gonna-match-you-up', name: 'some provider...' } } })
             },
           ],
         },

@@ -10,13 +10,13 @@ import { UnixVariablesForm } from 'Modules/Variables';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Chips } from 'components/Lists';
 import { formatName } from 'util/forms';
-import LinkedProviders from '../components/LinkedProviders';
-import EnvironmentTypes from '../components/EnvironmentTypes';
-import DCOSEESection from '../components/DCOSEESection';
-import DataEditor from '../components/DataEditor';
-import DCOSSection from '../components/DCOSSection';
-import ECSConfig from '../components/ECSConfig';
-import Networks from '../components/Networks';
+import LinkedProviders from './LinkedProviders';
+import EnvironmentTypes from './EnvironmentTypes';
+import DCOSEESection from './DCOSEESection';
+import DataEditor from './DataEditor';
+import DCOSSection from './DCOSSection';
+import ECSConfig from './ECSConfig';
+import Networks from './Networks';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
@@ -25,7 +25,6 @@ class ProviderForm extends PureComponent {
     provider: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     form: PropTypes.object.isRequired,
-    submitting: PropTypes.bool.isRequired,
     providerPending: PropTypes.bool.isRequired,
     providers: PropTypes.array.isRequired,
     editMode: PropTypes.bool,
@@ -58,7 +57,6 @@ class ProviderForm extends PureComponent {
   render() {
     const {
       form,
-      submitting,
       provider,
       editMode,
       selectedProviderType,
@@ -220,34 +218,33 @@ class ProviderForm extends PureComponent {
           </Col>
         </Row>
 
-        <FormSpy subscription={{ values: true }}>
-          {({ values }) => (
-            <React.Fragment>
-              {hasContainer &&
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Panel title="Container Specification" defaultExpanded={hasContainer}>
-                      {editMode &&
-                        <ActionsToolbar
-                          title={values.properties.services[0].container_spec.name}
-                          subtitle={container.properties.provider.name}
-                        />
-                      }
-                      <ContainerForm
-                        values={values}
-                        form={form}
-                        inlineMode
-                        editMode={editMode}
-                        formName="properties.services[0].container_spec"
-                        providers={providers.filter(p => p.resource_type.includes('::CaaS::'))}
-                        {...rest}
+        {hasContainer && (
+          <FormSpy subscription={{ values: true }}>
+            {({ values }) => (
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Container Specification" defaultExpanded={hasContainer}>
+                    {editMode &&
+                      <ActionsToolbar
+                        title={values.properties.services[0].container_spec.name}
+                        subtitle={container.properties.provider.name}
                       />
-                    </Panel>
-                  </Col>
-                </Row>}
-            </React.Fragment>
-          )}
-        </FormSpy>
+                    }
+                    <ContainerForm
+                      values={values}
+                      form={form}
+                      inlineMode
+                      editMode={editMode}
+                      formName="properties.services[0].container_spec"
+                      providers={providers.filter(p => p.resource_type.includes('::CaaS::'))}
+                      {...rest}
+                    />
+                  </Panel>
+                </Col>
+              </Row>
+            )}
+          </FormSpy>
+        )}
       </React.Fragment>
     );
   }

@@ -8,7 +8,7 @@ const PayloadViewer = memo(({ value, name }) => {
 
   const data = raw
     ? streamModel.get(value)
-    : streamModel.initForm(value);
+    : streamModel.create(value);
 
   return (
     <CodeBlock

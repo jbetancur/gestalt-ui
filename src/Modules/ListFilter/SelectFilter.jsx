@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Search = styled(TextField)`
-  max-width: 400px;
+  width: 300px;
   margin-left: 10px;
 `;
 

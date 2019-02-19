@@ -84,7 +84,7 @@ export default (state = initialState, action) => {
     case FETCH_PROVIDER_FULFILLED:
       return {
         ...state,
-        provider: action.payload,
+        provider: providerModel.get(action.payload),
         pending: false,
         completed: true,
       };

@@ -18,13 +18,13 @@ import { Card, CardTitle } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
-import PayloadViewer from '../components/PayloadViewer';
+import PayloadViewer from './PayloadViewer';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
 import actions from '../actions';
-import { generateProviderPatches } from '../payloadTransformer';
 import { getEditProviderModel, getProviderContainer } from '../reducers/selectors';
 import withProvider from '../hocs/withProvider';
+import providerModel from '../models/provider';
 
 const focusOnErrors = createDecorator();
 
@@ -74,7 +74,7 @@ class ProviderEdit extends PureComponent {
 
   update = (formValues) => {
     const { match, provider, providerActions } = this.props;
-    const payload = generateProviderPatches(provider, formValues);
+    const payload = providerModel.patch(provider, formValues);
 
     providerActions.updateProvider({ fqon: match.params.fqon, id: provider.id, payload });
   }
@@ -112,7 +112,7 @@ class ProviderEdit extends PureComponent {
       provider,
       container,
       hasContainer,
-      providerPending
+      providerPending,
     } = this.props;
 
     if (providerPending && !provider.id) {
@@ -194,7 +194,7 @@ class ProviderEdit extends PureComponent {
               />
             </Tab>
 
-            {hasContainer ?
+            {hasContainer ? (
               <Tab title="Service Instance">
                 <Row gutter={5}>
                   <Col flex={12}>
@@ -218,7 +218,7 @@ class ProviderEdit extends PureComponent {
                     </Card>
                   </Col>
                 </Row>
-              </Tab> : <div />
+              </Tab>) : <div />
             }
 
             <Tab title="YAML/JSON">
@@ -228,7 +228,6 @@ class ProviderEdit extends PureComponent {
                     <PayloadViewer
                       value={provider}
                       name={provider.name}
-                      hasContainer={hasContainer}
                     />
                   </Card>
                 </Col>

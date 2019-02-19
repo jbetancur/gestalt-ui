@@ -19,8 +19,6 @@ export function arrayToMap(array = [], keyName = 'name', valueName = 'value') {
  */
 export function mapTo2DArray(object = {}, keyName = 'name', valueName = 'value', mergeSet = {}) {
   return map(object, (value, key) => (Object.assign({ [keyName]: key, [valueName]: value }, mergeSet)));
-
-  // return sortBy(mappedItems, [v => v[keyName].toLowerCase()]);
 }
 
 /**

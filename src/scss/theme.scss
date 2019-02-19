@@ -42,7 +42,7 @@ $md-secondary-color: $md-blue-500;
   // @include react-md-toolbars;
   @include react-md-tooltips;
 
-  // @include react-md-helpers-everything;
+  @include react-md-helpers-everything;
   @include react-md-colors;
 
 .md-tile-content--left-icon {

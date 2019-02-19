@@ -116,7 +116,8 @@ export function* editViewWorkflow(action) {
     ]);
 
     const selectedResource = yield call(fetchAPI, `${context.organization.properties.fqon}/resourcetypes?expand=true&type=${provider.data.resource_type}`);
-    const hasContainer = !!get(provider.data, 'properties.services[0].container_spec');
+    const hasContainer = !!(get(provider.data, 'properties.services[0].container_spec.name')
+      && get(provider.data, 'properties.services[0].container_spec.properties.provider.id'));
     const selectedProviderType = generateResourceTypeSchema(selectedResource.data)[0];
 
     const payload = {

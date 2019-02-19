@@ -129,24 +129,26 @@ class ProviderListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Providers"
-            data={this.props.providers}
-            highlightOnHover
-            pointerOnHover
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
-            defaultSortField="name"
-            progressPending={this.props.providersPending}
-            progressComponent={<LinearProgress id="provider-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.providersPending} />}
-            pagination
-            paginationPerPage={25}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Providers"
+              data={this.props.providers}
+              highlightOnHover
+              pointerOnHover
+              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              defaultSortField="name"
+              progressPending={this.props.providersPending}
+              progressComponent={<LinearProgress id="provider-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.providersPending} />}
+              pagination
+              paginationPerPage={25}
+            />
+          </Card>
         </Col>
       </Row>
     );

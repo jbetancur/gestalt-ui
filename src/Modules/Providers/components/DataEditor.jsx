@@ -41,7 +41,7 @@ const DataEditor = ({ title, editMode, editorMode, subTypes, form }) => {
 
           <FileInput
             id={`${title}-${editorMode}-config`}
-            label={`Upload ${editorMode.toUpperCase()}`}
+            label={`Upload ${editorMode}`}
             onChange={onFile}
             primary
           />
