@@ -15,6 +15,12 @@ describe('Util Transformations', () => {
       expect(arrayToMap(array)).toEqual({ 'luke skywalker': 'awesome' });
     });
 
+    it('should map an array to a key value pair when the value is blank', () => {
+      const array = [{ name: 'luke skywalker' }];
+
+      expect(arrayToMap(array)).toEqual({ 'luke skywalker': '' });
+    });
+
     it('should map an array to a key value with custom key value names', () => {
       const array = [{ fname: 'luke', lname: 'skywalker', address: 'tatooine' }];
 
@@ -27,6 +33,12 @@ describe('Util Transformations', () => {
       const obj = { 'luke skywalker': 'awesome' };
 
       expect(mapTo2DArray(obj)).toEqual([{ name: 'luke skywalker', value: 'awesome' }]);
+    });
+
+    it('should create an array from a map', () => {
+      const obj = { 'luke skywalker': null };
+
+      expect(mapTo2DArray(obj)).toEqual([{ name: 'luke skywalker', value: '' }]);
     });
 
     it('should create an array from a map with custom key value names', () => {
