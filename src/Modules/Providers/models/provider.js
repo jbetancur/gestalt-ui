@@ -191,8 +191,6 @@ const create = (model = {}) => {
  * @param {Object} updatedModel - override the model
  */
 const patch = (model = {}, updatedModel = {}) => {
-  const castedModel = schema.cast(model);
-
   // force patch on arrays
   const omitList = [
     'properties.linked_providers',
@@ -200,7 +198,7 @@ const patch = (model = {}, updatedModel = {}) => {
   ];
 
   return jsonPatch.compare(
-    omit(create(castedModel), omitList),
+    omit(create(model), omitList),
     create(updatedModel),
   );
 };
@@ -214,6 +212,7 @@ const initForm = (model = {}) => {
   const pickList = [
     'name',
     'description',
+    'resource_type',
     'properties.config',
     'properties.linked_providers',
     'properties.environment_types',
