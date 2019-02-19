@@ -4,9 +4,9 @@ a[type=button] {
   -webkit-appearance: none;
 }
 
-// Fix for icon vertical aligmen sanitize.scss
-.material-icons {
-  vertical-align: top;
+// Deal with disabled links properly
+a[disabled] {
+  pointer-events: none;
 }
 
 /* Override stupid chrome autofill yellow inputs ;) */
@@ -24,7 +24,3 @@ textarea, input, *:focus {
   overflow: hidden;
 }
 
-// Deal with disabled links properly
-a[disabled] {
-  pointer-events: none;
-}

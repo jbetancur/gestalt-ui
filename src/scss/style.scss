@@ -1,11 +1,9 @@
 @import '~sanitize.css/sanitize.css';
-@import '~react-md/src/scss/_react-md';
 @import 'mixins';
 @import 'fonts';
 @import 'colors';
 @import 'reset';
 @import 'theme';
-@import 'overrides';
 
 html, body {
   height: 100%;

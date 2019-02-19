@@ -1,41 +1,46 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Title, Subtitle } from 'components/Typography';
 
-const Wrapper = styled.div`
+const TitleSection = styled.div`
   padding: 16px;
+  display: flex;
+  align-items: center;
 `;
 
-const CardTitle = ({ title, subTitle, children }) => (
-  <Wrapper>
-    {!children ?
-      <div>
-        <Title large>{title}</Title>
-        <Subtitle>{subTitle}</Subtitle>
-      </div>
-      : children}
-  </Wrapper>
-);
+const Icon = styled.div`
+  padding-right: 8px;
+`;
+
+const CardTitle = memo(({ title, icon, subTitle }) => (
+  <TitleSection>
+    <Icon>{icon}</Icon>
+    <Title small bold>{title}</Title>
+    <Subtitle>{subTitle}</Subtitle>
+  </TitleSection>
+));
 
 CardTitle.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
   title: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.string,
+  ]),
+  icon: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
   subTitle: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
+    PropTypes.string,
   ]),
 };
 
 CardTitle.defaultProps = {
-  children: null,
   title: null,
+  icon: null,
   subTitle: null,
 };
 

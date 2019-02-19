@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
+import { MenuButton, ListItem, FontIcon } from 'react-md';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalContext } from 'Modules/ModalRoot/ModalContext';
+import Divider from 'components/Divider';
 import { getLastFromSplit } from 'util/helpers/strings';
 
 const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, editURL, entityKey, disableEntitlements, disableCopy }) => {

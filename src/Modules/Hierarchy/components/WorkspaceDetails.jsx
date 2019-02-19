@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { MenuButton, FontIcon, Divider } from 'react-md';
+import { MenuButton, FontIcon } from 'react-md';
+import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';

@@ -7,19 +7,11 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { media } from 'util/helpers/media';
 import LicenseForm from './LicenseForm';
 import actions from '../actions';
 
 const DialogContentCustom = styled(DialogContent)`
-  width: 800px;
   min-height: 500px;
-  ${() => media.xs`
-    width: auto;
-  `};
-  ${() => media.sm`
-    width: auto;
-  `};
 `;
 
 const initialFormValues = {
@@ -77,6 +69,7 @@ class License extends Component {
         onClose={modal.hideModal}
         onExited={modal.destroyModal}
         maxWidth="md"
+        fullWidth
       >
         <DialogTitle id="license-scale-title">Licenseing</DialogTitle>
         {pending && <ActivityContainer id="license-load" />}

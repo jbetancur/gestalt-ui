@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ListItem, Divider, FontIcon } from 'react-md';
+import { ListItem, FontIcon } from 'react-md';
+import Divider from 'components/Divider';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
 import { EntitlementModal } from 'Modules/Entitlements';
@@ -61,10 +62,6 @@ const ListWrapper = styled.div`
 const ListMenu = styled.div`
   padding-left: 8px;
   padding-right: 8px;
-`;
-
-const EnhancedDivider = styled(Divider)`
-  margin: 0;
 `;
 
 class ContainerActions extends PureComponent {
@@ -287,7 +284,7 @@ class ContainerActions extends PureComponent {
               <Subtitle>{containerModel.properties.status}</Subtitle>
             </ListMenu>
 
-            <EnhancedDivider />
+            <Divider />
           </Col>
 
           <Col flex={6} style={dividerStyle}>

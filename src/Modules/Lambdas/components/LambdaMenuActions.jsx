@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
+import { MenuButton, ListItem, FontIcon } from 'react-md';
+import Divider from 'components/Divider';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EntitlementModal } from 'Modules/Entitlements';
