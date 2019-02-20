@@ -17,8 +17,8 @@ cache:
 
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
-  REVIEW_APP_URL: https://gtw1.demo.galacticfog.com/ci/ui-review-deploy
-  LEGACY_CI_URL: https://gtw1.demo.galacticfog.com/ci/legacy-ci
+  REVIEW_APP_URL: "${CI_BASE_URL}/ui-review-deploy"
+  CI_URL_PATH: "${CI_BASE_URL}/legacy-ci"
 
 test:
   stage: test
@@ -102,7 +102,7 @@ test:
   <<: *build-and-publish
   script:
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $LEGACY_CI_URL project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
+    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL_PATH project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
 
 auto-deploy-develop-to-test:
   <<: *mark_stable_image
