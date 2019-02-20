@@ -7,6 +7,10 @@ import { map, compact, get } from 'lodash';
  * @param {*} valueName
  */
 export function arrayToMap(array = [], keyName = 'name', valueName = 'value') {
+  if (!Array.isArray(array)) {
+    return array;
+  }
+
   return Object.assign({}, ...array.map(v => ({ [v[keyName]]: v[valueName] || '' })));
 }
 
@@ -18,6 +22,10 @@ export function arrayToMap(array = [], keyName = 'name', valueName = 'value') {
  * @param {*} mergeSet
  */
 export function mapTo2DArray(object = {}, keyName = 'name', valueName = 'value', mergeSet = {}) {
+  if (typeof object !== 'object') {
+    return object;
+  }
+
   return map(object, (value, key) => (Object.assign({ [keyName]: key, [valueName]: value || '' }, mergeSet)));
 }
 

@@ -9,6 +9,10 @@ import {
 
 describe('Util Transformations', () => {
   describe('arrayToMap function', () => {
+    it('should handle the base case if the first param is not an array', () => {
+      expect(arrayToMap({})).toEqual({ });
+    });
+
     it('should map an array to a key value pair', () => {
       const array = [{ name: 'luke skywalker', value: 'awesome' }];
 
@@ -29,6 +33,10 @@ describe('Util Transformations', () => {
   });
 
   describe('mapTo2DArray function', () => {
+    it('should handle the base case if the first param is not an object', () => {
+      expect(mapTo2DArray([])).toEqual([]);
+    });
+
     it('should create an array from a map', () => {
       const obj = { 'luke skywalker': 'awesome' };
 

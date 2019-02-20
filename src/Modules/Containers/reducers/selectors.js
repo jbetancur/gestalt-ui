@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { listSelectors } from 'Modules/ListFilter';
 // import { get } from 'lodash';
 import containerModel from '../models/container';
 
 export const selectProvider = state => state.containers.container.selectedProvider;
-export const selectContainers = state => state.containers.containers.containers;
+export const selectContainers = state => listSelectors.filterItems()(state, 'containers.containers.containers');
 export const selectContainer = state => state.containers.container.container;
 export const selectContainerSpec = (state, containerSpec) => containerModel.get(containerSpec);
 export const selectEnv = state => state.containers.container.inheritedEnv;
@@ -13,8 +14,6 @@ export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
 export const getContainers = createSelector(
   [selectContainers],
-  // in a containers array labels are still just maps
-  // containers => containers.filter(container => !get(container, 'properties.labels.SYSTEM')),
   containers => containers,
 );
 

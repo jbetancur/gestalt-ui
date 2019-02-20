@@ -7,109 +7,82 @@ import containerModel from '../../Containers/models/container';
 
 const hasContainer = model =>
   !!(getProp(model, 'properties.services[0].container_spec.name')
-  && getProp(model, 'properties.services[0].container_spec.properties.provider.id'));
-
-const updateEnv = (model, newEnv, key = 'public') => ({
-  ...model,
-  properties: {
-    ...model.properties,
-    config: {
-      ...model.properties.config,
-      env: {
-        ...model.properties.config.env,
-        [key]: newEnv
-      }
-    }
-  },
-});
-
-function formatData(model) {
-  const newModel = {
-    ...model,
-    properties: {
-      ...model.properties,
-    }
-  };
-
-  if (model.properties.data) {
-    newModel.properties.data = base64.encode(newModel.properties.data);
-  }
-
-  if (newModel.properties.tempData) {
-    newModel.properties.data = base64.encode(newModel.properties.tempData);
-  }
-
-  return newModel;
-}
-
-function updateContainer(model) {
-  const newModel = {
-    ...model,
-    properties: {
-      ...model.properties,
-      services: [
-        {
-          init: { binding: 'eager', singleton: true },
-          container_spec: {
-            ...model.properties.services[0].container_spec,
-            properties: {
-              ...model.properties.services[0].container_spec.properties,
-              env: Array.isArray(model.properties.services[0].container_spec.properties.env)
-                ? arrayToMap(model.properties.services[0].container_spec.properties.env, 'name', 'value')
-                : model.properties.services[0].container_spec.properties.env,
-              labels: Array.isArray(model.properties.services[0].container_spec.properties.labels)
-                ? arrayToMap(model.properties.services[0].container_spec.properties.labels, 'name', 'value')
-                : model.properties.services[0].container_spec.properties.labels,
-            }
-          },
-        },
-      ],
-    },
-  };
-
-  return newModel;
-}
+    && getProp(model, 'properties.services[0].container_spec.properties.provider.id'));
 
 function transformIn(model) {
   const { properties } = model;
-  const newModel = { ...model };
+  let publicVar = {};
+  let privateVar = {};
 
   if (properties.config.env) {
-    const publicVar = Array.isArray(properties.config.env.public)
+    publicVar = Array.isArray(properties.config.env.public)
       ? properties.config.env.public
       : mapTo2DArray(properties.config.env.public);
 
-    const privateVar = Array.isArray(properties.config.env.private)
+    privateVar = Array.isArray(properties.config.env.private)
       ? properties.config.env.private
       : mapTo2DArray(properties.config.env.private);
-
-    Object.assign(newModel, updateEnv(newModel, publicVar, 'public'));
-    Object.assign(newModel, updateEnv(newModel, privateVar, 'private'));
   }
 
-  return newModel;
+  return {
+    ...model,
+    properties: {
+      ...properties,
+      config: {
+        ...properties.config,
+        env: {
+          public: publicVar,
+          private: privateVar,
+        }
+      },
+    },
+  };
 }
 
 function transformOut(model) {
-  const newModel = { ...model };
+  const { properties } = model;
+  let publicVar = {};
+  let privateVar = {};
 
-  if (newModel.properties.config.env) {
-    const publicVar = Array.isArray(newModel.properties.config.env.public)
-      ? arrayToMap(newModel.properties.config.env.public, 'name', 'value')
-      : newModel.properties.config.env.public;
+  if (properties.config.env) {
+    publicVar = Array.isArray(properties.config.env.public)
+      ? arrayToMap(properties.config.env.public, 'name', 'value')
+      : properties.config.env.public;
 
-    const privateVar = Array.isArray(newModel.properties.config.env.private)
-      ? arrayToMap(newModel.properties.config.env.private, 'name', 'value')
-      : newModel.properties.config.env.private;
-
-    Object.assign(newModel, updateEnv(newModel, publicVar, 'public'));
-    Object.assign(newModel, updateEnv(newModel, privateVar, 'private'));
+    privateVar = Array.isArray(properties.config.env.private)
+      ? arrayToMap(properties.config.env.private, 'name', 'value')
+      : properties.config.env.private;
   }
 
-  Object.assign(newModel, formatData(newModel));
+  const newModel = {
+    ...model,
+    properties: {
+      ...properties,
+      config: {
+        ...properties.config,
+        env: {
+          public: publicVar,
+          private: privateVar,
+        }
+      },
+    },
+  };
+
+  if (properties.data) {
+    newModel.properties.data = base64.encode(newModel.properties.data);
+  }
+
+  if (properties.tempData) {
+    newModel.properties.data = base64.encode(newModel.properties.tempData);
+  }
 
   if (hasContainer(model)) {
-    Object.assign(newModel, updateContainer(model));
+    newModel.properties.services = [
+      {
+        init: { binding: 'eager', singleton: true },
+        container_spec: containerModel.create(newModel.properties.services[0].container_spec),
+      },
+    ];
   }
 
   return newModel;
@@ -155,9 +128,9 @@ const schema = object().shape({
 const get = (model = {}) => {
   const omitList = [];
 
-  if (!hasContainer(model)) {
-    omitList.push('properties.services');
-  }
+  // if (!hasContainer(model)) {
+  //   omitList.push('properties.services');
+  // }
 
   return omit(transformIn(schema.cast(model)), omitList);
 };

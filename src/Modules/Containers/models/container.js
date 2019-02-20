@@ -2,23 +2,6 @@ import { object, array, boolean, string, number } from 'yup';
 import { pick } from 'lodash';
 import { mapTo2DArray, arrayToMap, convertFromMaps } from 'util/helpers/transformations';
 
-const handleCMD = (model) => {
-  if (!model.properties.cmd) {
-    return null;
-  }
-
-  // Trim the cmd of leading/trailng spaces to prevent container errors
-  return {
-    ...model,
-    properties: {
-      ...model.properties,
-      model: model.properties.cmd && (model.properties.cmd.trim() !== model.properties.cmd)
-        ? model.properties.cmd.trim()
-        : model.properties.cmd,
-    },
-  };
-};
-
 const reformatHealthChecks = healthChecks => (
   healthChecks.map((healthCheck) => {
     const healthCheckPayload = { ...healthCheck };
@@ -99,15 +82,10 @@ function transformIn(model, envToMerge = {}) {
 }
 
 function transformOut(model, mergeVolumes = []) {
-  // force 1 instance since we disable num_instances field validation (to deal with suspended update case)
-  // we need to convert this before we cast it since the schema exects a Number
-
-
-  return {
+  const newModel = {
     ...model,
     properties: {
       ...model.properties,
-      ...handleCMD(model),
       // eslint-disable-next-line no-restricted-globals
       num_instances: isNaN(model.properties.num_instances) || !model.properties.num_instances
         ? 1
@@ -118,6 +96,17 @@ function transformOut(model, mergeVolumes = []) {
       volumes: [...model.properties.volumes, ...mergeVolumes],
     },
   };
+
+  if (!model.properties.cmd) {
+    delete newModel.properties.cmd;
+  } else {
+    // Trim the cmd of leading/trailng spaces to prevent container errors
+    newModel.properties.cmd = model.properties.cmd && (model.properties.cmd.trim() !== model.properties.cmd)
+      ? model.properties.cmd.trim()
+      : model.properties.cmd;
+  }
+
+  return newModel;
 }
 
 const schema = object().shape({
