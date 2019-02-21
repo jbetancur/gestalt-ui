@@ -197,8 +197,7 @@ class VolumeListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no volumes to display" icon={<VolumeIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
-            subHeader
-            subHeaderComponent={<SelectFilter disabled={this.props.volumesPending} />}
+            actions={<SelectFilter disabled={this.props.volumesPending} />}
             pagination
             paginationPerPage={15}
           />

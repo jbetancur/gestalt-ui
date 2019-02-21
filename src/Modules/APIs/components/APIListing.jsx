@@ -162,8 +162,7 @@ class APIListing extends PureComponent {
               clearSelectedRows={this.state.clearSelected}
               noDataComponent={<NoData message="There are no apis to display" icon={<APIIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              subHeader
-              subHeaderComponent={<SelectFilter disabled={this.props.apisPending} />}
+              actions={<SelectFilter disabled={this.props.apisPending} />}
               pagination
               paginationPerPage={15}
             />

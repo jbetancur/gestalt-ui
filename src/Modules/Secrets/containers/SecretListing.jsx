@@ -165,8 +165,7 @@ class SecretListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no secrets to display" icon={<SecretIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
-            subHeader
-            subHeaderComponent={<SelectFilter disabled={this.props.secretsPending} />}
+            actions={<SelectFilter disabled={this.props.secretsPending} />}
             pagination
             paginationPerPage={15}
           />

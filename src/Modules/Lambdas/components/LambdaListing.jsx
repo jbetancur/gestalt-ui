@@ -188,8 +188,7 @@ class LambdaListing extends PureComponent {
               clearSelectedRows={this.state.clearSelected}
               noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              subHeader
-              subHeaderComponent={<SelectFilter disabled={lambdasPending} />}
+              actions={<SelectFilter disabled={lambdasPending} />}
               pagination
               paginationPerPage={15}
             />

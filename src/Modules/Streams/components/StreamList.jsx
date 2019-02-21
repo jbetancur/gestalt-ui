@@ -154,8 +154,7 @@ class StreamList extends PureComponent {
               clearSelectedRows={this.state.clearSelected}
               noDataComponent={<NoData message="There are no streams to display" icon={<StreamIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              subHeader
-              subHeaderComponent={<SelectFilter disabled={this.props.streamSpecsPending} />}
+              actions={<SelectFilter disabled={this.props.streamSpecsPending} />}
               pagination
               paginationPerPage={15}
             />

@@ -10,7 +10,7 @@ import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { SelectFilter } from 'Modules/ListFilter';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
-import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
@@ -228,28 +228,28 @@ class ContainerListing extends PureComponent {
               noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
               actions={(
+                <SubHeaderSection>
+                  <SelectFilter disabled={containersPending} />
+                </SubHeaderSection>
+              )}
+              subHeader
+              subHeaderComponent={
                 <React.Fragment>
                   <ContainerOption>
                     <FormControlLabel
                       control={(
-                        <Checkbox
+                        <Switch
                           id="raw-mode"
                           name="raw-mode"
                           checked={showSystemContainers}
                           onChange={this.toggleSystemContainers}
-                          color="secondary"
+                          color="primary"
                         />)}
                       label="Show System Containers"
                     />
                   </ContainerOption>
                   <Button flat primary onClick={this.showImportModal}>Import</Button>
                 </React.Fragment>
-              )}
-              subHeader
-              subHeaderComponent={
-                <SubHeaderSection>
-                  <SelectFilter disabled={containersPending} />
-                </SubHeaderSection>
               }
               pagination
               paginationPerPage={15}

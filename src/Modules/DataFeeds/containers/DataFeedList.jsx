@@ -171,8 +171,7 @@ class DataFeedList extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no data feeds to display" icon={<DataFeedIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
-            subHeader
-            subHeaderComponent={<SelectFilter disabled={this.props.datafeedsPending} />}
+            actions={<SelectFilter disabled={this.props.datafeedsPending} />}
             pagination
             paginationPerPage={15}
           />

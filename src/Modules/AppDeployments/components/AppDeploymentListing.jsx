@@ -162,8 +162,7 @@ class AppDeploymenListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no application deployments to display" icon={<AppDeploymentIcon size={150} />} />}
             // onRowClicked={this.handleRowClicked}
-            subHeader
-            subHeaderComponent={<SelectFilter disabled={this.props.appDeploymentsPending} />}
+            actions={<SelectFilter disabled={this.props.appDeploymentsPending} />}
             expandableRows
             expandableRowsComponent={<ExpanderRow />}
             pagination
