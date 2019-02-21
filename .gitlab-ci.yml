@@ -36,7 +36,7 @@ test:
     - docker:dind
   allow_failure: false
   script:
-    - | 
+    - |
       echo "Login Docker Registry:"
       echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
     - |
