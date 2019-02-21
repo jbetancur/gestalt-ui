@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import blue from '@material-ui/core/colors/blue';
 import { ThemeProvider } from 'styled-components';
 import { createBrowserHistory } from 'history';
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -24,7 +26,12 @@ import NotFound from './App/components/NotFound';
 import lightTheme from './themes/light';
 import './scss/style.scss';
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  palette: {
+    primary: lightBlue,
+    secondary: blue,
+  },
+});
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createBrowserHistory();

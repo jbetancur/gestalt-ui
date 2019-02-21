@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AceEditor from 'react-ace';
-import { SelectField, Switch } from 'react-md';
+import { SelectField } from 'react-md';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { FileDownloadButton, ClipboardButton } from 'components/Buttons';
 import 'brace/mode/yaml';
 import 'brace/mode/json';
@@ -82,11 +84,11 @@ class CodeBlock extends PureComponent {
     this.setState({ currentMode: mode });
   }
 
-  handleRawModeToggle = (value) => {
+  handleRawModeToggle = (event) => {
     const { onToggleRaw } = this.props;
 
-    this.setState({ rawMode: value });
-    onToggleRaw(value);
+    this.setState({ rawMode: event.target.checked });
+    onToggleRaw(event.target.checked);
   }
 
   generateActions() {
@@ -109,12 +111,16 @@ class CodeBlock extends PureComponent {
         </ControlItem>
         {enableRawOption &&
           <ControlItem>
-            <Switch
-              id="raw-mode"
-              name="raw-mode"
+            <FormControlLabel
+              control={(
+                <Switch
+                  id="raw-mode"
+                  name="raw-mode"
+                  checked={rawMode}
+                  onChange={this.handleRawModeToggle}
+                  color="primary"
+                />)}
               label={rawLabel}
-              checked={rawMode}
-              onChange={this.handleRawModeToggle}
             />
           </ControlItem>}
 

@@ -126,7 +126,8 @@ class ResourceTypeListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.resourceTypesPending} />}
+            subHeader
+            subHeaderComponent={<SelectFilter disabled={this.props.resourceTypesPending} />}
             pagination
             paginationPerPage={25}
           />

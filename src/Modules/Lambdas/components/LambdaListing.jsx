@@ -161,6 +161,8 @@ class LambdaListing extends PureComponent {
   }
 
   render() {
+    const { lambdas, lambdasPending } = this.props;
+
     return (
       <Row gutter={5}>
         <Col flex={12}>
@@ -168,7 +170,7 @@ class LambdaListing extends PureComponent {
             <DataTable
               title="Lambdas"
               customTheme={tableTheme}
-              data={this.props.lambdas}
+              data={lambdas}
               highlightOnHover
               pointerOnHover
               selectableRows
@@ -178,7 +180,7 @@ class LambdaListing extends PureComponent {
               // expandableRowsComponent={<LambdaExpanderRow />}
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
-              progressPending={this.props.lambdasPending}
+              progressPending={lambdasPending}
               progressComponent={<LinearProgress id="lambda-listing" />}
               columns={this.defineColumns()}
               contextActions={this.defineContextActions()}
@@ -186,7 +188,8 @@ class LambdaListing extends PureComponent {
               clearSelectedRows={this.state.clearSelected}
               noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              actions={<SelectFilter disabled={this.props.lambdasPending} />}
+              subHeader
+              subHeaderComponent={<SelectFilter disabled={lambdasPending} />}
               pagination
               paginationPerPage={15}
             />

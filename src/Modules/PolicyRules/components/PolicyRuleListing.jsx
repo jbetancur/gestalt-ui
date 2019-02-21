@@ -169,7 +169,8 @@ class PolicyRuleListing extends PureComponent {
               clearSelectedRows={clearSelected}
               noDataComponent={<Title light>There are no rules to display</Title>}
               onRowClicked={this.handleRowClicked}
-              actions={<SelectFilter disabled={policyRulesPending} />}
+              subHeader
+              subHeaderComponent={<SelectFilter disabled={policyRulesPending} />}
               pagination
             />
           </Card>

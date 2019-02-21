@@ -162,7 +162,8 @@ class GroupListing extends PureComponent {
             clearSelectedRows={this.state.clearSelected}
             noDataComponent={<NoData message="There are no groups to display" icon={<GroupIcon size={150} />} />}
             onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.groupsPending} />}
+            subHeader
+            subHeaderComponent={<SelectFilter disabled={this.props.groupsPending} />}
             pagination
             paginationPerPage={15}
           />

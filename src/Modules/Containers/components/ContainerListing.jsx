@@ -2,26 +2,40 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+import { get } from 'lodash';
+import memoize from 'memoize-one';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
+import { SelectFilter } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
-import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { Card } from 'components/Cards';
-import { FontIcon } from 'react-md';
+import { FontIcon, } from 'react-md';
 import { StatusBubble } from 'components/Status';
 import { ContainerIcon as CIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import ImportModal from '../ActionModals/Import';
 import actions from '../actions';
 import ContainerActions from './ContainerActions';
 import iconMap from '../../Providers/config/iconMap';
 import withContainers from '../hocs/withContainers';
-import { getContainers } from '../reducers/selectors';
+
+const SubHeaderSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+const ContainerOption = styled.div`
+  display: flex;
+  flex-shrink: 0;
+`;
 
 const tableTheme = {
   rows: {
@@ -44,6 +58,17 @@ class ContainerListing extends PureComponent {
   };
 
   static contextType = ModalConsumer;
+
+  state = {
+    showSystemContainers: false,
+  }
+
+  filteredContainers = memoize((containers, showSystem) => (
+    // note that labels is a map on the original payload
+    showSystem
+      ? containers
+      : containers.filter(container => !get(container, 'properties.labels.gestalt-system-managed'))
+  ));
 
   componentDidMount() {
     const { match, containersActions } = this.props;
@@ -176,7 +201,15 @@ class ContainerListing extends PureComponent {
     ];
   }
 
+  toggleSystemContainers = (event) => {
+    this.setState({ showSystemContainers: event.target.checked });
+  }
+
   render() {
+    const { containers, containersPending } = this.props;
+    const { showSystemContainers } = this.state;
+
+
     return (
       <Row gutter={5}>
         <Col flex={12}>
@@ -184,21 +217,39 @@ class ContainerListing extends PureComponent {
             <DataTable
               title="Containers"
               customTheme={tableTheme}
-              data={this.props.containers}
+              data={this.filteredContainers(containers, showSystemContainers)}
               highlightOnHover
               pointerOnHover
               sortIcon={<FontIcon>arrow_downward</FontIcon>}
               defaultSortField="name"
-              progressPending={this.props.containersPending}
+              progressPending={containersPending}
               progressComponent={<LinearProgress id="container-listing" />}
               columns={this.defineColumns()}
               noDataComponent={<NoData message="There are no containers to display" icon={<CIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              actions={
+              actions={(
                 <React.Fragment>
-                  <SelectFilter disabled={this.props.containersPending} />
+                  <ContainerOption>
+                    <FormControlLabel
+                      control={(
+                        <Checkbox
+                          id="raw-mode"
+                          name="raw-mode"
+                          checked={showSystemContainers}
+                          onChange={this.toggleSystemContainers}
+                          color="secondary"
+                        />)}
+                      label="Show System Containers"
+                    />
+                  </ContainerOption>
                   <Button flat primary onClick={this.showImportModal}>Import</Button>
                 </React.Fragment>
+              )}
+              subHeader
+              subHeaderComponent={
+                <SubHeaderSection>
+                  <SelectFilter disabled={containersPending} />
+                </SubHeaderSection>
               }
               pagination
               paginationPerPage={15}
@@ -211,12 +262,7 @@ class ContainerListing extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  containers: listSelectors.filterItems()(state, getContainers),
-});
-
 export default compose(
   withContainers(),
-  withRouter,
-  connect(mapStateToProps, actions),
+  connect(null, actions),
 )(ContainerListing);

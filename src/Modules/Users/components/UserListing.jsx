@@ -173,7 +173,8 @@ class UserListing extends PureComponent {
               clearSelectedRows={this.state.clearSelected}
               noDataComponent={<NoData message="There are no users to display" icon={<UserIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              actions={<SelectFilter disabled={this.props.usersPending} />}
+              subHeader
+              subHeaderComponent={<SelectFilter disabled={this.props.usersPending} />}
               pagination
               paginationPerPage={15}
             />

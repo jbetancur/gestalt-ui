@@ -144,7 +144,8 @@ class ProviderListing extends PureComponent {
               contextActions={this.defineContextActions()}
               noDataComponent={<NoData message="There are no providers to display" icon={<ProviderIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              actions={<SelectFilter disabled={this.props.providersPending} />}
+              subHeader
+              subHeaderComponent={<SelectFilter disabled={this.props.providersPending} />}
               pagination
               paginationPerPage={25}
             />

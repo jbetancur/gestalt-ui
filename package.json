@@ -119,7 +119,7 @@
         "react-ace": "^6.4.0",
         "react-chartjs-2": "^2.7.4",
         "react-copy-to-clipboard": "^5.0.1",
-        "react-data-table-component": "^1.4.1",
+        "react-data-table-component": "^1.4.2",
         "react-dom": "^16.8.2",
         "react-fast-compare": "^2.0.4",
         "react-final-form": "^4.0.2",
