@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form as FinalForm, Field } from 'react-final-form';
+import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
-import { Checkbox } from 'react-md';
-import { SelectField } from 'components/ReduxFormFields';
+import { Checkbox, SelectField } from 'react-md';
 import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import { Caption } from 'components/Typography';
@@ -20,11 +19,10 @@ import validate from '../validations';
 import actions from '../actions';
 import { getCreateProviderModel } from '../reducers/selectors';
 import withProvider from '../hocs/withProvider';
-import containerModel from '../../Containers/models/container';
 import providerModel from '../models/provider';
 
 const focusOnErrors = createDecorator();
-const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes', 'showContainerOption', 'networksConfig', 'ecsConfig'];
+const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes', 'showContainerOption', 'networksConfig', 'ecsConfig', 'showGPUOption'];
 
 class ProviderCreate extends PureComponent {
   static propTypes = {
@@ -47,6 +45,7 @@ class ProviderCreate extends PureComponent {
 
   state = {
     pageOneDone: false,
+    providerResourceTypeValue: '',
     providerSelected: false,
     showContainerOption: false,
     containerChecked: false,
@@ -86,7 +85,9 @@ class ProviderCreate extends PureComponent {
 
   create = (values) => {
     const { match, history, providerActions } = this.props;
-    const payload = providerModel.create(values);
+    const { providerResourceTypeValue } = this.state;
+    // merge resource_type into form
+    const payload = providerModel.create({ ...values, ...{ resource_type: providerResourceTypeValue } });
 
     const onSuccess = (response) => {
       if (match.params.workspaceId && !match.params.environmentId) {
@@ -118,16 +119,15 @@ class ProviderCreate extends PureComponent {
     }
   };
 
-  handleProviderChange = form => (value) => {
+  handleProviderChange = (value) => {
     const { resourceTypes, setSelectedProviderType } = this.props;
     const providerType = resourceTypes.find(type => type.name === value);
-
-    form.change('resource_type', value);
 
     if (providerType.id) {
       setSelectedProviderType({ fqon: 'root', providerType });
       this.setState({
         providerSelected: true,
+        providerResourceTypeValue: value,
         showContainerOption: providerType.showContainerOption,
         containerOptionSelected: !providerType.showContainerOption,
         containerChecked: providerType.showContainerOption,
@@ -135,8 +135,8 @@ class ProviderCreate extends PureComponent {
     }
   };
 
-  handleUsesContainer = form => () => {
-    form.change('properties.services[0].container_spec', containerModel.get());
+  handleUsesContainer = () => {
+    // form.change('properties.services[0].container_spec', containerModel.get());
     this.setState(state => ({ containerChecked: !state.containerChecked }));
   }
 
@@ -157,9 +157,14 @@ class ProviderCreate extends PureComponent {
     const {
       pageOneDone,
       providerSelected,
+      providerResourceTypeValue,
       showContainerOption,
       containerChecked,
     } = this.state;
+
+    if (providerPending && !providerSelected) {
+      return <ActivityContainer id="provider-loading" />;
+    }
 
     return (
       <Row center gutter={5}>
@@ -169,7 +174,6 @@ class ProviderCreate extends PureComponent {
           />
 
           {(providerPending || envSchemaPending) && <ActivityContainer id="provider-form" />}
-
           <FinalForm
             initialValues={initialValues}
             validate={validate(hasContainer)}
@@ -177,7 +181,6 @@ class ProviderCreate extends PureComponent {
             decorators={[focusOnErrors]}
             onSubmit={this.create}
             goBack={this.goBack}
-            keepDirtyOnReinitialize
             subscription={{ submitting: true, pristine: true }}
             render={({ handleSubmit, submitting, form, ...rest }) => {
               if (!pageOneDone) {
@@ -187,18 +190,19 @@ class ProviderCreate extends PureComponent {
                       <Panel title="Select a Provider Type" expandable={false}>
                         <Row>
                           <Col flex={12}>
-                            <Field
+                            <SelectField
                               id="select-provider-type"
                               component={SelectField}
-                              name="resource_type"
                               menuItems={resourceTypes}
                               itemLabel="displayName"
                               itemValue="name"
                               label="Provider Type"
-                              onChange={this.handleProviderChange(form)}
+                              onChange={this.handleProviderChange}
+                              value={providerResourceTypeValue}
                               required
                               deleteKeys={stripProviderTypeKeys}
-                              async
+                              fullWidth
+                              sameWidth
                             />
                           </Col>
 
@@ -208,7 +212,7 @@ class ProviderCreate extends PureComponent {
                                 id="requires-container"
                                 name="requires-container"
                                 label="Requires Container"
-                                onChange={this.handleUsesContainer(form)}
+                                onChange={this.handleUsesContainer}
                                 checked={containerChecked}
                               />
                               <Caption light>By default this provider allows you to configure a container</Caption>

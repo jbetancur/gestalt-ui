@@ -1,6 +1,7 @@
 import {
-  INIT_PROVIDEREDIT_REQUEST,
+  INIT_PROVIDERCREATE_REQUEST,
   INIT_PROVIDERCREATE_FULFILLED,
+  INIT_PROVIDEREDIT_REQUEST,
   INIT_PROVIDEREDIT_FULFILLED,
   INIT_PROVIDEREDIT_REJECTED,
   FETCH_PROVIDER_REQUEST,
@@ -46,11 +47,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case INIT_PROVIDERCREATE_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
     case INIT_PROVIDERCREATE_FULFILLED:
       return {
         ...state,
         providers: action.payload.providers,
         resourceTypes: action.payload.resourceTypes,
+        pending: false,
+        completed: true,
       };
     case INIT_PROVIDEREDIT_REQUEST:
       return {
