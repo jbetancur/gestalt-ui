@@ -3,6 +3,7 @@ import React from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
+import { required } from 'util/forms';
 
 const DCOSSection = () => (
   <FormSpy subscription={{ values: true }}>
@@ -18,6 +19,7 @@ const DCOSSection = () => (
                 name="properties.config.url"
                 label="Provider URL/Host:Port"
                 type="text"
+                validate={required()}
                 required
               />
             </Col>
@@ -30,6 +32,7 @@ const DCOSSection = () => (
                 component={SelectField}
                 name="properties.config.auth.scheme"
                 menuItems={['Basic', 'acs']}
+                validate={required()}
                 required
                 label="Security Scheme"
               />
@@ -41,6 +44,7 @@ const DCOSSection = () => (
                     component={TextField}
                     name="properties.config.auth.dcos_base_url"
                     label="DCOS Base URL"
+                    validate={required()}
                     required
                   />
                 </Col>,
@@ -49,6 +53,7 @@ const DCOSSection = () => (
                     component={TextField}
                     name="properties.config.auth.service_account_id"
                     label="Service Account Id"
+                    validate={required()}
                     required
                   />
                 </Col>,
@@ -59,6 +64,7 @@ const DCOSSection = () => (
                     label="Private Key"
                     rows={1}
                     maxRows={4}
+                    validate={required()}
                     required
                   />
                 </Col>
@@ -70,6 +76,7 @@ const DCOSSection = () => (
                     name="properties.config.auth.username"
                     label="Username"
                     type="text"
+                    validate={required()}
                     required
                   />
                 </Col>,
@@ -79,6 +86,7 @@ const DCOSSection = () => (
                     name="properties.config.auth.password"
                     label="Password"
                     type="password"
+                    validate={required()}
                     required
                     autoComplete="new-password"
                   />

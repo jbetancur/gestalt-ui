@@ -1,28 +1,9 @@
-import { object, array, string } from 'yup';
-import { get as getProp, pick, omit } from 'lodash';
+import { object, array, string, boolean } from 'yup';
+import { pick, omit } from 'lodash';
 import jsonPatch from 'fast-json-patch';
-import base64 from 'base-64';
-import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';
-import containerModel from '../../Containers/models/container';
-
-const hasContainer = model =>
-  !!(getProp(model, 'properties.services[0].container_spec.name')
-    && getProp(model, 'properties.services[0].container_spec.properties.provider.id'));
 
 function transformIn(model) {
   const { properties } = model;
-  let publicVar = {};
-  let privateVar = {};
-
-  if (properties.config.env) {
-    publicVar = Array.isArray(properties.config.env.public)
-      ? properties.config.env.public
-      : mapTo2DArray(properties.config.env.public);
-
-    privateVar = Array.isArray(properties.config.env.private)
-      ? properties.config.env.private
-      : mapTo2DArray(properties.config.env.private);
-  }
 
   const newModel = {
     ...model,
@@ -30,10 +11,6 @@ function transformIn(model) {
       ...properties,
       config: {
         ...properties.config,
-        env: {
-          public: publicVar,
-          private: privateVar,
-        }
       },
     },
   };
@@ -43,18 +20,6 @@ function transformIn(model) {
 
 function transformOut(model) {
   const { properties } = model;
-  let publicVar = {};
-  let privateVar = {};
-
-  if (properties.config.env) {
-    publicVar = Array.isArray(properties.config.env.public)
-      ? arrayToMap(properties.config.env.public, 'name', 'value')
-      : properties.config.env.public;
-
-    privateVar = Array.isArray(properties.config.env.private)
-      ? arrayToMap(properties.config.env.private, 'name', 'value')
-      : properties.config.env.private;
-  }
 
   const newModel = {
     ...model,
@@ -62,30 +27,9 @@ function transformOut(model) {
       ...properties,
       config: {
         ...properties.config,
-        env: {
-          public: publicVar,
-          private: privateVar,
-        }
       },
     },
   };
-
-  if (properties.data) {
-    newModel.properties.data = base64.encode(newModel.properties.data);
-  }
-
-  if (properties.tempData) {
-    newModel.properties.data = base64.encode(newModel.properties.tempData);
-  }
-
-  if (hasContainer(model)) {
-    newModel.properties.services = [
-      {
-        init: { binding: 'eager', singleton: true },
-        container_spec: containerModel.create(newModel.properties.services[0].container_spec),
-      },
-    ];
-  }
 
   return newModel;
 }
@@ -104,18 +48,29 @@ const schema = object().shape({
   }),
   properties: object().shape({
     config: object().shape({
+      url: string(),
+      auth: object().default({}),
       external_protocol: string().default('https'),
+      accept_any_cert: boolean().default(false),
+      appGroupPrefix: string(),
+      dcos_cluster_name: string(),
       endpoints: array().default([]),
-      // env: object().shape({}),
+      haproxyGroup: string(),
+      marathon_framework_name: string(),
+      networks: array().default([{ name: 'HOST' }, { name: 'BRIDGE' }]),
+      secret_store: string(),
+      secret_support: boolean().default(false),
+      secret_url: string(),
+      gpu_support: object().shape({
+        enabled: boolean().default(false),
+        default_type: string().default('default'),
+        types: array()
+          .of(string())
+          .default(['default']),
+      }),
     }),
     linked_providers: array().default([]),
     environment_types: array().default([]),
-    services: array().default([
-      {
-        init: { binding: 'eager', singleton: true },
-        container_spec: containerModel.create(),
-      },
-    ]),
   }),
 });
 
@@ -125,10 +80,6 @@ const schema = object().shape({
  */
 const get = (model = {}) => {
   const omitList = [];
-
-  // if (!hasContainer(model)) {
-  //   omitList.push('properties.services');
-  // }
 
   return omit(transformIn(schema.cast(model)), omitList);
 };
@@ -142,16 +93,23 @@ const create = (model = {}) => {
     'name',
     'description',
     'resource_type',
+    'properties.config.url',
+    'properties.config.auth',
     'properties.config.external_protocol',
-    'properties.config.env',
+    'properties.config.accept_any_cert',
+    'properties.config.appGroupPrefix',
     'properties.config.endpoints',
+    'properties.config.haproxyGroup',
+    'properties.config.marathon_framework_name',
+    'properties.config.dcos_cluster_name',
+    'properties.config.networks',
+    'properties.config.secret_store',
+    'properties.config.secret_support',
+    'properties.config.secret_url',
+    'properties.config.gpu_support',
     'properties.linked_providers',
     'properties.environment_types',
   ];
-
-  if (hasContainer(model)) {
-    pickList.push('properties.services');
-  }
 
   return pick(transformOut(schema.cast(model)), pickList);
 };
@@ -165,7 +123,6 @@ const patch = (model = {}, updatedModel = {}) => {
   // force patch on arrays
   const omitList = [
     'properties.linked_providers',
-    'properties.services',
   ];
 
   return jsonPatch.compare(
@@ -184,9 +141,20 @@ const initForm = (model = {}) => {
     'name',
     'description',
     'resource_type',
+    'properties.config.url',
+    'properties.config.auth',
     'properties.config.external_protocol',
-    'properties.config.env',
+    'properties.config.accept_any_cert',
+    'properties.config.appGroupPrefix',
     'properties.config.endpoints',
+    'properties.config.haproxyGroup',
+    'properties.config.marathon_framework_name',
+    'properties.config.dcos_cluster_name',
+    'properties.config.networks',
+    'properties.config.secret_store',
+    'properties.config.secret_support',
+    'properties.config.secret_url',
+    'properties.config.gpu_support',
     'properties.linked_providers',
     'properties.environment_types',
   ];
@@ -201,10 +169,6 @@ const initForm = (model = {}) => {
  */
 const rawGet = (model = {}) => {
   const omitList = [];
-
-  if (!hasContainer(model)) {
-    omitList.push('properties.services');
-  }
 
   return omit(transformOut(schema.cast(model)), omitList);
 };

@@ -83,11 +83,23 @@ class ProviderCreate extends PureComponent {
     return `/${match.params.fqon}/providers`;
   }
 
-  create = (values) => {
-    const { match, history, providerActions } = this.props;
+  formatPayload(values) {
+    const { selectedProviderType } = this.props;
     const { providerResourceTypeValue } = this.state;
     // merge resource_type into form
-    const payload = providerModel.create({ ...values, ...{ resource_type: providerResourceTypeValue } });
+    const payload = { ...values, ...{ resource_type: providerResourceTypeValue } };
+
+    // use the correct model to format the provider payload
+    if (selectedProviderType.model) {
+      return selectedProviderType.model.create(payload);
+    }
+
+    return providerModel.create(payload);
+  }
+
+  create = (values) => {
+    const { match, history, providerActions } = this.props;
+    const payload = this.formatPayload(values);
 
     const onSuccess = (response) => {
       if (match.params.workspaceId && !match.params.environmentId) {

@@ -7,15 +7,28 @@ const selectProvider = state => state.providers.provider.provider;
 export const selectContainerProvider = state => state.containers.selectedProvider;
 export const selectContainer = state => state.providers.container.container;
 export const selectHasContainer = state => state.providers.provider.hasContainer;
+export const selectSelectedProviderType = state => state.providers.provider.selectedProviderType;
 
 export const getCreateProviderModel = createSelector(
-  [],
-  () => providerModel.initForm(),
+  [selectSelectedProviderType],
+  (providerType) => {
+    if (providerType.model) {
+      return providerType.model.initForm();
+    }
+
+    return providerModel.initForm();
+  }
 );
 
 export const getEditProviderModel = createSelector(
-  [selectProvider],
-  provider => providerModel.initForm(provider),
+  [selectProvider, selectSelectedProviderType],
+  (provider, providerType) => {
+    if (providerType.model) {
+      return providerType.model.initForm(provider);
+    }
+
+    return providerModel.initForm(provider);
+  }
 );
 
 // RAGE

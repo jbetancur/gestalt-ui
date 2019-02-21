@@ -72,11 +72,21 @@ class ProviderEdit extends PureComponent {
     });
   }
 
+  formatPayload(values) {
+    const { provider, selectedProviderType } = this.props;
+    // use the correct model to format the provider payload
+    if (selectedProviderType.model) {
+      return selectedProviderType.model.patch(provider, values);
+    }
+
+    return providerModel.patch(provider, values);
+  }
+
   update = (formValues) => {
     const { match, provider, providerActions } = this.props;
-    const payload = providerModel.patch(provider, formValues);
 
-    providerActions.updateProvider({ fqon: match.params.fqon, id: provider.id, payload });
+
+    providerActions.updateProvider({ fqon: match.params.fqon, id: provider.id, payload: this.formatPayload(formValues) });
   }
 
   generateBackLink() {
@@ -113,6 +123,7 @@ class ProviderEdit extends PureComponent {
       container,
       hasContainer,
       providerPending,
+      selectedProviderType,
     } = this.props;
 
     if (providerPending && !provider.id) {
@@ -226,6 +237,7 @@ class ProviderEdit extends PureComponent {
                 <Col flex={12}>
                   <Card>
                     <PayloadViewer
+                      providerType={selectedProviderType}
                       value={provider}
                       name={provider.name}
                     />
