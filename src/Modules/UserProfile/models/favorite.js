@@ -1,5 +1,6 @@
 import { object, string } from 'yup';
 import { pick } from 'lodash';
+import jsonPatch from 'fast-json-patch';
 
 const schema = object().shape({
   resource_id: string(),
@@ -8,10 +9,24 @@ const schema = object().shape({
   resource_description: string(),
   nickname: string().default(''),
   context: object().shape({
-    fqon: string(),
-    workspace: string(),
-    environmnent: string(),
-  }).default({}),
+    org: object().shape({
+      id: string(),
+      name: string(),
+      fqon: string(),
+    }),
+    workspace: object().shape({
+      id: string(),
+      name: string(),
+    }),
+    environment: object().shape({
+      id: string(),
+      name: string(),
+    }),
+  }).default({
+    org: {},
+    workspace: {},
+    environment: {}
+  }),
 });
 
 /**
@@ -34,7 +49,7 @@ const create = (model = {}) =>
  * patch - only allow mutable props
  * @param {Object} model - override the model
  */
-const patch = (model = {}) => create(model);
+const patch = (model = {}, updatedModel = {}) => jsonPatch.compare(create(model), create(updatedModel));
 
 /**
  * initForm

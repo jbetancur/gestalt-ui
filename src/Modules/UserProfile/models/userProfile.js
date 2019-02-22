@@ -1,5 +1,6 @@
 import { object, array, string } from 'yup';
 import { pick } from 'lodash';
+import favoriteModel from './favorite';
 
 const schema = object().shape({
   id: string(),
@@ -14,12 +15,7 @@ const schema = object().shape({
     properties: object().shape({}),
   }),
   properties: object().shape({
-    resource_favorites: array().of(object().shape({
-      resource_id: string().required(),
-      resource_type_id: string().required(),
-      resource_name: string().required(),
-      nickname: string(),
-    })).default([]),
+    resource_favorites: array().of(favoriteModel.schema).default([]),
   }),
 });
 

@@ -2,59 +2,37 @@ import {
   ORGANIZATION,
   WORKSPACE,
   ENVIRONMENT,
-  PROVIDER,
-  LAMBDA,
-  CONTAINER,
-  API,
-  POLICY,
-  VOLUME,
-  STREAMSPEC,
-  SECRET,
-  DATAFEED,
-  APPDEPLOYMENT,
-  USER,
-  GROUP,
+  routeKeys,
 } from '../../constants';
+import favoriteModel from './models/favorite';
 
-export function generateRoutePathByTypeId(resource, keyField = 'resource_id') {
-  if (!resource.context || !resource.context.fqon) {
-    throw new Error('generateRoutePathByTypeId: missing context or context.fqon');
+export function generateRoutePathByTypeId(favorite, keyField = 'resource_id', typeKeyField = 'resource_type_id') {
+  if (!favorite.context.org.fqon) {
+    throw new Error('generateRoutePathByTypeId: missing context or context.org.fqon');
   }
 
-  if (resource.typeId === ORGANIZATION) {
-    return `/${context.fqon}/hierachy`;
+  // ensure the model is complete
+  const castedFavorite = favoriteModel.get(favorite);
+  const { context } = castedFavorite;
+  let baseURL = '';
+
+  // generate base URLs
+  if (context.workspace.id && context.environment.id) {
+    baseURL = `/${context.org.fqon}/hierachy/${context.workspace.id}/environment/${context.environment.id}`;
+  } else if (context.workspace.id) {
+    baseURL = `/${context.org.fqon}/hierachy/${context.workspace.id}/environments`;
+  } else {
+    baseURL = `/${context.org.fqon}/hierachy`;
   }
 
-  if (resource.typeId === WORKSPACE) {
-    return `/${context.fqon}/hierachy/${context.workspace}/environments`;
+  const isTypeBaseResource =
+    favorite[typeKeyField] === ORGANIZATION
+    || favorite[typeKeyField] === WORKSPACE
+    || favorite[typeKeyField] === ENVIRONMENT;
+
+  if (isTypeBaseResource) {
+    return baseURL;
   }
 
-  if (resource.typeId === ENVIRONMENT) {
-    return `/${context.fqon}/hierachy/${context.workspace}/environments/${context.environment}`;
-  }
-
-  const key = {
-    [PROVIDER]: 'providers',
-    [LAMBDA]: 'lambdas',
-    [CONTAINER]: 'containers',
-    [API]: 'apis',
-    [POLICY]: 'policies',
-    [VOLUME]: 'volumes',
-    [STREAMSPEC]: 'streamspecs',
-    [SECRET]: 'secrets',
-    [DATAFEED]: 'datafeeds',
-    [APPDEPLOYMENT]: 'appdeployments',
-    [USER]: 'users',
-    [GROUP]: 'groups',
-  };
-
-  if (context.fqon && context.workspace && context.environment) {
-    return `/${context.fqon}/hierachy/${context.workspace}/environment/${context.environment}/${key[resource.typeId]}/${resource[keyField]}`;
-  }
-
-  if (context.fqon && context.workspace) {
-    return `/${context.fqon}/hierachy/${context.workspace}/${key[resource.typeId]}/${resource[keyField]}`;
-  }
-
-  return `/${context.fqon}/${key[resource.typeId]}/${resource[keyField]}`;
+  return `${baseURL}/${routeKeys[favorite[typeKeyField]]}/${favorite[keyField]}`;
 }

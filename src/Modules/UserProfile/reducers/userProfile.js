@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
     case FETCH_USERPROFILE_FULFILLED:
       return {
         ...state,
-        userProfile: action.payload,
+        userProfile: userProfile.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
     case CREATE_FAVORITE_FULFILLED:
       return {
         ...state,
-        userProfile: action.payload,
+        userProfile: userProfile.get(action.payload),
         pending: false,
         completed: true,
       };
