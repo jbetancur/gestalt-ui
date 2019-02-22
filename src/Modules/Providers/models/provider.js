@@ -191,6 +191,10 @@ const initForm = (model = {}) => {
     'properties.environment_types',
   ];
 
+  if (hasContainer(model)) {
+    pickList.push('properties.services');
+  }
+
   return pick(get(model), pickList);
 };
 
