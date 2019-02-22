@@ -25,6 +25,7 @@ const initialState = {
     fqon: null,
     workspaceId: null,
     environmentId: null,
+    baseHref: null,
   },
   organization: organizationModel.get(),
   organizations: [],
