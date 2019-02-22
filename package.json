@@ -18,7 +18,7 @@
         "test": "cross-env NODE_ENV=test jest --config ./test/jest.config.js",
         "test:tdd": "cross-env NODE_ENV=test jest --config ./test/jest.config.js --watch",
         "test:tdd-coverage": "cross-env NODE_ENV=test jest --config ./test/jest.config.js --watch --coverage",
-        "test:coverage": "cross-env NODE_ENV=test jest --config ./test/jest.config.js --coverage",
+        "test:coverage": "cross-env NODE_ENV=test jest --config ./test/jest.config.js --coverage --ci",
         "lint:js": "eslint src *.js *.jsx",
         "lint:css": "stylelint ./src/**/*.jsx",
         "lint": "npm run lint:js && npm run lint:css",
