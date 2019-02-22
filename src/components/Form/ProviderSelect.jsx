@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { last, orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { Field } from 'react-final-form';
 import { SelectField } from 'components/ReduxFormFields';
 import { composeValidators, required } from 'util/forms';
+import { getLastFromSplit } from 'util/helpers/strings';
 import iconMap from '../../Modules/Providers/config/iconMap';
 
 class ProviderSelect extends Component {
@@ -50,9 +51,12 @@ class ProviderSelect extends Component {
   generateMenuItems() {
     const { providers } = this.props;
     return orderBy(providers, 'name').map(item => ({
-      label: item.name,
-      value: item.id,
-      leftIcon: iconMap(last(item.resource_type.split('::'))),
+      key: item.id,
+      id: item.id,
+      name: item.name,
+      primaryText: item.name,
+      secondaryText: item.description || ' ',
+      leftIcon: item.resource_type ? iconMap(getLastFromSplit(item.resource_type)) : null,
     }));
   }
 
@@ -66,10 +70,11 @@ class ProviderSelect extends Component {
         name={name}
         label={label}
         menuItems={this.generateMenuItems()}
-        itemLabel="label"
-        itemValue="value"
+        itemLabel="name"
+        itemValue="id"
         onChange={this.handleSelectedProvider}
         disabled={disabled}
+        simplifiedMenu={false}
         validate={composeValidators(required())}
         required
         async

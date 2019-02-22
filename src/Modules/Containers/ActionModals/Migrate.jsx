@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
 import { SelectField } from 'react-md';
@@ -11,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
+import iconMap from '../../Providers/config/iconMap';
 
 class MigrateModal extends PureComponent {
   static propTypes = {
@@ -35,12 +35,26 @@ class MigrateModal extends PureComponent {
     this.setState({ provider: value });
   }
 
-  render() {
-    const { modal, title, providersData, providersLoading, sourceProvider } = this.props;
-    const { provider } = this.state;
+  generateMenuItems() {
+    const { providersData, sourceProvider } = this.props;
+
     const providers = providersData
-      .filter(p => p.id !== sourceProvider.id)
-      .map(p => ({ id: p.id, name: `${p.name} (${getLastFromSplit(p.resource_type)})` }));
+      .filter(p => p.id !== sourceProvider.id);
+
+    return providers.map(item => ({
+      key: item.id,
+      id: item.id,
+      name: item.name,
+      primaryText: item.name,
+      secondaryText: item.description || ' ',
+      leftIcon: item.resource_type ? iconMap(getLastFromSplit(item.resource_type)) : null,
+    }));
+  }
+
+  render() {
+    const { modal, title, providersLoading } = this.props;
+    const { provider } = this.state;
+    const providers = this.generateMenuItems();
 
     return (
       <Dialog
@@ -66,6 +80,7 @@ class MigrateModal extends PureComponent {
                       label="Migrate to Provider"
                       lineDirection="center"
                       menuItems={providers}
+                      simplifiedMenu={false}
                       itemLabel="name"
                       itemValue="id"
                       value={provider}
@@ -73,7 +88,6 @@ class MigrateModal extends PureComponent {
                       required
                       fullWidth
                       sameWidth
-                      simplifiedMenu={false}
                     />
                   </Col>
                 </Row> : <span>There are no available providers to migrate to</span>}
@@ -88,6 +102,8 @@ class MigrateModal extends PureComponent {
   }
 }
 
-export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
-)(MigrateModal);
+export default withPickerData({
+  entity: 'providers',
+  label: 'Providers',
+  params: { type: 'CaaS', expand: true },
+})(MigrateModal);

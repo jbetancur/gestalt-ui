@@ -153,9 +153,9 @@ class Launch extends Component {
 
 export default compose(
   withUpgrader,
-  withPickerData({ entity: 'root/providers', alias: 'databaseProviders', label: 'Providers', params: { type: 'Data' } }),
-  withPickerData({ entity: 'root/providers', alias: 'securityProviders', label: 'Providers', params: { type: 'Security' } }),
-  withPickerData({ entity: 'root/providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),
-  withPickerData({ entity: 'root/providers', alias: 'kongProviders', label: 'Providers', params: { type: 'Kong' } }),
-  withPickerData({ entity: 'root/providers', alias: 'gatewayProviders', label: 'Providers', params: { type: 'GatewayManager' } }),
+  withPickerData({ ignoreContext: true, entity: 'root/providers', alias: 'databaseProviders', label: 'Providers', params: { type: 'Data' } }),
+  withPickerData({ ignoreContext: true, entity: 'root/providers', alias: 'securityProviders', label: 'Providers', params: { type: 'Security' } }),
+  withPickerData({ ignoreContext: true, entity: 'root/providers', alias: 'caasProviders', label: 'Providers', params: { type: 'CaaS' } }),
+  withPickerData({ ignoreContext: true, entity: 'root/providers', alias: 'kongProviders', label: 'Providers', params: { type: 'Kong' } }),
+  withPickerData({ ignoreContext: true, entity: 'root/providers', alias: 'gatewayProviders', label: 'Providers', params: { type: 'GatewayManager' } }),
 )(Launch);

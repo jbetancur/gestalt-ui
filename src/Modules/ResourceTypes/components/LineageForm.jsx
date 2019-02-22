@@ -22,6 +22,7 @@ const LineageForm = ({ name, resourceTypes, addLabel }) => (
                   itemLabel="name"
                   itemValue="id"
                   label="Resource Type"
+                  simplifiedMenu={false}
                   async
                 />
               </Col>

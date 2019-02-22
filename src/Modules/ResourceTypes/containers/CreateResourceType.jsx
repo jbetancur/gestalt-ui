@@ -74,6 +74,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withResourceType,
-  withPickerData({ entity: 'resourcetypes', label: 'Resource Types', context: false }),
+  withPickerData({ entity: 'resourcetypes', label: 'Resource Types' }),
   connect(mapStateToProps, actions),
 )(CreateResourceType);

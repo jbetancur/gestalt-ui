@@ -1,5 +1,5 @@
 import { object, array, boolean, string, number } from 'yup';
-import { pick, pull, omit, get as loGet } from 'lodash';
+import { pick, pull, omit, get as getProp } from 'lodash';
 import base64 from 'base-64';
 import { isBase64 } from 'util/helpers/strings';
 import { arrayToMap, convertFromMaps } from 'util/helpers/transformations';
@@ -44,11 +44,11 @@ function transformIn(model, envToMerge) {
   Object.assign(newModel, updateEnv(newModel, formatEnv));
 
   // do not encode if already encoded
-  if (loGet(newModel, 'properties.code') && loGet(newModel, 'properties.code_type') === 'code' && isBase64(newModel.properties.code)) {
+  if (getProp(newModel, 'properties.code') && getProp(newModel, 'properties.code_type') === 'code' && isBase64(newModel.properties.code)) {
     Object.assign(newModel, updateCode(newModel, base64.decode(newModel.properties.code)));
   }
 
-  if (loGet(newModel, 'properties.periodic_info.payload.data') && isBase64(newModel.properties.periodic_info.payload.data)) {
+  if (getProp(newModel, 'properties.periodic_info.payload.data') && isBase64(newModel.properties.periodic_info.payload.data)) {
     Object.assign(newModel, updatePeriodicPayloadData(newModel, base64.decode(newModel.properties.periodic_info.payload.data)));
   }
 
@@ -62,11 +62,11 @@ function transformOut(model) {
   Object.assign(newModel, updateEnv(newModel, formatEnv));
 
   // Clean up properties depending on lambda code_type
-  if (loGet(newModel, 'properties.code') && newModel.properties.code_type === 'code') {
+  if (getProp(newModel, 'properties.code') && newModel.properties.code_type === 'code') {
     Object.assign(newModel, updateCode(newModel, base64.encode(newModel.properties.code)));
   }
 
-  if (loGet(newModel, 'properties.periodic_info.payload.data')) {
+  if (getProp(newModel, 'properties.periodic_info.payload.data')) {
     Object.assign(newModel, updatePeriodicPayloadData(newModel, base64.encode(newModel.properties.periodic_info.payload.data)));
   }
 
@@ -123,6 +123,11 @@ const schema = object().shape({
     runtime: string(),
     secrets: array().default([]),
     apiendpoints: array().default([]),
+    // gpu_support: object().shape({
+    //   enabled: boolean().default(false),
+    //   count: number().default(1),
+    //   type: string(),
+    // }),
   }),
 });
 
@@ -161,6 +166,7 @@ const create = (model = {}) => {
     'properties.provider.id',
     'properties.provider.name',
     'properties.provider.resource_type',
+    'properties.gpu_support',
   ];
 
   if (model.properties.code_type === 'package') {
@@ -220,6 +226,7 @@ const initForm = (model = {}) => {
     'properties.provider.id',
     'properties.provider.name',
     'properties.provider.resource_type',
+    'properties.gpu_support',
   ];
 
   return pick(get(model), pickList);

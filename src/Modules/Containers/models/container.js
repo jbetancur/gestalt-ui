@@ -97,6 +97,7 @@ function transformOut(model, mergeVolumes = []) {
     },
   };
 
+  // remove cmd if null otherwise, the container is unhappy
   if (!model.properties.cmd) {
     delete newModel.properties.cmd;
   } else {
@@ -149,6 +150,11 @@ const schema = object().shape({
     status: string(),
     status_detail: object().default({}),
     events: array().default([]),
+    // gpu_support: object().shape({
+    //   enabled: boolean().default(false),
+    //   count: number().default(1),
+    //   type: string(),
+    // }),
   }),
 });
 
@@ -186,6 +192,7 @@ const create = (model = {}, mergeVolumes) =>
     'properties.user',
     'properties.accepted_resource_roles',
     'properties.constraints',
+    'properties.gpu_support',
   ]);
 
 /**
@@ -215,7 +222,8 @@ const put = (model = {}, mergeVolumes) =>
     'properties.constraints',
     'properties.provider.id',
     'properties.provider.name',
-    'properties.provider.resource_type'
+    'properties.provider.resource_type',
+    'properties.gpu_support',
   ]);
 
 /**
@@ -245,6 +253,7 @@ const initForm = (model = {}) => {
     'properties.user',
     'properties.accepted_resource_roles',
     'properties.constraints',
+    'properties.gpu_support',
   ];
 
   return pick(get(model), pickList);

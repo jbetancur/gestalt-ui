@@ -75,8 +75,11 @@ class LambdaForm extends PureComponent {
   generateMenuItems() {
     const { executors } = this.props;
     return orderBy(executors, 'name').map(item => ({
-      label: item.name,
-      value: item.id,
+      key: item.id,
+      id: item.id,
+      name: item.name,
+      primaryText: item.name,
+      secondaryText: item.description || ' ',
       leftIcon: iconMap(get(item, 'properties.config.env.public.RUNTIME')),
     }));
   }
@@ -111,6 +114,7 @@ class LambdaForm extends PureComponent {
                     itemLabel="name"
                     itemValue="id"
                     menuItems={providers}
+                    simplifiedMenu={false}
                     async
                   />
                 </Col>
@@ -121,9 +125,11 @@ class LambdaForm extends PureComponent {
                     component={SelectField}
                     name="properties.runtime"
                     menuItems={this.generateMenuItems()}
-                    listHeightRestricted={false}
+                    simplifiedMenu={false}
                     required
                     label="Runtime"
+                    itemLabel="name"
+                    itemValue="id"
                     async
                     onChange={this.handleRuntimeProps}
                   />

@@ -21,6 +21,7 @@ export default () => (BaseComponent) => {
     hierarchyContext: {
       context: state.hierarchy.context,
       contextPending: state.hierarchy.context.pending,
+      contextFulfilled: state.hierarchy.context.completed,
 
       selectedOrganization: state.hierarchy.organization.organization,
       selectedOrganizationPending: state.hierarchy.organization.pending,

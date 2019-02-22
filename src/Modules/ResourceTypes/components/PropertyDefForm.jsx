@@ -38,6 +38,7 @@ const PropertyDefForm = ({ name, resourceTypes, addLabel, formValues }) => (
                     name={`${member}.data_type`}
                     component={SelectField}
                     menuItems={dataTypes}
+                    simplifiedMenu={false}
                     itemLabel="name"
                     itemValue="name"
                     label="Data Type"

@@ -9,8 +9,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from 'components/Buttons';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerImportForm from '../components/ContainerImportForm';
 import withContainer from '../hocs/withContainer';
+import iconMap from '../../Providers/config/iconMap';
 
 const initialValues = {
   name: null,
@@ -35,6 +37,19 @@ class ContainerImportFormModal extends Component {
     containerImportPending: PropTypes.bool.isRequired,
   };
 
+  generateMenuItems() {
+    const { providersData } = this.props;
+
+    return providersData.map(item => ({
+      key: item.id,
+      id: item.id,
+      name: item.name,
+      primaryText: item.name,
+      secondaryText: item.description || ' ',
+      leftIcon: item.resource_type ? iconMap(getLastFromSplit(item.resource_type)) : null,
+    }));
+  }
+
   import = (values) => {
     const { modal, containerActions, fqon, environmentId } = this.props;
     const onSuccess = () => modal.hideModal();
@@ -45,7 +60,7 @@ class ContainerImportFormModal extends Component {
   }
 
   render() {
-    const { modal, title, containerImportPending, providersData } = this.props;
+    const { modal, title, containerImportPending } = this.props;
 
     return (
       <Dialog
@@ -65,7 +80,7 @@ class ContainerImportFormModal extends Component {
             initialValues={initialValues}
             render={ContainerImportForm}
             onSubmit={this.import}
-            providers={providersData}
+            providers={this.generateMenuItems()}
             pending={containerImportPending}
           />
         </DialogContent>
@@ -94,5 +109,9 @@ class ContainerImportFormModal extends Component {
 
 export default compose(
   withContainer({ unload: false }),
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  withPickerData({
+    entity: 'providers',
+    label: 'Providers',
+    params: { type: 'CaaS', expand: true },
+  }),
 )(ContainerImportFormModal);
