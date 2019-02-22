@@ -24,6 +24,30 @@ import {
 import { setSelectedProvider } from '../../Containers/actions';
 import containerModel from '../../Containers/models/container';
 
+jest.mock('../../Containers/actions', () => ({
+  setSelectedProvider: () => ([{
+    type: 'containers/SELECTED_PROVIDER',
+    supportsSecrets: false,
+    supportsEvents: false,
+    supportsHealth: false,
+    supportsOther: false,
+    networks: [Array],
+    providerType: undefined,
+    provider: { id: '212', name: 'some provider...', properties: {} },
+  }]),
+}));
+
+jest.mock('../lists/providerTypes', () => ({
+  generateResourceTypeSchema: () => ([{
+    id: '777',
+    name: 'Gestalt::Configuration::Provider::VOLTRON',
+    type: 'Gestalt::Configuration::Provider::VOLTRON',
+    allowEnvVariables: true,
+    allowLinkedProviders: false,
+    displayName: 'VOLTRON',
+  }]),
+}));
+
 describe('provider Form Workflow Sagas', () => {
   const error = 'an error has occured';
 
@@ -227,7 +251,7 @@ describe('provider Form Workflow Sagas', () => {
           services: [
             {
               // note name and provider.id must be set so providerModel.get can branch to a provider container
-              container_spec: containerModel.get({ name: 'name', properties: { provider: { id: '212', name: 'some provider...' } } })
+              container_spec: containerModel.get({ name: 'name', properties: { provider: { id: '212', name: 'some provider...', properties: { } } } })
             },
           ],
         },
@@ -244,6 +268,7 @@ describe('provider Form Workflow Sagas', () => {
       it('should call the action to set the a default provider on the container', () => {
         // no containers were returned
         result = saga.next({ data: [] });
+
         expect(result.value).toEqual(
           put(setSelectedProvider(provider.properties.services[0].container_spec.properties.provider))
         );
