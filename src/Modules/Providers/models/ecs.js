@@ -73,10 +73,10 @@ const schema = object().shape({
       sidecarContainerImageOverride: string(),
       gpu_support: object().shape({
         enabled: boolean().default(false),
-        default_type: string().default('default'),
+        default_type: string().default(''),
         types: array()
           .of(string())
-          .default(['default']),
+          .default([]),
       }),
     }),
     linked_providers: array().default([]),

@@ -4,6 +4,7 @@ import dcosModel from '../models/dcos';
 import kubernetesModel from '../models/kubernetes';
 import ecsModel from '../models/ecs';
 import dockerModel from '../models/docker';
+import laserModel from '../models/laser';
 import executorModel from '../models/executor';
 
 export const uiProviderTypes = [
@@ -117,7 +118,7 @@ export const uiProviderTypes = [
   // Lambda
   {
     name: 'Gestalt::Configuration::Provider::Lambda',
-    model: providerModel,
+    model: laserModel,
     allowLinkedProviders: true,
     showContainerOption: true,
     showGPUOption: true,

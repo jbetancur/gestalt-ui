@@ -1,5 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/ReduxFormFields';
@@ -8,7 +9,7 @@ import { required } from 'util/forms';
 const DCOSSection = () => (
   <FormSpy subscription={{ values: true }}>
     {({ values }) => {
-      const authScheme = (values.properties.config.auth && values.properties.config.auth.scheme) || 'Basic';
+      const authScheme = (get(values, 'properties.config.auth.scheme')) || 'Basic';
 
       return (
         <React.Fragment>

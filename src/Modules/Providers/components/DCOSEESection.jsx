@@ -1,5 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { Checkbox, TextField } from 'components/ReduxFormFields';
@@ -52,7 +53,7 @@ const DCOSEESection = () => (
               component={Checkbox}
               name="properties.config.accept_any_cert"
               label="Accept Any Certificate"
-              checked={values.properties.config.accept_any_cert}
+              checked={get(values, 'properties.config.accept_any_cert')}
               style={{ minWidth: '10em' }}
             />
           </Col>
@@ -64,7 +65,7 @@ const DCOSEESection = () => (
               component={Checkbox}
               name="properties.config.secret_support"
               label="Secret Support"
-              checked={values.properties.config.secret_support}
+              checked={get(values, 'properties.config.secret_support')}
               style={{ minWidth: '10em' }}
             />
           </Col>

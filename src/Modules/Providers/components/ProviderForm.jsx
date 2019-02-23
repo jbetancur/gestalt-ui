@@ -17,6 +17,7 @@ import DataEditor from './DataEditor';
 import DCOSSection from './DCOSSection';
 import ECSConfig from './ECSConfig';
 import Networks from './Networks';
+import GPUSection from './GPUSection';
 
 const httpProtocols = [{ name: 'HTTPS', value: 'https' }, { name: 'HTTP', value: 'http' }];
 
@@ -141,6 +142,13 @@ class ProviderForm extends PureComponent {
                 editorMode={selectedProviderType.inputType}
                 subTypes={selectedProviderType.subTypes}
               />
+            </Col>}
+
+          {selectedProviderType.showGPUOption &&
+            <Col flex={12}>
+              <Panel title="GPU Support" expandable={false}>
+                <GPUSection />
+              </Panel>
             </Col>}
 
           {selectedProviderType.networksConfig &&
