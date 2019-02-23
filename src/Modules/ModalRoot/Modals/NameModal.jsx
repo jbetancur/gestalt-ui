@@ -15,14 +15,16 @@ class NameModal extends PureComponent {
     onClose: PropTypes.func,
     textLabel: PropTypes.string,
     proceedLabel: PropTypes.string,
+    nameFormatter: PropTypes.func,
   };
 
   static defaultProps = {
     title: 'Confirm',
-    onProceed: null,
-    onClose: null,
+    onProceed: () => {},
+    onClose: () => { },
     textLabel: 'Name',
     proceedLabel: 'OK',
+    nameFormatter: null,
   };
 
   state = { name: '' };
@@ -31,10 +33,7 @@ class NameModal extends PureComponent {
     const { onClose, modal } = this.props;
 
     modal.hideModal();
-
-    if (onClose) {
-      onClose();
-    }
+    onClose();
   }
 
   doIt = () => {
@@ -46,7 +45,13 @@ class NameModal extends PureComponent {
   }
 
   handleNameChange = (name) => {
-    this.setState({ name });
+    const { nameFormatter } = this.props;
+
+    if (nameFormatter && typeof nameFormatter === 'function') {
+      this.setState({ name: nameFormatter(name) });
+    } else {
+      this.setState({ name });
+    }
   }
 
   render() {
@@ -62,6 +67,7 @@ class NameModal extends PureComponent {
         onClose={this.close}
         onExited={modal.destroyModal}
         maxWidth="xs"
+        required
         fullWidth
       >
         <DialogTitle id="name-modal-title">{title}</DialogTitle>
@@ -75,7 +81,7 @@ class NameModal extends PureComponent {
           />
         </DialogContent>
         <DialogActions>
-          <Button raised primary onClick={this.doIt}>{proceedLabel}</Button>
+          <Button raised primary disabled={!name} onClick={this.doIt}>{proceedLabel}</Button>
           <Button flat primary onClick={this.close}>Cancel</Button>
         </DialogActions>
       </Dialog>

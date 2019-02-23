@@ -15,6 +15,7 @@ import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { generateContextEntityState } from 'util/helpers/context';
+import { formatName } from 'util/forms';
 import ScaleModal from '../ActionModals/Scale';
 import MigrateModal from '../ActionModals/Migrate';
 import PromoteModal from '../ActionModals/Promote';
@@ -114,7 +115,8 @@ class ContainerActions extends PureComponent {
     };
 
     showModal(NameModal, {
-      title: `Clone ${containerModel.name} Container`,
+      title: `Clone "${containerModel.name}" Container`,
+      nameFormatter: formatName,
       proceedLabel: 'Clone',
       onProceed: modalAction,
     });
