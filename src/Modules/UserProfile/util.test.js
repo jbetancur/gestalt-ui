@@ -23,7 +23,7 @@ describe('UserProfile::Util', () => {
 
     const url = generateRoutePathByTypeId(mock);
 
-    expect(url).toBe('/root/hierachy');
+    expect(url).toBe('/root/hierarchy');
   });
 
   it('should generate the correct path when the context is a Workspace', () => {
@@ -46,7 +46,7 @@ describe('UserProfile::Util', () => {
 
     const url = generateRoutePathByTypeId(mock);
 
-    expect(url).toBe('/root/hierachy/2222/environments');
+    expect(url).toBe('/root/hierarchy/2222/environments');
   });
 
   it('should generate the correct path when the context is an Environment', () => {
@@ -73,7 +73,7 @@ describe('UserProfile::Util', () => {
 
     const url = generateRoutePathByTypeId(mock);
 
-    expect(url).toBe('/root/hierachy/2222/environment/1111');
+    expect(url).toBe('/root/hierarchy/2222/environment/1111');
   });
 
   it('should generate the correct path when the context is an a Sub Resource', () => {
@@ -100,6 +100,6 @@ describe('UserProfile::Util', () => {
 
     const url = generateRoutePathByTypeId(mock);
 
-    expect(url).toBe('/root/hierachy/2222/environment/1111/lambdas/123');
+    expect(url).toBe('/root/hierarchy/2222/environment/1111/lambdas/123');
   });
 });

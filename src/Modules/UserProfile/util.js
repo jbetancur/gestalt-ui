@@ -18,11 +18,11 @@ export function generateRoutePathByTypeId(favorite, keyField = 'resource_id', ty
 
   // generate base URLs
   if (context.workspace.id && context.environment.id) {
-    baseURL = `/${context.org.fqon}/hierachy/${context.workspace.id}/environment/${context.environment.id}`;
+    baseURL = `/${context.org.fqon}/hierarchy/${context.workspace.id}/environment/${context.environment.id}`;
   } else if (context.workspace.id) {
-    baseURL = `/${context.org.fqon}/hierachy/${context.workspace.id}/environments`;
+    baseURL = `/${context.org.fqon}/hierarchy/${context.workspace.id}/environments`;
   } else {
-    baseURL = `/${context.org.fqon}/hierachy`;
+    baseURL = `/${context.org.fqon}/hierarchy`;
   }
 
   const isTypeBaseResource =
