@@ -67,7 +67,6 @@ class NameModal extends PureComponent {
         onClose={this.close}
         onExited={modal.destroyModal}
         maxWidth="xs"
-        required
         fullWidth
       >
         <DialogTitle id="name-modal-title">{title}</DialogTitle>
@@ -77,6 +76,7 @@ class NameModal extends PureComponent {
             label={textLabel}
             onChange={this.handleNameChange}
             value={name}
+            required
             lineDirection="center"
           />
         </DialogContent>
