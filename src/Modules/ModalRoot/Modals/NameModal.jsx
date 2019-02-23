@@ -13,6 +13,7 @@ class NameModal extends PureComponent {
     modal: PropTypes.object.isRequired,
     onProceed: PropTypes.func,
     onClose: PropTypes.func,
+    defaultName: PropTypes.string,
     textLabel: PropTypes.string,
     proceedLabel: PropTypes.string,
     nameFormatter: PropTypes.func,
@@ -22,12 +23,13 @@ class NameModal extends PureComponent {
     title: 'Confirm',
     onProceed: () => {},
     onClose: () => { },
+    defaultName: '',
     textLabel: 'Name',
     proceedLabel: 'OK',
     nameFormatter: null,
   };
 
-  state = { name: '' };
+  state = { name: this.props.defaultName };
 
   close = () => {
     const { onClose, modal } = this.props;

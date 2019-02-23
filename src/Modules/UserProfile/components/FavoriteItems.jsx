@@ -28,10 +28,10 @@ const Subheader = styled.header`
 
   span {
     width: 100%;
-    padding-left: 24px;
+    padding-left: 18px;
     padding-right: 24px;
     color: ${props => props.theme.colors.font};
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     user-select: none;
   }
@@ -79,7 +79,7 @@ class FavoriteItems extends PureComponent {
             <List subheader={(
               <Subheader>
                 <Button icon onClick={onCloseFavorites}>close</Button>
-                <span>Favorites</span>
+                <span>Favorite Resources</span>
               </Subheader>
             )}
             >
@@ -93,7 +93,7 @@ class FavoriteItems extends PureComponent {
                 />
               ))}
             </List>
-            {!favoriteItems.length > 0 && <NoItems>No Favorites have been saved</NoItems>}
+            {!favoriteItems.length > 0 && <NoItems>No resources have been starred</NoItems>}
           </React.Fragment>
         )}
       </AppConsumer>

@@ -9,6 +9,7 @@ import { withUserProfile } from 'Modules/UserProfile';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
+import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import Card from './GFCard';
 import withContext from '../hocs/withContext';
 
@@ -68,12 +69,25 @@ class EnvironmentCard extends Component {
 
   handleFavoriteToggle = () => {
     const { model, userProfileActions } = this.props;
-    const nickname = model.description || model.name;
+    const defaultName = model.description || model.name;
+    const { showModal } = this.context;
 
     if (model.$$favorite) {
       userProfileActions.deleteFavorite({ id: model.id });
     } else {
-      userProfileActions.createFavorite({ payload: { resource_id: model.id, nickname } });
+      showModal(NameModal, {
+        title: `Favorite "${defaultName}"`,
+        textLabel: 'Nickname',
+        defaultName,
+        proceedLabel: 'Favorite',
+        onProceed: ({ name }) => userProfileActions.createFavorite({
+          payload: {
+            resource_id: model.id,
+            nickname: name,
+            resource_description: defaultName,
+          }
+        }),
+      });
     }
   }
 
