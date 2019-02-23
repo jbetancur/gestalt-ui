@@ -10,6 +10,9 @@ import {
   FETCH_CONTAINERS_FULFILLED,
   FETCH_CONTAINERS_REJECTED,
   FETCH_CONTAINERS_CANCELLED,
+  CREATE_CONTAINERS_REQUEST,
+  CREATE_CONTAINERS_FULFILLED,
+  CREATE_CONTAINERS_REJECTED,
   FETCH_CONTAINER_REQUEST,
   FETCH_CONTAINER_FULFILLED,
   FETCH_CONTAINER_REJECTED,
@@ -114,6 +117,25 @@ export function* createContainer(action) {
     }
   } catch (e) {
     yield put({ type: CREATE_CONTAINER_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * createContainerFromListing
+ * @param {*} action - { fqon, environmentId, payload, onSuccess {returns response.data} }
+ */
+export function* createContainerFromListing(action) {
+  try {
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers?embed=provider&embed=volumes`, action.payload);
+
+    yield put({ type: CREATE_CONTAINERS_FULFILLED, payload: data });
+    yield put(notificationActions.addNotification({ message: `${data.name} Container created` }));
+
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(data);
+    }
+  } catch (e) {
+    yield put({ type: CREATE_CONTAINERS_REJECTED, payload: e.message });
   }
 }
 
@@ -295,6 +317,7 @@ export default function* () {
   yield fork(watchContainersRequestWorkflow);
   yield fork(watchContainerRequestWorkflow);
   yield takeLatest(CREATE_CONTAINER_REQUEST, createContainer);
+  yield takeLatest(CREATE_CONTAINERS_REQUEST, createContainerFromListing);
   yield takeLatest(UPDATE_CONTAINER_REQUEST, updateContainer);
   yield takeLatest(DELETE_CONTAINER_REQUEST, deleteContainer);
   yield takeLatest(SCALE_CONTAINER_REQUEST, scaleContainer);

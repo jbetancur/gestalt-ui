@@ -13,6 +13,7 @@ import { Title, Subtitle } from 'components/Typography';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
+import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import ScaleModal from '../ActionModals/Scale';
 import MigrateModal from '../ActionModals/Migrate';
@@ -21,6 +22,7 @@ import actionCreators from '../actions';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withContainer from '../hocs/withContainer';
 import withContainers from '../hocs/withContainers';
+import containerDataModel from '../models/container';
 
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
 const ActionsWrapper = styled.div`
@@ -28,24 +30,24 @@ const ActionsWrapper = styled.div`
 
   .container-action-button {
     .md-text--disabled {
-      color: ${props => props.theme.colors['$md-grey-500']} !important;
+      color: ${props => props.theme.colors.disabled} !important;
     }
   }
 
   .button--start * {
-    color: ${props => props.theme.colors['$md-green-500']};
+    color: ${props => props.theme.colors.success};
   }
 
   .button--suspend * {
-    color: ${props => props.theme.colors['$md-orange-500']};
+    color: ${props => props.theme.colors.warning};
   }
 
   .button--scale * {
-    color: ${props => props.theme.colors['$md-blue-500']};
+    color: ${props => props.theme.colors.info};
   }
 
   .button--destroy * {
-    color: ${props => props.theme.colors['$md-red-a400']};
+    color: ${props => props.theme.colors.error};
   }
 
   button {
@@ -100,6 +102,23 @@ class ContainerActions extends PureComponent {
   }
 
   static contextType = ModalConsumer;
+
+  handleClone = () => {
+    const { match, containersActions, containerModel } = this.props;
+    const { showModal } = this.context;
+
+    const modalAction = ({ name }) => {
+      const payload = containerDataModel.create({ ...containerModel, name });
+      // containersActions.createContainers is handles container creation specifically for the listing screen
+      containersActions.createContainers({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload });
+    };
+
+    showModal(NameModal, {
+      title: `Clone ${containerModel.name} Container`,
+      proceedLabel: 'Clone',
+      onProceed: modalAction,
+    });
+  }
 
   handleEntitlements = () => {
     const { containerModel } = this.props;
@@ -300,14 +319,14 @@ class ContainerActions extends PureComponent {
           </Col>
 
           <Col flex={6}>
-            {!inContainerView ?
+            {!inContainerView ? (
               <ListItem
                 key="container--edit"
                 primaryText="Edit"
                 leftIcon={<FontIcon>edit</FontIcon>}
                 to={this.props.editURL}
                 component={Link}
-              /> : <div />}
+              />) : <div />}
             <ListItem
               key="container--entitlements"
               primaryText="Entitlements"
@@ -323,6 +342,13 @@ class ContainerActions extends PureComponent {
                 leftIcon={<FontIcon>content_copy</FontIcon>}
               />
             </CopyToClipboard>
+            {!inContainerView ? (
+              <ListItem
+                primaryText="Clone"
+                leftIcon={<FontIcon>filter_none</FontIcon>}
+                onClick={this.handleClone}
+              />
+            ) : <div />}
           </Col>
         </Row>
       </ListWrapper>

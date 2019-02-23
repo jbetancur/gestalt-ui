@@ -209,7 +209,6 @@ class ContainerListing extends PureComponent {
     const { containers, containersPending } = this.props;
     const { showSystemContainers } = this.state;
 
-
     return (
       <Row gutter={5}>
         <Col flex={12}>

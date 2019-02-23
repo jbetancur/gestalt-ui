@@ -7,6 +7,7 @@ import containerSagas, {
   fetchContainers,
   fetchContainer,
   createContainer,
+  createContainerFromListing,
   updateContainer,
   deleteContainer,
   scaleContainer,
@@ -210,6 +211,55 @@ describe('Container Sagas', () => {
 
       expect(resultError.value).toEqual(
         put({ type: types.CREATE_CONTAINER_REJECTED, payload: error })
+      );
+    });
+  });
+
+  describe('createContainerFromListing Sequence', () => {
+    const resource = { data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } };
+    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewContainer' } };
+    const saga = createContainerFromListing(action);
+    let result;
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).toEqual(
+        call(axios.post, 'iamfqon/environments/1/containers?embed=provider&embed=volumes', action.payload)
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next(resource);
+      expect(result.value).toEqual(
+        put({ type: types.CREATE_CONTAINERS_FULFILLED, payload: resource.data })
+      );
+    });
+
+    it('should dispatch a notification', () => {
+      result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Container created' }))
+      );
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
+      const sagaSuccess = createContainerFromListing(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
+    });
+
+    it('should return a payload and dispatch a reject status when there is an error', () => {
+      const sagaError = createContainerFromListing(action);
+      let resultError = sagaError.next();
+      resultError = sagaError.throw({ message: error });
+
+      expect(resultError.value).toEqual(
+        put({ type: types.CREATE_CONTAINERS_REJECTED, payload: error })
       );
     });
   });
@@ -487,6 +537,13 @@ describe('Container Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         takeLatest(types.CREATE_CONTAINER_REQUEST, createContainer)
+      );
+    });
+
+    it('should fork a watcher for createContainerFromListing', () => {
+      result = rootSaga.next();
+      expect(result.value).toEqual(
+        takeLatest(types.CREATE_CONTAINERS_REQUEST, createContainerFromListing)
       );
     });
 

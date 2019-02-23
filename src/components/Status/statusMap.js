@@ -65,8 +65,8 @@ export default (status) => {
       };
     case 'LAUNCHED':
       return {
-        icon: 'help_outline',
-        color: '$md-grey-300',
+        icon: 'access_time',
+        color: '$md-grey-500',
       };
     case 'CORRUPT':
       return {

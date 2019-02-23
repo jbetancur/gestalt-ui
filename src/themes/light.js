@@ -45,7 +45,7 @@ export default {
     organization: '#b0bec5',
     workspace: '#42a5f5',
     environment: '#fdd835',
-
+    disabled: '#9e9e9e',
     favorite: '#fdd835',
   }
 };
