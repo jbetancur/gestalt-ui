@@ -9,11 +9,15 @@ import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import Divider from 'components/Divider';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, editURL, entityKey, disableEntitlements, disableCopy }) => {
+const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, onClone, editURL, entityKey, disableEntitlements, disableCopy }) => {
   const { showModal } = useContext(ModalContext);
 
   const handleDelete = () => {
     onDelete(row);
+  };
+
+  const handleClone = () => {
+    onClone(row);
   };
 
   const handleEntitlements = () => {
@@ -60,6 +64,13 @@ const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, editURL, entity
                 leftIcon={<FontIcon>content_copy</FontIcon>}
               />
             </CopyToClipboard>}
+          {onClone && (
+            <ListItem
+              primaryText="Clone"
+              leftIcon={<FontIcon>filter_none</FontIcon>}
+              onClick={handleClone}
+            />
+          )}
           {!disableEntitlements && !disableCopy && <Divider />}
           <ListItem
             primaryText="Delete"
@@ -81,6 +92,7 @@ GenericMenuActions.propTypes = {
   fqon: PropTypes.string,
   editURL: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
+  onClone: PropTypes.func,
   entityKey: PropTypes.string.isRequired,
   disableEntitlements: PropTypes.bool,
   disableCopy: PropTypes.bool,
@@ -93,6 +105,7 @@ GenericMenuActions.defaultProps = {
   editURL: null,
   disableEntitlements: false,
   disableCopy: false,
+  onClone: null,
 };
 
 export default GenericMenuActions;

@@ -75,6 +75,9 @@ class NameModal extends PureComponent {
     const { modal, title, textLabel, proceedLabel, showTargetDropdown, targetDropdownValues, targetDropdownLabel } = this.props;
     const { name, selectedTargetValue } = this.state;
     const showTargets = showTargetDropdown && targetDropdownValues.length > 0;
+    const disableSubmit = showTargetDropdown
+      ? !name || !selectedTargetValue
+      : !name;
 
     return (
       <Dialog
@@ -115,7 +118,7 @@ class NameModal extends PureComponent {
           )}
         </DialogContent>
         <DialogActions>
-          <Button raised primary disabled={!name} onClick={this.doIt}>{proceedLabel}</Button>
+          <Button raised primary disabled={disableSubmit} onClick={this.doIt}>{proceedLabel}</Button>
           <Button flat primary onClick={this.close}>Cancel</Button>
         </DialogActions>
       </Dialog>

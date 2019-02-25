@@ -32,7 +32,7 @@ export default ({ unload = true } = {}) => (BaseComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     providersActions: bindActionCreators(Object.assign({},
-      createRequestAction(['fetch', 'delete'], 'Providers'),
+      createRequestAction(['fetch', 'delete', 'create'], 'Providers'),
       createRequestAction(['delete'], 'Provider'),
     ), dispatch)
   });

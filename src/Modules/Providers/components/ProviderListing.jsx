@@ -13,10 +13,14 @@ import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { FontIcon } from 'react-md';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
+import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import { getLastFromSplit } from 'util/helpers/strings';
+import { formatName } from 'util/forms';
 import actions from '../actions';
+import withContext from '../../Hierarchy/hocs/withContext';
 import withProviders from '../hocs/withProviders';
+import providerModel from '../models/provider';
 
 class ProviderListing extends PureComponent {
   static propTypes = {
@@ -25,6 +29,7 @@ class ProviderListing extends PureComponent {
     providers: PropTypes.array.isRequired,
     providersPending: PropTypes.bool.isRequired,
     providersActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
   };
 
   static contextType = ModalConsumer;
@@ -34,6 +39,31 @@ class ProviderListing extends PureComponent {
     const entity = generateContextEntityState(match.params);
 
     providersActions.fetchProviders({ fqon: match.params.fqon, entityId: entity.id, entityKey: entity.key });
+  }
+
+  handleClone = (row) => {
+    const { match, providersActions, hierarchyContext } = this.props;
+    const { context: { environment, environments } } = hierarchyContext;
+    const { showModal } = this.context;
+
+    const modalAction = ({ name, selectedTargetValue }) => {
+      const payload = providerModel.create({ ...row, name });
+
+      const updateState = environment.id === selectedTargetValue;
+
+      providersActions.createProviders({ fqon: match.params.fqon, entityId: selectedTargetValue, entityKey: 'environments', payload, updateState });
+    };
+
+    showModal(NameModal, {
+      title: `Clone "${row.name}" Provider`,
+      nameFormatter: formatName,
+      proceedLabel: 'Clone',
+      onProceed: modalAction,
+      targetDropdownLabel: 'Select Environment',
+      showTargetDropdown: true,
+      targetDropdownValues: environments,
+      defaultTargetValue: row.properties.parent.id,
+    });
   }
 
   deleteOne = (row) => {
@@ -74,6 +104,7 @@ class ProviderListing extends PureComponent {
             row={row}
             fqon={this.props.match.params.fqon}
             onDelete={this.deleteOne}
+            onClone={this.handleClone}
             editURL={`${this.props.match.url}/${row.id}`}
             entityKey="providers"
             {...this.props}
@@ -160,6 +191,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withContext(),
   withProviders(),
   connect(mapStateToProps, actions),
 )(ProviderListing);
