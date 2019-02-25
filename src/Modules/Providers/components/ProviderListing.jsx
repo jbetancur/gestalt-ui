@@ -43,15 +43,40 @@ class ProviderListing extends PureComponent {
 
   handleClone = (row) => {
     const { match, providersActions, hierarchyContext } = this.props;
-    const { context: { environment, environments } } = hierarchyContext;
+    const { context: { contextMeta, organization, workspace, environment, organizations, workspaces, environments } } = hierarchyContext;
     const { showModal } = this.context;
+    let targetDropdownLabel;
+    let targetDropdownValues;
+
+    if (contextMeta.context === 'environment') {
+      targetDropdownLabel = 'Select Environment';
+      targetDropdownValues = environments;
+    } else if (contextMeta.context === 'workspace') {
+      targetDropdownLabel = 'Select Workspace';
+      // as workspace context does not include its own workspace
+      targetDropdownValues = [...[workspace], ...workspaces];
+    } else {
+      targetDropdownLabel = 'Select Organization';
+      // as org context does not include its own org
+      targetDropdownValues = [...[organization], ...organizations];
+    }
 
     const modalAction = ({ name, selectedTargetValue }) => {
       const payload = providerModel.create({ ...row, name });
 
-      const updateState = environment.id === selectedTargetValue;
+      if (contextMeta.context === 'environment') {
+        const updateState = environment.id === selectedTargetValue;
 
-      providersActions.createProviders({ fqon: match.params.fqon, entityId: selectedTargetValue, entityKey: 'environments', payload, updateState });
+        providersActions.createProviders({ fqon: match.params.fqon, entityId: selectedTargetValue, entityKey: 'environments', payload, updateState });
+      } else if (contextMeta.context === 'workspace') {
+        const updateState = workspace.id === selectedTargetValue;
+
+        providersActions.createProviders({ fqon: match.params.fqon, entityId: selectedTargetValue, entityKey: 'workspaces', payload, updateState });
+      } else {
+        const updateState = organization.id === selectedTargetValue;
+
+        providersActions.createProviders({ fqon: match.params.fqon, payload, updateState });
+      }
     };
 
     showModal(NameModal, {
@@ -59,9 +84,9 @@ class ProviderListing extends PureComponent {
       nameFormatter: formatName,
       proceedLabel: 'Clone',
       onProceed: modalAction,
-      targetDropdownLabel: 'Select Environment',
+      targetDropdownLabel,
       showTargetDropdown: true,
-      targetDropdownValues: environments,
+      targetDropdownValues,
       defaultTargetValue: row.properties.parent.id,
     });
   }
