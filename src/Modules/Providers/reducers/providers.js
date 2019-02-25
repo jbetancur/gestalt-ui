@@ -59,7 +59,6 @@ export default (state = initialState, action) => {
     // Insert container into lambda listing state
     case CREATE_PROVIDERS_FULFILLED:
       // only update if within the same environment context - see the saga createProviders for logic
-      console.log(action);
       if (action.updateState) {
         return {
           ...state,

@@ -21,6 +21,7 @@ import actions from '../actions';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withProviders from '../hocs/withProviders';
 import providerModel from '../models/provider';
+import { uiProviderTypes } from '../lists/providerTypes';
 
 class ProviderListing extends PureComponent {
   static propTypes = {
@@ -48,6 +49,7 @@ class ProviderListing extends PureComponent {
     let targetDropdownLabel;
     let targetDropdownValues;
 
+    // TODO: much of this is repeated code, and weid, but, eventually some of the path resolution logic will move into the context saga
     if (contextMeta.context === 'environment') {
       targetDropdownLabel = 'Select Environment';
       targetDropdownValues = environments;
@@ -62,7 +64,14 @@ class ProviderListing extends PureComponent {
     }
 
     const modalAction = ({ name, selectedTargetValue }) => {
-      const payload = providerModel.create({ ...row, name });
+      let payload;
+      // use the correct model to format the provider payload
+      const index = uiProviderTypes.findIndex(p => p.name === row.resource_type);
+      if (index > -1) {
+        payload = uiProviderTypes[index].model.create({ ...row, name });
+      } else {
+        payload = providerModel.create({ ...row, name });
+      }
 
       if (contextMeta.context === 'environment') {
         const updateState = environment.id === selectedTargetValue;
