@@ -171,13 +171,13 @@ class Navigation extends PureComponent {
 
                 {actions.length > 0 && <ActionDivider />}
 
-                {actions.map(item => (
+                {actions.map((item, index) => (
                   <NavItem
                     open={open}
                     expandedWidth={width}
                     miniWidth={miniWidth}
                     title={item.display_name || item.action}
-                    key={item.action}
+                    key={`${item.action}-${index}`}
                     icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
                     to={this.generateLink(item)}
                     target={this.generateTarget(item)}
