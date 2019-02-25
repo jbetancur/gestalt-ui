@@ -123,6 +123,9 @@ const schema = object().shape({
     properties: object().shape({}),
   }),
   properties: object().shape({
+    parent: object().shape({
+      id: string(),
+    }),
     provider: object().shape({
       id: string(),
       properties: object().shape({

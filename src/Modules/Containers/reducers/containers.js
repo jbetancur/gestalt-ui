@@ -40,9 +40,16 @@ export default (state = initialState, action) => {
 
     // Insert container into container listing state
     case CREATE_CONTAINERS_FULFILLED:
+      // only update if within the same environment context - see the saga createContainerFromListing for logic
+      if (action.updateState) {
+        return {
+          ...state,
+          containers: insertItem(state.containers, action.payload)
+        };
+      }
+
       return {
         ...state,
-        containers: insertItem(state.containers, action.payload)
       };
 
     case DELETE_CONTAINER_REQUEST:

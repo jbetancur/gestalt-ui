@@ -16,6 +16,7 @@ import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import { lowercase } from 'util/forms';
+import withContext from '../../Hierarchy/hocs/withContext';
 import LambdaMenuActions from './LambdaMenuActions';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import withLambdas from '../hocs/withLambdas';
@@ -36,6 +37,7 @@ class LambdaListing extends PureComponent {
     lambdas: PropTypes.array.isRequired,
     lambdasActions: PropTypes.object.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
   };
 
   static contextType = ModalConsumer;
@@ -95,12 +97,15 @@ class LambdaListing extends PureComponent {
   }
 
   handleClone = (row) => {
-    const { match, lambdasActions } = this.props;
+    const { match, lambdasActions, hierarchyContext } = this.props;
+    const { context: { environment, environments } } = hierarchyContext;
     const { showModal } = this.context;
 
-    const modalAction = ({ name }) => {
+    const modalAction = ({ name, selectedTargetValue }) => {
       const payload = lambdaModel.create({ ...row, name });
-      lambdasActions.createLambdas({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload });
+
+      const updateState = environment.id === selectedTargetValue;
+      lambdasActions.createLambdas({ fqon: match.params.fqon, environmentId: selectedTargetValue, payload, updateState });
     };
 
     showModal(NameModal, {
@@ -108,6 +113,10 @@ class LambdaListing extends PureComponent {
       nameFormatter: lowercase,
       proceedLabel: 'Clone',
       onProceed: modalAction,
+      targetDropdownLabel: 'Select Environment',
+      showTargetDropdown: true,
+      targetDropdownValues: environments,
+      defaultTargetValue: row.properties.parent.id
     });
   }
 
@@ -225,6 +234,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withContext(),
   withLambdas,
   connect(mapStateToProps),
 )(LambdaListing);

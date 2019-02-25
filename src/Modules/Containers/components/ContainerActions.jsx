@@ -74,6 +74,7 @@ class ContainerActions extends PureComponent {
     containerModel: PropTypes.object.isRequired,
     containerActions: PropTypes.object.isRequired,
     containersActions: PropTypes.object.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
@@ -105,13 +106,16 @@ class ContainerActions extends PureComponent {
   static contextType = ModalConsumer;
 
   handleClone = () => {
-    const { match, containersActions, containerModel } = this.props;
+    const { match, containersActions, containerModel, hierarchyContext } = this.props;
+    const { context: { environment, environments } } = hierarchyContext;
     const { showModal } = this.context;
 
-    const modalAction = ({ name }) => {
+    const modalAction = ({ name, selectedTargetValue }) => {
       const payload = containerDataModel.create({ ...containerModel, name });
+      const updateState = environment.id === selectedTargetValue;
+
       // containersActions.createContainers is handles container creation specifically for the listing screen
-      containersActions.createContainers({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload });
+      containersActions.createContainers({ fqon: match.params.fqon, environmentId: selectedTargetValue, payload, updateState });
     };
 
     showModal(NameModal, {
@@ -119,6 +123,10 @@ class ContainerActions extends PureComponent {
       nameFormatter: formatName,
       proceedLabel: 'Clone',
       onProceed: modalAction,
+      targetDropdownLabel: 'Select Environment',
+      showTargetDropdown: true,
+      targetDropdownValues: environments,
+      defaultTargetValue: environment.id
     });
   }
 

@@ -47,11 +47,17 @@ export default (state = initialState, action) => {
 
     // Insert container into lambda listing state
     case CREATE_LAMBDAS_FULFILLED:
+      // only update if within the same environment context - see the saga createLambdaFromListing for logic
+      if (action.updateState) {
+        return {
+          ...state,
+          lambdas: insertItem(state.lambdas, action.payload)
+        };
+      }
+
       return {
         ...state,
-        lambdas: insertItem(state.lambdas, action.payload)
       };
-
     case DELETE_LAMBDA_REQUEST:
       return {
         ...state,

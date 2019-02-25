@@ -78,7 +78,7 @@ export function* createLambdaFromListing(action) {
   try {
     const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, action.payload);
 
-    yield put({ type: CREATE_LAMBDAS_FULFILLED, payload: data });
+    yield put({ type: CREATE_LAMBDAS_FULFILLED, payload: data, updateState: action.updateState });
     yield put(notificationActions.addNotification({ message: `${data.name} Lambda created` }));
     if (typeof action.onSuccess === 'function') {
       action.onSuccess(data);

@@ -128,7 +128,7 @@ export function* createContainerFromListing(action) {
   try {
     const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/containers?embed=provider&embed=volumes`, action.payload);
 
-    yield put({ type: CREATE_CONTAINERS_FULFILLED, payload: data });
+    yield put({ type: CREATE_CONTAINERS_FULFILLED, payload: data, updateState: action.updateState });
     yield put(notificationActions.addNotification({ message: `${data.name} Container created` }));
 
     if (typeof action.onSuccess === 'function') {

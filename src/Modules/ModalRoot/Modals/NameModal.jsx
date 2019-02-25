@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from 'react-md';
+import { TextField, SelectField } from 'react-md';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -17,6 +17,10 @@ class NameModal extends PureComponent {
     textLabel: PropTypes.string,
     proceedLabel: PropTypes.string,
     nameFormatter: PropTypes.func,
+    showTargetDropdown: PropTypes.bool,
+    targetDropdownValues: PropTypes.array,
+    targetDropdownLabel: PropTypes.string,
+    defaultTargetValue: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,9 +31,16 @@ class NameModal extends PureComponent {
     textLabel: 'Name',
     proceedLabel: 'OK',
     nameFormatter: null,
+    showTargetDropdown: false,
+    targetDropdownValues: [],
+    targetDropdownLabel: 'Targets',
+    defaultTargetValue: '',
   };
 
-  state = { name: this.props.defaultName };
+  state = {
+    name: this.props.defaultName,
+    selectedTargetValue: this.props.defaultTargetValue,
+  };
 
   close = () => {
     const { onClose, modal } = this.props;
@@ -41,8 +52,8 @@ class NameModal extends PureComponent {
   doIt = () => {
     const { onProceed, modal } = this.props;
 
-    const { name } = this.state;
-    onProceed({ name });
+    const { name, selectedTargetValue } = this.state;
+    onProceed({ name, selectedTargetValue });
     modal.hideModal();
   }
 
@@ -56,9 +67,14 @@ class NameModal extends PureComponent {
     }
   }
 
+  handleTargetChange = (selectedTargetValue) => {
+    this.setState({ selectedTargetValue });
+  }
+
   render() {
-    const { modal, title, textLabel, proceedLabel } = this.props;
-    const { name } = this.state;
+    const { modal, title, textLabel, proceedLabel, showTargetDropdown, targetDropdownValues, targetDropdownLabel } = this.props;
+    const { name, selectedTargetValue } = this.state;
+    const showTargets = showTargetDropdown && targetDropdownValues.length > 0;
 
     return (
       <Dialog
@@ -81,6 +97,22 @@ class NameModal extends PureComponent {
             required
             lineDirection="center"
           />
+          {showTargets && (
+            <SelectField
+              id="name-modal-targets"
+              label={targetDropdownLabel}
+              lineDirection="center"
+              menuItems={targetDropdownValues}
+              simplifiedMenu={false}
+              itemLabel="name"
+              itemValue="id"
+              value={selectedTargetValue}
+              onChange={this.handleTargetChange}
+              required
+              fullWidth
+              sameWidth
+            />
+          )}
         </DialogContent>
         <DialogActions>
           <Button raised primary disabled={!name} onClick={this.doIt}>{proceedLabel}</Button>
