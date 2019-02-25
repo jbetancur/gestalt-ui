@@ -7,11 +7,11 @@ Gestalt Ui written in React/Redux
 ### Install nvm
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-nvm install 8
+nvm install 10
 cd gestalt-ui-react
-nvm use 8
+nvm use 10
 ```
-*Ensure that you `nvm use 8` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 8*
+*Ensure that you `nvm use 10` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 10*
 
 ### Install Binaries
 ```
