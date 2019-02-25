@@ -26,6 +26,9 @@ import {
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
   INIT_LAMBDAEDIT_CANCELLED,
+  CREATE_LAMBDAS_REQUEST,
+  CREATE_LAMBDAS_FULFILLED,
+  CREATE_LAMBDAS_REJECTED,
   UNLOAD_LAMBDA,
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
@@ -64,6 +67,24 @@ export function* createLambda(action) {
     }
   } catch (e) {
     yield put({ type: CREATE_LAMBDA_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * createLambdaFromListing
+ * @param {*} action - { fqon, environmentId, payload, onSuccess {returns response.data} }
+ */
+export function* createLambdaFromListing(action) {
+  try {
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, action.payload);
+
+    yield put({ type: CREATE_LAMBDAS_FULFILLED, payload: data });
+    yield put(notificationActions.addNotification({ message: `${data.name} Lambda created` }));
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(data);
+    }
+  } catch (e) {
+    yield put({ type: CREATE_LAMBDAS_REJECTED, payload: e.message });
   }
 }
 
@@ -231,6 +252,7 @@ export function* watchEditViewWorkflow() {
 export default function* () {
   yield takeLatest(FETCH_LAMBDAS_REQUEST, fetchLambdas);
   yield takeLatest(CREATE_LAMBDA_REQUEST, createLambda);
+  yield takeLatest(CREATE_LAMBDAS_REQUEST, createLambdaFromListing);
   yield takeLatest(UPDATE_LAMBDA_REQUEST, updateLambda);
   yield takeLatest(DELETE_LAMBDA_REQUEST, deleteLambda);
   yield takeLatest(DELETE_LAMBDAS_REQUEST, deleteLambdas);

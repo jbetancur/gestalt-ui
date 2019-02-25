@@ -5,6 +5,7 @@ import { fetchAPI } from 'config/lib/utility';
 import lambdaSagas, {
   fetchLambdas,
   createLambda,
+  createLambdaFromListing,
   updateLambda,
   deleteLambda,
   deleteLambdas,
@@ -31,6 +32,9 @@ import {
   INIT_LAMBDACREATE_REJECTED,
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
+  CREATE_LAMBDAS_REQUEST,
+  CREATE_LAMBDAS_FULFILLED,
+  CREATE_LAMBDAS_REJECTED,
 } from '../actionTypes';
 
 describe('Lambda Sagas', () => {
@@ -138,6 +142,57 @@ describe('Lambda Sagas', () => {
 
       expect(resultError.value).toEqual(
         put({ type: CREATE_LAMBDA_REJECTED, payload: error })
+      );
+    });
+  });
+
+  describe('createLambdaFromListing Sequence', () => {
+    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewlambda' } };
+    const responsePayload = { id: 1, name: 'test' };
+    const saga = createLambdaFromListing(action);
+    let result;
+
+    it('should make an api call for the lambda by id', () => {
+      result = saga.next();
+      expect(result.value).toEqual(
+        call(axios.post, 'iamfqon/environments/1/lambdas?embed=provider', action.payload)
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: responsePayload });
+
+      expect(result.value).toEqual(
+        put({ type: CREATE_LAMBDAS_FULFILLED, payload: responsePayload })
+      );
+    });
+
+    it('should dispatch a notification', () => {
+      result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Lambda created' }))
+      );
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
+      const sagaSuccess = createLambdaFromListing(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: responsePayload });
+      sagaSuccess.next();
+      sagaSuccess.next();
+
+      expect(onSuccessAction.onSuccess).toBeCalledWith(responsePayload);
+    });
+
+    it('should return a payload and dispatch a reject status when there is an error', () => {
+      const sagaError = createLambdaFromListing(action);
+      let resultError = sagaError.next();
+      resultError = sagaError.throw({ message: error });
+
+      expect(resultError.value).toEqual(
+        put({ type: CREATE_LAMBDAS_REJECTED, payload: error })
       );
     });
   });
@@ -438,6 +493,13 @@ describe('Lambda Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         takeLatest(CREATE_LAMBDA_REQUEST, createLambda)
+      );
+    });
+
+    it('should fork a watcher for createLambdaFromListing', () => {
+      result = rootSaga.next();
+      expect(result.value).toEqual(
+        takeLatest(CREATE_LAMBDAS_REQUEST, createLambdaFromListing)
       );
     });
 

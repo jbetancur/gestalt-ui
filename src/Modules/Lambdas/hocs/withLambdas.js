@@ -30,7 +30,7 @@ export default function withlambdas(BaseComponent) {
 
   const mapDispatchToProps = dispatch => ({
     lambdasActions: bindActionCreators(Object.assign({},
-      createRequestAction(['fetch', 'delete'], 'Lambdas'),
+      createRequestAction(['fetch', 'delete', 'create'], 'Lambdas'),
       createRequestAction(['delete'], 'Lambda'),
     ), dispatch)
   });

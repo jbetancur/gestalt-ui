@@ -12,12 +12,15 @@ import { Checkbox, FontIcon } from 'react-md';
 import { LambdaIcon } from 'components/Icons';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
+import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
+import { lowercase } from 'util/forms';
 import LambdaMenuActions from './LambdaMenuActions';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
 import withLambdas from '../hocs/withLambdas';
 import iconMap from '../../Providers/config/iconMap';
+import lambdaModel from '../models/lambda';
 
 const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
 const tableTheme = {
@@ -91,6 +94,23 @@ class LambdaListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
+  handleClone = (row) => {
+    const { match, lambdasActions } = this.props;
+    const { showModal } = this.context;
+
+    const modalAction = ({ name }) => {
+      const payload = lambdaModel.create({ ...row, name });
+      lambdasActions.createLambdas({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload });
+    };
+
+    showModal(NameModal, {
+      title: `Clone "${row.name}" Lambda`,
+      nameFormatter: lowercase,
+      proceedLabel: 'Clone',
+      onProceed: modalAction,
+    });
+  }
+
   defineContextActions() {
     return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -111,6 +131,7 @@ class LambdaListing extends PureComponent {
             row={row}
             fqon={match.params.fqon}
             onDelete={this.deleteOne}
+            onClone={this.handleClone}
             editURL={`${match.url}/${row.id}`}
           />
         ),

@@ -7,11 +7,15 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 
-const LambdaMenuActions = ({ row, fqon, onDelete, editURL }) => {
+const LambdaMenuActions = ({ row, fqon, onDelete, onClone, editURL }) => {
   const { showModal } = useContext(ModalContext);
 
   const handleDelete = () => {
     onDelete(row);
+  };
+
+  const handleClone = () => {
+    onClone(row);
   };
 
   const handleEntitlements = () => {
@@ -64,8 +68,17 @@ const LambdaMenuActions = ({ row, fqon, onDelete, editURL }) => {
               leftIcon={<FontIcon>content_copy</FontIcon>}
             />
           </CopyToClipboard>
+          <ListItem
+            primaryText="Clone"
+            leftIcon={<FontIcon>filter_none</FontIcon>}
+            onClick={handleClone}
+          />
           <Divider />
-          <ListItem primaryText="Delete" leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>} onClick={handleDelete} />
+          <ListItem
+            primaryText="Delete"
+            leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>}
+            onClick={handleDelete}
+          />
         </React.Fragment>
       }
       centered
@@ -80,6 +93,7 @@ LambdaMenuActions.propTypes = {
   fqon: PropTypes.string.isRequired,
   editURL: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onClone: PropTypes.func.isRequired,
 };
 
 LambdaMenuActions.defaultProps = {

@@ -1,4 +1,4 @@
-import { removeItemById } from 'util/helpers/lists';
+import { removeItemById, insertItem } from 'util/helpers/lists';
 import {
   FETCH_LAMBDAS_REQUEST,
   FETCH_LAMBDAS_FULFILLED,
@@ -7,6 +7,7 @@ import {
   DELETE_LAMBDA_FULFILLED,
   DELETE_LAMBDA_REJECTED,
   DELETE_LAMBDAS_REQUEST, // bulk delete
+  CREATE_LAMBDAS_FULFILLED, // create a lambda on the listing page
   UNLOAD_LAMBDAS,
 } from '../actionTypes';
 
@@ -42,6 +43,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         pending: true,
+      };
+
+    // Insert container into lambda listing state
+    case CREATE_LAMBDAS_FULFILLED:
+      return {
+        ...state,
+        lambdas: insertItem(state.lambdas, action.payload)
       };
 
     case DELETE_LAMBDA_REQUEST:
