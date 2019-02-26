@@ -1,7 +1,7 @@
 import React, { memo, useContext } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { FontIcon, MenuButton, ListItem } from 'react-md';
 import { A } from 'components/Links';
 import Divider from 'components/Divider';
@@ -10,8 +10,9 @@ import { LicenseModal } from 'Modules/Licensing';
 import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../../constants';
 
-const AppToolbarInfoMenu = memo(({ t }) => {
+const AppToolbarInfoMenu = memo(() => {
   const { showModal } = useContext(ModalContext);
+  const { t } = useTranslation();
 
   const menuItems = [
     <ListItem
@@ -67,8 +68,4 @@ const AppToolbarInfoMenu = memo(({ t }) => {
   );
 });
 
-AppToolbarInfoMenu.propTypes = {
-  t: PropTypes.func.isRequired,
-};
-
-export default translate()(AppToolbarInfoMenu);
+export default AppToolbarInfoMenu;

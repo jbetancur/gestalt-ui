@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { compose } from 'redux';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
 import { USEnglishLangIcon, UserIcon } from 'components/Icons';
@@ -21,7 +20,9 @@ const AvatarStyled = styled(Avatar)`
   }
 `;
 
-const UserMenu = ({ self, t, onLogout }) => {
+const UserMenu = ({ self, onLogout }) => {
+  const { t } = useTranslation();
+
   const menuItems = [
     <ListItem
       id="main--user--menu--profile"
@@ -72,12 +73,8 @@ const UserMenu = ({ self, t, onLogout }) => {
 };
 
 UserMenu.propTypes = {
-  t: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   self: PropTypes.object.isRequired,
 };
 
-export default compose(
-  translate(),
-  withSelf,
-)(UserMenu);
+export default withSelf(UserMenu);

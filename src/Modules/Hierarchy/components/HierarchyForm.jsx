@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Field } from 'react-final-form';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Col, Row } from 'react-flexybox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -150,5 +150,5 @@ class HierarchyForm extends Component {
 
 export default compose(
   withRouter,
-  translate(),
+  withTranslation(),
 )(HierarchyForm);

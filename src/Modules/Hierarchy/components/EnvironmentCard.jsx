@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withTheme } from 'styled-components';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontIcon } from 'react-md';
 import { EntitlementIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
 import { withUserProfile } from 'Modules/UserProfile';
@@ -141,5 +141,5 @@ export default compose(
   withContext(),
   withUserProfile,
   withTheme,
-  translate(),
+  withTranslation(),
 )(EnvironmentCard);
