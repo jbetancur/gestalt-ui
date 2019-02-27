@@ -44,7 +44,7 @@ const UnixVariablesForm = memo(({ fieldName }) => (
                     <Field
                       id={`${member}.value`}
                       name={`${member}.value`}
-                      label={(overridden && overridden) || 'value'}
+                      label={(isInherited && overridden && overridden) || 'value'}
                       type={isPasswordField ? 'password' : 'text'}
                       component={TextField}
                       multiline={!isPasswordField}
