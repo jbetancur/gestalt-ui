@@ -123,11 +123,11 @@ const schema = object().shape({
     runtime: string(),
     secrets: array().default([]),
     apiendpoints: array().default([]),
-    // gpu_support: object().shape({
-    //   enabled: boolean().default(false),
-    //   count: number().default(1),
-    //   type: string(),
-    // }),
+    gpu_support: object().shape({
+      enabled: boolean().default(false),
+      count: number().default(1),
+      type: string().default(''),
+    }),
   }),
 });
 

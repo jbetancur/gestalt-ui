@@ -28,8 +28,8 @@ const GPUSection = memo(() => (
             <Col flex={12}>
               <Field
                 id="gpu-types"
-                label="Types"
-                addLabel="Add Type"
+                label="Add Accelerator Type"
+                addLabel="Add Accelerator Type"
                 component={Chips}
                 name="properties.config.gpu_support.types"
                 ignorePrefixValidation
@@ -41,10 +41,10 @@ const GPUSection = memo(() => (
                 <Field
                   id="gpu-default-type"
                   name="properties.config.gpu_support.default_type"
-                  label="Default Type"
+                  label="Default Accelerator"
                   component={SelectField}
                   menuItems={['', ...get(values, 'properties.config.gpu_support.types') || []]}
-                  helpText="Sets the default type to display in the GPU section when creating Lambdas or Containers"
+                  helpText="Sets the default GPU accelerator to display in the GPU section when creating Lambdas or Containers. More Info: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/"
                 />
               </Col>
             )}

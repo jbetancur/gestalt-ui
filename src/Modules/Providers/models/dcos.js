@@ -61,13 +61,13 @@ const schema = object().shape({
       secret_store: string(),
       secret_support: boolean().default(false),
       secret_url: string(),
-      gpu_support: object().shape({
-        enabled: boolean().default(false),
-        default_type: string().default(''),
-        types: array()
-          .of(string())
-          .default([]),
-      }),
+      // gpu_support: object().shape({
+      //   enabled: boolean().default(false),
+      //   default_type: string().default(''),
+      //   types: array()
+      //     .of(string())
+      //     .default([]),
+      // }),
     }),
     linked_providers: array().default([]),
     environment_types: array().default([]),
@@ -106,7 +106,7 @@ const create = (model = {}) => {
     'properties.config.secret_store',
     'properties.config.secret_support',
     'properties.config.secret_url',
-    'properties.config.gpu_support',
+    // 'properties.config.gpu_support',
     'properties.linked_providers',
     'properties.environment_types',
   ];
@@ -154,7 +154,7 @@ const initForm = (model = {}) => {
     'properties.config.secret_store',
     'properties.config.secret_support',
     'properties.config.secret_url',
-    'properties.config.gpu_support',
+    // 'properties.config.gpu_support',
     'properties.linked_providers',
     'properties.environment_types',
   ];

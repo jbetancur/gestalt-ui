@@ -1,4 +1,4 @@
-import { object, array, string, boolean } from 'yup';
+import { object, array, string } from 'yup';
 import { pick, omit } from 'lodash';
 import base64 from 'base-64';
 import jsonPatch from 'fast-json-patch';
@@ -71,13 +71,13 @@ const schema = object().shape({
       kongManagementUrl: string(),
       awsLogGroup: string(),
       sidecarContainerImageOverride: string(),
-      gpu_support: object().shape({
-        enabled: boolean().default(false),
-        default_type: string().default(''),
-        types: array()
-          .of(string())
-          .default([]),
-      }),
+      // gpu_support: object().shape({
+      //   enabled: boolean().default(false),
+      //   default_type: string().default(''),
+      //   types: array()
+      //     .of(string())
+      //     .default([]),
+      // }),
     }),
     linked_providers: array().default([]),
     environment_types: array().default([]),
@@ -117,7 +117,7 @@ const create = (model = {}) => {
     'properties.config.kongManagementUrl',
     'properties.config.awsLogGroup',
     'properties.config.sidecarContainerImageOverride',
-    'properties.config.gpu_support',
+    // 'properties.config.gpu_support',
     'properties.linked_providers',
     'properties.environment_types',
     'properties.provider_subtype',
@@ -166,7 +166,7 @@ const initForm = (model = {}) => {
     'properties.config.kongManagementUrl',
     'properties.config.awsLogGroup',
     'properties.config.sidecarContainerImageOverride',
-    'properties.config.gpu_support',
+    // 'properties.config.gpu_support',
     'properties.linked_providers',
     'properties.environment_types',
     'properties.provider_subtype',

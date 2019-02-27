@@ -111,7 +111,7 @@ const schema = object().shape({
         default_type: string().default(''),
         types: array()
           .of(string())
-          .default([]),
+          .default(['nvidia-tesla-p100', 'nvidia-tesla-p4', 'nvidia-tesla-v100', 'nvidia-tesla-t4']),
       }),
       // env: object().shape({}),
     }),

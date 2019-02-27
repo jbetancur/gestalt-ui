@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import Compute from './Compute';
-import { renderWithTheme } from '../../../test/helpers';
+import Compute from './ComputeSection';
+import { renderWithTheme } from '../../../../test/helpers';
 
-describe('Components::Form::Compute', () => {
+describe('Lambdas::Components::ComputeSection', () => {
   it('mounts with basic props', () => {
     const formValuesMock = {
       properties: {
@@ -14,7 +14,8 @@ describe('Components::Form::Compute', () => {
 
     const { container } = renderWithTheme(
       <Form
-        render={() => <Compute formValues={formValuesMock} form={{ change: jest.fn() }} />}
+        initialValues={formValuesMock}
+        render={() => <Compute form={{ change: jest.fn() }} />}
         onSubmit={jest.fn()}
       />
     );

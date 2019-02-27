@@ -2,11 +2,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Field } from 'react-final-form';
+import { Field, FormSpy } from 'react-final-form';
 import { AceEditor } from 'components/ReduxFormFields';
 import { SelectField } from 'react-md';
 import { Button } from 'components/Buttons';
-import { Panel } from 'components/Panels';
 import FullScreen from 'components/FullScreen';
 import withLambdaState from '../hocs/withLambdaState';
 
@@ -57,7 +56,6 @@ class LambdaSourceSection extends PureComponent {
   static propTypes = {
     selectedRuntime: PropTypes.object.isRequired,
     onSave: PropTypes.func,
-    formValues: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -91,10 +89,6 @@ class LambdaSourceSection extends PureComponent {
     this.setState({ keyBinding });
   }
 
-  handleOnSave = () => {
-    this.props.onSave(this.props.formValues);
-  }
-
   renderCodeSection() {
     const { selectedRuntime, onSave } = this.props;
     const maxLines = this.state.fullscreen ? Infinity : 50;
@@ -123,29 +117,33 @@ class LambdaSourceSection extends PureComponent {
             />
           </Options>
 
-          <Buttons isFullScreen={this.state.fullscreen}>
-            {onSave && this.state.fullscreen &&
-              <Button
-                icon
-                primary
-                onClick={this.handleOnSave}
-                tooltipLabel="Save"
-                tooltipPosition="left"
-              >
-                save
-              </Button>}
+          <FormSpy subscription={{ values: true }}>
+            {({ values }) => (
+              <Buttons isFullScreen={this.state.fullscreen}>
+                {onSave && this.state.fullscreen &&
+                  <Button
+                    icon
+                    primary
+                    onClick={() => this.props.onSave(values)}
+                    tooltipLabel="Save"
+                    tooltipPosition="left"
+                  >
+                    save
+                  </Button>}
 
-            <Button
-              icon
-              primary
-              onClick={this.handleFullScreen}
-              tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
-              tooltipPosition="left"
-            // iconChildren={this.state.fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-            >
-              {this.state.fullscreen ? 'close' : 'fullscreen'}
-            </Button>
-          </Buttons>
+                <Button
+                  icon
+                  primary
+                  onClick={this.handleFullScreen}
+                  tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
+                  tooltipPosition="left"
+                  // iconChildren={this.state.fullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                >
+                  {this.state.fullscreen ? 'close' : 'fullscreen'}
+                </Button>
+              </Buttons>
+            )}
+          </FormSpy>
         </HeaderControls>
 
         <Editor isFullScreen={this.state.fullscreen}>
@@ -166,14 +164,11 @@ class LambdaSourceSection extends PureComponent {
   render() {
     const { fullscreen } = this.state;
 
-    return (
-      <Panel title="Source Code" noPadding>
-        {fullscreen
-          ? <FullScreen>{this.renderCodeSection()}</FullScreen>
-          : this.renderCodeSection()
-        }
-      </Panel>
-    );
+    if (fullscreen) {
+      return <FullScreen>{this.renderCodeSection()}</FullScreen>;
+    }
+
+    return this.renderCodeSection();
   }
 }
 

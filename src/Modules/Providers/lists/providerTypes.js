@@ -16,7 +16,7 @@ export const uiProviderTypes = [
     allowEnvVariables: false,
     networksConfig: true,
     allowLinkedProviders: true,
-    showGPUOption: true,
+    showGPUOption: false,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Kubernetes',
@@ -39,14 +39,14 @@ export const uiProviderTypes = [
     subTypes: ['Fargate', 'EC2'],
     networksConfig: true,
     allowLinkedProviders: true,
-    showGPUOption: true,
+    showGPUOption: false,
   },
   {
     name: 'Gestalt::Configuration::Provider::CaaS::Docker',
     model: dockerModel,
     allowEnvVariables: false,
     allowLinkedProviders: true,
-    showGPUOption: true,
+    showGPUOption: false,
   },
 
   // Executors

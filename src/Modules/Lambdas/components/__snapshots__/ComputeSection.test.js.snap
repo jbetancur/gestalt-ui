@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Components::Form::Compute mounts with basic props 1`] = `
+exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
 .c0 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -154,21 +154,11 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
         required=""
         step="0.1"
         type="number"
-        value=""
+        value="1"
       />
       <hr
         class="md-divider md-divider--text-field md-divider--expand-from-center"
       />
-      <div
-        class="md-text-field-message-container md-text-field-message-container--count-only md-full-width md-text--disabled"
-      >
-        <div
-          aria-hidden="true"
-          class="md-text-field-message md-text-field-message--inactive"
-        >
-          cpu is required
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -294,21 +284,11 @@ exports[`Components::Form::Compute mounts with basic props 1`] = `
         required=""
         step="1"
         type="number"
-        value=""
+        value="256"
       />
       <hr
         class="md-divider md-divider--text-field md-divider--expand-from-center"
       />
-      <div
-        class="md-text-field-message-container md-text-field-message-container--count-only md-full-width md-text--disabled"
-      >
-        <div
-          aria-hidden="true"
-          class="md-text-field-message md-text-field-message--inactive"
-        >
-          must be divisible by 1
-        </div>
-      </div>
     </div>
   </div>
 </div>
