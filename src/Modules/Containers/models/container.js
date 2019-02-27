@@ -153,11 +153,11 @@ const schema = object().shape({
     status: string(),
     status_detail: object().default({}),
     events: array().default([]),
-    // gpu_support: object().shape({
-    //   enabled: boolean().default(false),
-    //   count: number().default(1),
-    //   type: string(),
-    // }),
+    gpu_support: object().shape({
+      enabled: boolean().default(false),
+      count: number().default(1),
+      type: string().default(''),
+    }),
   }),
 });
 
@@ -239,6 +239,7 @@ const initForm = (model = {}) => {
     'name',
     'description',
     'properties.provider',
+    'properties.provider.properties',
     'properties.env',
     'properties.labels',
     'properties.port_mappings',

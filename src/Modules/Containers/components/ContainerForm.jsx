@@ -73,8 +73,7 @@ class ContainerForm extends PureComponent {
 
     const otherExpanded = editMode
       && selectedProvider.supportsOther
-      && formValues.properties
-      && (formValues.properties.constraints.length > 0 || formValues.properties.user || formValues.properties.accepted_resource_roles.length > 0);
+      && (get(formValues, 'properties.constraints.length') > 0 || formValues.properties.user || get(formValues, 'properties.accepted_resource_roles.length') > 0);
 
     if (!selectedProvider.isSelected) {
       return (

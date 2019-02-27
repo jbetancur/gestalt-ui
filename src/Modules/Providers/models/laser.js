@@ -120,7 +120,7 @@ const schema = object().shape({
     services: array().default([
       {
         init: { binding: 'eager', singleton: true },
-        container_spec: containerModel.create(),
+        container_spec: containerModel.schema,
       },
     ]),
   }),

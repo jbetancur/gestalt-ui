@@ -33,12 +33,18 @@ export const getEditProviderModel = createSelector(
 
 // RAGE
 export const getProviderContainer = createSelector(
-  [selectProvider, selectHasContainer],
-  (provider, hasContainer) => {
-    const model = providerModel.initForm(provider);
+  [selectProvider, selectHasContainer, selectSelectedProviderType],
+  (provider, hasContainer, providerType) => {
+    let castedProvider;
+
+    if (providerType.model) {
+      castedProvider = providerType.model.initForm(provider);
+    } else {
+      castedProvider = providerModel.initForm(provider);
+    }
 
     return hasContainer
-      ? containerModel.get(model.properties.services[0].container_spec)
+      ? containerModel.get(castedProvider.properties.services[0].container_spec)
       : containerModel.get();
   }
 );

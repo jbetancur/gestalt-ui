@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { getLastFromSplit } from 'util/helpers/strings';
 import {
   SELECTED_PROVIDER,
@@ -18,7 +19,7 @@ export function setSelectedProvider(provider = {}) {
       case 'Docker':
         return false;
       case 'DCOS':
-        if (model.properties.config.secret_support) {
+        if (get(model, 'properties.config.secret_support')) {
           return true;
         }
         return false;
@@ -72,8 +73,7 @@ export function setSelectedProvider(provider = {}) {
     supportsEvents: providerType === 'Kubernetes',
     supportsHealth: supportsHealth(),
     supportsOther: supportsOther(),
-    networks: model.properties.config.networks
-      && model.properties.config.networks.length
+    networks: get(model, 'properties.config.networks.length')
       ? model.properties.config.networks
       : setDefaultNetworks(),
     providerType,
