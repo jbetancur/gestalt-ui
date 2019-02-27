@@ -31,6 +31,21 @@ const theme = createMuiTheme({
     primary: lightBlue,
     secondary: blue,
   },
+  typography: {
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
 });
 
 // Create a history of your choosing (we're using a browser history in this case)

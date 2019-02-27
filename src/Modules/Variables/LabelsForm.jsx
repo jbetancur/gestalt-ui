@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FieldArray } from 'react-final-form-arrays';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required } from 'util/forms';
 
@@ -17,20 +17,22 @@ const LabelsForm = memo(({ fieldName }) => (
               <Col flex={4} xs={12} sm={12}>
                 <Field
                   name={`${member}.name`}
-                  placeholder="name"
+                  label="name"
                   type="text"
                   component={TextField}
                   validate={composeValidators(required())}
                   autoComplete="off"
+                  variant="outlined"
                 />
               </Col>
               <Col flex={8} xs={12} sm={12}>
                 <Field
                   name={`${member}.value`}
-                  placeholder="value"
+                  label="value"
                   type="text"
                   component={TextField}
                   autoComplete="off"
+                  variant="outlined"
                 />
               </Col>
             </Row>

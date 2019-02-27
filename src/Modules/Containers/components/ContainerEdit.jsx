@@ -59,7 +59,6 @@ class ContainerEdit extends Component {
     apiEndpointsActions: PropTypes.object.isRequired,
     apiEndpoints: PropTypes.array.isRequired,
     apiEndpointsPending: PropTypes.bool.isRequired,
-    showAPIEndpointWizardModal: PropTypes.func.isRequired,
     containerActions: PropTypes.object.isRequired,
     containerPending: PropTypes.bool.isRequired,
     inlineMode: PropTypes.bool,

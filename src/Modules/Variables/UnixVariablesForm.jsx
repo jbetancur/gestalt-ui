@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
@@ -20,7 +20,7 @@ const UnixVariablesForm = memo(({ fieldName }) => (
           {fields.map((member, index) => {
             const field = fields.value[index] || {};
             const isInherited = field.inherited;
-            const overridden = isInherited && field.overridden;
+            const overridden = isInherited && field.overridden ? 'value (overridden)' : 'value (inherited)';
             const isDisabled = isInherited || field.required;
             const isPasswordField = checkIfPassword(field.name);
 
@@ -31,31 +31,28 @@ const UnixVariablesForm = memo(({ fieldName }) => (
                     <Field
                       id={`${member}.name`}
                       name={`${member}.name`}
-                      placeholder="name"
-                      rows={isPasswordField ? undefined : 1}
-                      maxRows={isPasswordField ? undefined : 4}
+                      label={isInherited ? 'name (inherited)' : 'name'}
                       component={TextField}
                       disabled={isDisabled}
                       autoComplete="off"
                       required
                       validate={composeValidators(unixPattern(), required())}
-                      toolTip={isInherited ? 'inherited' : null}
+                      variant="outlined"
                     />
                   </Col>
                   <Col flex={8} xs={12} sm={12}>
                     <Field
                       id={`${member}.value`}
                       name={`${member}.value`}
-                      placeholder="value"
+                      label={(overridden && overridden) || 'value'}
                       type={isPasswordField ? 'password' : 'text'}
                       component={TextField}
-                      rows={isPasswordField ? undefined : 1}
-                      maxRows={isPasswordField ? undefined : 4}
+                      multiline={!isPasswordField}
+                      rowsMax={isPasswordField ? undefined : 4}
                       required={field.required}
-                      passwordIcon={null}
                       validate={field.required ? composeValidators(required()) : null}
                       autoComplete={isPasswordField ? 'new-password' : null}
-                      toolTip={overridden ? 'overridden value' : null}
+                      variant="outlined"
                     />
                   </Col>
                 </Row>
