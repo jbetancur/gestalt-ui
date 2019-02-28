@@ -115,8 +115,8 @@ test:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
-    - yarn build
-    - yarn generate-disclaimer
+    - yarn  --network-timeout 1000000 build
+    - yarn --network-timeout 1000000 generate-disclaimer
     - mv LICENSES.txt build
     - |
       echo "Modify dockerfile include copy in license:"
