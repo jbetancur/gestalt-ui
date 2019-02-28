@@ -96,11 +96,11 @@ const schema = object().shape({
   description: string(),
   resource_type: string(),
   resource_state: string(),
-  created: object().shape({}),
-  modified: object().shape({}),
-  owner: object().shape({}),
+  created: object().shape({}).default({}),
+  modified: object().shape({}).default({}),
+  owner: object().shape({}).default({}),
   org: object().shape({
-    properties: object().shape({}),
+    properties: object().shape({}).default({}),
   }),
   properties: object().shape({
     config: object().shape({
@@ -113,7 +113,7 @@ const schema = object().shape({
     services: array().default([
       {
         init: { binding: 'eager', singleton: true },
-        container_spec: containerModel.schema,
+        container_spec: containerModel.schema.cast(),
       },
     ]),
   }),
