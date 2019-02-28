@@ -227,12 +227,12 @@ describe('Validations', () => {
       expect(isUnixVariable('$%^i_love_variables')).toBe(false);
     });
 
-    it('should not validate if is variable name with .', () => {
-      expect(isUnixVariable('i.love.variables')).toBe(false);
+    it('should validate if is variable name with .', () => {
+      expect(isUnixVariable('i.love.variables')).toBe(true);
     });
 
-    it('should not validate if is variable name with -', () => {
-      expect(isUnixVariable('i-love-variables')).toBe(false);
+    it('should validate if is variable name with -', () => {
+      expect(isUnixVariable('i-love-variables')).toBe(true);
     });
 
     it('should validate if is variable name seperated by _', () => {

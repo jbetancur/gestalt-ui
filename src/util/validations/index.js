@@ -9,7 +9,7 @@ export const containerServicePortNamePattern = /^[a-z0-9]([a-z0-9-]*[a-z0-9])*$/
 export const commaDelimitedPattern = /^((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9]))?(,((([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])))*$/;
 export const commaDelimitedConstraintsPattern = /^(([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)(,[ ]*([a-zA-Z0-9-_]+):(LIKE|UNLIKE|UNIQUE|CLUSTER|GROUP_BY|MAX_PER)(:[a-zA-Z0-9-_]+)?)*$/;
 export const kubernetesVolumeNamePattern = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-export const unixVariablePattern = /^[a-zA-Z_]+[a-zA-Z0-9_]*$/;
+export const unixVariablePattern = /^[a-zA-Z_]+[a-zA-Z0-9_.-]*$/;
 export const secretKeyValidationPattern = /^[-._a-zA-Z0-9]+$/;
 export const secretNameValidationPattern = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
 // eslint-disable-next-line no-useless-escape
