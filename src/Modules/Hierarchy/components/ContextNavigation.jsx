@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { FontIcon } from 'react-md';
 import { Button } from 'components/Buttons';
@@ -17,16 +16,11 @@ import { AppConsumer } from '../../../App/AppContext';
 
 const NavHeader = styled.nav`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   background-color: white;
   border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
   min-height: 56px;
   padding: 8px 16px 8px 16px;
-  text-align: left;
   z-index: 4;
   ${() => media.xs`
     padding-top: 20px;
@@ -75,12 +69,6 @@ const CollapseButton = styled.button`
   }
 `;
 
-const Section = styled.div`
-  display: flex;
-  align-items: center;
-  height: 24px;
-`;
-
 const ExpansionPanel = styled.div`
   width: 100%;
   max-height: ${props => (props.isExpanded ? props.expandedHeight : 0)};
@@ -88,10 +76,25 @@ const ExpansionPanel = styled.div`
   transition: max-height 400ms ${props => (props.isExpanded ? 'ease-in-out' : 'cubic-bezier(0, 1, 0, 1)')};
 `;
 
-const ActionsPanel = styled.div`
+const Items = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+`;
+
+const BreadCrumbSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ActionsSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  flex: 1;
   overflow: visible;
   ${() => media.xs`
     justify-content: center;
@@ -190,22 +193,18 @@ class ContextNavigation extends PureComponent {
         <AppConsumer>
           {({ onLogout, onToggleMainNavigation, onToggleFavorites, enableExperimental }) => (
             <React.Fragment>
-              <Row alignItems="center">
-                <Col xs={12} sm={12} md={6} lg={6}>
-                  <Section>
-                    <Breadcrumbs />
-                  </Section>
-                </Col>
+              <Items>
+                <BreadCrumbSection>
+                  <Breadcrumbs />
+                </BreadCrumbSection>
 
-                <Col xs={12} sm={12} md={12} lg={6}>
-                  <ActionsPanel>
-                    <CreateMenu enableExperimental={enableExperimental} {...this.props} />
-                    <Button icon onClick={onToggleFavorites}>star</Button>
-                    <UserMenu onLogout={onLogout} />
-                    <AppToolbarInfoMenu />
-                  </ActionsPanel>
-                </Col>
-              </Row>
+                <ActionsSection>
+                  <CreateMenu enableExperimental={enableExperimental} {...this.props} />
+                  <Button icon onClick={onToggleFavorites}>star</Button>
+                  <UserMenu onLogout={onLogout} />
+                  <AppToolbarInfoMenu />
+                </ActionsSection>
+              </Items>
 
               <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
                 {this.renderDetailsComponent()}

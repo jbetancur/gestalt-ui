@@ -8,8 +8,8 @@ import {
   AccessibleFakeButton,
   AccessibleFakeInkedButton,
   IconSeparator,
-  TextField,
 } from 'react-md';
+import TextField from 'components/Fields/TextField';
 import styled from 'styled-components';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Divider from 'components/Divider';
 import { DotActivity } from 'components/ProgressIndicators';
 import { media } from 'util/helpers/media';
@@ -148,8 +149,8 @@ class BreadCrumbLayoverDropDown extends PureComponent {
     }
   }
 
-  onFilterChange = (value) => {
-    const filterText = value || '';
+  onFilterChange = ({ target }) => {
+    const filterText = target.value || '';
 
     this.setState({
       filterText,
@@ -224,8 +225,8 @@ class BreadCrumbLayoverDropDown extends PureComponent {
             open={open}
             anchorEl={anchorEl}
             style={{ zIndex: 100 }}
-            disablePortal
             placement="bottom-start"
+            disablePortal // important or will close when clicking
           >
             <Paper>
               <SearchWrapper key={`${title}--search`}>
@@ -233,11 +234,23 @@ class BreadCrumbLayoverDropDown extends PureComponent {
                 <TextField
                   id={`filter-${id}-dropdown`}
                   label="Filter"
-                  fullWidth={true}
+                  placeholder="Filter"
+                  fullWidth
                   onChange={this.onFilterChange}
                   value={filterText}
-                  inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
                   autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FontIcon>search</FontIcon>
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <InlineButton onClick={this.clearSearch} icon>close</InlineButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </SearchWrapper>
 
