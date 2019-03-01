@@ -50,8 +50,8 @@ test:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
-    - yarn build
-    - yarn generate-disclaimer
+    - yarn --network-timeout 1000000 build
+    - yarn --network-timeout 1000000 generate-disclaimer
     - mv LICENSES.txt build
     - |
       echo "Modify dockerfile include copy in license:"
@@ -115,7 +115,7 @@ test:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
-    - yarn  --network-timeout 1000000 build
+    - yarn --network-timeout 1000000 build
     - yarn --network-timeout 1000000 generate-disclaimer
     - mv LICENSES.txt build
     - |
@@ -184,8 +184,8 @@ publish-docker-image:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
-    - yarn build
-    - yarn generate-disclaimer
+    - yarn --network-timeout 1000000 build
+    - yarn --network-timeout 1000000 generate-disclaimer
     - mv LICENSES.txt build
     - |
       echo "Modify dockerfile include copy in license:"
@@ -206,6 +206,7 @@ publish-docker-image:
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
   only:
     - tags
+    - razzy-tmp
 
 # manual-deploy-to-test:
 #   <<: *deploy_to_test
@@ -246,8 +247,8 @@ review:
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn config set cache-folder .yarn
     - yarn --frozen-lockfile --network-timeout 1000000 install
-    - yarn build
-    - yarn generate-disclaimer
+    - yarn --network-timeout 1000000 build
+    - yarn --network-timeout 1000000 generate-disclaimer
     - mv LICENSES.txt build
     - |
       echo "Modify dockerfile include copy in license:"
@@ -267,8 +268,8 @@ review:
       fi
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
     #
-    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $REVIEW_APP_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
+    # - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
+    # - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $REVIEW_APP_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
   dependencies:
     - test
   environment:
