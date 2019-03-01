@@ -60,8 +60,8 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
-  withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false }),
+  withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false, params: { expand: true } }),
+  withPickerData({ entity: 'containers', label: 'Containers', fetchOnMount: false, params: { expand: true } }),
   withAPIEndpoint(),
   connect(mapStateToProps),
 )(APIEndpointCreate);
