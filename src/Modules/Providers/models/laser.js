@@ -120,7 +120,7 @@ const schema = object().shape({
     services: array().default([
       {
         init: { binding: 'eager', singleton: true },
-        container_spec: containerModel.schema.cast(),
+        container_spec: containerModel.initForm(),
       },
     ]),
   }),
@@ -187,7 +187,7 @@ const patch = (model = {}, updatedModel = {}) => {
  * Format the model specifically for Initializing Forms
  * @param {Object} model
  */
-const initForm = (model = {}) => {
+const initForm = (model = {}, useContainer) => {
   const pickList = [
     'name',
     'description',
@@ -200,7 +200,7 @@ const initForm = (model = {}) => {
     'properties.environment_types',
   ];
 
-  if (hasContainer(model)) {
+  if (hasContainer(model) || useContainer) {
     pickList.push('properties.services');
   }
 

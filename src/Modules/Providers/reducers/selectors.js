@@ -10,10 +10,10 @@ export const selectHasContainer = state => state.providers.provider.hasContainer
 export const selectSelectedProviderType = state => state.providers.provider.selectedProviderType;
 
 export const getCreateProviderModel = createSelector(
-  [selectSelectedProviderType],
-  (providerType) => {
+  [selectSelectedProviderType, selectHasContainer],
+  (providerType, hasContainer) => {
     if (providerType.model) {
-      return providerType.model.initForm();
+      return providerType.model.initForm({}, hasContainer);
     }
 
     return providerModel.initForm();
