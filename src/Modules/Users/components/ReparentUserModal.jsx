@@ -4,7 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import { Checkbox, SelectionControlGroup } from 'react-md';
+import { SelectionControlGroup } from 'react-md';
+import Checkbox from 'components/Fields/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Dialog from '@material-ui/core/Dialog';
@@ -171,7 +172,7 @@ class ReparentModal extends PureComponent {
               label="Force Delete"
               inline
               onChange={this.handleForceChecked}
-              style={{ width: '100%' }}
+              fullWidth
             />}
           <Button raised important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>
           <Button flat primary onClick={this.close}>Cancel</Button>

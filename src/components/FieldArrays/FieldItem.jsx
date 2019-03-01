@@ -15,6 +15,11 @@ const FieldItem = styled.div`
     padding-top: 32px;
   `};
 
+  /* &:not(:first-child) {
+    border-top: 1px solid ${props => props.theme.colors.divider};
+    padding-top: 3px;
+  } */
+
   /* &:nth-child(even) {
     background-color: ${props => props.theme.colors['$md-grey-100']};
   }

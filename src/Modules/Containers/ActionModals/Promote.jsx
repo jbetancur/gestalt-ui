@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexybox';
-import { SelectField } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -30,8 +30,8 @@ class PromoteModal extends PureComponent {
     modal.hideModal();
   }
 
-  environmentChanged = (selectedEnvironment) => {
-    this.setState({ selectedEnvironment });
+  environmentChanged = ({ target }) => {
+    this.setState({ selectedEnvironment: target.value });
   }
 
   render() {
@@ -57,21 +57,18 @@ class PromoteModal extends PureComponent {
         <DialogTitle id="ccontainer-promote-title">{title}</DialogTitle>
         <DialogContent>
           {environmentsList.length > 0 ?
-            <Row center>
+            <Row gutter={5} center>
               <Col flex={12}>
                 <SelectField
                   id="container-promoteto"
                   label="Promote to Environment"
-                  lineDirection="center"
                   menuItems={environmentsList}
-                  simplifiedMenu={false}
                   itemLabel="name"
                   itemValue="id"
                   value={selectedEnvironment}
                   onChange={this.environmentChanged}
                   required
                   fullWidth
-                  sameWidth
                 />
               </Col>
             </Row> : <span>There are no available environments to promote to</span>}

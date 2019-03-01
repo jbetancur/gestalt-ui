@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Field, FormSpy } from 'react-final-form';
 import { AceEditor } from 'components/ReduxFormFields';
-import { SelectField } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
 import { Button } from 'components/Buttons';
 import FullScreen from 'components/FullScreen';
 import withLambdaState from '../hocs/withLambdaState';
@@ -20,7 +20,8 @@ const HeaderControls = styled.div`
 `;
 
 const Options = styled.div`
-  flex: 1 1 auto;
+  display: flex;
+  flex: 1;
 
   > :first-child {
     margin-right: 10px;
@@ -79,14 +80,14 @@ class LambdaSourceSection extends PureComponent {
     this.setState(prevState => ({ fullscreen: !prevState.fullscreen }));
   }
 
-  handleTheme = (theme) => {
-    localStorage.setItem('gf-editor-theme', theme);
-    this.setState({ theme });
+  handleTheme = ({ target }) => {
+    localStorage.setItem('gf-editor-theme', target.value);
+    this.setState({ theme: target.value });
   }
 
-  handleKeyBinding = (keyBinding) => {
-    localStorage.setItem('gf-editor-keybinding', keyBinding);
-    this.setState({ keyBinding });
+  handleKeyBinding = ({ target }) => {
+    localStorage.setItem('gf-editor-keybinding', target.value);
+    this.setState({ keyBinding: target.value });
   }
 
   renderCodeSection() {

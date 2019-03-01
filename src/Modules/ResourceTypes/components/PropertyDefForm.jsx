@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { getIn } from 'final-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required, hasSpaces } from 'util/forms';
 import dataTypes from '../lists/dataTypes';
@@ -38,7 +38,6 @@ const PropertyDefForm = ({ name, resourceTypes, addLabel, formValues }) => (
                     name={`${member}.data_type`}
                     component={SelectField}
                     menuItems={dataTypes}
-                    simplifiedMenu={false}
                     itemLabel="name"
                     itemValue="name"
                     label="Data Type"

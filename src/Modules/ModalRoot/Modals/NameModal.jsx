@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, SelectField } from 'react-md';
+import TextField from 'components/Fields/TextField';
+import SelectField from 'components/Fields/SelectField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -57,13 +58,13 @@ class NameModal extends PureComponent {
     modal.hideModal();
   }
 
-  handleNameChange = (name) => {
+  handleNameChange = ({ target }) => {
     const { nameFormatter } = this.props;
 
     if (nameFormatter && typeof nameFormatter === 'function') {
-      this.setState({ name: nameFormatter(name) });
+      this.setState({ name: nameFormatter(target.value) });
     } else {
-      this.setState({ name });
+      this.setState({ name: target.value });
     }
   }
 
@@ -98,22 +99,19 @@ class NameModal extends PureComponent {
             onChange={this.handleNameChange}
             value={name}
             required
-            lineDirection="center"
+            fullWidth
           />
           {showTargets && (
             <SelectField
               id="name-modal-targets"
               label={targetDropdownLabel}
-              lineDirection="center"
               menuItems={targetDropdownValues}
-              simplifiedMenu={false}
               itemLabel="name"
               itemValue="id"
               value={selectedTargetValue}
               onChange={this.handleTargetChange}
               required
               fullWidth
-              sameWidth
             />
           )}
         </DialogContent>

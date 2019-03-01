@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AceEditor from 'react-ace';
-import { SelectField } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { FileDownloadButton, ClipboardButton } from 'components/Buttons';
@@ -80,15 +80,15 @@ class CodeBlock extends PureComponent {
     return 'must be yaml or json';
   }
 
-  handleCodeChange = (mode) => {
-    this.setState({ currentMode: mode });
+  handleCodeChange = ({ target }) => {
+    this.setState({ currentMode: target.value });
   }
 
-  handleRawModeToggle = (event) => {
+  handleRawModeToggle = ({ target }) => {
     const { onToggleRaw } = this.props;
 
-    this.setState({ rawMode: event.target.checked });
-    onToggleRaw(event.target.checked);
+    this.setState({ rawMode: target.checked });
+    onToggleRaw(target.checked);
   }
 
   generateActions() {

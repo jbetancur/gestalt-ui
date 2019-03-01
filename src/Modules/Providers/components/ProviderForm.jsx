@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import { isEqual } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { ContainerForm } from 'Modules/Containers';
 import { UnixVariablesForm } from 'Modules/Variables';
@@ -73,43 +73,34 @@ class ProviderForm extends PureComponent {
     return (
       <React.Fragment>
         <Row gutter={5}>
-          {!editMode &&
-            <Col flex={7} xs={12} sm={12} md={12}>
-              <Panel title="Name" expandable={false} fill>
-                <Row gutter={5}>
-                  <Col flex={12}>
-                    <Field
-                      component={TextField}
-                      name="name"
-                      label="Provider Name"
-                      type="text"
-                      required
-                      parse={formatName}
-                      helpText="alphanumeric and dashes are allowed"
-                    />
-                  </Col>
-                </Row>
-              </Panel>
-            </Col>}
-
-          <Col flex>
-            <Panel title="Description" expandable={false} fill>
+          <Col flex={12}>
+            <Panel expandable={false} fill>
               <Row gutter={5}>
+                <Col flex={6}>
+                  <Field
+                    component={TextField}
+                    name="name"
+                    label="Provider Name"
+                    type="text"
+                    required
+                    parse={formatName}
+                    disabled={editMode}
+                  />
+                </Col>
                 <Col flex>
                   <Field
                     id="provider-description"
                     component={TextField}
                     name="description"
-                    placeholder="Description"
-                    rows={1}
-                    maxRows={6}
+                    label="Description"
+                    multiline
+                    rowsMax={6}
                   />
                 </Col>
               </Row>
             </Panel>
           </Col>
         </Row>
-
 
         <Row gutter={5}>
           {selectedProviderType.DCOSConfig &&

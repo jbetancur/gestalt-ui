@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
+import { SelectField, TextField, Checkbox } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { fixInputNumber, composeValidators, required, min, max } from 'util/forms';
 import healthCheckProtocols from '../lists/healthCheckProtocols';
@@ -111,7 +111,7 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     />
                   </Col>}
                 {field.port_type === 'number' && selectedHCProtocol && selectedHCProtocol.supportsPortType &&
-                  <Col flex={1} xs={6} sm={6}>
+                  <Col flex={2} xs={6} sm={6}>
                     <Field
                       id={`${member}.port`}
                       name={`${member}.port`}
@@ -126,7 +126,7 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     />
                   </Col>}
                 {field.port_type === 'index' && selectedHCProtocol && selectedHCProtocol.supportsPortType &&
-                  <Col flex={1} xs={6} sm={6}>
+                  <Col flex={2} xs={6} sm={6}>
                     <Field
                       id={`${member}.port_index`}
                       name={`${member}.port_index`}
@@ -171,7 +171,7 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     id={`${member}.ignore_http_1xx`}
                     name={`${member}.ignore_http_1xx`}
                     component={Checkbox}
-                    checked={field.ignore_http_1xx}
+                    type="checkbox"
                     label="Ignore HTTP 100-199"
                   />
                 </Col>}

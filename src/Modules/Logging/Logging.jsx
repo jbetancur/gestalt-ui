@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
-import { SelectField } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
 import Log from 'components/Log';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Button, FileDownloadButton } from 'components/Buttons';
@@ -141,7 +141,7 @@ class Logging extends PureComponent {
     this.props.unloadLogProvider();
   }
 
-  setLogTimespan = value => this.setState({ logTimespan: value });
+  setLogTimespan = ({ target }) => this.setState({ logTimespan: target.value });
 
   showStdErr = stderr => this.setState({ stderr });
 
@@ -222,18 +222,9 @@ class Logging extends PureComponent {
               menuItems={timeSpans}
               itemLabel="name"
               itemValue="value"
-              defaultValue={logTimespan}
-              lineDirection="center"
+              value={logTimespan}
               onChange={this.setLogTimespan}
-              simplifiedMenu={false}
-              repositionOnScroll={false}
-              position={SelectField.Positions.BELOW}
-              anchor={{
-                x: SelectField.HorizontalAnchors.CENTER,
-                y: SelectField.VerticalAnchors.BOTTOM,
-              }}
               disabled={disableControls}
-              toolbar
             />
             <Button
               icon

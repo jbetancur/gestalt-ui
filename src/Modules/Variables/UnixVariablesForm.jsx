@@ -47,8 +47,8 @@ const UnixVariablesForm = memo(({ fieldName }) => (
                       label={(isInherited && overridden && overridden) || 'value'}
                       type={isPasswordField ? 'password' : 'text'}
                       component={TextField}
-                      multiline={!isPasswordField}
-                      rowsMax={isPasswordField ? undefined : 4}
+                      // multiline={!isPasswordField}
+                      // rowsMax={isPasswordField ? undefined : 4}
                       required={field.required}
                       validate={field.required ? composeValidators(required()) : null}
                       autoComplete={isPasswordField ? 'new-password' : null}

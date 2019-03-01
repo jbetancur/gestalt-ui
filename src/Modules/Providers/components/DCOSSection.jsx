@@ -3,7 +3,7 @@ import React from 'react';
 import { get } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { required } from 'util/forms';
 
 const DCOSSection = () => (
@@ -63,8 +63,8 @@ const DCOSSection = () => (
                     component={TextField}
                     name="properties.config.auth.private_key"
                     label="Private Key"
-                    rows={1}
-                    maxRows={4}
+                    multiline
+                    rowsMax={4}
                     validate={required()}
                     required
                   />

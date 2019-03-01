@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FieldArray } from 'react-final-form-arrays';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectField } from 'components/ReduxFormFields';
+import { SelectField } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required } from 'util/forms';
 

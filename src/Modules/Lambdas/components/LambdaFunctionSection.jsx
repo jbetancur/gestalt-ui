@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Field, FormSpy } from 'react-final-form';
+import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { Conditional } from 'components/Form';
-import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
+import { Conditional, TextField, SelectField, Checkbox } from 'components/Form';
 import { Caption } from 'components/Typography';
 
 const LambdaFunctionSection = memo(({ editMode, selectedRuntime }) => (
@@ -44,24 +43,22 @@ const LambdaFunctionSection = memo(({ editMode, selectedRuntime }) => (
             type="text"
             helpText="The url to the package directory or file"
             required
-            rows={1}
-            maxRows={4}
+            multiline
+            rowsMax={4}
           />
         </Col>
-        <FormSpy subscription={{ values: true }}>
-          {({ values }) => (
-            <Col flex={6} xs={12} sm={12}>
-              <Field
-                id="compressed-packageurl"
-                component={Checkbox}
-                name="properties.compressed"
-                label="Zipped Package"
-                checked={values.properties.compressed}
-              />
-              <Caption light>if the package URL contents are zipped</Caption>
-            </Col>
-          )}
-        </FormSpy>
+        <Col flex={6} xs={12} sm={12}>
+          <Field
+            id="compressed-packageurl"
+            component={Checkbox}
+            type="checkbox"
+            name="properties.compressed"
+            label="Zipped Package"
+          />
+          <div>
+            <Caption light>if the package URL contents are zipped</Caption>
+          </div>
+        </Col>
       </Row>
     </Conditional>
   </Row>

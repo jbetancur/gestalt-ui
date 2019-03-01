@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { get, orderBy } from 'lodash';
-import { TextField, SelectField } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { Panel } from 'components/Panels';
@@ -37,9 +37,9 @@ class LambdaForm extends PureComponent {
     onSaveInlineCode: null,
   };
 
-  handleRuntimeProps = (id) => {
+  handleRuntimeProps = (e) => {
     const { editMode, executors, form, lambdaStateActions } = this.props;
-    const selectedExecutor = executors.find(e => e.id === id);
+    const selectedExecutor = executors.find(exec => exec.id === e.target.value);
     const selectedRuntime = {
       codeOptions: [{ displayName: 'Package', value: 'package' }],
       ...runTimes.find(runtime => runtime.value === get(selectedExecutor, 'properties.config.env.public.RUNTIME')),
@@ -65,7 +65,7 @@ class LambdaForm extends PureComponent {
         lambdaStateActions.setRunTime(selectedRuntime);
       }
 
-      form.change('properties.runtime', id);
+      form.change('properties.runtime', e.target.value);
     });
   }
 
@@ -76,8 +76,7 @@ class LambdaForm extends PureComponent {
       key: item.id,
       id: item.id,
       name: item.name,
-      primaryText: item.name,
-      secondaryText: item.description || ' ',
+      // secondaryLabel: item.description || ' ',
       leftIcon: iconMap(get(item, 'properties.config.env.public.RUNTIME')),
     }));
   }
@@ -112,7 +111,6 @@ class LambdaForm extends PureComponent {
                     itemLabel="name"
                     itemValue="id"
                     menuItems={providers}
-                    simplifiedMenu={false}
                     async
                   />
                 </Col>
@@ -123,7 +121,6 @@ class LambdaForm extends PureComponent {
                     component={SelectField}
                     name="properties.runtime"
                     menuItems={this.generateMenuItems()}
-                    simplifiedMenu={false}
                     required
                     label="Runtime"
                     itemLabel="name"
@@ -144,10 +141,10 @@ class LambdaForm extends PureComponent {
     return (
       <React.Fragment>
         <Row gutter={5}>
-          <Col flex={7} xs={12} sm={12} md={12}>
-            <Panel title="Name" expandable={false} fill>
+          <Col flex={12}>
+            <Panel expandable={false} fill>
               <Row gutter={5}>
-                <Col flex={12}>
+                <Col flex={6} xs={12}>
                   <Field
                     component={TextField}
                     name="name"
@@ -158,21 +155,14 @@ class LambdaForm extends PureComponent {
                     autoFocus={!editMode}
                   />
                 </Col>
-              </Row>
-            </Panel>
-          </Col>
-
-          <Col flex={5} xs={12} sm={12} md={12}>
-            <Panel title="Description" expandable={false} fill>
-              <Row gutter={5}>
-                <Col flex={12}>
+                <Col flex={6} xs={12}>
                   <Field
                     id="description"
                     component={TextField}
                     name="description"
-                    placeholder="Description"
-                    rows={1}
-                    maxRows={6}
+                    label="Description"
+                    multiline
+                    rowsMax={4}
                   />
                 </Col>
               </Row>
@@ -181,7 +171,7 @@ class LambdaForm extends PureComponent {
         </Row>
 
         <Row gutter={5}>
-          <Col flex={7} xs={12} sm={12} md={12}>
+          <Col flex={6} xs={12} sm={12} md={12}>
             <Panel
               title={functionSectionTitle}
               expandable={false}
@@ -194,7 +184,7 @@ class LambdaForm extends PureComponent {
             </Panel>
           </Col>
 
-          <Col flex={5} xs={12} sm={12} md={12}>
+          <Col flex={6} xs={12} sm={12} md={12}>
             <Panel title="Function Options" fill expandable={false}>
               <LambdaAdvancedSection
                 selectedProvider={selectedProvider}
@@ -248,7 +238,7 @@ class LambdaForm extends PureComponent {
           <Col flex={12}>
             <Panel
               title="Periodic Configuration"
-              defaultExpanded={editMode && values.properties.periodic_info.schedule}
+              defaultExpanded={!!(editMode && values.properties.periodic_info.schedule)}
               error={!!safeErrors.properties.periodic_info}
               fill
             >

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
 import { USEnglishLangIcon, UserIcon } from 'components/Icons';
@@ -21,8 +20,6 @@ const AvatarStyled = styled(Avatar)`
 `;
 
 const UserMenu = ({ self, onLogout }) => {
-  const { t } = useTranslation();
-
   const menuItems = [
     <ListItem
       id="main--user--menu--profile"
@@ -35,7 +32,7 @@ const UserMenu = ({ self, onLogout }) => {
     <ListItem
       id="main--user--menu--locale"
       key="main--user--menu--locale"
-      primaryText={t('general.nouns.language')}
+      primaryText="English"
       leftIcon={<FontIcon>language</FontIcon>}
       nestedItems={[
         <ListItem
@@ -50,7 +47,7 @@ const UserMenu = ({ self, onLogout }) => {
     <ListItem
       id="main--user--menu--logout"
       key="main--user--menu--logout"
-      primaryText={t('auth.logout')}
+      primaryText="Logout"
       leftIcon={<FontIcon>power_settings_new</FontIcon>}
       onClick={onLogout}
     />,

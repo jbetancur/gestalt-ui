@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FontIcon } from 'react-md';
 import { Row, Col } from 'react-flexybox';
-import { TextField, SelectField } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { composeValidators, required, min, max } from 'util/forms';
 

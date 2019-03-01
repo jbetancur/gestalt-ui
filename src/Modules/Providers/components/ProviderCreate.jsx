@@ -8,7 +8,8 @@ import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
-import { Checkbox, SelectField } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
+import Checkbox from 'components/Fields/Checkbox';
 import { Panel } from 'components/Panels';
 import { Button } from 'components/Buttons';
 import { Caption } from 'components/Typography';
@@ -22,7 +23,6 @@ import withProvider from '../hocs/withProvider';
 import providerModel from '../models/provider';
 
 const focusOnErrors = createDecorator();
-const stripProviderTypeKeys = ['supportsURL', 'supportsCMD', 'supportsPortType', 'allowLinkedProviders', 'allowEnvVariables', 'DCOSConfig', 'dataConfig', 'inputType', 'allowStorageClasses', 'subTypes', 'showContainerOption', 'networksConfig', 'ecsConfig', 'showGPUOption'];
 
 class ProviderCreate extends PureComponent {
   static propTypes = {
@@ -131,15 +131,15 @@ class ProviderCreate extends PureComponent {
     }
   };
 
-  handleProviderChange = (value) => {
+  handleProviderChange = ({ target }) => {
     const { resourceTypes, setSelectedProviderType } = this.props;
-    const providerType = resourceTypes.find(type => type.name === value);
+    const providerType = resourceTypes.find(type => type.name === target.value);
 
     if (providerType.id) {
       setSelectedProviderType({ fqon: 'root', providerType });
       this.setState({
         providerSelected: true,
-        providerResourceTypeValue: value,
+        providerResourceTypeValue: target.value,
         showContainerOption: providerType.showContainerOption,
         containerOptionSelected: !providerType.showContainerOption,
         containerChecked: providerType.showContainerOption,
@@ -212,9 +212,7 @@ class ProviderCreate extends PureComponent {
                               onChange={this.handleProviderChange}
                               value={providerResourceTypeValue}
                               required
-                              deleteKeys={stripProviderTypeKeys}
                               fullWidth
-                              sameWidth
                             />
                           </Col>
 

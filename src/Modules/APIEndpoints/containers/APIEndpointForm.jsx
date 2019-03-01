@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { Autocomplete } from 'react-md';
-import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
+import Form, { Checkbox, SelectField, TextField } from 'components/Form';
 import { Caption } from 'components/Typography';
-import Form from 'components/Form';
 import { Chips } from 'components/Lists';
 import { Panel } from 'components/Panels';
 import RateLimit from '../components/RateLimit';
@@ -43,9 +42,9 @@ const APIEndpointForm = ({
     form.change('properties.implementation_id', value);
   };
 
-  const resetForm = (value) => {
+  const resetForm = ({ target }) => {
     form.change('properties.implementation_id', '');
-    form.change('properties.implementation_type', value);
+    form.change('properties.implementation_type', target.value);
   };
 
   const disabledSubmit = pristine || apiEndpointPending || lambdasDataPending || containersDataPending || submitting;
@@ -175,10 +174,9 @@ const APIEndpointForm = ({
                 <Field
                   id="show-api-endpoints-security"
                   component={Checkbox}
+                  type="checkbox"
                   name="properties.plugins.gestaltSecurity.enabled"
-                  defaultChecked={values.properties.plugins.gestaltSecurity && values.properties.plugins.gestaltSecurity.enabled}
                   label="Require Authentication"
-                  hasMargin={false}
                 />
               </Col>
 
@@ -188,10 +186,9 @@ const APIEndpointForm = ({
                     <Field
                       id="synchronous"
                       component={Checkbox}
+                      type="checkbox"
                       name="properties.synchronous"
-                      defaultChecked={values.properties.synchronous}
                       label="Synchronous"
-                      hasMargin={false}
                     />
                   </Col>
 
@@ -199,10 +196,9 @@ const APIEndpointForm = ({
                     <Field
                       id="is_http_aware"
                       component={Checkbox}
+                      type="checkbox"
                       name="properties.is_http_aware"
-                      defaultChecked={values.properties.is_http_aware}
                       label="Lambda managed HTTP response"
-                      hasMargin={false}
                     />
                   </Col>
                 </React.Fragment>}

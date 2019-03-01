@@ -5,7 +5,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
 import { FileInput } from 'react-md';
 import { isSecretKeyValidation, secretKeyValidationPattern } from 'util/validations';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { composeValidators, required } from 'util/forms';
 
@@ -49,8 +49,8 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) =
                   validate={composeValidators(validatePattern, required())}
                   autoComplete="off"
                   disabled={disabled}
-                  rows={1}
-                  maxRows={4}
+                  multiline
+                  rowsMax={4}
                 />
               </Col>
               {!disabled &&
@@ -61,10 +61,10 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) =
                     type="text"
                     component={TextField}
                     autoComplete="off"
-                    rows={1}
-                    maxRows={4}
+                    multiline
+                    rowsMax={4}
                     validate={composeValidators(required())}
-                    helpText={`file uploads will be base64 encoded. max size allowed ${maxSizeKB}KB`}
+                    placeholder={`file uploads will be base64 encoded. max size allowed ${maxSizeKB}KB`}
                   />
                 </Col>}
 

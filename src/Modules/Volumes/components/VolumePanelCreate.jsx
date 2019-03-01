@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { formatName, composeValidators, required } from 'util/forms';
 import VolumeConfigSection from './VolumeConfigSection';
 import volumeModel from '../models/volume';

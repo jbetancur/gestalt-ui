@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Field } from 'react-final-form';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 
 const APIForm = ({
@@ -11,7 +11,7 @@ const APIForm = ({
 }) => (
   <Row gutter={5}>
     <Col flex={12}>
-      <Panel title="General" expandable={false}>
+      <Panel expandable={false}>
         <Row gutter={5}>
           <Col flex={6} xs={12}>
             <Field
@@ -44,7 +44,7 @@ const APIForm = ({
               component={TextField}
               name="description"
               label="Description"
-              rows={1}
+              multiline
             />
           </Col>
         </Row>

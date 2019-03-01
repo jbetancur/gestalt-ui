@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
 import { Panel } from 'components/Panels';
 import { Chips } from 'components/Lists';
-import { ProviderSelect } from 'components/Form';
+import { ProviderSelect, TextField, SelectField, Checkbox } from 'components/Form';
 import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
 import { SecretsPanelForm } from 'Modules/Secrets';
 import { VolumePanel } from 'Modules/Volumes';
@@ -101,23 +100,33 @@ class ContainerForm extends PureComponent {
     return (
       <React.Fragment>
         <Row gutter={5}>
-          <Col flex={7} xs={12} sm={12} md={12}>
-            <Panel title="Name" expandable={false} fill>
+          <Col flex={12} xs={12} sm={12} md={12}>
+            <Panel expandable={false} fill>
               <Row gutter={5}>
-                {!editMode &&
-                  <Col flex={6} xs={12}>
-                    <Field
-                      id="container-name"
-                      component={TextField}
-                      name={`${formName}.name`}
-                      label="Container Name"
-                      type="text"
-                      required
-                      parse={formatName}
-                      helpText="the name of the container"
-                      autoFocus={!editMode}
-                    />
-                  </Col>}
+                <Col flex={6} xs={12}>
+                  <Field
+                    id="container-name"
+                    component={TextField}
+                    name={`${formName}.name`}
+                    label="Container Name"
+                    type="text"
+                    required
+                    parse={formatName}
+                    disabled={editMode}
+                    autoFocus={!editMode}
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    id="description"
+                    component={TextField}
+                    name={`${formName}.description`}
+                    label="Description"
+                    type="text"
+                    multiline
+                    rowsMax={12}
+                  />
+                </Col>
                 <Col flex={2} xs={12}>
                   <Field
                     component={TextField}
@@ -129,7 +138,6 @@ class ContainerForm extends PureComponent {
                     type="number"
                     parse={fixInputNumber}
                     format={fixInputNumber}
-                    helpText="0 = suspended"
                   />
                 </Col>
                 <Col flex={2} xs={12}>
@@ -159,30 +167,8 @@ class ContainerForm extends PureComponent {
                     format={fixInputNumber}
                   />
                 </Col>
-                <Col flex={10}>
-                  <Field
-                    component={TextField}
-                    name={`${formName}.properties.image`}
-                    label="Image"
-                    type="text"
-                    required
-                    helpText="[registry-url]/[namespace]/[image]:[tag]"
-                  // rows={1}
-                  // maxRows={4}
-                  />
-                </Col>
 
-                <Col flex={2} xs={12}>
-                  <Field
-                    id="force_pull"
-                    component={Checkbox}
-                    name={`${formName}.properties.force_pull`}
-                    checked={formValues.properties.force_pull}
-                    label="Force Pull"
-                  />
-                </Col>
-
-                <Col flex={12}>
+                <Col flex={6} xs={12}>
                   <Field
                     id="select-network"
                     component={SelectField}
@@ -195,11 +181,42 @@ class ContainerForm extends PureComponent {
                     required
                   />
                 </Col>
+
+                <Col flex={10} xs={12}>
+                  <Field
+                    component={TextField}
+                    name={`${formName}.properties.image`}
+                    label="Image"
+                    type="text"
+                    required
+                    placeholder="[registry-url]/[namespace]/[image]:[tag]"
+                  />
+                </Col>
+
+                <Col flex={2} xs={12}>
+                  <Field
+                    id="force_pull"
+                    type="checkbox"
+                    component={Checkbox}
+                    name={`${formName}.properties.force_pull`}
+                    label="Force Pull Image"
+                  />
+                </Col>
+
+                <Col flex={12}>
+                  <Field
+                    name={`${formName}.properties.cmd`}
+                    component={TextField}
+                    label="Command"
+                    type="text"
+                    placeholder="e.g. /usr/bin/myscript.sh arg1 arg2..."
+                  />
+                </Col>
               </Row>
             </Panel>
           </Col>
 
-          <Col flex={5} xs={12} sm={12} md={12}>
+          {/* <Col flex={5} xs={12} sm={12} md={12}>
             <Panel title="Description" expandable={false} fill>
               <Row gutter={5}>
                 <Col flex={12}>
@@ -207,15 +224,16 @@ class ContainerForm extends PureComponent {
                     id="description"
                     component={TextField}
                     name={`${formName}.description`}
-                    placeholder="Description"
+                    label="Description"
                     type="text"
-                    rows={1}
-                    maxRows={12}
+                    multiline
+                    rowsMax={12}
+                    variant="outlined"
                   />
                 </Col>
               </Row>
             </Panel>
-          </Col>
+          </Col> */}
 
           <Col flex={12}>
             <Panel
@@ -308,18 +326,6 @@ class ContainerForm extends PureComponent {
                 />
               </Panel>
             </Col>}
-
-          <Col flex={12}>
-            <Panel title="Command" defaultExpanded={editMode && !!formValues.properties.cmd}>
-              <Field
-                name={`${formName}.properties.cmd`}
-                component={TextField}
-                label="Command"
-                type="text"
-                helpText="e.g. /usr/bin/myscript.sh arg1 arg2..."
-              />
-            </Panel>
-          </Col>
 
           {selectedProvider.supportsOther &&
           <Col flex={12}>

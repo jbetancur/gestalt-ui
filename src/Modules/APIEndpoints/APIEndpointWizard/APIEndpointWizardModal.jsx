@@ -112,7 +112,6 @@ class APIEndpointWizard extends PureComponent {
                 implementationType={implementationType}
                 portMappings={portMappings}
                 pending={apiEndpointPending}
-                initialValues={initialValues}
               />
             </Stepper.Page>
           </Stepper>

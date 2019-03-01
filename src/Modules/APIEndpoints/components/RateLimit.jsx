@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
-import { Checkbox, TextField } from 'components/ReduxFormFields';
-import { Conditional } from 'components/Form';
+import { Conditional, Checkbox, TextField } from 'components/Form';
 
 export default class RateLimit extends PureComponent {
   static propTypes = {
@@ -23,10 +22,10 @@ export default class RateLimit extends PureComponent {
           <Field
             id="show-rate-limits"
             label="Per Minute Rate Limit"
+            type="checkbox"
             component={Checkbox}
             name="properties.plugins.rateLimit.enabled"
-            defaultChecked={this.props.isToggled}
-            hasMargin={false}
+            checked={this.props.isToggled}
           />
         </Col>
         <Conditional when="properties.plugins.rateLimit.enabled" is={true}>
@@ -37,11 +36,10 @@ export default class RateLimit extends PureComponent {
               min={1}
               max={65536}
               step={1}
-              placeholder="Per Minute"
+              label="Per Minute"
               type="number"
               required
               parse={value => Number(value)} // redux form formats everything as string, so force number
-              style={{ paddingLeft: '5px' }}
             />
           </Col>
         </Conditional>

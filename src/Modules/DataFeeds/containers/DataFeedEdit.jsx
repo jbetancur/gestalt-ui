@@ -31,7 +31,6 @@ class DataFeedEdit extends Component {
     datafeed: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     datafeedPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     secretsData: PropTypes.array.isRequired,

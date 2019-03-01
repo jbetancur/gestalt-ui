@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField, SelectField, Checkbox } from 'components/ReduxFormFields';
+import { TextField, SelectField, Checkbox } from 'components/Form';
 import Alert from 'components/Alert';
 import { fixInputNumber } from 'util/forms';
 import ComputeSection from './ComputeSection';
@@ -27,7 +27,6 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
               type="number"
               required
               toolTip="pre-warm lamdas will execute in your local environment"
-              leftIconStateful={false}
               format={fixInputNumber}
             />
           </Col>
@@ -40,7 +39,6 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
               label="Timeout"
               type="number"
               required
-              leftIconStateful={false}
               toolTip="the number of seconds before this lambda times out"
               format={fixInputNumber}
             />
@@ -61,8 +59,8 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
             <Field
               id="lambda--public"
               component={Checkbox}
+              type="checkbox"
               name="properties.public"
-              checked={values.properties.public}
               label="Make Public"
             />
           </Col> */}
@@ -70,9 +68,9 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
             <Col flex={6} xs={12} sm={12}>
               <Field
                 id="lambda--isolate"
+                type="checkbox"
                 component={Checkbox}
                 name="properties.isolate"
-                checked={values.properties.isolate}
                 label="Run in an isolated class loader"
               />
             </Col>}

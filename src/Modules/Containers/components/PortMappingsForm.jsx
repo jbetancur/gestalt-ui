@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
+import { SelectField, TextField, Checkbox } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { Chips } from 'components/Lists';
 import { fixInputNumber, composeValidators, required, min, max, maxLen, formatName } from 'util/forms';
@@ -17,10 +17,10 @@ const initialValues = {
 };
 
 class PortMappingsForm extends PureComponent {
-  handleLBPort = (field, index) => (value) => {
+  handleLBPort = (field, index) => (e) => {
     const { form, fieldName } = this.props;
     const item = { ...field };
-    const port = fixInputNumber(value);
+    const port = fixInputNumber(e.target.value);
 
     if (field.expose_endpoint) {
       item.lb_port = port;
@@ -50,7 +50,7 @@ class PortMappingsForm extends PureComponent {
                         id={`${member}.expose_endpoint`}
                         name={`${member}.expose_endpoint`}
                         component={Checkbox}
-                        checked={field.expose_endpoint}
+                        type="checkbox"
                         label="Expose Service"
                       />
                     </Col>
@@ -64,7 +64,6 @@ class PortMappingsForm extends PureComponent {
                           itemLabel="displayName"
                           itemValue="value"
                           menuItems={exposureTypes}
-                          sameWidth={false}
                           validate={composeValidators(required())}
                           required
                         />

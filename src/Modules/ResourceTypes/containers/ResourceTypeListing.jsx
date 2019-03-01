@@ -89,7 +89,7 @@ class ResourceTypeListing extends PureComponent {
         selector: 'properties.abstract',
         sortable: true,
         center: true,
-        cell: row => <Checkbox inkDisabled defaultChecked={row.properties.abstract} disabled />
+        cell: row => <Checkbox inkDisabled checked={row.properties.abstract} disabled />
       },
       {
         name: 'Created',

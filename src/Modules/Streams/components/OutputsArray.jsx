@@ -3,7 +3,7 @@ import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
-import { TextField, SelectField } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
 
 const OutputsArray = () => (
   <FieldArray name="outputs">

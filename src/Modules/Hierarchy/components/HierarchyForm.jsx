@@ -9,7 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { Button } from 'components/Buttons';
 import { Panel } from 'components/Panels';
@@ -41,13 +41,13 @@ class HierarchyForm extends Component {
       .toLowerCase();
   }
 
-  handleName = (name) => {
+  handleName = (e) => {
     const { form, editMode } = this.props;
 
-    form.change('description', name);
+    form.change('description', e.target.value);
 
     if (!editMode) {
-      form.change('name', this.transformName(name));
+      form.change('name', this.transformName(e.target.value));
     }
   }
 
@@ -107,7 +107,6 @@ class HierarchyForm extends Component {
                     menuItems={['development', 'test', 'production']}
                     required
                     label={t('containment.fields.environmentType.label')}
-                    simplifiedMenu={false}
                     helpText="a simple tag to indicate what this environment will be used for"
                   />
                 </Col>}

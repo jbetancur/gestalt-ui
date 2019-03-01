@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { TextField, Checkbox } from 'react-md';
+import TextField from 'components/Fields/TextField';
+import Checkbox from 'components/Fields/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Dialog from '@material-ui/core/Dialog';
@@ -46,8 +47,8 @@ class ConfirmModal extends PureComponent {
 
   state = { confirmName: '', disable: true, force: false, };
 
-  setConfirmName = (confirmName) => {
-    this.setState({ confirmName }, () => {
+  setConfirmName = ({ target }) => {
+    this.setState({ confirmName: target.value }, () => {
       if (this.state.confirmName === this.props.values.name) {
         this.setState({ disable: false });
       } else {
@@ -123,9 +124,10 @@ class ConfirmModal extends PureComponent {
             <DialogContentText>
               <TextField
                 id="confirmation-modal-verify"
-                placeholder={confirmLabel}
+                label={confirmLabel}
                 value={confirmName}
                 onChange={this.setConfirmName}
+                fullWidth
               />
             </DialogContentText>
           )}
@@ -148,10 +150,9 @@ class ConfirmModal extends PureComponent {
               id="confirmation-modal--force-delete"
               name="confirmation-modal--force-delete"
               label="Force Delete"
-              inline
               onChange={this.handleForceChecked}
-              value={force}
-              style={{ width: '100%' }}
+              checked={force}
+              fullWidth
             />}
           <Button raised primary onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>
           <Button flat primary onClick={this.close}>{cancelLabel}</Button>

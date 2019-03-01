@@ -144,21 +144,46 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     class="c3"
   >
     <div
-      class="md-text-field-container md-full-width md-text-field-container--input"
+      class="MuiFormControl-root-1 MuiFormControl-marginDense-3 MuiFormControl-fullWidth-4"
+      step="0.1"
     >
-      <input
-        class="md-text-field md-text-field--margin md-full-width md-text"
-        id="properties.cpus"
-        name="properties.cpus"
-        placeholder="CPU *"
-        required=""
-        step="0.1"
-        type="number"
-        value="1"
-      />
-      <hr
-        class="md-divider md-divider--text-field md-divider--expand-from-center"
-      />
+      <label
+        class="MuiFormLabel-root-16 MuiFormLabel-filled-20 MuiFormLabel-required-21 MuiInputLabel-required-9 MuiInputLabel-root-5 MuiInputLabel-formControl-10 MuiInputLabel-animated-13 MuiInputLabel-shrink-12 MuiInputLabel-marginDense-11 MuiInputLabel-outlined-15"
+        data-shrink="true"
+      >
+        CPU
+        <span
+          class="MuiFormLabel-asterisk-22"
+        >
+           *
+        </span>
+      </label>
+      <div
+        class="MuiInputBase-root-36 MuiOutlinedInput-root-23 MuiInputBase-fullWidth-45 MuiInputBase-formControl-37 MuiInputBase-marginDense-43"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-53 MuiOutlinedInput-notchedOutline-30"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-54"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-46 MuiOutlinedInput-input-31 MuiInputBase-inputType-49 MuiInputBase-inputMarginDense-47 MuiOutlinedInput-inputMarginDense-32"
+          name="properties.cpus"
+          required=""
+          type="number"
+          value="1"
+        />
+      </div>
     </div>
   </div>
   <div
@@ -274,21 +299,46 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     class="c3"
   >
     <div
-      class="md-text-field-container md-full-width md-text-field-container--input"
+      class="MuiFormControl-root-1 MuiFormControl-marginDense-3 MuiFormControl-fullWidth-4"
+      step="1"
     >
-      <input
-        class="md-text-field md-text-field--margin md-full-width md-text"
-        id="properties.memory"
-        name="properties.memory"
-        placeholder="Memory *"
-        required=""
-        step="1"
-        type="number"
-        value="256"
-      />
-      <hr
-        class="md-divider md-divider--text-field md-divider--expand-from-center"
-      />
+      <label
+        class="MuiFormLabel-root-16 MuiFormLabel-filled-20 MuiFormLabel-required-21 MuiInputLabel-required-9 MuiInputLabel-root-5 MuiInputLabel-formControl-10 MuiInputLabel-animated-13 MuiInputLabel-shrink-12 MuiInputLabel-marginDense-11 MuiInputLabel-outlined-15"
+        data-shrink="true"
+      >
+        Memory
+        <span
+          class="MuiFormLabel-asterisk-22"
+        >
+           *
+        </span>
+      </label>
+      <div
+        class="MuiInputBase-root-36 MuiOutlinedInput-root-23 MuiInputBase-fullWidth-45 MuiInputBase-formControl-37 MuiInputBase-marginDense-43"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-53 MuiOutlinedInput-notchedOutline-30"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-54"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-46 MuiOutlinedInput-input-31 MuiInputBase-inputType-49 MuiInputBase-inputMarginDense-47 MuiOutlinedInput-inputMarginDense-32"
+          name="properties.memory"
+          required=""
+          type="number"
+          value="256"
+        />
+      </div>
     </div>
   </div>
 </div>

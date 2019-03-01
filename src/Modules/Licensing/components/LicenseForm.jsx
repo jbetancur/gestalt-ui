@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import styled from 'styled-components';
-import { Checkbox } from 'react-md';
+import FormGroup from '@material-ui/core/FormGroup';
+import Checkbox from 'components/Fields/Checkbox';
 import { FormattedDate } from 'react-intl';
-import Form from 'components/Form';
 import { Button } from 'components/Buttons';
-import { TextField } from 'components/ReduxFormFields';
+import Form, { TextField } from 'components/Form';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
 import { composeValidators, required, validator } from 'util/forms';
@@ -77,7 +77,7 @@ const LicenseForm = ({
             name="properties.data"
             placeholder="License Key"
             type="text"
-            rows={4}
+            multiline
             required
             disabled={pending}
             validate={
@@ -95,16 +95,18 @@ const LicenseForm = ({
               {generateDetailItems()}
             </Col>
             <Col flex={6} xs={12}>
-              {Object.keys(licenseInfo.features).map(feature => (
-                <Checkbox
-                  id={feature}
-                  name={feature}
-                  key={feature}
-                  label={feature}
-                  defaultChecked={licenseInfo.features[feature]}
-                  disabled
-                />
-              ))}
+              <FormGroup>
+                {Object.keys(licenseInfo.features).map(feature => (
+                  <Checkbox
+                    id={feature}
+                    name={feature}
+                    key={feature}
+                    label={feature}
+                    checked={licenseInfo.features[feature]}
+                    disabled
+                  />
+                ))}
+              </FormGroup>
             </Col>
           </Row>
         </Col>}

@@ -3,9 +3,8 @@ import React, { Fragment, memo } from 'react';
 import { get } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { Conditional } from 'components/Form';
 import { Chips } from 'components/Lists';
-import { SelectField, Checkbox } from 'components/ReduxFormFields';
+import { Conditional, SelectField, Checkbox } from 'components/Form';
 
 const GPUSection = memo(() => (
   <FormSpy subscription={{ values: true }}>
@@ -16,8 +15,8 @@ const GPUSection = memo(() => (
             <Field
               id="gpu-enabled"
               component={Checkbox}
+              type="checkbox"
               name="properties.config.gpu_support.enabled"
-              defaultChecked={get(values, 'properties.config.gpu_support.enabled')}
               label="Enable GPU Support"
             />
           </Col>

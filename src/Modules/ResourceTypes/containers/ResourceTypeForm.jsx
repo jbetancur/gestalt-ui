@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { Panel } from 'components/Panels';
-import { Checkbox, SelectField, TextField } from 'components/ReduxFormFields';
+import { Checkbox, SelectField, TextField } from 'components/Form';
 import { Chips } from 'components/Lists';
 import Fieldset from 'components/Fieldset';
 import PropertyDefForm from '../components/PropertyDefForm';
@@ -12,19 +12,28 @@ import LineageForm from '../components/LineageForm';
 const ResourceTypeForm = ({
   values,
   resourcetypesData,
-  resourceType,
   editMode,
 }) => (
   <Row gutter={5}>
-    <Col flex={7}>
+    <Col flex={12}>
       <Panel title="General" expandable={false} fill>
         <Row gutter={5}>
-          <Col flex={12}>
+          <Col flex={6} xs={12}>
             <Field
               component={TextField}
               name="name"
               label="Resource Name"
               required
+            />
+          </Col>
+          <Col flex={6} xs={12}>
+            <Field
+              id="description"
+              component={TextField}
+              name="description"
+              label="Description"
+              multiline
+              rowsMax={6}
             />
           </Col>
 
@@ -47,32 +56,14 @@ const ResourceTypeForm = ({
             <Field
               id="abstract"
               component={Checkbox}
+              type="checkbox"
               name="properties.abstract"
-              defaultChecked={resourceType.properties.abstract}
               label="Abstract"
             />
           </Col>
         </Row>
       </Panel>
     </Col>
-
-    <Col flex={5} xs={12} sm={12} md={12}>
-      <Panel title="Description" expandable={false} fill>
-        <Row gutter={5}>
-          <Col flex={12}>
-            <Field
-              id="description"
-              component={TextField}
-              name="description"
-              placeholder="Description"
-              rows={1}
-              maxRows={6}
-            />
-          </Col>
-        </Row>
-      </Panel>
-    </Col>
-
 
     <Col flex={12}>
       <Panel title="Tags">
@@ -162,7 +153,6 @@ const ResourceTypeForm = ({
 
 ResourceTypeForm.propTypes = {
   resourcetypesData: PropTypes.array.isRequired,
-  resourceType: PropTypes.object.isRequired,
   editMode: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
 };

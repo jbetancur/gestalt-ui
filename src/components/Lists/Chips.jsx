@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { TextField } from 'react-md';
 import { Error, Caption } from 'components/Typography';
+import TextField from 'components/Fields/TextField';
 import { insertItem, removeItem } from 'util/helpers/lists';
 import Chip from './Chip';
 
@@ -55,11 +55,11 @@ class Chips extends Component {
     this.props.input.onChange(removeItem(this.props.input.value, value));
   }
 
-  handleChange = (value) => {
+  handleChange = (e) => {
     if (this.props.forceLowerCase) {
-      this.setState({ item: value.toLowerCase().trim() });
+      this.setState({ item: e.target.value.toLowerCase().trim() });
     } else {
-      this.setState({ item: value.trim() });
+      this.setState({ item: e.target.value.trim() });
     }
   }
 
@@ -86,7 +86,6 @@ class Chips extends Component {
           fullWidth
           onChange={this.handleChange}
           value={this.state.item}
-          lineDirection="center"
           disabled={!this.props.prefix && !this.props.ignorePrefixValidation}
           onFocus={this.handleTouched}
           onBlur={this.addItem}

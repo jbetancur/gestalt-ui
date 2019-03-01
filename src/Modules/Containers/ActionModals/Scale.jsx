@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'react-md';
+import TextField from 'components/Fields/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -26,8 +26,8 @@ class ConfirmModal extends PureComponent {
     modal.hideModal();
   }
 
-  scaleChanged = (numInstances) => {
-    this.setState({ numInstances });
+  scaleChanged = ({ target }) => {
+    this.setState({ numInstances: target.value });
   }
 
   render() {
@@ -48,19 +48,17 @@ class ConfirmModal extends PureComponent {
       >
         <DialogTitle id="container-scale-title">{title}</DialogTitle>
         <DialogContent>
-          <Row center>
+          <Row gutter={5} center>
             <Col flex={6}>
               <TextField
                 id="container-scaleto"
                 label="Scale to"
-                lineDirection="center"
                 type="number"
                 value={numInstances}
                 min={0}
                 max={maxInstances}
                 onChange={this.scaleChanged}
                 required
-                fullWidth
               />
             </Col>
           </Row>

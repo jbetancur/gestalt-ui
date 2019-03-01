@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { Panel } from 'components/Panels';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 
 const GroupForm = () => (
   <Row gutter={5}>

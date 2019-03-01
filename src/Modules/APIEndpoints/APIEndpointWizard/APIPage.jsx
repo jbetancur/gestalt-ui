@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { SelectField } from 'components/ReduxFormFields';
+import { SelectField } from 'components/Form';
 
 const APIPage = ({ apis }) => (
   <Row gutter={5} center>
@@ -16,11 +16,8 @@ const APIPage = ({ apis }) => (
         itemLabel="name"
         itemValue="id"
         label="API"
-        helpText="Select an API"
         async
         required
-        simplifiedMenu={false}
-        repositionOnScroll={false}
       />
     </Col>
   </Row>

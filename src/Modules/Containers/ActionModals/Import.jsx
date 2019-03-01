@@ -44,8 +44,7 @@ class ContainerImportFormModal extends Component {
       key: item.id,
       id: item.id,
       name: item.name,
-      primaryText: item.name,
-      secondaryText: item.description || ' ',
+      // secondaryLabel: item.description || ' ',
       leftIcon: item.resource_type ? iconMap(getLastFromSplit(item.resource_type)) : null,
     }));
   }

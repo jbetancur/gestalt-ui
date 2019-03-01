@@ -39,7 +39,7 @@ class UpgradeRouter extends Component {
       }
     }
 
-    return null;
+    return <Launch {...this.props} />;
   }
 
   render() {

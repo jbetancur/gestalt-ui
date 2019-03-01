@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { required } from 'util/forms';
 
 const StreamSection = ({ providers, editMode }) => (
   <Row gutter={5}>
     <Col flex={8} xs={12} sm={12}>
-      <Panel title="General" expandable={false} fill>
+      <Panel expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>
             <Field
@@ -42,16 +42,16 @@ const StreamSection = ({ providers, editMode }) => (
     </Col>
 
     <Col flex={4} xs={12} sm={12}>
-      <Panel title="Description" expandable={false} fill>
+      <Panel expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>
             <Field
               id="description"
               component={TextField}
               name="description"
-              placeholder="Description"
-              rows={1}
-              maxRows={6}
+              label="Description"
+              multiline
+              rowsMax={6}
             />
           </Col>
         </Row>

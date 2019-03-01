@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardContent } from 'components/Cards';
-import { Checkbox } from 'react-md';
+import Checkbox from 'components/Fields/Checkbox';
 import { Button } from 'components/Buttons';
 import { H1 } from 'components/Typography';
 import { FullPageFooter } from 'components/FullPage';
@@ -53,13 +53,13 @@ class Upgrade extends Component {
   }
 
   handleDebugMode = (value) => {
-    this.setState({ debug: value });
+    this.setState(state => ({ debug: !state.debug }));
     this.props.clearPollLog();
     this.props.pollUpgraderLog({ debug: value });
   }
 
-  handleRollback = (value) => {
-    this.setState({ rollback: value });
+  handleRollback = () => {
+    this.setState(state => ({ rollback: !state.rollback }));
   }
 
   render() {

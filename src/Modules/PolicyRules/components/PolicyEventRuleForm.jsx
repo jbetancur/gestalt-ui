@@ -5,7 +5,7 @@ import { Row, Col } from 'react-flexybox';
 import { LambdaIcon } from 'components/Icons';
 import { Autocomplete, FontIcon } from 'react-md';
 import { Panel } from 'components/Panels';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { composeValidators, validator, required } from 'util/forms';
 import { isUUID } from 'validator';
 import policyResourceTypes from '../lists/policyResourceTypes';
@@ -43,10 +43,10 @@ const PolicyEventRuleForm = ({
   return (
     <React.Fragment>
       <Row gutter={5}>
-        <Col flex={7} xs={12} sm={12}>
-          <Panel title="Name" expandable={false} fill>
+        <Col flex={12}>
+          <Panel expandable={false} fill>
             <Row gutter={5}>
-              <Col flex={12}>
+              <Col flex={6} xs={12}>
                 <Field
                   id="name"
                   component={TextField}
@@ -57,21 +57,14 @@ const PolicyEventRuleForm = ({
                   autoFocus
                 />
               </Col>
-            </Row>
-          </Panel>
-        </Col>
-
-        <Col flex={5} xs={12} sm={12}>
-          <Panel title="Description" expandable={false} fill>
-            <Row gutter={5}>
-              <Col flex={12}>
+              <Col flex={6} xs={12}>
                 <Field
                   id="description"
                   component={TextField}
                   name="description"
-                  placeholder="Description"
-                  rows={1}
-                  maxRows={6}
+                  label="Description"
+                  multiline
+                  rowsMax={6}
                 />
               </Col>
             </Row>

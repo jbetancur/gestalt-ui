@@ -7,10 +7,9 @@ import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
 import { Button } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
-import { TextField, SelectField } from 'components/ReduxFormFields';
+import Form, { TextField, SelectField } from 'components/Form';
 import { H1 } from 'components/Typography';
 import Label from 'components/Label';
-import Form from 'components/Form';
 import Div from 'components/Div';
 import withUpgrader from '../hocs/withUpgrader';
 

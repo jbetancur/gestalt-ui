@@ -3,7 +3,7 @@ import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
-import { SelectField } from 'components/ReduxFormFields';
+import { SelectField } from 'components/Form';
 import { Button } from 'react-md';
 
 const LambdasArray = () => (

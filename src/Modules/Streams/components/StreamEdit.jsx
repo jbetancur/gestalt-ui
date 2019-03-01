@@ -33,7 +33,6 @@ class StreamSpecEdit extends Component {
     streamInstances: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     streamSpecPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     providerActions: PropTypes.array.isRequired,

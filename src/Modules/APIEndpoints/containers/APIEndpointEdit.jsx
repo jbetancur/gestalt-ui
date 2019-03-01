@@ -31,7 +31,6 @@ class APIEndpointEdit extends PureComponent {
     fetchcontainersData: PropTypes.func.isRequired,
     fetchlambdasData: PropTypes.func.isRequired,
     apiEndpointPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import { composeValidators, required } from 'util/forms';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import Form, { SelectField, TextField } from 'components/Form';
 
 const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
   <Form id="import-container-modal" onSubmit={handleSubmit} disabled={pending} disableFooter>
@@ -19,7 +18,6 @@ const ContainerImportForm = ({ handleSubmit, providers, pending }) => (
           itemLabel="name"
           itemValue="id"
           menuItems={providers}
-          simplifiedMenu={false}
           async
           validate={composeValidators(required())}
           helpText="The CaaS Provider you want to import from"

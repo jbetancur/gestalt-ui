@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { TextField, SelectField } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { composeValidators, required } from 'util/forms';
 

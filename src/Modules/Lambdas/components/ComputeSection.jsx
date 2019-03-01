@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, FormSpy } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { Slider, FontIcon } from 'react-md';
 import { composeValidators, fixInputNumber, fixInputDecimal, min, max, mod, required } from 'util/forms';
 
@@ -115,7 +115,7 @@ class ComputeForm extends Component {
                 component={TextField}
                 name={cpuName}
                 step={cpuStep}
-                placeholder="CPU"
+                label="CPU"
                 type="number"
                 required
                 onChange={this.onChangeCPU(form)}
@@ -149,7 +149,7 @@ class ComputeForm extends Component {
                 component={TextField}
                 name={memName}
                 step={memStep}
-                placeholder="Memory"
+                label="Memory"
                 type="number"
                 required
                 onChange={this.onChangeMemory(form)}

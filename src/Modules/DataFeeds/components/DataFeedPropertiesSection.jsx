@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField, SelectField, AceEditor } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
+import { AceEditor } from 'components/ReduxFormFields';
 import { Panel } from 'components/Panels';
 // import { ChipsAuto } from 'components/Lists';
 import feedTypes from '../lists/feedTypes';
@@ -114,7 +115,6 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
                 itemValue="id"
                 component={SelectField}
                 menuItems={['', ...secrets]}
-                simplifiedMenu={false}
                 async
                 helpText="select an optional secret for authentication"
               />
