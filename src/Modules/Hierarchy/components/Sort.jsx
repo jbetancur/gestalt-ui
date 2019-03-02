@@ -2,22 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Div from 'components/Div';
-import { SelectField, FontIcon } from 'react-md';
+import { FontIcon } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
 import { Button } from 'components/Buttons';
 
-const SortOrderButton = styled(Button)`
-  margin: 0;
-  margin-top: 0.2em;
+const SortWrapper = styled(Div)`
+  display: inline-flex;
+  align-items: center;
+
+  button {
+    margin-top: 1px;
+  }
+`;
+
+const Filter = styled(SelectField)`
+  width: 130px;
+  margin-right: 10px;
+  height: 38px;
 `;
 
 const SortOrderIcon = styled(FontIcon)`
   transform: ${props => (props.order === 'asc' ? 'scaleY(1)' : 'scaleY(-1)')};
-`;
-
-const SortList = styled(SelectField)`
-  display: inline-block;
-  width: 130px;
-  margin-left: 10px;
 `;
 
 const sortItems = Object.freeze([
@@ -46,25 +51,23 @@ const Sort = ({ isEnvironment, disabled, setKey, sortKey, order, setOrder }) => 
   };
 
   return (
-    <Div disabled={disabled}>
-      <SortList
+    <SortWrapper disabled={disabled}>
+      <Filter
         id="sort--key"
         menuItems={generateSortList(isEnvironment)}
         itemLabel="name"
         itemValue="value"
-        defaultValue={sortKey}
-        onChange={setKey}
-        fullWidth
+        value={sortKey}
+        onChange={e => setKey(e.target.value)}
+        margin="dense"
       />
-      <SortOrderButton
+      <Button
         icon
-        tooltipLabel={order === 'asc' ? 'ascending' : 'descending'}
-        tooltipPosition="right"
         onClick={handleSort}
       >
         <SortOrderIcon order={order}>arrow_upward</SortOrderIcon>
-      </SortOrderButton>
-    </Div>
+      </Button>
+    </SortWrapper>
   );
 };
 
