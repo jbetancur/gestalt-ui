@@ -26,7 +26,7 @@ export default function AuthWrapper(BaseComponent) {
         authActions.logout(true);
         history.replace({
           pathname: '/login',
-          state: { nextPathname: location.pathname },
+          state: { nextLocation: location },
         });
       }
 

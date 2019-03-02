@@ -83,8 +83,12 @@ class LoginContainer extends Component {
     location is used when pasting in an address into he address bar
     if last lastVisitedRoute location object is present in localstorage then that path will be redirected upon logon
     */
-    const path = (location.state && location.state.nextPathname) || JSON.parse(getItem('lastVisitedRoute')) || '/';
-    const onSuccess = () => history.replace(path);
+    const nextLocation = (location.state && location.state.nextLocation) ?
+      location.state.nextLocation
+      : JSON.parse(getItem('lastVisitedRoute'))
+      || '/';
+
+    const onSuccess = () => history.replace(nextLocation);
 
     login(values.username, values.password, onSuccess);
   };
