@@ -244,7 +244,7 @@ class ContainerListing extends PureComponent {
                           onChange={this.toggleSystemContainers}
                           color="primary"
                         />)}
-                      label="Show System Containers"
+                      label="Show Jobs"
                     />
                   </ContainerOption>
                   <Button flat primary onClick={this.showImportModal}>Import</Button>

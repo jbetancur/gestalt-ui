@@ -3,9 +3,18 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
+import { TextField, PasswordTextField } from 'components/Form';
 import { DotActivity } from 'components/ProgressIndicators';
+import LoginStyle from './LoginStyle';
 import LoginButton from './LoginButton';
-import TextField from './TextField';
+
+const Username = styled(TextField)`
+  ${LoginStyle};
+`;
+
+const Password = styled(PasswordTextField)`
+  ${LoginStyle};
+`;
 
 const LoginCardText = styled.div`
   padding: 18px;
@@ -20,23 +29,25 @@ const LoginForm = ({ submitting, handleSubmit, pending }) => (
     <LoginCardText>
       <Field
         id="login--username"
-        component={TextField}
+        component={Username}
         name="username"
-        type="text"
         placeholder="Username"
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
+        margin="normal"
+        variant="filled"
       />
       <Field
         id="login--password"
-        component={TextField}
+        component={Password}
         name="password"
-        type="password"
         placeholder="Password"
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
+        margin="normal"
+        variant="filled"
       />
     </LoginCardText>
 

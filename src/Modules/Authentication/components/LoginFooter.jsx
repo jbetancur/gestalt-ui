@@ -31,14 +31,16 @@ const LoginFooter = () => (
   <Wrapper>
     <Row center>
       <Col
-        component={A}
         className="logo"
-        href={COMPANY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
         flex={12}
       >
-        <CompanyName>{COMPANY_TITLE}</CompanyName>
+        <A
+          href={COMPANY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <CompanyName>{COMPANY_TITLE}</CompanyName>
+        </A>
       </Col>
     </Row>
   </Wrapper>
