@@ -51,7 +51,6 @@ const DCOSEESection = () => (
           type="checkbox"
           name="properties.config.accept_any_cert"
           label="Accept Any Certificate"
-          style={{ minWidth: '10em' }}
         />
       </Col>
     </Row>
@@ -63,7 +62,6 @@ const DCOSEESection = () => (
           type="checkbox"
           name="properties.config.secret_support"
           label="Secret Support"
-          style={{ minWidth: '10em' }}
         />
       </Col>
       <Col flex={2} xs={12} sm={4} md={4}>

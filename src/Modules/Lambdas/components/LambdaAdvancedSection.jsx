@@ -64,6 +64,15 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
               label="Make Public"
             />
           </Col> */}
+          {get(values, 'properties.pre_warm') && values.properties.pre_warm > 0
+            ? (
+              <Row>
+                <Col flex>
+                  <Alert width="auto" message={{ message: 'Pre-warm lamdas will execute and deploy containers in this Environment', icon: true, status: 'warning' }} />
+                </Col>
+              </Row>
+            ) : null}
+
           {get(selectedRuntime, 'options.isolate') &&
             <Col flex={6} xs={12} sm={12}>
               <Field
@@ -75,15 +84,6 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
               />
             </Col>}
         </Row>
-
-        {get(values, 'properties.pre_warm') && values.properties.pre_warm > 0
-          ? (
-            <Row>
-              <Col flex>
-                <Alert width="auto" message={{ message: 'Pre-warm lamdas will execute and deploy containers in this Environment', icon: true, status: 'warning' }} />
-              </Col>
-            </Row>
-          ) : null}
 
         {get(selectedProvider, 'properties.config.gpu_support.enabled') && (
           <GPUSection selectedProvider={selectedProvider} />

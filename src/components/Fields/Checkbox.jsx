@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

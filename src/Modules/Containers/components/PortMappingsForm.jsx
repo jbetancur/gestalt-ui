@@ -45,7 +45,7 @@ class PortMappingsForm extends PureComponent {
               return (
                 <FieldItem key={`portmapping-${member}`}>
                   <Row gutter={5} alignItems="baseline" columnDivisions={24}>
-                    <Col flex={2} xs={24} sm={24} md={24} style={{ minWidth: '90px' }}>
+                    <Col flex={2} xs={24} sm={24} md={24} style={{ minWidth: '140px' }}>
                       <Field
                         id={`${member}.expose_endpoint`}
                         name={`${member}.expose_endpoint`}
