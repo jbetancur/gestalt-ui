@@ -30,6 +30,7 @@ class ContainerForm extends PureComponent {
     secrets: PropTypes.array,
     volumes: PropTypes.array,
     providers: PropTypes.array.isRequired,
+    isJob: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -39,6 +40,7 @@ class ContainerForm extends PureComponent {
     formName: '',
     secrets: [],
     volumes: [],
+    isJob: false,
   };
 
   // shouldComponentUpdate(nextProps) {
@@ -58,6 +60,7 @@ class ContainerForm extends PureComponent {
       secrets,
       volumes,
       providers,
+      isJob,
     } = this.props;
 
     // Allow access to form values when a formName is applies
@@ -235,23 +238,25 @@ class ContainerForm extends PureComponent {
             </Panel>
           </Col> */}
 
-          <Col flex={12}>
-            <Panel
-              title="Service Port Mappings"
-              defaultExpanded={editMode && formValues.properties.port_mappings.length > 0}
-              noPadding
-              count={formValues.properties.port_mappings.length}
-              error={safeErrors.properties.port_mappings && errors.properties.port_mappings.length > 0}
-            >
-              <PortMappingsForm
-                fieldName={`${formName}.properties.port_mappings`}
-                form={form}
-                networkType={formValues.properties.network}
-              />
-            </Panel>
-          </Col>
+          {!isJob && (
+            <Col flex={12}>
+              <Panel
+                title="Service Port Mappings"
+                defaultExpanded={editMode && formValues.properties.port_mappings.length > 0}
+                noPadding
+                count={formValues.properties.port_mappings.length}
+                error={safeErrors.properties.port_mappings && errors.properties.port_mappings.length > 0}
+              >
+                <PortMappingsForm
+                  fieldName={`${formName}.properties.port_mappings`}
+                  form={form}
+                  networkType={formValues.properties.network}
+                />
+              </Panel>
+            </Col>
+          )}
 
-          {!inlineMode &&
+          {!inlineMode && !isJob && (
             <Col flex={12}>
               <Panel
                 title="Volumes"
@@ -266,7 +271,8 @@ class ContainerForm extends PureComponent {
                   editMode={editMode}
                 />
               </Panel>
-            </Col>}
+            </Col>
+          )}
 
           <Col flex={12}>
             <Panel
@@ -292,7 +298,7 @@ class ContainerForm extends PureComponent {
             </Panel>
           </Col>
 
-          {selectedProvider.supportsSecrets && !inlineMode &&
+          {selectedProvider.supportsSecrets && !inlineMode && (
             <Col flex={12}>
               <Panel
                 title="Secrets"
@@ -309,10 +315,11 @@ class ContainerForm extends PureComponent {
                   form={form}
                 />
               </Panel>
-            </Col>}
+            </Col>
+          )}
 
           {/* TODO: Implement for Kubernetes/Docker when api is ready */}
-          {selectedProvider.supportsHealth &&
+          {selectedProvider.supportsHealth && (
             <Col flex={12}>
               <Panel
                 title="Health Checks"
@@ -325,9 +332,10 @@ class ContainerForm extends PureComponent {
                   fieldName={`${formName}.properties.health_checks`}
                 />
               </Panel>
-            </Col>}
+            </Col>
+          )}
 
-          {selectedProvider.supportsOther &&
+          {selectedProvider.supportsOther && (
           <Col flex={12}>
             <Panel
               title="Other"
@@ -366,7 +374,8 @@ class ContainerForm extends PureComponent {
                 </Col>
               </Row>
             </Panel>
-          </Col>}
+          </Col>
+          )}
         </Row>
       </React.Fragment>
     );

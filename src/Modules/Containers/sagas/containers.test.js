@@ -155,6 +155,40 @@ describe('Container Sagas', () => {
         );
       });
     });
+
+    describe('when the container is a job', () => {
+      const action = { fqon: 'iamfqon', containerId: '1', isJob: true };
+      const saga = fetchContainer(action);
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          call(axios.all, [axios.get('iamfqon/jobs/1')]) // axios.get('iamfqon/environments/2/env')
+        );
+      });
+
+      it('should dispatch an action to set the selectedProvider', () => {
+        const promiseArray = [{ data: { id: 1, properties: { provider: { id: '321' }, } } }];
+        result = saga.next(promiseArray);
+
+        expect(result.value).toEqual(
+          put(setSelectedProvider({ id: '321' })),
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next();
+        const payload = {
+          container: { id: 1, properties: { provider: { id: '321' } } },
+          inheritedEnv: {} // { test: 'testvar' },
+        };
+
+        expect(result.value).toEqual(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload, action })
+        );
+      });
+    });
   });
 
   describe('createContainer Sequence', () => {
@@ -337,52 +371,92 @@ describe('Container Sagas', () => {
   });
 
   describe('deleteContainer Sequence', () => {
-    const resource = { id: '1', name: 'test' };
-    const action = { fqon: 'iamfqon', resource };
-    const saga = deleteContainer(action);
-    let result;
+    describe('deleteContainer Sequence when not a job', () => {
+      const resource = { id: '1', name: 'test' };
+      const action = { fqon: 'iamfqon', resource };
+      const saga = deleteContainer(action);
+      let result;
 
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).toEqual(
-        call(axios.delete, 'iamfqon/containers/1?force=false')
-      );
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          call(axios.delete, 'iamfqon/containers/1?force=false')
+        );
+      });
+
+      it('should return dispatch a success status', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
+        );
+      });
+
+      it('should dispatch a notification', () => {
+        result = saga.next();
+
+        expect(result.value).toEqual(
+          put(notificationActions.addNotification({ message: 'test Container destroyed' }))
+        );
+      });
     });
 
-    it('should return dispatch a success status', () => {
-      result = saga.next();
-      expect(result.value).toEqual(
-        put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
-      );
+    describe('deleteContainer Sequence when is a job', () => {
+      const resource = { id: '1', name: 'test', resource_type: 'Gestalt::Resource::Job' };
+      const action = { fqon: 'iamfqon', resource };
+      const saga = deleteContainer(action);
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          call(axios.delete, 'iamfqon/jobs/1?force=false')
+        );
+      });
+
+      it('should return dispatch a success status', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
+        );
+      });
+
+      it('should dispatch a notification', () => {
+        result = saga.next();
+
+        expect(result.value).toEqual(
+          put(notificationActions.addNotification({ message: 'test Job destroyed' }))
+        );
+      });
     });
 
-    it('should dispatch a notification', () => {
-      result = saga.next();
+    describe('when there is an error', () => {
+      const resource = { id: '1', name: 'test' };
+      const action = { fqon: 'iamfqon', resource };
 
-      expect(result.value).toEqual(
-        put(notificationActions.addNotification({ message: 'test Container destroyed' }))
-      );
+      it('should return a response when onSuccess callback is passed', () => {
+        const onSuccessAction = { ...action, onSuccess: jest.fn() };
+        const sagaSuccess = deleteContainer(onSuccessAction);
+        sagaSuccess.next();
+        sagaSuccess.next();
+        sagaSuccess.next();
+        sagaSuccess.next();
+        // eslint-disable-next-line no-unused-expressions
+        expect(onSuccessAction.onSuccess).toBeCalled();
+      });
     });
+    describe('when there is an error', () => {
+      const resource = { id: '1', name: 'test' };
+      const action = { fqon: 'iamfqon', resource };
 
-    it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: jest.fn() };
-      const sagaSuccess = deleteContainer(onSuccessAction);
-      sagaSuccess.next();
-      sagaSuccess.next();
-      sagaSuccess.next();
-      sagaSuccess.next();
-      // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).toBeCalled();
-    });
+      it('should dispatch a reject status when there is an error', () => {
+        const sagaError = deleteContainer(action);
+        let resultError = sagaError.next();
+        resultError = sagaError.throw({ message: error });
 
-    it('should dispatch a reject status when there is an error', () => {
-      const sagaError = deleteContainer(action);
-      let resultError = sagaError.next();
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).toEqual(
-        put({ type: types.DELETE_CONTAINER_REJECTED, payload: error })
-      );
+        expect(resultError.value).toEqual(
+          put({ type: types.DELETE_CONTAINER_REJECTED, payload: error })
+        );
+      });
     });
   });
 

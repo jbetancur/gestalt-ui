@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isEqual from 'react-fast-compare';
+import { parse } from 'query-string';
 import styled from 'styled-components';
 import { IconSeparator, FontIcon } from 'react-md';
 import { Form as FinalForm } from 'react-final-form';
@@ -54,6 +55,7 @@ const StatusDetails = styled(IconSeparator)`
 
 class ContainerEdit extends Component {
   static propTypes = {
+    location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     container: PropTypes.object.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
@@ -73,13 +75,22 @@ class ContainerEdit extends Component {
 
   static contextType = ModalConsumer;
 
+  constructor(props) {
+    super(props);
+
+    const query = parse(props.location.search);
+    // use query parms to determined isJob.
+    this.isJob = query.isJob === 'true';
+  }
+
   componentDidMount() {
     const { match, apiEndpointsActions, containerActions } = this.props;
 
     if (!this.props.inlineMode) {
-      // containerActions.fetchContainer({ fqon: match.params.fqon, containerId: match.params.containerId, enablePolling: true, });
-      containerActions.initContainerEdit({ containerId: match.params.containerId, enablePolling: true });
-      apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
+      containerActions.initContainerEdit({ containerId: match.params.containerId, enablePolling: true, isJob: this.isJob });
+      if (!this.isJob) {
+        apiEndpointsActions.fetchAPIEndpoints({ fqon: match.params.fqon, params: { implementation_type: 'container', implementation_id: match.params.containerId } });
+      }
     }
   }
 
@@ -140,6 +151,8 @@ class ContainerEdit extends Component {
       && container.properties.status_detail.reason
       && `${container.properties.status_detail.stateId}-${container.properties.status_detail.reason}`;
 
+    const title = this.isJob ? `${container.name} (Read Only)` : container.name;
+
     return (
       <Row gutter={5} center>
         <Col
@@ -149,7 +162,7 @@ class ContainerEdit extends Component {
           md={12}
         >
           <ActionsToolbar
-            title={container.name}
+            title={title}
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`}
             titleIcon={iconMap(selectedProvider.type)}
@@ -165,7 +178,10 @@ class ContainerEdit extends Component {
                 inContainerView
                 containerModel={container}
                 disableDestroy={inlineMode}
-                disablePromote={inlineMode}
+                disablePromote={inlineMode || this.isJob}
+                disableMigrate={this.isJob}
+                disableScale={this.isJob}
+                disableEntitlements={this.isJob}
               />,
               <Button
                 key="container--entitlements"
@@ -173,6 +189,7 @@ class ContainerEdit extends Component {
                 outline
                 iconChildren="security"
                 onClick={this.showEntitlements}
+                disabled={this.isJob}
               >
                 Entitlements
               </Button>,
@@ -206,7 +223,7 @@ class ContainerEdit extends Component {
                 </Col>
               </Row>}
 
-              {!inlineMode &&
+              {!inlineMode && !this.isJob &&
                 <Row gutter={5}>
                   <Col flex={12}>
                     <Panel
@@ -231,6 +248,7 @@ class ContainerEdit extends Component {
 
               <FinalForm
                 editMode
+                isJob={this.isJob}
                 onSubmit={this.redeployContainer}
                 mutators={{ ...arrayMutators }}
                 decorators={[focusOnErrors]}
@@ -245,7 +263,7 @@ class ContainerEdit extends Component {
                     onSubmit={handleSubmit}
                     autoComplete="off"
                     disabled={containerPending}
-                    disabledSubmit={containerPending || submitting || !selectedProvider.isSelected}
+                    disabledSubmit={containerPending || submitting || !selectedProvider.isSelected || this.isJob}
                     submitTitle="Update"
                   >
                     <ContainerForm {...rest} />

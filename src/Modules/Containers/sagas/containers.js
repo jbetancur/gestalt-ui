@@ -67,8 +67,10 @@ export function* fetchContainers(action) {
  * @param {*} action { fqon, containerId, entityKey, entityId }
  */
 export function* fetchContainer(action) {
+  const key = action.isJob ? 'jobs' : 'containers';
+
   function getContainer() {
-    return axios.get(`${action.fqon}/containers/${action.containerId}?embed=provider&embed=volumes`);
+    return axios.get(`${action.fqon}/${key}/${action.containerId}?embed=provider&embed=volumes`);
   }
 
   function getEnv() {
@@ -78,7 +80,7 @@ export function* fetchContainer(action) {
 
   // TODO: have meta allow expands so we don't have to do this
   const promises = [getContainer()];
-  if (action.entityKey !== 'providers') {
+  if (action.entityKey !== 'providers' && !action.isJob) {
     promises.push(getEnv());
   }
 
@@ -86,7 +88,7 @@ export function* fetchContainer(action) {
     const [containerResponse, envResponse] = yield call(axios.all, promises);
     const payload = {
       container: containerResponse.data,
-      inheritedEnv: envResponse.data,
+      inheritedEnv: (envResponse && envResponse.data) || {},
     };
 
     yield put(setSelectedProvider(containerResponse.data.properties.provider));
@@ -171,10 +173,18 @@ export function* updateContainer(action) {
  * @param {*} action - { fqon, containerId, onSuccess }
  */
 export function* deleteContainer(action) {
+  const isJob = action.resource.resource_type === 'Gestalt::Resource::Job';
+  const label = isJob
+    ? 'Job'
+    : 'Container';
+  const key = isJob
+    ? 'jobs'
+    : 'containers';
+
   try {
-    yield call(axios.delete, `${action.fqon}/containers/${action.resource.id}?force=${action.force || false}`);
+    yield call(axios.delete, `${action.fqon}/${key}/${action.resource.id}?force=${action.force || false}`);
     yield put({ type: DELETE_CONTAINER_FULFILLED, payload: action.resource });
-    yield put(notificationActions.addNotification({ message: `${action.resource.name} Container destroyed` }));
+    yield put(notificationActions.addNotification({ message: `${action.resource.name} ${label} destroyed` }));
 
     if (typeof action.onSuccess === 'function') {
       action.onSuccess();

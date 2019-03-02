@@ -79,6 +79,10 @@ class ContainerActions extends PureComponent {
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
+    disableMigrate: PropTypes.bool,
+    disableScale: PropTypes.bool,
+    disableEntitlements: PropTypes.bool,
+    disableClone: PropTypes.string,
     // actions: PropTypes.array.isRequired,
     // actionsPending: PropTypes.bool.isRequired,
     editURL: PropTypes.string,
@@ -94,6 +98,10 @@ class ContainerActions extends PureComponent {
     inContainerView: false,
     disableDestroy: false,
     disablePromote: false,
+    disableMigrate: false,
+    disableScale: false,
+    disableEntitlements: false,
+    disableClone: false,
     editURL: null,
     onStart: () => {},
     onDestroy: () => {},
@@ -298,6 +306,10 @@ class ContainerActions extends PureComponent {
       containerModel,
       disablePromote,
       disableDestroy,
+      disableMigrate,
+      disableScale,
+      disableEntitlements,
+      disableClone,
       // actions,
       // actionsPending,
       // match,
@@ -317,14 +329,25 @@ class ContainerActions extends PureComponent {
           </Col>
 
           <Col flex={6} style={dividerStyle}>
-            <ListItem className="container-action-button button--start" primaryText="Start" onClick={this.start} disabled={containerModel.properties.num_instances > 0} />
-            <ListItem className="container-action-button button--suspend" primaryText="Suspend" onClick={this.suspend} disabled={containerModel.properties.num_instances === 0} />
-            <ListItem className="container-action-button button--scale" primaryText="Scale" onClick={this.scale} />
-            <ListItem primaryText="Migrate" onClick={this.migrate} />
-            {!disablePromote &&
-              <ListItem primaryText="Promote" onClick={this.promote} />}
-            {!disableDestroy &&
-              <ListItem className="container-action-button button--destroy" primaryText="Destroy" onClick={this.destroy} />}
+            {!disableScale && (
+              <React.Fragment>
+                <ListItem className="container-action-button button--start" primaryText="Start" onClick={this.start} disabled={containerModel.properties.num_instances > 0} />
+                <ListItem className="container-action-button button--suspend" primaryText="Suspend" onClick={this.suspend} disabled={containerModel.properties.num_instances === 0} />
+                <ListItem className="container-action-button button--scale" primaryText="Scale" onClick={this.scale} />
+              </React.Fragment>
+            )}
+
+            {!disableMigrate && (
+              <ListItem primaryText="Migrate" onClick={this.migrate} />
+            )}
+
+            {!disablePromote && (
+              <ListItem primaryText="Promote" onClick={this.promote} />
+            )}
+
+            {!disableDestroy && (
+              <ListItem className="container-action-button button--destroy" primaryText="Destroy" onClick={this.destroy} />
+            )}
 
           </Col>
 
@@ -342,6 +365,7 @@ class ContainerActions extends PureComponent {
               primaryText="Entitlements"
               leftIcon={<FontIcon>security</FontIcon>}
               onClick={this.handleEntitlements}
+              disabled={disableEntitlements}
             />
             <CopyToClipboard
               key="container--copyuuid"
@@ -357,6 +381,7 @@ class ContainerActions extends PureComponent {
                 primaryText="Clone"
                 leftIcon={<FontIcon>filter_none</FontIcon>}
                 onClick={this.handleClone}
+                disabled={disableClone}
               />
             ) : <div />}
           </Col>

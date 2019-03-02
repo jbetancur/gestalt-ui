@@ -141,6 +141,63 @@ describe('container Form Workflow Sagas', () => {
         });
       });
     });
+
+    describe('when the workflow is invoked and the container is a job', () => {
+      const saga = editViewWorkflow({ containerId: '890', isJob: true });
+      let result;
+
+      it('should make an api call for all view state resources', () => {
+        result = saga.next();
+        result = saga.next('123'); // this environment id state that should exist
+        result = saga.next({ environment: { id: '123', org: { properties: { fqon: 'test' } } } }); // mock state
+
+        expect(result.value).toEqual(
+          call(axios.all, [
+            axios.get('test/jobs/890?embed=provider&embed=volumes'),
+            axios.get('test/environments/123/secrets?expand=true'),
+            axios.get('test/environments/123/volumes?expand=true'),
+          ]),
+        );
+      });
+
+      it('should make an api call for the environment envs', () => {
+        result = saga.next([
+          { data: { id: '890', name: 'a job', properties: { provider: { id: '333' } } } },
+          { data: [{ name: 'a secret' }] },
+          { data: [{ name: 'a volume' }] },
+        ]);
+
+        expect(result.value).toEqual(
+          call(axios.get, 'test/environments/123/env')
+        );
+      });
+
+      it('should set call the action to set the selected provider', () => {
+        result = saga.next({ data: { test: 'testvar' } });
+
+        expect(result.value).toEqual(
+          put(setSelectedProvider({ id: '333' }))
+        );
+      });
+
+      it('should return a payload and dispatch a success status and merge any env vars', () => {
+        result = saga.next();
+
+        const payload = {
+          secrets: [{ name: 'a secret' }],
+          volumes: [{ name: 'a volume' }],
+          container: { id: '890', name: 'a job', properties: { provider: { id: '333' } } },
+          inheritedEnv: {} // { test: 'testvar' },
+        };
+
+        // we need action to be passed for the polling function
+        const action = { fqon: 'test', containerId: '890', entityKey: 'environments', entityId: '123', isJob: true };
+
+        expect(result.value).toEqual(
+          put({ type: INIT_CONTAINEREDIT_FULFILLED, action, payload })
+        );
+      });
+    });
   });
 
   describe('Container workflow sagas', () => {

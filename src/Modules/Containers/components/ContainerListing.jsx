@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { Card } from 'components/Cards';
-import { FontIcon, } from 'react-md';
+import { FontIcon } from 'react-md';
 import { StatusBubble } from 'components/Status';
 import { ContainerIcon as CIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -81,8 +81,10 @@ class ContainerListing extends PureComponent {
 
   handleRowClicked = (row) => {
     const { history, match } = this.props;
+    const isJob = row.resource_type === 'Gestalt::Resource::Job';
 
-    history.push(`${match.url}/${row.id}`);
+    // use query parms to determined isJob
+    history.push({ pathname: `${match.url}/${row.id}`, search: `?isJob=${isJob}` });
   }
 
   showImportModal = () => {
@@ -104,13 +106,22 @@ class ContainerListing extends PureComponent {
         button: true,
         allowOverflow: true,
         ignoreRowClick: true,
-        cell: row => (
-          <ContainerActions
-            containerModel={row}
-            editURL={`${match.url}/${row.id}`}
-            {...this.props}
-          />
-        )
+        cell: (row) => {
+          const isJob = row.resource_type === 'Gestalt::Resource::Job';
+
+          return (
+            <ContainerActions
+              containerModel={row}
+              editURL={`${match.url}/${row.id}`}
+              disablePromote={isJob}
+              disableMigrate={isJob}
+              disableScale={isJob}
+              disableEntitlements={isJob}
+              disableClone={isJob}
+              {...this.props}
+            />
+          );
+        }
       },
       {
         name: 'Status',
@@ -172,6 +183,14 @@ class ContainerListing extends PureComponent {
         minWidth: '80px',
         cell: row => <div>{row.properties.instances && `${row.properties.instances.length} / ${row.properties.num_instances}`}</div>
       },
+      // {
+      //   name: 'Job',
+      //   selector: 'resource_type',
+      //   sortable: true,
+      //   center: true,
+      //   button: true,
+      //   cell: row => <Checkbox inkDisabled checked={row.resource_type === 'Gestalt::Resource::Job'} disabled />
+      // },
       {
         name: 'CPU',
         selector: 'properties.cpus',

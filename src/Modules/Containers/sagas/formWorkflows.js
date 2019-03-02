@@ -59,9 +59,10 @@ export function* editViewWorkflow(action) {
     }
 
     const { environment } = yield select(state => state.hierarchy.context);
+    const key = action.isJob ? 'jobs' : 'containers';
 
     const [container, secrets, volumes] = yield call(axios.all, [
-      axios.get(`${environment.org.properties.fqon}/containers/${containerId}?embed=provider&embed=volumes`),
+      axios.get(`${environment.org.properties.fqon}/${key}/${containerId}?embed=provider&embed=volumes`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/secrets?expand=true`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/volumes?expand=true`),
     ]);
@@ -69,7 +70,7 @@ export function* editViewWorkflow(action) {
     const envResponse = yield call(axios.get, `${environment.org.properties.fqon}/environments/${environment.id}/env`);
     const containerPayload = {
       container: container.data,
-      inheritedEnv: envResponse.data,
+      inheritedEnv: action.isJob ? {} : envResponse.data,
     };
 
     yield put(setSelectedProvider(container.data.properties.provider));
