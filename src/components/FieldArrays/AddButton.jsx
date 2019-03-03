@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { Button } from 'react-md';
+import { Button } from 'components/Buttons';
 import { media } from 'util/helpers/media';
 
 const ButtonStyle = styled(({ absoluteTopRight, ...rest }) => <Button {...rest} />)`

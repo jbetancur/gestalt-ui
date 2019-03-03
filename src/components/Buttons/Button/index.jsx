@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Button } from 'react-md';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...rest} />)`
   text-align: center;
@@ -43,4 +45,26 @@ const EnhancedButton = styled(({ important, outline, ...rest }) => <Button {...r
   `};
 `;
 
-export default EnhancedButton;
+const ButtonStyled = ({ tooltipLabel, tooltipPosition, ...rest }) => {
+  if (tooltipLabel) {
+    return (
+      <Tooltip title={tooltipLabel} aria-label={tooltipLabel} placement={tooltipPosition}>
+        <EnhancedButton {...rest} />
+      </Tooltip>
+    );
+  }
+
+  return <EnhancedButton {...rest} />;
+};
+
+ButtonStyled.propTypes = {
+  tooltipLabel: PropTypes.string,
+  tooltipPosition: PropTypes.string,
+};
+
+ButtonStyled.defaultProps = {
+  tooltipLabel: null,
+  tooltipPosition: 'bottom',
+};
+
+export default ButtonStyled;

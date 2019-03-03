@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-// import Tooltip from '@material-ui/core/Tooltip';
 
 /* eslint-disable react/prop-types */
 const TextFieldWrapper = ({ input, helpText, variant, margin, fullWidth, ...rest }) => (

@@ -177,18 +177,19 @@ class Breadcrumbs extends PureComponent {
 
     return (
       <Wrapper isActive={isActive}>
-        {organization.properties.fqon &&
+        {organization.properties.fqon && (
           <NavArrow
             icon
             disabled={contextPending || orgNavDisabled}
             component={Link}
             to={parentOrgRoute}
-            tooltipLabel="Up one org level"
-            tooltipPosition="right"
             inkDisabled
+            tooltipLabel="To Parent Org"
+            tooltipPosition="right"
           >
             arrow_upward
-          </NavArrow>}
+          </NavArrow>
+        )}
 
         {!organization.id && <DotActivity id="breadcrumbs-loading" size={1} />}
         {organization.id &&

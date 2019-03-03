@@ -6,7 +6,7 @@ import {
 } from '../actionTypes';
 
 const initialState = {
-  appDeployments: {},
+  appDeployment: {},
   pending: false,
   completed: false,
   error: null,

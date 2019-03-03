@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { SelectField } from 'components/Form';
-import { Button } from 'react-md';
+import { Button } from 'components/Buttons';
 
 const LambdasArray = () => (
   <FieldArray name="lambdas">

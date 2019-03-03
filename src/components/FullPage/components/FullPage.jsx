@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Title } from 'components/Typography';
-import { Button } from 'react-md';
+import { Button } from 'components/Buttons';
 
 const TileSection = styled.div`
   padding: 16px;

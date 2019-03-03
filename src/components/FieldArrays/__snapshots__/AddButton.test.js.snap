@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Components) AddButton renders correctly with basic required props 1`] = `
+.c1 {
+  text-align: center;
+}
+
+.c1[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c1 .md-icon-text {
+  font-weight: normal;
+}
+
+.c1 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   color: #2196f3;
 }
@@ -22,7 +39,7 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
 }
 
 <button
-  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0"
+  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0 c1"
   type="button"
 >
   <i
@@ -34,12 +51,31 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
 `;
 
 exports[`(Components) AddButton renders correctly with label 1`] = `
+.c1 {
+  text-align: center;
+  border-radius: 3px;
+  min-width: 90px;
+}
+
+.c1[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c1 .md-icon-text {
+  font-weight: normal;
+}
+
+.c1 .md-icon {
+  color: inherit;
+}
+
 .c0 {
   color: #2196f3;
 }
 
 <button
-  class="md-btn md-btn--flat md-btn--text md-pointer--hover md-text md-inline-block c0"
+  class="md-btn md-btn--flat md-btn--text md-pointer--hover md-text md-inline-block c0 c1"
   type="button"
 >
   <div

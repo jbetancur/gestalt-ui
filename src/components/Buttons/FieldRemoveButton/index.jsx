@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import FontIcon from 'react-md/lib/FontIcons';
-import Button from 'react-md/lib/Buttons/Button';
+import Button from '../Button';
 
 const EnhancedButton = styled(({ inTable, marginTop, ...rest }) => <Button {...rest} />)`
   margin-top: ${prop => prop.marginTop};

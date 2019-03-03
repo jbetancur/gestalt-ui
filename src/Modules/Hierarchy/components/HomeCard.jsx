@@ -22,7 +22,7 @@ const HomeCard = ({ title, icon, iconColor, iconGradient, createURL, manageURL, 
       title={title}
       icon={icon}
     />
-    <CardContent minHeight="125px">
+    <CardContent minHeight="139px">
       <CardText>
         {children}
       </CardText>

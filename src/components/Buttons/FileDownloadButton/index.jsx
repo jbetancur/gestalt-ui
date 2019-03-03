@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Button } from 'react-md';
 import PropTypes from 'prop-types';
+import Button from '../Button';
 
 function download(data, filename, mime) {
   const blob = new Blob([data], { type: mime });

@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
+.c1 {
+  text-align: center;
+}
+
+.c1[type=button] {
+  line-height: normal;
+  font-weight: normal;
+}
+
+.c1 .md-icon-text {
+  font-weight: normal;
+}
+
+.c1 .md-icon {
+  color: inherit;
+}
+
 @media (min-width:0) and (max-width:599px) {
   .c0 {
     position: absolute;
@@ -18,7 +35,7 @@ exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
 }
 
 <button
-  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0"
+  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0 c1"
   type="button"
 >
   <i

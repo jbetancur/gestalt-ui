@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
-import { FontIcon, Button } from 'react-md';
+import { FontIcon } from 'react-md';
+import { Button } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
 // import ExpandableLogs from './ExpandableLogs';
 

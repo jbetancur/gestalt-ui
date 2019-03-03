@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Button from 'react-md/lib/Buttons/Button';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import Button from '../Button';
 
 const EnhancedButton = styled(({ inLink, ...rest }) => <Button {...rest} />)`
   text-transform: none;
@@ -22,38 +22,34 @@ const EnhancedButton = styled(({ inLink, ...rest }) => <Button {...rest} />)`
   `};
 `;
 
-class ClipboardButton extends PureComponent {
-  static propTypes = {
-    text: PropTypes.string.isRequired,
-    tooltipLabel: PropTypes.string,
-    tooltipPosition: PropTypes.string,
-    showLabel: PropTypes.bool,
-    inLink: PropTypes.bool,
-  };
+const ClipboardButton = ({ text, showLabel, inLink, tooltipLabel, tooltipPosition }) => (
+  <CopyToClipboard text={text}>
+    <EnhancedButton
+      iconChildren="content_copy"
+      tooltipPosition={tooltipPosition}
+      tooltipLabel={tooltipLabel}
+      flat={showLabel}
+      icon={!showLabel}
+      inLink={inLink}
+    >
+      {showLabel && text}
+    </EnhancedButton>
+  </CopyToClipboard>
+);
 
-  static defaultProps = {
-    tooltipLabel: '',
-    tooltipPosition: 'bottom',
-    showLabel: true,
-    inLink: false,
-  };
+ClipboardButton.propTypes = {
+  text: PropTypes.string.isRequired,
+  tooltipLabel: PropTypes.string,
+  tooltipPosition: PropTypes.string,
+  showLabel: PropTypes.bool,
+  inLink: PropTypes.bool,
+};
 
-  render() {
-    return (
-      <CopyToClipboard text={this.props.text}>
-        <EnhancedButton
-          iconChildren="content_copy"
-          tooltipPosition={this.props.tooltipPosition}
-          tooltipLabel={this.props.tooltipLabel}
-          flat={this.props.showLabel}
-          icon={!this.props.showLabel}
-          inLink={this.props.inLink}
-        >
-          {this.props.showLabel && this.props.text}
-        </EnhancedButton>
-      </CopyToClipboard>
-    );
-  }
-}
+ClipboardButton.defaultProps = {
+  tooltipLabel: '',
+  tooltipPosition: 'bottom',
+  showLabel: true,
+  inLink: false,
+};
 
 export default ClipboardButton;

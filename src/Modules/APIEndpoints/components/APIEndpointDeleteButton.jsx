@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from 'react-md';
+import { Button } from 'components/Buttons';
 
 const DeleteButton = styled(Button)`
   color: ${props => props.theme.colors['$md-red-500']};
