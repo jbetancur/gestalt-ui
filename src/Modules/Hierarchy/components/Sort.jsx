@@ -16,7 +16,7 @@ const SortWrapper = styled(Div)`
 `;
 
 const Filter = styled(SelectField)`
-  width: 130px;
+  max-width: 150px;
   margin-right: 10px;
   height: 38px;
 `;

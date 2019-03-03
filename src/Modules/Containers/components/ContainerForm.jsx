@@ -185,7 +185,7 @@ class ContainerForm extends PureComponent {
                   />
                 </Col>
 
-                <Col flex={10} xs={12}>
+                <Col flex={10} xs={12} sm={12}>
                   <Field
                     component={TextField}
                     name={`${formName}.properties.image`}
@@ -196,7 +196,7 @@ class ContainerForm extends PureComponent {
                   />
                 </Col>
 
-                <Col flex={2} xs={12}>
+                <Col flex={2} xs={12} sm={12}>
                   <Field
                     id="force_pull"
                     type="checkbox"

@@ -26,7 +26,7 @@ const Search = styled(TextField)`
 `;
 
 const Filter = styled(SelectField)`
-  width: 130px;
+  max-width: 150px;
   margin-left: 10px;
   height: 38px;
 `;
@@ -133,6 +133,7 @@ class SelectFilter extends PureComponent {
           value={listFilter.filterValue}
           onFocus={this.clearSearchText}
           disabled={disabled}
+          autoWidth
         />
       </Wrapper>
     );

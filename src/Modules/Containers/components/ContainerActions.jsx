@@ -82,7 +82,7 @@ class ContainerActions extends PureComponent {
     disableMigrate: PropTypes.bool,
     disableScale: PropTypes.bool,
     disableEntitlements: PropTypes.bool,
-    disableClone: PropTypes.string,
+    disableClone: PropTypes.bool,
     // actions: PropTypes.array.isRequired,
     // actionsPending: PropTypes.bool.isRequired,
     editURL: PropTypes.string,

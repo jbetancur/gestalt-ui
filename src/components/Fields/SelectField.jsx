@@ -39,6 +39,7 @@ const FormHelperTextWrapper = ({
   margin,
   variant,
   fullWidth,
+  autoWidth,
   formControlProps,
   menuItems,
   itemLabel,
@@ -82,6 +83,7 @@ const FormHelperTextWrapper = ({
         {...rest}
         name={name}
         disabled={disabled}
+        autoWidth={autoWidth}
         input={
           <OutlinedInput
             fullWidth={fullWidth}
@@ -135,12 +137,14 @@ const FormHelperTextWrapper = ({
 FormHelperTextWrapper.propTypes = {
   variant: PropTypes.string,
   margin: PropTypes.string,
+  autoWidth: PropTypes.bool,
   fullWidth: PropTypes.bool,
 };
 
 FormHelperTextWrapper.defaultProps = {
   variant: 'outlined',
   margin: 'dense',
+  autoWidth: false,
   fullWidth: false,
 };
 

@@ -5,7 +5,12 @@ import {
   UNLOAD_APPDEPLOYMENT,
 } from '../actionTypes';
 
-const initialState = {};
+const initialState = {
+  appDeployments: {},
+  pending: false,
+  completed: false,
+  error: null,
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {

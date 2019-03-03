@@ -48,6 +48,7 @@ const FormHelperTextWrapper = ({
   id,
   disabled,
   async,
+  helpText,
   ...rest
 }) => {
   const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
@@ -136,8 +137,8 @@ const FormHelperTextWrapper = ({
         })}
       </Select>
 
-      {showError &&
-        <FormHelperText>{meta.error || meta.submitError}</FormHelperText>
+      {(showError || helpText) &&
+        <FormHelperText>{showError ? meta.error || meta.submitError : helpText}</FormHelperText>
       }
     </FormControl>
   );
@@ -146,11 +147,13 @@ const FormHelperTextWrapper = ({
 FormHelperTextWrapper.propTypes = {
   variant: PropTypes.string,
   margin: PropTypes.string,
+  helpText: PropTypes.string,
 };
 
 FormHelperTextWrapper.defaultProps = {
   variant: 'outlined',
   margin: 'dense',
+  helpText: null,
 };
 
 

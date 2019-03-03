@@ -18,7 +18,8 @@ class WorkspaceDetails extends PureComponent {
     history: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
 
   showEntitlements = () => {
     const { hierarchyContext } = this.props;
@@ -119,3 +120,6 @@ class WorkspaceDetails extends PureComponent {
 }
 
 export default withRouter(WorkspaceDetails);
+
+// TODO: Place here to fix hoisting issue
+WorkspaceDetails.contextType = ModalConsumer;

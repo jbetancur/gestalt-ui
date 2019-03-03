@@ -21,7 +21,8 @@ class OrganizationDetails extends PureComponent {
     self: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
 
   showEntitlements = () => {
     const { hierarchyContext } = this.props;
@@ -128,3 +129,6 @@ export default compose(
   withRouter,
   withSelf,
 )(OrganizationDetails);
+
+// TODO: Place here to fix hoisting issue
+OrganizationDetails.contextType = ModalConsumer;

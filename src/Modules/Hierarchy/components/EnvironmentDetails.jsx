@@ -18,7 +18,8 @@ class EnvironmentDetails extends PureComponent {
     history: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
 
   showEntitlements = () => {
     const { hierarchyContext } = this.props;
@@ -120,3 +121,5 @@ class EnvironmentDetails extends PureComponent {
 }
 
 export default withRouter(EnvironmentDetails);
+// TODO: Place here to fix hoisting issue
+EnvironmentDetails.contextType = ModalConsumer;

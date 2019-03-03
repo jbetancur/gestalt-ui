@@ -36,7 +36,8 @@ class VolumePanel extends PureComponent {
     volumesDropdown: [],
   };
 
-  static contextType = ModalConsumer;
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
 
   componentDidMount() {
     const { setVolumes, volumes } = this.props;
@@ -189,3 +190,5 @@ export default compose(
   connect(mapStateToProps, actions),
   withRouter,
 )(VolumePanel);
+// TODO: Place here to fix hoisting issue
+VolumePanel.contextType = ModalConsumer;

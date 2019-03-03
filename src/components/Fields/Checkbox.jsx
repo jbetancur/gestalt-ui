@@ -4,7 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 
-const FormGroupWrapper = styled(FormGroup)`
+const FormGroupWrapper = styled(({ fullWidth, ...rest }) => <FormGroup {...rest} />)`
   ${props => props.fullWidth && css`
     flex: 1;
     margin-left: 14px;
@@ -14,7 +14,6 @@ const FormGroupWrapper = styled(FormGroup)`
 /* eslint-disable react/prop-types */
 const CheckboxWrapper = ({
   input: { ...restIput },
-  meta,
   label,
   disabled,
   fullWidth,

@@ -2,6 +2,7 @@ import * as React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 /* eslint-disable react/prop-types */
 const CheckboxWrapper = ({
@@ -10,6 +11,7 @@ const CheckboxWrapper = ({
   label,
   disabled,
   value,
+  helpText,
   ...rest
 }) => (
   <FormControl margin="dense">
@@ -24,6 +26,9 @@ const CheckboxWrapper = ({
       )}
       label={label}
     />
+    {helpText && (
+      <FormHelperText>{helpText}</FormHelperText>
+    )}
   </FormControl>
 );
 

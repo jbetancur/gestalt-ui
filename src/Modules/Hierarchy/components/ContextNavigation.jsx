@@ -51,8 +51,9 @@ const CollapseButton = styled.button`
   border-right: 1px solid ${props => props.theme.colors.backgroundVariant};
   border-bottom: none;
   padding: 0;
-  width: 128px;
-  height: 20px;
+  width: 96px;
+  height: 16px;
+  line-height: 12px;
   text-align: center;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -66,6 +67,10 @@ const CollapseButton = styled.button`
 
   &:hover:disabled {
     cursor: unset;
+  }
+
+  i {
+    font-size: 16px !important;
   }
 `;
 

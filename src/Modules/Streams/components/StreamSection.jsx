@@ -20,7 +20,6 @@ const StreamSection = ({ providers, editMode }) => (
               menuItems={providers}
               itemLabel="name"
               itemValue="id"
-              helpText="Select a stream provider"
               async
               required
               disabled={editMode}
