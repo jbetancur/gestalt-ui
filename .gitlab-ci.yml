@@ -10,6 +10,7 @@ stages:
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
+  untracked: true
   key: "$CI_PIPELINE_ID"
   paths:
   - node_modules/
@@ -23,8 +24,7 @@ variables:
 test:
   stage: test
   script:
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn test:coverage
   artifacts:
     expire_in: 60 minutes
@@ -48,8 +48,7 @@ test:
       fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
@@ -113,8 +112,7 @@ test:
       fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
@@ -182,8 +180,7 @@ publish-docker-image:
       fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
@@ -244,8 +241,7 @@ review:
       fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
