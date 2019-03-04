@@ -6,6 +6,8 @@ exports[`(Component) H1 renders with basic props 1`] = `
   font-weight: 500;
   line-height: 28px;
   color: #424242;
+  margin-block-start: 2px;
+  margin-block-end: 2px;
 }
 
 <h1

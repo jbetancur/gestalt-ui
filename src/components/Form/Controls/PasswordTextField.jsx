@@ -5,8 +5,9 @@ import IconButton from '@material-ui/core/IconButton';
 import FontIcon from 'react-md/lib/FontIcons';
 import TextField from '@material-ui/core/TextField';
 
-const CustomTextField = ({ input, input: { name, value, ...restInput }, meta, ...rest }) => {
+const CustomTextField = ({ input, input: { name, value, ...restInput }, meta, disableError, ...rest }) => {
   const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
+  const showHelperText = !disableError && showError;
   const [values, setValues] = React.useState({
     text: '',
     showPassword: false,
@@ -28,7 +29,7 @@ const CustomTextField = ({ input, input: { name, value, ...restInput }, meta, ..
       name={name}
       type={values.showPassword ? 'text' : 'password'}
       value={values.text}
-      helperText={showError ? meta.error || meta.submitError : undefined}
+      helperText={showHelperText ? meta.error || meta.submitError : undefined}
       error={showError}
       onChange={handleChange('text')}
       fullWidth
@@ -50,11 +51,13 @@ CustomTextField.propTypes = {
   meta: PropTypes.object.isRequired,
   variant: PropTypes.string,
   margin: PropTypes.string,
+  disableError: PropTypes.bool,
 };
 
 CustomTextField.defaultProps = {
   variant: 'outlined',
   margin: 'dense',
+  disableError: false,
 };
 
 export default CustomTextField;

@@ -12,15 +12,14 @@ import Divider from 'components/Divider';
 import { getLastFromSplit } from 'util/helpers/strings';
 
 const CopyUUIDButton = styled.div`
-  button {
-    margin-left: 6px;
-    height: 16px;
-    width: 15px;
-    padding: 1px;
-    border-radius: none;
+  display: inline;
 
-    i {
-      font-size: 16px !important;
+  button {
+    padding: 4px;
+
+    i,
+    svg {
+      font-size: 14px !important;
     }
   }
 `;
@@ -67,15 +66,15 @@ const DetailPane = ({ model, singleRow }) => {
         </Col>
 
         <Col flex={flex} xs={6}>
+          <Label>UUID</Label>
           <CopyUUIDButton>
-            <Label>UUID</Label>
             <ClipboardButton
               showLabel={false}
               text={model.id}
               tooltipLabel="Copy uuid to clipboard"
             />
-            <H5>{model.id}</H5>
           </CopyUUIDButton>
+          <H5>{model.id}</H5>
         </Col>
 
         <Col flex={flex} xs={6}>

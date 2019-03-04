@@ -11,15 +11,16 @@ const ToolTipIcon = styled(FontIcon)`
 `;
 
 /* eslint-disable react/prop-types */
-const TextFieldWrapper = ({ input: { name, value, ...restInput }, meta, helpText, margin, variant, toolTip, ...rest }) => {
+const TextFieldWrapper = ({ input: { name, value, ...restInput }, meta, disableError, helpText, margin, variant, toolTip, ...rest }) => {
   const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
+  const showHelperText = !disableError && showError;
 
   return (
     <TextField
       {...restInput}
       {...rest}
       name={name}
-      helperText={showError ? meta.error || meta.submitError : helpText}
+      helperText={showHelperText ? meta.error || meta.submitError : helpText}
       error={showError}
       value={value}
       margin={margin}
@@ -41,11 +42,13 @@ const TextFieldWrapper = ({ input: { name, value, ...restInput }, meta, helpText
 TextFieldWrapper.propTypes = {
   variant: PropTypes.string,
   margin: PropTypes.string,
+  disableError: PropTypes.bool,
 };
 
 TextFieldWrapper.defaultProps = {
   variant: 'outlined',
   margin: 'dense',
+  disableError: false,
 };
 
 

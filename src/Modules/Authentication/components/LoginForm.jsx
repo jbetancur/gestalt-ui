@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { TextField, PasswordTextField } from 'components/Form';
 import { DotActivity } from 'components/ProgressIndicators';
@@ -16,8 +15,10 @@ const Password = styled(PasswordTextField)`
   ${LoginStyle};
 `;
 
-const LoginCardText = styled.div`
-  padding: 18px;
+const Section = styled.div`
+  width: 100%;
+  z-index: 1;
+  padding: 10px;
 
   input {
     font-size: 16px;
@@ -26,7 +27,7 @@ const LoginCardText = styled.div`
 
 const LoginForm = ({ submitting, handleSubmit, pending }) => (
   <form onSubmit={handleSubmit}>
-    <LoginCardText>
+    <Section>
       <Field
         id="login--username"
         component={Username}
@@ -37,6 +38,7 @@ const LoginForm = ({ submitting, handleSubmit, pending }) => (
         spellCheck="false"
         margin="normal"
         variant="filled"
+        disableError
       />
       <Field
         id="login--password"
@@ -48,24 +50,21 @@ const LoginForm = ({ submitting, handleSubmit, pending }) => (
         spellCheck="false"
         margin="normal"
         variant="filled"
+        disableError
       />
-    </LoginCardText>
+    </Section>
 
-    <LoginCardText>
-      <Row justifyContent="center">
-        <Col flex={12}>
-          <LoginButton
-            id="login--submit"
-            raised
-            primary
-            type="submit"
-            disabled={pending || submitting}
-          >
-            {pending ? <DotActivity id="login-form" primary centered size={1.2} /> : 'Login'}
-          </LoginButton>
-        </Col>
-      </Row>
-    </LoginCardText>
+    <Section>
+      <LoginButton
+        id="login--submit"
+        raised
+        primary
+        type="submit"
+        disabled={pending || submitting}
+      >
+        {pending ? <DotActivity id="login-form" primary centered size={1.2} /> : 'Login'}
+      </LoginButton>
+    </Section>
   </form>
 );
 

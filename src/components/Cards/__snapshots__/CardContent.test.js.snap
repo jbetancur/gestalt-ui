@@ -6,10 +6,6 @@ exports[`(Cards) CardContent mounts with basic props 1`] = `
   padding: 16px;
 }
 
-.c0:last-child {
-  padding-bottom: 24px;
-}
-
 <div
   class="c0"
 />

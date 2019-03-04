@@ -53,8 +53,6 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
 exports[`(Components) AddButton renders correctly with label 1`] = `
 .c1 {
   text-align: center;
-  border-radius: 3px;
-  min-width: 90px;
 }
 
 .c1[type=button] {

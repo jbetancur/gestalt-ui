@@ -3,8 +3,6 @@
 exports[`Components::Form::Form mounts with default props 1`] = `
 .c4 {
   text-align: center;
-  border-radius: 3px;
-  min-width: 90px;
   box-shadow: rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.2) 0 0 1px -4px;
 }
 
@@ -130,8 +128,6 @@ exports[`Components::Form::Form mounts with default props 1`] = `
 exports[`Components::Form::Form renders correctly when disabled 1`] = `
 .c4 {
   text-align: center;
-  border-radius: 3px;
-  min-width: 90px;
   box-shadow: rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.2) 0 0 1px -4px;
 }
 

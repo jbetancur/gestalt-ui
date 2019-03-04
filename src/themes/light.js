@@ -41,6 +41,15 @@ export default {
     info: '#2196f3',
     success: '#00c853',
 
+    // Login Page
+    loginBackground: '#222639',
+    loginBackgroundVariant: '#12141E',
+    loginFont: '#383b4c',
+    loginButton: 'white',
+    loginButtonVariant: '#cfd8dc',
+    loginFieldBorder: '#383b4c',
+    loginFieldBorderFocus: '#58B8D3',
+
     // Misc
     organization: '#b0bec5',
     workspace: '#42a5f5',

@@ -8,10 +8,6 @@ exports[`(Cards) CardText mounts with basic props 1`] = `
   color: #212121;
 }
 
-.c0:last-child {
-  padding-bottom: 24px;
-}
-
 <p
   class="c0"
 />

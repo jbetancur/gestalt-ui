@@ -15,6 +15,11 @@ import yaml from 'js-yaml';
 
 const menuItems = [{ name: 'JSON', value: 'json' }, { name: 'YAML', value: 'yaml' }];
 
+const SelectMode = styled(SelectField)`
+  height: 38px;
+`;
+
+
 const Controls = styled.div`
   display: flex;
   align-items: center;
@@ -100,7 +105,7 @@ class CodeBlock extends PureComponent {
     return (
       <React.Fragment>
         <ControlItem>
-          <SelectField
+          <SelectMode
             id="select-mode"
             menuItems={menuItems}
             itemLabel="name"

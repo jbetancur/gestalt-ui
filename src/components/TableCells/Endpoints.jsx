@@ -1,23 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button } from 'components/Buttons';
+import { ClipboardButton } from 'components/Buttons';
 import { A } from 'components/Links';
 import { removeHostFromURL } from 'util/helpers/strings';
 
-const CopyLink = styled(Button)`
-  height: 18px;
-  width: 18px;
-  padding: 1px;
-
-  i {
-    font-size: 16px !important;
-  }
-
-  &:hover {
-    background: none !important;
-  }
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const ALink = styled(A)`
@@ -38,16 +28,16 @@ const ALink = styled(A)`
 
 const Endpoints = ({ endpoints }) => (
   endpoints.map(endpoint => (
-    <div key={endpoint.id}>
-      <CopyToClipboard
+    <Wrapper key={endpoint.id}>
+      <ClipboardButton
+        showLabel={false}
         text={endpoint.properties.public_url}
-      >
-        <CopyLink icon>content_copy</CopyLink>
-      </CopyToClipboard>
+        table
+      />
       <ALink href={endpoint.properties.public_url} target="_blank" rel="noopener noreferrer" primary>
         <div>{removeHostFromURL(endpoint.properties.public_url)}</div>
       </ALink>
-    </div>
+    </Wrapper>
   ))
 );
 

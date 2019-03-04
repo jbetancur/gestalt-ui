@@ -7,6 +7,7 @@ import { Card, CardTitle, CardContent, CardText, CardActions } from 'components/
 
 const HomeCardBase = styled(Card)`
   border-radius: 4px;
+  height: 245px;
 `;
 
 const CardStyle = styled(HomeCardBase)`
@@ -22,7 +23,7 @@ const HomeCard = ({ title, icon, iconColor, iconGradient, createURL, manageURL, 
       title={title}
       icon={icon}
     />
-    <CardContent minHeight="139px">
+    <CardContent minHeight="120px">
       <CardText>
         {children}
       </CardText>

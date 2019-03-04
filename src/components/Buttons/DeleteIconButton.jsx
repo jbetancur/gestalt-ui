@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from '../Button';
+import Button from './Button';
 
 const StyledIcon = styled.span`
   color: ${props => props.theme.colors.error};

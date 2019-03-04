@@ -2,18 +2,14 @@ import { Button } from 'components/Buttons';
 import styled from 'styled-components';
 
 const LoginButton = styled(Button)`
-  background: white;
-  color: ${props => props.theme.colors['$russian-black-50']};
+  background: white !important;
+  color: ${props => props.theme.colors.loginFont};
   width: 100%;
-  box-shadow: none;
-  font-weight: 700;
+  height: 38px;
+  font-weight: 700 !important;
 
   &:hover {
-    background: ${props => props.theme.colors['$md-blue-grey-50']};
-  }
-
-  &:disabled {
-    background: ${props => props.theme.colors['$md-blue-grey-50']};
+    background: ${props => props.theme.colors.loginButtonVariant} !important;
   }
 `;
 

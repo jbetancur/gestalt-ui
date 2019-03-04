@@ -18,11 +18,15 @@ export default css`
 
   div {
     &::before {
-      border-bottom: 2px solid ${props => props.theme.colors['$russian-black-25']} !important;
+      border-bottom: 2px solid ${props => props.theme.colors.loginFieldBorder} !important;
     }
 
-    &::after {
-      border-bottom: 2px solid ${props => props.theme.colors['$gf-bright-blue']} !important;
+    &::after:not(:required):not(:disabled) {
+      border-bottom: 2px solid ${props => props.theme.colors.loginFieldBorderFocus} !important;
+
+      &&:required {
+        border-bottom-color: ${props => props.theme.colors.errors} !important;
+      }
     }
   }
 
