@@ -1,5 +1,5 @@
 image:
-  name: galacticfog/node-ci:10.5.0
+  name: galacticfog/node-ci:10.5.1
 
 stages:
 - test
@@ -133,9 +133,31 @@ test:
         docker push $DOCKER_IMG:latest
       fi
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
-    # Push to Test
-    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL_PATH project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
+    # Push to Test  (old)
+    # - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
+    # - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL_PATH project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
+    - |
+      echo "Next: Login Test"
+      FOG_CONTEXT="ci-deploy"
+      fog use ${FOG_CONTEXT}
+      fog login --url ${GF_TEST_GESTALT_URI} --username ${GF_TEST_GESTALT_USER} --password ${GF_TEST_GESTALT_PWD}
+      # GESTALT_TOKEN=$(cat ~/.fog/${FOG_CONTEXT}/auth.json.cached | jq -r '.access_token') #only if we need use http directly and not via fog cli
+    - |
+      echo "Look-up container for update and set new values"
+      ITEM_LOCATION="/root/gestalt-system-workspace/gestalt-system-environment"
+      ITEM_NAME="gestalt-ui"
+      ITEM_CATEGORY="containers"
+      container_id=$(fog show ${ITEM_CATEGORY} ${ITEM_LOCATION} --name ${ITEM_NAME} --fields id --no-headers | tr -d '[:space:]')
+      NEW_IMAGE="$DOCKER_IMG:$DOCKER_TAG"
+      NEW_DESCRIPTION="Last updated in CI: \n Time: `date` \n Author: $GITLAB_USER_NAME \n Git ref: $CI_COMMIT_REF_NAME \n SHA: $CI_COMMIT_SHA \n"
+    - |
+      echo "Update Image and Description"
+      echo '[{"op": "replace", "path": "/properties/image", "value": "'${NEW_IMAGE}'"},{"op": "replace", "path": "/description", "value": "'${NEW_DESCRIPTION[@]}'"}]' > patch.json
+      fog meta PATCH -f patch.json /root/containers/${container_id}
+    - |
+      echo "Announce in slack:"
+      SLACK_MESSAGE="${NEW_IMAGE}_ deployed to test by *${GITLAB_USER_NAME}*"
+      echo "{\"text\":\"${SLACK_MESSAGE}\"}" | http POST "${SLACK_BASE_URL}${SLACK_CICD_PATH}"
     # Mark Stable
     - |
       echo "Lookup proper docker tag same way as docker image build does"
