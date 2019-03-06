@@ -113,8 +113,8 @@ test:
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
     - yarn install --network-timeout 1000000 --cache-folder .yarn
-    - yarn build
-    - yarn generate-disclaimer
+    - yarn build --network-timeout 1000000
+    - yarn generate-disclaimer --network-timeout 1000000
     - mv LICENSES.txt build
     - |
       echo "Modify dockerfile include copy in license:"
