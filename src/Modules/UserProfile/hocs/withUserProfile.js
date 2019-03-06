@@ -13,6 +13,8 @@ export default function withUserProfile(BaseComponent) {
   }
 
   const mapStateToProps = ({ userProfile }) => ({
+    userProfile: userProfile.userProfile.userProfile.properties,
+    userProfilePending: userProfile.userProfile.pending,
     favorites: userProfile.userProfile.userProfile.properties.resource_favorites,
   });
 

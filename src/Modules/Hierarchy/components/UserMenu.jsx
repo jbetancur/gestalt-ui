@@ -9,6 +9,7 @@ import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import { withUserProfile } from 'Modules/UserProfile';
 import withSelf from '../../../App/hocs/withSelf';
 
 const AvatarStyle = styled(Avatar)`
@@ -16,18 +17,34 @@ const AvatarStyle = styled(Avatar)`
   width: 32px !important;
 `;
 
-const UserMenu = ({ self, onLogout }) => {
+const Img = styled.img`
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+`;
+
+const UserMenu = ({ self, userProfile, onLogout }) => {
   const name = self.properties.firstName === self.properties.lastName
     ? self.properties.firstName
     : `${self.properties.firstName} ${self.properties.lastName}`;
 
+  const avatarInit = self.name && self.name.substring(0, 1).toUpperCase();
+
+  const avatarIcon = userProfile.avatar
+    ? <Img src={userProfile.avatar} alt={name} align="right" />
+    : avatarInit;
+
+  const menuIcon = userProfile.avatar
+    ? avatarIcon
+    : <UserIcon fontSize="small" color="action" />;
+
   return (
     <MenuButton
       id="main--user--menu"
-      icon={<AvatarStyle>{self.name && self.name.substring(0, 1).toUpperCase()}</AvatarStyle>}
+      icon={<AvatarStyle>{avatarIcon}</AvatarStyle>}
     >
       <ListItem dense button component={Link} to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}>
-        <UserIcon fontSize="small" color="action" />
+        {menuIcon}
         <ListItemText primary={name} secondary={self.name} />
       </ListItem>
 
@@ -44,6 +61,7 @@ const UserMenu = ({ self, onLogout }) => {
 UserMenu.propTypes = {
   onLogout: PropTypes.func.isRequired,
   self: PropTypes.object.isRequired,
+  userProfile: PropTypes.object.isRequired,
 };
 
-export default withSelf(UserMenu);
+export default withSelf(withUserProfile(UserMenu));
