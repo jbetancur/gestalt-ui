@@ -9,14 +9,15 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { PolicyIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
 import withPolicies from '../hocs/withPolicies';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class PolicyListing extends PureComponent {
   static propTypes = {
@@ -150,8 +151,8 @@ class PolicyListing extends PureComponent {
             pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.policiesPending}
             progressComponent={<LinearProgress id="policy-listing" />}

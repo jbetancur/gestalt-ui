@@ -10,7 +10,8 @@ import { DeleteIconButton, ClipboardButton } from 'components/Buttons';
 import { StatusBubble } from 'components/Status';
 import { Title } from 'components/Typography';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { A } from 'components/Links';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
@@ -19,7 +20,7 @@ import { getLastFromSplit } from 'util/helpers/strings';
 import withAPIEndpoints from '../hocs/withAPIEndpoints';
 
 const getBaseURL = (params, row) => `/${params.fqon}/hierarchy/${params.workspaceId}/environment/${params.environmentId}/apis/${params.apiId}/apiendpoints/${row.id}`;
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class APIEndpointListing extends PureComponent {
   static propTypes = {
@@ -187,8 +188,8 @@ class APIEndpointListing extends PureComponent {
               pointerOnHover
               selectableRows
               selectableRowsComponent={Checkbox}
-              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               progressPending={this.props.apiEndpointsPending}
               progressComponent={<LinearProgress id="apiendpoints-listing" />}

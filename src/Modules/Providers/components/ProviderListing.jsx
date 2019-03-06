@@ -10,7 +10,7 @@ import { DeleteIconButton } from 'components/Buttons';
 import { ProviderIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import NameModal from 'Modules/ModalRoot/Modals/NameModal';
@@ -201,7 +201,7 @@ class ProviderListing extends PureComponent {
               data={this.props.providers}
               highlightOnHover
               pointerOnHover
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               progressPending={this.props.providersPending}
               progressComponent={<LinearProgress id="provider-listing" />}

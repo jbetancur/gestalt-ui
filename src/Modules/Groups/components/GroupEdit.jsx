@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { Row, Col } from 'react-flexybox';
-import { Autocomplete, List, ListItem, FontIcon } from 'react-md';
+import { Autocomplete, List, ListItem } from 'react-md';
+import RemoveIcon from '@material-ui/icons/RemoveCircle';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
@@ -97,7 +98,7 @@ class GroupEdit extends Component {
         <ListItem
           key={user.id}
           primaryText={user.name}
-          rightIcon={<FontIcon>remove_circle</FontIcon>}
+          rightIcon={<RemoveIcon fontSize="small" color="action" />}
           inkDisabled
           disabled={groupPending || groupMembersPending}
           onClick={() => this.removeUser(user.id)}

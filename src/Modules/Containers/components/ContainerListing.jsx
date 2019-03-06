@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { Card } from 'components/Cards';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import { StatusBubble } from 'components/Status';
 import { ContainerIcon as CIcon } from 'components/Icons';
 import { Button } from 'components/Buttons';
@@ -238,7 +238,7 @@ class ContainerListing extends PureComponent {
               data={this.filteredContainers(containers, showSystemContainers)}
               highlightOnHover
               pointerOnHover
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               progressPending={containersPending}
               progressComponent={<LinearProgress id="container-listing" />}

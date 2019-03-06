@@ -10,14 +10,15 @@ import { DeleteIconButton } from 'components/Buttons';
 import { AppDeploymentIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { StatusBubble } from 'components/Status';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import ExpanderRow from './ExpanderRow';
 import withAppDeployments from '../hocs/withAppDeployments';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class AppDeploymenListing extends PureComponent {
   static propTypes = {
@@ -151,8 +152,8 @@ class AppDeploymenListing extends PureComponent {
             // pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.appDeploymentsPending}
             progressComponent={<LinearProgress id="user-listing" />}

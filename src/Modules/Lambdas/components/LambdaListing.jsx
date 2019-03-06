@@ -8,7 +8,8 @@ import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { LambdaIcon } from 'components/Icons';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
@@ -23,7 +24,7 @@ import withLambdas from '../hocs/withLambdas';
 import iconMap from '../../Providers/config/iconMap';
 import lambdaModel from '../models/lambda';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 const tableTheme = {
   rows: {
     fontSize: '12px',
@@ -205,10 +206,10 @@ class LambdaListing extends PureComponent {
               pointerOnHover
               selectableRows
               selectableRowsComponent={Checkbox}
-              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
               // expandableRows
               // expandableRowsComponent={<LambdaExpanderRow />}
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               progressPending={lambdasPending}
               progressComponent={<LinearProgress id="lambda-listing" />}

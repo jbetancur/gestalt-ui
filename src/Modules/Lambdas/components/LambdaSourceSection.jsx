@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Field, FormSpy } from 'react-final-form';
-import { AceEditor } from 'components/ReduxFormFields';
+import { AceEditor } from 'components/Form';
 import SelectField from 'components/Fields/SelectField';
 import { Button } from 'components/Buttons';
 import FullScreen from 'components/FullScreen';

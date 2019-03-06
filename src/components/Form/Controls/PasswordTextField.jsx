@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
-import FontIcon from 'react-md/lib/FontIcons';
+import VisibilityOn from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import TextField from '@material-ui/core/TextField';
 
 const CustomTextField = ({ input, input: { name, value, ...restInput }, meta, disableError, ...rest }) => {
@@ -37,7 +38,7 @@ const CustomTextField = ({ input, input: { name, value, ...restInput }, meta, di
         endAdornment: (
           <InputAdornment position="end">
             <IconButton aria-label="Toggle password visibility" onClick={handleClickShowPassword}>
-              {values.showPassword ? <FontIcon>visibility</FontIcon> : <FontIcon>visibility_off</FontIcon>}
+              {values.showPassword ? <VisibilityOn fontSize="small" /> : <VisibilityOff fontSize="small" />}
             </IconButton>
           </InputAdornment>
         )

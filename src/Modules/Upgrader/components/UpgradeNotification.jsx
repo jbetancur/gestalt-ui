@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css, withTheme } from 'styled-components';
-import { FontIcon } from 'react-md';
+import CloseIcon from '@material-ui/icons/Close';
+import WhatsHotIcon from '@material-ui/icons/Whatshot';
 import { Button } from 'components/Buttons';
 import { ALink } from 'components/Links';
 import { media } from 'util/helpers/media';
@@ -33,7 +34,7 @@ const Notification = styled.div`
   }
 `;
 
-const Icon = styled(FontIcon)`
+const Icon = styled(WhatsHotIcon)`
   ${() => media.xs`
     display: none;
   `};
@@ -131,7 +132,7 @@ class UpgradeNotification extends PureComponent {
       return (
         <Notification statusColor={status}>
           <Left>
-            <Icon>whatshot</Icon>
+            <Icon fontSize="small" color="inherit" />
             <Message>
               {severity && <span>{titleSeverity}: </span>}
               <span>Newer Version Available</span>
@@ -142,7 +143,7 @@ class UpgradeNotification extends PureComponent {
 
           <Right>
             <CloseButton onClick={this.handleDismiss}>
-              <FontIcon>close</FontIcon>
+              <CloseIcon fontSize="small" color="inherit" />
             </CloseButton>
           </Right>
         </Notification>

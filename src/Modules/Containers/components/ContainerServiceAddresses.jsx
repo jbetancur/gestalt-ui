@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DataTable from 'react-data-table-component';
 import { Title } from 'components/Typography';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import AddressCell from './AddressCell';
 
 const columns = [
@@ -55,7 +55,7 @@ const ContainerServiceAddresses = ({ portMappings }) => (
   <DataTable
     data={portMappings.filter(port => port.service_address || (port.service_address && port.lb_address))}
     columns={columns}
-    sortIcon={<FontIcon>arrow_downward</FontIcon>}
+    sortIcon={<ArrowDownIcon />}
     defaultSortField="type"
     noDataComponent={<Title light>There are no service port mappings configured.</Title>}
     noHeader

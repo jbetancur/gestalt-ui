@@ -3,7 +3,11 @@
 exports[`(Cards) CardContent mounts with basic props 1`] = `
 .c0 {
   position: relative;
-  padding: 16px;
+  padding: 0 16px 16px 16px;
+}
+
+.c0 p {
+  padding: 0;
 }
 
 <div

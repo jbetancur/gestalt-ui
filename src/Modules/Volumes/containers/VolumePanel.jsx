@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import Div from 'components/Div';
@@ -169,7 +169,7 @@ class VolumePanel extends PureComponent {
               noHeader
               data={volumeListing}
               // highlightOnHover
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no volumes to display</Title>}

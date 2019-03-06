@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import { Button } from 'components/Buttons';
 import { getLastFromSplit } from 'util/helpers/strings';
 // import ExpandableLogs from './ExpandableLogs';
@@ -64,7 +64,7 @@ const ContainerInstances = ({ containerModel, fqon }) => {
     <DataTable
       data={containerModel.properties.instances}
       columns={columns}
-      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      sortIcon={<ArrowDownIcon />}
       defaultSortField="startedAt"
       noDataComponent={<Title light>There are no instances running</Title>}
       // expandableRows

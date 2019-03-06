@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { FontIcon } from 'react-md';
+import InputIcon from '@material-ui/icons/Input';
+import EvalIcon from '@material-ui/icons/PlaylistAddCheck';
 import { Panel } from 'components/Panels';
 import { ConditionalAny, Checkbox as CheckboxForm, SelectField, TextField } from 'components/Form';
 import { fixInputNumber, composeValidators, required } from 'util/forms';
@@ -75,7 +76,7 @@ const PolicyLimitRuleForm = ({
 
       <Row gutter={5}>
         <Col flex={4} xs={12} sm={12}>
-          <Panel title="Evaluate" icon={<FontIcon>playlist_add_check</FontIcon>} expandable={false}>
+          <Panel title="Evaluate" icon={<EvalIcon fontSize="small" color="action" />} expandable={false}>
             <Row gutter={5}>
               <Col flex={12}>
                 <Field
@@ -139,7 +140,7 @@ const PolicyLimitRuleForm = ({
         </Col>
 
         <Col flex={8} xs={12} sm={12}>
-          <Panel title="On Event(s)" icon={<FontIcon>input</FontIcon>} expandable={false} fill noPadding>
+          <Panel title="On Event(s)" icon={<InputIcon fontSize="small" color="action" />} expandable={false} fill noPadding>
             <MatchActions
               fieldName="properties.match_actions"
               actions={policyActions}

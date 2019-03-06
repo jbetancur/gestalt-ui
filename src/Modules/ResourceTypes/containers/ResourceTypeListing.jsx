@@ -8,7 +8,8 @@ import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCel
 import { LinearProgress } from 'components/ProgressIndicators';
 import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
@@ -89,7 +90,7 @@ class ResourceTypeListing extends PureComponent {
         selector: 'properties.abstract',
         sortable: true,
         center: true,
-        cell: row => <Checkbox inkDisabled checked={row.properties.abstract} disabled />
+        cell: row => <Checkbox disableRipple checked={row.properties.abstract} disabled />
       },
       {
         name: 'Created',
@@ -117,7 +118,7 @@ class ResourceTypeListing extends PureComponent {
             data={this.props.resourceTypes}
             highlightOnHover
             pointerOnHover
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.resourceTypesPending}
             progressComponent={<LinearProgress id="resourcetype-listing" />}

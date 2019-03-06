@@ -7,7 +7,7 @@ import { Card, CardTitle, CardContent, CardText, CardActions } from 'components/
 
 const HomeCardBase = styled(Card)`
   border-radius: 4px;
-  height: 245px;
+  height: 215px;
 `;
 
 const CardStyle = styled(HomeCardBase)`

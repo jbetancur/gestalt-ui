@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { FontIcon, MenuButton } from 'react-md';
+import { MenuButton } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import DataTable from 'react-data-table-component';
 import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import { ActionsMenu } from 'Modules/Actions';
@@ -93,7 +94,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions })
       keyField="persistenceId"
       data={streamInstances}
       columns={columns}
-      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      sortIcon={<ArrowDownIcon />}
       defaultSortField="startTime"
       defaultSortAsc={false}
       noDataComponent={<Title light>There are no stream instances running</Title>}

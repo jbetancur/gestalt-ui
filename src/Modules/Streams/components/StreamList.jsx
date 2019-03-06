@@ -9,14 +9,15 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { StreamIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import withStreamSpecs from '../hocs/withStreamSpecs';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class StreamList extends PureComponent {
   static propTypes = {
@@ -143,8 +144,8 @@ class StreamList extends PureComponent {
               pointerOnHover
               selectableRows
               selectableRowsComponent={Checkbox}
-              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               progressPending={this.props.streamSpecsPending}
               progressComponent={<LinearProgress id="stream-listing" />}

@@ -2,8 +2,7 @@ import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/Form';
-import { AceEditor } from 'components/ReduxFormFields';
+import { SelectField, TextField, AceEditor } from 'components/Form';
 import { Subtitle } from 'components/Typography';
 import moment from 'moment-timezone';
 

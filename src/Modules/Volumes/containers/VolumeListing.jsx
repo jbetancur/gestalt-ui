@@ -4,7 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
@@ -18,7 +19,7 @@ import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
 import withVolumes from '../hocs/withVolumes';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class VolumeListing extends PureComponent {
   static propTypes = {
@@ -186,8 +187,8 @@ class VolumeListing extends PureComponent {
             pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.volumesPending}
             progressComponent={<LinearProgress id="volume-listing" />}

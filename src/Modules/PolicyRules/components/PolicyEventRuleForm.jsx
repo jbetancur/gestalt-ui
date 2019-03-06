@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { LambdaIcon } from 'components/Icons';
-import { Autocomplete, FontIcon } from 'react-md';
+import { Autocomplete } from 'react-md';
+import InputIcon from '@material-ui/icons/Input';
 import { Panel } from 'components/Panels';
 import { TextField } from 'components/Form';
 import { composeValidators, validator, required } from 'util/forms';
@@ -74,7 +75,7 @@ const PolicyEventRuleForm = ({
 
       <Row gutter={5}>
         <Col flex={4} xs={12} sm={12}>
-          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} />} expandable={false}>
+          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} color="action" />} expandable={false}>
             <Row gutter={5}>
               <Col flex={12}>
                 <Autocomplete
@@ -106,7 +107,7 @@ const PolicyEventRuleForm = ({
         </Col>
 
         <Col flex={8} xs={12} sm={12}>
-          <Panel title="On Event(s)" icon={<FontIcon>input</FontIcon>} expandable={false} fill noPadding>
+          <Panel title="On Event(s)" icon={<InputIcon fontSize="small" color="action" />} expandable={false} fill noPadding>
             <MatchActions
               fieldName="properties.match_actions"
               actions={policyTriggers}

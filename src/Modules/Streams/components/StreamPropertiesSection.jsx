@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { FontIcon } from 'react-md';
+import FeedIcon from '@material-ui/icons/TrendingFlat';
+import TrandformIcon from '@material-ui/icons/Transform';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField } from 'components/Form';
 import { Panel } from 'components/Panels';
@@ -10,7 +11,7 @@ import { composeValidators, required, min, max } from 'util/forms';
 const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
   <Row gutter={5}>
     <Col flex={4} xs={12} sm={12}>
-      <Panel title="Input Feed" icon={<FontIcon>trending_flat</FontIcon>} expandable={false} fill>
+      <Panel title="Input Feed" icon={<FeedIcon fontSize="small" color="action" />} expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>
             <Field
@@ -128,7 +129,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
     </Col>
 
     <Col flex={4} xs={12} sm={12}>
-      <Panel title="Transform Lambda" icon={<FontIcon>transform</FontIcon>} expandable={false} fill>
+      <Panel title="Transform Lambda" icon={<TrandformIcon fontSize="small" color="action" />} expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>
             <Field
@@ -150,7 +151,7 @@ const StreamPropertiesSection = ({ lambdas, datafeeds }) => (
     </Col>
 
     <Col flex={4} xs={12} sm={12}>
-      <Panel title="Output Feed" icon={<FontIcon>trending_flat</FontIcon>} expandable={false} fill>
+      <Panel title="Output Feed" icon={<FeedIcon fontSize="small" color="action" />} expandable={false} fill>
         <Row gutter={5}>
           <Col flex={12}>
             <Field

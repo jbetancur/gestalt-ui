@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DataTable from 'react-data-table-component';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import styled from 'styled-components';
 
 const Message = styled.div`
@@ -41,7 +41,7 @@ const ContainerEvents = ({ events }) => {
     <DataTable
       data={events}
       columns={columns}
-      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      sortIcon={<ArrowDownIcon />}
       defaultSortField="age"
       noDataComponent={<Title light>There are no events to display</Title>}
       noHeader

@@ -9,13 +9,14 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { GroupIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import withGroups from '../hocs/withGroups';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class GroupListing extends PureComponent {
   static propTypes = {
@@ -151,8 +152,8 @@ class GroupListing extends PureComponent {
             pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.groupsPending}
             progressComponent={<LinearProgress id="user-listing" />}

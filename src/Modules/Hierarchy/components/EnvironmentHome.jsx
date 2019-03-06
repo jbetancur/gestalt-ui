@@ -15,7 +15,7 @@ const EnvironmentHome = ({ match }) => {
         <Col flex={2} xs={12} sm={6} md={4} key={item.key}>
           <HomeCard
             title={item.title}
-            icon={iconMap(item.icon, 42)}
+            icon={iconMap(item.icon, 32)}
             iconColor={item.iconColor}
             iconGradient={item.iconGradient}
             createURL={item.createURL}

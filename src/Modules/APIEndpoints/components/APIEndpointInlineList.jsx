@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import { FlatButton, ClipboardButton } from 'components/Buttons';
 import AddIcon from '@material-ui/icons/Add';
 import { Title } from 'components/Typography';
@@ -126,7 +126,7 @@ class APIEndpointInlineList extends PureComponent {
               noHeader
               data={apiEndpoints}
               highlightOnHover
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no endpoints to display</Title>}

@@ -4669,10 +4669,10 @@ i18next-xhr-backend@^2.0.1:
   resolved "https://registry.yarnpkg.com/i18next-xhr-backend/-/i18next-xhr-backend-2.0.1.tgz#7af735ee1b0c6d4ce49fa5756591040a0fba6db7"
   integrity sha512-CP0XPjJsTE4hY1rM1KXFYo63Ib61EBLEcTvMDyJwr0vs9p/UTuA3ENCmzSs9+ghZgWSjdOigc0oUERHaxctbsQ==
 
-i18next@^15.0.5:
-  version "15.0.5"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-15.0.5.tgz#9dfaeaa70b6bc0da49c6b8f1790be3646f8cfe2c"
-  integrity sha512-JqcoIM20BuYq0iQm8VLlq2pqhCNoG60+QuOxLE9PCDGZZc+in9kWofw1qLUazo4B53jJDca1ARd2YLmhXcx2uw==
+i18next@^15.0.6:
+  version "15.0.6"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-15.0.6.tgz#2bad22b180043dce4ebc89763b07b752a5379675"
+  integrity sha512-pFka7P9InL0UvvQeKKxXR9khyblG6wB4QSQliIRJII2BiWv8OXXYUPeXIa+4rSnZJFhq86aMl4d0hRF0Lgs6Jw==
   dependencies:
     "@babel/runtime" "^7.3.1"
 
@@ -8080,10 +8080,10 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-data-table-component@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-1.4.3.tgz#6ce37bfd1d3bae2e687aff1690762a7834d7ee49"
-  integrity sha512-/hXXgbR5r37Qt5dTRfI+2t3u1PoTx76Q0A62bTsihOWJkUd0akeTUB+dXoTvgS8e92v2h/qkgb47lhpvf4Yd8A==
+react-data-table-component@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-1.4.5.tgz#4507977647c477ba0c87239583d626dff5552e87"
+  integrity sha512-iexM96bD9IHTikfJ0BiZaqCbIyxRugmJvsUvbfcAdPcSH0J5rstif2J7fPTsm0ju+pgwH98e4V72eftF4VZ1aA==
   dependencies:
     lodash "^4.17.11"
     memoize-one "^5.0.0"
@@ -8134,20 +8134,20 @@ react-flexybox@^2.4.1:
   dependencies:
     lodash.omit "^4.5.0"
 
-react-frame-component@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-4.0.2.tgz#408f137ab4ba14cd13a5844b86ac972903dda021"
-  integrity sha512-846zt81ijEC0ul6sBWzxkI5EGIE39ft9EaNzQUcszV/WWWDnldFJ+tKU7Et2GhZ4OHT/cy1GHcjsLLsdiOXhBg==
+react-frame-component@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-4.1.0.tgz#bef04039c6af687314f27b20ef9893d85eefe3e6"
+  integrity sha512-2HkO0iccSjd+xRA+aOxq7Mm50WUmCjdmhbQhOiG6gQTChaW//Y3mdkGeUfVA3YkXvDVbigRDvJd/VTUlqaZWSw==
 
 react-ga@^2.5.7:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.7.tgz#1c80a289004bf84f84c26d46f3a6a6513081bf2e"
   integrity sha512-UmATFaZpEQDO96KFjB5FRLcT6hFcwaxOmAJZnjrSiFN/msTqylq9G+z5Z8TYzN/dbamDTiWf92m6MnXXJkAivQ==
 
-react-i18next@^10.2.1:
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-10.2.1.tgz#004fc82642dad2b49144ed9fa967076c6682bf85"
-  integrity sha512-5upJtZ0WvCWI/C9+NTITuzlAGdte1rSCexT3rHpisLcdEk+RZ/zvjSLzgqbB/6AGLU2SNHomErMVpibcY8U6Zg==
+react-i18next@^10.3.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-10.3.0.tgz#252c32fcc22c7f79f60480564330b0bb44881212"
+  integrity sha512-QbhN21x5hM2M6ibD86hW7afgXIfKLQnwdQLUll5OVQowwjlgb/YYO9iMiNl/Obbrh6C4ZQD+ejqiwJLhEYkL0g==
   dependencies:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"

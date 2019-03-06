@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import isEqual from 'react-fast-compare';
 import { parse } from 'query-string';
 import styled from 'styled-components';
-import { IconSeparator, FontIcon } from 'react-md';
+import { IconSeparator } from 'react-md';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { withRouter } from 'react-router-dom';
@@ -22,6 +22,7 @@ import { Card } from 'components/Cards';
 import { APIEndpointInlineList, APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { Caption } from 'components/Typography';
 import Div from 'components/Div';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
@@ -170,7 +171,7 @@ class ContainerEdit extends Component {
             actions={[
               statusDetail &&
               <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>
-                <FontIcon>info_outline</FontIcon>
+                <InfoIcon fontSize="small" color="primary" />
               </StatusDetails>,
               !inlineMode &&
               <ContainerActions
